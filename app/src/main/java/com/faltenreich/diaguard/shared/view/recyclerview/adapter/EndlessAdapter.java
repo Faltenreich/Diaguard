@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHold
 /**
  * Created by Filip on 04.11.13.
  */
-public abstract class EndlessAdapter<L extends LogListItem, VH extends BaseViewHolder<L>> extends BaseAdapter<L, VH> {
+public abstract class EndlessAdapter<L extends LogListItem, VH extends BaseViewHolder<?, L>> extends BaseAdapter<L, VH> {
 
     private static final int VISIBLE_THRESHOLD = 5;
     public static final int BULK_SIZE = VISIBLE_THRESHOLD * 2;

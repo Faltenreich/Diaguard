@@ -13,9 +13,9 @@ public enum Theme {
     SYSTEM("3", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM, UiModeManager.MODE_NIGHT_AUTO);
 
     // Workaround: Key is String due to limitations of Preferences API
-    private String key;
-    private int dayNightMode;
-    private int uiMode;
+    private final String key;
+    private final int dayNightMode;
+    private final int uiMode;
 
     Theme(String key, @StyleRes int dayNightMode, int uiMode) {
         this.key = key;

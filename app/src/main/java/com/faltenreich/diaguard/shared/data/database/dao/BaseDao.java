@@ -29,7 +29,7 @@ public abstract class BaseDao <T extends BaseEntity> {
 
     public static final long PAGE_SIZE = 50;
 
-    private Class<T> clazz;
+    private final Class<T> clazz;
 
     BaseDao(Class<T> clazz) {
         this.clazz = clazz;

@@ -1,57 +1,60 @@
 package com.faltenreich.diaguard.feature.food.input;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.food.search.FoodSearchActivity;
-import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
+import com.faltenreich.diaguard.databinding.ViewFoodInputBinding;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenUpdatedEvent;
-import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
+import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
+import com.faltenreich.diaguard.shared.event.ui.FoodSearchedEvent;
+import com.faltenreich.diaguard.shared.view.ViewBindable;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
-import com.j256.ormlite.dao.ForeignCollection;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by Faltenreich on 13.10.2016.
  */
 
-public class FoodInputView extends LinearLayout {
+public class FoodInputView extends LinearLayout implements ViewBindable<ViewFoodInputBinding>, TextWatcher {
 
-    @BindView(R.id.food_input_icon) ImageView icon;
-    @BindView(R.id.food_input_row) ViewGroup inputRow;
-    @BindView(R.id.food_input_value_calculated) TextView valueCalculated;
-    @BindView(R.id.food_input_value_input) StickyHintInput valueInput;
-    @BindView(R.id.food_input_list) RecyclerView foodList;
+    private ViewFoodInputBinding binding;
+
+    private ImageView inputIconImageView;
+    private ViewGroup inputLayout;
+    private TextView calculatedValueLabel;
+    private StickyHintInputView inputValueInputField;
+    private RecyclerView foodListView;
+    private Button addButton;
 
     private FoodInputListAdapter foodListAdapter;
     private boolean showIcon;
@@ -59,19 +62,22 @@ public class FoodInputView extends LinearLayout {
 
     public FoodInputView(Context context) {
         super(context);
-        initLayout();
+        init(null);
     }
 
     public FoodInputView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        getAttributes(attrs);
-        initLayout();
+        init(attrs);
     }
 
     public FoodInputView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        getAttributes(attrs);
-        initLayout();
+        init(attrs);
+    }
+
+    @Override
+    public ViewFoodInputBinding getBinding() {
+        return binding;
     }
 
     @Override
@@ -82,11 +88,24 @@ public class FoodInputView extends LinearLayout {
 
     @Override
     protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+        inputValueInputField.getEditText().removeTextChangedListener(this);
         Events.unregister(this);
+        super.onDetachedFromWindow();
     }
 
-    private void getAttributes(AttributeSet attributeSet) {
+    private void init(@Nullable AttributeSet attributeSet) {
+        if (attributeSet != null) {
+            getAttributes(attributeSet);
+        }
+        if (!isInEditMode()) {
+            bindView();
+            initData();
+            initLayout();
+            invalidateLayout();
+        }
+    }
+
+    private void getAttributes(@NonNull AttributeSet attributeSet) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.FoodInputView);
         try {
             showIcon = typedArray.getBoolean(R.styleable.FoodInputView_showIcon, false);
@@ -95,81 +114,85 @@ public class FoodInputView extends LinearLayout {
         }
     }
 
-    private void initLayout() {
+    private void bindView() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_food_input, this);
+        binding = ViewFoodInputBinding.bind(this);
 
-        if (!isInEditMode()) {
-            ButterKnife.bind(this);
+        inputIconImageView = getBinding().inputIconImageView;
+        inputLayout = getBinding().inputLayout;
+        calculatedValueLabel = getBinding().calculatedValueLabel;
+        inputValueInputField = getBinding().inputValueInputField;
+        foodListView = getBinding().foodListView;
+        addButton = getBinding().addButton;
+    }
+
+    private void initData() {
+        if (meal == null) {
             meal = new Meal();
-
-            icon.setVisibility(showIcon ? VISIBLE : GONE);
-            inputRow.setMinimumHeight(getResources().getDimensionPixelSize(showIcon ? R.dimen.height_element_large : R.dimen.height_element));
-
-            valueInput.setHint(PreferenceStore.getInstance().getUnitName(Category.MEAL));
-
-            foodListAdapter = new FoodInputListAdapter(getContext());
-            foodList.setLayoutManager(new LinearLayoutManager(getContext()));
-            foodList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
-            foodList.setAdapter(foodListAdapter);
-
-            invalidateLayout();
         }
+    }
+
+    private void initLayout() {
+        addButton.setOnClickListener((view) -> searchForFood());
+
+        inputIconImageView.setVisibility(showIcon ? VISIBLE : GONE);
+        inputLayout.setMinimumHeight(getResources().getDimensionPixelSize(showIcon ? R.dimen.height_element_large : R.dimen.height_element));
+
+        inputValueInputField.setHint(PreferenceStore.getInstance().getUnitName(Category.MEAL));
+        inputValueInputField.getEditText().addTextChangedListener(this);
+
+        foodListAdapter = new FoodInputListAdapter(getContext());
+        foodListView.setLayoutManager(new LinearLayoutManager(getContext()));
+        foodListView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        foodListView.setAdapter(foodListAdapter);
     }
 
     private void invalidateLayout() {
-        foodList.setVisibility(foodListAdapter.hasFood() ? VISIBLE : GONE);
+        foodListView.setVisibility(foodListAdapter.hasFood() ? VISIBLE : GONE);
 
         if (foodListAdapter.hasFoodEaten()) {
-            valueCalculated.setVisibility(VISIBLE);
+            calculatedValueLabel.setVisibility(VISIBLE);
             float carbohydrates = foodListAdapter.getTotalCarbohydrates();
             float meal = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
-            valueCalculated.setText(String.format("%s   +", FloatUtils.parseFloat(meal)));
+            calculatedValueLabel.setText(String.format("%s   +", FloatUtils.parseFloat(meal)));
         } else {
-            valueCalculated.setVisibility(GONE);
-            valueCalculated.setText(null);
+            calculatedValueLabel.setVisibility(GONE);
+            calculatedValueLabel.setText(null);
         }
+
+        meal.setFoodEatenCache(foodListAdapter.getItems());
     }
 
-    public void setupWithMeal(Meal meal) {
+    @NonNull
+    public Meal getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Meal meal) {
         this.meal = meal;
-        this.valueInput.setText(meal.getValuesForUI()[0]);
-        addItems(meal.getFoodEaten());
+        this.inputValueInputField.setText(meal.getValuesForUI()[0]);
+        if (meal.getFoodEatenCache().isEmpty()) {
+            addItems(meal.getFoodEaten());
+        } else {
+            addItems(meal.getFoodEatenCache());
+        }
     }
 
     public boolean isValid() {
         boolean isValid = true;
 
-        String input = valueInput.getText().trim();
+        String input = inputValueInputField.getText().trim();
 
         if (StringUtils.isBlank(input) && !foodListAdapter.hasFoodEaten()) {
-            valueInput.setError(getContext().getString(R.string.validator_value_empty));
+            inputValueInputField.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else if (!StringUtils.isBlank(input)) {
-            isValid = PreferenceStore.getInstance().isValueValid(valueInput.getEditText(), Category.MEAL);
+            isValid = PreferenceStore.getInstance().isValueValid(inputValueInputField.getEditText(), Category.MEAL);
         }
         return isValid;
     }
 
-    public Meal getMeal() {
-        if (isValid()) {
-            meal.setValues(valueInput.getText().length() > 0 ?
-                    PreferenceStore.getInstance().formatCustomToDefaultUnit(
-                            meal.getCategory(),
-                            FloatUtils.parseNumber(valueInput.getText())) : 0);
-            List<FoodEaten> foodEatenCache = new ArrayList<>();
-            for (FoodEaten foodEaten : foodListAdapter.getItems()) {
-                if (foodEaten.getAmountInGrams() > 0) {
-                    foodEatenCache.add(foodEaten);
-                }
-            }
-            meal.setFoodEatenCache(foodEatenCache);
-            return meal;
-        } else {
-            return null;
-        }
-    }
-
-    public void addItem(FoodEaten foodEaten) {
+    private void addItem(FoodEaten foodEaten) {
         if (foodEaten != null) {
             int position = 0;
             foodListAdapter.addItem(position, foodEaten);
@@ -178,7 +201,7 @@ public class FoodInputView extends LinearLayout {
         }
     }
 
-    public void addItem(Food food) {
+    private void addItem(Food food) {
         if (food != null) {
             FoodEaten foodEaten = new FoodEaten();
             foodEaten.setFood(food);
@@ -187,7 +210,7 @@ public class FoodInputView extends LinearLayout {
         }
     }
 
-    public void addItems(ForeignCollection<FoodEaten> foodEatenList) {
+    private void addItems(Collection<FoodEaten> foodEatenList) {
         if (foodEatenList != null && foodEatenList.size() > 0) {
             int oldCount = foodListAdapter.getItemCount();
             for (FoodEaten foodEaten : foodEatenList) {
@@ -211,7 +234,7 @@ public class FoodInputView extends LinearLayout {
         invalidateLayout();
     }
 
-    public void updateItem(FoodEaten foodEaten, int position) {
+    private void updateItem(FoodEaten foodEaten, int position) {
         foodListAdapter.updateItem(position, foodEaten);
         foodListAdapter.notifyItemChanged(position);
         invalidateLayout();
@@ -222,7 +245,7 @@ public class FoodInputView extends LinearLayout {
     }
 
     public float getInputCarbohydrates() {
-        float input = FloatUtils.parseNumber(valueInput.getText());
+        float input = FloatUtils.parseNumber(inputValueInputField.getText());
         return PreferenceStore.getInstance().formatCustomToDefaultUnit(Category.MEAL, input);
     }
 
@@ -234,15 +257,32 @@ public class FoodInputView extends LinearLayout {
         return foodListAdapter.getItems();
     }
 
-    @OnClick(R.id.food_input_button)
-    public void searchForFood() {
-        Intent intent = new Intent(getContext(), FoodSearchActivity.class);
-        intent.putExtra(FoodSearchFragment.FINISH_ON_SELECTION, true);
-        getContext().startActivity(intent);
+    private void searchForFood() {
+        Events.post(new FoodSearchEvent());
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        String input = editable.toString();
+        meal.setValues(input.length() > 0 ?
+            PreferenceStore.getInstance().formatCustomToDefaultUnit(
+                meal.getCategory(),
+                FloatUtils.parseNumber(input)
+            ) : 0);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(FoodSelectedEvent event) {
+    public void onEvent(FoodSearchedEvent event) {
         addItem(event.context);
     }
 

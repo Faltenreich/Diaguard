@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
     <string name="app_name" translatable="false">Diaguard</string>
@@ -10,6 +11,8 @@
     <string name="app_mail_short" translatable="false">diaguard.de@gmail.com</string>
     <string name="app_sourcecode" translatable="false">https://github.com/Faltenreich/Diaguard</string>
     <string name="app_sourcecode_short" translatable="false">github.com/Faltenreich/Diaguard</string>
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_EN.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>
 
     <string name="food_source_common_provider" translatable="false">Schweizer Nährwertdatenbank</string>
     <string name="food_source_common_url" translatable="false">https://www.naehrwertdaten.ch</string>
@@ -37,9 +40,10 @@
     <string name="average">Average</string>
     <string name="average_symbol" translatable="false">Ø</string>
     <string name="back">Back</string>
-    <string name="backup">Backup</string>
+    <string name="backup_create">Create backup</string>
     <string name="backup_complete">Backup complete</string>
-    <string name="backup_import">Backup is being restored &#8230;</string>
+    <string name="backup_import">Import backup</string>
+    <string name="backup_import_progress">Backup is being restored &#8230;</string>
     <string name="backup_store">Store backup</string>
     <string name="backup_title">Choose backup</string>
     <string name="basal" translatable="false">Basal</string>
@@ -114,8 +118,6 @@
     <string name="hyphen" translatable="false">-</string>
     <string name="hypo">Hypo</string>
     <string name="hypo_per_day">Hypos per day</string>
-    <string name="import_">Import</string>
-    <string name="imprint">Imprint</string>
     <string name="in">in</string>
     <string name="info" translatable="false">Info</string>
     <string name="ingredients">Ingredients</string>
@@ -454,22 +456,8 @@
     <string name="pref_therapy_targets_hypoclycemia">Limit for hypoclycemia</string>
     <string name="pref_therapy_targets_hypoclycemia_default" translatable="false">60.0</string>
 
-    <!-- ABOUT -->
-    <string name="about_dev">Developer</string>
-    <string name="about_dev_desc">Philipp Fahlteich,\nM. Sc. of Informatics, Type-1-Diabetic</string>
-    <string name="about_financing">Financing</string>
-    <string name="about_financing_desc">There is no financial support of commercial or non-commercial organisations which support the app with funds, services or materials. The app is financed only by the developer.</string>
-    <string name="about_advertisement">Advertising policy</string>
-    <string name="about_advertisement_desc">The app is and will not be advertised in any way.</string>
-    <string name="about_health">Sources</string>
-    <string name="about_health_desc">All medical data are based on approved recommendations from several diabetologists.</string>
-    <string name="about_privacy">Privacy</string>
-    <string name="about_privacy_desc">We take the protection of your personal information very seriously and do not process your personal data or forward these to third parties.</string>
-    <string name="about_code">Ethical code</string>
-    <string name="about_code_desc">The app meets all basic quality criteria of HealthOn App Code of Ethics for trustworthy health information.</string>
-    <string name="about_code_url" translatable="false">https://www.healthon.de/de/diaguard-diabetes</string>
-    <string name="about_legal">Legal</string>
-    <string name="about_legal_desc">The manufacturer of the app assumes no responsibility for the topicality, correctness, completeness or quality of the information provided. Liability claims against the manufacturer, which relate to material or immaterial nature, caused by the use or non-use of the app are excluded. This app is for documentation purposes only and does not replace a diabetes consultant or doctor.</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_and_conditions">Terms and conditions</string>
 
     <string name="chart_style">Chart style</string>
     <string name="chart_scatter">Scatter chart</string>
@@ -516,7 +504,7 @@
     <string name="pinned">pinned</string>
     <string name="change_now">Change now</string>
     <string name="help">Help</string>
-    <string name="category_preference_desc">Active:\nCategory is displayed or hidden\n\nFixed:\nCategory is automatically preselected for new entries\n\nSort:\nHold down the six-point symbol and drag up or down</string>
+    <string name="category_preference_desc">Active:\nCategory is displayed\n\nFixed:\nCategory is automatically preselected for new entries\n\nSort:\nHold down the six-point symbol and drag up or down</string>
     <string name="insulin_split">Split up into bolus, correction and basal</string>
     <string name="highlight_limits">Highlight limits</string>
 

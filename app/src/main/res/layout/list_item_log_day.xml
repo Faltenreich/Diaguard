@@ -10,7 +10,7 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/day"
+        android:id="@+id/date_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -23,7 +23,7 @@
         tools:text="27"/>
 
     <TextView
-        android:id="@+id/weekday"
+        android:id="@+id/week_day_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

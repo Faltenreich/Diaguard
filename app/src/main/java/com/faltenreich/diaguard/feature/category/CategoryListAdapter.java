@@ -14,7 +14,7 @@ import java.util.Collections;
 
 class CategoryListAdapter extends BaseAdapter<Category, CategoryViewHolder> implements DragDropItemTouchHelperCallback.DragDropListener {
 
-    private Listener listener;
+    private final Listener listener;
 
     CategoryListAdapter(Context context, Listener listener) {
         super(context);

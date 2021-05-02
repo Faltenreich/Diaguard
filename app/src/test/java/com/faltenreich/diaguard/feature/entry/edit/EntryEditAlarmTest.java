@@ -32,7 +32,7 @@ public class EntryEditAlarmTest {
 
     @Test
     public void clickingAlarmButton_shouldOpenNumberPicker() {
-        Espresso.onView(ViewMatchers.withId(R.id.entry_button_alarm))
+        Espresso.onView(ViewMatchers.withId(R.id.alarm_button))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(NumberPicker.class.getName())))
             .inRoot(RootMatchers.isDialog())
@@ -41,7 +41,7 @@ public class EntryEditAlarmTest {
 
     @Test
     public void pickingNumber_shouldUpdateEntryForm() {
-        Espresso.onView(ViewMatchers.withId(R.id.entry_button_alarm))
+        Espresso.onView(ViewMatchers.withId(R.id.alarm_button))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withText("1"))
             .inRoot(RootMatchers.isDialog())
@@ -52,7 +52,7 @@ public class EntryEditAlarmTest {
         Espresso.onView(ViewMatchers.withId(R.id.done_button))
             .inRoot(RootMatchers.isDialog())
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.entry_button_alarm))
+        Espresso.onView(ViewMatchers.withId(R.id.alarm_button))
             .check(ViewAssertions.matches(ViewMatchers.withText("Reminder in 12 Minutes")));
     }
 }

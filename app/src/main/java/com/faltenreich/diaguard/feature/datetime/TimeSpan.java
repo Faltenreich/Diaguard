@@ -19,9 +19,9 @@ public enum TimeSpan {
     MONTH(R.string.month, R.string.calendarweek, 4),
     YEAR(R.string.year, R.string.month, 12);
 
-    private int intervalStringResId;
-    private int subIntervalStringResId;
-    public int stepsPerInterval;
+    private final int intervalStringResId;
+    private final int subIntervalStringResId;
+    public final int stepsPerInterval;
 
     TimeSpan(@StringRes int intervalStringResId, @StringRes int subIntervalStringResId, int stepsPerInterval) {
         this.intervalStringResId = intervalStringResId;

@@ -39,13 +39,13 @@ public class TimelineTest {
     @Test
     public void holdsThreeDaysAtOnce() {
         Espresso.onView(ViewMatchers.isRoot())
-            .check(ViewAssertions.matches(ViewMatcher.withViewCount(ViewMatchers.withId(R.id.day_chart), 3)));
+            .check(ViewAssertions.matches(ViewMatcher.withViewCount(ViewMatchers.withId(R.id.chart_view), 3)));
     }
 
     @Test
     public void onStart_showsToday() {
         String today = DateTimeUtils.toDateString(DateTime.now());
-        Espresso.onView(AllOf.allOf(ViewMatchers.withId(R.id.day_chart), ViewMatchers.withTagValue(Is.is(today))))
+        Espresso.onView(AllOf.allOf(ViewMatchers.withId(R.id.chart_view), ViewMatchers.withTagValue(Is.is(today))))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -53,10 +53,10 @@ public class TimelineTest {
     public void onSwipeLeft_showsYesterday() {
         String yesterday = DateTimeUtils.toDateString(DateTime.now().minusDays(1));
 
-        Espresso.onView(ViewMatchers.withId(R.id.viewpager))
+        Espresso.onView(ViewMatchers.withId(R.id.view_pager))
             .perform(ViewPagerActions.scrollLeft());
 
-        Espresso.onView(AllOf.allOf(ViewMatchers.withId(R.id.day_chart), ViewMatchers.withTagValue(Is.is(yesterday))))
+        Espresso.onView(AllOf.allOf(ViewMatchers.withId(R.id.chart_view), ViewMatchers.withTagValue(Is.is(yesterday))))
             .check(ViewAssertions.matches(ViewMatchers.isCompletelyDisplayed()));
     }
 
@@ -64,10 +64,10 @@ public class TimelineTest {
     public void onSwipeRight_showsTomorrow() {
         String tomorrow = DateTimeUtils.toDateString(DateTime.now().plusDays(1));
 
-        Espresso.onView(ViewMatchers.withId(R.id.viewpager))
+        Espresso.onView(ViewMatchers.withId(R.id.view_pager))
             .perform(ViewPagerActions.scrollRight());
 
-        Espresso.onView(AllOf.allOf(ViewMatchers.withId(R.id.day_chart), ViewMatchers.withTagValue(Is.is(tomorrow))))
+        Espresso.onView(AllOf.allOf(ViewMatchers.withId(R.id.chart_view), ViewMatchers.withTagValue(Is.is(tomorrow))))
             .check(ViewAssertions.matches(ViewMatchers.isCompletelyDisplayed()));
     }
 }

@@ -7,8 +7,8 @@ import java.lang.ref.WeakReference;
 
 public class DataTask<T> extends AsyncTask<Void, Void, T> {
 
-    private WeakReference<Context> context;
-    private DataLoaderListener<T> listener;
+    private final WeakReference<Context> context;
+    private final DataLoaderListener<T> listener;
 
     DataTask(Context context, DataLoaderListener<T> listener) {
         this.context = new WeakReference<>(context);

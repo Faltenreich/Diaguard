@@ -86,7 +86,7 @@ public class EntryEditMeasurementRemoveTest {
     }
 
     private void ensureMeasurementCount(int childCount) {
-        Espresso.onView(ViewMatchers.withId(R.id.layout_measurements))
+        Espresso.onView(ViewMatchers.withId(R.id.measurement_container))
             .check(ViewAssertions.matches(ViewMatchers.hasChildCount(childCount)));
     }
 }

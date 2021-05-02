@@ -21,8 +21,8 @@ class FoodImport implements Importing {
     private static final String TAG = FoodImport.class.getSimpleName();
     private static final String FOOD_CSV_FILE_NAME = "food_common.csv";
 
-    private Context context;
-    private Locale locale;
+    private final Context context;
+    private final Locale locale;
 
     FoodImport(Context context, Locale locale) {
         this.context = context;

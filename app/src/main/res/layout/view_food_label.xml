@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/LayoutRow"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LayoutRow"
     android:minHeight="0dp"
     android:paddingTop="@dimen/padding"
-    android:paddingBottom="@dimen/padding">
+    android:paddingBottom="@dimen/padding"
+    tools:ignore="UseCompoundDrawables">
 
     <ImageView
+        android:id="@+id/image_view"
         style="@style/LayoutRowImage"
-        android:id="@+id/food_icon"
         android:layout_width="@dimen/size_image_small"
         android:layout_height="@dimen/size_image_small"
-        android:layout_marginLeft="@dimen/padding"
         android:layout_marginStart="@dimen/padding"
+        android:layout_marginLeft="@dimen/padding"
         android:contentDescription="@null"
-        tools:src="@drawable/ic_info"
-        app:tint="?iconColorPrimary" />
+        app:tint="?iconColorPrimary"
+        tools:src="@drawable/ic_info" />
 
     <TextView
+        android:id="@+id/label"
         style="@style/LayoutRowItem"
-        android:id="@+id/food_label"
-        android:layout_marginLeft="@dimen/padding"
         android:layout_marginStart="@dimen/padding"
-        tools:text="Info"/>
+        android:layout_marginLeft="@dimen/padding"
+        tools:text="Info" />
 
 </LinearLayout>

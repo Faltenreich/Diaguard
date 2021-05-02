@@ -26,7 +26,7 @@ import java.util.List;
 
 public class BloodSugarDistributionTask extends BaseAsyncTask<Void, Void, PieData> {
 
-    private TimeSpan timeSpan;
+    private final TimeSpan timeSpan;
 
     public BloodSugarDistributionTask(Context context, TimeSpan timeSpan, OnAsyncProgressListener<PieData> onAsyncProgressListener) {
         super(context, onAsyncProgressListener);

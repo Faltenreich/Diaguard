@@ -2,7 +2,9 @@ package com.faltenreich.diaguard.feature.tag;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,53 +12,74 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentTagListBinding;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.event.data.TagSavedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.github.clans.fab.FloatingActionButton;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
+public class TagListFragment
+    extends BaseFragment<FragmentTagListBinding>
+    implements ToolbarDescribing, TagListener {
 
-public class TagListFragment extends BaseFragment implements TagListAdapter.TagListener {
-
-    @BindView(R.id.list)
-    RecyclerView list;
-
-    @BindView(R.id.list_placeholder)
-    View placeholder;
+    private RecyclerView listView;
+    private TextView listPlaceholder;
+    private FloatingActionButton fab;
 
     private TagListAdapter listAdapter;
 
-    public TagListFragment() {
-        super(R.layout.fragment_tags, R.string.tags);
+    @Override
+    protected FragmentTagListBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentTagListBinding.inflate(layoutInflater);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.tags)
+            .build();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindViews();
         initLayout();
         invalidateLayout();
         loadTags();
     }
 
+    private void bindViews() {
+        listView = getBinding().listView;
+        listPlaceholder = getBinding().listPlaceholder;
+        fab = getBinding().fab;
+    }
+
     private void initLayout() {
-        list.setLayoutManager(new LinearLayoutManager(getContext()));
-        list.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
-        listAdapter = new TagListAdapter(getContext());
-        listAdapter.setTagListener(this);
-        list.setAdapter(listAdapter);
+        fab.setOnClickListener((view) -> createTag());
+
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listAdapter = new TagListAdapter(getContext(), this);
+        listView.setAdapter(listAdapter);
     }
 
     private void invalidateLayout() {
         boolean isEmpty = listAdapter == null || listAdapter.getItemCount() == 0;
-        placeholder.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        listPlaceholder.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
     }
 
     private void setTags(List<Tag> tags) {
@@ -83,7 +106,7 @@ public class TagListFragment extends BaseFragment implements TagListAdapter.TagL
 
     private void addTag(Tag tag) {
         int position = 0;
-        list.scrollToPosition(position);
+        listView.scrollToPosition(position);
         listAdapter.addItem(position, tag);
         listAdapter.notifyItemInserted(position);
     }
@@ -139,13 +162,7 @@ public class TagListFragment extends BaseFragment implements TagListAdapter.TagL
     }
 
     private void createTag() {
-        TagEditFragment fragment = new TagEditFragment();
-        fragment.setListener(result -> {
-            if (result != null) {
-                addTag(result);
-            }
-        });
-        fragment.show(getParentFragmentManager(), null);
+        new TagEditFragment().show(getParentFragmentManager(), null);
     }
 
     @Override
@@ -153,8 +170,8 @@ public class TagListFragment extends BaseFragment implements TagListAdapter.TagL
         confirmTagDeletion(tag);
     }
 
-    @OnClick(R.id.fab)
-    void onFabClick() {
-        createTag();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(TagSavedEvent event) {
+        addTag(event.context);
     }
 }

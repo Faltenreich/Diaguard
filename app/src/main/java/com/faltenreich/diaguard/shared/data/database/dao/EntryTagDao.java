@@ -5,6 +5,7 @@ import android.util.Log;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.j256.ormlite.stmt.DeleteBuilder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,8 +35,19 @@ public class EntryTagDao extends BaseDao<EntryTag> {
                 .where().eq(EntryTag.Column.ENTRY, entry)
                 .query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getLocalizedMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
+        }
+    }
+
+    public int deleteAll(Entry entry) {
+        try {
+            DeleteBuilder<EntryTag, Long> builder = getDeleteBuilder();
+            builder.where().eq(EntryTag.Column.ENTRY, entry);
+            return builder.delete();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.toString());
+            return 0;
         }
     }
 
@@ -46,7 +58,7 @@ public class EntryTagDao extends BaseDao<EntryTag> {
                 .where().eq(EntryTag.Column.TAG, tag)
                 .query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getLocalizedMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
     }
@@ -58,7 +70,7 @@ public class EntryTagDao extends BaseDao<EntryTag> {
                 .where().eq(EntryTag.Column.TAG, tag)
                 .countOf();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getLocalizedMessage());
+            Log.e(TAG, exception.toString());
             return 0;
         }
     }

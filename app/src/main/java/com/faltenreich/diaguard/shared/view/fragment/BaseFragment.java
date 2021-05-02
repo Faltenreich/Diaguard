@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.view.fragment;
 
-import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,16 +8,22 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.LayoutRes;
-import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewbinding.ViewBinding;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.navigation.MainActivity;
+import com.faltenreich.diaguard.feature.navigation.Navigating;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
+import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarManager;
+import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
@@ -27,69 +33,53 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
-import com.faltenreich.diaguard.feature.navigation.MainActivity;
-import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
-import com.faltenreich.diaguard.feature.navigation.ToolbarBehavior;
-import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
+import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.ButterKnife;
+public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment implements ViewBindable<BINDING>, Navigating {
 
-public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
+    private BINDING binding;
 
-    @MenuRes private int menuResId;
-
-    private String title;
-
-    @SuppressWarnings("unused")
-    private BaseFragment() {
-        // Forbidden
+    public BaseFragment() {
+        super();
     }
 
-    public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId, @MenuRes int menuResId) {
-        super(layoutResourceId);
-        this.title = titleResId != -1 ? DiaguardApplication.getContext().getString(titleResId) : null;
-        this.menuResId = menuResId;
-    }
+    protected abstract BINDING createBinding(LayoutInflater layoutInflater);
 
-    public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId) {
-        this(layoutResourceId, titleResId, -1);
-    }
-
-    public BaseFragment(@LayoutRes int layoutResourceId) {
-        this(layoutResourceId, -1);
+    @Override
+    public BINDING getBinding() {
+        return binding;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        boolean hasOptionsMenu = this instanceof ToolbarDescribing && ((ToolbarDescribing) this).getToolbarProperties().getMenuResId() != null;
+        setHasOptionsMenu(hasOptionsMenu);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        if (view == null) {
-            throw new IllegalStateException("View must not be null");
-        }
-        ButterKnife.bind(this, view);
-        return view;
+        super.onCreateView(inflater, container, savedInstanceState);
+        binding = createBinding(inflater);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        View titleView = getActivity() != null && getActivity() instanceof BaseActivity ? ((BaseActivity) getActivity()).getTitleView() : null;
-        if (titleView != null) {
-            if (this instanceof ToolbarCallback) {
-                titleView.setClickable(true);
-                titleView.setOnClickListener(childView -> ((ToolbarCallback) BaseFragment.this).action());
-            } else {
-                titleView.setClickable(false);
+        if (getView() != null) {
+            ViewUtils.hideKeyboard(getView());
+        }
+
+        if (this instanceof ToolbarOwner) {
+            ToolbarOwner toolbarOwner = (ToolbarOwner) this;
+            if (getActivity() instanceof AppCompatActivity) {
+                ToolbarManager.applyToolbar((AppCompatActivity) getActivity(), toolbarOwner.getToolbar());
             }
         }
     }
@@ -110,24 +100,30 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
         super.onDestroy();
     }
 
-    @SuppressLint("ResourceType")
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
-        if (menuResId >= 0) {
-            inflater.inflate(menuResId, menu);
+        if (this instanceof ToolbarDescribing) {
+            try {
+                ToolbarDescribing describing = (ToolbarDescribing) this;
+                int menuResId = describing.getToolbarProperties().getMenuResId();
+                inflater.inflate(menuResId, menu);
+            } catch (Resources.NotFoundException ignored) {}
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
     public void setTitle(String title) {
-        this.title = title;
-        if (getActivity() != null) {
+        if (this instanceof ToolbarOwner) {
+            ToolbarOwner toolbarOwner = (ToolbarOwner) this;
+            toolbarOwner.getTitleView().setText(title);
+        } else if (getActivity() != null) {
             getActivity().setTitle(title);
         }
     }
@@ -136,9 +132,9 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
         setTitle(getString(titleResId));
     }
 
-    protected void showFragment(BaseFragment fragment) {
+    protected void showFragment(Fragment fragment) {
         if (getActivity() != null && getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).showFragment(fragment, null, true);
+            ((MainActivity) getActivity()).openFragment(fragment, Navigation.Operation.REPLACE, true);
         }
     }
 
@@ -153,8 +149,11 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
         }
     }
 
-    interface ToolbarCallback {
-        void action();
+    @Override
+    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
+        if (getActivity() instanceof Navigating) {
+            ((Navigating) getActivity()).openFragment(fragment, operation, addToBackStack);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

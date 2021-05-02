@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNoteFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedBox;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListItem;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
 import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
@@ -43,11 +43,11 @@ public class PdfTimeline implements PdfPrintable {
     private static final int HOUR_INTERVAL = 2;
     private static final int HEADER_HEIGHT = 22;
 
-    private PdfExportCache cache;
-    private SizedBox chart;
-    private SizedTable table;
+    private final PdfExportCache cache;
+    private final SizedBox chart;
+    private final SizedTable table;
 
-    private boolean showChartForBloodSugar;
+    private final boolean showChartForBloodSugar;
     private List<BloodSugar> bloodSugars;
     private LinkedHashMap<Category, CategoryValueListItem[]> measurements;
     private List<PdfNote> pdfNotes;

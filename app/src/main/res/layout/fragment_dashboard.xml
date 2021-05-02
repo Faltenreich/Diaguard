@@ -16,7 +16,7 @@
 
         <!-- Latest Blood Sugar -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/layout_latest"
+            android:id="@+id/latest_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
@@ -36,7 +36,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textview_latest_value"
+                    android:id="@+id/latest_value_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/first_visit"
@@ -50,14 +50,14 @@
                     android:layout_marginBottom="@dimen/padding">
 
                     <TextView
-                        android:id="@+id/textview_latest_time"
+                        android:id="@+id/latest_time_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:text="@string/first_visit_desc"/>
 
                     <TextView
-                        android:id="@+id/textview_latest_ago"
+                        android:id="@+id/latest_ago_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -69,7 +69,7 @@
 
         <!-- Alarm reminder -->
         <include
-            android:id="@+id/layout_alarm"
+            android:id="@+id/alarm_layout"
             layout="@layout/view_alarm" />
 
         <LinearLayout
@@ -80,7 +80,7 @@
 
             <!-- Today -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/layout_today"
+                android:id="@+id/today_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="1dp"
@@ -120,7 +120,7 @@
                                 android:text="@string/measurements" />
 
                             <TextView
-                                android:id="@+id/textview_measurements"
+                                android:id="@+id/total_count_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -140,7 +140,7 @@
                                 android:text="@string/hyper" />
 
                             <TextView
-                                android:id="@+id/textview_hyperglycemia"
+                                android:id="@+id/hyperglycemia_count_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -160,7 +160,7 @@
                                 android:text="@string/hypo" />
 
                             <TextView
-                                android:id="@+id/textview_hypoglycemia"
+                                android:id="@+id/hypoglycemia_count_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -179,7 +179,7 @@
 
             <!-- Averages -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/layout_average"
+                android:id="@+id/average_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -219,7 +219,7 @@
                                 android:text="@string/day" />
 
                             <TextView
-                                android:id="@+id/textview_avg_day"
+                                android:id="@+id/average_day_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -239,7 +239,7 @@
                                 android:text="@string/week" />
 
                             <TextView
-                                android:id="@+id/textview_avg_week"
+                                android:id="@+id/average_week_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -259,7 +259,7 @@
                                 android:text="@string/month" />
 
                             <TextView
-                                android:id="@+id/textview_avg_month"
+                                android:id="@+id/average_month_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -280,7 +280,7 @@
 
         <!-- HbA1c -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/layout_hba1c"
+            android:id="@+id/hba1c_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
@@ -307,7 +307,7 @@
                     android:text="@string/hba1c_estimated"/>
 
                 <TextView
-                    android:id="@+id/hba1c_value"
+                    android:id="@+id/hba1c_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -323,7 +323,7 @@
 
         <!-- Trend -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/layout_trend"
+            android:id="@+id/trend_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
@@ -350,7 +350,7 @@
                     android:textColor="?colorPrimary"/>
 
                 <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/chart"
+                    android:id="@+id/chart_view"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_chart_height_simple"
                     android:orientation="horizontal" />

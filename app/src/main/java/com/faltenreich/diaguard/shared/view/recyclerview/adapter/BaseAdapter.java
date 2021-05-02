@@ -13,11 +13,10 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends RecyclerView.Adapter<VH> {
+public abstract class BaseAdapter<ITEM, HOLDER extends BaseViewHolder<?, ITEM>> extends RecyclerView.Adapter<HOLDER> {
 
-    private Context context;
-    private List<L> items;
+    private final Context context;
+    private final List<ITEM> items;
 
     public BaseAdapter(Context context) {
         this.context = context;
@@ -28,47 +27,45 @@ public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends Recyc
         return context;
     }
 
-    public L getItem(int position) {
+    public ITEM getItem(int position) {
         return this.items.get(position);
     }
 
-    public List<L> getItems() {
+    public List<ITEM> getItems() {
         return this.items;
     }
 
-    public boolean setItem(L item, int position) {
+    public void setItem(ITEM item, int position) {
         if (position >= 0 && position < items.size()) {
             items.set(position, item);
-            return true;
         }
-        return false;
     }
 
-    public int getItemPosition(L item) {
+    public int getItemPosition(ITEM item) {
         return this.items.indexOf(item);
     }
 
-    public void addItem(L item) {
+    public void addItem(ITEM item) {
         this.items.add(item);
     }
 
-    public void addItem(int position, L item) {
+    public void addItem(int position, ITEM item) {
         this.items.add(position, item);
     }
 
-    public void addItems(List<L> items) {
+    public void addItems(List<ITEM> items) {
         this.items.addAll(items);
     }
 
-    public void addItems(L[] items) {
+    public void addItems(ITEM[] items) {
         this.items.addAll(Arrays.asList(items));
     }
 
-    public void addItems(int position, List<L> items) {
+    public void addItems(int position, List<ITEM> items) {
         this.items.addAll(position, items);
     }
 
-    public void removeItem(L item) {
+    public void removeItem(ITEM item) {
         this.items.remove(item);
     }
 
@@ -76,7 +73,7 @@ public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends Recyc
         this.items.remove(position);
     }
 
-    public void updateItem(int position, L item) {
+    public void updateItem(int position, ITEM item) {
         this.items.set(position, item);
     }
 

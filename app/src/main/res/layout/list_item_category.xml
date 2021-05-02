@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/background"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -19,7 +19,7 @@
 
         <TextView
             style="@style/Padding"
-            android:id="@+id/titleLabel"
+            android:id="@+id/title_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -28,14 +28,14 @@
             tools:text="Blood Sugar"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/checkBoxActive"
+            android:id="@+id/active_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_between"
             android:text="@string/active"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/checkBoxPinned"
+            android:id="@+id/pinned_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_between"
@@ -44,7 +44,7 @@
             android:text="@string/pinned"/>
 
         <ImageView
-            android:id="@+id/dragView"
+            android:id="@+id/drag_indicator"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="@dimen/margin_between_large"

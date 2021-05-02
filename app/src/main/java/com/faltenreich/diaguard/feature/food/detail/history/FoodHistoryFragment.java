@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.feature.food.detail.history;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,64 +10,96 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentFoodHistoryBinding;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
+import com.faltenreich.diaguard.feature.navigation.TabDescribing;
+import com.faltenreich.diaguard.feature.navigation.TabProperties;
+import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
+import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 
 import java.util.List;
 
-import butterknife.BindView;
+public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding> implements TabDescribing {
 
-/**
- * Created by Faltenreich on 27.10.2016.
- */
+    private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-public class FoodHistoryFragment extends BaseFoodFragment {
-
-    @BindView(R.id.list) RecyclerView historyList;
-    @BindView(R.id.list_placeholder) TextView placeholder;
+    public static FoodHistoryFragment newInstance(Long foodId) {
+        FoodHistoryFragment fragment = new FoodHistoryFragment();
+        Bundle arguments = new Bundle();
+        arguments.putLong(EXTRA_FOOD_ID, foodId);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     private FoodHistoryListAdapter historyAdapter;
 
-    public FoodHistoryFragment() {
-        super(R.layout.fragment_food_history, R.string.entries, R.drawable.ic_history_old, -1);
+    private Long foodId;
+    private Food food;
+
+    @Override
+    protected FragmentFoodHistoryBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentFoodHistoryBinding.inflate(layoutInflater);
+    }
+
+    @Override
+    public TabProperties getTabProperties() {
+        return new TabProperties.Builder(R.string.entries).build();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
+        requestArguments();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+        initLayout();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        update();
+        invalidateData();
+        invalidateLayout();
     }
 
-    private void init() {
-        Food food = getFood();
-        if (food != null) {
-            historyList.setLayoutManager(new LinearLayoutManager(getContext()));
-            historyList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
-            historyAdapter = new FoodHistoryListAdapter(getContext());
-            historyList.setAdapter(historyAdapter);
-        }
+    private void requestArguments() {
+        foodId = requireArguments().getLong(EXTRA_FOOD_ID);
     }
 
-    private void update() {
+    private void initLayout() {
+        RecyclerView listView = getBinding().listView;
+        historyAdapter = new FoodHistoryListAdapter(getContext(), this::openEntry);
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listView.setAdapter(historyAdapter);
+    }
+
+    private void invalidateData() {
+        food = FoodDao.getInstance().getById(foodId);
+    }
+
+    private void invalidateLayout() {
         historyAdapter.clear();
-        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(getFood());
+        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
         historyAdapter.addItems(foodEatenList);
         historyAdapter.notifyDataSetChanged();
-        placeholder.setVisibility(foodEatenList.size() == 0 ? View.VISIBLE : View.GONE);
+        getBinding().placeholderLabel.setVisibility(foodEatenList.size() == 0 ? View.VISIBLE : View.GONE);
+    }
+
+    private void openEntry(FoodEaten foodEaten) {
+        if (foodEaten != null && foodEaten.getMeal() != null && foodEaten.getMeal().getEntry() != null) {
+            Entry entry = foodEaten.getMeal().getEntry();
+            openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+        }
     }
 }

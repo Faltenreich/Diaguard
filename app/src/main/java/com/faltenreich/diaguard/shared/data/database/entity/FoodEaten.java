@@ -55,11 +55,15 @@ public class FoodEaten extends BaseEntity implements Backupable {
         return getFood() != null ? getAmountInGrams() * getFood().getCarbohydrates() / 100 : 0;
     }
 
+    public boolean isValid() {
+        return amountInGrams > 0;
+    }
+
     @Nullable
     public String print() {
         int amountEaten = (int) getAmountInGrams();
         if (food != null && amountEaten > 0) {
-            return String.format("%s (%d g)", food.getName(), amountEaten);
+            return String.format("%d g %s", amountEaten, food.getName());
         } else {
             return null;
         }

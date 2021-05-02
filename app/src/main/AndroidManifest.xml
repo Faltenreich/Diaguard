@@ -15,6 +15,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
@@ -40,84 +41,7 @@
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:label="@string/entry_new"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name=".feature.entry.edit.EntryEditActivity"
-                android:value=".feature.navigation.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".feature.entry.search.EntrySearchActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/search"
-            android:theme="@style/AppTheme.Transparent"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".feature.navigation.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".feature.food.search.FoodSearchActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/food"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name=".feature.food.search.FoodSearchActivity"
-                android:value=".feature.navigation.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".feature.food.detail.FoodDetailActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/food"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name=".feature.food.detail.FoodDetailActivity"
-                android:value=".feature.food.search.FoodSearchActivity" />
-        </activity>
-
-        <activity
-            android:name=".feature.food.edit.FoodEditActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/food_new"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <activity
-            android:name=".feature.tag.TagListActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/tags"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name=".feature.tag.TagListActivity"
-                android:value=".feature.entry.edit.EntryEditActivity" />
-        </activity>
-
-        <activity
-            android:name=".feature.category.CategoryListActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/categories"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <activity
-            android:name=".feature.preference.PreferenceActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/settings"
-            android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name=".feature.preference.PreferenceActivity"
-                android:value=".feature.navigation.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".feature.preference.factor.FactorActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/factors"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name=".feature.preference.factor.FactorActivity"
-                android:value=".feature.preference.PreferenceActivity" />
-        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

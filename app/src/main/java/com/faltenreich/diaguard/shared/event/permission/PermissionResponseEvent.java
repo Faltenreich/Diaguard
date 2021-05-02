@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
 
 public class PermissionResponseEvent extends BaseContextEvent<Permission> {
 
-    public PermissionUseCase useCase;
-    public boolean isGranted;
+    public final PermissionUseCase useCase;
+    public final boolean isGranted;
 
     public PermissionResponseEvent(Permission permission, PermissionUseCase useCase, boolean isGranted) {
         super(permission);

@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.preference.PreferenceFragment;
+import com.faltenreich.diaguard.feature.preference.backup.BackupImportPreference;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
@@ -26,7 +27,6 @@ import com.faltenreich.diaguard.shared.event.file.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
-import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.progress.ProgressComponent;
 import com.faltenreich.diaguard.shared.view.theme.Theme;
 import com.faltenreich.diaguard.shared.view.theme.ThemeUtils;
@@ -37,10 +37,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.Locale;
 
-public class PreferenceOverviewFragment extends PreferenceFragment
+public class PreferenceOverviewFragment
+    extends PreferenceFragment
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private ProgressComponent progressComponent = new ProgressComponent();
+    private final ProgressComponent progressComponent = new ProgressComponent();
 
     public PreferenceOverviewFragment() {
         super(R.xml.preferences_overview, R.string.settings);
@@ -99,6 +100,9 @@ public class PreferenceOverviewFragment extends PreferenceFragment
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (!isAdded()) {
+            return;
+        }
         if (key.equals(getString(R.string.preference_unit_bloodsugar))) {
             Events.post(new UnitChangedEvent(Category.BLOODSUGAR));
         } else if (key.equals(getString(R.string.preference_unit_meal))) {
@@ -117,7 +121,7 @@ public class PreferenceOverviewFragment extends PreferenceFragment
     }
 
     private void createBackup() {
-        Context context = getActivity();
+        Context context = requireActivity();
         progressComponent.show(context);
 
         ExportCallback callback = new ExportCallback() {
@@ -146,8 +150,9 @@ public class PreferenceOverviewFragment extends PreferenceFragment
     }
 
     private void importBackup(Uri uri) {
-        progressComponent.show(getActivity());
-        Export.importCsv(getActivity(), uri, new ExportCallback() {
+        Context context = requireActivity();
+        progressComponent.show(context);
+        Export.importCsv(context, uri, new ExportCallback() {
 
             @Override
             public void onProgress(String message) {
@@ -174,7 +179,6 @@ public class PreferenceOverviewFragment extends PreferenceFragment
         importBackup(event.context);
     }
 
-    @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FileProvidedFailedEvent event) {
         Toast.makeText(getActivity(), getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
@@ -190,7 +194,7 @@ public class PreferenceOverviewFragment extends PreferenceFragment
                 case BACKUP_READ:
                     if (getActivity() != null) {
                         String mimeType = "text/*"; // Workaround: text/csv does not work for all apps
-                        FileUtils.searchFiles(getActivity(), mimeType, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+                        FileUtils.searchFiles(getActivity(), mimeType, BackupImportPreference.REQUEST_CODE_BACKUP_IMPORT);
                     }
                     break;
             }

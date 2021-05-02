@@ -1,20 +1,32 @@
 package com.faltenreich.diaguard.feature.log;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
+import com.faltenreich.diaguard.databinding.FragmentLogBinding;
+import com.faltenreich.diaguard.feature.datetime.DatePicking;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
+import com.faltenreich.diaguard.feature.entry.search.EntrySearchFragment;
 import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
+import com.faltenreich.diaguard.feature.navigation.MainButton;
+import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -27,7 +39,7 @@ import com.faltenreich.diaguard.shared.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.shared.event.preference.CategoryPreferenceChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
-import com.faltenreich.diaguard.shared.view.fragment.DateFragment;
+import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.StickyHeaderDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.layoutmanager.SafeLinearLayoutManager;
 
@@ -37,31 +49,71 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-import butterknife.BindView;
-
 /**
  * Created by Filip on 05.07.2015.
  */
-public class LogFragment extends DateFragment implements LogListAdapter.Listener {
+public class LogFragment
+    extends BaseFragment<FragmentLogBinding>
+    implements DatePicking, ToolbarDescribing, MainButton, LogListAdapter.Listener
+{
 
-    @BindView(R.id.log_list) RecyclerView recyclerView;
-    @BindView(R.id.log_progressbar) ProgressBar progressBar;
+    private DateTime day;
+
+    private RecyclerView listView;
+    private ProgressBar progressIndicator;
 
     private LogListAdapter listAdapter;
     private StickyHeaderDecoration listDecoration;
     private LinearLayoutManager listLayoutManager;
 
-    public LogFragment() {
-        super(R.layout.fragment_log, R.string.log, R.menu.log);
+    @Override
+    protected FragmentLogBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentLogBinding.inflate(layoutInflater);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        String title = null;
+        if (day != null) {
+            boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
+            String format = isLargeTitle ? "MMMM YYYY" : "MMM YYYY";
+            title = day.toString(format);
+        }
+        return new ToolbarProperties.Builder()
+            .setTitle(title)
+            .setMenu(R.menu.log)
+            .setOnClickListener((view) -> showDatePicker(day, getParentFragmentManager()))
+            .build();
+    }
+
+    @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.addButton(view -> {
+            if (getContext() != null) {
+                // Date will not be passed through to compensate negative user feedback
+                openFragment(new EntryEditFragment(), Navigation.Operation.REPLACE, true);
+            }
+        });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        init();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindViews();
         initLayout();
+        goToDay(day);
+    }
 
-        // Fake delay for smoother fragment transitions
-        new Handler().postDelayed(() -> goToDay(getDay()), 350);
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateLabels();
     }
 
     @Override
@@ -73,37 +125,39 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public String getTitle() {
-        boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
-        String format = isLargeTitle ? "MMMM YYYY" : "MMM YYYY";
-        return getDay().toString(format);
+    private void init() {
+        day = DateTimeUtils.atStartOfDay(DateTime.now());
+        listAdapter = new LogListAdapter(getActivity(), this);
+    }
+
+    private void bindViews() {
+        listView = getBinding().listView;
+        progressIndicator = getBinding().progressIndicator;
     }
 
     private void initLayout() {
         listLayoutManager = new SafeLinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(listLayoutManager);
-        listAdapter = new LogListAdapter(getActivity(), this);
-        recyclerView.setAdapter(listAdapter);
+        listView.setLayoutManager(listLayoutManager);
+        listView.setAdapter(listAdapter);
         listDecoration = new StickyHeaderDecoration(listAdapter, true);
-        recyclerView.addItemDecoration(listDecoration);
+        listView.addItemDecoration(listDecoration);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new LogSwipeCallback(listAdapter));
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(listView);
 
         // Fragment updates
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 DateTime firstVisibleDay = getFirstVisibleDay();
                 if (firstVisibleDay != null) {
-                    setDay(firstVisibleDay);
+                    day = firstVisibleDay;
                     // Update month in Toolbar when section is being crossed
                     boolean isScrollingUp = dy < 0;
                     boolean isCrossingMonth = isScrollingUp ?
-                            getDay().dayOfMonth().get() == getDay().dayOfMonth().getMaximumValue() :
-                            getDay().dayOfMonth().get() == getDay().dayOfMonth().getMinimumValue();
+                            day.dayOfMonth().get() == day.dayOfMonth().getMaximumValue() :
+                        day.dayOfMonth().get() == day.dayOfMonth().getMinimumValue();
                     if (isCrossingMonth) {
                         updateLabels();
                     }
@@ -123,16 +177,21 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
     }
 
     @Override
-    protected void goToDay(DateTime dateTime) {
-        super.goToDay(dateTime);
+    public void goToDay(DateTime day) {
+        this.day = day;
+        updateLabels();
 
-        int position = listAdapter.getDayPosition(dateTime);
+        int position = listAdapter.getDayPosition(day);
         if (position >= 0) {
-            recyclerView.scrollToPosition(position);
+            listView.scrollToPosition(position);
         } else {
-            progressBar.setVisibility(View.VISIBLE);
-            listAdapter.setup(dateTime);
+            progressIndicator.setVisibility(View.VISIBLE);
+            listAdapter.setup(day);
         }
+    }
+
+    private void updateLabels() {
+        setTitle(getToolbarProperties().getTitle());
     }
 
     @Override
@@ -142,14 +201,30 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
 
     @Override
     public void onSetupEnd() {
-        progressBar.setVisibility(View.GONE);
-        goToDay(getDay());
+        if (isAdded()) {
+            progressIndicator.setVisibility(View.GONE);
+            goToDay(day);
+        }
     }
 
     @Override
-    public void onTagClicked(Tag tag, View view) {
+    public void onEntrySelected(Entry entry) {
         if (isAdded()) {
-            EntrySearchActivity.show(getContext(), tag);
+            openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+        }
+    }
+
+    @Override
+    public void onTagSelected(Tag tag, View view) {
+        if (isAdded()) {
+            openFragment(EntrySearchFragment.newInstance(tag), Navigation.Operation.REPLACE, true);
+        }
+    }
+
+    @Override
+    public void onDateSelected(DateTime dateTime) {
+        if (isAdded()) {
+            openFragment(EntryEditFragmentFactory.newInstance(dateTime), Navigation.Operation.REPLACE, true);
         }
     }
 
@@ -203,27 +278,28 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
         if (entry != null) {
             int position = listAdapter.getEntryPosition(entry);
             if (position >= 0) {
-                removeEntry(position, entry.getDate());
+                removeEntry(position);
             }
         }
     }
 
-    private void removeEntry(int position, DateTime date) {
+    private void removeEntry(int position) {
+        DateTime dateTime = listAdapter.getItem(position).getDateTime();
         listAdapter.removeItem(position);
 
         // Add empty view if there is no entry available anymore for this day
-        boolean hasNoMoreEntries = listAdapter.getFirstListItemEntryOfDayPosition(date) == -1;
+        boolean hasNoMoreEntries = listAdapter.getFirstListItemEntryOfDayPosition(dateTime) == -1;
         if (hasNoMoreEntries) {
-            listAdapter.addItem(position, new LogEmptyListItem(date));
+            listAdapter.addItem(position, new LogEmptyListItem(dateTime));
             listAdapter.notifyItemChanged(position);
         } else {
             listAdapter.notifyItemRemoved(position);
         }
 
-        updateHeaderSection(date);
+        updateHeaderSection(dateTime);
     }
 
-    private void updateEntry(Entry entry, List<EntryTag> entryTags, List<FoodEaten> foodEatenList, DateTime originalDate) {
+    private void updateEntry(Entry entry, List<EntryTag> entryTags, List<FoodEaten> foodEatenList) {
         if (entry != null) {
             int originalPosition = listAdapter.getEntryPosition(entry);
             if (originalPosition >= 0) {
@@ -238,7 +314,7 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
                         listAdapter.notifyItemChanged(originalPosition);
                     }
                 } else {
-                    removeEntry(originalPosition, originalDate);
+                    removeEntry(originalPosition);
                     addEntry(entry, entryTags, foodEatenList);
                 }
             }
@@ -247,47 +323,35 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
-        if (isAdded()) {
-            addEntry(event.context, event.entryTags, event.foodEatenList);
-        }
+        addEntry(event.context, event.entryTags, event.foodEatenList);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryDeletedEvent event) {
         super.onEvent(event);
-        if (isAdded()) {
-            removeEntry(event.context);
-        }
+        removeEntry(event.context);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryUpdatedEvent event) {
-        if (isAdded()) {
-            updateEntry(event.context, event.entryTags, event.foodEatenList, event.originalDate);
-        }
+        updateEntry(event.context, event.entryTags, event.foodEatenList);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(@SuppressWarnings("unused") UnitChangedEvent event) {
-        if (isAdded()) {
-            progressBar.setVisibility(View.VISIBLE);
-            listAdapter.setup(getDay());
-        }
+    public void onEvent(UnitChangedEvent event) {
+        progressIndicator.setVisibility(View.VISIBLE);
+        listAdapter.setup(day);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(@SuppressWarnings("unused") BackupImportedEvent event) {
-        if (isAdded()) {
-            progressBar.setVisibility(View.VISIBLE);
-            listAdapter.setup(getDay());
-        }
+    public void onEvent(BackupImportedEvent event) {
+        progressIndicator.setVisibility(View.VISIBLE);
+        listAdapter.setup(day);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(@SuppressWarnings("unused") CategoryPreferenceChangedEvent event) {
-        if (isAdded()) {
-            progressBar.setVisibility(View.VISIBLE);
-            listAdapter.setup(getDay());
-        }
+    public void onEvent(CategoryPreferenceChangedEvent event) {
+        progressIndicator.setVisibility(View.VISIBLE);
+        listAdapter.setup(day);
     }
 }

@@ -7,9 +7,9 @@ import androidx.annotation.StringRes;
 
 public class SearchViewAction {
 
-    private int iconRes;
-    private int contentDescriptionRes;
-    private Callback callback;
+    private final int iconRes;
+    private final int contentDescriptionRes;
+    private final Callback callback;
 
     public SearchViewAction(
         @DrawableRes int iconRes,

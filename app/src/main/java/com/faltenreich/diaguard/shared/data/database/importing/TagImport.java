@@ -19,8 +19,8 @@ class TagImport implements Importing {
     private static final String TAG = TagImport.class.getSimpleName();
     private static final String TAGS_CSV_FILE_NAME = "tags.csv";
 
-    private Context context;
-    private Locale locale;
+    private final Context context;
+    private final Locale locale;
 
     TagImport(Context context, Locale locale) {
         this.context = context;

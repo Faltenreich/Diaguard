@@ -11,8 +11,8 @@ import java.util.List;
  */
 class BaseEntryEvent extends BaseDataEvent<Entry> {
 
-    public List<EntryTag> entryTags;
-    public List<FoodEaten> foodEatenList;
+    public final List<EntryTag> entryTags;
+    public final List<FoodEaten> foodEatenList;
 
     BaseEntryEvent(Entry entry, List<EntryTag> entryTags, List<FoodEaten> foodEatenList) {
         super(entry);

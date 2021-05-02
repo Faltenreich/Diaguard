@@ -8,8 +8,8 @@ public enum  TimelineStyle {
     SCATTER_CHART(0, R.string.chart_scatter),
     LINE_CHART(1, R.string.chart_line);
 
-    private int stableId;
-    private int titleRes;
+    private final int stableId;
+    private final int titleRes;
 
     TimelineStyle(int stableId, @StringRes int titleRes) {
         this.stableId = stableId;

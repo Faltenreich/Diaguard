@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.preference.factor;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentFactorBinding;
 import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.event.Events;
@@ -32,17 +34,10 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
-public class FactorFragment extends BaseFragment implements FactorViewHolder.Callback {
+public class FactorFragment extends BaseFragment<FragmentFactorBinding> implements FactorViewHolder.Callback {
 
     private static final int X_AXIS_MINIMUM = 0;
     private static final int X_AXIS_MAXIMUM = DateTimeConstants.HOURS_PER_DAY;
-
-    @BindView(R.id.time_interval_spinner) Spinner timeIntervalSpinner;
-    @BindView(R.id.values_chart) LineChart valuesChart;
-    @BindView(R.id.values_list) RecyclerView valuesList;
 
     private FactorListAdapter valuesListAdapter;
 
@@ -50,8 +45,9 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
     private TimeInterval timeInterval;
     private List<FactorItem> items;
 
-    public FactorFragment() {
-        super(R.layout.fragment_factor);
+    @Override
+    protected FragmentFactorBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentFactorBinding.inflate(layoutInflater);
     }
 
     @Override
@@ -66,6 +62,7 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         super.onViewCreated(view, savedInstanceState);
         setTitle(factor.getTitle());
 
+        initButton();
         initSpinner();
         initChart();
         initList();
@@ -75,13 +72,7 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
     }
 
     private void initArguments() {
-        Bundle arguments = getActivity() != null && getActivity().getIntent() != null
-            ? getActivity().getIntent().getExtras()
-            : null;
-        if (arguments == null) {
-            throw new IllegalStateException("Arguments must not be null");
-        }
-
+        Bundle arguments = requireArguments();
         String key = getString(R.string.argument_factor);
         if (arguments.containsKey(key)) {
             int factorArgument = arguments.getInt(key);
@@ -109,20 +100,26 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         }
     }
 
+    private void initButton() {
+        getBinding().fab.setOnClickListener((view) -> store());
+    }
+
     private void initSpinner() {
+        Spinner spinner = getBinding().timeIntervalSpinner;
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
             requireContext(),
             R.array.time_rhythm,
             android.R.layout.simple_spinner_item
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeIntervalSpinner.setAdapter(adapter);
+        spinner.setAdapter(adapter);
 
-        if (timeInterval.ordinal() < timeIntervalSpinner.getCount()) {
-            timeIntervalSpinner.setSelection(timeInterval.ordinal());
+        if (timeInterval.ordinal() < spinner.getCount()) {
+            spinner.setSelection(timeInterval.ordinal());
         }
 
-        timeIntervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 timeInterval = TimeInterval.values()[position];
@@ -135,31 +132,33 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
     }
 
     private void initChart() {
-        ChartUtils.setChartDefaultStyle(valuesChart, Category.INSULIN);
-        valuesChart.setTouchEnabled(false);
+        LineChart chartView = getBinding().chartView;
+
+        ChartUtils.setChartDefaultStyle(chartView, Category.INSULIN);
+        chartView.setTouchEnabled(false);
 
         Resources resources = requireContext().getResources();
         int textColor = ColorUtils.getTextColorPrimary(getContext());
         int gridColor = ColorUtils.getBackgroundTertiary(getContext());
 
-        valuesChart.getAxisLeft().setTextColor(textColor);
-        valuesChart.getAxisLeft().setGridColor(gridColor);
-        valuesChart.getAxisLeft().setGridLineWidth(1f);
-        valuesChart.getAxisLeft().setXOffset(resources.getDimension(R.dimen.padding));
-        valuesChart.getAxisLeft().setLabelCount(5);
+        chartView.getAxisLeft().setTextColor(textColor);
+        chartView.getAxisLeft().setGridColor(gridColor);
+        chartView.getAxisLeft().setGridLineWidth(1f);
+        chartView.getAxisLeft().setXOffset(resources.getDimension(R.dimen.padding));
+        chartView.getAxisLeft().setLabelCount(5);
 
-        valuesChart.getXAxis().setGridLineWidth(1f);
-        valuesChart.getXAxis().setGridColor(gridColor);
-        valuesChart.getXAxis().setTextColor(textColor);
-        valuesChart.getXAxis().setAxisMinimum(X_AXIS_MINIMUM);
-        valuesChart.getXAxis().setAxisMaximum(X_AXIS_MAXIMUM);
-        valuesChart.getXAxis().setLabelCount((X_AXIS_MAXIMUM / 2) + 1);
-        valuesChart.getXAxis().setValueFormatter((value, axis) -> {
+        chartView.getXAxis().setGridLineWidth(1f);
+        chartView.getXAxis().setGridColor(gridColor);
+        chartView.getXAxis().setTextColor(textColor);
+        chartView.getXAxis().setAxisMinimum(X_AXIS_MINIMUM);
+        chartView.getXAxis().setAxisMaximum(X_AXIS_MAXIMUM);
+        chartView.getXAxis().setLabelCount((X_AXIS_MAXIMUM / 2) + 1);
+        chartView.getXAxis().setValueFormatter((value, axis) -> {
             boolean showValue = value < X_AXIS_MAXIMUM;
             return showValue ? Integer.toString((int) value) : "";
         });
 
-        valuesChart.setViewPortOffsets(
+        chartView.setViewPortOffsets(
             resources.getDimension(R.dimen.chart_offset_left),
             0,
             0,
@@ -168,13 +167,16 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
     }
 
     private void initList() {
+        RecyclerView listView = getBinding().listView;
         valuesListAdapter = new FactorListAdapter(getContext(), this);
-        valuesList.setAdapter(valuesListAdapter);
-        valuesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        valuesList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listView.setAdapter(valuesListAdapter);
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
     }
 
     private void invalidateChart() {
+        LineChart chartView = getBinding().chartView;
+
         List<Entry> entries = new ArrayList<>();
         for (FactorItem item : items) {
             boolean isRelevant = item.getHourOfDay() % timeInterval.rangeInHours == 0;
@@ -204,8 +206,8 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         dataSets.add(dataSet);
         LineData data = new LineData(dataSets);
 
-        valuesChart.setData(data);
-        valuesChart.invalidate();
+        chartView.setData(data);
+        chartView.invalidate();
     }
 
     private void invalidateList() {
@@ -234,8 +236,7 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         invalidateChart();
     }
 
-    @OnClick(R.id.fab)
-    void store() {
+    private void store() {
         factor.setTimeInterval(timeInterval);
 
         for (FactorItem item : items) {

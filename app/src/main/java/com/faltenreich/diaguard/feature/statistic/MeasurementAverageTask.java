@@ -35,11 +35,11 @@ public class MeasurementAverageTask extends BaseAsyncTask<Void, Void, LineData> 
     private static final String TAG = MeasurementAverageTask.class.getSimpleName();
     private static final float CIRCLE_RADIUS = 5;
 
-    private Category category;
-    private TimeSpan timeSpan;
-    private int dataSetColor;
-    private boolean forceDrawing;
-    private boolean fillDrawing;
+    private final Category category;
+    private final TimeSpan timeSpan;
+    private final int dataSetColor;
+    private final boolean forceDrawing;
+    private final boolean fillDrawing;
 
     public MeasurementAverageTask(
         Context context,

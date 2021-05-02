@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.shared.event.BaseContextEvent;
 
 public class FoodEatenListEvent extends BaseContextEvent<FoodEaten> {
 
-    public int position;
+    public final int position;
 
     public FoodEatenListEvent(FoodEaten context, int position) {
         super(context);

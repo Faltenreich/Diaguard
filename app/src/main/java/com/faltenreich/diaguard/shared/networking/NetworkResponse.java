@@ -4,10 +4,10 @@ import androidx.annotation.Nullable;
 
 public class NetworkResponse<T> {
 
-    private int statusCode;
+    private final int statusCode;
 
     @Nullable
-    private T data;
+    private final T data;
 
     NetworkResponse(int statusCode, @Nullable T data) {
         this.statusCode = statusCode;

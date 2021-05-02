@@ -12,50 +12,48 @@ import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.faltenreich.diaguard.databinding.ViewFoodLabelBinding;
+import com.faltenreich.diaguard.shared.view.ViewBindable;
 
 /**
  * Created by Faltenreich on 29.10.2016.
  */
 
-public class FoodInfoLabelView extends LinearLayout {
+public class FoodInfoLabelView extends LinearLayout implements ViewBindable<ViewFoodLabelBinding> {
 
     private static final @DrawableRes int DEFAULT_ICON_RES_ID = R.drawable.ic_info;
 
     public enum Type {
-
         DEFAULT(R.color.gray_darker),
         WARNING(R.color.yellow),
         ERROR(R.color.red_dark);
 
-        public @ColorRes int color;
+        public @ColorRes
+        final int color;
 
         Type(@ColorRes int color) {
             this.color = color;
         }
     }
 
-    @BindView(R.id.food_label) TextView label;
-    @BindView(R.id.food_icon) ImageView icon;
+    private ViewFoodLabelBinding binding;
 
     private String text;
-    private Type type;
-    private @DrawableRes int iconResId;
+    private final Type type;
+    @DrawableRes private final int iconResId;
 
     public FoodInfoLabelView(Context context) {
         super(context);
         this.type = Type.DEFAULT;
         this.iconResId = DEFAULT_ICON_RES_ID;
-        init();
+        bindView();
     }
 
     public FoodInfoLabelView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.type = Type.DEFAULT;
         this.iconResId = DEFAULT_ICON_RES_ID;
-        init();
+        bindView();
     }
 
     public FoodInfoLabelView(Context context, String text) {
@@ -63,40 +61,30 @@ public class FoodInfoLabelView extends LinearLayout {
         this.text = text;
         this.type = Type.DEFAULT;
         this.iconResId = DEFAULT_ICON_RES_ID;
-        init();
+        bindView();
     }
 
-    public FoodInfoLabelView(Context context, String text, Type type) {
-        super(context);
-        this.text = text;
-        this.type = type;
-        this.iconResId = DEFAULT_ICON_RES_ID;
-        init();
+    @Override
+    public ViewFoodLabelBinding getBinding() {
+        return binding;
     }
 
-    public FoodInfoLabelView(Context context, String text, Type type, @DrawableRes int iconResId) {
-        super(context);
-        this.text = text;
-        this.type = type;
-        this.iconResId = iconResId;
-        init();
-    }
-
-    private void init() {
+    private void bindView() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_food_label, this);
-        ButterKnife.bind(this);
+        binding = ViewFoodLabelBinding.bind(this);
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-
-        label.setText(text);
-
-        icon.setImageResource(iconResId);
-
         int color = ContextCompat.getColor(getContext(), type.color);
+
+        TextView label = getBinding().label;
+        label.setText(text);
         label.setTextColor(color);
-        icon.setColorFilter(color);
+
+        ImageView imageView = getBinding().imageView;
+        imageView.setImageResource(iconResId);
+        imageView.setColorFilter(color);
     }
 }

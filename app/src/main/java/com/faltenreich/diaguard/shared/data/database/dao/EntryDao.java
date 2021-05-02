@@ -15,10 +15,10 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryListItemUtils;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryListItemUtils;
 import com.faltenreich.diaguard.shared.data.primitive.ArrayUtils;
 import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListItem;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
 

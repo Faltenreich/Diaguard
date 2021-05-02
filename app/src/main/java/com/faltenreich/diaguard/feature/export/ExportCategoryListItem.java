@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
 
 public class ExportCategoryListItem {
 
-    private Category category;
+    private final Category category;
     private boolean isCategorySelected;
     private boolean isExtraSelected;
 

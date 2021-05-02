@@ -9,9 +9,9 @@ import java.io.File;
 public class ExportHistoryListItem {
 
     @NonNull
-    private File file;
+    private final File file;
     @NonNull
-    private DateTime createdAt;
+    private final DateTime createdAt;
 
     public ExportHistoryListItem(
         @NonNull File file,

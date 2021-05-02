@@ -1,6 +1,6 @@
 # Diaguard
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Release](https://img.shields.io/badge/Release-3.6.0-478063.svg)](https://play.google.com/store/apps/details?id=com.faltenreich.diaguard)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Release](https://img.shields.io/badge/Release-4.0.0-478063.svg)](https://play.google.com/store/apps/details?id=com.faltenreich.diaguard)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <img src="./resource/image/marketing/showcase.png" width="750"> 
@@ -23,7 +23,7 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Dark Mode
 * Localized in English, German, French, Spanish and Italian
 
-<img src="./resource/image/screenshot/overview.png" width="100"> <img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="100">  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" width="100"> 
 
 ## Distribution
 
@@ -71,7 +71,7 @@ English is used as general language for naming things. Everything except the loc
 
 [SQLite](https://developer.android.com/training/data-storage/sqlite) is used as query language for the database. Object-relational mapping takes then place via [ORMLite](http://ormlite.com).
 
-[XML](https://developer.android.com/guide/topics/ui/declaring-layout) is used as markup language for user interfaces. These views are then bound to Java via [Butter Knife](http://jakewharton.github.io/butterknife).
+[XML](https://developer.android.com/guide/topics/ui/declaring-layout) is used as markup language for user interfaces. These views are then bound to Java via [View Binding](https://developer.android.com/topic/libraries/view-binding).
 
 #### Localization
 
@@ -102,8 +102,8 @@ This software uses following technologies with great appreciation:
 * [AboutLibraries](https://github.com/mikepenz/AboutLibraries)
 * [AndroidX](https://developer.android.com/jetpack/androidx)
 * [Apache Commons Text](http://commons.apache.org/proper/commons-text)
+* [App Privacy Policy Generator](https://github.com/nisrulz/app-privacy-policy-generator)
 * [BetterPickers](https://github.com/code-troopers/android-betterpickers)
-* [Butter Knife](http://jakewharton.github.io/butterknife)
 * [EventBus](https://github.com/greenrobot/EventBus)
 * [FloatingActionButton](https://github.com/Clans/FloatingActionButton)
 * [Gson](https://github.com/google/gson)
@@ -127,13 +127,15 @@ These dependencies are bundled with Diaguard but under the terms of their respec
 
 ## Legal
 
+The manufacturer of this software assumes no responsibility for the topicality, correctness, completeness or quality of the information provided. Liability claims against the manufacturer, which relate to material or immaterial nature, caused by the use or non-use of the software are excluded.
+
 #### Redistribution
 
 Additionally to the permissions, conditions and limitations of the GPLv3, the permission for redistribution must be manually requested in advance. This ensures that neither the original software or any fork will be affected negatively by terms and conditions like the [Google Play Developer Distribution Agreement](https://play.google.com/about/developer-distribution-agreement.html). If you plan to redistribute this software, please contact the maintainer at [diaguard.de@gmail.com](mailto:diaguard.de@gmail.com).
 
 #### License
 
-    Copyright (C) 2013-2020 Philipp Fahlteich
+    Copyright (C) 2013-2021 Philipp Fahlteich
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 public enum Permission {
     WRITE_EXTERNAL_STORAGE(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-    public String code;
+    public final String code;
 
     Permission(String code) {
         this.code = code;

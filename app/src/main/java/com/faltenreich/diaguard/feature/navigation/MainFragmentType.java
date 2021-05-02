@@ -16,8 +16,8 @@ public enum MainFragmentType {
     STATISTICS(StatisticFragment.class, 5),
     EXPORT(ExportFragment.class, 6);
 
-    public Class<? extends BaseFragment> fragmentClass;
-    public int position;
+    public final Class<? extends BaseFragment> fragmentClass;
+    public final int position;
 
     MainFragmentType(Class<? extends BaseFragment> fragmentClass, int position) {
         this.fragmentClass = fragmentClass;

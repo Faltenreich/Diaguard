@@ -7,7 +7,6 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="?backgroundColorGreen"
     android:theme="@style/Toolbar"
     app:popupTheme="@style/ToolbarPopup"
     app:contentInsetStart="@dimen/toolbar_title_inset"

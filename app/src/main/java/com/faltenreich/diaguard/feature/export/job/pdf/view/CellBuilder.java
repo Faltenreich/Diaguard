@@ -6,7 +6,7 @@ import com.pdfjet.Color;
 
 public class CellBuilder {
 
-    private Cell cell;
+    private final Cell cell;
     private float width;
     private String text;
     private int textAlignment;

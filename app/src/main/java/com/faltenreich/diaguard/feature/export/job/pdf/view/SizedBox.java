@@ -4,8 +4,8 @@ import com.pdfjet.Box;
 
 public class SizedBox extends Box {
 
-    private float width;
-    private float height;
+    private final float width;
+    private final float height;
 
     public SizedBox(float width, float height) {
         super(0, 0, width, height);

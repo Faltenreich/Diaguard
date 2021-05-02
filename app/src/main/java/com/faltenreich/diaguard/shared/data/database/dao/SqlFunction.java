@@ -7,7 +7,7 @@ public enum SqlFunction {
     AVG("avg"),
     SUM("sum");
 
-    public String function;
+    public final String function;
 
     SqlFunction(String function) {
         this.function = function;

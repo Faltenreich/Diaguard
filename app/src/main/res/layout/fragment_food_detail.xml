@@ -3,26 +3,23 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/view_toolbar"/>
-
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/food_tablayout"
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?backgroundColorGreen"
-        app:tabSelectedTextColor="@android:color/white"
-        app:tabTextColor="@color/gray_light"
         app:tabIndicatorColor="@android:color/white"
-        app:tabIndicatorHeight="3dp"/>
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="@color/gray_light" />
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/food_viewpager"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

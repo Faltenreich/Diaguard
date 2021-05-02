@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/log_list"
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -16,7 +16,7 @@
 
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
-        android:id="@+id/log_progressbar"
+        android:id="@+id/progress_indicator"
         android:layout_width="@dimen/progress_circle_size"
         android:layout_height="@dimen/progress_circle_size"
         android:layout_gravity="center"

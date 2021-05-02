@@ -2,7 +2,10 @@ package com.faltenreich.diaguard.feature.export.history;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,17 +14,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentExportHistoryBinding;
+import com.faltenreich.diaguard.feature.export.job.Export;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
+import com.faltenreich.diaguard.shared.data.async.BaseAsyncTask;
+import com.faltenreich.diaguard.shared.data.file.FileUtils;
+import com.faltenreich.diaguard.shared.data.permission.Permission;
+import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.ExportHistoryDeleteEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
-import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
-import com.faltenreich.diaguard.shared.data.file.FileUtils;
-import com.faltenreich.diaguard.shared.data.permission.Permission;
-import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
-import com.faltenreich.diaguard.shared.data.async.BaseAsyncTask;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -31,17 +37,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
+public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBinding> implements ToolbarDescribing {
 
-public class ExportHistoryFragment extends BaseFragment {
-
-    @BindView(R.id.list) RecyclerView listView;
-    @BindView(R.id.progressView) View progressView;
+    private RecyclerView listView;
+    private ProgressBar progressIndicator;
+    private TextView listPlaceholder;
 
     private ExportHistoryListAdapter listAdapter;
 
-    public ExportHistoryFragment() {
-        super(R.layout.fragment_export_history, R.string.export_history);
+    @Override
+    protected FragmentExportHistoryBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentExportHistoryBinding.inflate(layoutInflater);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.export_history)
+            .build();
     }
 
     @Override
@@ -54,6 +67,7 @@ public class ExportHistoryFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Events.register(this);
+        bindViews();
         initLayout();
         checkPermissions();
     }
@@ -68,11 +82,17 @@ public class ExportHistoryFragment extends BaseFragment {
         listAdapter = new ExportHistoryListAdapter(getContext());
     }
 
+    private void bindViews() {
+        listView = getBinding().listView;
+        listPlaceholder = getBinding().listPlaceholder;
+        progressIndicator = getBinding().progressIndicator;
+    }
+
     private void initLayout() {
         listView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
-        progressView.setVisibility(View.VISIBLE);
+        progressIndicator.setVisibility(View.VISIBLE);
     }
 
     private void checkPermissions() {
@@ -92,7 +112,8 @@ public class ExportHistoryFragment extends BaseFragment {
         listAdapter.clear();
         listAdapter.addItems(listItems);
         listAdapter.notifyDataSetChanged();
-        progressView.setVisibility(View.GONE);
+        progressIndicator.setVisibility(View.GONE);
+        listPlaceholder.setVisibility(listItems.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     private void deleteExportIfConfirmed(ExportHistoryListItem item) {

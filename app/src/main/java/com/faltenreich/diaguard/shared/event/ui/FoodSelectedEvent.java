@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.shared.event.ui;
 
-import android.view.View;
-
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.event.BaseContextEvent;
 
@@ -11,10 +9,7 @@ import com.faltenreich.diaguard.shared.event.BaseContextEvent;
 
 public class FoodSelectedEvent extends BaseContextEvent<Food> {
 
-    public View view;
-
-    public FoodSelectedEvent(Food context, View view) {
+    public FoodSelectedEvent(Food context) {
         super(context);
-        this.view = view;
     }
 }

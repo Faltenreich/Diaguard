@@ -1,54 +1,42 @@
 package com.faltenreich.diaguard.shared.view.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.viewbinding.ViewBinding;
 
+import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.dialog.DialogButton;
+import com.faltenreich.diaguard.shared.view.dialog.DialogConfig;
 
-import butterknife.ButterKnife;
+public abstract class BaseDialogFragment<BINDING extends ViewBinding> extends DialogFragment implements ViewBindable<BINDING> {
 
-@SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class BaseDialogFragment extends DialogFragment {
+    private BINDING binding;
 
-    @StringRes private int titleResId;
-    @StringRes private int messageResId;
     private DialogButton positiveButton;
     private DialogButton negativeButton;
     private DialogButton neutralButton;
-    @LayoutRes private int layoutResId;
 
-    public BaseDialogFragment(@StringRes int titleResId, @StringRes int messageResId, @LayoutRes int layoutResId) {
-        this.titleResId = titleResId;
-        this.messageResId = messageResId;
-        this.layoutResId = layoutResId;
+    @Override
+    public BINDING getBinding() {
+        return binding;
     }
 
-    public BaseDialogFragment(@StringRes int titleResId, @LayoutRes int layoutResId) {
-        this(titleResId, -1, layoutResId);
-    }
+    protected abstract BINDING createBinding(View view);
 
-    public BaseDialogFragment(@StringRes int titleResId) {
-        this(titleResId, -1);
-    }
+    protected abstract DialogConfig getConfig();
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         if (getContext() != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            initTexts(builder);
-            initButtons(builder);
-            initContentView(builder);
+            initLayout(builder);
             Dialog dialog = builder.create();
             dialog.setCanceledOnTouchOutside(false);
             return dialog;
@@ -60,52 +48,42 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        AlertDialog alertDialog = getDialog() != null && getDialog() instanceof AlertDialog ? (AlertDialog) getDialog() : null;
-        if (alertDialog != null) {
-            invalidateButtons(alertDialog);
-        }
+        setListeners();
     }
 
-    @Nullable
-    abstract protected DialogButton createPositiveButton();
+    private void initLayout(AlertDialog.Builder builder) {
+        DialogConfig config = getConfig();
 
-    @Nullable
-    protected DialogButton createNegativeButton() {
-        return new DialogButton(android.R.string.cancel, this::dismiss);
-    }
+        builder.setTitle(config.getTitle());
+        builder.setMessage(config.getDescription());
 
-    @Nullable
-    protected DialogButton createNeutralButton() {
-        return null;
-    }
-
-    @SuppressLint("ResourceType")
-    private void initTexts(AlertDialog.Builder builder) {
-        if (titleResId >= 0) {
-            builder.setTitle(titleResId);
-        }
-        if (messageResId >= 0) {
-            builder.setMessage(messageResId);
-        }
-    }
-
-    private void initButtons(AlertDialog.Builder builder) {
-        // Listeners are set later on / after Dialog.show() in order to override default behavior (like dismiss after button click)
-        positiveButton = createPositiveButton();
+        positiveButton = config.getPositiveButton();
         if (positiveButton != null) {
             builder.setPositiveButton(positiveButton.getLabelResId(), null);
         }
-        negativeButton = createNegativeButton();
+
+        negativeButton = config.getNegativeButton();
         if (negativeButton != null) {
             builder.setNegativeButton(negativeButton.getLabelResId(), null);
         }
-        neutralButton = createNeutralButton();
+
+        neutralButton = config.getNeutralButton();
         if (neutralButton != null) {
             builder.setNeutralButton(neutralButton.getLabelResId(), null);
         }
+
+        View contentView = LayoutInflater.from(getContext()).inflate(config.getLayoutResId(), null);
+        builder.setView(contentView);
+        binding = createBinding(contentView);
     }
 
-    private void invalidateButtons(AlertDialog alertDialog) {
+    // Listeners are set later on in order to override default behavior (like dismiss after button click)
+    private void setListeners() {
+        AlertDialog alertDialog = getDialog() instanceof AlertDialog ? (AlertDialog) getDialog() : null;
+        if (alertDialog == null) {
+            return;
+        }
+
         if (positiveButton != null) {
             alertDialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(view -> {
                 if (positiveButton.getListener() != null) {
@@ -113,6 +91,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
                 }
             });
         }
+
         if (negativeButton != null) {
             alertDialog.getButton(Dialog.BUTTON_NEGATIVE).setOnClickListener(view -> {
                 if (negativeButton.getListener() != null) {
@@ -120,23 +99,13 @@ public abstract class BaseDialogFragment extends DialogFragment {
                 }
             });
         }
+
         if (neutralButton != null) {
             alertDialog.getButton(Dialog.BUTTON_NEUTRAL).setOnClickListener(view -> {
                 if (neutralButton.getListener() != null) {
                     neutralButton.getListener().onClick();
                 }
             });
-        }
-    }
-
-    @SuppressLint("ResourceType")
-    private void initContentView(AlertDialog.Builder builder) {
-        if (layoutResId >= 0) {
-            View contentView = LayoutInflater.from(getContext()).inflate(layoutResId, null);
-            if (contentView != null) {
-                builder.setView(contentView);
-                ButterKnife.bind(this, contentView);
-            }
         }
     }
 }

@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 
 public class CsvExportConfig extends ExportConfig {
 
-    private boolean isBackup;
+    private final boolean isBackup;
 
     public CsvExportConfig(
         Context context,

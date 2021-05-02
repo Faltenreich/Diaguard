@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
 
-    <!-- GENERAL -->
+<resources>
+
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_ES.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_ES.md</string>
     <string name="about">Sobre nosotros</string>
     <string name="active">activo</string>
     <string name="activity">Actividad</string>
@@ -15,8 +15,9 @@
     <string name="amount">Cantidad &#8230;</string>
     <string name="average">Promedio</string>
     <string name="back">Volver</string>
-    <string name="backup">Copia de seguridad</string>
-    <string name="backup_import"> La copia de seguridad se registrará  &#8230;</string>
+    <string name="backup_create">Copia de seguridad</string>
+    <string name="backup_import"> Restaurar copia de seguridad</string>
+    <string name="backup_import_progress"> La copia de seguridad se registrará  &#8230;</string>
     <string name="backup_complete">Se creará la copia de seguridad</string>
     <string name="backup_store">Guardar copia de seguridad</string>
     <string name="backup_title">Seleccionar copia de seguridad</string>
@@ -66,7 +67,6 @@
     <string name="homepage">Página web</string>
     <string name="hyper">Hiper</string>
     <string name="hypo">Hipo</string>
-    <string name="imprint">Pie de imprenta</string>
     <string name="in">in</string>
     <string name="insulin">Insulina</string>
     <string name="latest">Antes [value] [unit]</string>
@@ -239,21 +239,8 @@
     <string name="pref_therapy_targets_hyperclycemia">Límite para hiperglucemia</string>
     <string name="pref_therapy_targets_hypoclycemia">Límite de hipoglucemia</string>
 
-    <!-- ABOUT -->
-    <string name="about_dev">Revelador</string>
-    <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. de la Informática, Tipo-1 diabéticos</string>
-    <string name="about_financing">Financiación</string>
-    <string name="about_financing_desc">No existe ningún apoyo financiero por parte de organizaciones comerciales o no comerciales, que hayan contribuido con fondos, servicios o materiales para la aplicación. La aplicación está financiada en su totalidad por el desarrollador.</string>
-    <string name="about_advertisement">Política de publicidad</string>
-    <string name="about_advertisement_desc">Diaguard es y seguirá siendo completamente libre de publicidad.</string>
-    <string name="about_health">Fuentes</string>
-    <string name="about_health_desc">Toda la información de la salud, se basa en las recomendaciones de Diabetólogos Alemanes reconocidos.</string>
-    <string name="about_privacy">Protección de datos</string>
-    <string name="about_privacy_desc">Nos tomamos la privacidad de sus datos muy en serio, por ello, ningún dato personal será procesado ó reenviado a terceros.</string>
-    <string name="about_code">Código de honor</string>
-    <string name="about_code_desc">La aplicación cumple con todos los criterios básicos de calidad de HealthOn Código aplicación de Ética de información de salud confiable.</string>
-    <string name="about_legal">Legal</string>
-    <string name="about_legal_desc">El fabricante de la aplicación no asume ninguna responsabilidad por la actualidad, exactitud, integridad o calidad de la información proporcionada. Quedan excluidas las reclamaciones de responsabilidad contra el fabricante, que se relacionan con la naturaleza material o inmaterial, causada por el uso o no uso de la aplicación. Esta aplicación es solo para fines de documentación y no reemplaza a un consultor en diabetes ni a un médico.</string>
+    <string name="privacy_policy">Política de privacidad</string>
+    <string name="terms_and_conditions">Términos y condiciones</string>
 
     <string name="all">Todo</string>
     <string name="validator_value_empty_list"> Al menos una categoría se debe seleccionar</string>
@@ -261,7 +248,6 @@
     <string name="error_unexpected">Algo salió mal</string>
     <string name="error_import">Formato de archivo inválido</string>
     <string name="export_complete">Memorizar bajo %s</string>
-    <string name="import_"> Restaurar copia de seguridad</string>
     <string name="interval">Intervalo</string>
     <string name="measurement_latest">Hace poco</string>
     <string name="hyper_per_day">Hipers por día</string>
@@ -343,7 +329,7 @@
     <string name="pinned">fijó</string>
     <string name="change_now">Cambiar ahora</string>
     <string name="help">Ayudar</string>
-    <string name="category_preference_desc">Activo:\nLa categoría se muestra u oculta\n\nFijó:\nLa categoría se preselecciona automáticamente para nuevas entradas\n\nOrdenar:\nMantenga presionado el símbolo de seis puntos y arrastre hacia arriba o hacia abajo</string>
+    <string name="category_preference_desc">Activo:\nSe muestra la categoría\n\nFijó:\nLa categoría se preselecciona automáticamente para nuevas entradas\n\nOrdenar:\nMantenga presionado el símbolo de seis puntos y arrastre hacia arriba o hacia abajo</string>
     <string name="insulin_split">Dividido en bolo, corrección y basa</string>
     <string name="highlight_limits">Remarcar los límites</string>
 

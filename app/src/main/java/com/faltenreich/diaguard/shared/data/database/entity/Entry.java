@@ -60,12 +60,23 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
         this.measurements = measurements;
     }
 
-    // TODO: Get rid of measurementCache (Currently required to enable lazy loading for generic measurements
     public List<Measurement> getMeasurementCache() {
         if (measurementCache == null) {
             measurementCache = new ArrayList<>();
         }
         return measurementCache;
+    }
+
+    public int indexInMeasurementCache(Category category) {
+        if (measurementCache != null) {
+            for (int index = 0; index < measurementCache.size(); index++) {
+                Measurement measurement = measurementCache.get(index);
+                if (measurement.getCategory() == category) {
+                    return index;
+                }
+            }
+        }
+        return -1;
     }
 
     public void setMeasurementCache(List<Measurement> measurementCache) {

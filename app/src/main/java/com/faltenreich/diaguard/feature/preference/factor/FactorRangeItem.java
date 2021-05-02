@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.feature.preference.factor;
 
 class FactorRangeItem {
 
-    private int hourOfDay;
-    private int rangeInHours;
+    private final int hourOfDay;
+    private final int rangeInHours;
     private float value;
 
     FactorRangeItem(int hourOfDay, int rangeInHours, float value) {

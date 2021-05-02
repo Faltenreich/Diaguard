@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHold
 
 class LogSwipeCallback extends ItemTouchHelper.Callback {
 
-    private BaseAdapter adapter;
+    private final BaseAdapter adapter;
 
     LogSwipeCallback(BaseAdapter adapter) {
         this.adapter = adapter;

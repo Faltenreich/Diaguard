@@ -4,7 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_layout"
     style="@style/InlineListItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,7 +11,7 @@
     android:paddingBottom="2dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardview"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -28,7 +27,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/date_time_view"
+                android:id="@+id/date_label"
                 style="@style/Padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,7 +44,7 @@
                 android:showDividers="middle" />
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/entry_tags"
+                android:id="@+id/entry_tag_chip_group"
                 style="@style/Padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,7 +52,7 @@
                 android:paddingBottom="@dimen/padding" />
 
             <TextView
-                android:id="@+id/note_view"
+                android:id="@+id/note_label"
                 style="@style/Padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +62,7 @@
                 tools:visibility="visible" />
 
             <TextView
-                android:id="@+id/food_view"
+                android:id="@+id/food_label"
                 style="@style/Padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

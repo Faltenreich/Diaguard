@@ -201,7 +201,7 @@ public class FoodDao extends BaseServerDao<Food> {
 
     @Nullable
     private Food parseFromDto(ProductDto dto) {
-        if (!dto.identifier.isJsonPrimitive()) {
+        if (dto == null || dto.identifier == null || !dto.identifier.isJsonPrimitive()) {
             return null;
         }
         String serverId = dto.identifier.getAsJsonPrimitive().getAsString();

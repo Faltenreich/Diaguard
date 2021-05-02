@@ -15,7 +15,7 @@ public class EntryEditFragmentFactory {
         EntryEditFragment fragment = new EntryEditFragment();
         if (entry != null) {
             Bundle arguments = new Bundle();
-            arguments.putLong(EntryEditViewModel.EXTRA_ENTRY_ID, entry.getId());
+            arguments.putLong(EntryEditFragment.EXTRA_ENTRY_ID, entry.getId());
             fragment.setArguments(arguments);
         }
         return fragment;
@@ -25,7 +25,7 @@ public class EntryEditFragmentFactory {
         EntryEditFragment fragment = new EntryEditFragment();
         if (food != null) {
             Bundle arguments = new Bundle();
-            arguments.putLong(EntryEditViewModel.EXTRA_FOOD_ID, food.getId());
+            arguments.putLong(EntryEditFragment.EXTRA_FOOD_ID, food.getId());
             fragment.setArguments(arguments);
         }
         return fragment;
@@ -35,7 +35,7 @@ public class EntryEditFragmentFactory {
         EntryEditFragment fragment = new EntryEditFragment();
         if (dateTime != null) {
             Bundle arguments = new Bundle();
-            arguments.putSerializable(EntryEditViewModel.EXTRA_DATE, dateTime);
+            arguments.putSerializable(EntryEditFragment.EXTRA_DATE, dateTime);
             fragment.setArguments(arguments);
         }
         return fragment;

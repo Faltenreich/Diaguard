@@ -79,6 +79,11 @@ public class EntryEditFragment
 
     private static final String TAG = EntryEditFragment.class.getSimpleName();
 
+    public static final String EXTRA_CATEGORY = "category";
+    public static final String EXTRA_ENTRY_ID = "entryId";
+    public static final String EXTRA_FOOD_ID = "foodId";
+    public static final String EXTRA_DATE = "date";
+
     private final EntryEditViewModel viewModel = new EntryEditViewModel();
 
     private ViewGroup root;

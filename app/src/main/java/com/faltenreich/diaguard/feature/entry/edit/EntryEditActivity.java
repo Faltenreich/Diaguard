@@ -15,9 +15,6 @@ import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
 public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> implements ToolbarOwner {
 
-    @Deprecated
-    public static final String EXTRA_CATEGORY = "category";
-
     @Override
     protected ActivityEntryEditBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityEntryEditBinding.inflate(layoutInflater);

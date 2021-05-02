@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.feature.entry.edit.measurement;
 
-import androidx.test.core.app.ActivityScenario;
+import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
@@ -8,8 +8,9 @@ import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
+import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,11 +23,12 @@ import org.robolectric.annotation.LooperMode;
 @LooperMode(LooperMode.Mode.PAUSED)
 public class EntryEditMeasurementCategoryTest {
 
+    @Rule public final ApplyAppTheme applyAppTheme = new ApplyAppTheme();
     @Rule public final TestRule dataCleanUp = new CleanUpData();
 
     @Before
     public void setup() {
-        ActivityScenario.launch(EntryEditActivity.class);
+        FragmentScenario.launchInContainer(EntryEditFragment.class);
         EntryEditMeasurementTestUtils.openFloatingMenuForCategories();
     }
 

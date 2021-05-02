@@ -152,6 +152,7 @@ class EntryEditViewModel {
                 entry.setDate(dateTime);
 
                 Meal meal = new Meal();
+                meal.setEntry(entry);
                 entry.getMeasurementCache().add(meal);
 
                 FoodEaten foodEaten = new FoodEaten();

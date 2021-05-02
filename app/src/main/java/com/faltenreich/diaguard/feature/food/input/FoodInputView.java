@@ -127,7 +127,9 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     }
 
     private void initData() {
-        meal = new Meal();
+        if (meal == null) {
+            meal = new Meal();
+        }
     }
 
     private void initLayout() {

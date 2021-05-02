@@ -1,10 +1,14 @@
 package com.faltenreich.diaguard.feature.calculator;
 
 import android.app.AlertDialog;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentCalculatorBinding;
@@ -50,6 +54,8 @@ import java.util.List;
  */
 public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> implements ToolbarDescribing, MainButton {
 
+    private Meal meal;
+
     @Override
     protected FragmentCalculatorBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentCalculatorBinding.inflate(layoutInflater);
@@ -63,13 +69,25 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        Events.register(this);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        meal = new Meal();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         boolean isSetup = getBinding().bloodsugarTargetInput.getText().isEmpty();
         if (isSetup) {
             update();
         }
+        getBinding().foodInputView.setMeal(meal);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Events.register(this);
     }
 
     @Override
@@ -297,14 +315,15 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
         if (carbohydrates > 0) {
             FoodInputView foodInputView = getBinding().foodInputView;
             foodEatenList.addAll(foodInputView.getFoodEatenList());
-            Meal meal = new Meal();
             meal.setCarbohydrates(foodInputView.getInputCarbohydrates());
             meal.setEntry(entry);
             MeasurementDao.getInstance(Meal.class).createOrUpdate(meal);
 
             for (FoodEaten foodEaten : foodEatenList) {
-                foodEaten.setMeal(meal);
-                FoodEatenDao.getInstance().createOrUpdate(foodEaten);
+                if (foodEaten.getAmountInGrams() > 0) {
+                    foodEaten.setMeal(meal);
+                    FoodEatenDao.getInstance().createOrUpdate(foodEaten);
+                }
             }
         }
 

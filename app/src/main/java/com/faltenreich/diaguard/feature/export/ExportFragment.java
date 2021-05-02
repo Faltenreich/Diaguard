@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -288,7 +287,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     public void onSuccess(File file, String mimeType) {
         progressComponent.dismiss();
         if (file != null) {
-            Toast.makeText(getContext(), String.format(getString(R.string.export_complete), file.getAbsolutePath()), Toast.LENGTH_LONG).show();
+            ViewUtils.showToast(getContext(), getString(R.string.export_complete));
             openFile(file);
         } else {
             onError();
@@ -298,7 +297,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     @Override
     public void onError() {
         progressComponent.dismiss();
-        Toast.makeText(getContext(), getString(R.string.error_unexpected), Toast.LENGTH_LONG).show();
+        ViewUtils.showSnackbar(getView(), getString(R.string.error_unexpected));
     }
 
     @Override
@@ -358,10 +357,13 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionResponseEvent event) {
         if (event.context == Permission.WRITE_EXTERNAL_STORAGE &&
-            event.useCase == PermissionUseCase.EXPORT &&
-            event.isGranted
+            event.useCase == PermissionUseCase.EXPORT
         ) {
-            export();
+            if (event.isGranted) {
+                export();
+            } else {
+                ViewUtils.showSnackbar(getView(), getString(R.string.error_unexpected));
+            }
         }
     }
 }

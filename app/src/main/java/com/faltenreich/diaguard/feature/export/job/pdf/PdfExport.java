@@ -53,7 +53,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
             }
             cache.clear();
         } catch (Exception exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
         }
         return file;
     }

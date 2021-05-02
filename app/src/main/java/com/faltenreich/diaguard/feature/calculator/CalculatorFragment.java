@@ -66,7 +66,10 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     public void onResume() {
         super.onResume();
         Events.register(this);
-        update();
+        boolean isSetup = getBinding().bloodsugarTargetInput.getText().isEmpty();
+        if (isSetup) {
+            update();
+        }
     }
 
     @Override

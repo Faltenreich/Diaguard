@@ -55,7 +55,7 @@ public class TagListFragment
 
     @Override
     public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.addButton((view) -> createTag(), true);
+        return MainButtonProperties.addButton((view) -> createTag(), false);
     }
 
     @Override

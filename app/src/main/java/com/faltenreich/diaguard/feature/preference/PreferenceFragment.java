@@ -3,8 +3,10 @@ package com.faltenreich.diaguard.feature.preference;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.XmlRes;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -45,9 +47,8 @@ public abstract class PreferenceFragment extends PreferenceFragmentCompat implem
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         if (getActivity() instanceof OnFragmentChangeListener) {
             ((OnFragmentChangeListener) getActivity()).onFragmentChanged(this);
         }

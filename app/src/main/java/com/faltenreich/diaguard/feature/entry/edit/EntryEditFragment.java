@@ -31,6 +31,8 @@ import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
+import com.faltenreich.diaguard.feature.navigation.MainButton;
+import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
@@ -60,7 +62,6 @@ import com.faltenreich.diaguard.shared.view.chip.ChipView;
 import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.picker.NumberPickerDialog;
-import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.chip.ChipGroup;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -74,7 +75,7 @@ import java.util.List;
 
 public class EntryEditFragment
     extends BaseFragment<FragmentEntryEditBinding>
-    implements ToolbarDescribing
+    implements ToolbarDescribing, MainButton
 {
 
     private static final String TAG = EntryEditFragment.class.getSimpleName();
@@ -99,7 +100,6 @@ public class EntryEditFragment
     private Button alarmButton;
     private LinearLayout measurementContainer;
     private MeasurementFloatingActionMenu fabMenu;
-    private FloatingActionButton fab;
 
     @Override
     protected FragmentEntryEditBinding createBinding(LayoutInflater layoutInflater) {
@@ -112,6 +112,11 @@ public class EntryEditFragment
             .setTitle(getContext(), viewModel.isEditing() ? R.string.entry_edit : R.string.entry_new)
             .setMenu(R.menu.form_edit)
             .build();
+    }
+
+    @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.confirmButton((view) -> trySubmit(), false);
     }
 
     @Override
@@ -164,7 +169,6 @@ public class EntryEditFragment
         alarmButton = getBinding().alarmButton;
         measurementContainer = getBinding().measurementContainer;
         fabMenu = getBinding().fabMenu;
-        fab = getBinding().fab;
     }
 
     private void initLayout() {
@@ -208,7 +212,6 @@ public class EntryEditFragment
 
         fabMenu.setOnCategorySelectedListener(this::addCategory);
         fabMenu.setOnMiscellaneousSelectedListener(this::openCategoryPicker);
-        fab.setOnClickListener(view -> trySubmit());
     }
 
     private void setEntry(Entry entry) {
@@ -422,8 +425,6 @@ public class EntryEditFragment
     }
 
     private void trySubmit() {
-        fab.setEnabled(false);
-
         // Convenience: Accept tag that hasn't been submitted by user
         String missingTag = tagInput.getText().toString();
         if (!StringUtils.isBlank(missingTag)) {
@@ -434,8 +435,6 @@ public class EntryEditFragment
         if (inputIsValid()) {
             submit();
         }
-
-        fab.setEnabled(true);
     }
 
     private void submit() {

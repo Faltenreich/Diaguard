@@ -220,7 +220,12 @@ public class MainActivity
         MainButtonProperties properties = mainButton != null ? mainButton.getMainButtonProperties() : null;
         fab.setVisibility(properties != null ? View.VISIBLE : View.GONE);
         fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
-        fab.setOnClickListener(properties != null ? properties.getOnClickListener() : null);
+        fab.setOnClickListener(properties != null ? (View.OnClickListener) view -> {
+            // Prevent redundant clicks
+            fab.setEnabled(false);
+            properties.getOnClickListener().onClick(view);
+            fab.setEnabled(true);
+        } : null);
         if (properties != null) {
             CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(fab);
             if (behavior instanceof SlideOutBehavior) {

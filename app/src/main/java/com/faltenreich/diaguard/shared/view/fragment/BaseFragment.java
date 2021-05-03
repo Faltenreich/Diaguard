@@ -72,6 +72,10 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (getActivity() instanceof OnFragmentChangeListener) {
+            ((OnFragmentChangeListener) getActivity()).onFragmentChanged(this);
+        }
+
         if (getView() != null) {
             ViewUtils.hideKeyboard(getView());
         }
@@ -88,10 +92,6 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
     public void onResume() {
         super.onResume();
         Events.register(this);
-
-        if (getActivity() instanceof OnFragmentChangeListener) {
-            ((OnFragmentChangeListener) getActivity()).onFragmentChanged(this);
-        }
     }
 
     @Override

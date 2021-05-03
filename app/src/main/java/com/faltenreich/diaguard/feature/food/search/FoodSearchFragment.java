@@ -95,9 +95,7 @@ public class FoodSearchFragment
 
     @Override
     public ToolbarProperties getToolbarProperties() {
-        return new ToolbarProperties.Builder()
-            .setTitle(getContext(), R.string.food)
-            .build();
+        return new ToolbarProperties.Builder().build();
     }
 
     @Override

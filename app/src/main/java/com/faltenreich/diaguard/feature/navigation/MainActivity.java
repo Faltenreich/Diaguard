@@ -1,10 +1,13 @@
 package com.faltenreich.diaguard.feature.navigation;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,6 +56,8 @@ public class MainActivity
     private TextView toolbarTitle;
     private SearchView searchView;
     private FloatingActionButton fab;
+
+    private float fabOffset;
 
     @Override
     protected ActivityMainBinding createBinding(LayoutInflater layoutInflater) {
@@ -132,6 +137,17 @@ public class MainActivity
     }
     
     private void initLayout() {
+        fab.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                float target = drawerLayout.getHeight();
+                float fabY = ViewUtils.getPositionInParent(fab, drawerLayout).y;
+                fabOffset = target - fabY;
+                fab.getViewTreeObserver().removeOnPreDrawListener(this);
+                return false;
+            }
+        });
+
         ToolbarManager.applyToolbar(this, getToolbar());
 
         drawerToggle = new ActionBarDrawerToggle(
@@ -218,7 +234,6 @@ public class MainActivity
 
     private void invalidateMainButton(@Nullable MainButton mainButton) {
         MainButtonProperties properties = mainButton != null ? mainButton.getMainButtonProperties() : null;
-        fab.setVisibility(properties != null ? View.VISIBLE : View.GONE);
         fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
         fab.setOnClickListener(properties != null ? (View.OnClickListener) view -> {
             // Prevent redundant clicks
@@ -226,6 +241,33 @@ public class MainActivity
             properties.getOnClickListener().onClick(view);
             fab.setEnabled(true);
         } : null);
+
+        boolean isShown = fab.getVisibility() == View.VISIBLE;
+        boolean shouldShow = properties != null;
+        boolean changes = isShown != shouldShow;
+        if (changes) {
+            fab.setVisibility(View.VISIBLE);
+            float from = fab.getTranslationY();
+            float to = shouldShow ? 0 : fabOffset;
+            ObjectAnimator animation = ObjectAnimator.ofFloat(fab, "translationY", from, to);
+            animation.setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
+            animation.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {}
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (!shouldShow) {
+                        fab.setVisibility(View.GONE);
+                    }
+                }
+                @Override
+                public void onAnimationCancel(Animator animation) {}
+                @Override
+                public void onAnimationRepeat(Animator animation) {}
+            });
+            animation.start();
+        }
+
         if (properties != null) {
             CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(fab);
             if (behavior instanceof SlideOutBehavior) {

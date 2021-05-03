@@ -12,11 +12,6 @@ import androidx.preference.PreferenceFragmentCompat;
 
 public class Navigation {
 
-    public enum Operation {
-        ADD,
-        REPLACE
-    }
-
     @Nullable
     public static Fragment getCurrentFragment(
         @NonNull FragmentManager fragmentManager,

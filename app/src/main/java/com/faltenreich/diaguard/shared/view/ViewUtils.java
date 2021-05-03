@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -20,6 +22,13 @@ import com.google.android.material.snackbar.Snackbar;
 public class ViewUtils {
 
     private static final String TAG = ViewUtils.class.getSimpleName();
+
+    public static Point getPositionInParent(View view, ViewGroup parent) {
+        Rect offsetViewBounds = new Rect();
+        view.getDrawingRect(offsetViewBounds);
+        parent.offsetDescendantRectToMyCoords(view, offsetViewBounds);
+        return new Point(offsetViewBounds.left, offsetViewBounds.top);
+    }
 
     public static void showKeyboard(View view) {
         view.requestFocus();

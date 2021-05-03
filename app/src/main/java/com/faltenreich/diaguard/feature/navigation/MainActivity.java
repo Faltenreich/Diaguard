@@ -95,16 +95,16 @@ public class MainActivity
             supportFinishAfterTransition();
             return true;
         } else if (item.getItemId() == R.id.action_search) {
-            openFragment(new EntrySearchFragment(), Navigation.Operation.REPLACE, true);
+            openFragment(new EntrySearchFragment(), true);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
+    public void openFragment(@NonNull Fragment fragment, boolean addToBackStack) {
         resetMainButton();
-        Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
+        Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.container, addToBackStack);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class MainActivity
     @Override
     public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference preference) {
         Fragment fragment = Navigation.instantiateFragment(preference, getSupportFragmentManager(), getClassLoader(), caller);
-        openFragment(fragment, Navigation.Operation.REPLACE, true);
+        openFragment(fragment, true);
         return true;
     }
 
@@ -259,23 +259,23 @@ public class MainActivity
             int itemId = menuItem.getItemId();
             if (itemId == R.id.nav_home) {
                 Navigation.clearBackStack(getSupportFragmentManager());
-                openFragment(new DashboardFragment(), Navigation.Operation.REPLACE, false);
+                openFragment(new DashboardFragment(), false);
             } else if (itemId == R.id.nav_timeline) {
                 Navigation.clearBackStack(getSupportFragmentManager());
-                openFragment(new TimelineFragment(), Navigation.Operation.REPLACE, false);
+                openFragment(new TimelineFragment(), false);
             } else if (itemId == R.id.nav_log) {
                 Navigation.clearBackStack(getSupportFragmentManager());
-                openFragment(new LogFragment(), Navigation.Operation.REPLACE, false);
+                openFragment(new LogFragment(), false);
             } else if (itemId == R.id.nav_calculator) {
-                openFragment(new CalculatorFragment(), Navigation.Operation.REPLACE, true);
+                openFragment(new CalculatorFragment(), true);
             } else if (itemId == R.id.nav_food_database) {
-                openFragment(FoodSearchFragment.newInstance(), Navigation.Operation.REPLACE, true);
+                openFragment(FoodSearchFragment.newInstance(), true);
             } else if (itemId == R.id.nav_statistics) {
-                openFragment(new StatisticFragment(), Navigation.Operation.REPLACE, true);
+                openFragment(new StatisticFragment(), true);
             } else if (itemId == R.id.nav_export) {
-                openFragment(new ExportFragment(), Navigation.Operation.REPLACE, true);
+                openFragment(new ExportFragment(), true);
             } else if (itemId == R.id.nav_settings) {
-                openFragment(new PreferenceOverviewFragment(), Navigation.Operation.REPLACE, true);
+                openFragment(new PreferenceOverviewFragment(), true);
             }
             selectMenuItemInNavigationView(menuItem);
         }

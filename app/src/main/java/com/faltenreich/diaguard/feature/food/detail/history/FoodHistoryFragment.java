@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFoodHistoryBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -99,7 +98,7 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
     private void openEntry(FoodEaten foodEaten) {
         if (foodEaten != null && foodEaten.getMeal() != null && foodEaten.getMeal().getEntry() != null) {
             Entry entry = foodEaten.getMeal().getEntry();
-            openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+            openFragment(EntryEditFragmentFactory.newInstance(entry), true);
         }
     }
 }

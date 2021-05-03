@@ -18,7 +18,6 @@ import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -75,7 +74,7 @@ public class TimelineFragment
         return MainButtonProperties.addButton(view -> {
             if (getContext() != null) {
                 // Date will not be passed through to compensate negative user feedback
-                openFragment(new EntryEditFragment(), Navigation.Operation.REPLACE, true);
+                openFragment(new EntryEditFragment(), true);
             }
         }, true);
     }

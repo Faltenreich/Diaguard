@@ -5,9 +5,5 @@ import androidx.fragment.app.Fragment;
 
 public interface Navigating {
 
-    void openFragment(
-        @NonNull Fragment fragment,
-        @NonNull Navigation.Operation operation,
-        boolean addToBackStack
-    );
+    void openFragment(@NonNull Fragment fragment, boolean addToBackStack);
 }

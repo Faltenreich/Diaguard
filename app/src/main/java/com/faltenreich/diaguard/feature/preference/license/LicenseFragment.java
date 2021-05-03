@@ -42,11 +42,11 @@ public class LicenseFragment extends BaseFragment<FragmentLicenseBinding> implem
         builder.setAboutShowVersionName(false);
         builder.setAboutShowVersionCode(false);
         Fragment fragment = builder.supportFragment();
-        openFragment(fragment, Navigation.Operation.REPLACE, false);
+        openFragment(fragment, false);
     }
 
     @Override
-    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
-        Navigation.openFragment(fragment, getChildFragmentManager(), R.id.fragment_container, operation, addToBackStack);
+    public void openFragment(@NonNull Fragment fragment, boolean addToBackStack) {
+        Navigation.openFragment(fragment, getChildFragmentManager(), R.id.fragment_container, addToBackStack);
     }
 }

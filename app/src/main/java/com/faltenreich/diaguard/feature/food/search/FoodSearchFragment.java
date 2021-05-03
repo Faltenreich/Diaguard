@@ -22,7 +22,6 @@ import com.faltenreich.diaguard.feature.food.detail.FoodDetailFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.SearchOwner;
 import com.faltenreich.diaguard.feature.navigation.SearchProperties;
 import com.faltenreich.diaguard.feature.navigation.Searching;
@@ -255,15 +254,15 @@ public class FoodSearchFragment
     }
 
     private void openSettings() {
-        openFragment(new FoodPreferenceFragment(), Navigation.Operation.REPLACE, true);
+        openFragment(new FoodPreferenceFragment(), true);
     }
 
     private void openFood(Food food) {
-        openFragment(FoodDetailFragment.newInstance(food.getId()), Navigation.Operation.REPLACE, true);
+        openFragment(FoodDetailFragment.newInstance(food.getId()), true);
     }
 
     private void createFood() {
-        openFragment(new FoodEditFragment(), Navigation.Operation.REPLACE, true);
+        openFragment(new FoodEditFragment(), true);
     }
 
     private void onEmptyButtonClick() {

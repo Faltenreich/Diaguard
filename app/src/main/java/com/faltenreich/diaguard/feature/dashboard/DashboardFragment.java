@@ -19,7 +19,6 @@ import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -263,11 +262,11 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     }
 
     private void openStatistics() {
-        openFragment(new StatisticFragment(), Navigation.Operation.REPLACE, true);
+        openFragment(new StatisticFragment(), true);
     }
 
     private void openEntry() {
-        openFragment(EntryEditFragmentFactory.newInstance(latestEntry), Navigation.Operation.REPLACE, true);
+        openFragment(EntryEditFragmentFactory.newInstance(latestEntry), true);
     }
 
     private void showHbA1cFormula() {
@@ -282,7 +281,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     public MainButtonProperties getMainButtonProperties() {
         return MainButtonProperties.addButton(view -> {
             if (getContext() != null) {
-                openFragment(new EntryEditFragment(), Navigation.Operation.REPLACE, true);
+                openFragment(new EntryEditFragment(), true);
             }
         }, false);
     }

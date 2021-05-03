@@ -24,7 +24,6 @@ import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -91,7 +90,7 @@ public class LogFragment
         return MainButtonProperties.addButton(view -> {
             if (getContext() != null) {
                 // Date will not be passed through to compensate negative user feedback
-                openFragment(new EntryEditFragment(), Navigation.Operation.REPLACE, true);
+                openFragment(new EntryEditFragment(), true);
             }
         }, true);
     }
@@ -210,21 +209,21 @@ public class LogFragment
     @Override
     public void onEntrySelected(Entry entry) {
         if (isAdded()) {
-            openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+            openFragment(EntryEditFragmentFactory.newInstance(entry), true);
         }
     }
 
     @Override
     public void onTagSelected(Tag tag, View view) {
         if (isAdded()) {
-            openFragment(EntrySearchFragment.newInstance(tag), Navigation.Operation.REPLACE, true);
+            openFragment(EntrySearchFragment.newInstance(tag), true);
         }
     }
 
     @Override
     public void onDateSelected(DateTime dateTime) {
         if (isAdded()) {
-            openFragment(EntryEditFragmentFactory.newInstance(dateTime), Navigation.Operation.REPLACE, true);
+            openFragment(EntryEditFragmentFactory.newInstance(dateTime), true);
         }
     }
 

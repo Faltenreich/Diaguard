@@ -29,7 +29,6 @@ public class Navigation {
         @NonNull Fragment fragment,
         @NonNull FragmentManager fragmentManager,
         @IdRes int containerResId,
-        @NonNull Operation operation,
         boolean addToBackStack
     ) {
         Fragment currentFragment = getCurrentFragment(fragmentManager, containerResId);
@@ -38,20 +37,10 @@ public class Navigation {
         if (!isActive) {
             String tag = fragment.getClass().getSimpleName();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-            switch (operation) {
-                case ADD:
-                    transaction.add(containerResId, fragment, tag);
-                    break;
-                case REPLACE:
-                    transaction.replace(containerResId, fragment, tag);
-                    break;
-            }
-
+            transaction.replace(containerResId, fragment, tag);
             if (addToBackStack) {
                 transaction.addToBackStack(tag);
             }
-
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.commit();
         }

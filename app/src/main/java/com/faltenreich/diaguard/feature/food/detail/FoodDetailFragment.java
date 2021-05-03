@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.databinding.FragmentFoodDetailBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.food.FoodActions;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -107,10 +106,10 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
     }
 
     private void eatFood() {
-        openFragment(EntryEditFragmentFactory.newInstance(food), Navigation.Operation.REPLACE, true);
+        openFragment(EntryEditFragmentFactory.newInstance(food), true);
     }
 
     private void editFood() {
-        openFragment(FoodEditFragment.newInstance(foodId), Navigation.Operation.REPLACE, true);
+        openFragment(FoodEditFragment.newInstance(foodId), true);
     }
 }

@@ -33,7 +33,6 @@ import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
@@ -555,17 +554,17 @@ public class EntryEditFragment
     }
 
     private void openCategorySettings() {
-        openFragment(new CategoryListFragment(), Navigation.Operation.REPLACE, true);
+        openFragment(new CategoryListFragment(), true);
     }
 
     private void openTagSettings() {
-        openFragment(new TagListFragment(), Navigation.Operation.REPLACE, true);
+        openFragment(new TagListFragment(), true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSearchEvent event) {
         if (isAdded()) {
-            openFragment(FoodSearchFragment.newInstance(true), Navigation.Operation.REPLACE, true);
+            openFragment(FoodSearchFragment.newInstance(true), true);
         }
     }
 }

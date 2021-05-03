@@ -17,7 +17,6 @@ import com.faltenreich.diaguard.feature.food.input.FoodInputView;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -343,7 +342,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     private void openEntry(Entry entry) {
-        openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+        openFragment(EntryEditFragmentFactory.newInstance(entry), true);
     }
 
     @Override
@@ -354,7 +353,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSearchEvent event) {
         if (isAdded()) {
-            openFragment(FoodSearchFragment.newInstance(true), Navigation.Operation.REPLACE, true);
+            openFragment(FoodSearchFragment.newInstance(true), true);
         }
     }
 

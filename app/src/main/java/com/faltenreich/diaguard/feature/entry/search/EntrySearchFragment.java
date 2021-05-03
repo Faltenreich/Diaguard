@@ -17,7 +17,6 @@ import com.faltenreich.diaguard.databinding.FragmentEntrySearchBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryViewHolder;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.SearchOwner;
 import com.faltenreich.diaguard.feature.navigation.SearchProperties;
 import com.faltenreich.diaguard.feature.navigation.Searching;
@@ -225,7 +224,7 @@ public class EntrySearchFragment
 
     @Override
     public void onEntrySelected(Entry entry) {
-        openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+        openFragment(EntryEditFragmentFactory.newInstance(entry), true);
     }
 
     @Override
@@ -237,6 +236,6 @@ public class EntrySearchFragment
 
     @Override
     public void onDateSelected(DateTime dateTime) {
-        openFragment(EntryEditFragmentFactory.newInstance(dateTime), Navigation.Operation.REPLACE, true);
+        openFragment(EntryEditFragmentFactory.newInstance(dateTime), true);
     }
 }

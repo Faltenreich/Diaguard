@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.feature.dashboard;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,7 +17,6 @@ import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
-import com.faltenreich.diaguard.feature.navigation.MainActivity;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
@@ -31,6 +32,8 @@ import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
@@ -44,6 +47,31 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.Minutes;
 
 public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> implements ToolbarDescribing, MainButton {
+
+    private ViewGroup latestLayout;
+    private TextView latestValueLabel;
+    private TextView latestTimeLabel;
+    private TextView latestAgoLabel;
+
+    private ViewGroup todayLayout;
+    private TextView totalCountLabel;
+    private TextView hyperglycemiaCountLabel;
+    private TextView hypoglycemiaCountLabel;
+
+    private ViewGroup averageLayout;
+    private TextView averageDayLabel;
+    private TextView averageWeekLabel;
+    private TextView averageMonthLabel;
+
+    private ViewGroup trendLayout;
+    private LineChart chartView;
+
+    private ViewGroup hba1cLayout;
+    private TextView hba1cLabel;
+
+    private ViewGroup alarmLayout;
+    private TextView alarmLabel;
+    private ImageView alarmDeleteButton;
 
     private Entry latestEntry;
 
@@ -63,22 +91,45 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     @Override
     public void onViewCreated (@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindViews();
         initLayout();
         initializeChart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         updateContent();
     }
 
+    private void bindViews() {
+        latestLayout = getBinding().latestLayout;
+        latestValueLabel = getBinding().latestValueLabel;
+        latestTimeLabel = getBinding().latestTimeLabel;
+        latestAgoLabel = getBinding().latestAgoLabel;
+
+        todayLayout = getBinding().todayLayout;
+        totalCountLabel = getBinding().totalCountLabel;
+        hyperglycemiaCountLabel = getBinding().hyperglycemiaCountLabel;
+        hypoglycemiaCountLabel = getBinding().hypoglycemiaCountLabel;
+
+        averageLayout = getBinding().averageLayout;
+        averageDayLabel = getBinding().averageDayLabel;
+        averageWeekLabel = getBinding().averageWeekLabel;
+        averageMonthLabel = getBinding().averageMonthLabel;
+
+        trendLayout = getBinding().trendLayout;
+        chartView = getBinding().chartView;
+
+        hba1cLayout = getBinding().hba1cLayout;
+        hba1cLabel = getBinding().hba1cLabel;
+
+        alarmLayout = getBinding().alarmLayout.alarmLayout;
+        alarmLabel = getBinding().alarmLayout.alarmLabel;
+        alarmDeleteButton = getBinding().alarmLayout.alarmDeleteButton;
+    }
+
     private void initLayout() {
-        getBinding().latestLayout.setOnClickListener((view) -> openEntry());
-        getBinding().todayLayout.setOnClickListener((view) -> openStatistics());
-        getBinding().averageLayout.setOnClickListener((view) -> openStatistics());
-        getBinding().trendLayout.setOnClickListener((view) -> openStatistics());
-        getBinding().hba1cLayout.setOnClickListener((view) -> showHbA1cFormula());
+        latestLayout.setOnClickListener((view) -> openEntry());
+        todayLayout.setOnClickListener((view) -> openStatistics());
+        averageLayout.setOnClickListener((view) -> openStatistics());
+        trendLayout.setOnClickListener((view) -> openStatistics());
+        hba1cLayout.setOnClickListener((view) -> showHbA1cFormula());
     }
 
     private void updateContent() {
@@ -93,12 +144,12 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
         if (AlarmUtils.isAlarmSet()) {
             final long alarmIntervalInMillis = AlarmUtils.getAlarmInMillis() - DateTime.now().getMillis();
 
-            getBinding().alarmLayout.alarmLayout.setVisibility(View.VISIBLE);
-            getBinding().alarmLayout.alarmLabel.setText(String.format("%s %s",
+            alarmLayout.setVisibility(View.VISIBLE);
+            alarmLabel.setText(String.format("%s %s",
                     getString(R.string.alarm_reminder_in),
                     DateTimeUtils.parseInterval(getContext(), alarmIntervalInMillis)));
 
-            getBinding().alarmLayout.alarmDeleteButton.setOnClickListener(v -> {
+            alarmDeleteButton.setOnClickListener(v -> {
                 AlarmUtils.stopAlarm();
                 updateReminder();
 
@@ -108,76 +159,76 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
                 });
             });
         } else {
-            getBinding().alarmLayout.alarmLayout.setVisibility(View.GONE);
+            alarmLayout.setVisibility(View.GONE);
         }
     }
 
     private void updateLatest() {
-        if (getContext() != null) {
-            TextView latestValueLabel = getBinding().latestValueLabel;
-            TextView latestTimeLabel = getBinding().latestTimeLabel;
-            TextView latestAgoLabel = getBinding().latestAgoLabel;
-            if (latestEntry != null) {
-                latestValueLabel.setTextSize(54);
-                BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
+        if (getContext() == null) {
+            return;
+        }
+        if (latestEntry != null) {
+            latestValueLabel.setTextSize(54);
+            BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
 
-                // Value
-                latestValueLabel.setText(bloodSugar.toString());
+            // Value
+            latestValueLabel.setText(bloodSugar.toString());
 
-                // Highlighting
-                if (PreferenceStore.getInstance().limitsAreHighlighted()) {
-                    if (bloodSugar.getMgDl() > PreferenceStore.getInstance().getLimitHyperglycemia()) {
-                        latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-                    } else if (bloodSugar.getMgDl() < PreferenceStore.getInstance().getLimitHypoglycemia()) {
-                        latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
-                    } else {
-                        latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-                    }
+            // Highlighting
+            if (PreferenceStore.getInstance().limitsAreHighlighted()) {
+                if (bloodSugar.getMgDl() > PreferenceStore.getInstance().getLimitHyperglycemia()) {
+                    latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                } else if (bloodSugar.getMgDl() < PreferenceStore.getInstance().getLimitHypoglycemia()) {
+                    latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+                } else {
+                    latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
                 }
-
-                // Time
-                latestTimeLabel.setText(String.format("%s %s - ",
-                        Helper.getDateFormat().print(latestEntry.getDate()),
-                        Helper.getTimeFormat().print(latestEntry.getDate())));
-                int differenceInMinutes = Minutes.minutesBetween(latestEntry.getDate(), new DateTime()).getMinutes();
-
-                // Highlight if last measurement is more than eight hours ago
-                latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-                if (differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
-                    latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-                }
-
-                latestAgoLabel.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
-            } else {
-                latestValueLabel.setTextSize(32);
-                latestValueLabel.setText(R.string.first_visit);
-                latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-
-                latestTimeLabel.setText(R.string.first_visit_desc);
-                latestAgoLabel.setText(null);
-                latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_darker));
             }
+
+            // Time
+            latestTimeLabel.setText(String.format("%s %s - ",
+                    Helper.getDateFormat().print(latestEntry.getDate()),
+                    Helper.getTimeFormat().print(latestEntry.getDate())));
+            int differenceInMinutes = Minutes.minutesBetween(latestEntry.getDate(), new DateTime()).getMinutes();
+
+            // Highlight if last measurement is more than eight hours ago
+            latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+            if (differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
+                latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+            }
+
+            latestAgoLabel.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
+        } else {
+            latestValueLabel.setTextSize(32);
+            latestValueLabel.setText(R.string.first_visit);
+            latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+
+            latestTimeLabel.setText(R.string.first_visit_desc);
+            latestAgoLabel.setText(null);
+            latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_darker));
         }
     }
 
     private void updateDashboard() {
         new DashboardTask(getContext(), values -> {
             if (isAdded() && values != null && values.length == 7) {
-                getBinding().totalCountLabel.setText(values[0]);
-                getBinding().hyperglycemiaCountLabel.setText(values[1]);
-                getBinding().hypoglycemiaCountLabel.setText(values[2]);
-                getBinding().averageDayLabel.setText(values[3]);
-                getBinding().averageWeekLabel.setText(values[4]);
-                getBinding().averageMonthLabel.setText(values[5]);
-                getBinding().hba1cLabel.setText(values[6]);
+                totalCountLabel.setText(values[0]);
+                hyperglycemiaCountLabel.setText(values[1]);
+                hypoglycemiaCountLabel.setText(values[2]);
+                averageDayLabel.setText(values[3]);
+                averageWeekLabel.setText(values[4]);
+                averageMonthLabel.setText(values[5]);
+                hba1cLabel.setText(values[6]);
             }
         }).execute();
     }
 
     private void initializeChart() {
-        LineChart chartView = getBinding().chartView;
-        TimeSpan timeSpan = TimeSpan.WEEK;
+        if (getContext() == null) {
+            return;
+        }
 
+        TimeSpan timeSpan = TimeSpan.WEEK;
         ChartUtils.setChartDefaultStyle(chartView, Category.BLOODSUGAR);
 
         chartView.setTouchEnabled(false);
@@ -200,7 +251,6 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     }
 
     private void updateChart() {
-        LineChart chartView = getBinding().chartView;
         new MeasurementAverageTask(getContext(), Category.BLOODSUGAR, TimeSpan.WEEK, true, false, lineData -> {
             if (isAdded()) {
                 chartView.clear();
@@ -239,6 +289,20 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
+        if (isAdded()) {
+            updateContent();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EntryUpdatedEvent event) {
+        if (isAdded()) {
+            updateContent();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EntryDeletedEvent event) {
         if (isAdded()) {
             updateContent();
         }

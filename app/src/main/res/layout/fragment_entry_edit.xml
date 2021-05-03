@@ -205,12 +205,4 @@
         app:menu_icon="@drawable/ic_add"
         tools:ignore="RtlSymmetry" />
 
-    <!-- Placeholder for main fab -->
-    <com.github.clans.fab.FloatingActionButton
-        style="@style/FloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:visibility="invisible" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

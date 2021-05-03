@@ -20,6 +20,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFoodSearchBinding;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
+import com.faltenreich.diaguard.feature.navigation.MainButton;
+import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.SearchOwner;
 import com.faltenreich.diaguard.feature.navigation.SearchProperties;
@@ -46,7 +48,6 @@ import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDivi
 import com.faltenreich.diaguard.shared.view.recyclerview.pagination.EndlessRecyclerViewScrollListener;
 import com.faltenreich.diaguard.shared.view.search.SearchViewAction;
 import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
-import com.github.clans.fab.FloatingActionButton;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -55,7 +56,7 @@ import java.util.List;
 
 public class FoodSearchFragment
     extends BaseFragment<FragmentFoodSearchBinding>
-    implements ToolbarDescribing, Searching, SearchViewListener {
+    implements ToolbarDescribing, MainButton, Searching, SearchViewListener {
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
 
@@ -71,8 +72,6 @@ public class FoodSearchFragment
     private TextView emptyTitleLabel;
     private TextView emptyDescriptionLabel;
     private Button emptyButton;
-
-    private FloatingActionButton fab;
 
     private int currentPage;
     private boolean finishOnSelection;
@@ -108,6 +107,11 @@ public class FoodSearchFragment
             .setAction(new SearchViewAction(R.drawable.ic_more_vertical, R.string.menu_open, (view) -> openSettings()))
             .setSuggestions(PreferenceStore.getInstance().getInputQueries())
             .build();
+    }
+
+    @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.addButton((view) -> createFood(), true);
     }
 
     @Override
@@ -156,13 +160,11 @@ public class FoodSearchFragment
         emptyTitleLabel = getBinding().emptyTitleLabel;
         emptyDescriptionLabel = getBinding().emptyDescriptionLabel;
         emptyButton = getBinding().emptyButton;
-        fab = getBinding().fab;
     }
 
     private void initLayout() {
         getSearchOwner().setSearchQuery(null, false);
 
-        fab.setOnClickListener((view) -> createFood());
         emptyButton.setOnClickListener((view) -> onEmptyButtonClick());
 
         unitLabel.setText(PreferenceStore.getInstance().getLabelForMealPer100g(requireContext()));

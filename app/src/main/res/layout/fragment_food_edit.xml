@@ -1,136 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/fab_offset">
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/fab_offset">
+            android:layout_height="wrap_content"
+            android:background="?attr/backgroundColorSecondary"
+            android:divider="?android:listDivider"
+            android:orientation="vertical"
+            android:showDividers="middle">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/backgroundColorSecondary"
-                android:divider="?android:listDivider"
-                android:orientation="vertical"
-                android:showDividers="middle">
+                style="@style/LayoutRow"
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp"
+                tools:ignore="RtlSymmetry">
 
-                <LinearLayout
-                    style="@style/LayoutRow"
-                    android:paddingEnd="0dp"
-                    android:paddingRight="0dp"
-                    tools:ignore="RtlSymmetry">
+                <ImageView
+                    style="@style/LayoutRowImageMultiline"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginRight="0dp"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_edit"
+                    app:tint="?iconColorPrimary" />
 
-                    <ImageView
-                        style="@style/LayoutRowImageMultiline"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginRight="0dp"
-                        android:contentDescription="@null"
-                        app:srcCompat="@drawable/ic_edit"
-                        app:tint="?iconColorPrimary" />
-
-                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
-                        android:id="@+id/name_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/name"
-                        android:inputType="text"
-                        android:paddingStart="@dimen/margin_between"
-                        android:paddingLeft="@dimen/margin_between" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/LayoutRow"
-                    android:paddingEnd="0dp"
-                    android:paddingRight="0dp"
-                    tools:ignore="RtlSymmetry">
-
-                    <ImageView
-                        style="@style/LayoutRowImageMultiline"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginRight="0dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_business"
-                        app:tint="?iconColorPrimary" />
-
-                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
-                        android:id="@+id/brand_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/brand"
-                        android:inputType="text"
-                        android:paddingStart="@dimen/margin_between"
-                        android:paddingLeft="@dimen/margin_between" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/LayoutRow"
-                    android:paddingEnd="0dp"
-                    android:paddingRight="0dp"
-                    tools:ignore="RtlSymmetry">
-
-                    <ImageView
-                        style="@style/LayoutRowImageMultiline"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginRight="0dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_note"
-                        app:tint="?iconColorPrimary" />
-
-                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
-                        android:id="@+id/ingredients_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/ingredients"
-                        android:inputType="text"
-                        android:paddingStart="@dimen/margin_between"
-                        android:paddingLeft="@dimen/margin_between" />
-
-                </LinearLayout>
-
-                <TextView
-                    style="@style/Padding"
+                <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+                    android:id="@+id/name_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:listDivider"
-                    android:text="@string/nutriments_per_100g" />
-
-                <com.faltenreich.diaguard.feature.food.edit.NutrientInputLayout
-                    android:id="@+id/nutrient_input_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/backgroundColorPrimary"
-                    android:divider="?android:listDivider"
-                    android:orientation="vertical"
-                    android:showDividers="middle" />
+                    android:hint="@string/name"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/margin_between"
+                    android:paddingLeft="@dimen/margin_between" />
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+            <LinearLayout
+                style="@style/LayoutRow"
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp"
+                tools:ignore="RtlSymmetry">
 
-    </LinearLayout>
+                <ImageView
+                    style="@style/LayoutRowImageMultiline"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginRight="0dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_business"
+                    app:tint="?iconColorPrimary" />
 
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/FloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_done"
-        app:fab_colorNormal="?backgroundColorGreen"
-        app:layout_dodgeInsetEdges="bottom" />
+                <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+                    android:id="@+id/brand_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/brand"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/margin_between"
+                    android:paddingLeft="@dimen/margin_between" />
 
-</FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LayoutRow"
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp"
+                tools:ignore="RtlSymmetry">
+
+                <ImageView
+                    style="@style/LayoutRowImageMultiline"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginRight="0dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_note"
+                    app:tint="?iconColorPrimary" />
+
+                <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+                    android:id="@+id/ingredients_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/ingredients"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/margin_between"
+                    android:paddingLeft="@dimen/margin_between" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/Padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:listDivider"
+                android:text="@string/nutriments_per_100g" />
+
+            <com.faltenreich.diaguard.feature.food.edit.NutrientInputLayout
+                android:id="@+id/nutrient_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/backgroundColorPrimary"
+                android:divider="?android:listDivider"
+                android:orientation="vertical"
+                android:showDividers="middle" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

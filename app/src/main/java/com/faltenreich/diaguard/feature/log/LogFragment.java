@@ -93,7 +93,7 @@ public class LogFragment
                 // Date will not be passed through to compensate negative user feedback
                 openFragment(new EntryEditFragment(), Navigation.Operation.REPLACE, true);
             }
-        });
+        }, true);
     }
 
     @Override

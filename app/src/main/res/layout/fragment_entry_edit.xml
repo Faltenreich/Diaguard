@@ -205,6 +205,7 @@
         app:menu_icon="@drawable/ic_add"
         tools:ignore="RtlSymmetry" />
 
+    <!-- Replace with main fab -->
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab"
         style="@style/FloatingActionButton"

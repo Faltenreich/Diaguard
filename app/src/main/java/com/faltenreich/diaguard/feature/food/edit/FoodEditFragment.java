@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFoodEditBinding;
 import com.faltenreich.diaguard.feature.food.FoodActions;
+import com.faltenreich.diaguard.feature.navigation.MainButton;
+import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.Helper;
@@ -25,7 +27,7 @@ import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
 import java.util.Map;
 
-public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> implements ToolbarDescribing {
+public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> implements ToolbarDescribing, MainButton {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
@@ -51,6 +53,11 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
             .setTitle(getContext(), foodId != null ? R.string.food_edit : R.string.food_new)
             .setMenu(R.menu.form_edit)
             .build();
+    }
+
+    @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.confirmButton((view) -> store(), false);
     }
 
     @Override
@@ -98,8 +105,6 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     }
 
     private void initLayout() {
-        getBinding().fab.setOnClickListener((view) -> store());
-
         getBinding().nameInput.setText(food != null ? food.getName() : null);
         getBinding().brandInput.setText(food != null ? food.getBrand() : null);
         getBinding().ingredientsInput.setText(food != null ? food.getIngredients() : null);

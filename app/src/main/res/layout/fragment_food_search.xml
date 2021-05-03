@@ -1,53 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?backgroundColorGreen"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/food"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_small" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?backgroundColorGreen"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/activity_horizontal_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin">
+        <TextView
+            android:id="@+id/unit_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_end"
+            android:layout_marginLeft="@dimen/padding_end"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_small" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/food"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_small" />
-
-                <TextView
-                    android:id="@+id/unit_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding_end"
-                    android:layout_marginLeft="@dimen/padding_end"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_small" />
-
-            </LinearLayout>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+    </LinearLayout>
 
     <com.faltenreich.diaguard.shared.view.swiperefreshlayout.ThemedSwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -112,17 +101,4 @@
 
     </com.faltenreich.diaguard.shared.view.swiperefreshlayout.ThemedSwipeRefreshLayout>
 
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/FloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/fab_add"
-        app:fab_colorNormal="?backgroundColorGreen"
-        app:layout_anchor="@id/list_view"
-        app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior"
-        app:layout_dodgeInsetEdges="bottom" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFactorBinding;
+import com.faltenreich.diaguard.feature.navigation.MainButton;
+import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.event.Events;
@@ -34,7 +36,7 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FactorFragment extends BaseFragment<FragmentFactorBinding> implements FactorViewHolder.Callback {
+public class FactorFragment extends BaseFragment<FragmentFactorBinding> implements FactorViewHolder.Callback, MainButton {
 
     private static final int X_AXIS_MINIMUM = 0;
     private static final int X_AXIS_MAXIMUM = DateTimeConstants.HOURS_PER_DAY;
@@ -51,6 +53,11 @@ public class FactorFragment extends BaseFragment<FragmentFactorBinding> implemen
     }
 
     @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.confirmButton((view) -> store(), false);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initArguments();
@@ -62,7 +69,6 @@ public class FactorFragment extends BaseFragment<FragmentFactorBinding> implemen
         super.onViewCreated(view, savedInstanceState);
         setTitle(factor.getTitle());
 
-        initButton();
         initSpinner();
         initChart();
         initList();
@@ -98,10 +104,6 @@ public class FactorFragment extends BaseFragment<FragmentFactorBinding> implemen
             FactorItem item = new FactorItem(hourOfDay, factor.getValueForHour(hourOfDay));
             items.add(item);
         }
-    }
-
-    private void initButton() {
-        getBinding().fab.setOnClickListener((view) -> store());
     }
 
     private void initSpinner() {

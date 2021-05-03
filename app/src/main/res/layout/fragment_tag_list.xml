@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -23,14 +22,4 @@
         android:text="@string/no_data"
         android:visibility="gone"/>
 
-    <com.github.clans.fab.FloatingActionButton
-        style="@style/FloatingActionButton"
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/fab_add"
-        app:fab_colorNormal="?backgroundColorGreen"
-        app:layout_dodgeInsetEdges="bottom"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

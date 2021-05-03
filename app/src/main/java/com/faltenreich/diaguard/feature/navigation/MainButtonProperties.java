@@ -39,15 +39,7 @@ public class MainButtonProperties {
         return new MainButtonProperties(R.drawable.fab_add, onClickListener, slideOut);
     }
 
-    public static MainButtonProperties addButton(View.OnClickListener onClickListener) {
-        return addButton(onClickListener, true);
-    }
-
     public static MainButtonProperties confirmButton(View.OnClickListener onClickListener, boolean slideOut) {
         return new MainButtonProperties(R.drawable.ic_done, onClickListener, slideOut);
-    }
-
-    public static MainButtonProperties confirmButton(View.OnClickListener onClickListener) {
-        return confirmButton(onClickListener, true);
     }
 }

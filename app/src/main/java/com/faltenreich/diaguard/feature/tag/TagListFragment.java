@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentTagListBinding;
+import com.faltenreich.diaguard.feature.navigation.MainButton;
+import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
@@ -24,7 +26,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.event.data.TagSavedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
-import com.github.clans.fab.FloatingActionButton;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -33,11 +34,10 @@ import java.util.List;
 
 public class TagListFragment
     extends BaseFragment<FragmentTagListBinding>
-    implements ToolbarDescribing, TagListener {
+    implements ToolbarDescribing, MainButton, TagListener {
 
     private RecyclerView listView;
     private TextView listPlaceholder;
-    private FloatingActionButton fab;
 
     private TagListAdapter listAdapter;
 
@@ -54,6 +54,11 @@ public class TagListFragment
     }
 
     @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.addButton((view) -> createTag(), true);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindViews();
@@ -65,12 +70,9 @@ public class TagListFragment
     private void bindViews() {
         listView = getBinding().listView;
         listPlaceholder = getBinding().listPlaceholder;
-        fab = getBinding().fab;
     }
 
     private void initLayout() {
-        fab.setOnClickListener((view) -> createTag());
-
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listAdapter = new TagListAdapter(getContext(), this);

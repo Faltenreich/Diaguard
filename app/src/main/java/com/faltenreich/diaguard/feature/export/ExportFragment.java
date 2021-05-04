@@ -287,7 +287,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     public void onSuccess(File file, String mimeType) {
         progressComponent.dismiss();
         if (file != null) {
-            ViewUtils.showToast(getContext(), getString(R.string.export_complete));
+            ViewUtils.showToast(getContext(), getString(R.string.export_complete, file.getAbsolutePath()));
             openFile(file);
         } else {
             onError();

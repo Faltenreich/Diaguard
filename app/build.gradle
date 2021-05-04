@@ -109,7 +109,9 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries-core:$aboutLibrariesVersion"
     implementation "com.mikepenz:aboutlibraries:$aboutLibrariesVersion"
 
-    implementation 'org.apache.commons:commons-text:1.8'
+    implementation 'org.apache.commons:commons-text:1.9'
+    // Workaround: Versioning is currently broken (https://github.com/square/picasso/issues/2179)
+    //noinspection GradleDependency
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.opencsv:opencsv:3.10'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

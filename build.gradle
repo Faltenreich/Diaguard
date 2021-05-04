@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        aboutLibrariesVersion = '8.6.3'
+        aboutLibrariesVersion = '8.8.5'
 
         repos = {
             google()

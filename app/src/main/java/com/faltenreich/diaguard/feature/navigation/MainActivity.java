@@ -271,7 +271,7 @@ public class MainActivity
         if (properties != null) {
             CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(fab);
             if (behavior instanceof SlideOutBehavior) {
-                ((SlideOutBehavior) behavior).setSlideOut(properties.slideOut());
+                ((SlideOutBehavior) behavior).setSlideOut(properties.slideOutOnScroll());
             }
         }
     }

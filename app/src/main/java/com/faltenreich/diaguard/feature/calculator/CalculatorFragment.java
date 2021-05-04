@@ -68,6 +68,11 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.confirmButton(v -> calculate(), false);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         meal = new Meal();
@@ -343,11 +348,6 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
 
     private void openEntry(Entry entry) {
         openFragment(EntryEditFragmentFactory.newInstance(entry), true);
-    }
-
-    @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.confirmButton(v -> calculate(), false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

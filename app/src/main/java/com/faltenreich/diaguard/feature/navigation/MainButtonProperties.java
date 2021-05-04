@@ -8,18 +8,24 @@ import com.faltenreich.diaguard.R;
 
 public class MainButtonProperties {
 
-    @DrawableRes
-    private final int iconDrawableResId;
+    @DrawableRes private final int iconDrawableResId;
     private final View.OnClickListener onClickListener;
-    private final boolean slideOut;
+    private final boolean slideOutOnScroll;
 
-    public MainButtonProperties(@DrawableRes int iconDrawableResId, View.OnClickListener onClickListener, boolean slideOut) {
+    public MainButtonProperties(
+        @DrawableRes int iconDrawableResId,
+        View.OnClickListener onClickListener,
+        boolean slideOutOnScroll
+    ) {
         this.iconDrawableResId = iconDrawableResId;
         this.onClickListener = onClickListener;
-        this.slideOut = slideOut;
+        this.slideOutOnScroll = slideOutOnScroll;
     }
 
-    public MainButtonProperties(@DrawableRes int iconDrawableResId, View.OnClickListener onClickListener) {
+    public MainButtonProperties(
+        @DrawableRes int iconDrawableResId,
+        View.OnClickListener onClickListener
+    ) {
         this(iconDrawableResId, onClickListener, true);
     }
 
@@ -31,8 +37,8 @@ public class MainButtonProperties {
         return onClickListener;
     }
 
-    public boolean slideOut() {
-        return slideOut;
+    public boolean slideOutOnScroll() {
+        return slideOutOnScroll;
     }
 
     public static MainButtonProperties addButton(View.OnClickListener onClickListener, boolean slideOut) {

@@ -66,12 +66,14 @@ public class StickyHintInputView extends LinearLayout implements ViewBindable<Vi
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(state);
         if (state instanceof SavedState) {
             SavedState savedState = (SavedState) state;
             inputField.setText(savedState.text);
             hint = savedState.hint;
             inputType = savedState.inputType;
+            super.onRestoreInstanceState(savedState.getSuperState());
+        } else {
+            super.onRestoreInstanceState(state);
         }
     }
 

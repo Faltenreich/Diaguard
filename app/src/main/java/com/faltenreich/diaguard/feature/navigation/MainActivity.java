@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.navigation;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
@@ -232,9 +234,13 @@ public class MainActivity
         }
     }
 
+    @SuppressLint("RestrictedApi")
     private void invalidateMainButton(@Nullable MainButton mainButton) {
         MainButtonProperties properties = mainButton != null ? mainButton.getMainButtonProperties() : null;
-        fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
+        // Workaround: ContextCompat.getDrawable() throws exception on Android 4
+        fab.setImageDrawable(AppCompatDrawableManager.get().getDrawable(this, properties != null
+            ? properties.getIconDrawableResId()
+            : android.R.color.transparent));
         fab.setOnClickListener(properties != null ? (View.OnClickListener) view -> {
             // Prevent redundant clicks
             fab.setEnabled(false);

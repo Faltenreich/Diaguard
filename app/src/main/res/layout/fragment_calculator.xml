@@ -62,7 +62,7 @@
                         style="@style/LayoutRowImage"
                         android:layout_margin="0dp"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_done"
+                        app:srcCompat="@drawable/ic_done"
                         app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView

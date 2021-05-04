@@ -376,7 +376,9 @@ public class EntryEditFragment
                     Category category = activeCategories[position];
                     if (visibleCategories[position]) {
                         scrollView.smoothScrollTo(0, 0);
-                        addCategory(category);
+                        if (!hasCategory(category)) {
+                            addCategory(category);
+                        }
                     } else {
                         removeCategory(category);
                     }

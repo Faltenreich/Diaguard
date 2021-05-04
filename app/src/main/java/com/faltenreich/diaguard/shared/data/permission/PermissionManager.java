@@ -18,7 +18,7 @@ public class PermissionManager {
     }
 
     public boolean hasPermission(Activity activity, Permission permission) {
-        return ContextCompat.checkSelfPermission(activity, permission.code) == PackageManager.PERMISSION_GRANTED;
+        return permission.isGrantedImplicitly() || ContextCompat.checkSelfPermission(activity, permission.code) == PackageManager.PERMISSION_GRANTED;
     }
 
     public void requestPermission(Activity activity, Permission permission, PermissionUseCase useCase) {

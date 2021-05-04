@@ -7,13 +7,15 @@ import androidx.annotation.ColorRes;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 /**
  * Created by Filip on 30.06.2015.
@@ -28,7 +30,7 @@ public class ChartUtils {
     private static final float VIEW_PORT_OFFSET = 10;
     private static final float TEXT_SIZE = 14;
 
-    public static void setChartDefaultStyle(BarLineChartBase chart, final Category category) {
+    public static void setChartDefaultStyle(BarLineChartBase<?> chart, final Category category) {
         Context context = chart.getContext();
         int textColor = ContextCompat.getColor(context, R.color.gray_darker);
         int gridColor = ContextCompat.getColor(context, android.R.color.darker_gray);
@@ -63,7 +65,12 @@ public class ChartUtils {
         float yAxisMinValue = PreferenceStore.getInstance().getExtrema(category)[0] * .9f;
         float yAxisMinCustomValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
         chart.getAxisLeft().setAxisMinimum(yAxisMinCustomValue);
-        chart.getAxisLeft().setValueFormatter((value, axis) -> FloatUtils.parseFloat(value));
+        chart.getAxisLeft().setValueFormatter(new ValueFormatter() {
+           @Override
+           public String getAxisLabel(float value, AxisBase axis) {
+               return FloatUtils.parseFloat(value);
+           }
+       });
     }
 
     public static LimitLine getLimitLine(Context context, float yValue, @ColorRes int color) {

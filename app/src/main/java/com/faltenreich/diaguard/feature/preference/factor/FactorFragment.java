@@ -26,9 +26,11 @@ import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.joda.time.DateTimeConstants;
@@ -155,9 +157,12 @@ public class FactorFragment extends BaseFragment<FragmentFactorBinding> implemen
         chartView.getXAxis().setAxisMinimum(X_AXIS_MINIMUM);
         chartView.getXAxis().setAxisMaximum(X_AXIS_MAXIMUM);
         chartView.getXAxis().setLabelCount((X_AXIS_MAXIMUM / 2) + 1);
-        chartView.getXAxis().setValueFormatter((value, axis) -> {
-            boolean showValue = value < X_AXIS_MAXIMUM;
-            return showValue ? Integer.toString((int) value) : "";
+        chartView.getXAxis().setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                boolean showValue = value < X_AXIS_MAXIMUM;
+                return showValue ? Integer.toString((int) value) : "";
+            }
         });
 
         chartView.setViewPortOffsets(

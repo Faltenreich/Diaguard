@@ -12,6 +12,8 @@ import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
 import com.faltenreich.diaguard.shared.view.listener.OnItemSelectedListener;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
@@ -54,10 +56,13 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
             getXAxis().setGridLineWidth(1f);
             getXAxis().setGridColor(gridColor);
             getXAxis().setTextColor(textColor);
-            getXAxis().setValueFormatter((value, axis) -> {
-                int minute = (int) value;
-                int hour = minute / DateTimeConstants.MINUTES_PER_HOUR;
-                return hour < DateTimeConstants.HOURS_PER_DAY ? Integer.toString(hour) : "";
+            getXAxis().setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getAxisLabel(float value, AxisBase axis) {
+                    int minute = (int) value;
+                    int hour = minute / DateTimeConstants.MINUTES_PER_HOUR;
+                    return hour < DateTimeConstants.HOURS_PER_DAY ? Integer.toString(hour) : "";
+                }
             });
             getXAxis().setAxisMinimum(0);
             getXAxis().setAxisMaximum(DateTimeConstants.MINUTES_PER_DAY);

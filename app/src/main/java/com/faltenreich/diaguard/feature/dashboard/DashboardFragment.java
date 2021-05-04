@@ -38,6 +38,8 @@ import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -241,10 +243,13 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
                 formatDefaultToCustomUnit(Category.BLOODSUGAR,
                         PreferenceStore.getInstance().getTargetValue());
         chartView.getAxisLeft().addLimitLine(ChartUtils.getLimitLine(getContext(), targetValue, R.color.gray_light));
-        chartView.getXAxis().setValueFormatter((value, axis) -> {
-            int daysPast = -(timeSpan.stepsPerInterval - (int) value);
-            DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
-            return timeSpan.getLabel(dateTime);
+        chartView.getXAxis().setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                int daysPast = -(timeSpan.stepsPerInterval - (int) value);
+                DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
+                return timeSpan.getLabel(dateTime);
+            }
         });
         chartView.getXAxis().setAxisMaximum(timeSpan.stepsPerInterval);
     }

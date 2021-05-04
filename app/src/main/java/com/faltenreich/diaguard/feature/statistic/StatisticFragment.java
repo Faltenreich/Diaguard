@@ -29,7 +29,9 @@ import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.joda.time.DateTime;
@@ -139,10 +141,13 @@ public class StatisticFragment extends BaseFragment<FragmentStatisticBinding> im
         chartView.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         chartView.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         chartView.getXAxis().setTextColor(textColor);
-        chartView.getXAxis().setValueFormatter((value, axis) -> {
-            int daysPast = -(timeSpan.stepsPerInterval - (int) value);
-            DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
-            return timeSpan.getLabel(dateTime);
+        chartView.getXAxis().setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                int daysPast = -(timeSpan.stepsPerInterval - (int) value);
+                DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
+                return timeSpan.getLabel(dateTime);
+            }
         });
         chartView.setTouchEnabled(false);
     }

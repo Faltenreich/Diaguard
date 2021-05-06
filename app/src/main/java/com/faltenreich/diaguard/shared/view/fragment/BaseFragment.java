@@ -17,7 +17,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewbinding.ViewBinding;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.navigation.MainActivity;
 import com.faltenreich.diaguard.feature.navigation.Navigating;
 import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
@@ -129,12 +128,6 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
 
     public void setTitle(@StringRes int titleResId) {
         setTitle(getString(titleResId));
-    }
-
-    protected void showFragment(Fragment fragment) {
-        if (getActivity() != null && getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).openFragment(fragment, true);
-        }
     }
 
     protected void finish() {

@@ -275,7 +275,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private void openHistory() {
-        showFragment(new ExportHistoryFragment());
+        openFragment(new ExportHistoryFragment(), true);
     }
 
     @Override

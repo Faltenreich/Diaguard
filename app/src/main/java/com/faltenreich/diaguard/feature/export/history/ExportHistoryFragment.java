@@ -135,6 +135,8 @@ public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBin
         int position = listAdapter.getItemPosition(item);
         listAdapter.removeItem(position);
         listAdapter.notifyItemRemoved(position);
+
+        listPlaceholder.setVisibility(listAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

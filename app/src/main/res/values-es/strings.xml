@@ -122,6 +122,7 @@
     <string name="days">Días</string>
     <string name="week">Semana</string>
     <string name="month">Mes</string>
+    <string name="quarter">Cuarto</string>
 
     <string-array name="weekdays">
         <item>Lunes</item>

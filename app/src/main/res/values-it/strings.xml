@@ -165,6 +165,7 @@
     <string name="week">Settimana</string>
     <string name="month">Mese</string>
     <string name="months">Mesi</string>
+    <string name="quarter">Trimestre</string>
     <string name="year">Anno</string>
 
     <string-array name="weekdays">

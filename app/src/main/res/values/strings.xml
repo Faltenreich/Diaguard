@@ -218,13 +218,8 @@
     <string name="week">Week</string>
     <string name="month">Month</string>
     <string name="months">Months</string>
+    <string name="quarter">Quarter</string>
     <string name="year">Year</string>
-
-    <string-array name="array_interval">
-        <item>@string/week</item>
-        <item>@string/month</item>
-        <item>@string/year</item>
-    </string-array>
 
     <string-array name="weekdays">
         <item>Monday</item>

@@ -15,26 +15,27 @@ import org.joda.time.Interval;
  */
 public enum TimeSpan {
 
-    WEEK(R.string.week, R.string.day, DateTimeConstants.DAYS_PER_WEEK),
-    MONTH(R.string.month, R.string.calendarweek, 4),
-    YEAR(R.string.year, R.string.month, 12);
+    WEEK(R.string.week, DateTimeConstants.DAYS_PER_WEEK),
+    MONTH(R.string.month, 4),
+    QUARTER(R.string.quarter, 3),
+    YEAR(R.string.year, 12, 6);
 
     private final int intervalStringResId;
-    private final int subIntervalStringResId;
     public final int stepsPerInterval;
+    public final int stepsPerIntervalForUi;
 
-    TimeSpan(@StringRes int intervalStringResId, @StringRes int subIntervalStringResId, int stepsPerInterval) {
+    TimeSpan(@StringRes int intervalStringResId, int stepsPerInterval, int stepsPerIntervalForUi) {
         this.intervalStringResId = intervalStringResId;
-        this.subIntervalStringResId = subIntervalStringResId;
         this.stepsPerInterval = stepsPerInterval;
+        this.stepsPerIntervalForUi = stepsPerIntervalForUi;
+    }
+
+    TimeSpan(@StringRes int intervalStringResId, int stepsPerInterval) {
+        this(intervalStringResId, stepsPerInterval, stepsPerInterval);
     }
 
     public String toIntervalLabel(Context context) {
         return context.getString(intervalStringResId);
-    }
-
-    public String toSubIntervalLabel(Context context) {
-        return context.getString(subIntervalStringResId);
     }
 
     public Interval getInterval(DateTime dateTime, int add) {
@@ -43,6 +44,8 @@ public enum TimeSpan {
                 return new Interval(dateTime.plusWeeks(add), dateTime);
             case MONTH:
                 return new Interval(dateTime.plusMonths(add), dateTime);
+            case QUARTER:
+                return new Interval(dateTime.plusMonths(add * 3), dateTime);
             case YEAR:
                 return new Interval(dateTime.plusYears(add), dateTime);
             default:
@@ -56,6 +59,7 @@ public enum TimeSpan {
                 return dateTime.plusDays(add);
             case MONTH:
                 return dateTime.plusWeeks(add);
+            case QUARTER:
             case YEAR:
                 return dateTime.plusMonths(add);
             default:
@@ -69,6 +73,7 @@ public enum TimeSpan {
                 return DateTimeUtils.toWeekDayShort(dateTime);
             case MONTH:
                 return dateTime.toString("w");
+            case QUARTER:
             case YEAR:
                 return dateTime.toString("MMM");
             default:

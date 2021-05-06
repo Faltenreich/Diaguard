@@ -117,6 +117,7 @@
     <string name="days">Jours</string>
     <string name="week">Semaine</string>
     <string name="month">Mois</string>
+    <string name="quarter">Trimestre</string>
 
     <string-array name="weekdays">
         <item>Lundi</item>

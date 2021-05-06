@@ -163,6 +163,7 @@
     <string name="days">Tagen</string>
     <string name="week">Woche</string>
     <string name="month">Monat</string>
+    <string name="quarter">Quartal</string>
     <string name="year">Jahr</string>
 
     <string-array name="weekdays">

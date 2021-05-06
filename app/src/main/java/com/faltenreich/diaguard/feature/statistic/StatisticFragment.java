@@ -46,8 +46,6 @@ import java.util.List;
 
 public class StatisticFragment extends BaseFragment<FragmentStatisticBinding> implements ToolbarDescribing {
 
-    private static final int MIN_MAX_Y_VALUE = 3;
-
     private TimeSpan timeSpan;
     private Category category;
 
@@ -238,9 +236,8 @@ public class StatisticFragment extends BaseFragment<FragmentStatisticBinding> im
                     float yAxisMinCustomValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
                     chartView.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
 
-                    float yAxisMaxCustomValue = lineData.getYMax();
-                    yAxisMaxCustomValue = yAxisMaxCustomValue > MIN_MAX_Y_VALUE ? yAxisMaxCustomValue : MIN_MAX_Y_VALUE;
-                    chartView.getAxisLeft().setAxisMaxValue(yAxisMaxCustomValue * 1.1f);
+                    chartView.getAxisLeft().setAxisMinimum(lineData.getYMin() * .95f);
+                    chartView.getAxisLeft().setAxisMaximum(lineData.getYMax() * 1.05f);
 
                     if (category == Category.BLOODSUGAR) {
                         float targetValue = PreferenceStore.getInstance().
@@ -262,6 +259,7 @@ public class StatisticFragment extends BaseFragment<FragmentStatisticBinding> im
 
                     chartView.setData(lineData);
                     chartView.getXAxis().setAxisMinimum(0);
+                    chartView.getXAxis().setLabelCount(timeSpan.stepsPerIntervalForUi);
                     chartView.getXAxis().setAxisMaximum(timeSpan.stepsPerInterval);
                     chartView.invalidate();
                 } else {

@@ -425,7 +425,7 @@ public class EntryEditFragment
         return inputIsValid;
     }
 
-    private void trySubmit() {
+    protected void trySubmit() {
         // Convenience: Accept tag that hasn't been submitted by user
         String missingTag = tagInput.getText().toString();
         if (!StringUtils.isBlank(missingTag)) {

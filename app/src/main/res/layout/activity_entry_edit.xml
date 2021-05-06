@@ -18,11 +18,21 @@
 
     </FrameLayout>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container"
-        android:name="com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_entry_edit" />
+        android:layout_height="match_parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container"
+            android:name="com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_entry_edit" />
+
+        <include
+            android:id="@+id/fab_container"
+            layout="@layout/view_fab" />
+
+    </FrameLayout>
 
 </LinearLayout>

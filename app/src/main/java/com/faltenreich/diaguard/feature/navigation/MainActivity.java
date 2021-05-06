@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.navigation;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -248,37 +247,22 @@ public class MainActivity
             fab.setEnabled(true);
         } : null);
 
-        boolean isShown = fab.getVisibility() == View.VISIBLE;
+        boolean isShown = fab.getTranslationY() == 0;
         boolean shouldShow = properties != null;
         boolean changes = isShown != shouldShow;
+        // FIXME: FAB is wrongly visible when slid-out and navigating to fragment without fab
         if (changes) {
-            fab.setVisibility(View.VISIBLE);
             float from = fab.getTranslationY();
             float to = shouldShow ? 0 : fabOffset;
             ObjectAnimator animation = ObjectAnimator.ofFloat(fab, "translationY", from, to);
             animation.setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
-            animation.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {}
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    if (!shouldShow) {
-                        fab.setVisibility(View.GONE);
-                    }
-                }
-                @Override
-                public void onAnimationCancel(Animator animation) {}
-                @Override
-                public void onAnimationRepeat(Animator animation) {}
-            });
             animation.start();
         }
 
-        if (properties != null) {
-            CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(fab);
-            if (behavior instanceof SlideOutBehavior) {
-                ((SlideOutBehavior) behavior).setSlideOut(properties.slideOutOnScroll());
-            }
+        CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(fab);
+        if (behavior instanceof SlideOutBehavior) {
+            boolean slideOut = properties != null && properties.slideOutOnScroll();
+            ((SlideOutBehavior) behavior).setSlideOut(slideOut);
         }
     }
 

@@ -146,6 +146,7 @@ public class SearchView extends FrameLayout implements ViewBindable<ViewSearchBi
             inputField.setText(query);
             inputField.addTextChangedListener(this);
         }
+        invalidateLayout();
     }
 
     @Override

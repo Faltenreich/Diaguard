@@ -35,8 +35,6 @@ import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
-import com.faltenreich.diaguard.shared.event.data.FoodQueryEndedEvent;
-import com.faltenreich.diaguard.shared.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodSavedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSearchedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
@@ -120,20 +118,29 @@ public class FoodSearchFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestArguments();
+        init();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        boolean isRecreated = listView != null;
+
         bindViews();
         initLayout();
+
+        if (!isRecreated) {
+            getSearchOwner().setSearchQuery(null, false);
+            newSearch();
+        } else {
+            invalidateEmptyView();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Events.register(this);
-        newSearch();
     }
 
     @Override
@@ -143,9 +150,11 @@ public class FoodSearchFragment
     }
 
     private void requestArguments() {
-        if (getArguments() != null) {
-            finishOnSelection = getArguments().getBoolean(FINISH_ON_SELECTION);
-        }
+        finishOnSelection = getArguments() != null && getArguments().getBoolean(FINISH_ON_SELECTION);
+    }
+
+    private void init() {
+        listAdapter = new FoodSearchListAdapter(getContext());
     }
 
     private void bindViews() {
@@ -160,17 +169,12 @@ public class FoodSearchFragment
     }
 
     private void initLayout() {
-        getSearchOwner().setSearchQuery(null, false);
-
         emptyButton.setOnClickListener((view) -> onEmptyButtonClick());
-
         unitLabel.setText(PreferenceStore.getInstance().getLabelForMealPer100g(requireContext()));
 
-        SwipeRefreshLayout swipeRefreshLayout = this.swipeRefreshLayout;
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
         swipeRefreshLayout.setOnRefreshListener(this::newSearch);
 
-        listAdapter = new FoodSearchListAdapter(getContext());
         listLayoutManager = new LinearLayoutManager(getContext());
         EndlessRecyclerViewScrollListener listScrollListener = new EndlessRecyclerViewScrollListener(listLayoutManager) {
             @Override
@@ -183,6 +187,14 @@ public class FoodSearchFragment
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
         listView.addOnScrollListener(listScrollListener);
+    }
+
+    private void invalidateEmptyView() {
+        if (listAdapter.getItemCount() == 0) {
+            showEmptyList();
+        } else {
+            hideEmptyList();
+        }
     }
 
     private void newSearch() {
@@ -200,7 +212,6 @@ public class FoodSearchFragment
     }
 
     private void addItems(List<FoodSearchListItem> items) {
-        currentPage++;
         boolean hasItems = items.size() > 0;
         if (hasItems) {
             int oldSize = listAdapter.getItemCount();
@@ -212,8 +223,13 @@ public class FoodSearchFragment
                 }
             }
             listAdapter.notifyItemRangeInserted(oldSize, newCount);
+
+            currentPage++;
+            continueSearch();
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+            invalidateEmptyView();
         }
-        Events.post(new FoodQueryEndedEvent(hasItems));
     }
 
     private void removeItem(Food food) {
@@ -234,15 +250,20 @@ public class FoodSearchFragment
     }
 
     private void showEmptyList() {
-        if (getContext() != null) {
-            if (StringUtils.isBlank(getSearchOwner().getSearchQuery())) {
-                showError(R.drawable.ic_settings, R.string.error_no_data, R.string.error_no_data_settings_desc, R.string.settings_open);
-            } else if (NetworkingUtils.isOnline(getContext())) {
-                showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc, R.string.food_add_desc);
-            } else {
-                showError(R.drawable.ic_wifi, R.string.error_no_connection, R.string.error_no_connection_desc, R.string.try_again);
-            }
+        if (getContext() == null) {
+            return;
         }
+        if (StringUtils.isBlank(getSearchOwner().getSearchQuery())) {
+            showError(R.drawable.ic_settings, R.string.error_no_data, R.string.error_no_data_settings_desc, R.string.settings_open);
+        } else if (NetworkingUtils.isOnline(getContext())) {
+            showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc, R.string.food_add_desc);
+        } else {
+            showError(R.drawable.ic_wifi, R.string.error_no_connection, R.string.error_no_connection_desc, R.string.try_again);
+        }
+    }
+
+    private void hideEmptyList() {
+        emptyView.setVisibility(View.GONE);
     }
 
     private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, @StringRes int buttonTextResId) {
@@ -276,21 +297,6 @@ public class FoodSearchFragment
             } else {
                 createFood();
             }
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(FoodQueryStartedEvent event) {
-        if (listAdapter.getItemCount() == 0) {
-            swipeRefreshLayout.setRefreshing(true);
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(FoodQueryEndedEvent event) {
-        swipeRefreshLayout.setRefreshing(false);
-        if (listAdapter.getItemCount() == 0) {
-            showEmptyList();
         }
     }
 

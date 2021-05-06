@@ -16,7 +16,6 @@ import com.faltenreich.diaguard.feature.preference.PreferenceFragment;
 import com.faltenreich.diaguard.feature.preference.backup.BackupImportPreference;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.SystemUtils;
-import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.file.FileUtils;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
@@ -35,7 +34,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.util.Locale;
 
 public class PreferenceOverviewFragment
     extends PreferenceFragment
@@ -51,13 +49,13 @@ public class PreferenceOverviewFragment
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         super.onCreatePreferences(savedInstanceState, rootKey);
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        setSummaryForVersion();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Events.register(this);
-        setSummaries();
     }
 
     @Override
@@ -67,35 +65,9 @@ public class PreferenceOverviewFragment
         super.onDestroyView();
     }
 
-    private void setSummaries() {
-        setSummaryForVersion();
-        setSummaryForCategories();
-        setSummaryForTags();
-    }
-
     private void setSummaryForVersion() {
         Preference preference = requirePreference(getString(R.string.preference_version));
         preference.setSummaryProvider(pref -> SystemUtils.getVersionName(requireActivity()));
-    }
-
-    private void setSummaryForCategories() {
-        Preference preference = requirePreference(getString(R.string.preference_categories));
-        preference.setSummaryProvider(pref -> String.format(
-            Locale.getDefault(),
-            "%d/%d %s",
-            PreferenceStore.getInstance().getActiveCategories().length,
-            Category.values().length,
-            getString(R.string.active)
-        ));
-    }
-
-    private void setSummaryForTags() {
-        Preference preference = requirePreference(getString(R.string.preference_tags));
-        preference.setSummaryProvider(pref -> String.format(
-            Locale.getDefault(),
-            getString(R.string.available_placeholder),
-            TagDao.getInstance().countAll()
-        ));
     }
 
     @Override
@@ -152,6 +124,7 @@ public class PreferenceOverviewFragment
     private void importBackup(Uri uri) {
         Context context = requireActivity();
         progressComponent.show(context);
+
         Export.importCsv(context, uri, new ExportCallback() {
 
             @Override

@@ -33,16 +33,7 @@ public class TagDao extends BaseDao<Tag> {
         try {
             return getQueryBuilder().orderBy(BaseEntity.Column.UPDATED_AT, false).query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
-            return new ArrayList<>();
-        }
-    }
-
-    public List<Tag> getRecent() {
-        try {
-            return getQueryBuilder().orderBy(BaseEntity.Column.UPDATED_AT, false).query();
-        } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
     }
@@ -52,7 +43,7 @@ public class TagDao extends BaseDao<Tag> {
         try {
             return getQueryBuilder().where().eq(Tag.Column.NAME, name).queryForFirst();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return null;
         }
     }

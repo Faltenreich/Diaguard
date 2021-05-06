@@ -179,7 +179,7 @@ public class EntryEditViewModel {
         DataLoader.getInstance().load(context, new DataLoaderListener<List<Tag>>() {
             @Override
             public List<Tag> onShouldLoad() {
-                return TagDao.getInstance().getRecent();
+                return TagDao.getInstance().getAll();
             }
 
             @Override

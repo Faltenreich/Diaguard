@@ -352,35 +352,27 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSearchEvent event) {
-        if (isAdded()) {
-            openFragment(FoodSearchFragment.newInstance(true), true);
-        }
+        openFragment(FoodSearchFragment.newInstance(true), true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(BloodSugarPreferenceChangedEvent event) {
-        if (isAdded()) {
-            updateTargetValue();
-        }
+        updateTargetValue();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FactorChangedEvent event) {
-        if (isAdded()) {
-            updateMealFactor();
-        }
+        updateMealFactor();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MealFactorUnitChangedEvent event) {
-        if (isAdded()) {
-            updateMealFactor();
-        }
+        updateMealFactor();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UnitChangedEvent event) {
-        if (isAdded() && event.context == Category.BLOODSUGAR) {
+        if (event.context == Category.BLOODSUGAR) {
             updateTargetValue();
             updateCorrectionValue();
         }

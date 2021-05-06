@@ -565,8 +565,6 @@ public class EntryEditFragment
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSearchEvent event) {
-        if (isAdded()) {
-            openFragment(FoodSearchFragment.newInstance(true), true);
-        }
+        openFragment(FoodSearchFragment.newInstance(true), true);
     }
 }

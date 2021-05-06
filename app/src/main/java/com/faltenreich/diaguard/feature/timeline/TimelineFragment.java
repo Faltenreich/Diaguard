@@ -40,10 +40,10 @@ public class TimelineFragment
     implements ToolbarDescribing, MainButton, DatePicking, ViewPager.OnPageChangeListener
 {
 
-    private DateTime day;
-
     private ViewPager viewPager;
     private TimelinePagerAdapter adapter;
+
+    private DateTime day;
     private int scrollOffset;
 
     @Override
@@ -207,44 +207,32 @@ public class TimelineFragment
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
-        if (isAdded()) {
-            goToDay(day);
-        }
+        goToDay(day);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryDeletedEvent event) {
         super.onEvent(event);
-        if (isAdded()) {
-            goToDay(day);
-        }
+        goToDay(day);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryUpdatedEvent event) {
-        if (isAdded()) {
-            goToDay(day);
-        }
+        goToDay(day);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UnitChangedEvent event) {
-        if (isAdded()) {
-            goToDay(day);
-        }
+        goToDay(day);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(BackupImportedEvent event) {
-        if (isAdded()) {
-            goToDay(day);
-        }
+        goToDay(day);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(CategoryPreferenceChangedEvent event) {
-        if (isAdded()) {
-            adapter.reset();
-        }
+        adapter.reset();
     }
 }

@@ -293,29 +293,21 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
-        if (isAdded()) {
-            updateContent();
-        }
+        updateContent();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryUpdatedEvent event) {
-        if (isAdded()) {
-            updateContent();
-        }
+        updateContent();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryDeletedEvent event) {
-        if (isAdded()) {
-            updateContent();
-        }
+        updateContent();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UnitChangedEvent event) {
-        if (isAdded()) {
-            updateContent();
-        }
+        updateContent();
     }
 }

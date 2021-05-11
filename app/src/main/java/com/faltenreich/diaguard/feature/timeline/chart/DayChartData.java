@@ -6,8 +6,8 @@ import androidx.annotation.ColorRes;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.ArrayUtils;
@@ -46,10 +46,10 @@ public class DayChartData extends CombinedData {
     private final List<Measurement> values;
     private float yAxisMaximum;
 
-    public DayChartData(Context context, List<Measurement> values) {
+    public DayChartData(Context context, TimelineStyle timelineStyle, List<Measurement> values) {
         super();
         this.context = context;
-        this.timelineStyle = PreferenceStore.getInstance().getTimelineStyle();
+        this.timelineStyle = timelineStyle;
         this.values = values;
         createEntries();
         calculateYAxisMaximum();

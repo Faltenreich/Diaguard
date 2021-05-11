@@ -137,7 +137,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
                             values.addAll(measurements);
                         }
                     }
-                    return new DayChartData(getContext(), values);
+                    return new DayChartData(getContext(), PreferenceStore.getInstance().getTimelineStyle(), values);
                 }
 
                 @Override

@@ -84,6 +84,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
         super.onViewCreated(view, savedInstanceState);
         bindViews();
         initLayout();
+
         // Delay invalidation to improve performance on instantiation
         new Handler().postDelayed(this::invalidateData, 300);
     }
@@ -124,7 +125,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
 
     private void invalidateData() {
         if (data.needsChartData()) {
-            Log.d(TAG, data.getDay().toString() + ": Invalidating data for chart");
+            Log.d(TAG, "Invalidating data for chart on " + data.getDay().toString());
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<DayChartData>() {
                 @Override
                 public DayChartData onShouldLoad() {
@@ -151,7 +152,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
         }
 
         if (data.needsListData()) {
-            Log.d(TAG, data.getDay().toString() + ": Invalidating data for list");
+            Log.d(TAG, "Invalidating data for list on " + data.getDay().toString());
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<CategoryValueListItem>>() {
                 @Override
                 public List<CategoryValueListItem> onShouldLoad() {
@@ -175,15 +176,20 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
 
     private void invalidateChart() {
         if (isAdded() && !data.needsChartData()) {
+            Log.d(TAG, "Invalidating view for chart on " + data.getDay().toString());
             DayChartData chartData = data.getChartData();
             chartView.setData(chartData);
             chartView.getAxisLeft().setAxisMaximum(chartData.getYAxisMaximum() + DayChart.Y_MAX_VALUE_OFFSET);
+            // Workaround: Fixes invalidation within ViewPager
+            // https://github.com/PhilJay/MPAndroidChart/issues/1274
+            // FIXME: Leads to jumping chart view
             chartView.invalidate();
         }
     }
 
     public void invalidateList() {
         if (isAdded() && !data.needsListData()) {
+            Log.d(TAG, "Invalidating view for list on " + data.getDay().toString());
             List<CategoryValueListItem> valueListItems = data.getListData();
             if (valueAdapter.getItemCount() > 0) {
                 for (int index = 0; index < valueListItems.size(); index++) {

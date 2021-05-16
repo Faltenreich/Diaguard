@@ -13,6 +13,7 @@
 -keepclassmembers enum com.faltenreich.diaguard.shared.data.database.entity.** { *; }
 -keep interface com.faltenreich.diaguard.shared.data.database.entity.**
 -keepclassmembers interface com.faltenreich.diaguard.shared.data.database.entity.** { *; }
+-keep class com.faltenreich.diaguard.feature.**
 ##---------------End: Custom ----------
 
 ##---------------Begin: Test ----------

@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.faltenreich.diaguard",
+  "variantName": "storeRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "versionCode": 49,
+      "versionName": "3.8.0",
+      "outputFile": "app-store-release.apk"
+    }
+  ]
+}

@@ -213,7 +213,7 @@ public class EntryEditFragment
         fabMenu.setOnMiscellaneousSelectedListener(this::openCategoryPicker);
     }
 
-    private void setEntry(Entry entry) {
+    private void setEntry(@NonNull Entry entry) {
         noteInput.setText(entry.getNote());
 
         if (entry.getMeasurementCache() != null && !entry.getMeasurementCache().isEmpty()) {

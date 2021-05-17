@@ -37,8 +37,6 @@ public class ProductDto {
     public String[] lastEditDates;
 
     public boolean isValid() {
-        boolean hasName = !StringUtils.isBlank(name);
-        boolean hasNutrients = nutrients != null && nutrients.carbohydrates != null;
-        return hasName && hasNutrients;
+        return !StringUtils.isBlank(name) && nutrients != null && nutrients.carbohydrates != null;
     }
 }

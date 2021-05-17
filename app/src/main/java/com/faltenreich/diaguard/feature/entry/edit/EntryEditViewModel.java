@@ -130,19 +130,18 @@ public class EntryEditViewModel {
     }
 
     private void fetchEntry(Context context, Consumer<Entry> callback) {
-        DataLoader.getInstance().load(context, new DataLoaderListener<List<Tag>>() {
+        DataLoader.getInstance().load(context, new DataLoaderListener<Entry>() {
             @Override
-            public List<Tag> onShouldLoad() {
+            public Entry onShouldLoad() {
                 EntryDao dao = EntryDao.getInstance();
-                entry = dao.getById(entryId);
-                if (entry != null) {
-                    entry.setMeasurementCache(dao.getMeasurements(entry));
-                    entryTags = EntryTagDao.getInstance().getAll(entry);
-                }
-                return null;
+                Entry entry = dao.getById(entryId);
+                entry.setMeasurementCache(dao.getMeasurements(entry));
+                return entry;
             }
             @Override
-            public void onDidLoad(List<Tag> data) {
+            public void onDidLoad(Entry result) {
+                entry = result;
+                entryTags = EntryTagDao.getInstance().getAll(entry);
                 callback.accept(entry);
             }
         });

@@ -109,7 +109,6 @@ public class MainActivity
 
     @Override
     public void openFragment(@NonNull Fragment fragment, boolean addToBackStack) {
-        resetMainButton();
         Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.container, addToBackStack);
     }
 
@@ -263,13 +262,6 @@ public class MainActivity
         if (behavior instanceof SlideOutBehavior) {
             boolean slideOut = properties != null && properties.slideOutOnScroll();
             ((SlideOutBehavior) behavior).setSlideOut(slideOut);
-        }
-    }
-
-    private void resetMainButton() {
-        if (fab.getTranslationY() != 0) {
-            fab.animate().cancel();
-            fab.animate().translationY(0).start();
         }
     }
 

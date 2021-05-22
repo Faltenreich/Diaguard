@@ -45,6 +45,7 @@ import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
+import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
@@ -83,6 +84,36 @@ public class EntryEditFragment
     public static final String EXTRA_ENTRY_ID = "entryId";
     public static final String EXTRA_FOOD_ID = "foodId";
     public static final String EXTRA_DATE = "date";
+
+    public static EntryEditFragment newInstance(@Nullable Entry entry) {
+        EntryEditFragment fragment = new EntryEditFragment();
+        if (entry != null) {
+            Bundle arguments = new Bundle();
+            arguments.putLong(EntryEditFragment.EXTRA_ENTRY_ID, entry.getId());
+            fragment.setArguments(arguments);
+        }
+        return fragment;
+    }
+
+    public static EntryEditFragment newInstance(@Nullable Food food) {
+        EntryEditFragment fragment = new EntryEditFragment();
+        if (food != null) {
+            Bundle arguments = new Bundle();
+            arguments.putLong(EntryEditFragment.EXTRA_FOOD_ID, food.getId());
+            fragment.setArguments(arguments);
+        }
+        return fragment;
+    }
+
+    public static EntryEditFragment newInstance(@Nullable DateTime dateTime) {
+        EntryEditFragment fragment = new EntryEditFragment();
+        if (dateTime != null) {
+            Bundle arguments = new Bundle();
+            arguments.putSerializable(EntryEditFragment.EXTRA_DATE, dateTime);
+            fragment.setArguments(arguments);
+        }
+        return fragment;
+    }
 
     private final EntryEditViewModel viewModel = new EntryEditViewModel();
 
@@ -123,6 +154,7 @@ public class EntryEditFragment
         super.onCreate(savedInstanceState);
         viewModel.setArguments(getArguments());
         tagAdapter = new TagAutoCompleteAdapter(requireContext());
+        setArguments(null);
     }
 
     @Override

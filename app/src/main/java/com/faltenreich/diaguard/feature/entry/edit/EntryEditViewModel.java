@@ -93,27 +93,26 @@ public class EntryEditViewModel {
     }
 
     void setArguments(@Nullable Bundle arguments) {
-        if (arguments != null) {
-            entryId = arguments.getLong(EntryEditFragment.EXTRA_ENTRY_ID);
-            foodId = arguments.getLong(EntryEditFragment.EXTRA_FOOD_ID);
-            dateTime = arguments.get(EntryEditFragment.EXTRA_DATE) != null
-                ? (DateTime) arguments.getSerializable(EntryEditFragment.EXTRA_DATE)
-                : null;
-            category = arguments.get(EntryEditFragment.EXTRA_CATEGORY) != null
-                ? (Category) arguments.get(EntryEditFragment.EXTRA_CATEGORY)
-                : null;
-        }
-        if (dateTime == null) {
-            dateTime = DateTime.now();
-        }
+        entryId = arguments != null
+            ? arguments.getLong(EntryEditFragment.EXTRA_ENTRY_ID, -1L)
+            : -1L;
+        foodId = arguments != null
+            ? arguments.getLong(EntryEditFragment.EXTRA_FOOD_ID, -1L)
+            : -1L;
+        dateTime = arguments != null && arguments.get(EntryEditFragment.EXTRA_DATE) != null
+            ? (DateTime) arguments.getSerializable(EntryEditFragment.EXTRA_DATE)
+            : DateTime.now();
+        category = arguments != null && arguments.get(EntryEditFragment.EXTRA_CATEGORY) != null
+            ? (Category) arguments.get(EntryEditFragment.EXTRA_CATEGORY)
+            : null;
     }
 
     void observeEntry(Context context, Consumer<Entry> callback) {
         if (entry != null) {
             callback.accept(entry);
-        } else if (entryId > 0) {
+        } else if (entryId != -1L) {
             fetchEntry(context, callback);
-        } else if (foodId > 0) {
+        } else if (foodId != -1L) {
             fetchFood(context, callback);
         } else {
             entry = new Entry();
@@ -135,6 +134,9 @@ public class EntryEditViewModel {
             public Entry onShouldLoad() {
                 EntryDao dao = EntryDao.getInstance();
                 Entry entry = dao.getById(entryId);
+                if (entry == null) {
+                    throw new IllegalStateException("No entry found for id: " + entryId);
+                }
                 entry.setMeasurementCache(dao.getMeasurements(entry));
                 return entry;
             }

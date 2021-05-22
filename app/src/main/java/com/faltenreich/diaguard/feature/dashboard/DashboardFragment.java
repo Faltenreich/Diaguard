@@ -16,7 +16,6 @@ import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
@@ -271,7 +270,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     }
 
     private void openEntry() {
-        openFragment(EntryEditFragmentFactory.newInstance(latestEntry), true);
+        openFragment(EntryEditFragment.newInstance(latestEntry), true);
     }
 
     private void showHbA1cFormula() {

@@ -18,7 +18,6 @@ import com.faltenreich.diaguard.databinding.FragmentLogBinding;
 import com.faltenreich.diaguard.feature.datetime.DatePicking;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchFragment;
 import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
@@ -209,7 +208,7 @@ public class LogFragment
     @Override
     public void onEntrySelected(Entry entry) {
         if (isAdded()) {
-            openFragment(EntryEditFragmentFactory.newInstance(entry), true);
+            openFragment(EntryEditFragment.newInstance(entry), true);
         }
     }
 
@@ -223,7 +222,7 @@ public class LogFragment
     @Override
     public void onDateSelected(DateTime dateTime) {
         if (isAdded()) {
-            openFragment(EntryEditFragmentFactory.newInstance(dateTime), true);
+            openFragment(EntryEditFragment.newInstance(dateTime), true);
         }
     }
 

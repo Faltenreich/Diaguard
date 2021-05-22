@@ -189,7 +189,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         try {
             return getQueryBuilder().where().eq(Measurement.Column.ENTRY, entry).queryForFirst();
         } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not fetch measurement of category '%s'", getClazz().toString()));
+            Log.e(TAG, exception.toString());
             return null;
         }
     }

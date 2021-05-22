@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentEntrySearchBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryViewHolder;
 import com.faltenreich.diaguard.feature.navigation.SearchOwner;
@@ -224,7 +224,7 @@ public class EntrySearchFragment
 
     @Override
     public void onEntrySelected(Entry entry) {
-        openFragment(EntryEditFragmentFactory.newInstance(entry), true);
+        openFragment(EntryEditFragment.newInstance(entry), true);
     }
 
     @Override
@@ -236,6 +236,6 @@ public class EntrySearchFragment
 
     @Override
     public void onDateSelected(DateTime dateTime) {
-        openFragment(EntryEditFragmentFactory.newInstance(dateTime), true);
+        openFragment(EntryEditFragment.newInstance(dateTime), true);
     }
 }

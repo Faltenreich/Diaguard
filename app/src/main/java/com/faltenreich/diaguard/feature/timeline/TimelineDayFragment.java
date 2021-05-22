@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.databinding.FragmentTimelineDayBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.timeline.chart.DayChart;
 import com.faltenreich.diaguard.feature.timeline.chart.DayChartData;
@@ -247,6 +247,6 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
     }
 
     private void openEntry(Entry entry) {
-        openFragment(EntryEditFragmentFactory.newInstance(entry), true);
+        openFragment(EntryEditFragment.newInstance(entry), true);
     }
 }

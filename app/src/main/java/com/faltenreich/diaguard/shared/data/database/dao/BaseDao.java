@@ -64,7 +64,7 @@ public abstract class BaseDao <T extends BaseEntity> {
             GenericRawResults<String[]> rawResults = getDao().queryRaw(query);
             return rawResults.getResults();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return null;
         }
     }
@@ -73,7 +73,7 @@ public abstract class BaseDao <T extends BaseEntity> {
         try {
             return getQueryBuilder().where().eq(BaseEntity.Column.ID, id).queryForFirst();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return null;
         }
     }
@@ -86,17 +86,8 @@ public abstract class BaseDao <T extends BaseEntity> {
         try {
             return getQueryBuilder().query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
-        }
-    }
-
-    public long countAll() {
-        try {
-            return getQueryBuilder().countOf();
-        } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
-            return 0;
         }
     }
 
@@ -114,7 +105,7 @@ public abstract class BaseDao <T extends BaseEntity> {
             }
             return object;
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return null;
         }
     }
@@ -129,7 +120,7 @@ public abstract class BaseDao <T extends BaseEntity> {
                     return null;
                 });
             } catch (Exception exception) {
-                Log.e(TAG, exception.getLocalizedMessage());
+                Log.e(TAG, exception.toString());
             }
         }
     }
@@ -138,7 +129,7 @@ public abstract class BaseDao <T extends BaseEntity> {
         try {
             TableUtils.clearTable(Database.getInstance().getDatabaseHelper().getConnectionSource(), clazz);
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
         }
     }
 
@@ -150,7 +141,7 @@ public abstract class BaseDao <T extends BaseEntity> {
                 return 0;
             }
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return 0;
         }
     }
@@ -163,7 +154,7 @@ public abstract class BaseDao <T extends BaseEntity> {
                 return 0;
             }
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return 0;
         }
     }

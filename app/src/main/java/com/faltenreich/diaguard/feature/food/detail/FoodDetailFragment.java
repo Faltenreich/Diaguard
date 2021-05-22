@@ -11,7 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFoodDetailBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.food.FoodActions;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
@@ -106,7 +106,7 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
     }
 
     private void eatFood() {
-        openFragment(EntryEditFragmentFactory.newInstance(food), true);
+        openFragment(EntryEditFragment.newInstance(food), true);
     }
 
     private void editFood() {

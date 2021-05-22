@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentCalculatorBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.food.input.FoodInputView;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
@@ -347,7 +347,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     private void openEntry(Entry entry) {
-        openFragment(EntryEditFragmentFactory.newInstance(entry), true);
+        openFragment(EntryEditFragment.newInstance(entry), true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

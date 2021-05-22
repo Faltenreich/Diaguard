@@ -35,13 +35,6 @@
                 android:resource="@xml/shortcuts" />
         </activity>
 
-        <activity
-            android:name=".feature.entry.edit.EntryEditActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="true"
-            android:label="@string/entry_new"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

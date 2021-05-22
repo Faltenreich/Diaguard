@@ -10,9 +10,9 @@
         android:shortcutLongLabel="@string/entry_new">
 
         <intent
-            android:action="android.intent.action.VIEW"
+            android:action="com.faltenreich.diaguard.NEW_ENTRY"
             android:targetPackage="com.faltenreich.diaguard.beta"
-            android:targetClass="com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity" />
+            android:targetClass="com.faltenreich.diaguard.feature.navigation.MainActivity" />
 
     </shortcut>
 

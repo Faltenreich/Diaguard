@@ -10,11 +10,11 @@ import android.media.RingtoneManager;
 
 import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.TaskStackBuilder;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.navigation.MainActivity;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
+import com.faltenreich.diaguard.feature.shortcut.Shortcut;
 
 import org.joda.time.DateTimeConstants;
 
@@ -54,18 +54,21 @@ public class NotificationUtils {
                 .setContentText(message)
                 .setTicker(title)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setSound(PreferenceStore.getInstance().isSoundAllowed() ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION) : null)
-                .setVibrate(shouldNotificationVibrate(context) && PreferenceStore.getInstance().isVibrationAllowed() ? new long[]{VIBRATION_DURATION_IN_MILLIS} : null);
-        Intent resultIntent = new Intent(context, EntryEditActivity.class);
+                .setSound(PreferenceStore.getInstance().isSoundAllowed()
+                    ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION) 
+                    : null)
+                .setVibrate(shouldNotificationVibrate(context)
+                    && PreferenceStore.getInstance().isVibrationAllowed()
+                    ? new long[]{VIBRATION_DURATION_IN_MILLIS}
+                    : null);
 
-        // Put target activity on back stack on top of its parent to guarantee correct back navigation
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(EntryEditActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        // Open entry form when clicked on
+        Intent intent  = new Intent(context, MainActivity.class);
+        intent.setAction(Shortcut.CREATE_ENTRY.action);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent , PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
 
-        // Notification will dismiss when be clicked on
+        // Dismiss notification when clicked on
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_ONLY_ALERT_ONCE | Notification.FLAG_AUTO_CANCEL;
 

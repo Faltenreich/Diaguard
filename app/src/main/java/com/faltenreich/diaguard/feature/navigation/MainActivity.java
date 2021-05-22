@@ -35,6 +35,7 @@ import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.log.LogFragment;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.preference.overview.PreferenceOverviewFragment;
+import com.faltenreich.diaguard.feature.shortcut.Shortcuts;
 import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
 import com.faltenreich.diaguard.feature.timeline.TimelineFragment;
 import com.faltenreich.diaguard.shared.SystemUtils;
@@ -86,6 +87,11 @@ public class MainActivity
         PreferenceStore.getInstance().setDefaultValues(this);
         bindView();
         initLayout();
+
+        if (Shortcuts.handleShortcut(this, getIntent())) {
+            return;
+        }
+
         checkChangelog();
     }
 

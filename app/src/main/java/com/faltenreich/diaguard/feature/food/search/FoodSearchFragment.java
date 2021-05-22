@@ -208,10 +208,17 @@ public class FoodSearchFragment
     }
 
     private void continueSearch() {
-        FoodRepository.getInstance().search(getContext(), getSearchOwner().getSearchQuery(), currentPage, this::addItems);
+        if (!isAdded()) {
+            return;
+        }
+        String query = getSearchOwner().getSearchQuery();
+        FoodRepository.getInstance().search(getContext(), query, currentPage, this::addItems);
     }
 
     private void addItems(List<FoodSearchListItem> items) {
+        if (!isAdded()) {
+            return;
+        }
         boolean hasItems = items.size() > 0;
         if (hasItems) {
             int oldSize = listAdapter.getItemCount();

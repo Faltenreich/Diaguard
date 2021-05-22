@@ -61,6 +61,10 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
 
     @NonNull
     TimelineDayFragment getFragment(int position) {
+        if (position < 0 || position >= fragments.size()) {
+            throw new IndexOutOfBoundsException("Failed to return Fragment for position " + position
+                + " while currently owning " + fragments.size() + " Fragments");
+        }
         return fragments.get(position);
     }
 

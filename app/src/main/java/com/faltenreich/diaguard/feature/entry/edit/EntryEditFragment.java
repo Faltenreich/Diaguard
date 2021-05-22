@@ -25,6 +25,7 @@ import androidx.core.widget.NestedScrollView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentEntryEditBinding;
 import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
+import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.category.CategoryListFragment;
 import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
 import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
@@ -71,6 +72,7 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EntryEditFragment
@@ -241,21 +243,23 @@ public class EntryEditFragment
         alarmContainer.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
         alarmButton.setOnClickListener(view -> showAlarmPicker());
 
-        fabMenu.setOnCategorySelectedListener(this::addCategory);
+        fabMenu.setOnCategorySelectedListener((category -> addCategory(category, true)));
         fabMenu.setOnMiscellaneousSelectedListener(this::openCategoryPicker);
     }
 
     private void setEntry(@NonNull Entry entry) {
         noteInput.setText(entry.getNote());
 
-        if (entry.getMeasurementCache() != null && !entry.getMeasurementCache().isEmpty()) {
-            for (Measurement measurement : entry.getMeasurementCache()) {
-                addMeasurement(measurement);
+        List<Measurement> measurements = entry.getMeasurementCache();
+        if (measurements != null && !measurements.isEmpty()) {
+            Collections.sort(measurements, CategoryComparatorFactory.getInstance().createComparatorFromMeasurements());
+            for (Measurement measurement : measurements) {
+                addMeasurement(measurement, false);
             }
         } else if (!entry.isPersisted()) {
-            for (Category category : viewModel.getPinnedCategory()) {
+            for (Category category : viewModel.getPinnedCategories()) {
                 if (!hasCategory(category)) {
-                    addCategory(category);
+                    addCategory(category, false);
                 }
             }
         }
@@ -278,17 +282,18 @@ public class EntryEditFragment
         tagAdapter.notifyDataSetChanged();
     }
 
-    private void addMeasurement(Measurement measurement) {
+    private void addMeasurement(Measurement measurement, boolean atStart) {
         MeasurementView<?> view = new MeasurementView<>(getContext(), measurement);
         view.setOnCategoryRemovedListener(this::removeCategory);
-        measurementContainer.addView(view, 0);
+        int index = atStart ? 0 : measurementContainer.getChildCount();
+        measurementContainer.addView(view, index);
         fabMenu.ignore(measurement.getCategory());
         fabMenu.restock();
     }
 
-    private void addCategory(Category category) {
+    private void addCategory(Category category, boolean atStart) {
         Measurement measurement = ObjectFactory.createFromClass(category.toClass());
-        addMeasurement(measurement);
+        addMeasurement(measurement, atStart);
 
         Entry entry = viewModel.getEntry();
         int indexInCache = entry.indexInMeasurementCache(category);
@@ -409,7 +414,7 @@ public class EntryEditFragment
                     if (visibleCategories[position]) {
                         scrollView.smoothScrollTo(0, 0);
                         if (!hasCategory(category)) {
-                            addCategory(category);
+                            addCategory(category, true);
                         }
                     } else {
                         removeCategory(category);

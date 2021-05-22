@@ -88,7 +88,7 @@ public class EntryEditViewModel {
         return PreferenceStore.getInstance().getActiveCategories();
     }
 
-    Category[] getPinnedCategory() {
+    Category[] getPinnedCategories() {
         return PreferenceStore.getInstance().getPinnedCategories();
     }
 

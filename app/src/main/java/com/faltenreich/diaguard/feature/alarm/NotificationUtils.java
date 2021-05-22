@@ -57,8 +57,7 @@ public class NotificationUtils {
                 .setSound(PreferenceStore.getInstance().isSoundAllowed()
                     ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION) 
                     : null)
-                .setVibrate(shouldNotificationVibrate(context)
-                    && PreferenceStore.getInstance().isVibrationAllowed()
+                .setVibrate(shouldNotificationVibrate(context) && PreferenceStore.getInstance().isVibrationAllowed()
                     ? new long[]{VIBRATION_DURATION_IN_MILLIS}
                     : null);
 

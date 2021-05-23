@@ -6,6 +6,8 @@ import com.faltenreich.diaguard.feature.food.networking.OpenFoodFactsService;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchListItem;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.async.DataCallback;
+import com.faltenreich.diaguard.shared.data.async.DataLoader;
+import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.BaseDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
@@ -38,39 +40,59 @@ public class FoodRepository {
             && PreferenceStore.getInstance().showBrandedFood()
             && NetworkingUtils.isOnline(context)
         ) {
-            searchOnline(query, page, result -> searchOffline(query, page, callback));
+            searchOnline(context, query, page, result -> searchOffline(context, query, page, callback));
         } else {
-            searchOffline(query, page, callback);
+            searchOffline(context, query, page, callback);
         }
     }
 
-    private void searchOnline(String query, int page, DataCallback<List<Food>> callback) {
+    private void searchOnline(Context context, String query, int page, DataCallback<List<Food>> callback) {
         OpenFoodFactsService.getInstance().search(query, page, (dto) -> {
-            List<Food> foodList = FoodDao.getInstance().createOrUpdate(dto);
-            callback.onResult(foodList);
+            if (dto == null || dto.products == null || dto.products.isEmpty()) {
+                callback.onResult(new ArrayList<>());
+                return;
+            }
+            DataLoader.getInstance().load(context, new DataLoaderListener<List<Food>>() {
+                @Override
+                public List<Food> onShouldLoad() {
+                    return FoodDao.getInstance().createOrUpdate(dto);
+                }
+                @Override
+                public void onDidLoad(List<Food> data) {
+                    callback.onResult(data);
+                }
+            });
         });
     }
 
-    private void searchOffline(String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
-        List<FoodSearchListItem> items = new ArrayList<>();
+    private void searchOffline(Context context, String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
+        DataLoader.getInstance().load(context, new DataLoaderListener<List<FoodSearchListItem>>() {
+            @Override
+            public List<FoodSearchListItem> onShouldLoad() {
+                List<FoodSearchListItem> items = new ArrayList<>();
 
-        boolean showCustomFood = PreferenceStore.getInstance().showCustomFood();
-        boolean showCommonFood = PreferenceStore.getInstance().showCommonFood();
-        boolean showBrandedFood = PreferenceStore.getInstance().showBrandedFood();
+                boolean showCustomFood = PreferenceStore.getInstance().showCustomFood();
+                boolean showCommonFood = PreferenceStore.getInstance().showCommonFood();
+                boolean showBrandedFood = PreferenceStore.getInstance().showBrandedFood();
 
-        boolean hasQuery = query != null && query.length() > 0;
-        if (page == 0 && !hasQuery) {
-            List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getLatest(LATEST_FOOD_EATEN_COUNT);
-            for (FoodEaten foodEaten : foodEatenList) {
-                items.add(new FoodSearchListItem(foodEaten));
+                boolean hasQuery = query != null && query.length() > 0;
+                if (page == 0 && !hasQuery) {
+                    List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getLatest(LATEST_FOOD_EATEN_COUNT);
+                    for (FoodEaten foodEaten : foodEatenList) {
+                        items.add(new FoodSearchListItem(foodEaten));
+                    }
+                }
+
+                List<Food> foodList = FoodDao.getInstance().search(query, page, showCustomFood, showCommonFood, showBrandedFood);
+                for (Food food : foodList) {
+                    items.add(new FoodSearchListItem(food));
+                }
+                return items;
             }
-        }
-
-        List<Food> foodList = FoodDao.getInstance().search(query, page, showCustomFood, showCommonFood, showBrandedFood);
-        for (Food food : foodList) {
-            items.add(new FoodSearchListItem(food));
-        }
-
-        callback.onResult(items);
+            @Override
+            public void onDidLoad(List<FoodSearchListItem> data) {
+                callback.onResult(data);
+            }
+        });
     }
 }

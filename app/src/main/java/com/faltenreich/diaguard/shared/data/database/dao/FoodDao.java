@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.data.database.dao;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
@@ -178,10 +179,7 @@ public class FoodDao extends BaseServerDao<Food> {
         }
     }
 
-    public List<Food> createOrUpdate(@Nullable SearchResponseDto dto) {
-        if (dto == null || dto.products == null || dto.products.isEmpty()) {
-            return new ArrayList<>();
-        }
+    public List<Food> createOrUpdate(@NonNull SearchResponseDto dto) {
         String languageCode = Helper.getLanguageCode();
         List<Food> foodList = new ArrayList<>();
         Collections.reverse(dto.products);

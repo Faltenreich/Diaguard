@@ -118,6 +118,7 @@ public class EntryEditFragment
     }
 
     private final EntryEditViewModel viewModel = new EntryEditViewModel();
+    private boolean isRecreated;
 
     private ViewGroup root;
     private NestedScrollView scrollView;
@@ -162,10 +163,10 @@ public class EntryEditFragment
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        isRecreated = root != null;
         bindViews();
         initLayout();
-        invalidateAlarm();
-        viewModel.observeEntry(requireContext(), this::setEntry);
+        initData();
     }
 
     @Override
@@ -245,6 +246,12 @@ public class EntryEditFragment
 
         fabMenu.setOnCategorySelectedListener((category -> addCategory(category, true)));
         fabMenu.setOnMiscellaneousSelectedListener(this::openCategoryPicker);
+
+        invalidateAlarm();
+    }
+
+    private void initData() {
+        viewModel.observeEntry(requireContext(), this::setEntry);
     }
 
     private void setEntry(@NonNull Entry entry) {
@@ -256,7 +263,7 @@ public class EntryEditFragment
             for (Measurement measurement : measurements) {
                 addMeasurement(measurement, false);
             }
-        } else if (!entry.isPersisted()) {
+        } else if (!entry.isPersisted() && !isRecreated) {
             for (Category category : viewModel.getPinnedCategories()) {
                 if (!hasCategory(category)) {
                     addCategory(category, false);

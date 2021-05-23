@@ -134,9 +134,6 @@ public class EntryEditViewModel {
             public Entry onShouldLoad() {
                 EntryDao dao = EntryDao.getInstance();
                 Entry entry = dao.getById(entryId);
-                if (entry == null) {
-                    throw new IllegalStateException("No entry found for id: " + entryId);
-                }
                 entry.setMeasurementCache(dao.getMeasurements(entry));
                 return entry;
             }

@@ -81,7 +81,7 @@ public class EntryDao extends BaseDao<Entry> {
                 .and().lt(Entry.Column.DATE, end)
                 .query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
     }
@@ -108,7 +108,7 @@ public class EntryDao extends BaseDao<Entry> {
         try {
             return qbOne.join(qbTwo);
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return null;
         }
     }
@@ -117,7 +117,7 @@ public class EntryDao extends BaseDao<Entry> {
         try {
             return join(clazz).orderBy(Entry.Column.DATE, false).where().le(Entry.Column.DATE, DateTime.now()).queryForFirst();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return null;
         }
     }
@@ -126,7 +126,7 @@ public class EntryDao extends BaseDao<Entry> {
         try {
             return join(clazz).where().gt(Entry.Column.DATE, DateTime.now().withTimeAtStartOfDay()).query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
     }
@@ -213,7 +213,7 @@ public class EntryDao extends BaseDao<Entry> {
                 return -1;
             }
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return -1;
         }
     }
@@ -230,7 +230,7 @@ public class EntryDao extends BaseDao<Entry> {
 
             return queryBuilderEntry.join(queryBuilderMeasurement).countOf();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return -1;
         }
     }
@@ -247,7 +247,7 @@ public class EntryDao extends BaseDao<Entry> {
 
             return queryBuilderEntry.join(queryBuilderMeasurement).countOf();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return -1;
         }
     }
@@ -266,7 +266,7 @@ public class EntryDao extends BaseDao<Entry> {
 
             return queryBuilderEntry.join(queryBuilderMeasurement).countOf();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return -1;
         }
     }
@@ -285,7 +285,7 @@ public class EntryDao extends BaseDao<Entry> {
             entryQb.where().like(Entry.Column.NOTE, new SelectArg(query));
             return entryQb.distinct().query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
     }

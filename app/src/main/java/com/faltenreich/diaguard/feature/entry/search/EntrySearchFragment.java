@@ -88,6 +88,7 @@ public class EntrySearchFragment
     }
 
     @Override
+    @Nullable
     public SearchOwner getSearchOwner() {
         return (SearchOwner) getActivity();
     }
@@ -137,7 +138,7 @@ public class EntrySearchFragment
                 }
                 @Override
                 public void onDidLoad(Tag tag) {
-                    if (tag != null) {
+                    if (tag != null && getSearchOwner() != null) {
                         getSearchOwner().setSearchQuery(tag.getName(), false);
                         newSearch();
                     }
@@ -146,8 +147,10 @@ public class EntrySearchFragment
         } else {
             // Workaround to focus EditText onViewCreated
             new Handler().postDelayed(() -> {
-                getSearchOwner().getSearchView().focusSearchField();
-                newSearch();
+                if (getSearchOwner() != null) {
+                    getSearchOwner().getSearchView().focusSearchField();
+                    newSearch();
+                }
             }, 500);
         }
     }
@@ -160,7 +163,8 @@ public class EntrySearchFragment
         }
         currentPage = 0;
 
-        if (StringUtils.isNotBlank(getSearchOwner().getSearchQuery())) {
+        String query = getSearchOwner() != null ? getSearchOwner().getSearchQuery() : null;
+        if (StringUtils.isNotBlank(query)) {
             progressIndicator.setVisibility(View.VISIBLE);
             continueSearch();
         }
@@ -168,7 +172,7 @@ public class EntrySearchFragment
     }
 
     private void continueSearch() {
-        final String query = getSearchOwner().getSearchQuery();
+        final String query = getSearchOwner() != null ? getSearchOwner().getSearchQuery() : "";
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<LogEntryListItem>>() {
             @Override
             public List<LogEntryListItem> onShouldLoad() {
@@ -206,8 +210,9 @@ public class EntrySearchFragment
     }
 
     private void invalidateEmptyView() {
+        String query = getSearchOwner() != null ? getSearchOwner().getSearchQuery() : null;
         emptyLabel.setVisibility(progressIndicator.getVisibility() != View.VISIBLE && listAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
-        emptyLabel.setText(StringUtils.isBlank(getSearchOwner().getSearchQuery()) ? R.string.search_prompt : R.string.no_results_found);
+        emptyLabel.setText(StringUtils.isBlank(query) ? R.string.search_prompt : R.string.no_results_found);
     }
 
     @Override
@@ -229,7 +234,7 @@ public class EntrySearchFragment
 
     @Override
     public void onTagSelected(Tag tag, View view) {
-        if (isAdded()) {
+        if (isAdded() && getSearchOwner() != null) {
             getSearchOwner().setSearchQuery(tag.getName(), true);
         }
     }

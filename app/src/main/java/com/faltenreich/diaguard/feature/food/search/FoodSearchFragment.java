@@ -110,6 +110,7 @@ public class FoodSearchFragment
     }
 
     @Override
+    @Nullable
     public SearchOwner getSearchOwner() {
         return (SearchOwner) getActivity();
     }
@@ -129,7 +130,7 @@ public class FoodSearchFragment
         bindViews();
         initLayout();
 
-        if (!isRecreated) {
+        if (!isRecreated && getSearchOwner() != null) {
             getSearchOwner().setSearchQuery(null, false);
             newSearch();
         } else {
@@ -208,7 +209,7 @@ public class FoodSearchFragment
     }
 
     private void continueSearch() {
-        if (!isAdded()) {
+        if (!isAdded() || getSearchOwner() == null) {
             return;
         }
         String query = getSearchOwner().getSearchQuery();
@@ -257,7 +258,7 @@ public class FoodSearchFragment
     }
 
     private void showEmptyList() {
-        if (getContext() == null) {
+        if (getContext() == null || getSearchOwner() == null) {
             return;
         }
         if (StringUtils.isBlank(getSearchOwner().getSearchQuery())) {
@@ -294,7 +295,8 @@ public class FoodSearchFragment
     }
 
     private void onEmptyButtonClick() {
-        if (StringUtils.isBlank(getSearchOwner().getSearchQuery())) {
+        String query = getSearchOwner() != null ? getSearchOwner().getSearchQuery() : null;
+        if (StringUtils.isBlank(query)) {
             openSettings();
         } else {
             // Workaround since CONNECTIVITY_ACTION broadcasts cannot be caught since API level 24
@@ -309,7 +311,9 @@ public class FoodSearchFragment
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSavedEvent event) {
-        getSearchOwner().setSearchQuery(null, true);
+        if (getSearchOwner() != null) {
+            getSearchOwner().setSearchQuery(null, true);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

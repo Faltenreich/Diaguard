@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.feature.entry.search;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -133,7 +134,7 @@ public class EntrySearchFragment
         if (tagId >= 0) {
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<Tag>() {
                 @Override
-                public Tag onShouldLoad() {
+                public Tag onShouldLoad(Context context) {
                     return TagDao.getInstance().getById(tagId);
                 }
                 @Override
@@ -175,7 +176,7 @@ public class EntrySearchFragment
         final String query = getSearchOwner() != null ? getSearchOwner().getSearchQuery() : "";
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<LogEntryListItem>>() {
             @Override
-            public List<LogEntryListItem> onShouldLoad() {
+            public List<LogEntryListItem> onShouldLoad(Context context) {
                 List<LogEntryListItem> listItems = new ArrayList<>();
                 List<Entry> entries = EntryDao.getInstance().search(query, currentPage, PAGE_SIZE);
                 for (Entry entry : entries) {

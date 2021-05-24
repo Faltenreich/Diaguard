@@ -131,7 +131,7 @@ public class EntryEditViewModel {
     private void fetchEntry(Context context, Consumer<Entry> callback) {
         DataLoader.getInstance().load(context, new DataLoaderListener<Entry>() {
             @Override
-            public Entry onShouldLoad() {
+            public Entry onShouldLoad(Context context) {
                 EntryDao dao = EntryDao.getInstance();
                 Entry entry = dao.getById(entryId);
                 entry.setMeasurementCache(dao.getMeasurements(entry));
@@ -149,7 +149,7 @@ public class EntryEditViewModel {
     private void fetchFood(Context context, Consumer<Entry> callback) {
         DataLoader.getInstance().load(context, new DataLoaderListener<Food>() {
             @Override
-            public Food onShouldLoad() {
+            public Food onShouldLoad(Context context) {
                 return FoodDao.getInstance().getById(foodId);
             }
 
@@ -176,7 +176,7 @@ public class EntryEditViewModel {
     void observeTags(Context context, Consumer<List<Tag>> callback) {
         DataLoader.getInstance().load(context, new DataLoaderListener<List<Tag>>() {
             @Override
-            public List<Tag> onShouldLoad() {
+            public List<Tag> onShouldLoad(Context context) {
                 return TagDao.getInstance().getAll();
             }
 

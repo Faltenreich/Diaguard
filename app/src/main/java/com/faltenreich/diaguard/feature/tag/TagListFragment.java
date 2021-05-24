@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.tag;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,7 +96,7 @@ public class TagListFragment
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<Tag>>() {
 
             @Override
-            public List<Tag> onShouldLoad() {
+            public List<Tag> onShouldLoad(Context context) {
                 return TagDao.getInstance().getAll();
             }
 
@@ -125,7 +126,7 @@ public class TagListFragment
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<Long>() {
 
             @Override
-            public Long onShouldLoad() {
+            public Long onShouldLoad(Context context) {
                 return EntryTagDao.getInstance().count(tag);
             }
 
@@ -147,7 +148,7 @@ public class TagListFragment
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<Tag>() {
 
             @Override
-            public Tag onShouldLoad() {
+            public Tag onShouldLoad(Context context) {
                 List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(tag);
                 EntryTagDao.getInstance().delete(entryTags);
                 int result = TagDao.getInstance().delete(tag);

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.feature.tag;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -40,7 +41,7 @@ class TagViewHolder extends BaseViewHolder<ListItemTagBinding, Tag> {
 
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<Long>() {
             @Override
-            public Long onShouldLoad() {
+            public Long onShouldLoad(Context context) {
                 return EntryTagDao.getInstance().count(item);
             }
             @Override

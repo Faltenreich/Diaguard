@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.feature.tag;
 
+import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -48,7 +49,7 @@ public class TagEditFragment extends BaseDialogFragment<DialogTagEditBinding> {
         String name = getBinding().input.getText().toString();
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<TagResult>() {
             @Override
-            public TagResult onShouldLoad() {
+            public TagResult onShouldLoad(Context context) {
                 if (StringUtils.isBlank(name)) {
                     return new TagResult(null, Error.EMPTY);
                 } else if (TagDao.getInstance().getByName(name) != null) {

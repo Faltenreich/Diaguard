@@ -15,13 +15,9 @@ public class DataTask<T> extends AsyncTask<Void, Void, T> {
         this.listener = listener;
     }
 
-    protected Context getContext() {
-        return context.get();
-    }
-
     @Override
     protected T doInBackground(Void... voids) {
-        return listener.onShouldLoad();
+        return listener.onShouldLoad(context.get());
     }
 
     @Override

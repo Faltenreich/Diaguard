@@ -54,7 +54,7 @@ public class FoodRepository {
             }
             DataLoader.getInstance().load(context, new DataLoaderListener<List<Food>>() {
                 @Override
-                public List<Food> onShouldLoad() {
+                public List<Food> onShouldLoad(Context context) {
                     return FoodDao.getInstance().createOrUpdate(dto);
                 }
                 @Override
@@ -68,7 +68,7 @@ public class FoodRepository {
     private void searchOffline(Context context, String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
         DataLoader.getInstance().load(context, new DataLoaderListener<List<FoodSearchListItem>>() {
             @Override
-            public List<FoodSearchListItem> onShouldLoad() {
+            public List<FoodSearchListItem> onShouldLoad(Context context) {
                 List<FoodSearchListItem> items = new ArrayList<>();
 
                 boolean showCustomFood = PreferenceStore.getInstance().showCustomFood();

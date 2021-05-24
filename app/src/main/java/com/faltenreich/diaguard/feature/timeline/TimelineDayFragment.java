@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.feature.timeline;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -124,11 +125,15 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
     }
 
     private void invalidateData() {
+        if (getContext() == null) {
+            return;
+        }
+
         if (data.needsChartData()) {
             Log.d(TAG, "Invalidating data for chart on " + data.getDay().toString());
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<DayChartData>() {
                 @Override
-                public DayChartData onShouldLoad() {
+                public DayChartData onShouldLoad(Context context) {
                     List<Measurement> values = new ArrayList<>();
                     List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(data.getDay());
                     if (entries != null && entries.size() > 0) {
@@ -138,7 +143,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
                             values.addAll(measurements);
                         }
                     }
-                    return new DayChartData(getContext(), PreferenceStore.getInstance().getTimelineStyle(), values);
+                    return new DayChartData(context, PreferenceStore.getInstance().getTimelineStyle(), values);
                 }
 
                 @Override
@@ -155,7 +160,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
             Log.d(TAG, "Invalidating data for list on " + data.getDay().toString());
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<CategoryValueListItem>>() {
                 @Override
-                public List<CategoryValueListItem> onShouldLoad() {
+                public List<CategoryValueListItem> onShouldLoad(Context context) {
                     List<CategoryValueListItem> listItems = new ArrayList<>();
                     LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(data.getDay(), categories, SKIP_EVERY_X_HOUR);
                     for (Map.Entry<Category, CategoryValueListItem[]> mapEntry : values.entrySet()) {

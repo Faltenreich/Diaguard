@@ -169,6 +169,7 @@ public class StickyHintInputView extends LinearLayout implements ViewBindable<Vi
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
+            // FIXME: Never called and therefore view state is not being restored
             out.writeString(text);
             out.writeString(hint);
             out.writeInt(inputType);

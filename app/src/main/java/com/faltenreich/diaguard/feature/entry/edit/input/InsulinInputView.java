@@ -20,12 +20,18 @@ import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 @SuppressLint("ViewConstructor")
 public class InsulinInputView extends MeasurementInputView<ListItemMeasurementInsulinBinding, Insulin> {
 
-    private StickyHintInputView bolusInputField;
-    private StickyHintInputView correctionInputField;
-    private StickyHintInputView basalInputField;
+    private final StickyHintInputView bolusInputField;
+    private final StickyHintInputView correctionInputField;
+    private final StickyHintInputView basalInputField;
 
     public InsulinInputView(Context context, Insulin insulin) {
         super(context, Insulin.class, insulin);
+        bolusInputField = getBinding().bolusInputField;
+        bolusInputField.getEditText().setSaveEnabled(false);
+        correctionInputField = getBinding().correctionInputField;
+        correctionInputField.getEditText().setSaveEnabled(false);
+        basalInputField = getBinding().basalInputField;
+        basalInputField.getEditText().setSaveEnabled(false);
     }
 
     @Override
@@ -35,7 +41,6 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
 
     @Override
     protected void onBind(Insulin measurement) {
-        bolusInputField = getBinding().bolusInputField;
         bolusInputField.setText(measurement.getValuesForUI()[0]);
         EditTextUtils.afterTextChanged(bolusInputField.getEditText(), () -> {
             measurement.setBolus(bolusInputField.getText().length() > 0 ?
@@ -45,7 +50,6 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
                 ) : 0);
         });
 
-        correctionInputField = getBinding().correctionInputField;
         correctionInputField.setText(measurement.getValuesForUI()[1]);
         EditTextUtils.afterTextChanged(correctionInputField.getEditText(), () -> {
             measurement.setCorrection(correctionInputField.getText().length() > 0 ?
@@ -55,7 +59,6 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
                 ) : 0);
         });
 
-        basalInputField = getBinding().basalInputField;
         basalInputField.setText(measurement.getValuesForUI()[2]);
         EditTextUtils.afterTextChanged(basalInputField.getEditText(), () -> {
             measurement.setBasal(basalInputField.getText().length() > 0 ?

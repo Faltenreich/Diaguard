@@ -14,10 +14,12 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 @SuppressLint("ViewConstructor")
 public class MealInputView extends MeasurementInputView<ListItemMeasurementMealBinding, Meal> {
 
-    private FoodInputView foodInputView;
+    private final FoodInputView foodInputView;
 
     public MealInputView(Context context, Meal meal) {
         super(context, Meal.class, meal);
+        foodInputView = getBinding().foodInputView;
+        foodInputView.getInputField().getEditText().setSaveEnabled(false);
     }
 
     @Override
@@ -27,7 +29,6 @@ public class MealInputView extends MeasurementInputView<ListItemMeasurementMealB
 
     @Override
     protected void onBind(Meal measurement) {
-        foodInputView = getBinding().foodInputView;
         foodInputView.setMeal(measurement);
     }
 

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.feature.entry.edit.input;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,14 +17,15 @@ import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 /**
  * Created by Faltenreich on 20.09.2015.
  */
+@SuppressLint("ViewConstructor")
 public class GenericInputView<T extends Measurement> extends MeasurementInputView<ListItemMeasurementGenericBinding, T> implements TextWatcher {
 
-    public GenericInputView(Context context) {
-        super(context);
-    }
+    private final StickyHintInputView inputField;
 
     public GenericInputView(Context context, Class<T> clazz, T measurement) {
         super(context, clazz, measurement);
+        inputField = getBinding().inputField;
+        inputField.getEditText().setSaveEnabled(false);
     }
 
     @Override
@@ -33,7 +35,6 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
 
     @Override
     protected void onBind(Measurement measurement) {
-        StickyHintInputView inputField = getBinding().inputField;
         inputField.setTag(measurement.getCategory());
         inputField.setHint(PreferenceStore.getInstance().getUnitAcronym(measurement.getCategory()));
         inputField.setText(measurement.getValuesForUI()[0]);
@@ -42,13 +43,12 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
 
     @Override
     protected void onUnbind(T measurement) {
-        getBinding().inputField.getEditText().removeTextChangedListener(this);
+        inputField.getEditText().removeTextChangedListener(this);
         super.onUnbind(measurement);
     }
 
     @Override
     public boolean isValid() {
-        StickyHintInputView inputField = getBinding().inputField;
         boolean isValid;
         String input = inputField.getText();
         if (StringUtils.isBlank(input)) {

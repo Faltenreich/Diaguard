@@ -18,11 +18,15 @@ import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 @SuppressLint("ViewConstructor")
 public class PressureInputView extends MeasurementInputView<ListItemMeasurementPressureBinding, Pressure> {
 
-    private StickyHintInputView systolicInputField;
-    private StickyHintInputView diastolicInputField;
+    private final StickyHintInputView systolicInputField;
+    private final StickyHintInputView diastolicInputField;
 
     public PressureInputView(Context context, Pressure pressure) {
         super(context, Pressure.class, pressure);
+        systolicInputField = getBinding().systolicInputField;
+        systolicInputField.getEditText().setSaveEnabled(false);
+        diastolicInputField = getBinding().diastolicInputField;
+        diastolicInputField.getEditText().setSaveEnabled(false);
     }
 
     @Override
@@ -32,7 +36,6 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
 
     @Override
     protected void onBind(Pressure measurement) {
-        systolicInputField = getBinding().systolicInputField;
         systolicInputField.setText(measurement.getValuesForUI()[0]);
         EditTextUtils.afterTextChanged(systolicInputField.getEditText(), () ->
             measurement.setSystolic(PreferenceStore.getInstance().formatCustomToDefaultUnit(
@@ -40,7 +43,6 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
                 FloatUtils.parseNumber(systolicInputField.getText())))
         );
 
-        diastolicInputField = getBinding().diastolicInputField;
         diastolicInputField.setText(measurement.getValuesForUI()[1]);
         EditTextUtils.afterTextChanged(diastolicInputField.getEditText(), () ->
             measurement.setDiastolic(PreferenceStore.getInstance().formatCustomToDefaultUnit(

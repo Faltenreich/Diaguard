@@ -126,6 +126,10 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         addButton = getBinding().addButton;
     }
 
+    public StickyHintInputView getInputField() {
+        return inputValueInputField;
+    }
+
     private void initData() {
         if (meal == null) {
             meal = new Meal();
@@ -168,6 +172,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         return meal;
     }
 
+    // FIXME: Previously cached but removed food eaten gets added obsoletely
     public void setMeal(Meal meal) {
         this.meal = meal;
         this.inputValueInputField.setText(meal.getValuesForUI()[0]);

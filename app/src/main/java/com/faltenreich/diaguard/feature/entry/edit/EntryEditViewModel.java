@@ -111,24 +111,27 @@ public class EntryEditViewModel {
         if (entry != null) {
             callback.accept(entry);
         } else if (entryId != -1L) {
-            fetchEntry(context, callback);
+            fetchEntry(context, entryId, callback);
         } else if (foodId != -1L) {
-            fetchFood(context, callback);
+            fetchFood(context, foodId, callback);
         } else {
-            entry = new Entry();
-            entry.setDate(dateTime);
-
-            if (category != null) {
-                Measurement measurement = ObjectFactory.createFromClass(category.toClass());
-                measurement.setEntry(entry);
-                entry.getMeasurementCache().add(measurement);
-            }
-
+            createEntry();
             callback.accept(entry);
         }
     }
 
-    private void fetchEntry(Context context, Consumer<Entry> callback) {
+    private void createEntry() {
+        entry = new Entry();
+        entry.setDate(dateTime);
+
+        if (category != null) {
+            Measurement measurement = ObjectFactory.createFromClass(category.toClass());
+            measurement.setEntry(entry);
+            entry.getMeasurementCache().add(measurement);
+        }
+    }
+
+    private void fetchEntry(Context context, final long entryId, Consumer<Entry> callback) {
         DataLoader.getInstance().load(context, new DataLoaderListener<Entry>() {
             @Override
             public Entry onShouldLoad(Context context) {
@@ -146,13 +149,12 @@ public class EntryEditViewModel {
         });
     }
 
-    private void fetchFood(Context context, Consumer<Entry> callback) {
+    private void fetchFood(Context context, final long foodId, Consumer<Entry> callback) {
         DataLoader.getInstance().load(context, new DataLoaderListener<Food>() {
             @Override
             public Food onShouldLoad(Context context) {
                 return FoodDao.getInstance().getById(foodId);
             }
-
             @Override
             public void onDidLoad(Food food) {
                 entry = new Entry();

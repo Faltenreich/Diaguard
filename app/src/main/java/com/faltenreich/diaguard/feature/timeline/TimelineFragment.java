@@ -172,7 +172,7 @@ public class TimelineFragment
 
     @Override
     public void onPageSelected(int position) {
-        if (position != adapter.getMiddle()) {
+        if (position != adapter.getMiddle() && position >= 0 && position < adapter.getCount()) {
             TimelineDayFragment fragment = adapter.getFragment(position);
             DateTime day = fragment.getDay();
             if (day != null) {

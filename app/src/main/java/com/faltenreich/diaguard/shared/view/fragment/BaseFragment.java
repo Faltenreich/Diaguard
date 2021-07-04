@@ -150,6 +150,9 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final EntryDeletedEvent event) {
+        if (getView() == null) {
+            return;
+        }
         ViewUtils.showSnackbar(getView(), getString(R.string.entry_deleted), v -> {
             Entry entry = event.context;
             EntryDao.getInstance().createOrUpdate(entry);

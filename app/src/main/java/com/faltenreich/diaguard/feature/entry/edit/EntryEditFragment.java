@@ -544,8 +544,9 @@ public class EntryEditFragment
         Entry entry = viewModel.getEntry();
         if (entry != null) {
             EntryDao.getInstance().delete(entry);
-            Events.post(new EntryDeletedEvent(entry, viewModel.getEntryTags(), getFoodEaten()));
             finish();
+            Events.unregister(this);
+            Events.post(new EntryDeletedEvent(entry, viewModel.getEntryTags(), getFoodEaten()));
         }
     }
 

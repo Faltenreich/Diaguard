@@ -1,6 +1,6 @@
 # Diaguard
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Release](https://img.shields.io/badge/Release-3.8.5-478063.svg)](https://play.google.com/store/apps/details?id=com.faltenreich.diaguard)
+[![Version](https://img.shields.io/badge/Release-3.8.5-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <img src="./resource/image/marketing/showcase.png" width="750"> 
@@ -122,6 +122,7 @@ This software uses following technologies with great appreciation:
 * [Retrofit](https://square.github.io/retrofit)
 * [Robolectric](http://robolectric.org)
 * [Schweizer Nährwertdatenbank](http://naehrwertdaten.ch)
+* [Shields.io](https://shields.io)
 
 These dependencies are bundled with Diaguard but under the terms of their respective license.
 

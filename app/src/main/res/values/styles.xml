@@ -23,6 +23,8 @@
         <item name="elevation">4dp</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
         <item name="materialButtonStyle">@style/Button</item>
+        <item name="android:windowSplashScreenBackground" tools:ignore="NewApi">@color/green_darker</item>
+        <item name="android:windowSplashScreenIconBackgroundColor" tools:ignore="NewApi">@color/green</item>
     </style>
 
     <style name="Theme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -46,6 +48,8 @@
         <item name="elevation">4dp</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
         <item name="materialButtonStyle">@style/Button</item>
+        <item name="android:windowSplashScreenBackground" tools:ignore="NewApi">@color/green_darker</item>
+        <item name="android:windowSplashScreenIconBackgroundColor" tools:ignore="NewApi">@color/green</item>
     </style>
 
     <style name="AppTheme.Transparent">

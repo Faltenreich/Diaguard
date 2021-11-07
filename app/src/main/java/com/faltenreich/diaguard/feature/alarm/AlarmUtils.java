@@ -35,7 +35,10 @@ public class AlarmUtils {
 
     private static PendingIntent getPendingIntent() {
         Intent intent = new Intent(getContext(), AlarmBroadcastReceiver.class);
-        return PendingIntent.getBroadcast(getContext(), ALARM_ID, intent, 0);
+        int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+            ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            : PendingIntent.FLAG_UPDATE_CURRENT;
+        return PendingIntent.getBroadcast(getContext(), ALARM_ID, intent, flags);
     }
 
     public static void setAlarm(long intervalInMillis) {

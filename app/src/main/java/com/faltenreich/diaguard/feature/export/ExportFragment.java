@@ -134,6 +134,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
         ViewUtils.setChecked(getBinding().footerCheckbox, PreferenceStore.getInstance().exportFooter(), false);
         ViewUtils.setChecked(getBinding().noteCheckbox, PreferenceStore.getInstance().exportNotes(), false);
         ViewUtils.setChecked(getBinding().tagsCheckbox, PreferenceStore.getInstance().exportTags(), false);
+        ViewUtils.setChecked(getBinding().emptyDaysCheckbox, PreferenceStore.getInstance().exportEmptyDays(), false);
 
         getBinding().noteCheckbox.setOnCheckedChangeListener((buttonView, isChecked) ->
             PreferenceStore.getInstance().setExportNotes(isChecked));
@@ -248,6 +249,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
             getBinding().footerCheckbox.isChecked(),
             getBinding().noteCheckbox.isChecked(),
             getBinding().tagsCheckbox.isChecked(),
+            getBinding().emptyDaysCheckbox.isChecked(),
             categoryListAdapter.exportFood(),
             categoryListAdapter.splitInsulin(),
             categoryListAdapter.highlightLimits()

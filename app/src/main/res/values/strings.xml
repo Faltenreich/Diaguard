@@ -76,6 +76,7 @@
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
     <string name="edit">Edit</string>
+    <string name="empty_days_append">Append days without measurements</string>
     <string name="energy_acronym" translatable="false">kcal</string>
     <string name="energy_acronym_2" translatable="false">kJ</string>
     <string name="entries">Entries</string>

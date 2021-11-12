@@ -274,6 +274,14 @@ public class PreferenceStore {
         return sharedPreferences.getBoolean(getKey(R.string.preference_export_food), true);
     }
 
+    public void setExportEmptyDays(boolean exportEmptyDays) {
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_export_empty_days), exportEmptyDays).apply();
+    }
+
+    public boolean exportEmptyDays() {
+        return sharedPreferences.getBoolean(getKey(R.string.preference_export_empty_days), true);
+    }
+
     public void setExportInsulinSplit(boolean splitInsulin) {
         sharedPreferences.edit().putBoolean(getKey(R.string.preference_export_insulin_split), splitInsulin).apply();
     }

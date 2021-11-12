@@ -295,6 +295,37 @@
             app:layout_constraintStart_toStartOf="@id/date_start_button"
             app:layout_constraintTop_toBottomOf="@id/note_divider" />
 
+        <View
+            android:id="@+id/tags_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tags_checkbox" />
+
+        <ImageView
+            android:id="@+id/empty_days_icon"
+            android:layout_width="@dimen/size_image"
+            android:layout_height="@dimen/size_image"
+            android:contentDescription="@null"
+            android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="@id/empty_days_checkbox"
+            app:layout_constraintStart_toStartOf="@id/tags_icon"
+            app:layout_constraintTop_toTopOf="@id/empty_days_checkbox"
+            app:srcCompat="@drawable/ic_tag"
+            app:tint="?iconColorPrimary" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/empty_days_checkbox"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_element_large"
+            android:padding="@dimen/margin_between"
+            android:text="@string/empty_days_append"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintTop_toBottomOf="@id/tags_divider" />
+
         <TextView
             android:id="@+id/category_list_header"
             style="@style/Padding"
@@ -304,7 +335,7 @@
             android:text="@string/categories"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tags_checkbox" />
+            app:layout_constraintTop_toBottomOf="@id/empty_days_checkbox" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/category_list_view"

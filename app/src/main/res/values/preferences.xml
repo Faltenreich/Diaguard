@@ -56,6 +56,7 @@
     <string name="preference_export_notes">export_notes</string>
     <string name="preference_export_tags">export_tags</string>
     <string name="preference_export_food">export_food</string>
+    <string name="preference_export_empty_days">exportEmptyDays</string>
     <string name="preference_export_categories">exportCategories</string>
     <string name="preference_export_insulin_split">exportInsulinSplit</string>
 

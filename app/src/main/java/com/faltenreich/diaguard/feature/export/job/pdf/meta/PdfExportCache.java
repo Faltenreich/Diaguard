@@ -19,16 +19,16 @@ public class PdfExportCache {
     private static final float FONT_SIZE_HEADER = 14f;
 
     private final PdfExportConfig config;
-    private Pdf pdf;
+    private final Pdf pdf;
     private PdfPage page;
     private DateTime dateTime;
 
-    private Font fontNormal;
-    private Font fontBold;
-    private Font fontHeader;
-    private int colorDivider;
-    private int colorHyperglycemia;
-    private int colorHypoglycemia;
+    private final Font fontNormal;
+    private final Font fontBold;
+    private final Font fontHeader;
+    private final int colorDivider;
+    private final int colorHyperglycemia;
+    private final int colorHypoglycemia;
 
     public PdfExportCache(PdfExportConfig config, File file) throws Exception {
         this.config = config;

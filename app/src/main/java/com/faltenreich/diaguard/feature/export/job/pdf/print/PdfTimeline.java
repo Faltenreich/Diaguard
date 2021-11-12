@@ -146,7 +146,7 @@ public class PdfTimeline implements PdfPrintable {
             // Must be executed early to know the table's height
             table.setData(tableData);
         } catch (Exception exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
         }
     }
 

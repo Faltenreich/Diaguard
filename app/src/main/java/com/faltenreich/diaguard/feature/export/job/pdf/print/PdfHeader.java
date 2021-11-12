@@ -49,7 +49,7 @@ public class PdfHeader implements PdfPrintable {
             text = new SizedText(paragraphs);
             text.setParagraphLeading(week.getFont().getBodyHeight());
         } catch (Exception exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
         }
     }
 

@@ -128,7 +128,7 @@ public class PdfTable implements PdfPrintable {
         try {
             table.setData(data);
         } catch (Exception exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
         }
     }
 

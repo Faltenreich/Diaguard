@@ -14,8 +14,7 @@ public class PdfPage extends Page {
     private static final float PADDING_EDGES = 60;
     static final float MARGIN = 20;
 
-    private Point position;
-    private PdfHeader header;
+    private final Point position;
     private PdfFooter footer;
 
     public PdfPage(PdfExportCache cache) throws Exception {
@@ -23,8 +22,7 @@ public class PdfPage extends Page {
         position = getStartPoint();
 
         if (cache.getConfig().isExportHeader()) {
-            header = new PdfHeader(cache);
-            draw(header);
+            draw(new PdfHeader(cache));
         }
 
         if (cache.getConfig().isExportFooter()) {
@@ -35,9 +33,7 @@ public class PdfPage extends Page {
     }
 
     private Point getStartPoint() {
-        float startX = PADDING_EDGES;
-        float startY = PADDING_EDGES;
-        return new Point(startX, startY);
+        return new Point(PADDING_EDGES, PADDING_EDGES);
     }
 
     public Point getEndPoint() {
@@ -66,7 +62,7 @@ public class PdfPage extends Page {
             printable.drawOn(this, position);
             position.setY(position.getY() + printable.getHeight());
         } catch (Exception exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
         }
     }
 }

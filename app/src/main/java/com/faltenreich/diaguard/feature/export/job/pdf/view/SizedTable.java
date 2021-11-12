@@ -36,7 +36,7 @@ public class SizedTable extends Table {
                 }
                 height += maxHeightOfRow;
             } catch (Exception exception) {
-                Log.e(TAG, exception.getMessage());
+                Log.e(TAG, exception.toString());
             }
         }
         return height;

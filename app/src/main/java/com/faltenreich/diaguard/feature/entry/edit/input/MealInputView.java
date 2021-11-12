@@ -34,7 +34,7 @@ public class MealInputView extends MeasurementInputView<ListItemMeasurementMealB
 
     @Override
     public boolean isValid() {
-        return foodInputView.isValid();
+        return !foodInputView.hasInput() || foodInputView.isValid();
     }
 
     @Override

@@ -447,9 +447,10 @@ public class EntryEditFragment
     private boolean inputIsValid() {
         boolean inputIsValid = true;
 
-        List<Measurement> measurements = viewModel.getEntry().getMeasurementCache();
+        List<Measurement> measurements = viewModel.getMeasurements();
         if (measurements.size() == 0) {
             // Allow entries with no measurements but with a note or tag
+            // FIXME: Allow entries with food eaten only
             if (StringUtils.isBlank(viewModel.getEntry().getNote()) && tagListView.getChildCount() == 0) {
                 ViewUtils.showSnackbar(root, getString(R.string.validator_value_none));
                 inputIsValid = false;
@@ -484,16 +485,18 @@ public class EntryEditFragment
 
     private void submit() {
         Entry entry = viewModel.getEntry();
+        List<Measurement> measurements = viewModel.getMeasurements();
+        entry.setMeasurementCache(measurements);
         boolean isNewEntry = !entry.isPersisted();
         entry = EntryDao.getInstance().createOrUpdate(entry);
 
         for (Measurement measurement : EntryDao.getInstance().getMeasurements(entry)) {
-            boolean isObsolete = !entry.getMeasurementCache().contains(measurement);
+            boolean isObsolete = !measurements.contains(measurement);
             if (isObsolete) {
                 MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
             }
         }
-        for (Measurement measurement : entry.getMeasurementCache()) {
+        for (Measurement measurement : measurements) {
             MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
         }
 

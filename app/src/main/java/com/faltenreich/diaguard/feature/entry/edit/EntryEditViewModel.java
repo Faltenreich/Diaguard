@@ -50,6 +50,16 @@ public class EntryEditViewModel {
         return entry;
     }
 
+    List<Measurement> getMeasurements() {
+        List<Measurement> measurements = new ArrayList<>();
+        for (Measurement measurement : entry.getMeasurementCache()) {
+            if (measurement.hasValue()) {
+                measurements.add(measurement);
+            }
+        }
+        return measurements;
+    }
+
     List<EntryTag> getEntryTags() {
         return entryTags;
     }

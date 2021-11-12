@@ -48,6 +48,15 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
 
     public abstract void setValues(float... values);
 
+    public boolean hasValue() {
+        for (float value : getValues()) {
+            if (value > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String getKeyForBackup() {
         return BACKUP_KEY;

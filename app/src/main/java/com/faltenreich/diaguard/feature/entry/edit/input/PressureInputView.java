@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 
@@ -53,6 +54,11 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
 
     @Override
     public boolean isValid() {
+        String systolic = systolicInputField.getText().trim();
+        String diastolic = diastolicInputField.getText().trim();
+        if (StringUtils.isBlank(systolic) && StringUtils.isBlank(diastolic)) {
+            return true;
+        }
         return PreferenceStore.getInstance().isValueValid(systolicInputField.getEditText(), Category.PRESSURE)
             && PreferenceStore.getInstance().isValueValid(diastolicInputField.getEditText(), Category.PRESSURE);
     }

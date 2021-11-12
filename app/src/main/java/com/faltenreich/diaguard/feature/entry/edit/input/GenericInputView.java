@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementGenericBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
@@ -49,15 +48,8 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
 
     @Override
     public boolean isValid() {
-        boolean isValid;
-        String input = inputField.getText();
-        if (StringUtils.isBlank(input)) {
-            inputField.setError(getContext().getString(R.string.validator_value_empty));
-            isValid = false;
-        } else {
-            isValid = PreferenceStore.getInstance().isValueValid(inputField.getEditText(), getMeasurement().getCategory());
-        }
-        return isValid;
+        return StringUtils.isBlank(inputField.getText())
+            || PreferenceStore.getInstance().isValueValid(inputField.getEditText(), getMeasurement().getCategory());
     }
 
     @Override

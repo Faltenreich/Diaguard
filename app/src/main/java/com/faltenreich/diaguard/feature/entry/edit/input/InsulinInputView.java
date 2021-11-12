@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementInsulinBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -71,25 +70,23 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
 
     @Override
     public boolean isValid() {
-        boolean isValid = true;
-
         String bolus = bolusInputField.getText().trim();
         String correction = correctionInputField.getText().trim();
         String basal = basalInputField.getText().trim();
 
         if (StringUtils.isBlank(bolus) && StringUtils.isBlank(correction) && StringUtils.isBlank(basal)) {
-            bolusInputField.setError(getContext().getString(R.string.validator_value_empty));
-            isValid = false;
-        } else {
-            if (!StringUtils.isBlank(bolus)) {
-                isValid = PreferenceStore.getInstance().isValueValid(bolusInputField.getEditText(), Category.INSULIN);
-            }
-            if (!StringUtils.isBlank(correction)) {
-                isValid = PreferenceStore.getInstance().isValueValid(correctionInputField.getEditText(), Category.INSULIN, true);
-            }
-            if (!StringUtils.isBlank(basal)) {
-                isValid = PreferenceStore.getInstance().isValueValid(basalInputField.getEditText(), Category.INSULIN);
-            }
+            return true;
+        }
+
+        boolean isValid = true;
+        if (!StringUtils.isBlank(bolus)) {
+            isValid = PreferenceStore.getInstance().isValueValid(bolusInputField.getEditText(), Category.INSULIN);
+        }
+        if (!StringUtils.isBlank(correction)) {
+            isValid = PreferenceStore.getInstance().isValueValid(correctionInputField.getEditText(), Category.INSULIN, true);
+        }
+        if (!StringUtils.isBlank(basal)) {
+            isValid = PreferenceStore.getInstance().isValueValid(basalInputField.getEditText(), Category.INSULIN);
         }
         return isValid;
     }

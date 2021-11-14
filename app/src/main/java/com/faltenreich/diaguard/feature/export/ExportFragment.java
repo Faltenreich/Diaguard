@@ -115,7 +115,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     private void init() {
         dateEnd = DateTimeUtils.atEndOfDay(DateTime.now());
         // JodaTime cannot localize days of week, so consider falling back to java.util.Calendar
-        dateStart = dateEnd.withDayOfWeek(1).withTimeAtStartOfDay();
+        dateStart = DateTimeUtils.atStartOfWeek(dateEnd);
         categoryListAdapter = new ExportCategoryListAdapter(getContext());
     }
 

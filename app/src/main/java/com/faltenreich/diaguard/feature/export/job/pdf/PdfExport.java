@@ -31,15 +31,14 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected File doInBackground(Void... params) {
-        File file = Export.getExportFile(config);
         try {
+            File file = Export.getExportFile(config);
             PdfExportCache cache = new PdfExportCache(config, file);
             while (cache.isDateTimeValid()) {
                 boolean isNewPage = config.getDateStart().equals(cache.getDateTime())
                     || cache.isDateTimeForNewWeek();
                 if (isNewPage) {
                     PdfPage page = PdfPageFactory.createPage(cache);
-                    // TODO: Prevent creation of empty documents
                     if (page == null) {
                         cache.setDateTime(cache.getDateTime().plusWeeks(1));
                         continue;
@@ -62,10 +61,12 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 cache.setDateTime(cache.getDateTime().plusDays(1));
             }
             cache.clear();
+            // TODO: Improve error message for invalid files
+            return cache.getPage() != null ? file : null;
         } catch (Exception exception) {
             Log.e(TAG, exception.toString());
+            return null;
         }
-        return file;
     }
 
     @Override

@@ -41,8 +41,6 @@ public class PdfExportCache {
         this.colorDivider = ContextCompat.getColor(getContext(), R.color.background_light_primary);
         this.colorHyperglycemia = ContextCompat.getColor(getContext(), R.color.red);
         this.colorHypoglycemia = ContextCompat.getColor(getContext(), R.color.blue);
-        // Must be called last, since it relies on the properties before
-        this.page = new PdfPage(this);
     }
 
     public PdfPage getPage() {

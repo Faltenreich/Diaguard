@@ -34,7 +34,9 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         try {
             PdfExportCache cache = new PdfExportCache(config, file);
             while (cache.isDateTimeValid()) {
-                if (cache.isDateTimeForNewWeek()) {
+                boolean isNewPage = config.getDateStart().equals(cache.getDateTime())
+                    || cache.isDateTimeForNewWeek();
+                if (isNewPage) {
                     cache.setPage(new PdfPage(cache));
                 }
 

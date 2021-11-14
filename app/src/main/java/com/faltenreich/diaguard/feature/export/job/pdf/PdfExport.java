@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.feature.export.job.FileType;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPage;
+import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPageFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPrintable;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPrintableFactory;
 
@@ -37,7 +38,13 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 boolean isNewPage = config.getDateStart().equals(cache.getDateTime())
                     || cache.isDateTimeForNewWeek();
                 if (isNewPage) {
-                    cache.setPage(new PdfPage(cache));
+                    PdfPage page = PdfPageFactory.createPage(cache);
+                    // TODO: Prevent creation of empty documents
+                    if (page == null) {
+                        cache.setDateTime(cache.getDateTime().plusWeeks(1));
+                        continue;
+                    }
+                    cache.setPage(page);
                 }
 
                 PdfPrintable printable = PdfPrintableFactory.createPrintable(cache);

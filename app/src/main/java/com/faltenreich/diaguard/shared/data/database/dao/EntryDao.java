@@ -201,6 +201,18 @@ public class EntryDao extends BaseDao<Entry> {
         return values;
     }
 
+    public long count(DateTime start, DateTime end) {
+        try {
+            return getQueryBuilder()
+                .where().ge(Entry.Column.DATE, start)
+                .and().le(Entry.Column.DATE, end)
+                .countOf();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.toString());
+            return -1;
+        }
+    }
+
     public long count(Category category, DateTime start, DateTime end) {
         try {
             QueryBuilder<Entry, Long> queryBuilder = join(category.toClass());

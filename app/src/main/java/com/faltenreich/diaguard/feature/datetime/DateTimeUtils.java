@@ -24,6 +24,10 @@ public class DateTimeUtils {
         }
     }
 
+    public static DateTime atEndOfDay(DateTime dateTime) {
+        return dateTime.withTime(23, 59, 59, 999);
+    }
+
     private static String toWeekDayShort(DateTime dateTime, boolean withDot) {
         String weekDay = dateTime.toString("E");
         if (!withDot && weekDay.length() >= 1) {
@@ -40,26 +44,26 @@ public class DateTimeUtils {
     public static String parseInterval(Context context, long intervalInMillis) {
         if (intervalInMillis > (DateTimeConstants.MILLIS_PER_DAY * 2)) {
             return String.format("%d %s",
-                    intervalInMillis / DateTimeConstants.MILLIS_PER_DAY,
-                    context.getString(R.string.days));
+                intervalInMillis / DateTimeConstants.MILLIS_PER_DAY,
+                context.getString(R.string.days));
         } else if (intervalInMillis > (DateTimeConstants.MILLIS_PER_HOUR * 2)) {
             return String.format("%d %s",
-                    intervalInMillis / DateTimeConstants.MILLIS_PER_HOUR,
-                    context.getString(R.string.hours));
+                intervalInMillis / DateTimeConstants.MILLIS_PER_HOUR,
+                context.getString(R.string.hours));
         } else if (intervalInMillis > (DateTimeConstants.MILLIS_PER_MINUTE * 2)) {
             return String.format("%d %s",
-                    intervalInMillis / DateTimeConstants.MILLIS_PER_MINUTE,
-                    context.getString(R.string.minutes));
+                intervalInMillis / DateTimeConstants.MILLIS_PER_MINUTE,
+                context.getString(R.string.minutes));
         } else {
             return String.format("1 %s",
-                    context.getString(R.string.minute));
+                context.getString(R.string.minute));
         }
     }
 
     public static DateTime parseFromString(String text, String format) {
         return TextUtils.isEmpty(text) && format.isEmpty() ?
-                DateTimeFormat.forPattern(format).parseDateTime(text) :
-                null;
+            DateTimeFormat.forPattern(format).parseDateTime(text) :
+            null;
     }
 
     public static String toWeekDayAndDate(DateTime dateTime) {
@@ -85,5 +89,13 @@ public class DateTimeUtils {
 
     public static String toDateString(DateTime dateTime) {
         return DateTimeFormat.forPattern(FORMAT_DATE).print(dateTime);
+    }
+
+    public static DateTime atStartOfWeek(DateTime dateTime) {
+        return atStartOfDay(dateTime.withDayOfWeek(1));
+    }
+
+    public static DateTime atEndOfWeek(DateTime dateTime) {
+        return atEndOfDay(dateTime.withDayOfWeek(DateTimeConstants.SUNDAY));
     }
 }

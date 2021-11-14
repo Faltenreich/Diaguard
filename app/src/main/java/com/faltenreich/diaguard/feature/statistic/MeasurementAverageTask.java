@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -61,7 +62,7 @@ public class MeasurementAverageTask extends BaseAsyncTask<Void, Void, LineData> 
     protected LineData doInBackground(Void... params) {
         List<Entry> entries = new ArrayList<>();
 
-        DateTime endDateTime = DateTime.now().withTime(23, 59, 59, 999);
+        DateTime endDateTime = DateTimeUtils.atEndOfDay(DateTime.now());
         DateTime startDateTime = timeSpan.getInterval(endDateTime, -1).getStart();
         startDateTime = startDateTime.withTimeAtStartOfDay();
 

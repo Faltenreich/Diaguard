@@ -115,7 +115,7 @@ public class PdfTimeline implements PdfPrintable {
             String label = context.getString(category.getStringAcronymResId());
             switch (category) {
                 case INSULIN:
-                    if (cache.getConfig().isSplitInsulin()) {
+                    if (cache.getConfig().splitInsulin()) {
                         tableData.add(createRowForMeasurements(category, values, rowIndex, 0, label + " " + context.getString(R.string.bolus)));
                         tableData.add(createRowForMeasurements(category, values, rowIndex, 1, label + " " + context.getString(R.string.correction)));
                         tableData.add(createRowForMeasurements(category, values, rowIndex, 2, label + " " + context.getString(R.string.basal)));
@@ -289,7 +289,7 @@ public class PdfTimeline implements PdfPrintable {
 
                 point.setPosition(x, y);
                 int color = Color.black;
-                if (cache.getConfig().isHighlightLimits()) {
+                if (cache.getConfig().highlightLimits()) {
                     if (value > PreferenceStore.getInstance().getLimitHyperglycemia()) {
                         color = cache.getColorHyperglycemia();
                     } else if (value < PreferenceStore.getInstance().getLimitHypoglycemia()) {

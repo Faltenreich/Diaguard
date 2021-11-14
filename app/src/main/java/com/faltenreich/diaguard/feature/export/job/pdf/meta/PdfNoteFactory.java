@@ -23,10 +23,10 @@ public class PdfNoteFactory {
     public static PdfNote createNote(PdfExportConfig config, Entry entry) {
         List<String> entryNotesAndTagsOfDay = new ArrayList<>();
         List<String> foodOfDay = new ArrayList<>();
-        if (config.isExportNotes() && !StringUtils.isBlank(entry.getNote())) {
+        if (config.exportNotes() && !StringUtils.isBlank(entry.getNote())) {
             entryNotesAndTagsOfDay.add(entry.getNote());
         }
-        if (config.isExportTags()) {
+        if (config.exportTags()) {
             List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
             for (EntryTag entryTag : entryTags) {
                 Tag tag = entryTag.getTag();
@@ -35,7 +35,7 @@ public class PdfNoteFactory {
                 }
             }
         }
-        if (config.isExportFood()) {
+        if (config.exportFood()) {
             Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
             if (meal != null) {
                 for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {

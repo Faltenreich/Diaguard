@@ -91,7 +91,7 @@ public class PdfTable implements PdfPrintable {
                 int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
                 switch (category) {
                     case INSULIN:
-                        if (config.isSplitInsulin()) {
+                        if (config.splitInsulin()) {
                             data.add(createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.bolus), backgroundColor));
                             data.add(createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.correction), backgroundColor));
                             data.add(createMeasurementRows(cache, items, cellWidth, 2, label + " " + context.getString(R.string.basal), backgroundColor));
@@ -111,7 +111,7 @@ public class PdfTable implements PdfPrintable {
             }
         }
 
-        if (config.isExportNotes() || config.isExportTags() || config.isExportFood()) {
+        if (config.exportNotes() || config.exportTags() || config.exportFood()) {
             List<PdfNote> pdfNotes = new ArrayList<>();
             for (Entry entry : entriesOfDay) {
                 PdfNote pdfNote = PdfNoteFactory.createNote(config, entry);
@@ -163,7 +163,7 @@ public class PdfTable implements PdfPrintable {
                     break;
             }
             int textColor = Color.black;
-            if (category == Category.BLOODSUGAR && cache.getConfig().isHighlightLimits()) {
+            if (category == Category.BLOODSUGAR && cache.getConfig().highlightLimits()) {
                 if (value > PreferenceStore.getInstance().getLimitHyperglycemia()) {
                     textColor = cache.getColorHyperglycemia();
                 } else if (value < PreferenceStore.getInstance().getLimitHypoglycemia()) {

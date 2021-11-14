@@ -21,11 +21,11 @@ public class PdfPage extends Page {
         super(cache.getPdf(), Letter.PORTRAIT);
         position = getStartPoint();
 
-        if (cache.getConfig().isExportHeader()) {
+        if (cache.getConfig().exportHeader()) {
             draw(new PdfHeader(cache));
         }
 
-        if (cache.getConfig().isExportFooter()) {
+        if (cache.getConfig().exportFooter()) {
             // We jump to the end of the page
             footer = new PdfFooter(cache);
             footer.drawOn(this, new Point(PADDING_EDGES, super.getHeight() - PADDING_EDGES));

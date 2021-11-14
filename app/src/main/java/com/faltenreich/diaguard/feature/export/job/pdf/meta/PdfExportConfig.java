@@ -17,7 +17,7 @@ public class PdfExportConfig extends ExportConfig {
     private final boolean exportFooter;
     private final boolean exportNotes;
     private final boolean exportTags;
-    private final boolean exportEmptyDays;
+    private final boolean skipEmptyDays;
     private final boolean exportFood;
     private final boolean splitInsulin;
     private final boolean highlightLimits;
@@ -33,7 +33,7 @@ public class PdfExportConfig extends ExportConfig {
         boolean exportFooter,
         boolean exportNotes,
         boolean exportTags,
-        boolean exportEmptyDays,
+        boolean skipEmptyDays,
         boolean exportFood,
         boolean splitInsulin,
         boolean highlightLimits
@@ -44,7 +44,7 @@ public class PdfExportConfig extends ExportConfig {
         this.exportFooter = exportFooter;
         this.exportNotes = exportNotes;
         this.exportTags = exportTags;
-        this.exportEmptyDays = exportEmptyDays;
+        this.skipEmptyDays = skipEmptyDays;
         this.exportFood = exportFood;
         this.splitInsulin = splitInsulin;
         this.highlightLimits = highlightLimits;
@@ -54,35 +54,35 @@ public class PdfExportConfig extends ExportConfig {
         return style;
     }
 
-    public boolean isExportHeader() {
+    public boolean exportHeader() {
         return exportHeader;
     }
 
-    public boolean isExportFooter() {
+    public boolean exportFooter() {
         return exportFooter;
     }
 
-    public boolean isExportNotes() {
+    public boolean exportNotes() {
         return exportNotes;
     }
 
-    public boolean isExportTags() {
+    public boolean exportTags() {
         return exportTags;
     }
 
-    public boolean isExportEmptyDays() {
-        return exportEmptyDays;
+    public boolean skipEmptyDays() {
+        return skipEmptyDays;
     }
 
-    public boolean isExportFood() {
+    public boolean exportFood() {
         return exportFood;
     }
 
-    public boolean isSplitInsulin() {
+    public boolean splitInsulin() {
         return splitInsulin;
     }
 
-    public boolean isHighlightLimits() {
+    public boolean highlightLimits() {
         return highlightLimits;
     }
 
@@ -94,7 +94,7 @@ public class PdfExportConfig extends ExportConfig {
         PreferenceStore.getInstance().setExportFooter(exportFooter);
         PreferenceStore.getInstance().setExportNotes(exportNotes);
         PreferenceStore.getInstance().setExportTags(exportTags);
-        PreferenceStore.getInstance().setExportEmptyDays(exportEmptyDays);
+        PreferenceStore.getInstance().setSkipEmptyDays(skipEmptyDays);
         PreferenceStore.getInstance().setExportFood(exportFood);
         PreferenceStore.getInstance().setExportInsulinSplit(splitInsulin);
         PreferenceStore.getInstance().setLimitsAreHighlighted(highlightLimits);

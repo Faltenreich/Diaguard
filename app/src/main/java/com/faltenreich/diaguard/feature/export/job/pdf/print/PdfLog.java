@@ -88,7 +88,7 @@ public class PdfLog implements PdfPrintable {
             for (Measurement measurement : entry.getMeasurementCache()) {
                 Category category = measurement.getCategory();
                 int textColor = Color.black;
-                if (category == Category.BLOODSUGAR && config.isHighlightLimits()) {
+                if (category == Category.BLOODSUGAR && config.highlightLimits()) {
                     BloodSugar bloodSugar = (BloodSugar) measurement;
                     float value = bloodSugar.getMgDl();
                     if (value > PreferenceStore.getInstance().getLimitHyperglycemia()) {
@@ -100,7 +100,7 @@ public class PdfLog implements PdfPrintable {
 
                 String measurementText = measurement.print(context);
 
-                if (category == Category.MEAL && config.isExportFood()) {
+                if (category == Category.MEAL && config.exportFood()) {
                     List<String> foodOfDay = new ArrayList<>();
                     Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
                     if (meal != null) {
@@ -127,7 +127,7 @@ public class PdfLog implements PdfPrintable {
                 ));
             }
 
-            if (config.isExportTags()) {
+            if (config.exportTags()) {
                 List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
                 if (!entryTags.isEmpty()) {
                     List<String> tagNames = new ArrayList<>();
@@ -150,7 +150,7 @@ public class PdfLog implements PdfPrintable {
                 }
             }
 
-            if (config.isExportNotes()) {
+            if (config.exportNotes()) {
                 if (!StringUtils.isBlank(entry.getNote())) {
                     data.add(getRow(
                         cache,

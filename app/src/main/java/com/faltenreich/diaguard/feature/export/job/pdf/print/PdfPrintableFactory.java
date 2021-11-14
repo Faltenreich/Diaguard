@@ -14,7 +14,7 @@ public class PdfPrintableFactory {
     @Nullable
     public static PdfPrintable createPrintable(PdfExportCache cache) {
         List<Entry> entriesOfDay = EntryDao.getInstance().getEntriesOfDay(cache.getDateTime());
-        boolean exportDay = !entriesOfDay.isEmpty() || cache.getConfig().isExportEmptyDays();
+        boolean exportDay = !entriesOfDay.isEmpty() || !cache.getConfig().skipEmptyDays();
         if (exportDay) {
             PdfExportStyle style = cache.getConfig().getStyle();
             switch (style) {

@@ -39,10 +39,12 @@ public class PdfLog implements PdfPrintable {
     private static final float TIME_WIDTH = 72;
 
     private final PdfExportCache cache;
+    private final List<Entry> entriesOfDay;
     private final SizedTable table;
 
-    PdfLog(PdfExportCache cache) {
+    PdfLog(PdfExportCache cache, List<Entry> entriesOfDay) {
         this.cache = cache;
+        this.entriesOfDay = entriesOfDay;
         this.table = new SizedTable();
         init();
     }
@@ -72,14 +74,13 @@ public class PdfLog implements PdfPrintable {
         headerRow.add(headerCell);
         data.add(headerRow);
 
-        List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(cache.getDateTime());
-        for (Entry entry : entries) {
+        for (Entry entry : entriesOfDay) {
             List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
             entry.setMeasurementCache(measurements);
         }
 
         int rowIndex = 0;
-        for (Entry entry : entries) {
+        for (Entry entry : entriesOfDay) {
             int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
             int oldSize = data.size();
             String time = entry.getDate().toString("HH:mm");

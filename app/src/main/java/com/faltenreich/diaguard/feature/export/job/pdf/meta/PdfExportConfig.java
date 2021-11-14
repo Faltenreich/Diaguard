@@ -17,8 +17,8 @@ public class PdfExportConfig extends ExportConfig {
     private final boolean exportFooter;
     private final boolean exportNotes;
     private final boolean exportTags;
-    private final boolean exportFood;
     private final boolean exportEmptyDays;
+    private final boolean exportFood;
     private final boolean splitInsulin;
     private final boolean highlightLimits;
 
@@ -33,8 +33,8 @@ public class PdfExportConfig extends ExportConfig {
         boolean exportFooter,
         boolean exportNotes,
         boolean exportTags,
-        boolean exportFood,
         boolean exportEmptyDays,
+        boolean exportFood,
         boolean splitInsulin,
         boolean highlightLimits
     ) {
@@ -44,8 +44,8 @@ public class PdfExportConfig extends ExportConfig {
         this.exportFooter = exportFooter;
         this.exportNotes = exportNotes;
         this.exportTags = exportTags;
-        this.exportFood = exportFood;
         this.exportEmptyDays = exportEmptyDays;
+        this.exportFood = exportFood;
         this.splitInsulin = splitInsulin;
         this.highlightLimits = highlightLimits;
     }
@@ -70,12 +70,12 @@ public class PdfExportConfig extends ExportConfig {
         return exportTags;
     }
 
-    public boolean isExportFood() {
-        return exportFood;
-    }
-
     public boolean isExportEmptyDays() {
         return exportEmptyDays;
+    }
+
+    public boolean isExportFood() {
+        return exportFood;
     }
 
     public boolean isSplitInsulin() {
@@ -94,8 +94,8 @@ public class PdfExportConfig extends ExportConfig {
         PreferenceStore.getInstance().setExportFooter(exportFooter);
         PreferenceStore.getInstance().setExportNotes(exportNotes);
         PreferenceStore.getInstance().setExportTags(exportTags);
-        PreferenceStore.getInstance().setExportFood(exportFood);
         PreferenceStore.getInstance().setExportEmptyDays(exportEmptyDays);
+        PreferenceStore.getInstance().setExportFood(exportFood);
         PreferenceStore.getInstance().setExportInsulinSplit(splitInsulin);
         PreferenceStore.getInstance().setLimitsAreHighlighted(highlightLimits);
     }

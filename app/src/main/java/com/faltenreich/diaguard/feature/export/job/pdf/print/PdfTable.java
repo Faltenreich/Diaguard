@@ -35,10 +35,12 @@ public class PdfTable implements PdfPrintable {
     private static final int HOURS_TO_SKIP = 2;
 
     private final PdfExportCache cache;
+    private final List<Entry> entriesOfDay;
     private final SizedTable table;
 
-    PdfTable(PdfExportCache cache) {
+    PdfTable(PdfExportCache cache, List<Entry> entriesOfDay) {
         this.cache = cache;
+        this.entriesOfDay = entriesOfDay;
         this.table = new SizedTable();
         init();
     }
@@ -111,7 +113,7 @@ public class PdfTable implements PdfPrintable {
 
         if (config.isExportNotes() || config.isExportTags() || config.isExportFood()) {
             List<PdfNote> pdfNotes = new ArrayList<>();
-            for (Entry entry : EntryDao.getInstance().getEntriesOfDay(cache.getDateTime())) {
+            for (Entry entry : entriesOfDay) {
                 PdfNote pdfNote = PdfNoteFactory.createNote(config, entry);
                 if (pdfNote != null) {
                     pdfNotes.add(pdfNote);

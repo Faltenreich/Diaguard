@@ -13,7 +13,6 @@ import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPage;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPrintable;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPrintableFactory;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 
 import org.joda.time.Days;
 
@@ -39,11 +38,8 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                     cache.setPage(new PdfPage(cache));
                 }
 
-                boolean printDay = config.isExportEmptyDays()
-                    || EntryDao.getInstance().getEntriesOfDay(cache.getDateTime()).size() > 0;
-                if (printDay) {
-                    PdfPrintable printable = PdfPrintableFactory.createPrintable(cache);
-
+                PdfPrintable printable = PdfPrintableFactory.createPrintable(cache);
+                if (printable != null) {
                     float newY = cache.getPage().getPosition().getY() + printable.getHeight();
                     float maxY = cache.getPage().getEndPoint().getY();
                     if (newY > maxY) {

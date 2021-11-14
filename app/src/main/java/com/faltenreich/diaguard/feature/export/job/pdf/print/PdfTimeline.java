@@ -4,22 +4,21 @@ import android.content.Context;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.shared.data.database.entity.Entry;
-import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
-import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNote;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNoteFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedBox;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
+import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.shared.data.database.entity.Entry;
+import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
+import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
@@ -27,7 +26,6 @@ import com.pdfjet.Line;
 import com.pdfjet.Point;
 import com.pdfjet.TextLine;
 
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
@@ -44,6 +42,7 @@ public class PdfTimeline implements PdfPrintable {
     private static final int HEADER_HEIGHT = 22;
 
     private final PdfExportCache cache;
+    private final List<Entry> entriesOfDay;
     private final SizedBox chart;
     private final SizedTable table;
 
@@ -52,9 +51,10 @@ public class PdfTimeline implements PdfPrintable {
     private LinkedHashMap<Category, CategoryValueListItem[]> measurements;
     private List<PdfNote> pdfNotes;
 
-    PdfTimeline(PdfExportCache cache) {
+    PdfTimeline(PdfExportCache cache, List<Entry> entriesOfDay) {
         float width = cache.getPage().getWidth();
         this.cache = cache;
+        this.entriesOfDay = entriesOfDay;
         this.showChartForBloodSugar = cache.getConfig().hasCategory(Category.BLOODSUGAR);
         this.chart = new SizedBox(width, showChartForBloodSugar ? (width / 4) : HEADER_HEIGHT);
         this.table = new SizedTable();
@@ -72,13 +72,10 @@ public class PdfTimeline implements PdfPrintable {
     }
 
     private void fetchData() {
-        PdfExportConfig config = cache.getConfig();
-        DateTime dateTime = cache.getDateTime();
-
         bloodSugars = new ArrayList<>();
         pdfNotes = new ArrayList<>();
 
-        for (Entry entry : EntryDao.getInstance().getEntriesOfDay(dateTime)) {
+        for (Entry entry : entriesOfDay) {
             if (showChartForBloodSugar) {
                 List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
                 for (Measurement measurement : measurements) {
@@ -88,7 +85,7 @@ public class PdfTimeline implements PdfPrintable {
                 }
             }
 
-            PdfNote pdfNote = PdfNoteFactory.createNote(config, entry);
+            PdfNote pdfNote = PdfNoteFactory.createNote(cache.getConfig(), entry);
             if (pdfNote != null) {
                 pdfNotes.add(pdfNote);
             }
@@ -101,7 +98,7 @@ public class PdfTimeline implements PdfPrintable {
             }
         }
         measurements = EntryDao.getInstance().getAverageDataTable(
-            dateTime,
+            cache.getDateTime(),
             categories.toArray(new Category[0]),
             HOUR_INTERVAL
         );

@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.feature.export.job.Export;
-import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
+import com.faltenreich.diaguard.feature.export.job.ImportCallback;
 import com.faltenreich.diaguard.feature.export.job.date.DateStrategy;
 import com.faltenreich.diaguard.feature.export.job.date.OriginDateStrategy;
 import com.faltenreich.diaguard.shared.Helper;
@@ -39,7 +39,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
 public class CsvImport extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = CsvImport.class.getSimpleName();
@@ -52,13 +51,13 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     private DateStrategy dateStrategy;
 
     @Nullable
-    private ExportCallback callback;
+    private ImportCallback callback;
 
     public CsvImport(@NonNull InputStream inputStream) {
         this.inputStream = inputStream;
     }
 
-    public void setCallback(@Nullable ExportCallback callback) {
+    public void setCallback(@Nullable ImportCallback callback) {
         this.callback = callback;
     }
 
@@ -301,7 +300,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(Boolean success) {
         if (callback != null) {
             if (success) {
-                callback.onSuccess(null, FileType.CSV.mimeType);
+                callback.onSuccess(FileType.CSV.mimeType);
             } else {
                 callback.onError();
             }

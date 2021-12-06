@@ -78,7 +78,7 @@ public class Export {
         csvExport.execute();
     }
 
-    public static void importCsv(Context context, Uri uri, ExportCallback callback) {
+    public static void importCsv(Context context, Uri uri, ImportCallback callback) {
         try {
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
             if (inputStream == null) {

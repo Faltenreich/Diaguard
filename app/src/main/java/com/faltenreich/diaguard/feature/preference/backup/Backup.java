@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.annotation.Nullable;
-
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
+import com.faltenreich.diaguard.feature.export.job.ImportCallback;
 import com.faltenreich.diaguard.shared.data.file.FileUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.BackupImportedEvent;
@@ -33,7 +32,7 @@ public class Backup {
             }
 
             @Override
-            public void onSuccess(@Nullable File file, String mimeType) {
+            public void onSuccess(File file, String mimeType) {
                 progressComponent.dismiss();
                 if (file != null && contextReference.get() != null) {
                     FileUtils.shareFile(contextReference.get(), file, R.string.backup_store);
@@ -61,15 +60,10 @@ public class Backup {
     public void importBackup(Context context, Uri uri) {
         progressComponent.show(context);
         WeakReference<Context> contextReference = new WeakReference<>(context);
-        Export.importCsv(context, uri, new ExportCallback() {
+        Export.importCsv(context, uri, new ImportCallback() {
 
             @Override
-            public void onProgress(String message) {
-                progressComponent.setMessage(message);
-            }
-
-            @Override
-            public void onSuccess(@Nullable File file, String mimeType) {
+            public void onSuccess(String mimeType) {
                 progressComponent.dismiss();
                 ViewUtils.showToast(
                     contextReference.get(),

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.view.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.DrawableRes;
@@ -12,6 +13,8 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 
 public class ImageLoader {
+
+    private static final String TAG = ImageLoader.class.getSimpleName();
 
     private static ImageLoader instance;
 
@@ -41,10 +44,18 @@ public class ImageLoader {
 
 
     public void load(@DrawableRes int imageRes, @DrawableRes int placeholderRes, ImageView imageView, Bitmap.Config config) {
-        picasso.load(imageRes).placeholder(placeholderRes).config(config).into(imageView);
+        try {
+            picasso.load(imageRes).placeholder(placeholderRes).config(config).into(imageView);
+        } catch (Exception exception) {
+            Log.e(TAG, exception.toString());
+        }
     }
 
     public void load(@DrawableRes int imageRes, ImageView imageView) {
-        picasso.load(imageRes).into(imageView);
+        try {
+            picasso.load(imageRes).into(imageView);
+        } catch (Exception exception) {
+            Log.e(TAG, exception.toString());
+        }
     }
 }

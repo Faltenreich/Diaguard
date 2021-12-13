@@ -113,7 +113,7 @@ public class FoodDao extends BaseServerDao<Food> {
     public Food get(String name) {
         try {
             return getQueryBuilder()
-                .where().eq(Food.Column.NAME, name)
+                .where().eq(Food.Column.NAME, new SelectArg(name))
                 .queryForFirst();
         } catch (SQLException exception) {
             Log.e(TAG, exception.toString());

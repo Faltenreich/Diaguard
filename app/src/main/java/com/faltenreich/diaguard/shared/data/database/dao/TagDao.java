@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.shared.data.database.entity.BaseEntity;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.j256.ormlite.stmt.SelectArg;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,7 +32,9 @@ public class TagDao extends BaseDao<Tag> {
     @Override
     public List<Tag> getAll() {
         try {
-            return getQueryBuilder().orderBy(BaseEntity.Column.UPDATED_AT, false).query();
+            return getQueryBuilder()
+                .orderBy(BaseEntity.Column.UPDATED_AT, false)
+                .query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.toString());
             return new ArrayList<>();
@@ -41,7 +44,9 @@ public class TagDao extends BaseDao<Tag> {
     @Nullable
     public Tag getByName(String name) {
         try {
-            return getQueryBuilder().where().eq(Tag.Column.NAME, name).queryForFirst();
+            return getQueryBuilder().where()
+                .eq(Tag.Column.NAME, new SelectArg(name))
+                .queryForFirst();
         } catch (SQLException exception) {
             Log.e(TAG, exception.toString());
             return null;

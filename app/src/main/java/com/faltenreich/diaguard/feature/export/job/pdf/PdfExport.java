@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.feature.export.job.pdf;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Pair;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
@@ -19,7 +20,7 @@ import org.joda.time.Days;
 
 import java.io.File;
 
-public class PdfExport extends AsyncTask<Void, String, File> {
+public class PdfExport extends AsyncTask<Void, String, Pair<File, String>> {
 
     private static final String TAG = PdfExport.class.getSimpleName();
 
@@ -30,7 +31,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     }
 
     @Override
-    protected File doInBackground(Void... params) {
+    protected Pair<File, String> doInBackground(Void... params) {
         try {
             File file = Export.getExportFile(config);
             PdfExportCache cache = new PdfExportCache(config, file);
@@ -57,15 +58,19 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 }
 
                 publishProgress(cache);
-
                 cache.setDateTime(cache.getDateTime().plusDays(1));
             }
-            cache.clear();
-            // TODO: Improve error message for invalid files
-            return cache.getPage() != null ? file : null;
+
+            boolean hasContent = cache.getPage() != null;
+            if (hasContent) {
+                cache.clear();
+                return new Pair<>(file, null);
+            } else {
+                return new Pair<>(null, config.getContext().getString(R.string.no_data));
+            }
         } catch (Exception exception) {
             Log.e(TAG, exception.toString());
-            return null;
+            return new Pair<>(null, config.getContext().getString(R.string.error_unexpected));
         }
     }
 
@@ -82,14 +87,14 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     }
 
     @Override
-    protected void onPostExecute(File file) {
-        super.onPostExecute(file);
+    protected void onPostExecute(Pair<File, String> result) {
+        super.onPostExecute(result);
         ExportCallback callback = config.getCallback();
         if (callback != null) {
-            if (file != null) {
-                callback.onSuccess(file, FileType.PDF.mimeType);
+            if (result.first != null) {
+                callback.onSuccess(result.first, FileType.PDF.mimeType);
             } else {
-                callback.onError(config.getContext().getString(R.string.error_unexpected));
+                callback.onError(result.second);
             }
         }
     }

@@ -146,7 +146,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
             if (file != null) {
                 getCallback().onSuccess(file, FileType.CSV.mimeType);
             } else {
-                getCallback().onError();
+                getCallback().onError(config.getContext().getString(R.string.error_unexpected));
             }
         }
     }

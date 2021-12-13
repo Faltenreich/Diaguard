@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
@@ -23,30 +25,24 @@ public class Backup {
 
     public void exportBackup(Context context) {
         progressComponent.show(context);
+
         WeakReference<Context> contextReference = new WeakReference<>(context);
         ExportCallback callback = new ExportCallback() {
 
             @Override
-            public void onProgress(String message) {
+            public void onProgress(@NonNull String message) {
                 progressComponent.setMessage(message);
             }
 
             @Override
-            public void onSuccess(File file, String mimeType) {
+            public void onSuccess(@NonNull File file, @NonNull String mimeType) {
                 progressComponent.dismiss();
-                if (file != null && contextReference.get() != null) {
-                    FileUtils.shareFile(contextReference.get(), file, R.string.backup_store);
-                } else {
-                    onError();
-                }
+                FileUtils.shareFile(contextReference.get(), file, R.string.backup_store);
             }
             @Override
-            public void onError() {
+            public void onError(@NonNull String message) {
                 progressComponent.dismiss();
-                ViewUtils.showToast(
-                    contextReference.get(),
-                    contextReference.get().getString(R.string.error_unexpected)
-                );
+                ViewUtils.showToast(contextReference.get(), message);
             }
         };
         Export.exportCsv(context, callback);

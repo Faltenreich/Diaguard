@@ -281,25 +281,21 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     @Override
-    public void onProgress(String message) {
+    public void onProgress(@NonNull String message) {
         progressComponent.setMessage(message);
     }
 
     @Override
-    public void onSuccess(File file, String mimeType) {
+    public void onSuccess(@NonNull File file, @NonNull String mimeType) {
         progressComponent.dismiss();
-        if (file != null) {
-            ViewUtils.showToast(getContext(), getString(R.string.export_complete, file.getAbsolutePath()));
-            openFile(file);
-        } else {
-            onError();
-        }
+        ViewUtils.showToast(getContext(), getString(R.string.export_complete, file.getAbsolutePath()));
+        openFile(file);
     }
 
     @Override
-    public void onError() {
+    public void onError(@NonNull String message) {
         progressComponent.dismiss();
-        ViewUtils.showSnackbar(getView(), getString(R.string.error_unexpected));
+        ViewUtils.showSnackbar(getView(), message);
     }
 
     @Override

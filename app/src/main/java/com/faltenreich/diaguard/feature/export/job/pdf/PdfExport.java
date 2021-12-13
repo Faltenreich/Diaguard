@@ -89,7 +89,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
             if (file != null) {
                 callback.onSuccess(file, FileType.PDF.mimeType);
             } else {
-                callback.onError();
+                callback.onError(config.getContext().getString(R.string.error_unexpected));
             }
         }
     }

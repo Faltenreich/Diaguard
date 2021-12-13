@@ -28,8 +28,6 @@ import java.util.ArrayList;
 public class DayChart extends CombinedChart implements OnChartValueSelectedListener {
 
     private static final float TAP_THRESHOLD_IN_DP = 24;
-    public static final float Y_MAX_VALUE_DEFAULT = 200;
-    public static final float Y_MAX_VALUE_OFFSET = 20;
 
     private OnItemSelectedListener<Entry> listener;
 

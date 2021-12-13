@@ -184,7 +184,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
             Log.d(TAG, "Invalidating view for chart on " + data.getDay().toString());
             DayChartData chartData = data.getChartData();
             chartView.setData(chartData);
-            chartView.getAxisLeft().setAxisMaximum(chartData.getYAxisMaximum() + DayChart.Y_MAX_VALUE_OFFSET);
+            chartView.getAxisLeft().setAxisMaximum(chartData.getYAxisMaximum());
             // Workaround: Fixes invalidation within ViewPager
             // https://github.com/PhilJay/MPAndroidChart/issues/1274
             // FIXME: Leads to jumping chart view

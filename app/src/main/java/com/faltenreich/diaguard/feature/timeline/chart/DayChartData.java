@@ -26,6 +26,9 @@ import java.util.List;
 
 public class DayChartData extends CombinedData {
 
+    private static final float Y_MAX_VALUE_DEFAULT = 200;
+    private static final float Y_MAX_VALUE_OFFSET = 20;
+
     private enum DataSetType {
         TARGET("target", R.color.green),
         HYPER("hyperglycemia", R.color.red),
@@ -76,7 +79,7 @@ public class DayChartData extends CombinedData {
 
     // Identify max value manually because data.getYMax does not work when combining scatter with line chart
     private void calculateYAxisMaximum() {
-        yAxisMaximum = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, DayChart.Y_MAX_VALUE_DEFAULT);
+        yAxisMaximum = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, Y_MAX_VALUE_DEFAULT);
         for (int datasetIndex = 0; datasetIndex < getScatterData().getDataSetCount(); datasetIndex++) {
             IScatterDataSet dataSet = getScatterData().getDataSetByIndex(datasetIndex);
             for (int entryIndex = 0; entryIndex < dataSet.getEntryCount(); entryIndex++) {
@@ -86,6 +89,7 @@ public class DayChartData extends CombinedData {
                 }
             }
         }
+        yAxisMaximum += PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, Y_MAX_VALUE_OFFSET);
     }
 
     @Override

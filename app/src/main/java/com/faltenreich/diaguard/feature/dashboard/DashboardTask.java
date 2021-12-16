@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.database.entity.HbA1c;
+import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.database.dao.SqlFunction;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -62,21 +64,43 @@ public class DashboardTask extends BaseAsyncTask<Void, Void, String[]> {
         float avgMonth = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalMonth);
         float avgMonthCustom = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, avgMonth);
 
-        float avgQuarter = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalQuarter);
-        float hbA1cCustom = 0;
-        if (avgQuarter > 0) {
-            float hbA1c = Helper.calculateHbA1c(avgQuarter);
-            hbA1cCustom = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.HBA1C, hbA1c);
+        float latestHbA1cValue;
+        HbA1c latestHbA1c = null;
+        Entry latestHbA1cEntry = EntryDao.getInstance().getLatestWithMeasurement(HbA1c.class);
+        boolean latestHbA1cEntryIsWithinQuarter = latestHbA1cEntry != null
+            && latestHbA1cEntry.getDate().withTimeAtStartOfDay().isAfter(DateTime.now().withTimeAtStartOfDay().minusMonths(3));
+        if (latestHbA1cEntryIsWithinQuarter) {
+            latestHbA1cEntry.setMeasurementCache(EntryDao.getInstance().getMeasurements(latestHbA1cEntry));
+            for (Measurement measurement : latestHbA1cEntry.getMeasurementCache()) {
+                if (measurement instanceof HbA1c) {
+                    latestHbA1c = (HbA1c) measurement;
+                    break;
+                }
+            }
+        }
+        if (latestHbA1c != null) {
+            latestHbA1cValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.HBA1C, latestHbA1c.getValues()[0]);
+        } else {
+            float avgQuarter = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalQuarter);
+            if (avgQuarter > 0) {
+                float hbA1c = Helper.calculateHbA1c(avgQuarter);
+                latestHbA1cValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.HBA1C, hbA1c);
+            } else {
+                latestHbA1cValue = 0;
+            }
         }
 
         return new String[] {
-                Integer.toString(entriesWithBloodSugar != null ? entriesWithBloodSugar.size() : 0),
-                Integer.toString(countHypers),
-                Integer.toString(countHypos),
-                avgDayCustom > 0 ? FloatUtils.parseFloat(avgDayCustom) : getContext().getString(R.string.placeholder),
-                avgWeekCustom > 0 ? FloatUtils.parseFloat(avgWeekCustom) : getContext().getString(R.string.placeholder),
-                avgMonthCustom > 0 ? FloatUtils.parseFloat(avgMonthCustom) : getContext().getString(R.string.placeholder),
-                hbA1cCustom > 0 ? String.format("%s %s", FloatUtils.parseFloat(hbA1cCustom), PreferenceStore.getInstance().getUnitAcronym(Category.HBA1C)) : getContext().getString(R.string.placeholder)
+            Integer.toString(entriesWithBloodSugar != null ? entriesWithBloodSugar.size() : 0),
+            Integer.toString(countHypers),
+            Integer.toString(countHypos),
+            avgDayCustom > 0 ? FloatUtils.parseFloat(avgDayCustom) : getContext().getString(R.string.placeholder),
+            avgWeekCustom > 0 ? FloatUtils.parseFloat(avgWeekCustom) : getContext().getString(R.string.placeholder),
+            avgMonthCustom > 0 ? FloatUtils.parseFloat(avgMonthCustom) : getContext().getString(R.string.placeholder),
+            latestHbA1cValue > 0 ? String.format("%s %s",
+                FloatUtils.parseFloat(latestHbA1cValue),
+                PreferenceStore.getInstance().getUnitAcronym(Category.HBA1C)
+            ) : getContext().getString(R.string.placeholder)
         };
     }
 }

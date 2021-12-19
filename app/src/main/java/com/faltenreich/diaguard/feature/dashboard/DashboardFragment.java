@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentDashboardBinding;
 import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
+import com.faltenreich.diaguard.feature.dashboard.value.DashboardValueTask;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
@@ -210,7 +211,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     }
 
     private void updateDashboard() {
-        new DashboardTask(getContext(), values -> {
+        new DashboardValueTask(getContext(), values -> {
             if (isAdded() && values != null && values.length == 7) {
                 totalCountLabel.setText(values[0]);
                 hyperglycemiaCountLabel.setText(values[1]);

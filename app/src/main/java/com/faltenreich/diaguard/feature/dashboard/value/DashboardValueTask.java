@@ -11,10 +11,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Faltenreich on 05.11.2017
- */
-
 public class DashboardValueTask extends BaseAsyncTask<Void, Void, DashboardValue[]> {
 
     public DashboardValueTask(Context context, OnAsyncProgressListener<DashboardValue[]> onAsyncProgressListener) {
@@ -22,6 +18,19 @@ public class DashboardValueTask extends BaseAsyncTask<Void, Void, DashboardValue
     }
 
     protected DashboardValue[] doInBackground(Void... params) {
+        List<BloodSugar> bloodSugars = getBloodSugarOfToday();
+        return new DashboardValue[] {
+            new BloodSugarCountDashboardValue(getContext(), bloodSugars),
+            new BloodSugarHyperCountDashboardValue(getContext(), bloodSugars),
+            new BloodSugarHypoCountDashboardValue(getContext(), bloodSugars),
+            new BloodSugarAverageDayDashboardValue(getContext()),
+            new BloodSugarAverageWeekDashboardValue(getContext()),
+            new BloodSugarAverageMonthDashboardValue(getContext()),
+            new HbA1cDashboardValue(getContext())
+        };
+    }
+
+    private List<BloodSugar> getBloodSugarOfToday() {
         List<BloodSugar> bloodSugars = new ArrayList<>();
         List<Entry> entriesWithBloodSugar = EntryDao.getInstance().getAllWithMeasurementFromToday(BloodSugar.class);
         if (entriesWithBloodSugar != null) {
@@ -32,15 +41,6 @@ public class DashboardValueTask extends BaseAsyncTask<Void, Void, DashboardValue
                 }
             }
         }
-
-        return new DashboardValue[] {
-            new BloodSugarCountDashboardValue(getContext(), bloodSugars),
-            new BloodSugarHyperCountDashboardValue(getContext(), bloodSugars),
-            new BloodSugarHypoCountDashboardValue(getContext(), bloodSugars),
-            new BloodSugarAverageDayDashboardValue(getContext()),
-            new BloodSugarAverageWeekDashboardValue(getContext()),
-            new BloodSugarAverageMonthDashboardValue(getContext()),
-            new HbA1cDashboardValue(getContext())
-        };
+        return bloodSugars;
     }
 }

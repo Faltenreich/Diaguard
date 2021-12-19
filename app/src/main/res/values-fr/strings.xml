@@ -259,6 +259,7 @@
     <string name="alarm_deleted">Retiré la mémoire</string>
     <string name="alarm_reminder_in">Mémoire pour</string>
     <string name="hba1c_estimated">HbA1c estimée</string>
+    <string name="hba1c_previous">HbA1c précédent</string>
     <string name="months">Mois</string>
     <string name="brand">Marque</string>
     <string name="entries">Entrées</string>

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.feature.dashboard.value;
 
-interface DashboardValue {
+public interface DashboardValue {
 
     String getKey();
     String getValue();

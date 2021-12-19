@@ -111,6 +111,7 @@
     <string name="grams_milliliters_acronym" translatable="false">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
+    <string name="hba1c_previous">Previous HbA1c</string>
     <string name="hba1c_formula" translatable="false">HbA1c = 0,031 * %s 3-%s-%s + 2,393</string>
     <string name="home">Home</string>
     <string name="homepage">Website</string>

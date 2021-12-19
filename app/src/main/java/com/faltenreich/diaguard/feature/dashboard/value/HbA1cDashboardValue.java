@@ -29,7 +29,7 @@ class HbA1cDashboardValue implements DashboardValue {
     HbA1cDashboardValue(Context context) {
         Float userGenerated = forUserGeneratedHbA1c();
         if (userGenerated != null) {
-            key = context.getString(R.string.hba1c); // TODO: Improve String
+            key = context.getString(R.string.hba1c_previous);
             value = print(context, userGenerated);
         } else {
             Float calculated = forCalculatedHbA1c();

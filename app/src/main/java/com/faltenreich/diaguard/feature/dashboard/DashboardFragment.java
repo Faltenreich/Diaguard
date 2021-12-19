@@ -69,6 +69,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
     private ViewGroup hba1cLayout;
     private TextView hba1cLabel;
+    private TextView hba1cValue;
 
     private ViewGroup alarmLayout;
     private TextView alarmLabel;
@@ -119,6 +120,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
         hba1cLayout = getBinding().hba1cLayout;
         hba1cLabel = getBinding().hba1cLabel;
+        hba1cValue = getBinding().hba1cValue;
 
         alarmLayout = getBinding().alarmLayout.alarmLayout;
         alarmLabel = getBinding().alarmLayout.alarmLabel;
@@ -213,13 +215,14 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     private void updateDashboard() {
         new DashboardValueTask(getContext(), values -> {
             if (isAdded() && values != null && values.length == 7) {
-                totalCountLabel.setText(values[0]);
-                hyperglycemiaCountLabel.setText(values[1]);
-                hypoglycemiaCountLabel.setText(values[2]);
-                averageDayLabel.setText(values[3]);
-                averageWeekLabel.setText(values[4]);
-                averageMonthLabel.setText(values[5]);
-                hba1cLabel.setText(values[6]);
+                totalCountLabel.setText(values[0].getValue());
+                hyperglycemiaCountLabel.setText(values[1].getValue());
+                hypoglycemiaCountLabel.setText(values[2].getValue());
+                averageDayLabel.setText(values[3].getValue());
+                averageWeekLabel.setText(values[4].getValue());
+                averageMonthLabel.setText(values[5].getValue());
+                hba1cLabel.setText(values[6].getKey());
+                hba1cValue.setText(values[6].getValue());
             }
         }).execute();
     }

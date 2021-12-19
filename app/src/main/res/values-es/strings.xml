@@ -261,6 +261,7 @@
     <string name="alarm_deleted">Eliminado la memoria</string>
     <string name="alarm_reminder_in">Memoria en</string>
     <string name="hba1c_estimated">HbA1c estimado</string>
+    <string name="hba1c_previous">HbA1c previa</string>
     <string name="months">Mes</string>
     <string name="brand">Marca</string>
     <string name="entries">Entradas</string>

@@ -81,6 +81,7 @@
     <string name="general">Generale</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">HbA1c stimata</string>
+    <string name="hba1c_previous">HbA1c precedente</string>
     <string name="home">Pagina iniziale</string>
     <string name="homepage">Sito web</string>
     <string name="hyper">Iperglicemia</string>

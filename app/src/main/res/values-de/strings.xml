@@ -81,6 +81,7 @@
     <string name="general">Allgemein</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Geschätzter HbA1c</string>
+    <string name="hba1c_previous">Vorheriger HbA1c</string>
     <string name="home">Übersicht</string>
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>

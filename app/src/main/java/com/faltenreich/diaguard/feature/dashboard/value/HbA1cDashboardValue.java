@@ -25,6 +25,7 @@ class HbA1cDashboardValue implements DashboardValue {
     
     private final String key;
     private final String value;
+    private Entry entry;
 
     HbA1cDashboardValue(Context context) {
         Float userGenerated = forUserGeneratedHbA1c();
@@ -49,6 +50,12 @@ class HbA1cDashboardValue implements DashboardValue {
     }
 
     @Nullable
+    @Override
+    public Entry getEntry() {
+        return entry;
+    }
+
+    @Nullable
     private Float forUserGeneratedHbA1c() {
         Entry latestHbA1cEntry = EntryDao.getInstance().getLatestWithMeasurement(HbA1c.class);
         boolean latestHbA1cEntryIsRecent = latestHbA1cEntry != null
@@ -57,6 +64,7 @@ class HbA1cDashboardValue implements DashboardValue {
             latestHbA1cEntry.setMeasurementCache(EntryDao.getInstance().getMeasurements(latestHbA1cEntry));
             for (Measurement measurement : latestHbA1cEntry.getMeasurementCache()) {
                 if (measurement instanceof HbA1c) {
+                    this.entry = latestHbA1cEntry;
                     HbA1c hbA1c = (HbA1c) measurement;
                     return PreferenceStore.getInstance().formatDefaultToCustomUnit(
                         Category.HBA1C,

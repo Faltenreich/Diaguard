@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentDashboardBinding;
 import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
+import com.faltenreich.diaguard.feature.dashboard.value.DashboardValue;
 import com.faltenreich.diaguard.feature.dashboard.value.DashboardValueTask;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
@@ -128,7 +129,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     }
 
     private void initLayout() {
-        latestLayout.setOnClickListener((view) -> openEntry());
+        latestLayout.setOnClickListener((view) -> openEntry(latestEntry));
         todayLayout.setOnClickListener((view) -> openStatistics());
         averageLayout.setOnClickListener((view) -> openStatistics());
         trendLayout.setOnClickListener((view) -> openStatistics());
@@ -221,8 +222,15 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
                 averageDayLabel.setText(values[3].getValue());
                 averageWeekLabel.setText(values[4].getValue());
                 averageMonthLabel.setText(values[5].getValue());
-                hba1cLabel.setText(values[6].getKey());
-                hba1cValue.setText(values[6].getValue());
+
+                DashboardValue hba1c = values[6];
+                hba1cLabel.setText(hba1c.getKey());
+                hba1cValue.setText(hba1c.getValue());
+                if (hba1c.getEntry() != null) {
+                    hba1cLayout.setOnClickListener((view) -> openEntry(hba1c.getEntry()));
+                } else {
+                    hba1cLayout.setOnClickListener((view) -> showHbA1cFormula());
+                }
             }
         }).execute();
     }
@@ -273,8 +281,8 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
         openFragment(new StatisticFragment(), true);
     }
 
-    private void openEntry() {
-        openFragment(EntryEditFragment.newInstance(latestEntry), true);
+    private void openEntry(Entry entry) {
+        openFragment(EntryEditFragment.newInstance(entry), true);
     }
 
     private void showHbA1cFormula() {

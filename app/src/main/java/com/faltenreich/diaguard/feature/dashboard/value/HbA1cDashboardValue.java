@@ -55,13 +55,19 @@ class HbA1cDashboardValue implements DashboardValue {
     public Entry getEntry() {
         return entry;
     }
+    
+    @Nullable
+    private Entry getLatestEntryWithHbA1c() {
+        Entry entry = EntryDao.getInstance().getLatestWithMeasurement(HbA1c.class);
+        // Return entry if younger than one month
+        boolean isUpToDate = entry != null && entry.getDate().isAfter(DateTime.now().minusMonths(1));
+        return isUpToDate ? entry : null;
+    }
 
     @Nullable
     private Float forUserGeneratedHbA1c() {
-        Entry latestHbA1cEntry = EntryDao.getInstance().getLatestWithMeasurement(HbA1c.class);
-        boolean latestHbA1cEntryIsRecent = latestHbA1cEntry != null
-            && latestHbA1cEntry.getDate().isAfter(DateTime.now().minusMonths(1));
-        if (latestHbA1cEntryIsRecent) {
+        Entry latestHbA1cEntry = getLatestEntryWithHbA1c();
+        if (latestHbA1cEntry != null) {
             latestHbA1cEntry.setMeasurementCache(EntryDao.getInstance().getMeasurements(latestHbA1cEntry));
             for (Measurement measurement : latestHbA1cEntry.getMeasurementCache()) {
                 if (measurement instanceof HbA1c) {

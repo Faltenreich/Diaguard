@@ -324,11 +324,11 @@ public class MainActivity
     private void checkChangelog() {
         int oldVersionCode = PreferenceStore.getInstance().getVersionCode();
         int currentVersionCode = SystemUtils.getVersionCode(this);
-        if (oldVersionCode > 0) {
+        if (oldVersionCode == 54) {
             boolean isUpdate = oldVersionCode < currentVersionCode;
             if (isUpdate) {
                 PreferenceStore.getInstance().setVersionCode(currentVersionCode);
-                // openChangelog()
+                openChangelog();
             }
         } else {
             // Skip changelog for fresh installs

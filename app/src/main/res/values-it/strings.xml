@@ -302,7 +302,12 @@
     <string name="oxygen_saturation_acronym">Sat. Ox.</string>
 
     <string name="changelog">Novità</string>
-    <string name="changelog_desc"/>
+    <string name="changelog_desc">
+        - Valore: Le misure vuote saranno ignorate durante il salvataggio
+        - Esporta: Aggiunta opzione per saltare i giorni senza voci
+        - Panoramica: L\'HbA1c si basa sull\'input dell\'utente invece che sulla stima, se disponibile
+        - Linea temporale: Corretta viewport per mmol/L
+    </string>
 
     <string name="meal_factor">Fattore per il bolo del pasto</string>
     <string name="meal_factors">Fattori per il bolo del pasto</string>

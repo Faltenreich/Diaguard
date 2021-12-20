@@ -302,7 +302,12 @@
     <string name="oxygen_saturation_acronym">Sauerstoffsätt.</string>
 
     <string name="changelog">Neu in dieser Version</string>
-    <string name="changelog_desc"/>
+    <string name="changelog_desc">
+        - Eintrag: Messwerte ohne Eingabe werden ignoriert beim Speichern
+        - Export: Neue Option hinzugefügt, um Tage ohne Einträge zu überspringen
+        - Übersicht: HbA1c wird aus Einträgen übernommen, falls verfügbar, anstatt zu schätzen
+        - Tagebuch: Ansichtsbereich für mmol/L wurde korrigiert
+    </string>
 
     <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>
     <string name="meal_factors">Mahlzeit-Bolus-Faktoren</string>

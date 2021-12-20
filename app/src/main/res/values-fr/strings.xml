@@ -301,7 +301,12 @@
     <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
 
     <string name="changelog">Quoi de neuf</string>
-    <string name="changelog_desc"/>
+    <string name="changelog_desc">
+        - Entrée: Les mesures vides seront ignorées lors de la sauvegarde
+        - Exportation: Ajout d\'une option permettant de sauter les jours sans entrées
+        - Aperçu: L\'HbA1c est basé sur la saisie de l\'utilisateur au lieu de l\'estimation si disponible
+        - Journal: Correction de la fenêtre de visualisation pour les mmol/L
+    </string>
 
     <string name="meal_factor">Repas-bol-facteur</string>
     <string name="meal_factors">Repas-bol-facteurs</string>

@@ -303,7 +303,12 @@
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
     <string name="changelog">Qué hay de nuevo</string>
-    <string name="changelog_desc"/>
+    <string name="changelog_desc">
+        - Entrada: Las mediciones vacías serán ignoradas al guardar
+        - Exportación: Se ha añadido la opción de omitir los días sin entradas
+        - Sobrevista: La HbA1c se basa en la entrada del usuario en lugar de la estimación si está disponible
+        - Diario: Se ha corregido la ventana de visualización de mmol/L
+    </string>
 
     <string name="meal_factor">Alimento-bolo-factor</string>
     <string name="meal_factors">Alimento-bolo-factors</string>

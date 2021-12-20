@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -30,7 +31,7 @@ class HbA1cDashboardValue implements DashboardValue {
     HbA1cDashboardValue(Context context) {
         Float userGenerated = forUserGeneratedHbA1c();
         if (userGenerated != null) {
-            key = context.getString(R.string.hba1c_previous);
+            key = context.getString(R.string.hba1c_on, DateTimeUtils.toDateString(entry.getDate()));
             value = print(context, userGenerated);
         } else {
             Float calculated = forCalculatedHbA1c();

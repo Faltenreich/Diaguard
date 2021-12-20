@@ -17,7 +17,7 @@ public class DateTimeUtils {
 
     public static DateTime atStartOfDay(DateTime dateTime) {
         try {
-            return dateTime.withHourOfDay(0).withMinuteOfHour(0);
+            return dateTime.withTimeAtStartOfDay();
         } catch (IllegalFieldValueException exception) {
             // Fixes IllegalFieldValueException on Motorola Moto G6 Play
             return dateTime;

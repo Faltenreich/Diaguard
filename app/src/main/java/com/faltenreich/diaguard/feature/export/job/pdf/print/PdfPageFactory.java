@@ -12,7 +12,7 @@ public class PdfPageFactory {
 
     @Nullable
     public static PdfPage createPage(PdfExportCache cache) throws Exception {
-        DateTime weekStart = DateTimeUtils.atStartOfDay(cache.getDateTime());
+        DateTime weekStart = DateTimeUtils.atStartOfWeek(cache.getDateTime());
         DateTime weekEnd = DateTimeUtils.atEndOfWeek(weekStart);
         boolean weekHasEntries = EntryDao.getInstance().count(weekStart, weekEnd) > 0;
         boolean exportWeek = weekHasEntries || !cache.getConfig().skipEmptyDays();

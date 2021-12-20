@@ -41,6 +41,7 @@ public class PdfExport extends AsyncTask<Void, String, Pair<File, String>> {
                 if (isNewPage) {
                     PdfPage page = PdfPageFactory.createPage(cache);
                     if (page == null) {
+                        // FIXME: Skips days, e.g. when exporting 2021-12-16 to 2021-12-20 with entry on 2021-12-20
                         cache.setDateTime(cache.getDateTime().plusWeeks(1));
                         continue;
                     }

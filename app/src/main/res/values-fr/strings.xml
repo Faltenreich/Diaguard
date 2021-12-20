@@ -302,9 +302,9 @@
 
     <string name="changelog">Quoi de neuf</string>
     <string name="changelog_desc">
-        - Entrée: Les mesures vides seront ignorées lors de la sauvegarde
-        - Exportation: Ajout d\'une option permettant de sauter les jours sans entrées
-        - Aperçu: L\'HbA1c est basé sur la saisie de l\'utilisateur au lieu de l\'estimation si disponible
+        - Entrée: Les mesures vides seront ignorées lors de la sauvegarde\n\n
+        - Exportation: Ajout d\'une option permettant de sauter les jours sans entrées\n\n
+        - Aperçu: L\'HbA1c est basé sur la saisie de l\'utilisateur au lieu de l\'estimation si disponible\n\n
         - Journal: Correction de la fenêtre de visualisation pour les mmol/L
     </string>
 

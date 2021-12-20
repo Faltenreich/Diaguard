@@ -465,9 +465,9 @@
 
     <string name="changelog">What\'s new</string>
     <string name="changelog_desc">
-        - Entry: Empty measurements will be ignored when saving
-        - Export: Added option to skip days without entries
-        - Dashboard: HbA1c is based upon user input instead of estimation if available
+        - Entry: Empty measurements will be ignored when saving\n\n
+        - Export: Added option to skip days without entries\n\n
+        - Dashboard: HbA1c is based upon user input instead of estimation if available\n\n
         - Timeline: Fixed viewport for mmol/L
     </string>
 

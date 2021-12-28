@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
@@ -16,6 +17,7 @@ import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPageFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPrintable;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPrintableFactory;
 
+import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import java.io.File;
@@ -40,9 +42,10 @@ public class PdfExport extends AsyncTask<Void, String, Pair<File, String>> {
                     || cache.isDateTimeForNewWeek();
                 if (isNewPage) {
                     PdfPage page = PdfPageFactory.createPage(cache);
+                    // Skip empty page
                     if (page == null) {
-                        // FIXME: Skips days, e.g. when exporting 2021-12-16 to 2021-12-20 with entry on 2021-12-20
-                        cache.setDateTime(cache.getDateTime().plusWeeks(1));
+                        DateTime nextWeek = DateTimeUtils.atStartOfWeek(cache.getDateTime().plusWeeks(1));
+                        cache.setDateTime(nextWeek);
                         continue;
                     }
                     cache.setPage(page);

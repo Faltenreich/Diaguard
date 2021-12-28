@@ -92,7 +92,7 @@ public class DateTimeUtils {
     }
 
     public static DateTime atStartOfWeek(DateTime dateTime) {
-        return atStartOfDay(dateTime.withDayOfWeek(1));
+        return atStartOfDay(dateTime.withDayOfWeek(DateTimeConstants.MONDAY));
     }
 
     public static DateTime atEndOfWeek(DateTime dateTime) {

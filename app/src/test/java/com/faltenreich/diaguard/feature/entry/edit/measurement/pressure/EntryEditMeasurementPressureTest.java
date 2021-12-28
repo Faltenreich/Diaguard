@@ -36,7 +36,7 @@ public class EntryEditMeasurementPressureTest {
 
     @Test
     public void confirmingEmptyValue_shouldShowWarning() {
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_menu))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
@@ -48,7 +48,7 @@ public class EntryEditMeasurementPressureTest {
             .perform(ViewActions.replaceText("100"));
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .perform(ViewActions.replaceText("100"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_menu))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
             .check(ViewAssertions.matches(EditTextMatcher.hasNoErrorText()));

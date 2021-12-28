@@ -36,7 +36,7 @@ public class EntryEditMeasurementInsulinTest {
 
     @Test
     public void confirmingEmptyValue_shouldShowWarning() {
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_menu))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.bolus))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_empty)));

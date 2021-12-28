@@ -41,26 +41,30 @@ public class GridDividerItemDecoration extends DividerItemDecoration {
     private void drawHorizontalLines(Canvas canvas, RecyclerView parent, int spanCount) {
         for (int row = 0; row < parent.getChildCount() / spanCount; row++) {
             View child = parent.getChildAt(row * spanCount);
-            parent.getDecoratedBoundsWithMargins(child, bounds);
-            int left = 0;
-            int right = parent.getWidth();
-            int bottom = bounds.bottom + Math.round(child.getTranslationY());
-            int top = bottom - divider.getIntrinsicHeight();
-            divider.setBounds(left, top, right, bottom);
-            divider.draw(canvas);
+            if (child != null) {
+                parent.getDecoratedBoundsWithMargins(child, bounds);
+                int left = 0;
+                int right = parent.getWidth();
+                int bottom = bounds.bottom + Math.round(child.getTranslationY());
+                int top = bottom - divider.getIntrinsicHeight();
+                divider.setBounds(left, top, right, bottom);
+                divider.draw(canvas);
+            }
         }
     }
 
     private void drawVerticalLines(Canvas canvas, RecyclerView parent, int spanCount) {
         for (int column = 0; column < spanCount; column++) {
             View child = parent.getChildAt(column);
-            parent.getDecoratedBoundsWithMargins(child, bounds);
-            int left = bounds.left;
-            int right = left + divider.getIntrinsicWidth() + Math.round(child.getTranslationX());
-            int top = 0;
-            int bottom = parent.getHeight();
-            divider.setBounds(left, top, right, bottom);
-            divider.draw(canvas);
+            if (child != null) {
+                parent.getDecoratedBoundsWithMargins(child, bounds);
+                int left = bounds.left;
+                int right = left + divider.getIntrinsicWidth() + Math.round(child.getTranslationX());
+                int top = 0;
+                int bottom = parent.getHeight();
+                divider.setBounds(left, top, right, bottom);
+                divider.draw(canvas);
+            }
         }
     }
 }

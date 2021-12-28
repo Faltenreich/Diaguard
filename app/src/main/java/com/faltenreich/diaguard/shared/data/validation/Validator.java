@@ -49,6 +49,7 @@ public class Validator {
             float parsedValue = FloatUtils.parseNumber(value);
             float defaultValue = PreferenceStore.getInstance().formatCustomToDefaultUnit(category, parsedValue);
             if (!PreferenceStore.getInstance().validateEventValue(category, defaultValue)) {
+                // FIXME: Skipped for "0" as zero is being treated as null due to skipping empty measurements
                 editText.setError(context.getString(R.string.validator_value_unrealistic));
                 isValid = false;
             }

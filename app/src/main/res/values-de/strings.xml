@@ -53,6 +53,7 @@
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
     <string name="edit">Bearbeiten</string>
+    <string name="empty_days_skip">Tage ohne Einträge überspringen</string>
     <string name="entries">Einträge</string>
     <string name="entry">Eintrag</string>
     <string name="entry_added">Eintrag hinzugefügt</string>

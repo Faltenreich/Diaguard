@@ -53,6 +53,7 @@
     <string name="drawer_close">Chiudi navigazione</string>
     <string name="drawer_open">Apri navigazione</string>
     <string name="edit">Modifica</string>
+    <string name="empty_days_skip">Salta i giorni senza voci</string>
     <string name="entries">Valori</string>
     <string name="entry">Valore</string>
     <string name="entry_added">Valore aggiunto</string>

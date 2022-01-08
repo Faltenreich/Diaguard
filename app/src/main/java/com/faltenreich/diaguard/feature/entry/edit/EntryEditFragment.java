@@ -526,8 +526,12 @@ public class EntryEditFragment
         EntryTagDao.getInstance().deleteAll(entry);
         EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
 
-        // FIXME: Displays 0 carbs when editing food
         List<FoodEaten> foodEatenList = getFoodEaten();
+
+        // Force update in order to synchronize the measurement cache
+        entry = EntryDao.getInstance().getById(entry.getId());
+        entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+
         if (isNewEntry) {
             Toast.makeText(getContext(), getString(R.string.entry_added), Toast.LENGTH_LONG).show();
             Events.post(new EntryAddedEvent(entry, entryTags, foodEatenList));

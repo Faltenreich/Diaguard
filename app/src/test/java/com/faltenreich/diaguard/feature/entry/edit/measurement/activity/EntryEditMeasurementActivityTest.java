@@ -45,7 +45,7 @@ public class EntryEditMeasurementActivityTest {
     @Test
     public void confirmingValueBelowMinimum_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withId(R.id.edit_text))
-            .perform(ViewActions.replaceText("0"));
+            .perform(ViewActions.replaceText("1"));
         Espresso.onView(ViewMatchers.withId(R.id.fab_menu))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.edit_text))

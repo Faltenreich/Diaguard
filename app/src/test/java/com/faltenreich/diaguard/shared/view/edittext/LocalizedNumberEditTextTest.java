@@ -20,7 +20,7 @@ import java.text.DecimalFormatSymbols;
 public class LocalizedNumberEditTextTest {
 
     private LocalizedNumberEditText localizedNumberEditText;
-    private char localizedSeparator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
+    private final char localizedSeparator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
 
     @Rule public final TestRule dataCleanUp = new CleanUpData();
 

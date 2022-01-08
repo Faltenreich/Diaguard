@@ -257,6 +257,7 @@ public class EntryEditFragment
     private void setEntry(@NonNull Entry entry) {
         noteInput.setText(entry.getNote());
 
+        // FIXME: Previous order gets ignored on Fragment recreation
         List<Measurement> measurements = entry.getMeasurementCache();
         if (measurements != null && !measurements.isEmpty()) {
             Collections.sort(measurements, CategoryComparatorFactory.getInstance().createComparatorFromMeasurements());
@@ -557,7 +558,6 @@ public class EntryEditFragment
         }
     }
 
-    // FIXME: Adds previously deleted food when adding another one
     private List<FoodEaten> getFoodEaten() {
         for (int index = 0; index < measurementContainer.getChildCount(); index++) {
             View view = measurementContainer.getChildAt(index);

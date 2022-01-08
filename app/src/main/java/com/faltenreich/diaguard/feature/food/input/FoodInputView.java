@@ -172,10 +172,10 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         return meal;
     }
 
-    // FIXME: Previously cached but removed food eaten gets added obsoletely
     public void setMeal(Meal meal) {
         this.meal = meal;
         this.inputValueInputField.setText(meal.getValuesForUI()[0]);
+        // FIXME: Previously cached but removed food eaten gets added obsoletely
         if (meal.getFoodEatenCache().isEmpty()) {
             addItems(meal.getFoodEaten());
         } else {

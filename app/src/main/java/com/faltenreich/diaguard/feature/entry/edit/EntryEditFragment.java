@@ -448,9 +448,8 @@ public class EntryEditFragment
         boolean inputIsValid = true;
 
         List<Measurement> measurements = viewModel.getMeasurements();
-        if (measurements.size() == 0) {
+        if (measurements.isEmpty()) {
             // Allow entries with no measurements but with a note or tag
-            // FIXME: Allow entries with food eaten only
             if (StringUtils.isBlank(viewModel.getEntry().getNote()) && tagListView.getChildCount() == 0) {
                 ViewUtils.showSnackbar(root, getString(R.string.validator_value_none));
                 inputIsValid = false;
@@ -527,6 +526,7 @@ public class EntryEditFragment
         EntryTagDao.getInstance().deleteAll(entry);
         EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
 
+        // FIXME: Displays 0 carbs when editing food
         List<FoodEaten> foodEatenList = getFoodEaten();
         if (isNewEntry) {
             Toast.makeText(getContext(), getString(R.string.entry_added), Toast.LENGTH_LONG).show();
@@ -553,6 +553,7 @@ public class EntryEditFragment
         }
     }
 
+    // FIXME: Adds previously deleted food when adding another one
     private List<FoodEaten> getFoodEaten() {
         for (int index = 0; index < measurementContainer.getChildCount(); index++) {
             View view = measurementContainer.getChildAt(index);

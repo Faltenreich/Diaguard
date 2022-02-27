@@ -82,7 +82,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$jUnitRunner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
-    debugImplementation 'androidx.fragment:fragment-testing:1.4.0'
+    debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
 
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'

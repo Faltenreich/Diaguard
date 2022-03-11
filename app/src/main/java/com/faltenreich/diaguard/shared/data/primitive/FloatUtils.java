@@ -3,26 +3,26 @@ package com.faltenreich.diaguard.shared.data.primitive;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.faltenreich.diaguard.feature.preference.data.PreferenceCache;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 public class FloatUtils {
 
-    private static final int DECIMAL_PLACES_DEFAULT = 2;
-
     public static boolean isValid(Float number) {
         return !number.isNaN() && !number.isInfinite();
     }
 
-    public static String parseFloat(float number, int scale) {
+    public static String parseFloat(float number) {
+        int decimalPlaces = PreferenceCache.getInstance().getDecimalPlaces();
+        return parseFloat(number, decimalPlaces);
+    }
+
+    private static String parseFloat(float number, int scale) {
         DecimalFormat format = new DecimalFormat("0", DecimalFormatSymbols.getInstance());
         format.setMaximumFractionDigits(scale);
         return format.format(number);
-    }
-
-    // TODO: Make scale dynamic via SharedPreferences by using PreferenceStore.getDecimalPlaces()
-    public static String parseFloat(float number) {
-        return parseFloat(number, DECIMAL_PLACES_DEFAULT);
     }
 
     public static float parseNumber(@NonNull String number) {

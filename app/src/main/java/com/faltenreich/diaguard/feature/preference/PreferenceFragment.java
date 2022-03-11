@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.backup.Backup;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceCache;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
@@ -155,6 +156,9 @@ public abstract class PreferenceFragment
             Theme theme = PreferenceStore.getInstance().getTheme();
             ThemeUtils.setDefaultNightMode(theme);
             ThemeUtils.setUiMode(getActivity(), theme);
+        } else if (key.equals(getString(R.string.preference_decimal_places))) {
+            int decimalPlaces = PreferenceStore.getInstance().getDecimalPlaces();
+            PreferenceCache.getInstance().setDecimalPlaces(decimalPlaces);
         }
     }
 

@@ -74,6 +74,9 @@
     <string name="preference_unit_hba1c">unit_hba1c</string>
     <string name="preference_unit_weight">unit_weight</string>
 
+
+    <string name="preference_decimal_places">Decimal places</string>
+
     <string name="preference_factor">factor</string>
 
     <string name="preference_factor_meal">unit_meal_factor</string>

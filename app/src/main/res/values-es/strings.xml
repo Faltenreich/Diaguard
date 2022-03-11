@@ -378,5 +378,7 @@
     <string name="basal_rate">Tasa basal</string>
     <string name="basal_rate_desc">Necesidades básicas de insulina</string>
     <string name="settings_open">Abrir los ajustes</string>
+    <string name="decimal_places">Decimales</string>
+    <string name="decimal_places_desc">Número de dígitos para la parte fraccionaria de los números en coma flotante</string>
 
 </resources>

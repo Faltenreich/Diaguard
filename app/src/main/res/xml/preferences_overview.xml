@@ -112,6 +112,13 @@
                 android:value="@integer/argument_factor_basal_rate" />
         </Preference>
 
+        <EditTextPreference
+            android:key="@string/preference_decimal_places"
+            android:title="@string/decimal_places"
+            android:summary="@string/decimal_places_desc"
+            android:dialogLayout="@layout/preference_number"
+            android:defaultValue="@integer/decimal_places_default"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

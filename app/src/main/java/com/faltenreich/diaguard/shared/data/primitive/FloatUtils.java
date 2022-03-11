@@ -8,21 +8,21 @@ import java.text.DecimalFormatSymbols;
 
 public class FloatUtils {
 
-    private static final int DECIMAL_FRACTION_DIGITS = 2;
+    private static final int DECIMAL_PLACES_DEFAULT = 2;
 
     public static boolean isValid(Float number) {
         return !number.isNaN() && !number.isInfinite();
     }
 
-    // TODO: Make scale dynamic via SharedPreferences
     public static String parseFloat(float number, int scale) {
         DecimalFormat format = new DecimalFormat("0", DecimalFormatSymbols.getInstance());
         format.setMaximumFractionDigits(scale);
         return format.format(number);
     }
 
+    // TODO: Make scale dynamic via SharedPreferences by using PreferenceStore.getDecimalPlaces()
     public static String parseFloat(float number) {
-        return parseFloat(number, DECIMAL_FRACTION_DIGITS);
+        return parseFloat(number, DECIMAL_PLACES_DEFAULT);
     }
 
     public static float parseNumber(@NonNull String number) {

@@ -377,5 +377,7 @@
     <string name="basal_rate">Tasso basale</string>
     <string name="basal_rate_desc">Fabbisogno di insulina di base</string>
     <string name="settings_open">Apri impostazioni</string>
+    <string name="decimal_places">Posizioni decimali</string>
+    <string name="decimal_places_desc">Numero di cifre per la parte frazionaria dei numeri in virgola mobile</string>
 
 </resources>

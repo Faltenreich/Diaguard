@@ -520,6 +520,13 @@ public class PreferenceStore {
         return FloatUtils.parseFloat(customValue);
     }
 
+    public int getDecimalPlaces() {
+        return sharedPreferences.getInt(
+            getKey(R.string.preference_decimal_places),
+            context.getResources().getInteger(R.integer.decimal_places_default)
+        );
+    }
+
     // FACTOR
 
     // MEAL FACTOR

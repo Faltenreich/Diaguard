@@ -31,6 +31,7 @@ import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedEvent;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
+import com.faltenreich.diaguard.shared.event.preference.DecimalPlacesChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
@@ -159,6 +160,7 @@ public abstract class PreferenceFragment
         } else if (key.equals(getString(R.string.preference_decimal_places))) {
             int decimalPlaces = PreferenceStore.getInstance().getDecimalPlaces();
             PreferenceCache.getInstance().setDecimalPlaces(decimalPlaces);
+            Events.post(new DecimalPlacesChangedEvent(decimalPlaces));
         }
     }
 

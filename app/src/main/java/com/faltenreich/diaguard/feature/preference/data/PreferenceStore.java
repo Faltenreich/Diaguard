@@ -521,17 +521,10 @@ public class PreferenceStore {
     }
 
     public int getDecimalPlaces() {
-        int preferenceDefault = context.getResources().getInteger(R.integer.decimal_places_default);
-        String preference = sharedPreferences.getString(
+        return sharedPreferences.getInt(
             getKey(R.string.preference_decimal_places),
-            Integer.toString(preferenceDefault)
+            context.getResources().getInteger(R.integer.decimal_places_default)
         );
-        try {
-            return preference != null ? Integer.parseInt(preference) : preferenceDefault;
-        } catch (NumberFormatException exception) {
-            Log.e(TAG, exception.toString(), exception);
-            return preferenceDefault;
-        }
     }
 
     // FACTOR

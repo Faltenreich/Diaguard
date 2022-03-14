@@ -112,12 +112,13 @@
                 android:value="@integer/argument_factor_basal_rate" />
         </Preference>
 
-        <EditTextPreference
+        <SeekBarPreference
             android:key="@string/preference_decimal_places"
             android:title="@string/decimal_places"
             android:summary="@string/decimal_places_desc"
-            android:dialogLayout="@layout/preference_number"
-            android:defaultValue="@integer/decimal_places_default"/>
+            android:defaultValue="@integer/decimal_places_default"
+            android:max="@integer/decimal_places_max"
+            app:min="@integer/decimal_places_min" />
 
     </PreferenceCategory>
 

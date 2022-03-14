@@ -5,8 +5,8 @@ import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.feature.preference.data.PreferenceCache;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class FloatUtils {
 
@@ -19,8 +19,8 @@ public class FloatUtils {
         return parseFloat(number, decimalPlaces);
     }
 
-    private static String parseFloat(float number, int scale) {
-        DecimalFormat format = new DecimalFormat("0", DecimalFormatSymbols.getInstance());
+    public static String parseFloat(float number, int scale) {
+        NumberFormat format = NumberFormat.getNumberInstance(Locale.ROOT);
         format.setMaximumFractionDigits(scale);
         return format.format(number);
     }

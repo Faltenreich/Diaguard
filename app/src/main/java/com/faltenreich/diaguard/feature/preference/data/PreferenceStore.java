@@ -527,6 +527,13 @@ public class PreferenceStore {
         );
     }
 
+    public void setDecimalPlaces(int decimalPlaces) {
+        sharedPreferences
+            .edit()
+            .putInt(getKey(R.string.preference_decimal_places), decimalPlaces)
+            .apply();
+    }
+
     // FACTOR
 
     // MEAL FACTOR

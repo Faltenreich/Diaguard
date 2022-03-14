@@ -25,13 +25,14 @@ import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferen
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceCache;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.preference.decimal.DecimalPlacesPreference;
+import com.faltenreich.diaguard.feature.preference.decimal.DecimalPlacesPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedEvent;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
-import com.faltenreich.diaguard.shared.event.preference.DecimalPlacesChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
@@ -81,6 +82,8 @@ public abstract class PreferenceFragment
         DialogFragment fragment = null;
         if (preference instanceof BloodSugarPreference) {
             fragment = BloodSugarPreferenceDialogFragment.newInstance(preference.getKey());
+        } else if (preference instanceof DecimalPlacesPreference) {
+            fragment = DecimalPlacesPreferenceDialogFragment.newInstance(preference);
         }
         if (fragment != null) {
             fragment.setTargetFragment(this, 0);
@@ -160,7 +163,6 @@ public abstract class PreferenceFragment
         } else if (key.equals(getString(R.string.preference_decimal_places))) {
             int decimalPlaces = PreferenceStore.getInstance().getDecimalPlaces();
             PreferenceCache.getInstance().setDecimalPlaces(decimalPlaces);
-            Events.post(new DecimalPlacesChangedEvent(decimalPlaces));
         }
     }
 

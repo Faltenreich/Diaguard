@@ -26,7 +26,7 @@ public class DecimalPlacesPreferenceDialogFragment extends PreferenceDialogFragm
         return fragment;
     }
 
-    private static final float DECIMAL_EXAMPLE = 1.234f;
+    private static final float DECIMAL_EXAMPLE = 0.123f;
 
     private TextView decimalPlacesExampleLabel;
     private SeekBar seekBar;

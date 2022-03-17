@@ -76,6 +76,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] codes, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, codes, grantResults);
         PermissionUseCase useCase = PermissionUseCase.fromRequestCode(requestCode);
         if (useCase != null) {
             for (String code : codes) {

@@ -33,11 +33,13 @@ import com.faltenreich.diaguard.feature.entry.search.EntrySearchFragment;
 import com.faltenreich.diaguard.feature.export.ExportFragment;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.log.LogFragment;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceCache;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.preference.overview.PreferenceOverviewFragment;
 import com.faltenreich.diaguard.feature.shortcut.Shortcuts;
 import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
 import com.faltenreich.diaguard.feature.timeline.TimelineFragment;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
@@ -99,6 +101,13 @@ public class MainActivity
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // FIXME: Does not work immediately after return
+        PreferenceCache.getInstance().setLocale(Helper.getLocale(this));
     }
 
     @Override

@@ -20,7 +20,12 @@ public class FloatUtils {
     }
 
     public static String parseFloat(float number, int scale) {
-        NumberFormat format = NumberFormat.getNumberInstance(Locale.ROOT);
+        Locale locale = PreferenceCache.getInstance().getLocale();
+        return parseFloat(number, scale, locale);
+    }
+
+    public static String parseFloat(float number, int scale, Locale locale) {
+        NumberFormat format = NumberFormat.getNumberInstance(locale);
         format.setMaximumFractionDigits(scale);
         return format.format(number);
     }

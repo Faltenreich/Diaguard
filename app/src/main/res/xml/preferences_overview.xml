@@ -56,6 +56,11 @@
             android:title="@string/food"
             app:fragment="com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment" />
 
+        <Preference
+            android:key="@string/preference_timeline"
+            android:title="@string/timeline"
+            app:fragment="com.faltenreich.diaguard.feature.preference.timeline.TimelinePreferenceFragment" />
+
         <com.faltenreich.diaguard.feature.preference.backup.BackupExportPreference
             android:key="@string/preference_backup"
             android:summary="@string/backup_desc"

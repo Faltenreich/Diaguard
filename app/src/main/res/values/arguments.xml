@@ -10,6 +10,6 @@
     <integer name="argument_factor_basal_rate">2</integer>
     <integer name="decimal_places_min">0</integer>
     <integer name="decimal_places_max">3</integer>
-    <integer name="decimal_places_default">2</integer>
+    <integer name="decimal_places_default">1</integer>
 
 </resources>

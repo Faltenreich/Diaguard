@@ -9,10 +9,12 @@ import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.ArrayUtils;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.ScatterData;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 
@@ -29,8 +31,7 @@ public class DayChartData extends CombinedData {
         HYPO("hypoglycemia", R.color.blue);
 
         public final String label;
-        public @ColorRes
-        final int colorResId;
+        public @ColorRes final int colorResId;
 
         DataSetType(String label, @ColorRes int colorResId) {
             this.label = label;
@@ -81,8 +82,9 @@ public class DayChartData extends CombinedData {
     // Identify max value manually because data.getYMax does not work when combining scatter with line chart
     private void calculateYAxisMaximum() {
         yAxisMaximum = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, Y_MAX_VALUE_DEFAULT);
-        for (int datasetIndex = 0; datasetIndex < getScatterData().getDataSetCount(); datasetIndex++) {
-            IScatterDataSet dataSet = getScatterData().getDataSetByIndex(datasetIndex);
+        ChartData<?> data = showDots ? getScatterData() : getLineData();
+        for (int datasetIndex = 0; datasetIndex < data.getDataSetCount(); datasetIndex++) {
+            IDataSet<?> dataSet = data.getDataSetByIndex(datasetIndex);
             for (int entryIndex = 0; entryIndex < dataSet.getEntryCount(); entryIndex++) {
                 float entryValue = dataSet.getEntryForIndex(entryIndex).getY();
                 if (entryValue > yAxisMaximum) {
@@ -145,9 +147,9 @@ public class DayChartData extends CombinedData {
         if (showLines) {
             getLineDataSet().addEntry(entry);
         }
-        // TODO: Skip if no dots shall be displayed
-        // FIXME: Viewport calculation relies on scatter data
-        getScatterDataSet(type).addEntry(entry);
+        if (showDots) {
+            getScatterDataSet(type).addEntry(entry);
+        }
     }
 
     private void addEntry(Entry entry) {

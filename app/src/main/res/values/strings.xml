@@ -547,7 +547,7 @@
     <string name="decimal_places_desc">Number of digits for the fractional part of floating point numbers</string>
     <string name="decimal_places_example">%s will be shown as %s</string>
     <string name="timeline_show_dots">Show dots</string>
-    <string name="timeline_show_dots_desc">Mark measurements with dots</string>
+    <string name="timeline_show_dots_desc">Mark measurements with dots (Disabling this will stop highlighting limits)</string>
     <string name="timeline_show_lines">Show lines</string>
     <string name="timeline_show_lines_desc">Connect measurements with lines</string>
 

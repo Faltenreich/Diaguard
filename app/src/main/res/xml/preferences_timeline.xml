@@ -6,14 +6,14 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="@string/preference_timeline_show_dots"
-        android:summary="@string/timeline_show_dots_desc"
-        android:title="@string/timeline_show_dots" />
-
-    <CheckBoxPreference
-        android:defaultValue="true"
         android:key="@string/preference_timeline_show_lines"
         android:summary="@string/timeline_show_lines_desc"
         android:title="@string/timeline_show_lines" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/preference_timeline_show_dots"
+        android:summary="@string/timeline_show_dots_desc"
+        android:title="@string/timeline_show_dots" />
 
 </PreferenceScreen>

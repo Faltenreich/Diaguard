@@ -52,14 +52,14 @@
             app:fragment="com.faltenreich.diaguard.feature.tag.TagListFragment" />
 
         <Preference
-            android:key="@string/preference_food"
-            android:title="@string/food"
-            app:fragment="com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment" />
-
-        <Preference
             android:key="@string/preference_timeline"
             android:title="@string/timeline"
             app:fragment="com.faltenreich.diaguard.feature.preference.timeline.TimelinePreferenceFragment" />
+
+        <Preference
+            android:key="@string/preference_food"
+            android:title="@string/food"
+            app:fragment="com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment" />
 
         <com.faltenreich.diaguard.feature.preference.backup.BackupExportPreference
             android:key="@string/preference_backup"

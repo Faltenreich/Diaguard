@@ -377,5 +377,7 @@
     <string name="basal_rate">Basalrate</string>
     <string name="basal_rate_desc">Grundbedarf an Insulin</string>
     <string name="settings_open">Einstellungen öffnen</string>
+    <string name="decimal_places">Nachkommastellen</string>
+    <string name="decimal_places_desc">Anzahl der Stellen für den Nachkommateil von Gleitkommazahlen</string>
 
 </resources>

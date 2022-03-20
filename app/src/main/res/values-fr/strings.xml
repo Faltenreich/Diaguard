@@ -376,5 +376,7 @@
     <string name="basal_rate">Débit de base</string>
     <string name="basal_rate_desc">Les besoins de base en insuline</string>
     <string name="settings_open">Paramètres ouverts</string>
+    <string name="decimal_places">Décimales</string>
+    <string name="decimal_places_desc">Nombre de chiffres pour la partie fractionnaire des nombres à virgule flottante</string>
 
 </resources>

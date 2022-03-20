@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@drawable/divider_medium"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/padding_end_large"
+    android:paddingVertical="@dimen/padding_large"
+    android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/decimal_places_example_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/decimal_places_example" />
+
+    <SeekBar
+        android:id="@+id/decimal_places_example_seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:defaultValue="@integer/decimal_places_default"
+        android:max="@integer/decimal_places_max"
+        app:min="@integer/decimal_places_min" />
+
+</LinearLayout>

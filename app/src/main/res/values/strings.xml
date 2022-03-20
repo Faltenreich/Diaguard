@@ -547,5 +547,8 @@
     <string name="basal_rate">Basal rate</string>
     <string name="basal_rate_desc">Basic insulin needs</string>
     <string name="settings_open">Open settings</string>
+    <string name="decimal_places">Decimal places</string>
+    <string name="decimal_places_desc">Number of digits for the fractional part of floating point numbers</string>
+    <string name="decimal_places_example">%s will be shown as %s</string>
 
 </resources>

@@ -23,7 +23,10 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.backup.Backup;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceCache;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.preference.decimal.DecimalPlacesPreference;
+import com.faltenreich.diaguard.feature.preference.decimal.DecimalPlacesPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
 import com.faltenreich.diaguard.shared.event.Events;
@@ -79,6 +82,8 @@ public abstract class PreferenceFragment
         DialogFragment fragment = null;
         if (preference instanceof BloodSugarPreference) {
             fragment = BloodSugarPreferenceDialogFragment.newInstance(preference.getKey());
+        } else if (preference instanceof DecimalPlacesPreference) {
+            fragment = DecimalPlacesPreferenceDialogFragment.newInstance(preference);
         }
         if (fragment != null) {
             fragment.setTargetFragment(this, 0);
@@ -155,6 +160,9 @@ public abstract class PreferenceFragment
             Theme theme = PreferenceStore.getInstance().getTheme();
             ThemeUtils.setDefaultNightMode(theme);
             ThemeUtils.setUiMode(getActivity(), theme);
+        } else if (key.equals(getString(R.string.preference_decimal_places))) {
+            int decimalPlaces = PreferenceStore.getInstance().getDecimalPlaces();
+            PreferenceCache.getInstance().setDecimalPlaces(decimalPlaces);
         }
     }
 

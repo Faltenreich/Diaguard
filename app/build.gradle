@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdk 16
         targetSdk 31
-        versionCode 55
-        versionName "3.9.0"
+        versionCode 56
+        versionName "3.10.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -82,7 +82,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$jUnitRunner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
-    debugImplementation 'androidx.fragment:fragment-testing:1.4.0'
+    debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
 
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'

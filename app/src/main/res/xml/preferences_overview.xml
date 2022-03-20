@@ -112,6 +112,11 @@
                 android:value="@integer/argument_factor_basal_rate" />
         </Preference>
 
+        <com.faltenreich.diaguard.feature.preference.decimal.DecimalPlacesPreference
+            android:key="@string/preference_decimal_places"
+            android:title="@string/decimal_places"
+            android:summary="@string/decimal_places_desc" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

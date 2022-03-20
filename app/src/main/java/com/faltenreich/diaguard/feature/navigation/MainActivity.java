@@ -104,10 +104,10 @@ public class MainActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        // FIXME: Does not work immediately after return
+    protected void onStart() {
+        // Must be executed before Fragment.onViewCreated
         PreferenceCache.getInstance().setLocale(Helper.getLocale(this));
+        super.onStart();
     }
 
     @Override

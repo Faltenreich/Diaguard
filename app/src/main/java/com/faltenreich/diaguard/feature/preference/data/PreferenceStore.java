@@ -16,7 +16,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.feature.navigation.MainFragmentType;
-import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.serialization.CategorySerializer;
@@ -160,27 +159,12 @@ public class PreferenceStore {
         return sharedPreferences.getBoolean(getKey(R.string.preference_alarm_vibration), true);
     }
 
-    public TimelineStyle getTimelineStyle() {
-        String key = getKey(R.string.preference_chart_style);
-        String preference = sharedPreferences.getString(key, null);
-        if (!TextUtils.isEmpty(preference)) {
-            try {
-                int chartStyle = Integer.parseInt(preference);
-                TimelineStyle[] chartStyles = TimelineStyle.values();
-                return chartStyle >= 0 && chartStyle < chartStyles.length ? chartStyles[chartStyle] : TimelineStyle.SCATTER_CHART;
-            } catch (NumberFormatException exception) {
-                Log.e(TAG, exception.getMessage() != null ? exception.getMessage() : "Failed to getChartStyle");
-            }
-        } else {
-            Log.e(TAG, "Failed to find shared preference for key: " + key);
-        }
-        return TimelineStyle.SCATTER_CHART;
+    public boolean showDotsInTimeline() {
+        return sharedPreferences.getBoolean(getKey(R.string.preference_timeline_show_dots), true);
     }
 
-    public void setTimelineStyle(TimelineStyle style) {
-        int stableId = style.getStableId();
-        String stableIdString = Integer.toString(stableId);
-        sharedPreferences.edit().putString(getKey(R.string.preference_chart_style), stableIdString).apply();
+    public boolean showLinesInTimeline() {
+        return sharedPreferences.getBoolean(getKey(R.string.preference_timeline_show_lines), true);
     }
 
     public int[] getExtrema(Category category) {

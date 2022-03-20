@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import androidx.annotation.ColorInt;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
@@ -76,7 +75,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
             setDragEnabled(false);
 
             // Workaround: Prevent empty view to ease transition into loaded data
-            setData(new DayChartData(getContext(), TimelineStyle.SCATTER_CHART, new ArrayList<>()));
+            setData(new DayChartData(getContext(), true, false, new ArrayList<>()));
         }
     }
 

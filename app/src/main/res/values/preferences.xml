@@ -27,8 +27,6 @@
     <string name="preference_timeline">timeline</string>
     <string name="preference_timeline_show_dots">timelineShowDots</string>
     <string name="preference_timeline_show_lines">timelineShowLines</string>
-    <!-- Deprecated -->
-    <string name="preference_chart_style">chart_style</string>
 
     <!-- Reminder -->
     <string name="preference_alarm_start">alarmStartInMillis</string>

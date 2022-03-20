@@ -295,10 +295,6 @@
     <string name="privacy_policy">Informativa sulla privacy</string>
     <string name="terms_and_conditions">Termini e condizioni</string>
 
-    <string name="chart_style">Stile grafico</string>
-    <string name="chart_scatter">Grafico a dispersione</string>
-    <string name="chart_line">Grafico a barre</string>
-
     <string name="oxygen_saturation">Saturazione dell\'ossigeno</string>
     <string name="oxygen_saturation_acronym">Sat. Ox.</string>
 

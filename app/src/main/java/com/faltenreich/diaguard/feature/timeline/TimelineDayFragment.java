@@ -143,7 +143,12 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
                             values.addAll(measurements);
                         }
                     }
-                    return new DayChartData(context, PreferenceStore.getInstance().getTimelineStyle(), values);
+                    return new DayChartData(
+                        context,
+                        PreferenceStore.getInstance().showDotsInTimeline(),
+                        PreferenceStore.getInstance().showLinesInTimeline(),
+                        values
+                    );
                 }
 
                 @Override

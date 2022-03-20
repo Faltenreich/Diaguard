@@ -295,10 +295,6 @@
 
     <string name="months">Monate</string>
 
-    <string name="chart_style">Diagrammstil</string>
-    <string name="chart_scatter">Streudiagramm</string>
-    <string name="chart_line">Liniendiagramm</string>
-
     <string name="oxygen_saturation">Sauerstoffsättigung</string>
     <string name="oxygen_saturation_acronym">Sauerstoffsätt.</string>
 

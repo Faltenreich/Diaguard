@@ -14,8 +14,9 @@
         android:title="@string/search"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_style"
-        android:title="@string/chart_style"
-        app:showAsAction="never"/>
+    <item android:id="@+id/action_settings"
+        android:icon="@drawable/ic_preferences"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom"/>
 
 </menu>

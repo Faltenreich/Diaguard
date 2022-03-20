@@ -6,7 +6,6 @@ import androidx.annotation.ColorRes;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.ArrayUtils;
@@ -40,14 +39,21 @@ public class DayChartData extends CombinedData {
     }
 
     private final Context context;
-    private final TimelineStyle timelineStyle;
+    private final boolean showDots;
+    private final boolean showLines;
     private final List<Measurement> values;
     private float yAxisMaximum;
 
-    public DayChartData(Context context, TimelineStyle timelineStyle, List<Measurement> values) {
+    public DayChartData(
+        Context context,
+        boolean showDots,
+        boolean showLines,
+        List<Measurement> values
+    ) {
         super();
         this.context = context;
-        this.timelineStyle = timelineStyle;
+        this.showDots = showDots;
+        this.showLines = showLines;
         this.values = values;
         createEntries();
         calculateYAxisMaximum();
@@ -136,18 +142,12 @@ public class DayChartData extends CombinedData {
     }
 
     private void addEntry(Entry entry, DataSetType type) {
-        switch (timelineStyle) {
-            case LINE_CHART:
-                getLineDataSet().addEntry(entry);
-                // No break, because points are added as well for line charts
-            case SCATTER_CHART:
-                // TODO: Skip if no dots shall be displayed
-                // FIXME: Viewport calculation relies on scatter data
-                getScatterDataSet(type).addEntry(entry);
-                break;
-            default:
-                throw new IllegalArgumentException("Failed to add entry to chart style " + timelineStyle);
+        if (showLines) {
+            getLineDataSet().addEntry(entry);
         }
+        // TODO: Skip if no dots shall be displayed
+        // FIXME: Viewport calculation relies on scatter data
+        getScatterDataSet(type).addEntry(entry);
     }
 
     private void addEntry(Entry entry) {

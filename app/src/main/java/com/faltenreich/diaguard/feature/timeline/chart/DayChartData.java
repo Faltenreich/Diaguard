@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.feature.timeline.chart;
 import android.content.Context;
 
 import androidx.annotation.ColorRes;
-import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -19,10 +18,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 
 import java.util.List;
-
-/**
- * Created by Faltenreich on 15.03.2017
- */
 
 public class DayChartData extends CombinedData {
 
@@ -115,7 +110,11 @@ public class DayChartData extends CombinedData {
     private ILineDataSet getLineDataSet() {
         if (getLineData().getDataSetCount() == 0) {
             DataSetType type = DataSetType.TARGET;
-            ILineDataSet dataSet = new DayChartLineDataSet(type.label, ContextCompat.getColor(context, type.colorResId));
+            ILineDataSet dataSet = new DayChartLineDataSet(
+                context,
+                type.label,
+                type.colorResId
+            );
             getLineData().addDataSet(dataSet);
             return dataSet;
         } else {
@@ -126,7 +125,13 @@ public class DayChartData extends CombinedData {
     private IScatterDataSet getScatterDataSet(DataSetType type) {
         IScatterDataSet dataSet = getScatterData().getDataSetByLabel(type.label, true);
         if (dataSet == null) {
-            dataSet = new DayChartScatterDataSet(context, type.label, ContextCompat.getColor(context, type.colorResId));
+            dataSet = new DayChartScatterDataSet(
+                context,
+                type.label,
+                type.colorResId,
+                // TODO: Make dynamic
+                R.dimen.chart_scatter_size
+            );
             getScatterData().addDataSet(dataSet);
         }
         return dataSet;

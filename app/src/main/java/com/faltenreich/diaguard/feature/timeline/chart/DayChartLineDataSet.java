@@ -1,21 +1,20 @@
 package com.faltenreich.diaguard.feature.timeline.chart;
 
-import androidx.annotation.ColorInt;
+import android.content.Context;
+
+import androidx.annotation.ColorRes;
+import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
 
-/**
- * Created by Faltenreich on 04.11.2017
- */
-
 class DayChartLineDataSet extends LineDataSet {
 
-    DayChartLineDataSet(String label, @ColorInt int color) {
+    DayChartLineDataSet(Context context, String label, @ColorRes int colorResource) {
         super(new ArrayList<>(), label);
-        setColor(color);
+        setColor(ContextCompat.getColor(context, colorResource));
         setLineWidth(ChartUtils.LINE_WIDTH);
         setDrawCircles(false);
         setDrawValues(false);

@@ -22,9 +22,6 @@ import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
 
-/**
- * Created by Filip on 07.07.2015.
- */
 public class DayChart extends CombinedChart implements OnChartValueSelectedListener {
 
     private static final float TAP_THRESHOLD_IN_DP = 24;

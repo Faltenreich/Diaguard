@@ -128,9 +128,7 @@ public class DayChartData extends CombinedData {
             dataSet = new DayChartScatterDataSet(
                 context,
                 type.label,
-                type.colorResId,
-                // TODO: Make dynamic
-                R.dimen.chart_scatter_size
+                type.colorResId
             );
             getScatterData().addDataSet(dataSet);
         }
@@ -143,6 +141,8 @@ public class DayChartData extends CombinedData {
                 getLineDataSet().addEntry(entry);
                 // No break, because points are added as well for line charts
             case SCATTER_CHART:
+                // TODO: Skip if no dots shall be displayed
+                // FIXME: Viewport calculation relies on scatter data
                 getScatterDataSet(type).addEntry(entry);
                 break;
             default:

@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
@@ -92,6 +93,10 @@ public class ViewUtils {
 
     public static void showToast(Context context, String text) {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+    }
+
+    public static void showToast(Context context, @StringRes int textResource) {
+        showToast(context, context.getString(textResource));
     }
 
     @Nullable

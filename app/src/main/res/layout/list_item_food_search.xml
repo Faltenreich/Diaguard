@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Padding"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Padding"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:baselineAligned="false"
+    android:clickable="true"
+    android:divider="@drawable/divider_medium"
+    android:focusable="true"
     android:gravity="center_vertical"
     android:minHeight="@dimen/height_element"
     android:orientation="horizontal"
-    android:clickable="true"
-    android:focusable="true"
-    android:background="?attr/selectableItemBackground"
-    android:baselineAligned="false">
+    android:showDividers="middle">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -25,37 +27,48 @@
             android:id="@+id/name_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?android:attr/textColorPrimary"
-            android:maxLines="2"
             android:ellipsize="end"
-            tools:text="Food"/>
+            android:maxLines="2"
+            android:textColor="?android:attr/textColorPrimary"
+            tools:text="Food" />
 
         <TextView
             android:id="@+id/brand_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="@dimen/text_xsmall"
-            android:maxLines="1"
             android:ellipsize="end"
-            tools:text="Brand"/>
+            android:maxLines="1"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="@dimen/text_xsmall"
+            tools:text="Brand" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/type_icon"
+        android:layout_width="@dimen/size_image"
+        android:layout_height="@dimen/size_image"
+        android:padding="@dimen/padding"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@null"
+        app:tint="?iconColorPrimary"
+        tools:src="@drawable/ic_nature" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="end|center_vertical">
+        android:gravity="end|center_vertical"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/value_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_end"
             android:layout_marginStart="@dimen/padding_end"
+            android:layout_marginLeft="@dimen/padding_end"
             android:textColor="?android:attr/textColorPrimary"
-            tools:text="10 CH"/>
+            tools:text="@tools:sample/us_zipcodes" />
 
         <ImageView
             android:id="@+id/recent_indicator"

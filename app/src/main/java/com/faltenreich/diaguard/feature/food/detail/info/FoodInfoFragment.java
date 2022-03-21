@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
+import com.faltenreich.diaguard.shared.data.database.entity.FoodType;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
@@ -105,9 +106,9 @@ public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> impl
         }
         // Common food has been labelled during import but branded or custom food has not
         if (food.isBrandedFood()) {
-            labels.add(getString(R.string.food_branded));
+            labels.add(getString(FoodType.BRANDED.getLabelResource()));
         } else if (food.isCustomFood(requireContext())) {
-            labels.add(getString(R.string.food_custom));
+            labels.add(getString(FoodType.CUSTOM.getLabelResource()));
         }
 
         if (labels.isEmpty()) {

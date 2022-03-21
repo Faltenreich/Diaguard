@@ -278,6 +278,16 @@ public class Food extends BaseServerEntity implements Backupable {
         return getServerId() != null;
     }
 
+    public FoodType getFoodType(Context context) {
+        if (isBrandedFood()) {
+            return FoodType.BRANDED;
+        } else if (isCommonFood(context)) {
+            return FoodType.COMMON;
+        } else {
+            return FoodType.CUSTOM;
+        }
+    }
+
     public String getValueForUi() {
         if (carbohydrates != null) {
             float valueFormatted = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);

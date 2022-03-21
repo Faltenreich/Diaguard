@@ -376,5 +376,10 @@
     <string name="settings_open">Abrir los ajustes</string>
     <string name="decimal_places">Decimales</string>
     <string name="decimal_places_desc">Número de dígitos para la parte fraccionaria de los números en coma flotante</string>
+    <string name="decimal_places_example">%s se mostrará como %s</string>
+    <string name="timeline_show_dots">Mostrar puntos</string>
+    <string name="timeline_show_dots_desc">Marcar las mediciones con puntos (si se desactiva, dejará de resaltar los límites)</string>
+    <string name="timeline_show_lines">Mostrar líneas</string>
+    <string name="timeline_show_lines_desc">Conectar las medidas con líneas</string>
 
 </resources>

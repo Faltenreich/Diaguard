@@ -375,5 +375,10 @@
     <string name="settings_open">Einstellungen öffnen</string>
     <string name="decimal_places">Nachkommastellen</string>
     <string name="decimal_places_desc">Anzahl der Stellen für den Nachkommateil von Gleitkommazahlen</string>
+    <string name="decimal_places_example">%s wird angezeigt als %s</string>
+    <string name="timeline_show_dots">Punkte anzeigen</string>
+    <string name="timeline_show_dots_desc">Messungen mit Punkten markieren (Deaktivieren dieser Funktion verhindert das Hervorheben von Extremwerten)</string>
+    <string name="timeline_show_lines">Linien anzeigen</string>
+    <string name="timeline_show_lines_desc">Messungen mit Linien verbinden</string>
 
 </resources>

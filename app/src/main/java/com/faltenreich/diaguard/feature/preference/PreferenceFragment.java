@@ -34,6 +34,7 @@ import com.faltenreich.diaguard.shared.event.file.FileProvidedEvent;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEvent;
+import com.faltenreich.diaguard.shared.event.preference.TimelinePreferenceChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
@@ -156,6 +157,9 @@ public abstract class PreferenceFragment
             Events.post(new UnitChangedEvent(Category.HBA1C));
         } else if (key.equals(getString(R.string.preference_unit_weight))) {
             Events.post(new UnitChangedEvent(Category.WEIGHT));
+        } else if (key.equals(getString(R.string.preference_timeline_show_dots))
+            || key.equals(getString(R.string.preference_timeline_show_lines))) {
+            Events.post(new TimelinePreferenceChangedEvent());
         } else if (key.equals(getString(R.string.preference_theme))) {
             Theme theme = PreferenceStore.getInstance().getTheme();
             ThemeUtils.setDefaultNightMode(theme);

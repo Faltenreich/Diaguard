@@ -22,7 +22,11 @@
     <!-- General -->
     <string name="preference_theme">theme</string>
     <string name="preference_start_screen">"startscreen"</string>
-    <string name="preference_chart_style">chart_style</string>
+
+    <!-- Timeline -->
+    <string name="preference_timeline">timeline</string>
+    <string name="preference_timeline_show_dots">timelineShowDots</string>
+    <string name="preference_timeline_show_lines">timelineShowLines</string>
 
     <!-- Reminder -->
     <string name="preference_alarm_start">alarmStartInMillis</string>

@@ -456,10 +456,6 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_and_conditions">Terms and conditions</string>
 
-    <string name="chart_style">Chart style</string>
-    <string name="chart_scatter">Scatter chart</string>
-    <string name="chart_line">Line chart</string>
-
     <string name="oxygen_saturation">Oxygen saturation</string>
     <string name="oxygen_saturation_acronym">Oxygen sat.</string>
 
@@ -550,5 +546,9 @@
     <string name="decimal_places">Decimal places</string>
     <string name="decimal_places_desc">Number of digits for the fractional part of floating point numbers</string>
     <string name="decimal_places_example">%s will be shown as %s</string>
+    <string name="timeline_show_dots">Show dots</string>
+    <string name="timeline_show_dots_desc">Mark measurements with dots (Disabling this will stop highlighting limits)</string>
+    <string name="timeline_show_lines">Show lines</string>
+    <string name="timeline_show_lines_desc">Connect measurements with lines</string>
 
 </resources>

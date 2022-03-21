@@ -293,10 +293,6 @@
     <string name="fiber">Fibra</string>
     <string name="carbohydrates_per_100g">Glucides par 100 g</string>
 
-    <string name="chart_style">Style de graphique</string>
-    <string name="chart_scatter">Nuage de points</string>
-    <string name="chart_line">Nuage de linéaire</string>
-
     <string name="oxygen_saturation">Saturation en oxygène</string>
     <string name="oxygen_saturation_acronym">Sat. en oxygène</string>
     <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
@@ -378,5 +374,10 @@
     <string name="settings_open">Paramètres ouverts</string>
     <string name="decimal_places">Décimales</string>
     <string name="decimal_places_desc">Nombre de chiffres pour la partie fractionnaire des nombres à virgule flottante</string>
+    <string name="decimal_places_example">%s sera affiché comme %s</string>
+    <string name="timeline_show_dots">Montrer les points</string>
+    <string name="timeline_show_dots_desc">Marquer les mesures avec des points (si vous désactivez cette fonction, les limites ne seront plus mises en évidence)</string>
+    <string name="timeline_show_lines">Montrer les lignes</string>
+    <string name="timeline_show_lines_desc">Relier les mesures avec des lignes</string>
 
 </resources>

@@ -3,26 +3,22 @@ package com.faltenreich.diaguard.feature.timeline.chart;
 import android.content.Context;
 
 import androidx.annotation.ColorRes;
-import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.ArrayUtils;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.ScatterData;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 
 import java.util.List;
-
-/**
- * Created by Faltenreich on 15.03.2017
- */
 
 public class DayChartData extends CombinedData {
 
@@ -35,8 +31,7 @@ public class DayChartData extends CombinedData {
         HYPO("hypoglycemia", R.color.blue);
 
         public final String label;
-        public @ColorRes
-        final int colorResId;
+        public @ColorRes final int colorResId;
 
         DataSetType(String label, @ColorRes int colorResId) {
             this.label = label;
@@ -45,14 +40,21 @@ public class DayChartData extends CombinedData {
     }
 
     private final Context context;
-    private final TimelineStyle timelineStyle;
+    private final boolean showDots;
+    private final boolean showLines;
     private final List<Measurement> values;
     private float yAxisMaximum;
 
-    public DayChartData(Context context, TimelineStyle timelineStyle, List<Measurement> values) {
+    public DayChartData(
+        Context context,
+        boolean showDots,
+        boolean showLines,
+        List<Measurement> values
+    ) {
         super();
         this.context = context;
-        this.timelineStyle = timelineStyle;
+        this.showDots = showDots;
+        this.showLines = showLines;
         this.values = values;
         createEntries();
         calculateYAxisMaximum();
@@ -80,8 +82,9 @@ public class DayChartData extends CombinedData {
     // Identify max value manually because data.getYMax does not work when combining scatter with line chart
     private void calculateYAxisMaximum() {
         yAxisMaximum = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, Y_MAX_VALUE_DEFAULT);
-        for (int datasetIndex = 0; datasetIndex < getScatterData().getDataSetCount(); datasetIndex++) {
-            IScatterDataSet dataSet = getScatterData().getDataSetByIndex(datasetIndex);
+        ChartData<?> data = showDots ? getScatterData() : getLineData();
+        for (int datasetIndex = 0; datasetIndex < data.getDataSetCount(); datasetIndex++) {
+            IDataSet<?> dataSet = data.getDataSetByIndex(datasetIndex);
             for (int entryIndex = 0; entryIndex < dataSet.getEntryCount(); entryIndex++) {
                 float entryValue = dataSet.getEntryForIndex(entryIndex).getY();
                 if (entryValue > yAxisMaximum) {
@@ -115,7 +118,11 @@ public class DayChartData extends CombinedData {
     private ILineDataSet getLineDataSet() {
         if (getLineData().getDataSetCount() == 0) {
             DataSetType type = DataSetType.TARGET;
-            ILineDataSet dataSet = new DayChartLineDataSet(type.label, ContextCompat.getColor(context, type.colorResId));
+            ILineDataSet dataSet = new DayChartLineDataSet(
+                context,
+                type.label,
+                type.colorResId
+            );
             getLineData().addDataSet(dataSet);
             return dataSet;
         } else {
@@ -126,22 +133,22 @@ public class DayChartData extends CombinedData {
     private IScatterDataSet getScatterDataSet(DataSetType type) {
         IScatterDataSet dataSet = getScatterData().getDataSetByLabel(type.label, true);
         if (dataSet == null) {
-            dataSet = new DayChartScatterDataSet(context, type.label, ContextCompat.getColor(context, type.colorResId));
+            dataSet = new DayChartScatterDataSet(
+                context,
+                type.label,
+                type.colorResId
+            );
             getScatterData().addDataSet(dataSet);
         }
         return dataSet;
     }
 
     private void addEntry(Entry entry, DataSetType type) {
-        switch (timelineStyle) {
-            case LINE_CHART:
-                getLineDataSet().addEntry(entry);
-                // No break, because points are added as well for line charts
-            case SCATTER_CHART:
-                getScatterDataSet(type).addEntry(entry);
-                break;
-            default:
-                throw new IllegalArgumentException("Failed to add entry to chart style " + timelineStyle);
+        if (showLines) {
+            getLineDataSet().addEntry(entry);
+        }
+        if (showDots) {
+            getScatterDataSet(type).addEntry(entry);
         }
     }
 

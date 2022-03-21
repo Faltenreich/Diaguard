@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import androidx.annotation.ColorInt;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
@@ -22,9 +21,6 @@ import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
 
-/**
- * Created by Filip on 07.07.2015.
- */
 public class DayChart extends CombinedChart implements OnChartValueSelectedListener {
 
     private static final float TAP_THRESHOLD_IN_DP = 24;
@@ -79,7 +75,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
             setDragEnabled(false);
 
             // Workaround: Prevent empty view to ease transition into loaded data
-            setData(new DayChartData(getContext(), TimelineStyle.SCATTER_CHART, new ArrayList<>()));
+            setData(new DayChartData(getContext(), true, false, new ArrayList<>()));
         }
     }
 

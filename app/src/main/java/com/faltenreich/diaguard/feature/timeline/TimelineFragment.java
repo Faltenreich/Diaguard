@@ -8,7 +8,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
 
 import com.faltenreich.diaguard.R;
@@ -20,12 +19,13 @@ import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.preference.timeline.TimelinePreferenceFragment;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.shared.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.shared.event.preference.CategoryPreferenceChangedEvent;
+import com.faltenreich.diaguard.shared.event.preference.TimelinePreferenceChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
@@ -104,8 +104,8 @@ public class TimelineFragment
         if (itemId == R.id.action_today) {
             goToDay(DateTime.now());
             return true;
-        } else if (itemId == R.id.action_style) {
-            openDialogForChartStyle();
+        } else if (itemId == R.id.action_settings) {
+            openFragment(new TimelinePreferenceFragment(), true);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -130,29 +130,6 @@ public class TimelineFragment
         viewPager.addOnPageChangeListener(this);
         // Prevent destroying offscreen fragments that occur on fast scrolling
         viewPager.setOffscreenPageLimit(2);
-    }
-
-    private void openDialogForChartStyle() {
-        if (getContext() != null) {
-            TimelineStyle[] styles = TimelineStyle.values();
-            String[] titles = new String[styles.length];
-            for (int index = 0; index < styles.length; index++) {
-                titles[index] = getString(styles[index].getTitleRes());
-            }
-            TimelineStyle currentStyle = PreferenceStore.getInstance().getTimelineStyle();
-            new AlertDialog.Builder(getContext())
-                .setTitle(R.string.chart_style)
-                .setSingleChoiceItems(titles, currentStyle.getStableId(), null)
-                .setNegativeButton(R.string.cancel, (dialog, which) -> {})
-                .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                    TimelineStyle style = styles[position];
-                    PreferenceStore.getInstance().setTimelineStyle(style);
-                    goToDay(day);
-                })
-            .create()
-            .show();
-        }
     }
 
     @Override
@@ -234,5 +211,10 @@ public class TimelineFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(CategoryPreferenceChangedEvent event) {
         adapter.reset();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(TimelinePreferenceChangedEvent event) {
+        goToDay(day);
     }
 }

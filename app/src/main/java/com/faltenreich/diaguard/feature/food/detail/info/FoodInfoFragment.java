@@ -18,11 +18,16 @@ import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> implements TabDescribing {
 
@@ -93,13 +98,25 @@ public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> impl
 
         ViewGroup labelsLayout = getBinding().labelsLayout;
         labelsLayout.removeAllViews();
-        if (food.getLabels() != null && food.getLabels().length() > 0) {
+
+        List<String> labels = new ArrayList<>();
+        if (!StringUtils.isBlank(food.getLabels())) {
+            labels.addAll(Arrays.asList(food.getLabels().split(",")));
+        }
+        // Common food has been labelled during import but branded or custom food has not
+        if (food.isBrandedFood()) {
+            labels.add(getString(R.string.food_branded));
+        } else if (food.isCustomFood(requireContext())) {
+            labels.add(getString(R.string.food_custom));
+        }
+
+        if (labels.isEmpty()) {
+            labelsLayout.setVisibility(View.GONE);
+        } else {
             labelsLayout.setVisibility(View.VISIBLE);
-            for (String label : food.getLabels().split(",")) {
+            for (String label : labels) {
                 labelsLayout.addView(new FoodInfoLabelView(getContext(), label));
             }
-        } else {
-            labelsLayout.setVisibility(View.GONE);
         }
     }
 

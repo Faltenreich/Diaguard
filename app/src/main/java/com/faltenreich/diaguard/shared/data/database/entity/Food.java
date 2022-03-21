@@ -1,5 +1,9 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
+import static com.faltenreich.diaguard.shared.data.database.entity.Food.Column.FAT_SATURATED;
+import static com.faltenreich.diaguard.shared.data.database.entity.Food.Column.PROTEINS;
+import static com.faltenreich.diaguard.shared.data.database.entity.Food.Column.SUGAR;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -13,10 +17,6 @@ import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
-
-import static com.faltenreich.diaguard.shared.data.database.entity.Food.Column.FAT_SATURATED;
-import static com.faltenreich.diaguard.shared.data.database.entity.Food.Column.PROTEINS;
-import static com.faltenreich.diaguard.shared.data.database.entity.Food.Column.SUGAR;
 
 public class Food extends BaseServerEntity implements Backupable {
 
@@ -266,12 +266,12 @@ public class Food extends BaseServerEntity implements Backupable {
         this.foodEaten = foodEaten;
     }
 
-    public boolean isCustomFood(String labelForCommonFood) {
-        return !isBrandedFood() && !isCommonFood(labelForCommonFood);
+    public boolean isCustomFood(Context context) {
+        return !isBrandedFood() && !isCommonFood(context);
     }
 
-    public boolean isCommonFood(String labelForCommonFood) {
-        return labels != null && labels.contains(labelForCommonFood);
+    public boolean isCommonFood(Context context) {
+        return labels != null && labels.contains(context.getString(R.string.food_common));
     }
 
     public boolean isBrandedFood() {

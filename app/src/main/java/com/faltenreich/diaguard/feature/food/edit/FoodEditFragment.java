@@ -135,6 +135,7 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
             food.setBrand(getBinding().brandInput.getText());
             food.setIngredients(getBinding().ingredientsInput.getText());
 
+            // FIXME: 4-digit carbohydrates are stored as 1-digit with 3 decimal places
             for (Map.Entry<Food.Nutrient, Float> entry : getBinding().nutrientInputLayout.getValues().entrySet()) {
                 Food.Nutrient nutrient = entry.getKey();
                 Float value = entry.getValue();

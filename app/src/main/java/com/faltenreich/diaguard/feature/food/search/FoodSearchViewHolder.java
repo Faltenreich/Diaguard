@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemFoodSearchBinding;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
+import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
@@ -30,7 +31,7 @@ class FoodSearchViewHolder extends BaseViewHolder<ListItemFoodSearchBinding, Foo
         Food food = item.getFood();
         getBinding().nameLabel.setText(food.getName());
         getBinding().brandLabel.setText(food.getBrand());
-        getBinding().brandLabel.setVisibility(food.getBrand() != null && food.getBrand().length() > 0 ? View.VISIBLE : View.GONE);
+        getBinding().brandLabel.setVisibility(StringUtils.isBlank(food.getBrand()) ? View.GONE : View.VISIBLE);
         getBinding().valueLabel.setText(food.getValueForUi());
         getBinding().recentIndicator.setVisibility(item.getFoodEaten() != null ? View.VISIBLE : View.GONE);
     }

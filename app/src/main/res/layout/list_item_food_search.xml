@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,78 +8,60 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:baselineAligned="false"
     android:clickable="true"
-    android:divider="@drawable/divider_medium"
     android:focusable="true"
-    android:gravity="center_vertical"
-    android:minHeight="@dimen/height_element"
-    android:orientation="horizontal"
-    android:showDividers="middle">
+    android:minHeight="@dimen/height_element_large">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/name_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintEnd_toStartOf="@id/value_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/brand_label"
+        tools:text="Food" />
 
-        <TextView
-            android:id="@+id/name_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="?android:attr/textColorPrimary"
-            tools:text="Food" />
+    <TextView
+        android:id="@+id/brand_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="@dimen/text_xsmall"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/name_label"
+        app:layout_constraintStart_toStartOf="@id/name_label"
+        app:layout_constraintTop_toBottomOf="@id/name_label"
+        tools:text="Brand" />
 
-        <TextView
-            android:id="@+id/brand_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="@dimen/text_xsmall"
-            tools:text="Brand" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/value_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_end"
+        android:layout_marginLeft="@dimen/padding_end"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recent_indicator"
+        tools:text="@tools:sample/us_zipcodes" />
 
     <ImageView
-        android:id="@+id/type_icon"
-        android:layout_width="@dimen/size_image"
-        android:layout_height="@dimen/size_image"
-        android:padding="@dimen/padding"
-        android:background="?selectableItemBackgroundBorderless"
+        android:id="@+id/recent_indicator"
+        android:layout_width="@dimen/size_image_smaller"
+        android:layout_height="@dimen/size_image_smaller"
+        android:layout_marginTop="@dimen/padding"
         android:contentDescription="@null"
-        app:tint="?iconColorPrimary"
-        tools:src="@drawable/ic_nature" />
+        android:src="@drawable/ic_history_old"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/value_label"
+        app:layout_constraintTop_toBottomOf="@id/value_label"
+        app:tint="?iconColorPrimary" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="end|center_vertical"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/value_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_end"
-            android:layout_marginLeft="@dimen/padding_end"
-            android:textColor="?android:attr/textColorPrimary"
-            tools:text="@tools:sample/us_zipcodes" />
-
-        <ImageView
-            android:id="@+id/recent_indicator"
-            android:layout_width="@dimen/size_image_smaller"
-            android:layout_height="@dimen/size_image_smaller"
-            android:layout_marginTop="4dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_history_old"
-            android:visibility="gone"
-            app:tint="?iconColorPrimary" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

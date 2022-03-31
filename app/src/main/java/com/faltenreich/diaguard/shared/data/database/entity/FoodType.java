@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 
 import com.faltenreich.diaguard.R;
@@ -11,16 +10,6 @@ public enum FoodType {
    BRANDED,
    CUSTOM,
    ;
-
-   @DrawableRes
-   public int getIconResource() {
-      switch (this) {
-         case COMMON: return R.drawable.ic_nature;
-         case BRANDED: return R.drawable.ic_factory;
-         case CUSTOM: return R.drawable.ic_user;
-         default: throw new IllegalArgumentException("Missing icon for " + this);
-      }
-   }
 
    @StringRes
    public int getLabelResource() {

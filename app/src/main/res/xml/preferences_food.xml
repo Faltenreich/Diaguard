@@ -4,9 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/food">
 
-    <PreferenceCategory
-        android:icon="@drawable/ic_user"
-        android:title="@string/food_custom">
+    <PreferenceCategory android:title="@string/food_custom">
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -16,9 +14,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/food_common"
-        android:icon="@drawable/ic_nature">
+    <PreferenceCategory android:title="@string/food_common">
 
         <Preference
             android:summary="@string/powered_by"
@@ -36,9 +32,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/food_branded"
-        android:icon="@drawable/ic_factory">
+    <PreferenceCategory android:title="@string/food_branded">
 
         <Preference
             android:summary="@string/powered_by"

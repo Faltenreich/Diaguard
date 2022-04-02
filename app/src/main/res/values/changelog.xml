@@ -5,7 +5,7 @@
     <string name="changelog">What\'s new</string>
     <string name="changelog_desc">
         - Timeline: Making dots and lines toggleable\n\n
-        - Food: Highlight custom and branded food in detail\n\n
+        - Food: Highlighting custom and branded food in detail view\n\n
         - Preferences: Supporting dynamic decimal places
     </string>
 

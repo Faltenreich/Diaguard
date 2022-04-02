@@ -4,10 +4,9 @@
 
     <string name="changelog">Novità</string>
     <string name="changelog_desc">
-        - Valore: Le misure vuote saranno ignorate durante il salvataggio\n\n
-        - Esporta: Aggiunta opzione per saltare i giorni senza voci\n\n
-        - Panoramica: L\'HbA1c si basa sull\'input dell\'utente invece che sulla stima, se disponibile\n\n
-        - Linea temporale: Corretta viewport per mmol/L
+        - Linea temporale: Rendere i punti e le linee commutabili\n\n
+        - Cibo: Evidenziare il cibo personalizzato e di marca nella vista dettagliata\n\n
+        - Preferenze: Supporto ai decimali dinamici
     </string>
 
 </resources>

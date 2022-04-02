@@ -4,10 +4,9 @@
 
     <string name="changelog">Quoi de neuf</string>
     <string name="changelog_desc">
-        - Entrée: Les mesures vides seront ignorées lors de la sauvegarde\n\n
-        - Exportation: Ajout d\'une option permettant de sauter les jours sans entrées\n\n
-        - Aperçu: L\'HbA1c est basé sur la saisie de l\'utilisateur au lieu de l\'estimation si disponible\n\n
-        - Journal: Correction de la fenêtre de visualisation pour les mmol/L
+        - Journal: Faire des points et des lignes basculables\n\n
+        - Alimentation: Mise en évidence des aliments personnalisés et des aliments de marque dans la vue détaillée\n\n
+        - Préférences: Prise en charge des décimales dynamiques
     </string>
 
 </resources>

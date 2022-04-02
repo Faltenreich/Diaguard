@@ -4,10 +4,9 @@
 
     <string name="changelog">Neu in dieser Version</string>
     <string name="changelog_desc">
-        - Eintrag: Messwerte ohne Eingabe werden ignoriert beim Speichern\n\n
-        - Export: Neue Option hinzugefügt, um Tage ohne Einträge zu überspringen\n\n
-        - Übersicht: HbA1c wird aus Einträgen übernommen, falls verfügbar, anstatt zu schätzen\n\n
-        - Tagebuch: Ansichtsbereich für mmol/L wurde korrigiert
+        - Tagebuch: Punkte und Linien sind an- und abschaltbar\n\n
+        - Lebensmittel: Eigene und Markenprodukte werden hervorgehoben in Detailansicht\n\n
+        - Einstellungen: Anzahl der Nachkommastellen kann angepasst werden
     </string>
 
 </resources>

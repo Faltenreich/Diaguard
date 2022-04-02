@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="changelog">Qué hay de nuevo</string>
+    <string name="changelog_desc">
+        - Entrada: Las mediciones vacías serán ignoradas al guardar\n\n
+        - Exportación: Se ha añadido la opción de omitir los días sin entradas\n\n
+        - Sobrevista: La HbA1c se basa en la entrada del usuario en lugar de la estimación si está disponible\n\n
+        - Diario: Se ha corregido la ventana de visualización de mmol/L
+    </string>
+
+</resources>

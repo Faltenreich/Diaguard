@@ -459,14 +459,6 @@
     <string name="oxygen_saturation">Oxygen saturation</string>
     <string name="oxygen_saturation_acronym">Oxygen sat.</string>
 
-    <string name="changelog">What\'s new</string>
-    <string name="changelog_desc">
-        - Entry: Empty measurements will be ignored when saving\n\n
-        - Export: Added option to skip days without entries\n\n
-        - Dashboard: HbA1c is based upon user input instead of estimation if available\n\n
-        - Timeline: Fixed viewport for mmol/L
-    </string>
-
     <string name="meal_factor">Meal-bolus-factor</string>
     <string name="meal_factors">Meal-bolus-factors</string>
     <string name="meal_factor_desc">Insulin quantity required for a meal</string>

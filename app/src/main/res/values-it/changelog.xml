@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="changelog">Novità</string>
+    <string name="changelog_desc">
+        - Valore: Le misure vuote saranno ignorate durante il salvataggio\n\n
+        - Esporta: Aggiunta opzione per saltare i giorni senza voci\n\n
+        - Panoramica: L\'HbA1c si basa sull\'input dell\'utente invece che sulla stima, se disponibile\n\n
+        - Linea temporale: Corretta viewport per mmol/L
+    </string>
+
+</resources>

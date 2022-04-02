@@ -333,7 +333,7 @@ public class MainActivity
     private void checkChangelog() {
         int oldVersionCode = PreferenceStore.getInstance().getVersionCode();
         int currentVersionCode = SystemUtils.getVersionCode(this);
-        if (oldVersionCode == 54) {
+        if (oldVersionCode == 55) {
             boolean isUpdate = oldVersionCode < currentVersionCode;
             if (isUpdate) {
                 PreferenceStore.getInstance().setVersionCode(currentVersionCode);

@@ -298,14 +298,6 @@
     <string name="oxygen_saturation">Saturazione dell\'ossigeno</string>
     <string name="oxygen_saturation_acronym">Sat. Ox.</string>
 
-    <string name="changelog">Novità</string>
-    <string name="changelog_desc">
-        - Valore: Le misure vuote saranno ignorate durante il salvataggio\n\n
-        - Esporta: Aggiunta opzione per saltare i giorni senza voci\n\n
-        - Panoramica: L\'HbA1c si basa sull\'input dell\'utente invece che sulla stima, se disponibile\n\n
-        - Linea temporale: Corretta viewport per mmol/L
-    </string>
-
     <string name="meal_factor">Fattore per il bolo del pasto</string>
     <string name="meal_factors">Fattori per il bolo del pasto</string>
     <string name="meal_factor_desc">Quantità di insulina necessaria per un pasto</string>

@@ -143,15 +143,6 @@ public class DayChartData extends CombinedData {
         return dataSet;
     }
 
-    private void addEntry(Entry entry, DataSetType type) {
-        if (showLines) {
-            getLineDataSet().addEntry(entry);
-        }
-        if (showDots) {
-            getScatterDataSet(type).addEntry(entry);
-        }
-    }
-
     private void addEntry(Entry entry) {
         float yValue = entry.getY();
         if (PreferenceStore.getInstance().limitsAreHighlighted()) {
@@ -164,6 +155,16 @@ public class DayChartData extends CombinedData {
             }
         } else {
             addEntry(entry, DataSetType.TARGET);
+        }
+    }
+
+    private void addEntry(Entry entry, DataSetType type) {
+        if (showLines) {
+            getLineDataSet().addEntry(entry);
+        }
+        // Show dot anyway if there is only one entry since it will not be connected with a line
+        if (values.size() == 1 || showDots) {
+            getScatterDataSet(type).addEntry(entry);
         }
     }
 }

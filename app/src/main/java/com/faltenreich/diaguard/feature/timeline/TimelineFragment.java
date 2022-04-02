@@ -215,6 +215,6 @@ public class TimelineFragment
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(TimelinePreferenceChangedEvent event) {
-        goToDay(day);
+        adapter.reset();
     }
 }

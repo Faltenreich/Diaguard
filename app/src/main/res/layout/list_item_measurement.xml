@@ -43,8 +43,8 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@null"
                     android:padding="@dimen/padding_large"
-                    tools:src="@drawable/ic_category_bloodsugar"
-                    app:tint="@android:color/white" />
+                    app:tint="@android:color/white"
+                    tools:src="@drawable/ic_category_bloodsugar" />
 
                 <TextView
                     android:id="@+id/category_label"
@@ -62,13 +62,13 @@
                     android:textSize="@dimen/text_large"
                     tools:text="@string/bloodsugar" />
 
-                <androidx.appcompat.widget.AppCompatCheckBox
+                <CheckBox
                     android:id="@+id/pinned_checkbox"
+                    style="@style/WhiteCheckBox"
                     android:layout_width="@dimen/checkbox_width"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/category_pin"
-                    android:text="@null"
-                    android:theme="@style/WhiteCheckBox" />
+                    android:text="@null" />
 
                 <ImageView
                     android:id="@+id/delete_button"

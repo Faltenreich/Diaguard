@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
+        <item name="colorSecondaryContainer">@color/background_light_tertiary</item>
         <item name="backgroundColorGreen">@color/green</item>
         <item name="backgroundColorGreenDark">@color/green_darker</item>
         <item name="backgroundColorGreenTranslucent">@color/green_transparent</item>
@@ -31,6 +32,7 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
+        <item name="colorSecondaryContainer">@color/background_dark_secondary</item>
         <item name="backgroundColorGreen">@color/green_dark</item>
         <item name="backgroundColorGreenDark">@color/green_darkest</item>
         <item name="backgroundColorGreenTranslucent">@color/green_dark_transparent</item>
@@ -88,8 +90,8 @@
     </style>
 
     <style name="WhiteCheckBox">
-        <item name="colorAccent">@android:color/white</item>
-        <item name="colorControlNormal">@android:color/white</item>
+        <item name="useMaterialThemeColors">false</item>
+        <item name="buttonTint">@android:color/white</item>
     </style>
 
     <style name="NavigationDrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -246,6 +248,9 @@
         <item name="android:layout_marginTop">@dimen/margin_cardview_vertical</item>
         <item name="cardCornerRadius">0dp</item>
         <item name="cardElevation">4dp</item>
+    </style>
+
+    <style name="NavigationView">
     </style>
 
 </resources>

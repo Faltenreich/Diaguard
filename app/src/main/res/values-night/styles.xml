@@ -2,7 +2,7 @@
 
     <style name="AppTheme" parent="Theme.Dark"/>
 
-    <style name="ToolbarPopup" parent="ThemeOverlay.MaterialComponents.ActionBar">
+    <style name="ToolbarPopup" parent="ThemeOverlay.Material3.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 

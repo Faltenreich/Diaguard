@@ -2,7 +2,7 @@
 
     <style name="AppTheme" parent="Theme.Light"/>
 
-    <style name="Theme.Light" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Light" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
@@ -27,7 +27,7 @@
         <item name="android:windowSplashScreenIconBackgroundColor" tools:ignore="NewApi">@color/green</item>
     </style>
 
-    <style name="Theme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Dark" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
@@ -57,13 +57,13 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="Button" parent="Widget.MaterialComponents.Button.TextButton"/>
+    <style name="Button" parent="Widget.Material3.Button.TextButton"/>
 
-    <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.ActionBar">
+    <style name="Toolbar" parent="ThemeOverlay.Material3.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
-    <style name="ToolbarPopup" parent="ThemeOverlay.MaterialComponents.ActionBar">
+    <style name="ToolbarPopup" parent="ThemeOverlay.Material3.ActionBar">
         <item name="android:textColorPrimary">@android:color/black</item>
     </style>
 

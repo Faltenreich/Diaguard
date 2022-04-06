@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
+        <item name="colorPrimaryContainer">@color/green</item>
+        <item name="colorOnPrimaryContainer">@android:color/white</item>
         <item name="colorSecondaryContainer">@color/background_light_tertiary</item>
         <item name="backgroundColorGreen">@color/green</item>
         <item name="backgroundColorGreenDark">@color/green_darker</item>
@@ -71,22 +73,6 @@
 
     <style name="DateTimePicker" parent="Base.ThemeOverlay.AppCompat.Dialog">
         <item name="android:windowBackground">?backgroundColorPrimary</item>
-    </style>
-
-    <style name="FloatingActionButton">
-        <item name="android:layout_margin">@dimen/fab_margin</item>
-        <item name="menu_fab_size">normal</item>
-        <item name="fab_colorNormal">@color/green</item>
-        <item name="fab_colorPressed">@color/green_lighter</item>
-        <item name="fab_colorRipple">@color/green_lighter</item>
-    </style>
-
-    <style name="FloatingActionMenu">
-        <item name="menu_fab_size">mini</item>
-        <item name="menu_backgroundColor">@color/semitransparent</item>
-        <item name="menu_colorNormal">@android:color/white</item>
-        <item name="menu_colorPressed">@color/gray_light</item>
-        <item name="menu_colorRipple">@color/gray_light</item>
     </style>
 
     <style name="WhiteCheckBox">
@@ -247,7 +233,7 @@
         <item name="android:layout_marginEnd">@dimen/margin_cardview_horizontal</item>
         <item name="android:layout_marginTop">@dimen/margin_cardview_vertical</item>
         <item name="cardCornerRadius">0dp</item>
-        <item name="cardElevation">4dp</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
     </style>
 
     <style name="NavigationView">

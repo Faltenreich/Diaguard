@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.github.clans.fab.FloatingActionButton
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fab"
-    style="@style/FloatingActionButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom|end"
-    android:contentDescription="@string/entry_new"
-    android:src="@drawable/fab_add"
-    app:fab_colorNormal="?backgroundColorGreen"
+    android:gravity="center"
+    android:orientation="vertical"
     app:layout_behavior="com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior"
-    app:layout_dodgeInsetEdges="bottom" />
+    app:layout_dodgeInsetEdges="bottom">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        style="?attr/floatingActionButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/entry_new"
+        android:src="@drawable/ic_add_fab"
+        app:useCompatPadding="true" />
+
+</LinearLayout>

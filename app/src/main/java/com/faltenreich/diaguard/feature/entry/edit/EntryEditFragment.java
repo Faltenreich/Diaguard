@@ -29,7 +29,6 @@ import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.category.CategoryListFragment;
 import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
 import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
-import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
@@ -120,7 +119,6 @@ public class EntryEditFragment
     private final EntryEditViewModel viewModel = new EntryEditViewModel();
     private boolean isRecreated;
 
-    private ViewGroup root;
     private NestedScrollView scrollView;
     private Button dateButton;
     private Button timeButton;
@@ -132,7 +130,6 @@ public class EntryEditFragment
     private ViewGroup alarmContainer;
     private Button alarmButton;
     private LinearLayout measurementContainer;
-    private MeasurementFloatingActionMenu fabMenu;
 
     @Override
     protected FragmentEntryEditBinding createBinding(LayoutInflater layoutInflater) {
@@ -163,7 +160,7 @@ public class EntryEditFragment
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        isRecreated = root != null;
+        isRecreated = scrollView != null;
         bindViews();
         initLayout();
         initData();
@@ -191,7 +188,6 @@ public class EntryEditFragment
     }
 
     private void bindViews() {
-        root = getBinding().root;
         scrollView = getBinding().scrollView;
         dateButton = getBinding().dateButton;
         timeButton = getBinding().timeButton;
@@ -202,7 +198,6 @@ public class EntryEditFragment
         alarmContainer = getBinding().alarmContainer;
         alarmButton = getBinding().alarmButton;
         measurementContainer = getBinding().measurementContainer;
-        fabMenu = getBinding().fabMenu;
     }
 
     private void initLayout() {
@@ -244,9 +239,6 @@ public class EntryEditFragment
         alarmContainer.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
         alarmButton.setOnClickListener(view -> showAlarmPicker());
 
-        fabMenu.setOnCategorySelectedListener((category -> addCategory(category, true)));
-        fabMenu.setOnMiscellaneousSelectedListener(this::openCategoryPicker);
-
         invalidateAlarm();
     }
 
@@ -282,7 +274,6 @@ public class EntryEditFragment
         }
 
         invalidateDateTime();
-        fabMenu.restock();
     }
 
     private void setTags(List<Tag> tags) {
@@ -295,8 +286,6 @@ public class EntryEditFragment
         view.setOnCategoryRemovedListener(this::removeCategory);
         int index = atStart ? 0 : measurementContainer.getChildCount();
         measurementContainer.addView(view, index);
-        fabMenu.ignore(measurement.getCategory());
-        fabMenu.restock();
     }
 
     private void addCategory(Category category, boolean atStart) {
@@ -323,9 +312,6 @@ public class EntryEditFragment
             if (indexInCache != -1) {
                 entry.getMeasurementCache().remove(indexInCache);
             }
-
-            fabMenu.removeIgnore(category);
-            fabMenu.restock();
         }
     }
 
@@ -452,7 +438,7 @@ public class EntryEditFragment
         if (measurements.isEmpty()) {
             // Allow entries with no measurements but with a note or tag
             if (StringUtils.isBlank(viewModel.getEntry().getNote()) && tagListView.getChildCount() == 0) {
-                ViewUtils.showSnackbar(root, getString(R.string.validator_value_none));
+                ViewUtils.showSnackbar(scrollView, getString(R.string.validator_value_none));
                 inputIsValid = false;
             }
         } else {

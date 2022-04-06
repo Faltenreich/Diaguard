@@ -49,9 +49,10 @@
     <dimen name="scrim_height">74dp</dimen>
     <dimen name="fab_offset">100dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_mini_margin">22dp</dimen>
 
-    <dimen name="card_corner_radius">4dp</dimen>
-    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
     <dimen name="checkbox_width">36dp</dimen>
 
     <dimen name="toolbar_title_padding">8dp</dimen>

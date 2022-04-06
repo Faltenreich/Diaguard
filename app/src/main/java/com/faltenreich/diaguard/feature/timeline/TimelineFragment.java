@@ -15,8 +15,9 @@ import com.faltenreich.diaguard.databinding.FragmentTimelineBinding;
 import com.faltenreich.diaguard.feature.datetime.DatePicking;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.FabDescribing;
+import com.faltenreich.diaguard.feature.navigation.FabDescription;
+import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.timeline.TimelinePreferenceFragment;
@@ -37,7 +38,7 @@ import org.joda.time.format.DateTimeFormat;
 
 public class TimelineFragment
     extends BaseFragment<FragmentTimelineBinding>
-    implements ToolbarDescribing, MainButton, DatePicking, ViewPager.OnPageChangeListener
+    implements ToolbarDescribing, FabDescribing, DatePicking, ViewPager.OnPageChangeListener
 {
 
     private ViewPager viewPager;
@@ -70,13 +71,13 @@ public class TimelineFragment
     }
 
     @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.addButton(view -> {
+    public FabDescription getFabDescription() {
+        return new FabDescription(FabProperties.addButton(view -> {
             if (getContext() != null) {
                 // Date will not be passed through to compensate negative user feedback
                 openFragment(new EntryEditFragment(), true);
             }
-        }, true);
+        }), true);
     }
 
     @Override

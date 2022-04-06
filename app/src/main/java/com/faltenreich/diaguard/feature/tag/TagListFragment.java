@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentTagListBinding;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.FabDescribing;
+import com.faltenreich.diaguard.feature.navigation.FabDescription;
+import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
@@ -35,7 +36,7 @@ import java.util.List;
 
 public class TagListFragment
     extends BaseFragment<FragmentTagListBinding>
-    implements ToolbarDescribing, MainButton, TagListener {
+    implements ToolbarDescribing, FabDescribing, TagListener {
 
     private RecyclerView listView;
     private TextView listPlaceholder;
@@ -55,8 +56,8 @@ public class TagListFragment
     }
 
     @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.addButton((view) -> createTag(), false);
+    public FabDescription getFabDescription() {
+        return new FabDescription(FabProperties.addButton((view) -> createTag()), false);
     }
 
     @Override

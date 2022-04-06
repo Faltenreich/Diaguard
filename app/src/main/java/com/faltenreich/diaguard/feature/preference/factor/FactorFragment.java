@@ -15,8 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFactorBinding;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.FabDescribing;
+import com.faltenreich.diaguard.feature.navigation.FabDescription;
+import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.event.Events;
@@ -38,7 +39,7 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FactorFragment extends BaseFragment<FragmentFactorBinding> implements FactorViewHolder.Callback, MainButton {
+public class FactorFragment extends BaseFragment<FragmentFactorBinding> implements FactorViewHolder.Callback, FabDescribing {
 
     private static final int X_AXIS_MINIMUM = 0;
     private static final int X_AXIS_MAXIMUM = DateTimeConstants.HOURS_PER_DAY;
@@ -55,8 +56,8 @@ public class FactorFragment extends BaseFragment<FragmentFactorBinding> implemen
     }
 
     @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.confirmButton((view) -> store(), false);
+    public FabDescription getFabDescription() {
+        return new FabDescription(FabProperties.confirmButton((view) -> store()), false);
     }
 
     @Override

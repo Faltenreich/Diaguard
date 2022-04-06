@@ -18,8 +18,9 @@ import com.faltenreich.diaguard.feature.dashboard.value.DashboardValueTask;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.FabDescribing;
+import com.faltenreich.diaguard.feature.navigation.FabDescription;
+import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -48,7 +49,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Minutes;
 
-public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> implements ToolbarDescribing, MainButton {
+public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> implements ToolbarDescribing, FabDescribing {
 
     private ViewGroup latestLayout;
     private TextView latestValueLabel;
@@ -294,12 +295,8 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     }
 
     @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.addButton(view -> {
-            if (getContext() != null) {
-                openFragment(new EntryEditFragment(), true);
-            }
-        }, false);
+    public FabDescription getFabDescription() {
+        return new FabDescription(FabProperties.addButton(view -> openFragment(new EntryEditFragment(), true)), false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

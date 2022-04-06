@@ -21,8 +21,9 @@ import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchFragment;
 import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.FabDescribing;
+import com.faltenreich.diaguard.feature.navigation.FabDescription;
+import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -52,7 +53,7 @@ import java.util.List;
  */
 public class LogFragment
     extends BaseFragment<FragmentLogBinding>
-    implements DatePicking, ToolbarDescribing, MainButton, LogListAdapter.Listener
+    implements DatePicking, ToolbarDescribing, FabDescribing, LogListAdapter.Listener
 {
 
     private DateTime day;
@@ -85,13 +86,13 @@ public class LogFragment
     }
 
     @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.addButton(view -> {
+    public FabDescription getFabDescription() {
+        return new FabDescription(FabProperties.addButton(view -> {
             if (getContext() != null) {
                 // Date will not be passed through to compensate negative user feedback
                 openFragment(new EntryEditFragment(), true);
             }
-        }, true);
+        }), true);
     }
 
     @Override

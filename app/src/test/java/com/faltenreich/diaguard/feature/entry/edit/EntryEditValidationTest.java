@@ -42,7 +42,7 @@ public class EntryEditValidationTest {
     @Ignore("Fails if executed with other tests")
     @Test
     public void confirmingEmptyEntry_shouldShowWarning() {
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
             .check(ViewAssertions.matches(ViewMatchers.withText(R.string.validator_value_none)));

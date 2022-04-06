@@ -20,8 +20,9 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFoodSearchBinding;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.FabDescribing;
+import com.faltenreich.diaguard.feature.navigation.FabDescription;
+import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.SearchOwner;
 import com.faltenreich.diaguard.feature.navigation.SearchProperties;
 import com.faltenreich.diaguard.feature.navigation.Searching;
@@ -53,7 +54,7 @@ import java.util.List;
 
 public class FoodSearchFragment
     extends BaseFragment<FragmentFoodSearchBinding>
-    implements ToolbarDescribing, MainButton, Searching, SearchViewListener {
+    implements ToolbarDescribing, FabDescribing, Searching, SearchViewListener {
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
 
@@ -105,8 +106,8 @@ public class FoodSearchFragment
     }
 
     @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.addButton((view) -> createFood(), true);
+    public FabDescription getFabDescription() {
+        return new FabDescription(FabProperties.addButton((view) -> createFood()), true);
     }
 
     @Override

@@ -31,8 +31,9 @@ import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
 import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.FabDescribing;
+import com.faltenreich.diaguard.feature.navigation.FabDescription;
+import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
@@ -76,7 +77,7 @@ import java.util.List;
 
 public class EntryEditFragment
     extends BaseFragment<FragmentEntryEditBinding>
-    implements ToolbarDescribing, MainButton
+    implements ToolbarDescribing, FabDescribing
 {
 
     private static final String TAG = EntryEditFragment.class.getSimpleName();
@@ -145,8 +146,12 @@ public class EntryEditFragment
     }
 
     @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.confirmButton((view) -> trySubmit(), false);
+    public FabDescription getFabDescription() {
+        return new FabDescription(
+            FabProperties.confirmButton(view -> trySubmit()),
+            FabProperties.addButton(view -> openCategoryPicker()),
+            false
+        );
     }
 
     @Override

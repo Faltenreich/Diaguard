@@ -25,8 +25,9 @@ import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.FabDescribing;
+import com.faltenreich.diaguard.feature.navigation.FabDescription;
+import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -52,7 +53,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ExportFragment extends BaseFragment<FragmentExportBinding> implements ToolbarDescribing, ExportCallback, MainButton {
+public class ExportFragment extends BaseFragment<FragmentExportBinding> implements ToolbarDescribing, ExportCallback, FabDescribing {
 
     private static final String TAG = ExportFragment.class.getSimpleName();
 
@@ -299,8 +300,8 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.confirmButton(view -> exportIfInputIsValid(), false);
+    public FabDescription getFabDescription() {
+        return new FabDescription(FabProperties.confirmButton(view -> exportIfInputIsValid()), false);
     }
 
     private void showStartDatePicker() {

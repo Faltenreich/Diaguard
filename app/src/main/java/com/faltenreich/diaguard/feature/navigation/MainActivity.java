@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -59,9 +61,12 @@ public class MainActivity
     private Toolbar toolbar;
     private TextView toolbarTitle;
     private SearchView searchView;
-    private FloatingActionButton fab;
+    private ViewGroup fabGroup;
+    private FloatingActionButton fabPrimary;
+    private FloatingActionButton fabSecondary;
 
-    private float fabOffset;
+    private float fabPrimaryOffset;
+    private float fabSecondaryOffset;
 
     @Override
     protected ActivityMainBinding createBinding(LayoutInflater layoutInflater) {
@@ -148,17 +153,24 @@ public class MainActivity
         toolbar = getBinding().toolbarContainer.toolbar;
         toolbarTitle = getBinding().toolbarContainer.toolbarTitle;
         searchView = getBinding().searchView;
-        fab = getBinding().fabContainer.fab;
+        fabGroup = getBinding().fabContainer.fabGroup;
+        fabPrimary = getBinding().fabContainer.fabPrimary;
+        fabSecondary = getBinding().fabContainer.fabSecondary;
     }
     
     private void initLayout() {
-        fab.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        fabPrimary.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 float target = drawerLayout.getHeight();
-                float fabY = ViewUtils.getPositionInParent(fab, drawerLayout).y;
-                fabOffset = target - fabY;
-                fab.getViewTreeObserver().removeOnPreDrawListener(this);
+                fabPrimaryOffset = target - ViewUtils.getPositionInParent(fabPrimary, drawerLayout).y;
+                fabSecondaryOffset = target - ViewUtils.getPositionInParent(fabSecondary, drawerLayout).y;
+                fabPrimary.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                Fragment fragment = Navigation.getCurrentFragment(getSupportFragmentManager(), R.id.container);
+                FabDescribing describing = fragment instanceof ToolbarDescribing ? (FabDescribing) fragment : null;
+                invalidateFab(describing);
+
                 return false;
             }
         });
@@ -218,7 +230,7 @@ public class MainActivity
         Log.d(getClass().getSimpleName(), "Invalidating layout for " + fragment.getClass().getSimpleName());
         invalidateToolbar(fragment instanceof ToolbarDescribing ? (ToolbarDescribing) fragment : null);
         invalidateSearch(fragment instanceof Searching ? (Searching) fragment : null);
-        invalidateMainButton(fragment instanceof MainButton ? (MainButton) fragment : null);
+        invalidateFab(fragment instanceof FabDescribing ? (FabDescribing) fragment : null);
         invalidateNavigationDrawer(fragment);
     }
 
@@ -247,36 +259,44 @@ public class MainActivity
         }
     }
 
+    private void invalidateFab(@Nullable FabDescribing fabDescribing) {
+        FabDescription description = fabDescribing != null ? fabDescribing.getFabDescription() : null;
+
+        invalidateFab(description != null ? description.getPrimaryProperties() : null, fabPrimary, fabPrimaryOffset);
+        invalidateFab(description != null ? description.getSecondaryProperties() : null, fabSecondary, fabSecondaryOffset);
+
+        CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(fabGroup);
+        if (behavior instanceof SlideOutBehavior) {
+            boolean slideOut = description != null && description.slideOutOnScroll();
+            ((SlideOutBehavior) behavior).setSlideOut(slideOut);
+        }
+    }
+
     @SuppressLint("RestrictedApi")
-    private void invalidateMainButton(@Nullable MainButton mainButton) {
-        MainButtonProperties properties = mainButton != null ? mainButton.getMainButtonProperties() : null;
+    private void invalidateFab(@Nullable FabProperties properties, FloatingActionButton fab, float offset) {
+        int icon = properties != null ? properties.getIconDrawableResId() : android.R.color.transparent;
         // Workaround: ContextCompat.getDrawable() throws exception on Android 4
-        fab.setImageDrawable(AppCompatDrawableManager.get().getDrawable(this, properties != null
-            ? properties.getIconDrawableResId()
-            : android.R.color.transparent));
-        fab.setOnClickListener(properties != null ? (View.OnClickListener) view -> {
+        fab.setImageDrawable(AppCompatDrawableManager.get().getDrawable(this, icon));
+        fab.setOnClickListener(view -> {
             // Prevent redundant clicks
             fab.setEnabled(false);
-            properties.getOnClickListener().onClick(view);
+            if (properties != null && properties.getOnClickListener() != null) {
+                properties.getOnClickListener().onClick(view);
+            }
             fab.setEnabled(true);
-        } : null);
+        });
 
         boolean isShown = fab.getTranslationY() == 0;
         boolean shouldShow = properties != null;
         boolean changes = isShown != shouldShow;
-        // FIXME: FAB is wrongly visible when slid-out and navigating to fragment without fab
+        // FIXME: FAB is wrongly visible when slid-out and navigating to fragment without fab_primary
         if (changes) {
             float from = fab.getTranslationY();
-            float to = shouldShow ? 0 : fabOffset;
+            float to = shouldShow ? 0 : offset;
             ObjectAnimator animation = ObjectAnimator.ofFloat(fab, "translationY", from, to);
             animation.setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
+            animation.setInterpolator(new AccelerateDecelerateInterpolator());
             animation.start();
-        }
-
-        CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(fab);
-        if (behavior instanceof SlideOutBehavior) {
-            boolean slideOut = properties != null && properties.slideOutOnScroll();
-            ((SlideOutBehavior) behavior).setSlideOut(slideOut);
         }
     }
 

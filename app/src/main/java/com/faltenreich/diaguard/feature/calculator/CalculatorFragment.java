@@ -15,8 +15,9 @@ import com.faltenreich.diaguard.databinding.FragmentCalculatorBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.food.input.FoodInputView;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.FabDescribing;
+import com.faltenreich.diaguard.feature.navigation.FabDescription;
+import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -51,7 +52,7 @@ import java.util.List;
 /**
  * Created by Faltenreich on 10.09.2016.
  */
-public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> implements ToolbarDescribing, MainButton {
+public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> implements ToolbarDescribing, FabDescribing {
 
     private Meal meal;
 
@@ -68,8 +69,8 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.confirmButton(v -> calculate(), false);
+    public FabDescription getFabDescription() {
+        return new FabDescription(FabProperties.confirmButton(view -> calculate()), false);
     }
 
     @Override

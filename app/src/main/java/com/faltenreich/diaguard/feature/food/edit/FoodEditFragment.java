@@ -13,8 +13,9 @@ import androidx.annotation.Nullable;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFoodEditBinding;
 import com.faltenreich.diaguard.feature.food.FoodActions;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.FabDescribing;
+import com.faltenreich.diaguard.feature.navigation.FabDescription;
+import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.Helper;
@@ -27,7 +28,7 @@ import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
 import java.util.Map;
 
-public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> implements ToolbarDescribing, MainButton {
+public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> implements ToolbarDescribing, FabDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
@@ -56,8 +57,8 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     }
 
     @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.confirmButton((view) -> store(), false);
+    public FabDescription getFabDescription() {
+        return new FabDescription(FabProperties.confirmButton((view) -> store()), false);
     }
 
     @Override

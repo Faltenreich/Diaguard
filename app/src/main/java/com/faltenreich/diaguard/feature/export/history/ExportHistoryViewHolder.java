@@ -4,8 +4,8 @@ import android.content.ActivityNotFoundException;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
 
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;

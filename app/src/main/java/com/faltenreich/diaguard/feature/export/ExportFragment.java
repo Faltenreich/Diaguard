@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -315,7 +315,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private void openDateRangeSuggestionsPicker() {
-        PopupMenu popupMenu = new PopupMenu(getContext(), getBinding().dateMoreButton);
+        PopupMenu popupMenu = new PopupMenu(requireContext(), getBinding().dateMoreButton);
         popupMenu.getMenuInflater().inflate(R.menu.export_date_range, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
             DateTime now = DateTime.now();

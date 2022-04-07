@@ -64,7 +64,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
     }
 
     public MeasurementInputView<?, T> getInputView() {
-        return (MeasurementInputView<?, T> ) inputView;
+        return inputView;
     }
 
     private void init() {

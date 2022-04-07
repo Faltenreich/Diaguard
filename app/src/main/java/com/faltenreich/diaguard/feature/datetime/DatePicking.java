@@ -9,10 +9,14 @@ public interface DatePicking {
     void goToDay(DateTime day);
 
     default void showDatePicker(DateTime day, FragmentManager fragmentManager) {
-        DatePickerFragment.newInstance(day, dateTime -> {
-            if (dateTime != null) {
-                goToDay(dateTime);
-            }
-        }).show(fragmentManager);
+        new DatePicker.Builder()
+            .date(day)
+            .callback( dateTime -> {
+                if (dateTime != null) {
+                    goToDay(dateTime);
+                }
+            })
+            .build()
+            .show(fragmentManager);
     }
 }

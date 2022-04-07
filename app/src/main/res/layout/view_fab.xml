@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/measurement_add"
-        android:src="@drawable/ic_add_fab"
+        app:srcCompat="@drawable/ic_add_fab"
         app:backgroundTint="@android:color/white"
         app:fabSize="mini"
         app:tint="?android:textColorTertiary" />
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/entry_new"
-        android:src="@drawable/ic_add_fab"
+        app:srcCompat="@drawable/ic_add_fab"
         app:useCompatPadding="true" />
 
 </LinearLayout>

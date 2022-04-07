@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentExportBinding;
-import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
+import com.faltenreich.diaguard.feature.datetime.DateRangePicker;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.history.ExportHistoryFragment;
 import com.faltenreich.diaguard.feature.export.job.Export;
@@ -124,12 +124,9 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
         setFormat(FileType.PDF);
         setStyle(PreferenceStore.getInstance().getPdfExportStyle());
 
-        getBinding().dateStartButton.setOnClickListener((view) -> showStartDatePicker());
-        getBinding().dateStartButton.setText(Helper.getDateFormat().print(dateStart));
-        getBinding().dateEndButton.setText(Helper.getDateFormat().print(dateEnd));
-        getBinding().dateEndButton.setOnClickListener((view) -> showEndDatePicker());
-
-        getBinding().dateMoreButton.setOnClickListener((view) -> openDateRangePicker());
+        pickDateRange(dateStart, dateEnd);
+        getBinding().dateRangeButton.setOnClickListener((view) -> openDateRangePicker());
+        getBinding().dateMoreButton.setOnClickListener((view) -> openDateRangeSuggestionsPicker());
 
         ViewUtils.setChecked(getBinding().headerCheckbox, PreferenceStore.getInstance().exportHeader(), false);
         ViewUtils.setChecked(getBinding().footerCheckbox, PreferenceStore.getInstance().exportFooter(), false);
@@ -304,25 +301,20 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
         return new FabDescription(FabProperties.confirmButton(view -> exportIfInputIsValid()), false);
     }
 
-    private void showStartDatePicker() {
-        DatePickerFragment.newInstance(dateStart, null, dateEnd, dateTime -> {
-            if (dateTime != null) {
-                dateStart = dateTime;
-                getBinding().dateStartButton.setText(Helper.getDateFormat().print(dateStart));
-            }
-        }).show(getParentFragmentManager());
-    }
-
-    private void showEndDatePicker() {
-        DatePickerFragment.newInstance(dateEnd, dateStart, null, dateTime -> {
-            if (dateTime != null) {
-                dateEnd = dateTime;
-                getBinding().dateEndButton.setText(Helper.getDateFormat().print(dateEnd));
-            }
-        }).show(getParentFragmentManager());
-    }
-
     private void openDateRangePicker() {
+        new DateRangePicker.Builder()
+            .startDate(dateStart)
+            .endDate(dateEnd)
+            .callback(dateTimes -> {
+                if (dateTimes != null) {
+                    pickDateRange(dateTimes.first, dateTimes.second);
+                }
+            })
+            .build()
+            .show(getParentFragmentManager());
+    }
+
+    private void openDateRangeSuggestionsPicker() {
         PopupMenu popupMenu = new PopupMenu(getContext(), getBinding().dateMoreButton);
         popupMenu.getMenuInflater().inflate(R.menu.export_date_range, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
@@ -348,9 +340,10 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
 
     private void pickDateRange(DateTime start, DateTime end) {
         dateStart = start;
-        getBinding().dateStartButton.setText(Helper.getDateFormat().print(dateStart));
         dateEnd = end;
-        getBinding().dateEndButton.setText(Helper.getDateFormat().print(dateEnd));
+        getBinding().dateRangeButton.setText(String.format("%s  -  %s",
+            Helper.getDateFormat().print(dateStart),
+            Helper.getDateFormat().print(dateEnd)));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

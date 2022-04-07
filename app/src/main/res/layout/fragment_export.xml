@@ -24,56 +24,24 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:contentDescription="@null"
             android:src="@drawable/ic_time"
-            app:layout_constraintBottom_toBottomOf="@id/date_start_button"
+            app:layout_constraintBottom_toBottomOf="@id/date_range_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/date_start_button"
+            app:layout_constraintTop_toTopOf="@id/date_range_button"
             app:tint="?iconColorPrimary" />
 
         <Button
-            android:id="@+id/date_start_button"
-            android:layout_width="wrap_content"
+            android:id="@+id/date_range_button"
+            android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:layout_marginStart="@dimen/padding_end"
             android:layout_marginLeft="@dimen/padding_end"
+            android:gravity="start|center_vertical"
             android:textAllCaps="false"
             android:textColor="?android:textColorPrimary"
             app:layout_constraintStart_toEndOf="@id/date_icon"
+            app:layout_constraintEnd_toStartOf="@id/date_more_button"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/date/ddmmyy" />
-
-        <TextView
-            android:id="@+id/date_hyphen_label"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_between"
-            android:layout_marginLeft="@dimen/margin_between"
-            android:gravity="center"
-            android:text="@string/hyphen"
-            app:layout_constraintBottom_toBottomOf="@id/date_start_button"
-            app:layout_constraintStart_toEndOf="@id/date_start_button"
-            app:layout_constraintTop_toTopOf="@id/date_start_button" />
-
-        <Button
-            android:id="@+id/date_end_button"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_between"
-            android:layout_marginLeft="@dimen/margin_between"
-            android:textAllCaps="false"
-            android:textColor="?android:textColorPrimary"
-            app:layout_constraintBottom_toBottomOf="@id/date_hyphen_label"
-            app:layout_constraintStart_toEndOf="@id/date_hyphen_label"
-            app:layout_constraintTop_toTopOf="@id/date_hyphen_label"
-            tools:text="@tools:sample/date/ddmmyy" />
-
-        <View
-            android:id="@+id/date_placeholder"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/date_end_button"
-            app:layout_constraintEnd_toStartOf="@id/date_more_button"
-            app:layout_constraintStart_toEndOf="@id/date_end_button"
-            app:layout_constraintTop_toTopOf="@id/date_end_button" />
 
         <ImageView
             android:id="@+id/date_more_button"
@@ -85,10 +53,10 @@
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/actions"
             android:padding="@dimen/margin_between_large"
-            app:layout_constraintBottom_toBottomOf="@id/date_end_button"
+            app:layout_constraintBottom_toBottomOf="@id/date_range_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/date_placeholder"
-            app:layout_constraintTop_toTopOf="@id/date_end_button"
+            app:layout_constraintStart_toEndOf="@id/date_range_button"
+            app:layout_constraintTop_toTopOf="@id/date_range_button"
             app:srcCompat="@drawable/ic_more_vertical"
             app:tint="?iconColorPrimary" />
 
@@ -99,7 +67,7 @@
             android:background="?android:listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_start_button" />
+            app:layout_constraintTop_toBottomOf="@id/date_range_button" />
 
         <ImageView
             android:id="@+id/format_icon"
@@ -120,7 +88,7 @@
             android:layout_height="@dimen/height_element_large"
             android:entries="@array/formats"
             app:layout_constraintEnd_toEndOf="@id/date_more_button"
-            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/format_divider" />
 
         <TextView
@@ -151,7 +119,7 @@
             android:layout_height="@dimen/height_element_large"
             android:entries="@array/styles"
             app:layout_constraintEnd_toEndOf="@id/date_more_button"
-            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/settings_header" />
 
         <View
@@ -188,7 +156,7 @@
             android:padding="@dimen/margin_between"
             android:text="@string/export_append_header"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/style_divider" />
 
         <View
@@ -225,7 +193,7 @@
             android:padding="@dimen/margin_between"
             android:text="@string/export_append_footer"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/header_divider" />
 
         <View
@@ -261,7 +229,7 @@
             android:padding="@dimen/margin_between"
             android:text="@string/note_append"
             app:layout_constraintEnd_toEndOf="@id/format_spinner"
-            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/footer_divider" />
 
         <View
@@ -292,7 +260,7 @@
             android:padding="@dimen/margin_between"
             android:text="@string/tags_append"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/note_divider" />
 
         <View
@@ -323,7 +291,7 @@
             android:padding="@dimen/margin_between"
             android:text="@string/empty_days_skip"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/tags_divider" />
 
         <TextView

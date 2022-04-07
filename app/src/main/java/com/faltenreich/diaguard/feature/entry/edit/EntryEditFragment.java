@@ -27,8 +27,8 @@ import com.faltenreich.diaguard.databinding.FragmentEntryEditBinding;
 import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
 import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.category.CategoryListFragment;
-import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
-import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
+import com.faltenreich.diaguard.feature.datetime.DatePicker;
+import com.faltenreich.diaguard.feature.datetime.TimePicker;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.navigation.FabDescribing;
@@ -572,25 +572,31 @@ public class EntryEditFragment
 
     private void showDatePicker() {
         Entry entry = viewModel.getEntry();
-        DatePickerFragment.newInstance(entry.getDate(), dateTime -> {
-            if (dateTime != null) {
-                LocalTime time = viewModel.getEntry().getDate() != null
-                    ? viewModel.getEntry().getDate().toLocalTime()
-                    : LocalTime.now();
-                dateTime = dateTime.withTime(time);
-                viewModel.getEntry().setDate(dateTime);
-                invalidateDateTime();
-            }
-        }).show(getChildFragmentManager());
+        new DatePicker.Builder()
+            .date(entry.getDate())
+            .callback(dateTime -> {
+                if (dateTime != null) {
+                    LocalTime time = viewModel.getEntry().getDate() != null
+                        ? viewModel.getEntry().getDate().toLocalTime()
+                        : LocalTime.now();
+                    dateTime = dateTime.withTime(time);
+                    viewModel.getEntry().setDate(dateTime);
+                    invalidateDateTime();
+                }
+            })
+            .build()
+            .show(getChildFragmentManager());
     }
 
     private void showTimePicker() {
-        Entry entry = viewModel.getEntry();
-        TimePickerFragment.newInstance(entry.getDate(), (view, hourOfDay, minute) -> {
-            DateTime dateTime = viewModel.getEntry().getDate().withHourOfDay(hourOfDay).withMinuteOfHour(minute);
-            viewModel.getEntry().setDate(dateTime);
-            invalidateDateTime();
-        }).show(getChildFragmentManager());
+        new TimePicker.Builder()
+            .time(viewModel.getEntry().getDate())
+            .callback(time -> {
+                viewModel.getEntry().setDate(time);
+                invalidateDateTime();
+            })
+            .build()
+            .show(getChildFragmentManager());
     }
 
     private void showAlarmPicker() {

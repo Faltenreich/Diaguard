@@ -34,6 +34,8 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
+        <item name="colorPrimaryContainer">@color/green</item>
+        <item name="colorOnPrimaryContainer">@android:color/white</item>
         <item name="colorSecondaryContainer">@color/background_dark_secondary</item>
         <item name="backgroundColorGreen">@color/green_dark</item>
         <item name="backgroundColorGreenDark">@color/green_darkest</item>
@@ -69,10 +71,6 @@
 
     <style name="ToolbarPopup" parent="ThemeOverlay.Material3.ActionBar">
         <item name="android:textColorPrimary">@android:color/black</item>
-    </style>
-
-    <style name="DateTimePicker" parent="Base.ThemeOverlay.AppCompat.Dialog">
-        <item name="android:windowBackground">?backgroundColorPrimary</item>
     </style>
 
     <style name="WhiteCheckBox">

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.calculator;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentCalculatorBinding;
@@ -41,6 +41,7 @@ import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -256,8 +257,8 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
         float insulin = bolus + correction;
 
         // Build AlertDialog
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext());
+        LayoutInflater inflater = LayoutInflater.from(getContext());
         final View viewPopup = inflater.inflate(R.layout.dialog_calculator_result, null);
 
         final ViewGroup infoLayout = viewPopup.findViewById(R.id.dialog_calculator_result_info);

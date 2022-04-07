@@ -107,6 +107,7 @@
                             android:id="@+id/tag_list_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:animateLayoutChanges="true"
                             android:paddingTop="0dp"
                             android:paddingBottom="@dimen/padding"
                             tools:ignore="RtlSymmetry" />

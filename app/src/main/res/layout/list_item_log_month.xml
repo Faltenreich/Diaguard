@@ -25,7 +25,7 @@
         android:id="@+id/month_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_larger"
+        android:textSize="@dimen/text_largest"
         android:textColor="@android:color/white"
         tools:text="@tools:sample/date/mmddyy"/>
 

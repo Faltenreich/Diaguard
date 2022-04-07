@@ -19,13 +19,12 @@
             android:id="@+id/latest_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:contentDescription="@string/measurement_latest"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="2dp"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
             app:cardUseCompatPadding="true">
 
             <LinearLayout
@@ -75,7 +74,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:orientation="horizontal">
 
             <!-- Today -->
@@ -83,15 +81,13 @@
                 android:id="@+id/today_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="1dp"
-                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/today"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -182,15 +178,13 @@
                 android:id="@+id/average_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
-                android:layout_marginStart="1dp"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/average"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -283,13 +277,12 @@
             android:id="@+id/hba1c_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:contentDescription="@string/hba1c"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="2dp"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
             app:cardUseCompatPadding="true">
 
             <LinearLayout
@@ -327,13 +320,12 @@
             android:id="@+id/trend_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:contentDescription="@string/trend"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="2dp"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
             app:cardUseCompatPadding="true">
 
             <LinearLayout

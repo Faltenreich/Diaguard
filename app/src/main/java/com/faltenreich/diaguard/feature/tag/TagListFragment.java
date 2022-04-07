@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.tag;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,6 +27,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.event.data.TagSavedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -133,7 +133,7 @@ public class TagListFragment
 
             @Override
             public void onDidLoad(Long data) {
-                new AlertDialog.Builder(getContext())
+                new MaterialAlertDialogBuilder(getContext())
                     .setTitle(R.string.tag_delete)
                     .setMessage(String.format(getString(R.string.tag_delete_confirmation), data))
                     .setNegativeButton(R.string.cancel, (dialog, which) -> {

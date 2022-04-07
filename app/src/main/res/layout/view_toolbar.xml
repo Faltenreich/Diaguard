@@ -8,7 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:theme="@style/Toolbar"
-    app:popupTheme="@style/ToolbarPopup">
+    app:popupTheme="@style/ToolbarPopup"
+    app:title=" ">
 
     <TextView
         android:id="@+id/toolbar_title"
@@ -18,7 +19,7 @@
         android:paddingLeft="@dimen/toolbar_title_padding"
         android:gravity="center_vertical"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_large"
+        android:textSize="@dimen/text_larger"
         android:focusable="true"
         android:background="?android:attr/selectableItemBackground"
         android:lines="1"

@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.shared.view.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -13,6 +12,7 @@ import androidx.viewbinding.ViewBinding;
 import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.dialog.DialogButton;
 import com.faltenreich.diaguard.shared.view.dialog.DialogConfig;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public abstract class BaseDialogFragment<BINDING extends ViewBinding> extends DialogFragment implements ViewBindable<BINDING> {
 
@@ -35,7 +35,7 @@ public abstract class BaseDialogFragment<BINDING extends ViewBinding> extends Di
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         if (getContext() != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
             initLayout(builder);
             Dialog dialog = builder.create();
             dialog.setCanceledOnTouchOutside(false);
@@ -51,7 +51,7 @@ public abstract class BaseDialogFragment<BINDING extends ViewBinding> extends Di
         setListeners();
     }
 
-    private void initLayout(AlertDialog.Builder builder) {
+    private void initLayout(MaterialAlertDialogBuilder builder) {
         DialogConfig config = getConfig();
 
         builder.setTitle(config.getTitle());
@@ -72,7 +72,7 @@ public abstract class BaseDialogFragment<BINDING extends ViewBinding> extends Di
             builder.setNeutralButton(neutralButton.getLabelResId(), null);
         }
 
-        View contentView = LayoutInflater.from(getContext()).inflate(config.getLayoutResId(), null);
+        View contentView = getLayoutInflater().inflate(config.getLayoutResId(), null);
         builder.setView(contentView);
         binding = createBinding(contentView);
     }

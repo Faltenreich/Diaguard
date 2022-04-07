@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -12,13 +11,14 @@ import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class FoodActions {
 
     public static void deleteFoodIfConfirmed(@NonNull Context context, @NonNull Food food, @Nullable Callback callback) {
         long foodEaten = FoodEatenDao.getInstance().count(food);
         String message = String.format(context.getString(R.string.food_eaten_placeholder), foodEaten);
-        new AlertDialog.Builder(context)
+        new MaterialAlertDialogBuilder(context)
             .setTitle(R.string.food_delete)
             .setMessage(message)
             .setNegativeButton(R.string.cancel, (dialog, id) -> {})

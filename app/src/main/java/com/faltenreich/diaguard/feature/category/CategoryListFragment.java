@@ -7,7 +7,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +21,7 @@ import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.preference.CategoryPreferenceChangedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.drag.DragDropItemTouchHelperCallback;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -90,12 +90,12 @@ public class CategoryListFragment extends BaseFragment<FragmentCategoryListBindi
     }
 
     private void showHelp() {
-        new AlertDialog.Builder(getContext())
-                .setTitle(R.string.categories)
-                .setMessage(R.string.category_preference_desc)
-                .setPositiveButton(R.string.ok, (dlg, which) -> { })
-                .create()
-                .show();
+        new MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.categories)
+            .setMessage(R.string.category_preference_desc)
+            .setPositiveButton(R.string.ok, (dlg, which) -> { })
+            .create()
+            .show();
     }
 
     @Override

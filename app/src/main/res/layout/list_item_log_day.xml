@@ -15,11 +15,11 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/gray_dark"
-        android:textSize="@dimen/text_larger"
+        android:textSize="@dimen/text_largest"
         android:lines="1"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="8sp"
-        app:autoSizeMaxTextSize="@dimen/text_larger"
+        app:autoSizeMaxTextSize="@dimen/text_largest"
         tools:text="27"/>
 
     <TextView

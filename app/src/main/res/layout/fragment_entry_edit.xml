@@ -35,7 +35,7 @@
 
                     <Button
                         android:id="@+id/date_button"
-                        style="@style/LayoutRowItem"
+                        style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:textAllCaps="false"
@@ -44,6 +44,7 @@
 
                     <Button
                         android:id="@+id/time_button"
+                        style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:textAllCaps="false"
@@ -152,7 +153,7 @@
 
                     <Button
                         android:id="@+id/alarm_button"
-                        style="@style/LayoutRowItem"
+                        style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="start|center_vertical"

@@ -14,17 +14,16 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_secondary"
+        style="?attr/floatingActionButtonSurfaceStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/measurement_add"
-        app:srcCompat="@drawable/ic_add_fab"
-        app:backgroundTint="@android:color/white"
         app:fabSize="mini"
-        app:tint="?android:textColorTertiary" />
+        app:srcCompat="@drawable/ic_add_fab" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_primary"
-        style="?attr/floatingActionButtonStyle"
+        style="?attr/floatingActionButtonPrimaryStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/entry_new"

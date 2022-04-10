@@ -175,7 +175,9 @@
             android:clipToPadding="false"
             android:divider="@drawable/divider_medium"
             android:orientation="vertical"
-            android:padding="@dimen/margin_between"
+            android:paddingHorizontal="@dimen/margin_between"
+            android:paddingTop="@dimen/margin_between"
+            android:paddingBottom="140dp"
             android:showDividers="middle" />
 
     </LinearLayout>

@@ -133,7 +133,6 @@ task applyDateToReadme() {
     def regex = "$string([0-9.]+)"
     int year = new Date().getYear() + 1900
     def with = "$string$year"
-    println with
     ant.replaceregexp(file: "${rootProject.projectDir}/README.md", match: regex, flags: 'g', replace: with)
 }
 

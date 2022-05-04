@@ -46,7 +46,6 @@ import java.util.Map;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String TAG = DatabaseHelper.class.getSimpleName();
-    private static final String DATABASE_NAME = "diaguard.db";
 
     public static final int DATABASE_VERSION_1_0 = 17;
     public static final int DATABASE_VERSION_1_1 = 18;
@@ -76,7 +75,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private final Context context;
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, getVersion());
+        super(context, Database.DATABASE_NAME, null, getVersion());
         this.context = context;
     }
 

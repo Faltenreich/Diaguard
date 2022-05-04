@@ -21,9 +21,10 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
-import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
+import com.faltenreich.diaguard.shared.data.database.dao.TagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.faltenreich.diaguard.shared.event.data.TagSavedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
@@ -98,7 +99,7 @@ public class TagListFragment
 
             @Override
             public List<Tag> onShouldLoad(Context context) {
-                return TagDao.getInstance().getAll();
+                return TagRepository.getInstance().getAll();
             }
 
             @Override
@@ -152,7 +153,7 @@ public class TagListFragment
             public Tag onShouldLoad(Context context) {
                 List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(tag);
                 EntryTagDao.getInstance().delete(entryTags);
-                int result = TagDao.getInstance().delete(tag);
+                int result = TagRepository.getInstance().delete(tag);
                 return result > 0 ? tag : null;
             }
 

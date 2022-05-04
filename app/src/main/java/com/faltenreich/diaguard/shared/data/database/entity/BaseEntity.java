@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
+import androidx.room.ColumnInfo;
+import androidx.room.PrimaryKey;
+
 import com.j256.ormlite.field.DatabaseField;
 
 import org.joda.time.DateTime;
@@ -12,13 +15,16 @@ public abstract class BaseEntity {
         public static final String UPDATED_AT = "updatedAt";
     }
 
+    @PrimaryKey
     @DatabaseField(columnName = Column.ID, generatedId = true)
     private long id;
 
     @DatabaseField(columnName = Column.CREATED_AT)
+    @ColumnInfo(name = Column.CREATED_AT)
     private DateTime createdAt;
 
     @DatabaseField(columnName = Column.UPDATED_AT)
+    @ColumnInfo(name = Column.UPDATED_AT)
     private DateTime updatedAt;
 
     public long getId() {

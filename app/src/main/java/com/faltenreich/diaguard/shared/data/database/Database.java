@@ -2,9 +2,13 @@ package com.faltenreich.diaguard.shared.data.database;
 
 import android.content.Context;
 
+import androidx.room.Room;
+
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class Database {
+
+    public static final String DATABASE_NAME = "diaguard.db";
 
     private static Database instance;
 
@@ -16,11 +20,13 @@ public class Database {
     }
 
     private DatabaseHelper databaseHelper;
+    private RoomDatabase roomDatabase;
 
     private Database() {}
 
     public void init(Context context) {
         databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
+        roomDatabase = Room.databaseBuilder(context, RoomDatabase.class, DATABASE_NAME).build();
     }
 
     public void close() {
@@ -29,5 +35,9 @@ public class Database {
 
     public DatabaseHelper getDatabaseHelper() {
         return databaseHelper;
+    }
+
+    public RoomDatabase getDatabase() {
+        return roomDatabase;
     }
 }

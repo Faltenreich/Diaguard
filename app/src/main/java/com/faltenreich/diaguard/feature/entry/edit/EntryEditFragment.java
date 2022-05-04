@@ -42,7 +42,6 @@ import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
-import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -53,6 +52,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.data.reflect.ObjectFactory;
+import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
@@ -499,8 +499,8 @@ public class EntryEditFragment
             if (view.getTag() instanceof Tag) {
                 Tag tag = (Tag) view.getTag();
                 if (tag.getId() < 0) {
-                    tag = TagDao.getInstance().createOrUpdate(tag);
-                    Tag legacy = TagDao.getInstance().getByName(tag.getName());
+                    tag = TagRepository.getInstance().createOrUpdate(tag);
+                    Tag legacy = TagRepository.getInstance().getByName(tag.getName());
                     if (legacy != null) {
                         tag.setId(legacy.getId());
                     }
@@ -514,7 +514,7 @@ public class EntryEditFragment
                 entryTags.add(entryTag);
             }
         }
-        TagDao.getInstance().bulkCreateOrUpdate(tags);
+        TagRepository.getInstance().bulkCreateOrUpdate(tags);
         // TODO: Update instead of delete
         EntryTagDao.getInstance().deleteAll(entry);
         EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);

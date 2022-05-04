@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.opencsv.CSVReader;
 
 import java.io.IOException;
@@ -50,9 +50,9 @@ class TagImport implements Importing {
                 }
             }
 
-            TagDao.getInstance().deleteAll();
+            TagRepository.getInstance().deleteAll();
             Collections.reverse(tags);
-            TagDao.getInstance().bulkCreateOrUpdate(tags);
+            TagRepository.getInstance().bulkCreateOrUpdate(tags);
 
             Log.i(TAG, String.format("Imported %d tags from csv", tags.size()));
             PreferenceStore.getInstance().setDidImportTags(locale, true);

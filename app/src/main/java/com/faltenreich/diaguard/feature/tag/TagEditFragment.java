@@ -10,9 +10,9 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.DialogTagEditBinding;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
-import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.TagSavedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
@@ -52,12 +52,12 @@ public class TagEditFragment extends BaseDialogFragment<DialogTagEditBinding> {
             public TagResult onShouldLoad(Context context) {
                 if (StringUtils.isBlank(name)) {
                     return new TagResult(null, Error.EMPTY);
-                } else if (TagDao.getInstance().getByName(name) != null) {
+                } else if (TagRepository.getInstance().getByName(name) != null) {
                     return new TagResult(null, Error.DUPLICATE);
                 } else {
                     Tag tag = new Tag();
                     tag.setName(name);
-                    TagDao.getInstance().createOrUpdate(tag);
+                    TagRepository.getInstance().createOrUpdate(tag);
                     return new TagResult(tag, null);
                 }
             }

@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.shared.data.database.Database;
 import com.faltenreich.diaguard.shared.data.database.entity.BaseEntity;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -23,7 +22,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by Faltenreich on 05.09.2015.
  */
-public abstract class BaseDao <T extends BaseEntity> {
+public abstract class BaseDao<T extends BaseEntity> {
 
     private static final String TAG = BaseDao.class.getSimpleName();
 
@@ -40,7 +39,7 @@ public abstract class BaseDao <T extends BaseEntity> {
     }
 
     @NonNull
-    private Dao<T, Long> getDao() {
+    private com.j256.ormlite.dao.Dao<T, Long> getDao() {
         try {
             return Database.getInstance().getDatabaseHelper().getDao(clazz);
         } catch (SQLException exception) {
@@ -91,23 +90,36 @@ public abstract class BaseDao <T extends BaseEntity> {
         }
     }
 
-    public T createOrUpdate(T object) {
+    public Long create(T object) {
         try {
-            DateTime now = DateTime.now();
-            T existingObject = get(object);
-            if (existingObject != null) {
-                object.setUpdatedAt(now);
-                getDao().update(object);
-            } else {
-                object.setCreatedAt(now);
-                object.setUpdatedAt(now);
-                getDao().create(object);
-            }
-            return object;
+            int id = getDao().create(object);
+            return (long) id;
         } catch (SQLException exception) {
             Log.e(TAG, exception.toString());
             return null;
         }
+    }
+
+    public void update(T object) {
+        try {
+            getDao().update(object);
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.toString());
+        }
+    }
+
+    public T createOrUpdate(T object) {
+        DateTime now = DateTime.now();
+        T existingObject = get(object);
+        if (existingObject != null) {
+            object.setUpdatedAt(now);
+            update(object);
+        } else {
+            object.setCreatedAt(now);
+            object.setUpdatedAt(now);
+            create(object);
+        }
+        return object;
     }
 
     public void bulkCreateOrUpdate(final List<T> objects) {

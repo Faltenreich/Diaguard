@@ -18,7 +18,6 @@ import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
-import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -29,6 +28,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryDeprecated;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.opencsv.CSVReader;
 
 import org.joda.time.DateTime;
@@ -194,10 +194,10 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                 case Tag.BACKUP_KEY:
                     if (nextLine.length >= 2) {
                         String tagName = nextLine[1];
-                        if (TagDao.getInstance().getByName(tagName) == null) {
+                        if (TagRepository.getInstance().getByName(tagName) == null) {
                             Tag tag = new Tag();
                             tag.setName(nextLine[1]);
-                            TagDao.getInstance().createOrUpdate(tag);
+                            TagRepository.getInstance().createOrUpdate(tag);
                         }
                     }
                     break;
@@ -271,7 +271,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                     break;
                 case EntryTag.BACKUP_KEY:
                     if (lastEntry != null && nextLine.length >= 2) {
-                        Tag tag = TagDao.getInstance().getByName(nextLine[1]);
+                        Tag tag = TagRepository.getInstance().getByName(nextLine[1]);
                         if (tag != null) {
                             EntryTag entryTag = new EntryTag();
                             entryTag.setEntry(lastEntry);

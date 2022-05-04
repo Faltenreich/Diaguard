@@ -28,13 +28,13 @@ import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
-import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.layoutmanager.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
@@ -135,7 +135,7 @@ public class EntrySearchFragment
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<Tag>() {
                 @Override
                 public Tag onShouldLoad(Context context) {
-                    return TagDao.getInstance().getById(tagId);
+                    return TagRepository.getInstance().getById(tagId);
                 }
                 @Override
                 public void onDidLoad(Tag tag) {

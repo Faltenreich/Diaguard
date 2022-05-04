@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.shared.data.database.converter.DateTimeConverter
 import com.faltenreich.diaguard.shared.data.database.dao.TagRoomDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 
-@Database(entities = {Tag.class}, version = 1)
+@Database(entities = {Tag.class}, version = com.faltenreich.diaguard.shared.data.database.Database.DATABASE_VERSION)
 @TypeConverters({DateTimeConverter.class})
 public abstract class RoomDatabase extends androidx.room.RoomDatabase {
 

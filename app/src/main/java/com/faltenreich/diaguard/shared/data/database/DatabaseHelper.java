@@ -80,7 +80,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public static int getVersion() {
-        return DATABASE_VERSION_3_1;
+        return Database.DATABASE_VERSION;
     }
 
     @Override

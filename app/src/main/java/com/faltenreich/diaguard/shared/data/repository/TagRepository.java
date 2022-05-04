@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.shared.data.repository;
 
 import androidx.annotation.Nullable;
 
+import com.faltenreich.diaguard.shared.data.database.Database;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
-import com.faltenreich.diaguard.shared.data.database.dao.TagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class TagRepository {
       return instance;
    }
 
-   private final TagDao tagDao = TagOrmLiteDao.getInstance();
+   private final TagDao tagDao = Database.getInstance().getDatabase().tagDao();
 
    public List<Tag> getAll() {
       return tagDao.getAll();

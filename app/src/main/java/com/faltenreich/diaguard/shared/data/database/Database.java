@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.faltenreich.diaguard.shared.data.database.migration.MigrateOrmLiteToRoom;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class Database {
@@ -24,7 +25,10 @@ public class Database {
 
     public void init(Context context) {
         databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
-        roomDatabase = Room.databaseBuilder(context, RoomDatabase.class, RoomDatabase.DATABASE_NAME).build();
+        roomDatabase = Room
+            .databaseBuilder(context, RoomDatabase.class, RoomDatabase.DATABASE_NAME)
+            .addMigrations(new MigrateOrmLiteToRoom())
+            .build();
     }
 
     public void close() {

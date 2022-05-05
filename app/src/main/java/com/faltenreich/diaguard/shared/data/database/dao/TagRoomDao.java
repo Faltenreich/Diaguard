@@ -30,7 +30,7 @@ public interface TagRoomDao extends TagDao {
    Tag getByName(String name);
 
    @Nullable
-   @Query("SELECT * FROM Tag WHERE id = :id")
+   @Query("SELECT * FROM Tag WHERE _id = :id")
    Tag getById(long id);
 
    @Delete

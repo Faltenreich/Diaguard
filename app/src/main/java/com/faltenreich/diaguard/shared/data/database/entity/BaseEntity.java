@@ -15,7 +15,8 @@ public abstract class BaseEntity {
         public static final String UPDATED_AT = "updatedAt";
     }
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = Column.ID)
     @DatabaseField(columnName = Column.ID, generatedId = true)
     private long id;
 

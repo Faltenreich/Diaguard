@@ -8,9 +8,6 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class Database {
 
-    public static final String DATABASE_NAME = "diaguard.db";
-    public static final int DATABASE_VERSION = DatabaseHelper.DATABASE_VERSION_3_1;
-
     private static Database instance;
 
     public static Database getInstance() {
@@ -27,7 +24,7 @@ public class Database {
 
     public void init(Context context) {
         databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
-        roomDatabase = Room.databaseBuilder(context, RoomDatabase.class, DATABASE_NAME).build();
+        roomDatabase = Room.databaseBuilder(context, RoomDatabase.class, RoomDatabase.DATABASE_NAME).build();
     }
 
     public void close() {

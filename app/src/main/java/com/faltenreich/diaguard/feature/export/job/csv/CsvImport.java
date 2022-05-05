@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.feature.export.job.ImportCallback;
 import com.faltenreich.diaguard.feature.export.job.date.DateStrategy;
 import com.faltenreich.diaguard.feature.export.job.date.OriginDateStrategy;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.shared.data.database.DatabaseHelper;
+import com.faltenreich.diaguard.shared.data.database.DatabaseVersion;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -76,9 +76,9 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                 importFromVersion1_0(reader, nextLine);
             } else {
                 int databaseVersion = Integer.parseInt(nextLine[1]);
-                if (databaseVersion == DatabaseHelper.DATABASE_VERSION_1_1) {
+                if (databaseVersion == DatabaseVersion.v1_1) {
                     importFromVersion1_1(reader, nextLine);
-                } else if (databaseVersion <= DatabaseHelper.DATABASE_VERSION_2_2) {
+                } else if (databaseVersion <= DatabaseVersion.v2_2) {
                     importFromVersion2_2(reader, nextLine);
                 } else {
                     importFromVersion3_0(reader, nextLine);

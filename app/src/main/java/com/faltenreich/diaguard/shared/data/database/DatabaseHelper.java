@@ -46,14 +46,8 @@ import java.util.Map;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String TAG = DatabaseHelper.class.getSimpleName();
-
-    public static final int DATABASE_VERSION_1_0 = 17;
-    public static final int DATABASE_VERSION_1_1 = 18;
-    public static final int DATABASE_VERSION_1_3 = 19;
-    public static final int DATABASE_VERSION_2_0 = 20;
-    public static final int DATABASE_VERSION_2_2 = 21;
-    public static final int DATABASE_VERSION_3_0 = 22;
-    public static final int DATABASE_VERSION_3_1 = 23;
+    private static final String DATABASE_NAME = "diaguard.db";
+    private static final int DATABASE_VERSION = DatabaseVersion.v3_1;
 
     public static final Class[] tables = new Class[]{
             Entry.class,
@@ -75,12 +69,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private final Context context;
 
     public DatabaseHelper(Context context) {
-        super(context, Database.DATABASE_NAME, null, getVersion());
+        super(context, DATABASE_NAME, null, getVersion());
         this.context = context;
     }
 
     public static int getVersion() {
-        return Database.DATABASE_VERSION;
+        return DATABASE_VERSION;
     }
 
     @Override
@@ -101,22 +95,22 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             int upgradeFromVersion = oldVersion;
             while (upgradeFromVersion < newVersion) {
                 switch (upgradeFromVersion) {
-                    case DATABASE_VERSION_1_0:
+                    case DatabaseVersion.v1_0:
                         upgradeToVersion18(sqLiteDatabase);
                         break;
-                    case DATABASE_VERSION_1_1:
+                    case DatabaseVersion.v1_1:
                         upgradeToVersion19(sqLiteDatabase, connectionSource);
                         break;
-                    case DATABASE_VERSION_1_3:
+                    case DatabaseVersion.v1_3:
                         upgradeToVersion20(connectionSource);
                         break;
-                    case DATABASE_VERSION_2_0:
+                    case DatabaseVersion.v2_0:
                         upgradeToVersion21(connectionSource);
                         break;
-                    case DATABASE_VERSION_2_2:
+                    case DatabaseVersion.v2_2:
                         upgradeToVersion22(connectionSource);
                         break;
-                    case DATABASE_VERSION_3_0:
+                    case DatabaseVersion.v3_0:
                         upgradeToVersion23(sqLiteDatabase);
                         break;
                 }

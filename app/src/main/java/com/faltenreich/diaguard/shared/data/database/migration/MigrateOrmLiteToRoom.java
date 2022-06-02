@@ -1,23 +1,27 @@
 package com.faltenreich.diaguard.shared.data.database.migration;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.faltenreich.diaguard.shared.data.database.DatabaseVersion;
-
-public class MigrateOrmLiteToRoom extends Migration {
+public class MigrateOrmLiteToRoom {
 
     private static final String TAG = MigrateOrmLiteToRoom.class.getSimpleName();
 
     public MigrateOrmLiteToRoom() {
-        super(DatabaseVersion.v3_1, DatabaseVersion.v4_0);
+
     }
 
-    @Override
-    public void migrate(@NonNull SupportSQLiteDatabase database) {
+    public void migrate(SupportSQLiteDatabase roomDatabase, SQLiteDatabase ormLiteDatabase) {
         Log.d(TAG, "Migrating database from OrmLite to Room");
+        Cursor cursor = ormLiteDatabase.rawQuery("SELECT * FROM Tag", null);
+        while (cursor.moveToNext()) {
+            String value = cursor.getString(0);
+        }
+        cursor.close();
+        // TODO: Maybe delete ormLiteDatabase
+        Log.d(TAG, "Migration succeeded");
     }
 }

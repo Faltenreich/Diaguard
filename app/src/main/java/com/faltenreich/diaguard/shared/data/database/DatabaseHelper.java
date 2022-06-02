@@ -73,6 +73,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         this.context = context;
     }
 
+    public static String getName() {
+        return DATABASE_NAME;
+    }
+
     public static int getVersion() {
         return DATABASE_VERSION;
     }

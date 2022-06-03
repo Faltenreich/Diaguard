@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.shared.data.database.migration;
 
+import android.content.Context;
+
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 
 public class Migrator {
@@ -15,10 +17,12 @@ public class Migrator {
 
     private Migrator() {}
 
-    public void start() {
+    public void start(Context context) {
         int oldVersionCode = PreferenceStore.getInstance().getVersionCode();
         if (oldVersionCode == 39) {
             new MigrateSodiumTask().execute();
         }
+        // TODO: Remove workaround which forces MigrateOrmLiteToRoom() to be called on every app start
+        new MigrateOrmLiteToRoom().migrate(context);
     }
 }

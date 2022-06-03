@@ -1,13 +1,17 @@
 package com.faltenreich.diaguard.shared.data.database.migration;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import androidx.sqlite.db.SupportSQLiteDatabase;
-
+import com.faltenreich.diaguard.shared.data.database.Database;
+import com.faltenreich.diaguard.shared.data.database.DatabaseHelper;
+import com.faltenreich.diaguard.shared.data.database.RoomDatabase;
+import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BaseEntity;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import org.joda.time.DateTime;
 
@@ -22,8 +26,11 @@ public class MigrateOrmLiteToRoom {
 
     }
 
-    public void migrate(SupportSQLiteDatabase roomDatabase, SQLiteDatabase ormLiteDatabase) {
+    public void migrate(Context context) {
         Log.d(TAG, "Migrating database from OrmLite to Room");
+        DatabaseHelper databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
+        SQLiteDatabase ormLiteDatabase = databaseHelper.getReadableDatabase();
+
         Cursor cursor = ormLiteDatabase.rawQuery("SELECT * FROM Tag", null);
         List<Tag> tags = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -39,6 +46,13 @@ public class MigrateOrmLiteToRoom {
             }
         }
         // TODO: Insert tags
+        RoomDatabase database = Database.getInstance().getDatabase();
+        TagDao tagDao = database.tagDao();
+        if (tagDao.getAll().isEmpty()) {
+            for (Tag tag : tags) {
+                tagDao.create(tag);
+            }
+        }
         cursor.close();
         // TODO: Maybe delete ormLiteDatabase
         Log.d(TAG, "Migration succeeded");

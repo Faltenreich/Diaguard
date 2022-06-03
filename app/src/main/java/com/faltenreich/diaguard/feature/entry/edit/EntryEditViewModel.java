@@ -67,7 +67,7 @@ public class EntryEditViewModel {
     int getIndexOfTag(Tag tag) {
         for (int index = 0; index < entryTags.size(); index++) {
             EntryTag entryTag = entryTags.get(index);
-            if (entryTag.getTag().equals(tag)) {
+            if (entryTag.getTag() != null && entryTag.getTag().equals(tag)) {
                 return index;
             }
         }

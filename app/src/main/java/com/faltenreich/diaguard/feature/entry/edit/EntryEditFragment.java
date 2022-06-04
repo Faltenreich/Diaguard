@@ -40,7 +40,7 @@ import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.feature.tag.TagListFragment;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -352,8 +352,8 @@ public class EntryEditFragment
         int index = viewModel.getIndexOfTag(tag);
         if (index == -1) {
             EntryTag entryTag = new EntryTag();
-            entryTag.setEntry(viewModel.getEntry());
-            entryTag.setTag(tag);
+            entryTag.setEntryId(viewModel.getEntry().getId());
+            entryTag.setTagId(tag.getId());
             viewModel.getEntryTags().add(entryTag);
         }
 
@@ -509,15 +509,15 @@ public class EntryEditFragment
                 tags.add(tag);
 
                 EntryTag entryTag = new EntryTag();
-                entryTag.setEntry(entry);
-                entryTag.setTag(tag);
+                entryTag.setEntryId(entry.getId());
+                entryTag.setTagId(tag.getId());
                 entryTags.add(entryTag);
             }
         }
         TagRepository.getInstance().bulkCreateOrUpdate(tags);
         // TODO: Update instead of delete
-        EntryTagDao.getInstance().deleteAll(entry);
-        EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
+        EntryTagOrmLiteDao.getInstance().deleteByEntry(entry);
+        EntryTagOrmLiteDao.getInstance().bulkCreateOrUpdate(entryTags);
 
         List<FoodEaten> foodEatenList = getFoodEaten();
 

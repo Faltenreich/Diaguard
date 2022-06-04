@@ -4,7 +4,7 @@ package com.faltenreich.diaguard.feature.log;
 import android.os.AsyncTask;
 
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -68,7 +68,7 @@ class LogFetchDataTask extends AsyncTask<Void, Integer, List<LogListItem>> {
 
                 for (int entryIndex = 0; entryIndex < entries.size(); entryIndex++) {
                     Entry entry = entries.get(entryIndex);
-                    List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                    List<EntryTag> entryTags = EntryTagOrmLiteDao.getInstance().getByEntry(entry);
                     List<FoodEaten> foodEaten = new ArrayList<>();
                     for (Measurement measurement : entry.getMeasurementCache()) {
                         if (measurement instanceof Meal) {

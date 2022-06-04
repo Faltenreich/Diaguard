@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemTagBinding;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
@@ -42,7 +42,7 @@ class TagViewHolder extends BaseViewHolder<ListItemTagBinding, Tag> {
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<Long>() {
             @Override
             public Long onShouldLoad(Context context) {
-                return EntryTagDao.getInstance().count(item);
+                return EntryTagOrmLiteDao.getInstance().count(item);
             }
             @Override
             public void onDidLoad(Long count) {

@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -182,7 +182,7 @@ public class EntrySearchFragment
                 for (Entry entry : entries) {
                     List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
                     entry.setMeasurementCache(measurements);
-                    List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                    List<EntryTag> entryTags = EntryTagOrmLiteDao.getInstance().getByEntry(entry);
                     List<FoodEaten> foodEatenList = new ArrayList<>();
                     for (Measurement measurement : measurements) {
                         if (measurement instanceof Meal) {

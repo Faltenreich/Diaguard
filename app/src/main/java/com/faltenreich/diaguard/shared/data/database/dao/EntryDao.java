@@ -57,7 +57,7 @@ public class EntryDao extends BaseDao<Entry> {
             entry.getMeasurementCache().add(measurement);
             MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
         }
-        EntryTagDao.getInstance().delete(EntryTagDao.getInstance().getAll(entry));
+        EntryTagOrmLiteDao.getInstance().delete(EntryTagOrmLiteDao.getInstance().getByEntry(entry));
         return super.delete(entry);
     }
 
@@ -290,7 +290,7 @@ public class EntryDao extends BaseDao<Entry> {
             // TODO: Use repository instead of dao
             QueryBuilder<Tag, Long> tagQb = TagOrmLiteDao.getInstance().getQueryBuilder();
             tagQb.where().like(Tag.Column.NAME, new SelectArg(query));
-            QueryBuilder<EntryTag, Long> entryTagQb = EntryTagDao.getInstance().getQueryBuilder().leftJoinOr(tagQb);
+            QueryBuilder<EntryTag, Long> entryTagQb = EntryTagOrmLiteDao.getInstance().getQueryBuilder().leftJoinOr(tagQb);
             QueryBuilder<Entry, Long> entryQb = getQueryBuilder().leftJoinOr(entryTagQb)
                 .offset((long) (page * pageSize))
                 .limit((long) pageSize)

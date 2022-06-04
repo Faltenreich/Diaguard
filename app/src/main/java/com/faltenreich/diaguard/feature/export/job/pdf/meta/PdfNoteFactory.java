@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -27,7 +27,7 @@ public class PdfNoteFactory {
             entryNotesAndTagsOfDay.add(entry.getNote());
         }
         if (config.exportTags()) {
-            List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+            List<EntryTag> entryTags = EntryTagOrmLiteDao.getInstance().getByEntry(entry);
             for (EntryTag entryTag : entryTags) {
                 Tag tag = entryTag.getTag();
                 if (tag != null) {

@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
 import com.faltenreich.diaguard.feature.export.Backupable;
-import com.j256.ormlite.field.DatabaseField;
 
 @Entity
 public class Tag extends BaseEntity implements Backupable {
@@ -15,7 +14,6 @@ public class Tag extends BaseEntity implements Backupable {
         public static final String NAME = "name";
     }
 
-    @DatabaseField(columnName = Column.NAME)
     @ColumnInfo(name = Column.NAME)
     private String name;
 

@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
 import com.faltenreich.diaguard.shared.data.database.DatabaseHelper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -113,7 +113,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 }
 
                 if (isBackup) {
-                    List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                    List<EntryTag> entryTags = EntryTagOrmLiteDao.getInstance().getByEntry(entry);
                     for (EntryTag entryTag : entryTags) {
                         if (entryTag.getEntry() != null && entryTag.getTag() != null) {
                             writer.writeNext(ArrayUtils.add(entryTag.getValuesForBackup(), 0, entryTag.getKeyForBackup()));

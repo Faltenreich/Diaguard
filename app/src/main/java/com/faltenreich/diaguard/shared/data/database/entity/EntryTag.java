@@ -1,40 +1,54 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
-import com.faltenreich.diaguard.feature.export.Backupable;
-import com.j256.ormlite.field.DatabaseField;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
 
-/**
- * Created by Faltenreich on 11.09.2016.
- */
+import com.faltenreich.diaguard.feature.export.Backupable;
+import com.faltenreich.diaguard.shared.data.database.Database;
+
+@Entity
 public class EntryTag extends BaseEntity implements Backupable {
 
     public static final String BACKUP_KEY = "entryTag";
 
     public class Column extends BaseEntity.Column {
         public static final String ENTRY = "entry";
+        public static final String ENTRY_ID = "entryId";
         public static final String TAG = "tag";
+        public static final String TAG_ID = "tagId";
     }
 
-    @DatabaseField(columnName = Column.ENTRY, foreign = true, foreignAutoRefresh = true)
-    private Entry entry;
+    @ColumnInfo(name = EntryTag.Column.ENTRY_ID)
+    private long entryId;
 
-    @DatabaseField(columnName = Column.TAG, foreign = true, foreignAutoRefresh = true)
-    private Tag tag;
+    @ColumnInfo(name = Column.TAG_ID)
+    private long tagId;
 
+    public long getEntryId() {
+        return entryId;
+    }
+
+    public void setEntryId(long entryId) {
+        this.entryId = entryId;
+    }
+
+    @Deprecated
     public Entry getEntry() {
-        return entry;
+        throw new UnsupportedOperationException();
+        // return Database.getInstance().getDatabase().entryDao().getById(entryId);
     }
 
-    public void setEntry(Entry entry) {
-        this.entry = entry;
+    public long getTagId() {
+        return tagId;
     }
 
+    public void setTagId(long tagId) {
+        this.tagId = tagId;
+    }
+
+    @Deprecated
     public Tag getTag() {
-        return tag;
-    }
-
-    public void setTag(Tag tag) {
-        this.tag = tag;
+        return Database.getInstance().getDatabase().tagDao().getById(tagId);
     }
 
     @Override
@@ -44,6 +58,7 @@ public class EntryTag extends BaseEntity implements Backupable {
 
     @Override
     public String[] getValuesForBackup() {
-        return new String[]{tag.getName()};
+        throw new UnsupportedOperationException();
+        // return new String[]{tag.getName()};
     }
 }

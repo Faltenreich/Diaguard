@@ -4,7 +4,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryListItemUtils;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -14,13 +17,9 @@ import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
-import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.feature.timeline.table.CategoryListItemUtils;
 import com.faltenreich.diaguard.shared.data.primitive.ArrayUtils;
-import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
-import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
+import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.SelectArg;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -57,7 +56,8 @@ public class EntryDao extends BaseDao<Entry> {
             entry.getMeasurementCache().add(measurement);
             MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
         }
-        EntryTagOrmLiteDao.getInstance().delete(EntryTagOrmLiteDao.getInstance().getByEntry(entry));
+        List<EntryTag> entryTags = EntryTagRepository.getInstance().getByEntry(entry);
+        EntryTagRepository.getInstance().delete(entryTags);
         return super.delete(entry);
     }
 
@@ -285,6 +285,8 @@ public class EntryDao extends BaseDao<Entry> {
 
     @NonNull
     public List<Entry> search(@NonNull String query, int page, int pageSize) {
+        throw new UnsupportedOperationException();
+        /*
         try {
             query = "%" + query + "%";
             // TODO: Use repository instead of dao
@@ -301,5 +303,6 @@ public class EntryDao extends BaseDao<Entry> {
             Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
+        */
     }
 }

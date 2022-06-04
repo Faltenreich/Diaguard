@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.feature.export.job.date.OriginDateStrategy;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.DatabaseVersion;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
@@ -28,6 +27,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryDeprecated;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.opencsv.CSVReader;
 
@@ -276,7 +276,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                             EntryTag entryTag = new EntryTag();
                             entryTag.setEntryId(lastEntry.getId());
                             entryTag.setTagId(tag.getId());
-                            EntryTagOrmLiteDao.getInstance().createOrUpdate(entryTag);
+                            EntryTagRepository.getInstance().createOrUpdate(entryTag);
                         }
                     }
                     break;

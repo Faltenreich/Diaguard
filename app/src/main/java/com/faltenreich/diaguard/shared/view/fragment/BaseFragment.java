@@ -23,11 +23,11 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarManager;
 import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
+import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
@@ -163,7 +163,7 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
             }
             for (EntryTag entryTag : event.entryTags) {
                 entryTag.setEntryId(entry.getId());
-                EntryTagOrmLiteDao.getInstance().createOrUpdate(entryTag);
+                EntryTagRepository.getInstance().createOrUpdate(entryTag);
             }
             Events.post(new EntryAddedEvent(entry, event.entryTags, event.foodEatenList));
         });

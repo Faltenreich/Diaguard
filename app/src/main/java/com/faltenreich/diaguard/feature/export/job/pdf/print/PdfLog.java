@@ -5,9 +5,15 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
+import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
+import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.MultilineCell;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
@@ -18,14 +24,8 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
-import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.MultilineCell;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Point;
@@ -128,7 +128,7 @@ public class PdfLog implements PdfPrintable {
             }
 
             if (config.exportTags()) {
-                List<EntryTag> entryTags = EntryTagOrmLiteDao.getInstance().getByEntry(entry);
+                List<EntryTag> entryTags = EntryTagRepository.getInstance().getByEntry(entry);
                 if (!entryTags.isEmpty()) {
                     List<String> tagNames = new ArrayList<>();
                     for (EntryTag entryTag : entryTags) {

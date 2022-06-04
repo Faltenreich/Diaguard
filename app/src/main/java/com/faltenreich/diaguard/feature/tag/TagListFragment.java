@@ -20,9 +20,9 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.faltenreich.diaguard.shared.event.data.TagSavedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
@@ -128,7 +128,7 @@ public class TagListFragment
 
             @Override
             public Long onShouldLoad(Context context) {
-                return EntryTagOrmLiteDao.getInstance().countByTag(tag);
+                return EntryTagRepository.getInstance().countByTag(tag);
             }
 
             @Override
@@ -150,8 +150,8 @@ public class TagListFragment
 
             @Override
             public Tag onShouldLoad(Context context) {
-                List<EntryTag> entryTags = EntryTagOrmLiteDao.getInstance().getByTag(tag);
-                EntryTagOrmLiteDao.getInstance().delete(entryTags);
+                List<EntryTag> entryTags = EntryTagRepository.getInstance().getByTag(tag);
+                EntryTagRepository.getInstance().delete(entryTags);
                 int result = TagRepository.getInstance().delete(tag);
                 return result > 0 ? tag : null;
             }

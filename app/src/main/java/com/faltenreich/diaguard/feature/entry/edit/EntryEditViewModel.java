@@ -11,7 +11,6 @@ import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -23,6 +22,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.Consumer;
 import com.faltenreich.diaguard.shared.data.reflect.ObjectFactory;
+import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 
 import org.joda.time.DateTime;
@@ -153,7 +153,7 @@ public class EntryEditViewModel {
             @Override
             public void onDidLoad(Entry result) {
                 entry = result;
-                entryTags = EntryTagOrmLiteDao.getInstance().getByEntry(entry);
+                entryTags = EntryTagRepository.getInstance().getByEntry(entry);
                 callback.accept(entry);
             }
         });

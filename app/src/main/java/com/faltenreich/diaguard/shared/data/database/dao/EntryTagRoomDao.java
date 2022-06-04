@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.data.database.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -14,11 +15,9 @@ import java.util.List;
 @Dao
 public interface EntryTagRoomDao extends EntryTagDao {
 
-    @Override
     @Insert
     Long create(EntryTag entryTag);
 
-    @Override
     @Update
     void update(EntryTag entryTag);
 
@@ -28,15 +27,16 @@ public interface EntryTagRoomDao extends EntryTagDao {
     @Query("SELECT * FROM EntryTag WHERE entryId = :entryId")
     List<EntryTag> getByEntry(long entryId);
 
-    @Override
     default List<EntryTag> getByEntry(Entry entry) {
         return getByEntry(entry.getId());
     }
 
+    @Delete
+    int delete(List<EntryTag> entryTags);
+
     @Query("DELETE FROM EntryTag WHERE entryId = :entryId")
     int deleteByEntry(long entryId);
 
-    @Override
     default int deleteByEntry(Entry entry) {
         return deleteByEntry(entry.getId());
     }
@@ -44,7 +44,6 @@ public interface EntryTagRoomDao extends EntryTagDao {
     @Query("SELECT * FROM EntryTag WHERE tagId = :tagId")
     List<EntryTag> getByTag(long tagId);
 
-    @Override
     default List<EntryTag> getByTag(Tag tag) {
         return getByTag(tag.getId());
     }
@@ -55,7 +54,6 @@ public interface EntryTagRoomDao extends EntryTagDao {
     @Query("SELECT COUNT(tagId) FROM EntryTag WHERE tagId = :tagId")
     long count(long tagId);
 
-    @Override
     default long countByTag(Tag tag) {
         return count(tag.getId());
     }

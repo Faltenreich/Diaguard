@@ -14,6 +14,9 @@ public interface EntryTagDao {
 
     List<EntryTag> getByEntry(Entry entry);
 
+
+    int delete(List<EntryTag> entryTags);
+
     int deleteByEntry(Entry entry);
 
     List<EntryTag> getByTag(Tag tag);

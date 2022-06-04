@@ -3,17 +3,17 @@ package com.faltenreich.diaguard.feature.log;
 
 import android.os.AsyncTask;
 
+import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
+import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
+import com.faltenreich.diaguard.feature.log.month.LogMonthListItem;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
-import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
-import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
-import com.faltenreich.diaguard.feature.log.month.LogMonthListItem;
+import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.EndlessAdapter;
 
 import org.joda.time.DateTime;
@@ -68,7 +68,7 @@ class LogFetchDataTask extends AsyncTask<Void, Integer, List<LogListItem>> {
 
                 for (int entryIndex = 0; entryIndex < entries.size(); entryIndex++) {
                     Entry entry = entries.get(entryIndex);
-                    List<EntryTag> entryTags = EntryTagOrmLiteDao.getInstance().getByEntry(entry);
+                    List<EntryTag> entryTags = EntryTagRepository.getInstance().getByEntry(entry);
                     List<FoodEaten> foodEaten = new ArrayList<>();
                     for (Measurement measurement : entry.getMeasurementCache()) {
                         if (measurement instanceof Meal) {

@@ -30,11 +30,11 @@ public abstract class BaseDao<T extends BaseEntity> {
 
     private final Class<T> clazz;
 
-    BaseDao(Class<T> clazz) {
+    public BaseDao(Class<T> clazz) {
         this.clazz = clazz;
     }
 
-    Class<T> getClazz() {
+    public Class<T> getClazz() {
         return clazz;
     }
 
@@ -48,12 +48,12 @@ public abstract class BaseDao<T extends BaseEntity> {
     }
 
     @NonNull
-    QueryBuilder<T, Long> getQueryBuilder() {
+    public QueryBuilder<T, Long> getQueryBuilder() {
         return getDao().queryBuilder();
     }
 
     @NonNull
-    DeleteBuilder<T, Long> getDeleteBuilder() {
+    public DeleteBuilder<T, Long> getDeleteBuilder() {
         return getDao().deleteBuilder();
     }
 

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.data.database.dao;
+package com.faltenreich.diaguard.shared.data.database.dao.room;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;

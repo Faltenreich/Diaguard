@@ -19,44 +19,39 @@ public class TagRepository {
       return instance;
    }
 
-   private final TagDao tagDao = Database.getInstance().getDatabase().tagDao();
+   private final TagDao dao = Database.getInstance().getDatabase().tagDao();
 
    public List<Tag> getAll() {
-      return tagDao.getAll();
+      return dao.getAll();
    }
 
    @Nullable
    public Tag getById(long id) {
-      return tagDao.getById(id);
+      return dao.getById(id);
    }
 
    @Nullable
    public Tag getByName(String name) {
-      return tagDao.getByName(name);
+      return dao.getByName(name);
    }
 
    public Tag createOrUpdate(Tag tag) {
       if (tag.getId() <= 0) {
-         long id = tagDao.create(tag);
+         long id = dao.create(tag);
          tag.setId(id);
       } else {
-         tagDao.update(tag);
+         dao.update(tag);
       }
       return tag;
    }
 
-   public void bulkCreateOrUpdate(List<Tag> tags) {
-      // TODO: Use @Insert with replacement strategy instead
+   public void createOrUpdate(List<Tag> tags) {
       for (Tag tag : tags) {
          createOrUpdate(tag);
       }
    }
 
    public int delete(Tag tag) {
-      return tagDao.delete(tag);
-   }
-
-   public void deleteAll() {
-      tagDao.deleteAll();
+      return dao.delete(tag);
    }
 }

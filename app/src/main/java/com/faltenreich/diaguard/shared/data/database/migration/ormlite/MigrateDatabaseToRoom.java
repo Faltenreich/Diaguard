@@ -20,6 +20,7 @@ public class MigrateDatabaseToRoom {
         DatabaseHelper databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
         SQLiteDatabase ormLiteDatabase = databaseHelper.getReadableDatabase();
         new MigrateTagsToRoom().migrate(ormLiteDatabase);
+        new MigrateEntryTagsToRoom().migrate(ormLiteDatabase);
         // TODO: Maybe delete ormLiteDatabase
         Log.d(TAG, "Migration succeeded");
     }

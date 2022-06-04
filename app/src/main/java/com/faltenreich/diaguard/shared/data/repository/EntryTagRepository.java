@@ -43,8 +43,7 @@ public class EntryTagRepository {
       return entryTag;
    }
 
-   public void bulkCreateOrUpdate(List<EntryTag> entryTags) {
-      // TODO: Use @Insert with replacement strategy instead
+   public void createOrUpdate(List<EntryTag> entryTags) {
       for (EntryTag entryTag : entryTags) {
          createOrUpdate(entryTag);
       }

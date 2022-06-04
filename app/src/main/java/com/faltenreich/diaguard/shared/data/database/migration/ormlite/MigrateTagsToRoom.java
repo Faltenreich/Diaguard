@@ -3,11 +3,9 @@ package com.faltenreich.diaguard.shared.data.database.migration.ormlite;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.faltenreich.diaguard.shared.data.database.Database;
-import com.faltenreich.diaguard.shared.data.database.RoomDatabase;
-import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BaseEntity;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 
 import org.joda.time.DateTime;
 
@@ -38,13 +36,7 @@ class MigrateTagsToRoom implements MigrateTableToRoom {
             Log.e(TAG, "Failed to import Tag: " + exception);
          }
       }
-      RoomDatabase database = Database.getInstance().getDatabase();
-      TagDao tagDao = database.tagDao();
-      // TODO: Remove check
-      if (tagDao.getAll().isEmpty()) {
-         for (Tag tag : tags) {
-            tagDao.create(tag);
-         }
-      }
+      TagRepository.getInstance().createOrUpdate(tags);
+      Log.d(TAG, "Migrated " + tags.size() + " tags");
    }
 }

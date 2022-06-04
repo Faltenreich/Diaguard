@@ -44,15 +44,15 @@ class TagImport implements Importing {
             List<Tag> tags = new ArrayList<>();
             while ((nextLine = reader.readNext()) != null) {
                 if (nextLine.length >= 1) {
+                    // TODO: Fetch potentially existing tag
                     Tag tag = new Tag();
                     tag.setName(nextLine[languageRow]);
                     tags.add(tag);
                 }
             }
 
-            TagRepository.getInstance().deleteAll();
             Collections.reverse(tags);
-            TagRepository.getInstance().bulkCreateOrUpdate(tags);
+            TagRepository.getInstance().createOrUpdate(tags);
 
             Log.i(TAG, String.format("Imported %d tags from csv", tags.size()));
             PreferenceStore.getInstance().setDidImportTags(locale, true);

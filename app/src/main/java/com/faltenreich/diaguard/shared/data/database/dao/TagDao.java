@@ -21,6 +21,4 @@ public interface TagDao {
     Tag getByName(String name);
 
     int delete(Tag tag);
-
-    void deleteAll();
 }

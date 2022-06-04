@@ -6,8 +6,8 @@ import androidx.room.Database;
 import androidx.room.TypeConverters;
 
 import com.faltenreich.diaguard.shared.data.database.converter.DateTimeConverter;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagRoomDao;
-import com.faltenreich.diaguard.shared.data.database.dao.TagRoomDao;
+import com.faltenreich.diaguard.shared.data.database.dao.room.EntryTagRoomDao;
+import com.faltenreich.diaguard.shared.data.database.dao.room.TagRoomDao;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 

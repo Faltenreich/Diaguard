@@ -3,13 +3,9 @@ package com.faltenreich.diaguard.shared.data.database.migration.ormlite;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.faltenreich.diaguard.shared.data.database.Database;
-import com.faltenreich.diaguard.shared.data.database.RoomDatabase;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
-import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BaseEntity;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
-import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 
 import org.joda.time.DateTime;
 
@@ -41,13 +37,7 @@ class MigrateEntryTagsToRoom implements MigrateTableToRoom {
             Log.e(TAG, "Failed to import EntryTag: " + exception);
          }
       }
-      RoomDatabase database = Database.getInstance().getDatabase();
-      EntryTagDao entryTagDao = database.entryTagDao();
-      // TODO: Remove check
-      if (entryTagDao.count() == 0) {
-         for (EntryTag entryTag : entryTags) {
-            entryTagDao.create(entryTag);
-         }
-      }
+      EntryTagRepository.getInstance().createOrUpdate(entryTags);
+      Log.d(TAG, "Migrated " + entryTags.size() + " entry tags");
    }
 }

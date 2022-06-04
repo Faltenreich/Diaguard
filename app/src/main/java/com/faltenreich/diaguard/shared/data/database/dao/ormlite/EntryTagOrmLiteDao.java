@@ -1,7 +1,9 @@
-package com.faltenreich.diaguard.shared.data.database.dao;
+package com.faltenreich.diaguard.shared.data.database.dao.ormlite;
 
 import android.util.Log;
 
+import com.faltenreich.diaguard.shared.data.database.dao.BaseDao;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;

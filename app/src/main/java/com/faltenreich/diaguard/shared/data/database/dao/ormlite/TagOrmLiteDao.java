@@ -1,9 +1,11 @@
-package com.faltenreich.diaguard.shared.data.database.dao;
+package com.faltenreich.diaguard.shared.data.database.dao.ormlite;
 
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.faltenreich.diaguard.shared.data.database.dao.BaseDao;
+import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BaseEntity;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.j256.ormlite.stmt.SelectArg;

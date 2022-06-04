@@ -51,6 +51,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.data.reflect.ObjectFactory;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.faltenreich.diaguard.shared.event.Events;
@@ -480,7 +481,7 @@ public class EntryEditFragment
         List<Measurement> measurements = viewModel.getMeasurements();
         entry.setMeasurementCache(measurements);
         boolean isNewEntry = !entry.isPersisted();
-        entry = EntryDao.getInstance().createOrUpdate(entry);
+        entry = EntryRepository.getInstance().createOrUpdate(entry);
 
         for (Measurement measurement : EntryDao.getInstance().getMeasurements(entry)) {
             boolean isObsolete = !measurements.contains(measurement);

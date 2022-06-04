@@ -117,12 +117,11 @@ public abstract class BaseDao<T extends BaseEntity> {
         } else {
             object.setCreatedAt(now);
             object.setUpdatedAt(now);
-            create(object);
         }
         return object;
     }
 
-    public void bulkCreateOrUpdate(final List<T> objects) {
+    public void createOrUpdate(final List<T> objects) {
         if (objects != null && objects.size() > 0) {
             try {
                 getDao().callBatchTasks((Callable<Void>) () -> {

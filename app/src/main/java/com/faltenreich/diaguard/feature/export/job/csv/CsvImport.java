@@ -27,6 +27,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryDeprecated;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.opencsv.CSVReader;
@@ -126,7 +127,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                 entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
                 String note = nextLine[2];
                 entry.setNote(note != null && note.length() > 0 ? note : null);
-                entry = EntryDao.getInstance().createOrUpdate(entry);
+                entry = EntryRepository.getInstance().createOrUpdate(entry);
             } else if (key.equalsIgnoreCase(Measurement.BACKUP_KEY) && entry != null) {
                 try {
                     CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
@@ -154,7 +155,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                 entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
                 String note = nextLine[2];
                 entry.setNote(note != null && note.length() > 0 ? note : null);
-                entry = EntryDao.getInstance().createOrUpdate(entry);
+                entry = EntryRepository.getInstance().createOrUpdate(entry);
             } else if (key.equalsIgnoreCase(Measurement.BACKUP_KEY) && entry != null) {
                 try {
                     Category category = Helper.valueOf(Category.class, nextLine[1]);
@@ -231,7 +232,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                         String note = nextLine[2];
                         lastEntry.setNote(note != null && note.length() > 0 ? note : null);
 
-                        lastEntry = EntryDao.getInstance().createOrUpdate(lastEntry);
+                        lastEntry = EntryRepository.getInstance().createOrUpdate(lastEntry);
                         break;
                     }
                 case Measurement.BACKUP_KEY:

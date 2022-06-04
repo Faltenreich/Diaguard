@@ -75,7 +75,7 @@ class FoodImport implements Importing {
 
             Collections.reverse(foodList);
             FoodDao.getInstance().deleteAll();
-            FoodDao.getInstance().bulkCreateOrUpdate(foodList);
+            FoodDao.getInstance().createOrUpdate(foodList);
 
             Log.i(TAG, String.format("Imported %d common food items from csv", foodList.size()));
             PreferenceStore.getInstance().setDidImportCommonFood(locale, true);

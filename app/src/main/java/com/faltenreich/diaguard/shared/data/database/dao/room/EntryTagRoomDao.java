@@ -3,8 +3,8 @@ package com.faltenreich.diaguard.shared.data.database.dao.room;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -16,11 +16,11 @@ import java.util.List;
 @Dao
 public interface EntryTagRoomDao extends EntryTagDao {
 
-    @Insert
-    Long create(EntryTag entryTag);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long createOrUpdate(EntryTag entryTag);
 
-    @Update
-    void update(EntryTag entryTag);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void createOrUpdate(List<EntryTag> entryTags);
 
     @Query("SELECT * FROM EntryTag")
     List<EntryTag> getAll();

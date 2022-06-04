@@ -19,41 +19,35 @@ public class EntryTagRepository {
       return instance;
    }
 
-   private final EntryTagDao entryTagDao = Database.getInstance().getDatabase().entryTagDao();
+   private final EntryTagDao dao = Database.getInstance().getDatabase().entryTagDao();
 
    public List<EntryTag> getByEntry(Entry entry) {
-      return entryTagDao.getByEntry(entry);
+      return dao.getByEntry(entry);
    }
 
    public List<EntryTag> getByTag(Tag tag) {
-      return entryTagDao.getByTag(tag);
+      return dao.getByTag(tag);
    }
 
    public long countByTag(Tag tag) {
-      return entryTagDao.countByTag(tag);
+      return dao.countByTag(tag);
    }
 
    public EntryTag createOrUpdate(EntryTag entryTag) {
-      if (entryTag.getId() <= 0) {
-         long id = entryTagDao.create(entryTag);
-         entryTag.setId(id);
-      } else {
-         entryTagDao.update(entryTag);
-      }
+      long id = dao.createOrUpdate(entryTag);
+      entryTag.setId(id);
       return entryTag;
    }
 
    public void createOrUpdate(List<EntryTag> entryTags) {
-      for (EntryTag entryTag : entryTags) {
-         createOrUpdate(entryTag);
-      }
+      dao.createOrUpdate(entryTags);
    }
 
    public void delete(List<EntryTag> entryTags) {
-      entryTagDao.delete(entryTags);
+      dao.delete(entryTags);
    }
 
    public void deleteByEntry(Entry entry) {
-      entryTagDao.deleteByEntry(entry);
+      dao.deleteByEntry(entry);
    }
 }

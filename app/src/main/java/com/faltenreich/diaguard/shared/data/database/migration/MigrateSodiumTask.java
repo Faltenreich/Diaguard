@@ -27,7 +27,7 @@ public class MigrateSodiumTask extends AsyncTask<Void, Void, Void> {
             Float sodium = food.getSodium();
             food.setSodium(sodium != null && sodium > 0 ? sodium / 1000 : null);
         }
-        FoodDao.getInstance().bulkCreateOrUpdate(foodList);
+        FoodDao.getInstance().createOrUpdate(foodList);
         Log.i(TAG, String.format("Fixed sodium of %d common food items", foodList.size()));
         return null;
     }

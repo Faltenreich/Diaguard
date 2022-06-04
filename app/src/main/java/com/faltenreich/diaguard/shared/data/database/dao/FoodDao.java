@@ -193,7 +193,7 @@ public class FoodDao extends BaseServerDao<Food> {
                 }
             }
         }
-        FoodDao.getInstance().bulkCreateOrUpdate(foodList);
+        FoodDao.getInstance().createOrUpdate(foodList);
         return foodList;
     }
 

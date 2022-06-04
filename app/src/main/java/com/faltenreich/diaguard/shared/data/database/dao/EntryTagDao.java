@@ -8,12 +8,11 @@ import java.util.List;
 
 public interface EntryTagDao {
 
-    Long create(EntryTag entryTag);
+    long createOrUpdate(EntryTag entryTag);
 
-    void update(EntryTag entryTag);
+    void createOrUpdate(List<EntryTag> entryTags);
 
     List<EntryTag> getByEntry(Entry entry);
-
 
     int delete(List<EntryTag> entryTags);
 

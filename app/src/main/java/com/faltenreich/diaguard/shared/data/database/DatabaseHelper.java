@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Activity;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
@@ -25,8 +25,8 @@ import com.faltenreich.diaguard.shared.data.database.entity.Pulse;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.database.entity.Weight;
 import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryDeprecated;
-import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.view.image.ImageLoader;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -217,7 +217,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         for (Map.Entry<Entry, List<M>> mapEntry : entities.entrySet()) {
             Entry tempEntry = mapEntry.getKey();
             tempEntry.setId(-1);
-            Entry entry = EntryDao.getInstance().createOrUpdate(tempEntry);
+            Entry entry = EntryRepository.getInstance().createOrUpdate(tempEntry);
             for (Measurement measurement : mapEntry.getValue()) {
                 measurement.setId(-1);
                 measurement.setEntry(entry);

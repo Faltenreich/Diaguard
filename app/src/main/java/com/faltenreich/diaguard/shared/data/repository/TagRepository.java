@@ -36,19 +36,13 @@ public class TagRepository {
    }
 
    public Tag createOrUpdate(Tag tag) {
-      if (tag.getId() <= 0) {
-         long id = dao.create(tag);
-         tag.setId(id);
-      } else {
-         dao.update(tag);
-      }
+      long id = dao.createOrUpdate(tag);
+      tag.setId(id);
       return tag;
    }
 
    public void createOrUpdate(List<Tag> tags) {
-      for (Tag tag : tags) {
-         createOrUpdate(tag);
-      }
+      dao.createOrUpdate(tags);
    }
 
    public int delete(Tag tag) {

@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface TagDao {
 
-    Long create(Tag tag);
+    long createOrUpdate(Tag tag);
 
-    void update(Tag tag);
+    void createOrUpdate(List<Tag> tags);
 
     List<Tag> getAll();
 

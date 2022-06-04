@@ -42,7 +42,7 @@ class TagViewHolder extends BaseViewHolder<ListItemTagBinding, Tag> {
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<Long>() {
             @Override
             public Long onShouldLoad(Context context) {
-                return EntryTagOrmLiteDao.getInstance().count(item);
+                return EntryTagOrmLiteDao.getInstance().countByTag(item);
             }
             @Override
             public void onDidLoad(Long count) {

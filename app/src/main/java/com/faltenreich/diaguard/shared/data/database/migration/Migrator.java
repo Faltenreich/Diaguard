@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.shared.data.database.migration;
 import android.content.Context;
 
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.database.migration.ormlite.MigrateDatabaseToRoom;
 
 public class Migrator {
 
@@ -22,7 +23,7 @@ public class Migrator {
         if (oldVersionCode == 39) {
             new MigrateSodiumTask().execute();
         }
-        // TODO: Remove workaround which forces MigrateOrmLiteToRoom() to be called on every app start
-        new MigrateOrmLiteToRoom().migrate(context);
+        // TODO: Remove workaround which forces MigrateDatabaseToRoom() to be called on every app start
+        new MigrateDatabaseToRoom().migrate(context);
     }
 }

@@ -8,11 +8,17 @@ import java.util.List;
 
 public interface EntryTagDao {
 
+    Long create(EntryTag entryTag);
+
+    void update(EntryTag entryTag);
+
     List<EntryTag> getByEntry(Entry entry);
 
     int deleteByEntry(Entry entry);
 
     List<EntryTag> getByTag(Tag tag);
 
-    long count(Tag tag);
+    long count();
+
+    long countByTag(Tag tag);
 }

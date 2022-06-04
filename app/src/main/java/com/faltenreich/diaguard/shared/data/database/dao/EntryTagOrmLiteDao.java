@@ -67,7 +67,17 @@ public class EntryTagOrmLiteDao extends BaseDao<EntryTag> implements EntryTagDao
     }
 
     @Override
-    public long count(Tag tag) {
+    public long count() {
+        try {
+            return getQueryBuilder().countOf();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.toString());
+            return 0;
+        }
+    }
+
+    @Override
+    public long countByTag(Tag tag) {
         try {
             return getQueryBuilder()
                 .orderBy(EntryTag.Column.UPDATED_AT, false)

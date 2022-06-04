@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.shared.data.database.dao;
 
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -11,6 +13,14 @@ import java.util.List;
 
 @Dao
 public interface EntryTagRoomDao extends EntryTagDao {
+
+    @Override
+    @Insert
+    Long create(EntryTag entryTag);
+
+    @Override
+    @Update
+    void update(EntryTag entryTag);
 
     @Query("SELECT * FROM EntryTag")
     List<EntryTag> getAll();
@@ -39,11 +49,14 @@ public interface EntryTagRoomDao extends EntryTagDao {
         return getByTag(tag.getId());
     }
 
+    @Query("SELECT COUNT(tagId) FROM EntryTag")
+    long count();
+
     @Query("SELECT COUNT(tagId) FROM EntryTag WHERE tagId = :tagId")
     long count(long tagId);
 
     @Override
-    default long count(Tag tag) {
+    default long countByTag(Tag tag) {
         return count(tag.getId());
     }
 }

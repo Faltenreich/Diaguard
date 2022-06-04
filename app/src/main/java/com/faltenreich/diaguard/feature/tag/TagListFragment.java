@@ -128,7 +128,7 @@ public class TagListFragment
 
             @Override
             public Long onShouldLoad(Context context) {
-                return EntryTagOrmLiteDao.getInstance().count(tag);
+                return EntryTagOrmLiteDao.getInstance().countByTag(tag);
             }
 
             @Override

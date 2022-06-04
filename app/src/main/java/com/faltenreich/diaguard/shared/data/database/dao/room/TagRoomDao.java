@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.data.database.dao.room;
 
+import androidx.annotation.Nullable;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -23,11 +24,13 @@ public interface TagRoomDao extends TagDao {
     @Query("SELECT * FROM Tag")
     List<Tag> getAll();
 
-    @Query("SELECT * FROM Tag WHERE name = :name")
-    Tag getByName(String name);
-
+    @Nullable
     @Query("SELECT * FROM Tag WHERE _id = :id")
     Tag getById(long id);
+
+    @Nullable
+    @Query("SELECT * FROM Tag WHERE name = :name")
+    Tag getByName(String name);
 
     @Delete
     int delete(Tag tag);

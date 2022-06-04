@@ -21,6 +21,16 @@ public class TagRepository {
 
    private final TagDao dao = Database.getInstance().getDatabase().tagDao();
 
+   public Tag createOrUpdate(Tag tag) {
+      long id = dao.createOrUpdate(tag);
+      tag.setId(id);
+      return tag;
+   }
+
+   public void createOrUpdate(List<Tag> tags) {
+      dao.createOrUpdate(tags);
+   }
+
    public List<Tag> getAll() {
       return dao.getAll();
    }
@@ -33,16 +43,6 @@ public class TagRepository {
    @Nullable
    public Tag getByName(String name) {
       return dao.getByName(name);
-   }
-
-   public Tag createOrUpdate(Tag tag) {
-      long id = dao.createOrUpdate(tag);
-      tag.setId(id);
-      return tag;
-   }
-
-   public void createOrUpdate(List<Tag> tags) {
-      dao.createOrUpdate(tags);
    }
 
    public int delete(Tag tag) {

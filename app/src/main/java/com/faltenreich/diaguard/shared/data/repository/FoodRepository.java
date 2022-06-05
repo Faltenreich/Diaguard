@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.shared.data.repository;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import com.faltenreich.diaguard.feature.food.networking.OpenFoodFactsService;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchListItem;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -9,7 +11,7 @@ import com.faltenreich.diaguard.shared.data.async.DataCallback;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.BaseDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
+import com.faltenreich.diaguard.shared.data.database.dao.FoodOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
@@ -32,7 +34,35 @@ public class FoodRepository {
         return instance;
     }
 
+    private final FoodOrmLiteDao dao = FoodOrmLiteDao.getInstance();
+
     private FoodRepository() {}
+
+    public Food createOrUpdate(Food food) {
+        return dao.createOrUpdate(food);
+    }
+
+    public void createOrUpdate(List<Food> foodList) {
+        dao.createOrUpdate(foodList);
+    }
+
+    @Nullable
+    public Food getById(long id) {
+        return dao.getById(id);
+    }
+
+    @Nullable
+    public Food getByName(String name) {
+        return dao.getByName(name);
+    }
+
+    public List<Food> getAllCommon() {
+        return dao.getAllCommon();
+    }
+
+    public List<Food> getAllFromUser() {
+        return dao.getAllFromUser();
+    }
 
     public void search(Context context, String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
         if (page == 0
@@ -55,7 +85,7 @@ public class FoodRepository {
             DataLoader.getInstance().load(context, new DataLoaderListener<List<Food>>() {
                 @Override
                 public List<Food> onShouldLoad(Context context) {
-                    return FoodDao.getInstance().createOrUpdate(dto);
+                    return FoodOrmLiteDao.getInstance().createOrUpdate(dto);
                 }
                 @Override
                 public void onDidLoad(List<Food> data) {
@@ -83,7 +113,7 @@ public class FoodRepository {
                     }
                 }
 
-                List<Food> foodList = FoodDao.getInstance().search(query, page, showCustomFood, showCommonFood, showBrandedFood);
+                List<Food> foodList = FoodOrmLiteDao.getInstance().search(query, page, showCustomFood, showCommonFood, showBrandedFood);
                 for (Food food : foodList) {
                     items.add(new FoodSearchListItem(food));
                 }
@@ -94,5 +124,14 @@ public class FoodRepository {
                 callback.onResult(data);
             }
         });
+    }
+
+    public void softDelete(Food food) {
+        dao.softDelete(food);
+    }
+
+    // TODO: Check if necessary
+    public void deleteAll() {
+        dao.deleteAll();
     }
 }

@@ -5,9 +5,9 @@ import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.opencsv.CSVReader;
 
 import java.io.IOException;
@@ -74,8 +74,8 @@ class FoodImport implements Importing {
             }
 
             Collections.reverse(foodList);
-            FoodDao.getInstance().deleteAll();
-            FoodDao.getInstance().createOrUpdate(foodList);
+            FoodRepository.getInstance().deleteAll();
+            FoodRepository.getInstance().createOrUpdate(foodList);
 
             Log.i(TAG, String.format("Imported %d common food items from csv", foodList.size()));
             PreferenceStore.getInstance().setDidImportCommonFood(locale, true);

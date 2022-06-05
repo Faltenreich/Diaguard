@@ -14,9 +14,9 @@ import com.faltenreich.diaguard.databinding.FragmentFoodNutrientListBinding;
 import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 
@@ -80,7 +80,7 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
     }
 
     private void invalidateData() {
-        food = FoodDao.getInstance().getById(foodId);
+        food = FoodRepository.getInstance().getById(foodId);
     }
 
     private void invalidateLayout() {

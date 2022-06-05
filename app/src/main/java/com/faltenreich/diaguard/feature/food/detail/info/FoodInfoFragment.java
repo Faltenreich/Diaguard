@@ -14,12 +14,12 @@ import com.faltenreich.diaguard.databinding.FragmentFoodInfoBinding;
 import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodType;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
@@ -84,7 +84,7 @@ public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> impl
     }
 
     private void invalidateData() {
-        food = FoodDao.getInstance().getById(foodId);
+        food = FoodRepository.getInstance().getById(foodId);
     }
 
     private void invalidateLayout() {

@@ -19,8 +19,8 @@ import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
+import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodSavedEvent;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
@@ -101,7 +101,7 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
 
     private void initData() {
         if (foodId != null) {
-            food = FoodDao.getInstance().getById(foodId);
+            food = FoodRepository.getInstance().getById(foodId);
         }
     }
 
@@ -149,7 +149,7 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
                 nutrient.setValue(food, value != null ? value : -1);
             }
 
-            FoodDao.getInstance().createOrUpdate(food);
+            FoodRepository.getInstance().createOrUpdate(food);
             Events.post(new FoodSavedEvent(food));
 
             finish();

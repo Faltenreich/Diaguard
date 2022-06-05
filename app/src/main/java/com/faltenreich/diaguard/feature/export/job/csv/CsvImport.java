@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.feature.export.job.date.OriginDateStrategy;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.DatabaseVersion;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -29,6 +28,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryD
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
+import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.opencsv.CSVReader;
 
@@ -205,18 +205,18 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                 case Food.BACKUP_KEY:
                     if (nextLine.length >= 5) {
                         String foodName = nextLine[1];
-                        Food food = FoodDao.getInstance().get(foodName);
+                        Food food = FoodRepository.getInstance().getByName(foodName);
                         if (food == null) {
                             food = new Food();
                             food.setName(foodName);
                             food.setBrand(nextLine[2]);
                             food.setIngredients(nextLine[3]);
                             food.setCarbohydrates(FloatUtils.parseNumber(nextLine[4]));
-                            FoodDao.getInstance().createOrUpdate(food);
+                            FoodRepository.getInstance().createOrUpdate(food);
                         } else if (food.isDeleted()) {
                             // Reactivate previously deleted food that is being re-imported
                             food.setDeletedAt(null);
-                            FoodDao.getInstance().createOrUpdate(food);
+                            FoodRepository.getInstance().createOrUpdate(food);
                         }
                     }
                     break;
@@ -283,7 +283,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                     break;
                 case FoodEaten.BACKUP_KEY:
                     if (lastMeal != null && nextLine.length >= 3) {
-                        Food food = FoodDao.getInstance().get(nextLine[1]);
+                        Food food = FoodRepository.getInstance().getByName(nextLine[1]);
                         if (food != null) {
                             FoodEaten foodEaten = new FoodEaten();
                             foodEaten.setMeal(lastMeal);

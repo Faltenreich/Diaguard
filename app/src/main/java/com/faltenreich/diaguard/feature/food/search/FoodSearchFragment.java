@@ -30,7 +30,6 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
@@ -323,7 +322,7 @@ public class FoodSearchFragment
         ViewUtils.showSnackbar(getView(), getString(R.string.food_deleted), v -> {
             Food food = event.context;
             food.setDeletedAt(null);
-            FoodDao.getInstance().createOrUpdate(food);
+            FoodRepository.getInstance().createOrUpdate(food);
             Events.post(new FoodSavedEvent(food));
         });
     }

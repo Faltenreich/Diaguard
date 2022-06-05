@@ -11,7 +11,6 @@ import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -23,6 +22,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.Consumer;
 import com.faltenreich.diaguard.shared.data.reflect.ObjectFactory;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
+import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 
 import org.joda.time.DateTime;
@@ -163,7 +163,7 @@ public class EntryEditViewModel {
         DataLoader.getInstance().load(context, new DataLoaderListener<Food>() {
             @Override
             public Food onShouldLoad(Context context) {
-                return FoodDao.getInstance().getById(foodId);
+                return FoodRepository.getInstance().getById(foodId);
             }
             @Override
             public void onDidLoad(Food food) {

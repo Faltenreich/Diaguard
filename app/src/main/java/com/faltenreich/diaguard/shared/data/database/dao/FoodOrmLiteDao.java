@@ -25,20 +25,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class FoodDao extends BaseServerDao<Food> {
+public class FoodOrmLiteDao extends BaseServerDao<Food> {
 
-    private static final String TAG = FoodDao.class.getSimpleName();
+    private static final String TAG = FoodOrmLiteDao.class.getSimpleName();
 
-    private static FoodDao instance;
+    private static FoodOrmLiteDao instance;
 
-    public static FoodDao getInstance() {
+    public static FoodOrmLiteDao getInstance() {
         if (instance == null) {
-            instance = new FoodDao();
+            instance = new FoodOrmLiteDao();
         }
         return instance;
     }
 
-    private FoodDao() {
+    private FoodOrmLiteDao() {
         super(Food.class);
     }
 
@@ -110,7 +110,7 @@ public class FoodDao extends BaseServerDao<Food> {
         return super.delete(objects);
     }
 
-    public Food get(String name) {
+    public Food getByName(String name) {
         try {
             return getQueryBuilder()
                 .where().eq(Food.Column.NAME, new SelectArg(name))
@@ -193,7 +193,7 @@ public class FoodDao extends BaseServerDao<Food> {
                 }
             }
         }
-        FoodDao.getInstance().createOrUpdate(foodList);
+        createOrUpdate(foodList);
         return foodList;
     }
 

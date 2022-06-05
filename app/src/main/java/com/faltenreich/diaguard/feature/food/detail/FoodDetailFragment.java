@@ -16,8 +16,8 @@ import com.faltenreich.diaguard.feature.food.FoodActions;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
+import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -98,7 +98,7 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
     }
 
     private void invalidateData() {
-        food = FoodDao.getInstance().getById(foodId);
+        food = FoodRepository.getInstance().getById(foodId);
     }
 
     private void invalidateLayout() {

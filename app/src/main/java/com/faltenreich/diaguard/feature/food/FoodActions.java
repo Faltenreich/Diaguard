@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
+import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -28,7 +28,7 @@ public class FoodActions {
     }
 
     private static void deleteFood(@NonNull Food food, @Nullable Callback callback) {
-        FoodDao.getInstance().softDelete(food);
+        FoodRepository.getInstance().softDelete(food);
         Events.post(new FoodDeletedEvent(food));
         if (callback != null) {
             callback.onFoodDeleted(food);

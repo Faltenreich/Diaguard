@@ -9,7 +9,6 @@ import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
 import com.faltenreich.diaguard.shared.data.database.DatabaseHelper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -19,6 +18,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
+import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.opencsv.CSVWriter;
 
@@ -71,7 +71,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                     writer.writeNext(ArrayUtils.add(tag.getValuesForBackup(), 0, tag.getKeyForBackup()));
                 }
 
-                List<Food> foods = FoodDao.getInstance().getAllFromUser();
+                List<Food> foods = FoodRepository.getInstance().getAllFromUser();
                 for (Food food : foods) {
                     writer.writeNext(ArrayUtils.add(food.getValuesForBackup(), 0, food.getKeyForBackup()));
                 }

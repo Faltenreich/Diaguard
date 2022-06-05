@@ -2,24 +2,34 @@ package com.faltenreich.diaguard.shared.data.repository;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.food.networking.OpenFoodFactsService;
+import com.faltenreich.diaguard.feature.food.networking.dto.ProductDto;
+import com.faltenreich.diaguard.feature.food.networking.dto.SearchResponseDto;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchListItem;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.async.DataCallback;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.BaseDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodOrmLiteDao;
+import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
+import com.faltenreich.diaguard.shared.data.database.dao.FoodOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.networking.NetworkingUtils;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class FoodRepository {
 
@@ -34,7 +44,7 @@ public class FoodRepository {
         return instance;
     }
 
-    private final FoodOrmLiteDao dao = FoodOrmLiteDao.getInstance();
+    private final FoodDao dao = FoodOrmLiteDao.getInstance();
 
     private FoodRepository() {}
 
@@ -85,7 +95,7 @@ public class FoodRepository {
             DataLoader.getInstance().load(context, new DataLoaderListener<List<Food>>() {
                 @Override
                 public List<Food> onShouldLoad(Context context) {
-                    return FoodOrmLiteDao.getInstance().createOrUpdate(dto);
+                    return createOrUpdate(dto);
                 }
                 @Override
                 public void onDidLoad(List<Food> data) {
@@ -113,7 +123,7 @@ public class FoodRepository {
                     }
                 }
 
-                List<Food> foodList = FoodOrmLiteDao.getInstance().search(query, page, showCustomFood, showCommonFood, showBrandedFood);
+                List<Food> foodList = dao.search(query, page, showCustomFood, showCommonFood, showBrandedFood);
                 for (Food food : foodList) {
                     items.add(new FoodSearchListItem(food));
                 }
@@ -124,6 +134,68 @@ public class FoodRepository {
                 callback.onResult(data);
             }
         });
+    }
+
+    public List<Food> createOrUpdate(@NonNull SearchResponseDto dto) {
+        String languageCode = Helper.getLanguageCode();
+        List<Food> foodList = new ArrayList<>();
+        Collections.reverse(dto.products);
+        for (ProductDto productDto : dto.products) {
+            // Workaround: API returns products in other languages even though defined otherwise through GET parameters
+            boolean isSameLanguage = languageCode.equals(productDto.languageCode);
+            if (isSameLanguage && productDto.isValid()) {
+                Food food = parseFromDto(productDto);
+                if (food != null) {
+                    foodList.add(0, food);
+                }
+            }
+        }
+        createOrUpdate(foodList);
+        return foodList;
+    }
+
+    @Nullable
+    private Food parseFromDto(ProductDto dto) {
+        if (dto == null || dto.identifier == null || !dto.identifier.isJsonPrimitive()) {
+            return null;
+        }
+        String serverId = dto.identifier.getAsJsonPrimitive().getAsString();
+        if (StringUtils.isBlank(serverId)) {
+            return null;
+        }
+
+        Food food = dao.getByServerId(serverId);
+        boolean isNew = food == null;
+        if (isNew) {
+            food = new Food();
+        }
+
+        if (isNew || needsUpdate(food, dto)) {
+            food.setServerId(serverId);
+            food.setName(dto.name);
+            food.setBrand(dto.brand);
+            food.setIngredients(dto.ingredients != null ? dto.ingredients.replaceAll("_", "") : null);
+            food.setLabels(dto.labels);
+            food.setCarbohydrates(dto.nutrients.carbohydrates);
+            food.setEnergy(dto.nutrients.energy);
+            food.setFat(dto.nutrients.fat);
+            food.setFatSaturated(dto.nutrients.fatSaturated);
+            food.setFiber(dto.nutrients.fiber);
+            food.setProteins(dto.nutrients.proteins);
+            food.setSalt(dto.nutrients.salt);
+            food.setSodium(dto.nutrients.sodium);
+            food.setSugar(dto.nutrients.sugar);
+            Locale locale = dto.languageCode != null ? new Locale(dto.languageCode) : Helper.getLocale();
+            food.setLanguageCode(locale.getLanguage());
+        }
+
+        return food;
+    }
+
+    private boolean needsUpdate(Food food, ProductDto dto) {
+        String lastEditDateString = dto.lastEditDates != null && dto.lastEditDates.length > 0 ? dto.lastEditDates[0] : null;
+        DateTime lastEditDate = DateTimeUtils.parseFromString(lastEditDateString, ProductDto.DATE_FORMAT);
+        return lastEditDate != null && food.getUpdatedAt() != null && food.getUpdatedAt().isBefore(lastEditDate);
     }
 
     public void softDelete(Food food) {

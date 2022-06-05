@@ -2,30 +2,19 @@ package com.faltenreich.diaguard.shared.data.database.dao;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
-import com.faltenreich.diaguard.feature.food.networking.dto.ProductDto;
-import com.faltenreich.diaguard.feature.food.networking.dto.SearchResponseDto;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.entity.BaseServerEntity;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
-import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
 import com.j256.ormlite.stmt.Where;
 
-import org.joda.time.DateTime;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
-public class FoodOrmLiteDao extends BaseServerDao<Food> {
+public class FoodOrmLiteDao extends BaseServerDao<Food> implements FoodDao {
 
     private static final String TAG = FoodOrmLiteDao.class.getSimpleName();
 
@@ -40,6 +29,17 @@ public class FoodOrmLiteDao extends BaseServerDao<Food> {
 
     private FoodOrmLiteDao() {
         super(Food.class);
+    }
+
+    public Food getByName(String name) {
+        try {
+            return getQueryBuilder()
+                .where().eq(Food.Column.NAME, new SelectArg(name))
+                .queryForFirst();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.toString());
+            return null;
+        }
     }
 
     @Override
@@ -110,17 +110,6 @@ public class FoodOrmLiteDao extends BaseServerDao<Food> {
         return super.delete(objects);
     }
 
-    public Food getByName(String name) {
-        try {
-            return getQueryBuilder()
-                .where().eq(Food.Column.NAME, new SelectArg(name))
-                .queryForFirst();
-        } catch (SQLException exception) {
-            Log.e(TAG, exception.toString());
-            return null;
-        }
-    }
-
     public List<Food> search(
         String query,
         long page,
@@ -177,67 +166,5 @@ public class FoodOrmLiteDao extends BaseServerDao<Food> {
             Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
-    }
-
-    public List<Food> createOrUpdate(@NonNull SearchResponseDto dto) {
-        String languageCode = Helper.getLanguageCode();
-        List<Food> foodList = new ArrayList<>();
-        Collections.reverse(dto.products);
-        for (ProductDto productDto : dto.products) {
-            // Workaround: API returns products in other languages even though defined otherwise through GET parameters
-            boolean isSameLanguage = languageCode.equals(productDto.languageCode);
-            if (isSameLanguage && productDto.isValid()) {
-                Food food = parseFromDto(productDto);
-                if (food != null) {
-                    foodList.add(0, food);
-                }
-            }
-        }
-        createOrUpdate(foodList);
-        return foodList;
-    }
-
-    @Nullable
-    private Food parseFromDto(ProductDto dto) {
-        if (dto == null || dto.identifier == null || !dto.identifier.isJsonPrimitive()) {
-            return null;
-        }
-        String serverId = dto.identifier.getAsJsonPrimitive().getAsString();
-        if (StringUtils.isBlank(serverId)) {
-            return null;
-        }
-
-        Food food = getByServerId(serverId);
-        boolean isNew = food == null;
-        if (isNew) {
-            food = new Food();
-        }
-
-        if (isNew || needsUpdate(food, dto)) {
-            food.setServerId(serverId);
-            food.setName(dto.name);
-            food.setBrand(dto.brand);
-            food.setIngredients(dto.ingredients != null ? dto.ingredients.replaceAll("_", "") : null);
-            food.setLabels(dto.labels);
-            food.setCarbohydrates(dto.nutrients.carbohydrates);
-            food.setEnergy(dto.nutrients.energy);
-            food.setFat(dto.nutrients.fat);
-            food.setFatSaturated(dto.nutrients.fatSaturated);
-            food.setFiber(dto.nutrients.fiber);
-            food.setProteins(dto.nutrients.proteins);
-            food.setSalt(dto.nutrients.salt);
-            food.setSodium(dto.nutrients.sodium);
-            food.setSugar(dto.nutrients.sugar);
-            Locale locale = dto.languageCode != null ? new Locale(dto.languageCode) : Helper.getLocale();
-            food.setLanguageCode(locale.getLanguage());
-        }
-
-        return food;
-    }
-
-    private boolean needsUpdate(Food food, ProductDto dto) {
-        String lastEditDateString = dto.lastEditDates != null && dto.lastEditDates.length > 0 ? dto.lastEditDates[0] : null;
-        DateTime lastEditDate = DateTimeUtils.parseFromString(lastEditDateString, ProductDto.DATE_FORMAT);
-        return lastEditDate != null && food.getUpdatedAt() != null && food.getUpdatedAt().isBefore(lastEditDate);
     }
 }

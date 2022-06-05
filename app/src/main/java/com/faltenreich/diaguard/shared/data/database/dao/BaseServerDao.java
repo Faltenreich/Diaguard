@@ -20,7 +20,7 @@ class BaseServerDao <T extends BaseServerEntity> extends BaseDao<T> {
         super(clazz);
     }
 
-    T getByServerId(String serverId) {
+    public T getByServerId(String serverId) {
         try {
             return getQueryBuilder().where().eq(BaseServerEntity.Column.SERVER_ID, serverId).queryForFirst();
         } catch (SQLException exception) {

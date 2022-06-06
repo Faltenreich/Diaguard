@@ -38,13 +38,11 @@ public interface FoodRoomDao extends FoodDao {
     @Query("SELECT * FROM Food WHERE name = :name")
     Food getByName(String name);
 
-    // FIXME: Query seems off
-    @Query("SELECT * FROM Food WHERE labels IS NOT NULL AND serverId IS NULL")
-    List<Food> getAllCommon();
+    @Query("SELECT * FROM Food WHERE serverId IS NULL AND labels IS NOT NULL ")
+    List<Food> getCommon();
 
-    // FIXME: Query seems off
-    @Query("SELECT * FROM Food WHERE serverId IS NULL")
-    List<Food> getAllFromUser();
+    @Query("SELECT * FROM Food WHERE serverId IS NULL AND labels IS NULL")
+    List<Food> getCustom();
 
     @RawQuery
     List<Food> search(SupportSQLiteQuery query);
@@ -66,12 +64,12 @@ public interface FoodRoomDao extends FoodDao {
 
         boolean hasFilter = false;
         if (showCustomFood) {
-            builder.append(" AND ((labels IS NULL AND serverId IS NULL)");
+            builder.append(" AND ((serverId IS NULL AND labels IS NULL)");
             hasFilter = true;
         }
         if (showCommonFood) {
             String link = hasFilter ? " OR" : " (AND";
-            builder.append(link).append(" (labels IS NOT NULL AND serverId IS NULL)");
+            builder.append(link).append(" (serverId IS NULL AND labels IS NOT NULL)");
             hasFilter = true;
         }
         if (showBrandedFood) {

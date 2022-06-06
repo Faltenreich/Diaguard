@@ -68,12 +68,12 @@ public class FoodRepository {
         return dao.getByName(name);
     }
 
-    public List<Food> getAllCommon() {
-        return dao.getAllCommon();
+    public List<Food> getCommon() {
+        return dao.getCommon();
     }
 
-    public List<Food> getAllFromUser() {
-        return dao.getAllFromUser();
+    public List<Food> getCustom() {
+        return dao.getCustom();
     }
 
     public void search(Context context, String query, int page, DataCallback<List<FoodSearchListItem>> callback) {

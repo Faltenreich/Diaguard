@@ -23,7 +23,7 @@ public class MigrateSodiumTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        List<Food> foodList = FoodRepository.getInstance().getAllCommon();
+        List<Food> foodList = FoodRepository.getInstance().getCommon();
         for (Food food : foodList) {
             Float sodium = food.getSodium();
             food.setSodium(sodium != null && sodium > 0 ? sodium / 1000 : null);

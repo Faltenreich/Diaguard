@@ -21,9 +21,9 @@ public interface FoodDao {
     @Nullable
     Food getByName(String name);
 
-    List<Food> getAllCommon();
+    List<Food> getCommon();
 
-    List<Food> getAllFromUser();
+    List<Food> getCustom();
 
     List<Food> search(
         String query,

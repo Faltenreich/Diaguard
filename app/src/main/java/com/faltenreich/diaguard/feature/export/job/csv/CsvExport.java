@@ -71,7 +71,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                     writer.writeNext(ArrayUtils.add(tag.getValuesForBackup(), 0, tag.getKeyForBackup()));
                 }
 
-                List<Food> foods = FoodRepository.getInstance().getAllFromUser();
+                List<Food> foods = FoodRepository.getInstance().getCustom();
                 for (Food food : foods) {
                     writer.writeNext(ArrayUtils.add(food.getValuesForBackup(), 0, food.getKeyForBackup()));
                 }

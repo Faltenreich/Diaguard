@@ -38,10 +38,14 @@ public interface FoodRoomDao extends FoodDao {
     @Query("SELECT * FROM Food WHERE name = :name")
     Food getByName(String name);
 
-    @Query("SELECT * FROM Food WHERE serverId IS NULL AND labels IS NOT NULL ")
+    @Query("SELECT * FROM Food " +
+        "WHERE serverId IS NULL AND labels IS NOT NULL " +
+        "ORDER BY name COLLATE NOCASE ASC, updatedAt DESC")
     List<Food> getCommon();
 
-    @Query("SELECT * FROM Food WHERE serverId IS NULL AND labels IS NULL")
+    @Query("SELECT * FROM Food " +
+        "WHERE serverId IS NULL AND labels IS NULL " +
+        "ORDER BY name COLLATE NOCASE ASC, updatedAt DESC")
     List<Food> getCustom();
 
     @RawQuery

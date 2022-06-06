@@ -93,6 +93,7 @@ public abstract class BaseDao<T extends BaseEntity> {
     public Long create(T object) {
         try {
             int id = getDao().create(object);
+            object.setId(id);
             return (long) id;
         } catch (SQLException exception) {
             Log.e(TAG, exception.toString());
@@ -117,6 +118,7 @@ public abstract class BaseDao<T extends BaseEntity> {
         } else {
             object.setCreatedAt(now);
             object.setUpdatedAt(now);
+            create(object);
         }
         return object;
     }

@@ -21,7 +21,7 @@ public interface TagRoomDao extends TagDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void createOrUpdate(List<Tag> tags);
 
-    @Query("SELECT * FROM Tag")
+    @Query("SELECT * FROM Tag ORDER BY updatedAt DESC")
     List<Tag> getAll();
 
     @Nullable

@@ -9,15 +9,15 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 
+@Entity
 public class Food extends BaseServerEntity implements Backupable {
 
     public static final String BACKUP_KEY = "food";
@@ -101,50 +101,47 @@ public class Food extends BaseServerEntity implements Backupable {
         }
     }
 
-    @DatabaseField(columnName = Column.NAME)
+    @ColumnInfo(name = Tag.Column.NAME)
     private String name;
 
-    @DatabaseField(columnName = Column.BRAND)
+    @ColumnInfo(name = Column.BRAND)
     private String brand;
 
-    @DatabaseField(columnName = Column.INGREDIENTS)
+    @ColumnInfo(name = Column.INGREDIENTS)
     private String ingredients;
 
-    @DatabaseField(columnName = Column.LABELS)
+    @ColumnInfo(name = Column.LABELS)
     private String labels;
 
-    @DatabaseField(columnName = Column.CARBOHYDRATES, defaultValue = "-1")
+    @ColumnInfo(name = Column.CARBOHYDRATES, defaultValue = "-1")
     private Float carbohydrates;
 
-    @DatabaseField(columnName = Column.ENERGY, defaultValue = "-1")
+    @ColumnInfo(name = Column.ENERGY, defaultValue = "-1")
     private Float energy;
 
-    @DatabaseField(columnName = Column.FAT, defaultValue = "-1")
+    @ColumnInfo(name = Column.FAT, defaultValue = "-1")
     private Float fat;
 
-    @DatabaseField(columnName = FAT_SATURATED, defaultValue = "-1")
+    @ColumnInfo(name = FAT_SATURATED, defaultValue = "-1")
     private Float fatSaturated;
 
-    @DatabaseField(columnName = Column.FIBER, defaultValue = "-1")
+    @ColumnInfo(name = Column.FIBER, defaultValue = "-1")
     private Float fiber;
 
-    @DatabaseField(columnName = PROTEINS, defaultValue = "-1")
+    @ColumnInfo(name = PROTEINS, defaultValue = "-1")
     private Float proteins;
 
-    @DatabaseField(columnName = Column.SALT, defaultValue = "-1")
+    @ColumnInfo(name = Column.SALT, defaultValue = "-1")
     private Float salt;
 
-    @DatabaseField(columnName = Column.SODIUM, defaultValue = "-1")
+    @ColumnInfo(name = Column.SODIUM, defaultValue = "-1")
     private Float sodium;
 
-    @DatabaseField(columnName = SUGAR, defaultValue = "-1")
+    @ColumnInfo(name = SUGAR, defaultValue = "-1")
     private Float sugar;
 
-    @DatabaseField(columnName = Column.LANGUAGE_CODE)
+    @ColumnInfo(name = Column.LANGUAGE_CODE)
     private String languageCode;
-
-    @ForeignCollectionField(columnName = Column.FOOD_EATEN)
-    private ForeignCollection<FoodEaten> foodEaten;
 
     public String getName() {
         return name;
@@ -256,14 +253,6 @@ public class Food extends BaseServerEntity implements Backupable {
 
     public void setLanguageCode(String languageCode) {
         this.languageCode = languageCode;
-    }
-
-    public ForeignCollection<FoodEaten> getFoodEaten() {
-        return foodEaten;
-    }
-
-    public void setFoodEaten(ForeignCollection<FoodEaten> foodEaten) {
-        this.foodEaten = foodEaten;
     }
 
     public boolean isCustomFood(Context context) {

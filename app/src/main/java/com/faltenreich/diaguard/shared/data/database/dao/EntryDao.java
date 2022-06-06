@@ -285,7 +285,8 @@ public class EntryDao extends BaseDao<Entry> {
 
     @NonNull
     public List<Entry> search(@NonNull String query, int page, int pageSize) {
-        throw new UnsupportedOperationException();
+        // TODO
+        return new ArrayList<>();
         /*
         try {
             query = "%" + query + "%";

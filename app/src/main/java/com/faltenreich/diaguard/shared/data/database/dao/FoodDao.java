@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface FoodDao {
 
-    Food createOrUpdate(Food food);
+    long createOrUpdate(Food food);
 
     void createOrUpdate(List<Food> foodList);
 
@@ -32,8 +32,6 @@ public interface FoodDao {
         boolean showCommonFood,
         boolean showBrandedFood
     );
-
-    void softDelete(Food food);
 
     int delete(Food object);
 

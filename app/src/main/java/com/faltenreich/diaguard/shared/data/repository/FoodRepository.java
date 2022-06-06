@@ -15,10 +15,10 @@ import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.async.DataCallback;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
+import com.faltenreich.diaguard.shared.data.database.Database;
 import com.faltenreich.diaguard.shared.data.database.dao.BaseDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodOrmLiteDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
@@ -44,12 +44,14 @@ public class FoodRepository {
         return instance;
     }
 
-    private final FoodDao dao = FoodOrmLiteDao.getInstance();
+    private final FoodDao dao = Database.getInstance().getDatabase().foodDao();
 
     private FoodRepository() {}
 
     public Food createOrUpdate(Food food) {
-        return dao.createOrUpdate(food);
+        long id = dao.createOrUpdate(food);
+        food.setId(id);
+        return food;
     }
 
     public void createOrUpdate(List<Food> foodList) {
@@ -199,7 +201,8 @@ public class FoodRepository {
     }
 
     public void softDelete(Food food) {
-        dao.softDelete(food);
+        food.setDeletedAt(DateTime.now());
+        dao.createOrUpdate(food);
     }
 
     // TODO: Check if necessary

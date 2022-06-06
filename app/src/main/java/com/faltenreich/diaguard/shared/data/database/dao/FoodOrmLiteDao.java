@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodOrmLiteDao extends BaseServerDao<Food> implements FoodDao {
+public class FoodOrmLiteDao extends BaseServerDao<Food> {
 
     private static final String TAG = FoodOrmLiteDao.class.getSimpleName();
 

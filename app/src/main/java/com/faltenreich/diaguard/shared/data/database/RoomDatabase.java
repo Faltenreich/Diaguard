@@ -7,16 +7,27 @@ import androidx.room.TypeConverters;
 
 import com.faltenreich.diaguard.shared.data.database.converter.DateTimeConverter;
 import com.faltenreich.diaguard.shared.data.database.dao.room.EntryTagRoomDao;
+import com.faltenreich.diaguard.shared.data.database.dao.room.FoodRoomDao;
 import com.faltenreich.diaguard.shared.data.database.dao.room.TagRoomDao;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
+import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 
-@Database(entities = {Tag.class, EntryTag.class}, version = DATABASE_VERSION)
+@Database(
+    entities = {
+        Food.class,
+        Tag.class,
+        EntryTag.class
+    },
+    version = DATABASE_VERSION
+)
 @TypeConverters({DateTimeConverter.class})
 public abstract class RoomDatabase extends androidx.room.RoomDatabase {
 
     public static final String DATABASE_NAME = "diaguard.room.db";
     public static final int DATABASE_VERSION = DatabaseVersion.v4_0;
+
+    public abstract FoodRoomDao foodDao();
 
     public abstract TagRoomDao tagDao();
 

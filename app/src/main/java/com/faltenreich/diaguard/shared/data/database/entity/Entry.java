@@ -1,21 +1,21 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+
 import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.feature.export.Exportable;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.shared.Helper;
-import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-import com.j256.ormlite.table.DatabaseTable;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
+import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@DatabaseTable
+@Entity
 public class Entry extends BaseEntity implements Backupable, Exportable {
 
     public static final String BACKUP_KEY = "entry";
@@ -25,16 +25,11 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
         public static final String NOTE = "note";
     }
 
-    @DatabaseField(columnName = Column.DATE)
+    @ColumnInfo(name = Column.DATE)
     private DateTime date;
 
-    @DatabaseField(columnName = Column.NOTE)
+    @ColumnInfo(name = Column.NOTE)
     private String note;
-
-    @ForeignCollectionField
-    private ForeignCollection<Measurement> measurements;
-
-    private List<Measurement> measurementCache;
 
     public DateTime getDate() {
         return date;
@@ -52,25 +47,15 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
         this.note = note;
     }
 
-    public ForeignCollection<Measurement> getMeasurements() {
-        return measurements;
-    }
-
-    public void setMeasurements(ForeignCollection<Measurement> measurements) {
-        this.measurements = measurements;
-    }
-
     public List<Measurement> getMeasurementCache() {
-        if (measurementCache == null) {
-            measurementCache = new ArrayList<>();
-        }
-        return measurementCache;
+        return EntryDao.getInstance().getMeasurements(this);
     }
 
     public int indexInMeasurementCache(Category category) {
-        if (measurementCache != null) {
-            for (int index = 0; index < measurementCache.size(); index++) {
-                Measurement measurement = measurementCache.get(index);
+        List<Measurement> measurements = getMeasurementCache();
+        if (measurements != null) {
+            for (int index = 0; index < measurements.size(); index++) {
+                Measurement measurement = measurements.get(index);
                 if (measurement.getCategory() == category) {
                     return index;
                 }
@@ -80,7 +65,9 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
     }
 
     public void setMeasurementCache(List<Measurement> measurementCache) {
-        this.measurementCache = measurementCache;
+        for (Measurement measurement : measurementCache) {
+            MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
+        }
     }
 
     @Override

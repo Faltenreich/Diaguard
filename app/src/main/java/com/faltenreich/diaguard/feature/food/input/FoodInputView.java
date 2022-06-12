@@ -164,7 +164,8 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
             calculatedValueLabel.setText(null);
         }
 
-        meal.setFoodEatenCache(foodListAdapter.getItems());
+        // FIXME
+        //  meal.setFoodEatenCache(foodListAdapter.getItems());
     }
 
     @NonNull

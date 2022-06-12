@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.data.repository;
 
-import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenOrmLiteDao;
+import com.faltenreich.diaguard.shared.data.database.Database;
+import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
@@ -20,22 +21,24 @@ public class FoodEatenRepository {
         return instance;
     }
 
-    private final FoodEatenOrmLiteDao dao = FoodEatenOrmLiteDao.getInstance();
+    private final FoodEatenDao dao = Database.getInstance().getDatabase().foodEatenDao();
 
     public FoodEaten createOrUpdate(FoodEaten foodEaten) {
-        return dao.createOrUpdate(foodEaten);
+        long id = dao.createOrUpdate(foodEaten);
+        foodEaten.setId(id);
+        return foodEaten;
     }
 
     public List<FoodEaten> getByMeal(Meal meal) {
-        return dao.getAll(meal);
+        return dao.getByMeal(meal.getId());
     }
 
     public List<FoodEaten> getByFood(Food food) {
-        return dao.getAll(food);
+        return dao.getByFood(food.getId());
     }
 
     public List<FoodEaten> getBetween(Interval interval) {
-        return dao.getAll(interval);
+        return dao.getBetween(interval.getStart(), interval.getEnd());
     }
 
     public List<FoodEaten> getLatest(long count) {
@@ -43,11 +46,9 @@ public class FoodEatenRepository {
     }
 
     public long countByFood(Food food) {
-        return dao.count(food);
+        return dao.countByFood(food.getId());
     }
 
-    // TODO: Replace with CASCADE DELETE via ForeignKey
-    @Deprecated
     public void delete(FoodEaten foodEaten) {
         dao.delete(foodEaten);
     }

@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
+import com.faltenreich.diaguard.shared.data.database.entity.Nutrient;
 import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodSavedEvent;
@@ -111,7 +112,7 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
         getBinding().ingredientsInput.setText(food != null ? food.getIngredients() : null);
 
         NutrientInputLayout nutrientInputLayout = getBinding().nutrientInputLayout;
-        for (Food.Nutrient nutrient : Food.Nutrient.values()) {
+        for (Nutrient nutrient : Nutrient.values()) {
             nutrientInputLayout.addNutrient(nutrient, food != null ? nutrient.getValue(food) : null);
         }
     }
@@ -137,12 +138,12 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
             food.setIngredients(getBinding().ingredientsInput.getText());
 
             // FIXME: 4-digit carbohydrates are stored as 1-digit with 3 decimal places
-            for (Map.Entry<Food.Nutrient, Float> entry : getBinding().nutrientInputLayout.getValues().entrySet()) {
-                Food.Nutrient nutrient = entry.getKey();
+            for (Map.Entry<Nutrient, Float> entry : getBinding().nutrientInputLayout.getValues().entrySet()) {
+                Nutrient nutrient = entry.getKey();
                 Float value = entry.getValue();
 
                 // Auto-fill carbohydrates for user
-                if (nutrient == Food.Nutrient.CARBOHYDRATES && value == null) {
+                if (nutrient == Nutrient.CARBOHYDRATES && value == null) {
                     value = 0f;
                 }
 

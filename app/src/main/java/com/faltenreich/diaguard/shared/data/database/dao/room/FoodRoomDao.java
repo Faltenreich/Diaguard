@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 
 import java.util.List;
 
+// TODO: Check if we should filter by languageCode
 @Dao
 public interface FoodRoomDao extends FoodDao {
 

@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.faltenreich.diaguard.shared.data.database.entity.Food;
+import com.faltenreich.diaguard.shared.data.database.entity.Nutrient;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,12 +31,12 @@ public class NutrientInputLayout extends LinearLayout {
         removeAllViews();
     }
 
-    public void addNutrient(@NonNull Food.Nutrient nutrient, @Nullable Float value) {
+    public void addNutrient(@NonNull Nutrient nutrient, @Nullable Float value) {
         addView(new NutrientInputView(getContext(), nutrient, value));
     }
 
-    public Map<Food.Nutrient, Float> getValues() {
-        Map<Food.Nutrient, Float> values = new HashMap<>();
+    public Map<Nutrient, Float> getValues() {
+        Map<Nutrient, Float> values = new HashMap<>();
         for (int index = 0; index < getChildCount(); index++) {
             View view = getChildAt(index);
             if (view instanceof NutrientInputView) {

@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
+import com.faltenreich.diaguard.shared.data.database.entity.Nutrient;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
@@ -86,7 +87,7 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
     private void invalidateLayout() {
         listAdapter.clear();
 
-        for (Food.Nutrient nutrient : Food.Nutrient.values()) {
+        for (Nutrient nutrient : Nutrient.values()) {
             String label = nutrient.getLabel(getContext());
             Float number = nutrient.getValue(food);
 
@@ -95,7 +96,7 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
                 value = String.format("%s %s",
                     FloatUtils.parseFloat(number),
                     getContext().getString(nutrient.getUnitResId()));
-                if (nutrient == Food.Nutrient.ENERGY) {
+                if (nutrient == Nutrient.ENERGY) {
                     value = String.format("%s %s (%s)",
                         FloatUtils.parseFloat(Helper.parseKcalToKj(number)),
                         getContext().getString(R.string.energy_acronym_2),

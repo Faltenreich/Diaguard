@@ -22,7 +22,6 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -31,6 +30,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.faltenreich.diaguard.shared.data.validation.Validator;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
@@ -328,7 +328,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
             for (FoodEaten foodEaten : foodEatenList) {
                 if (foodEaten.getAmountInGrams() > 0) {
                     foodEaten.setMealId(meal.getId());
-                    FoodEatenDao.getInstance().createOrUpdate(foodEaten);
+                    FoodEatenRepository.getInstance().createOrUpdate(foodEaten);
                 }
             }
         }

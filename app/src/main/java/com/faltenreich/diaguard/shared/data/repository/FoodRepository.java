@@ -18,7 +18,6 @@ import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.Database;
 import com.faltenreich.diaguard.shared.data.database.dao.BaseDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
@@ -119,7 +118,7 @@ public class FoodRepository {
 
                 boolean hasQuery = query != null && query.length() > 0;
                 if (page == 0 && !hasQuery) {
-                    List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getLatest(LATEST_FOOD_EATEN_COUNT);
+                    List<FoodEaten> foodEatenList = FoodEatenRepository.getInstance().getLatest(LATEST_FOOD_EATEN_COUNT);
                     for (FoodEaten foodEaten : foodEatenList) {
                         items.add(new FoodSearchListItem(foodEaten));
                     }

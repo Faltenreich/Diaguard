@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.feature.export.job.pdf.view.MultilineCell;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -26,6 +25,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
+import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Point;
@@ -104,7 +104,7 @@ public class PdfLog implements PdfPrintable {
                     List<String> foodOfDay = new ArrayList<>();
                     Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
                     if (meal != null) {
-                        for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
+                        for (FoodEaten foodEaten : FoodEatenRepository.getInstance().getByMeal(meal)) {
                             String foodNote = foodEaten.print();
                             if (foodNote != null) {
                                 foodOfDay.add(foodNote);

@@ -4,7 +4,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
-import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -13,6 +12,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
+import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class PdfNoteFactory {
         if (config.exportFood()) {
             Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
             if (meal != null) {
-                for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
+                for (FoodEaten foodEaten : FoodEatenRepository.getInstance().getByMeal(meal)) {
                     String foodNote = foodEaten.print();
                     if (foodNote != null) {
                         foodOfDay.add(foodNote);

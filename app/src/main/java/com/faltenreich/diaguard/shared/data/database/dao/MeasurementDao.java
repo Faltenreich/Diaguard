@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
 import com.faltenreich.diaguard.shared.data.database.entity.Pulse;
 import com.faltenreich.diaguard.shared.data.database.entity.Weight;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.DatabaseTableConfig;
 
@@ -69,28 +70,28 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
             Meal meal = (Meal) object;
             for (FoodEaten foodEaten : meal.getFoodEaten()) {
                 meal.getFoodEatenCache().add(foodEaten);
-                FoodEatenDao.getInstance().delete(foodEaten);
+                FoodEatenRepository.getInstance().delete(foodEaten);
             }
         }
         return super.delete(object);
     }
 
     private void createOrUpdate(Meal meal) {
-        for (FoodEaten foodEatenOld : FoodEatenDao.getInstance().getAll(meal)) {
+        for (FoodEaten foodEatenOld : FoodEatenRepository.getInstance().getByMeal(meal)) {
             int indexInCache = meal.getFoodEatenCache().indexOf(foodEatenOld);
             if (indexInCache != -1) {
                 FoodEaten foodEatenNew = meal.getFoodEatenCache().get(indexInCache);
                 if (!foodEatenNew.isValid()) {
-                    FoodEatenDao.getInstance().delete(foodEatenOld);
+                    FoodEatenRepository.getInstance().delete(foodEatenOld);
                 }
             } else {
-                FoodEatenDao.getInstance().delete(foodEatenOld);
+                FoodEatenRepository.getInstance().delete(foodEatenOld);
             }
         }
         for (FoodEaten foodEaten : meal.getFoodEatenCache()) {
             if (foodEaten.isValid()) {
                 foodEaten.setMealId(meal.getId());
-                FoodEatenDao.getInstance().createOrUpdate(foodEaten);
+                FoodEatenRepository.getInstance().createOrUpdate(foodEaten);
             }
         }
     }
@@ -148,7 +149,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
                 Meal meal = new Meal();
                 float avg = function(SqlFunction.SUM, Meal.Column.CARBOHYDRATES, interval) / daysBetween;
                 float foodEatenSum = 0;
-                List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(interval);
+                List<FoodEaten> foodEatenList = FoodEatenRepository.getInstance().getBetween(interval);
                 for (FoodEaten foodEaten : foodEatenList) {
                     foodEatenSum += foodEaten.getCarbohydrates();
                 }

@@ -14,10 +14,10 @@ import com.faltenreich.diaguard.databinding.FragmentFoodHistoryBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
+import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
@@ -89,7 +89,7 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
 
     private void invalidateLayout() {
         historyAdapter.clear();
-        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
+        List<FoodEaten> foodEatenList = FoodEatenRepository.getInstance().getByFood(food);
         historyAdapter.addItems(foodEatenList);
         historyAdapter.notifyDataSetChanged();
         getBinding().placeholderLabel.setVisibility(foodEatenList.size() == 0 ? View.VISIBLE : View.GONE);

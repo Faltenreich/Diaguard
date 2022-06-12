@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.feature.export.job.date.OriginDateStrategy;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.DatabaseVersion;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -28,6 +27,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryD
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
+import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
 import com.opencsv.CSVReader;
@@ -289,7 +289,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                             foodEaten.setMealId(lastMeal.getId());
                             foodEaten.setFoodId(food.getId());
                             foodEaten.setAmountInGrams(FloatUtils.parseNumber(nextLine[2]));
-                            FoodEatenDao.getInstance().createOrUpdate(foodEaten);
+                            FoodEatenRepository.getInstance().createOrUpdate(foodEaten);
                         }
                     }
                     break;

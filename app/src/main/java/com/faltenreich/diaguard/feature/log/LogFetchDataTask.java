@@ -7,13 +7,13 @@ import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.feature.log.month.LogMonthListItem;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
+import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.EndlessAdapter;
 
 import org.joda.time.DateTime;
@@ -72,7 +72,7 @@ class LogFetchDataTask extends AsyncTask<Void, Integer, List<LogListItem>> {
                     List<FoodEaten> foodEaten = new ArrayList<>();
                     for (Measurement measurement : entry.getMeasurementCache()) {
                         if (measurement instanceof Meal) {
-                            foodEaten.addAll(FoodEatenDao.getInstance().getAll((Meal) measurement));
+                            foodEaten.addAll(FoodEatenRepository.getInstance().getByMeal((Meal) measurement));
                         }
                     }
                     LogEntryListItem listItemEntry = new LogEntryListItem(entry, entryTags, foodEaten);

@@ -18,20 +18,20 @@ import java.util.List;
  * Created by Faltenreich on 23.09.2016.
  */
 
-public class FoodEatenDao extends BaseDao<FoodEaten> {
+public class FoodEatenOrmLiteDao extends BaseDao<FoodEaten> {
 
-    private static final String TAG = FoodEatenDao.class.getSimpleName();
+    private static final String TAG = FoodEatenOrmLiteDao.class.getSimpleName();
 
-    private static FoodEatenDao instance;
+    private static FoodEatenOrmLiteDao instance;
 
-    public static FoodEatenDao getInstance() {
+    public static FoodEatenOrmLiteDao getInstance() {
         if (instance == null) {
-            instance = new FoodEatenDao();
+            instance = new FoodEatenOrmLiteDao();
         }
         return instance;
     }
 
-    private FoodEatenDao() {
+    private FoodEatenOrmLiteDao() {
         super(FoodEaten.class);
     }
 

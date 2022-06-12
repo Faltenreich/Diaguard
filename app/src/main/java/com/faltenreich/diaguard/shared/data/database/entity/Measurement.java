@@ -55,7 +55,7 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
             }
         }
         if (getCategory() == Category.MEAL) {
-            return !((Meal) this).getFoodEatenCache().isEmpty();
+            return !((Meal) this).getFoodEaten().isEmpty();
         }
         return false;
     }

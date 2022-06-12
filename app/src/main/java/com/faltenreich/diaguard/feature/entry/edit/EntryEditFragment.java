@@ -29,6 +29,8 @@ import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.category.CategoryListFragment;
 import com.faltenreich.diaguard.feature.datetime.DatePicker;
 import com.faltenreich.diaguard.feature.datetime.TimePicker;
+import com.faltenreich.diaguard.feature.entry.edit.input.MealInputView;
+import com.faltenreich.diaguard.feature.entry.edit.input.MeasurementInputView;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.navigation.FabDescribing;
@@ -46,7 +48,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
-import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
@@ -556,10 +557,11 @@ public class EntryEditFragment
             View view = measurementContainer.getChildAt(index);
             if (view instanceof MeasurementView) {
                 MeasurementView<?> measurementView = ((MeasurementView<?>) view);
-                Measurement measurement = measurementView.getMeasurement();
-                if (measurement instanceof Meal) {
+                MeasurementInputView<?, ?> inputView = measurementView.getInputView();
+                if (inputView instanceof MealInputView) {
                     List<FoodEaten> foodEatenList = new ArrayList<>();
-                    for (FoodEaten foodEaten : ((Meal) measurement).getFoodEatenCache()) {
+                    MealInputView mealInputView = (MealInputView) inputView;
+                    for (FoodEaten foodEaten : mealInputView.getFoodEatenList()) {
                         if (foodEaten.isValid()) {
                             foodEatenList.add(foodEaten);
                         }

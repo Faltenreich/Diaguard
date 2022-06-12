@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 
 import com.faltenreich.diaguard.databinding.ListItemMeasurementMealBinding;
 import com.faltenreich.diaguard.feature.food.input.FoodInputView;
+import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
+
+import java.util.List;
 
 /**
  * Created by Faltenreich on 20.09.2015.
@@ -40,5 +43,9 @@ public class MealInputView extends MeasurementInputView<ListItemMeasurementMealB
     @Override
     public Meal getMeasurement() {
         return foodInputView.getMeal();
+    }
+
+    public List<FoodEaten> getFoodEatenList() {
+        return foodInputView.getFoodEatenList();
     }
 }

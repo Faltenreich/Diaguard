@@ -178,7 +178,6 @@ public class EntryEditViewModel {
                 foodEaten.setMealId(meal.getId());
                 foodEaten.setFoodId(food.getId());
                 foodEaten.setAmountInGrams(0);
-                meal.getFoodEatenCache().add(foodEaten);
 
                 callback.accept(entry);
             }

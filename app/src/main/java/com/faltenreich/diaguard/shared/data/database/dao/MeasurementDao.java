@@ -55,47 +55,6 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         super(clazz);
     }
 
-    @Override
-    public M createOrUpdate(M object) {
-        M entity = super.createOrUpdate(object);
-        if (entity.getCategory() == Category.MEAL) {
-            createOrUpdate((Meal) entity);
-        }
-        return entity;
-    }
-
-    @Override
-    public int delete(M object) {
-        if (object.getCategory() == Category.MEAL) {
-            Meal meal = (Meal) object;
-            for (FoodEaten foodEaten : meal.getFoodEaten()) {
-                meal.getFoodEatenCache().add(foodEaten);
-                FoodEatenRepository.getInstance().delete(foodEaten);
-            }
-        }
-        return super.delete(object);
-    }
-
-    private void createOrUpdate(Meal meal) {
-        for (FoodEaten foodEatenOld : FoodEatenRepository.getInstance().getByMeal(meal)) {
-            int indexInCache = meal.getFoodEatenCache().indexOf(foodEatenOld);
-            if (indexInCache != -1) {
-                FoodEaten foodEatenNew = meal.getFoodEatenCache().get(indexInCache);
-                if (!foodEatenNew.isValid()) {
-                    FoodEatenRepository.getInstance().delete(foodEatenOld);
-                }
-            } else {
-                FoodEatenRepository.getInstance().delete(foodEatenOld);
-            }
-        }
-        for (FoodEaten foodEaten : meal.getFoodEatenCache()) {
-            if (foodEaten.isValid()) {
-                foodEaten.setMealId(meal.getId());
-                FoodEatenRepository.getInstance().createOrUpdate(foodEaten);
-            }
-        }
-    }
-
     public float function(SqlFunction sqlFunction, String column, Interval interval) {
         String classNameEntry = DatabaseTableConfig.extractTableName(null, Entry.class);
         String classNameMeasurement = DatabaseTableConfig.extractTableName(null, getClazz());

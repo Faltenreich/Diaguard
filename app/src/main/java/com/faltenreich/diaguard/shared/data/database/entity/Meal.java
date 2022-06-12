@@ -59,10 +59,6 @@ public class Meal extends Measurement {
         }
     }
 
-    public List<FoodEaten> getFoodEatenCache() {
-        return getFoodEaten();
-    }
-
     @NonNull
     @Override
     public String toString() {

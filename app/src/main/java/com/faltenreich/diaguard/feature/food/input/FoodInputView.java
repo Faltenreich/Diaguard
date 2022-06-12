@@ -26,6 +26,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenUpdatedEvent;
@@ -163,9 +164,6 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
             calculatedValueLabel.setVisibility(GONE);
             calculatedValueLabel.setText(null);
         }
-
-        // FIXME
-        //  meal.setFoodEatenCache(foodListAdapter.getItems());
     }
 
     @NonNull
@@ -176,12 +174,8 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     public void setMeal(Meal meal) {
         this.meal = meal;
         this.inputValueInputField.setText(meal.getValuesForUI()[0]);
-        // FIXME: Previously cached but removed food eaten gets added obsoletely
-        if (meal.getFoodEatenCache().isEmpty()) {
-            addItems(meal.getFoodEaten());
-        } else {
-            addItems(meal.getFoodEatenCache());
-        }
+        List<FoodEaten> foodEatenList = FoodEatenRepository.getInstance().getByMeal(meal);
+        addItems(foodEatenList);
     }
 
     public boolean isValid() {

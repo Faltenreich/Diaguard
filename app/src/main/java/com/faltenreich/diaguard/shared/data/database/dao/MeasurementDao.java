@@ -89,7 +89,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         }
         for (FoodEaten foodEaten : meal.getFoodEatenCache()) {
             if (foodEaten.isValid()) {
-                foodEaten.setMeal(meal);
+                foodEaten.setMealId(meal.getId());
                 FoodEatenDao.getInstance().createOrUpdate(foodEaten);
             }
         }

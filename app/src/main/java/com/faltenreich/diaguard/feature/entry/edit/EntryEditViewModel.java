@@ -175,8 +175,8 @@ public class EntryEditViewModel {
                 entry.getMeasurementCache().add(meal);
 
                 FoodEaten foodEaten = new FoodEaten();
-                foodEaten.setMeal(meal);
-                foodEaten.setFood(food);
+                foodEaten.setMealId(meal.getId());
+                foodEaten.setFoodId(food.getId());
                 foodEaten.setAmountInGrams(0);
                 meal.getFoodEatenCache().add(foodEaten);
 

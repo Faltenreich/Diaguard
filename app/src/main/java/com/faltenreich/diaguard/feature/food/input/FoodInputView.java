@@ -211,8 +211,8 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     private void addItem(Food food) {
         if (food != null) {
             FoodEaten foodEaten = new FoodEaten();
-            foodEaten.setFood(food);
-            foodEaten.setMeal(meal);
+            foodEaten.setFoodId(food.getId());
+            foodEaten.setMealId(meal.getId());
             addItem(foodEaten);
         }
     }

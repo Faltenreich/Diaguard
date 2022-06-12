@@ -6,6 +6,7 @@ import androidx.room.ForeignKey;
 
 import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.shared.data.database.Database;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 
 @Entity(
     foreignKeys = {
@@ -52,8 +53,7 @@ public class EntryTag extends BaseEntity implements Backupable {
 
     @Deprecated
     public Entry getEntry() {
-        throw new UnsupportedOperationException();
-        // return Database.getInstance().getDatabase().entryDao().getById(entryId);
+        return EntryDao.getInstance().getById(entryId);
     }
 
     public long getTagId() {
@@ -76,7 +76,7 @@ public class EntryTag extends BaseEntity implements Backupable {
 
     @Override
     public String[] getValuesForBackup() {
-        throw new UnsupportedOperationException();
-        // return new String[]{tag.getName()};
+        Tag tag = getTag();
+        return new String[]{tag.getName()};
     }
 }

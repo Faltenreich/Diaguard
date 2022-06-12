@@ -286,8 +286,8 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                         Food food = FoodRepository.getInstance().getByName(nextLine[1]);
                         if (food != null) {
                             FoodEaten foodEaten = new FoodEaten();
-                            foodEaten.setMeal(lastMeal);
-                            foodEaten.setFood(food);
+                            foodEaten.setMealId(lastMeal.getId());
+                            foodEaten.setFoodId(food.getId());
                             foodEaten.setAmountInGrams(FloatUtils.parseNumber(nextLine[2]));
                             FoodEatenDao.getInstance().createOrUpdate(foodEaten);
                         }

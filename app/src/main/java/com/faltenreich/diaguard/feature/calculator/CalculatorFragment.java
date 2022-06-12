@@ -327,7 +327,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
 
             for (FoodEaten foodEaten : foodEatenList) {
                 if (foodEaten.getAmountInGrams() > 0) {
-                    foodEaten.setMeal(meal);
+                    foodEaten.setMealId(meal.getId());
                     FoodEatenDao.getInstance().createOrUpdate(foodEaten);
                 }
             }

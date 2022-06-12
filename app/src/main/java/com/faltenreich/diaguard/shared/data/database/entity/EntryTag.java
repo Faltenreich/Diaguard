@@ -2,11 +2,29 @@ package com.faltenreich.diaguard.shared.data.database.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 
 import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.shared.data.database.Database;
 
-@Entity
+@Entity(
+    foreignKeys = {
+        /*
+        @ForeignKey(
+            entity = Entry.class,
+            parentColumns = {BaseEntity.Column.ID},
+            childColumns = {EntryTag.Column.ENTRY_ID},
+            onDelete = ForeignKey.CASCADE
+        ),
+         */
+        @ForeignKey(
+            entity = Tag.class,
+            parentColumns = {BaseEntity.Column.ID},
+            childColumns = {EntryTag.Column.TAG_ID},
+            onDelete = ForeignKey.CASCADE
+        )
+    }
+)
 public class EntryTag extends BaseEntity implements Backupable {
 
     public static final String BACKUP_KEY = "entryTag";

@@ -40,7 +40,7 @@ public class EntryEditMeasurementPressureDiastolicTest {
             .perform(ViewActions.replaceText("100"));
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .perform(ViewActions.replaceText("9"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab_menu))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_secondary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
@@ -52,7 +52,7 @@ public class EntryEditMeasurementPressureDiastolicTest {
             .perform(ViewActions.replaceText("100"));
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .perform(ViewActions.replaceText("301"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab_menu))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_secondary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
@@ -62,7 +62,7 @@ public class EntryEditMeasurementPressureDiastolicTest {
     public void confirmingOnlyValue_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .perform(ViewActions.replaceText("100"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab_menu))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_secondary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));

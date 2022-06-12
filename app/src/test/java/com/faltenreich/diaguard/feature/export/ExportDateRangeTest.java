@@ -10,7 +10,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
-import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 
@@ -40,89 +39,83 @@ public class ExportDateRangeTest {
     public void pickingDateRangeForToday_shouldApplyToForm() {
         DateTime expectedStart = DateTime.now();
         DateTime expectedEnd = DateTime.now();
+        String expectedLabel = String.format("%s - %s", expectedStart, expectedEnd);
 
         Espresso.onView(ViewMatchers.withText(R.string.today))
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
+            .check(ViewAssertions.matches(ViewMatchers.withText(expectedLabel)));
     }
 
     @Test
     public void pickingDateRangeForCurrentWeek_shouldApplyToForm() {
         DateTime expectedStart = DateTime.now().withDayOfWeek(1);
         DateTime expectedEnd = DateTime.now();
+        String expectedLabel = String.format("%s - %s", expectedStart, expectedEnd);
 
         Espresso.onView(ViewMatchers.withText(R.string.week_current))
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
+            .check(ViewAssertions.matches(ViewMatchers.withText(expectedLabel)));
     }
 
     @Test
     public void pickingDateRangeForLastTwoWeeks_shouldApplyToForm() {
         DateTime expectedStart = DateTime.now().withDayOfWeek(1).minusWeeks(1);
         DateTime expectedEnd = DateTime.now();
+        String expectedLabel = String.format("%s - %s", expectedStart, expectedEnd);
 
         Espresso.onView(ViewMatchers.withText(R.string.weeks_two))
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
+            .check(ViewAssertions.matches(ViewMatchers.withText(expectedLabel)));
     }
 
     @Test
     public void pickingDateRangeForLastFourWeeks_shouldApplyToForm() {
         DateTime expectedStart = DateTime.now().withDayOfWeek(1).minusWeeks(3);
         DateTime expectedEnd = DateTime.now();
+        String expectedLabel = String.format("%s - %s", expectedStart, expectedEnd);
 
         Espresso.onView(ViewMatchers.withText(R.string.weeks_four))
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
+            .check(ViewAssertions.matches(ViewMatchers.withText(expectedLabel)));
     }
 
     @Test
     public void pickingDateRangeForCurrentMonth_shouldApplyToForm() {
         DateTime expectedStart = DateTime.now().withDayOfMonth(1);
         DateTime expectedEnd = DateTime.now();
+        String expectedLabel = String.format("%s - %s", expectedStart, expectedEnd);
 
         Espresso.onView(ViewMatchers.withText(R.string.month_current))
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
+            .check(ViewAssertions.matches(ViewMatchers.withText(expectedLabel)));
     }
 
     @Test
     public void pickingDateRangeForCurrentQuarter_shouldApplyToForm() {
         DateTime expectedStart = DateTimeUtils.withStartOfQuarter(DateTime.now());
         DateTime expectedEnd = DateTime.now();
+        String expectedLabel = String.format("%s - %s", expectedStart, expectedEnd);
 
         Espresso.onView(ViewMatchers.withText(R.string.quarter_current))
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
+            .check(ViewAssertions.matches(ViewMatchers.withText(expectedLabel)));
     }
 }

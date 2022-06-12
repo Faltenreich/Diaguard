@@ -38,7 +38,7 @@ public class EntryEditMeasurementInsulinCorrectionTest {
     public void confirmingValueBelowMinimum_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withHint(R.string.correction))
             .perform(ViewActions.replaceText("0"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab_menu))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_secondary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.correction))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
@@ -48,7 +48,7 @@ public class EntryEditMeasurementInsulinCorrectionTest {
     public void confirmingValueAboveMaximum_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withHint(R.string.correction))
             .perform(ViewActions.replaceText("101"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab_menu))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_secondary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.correction))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
@@ -58,7 +58,7 @@ public class EntryEditMeasurementInsulinCorrectionTest {
     public void confirmingValidBolus_shouldSucceed() {
         Espresso.onView(ViewMatchers.withHint(R.string.correction))
             .perform(ViewActions.replaceText("10"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab_menu))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_secondary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.correction))
             .check(ViewAssertions.matches(EditTextMatcher.hasNoErrorText()));

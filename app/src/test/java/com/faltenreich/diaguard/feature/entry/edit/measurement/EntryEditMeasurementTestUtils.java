@@ -24,7 +24,7 @@ public class EntryEditMeasurementTestUtils {
 
     public static void openFloatingMenuForCategories() {
         Espresso.onView(AllOf.allOf(
-            ViewMatchers.withParent(ViewMatchers.withId(R.id.fab_menu)),
+            ViewMatchers.withParent(ViewMatchers.withId(R.id.fab_secondary)),
             ViewMatchers.withClassName(CoreMatchers.endsWith("ImageView")),
             ViewMatchers.isDisplayed())
         ).perform(ViewActions.click());

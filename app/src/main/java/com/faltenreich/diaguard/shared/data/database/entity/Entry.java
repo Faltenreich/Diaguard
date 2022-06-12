@@ -7,8 +7,8 @@ import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.feature.export.Exportable;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -48,7 +48,7 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
     }
 
     public List<Measurement> getMeasurementCache() {
-        return EntryDao.getInstance().getMeasurements(this);
+        return EntryRepository.getInstance().getMeasurements(this);
     }
 
     public int indexInMeasurementCache(Category category) {

@@ -9,9 +9,9 @@ import android.os.Build;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
@@ -75,7 +75,7 @@ public class AlarmUtils {
 
     private static String getMessageForMeasurement() {
         Context context = DiaguardApplication.getContext();
-        Entry lastMeasurement = EntryDao.getInstance().getLatestWithMeasurement(BloodSugar.class);
+        Entry lastMeasurement = EntryRepository.getInstance().getLatestWithMeasurement(BloodSugar.class);
         String message = context.getString(R.string.alarm_desc_first);
         if (lastMeasurement != null) {
             // Calculate how long the last measurement has been ago

@@ -9,7 +9,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.dao.SqlFunction;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
@@ -18,9 +17,12 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.HbA1c;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+
+import java.util.List;
 
 class HbA1cDashboardValue implements DashboardValue {
     
@@ -58,7 +60,7 @@ class HbA1cDashboardValue implements DashboardValue {
     
     @Nullable
     private Entry getLatestEntryWithHbA1c() {
-        Entry entry = EntryDao.getInstance().getLatestWithMeasurement(HbA1c.class);
+        Entry entry = EntryRepository.getInstance().getLatestWithMeasurement(HbA1c.class);
         // Return entry if younger than one month
         boolean isUpToDate = entry != null && entry.getDate().isAfter(DateTime.now().minusMonths(1));
         return isUpToDate ? entry : null;
@@ -68,7 +70,8 @@ class HbA1cDashboardValue implements DashboardValue {
     private Float forUserGeneratedHbA1c() {
         Entry latestHbA1cEntry = getLatestEntryWithHbA1c();
         if (latestHbA1cEntry != null) {
-            latestHbA1cEntry.setMeasurementCache(EntryDao.getInstance().getMeasurements(latestHbA1cEntry));
+            List<Measurement> measurements = EntryRepository.getInstance().getMeasurements(latestHbA1cEntry);
+            latestHbA1cEntry.setMeasurementCache(measurements);
             for (Measurement measurement : latestHbA1cEntry.getMeasurementCache()) {
                 if (measurement instanceof HbA1c) {
                     this.entry = latestHbA1cEntry;

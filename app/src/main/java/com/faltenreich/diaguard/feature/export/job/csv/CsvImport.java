@@ -13,7 +13,6 @@ import com.faltenreich.diaguard.feature.export.job.date.DateStrategy;
 import com.faltenreich.diaguard.feature.export.job.date.OriginDateStrategy;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.DatabaseVersion;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -100,7 +99,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
             entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
             String note = nextLine[2];
             entry.setNote(note != null && note.length() > 0 ? note : null);
-            EntryDao.getInstance().createOrUpdate(entry);
+            EntryRepository.getInstance().createOrUpdate(entry);
             try {
                 CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
                 Category category = categoryDeprecated.toUpdate();

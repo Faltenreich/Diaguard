@@ -25,13 +25,13 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
@@ -178,9 +178,9 @@ public class EntrySearchFragment
             @Override
             public List<LogEntryListItem> onShouldLoad(Context context) {
                 List<LogEntryListItem> listItems = new ArrayList<>();
-                List<Entry> entries = EntryDao.getInstance().search(query, currentPage, PAGE_SIZE);
+                List<Entry> entries = EntryRepository.getInstance().search(query, currentPage, PAGE_SIZE);
                 for (Entry entry : entries) {
-                    List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                    List<Measurement> measurements = EntryRepository.getInstance().getMeasurements(entry);
                     entry.setMeasurementCache(measurements);
                     List<EntryTag> entryTags = EntryTagRepository.getInstance().getByEntry(entry);
                     List<FoodEaten> foodEatenList = new ArrayList<>();

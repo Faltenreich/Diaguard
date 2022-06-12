@@ -21,7 +21,6 @@ import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -30,6 +29,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.faltenreich.diaguard.shared.data.validation.Validator;
 import com.faltenreich.diaguard.shared.event.Events;
@@ -310,7 +310,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
         DateTime now = DateTime.now();
         Entry entry = new Entry();
         entry.setDate(now);
-        EntryDao.getInstance().createOrUpdate(entry);
+        EntryRepository.getInstance().createOrUpdate(entry);
 
         BloodSugar bloodSugar = new BloodSugar();
         bloodSugar.setMgDl(mgDl);

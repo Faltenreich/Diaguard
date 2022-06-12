@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -21,6 +20,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.Consumer;
 import com.faltenreich.diaguard.shared.data.reflect.ObjectFactory;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
@@ -145,9 +145,8 @@ public class EntryEditViewModel {
         DataLoader.getInstance().load(context, new DataLoaderListener<Entry>() {
             @Override
             public Entry onShouldLoad(Context context) {
-                EntryDao dao = EntryDao.getInstance();
-                Entry entry = dao.getById(entryId);
-                entry.setMeasurementCache(dao.getMeasurements(entry));
+                Entry entry = EntryRepository.getInstance().getById(entryId);
+                entry.setMeasurementCache(EntryRepository.getInstance().getMeasurements(entry));
                 return entry;
             }
             @Override

@@ -13,12 +13,12 @@ import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedBox;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
@@ -77,7 +77,7 @@ public class PdfTimeline implements PdfPrintable {
 
         for (Entry entry : entriesOfDay) {
             if (showChartForBloodSugar) {
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                List<Measurement> measurements = EntryRepository.getInstance().getMeasurements(entry);
                 for (Measurement measurement : measurements) {
                     if (measurement instanceof BloodSugar) {
                         bloodSugars.add((BloodSugar) measurement);
@@ -97,7 +97,7 @@ public class PdfTimeline implements PdfPrintable {
                 categories.add(category);
             }
         }
-        measurements = EntryDao.getInstance().getAverageDataTable(
+        measurements = EntryRepository.getInstance().getAverageDataTable(
             cache.getDateTime(),
             categories.toArray(new Category[0]),
             HOUR_INTERVAL

@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.shared.data.database.importing;
 
 import android.util.Log;
 
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 
 import org.joda.time.DateTime;
 
@@ -25,7 +25,7 @@ class TestDataImport implements Importing {
             DateTime dateTime = DateTime.now().minusHours(count);
             Entry entry = new Entry();
             entry.setDate(dateTime);
-            EntryDao.getInstance().createOrUpdate(entry);
+            EntryRepository.getInstance().createOrUpdate(entry);
 
             BloodSugar bloodSugar = new BloodSugar();
             bloodSugar.setMgDl(120);

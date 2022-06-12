@@ -27,11 +27,11 @@ import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.statistic.MeasurementAverageTask;
 import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
@@ -138,7 +138,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     }
 
     private void updateContent() {
-        latestEntry = EntryDao.getInstance().getLatestWithMeasurement(BloodSugar.class);
+        latestEntry = EntryRepository.getInstance().getLatestWithMeasurement(BloodSugar.class);
         updateReminder();
         updateLatest();
         updateDashboard();

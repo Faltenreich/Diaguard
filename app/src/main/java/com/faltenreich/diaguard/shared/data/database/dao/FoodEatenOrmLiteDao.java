@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import org.joda.time.Interval;
@@ -86,7 +87,7 @@ public class FoodEatenOrmLiteDao extends BaseDao<FoodEaten> {
 
     public List<FoodEaten> getAll(Interval interval) {
         try {
-            QueryBuilder<Entry, Long> queryBuilderEntry = EntryDao.getInstance().getQueryBuilder();
+            QueryBuilder<Entry, Long> queryBuilderEntry = EntryRepository.getInstance().getQueryBuilder();
             queryBuilderEntry
                 .where().ge(Entry.Column.DATE, interval.getStart())
                 .and().le(Entry.Column.DATE, interval.getEnd());

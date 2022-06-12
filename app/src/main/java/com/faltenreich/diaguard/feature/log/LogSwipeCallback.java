@@ -3,11 +3,11 @@ package com.faltenreich.diaguard.feature.log;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
+import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
-import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.BaseAdapter;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
@@ -39,7 +39,7 @@ class LogSwipeCallback extends ItemTouchHelper.Callback {
         if (item instanceof LogEntryListItem) {
             LogEntryListItem listItem = (LogEntryListItem) item;
             Entry entry = listItem.getEntry();
-            EntryDao.getInstance().delete(entry);
+            EntryRepository.getInstance().delete(entry);
             Events.post(new EntryDeletedEvent(entry, listItem.getEntryTags(), listItem.getFoodEatenList()));
         }
     }

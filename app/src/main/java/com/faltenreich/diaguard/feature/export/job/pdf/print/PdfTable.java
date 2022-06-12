@@ -4,11 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.shared.data.database.entity.Entry;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
@@ -17,7 +12,12 @@ import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNoteFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.shared.data.database.entity.Entry;
+import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
@@ -82,7 +82,7 @@ public class PdfTable implements PdfPrintable {
         }
         data.add(cells);
 
-        LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(cache.getDateTime(), config.getCategories(), HOURS_TO_SKIP);
+        LinkedHashMap<Category, CategoryValueListItem[]> values = EntryRepository.getInstance().getAverageDataTable(cache.getDateTime(), config.getCategories(), HOURS_TO_SKIP);
         int rowIndex = 0;
         for (Category category : values.keySet()) {
             CategoryValueListItem[] items = values.get(category);

@@ -6,12 +6,12 @@ import android.os.AsyncTask;
 import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.feature.log.month.LogMonthListItem;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.EndlessAdapter;
@@ -57,9 +57,9 @@ class LogFetchDataTask extends AsyncTask<Void, Integer, List<LogListItem>> {
         boolean loadMore = true;
 
         while (loadMore) {
-            List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(date);
+            List<Entry> entries = EntryRepository.getInstance().getByDay(date);
             for (Entry entry : entries) {
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                List<Measurement> measurements = EntryRepository.getInstance().getMeasurements(entry);
                 entry.setMeasurementCache(measurements);
             }
 

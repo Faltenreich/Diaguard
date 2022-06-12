@@ -18,11 +18,11 @@ import com.faltenreich.diaguard.feature.datetime.TimeSpan;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
@@ -192,15 +192,15 @@ public class StatisticFragment extends BaseFragment<FragmentStatisticBinding> im
 
         getBinding().averageValueLabel.setText(avgMeasurement.toString());
 
-        long count = EntryDao.getInstance().count(category, interval.getStart(), interval.getEnd());
+        long count = EntryRepository.getInstance().countBetween(interval, category);
         float avgCountPerDay = (float) count / (float) days;
         getBinding().measurementCountAverageLabel.setText(FloatUtils.parseFloat(avgCountPerDay));
 
         if (category == Category.BLOODSUGAR) {
             getBinding().hypergylcemiaCountAverageLayout.setVisibility(View.VISIBLE);
             getBinding().hypogylcemiaCountAverageLayout.setVisibility(View.VISIBLE);
-            long hyperCount = EntryDao.getInstance().countAbove(interval.getStart(), interval.getEnd(), PreferenceStore.getInstance().getLimitHyperglycemia());
-            long hypoCount = EntryDao.getInstance().countBelow(interval.getStart(), interval.getEnd(), PreferenceStore.getInstance().getLimitHypoglycemia());
+            long hyperCount = EntryRepository.getInstance().countAbove(interval, PreferenceStore.getInstance().getLimitHyperglycemia());
+            long hypoCount = EntryRepository.getInstance().countBelow(interval, PreferenceStore.getInstance().getLimitHypoglycemia());
             float avgHypersPerDay = (float) hyperCount / (float) days;
             float avgHyposPerDay = (float) hypoCount / (float) days;
             getBinding().hypergylcemiaCountAverageLabel.setText(FloatUtils.parseFloat(avgHypersPerDay));

@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
 import com.faltenreich.diaguard.shared.data.database.DatabaseHelper;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -17,6 +16,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.data.repository.TagRepository;
@@ -24,6 +24,7 @@ import com.opencsv.CSVWriter;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -78,8 +79,8 @@ public class CsvExport extends AsyncTask<Void, String, File> {
             }
 
             List<Entry> entries = dateStart != null && dateEnd != null ?
-                EntryDao.getInstance().getEntriesBetween(dateStart, dateEnd) :
-                EntryDao.getInstance().getAll();
+                EntryRepository.getInstance().getBetween(new Interval(dateStart, dateEnd)) :
+                EntryRepository.getInstance().getAll();
             int position = 0;
             for (Entry entry : entries) {
                 publishProgress(String.format(Locale.getDefault(), "%s %d/%d",
@@ -94,8 +95,8 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 );
 
                 List<Measurement> measurements = categories != null ?
-                    EntryDao.getInstance().getMeasurements(entry, categories) :
-                    EntryDao.getInstance().getMeasurements(entry);
+                    EntryRepository.getInstance().getMeasurements(entry, categories) :
+                    EntryRepository.getInstance().getMeasurements(entry);
                 for (Measurement measurement : measurements) {
                     writer.writeNext(isBackup
                         ? ArrayUtils.add(measurement.getValuesForBackup(), 0, measurement.getKeyForBackup())

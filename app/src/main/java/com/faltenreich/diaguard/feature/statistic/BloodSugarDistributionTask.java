@@ -5,11 +5,11 @@ import android.content.Context;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.view.chart.PercentValueFormatter;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.async.BaseAsyncTask;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
+import com.faltenreich.diaguard.shared.view.chart.PercentValueFormatter;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -41,9 +41,9 @@ public class BloodSugarDistributionTask extends BaseAsyncTask<Void, Void, PieDat
         float limitHyper = PreferenceStore.getInstance().getLimitHyperglycemia();
 
         Interval interval = timeSpan.getInterval(DateTime.now(), -1);
-        long targetCount = EntryDao.getInstance().countBetween(interval.getStart(), interval.getEnd(), limitHypo,  limitHyper);
-        long hypoCount = EntryDao.getInstance().countBelow(interval.getStart(), interval.getEnd(), limitHypo);
-        long hyperCount = EntryDao.getInstance().countAbove(interval.getStart(), interval.getEnd(), limitHyper);
+        long targetCount = EntryRepository.getInstance().countBetween(interval, limitHypo,  limitHyper);
+        long hypoCount = EntryRepository.getInstance().countBelow(interval, limitHypo);
+        long hyperCount = EntryRepository.getInstance().countAbove(interval, limitHyper);
 
         List<Integer> colors = new ArrayList<>();
 

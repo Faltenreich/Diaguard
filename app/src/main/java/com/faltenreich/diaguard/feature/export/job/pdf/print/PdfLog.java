@@ -13,7 +13,6 @@ import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.MultilineCell;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -24,6 +23,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.pdfjet.Cell;
@@ -75,7 +75,7 @@ public class PdfLog implements PdfPrintable {
         data.add(headerRow);
 
         for (Entry entry : entriesOfDay) {
-            List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
+            List<Measurement> measurements = EntryRepository.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
             entry.setMeasurementCache(measurements);
         }
 

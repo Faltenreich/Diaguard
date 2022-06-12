@@ -4,9 +4,10 @@ import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 public class PdfPageFactory {
 
@@ -14,7 +15,8 @@ public class PdfPageFactory {
     public static PdfPage createPage(PdfExportCache cache) throws Exception {
         DateTime weekStart = DateTimeUtils.atStartOfWeek(cache.getDateTime());
         DateTime weekEnd = DateTimeUtils.atEndOfWeek(weekStart);
-        boolean weekHasEntries = EntryDao.getInstance().count(weekStart, weekEnd) > 0;
+        Interval interval = new Interval(weekStart, weekEnd);
+        boolean weekHasEntries = EntryRepository.getInstance().countBetween(interval) > 0;
         boolean exportWeek = weekHasEntries || !cache.getConfig().skipEmptyDays();
         return exportWeek ? new PdfPage(cache) : null;
     }

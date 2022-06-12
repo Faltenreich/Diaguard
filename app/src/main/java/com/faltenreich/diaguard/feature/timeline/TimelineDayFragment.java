@@ -26,10 +26,10 @@ import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryValueViewHolder;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.GridDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
@@ -135,11 +135,11 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
                 @Override
                 public DayChartData onShouldLoad(Context context) {
                     List<Measurement> values = new ArrayList<>();
-                    List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(data.getDay());
+                    List<Entry> entries = EntryRepository.getInstance().getByDay(data.getDay());
                     if (entries != null && entries.size() > 0) {
                         for (Entry entry : entries) {
                             // TODO: Improve performance by using transaction / bulk fetch
-                            List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, new Category[] { Category.BLOODSUGAR });
+                            List<Measurement> measurements = EntryRepository.getInstance().getMeasurements(entry, new Category[] { Category.BLOODSUGAR });
                             values.addAll(measurements);
                         }
                     }
@@ -167,7 +167,12 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
                 @Override
                 public List<CategoryValueListItem> onShouldLoad(Context context) {
                     List<CategoryValueListItem> listItems = new ArrayList<>();
-                    LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(data.getDay(), categories, SKIP_EVERY_X_HOUR);
+                    LinkedHashMap<Category, CategoryValueListItem[]> values =
+                        EntryRepository.getInstance().getAverageDataTable(
+                            data.getDay(),
+                            categories,
+                            SKIP_EVERY_X_HOUR
+                        );
                     for (Map.Entry<Category, CategoryValueListItem[]> mapEntry : values.entrySet()) {
                         Collections.addAll(listItems, mapEntry.getValue());
                     }

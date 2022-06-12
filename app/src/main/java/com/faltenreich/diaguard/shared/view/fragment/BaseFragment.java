@@ -22,11 +22,11 @@ import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarManager;
 import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.EntryTagRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
@@ -155,7 +155,7 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
         }
         ViewUtils.showSnackbar(getView(), getString(R.string.entry_deleted), v -> {
             Entry entry = event.context;
-            EntryDao.getInstance().createOrUpdate(entry);
+            EntryRepository.getInstance().createOrUpdate(entry);
             for (Measurement measurement : entry.getMeasurementCache()) {
                 measurement.setEntry(entry);
                 //noinspection unchecked

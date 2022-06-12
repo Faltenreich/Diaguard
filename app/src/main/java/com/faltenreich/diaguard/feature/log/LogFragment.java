@@ -26,11 +26,11 @@ import com.faltenreich.diaguard.feature.navigation.FabDescription;
 import com.faltenreich.diaguard.feature.navigation.FabProperties;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
@@ -262,7 +262,7 @@ public class LogFragment
                     position = previousPosition;
                 }
 
-                entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+                entry.setMeasurementCache(EntryRepository.getInstance().getMeasurements(entry));
 
                 LogEntryListItem listItemEntry = new LogEntryListItem(entry, entryTags, foodEatenList);
                 listAdapter.addItem(position, listItemEntry);

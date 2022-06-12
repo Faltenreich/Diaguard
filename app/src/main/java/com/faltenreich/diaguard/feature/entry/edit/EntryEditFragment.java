@@ -41,7 +41,6 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.feature.tag.TagListFragment;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -484,7 +483,7 @@ public class EntryEditFragment
         boolean isNewEntry = !entry.isPersisted();
         entry = EntryRepository.getInstance().createOrUpdate(entry);
 
-        for (Measurement measurement : EntryDao.getInstance().getMeasurements(entry)) {
+        for (Measurement measurement : EntryRepository.getInstance().getMeasurements(entry)) {
             boolean isObsolete = !measurements.contains(measurement);
             if (isObsolete) {
                 MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
@@ -524,8 +523,8 @@ public class EntryEditFragment
         List<FoodEaten> foodEatenList = getFoodEaten();
 
         // Force update in order to synchronize the measurement cache
-        entry = EntryDao.getInstance().getById(entry.getId());
-        entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+        entry = EntryRepository.getInstance().getById(entry.getId());
+        entry.setMeasurementCache(EntryRepository.getInstance().getMeasurements(entry));
 
         if (isNewEntry) {
             Toast.makeText(getContext(), getString(R.string.entry_added), Toast.LENGTH_LONG).show();
@@ -545,7 +544,7 @@ public class EntryEditFragment
     private void deleteEntry() {
         Entry entry = viewModel.getEntry();
         if (entry != null) {
-            EntryDao.getInstance().delete(entry);
+            EntryRepository.getInstance().delete(entry);
             finish();
             Events.unregister(this);
             Events.post(new EntryDeletedEvent(entry, viewModel.getEntryTags(), getFoodEaten()));

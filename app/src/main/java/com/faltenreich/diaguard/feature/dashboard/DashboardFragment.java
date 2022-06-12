@@ -172,46 +172,59 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
         if (getContext() == null) {
             return;
         }
-        if (latestEntry != null) {
-            latestValueLabel.setTextSize(54);
-            BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
-
-            // Value
-            latestValueLabel.setText(bloodSugar.toString());
-
-            // Highlighting
-            if (PreferenceStore.getInstance().limitsAreHighlighted()) {
-                if (bloodSugar.getMgDl() > PreferenceStore.getInstance().getLimitHyperglycemia()) {
-                    latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-                } else if (bloodSugar.getMgDl() < PreferenceStore.getInstance().getLimitHypoglycemia()) {
-                    latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
-                } else {
-                    latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-                }
+        Entry entry = latestEntry;
+        if (entry != null) {
+            MeasurementDao<?> dao = MeasurementDao.getInstance(BloodSugar.class);
+            BloodSugar bloodSugar = (BloodSugar) dao.getMeasurement(entry);
+            if (bloodSugar != null) {
+                updateLatestWithBloodSugar(bloodSugar);
+            } else {
+                updateLatestWithPlaceholder();
             }
-
-            // Time
-            latestTimeLabel.setText(String.format("%s %s - ",
-                    Helper.getDateFormat().print(latestEntry.getDate()),
-                    Helper.getTimeFormat().print(latestEntry.getDate())));
-            int differenceInMinutes = Minutes.minutesBetween(latestEntry.getDate(), new DateTime()).getMinutes();
-
-            // Highlight if last measurement is more than eight hours ago
-            latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-            if (differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
-                latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-            }
-
-            latestAgoLabel.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
         } else {
-            latestValueLabel.setTextSize(32);
-            latestValueLabel.setText(R.string.first_visit);
-            latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-
-            latestTimeLabel.setText(R.string.first_visit_desc);
-            latestAgoLabel.setText(null);
-            latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_darker));
+            updateLatestWithPlaceholder();
         }
+    }
+
+    private void updateLatestWithBloodSugar(BloodSugar bloodSugar) {
+        latestValueLabel.setTextSize(54);
+        // Value
+        latestValueLabel.setText(bloodSugar.toString());
+
+        // Highlighting
+        if (PreferenceStore.getInstance().limitsAreHighlighted()) {
+            if (bloodSugar.getMgDl() > PreferenceStore.getInstance().getLimitHyperglycemia()) {
+                latestValueLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
+            } else if (bloodSugar.getMgDl() < PreferenceStore.getInstance().getLimitHypoglycemia()) {
+                latestValueLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue));
+            } else {
+                latestValueLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
+            }
+        }
+
+        // Time
+        latestTimeLabel.setText(String.format("%s %s - ",
+            Helper.getDateFormat().print(latestEntry.getDate()),
+            Helper.getTimeFormat().print(latestEntry.getDate())));
+        int differenceInMinutes = Minutes.minutesBetween(latestEntry.getDate(), new DateTime()).getMinutes();
+
+        // Highlight if last measurement is more than eight hours ago
+        latestAgoLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
+        if (differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
+            latestAgoLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
+        }
+
+        latestAgoLabel.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
+    }
+
+    private void updateLatestWithPlaceholder() {
+        latestValueLabel.setTextSize(32);
+        latestValueLabel.setText(R.string.first_visit);
+        latestValueLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
+
+        latestTimeLabel.setText(R.string.first_visit_desc);
+        latestAgoLabel.setText(null);
+        latestAgoLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray_darker));
     }
 
     private void updateDashboard() {

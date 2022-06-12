@@ -4,15 +4,17 @@ package com.faltenreich.diaguard.shared.data.repository;
 import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
+import com.faltenreich.diaguard.shared.data.database.Database;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
-import com.j256.ormlite.stmt.QueryBuilder;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -27,42 +29,53 @@ public class EntryRepository {
         return instance;
     }
 
-    private final EntryDao dao = EntryDao.getInstance();
+    private final EntryDao dao = Database.getInstance().getDatabase().entryDao();
 
     public Entry createOrUpdate(Entry entry) {
-        return dao.createOrUpdate(entry);
-    }
-
-    public List<Entry> getAll() {
-        return dao.getAll();
-    }
-
-    public List<Entry> getByDay(DateTime day) {
-        return dao.getEntriesOfDay(day);
-    }
-
-    public List<Entry> getBetween(Interval interval) {
-        return dao.getEntriesBetween(interval.getStart(), interval.getEnd());
+        long id = dao.createOrUpdate(entry);
+        entry.setId(id);
+        return entry;
     }
 
     public Entry getById(long id) {
         return dao.getById(id);
     }
 
+    public List<Entry> getAll() {
+        return dao.getAll();
+    }
+
+    public List<Entry> getBetween(Interval interval) {
+        return dao.getBetween(
+            interval.getStart().withTimeAtStartOfDay(),
+            interval.getEnd().withTime(DateTimeConstants.HOURS_PER_DAY - 1,
+                DateTimeConstants.MINUTES_PER_HOUR - 1,
+                DateTimeConstants.SECONDS_PER_MINUTE - 1,
+                DateTimeConstants.MILLIS_PER_SECOND - 1
+            )
+        );
+    }
+
+    public List<Entry> getByDay(DateTime day) {
+        return dao.getBetween(day, day);
+    }
+
     public List<Entry> search(@NonNull String query, int page, int pageSize) {
-        return dao.search(query, page, pageSize);
+        // TODO: Implementation
+        return new ArrayList<>();
     }
 
     public LinkedHashMap<Category, CategoryValueListItem[]> getAverageDataTable(DateTime day, Category[] categories, int hoursToSkip) {
-        return dao.getAverageDataTable(day, categories, hoursToSkip);
-    }
-
-    public long countBetween(Interval interval, Category category) {
-        return dao.count(category, interval.getStart(), interval.getEnd());
+        // TODO: Implementation
+        return new LinkedHashMap<>();
     }
 
     public long countBetween(Interval interval) {
-        return dao.count(interval.getStart(), interval.getEnd());
+        return dao.countBetween(interval.getStart(), interval.getEnd());
+    }
+
+    public long countBetween(Interval interval, Category category) {
+        return dao.countBetween(interval.getStart(), interval.getEnd(), category);
     }
 
     public long countBetween(Interval interval, float minimumValue, float maximumValue) {
@@ -81,25 +94,25 @@ public class EntryRepository {
         dao.delete(entry);
     }
 
-    // TODO: Extract into MeasurementRepository
+    // TODO: Extract into MeasurementRepository when available
 
-    public QueryBuilder<Entry, Long> getQueryBuilder() {
-        return dao.getQueryBuilder();
-    }
-
+    @Deprecated
     public <M extends Measurement> List<Entry> getAllWithMeasurementFromToday(Class<M> clazz) {
-        return dao.getAllWithMeasurementFromToday(clazz);
+        return new ArrayList<>();
     }
 
+    @Deprecated
     public <M extends Measurement> Entry getLatestWithMeasurement(Class<M> clazz) {
-        return dao.getLatestWithMeasurement(clazz);
+        return null;
     }
 
+    @Deprecated
     public List<Measurement> getMeasurements(Entry entry) {
-        return dao.getMeasurements(entry);
+        return new ArrayList<>();
     }
 
+    @Deprecated
     public List<Measurement> getMeasurements(Entry entry, Category[] categories) {
-        return dao.getMeasurements(entry, categories);
+        return new ArrayList<>();
     }
 }

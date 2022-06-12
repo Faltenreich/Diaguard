@@ -17,7 +17,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
 import com.faltenreich.diaguard.shared.data.database.entity.Pulse;
 import com.faltenreich.diaguard.shared.data.database.entity.Weight;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.shared.data.repository.EntryRepository;
 import com.faltenreich.diaguard.shared.data.repository.FoodEatenRepository;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.DatabaseTableConfig;
@@ -166,11 +165,14 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
                     DateTimeConstants.SECONDS_PER_MINUTE - 1,
                     DateTimeConstants.MILLIS_PER_SECOND - 1);
             QueryBuilder<M, Long> measurementQb = getQueryBuilder();
+            /* TODO: Replace when possible
             QueryBuilder<Entry, Long> entryQb = EntryRepository.getInstance().getQueryBuilder();
             entryQb
                     .orderBy(Entry.Column.DATE, true)
                     .where().gt(Entry.Column.DATE, start).and().lt(Entry.Column.DATE, end);
             return measurementQb.join(entryQb).query();
+            */
+            return measurementQb.query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.toString());
             return new ArrayList<>();

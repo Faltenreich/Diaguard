@@ -32,7 +32,7 @@ public interface FoodEatenRoomDao extends FoodEatenDao {
     TODO: Inner join to Meal and Entry when entities have been migrated to Room
     public List<FoodEaten> getAll(Interval interval) {
         try {
-            QueryBuilder<Entry, Long> queryBuilderEntry = EntryDao.getInstance().getQueryBuilder();
+            QueryBuilder<Entry, Long> queryBuilderEntry = EntryOrmLiteDao.getInstance().getQueryBuilder();
             queryBuilderEntry
                 .where().ge(Entry.Column.DATE, interval.getStart())
                 .and().le(Entry.Column.DATE, interval.getEnd());

@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 
 import java.util.List;
 
-public class EntryTagRepository {
+public class EntryTagRepository implements DateTimeValidator<EntryTag> {
 
    private static EntryTagRepository instance;
 
@@ -22,12 +22,14 @@ public class EntryTagRepository {
    private final EntryTagDao dao = Database.getInstance().getDatabase().entryTagDao();
 
    public EntryTag createOrUpdate(EntryTag entryTag) {
+      invalidateDateTime(entryTag);
       long id = dao.createOrUpdate(entryTag);
       entryTag.setId(id);
       return entryTag;
    }
 
    public void createOrUpdate(List<EntryTag> entryTags) {
+      invalidateDateTime(entryTags);
       dao.createOrUpdate(entryTags);
    }
 

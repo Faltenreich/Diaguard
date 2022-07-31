@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class EntryRepository {
+public class EntryRepository implements DateTimeValidator<Entry> {
 
     private static EntryRepository instance;
 
@@ -32,6 +32,7 @@ public class EntryRepository {
     private final EntryDao dao = Database.getInstance().getDatabase().entryDao();
 
     public Entry createOrUpdate(Entry entry) {
+        invalidateDateTime(entry);
         long id = dao.createOrUpdate(entry);
         entry.setId(id);
         return entry;

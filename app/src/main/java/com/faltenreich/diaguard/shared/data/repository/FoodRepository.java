@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class FoodRepository {
+public class FoodRepository implements DateTimeValidator<Food> {
 
     private static final long LATEST_FOOD_EATEN_COUNT = BaseDao.PAGE_SIZE;
 
@@ -48,12 +48,14 @@ public class FoodRepository {
     private FoodRepository() {}
 
     public Food createOrUpdate(Food food) {
+        invalidateDateTime(food);
         long id = dao.createOrUpdate(food);
         food.setId(id);
         return food;
     }
 
     public void createOrUpdate(List<Food> foodList) {
+        invalidateDateTime(foodList);
         dao.createOrUpdate(foodList);
     }
 

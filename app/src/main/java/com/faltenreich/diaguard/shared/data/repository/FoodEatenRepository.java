@@ -10,7 +10,7 @@ import org.joda.time.Interval;
 
 import java.util.List;
 
-public class FoodEatenRepository {
+public class FoodEatenRepository implements DateTimeValidator<FoodEaten> {
 
     private static FoodEatenRepository instance;
 
@@ -24,6 +24,7 @@ public class FoodEatenRepository {
     private final FoodEatenDao dao = Database.getInstance().getDatabase().foodEatenDao();
 
     public FoodEaten createOrUpdate(FoodEaten foodEaten) {
+        invalidateDateTime(foodEaten);
         long id = dao.createOrUpdate(foodEaten);
         foodEaten.setId(id);
         return foodEaten;

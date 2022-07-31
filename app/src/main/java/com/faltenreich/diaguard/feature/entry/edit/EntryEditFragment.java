@@ -516,8 +516,6 @@ public class EntryEditFragment
             }
         }
         TagRepository.getInstance().createOrUpdate(tags);
-        // TODO: Update instead of delete
-        EntryTagRepository.getInstance().deleteByEntry(entry);
         EntryTagRepository.getInstance().createOrUpdate(entryTags);
 
         List<FoodEaten> foodEatenList = getFoodEaten();

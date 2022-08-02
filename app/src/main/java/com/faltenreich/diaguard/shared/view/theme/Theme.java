@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 public enum Theme {
     LIGHT("0", AppCompatDelegate.MODE_NIGHT_NO, UiModeManager.MODE_NIGHT_NO),
     DARK("1", AppCompatDelegate.MODE_NIGHT_YES, UiModeManager.MODE_NIGHT_YES),
-    TIME_BASED("2", AppCompatDelegate.MODE_NIGHT_AUTO, UiModeManager.MODE_NIGHT_AUTO),
+    TIME_BASED("2", AppCompatDelegate.MODE_NIGHT_AUTO_TIME, UiModeManager.MODE_NIGHT_AUTO),
     SYSTEM("3", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM, UiModeManager.MODE_NIGHT_AUTO);
 
     // Workaround: Key is String due to limitations of Preferences API

@@ -60,7 +60,7 @@ configurations {
     all*.exclude group: 'org.apache.commons', module: 'commons-io'
 }
 
-def espresso = '3.4.0'
+def espresso = '3.5.0-alpha07'
 def jodaTime = '2.10.3'
 def jUnit = '4.13.2'
 def jUnitRunner = '1.1.3'

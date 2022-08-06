@@ -41,6 +41,9 @@ public class EntryEditMeasurementTestUtils {
             .perform(ViewActions.click());
     }
 
+    // FIXME: Does not scroll to categories out of sight
+    // Maybe use RecyclerViewActions.scrollTo(ViewMatchers.hasDescendant(ViewMatchers.withText(category.getStringResId())))
+    // https://developer.android.com/training/testing/espresso/lists
     public static void selectCategoryFromPicker(Category category) {
         Espresso.onView(ViewMatchers.withText(category.getStringResId()))
             .inRoot(RootMatchers.isDialog())

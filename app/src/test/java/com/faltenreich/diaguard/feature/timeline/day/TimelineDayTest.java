@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.timeline.day;
 
-import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -8,12 +7,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.timeline.TimelineDayFragment;
-import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
-import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
+import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.LooperMode;
 import org.robolectric.shadows.ShadowLooper;
@@ -22,12 +21,11 @@ import org.robolectric.shadows.ShadowLooper;
 @LooperMode(LooperMode.Mode.PAUSED)
 public class TimelineDayTest {
 
-    @Rule public final ApplyAppTheme applyAppTheme = new ApplyAppTheme();
-    @Rule public final CleanUpData cleanUpData = new CleanUpData();
+    @Rule
+    public final TestRule rule = TestRuleFactory.forFragment(TimelineDayFragment.class);
 
     @Before
     public void setup() {
-        FragmentScenario.launchInContainer(TimelineDayFragment.class);
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
     }
 

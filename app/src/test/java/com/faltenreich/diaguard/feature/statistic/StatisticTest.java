@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.statistic;
 
-import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
@@ -11,12 +10,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
-import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
+import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.LooperMode;
 
@@ -24,18 +22,12 @@ import org.robolectric.annotation.LooperMode;
 @LooperMode(LooperMode.Mode.PAUSED)
 public class StatisticTest {
 
-    @Rule public final ApplyAppTheme applyAppTheme = new ApplyAppTheme();
-    @Rule public final CleanUpData cleanUpData = new CleanUpData();
-
-    @Before
-    public void setup() {
-        FragmentScenario.launchInContainer(StatisticFragment.class);
-    }
+    @Rule
+    public final TestRule rule = TestRuleFactory.forFragment(StatisticFragment.class);
 
     private void selectCategory(Category category) {
         Espresso.onView(ViewMatchers.withId(R.id.category_spinner))
             .perform(ViewActions.click());
-
         String label = ApplicationProvider.getApplicationContext().getString(category.getStringResId());
         Espresso.onView(ViewMatchers.withText(label))
             .inRoot(RootMatchers.isDialog())

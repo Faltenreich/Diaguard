@@ -8,8 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.FileType;
-import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
-import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
+import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,12 +21,11 @@ import org.robolectric.annotation.LooperMode;
 @LooperMode(LooperMode.Mode.PAUSED)
 public class ExportCsvTest {
 
-    @Rule public final ApplyAppTheme applyAppTheme = new ApplyAppTheme();
-    @Rule public final TestRule dataCleanUp = new CleanUpData();
+    @Rule
+    public final TestRule rule = TestRuleFactory.forFragment(ExportFragment.class);
 
     @Before
     public void setup() {
-        FragmentScenario.launchInContainer(ExportFragment.class);
         ExportTestUtils.selectFileType(FileType.CSV);
     }
 

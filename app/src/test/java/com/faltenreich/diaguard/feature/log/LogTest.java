@@ -1,19 +1,18 @@
 package com.faltenreich.diaguard.feature.log;
 
-import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
-import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
+import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.LooperMode;
 import org.robolectric.shadows.ShadowLooper;
@@ -22,12 +21,11 @@ import org.robolectric.shadows.ShadowLooper;
 @LooperMode(LooperMode.Mode.PAUSED)
 public class LogTest {
 
-    @Rule public final ApplyAppTheme applyAppTheme = new ApplyAppTheme();
-    @Rule public final CleanUpData cleanUpData = new CleanUpData();
+    @Rule
+    public final TestRule rule = TestRuleFactory.forFragment(LogFragment.class);
 
     @Before
     public void setup() {
-        FragmentScenario.launchInContainer(LogFragment.class);
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
     }
 

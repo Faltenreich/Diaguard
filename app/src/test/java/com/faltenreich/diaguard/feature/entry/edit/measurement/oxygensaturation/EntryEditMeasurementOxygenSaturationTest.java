@@ -51,8 +51,8 @@ public class EntryEditMeasurementOxygenSaturationTest {
             .perform(ViewActions.replaceText("49"));
         Espresso.onView(ViewMatchers.withId(R.id.fab))
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
-            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.validator_value_none)));
+        Espresso.onView(ViewMatchers.withId(R.id.edit_text))
+            .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
     }
 
     @Test

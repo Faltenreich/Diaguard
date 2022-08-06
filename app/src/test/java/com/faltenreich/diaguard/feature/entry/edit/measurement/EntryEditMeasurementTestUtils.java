@@ -45,8 +45,7 @@ public class EntryEditMeasurementTestUtils {
     // Maybe use RecyclerViewActions.scrollTo(ViewMatchers.hasDescendant(ViewMatchers.withText(category.getStringResId())))
     // https://developer.android.com/training/testing/espresso/lists
     public static void selectCategoryFromPicker(Category category) {
-        Espresso.onData(ViewMatchers.withText(category.getStringResId()))
-            .inAdapterView(ViewMatchers.withId(R.id.select_dialog_listview))
+        Espresso.onView(ViewMatchers.withText(category.getStringResId()))
             .inRoot(RootMatchers.isDialog())
             .perform(ViewActions.scrollTo(), ViewActions.click());
         Espresso.onView(ViewMatchers.withText("OK"))

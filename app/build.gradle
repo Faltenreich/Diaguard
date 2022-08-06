@@ -44,9 +44,7 @@ android {
 
     testOptions {
         animationsDisabled = true
-        unitTests {
-            includeAndroidResources = true
-        }
+        unitTests.includeAndroidResources true
     }
 
     buildFeatures {
@@ -73,6 +71,7 @@ dependencies {
 
     testImplementation "junit:junit:$jUnit"
     testImplementation "org.robolectric:robolectric:$robolectric"
+    testImplementation "androidx.test:core:1.5.0-alpha01"
     testImplementation "androidx.test.ext:junit:$jUnitRunner"
     testImplementation "androidx.test.espresso:espresso-core:$espresso"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
@@ -82,11 +81,11 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$jUnitRunner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
-    debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
+    debugImplementation 'androidx.fragment:fragment-testing:1.5.1'
 
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.preference:preference:1.1.1'
 
     implementation "com.j256.ormlite:ormlite-core:$ormLite"

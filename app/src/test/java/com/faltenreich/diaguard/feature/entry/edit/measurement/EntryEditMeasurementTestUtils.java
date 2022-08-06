@@ -22,6 +22,12 @@ public class EntryEditMeasurementTestUtils {
         return bundle;
     }
 
+    public static void addCategory(Category category) {
+        openFloatingMenuForCategories();
+        openPickerForCategories();
+        selectCategoryFromPicker(category);
+    }
+
     public static void openFloatingMenuForCategories() {
         Espresso.onView(AllOf.allOf(
             ViewMatchers.withParent(ViewMatchers.withId(R.id.fab_menu)),

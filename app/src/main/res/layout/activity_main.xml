@@ -39,9 +39,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <include
-                android:id="@+id/fab_container"
-                layout="@layout/view_fab" />
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab"
+                style="@style/FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="@string/entry_new"
+                android:src="@drawable/fab_add"
+                app:fab_colorNormal="?backgroundColorGreen"
+                app:layout_behavior="com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior"
+                app:layout_dodgeInsetEdges="bottom" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

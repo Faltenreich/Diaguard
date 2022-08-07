@@ -79,7 +79,6 @@ dependencies {
     testImplementation "androidx.test.ext:junit:$jUnitRunner"
     testImplementation "androidx.test.espresso:espresso-core:$espresso"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
-
     testImplementation "joda-time:joda-time:$jodaTime"
     debugImplementation 'androidx.fragment:fragment-testing:1.5.1'
 

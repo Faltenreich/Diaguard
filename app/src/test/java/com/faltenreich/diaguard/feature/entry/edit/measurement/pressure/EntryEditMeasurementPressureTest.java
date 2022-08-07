@@ -37,6 +37,14 @@ public class EntryEditMeasurementPressureTest {
     }
 
     @Test
+    public void confirmingEmptyValue_shouldShowWarning() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+            .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.validator_value_none)));
+    }
+
+    @Test
     public void confirmingValidValues_shouldSucceed() {
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
             .perform(ViewActions.replaceText("100"));

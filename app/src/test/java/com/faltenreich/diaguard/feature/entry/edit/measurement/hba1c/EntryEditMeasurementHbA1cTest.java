@@ -38,6 +38,14 @@ public class EntryEditMeasurementHbA1cTest {
     }
 
     @Test
+    public void confirmingEmptyValue_shouldShowWarning() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+            .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.validator_value_none)));
+    }
+
+    @Test
     public void confirmingValueBelowMinimum_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withId(R.id.edit_text))
             .perform(ViewActions.replaceText("0"));

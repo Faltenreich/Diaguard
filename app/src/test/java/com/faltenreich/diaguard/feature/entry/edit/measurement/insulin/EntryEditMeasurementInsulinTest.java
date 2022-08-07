@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.feature.entry.edit.measurement.insulin;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -15,6 +16,7 @@ import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.LooperMode;
@@ -32,5 +34,13 @@ public class EntryEditMeasurementInsulinTest {
         Espresso.onView(ViewMatchers.withId(R.id.fab))
             .perform(ViewActions.click());
         EntryEditMeasurementTestUtils.addCategory(Category.INSULIN);
+    }
+
+    @Test
+    public void confirmingEmptyValue_shouldShowWarning() {
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+            .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.validator_value_none)));
     }
 }

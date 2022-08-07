@@ -8,7 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.navigation.MainActivity;
-import com.faltenreich.diaguard.test.SnackbarUtils;
+import com.faltenreich.diaguard.test.espresso.SnackbarUtils;
 import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 

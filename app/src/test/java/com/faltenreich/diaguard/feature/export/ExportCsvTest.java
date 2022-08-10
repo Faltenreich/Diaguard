@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.export;
 
-import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;

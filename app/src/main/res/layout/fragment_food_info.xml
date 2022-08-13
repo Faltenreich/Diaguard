@@ -21,7 +21,7 @@
             <ImageView
                 style="@style/LayoutRowImageMultiline"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_business"
+                app:srcCompat="@drawable/ic_business"
                 app:tint="?iconColorPrimary" />
 
             <TextView

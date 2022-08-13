@@ -153,9 +153,9 @@ public class MainActivity
         toolbar = getBinding().toolbarContainer.toolbar;
         toolbarTitle = getBinding().toolbarContainer.toolbarTitle;
         searchView = getBinding().searchView;
-        fabGroup = getBinding().fabContainer.fabGroup;
-        fabPrimary = getBinding().fabContainer.fabPrimary;
-        fabSecondary = getBinding().fabContainer.fabSecondary;
+        fabGroup = getBinding().fabGroup;
+        fabPrimary = getBinding().fabPrimary;
+        fabSecondary = getBinding().fabSecondary;
     }
     
     private void initLayout() {

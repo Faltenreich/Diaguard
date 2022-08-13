@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.feature.entry.edit;
 
-import androidx.fragment.app.testing.FragmentScenario;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
@@ -10,11 +10,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.codetroopers.betterpickers.numberpicker.NumberPicker;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.navigation.MainActivity;
 import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,16 +29,11 @@ public class EntryEditAlarmTest {
     @Rule public final ApplyAppTheme applyAppTheme = new ApplyAppTheme();
     @Rule public final TestRule dataCleanUp = new CleanUpData();
 
-    private FragmentScenario<EntryEditFragment> scenario;
-
     @Before
     public void setup() {
-        scenario = FragmentScenario.launchInContainer(EntryEditFragment.class);
-    }
-
-    @Test
-    public void launchingFragment_shouldSucceed() {
-        scenario.onFragment(fragment -> Assert.assertTrue(fragment.isAdded()));
+        ActivityScenario.launch(MainActivity.class);
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+            .perform(ViewActions.click());
     }
 
     @Test

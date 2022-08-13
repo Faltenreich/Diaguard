@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.entry.edit.measurement;
 
 import android.os.Bundle;
+import android.widget.ListView;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
@@ -12,6 +13,7 @@ import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matchers;
 import org.hamcrest.core.AllOf;
 
 public class EntryEditMeasurementTestUtils {
@@ -20,6 +22,12 @@ public class EntryEditMeasurementTestUtils {
         Bundle bundle = new Bundle();
         bundle.putSerializable(EntryEditFragment.EXTRA_CATEGORY, category);
         return bundle;
+    }
+
+    public static void addCategory(Category category) {
+        openFloatingMenuForCategories();
+        openPickerForCategories();
+        selectCategoryFromPicker(category);
     }
 
     public static void openFloatingMenuForCategories() {
@@ -36,9 +44,11 @@ public class EntryEditMeasurementTestUtils {
     }
 
     public static void selectCategoryFromPicker(Category category) {
-        Espresso.onView(ViewMatchers.withText(category.getStringResId()))
+        Espresso.onData(Matchers.anything())
             .inRoot(RootMatchers.isDialog())
-            .perform(ViewActions.scrollTo(), ViewActions.click());
+            .inAdapterView(ViewMatchers.isAssignableFrom(ListView.class))
+            .atPosition(category.ordinal())
+            .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withText("OK"))
             .perform(ViewActions.click());
     }

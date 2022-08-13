@@ -1,7 +1,7 @@
 # Diaguard
 
-[![Version](https://img.shields.io/badge/Release-3.10.0-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
-[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![version](https://img.shields.io/badge/version-3.10.0-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
+[![pipeline](https://github.com/Faltenreich/Diaguard/actions/workflows/android.yml/badge.svg)](https://github.com/Faltenreich/Diaguard/actions/workflows/android.yml)
 
 <img src="./resource/image/marketing/showcase.png" width="750"> 
 

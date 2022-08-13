@@ -32,7 +32,7 @@ public class EntryEditMeasurementPressureSystolicTest {
     @Before
     public void setup() {
         ActivityScenario.launch(MainActivity.class);
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         EntryEditMeasurementTestUtils.addCategory(Category.PRESSURE);
     }
@@ -43,7 +43,7 @@ public class EntryEditMeasurementPressureSystolicTest {
             .perform(ViewActions.replaceText("9"));
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .perform(ViewActions.replaceText("100"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
@@ -55,7 +55,7 @@ public class EntryEditMeasurementPressureSystolicTest {
             .perform(ViewActions.replaceText("301"));
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .perform(ViewActions.replaceText("100"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
@@ -65,7 +65,7 @@ public class EntryEditMeasurementPressureSystolicTest {
     public void confirmingOnlyValue_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
             .perform(ViewActions.replaceText("100"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));

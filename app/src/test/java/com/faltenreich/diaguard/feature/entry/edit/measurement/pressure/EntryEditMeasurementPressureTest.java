@@ -32,14 +32,14 @@ public class EntryEditMeasurementPressureTest {
     @Before
     public void setup() {
         ActivityScenario.launch(MainActivity.class);
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         EntryEditMeasurementTestUtils.addCategory(Category.PRESSURE);
     }
 
     @Test
     public void confirmingEmptyValue_shouldShowWarning() {
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         SnackbarUtils.assertDisplayedSnackbar(R.string.validator_value_none);
     }
@@ -50,7 +50,7 @@ public class EntryEditMeasurementPressureTest {
             .perform(ViewActions.replaceText("100"));
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .perform(ViewActions.replaceText("100"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
             .check(ViewAssertions.doesNotExist());

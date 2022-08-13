@@ -33,14 +33,14 @@ public class EntryEditMeasurementPulseTest {
     @Before
     public void setup() {
         ActivityScenario.launch(MainActivity.class);
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         EntryEditMeasurementTestUtils.addCategory(Category.PULSE);
     }
 
     @Test
     public void confirmingEmptyValue_shouldShowWarning() {
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         SnackbarUtils.assertDisplayedSnackbar(R.string.validator_value_none);
     }
@@ -49,7 +49,7 @@ public class EntryEditMeasurementPulseTest {
     public void confirmingValueBelowMinimum_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withId(R.id.edit_text))
             .perform(ViewActions.replaceText("9"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.edit_text))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
@@ -59,7 +59,7 @@ public class EntryEditMeasurementPulseTest {
     public void confirmingValueAboveMaximum_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withId(R.id.edit_text))
             .perform(ViewActions.replaceText("201"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.edit_text))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
@@ -69,7 +69,7 @@ public class EntryEditMeasurementPulseTest {
     public void confirmingValidValue_shouldSucceed() {
         Espresso.onView(ViewMatchers.withId(R.id.edit_text))
             .perform(ViewActions.replaceText("100"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.edit_text))
             .check(ViewAssertions.doesNotExist());

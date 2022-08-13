@@ -33,7 +33,7 @@ public class EntryEditMeasurementInsulinBasalTest {
     @Before
     public void setup() {
         ActivityScenario.launch(MainActivity.class);
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         EntryEditMeasurementTestUtils.addCategory(Category.INSULIN);
     }
@@ -42,7 +42,7 @@ public class EntryEditMeasurementInsulinBasalTest {
     public void confirmingValueBelowMinimum_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withHint(R.string.basal))
             .perform(ViewActions.replaceText("0"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         SnackbarUtils.assertDisplayedSnackbar(R.string.validator_value_none);
     }
@@ -51,7 +51,7 @@ public class EntryEditMeasurementInsulinBasalTest {
     public void confirmingValueAboveMaximum_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withHint(R.string.basal))
             .perform(ViewActions.replaceText("101"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.basal))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
@@ -61,7 +61,7 @@ public class EntryEditMeasurementInsulinBasalTest {
     public void confirmingValidBolus_shouldSucceed() {
         Espresso.onView(ViewMatchers.withHint(R.string.basal))
             .perform(ViewActions.replaceText("10"));
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.basal))
             .check(ViewAssertions.doesNotExist());

@@ -31,14 +31,14 @@ public class EntryEditMeasurementInsulinTest {
     @Before
     public void setup() {
         ActivityScenario.launch(MainActivity.class);
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         EntryEditMeasurementTestUtils.addCategory(Category.INSULIN);
     }
 
     @Test
     public void confirmingEmptyValue_shouldShowWarning() {
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         SnackbarUtils.assertDisplayedSnackbar(R.string.validator_value_none);
     }

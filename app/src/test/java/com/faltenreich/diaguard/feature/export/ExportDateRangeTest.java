@@ -42,10 +42,8 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
             .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
     }
 
     @Test
@@ -57,10 +55,8 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
             .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
     }
 
     @Test
@@ -72,10 +68,8 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
             .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
     }
 
     @Test
@@ -87,10 +81,8 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
             .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
     }
 
     @Test
@@ -102,10 +94,8 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
             .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
     }
 
     @Test
@@ -117,9 +107,7 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
             .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedEnd))));
     }
 }

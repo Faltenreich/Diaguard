@@ -32,7 +32,7 @@ public class EntryEditMeasurementRemoveTest {
     @Before
     public void setup() {
         ActivityScenario.launch(MainActivity.class);
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         EntryEditMeasurementTestUtils.openFloatingMenuForCategories();
         Espresso.onView(ViewMatchers.withText(CATEGORY))

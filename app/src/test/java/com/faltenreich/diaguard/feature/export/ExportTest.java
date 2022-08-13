@@ -26,14 +26,14 @@ public class ExportTest {
     @Test
     public void onStart_shouldStartAtStartOfWeek() {
         String date = Helper.getDateFormat().print(DateTime.now().withDayOfWeek(1));
-        Espresso.onView(ViewMatchers.withId(R.id.date_start_button))
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
             .check(ViewAssertions.matches(ViewMatchers.withText(date)));
     }
 
     @Test
     public void onStart_shouldEndAtToday() {
         String date = Helper.getDateFormat().print(DateTime.now());
-        Espresso.onView(ViewMatchers.withId(R.id.date_end_button))
+        Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
             .check(ViewAssertions.matches(ViewMatchers.withText(date)));
     }
 

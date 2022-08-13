@@ -32,7 +32,7 @@ public class EntryEditTagTest {
     @Before
     public void setup() throws InterruptedException {
         ActivityScenario.launch(MainActivity.class);
-        Espresso.onView(ViewMatchers.withId(R.id.fab))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.tag_input))
             .perform(ViewActions.click());

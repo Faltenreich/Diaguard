@@ -373,5 +373,6 @@
     <string name="timeline_show_dots_desc">Marcar las mediciones con puntos (si se desactiva, dejará de resaltar los límites)</string>
     <string name="timeline_show_lines">Mostrar líneas</string>
     <string name="timeline_show_lines_desc">Conectar las medidas con líneas</string>
+    <string name="error_missing_permission">Esta función requiere autorización</string>
 
 </resources>

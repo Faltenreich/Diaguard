@@ -7,7 +7,8 @@ import androidx.annotation.Nullable;
 
 public enum Permission {
 
-    WRITE_EXTERNAL_STORAGE(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    WRITE_EXTERNAL_STORAGE(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+    POST_NOTIFICATIONS(Manifest.permission.POST_NOTIFICATIONS);
 
     public final String code;
 
@@ -15,8 +16,10 @@ public enum Permission {
         this.code = code;
     }
 
+    // TODO: Should be more generic
     public boolean isGrantedImplicitly() {
-        return this == WRITE_EXTERNAL_STORAGE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+        return (this == WRITE_EXTERNAL_STORAGE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            || (this == POST_NOTIFICATIONS && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU);
     }
 
     @Nullable

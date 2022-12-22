@@ -280,6 +280,7 @@
     <string name="error_sd_card">Speicherkarte nicht verfügbar</string>
     <string name="error_no_backups">Keine Backups gefunden unter</string>
     <string name="error_import">Ungültiges Dateiformat</string>
+    <string name="error_missing_permission">Berechtigung muss erteilt sein für diese Funktionalität</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Zielwerte</string>

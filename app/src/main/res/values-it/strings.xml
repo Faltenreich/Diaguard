@@ -282,6 +282,7 @@
     <string name="error_sd_card">SD card non disponibile</string>
     <string name="error_no_backups">Nessuna copia di sicurezza trovata in</string>
     <string name="error_import">Formato file invalido</string>
+    <string name="error_missing_permission">È necessario concedere l\'autorizzazione per questa funzione</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Valori obiettivo</string>

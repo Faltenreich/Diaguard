@@ -439,6 +439,7 @@
     <string name="error_sd_card">SD card not available</string>
     <string name="error_no_backups">No backups found at</string>
     <string name="error_import">Invalid file format</string>
+    <string name="error_missing_permission">Permission must be granted for this feature to work</string>
 
     <!-- SETTINGS -->
     <string name="pref_factor" translatable="false">pref_factor</string>

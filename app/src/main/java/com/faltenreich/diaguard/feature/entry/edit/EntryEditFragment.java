@@ -51,12 +51,16 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.permission.Permission;
+import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.data.reflect.ObjectFactory;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
+import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
+import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.chip.ChipView;
@@ -243,7 +247,7 @@ public class EntryEditFragment
         EditTextUtils.afterTextChanged(noteInput, () -> viewModel.getEntry().setNote(noteInput.getText().toString()));
 
         alarmContainer.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
-        alarmButton.setOnClickListener(view -> showAlarmPicker());
+        alarmButton.setOnClickListener(view -> requestPermissionToPostNotification());
 
         invalidateAlarm();
     }
@@ -599,6 +603,10 @@ public class EntryEditFragment
             .show(getChildFragmentManager());
     }
 
+    private void requestPermissionToPostNotification() {
+        Events.post(new PermissionRequestEvent(Permission.POST_NOTIFICATIONS, PermissionUseCase.REMINDER));
+    }
+
     private void showAlarmPicker() {
         new NumberPickerDialog(requireContext(), R.string.minutes, viewModel.getAlarmInMinutes(), 0, 10_000, (number) -> {
             viewModel.setAlarmInMinutes(number.intValue());
@@ -617,5 +625,18 @@ public class EntryEditFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSearchEvent event) {
         openFragment(FoodSearchFragment.newInstance(true), true);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(PermissionResponseEvent event) {
+        if (event.context == Permission.POST_NOTIFICATIONS &&
+            event.useCase == PermissionUseCase.REMINDER
+        ) {
+            if (event.isGranted) {
+                showAlarmPicker();
+            } else {
+                ViewUtils.showSnackbar(getView(), getString(R.string.error_missing_permission));
+            }
+        }
     }
 }

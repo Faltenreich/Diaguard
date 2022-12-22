@@ -7,7 +7,8 @@ public enum PermissionUseCase {
     EXPORT_HISTORY,
     EXPORT_DELETE,
     BACKUP_WRITE,
-    BACKUP_READ;
+    BACKUP_READ,
+    REMINDER;
 
     public final int requestCode = ordinal() + 123;
 

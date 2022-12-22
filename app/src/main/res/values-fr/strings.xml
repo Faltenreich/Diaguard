@@ -371,5 +371,6 @@
     <string name="timeline_show_dots_desc">Marquer les mesures avec des points (si vous désactivez cette fonction, les limites ne seront plus mises en évidence)</string>
     <string name="timeline_show_lines">Montrer les lignes</string>
     <string name="timeline_show_lines_desc">Relier les mesures avec des lignes</string>
+    <string name="error_missing_permission">L\'autorisation doit être accordée pour cette fonction</string>
 
 </resources>

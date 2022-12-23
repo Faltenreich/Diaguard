@@ -1,98 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<merge
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:cardCornerRadius="@dimen/card_corner_radius"
-    tools:cardElevation="@dimen/card_elevation"
-    tools:cardUseCompatPadding="true"
-    tools:parentTag="androidx.cardview.widget.CardView">
+    style="@style/LayoutRow"
+    android:orientation="horizontal">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/category_image_view"
+        style="@style/LayoutRowImageMultiline"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@null"
+        app:tint="?iconColorPrimary"
+        tools:src="@drawable/ic_category_bloodsugar" />
+
+    <FrameLayout
+        android:id="@+id/content_layout"
+        style="@style/LayoutRowItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:minHeight="@dimen/height_element" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_element">
-
-            <ImageView
-                android:id="@+id/showcase_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@null"
-                android:scaleType="centerCrop"
-                tools:src="@drawable/ic_showcase_bloodsugar" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?backgroundColorGreenTranslucent"
-                android:gravity="center"
-                android:minHeight="@dimen/height_element"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/category_image_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@null"
-                    android:padding="@dimen/padding_large"
-                    app:tint="@android:color/white"
-                    tools:src="@drawable/ic_category_bloodsugar" />
-
-                <TextView
-                    android:id="@+id/category_label"
-                    style="@style/LayoutRowItem"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding"
-                    android:layout_marginLeft="@dimen/padding"
-                    android:layout_marginEnd="@dimen/margin_between_large"
-                    android:layout_marginRight="@dimen/margin_between_large"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_large"
-                    tools:text="@string/bloodsugar" />
-
-                <CheckBox
-                    android:id="@+id/pinned_checkbox"
-                    style="@style/WhiteCheckBox"
-                    android:layout_width="@dimen/checkbox_width"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/category_pin"
-                    android:text="@null" />
-
-                <ImageView
-                    android:id="@+id/delete_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:contentDescription="@null"
-                    android:focusable="true"
-                    android:padding="@dimen/margin_between_large"
-                    android:src="@drawable/ic_remove"
-                    app:tint="@android:color/white" />
-
-            </LinearLayout>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/content_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/height_element" />
-
-    </LinearLayout>
-
-</merge>
+</LinearLayout>

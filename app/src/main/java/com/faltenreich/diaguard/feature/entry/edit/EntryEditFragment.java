@@ -293,7 +293,6 @@ public class EntryEditFragment
 
     private void addMeasurement(Measurement measurement, boolean atStart) {
         MeasurementView<?> view = new MeasurementView<>(getContext(), measurement);
-        view.setOnCategoryRemovedListener(this::removeCategory);
         int index = atStart ? 0 : measurementContainer.getChildCount();
         measurementContainer.addView(view, index);
     }

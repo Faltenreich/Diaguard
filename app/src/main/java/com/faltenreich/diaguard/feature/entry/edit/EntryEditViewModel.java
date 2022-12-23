@@ -98,10 +98,6 @@ public class EntryEditViewModel {
         return PreferenceStore.getInstance().getActiveCategories();
     }
 
-    Category[] getPinnedCategories() {
-        return PreferenceStore.getInstance().getPinnedCategories();
-    }
-
     void setArguments(@Nullable Bundle arguments) {
         entryId = arguments != null
             ? arguments.getLong(EntryEditFragment.EXTRA_ENTRY_ID, -1L)

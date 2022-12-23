@@ -19,13 +19,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.widget.NestedScrollView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentEntryEditBinding;
 import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
-import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.category.CategoryListFragment;
 import com.faltenreich.diaguard.feature.datetime.DatePicker;
 import com.faltenreich.diaguard.feature.datetime.TimePicker;
@@ -68,7 +66,6 @@ import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.picker.NumberPickerDialog;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -77,7 +74,6 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class EntryEditFragment
@@ -152,11 +148,7 @@ public class EntryEditFragment
 
     @Override
     public FabDescription getFabDescription() {
-        return new FabDescription(
-            FabProperties.confirmButton(view -> trySubmit()),
-            FabProperties.addButton(view -> openCategoryPicker()),
-            false
-        );
+        return new FabDescription(FabProperties.confirmButton(view -> trySubmit()), false);
     }
 
     @Override
@@ -259,17 +251,22 @@ public class EntryEditFragment
     private void setEntry(@NonNull Entry entry) {
         noteInput.setText(entry.getNote());
 
-        // FIXME: Previous order gets ignored on Fragment recreation
-        List<Measurement> measurements = entry.getMeasurementCache();
-        if (measurements != null && !measurements.isEmpty()) {
-            Collections.sort(measurements, CategoryComparatorFactory.getInstance().createComparatorFromMeasurements());
-            for (Measurement measurement : measurements) {
-                addMeasurement(measurement, false);
-            }
-        } else if (!entry.isPersisted() && !isRecreated) {
-            for (Category category : viewModel.getPinnedCategories()) {
-                if (!hasCategory(category)) {
-                    addCategory(category, false);
+        for (Category category : viewModel.getActiveCategories()) {
+            if (!hasCategory(category)) {
+                Measurement persisted = null;
+                List<Measurement> measurements = entry.getMeasurementCache();
+                if (measurements != null && !measurements.isEmpty()) {
+                    for (Measurement measurement : measurements) {
+                        if (measurement.getCategory() == category) {
+                            persisted = measurement;
+                            break;
+                        }
+                    }
+                }
+                if (persisted != null) {
+                    addMeasurement(persisted);
+                } else {
+                    addCategory(category);
                 }
             }
         }
@@ -291,15 +288,14 @@ public class EntryEditFragment
         tagAdapter.notifyDataSetChanged();
     }
 
-    private void addMeasurement(Measurement measurement, boolean atStart) {
+    private void addMeasurement(Measurement measurement) {
         MeasurementView<?> view = new MeasurementView<>(getContext(), measurement);
-        int index = atStart ? 0 : measurementContainer.getChildCount();
-        measurementContainer.addView(view, index);
+        measurementContainer.addView(view, measurementContainer.getChildCount());
     }
 
-    private void addCategory(Category category, boolean atStart) {
+    private void addCategory(Category category) {
         Measurement measurement = ObjectFactory.createFromClass(category.toClass());
-        addMeasurement(measurement, atStart);
+        addMeasurement(measurement);
 
         Entry entry = viewModel.getEntry();
         int indexInCache = entry.indexInMeasurementCache(category);
@@ -308,19 +304,6 @@ public class EntryEditFragment
         } else {
             measurement.setEntry(entry);
             entry.getMeasurementCache().add(measurement);
-        }
-    }
-
-    private void removeCategory(Category category) {
-        int index = indexOf(category);
-        if (index != -1) {
-            Entry entry = viewModel.getEntry();
-            measurementContainer.removeViewAt(index);
-
-            int indexInCache = entry.indexInMeasurementCache(category);
-            if (indexInCache != -1) {
-                entry.getMeasurementCache().remove(indexInCache);
-            }
         }
     }
 
@@ -395,39 +378,6 @@ public class EntryEditFragment
     private void dismissTagDropDown() {
         // Workaround
         tagInput.post(() -> tagInput.dismissDropDown());
-    }
-
-    private void openCategoryPicker() {
-        Category[] activeCategories = viewModel.getActiveCategories();
-        String[] categoryNames = new String[activeCategories.length];
-        boolean[] visibleCategoriesOld = new boolean[activeCategories.length];
-        for (int position = 0; position < activeCategories.length; position++) {
-            Category category = activeCategories[position];
-            categoryNames[position] = getString(category.getStringResId());
-            visibleCategoriesOld[position] = hasCategory(category);
-        }
-
-        boolean[] visibleCategories = visibleCategoriesOld.clone();
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
-        builder.setTitle(R.string.categories)
-            .setMultiChoiceItems(categoryNames, visibleCategoriesOld, (dialog, which, isChecked) -> visibleCategories[which] = isChecked)
-            .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
-                for (int position = activeCategories.length - 1; position >= 0; position--) {
-                    Category category = activeCategories[position];
-                    if (visibleCategories[position]) {
-                        scrollView.smoothScrollTo(0, 0);
-                        if (!hasCategory(category)) {
-                            addCategory(category, true);
-                        }
-                    } else {
-                        removeCategory(category);
-                    }
-                }
-            })
-            .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.cancel())
-            .setNeutralButton(R.string.settings, (dialog, which) -> openCategorySettings());
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     private void invalidateDateTime() {
@@ -613,6 +563,7 @@ public class EntryEditFragment
         }).show(getChildFragmentManager());
     }
 
+    // TODO: Add option to open category settings (e.g. via button in section header)
     private void openCategorySettings() {
         openFragment(new CategoryListFragment(), true);
     }

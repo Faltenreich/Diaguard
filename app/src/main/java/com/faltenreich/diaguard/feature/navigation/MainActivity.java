@@ -63,10 +63,8 @@ public class MainActivity
     private SearchView searchView;
     private ViewGroup fabGroup;
     private FloatingActionButton fabPrimary;
-    private FloatingActionButton fabSecondary;
 
     private float fabPrimaryOffset;
-    private float fabSecondaryOffset;
 
     @Override
     protected ActivityMainBinding createBinding(LayoutInflater layoutInflater) {
@@ -141,7 +139,10 @@ public class MainActivity
     }
 
     @Override
-    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference preference) {
+    public boolean onPreferenceStartFragment(
+        @NonNull PreferenceFragmentCompat caller,
+        @NonNull Preference preference
+    ) {
         Fragment fragment = Navigation.instantiateFragment(preference, getSupportFragmentManager(), getClassLoader(), caller);
         openFragment(fragment, true);
         return true;
@@ -155,7 +156,6 @@ public class MainActivity
         searchView = getBinding().searchView;
         fabGroup = getBinding().fabGroup;
         fabPrimary = getBinding().fabPrimary;
-        fabSecondary = getBinding().fabSecondary;
     }
     
     private void initLayout() {
@@ -164,7 +164,6 @@ public class MainActivity
             public boolean onPreDraw() {
                 float target = drawerLayout.getHeight();
                 fabPrimaryOffset = target - ViewUtils.getPositionInParent(fabPrimary, drawerLayout).y;
-                fabSecondaryOffset = target - ViewUtils.getPositionInParent(fabSecondary, drawerLayout).y;
                 fabPrimary.getViewTreeObserver().removeOnPreDrawListener(this);
 
                 Fragment fragment = Navigation.getCurrentFragment(getSupportFragmentManager(), R.id.container);
@@ -263,7 +262,6 @@ public class MainActivity
         FabDescription description = fabDescribing != null ? fabDescribing.getFabDescription() : null;
 
         invalidateFab(description != null ? description.getPrimaryProperties() : null, fabPrimary, fabPrimaryOffset);
-        invalidateFab(description != null ? description.getSecondaryProperties() : null, fabSecondary, fabSecondaryOffset);
 
         CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(fabGroup);
         if (behavior instanceof SlideOutBehavior) {

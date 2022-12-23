@@ -50,15 +50,6 @@
                 app:layout_dodgeInsetEdges="bottom">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_secondary"
-                    style="?attr/floatingActionButtonSurfaceStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/measurement_add"
-                    app:fabSize="mini"
-                    app:srcCompat="@drawable/ic_add_fab" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab_primary"
                     style="?attr/floatingActionButtonPrimaryStyle"
                     android:layout_width="wrap_content"

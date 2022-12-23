@@ -176,7 +176,7 @@
             android:divider="?android:listDivider"
             android:showDividers="middle"
             android:animateLayoutChanges="true"
-            android:paddingBottom="160dp" />
+            android:paddingBottom="92dp" />
 
     </LinearLayout>
 

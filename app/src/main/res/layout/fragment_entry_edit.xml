@@ -11,12 +11,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:divider="?android:listDivider"
+        android:orientation="vertical"
+        android:showDividers="middle">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="?android:listDivider"
+            android:divider="@drawable/divider_large"
             android:orientation="vertical"
             android:showDividers="middle">
 
@@ -160,23 +162,17 @@
 
         </LinearLayout>
 
-        <TextView
-            style="@style/Padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:listDivider"
-            android:text="@string/measurements" />
-
         <LinearLayout
             android:id="@+id/measurement_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:divider="?android:listDivider"
-            android:showDividers="middle"
             android:animateLayoutChanges="true"
-            android:paddingBottom="92dp" />
+            android:clipToPadding="false"
+            android:divider="@drawable/divider_large"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/margin_between"
+            android:paddingBottom="92dp"
+            android:showDividers="middle" />
 
     </LinearLayout>
 

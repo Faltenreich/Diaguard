@@ -9,10 +9,9 @@ import android.text.method.KeyListener;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import androidx.appcompat.widget.AppCompatEditText;
-
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.DecimalFormatSymbols;
 
@@ -22,7 +21,7 @@ import java.text.DecimalFormatSymbols;
  * so every default decimal separator is replaced with its localized counterpart (de-DE: "Hello." -> "Hello,")
  */
 
-public class LocalizedNumberEditText extends AppCompatEditText implements TextWatcher {
+public class LocalizedNumberEditText extends TextInputEditText implements TextWatcher {
 
     private static final String TAG = LocalizedNumberEditText.class.getSimpleName();
     private static final Character DEFAULT_SEPARATOR = '.';

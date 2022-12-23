@@ -4,21 +4,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:showDividers="middle"
-    android:divider="?android:listDivider">
+    android:orientation="horizontal"
+    android:divider="@drawable/divider_medium"
+    android:showDividers="middle">
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
         android:id="@+id/systolic_input_field"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:hint="@string/systolic"
         android:inputType="numberDecimal"/>
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
         android:id="@+id/diastolic_input_field"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:hint="@string/diastolic"
         android:inputType="numberDecimal"/>
 

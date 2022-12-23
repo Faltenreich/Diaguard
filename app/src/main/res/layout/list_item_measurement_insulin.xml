@@ -4,29 +4,39 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:showDividers="middle"
-    android:divider="?android:listDivider">
+    android:orientation="vertical">
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
         android:id="@+id/bolus_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/bolus"
-        android:inputType="numberDecimal"/>
+        android:inputType="numberDecimal" />
 
-    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
-        android:id="@+id/correction_input_field"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/correction"
-        android:inputType="numberDecimal|numberSigned"/>
+        android:layout_marginTop="@dimen/padding"
+        android:divider="@drawable/divider_medium"
+        android:orientation="horizontal"
+        android:showDividers="middle">
 
-    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
-        android:id="@+id/basal_input_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/basal"
-        android:inputType="numberDecimal"/>
+        <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+            android:id="@+id/correction_input_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/correction"
+            android:inputType="numberDecimal|numberSigned" />
+
+        <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+            android:id="@+id/basal_input_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/basal"
+            android:inputType="numberDecimal" />
+
+    </LinearLayout>
 
 </LinearLayout>

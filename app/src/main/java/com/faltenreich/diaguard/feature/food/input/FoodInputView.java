@@ -54,7 +54,6 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     private TextView calculatedValueLabel;
     private StickyHintInputView inputValueInputField;
     private RecyclerView foodListView;
-    private Button addButton;
 
     private FoodInputListAdapter foodListAdapter;
     private boolean showIcon;
@@ -123,7 +122,6 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         calculatedValueLabel = getBinding().calculatedValueLabel;
         inputValueInputField = getBinding().inputValueInputField;
         foodListView = getBinding().foodListView;
-        addButton = getBinding().addButton;
     }
 
     public StickyHintInputView getInputField() {
@@ -137,7 +135,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     }
 
     private void initLayout() {
-        addButton.setOnClickListener((view) -> searchForFood());
+        inputValueInputField.setEndIconOnClickListener((view) -> searchForFood());
 
         inputIconImageView.setVisibility(showIcon ? VISIBLE : GONE);
         inputLayout.setMinimumHeight(getResources().getDimensionPixelSize(showIcon ? R.dimen.height_element_large : R.dimen.height_element));

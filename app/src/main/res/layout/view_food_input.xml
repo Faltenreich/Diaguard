@@ -13,9 +13,11 @@
     <LinearLayout
         android:id="@+id/input_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_element_large"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/divider_medium"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:showDividers="middle">
 
         <ImageView
             android:id="@+id/input_icon_image_view"
@@ -40,27 +42,23 @@
 
         <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
             android:id="@+id/input_value_input_field"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:inputType="numberDecimal"
+            app:endIconDrawable="@drawable/ic_search"
+            app:endIconMode="custom"
+            app:endIconContentDescription="@string/food_search"
             tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
-
-    <Button
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:id="@+id/add_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_element"
-        android:text="@string/food_add"
-        android:textAllCaps="false" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
-        tools:listitem="@layout/list_item_measurement_meal_food_item"
-        tools:ignore="UnusedAttribute" />
+        tools:ignore="UnusedAttribute"
+        tools:listitem="@layout/list_item_measurement_meal_food_item" />
 
 </LinearLayout>

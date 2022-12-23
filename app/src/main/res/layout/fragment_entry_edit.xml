@@ -18,7 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/divider_large"
+            android:divider="?android:listDivider"
             android:orientation="vertical"
             android:showDividers="middle">
 
@@ -168,7 +168,7 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:clipToPadding="false"
-            android:divider="@drawable/divider_large"
+            android:divider="@drawable/divider_medium"
             android:orientation="vertical"
             android:paddingTop="@dimen/margin_between"
             android:paddingBottom="92dp"

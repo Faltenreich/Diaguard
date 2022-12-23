@@ -27,6 +27,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:textColor="?android:attr/textColorPrimary"
-        tools:text="120 mg/dL"/>
+        tools:text="120 mg/dl"/>
 
 </LinearLayout>

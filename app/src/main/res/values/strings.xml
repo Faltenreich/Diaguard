@@ -276,7 +276,7 @@
 
     <string name="bloodsugar_units_default" translatable="false">mmol/L</string>
     <string-array name="bloodsugar_units" translatable="false">
-        <item>mg/dL</item>
+        <item>mg/dl</item>
         <item>mmol/L</item>
     </string-array>
     <string-array name="bloodsugar_units_values" translatable="false">

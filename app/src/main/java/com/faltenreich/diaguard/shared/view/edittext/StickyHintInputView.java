@@ -81,27 +81,30 @@ public class StickyHintInputView extends TextInputLayout implements ViewBindable
         inputField.setInputType(inputType);
     }
 
+    @NonNull
     public LocalizedNumberEditText getEditText() {
         return inputField;
     }
 
+    @Nullable
     public String getText() {
         return inputField.getNonLocalizedText();
     }
 
-    public void setText(String text) {
+    public void setText(@Nullable String text) {
         inputField.setText(text);
     }
 
+    @Nullable
     public String getHint() {
         return super.getHint() != null ? super.getHint().toString() : null;
     }
 
-    public void setHint(String hint) {
+    public void setHint(@Nullable String hint) {
         super.setHint(hint);
     }
 
-    public void setError(String error) {
+    public void setError(@Nullable String error) {
         inputField.setError(error);
     }
 }

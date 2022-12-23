@@ -1,19 +1,14 @@
 package com.faltenreich.diaguard.feature.food.input;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,29 +44,26 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
 
     private ViewFoodInputBinding binding;
 
-    private ImageView inputIconImageView;
-    private ViewGroup inputLayout;
-    private TextView calculatedValueLabel;
     private StickyHintInputView inputValueInputField;
     private RecyclerView foodListView;
+    private TextView calculatedValueLabel;
 
     private FoodInputListAdapter foodListAdapter;
-    private boolean showIcon;
     private Meal meal;
 
     public FoodInputView(Context context) {
         super(context);
-        init(null);
+        init();
     }
 
     public FoodInputView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs);
+        init();
     }
 
     public FoodInputView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
+        init();
     }
 
     @Override
@@ -92,10 +84,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         super.onDetachedFromWindow();
     }
 
-    private void init(@Nullable AttributeSet attributeSet) {
-        if (attributeSet != null) {
-            getAttributes(attributeSet);
-        }
+    private void init() {
         if (!isInEditMode()) {
             bindView();
             initData();
@@ -104,24 +93,13 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         }
     }
 
-    private void getAttributes(@NonNull AttributeSet attributeSet) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.FoodInputView);
-        try {
-            showIcon = typedArray.getBoolean(R.styleable.FoodInputView_showIcon, false);
-        } finally {
-            typedArray.recycle();
-        }
-    }
-
     private void bindView() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_food_input, this);
         binding = ViewFoodInputBinding.bind(this);
 
-        inputIconImageView = getBinding().inputIconImageView;
-        inputLayout = getBinding().inputLayout;
-        calculatedValueLabel = getBinding().calculatedValueLabel;
         inputValueInputField = getBinding().inputValueInputField;
         foodListView = getBinding().foodListView;
+        calculatedValueLabel = getBinding().calculatedValueLabel;
     }
 
     public StickyHintInputView getInputField() {
@@ -136,9 +114,6 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
 
     private void initLayout() {
         inputValueInputField.setEndIconOnClickListener((view) -> searchForFood());
-
-        inputIconImageView.setVisibility(showIcon ? VISIBLE : GONE);
-        inputLayout.setMinimumHeight(getResources().getDimensionPixelSize(showIcon ? R.dimen.height_element_large : R.dimen.height_element));
 
         inputValueInputField.setHint(PreferenceStore.getInstance().getUnitName(Category.MEAL));
         inputValueInputField.getEditText().addTextChangedListener(this);
@@ -156,10 +131,10 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
             calculatedValueLabel.setVisibility(VISIBLE);
             float carbohydrates = foodListAdapter.getTotalCarbohydrates();
             float meal = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
-            calculatedValueLabel.setText(String.format("%s   +", FloatUtils.parseFloat(meal)));
+            String foodEaten = String.format("= %s %s", FloatUtils.parseFloat(meal), getContext().getString(R.string.carbohydrates));
+            calculatedValueLabel.setText(foodEaten);
         } else {
             calculatedValueLabel.setVisibility(GONE);
-            calculatedValueLabel.setText(null);
         }
 
         meal.setFoodEatenCache(foodListAdapter.getItems());
@@ -250,8 +225,9 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     }
 
     public float getInputCarbohydrates() {
-        float input = FloatUtils.parseNumber(inputValueInputField.getText());
-        return PreferenceStore.getInstance().formatCustomToDefaultUnit(Category.MEAL, input);
+        String input = inputValueInputField.getText();
+        float carbohydrates = input != null ? FloatUtils.parseNumber(input) : 0;
+        return PreferenceStore.getInstance().formatCustomToDefaultUnit(Category.MEAL, carbohydrates);
     }
 
     public float getCalculatedCarbohydrates() {

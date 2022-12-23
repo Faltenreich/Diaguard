@@ -149,8 +149,7 @@
                 <com.faltenreich.diaguard.feature.food.input.FoodInputView
                     android:id="@+id/food_input_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:showIcon="true" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

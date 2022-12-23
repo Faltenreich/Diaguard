@@ -10,49 +10,17 @@
     android:orientation="vertical"
     android:showDividers="middle">
 
-    <LinearLayout
-        android:id="@+id/input_layout"
+    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+        android:id="@+id/input_value_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/divider_medium"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:showDividers="middle">
+        android:inputType="numberDecimal"
+        app:endIconContentDescription="@string/food_search"
+        app:endIconDrawable="@drawable/ic_search"
+        app:endIconMode="custom"
+        tools:ignore="RtlSymmetry" />
 
-        <ImageView
-            android:id="@+id/input_icon_image_view"
-            android:layout_width="@dimen/size_image"
-            android:layout_height="@dimen/size_image"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_category_meal"
-            app:tint="?iconColorPrimary" />
-
-        <TextView
-            android:id="@+id/calculated_value_label"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/padding_end_large"
-            android:layout_marginLeft="@dimen/padding_end_large"
-            android:gravity="center_vertical"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="@dimen/text_large"
-            tools:text="20 +" />
-
-        <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
-            android:id="@+id/input_value_input_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="numberDecimal"
-            app:endIconDrawable="@drawable/ic_search"
-            app:endIconMode="custom"
-            app:endIconContentDescription="@string/food_search"
-            tools:ignore="RtlSymmetry" />
-
-    </LinearLayout>
-
+    <!-- TODO: Add border -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_list_view"
         android:layout_width="match_parent"
@@ -60,5 +28,15 @@
         android:nestedScrollingEnabled="false"
         tools:ignore="UnusedAttribute"
         tools:listitem="@layout/list_item_measurement_meal_food_item" />
+
+    <TextView
+        android:id="@+id/calculated_value_label"
+        style="@style/Padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:listDivider"
+        android:gravity="end"
+        android:textColor="?android:textColorSecondary"
+        tools:text="20 extra carbohydrates from food" />
 
 </LinearLayout>

@@ -2,10 +2,6 @@
 
 <resources>
 
-    <declare-styleable name="FoodInputView">
-        <attr name="showIcon" format="boolean"/>
-    </declare-styleable>
-
     <declare-styleable name="LocalizedNumberEditText">
         <attr name="restrictToLocalizedSeparator" format="boolean"/>
     </declare-styleable>

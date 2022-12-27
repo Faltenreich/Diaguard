@@ -2,14 +2,15 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="false"
+    android:divider="@drawable/divider_medium"
     android:gravity="center_vertical"
     android:minHeight="@dimen/height_element"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:showDividers="middle">
 
     <LinearLayout
         style="@style/Padding"
@@ -25,7 +26,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="?android:attr/textColorPrimary"
-            tools:text="Food"/>
+            tools:text="Food" />
 
         <TextView
             android:id="@+id/value_label"
@@ -34,32 +35,18 @@
             android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="@dimen/text_xsmall"
-            tools:text="12 KH per 100 g"/>
+            tools:text="12 KH per 100 g" />
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/amount_button"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_between"
-        android:layout_marginStart="@dimen/margin_between"
         android:textAllCaps="false"
-        android:text="@string/amount"
-        android:textColor="@android:color/white"
-        app:backgroundTint="?colorPrimary"/>
-
-    <ImageView
-        android:id="@+id/delete_button"
-        android:layout_width="@dimen/height_element"
-        android:layout_height="@dimen/height_element"
-        android:contentDescription="@string/food_delete"
-        android:padding="@dimen/padding_large"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_remove"
-        app:tint="?iconColorPrimary" />
+        tools:text="@string/amount" />
 
 </LinearLayout>

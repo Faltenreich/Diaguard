@@ -76,6 +76,7 @@
     <string name="food_deleted">Cibo cancellato</string>
     <string name="food_eaten_placeholder">%d pasti assunti saranno affetti</string>
     <string name="food_edit">Modifica cibo</string>
+    <string name="food_input">più %s attraverso il cibo</string>
     <string name="food_new">Nuovo cibo</string>
     <string name="food_search">Cerca cibo</string>
     <string name="format">Formato</string>

@@ -102,6 +102,7 @@
     <string name="food_deleted">Food deleted</string>
     <string name="food_eaten_placeholder">%d eaten meals will be affected</string>
     <string name="food_edit">Edit food</string>
+    <string name="food_input">plus %s from food</string>
     <string name="food_new">New food</string>
     <string name="food_search">Search for food</string>
     <string name="format">Format</string>

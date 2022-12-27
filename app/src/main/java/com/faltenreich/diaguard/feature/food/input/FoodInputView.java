@@ -6,7 +6,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,7 +45,6 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
 
     private StickyHintInputView inputValueInputField;
     private RecyclerView foodListView;
-    private TextView calculatedValueLabel;
 
     private FoodInputListAdapter foodListAdapter;
     private Meal meal;
@@ -99,7 +97,6 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
 
         inputValueInputField = getBinding().inputValueInputField;
         foodListView = getBinding().foodListView;
-        calculatedValueLabel = getBinding().calculatedValueLabel;
     }
 
     public StickyHintInputView getInputField() {
@@ -114,7 +111,6 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
 
     private void initLayout() {
         inputValueInputField.setEndIconOnClickListener((view) -> searchForFood());
-
         inputValueInputField.setHint(PreferenceStore.getInstance().getUnitName(Category.MEAL));
         inputValueInputField.getEditText().addTextChangedListener(this);
 
@@ -125,17 +121,17 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     }
 
     private void invalidateLayout() {
-        foodListView.setVisibility(foodListAdapter.hasFood() ? VISIBLE : GONE);
-
+        String foodEaten = null;
         if (foodListAdapter.hasFoodEaten()) {
-            calculatedValueLabel.setVisibility(VISIBLE);
             float carbohydrates = foodListAdapter.getTotalCarbohydrates();
             float meal = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
-            String foodEaten = String.format("= %s %s", FloatUtils.parseFloat(meal), getContext().getString(R.string.carbohydrates));
-            calculatedValueLabel.setText(foodEaten);
-        } else {
-            calculatedValueLabel.setVisibility(GONE);
+            foodEaten = String.format(
+                getContext().getString(R.string.food_input),
+                FloatUtils.parseFloat(meal)
+            );
         }
+        inputValueInputField.setHelperText(foodEaten);
+        foodListView.setVisibility(foodListAdapter.hasFood() ? VISIBLE : GONE);
 
         meal.setFoodEatenCache(foodListAdapter.getItems());
     }

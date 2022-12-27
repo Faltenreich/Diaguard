@@ -275,6 +275,7 @@
     <string name="food_deleted">Aliments supprimés</string>
     <string name="food_eaten_placeholder">%d repas pris seront affectés</string>
     <string name="food_edit">Modifier les aliments</string>
+    <string name="food_input">plus %s par les aliments</string>
     <string name="food_new">Nouvelle aliment</string>
     <string name="food_search">Recherche de aliments</string>
     <string name="ingredients">Ingrédients</string>

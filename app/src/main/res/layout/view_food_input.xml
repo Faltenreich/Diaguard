@@ -18,9 +18,9 @@
         app:endIconContentDescription="@string/food_search"
         app:endIconDrawable="@drawable/ic_search"
         app:endIconMode="custom"
+        tools:helperText="@string/food_input"
         tools:ignore="RtlSymmetry" />
 
-    <!-- TODO: Add border -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_list_view"
         android:layout_width="match_parent"
@@ -28,15 +28,5 @@
         android:nestedScrollingEnabled="false"
         tools:ignore="UnusedAttribute"
         tools:listitem="@layout/list_item_measurement_meal_food_item" />
-
-    <TextView
-        android:id="@+id/calculated_value_label"
-        style="@style/Padding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:listDivider"
-        android:gravity="end"
-        android:textColor="?android:textColorSecondary"
-        tools:text="20 extra carbohydrates from food" />
 
 </LinearLayout>

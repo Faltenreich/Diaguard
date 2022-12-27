@@ -1,13 +1,9 @@
 package com.faltenreich.diaguard.feature.food.input;
 
-import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementMealFoodItemBinding;
@@ -20,7 +16,6 @@ import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.shared.view.picker.NumberPickerDialog;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
-import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
 /**
  * Created by Faltenreich on 03.10.2016.
@@ -40,40 +35,30 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
 
     private void initLayout() {
         getBinding().amountButton.setOnClickListener(view -> showNumberPicker());
-        getBinding().deleteButton.setOnClickListener(view -> deleteFood());
     }
 
-    @SuppressLint("RestrictedApi")
     @Override
     protected void onBind(FoodEaten item) {
         Food food = item.getFood();
-
         getBinding().nameLabel.setText(food.getName());
         getBinding().valueLabel.setText(String.format("%s %s",
             food.getValueForUi(),
             PreferenceStore.getInstance().getLabelForMealPer100g(getContext()))
         );
-        getBinding().deleteButton.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), food.getName()));
-
-        boolean isSet = item.isValid();
-        String text = isSet ?
+        getBinding().amountButton.setText(item.isValid() ?
             String.format("%s %s", FloatUtils.parseFloat(item.getAmountInGrams()), getContext().getString(R.string.grams_milliliters_acronym)) :
-            getContext().getString(R.string.amount);
-        int backgroundColor = isSet ? ColorUtils.getBackgroundTertiary(getContext()) : ColorUtils.getPrimaryColor(getContext());
-        int textColor = isSet ? ColorUtils.getTextColorPrimary(getContext()) : Color.WHITE;
-        AppCompatButton amountButton = getBinding().amountButton;
-        amountButton.setText(text);
-        amountButton.setSupportBackgroundTintList(ColorStateList.valueOf(backgroundColor));
-        amountButton.setTextColor(textColor);
+            getContext().getString(R.string.amount)
+        );
     }
 
+    // TODO: Add option to delete food from number picker, e.g. via bottom sheet
     private void showNumberPicker() {
         if (getContext() instanceof AppCompatActivity) {
             AppCompatActivity activity = (AppCompatActivity) getContext();
             new NumberPickerDialog(getContext(), R.string.grams_milliliters_acronym, getAmountFromButton(), 1, 10000, (number) -> {
                 FoodEaten foodEaten = getItem();
                 foodEaten.setAmountInGrams(number.floatValue());
-                Events.post(new FoodEatenUpdatedEvent(foodEaten, getAdapterPosition()));
+                Events.post(new FoodEatenUpdatedEvent(foodEaten, getBindingAdapterPosition()));
             }).show(activity.getSupportFragmentManager());
         }
     }

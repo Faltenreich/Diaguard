@@ -76,6 +76,7 @@
     <string name="food_deleted">Lebensmittel gelöscht</string>
     <string name="food_eaten_placeholder">%d verzehrte Mahlzeiten sind betroffen</string>
     <string name="food_edit">Lebensmittel bearbeiten</string>
+    <string name="food_input">plus %s durch Lebensmittel</string>
     <string name="food_new">Neues Lebensmittel</string>
     <string name="food_search">Lebensmittel suchen</string>
     <string name="format">Format</string>

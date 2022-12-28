@@ -148,15 +148,16 @@
                     app:srcCompat="@drawable/ic_alarm"
                     app:tint="?iconColorPrimary" />
 
-                <Button
-                    android:id="@+id/alarm_button"
-                    style="@style/Widget.Material3.Button.TextButton"
+                <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+                    android:id="@+id/alarm_input"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start|center_vertical"
-                    android:text="@string/alarm_reminder_none"
-                    android:textAllCaps="false"
-                    android:textColor="?android:textColorPrimary" />
+                    android:layout_height="wrap_content"
+                    android:hint="@string/alarm_reminder"
+                    android:inputType="number"
+                    app:endIconContentDescription="@string/alarm_reminder_none"
+                    app:endIconDrawable="@drawable/ic_clear"
+                    app:endIconMode="custom"
+                    app:suffixText="@string/minutes" />
 
             </LinearLayout>
 

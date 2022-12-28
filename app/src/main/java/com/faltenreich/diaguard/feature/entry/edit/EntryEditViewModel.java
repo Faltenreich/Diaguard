@@ -5,8 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
@@ -23,10 +21,11 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.Consumer;
+import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.reflect.ObjectFactory;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,16 +77,12 @@ public class EntryEditViewModel {
         return alarmInMinutes;
     }
 
-    String getAlarmInMinutesAsText(Context context) {
-        return alarmInMinutes > 0 ?
-            String.format("%s %s",
-                context.getString(R.string.alarm_reminder_in),
-                DateTimeUtils.parseInterval(context, alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE)) :
-            context.getString(R.string.alarm_reminder_none);
+    void setAlarmInMinutes(String input) {
+        this.alarmInMinutes = (int) FloatUtils.parseNumber(input);
     }
 
-    void setAlarmInMinutes(int alarmInMinutes) {
-        this.alarmInMinutes = alarmInMinutes;
+    int getAlarmIconMode() {
+        return alarmInMinutes > 0 ? TextInputLayout.END_ICON_CUSTOM : TextInputLayout.END_ICON_NONE;
     }
 
     boolean isEditing() {

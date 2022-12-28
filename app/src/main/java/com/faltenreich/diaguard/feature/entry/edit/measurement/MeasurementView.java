@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.TooltipCompat;
 
 import com.faltenreich.diaguard.databinding.ListItemMeasurementBinding;
 import com.faltenreich.diaguard.feature.entry.edit.input.GenericInputView;
@@ -28,7 +26,6 @@ import com.faltenreich.diaguard.shared.view.ViewBindable;
  */
 public class MeasurementView<T extends Measurement> extends FrameLayout implements ViewBindable<ListItemMeasurementBinding> {
 
-    private ImageView categoryImageView;
     private ViewGroup contentLayout;
 
     private T measurement;
@@ -92,15 +89,10 @@ public class MeasurementView<T extends Measurement> extends FrameLayout implemen
     }
 
     private void bindViews() {
-        categoryImageView = getBinding().categoryImageView;
         contentLayout = getBinding().contentLayout;
     }
 
     private void initLayout() {
-        Category category = measurement.getCategory();
-        categoryImageView.setImageResource(category.getIconImageResourceId());
-        categoryImageView.setOnClickListener(View::performLongClick);
-        TooltipCompat.setTooltipText(categoryImageView, getContext().getString(category.getStringResId()));
         contentLayout.addView(inputView);
     }
 

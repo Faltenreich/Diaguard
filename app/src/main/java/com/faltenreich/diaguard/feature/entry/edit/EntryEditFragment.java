@@ -63,8 +63,8 @@ import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.chip.ChipView;
 import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.picker.NumberPicker;
 import com.google.android.material.chip.ChipGroup;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -130,7 +130,7 @@ public class EntryEditFragment
     private ImageView tagEditButton;
     private EditText noteInput;
     private ViewGroup alarmContainer;
-    private Button alarmButton;
+    private StickyHintInputView alarmInput;
     private LinearLayout measurementContainer;
 
     @Override
@@ -198,7 +198,7 @@ public class EntryEditFragment
         tagEditButton = getBinding().tagEditButton;
         noteInput = getBinding().noteInput;
         alarmContainer = getBinding().alarmContainer;
-        alarmButton = getBinding().alarmButton;
+        alarmInput = getBinding().alarmInput;
         measurementContainer = getBinding().measurementContainer;
     }
 
@@ -239,9 +239,12 @@ public class EntryEditFragment
         EditTextUtils.afterTextChanged(noteInput, () -> viewModel.getEntry().setNote(noteInput.getText().toString()));
 
         alarmContainer.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
-        alarmButton.setOnClickListener(view -> requestPermissionToPostNotification());
-
-        invalidateAlarm();
+        // alarmInput.setOnClickListener(view -> requestPermissionToPostNotification());
+        alarmInput.setEndIconOnClickListener(view -> alarmInput.setText(null));
+        EditTextUtils.afterTextChanged(
+            alarmInput.getEditText(),
+            () -> viewModel.setAlarmInMinutes(alarmInput.getText())
+        );
     }
 
     private void initData() {
@@ -384,10 +387,6 @@ public class EntryEditFragment
         DateTime dateTime = viewModel.getEntry() != null ? viewModel.getEntry().getDate() : DateTime.now();
         dateButton.setText(Helper.getDateFormat().print(dateTime));
         timeButton.setText(Helper.getTimeFormat().print(dateTime));
-    }
-
-    private void invalidateAlarm() {
-        alarmButton.setText(viewModel.getAlarmInMinutesAsText(getContext()));
     }
 
     private boolean inputIsValid() {
@@ -556,13 +555,6 @@ public class EntryEditFragment
         Events.post(new PermissionRequestEvent(Permission.POST_NOTIFICATIONS, PermissionUseCase.REMINDER));
     }
 
-    private void showAlarmPicker() {
-        new NumberPicker(requireContext().getString(R.string.minutes), viewModel.getAlarmInMinutes(), 0, 10_000, (number) -> {
-            viewModel.setAlarmInMinutes(number.intValue());
-            invalidateAlarm();
-        }).show(getChildFragmentManager());
-    }
-
     // TODO: Add option to open category settings (e.g. via button in section header)
     private void openCategorySettings() {
         openFragment(new CategoryListFragment(), true);
@@ -580,13 +572,10 @@ public class EntryEditFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionResponseEvent event) {
         if (event.context == Permission.POST_NOTIFICATIONS &&
-            event.useCase == PermissionUseCase.REMINDER
+            event.useCase == PermissionUseCase.REMINDER &&
+            !event.isGranted
         ) {
-            if (event.isGranted) {
-                showAlarmPicker();
-            } else {
-                ViewUtils.showSnackbar(getView(), getString(R.string.error_missing_permission));
-            }
+            ViewUtils.showSnackbar(getView(), getString(R.string.error_missing_permission));
         }
     }
 }

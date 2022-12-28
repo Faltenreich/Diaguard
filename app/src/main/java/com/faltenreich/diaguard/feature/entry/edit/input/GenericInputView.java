@@ -34,6 +34,7 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
 
     @Override
     protected void onBind(Measurement measurement) {
+        inputField.setStartIconDrawable(measurement.getCategory().getIconImageResourceId());
         inputField.setTag(measurement.getCategory());
         inputField.setHint(measurement.getCategory().getStringResId());
         inputField.setSuffixText(PreferenceStore.getInstance().getUnitAcronym(measurement.getCategory()));

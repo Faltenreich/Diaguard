@@ -19,8 +19,7 @@
         app:endIconContentDescription="@string/food_search"
         app:endIconDrawable="@drawable/ic_search"
         app:endIconMode="custom"
-        tools:helperText="@string/food_input"
-        tools:ignore="RtlSymmetry" />
+        app:startIconDrawable="@drawable/ic_category_meal" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_list_view"

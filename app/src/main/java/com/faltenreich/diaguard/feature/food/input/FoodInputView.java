@@ -110,7 +110,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     }
 
     private void initLayout() {
-        inputValueInputField.setEndIconOnClickListener((view) -> searchForFood());
+        inputValueInputField.setEndIconOnClickListener(view -> searchForFood());
         inputValueInputField.setSuffixText(PreferenceStore.getInstance().getUnitAcronym(Category.MEAL));
         inputValueInputField.getEditText().addTextChangedListener(this);
 

@@ -2,6 +2,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:divider="@drawable/divider_small"
@@ -13,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/bolus"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        app:startIconDrawable="@drawable/ic_category_insulin" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,6 +24,7 @@
         android:orientation="horizontal"
         android:showDividers="middle">
 
+        <!-- FIXME: Move to basal_input_field on forward -->
         <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
             android:id="@+id/correction_input_field"
             android:layout_width="0dp"

@@ -41,6 +41,7 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
     @Override
     protected void onBind(Insulin measurement) {
         bolusInputField.setText(measurement.getValuesForUI()[0]);
+        bolusInputField.setSuffixText(PreferenceStore.getInstance().getUnitAcronym(Category.INSULIN));
         EditTextUtils.afterTextChanged(bolusInputField.getEditText(), () -> {
             measurement.setBolus(bolusInputField.getText().length() > 0 ?
                 PreferenceStore.getInstance().formatCustomToDefaultUnit(
@@ -50,6 +51,7 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
         });
 
         correctionInputField.setText(measurement.getValuesForUI()[1]);
+        correctionInputField.setSuffixText(PreferenceStore.getInstance().getUnitAcronym(Category.INSULIN));
         EditTextUtils.afterTextChanged(correctionInputField.getEditText(), () -> {
             measurement.setCorrection(correctionInputField.getText().length() > 0 ?
                 PreferenceStore.getInstance().formatCustomToDefaultUnit(
@@ -59,6 +61,7 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
         });
 
         basalInputField.setText(measurement.getValuesForUI()[2]);
+        basalInputField.setSuffixText(PreferenceStore.getInstance().getUnitAcronym(Category.INSULIN));
         EditTextUtils.afterTextChanged(basalInputField.getEditText(), () -> {
             measurement.setBasal(basalInputField.getText().length() > 0 ?
                 PreferenceStore.getInstance().formatCustomToDefaultUnit(

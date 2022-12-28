@@ -107,9 +107,9 @@
     <string name="food_search">Search for food</string>
     <string name="format">Format</string>
     <string name="general">General</string>
+    <string name="grams">Grams</string>
     <string name="grams_acronym" translatable="false">g</string>
     <string name="milligrams_acronym" translatable="false">mg</string>
-    <string name="grams_milliliters_acronym" translatable="false">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
     <string name="hba1c_on">HbA1c on %s</string>

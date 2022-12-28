@@ -1,52 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/amount_input"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:baselineAligned="false"
-    android:divider="@drawable/divider_medium"
-    android:gravity="center_vertical"
-    android:minHeight="@dimen/height_element"
-    android:orientation="horizontal"
-    android:showDividers="middle">
-
-    <LinearLayout
-        style="@style/Padding"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/name_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="?android:attr/textColorPrimary"
-            tools:text="Food" />
-
-        <TextView
-            android:id="@+id/value_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textSize="@dimen/text_xsmall"
-            tools:text="12 KH per 100 g" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/amount_button"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        tools:text="@string/amount" />
-
-</LinearLayout>
+    android:hint="@string/grams"
+    android:inputType="number"
+    app:endIconContentDescription="@string/food_delete"
+    app:endIconDrawable="@drawable/ic_clear"
+    app:endIconMode="custom"
+    app:suffixText="@string/grams"/>

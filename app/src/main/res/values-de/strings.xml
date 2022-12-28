@@ -81,6 +81,7 @@
     <string name="food_search">Lebensmittel suchen</string>
     <string name="format">Format</string>
     <string name="general">Allgemein</string>
+    <string name="grams">Gramm</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Geschätzter HbA1c</string>
     <string name="hba1c_on">HbA1c am %s</string>

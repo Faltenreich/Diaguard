@@ -3,8 +3,6 @@ package com.faltenreich.diaguard.feature.food.input;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementMealFoodItemBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -13,8 +11,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
-import com.faltenreich.diaguard.shared.event.ui.FoodEatenUpdatedEvent;
-import com.faltenreich.diaguard.shared.view.picker.NumberPicker;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 /**
@@ -25,7 +22,7 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
 
     FoodInputViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_measurement_meal_food_item);
-        initLayout();
+        getBinding().amountInput.setEndIconOnClickListener(view -> deleteFood());
     }
 
     @Override
@@ -33,37 +30,20 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
         return ListItemMeasurementMealFoodItemBinding.bind(view);
     }
 
-    private void initLayout() {
-        getBinding().amountButton.setOnClickListener(view -> showNumberPicker());
-    }
-
     @Override
     protected void onBind(FoodEaten item) {
         Food food = item.getFood();
-        getBinding().nameLabel.setText(food.getName());
-        getBinding().valueLabel.setText(String.format("%s %s",
+        StickyHintInputView inputView = getBinding().amountInput;
+        inputView.setText(item.isValid() ? FloatUtils.parseFloat(item.getAmountInGrams()) : null);
+        inputView.setHint(food.getName());
+        inputView.setHelperText(String.format("%s %s",
             food.getValueForUi(),
             PreferenceStore.getInstance().getLabelForMealPer100g(getContext()))
         );
-        getBinding().amountButton.setText(item.isValid() ?
-            String.format("%s %s", FloatUtils.parseFloat(item.getAmountInGrams()), getContext().getString(R.string.grams_milliliters_acronym)) :
-            getContext().getString(R.string.amount)
-        );
-    }
-
-    private void showNumberPicker() {
-        if (getContext() instanceof AppCompatActivity) {
-            AppCompatActivity activity = (AppCompatActivity) getContext();
-            new NumberPicker(getContext().getString(R.string.grams_milliliters_acronym), getAmountFromButton(), 1, 10000, (number) -> {
-                FoodEaten foodEaten = getItem();
-                foodEaten.setAmountInGrams(number.floatValue());
-                Events.post(new FoodEatenUpdatedEvent(foodEaten, getBindingAdapterPosition()));
-            }).show(activity.getSupportFragmentManager());
-        }
     }
 
     private int getAmountFromButton() {
-        String label = getBinding().amountButton.getText().toString();
+        String label = getBinding().amountInput.getText();
         if (label.length() > 0) {
             String numberLabel = label.substring(0, label.indexOf(" "));
             try {

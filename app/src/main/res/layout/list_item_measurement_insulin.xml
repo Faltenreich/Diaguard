@@ -4,7 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:divider="@drawable/divider_small"
+    android:orientation="vertical"
+    android:showDividers="middle">
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
         android:id="@+id/bolus_input_field"
@@ -16,7 +18,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding"
         android:divider="@drawable/divider_medium"
         android:orientation="horizontal"
         android:showDividers="middle">

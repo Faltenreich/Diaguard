@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:divider="@drawable/divider_medium"
+    android:divider="@drawable/divider_small"
     android:orientation="vertical"
     android:showDividers="middle">
 

@@ -4,11 +4,11 @@ import android.view.LayoutInflater;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.faltenreich.diaguard.databinding.DialogFootInputAmountBinding;
+import com.faltenreich.diaguard.databinding.ViewNumberPickerBinding;
 import com.faltenreich.diaguard.shared.view.fragment.BaseBottomSheetDialogFragment;
 
 public class NumberPickerBottomSheetDialogFragment
-    extends BaseBottomSheetDialogFragment<DialogFootInputAmountBinding>
+    extends BaseBottomSheetDialogFragment<ViewNumberPickerBinding>
     implements NumberPicking
 {
 
@@ -31,8 +31,8 @@ public class NumberPickerBottomSheetDialogFragment
     }
 
     @Override
-    protected DialogFootInputAmountBinding createBinding(LayoutInflater inflater) {
-        return DialogFootInputAmountBinding.inflate(inflater);
+    protected ViewNumberPickerBinding createBinding(LayoutInflater inflater) {
+        return ViewNumberPickerBinding.inflate(inflater);
     }
 
     @Override

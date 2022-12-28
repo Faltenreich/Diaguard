@@ -207,14 +207,6 @@
         <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
     </style>
 
-    <style name="NumberPicker">
-        <item name="bpDialogBackground">@drawable/background_primary</item>
-        <item name="bpDividerColor">@color/background_light_tertiary</item>
-        <item name="bpTextColor">@color/text_primary</item>
-        <item name="bpDeleteIcon">@drawable/ic_backspace_light</item>
-        <item name="bpCheckIcon">@drawable/ic_check_light</item>
-    </style>
-
     <style name="ListHeader" parent="Padding">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

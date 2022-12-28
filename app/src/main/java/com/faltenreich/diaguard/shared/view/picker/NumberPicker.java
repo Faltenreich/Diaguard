@@ -1,18 +1,8 @@
 package com.faltenreich.diaguard.shared.view.picker;
 
-import android.content.Context;
-import android.view.View;
-
-import androidx.annotation.StringRes;
 import androidx.fragment.app.FragmentManager;
 
-import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
-import com.faltenreich.diaguard.R;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-public class NumberPickerDialog {
+public class NumberPicker implements NumberPicking {
 
     private final String title;
     private final int initialValue;
@@ -20,22 +10,34 @@ public class NumberPickerDialog {
     private final int maxValue;
     private final Listener listener;
 
-    public NumberPickerDialog(
-        Context context,
-        @StringRes int titleResourceId,
+    public NumberPicker(
+        String title,
         int initialValue,
         int minValue,
         int maxValue,
         Listener listener
     ) {
-        this.title = context.getString(titleResourceId);
+        this.title = title;
         this.initialValue = initialValue;
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.listener = listener;
     }
 
+    @Override
     public void show(FragmentManager fragmentManager) {
+        NumberPickerBottomSheetDialogFragment.newInstance(
+            title,
+            initialValue,
+            minValue,
+            maxValue,
+            listener
+        ).show(fragmentManager);
+    }
+
+    /*
+    @Deprecated
+    public void showOld(FragmentManager fragmentManager) {
         new NumberPickerBuilder()
             .setFragmentManager(fragmentManager)
             .setStyleResId(R.style.NumberPicker)
@@ -48,9 +50,5 @@ public class NumberPickerDialog {
             .setCurrentNumber(initialValue > 0 ? initialValue : null)
             .show();
     }
-
-    public interface Listener {
-
-        void onNumberPicked(BigInteger number);
-    }
+    */
 }

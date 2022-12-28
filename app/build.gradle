@@ -113,7 +113,6 @@ dependencies {
     implementation 'com.opencsv:opencsv:3.10'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.fmsirvent:parallaxeverywhere:1.0.4'
-    implementation 'com.code-troopers.betterpickers:library:3.1.0'
 }
 
 task applyVersionToReadme() {

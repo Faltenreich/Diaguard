@@ -64,7 +64,7 @@ import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.chip.ChipView;
 import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.picker.NumberPickerDialog;
+import com.faltenreich.diaguard.shared.view.picker.NumberPicker;
 import com.google.android.material.chip.ChipGroup;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -557,7 +557,7 @@ public class EntryEditFragment
     }
 
     private void showAlarmPicker() {
-        new NumberPickerDialog(requireContext(), R.string.minutes, viewModel.getAlarmInMinutes(), 0, 10_000, (number) -> {
+        new NumberPicker(requireContext().getString(R.string.minutes), viewModel.getAlarmInMinutes(), 0, 10_000, (number) -> {
             viewModel.setAlarmInMinutes(number.intValue());
             invalidateAlarm();
         }).show(getChildFragmentManager());

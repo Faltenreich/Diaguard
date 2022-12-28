@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
+import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
@@ -40,14 +41,19 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
             food.getValueForUi(),
             PreferenceStore.getInstance().getLabelForMealPer100g(getContext()))
         );
+        EditTextUtils.afterTextChanged(inputView.getEditText(), this::onInputChanged);
+    }
+
+    private void onInputChanged() {
+        FoodEaten foodEaten = getItem();
+        foodEaten.setAmountInGrams(getAmountFromButton());
     }
 
     private int getAmountFromButton() {
-        String label = getBinding().amountInput.getText();
-        if (label.length() > 0) {
-            String numberLabel = label.substring(0, label.indexOf(" "));
+        String input = getBinding().amountInput.getText();
+        if (input != null && input.length() > 0) {
             try {
-                return (int) FloatUtils.parseNumber(numberLabel);
+                return (int) FloatUtils.parseNumber(input);
             } catch (NumberFormatException exception) {
                 return 0;
             }

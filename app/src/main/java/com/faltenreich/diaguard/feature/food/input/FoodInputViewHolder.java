@@ -52,7 +52,7 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
     }
 
     // TODO: Add option to delete food from number picker, e.g. via bottom sheet
-    private void showNumberPicker() {
+    private void showNumberPickerOld() {
         if (getContext() instanceof AppCompatActivity) {
             AppCompatActivity activity = (AppCompatActivity) getContext();
             new NumberPickerDialog(getContext(), R.string.grams_milliliters_acronym, getAmountFromButton(), 1, 10000, (number) -> {
@@ -60,6 +60,13 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
                 foodEaten.setAmountInGrams(number.floatValue());
                 Events.post(new FoodEatenUpdatedEvent(foodEaten, getBindingAdapterPosition()));
             }).show(activity.getSupportFragmentManager());
+        }
+    }
+
+    private void showNumberPicker() {
+        if (getContext() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getContext();
+            FoodInputAmountView.newInstance(getItem()).show(activity.getSupportFragmentManager(), FoodInputAmountView.TAG);
         }
     }
 

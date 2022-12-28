@@ -32,7 +32,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.GridDividerItemDecoration;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.ListDividerItemDecoration;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -109,7 +109,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
 
     private void initLayout() {
         imageListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        imageListView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        imageListView.addItemDecoration(new ListDividerItemDecoration(getContext()));
         imageListView.setAdapter(imageAdapter);
         imageListView.setNestedScrollingEnabled(false);
 

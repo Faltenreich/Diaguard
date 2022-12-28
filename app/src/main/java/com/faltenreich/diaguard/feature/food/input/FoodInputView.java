@@ -27,7 +27,7 @@ import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSearchedEvent;
 import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.ListMarginItemDecoration;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -116,7 +116,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
 
         foodListAdapter = new FoodInputListAdapter(getContext());
         foodListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        foodListView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        foodListView.addItemDecoration(new ListMarginItemDecoration(getContext(), R.dimen.padding));
         foodListView.setAdapter(foodListAdapter);
     }
 

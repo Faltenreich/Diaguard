@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.shared.event.file.ExportHistoryDeleteEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.ListDividerItemDecoration;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -90,7 +90,7 @@ public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBin
 
     private void initLayout() {
         listView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listView.addItemDecoration(new ListDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
         progressIndicator.setVisibility(View.VISIBLE);
     }

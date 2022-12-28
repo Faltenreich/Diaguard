@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.event.data.TagSavedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.ListDividerItemDecoration;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -76,7 +76,7 @@ public class TagListFragment
 
     private void initLayout() {
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listView.addItemDecoration(new ListDividerItemDecoration(getContext()));
         listAdapter = new TagListAdapter(getContext(), this);
         listView.setAdapter(listAdapter);
     }

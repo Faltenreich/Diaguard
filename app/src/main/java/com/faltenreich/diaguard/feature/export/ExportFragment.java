@@ -42,7 +42,7 @@ import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.progress.ProgressComponent;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.ListDividerItemDecoration;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -141,7 +141,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
 
         RecyclerView categoryListView = getBinding().categoryListView;
         categoryListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoryListView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        categoryListView.addItemDecoration(new ListDividerItemDecoration(getContext()));
         categoryListView.setAdapter(categoryListAdapter);
 
         ViewCompat.setNestedScrollingEnabled(categoryListView, false);

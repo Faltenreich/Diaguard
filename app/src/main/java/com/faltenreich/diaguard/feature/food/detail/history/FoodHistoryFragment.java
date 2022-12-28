@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.ListDividerItemDecoration;
 
 import java.util.List;
 
@@ -79,7 +79,7 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
         RecyclerView listView = getBinding().listView;
         historyAdapter = new FoodHistoryListAdapter(getContext(), this::openEntry);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listView.addItemDecoration(new ListDividerItemDecoration(getContext()));
         listView.setAdapter(historyAdapter);
     }
 

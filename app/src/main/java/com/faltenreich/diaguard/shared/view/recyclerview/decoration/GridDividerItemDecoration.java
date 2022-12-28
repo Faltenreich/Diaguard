@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.shared.view.resource.DrawableUtils;
 
+/**
+ * GridDividerItemDecoration is a {@link RecyclerView.ItemDecoration} that can be used as a divider
+ * between items of a {@link GridLayoutManager}.
+ */
 public class GridDividerItemDecoration extends DividerItemDecoration {
 
     private final Drawable divider;

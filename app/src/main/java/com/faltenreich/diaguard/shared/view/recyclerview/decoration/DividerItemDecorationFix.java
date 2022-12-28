@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * Extension of androidx.recyclerview.widget.DividerItemDecoration that skips the last item
  */
-public class DividerItemDecorationFix extends DividerItemDecoration {
+class DividerItemDecorationFix extends DividerItemDecoration {
 
     // Workaround: Duplicated properties as they are private in parent
     private int mOrientation;
     private final Rect mBounds = new Rect();
 
-    public DividerItemDecorationFix(Context context, int orientation) {
+    DividerItemDecorationFix(Context context, int orientation) {
         super(context, orientation);
     }
 

@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.ListDividerItemDecoration;
 
 public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListBinding> implements TabDescribing {
 
@@ -75,7 +75,7 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
         RecyclerView listView = getBinding().listView;
         listAdapter = new NutrientListAdapter(getContext());
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listView.addItemDecoration(new ListDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
     }
 

@@ -42,7 +42,7 @@ import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.shared.networking.NetworkingUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.ListDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.pagination.EndlessRecyclerViewScrollListener;
 import com.faltenreich.diaguard.shared.view.search.SearchViewAction;
 import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
@@ -186,7 +186,7 @@ public class FoodSearchFragment
         };
 
         listView.setLayoutManager(listLayoutManager);
-        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listView.addItemDecoration(new ListDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
         listView.addOnScrollListener(listScrollListener);
     }

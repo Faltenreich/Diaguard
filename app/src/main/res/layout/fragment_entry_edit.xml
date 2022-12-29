@@ -11,15 +11,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="?android:listDivider"
+        android:divider="@drawable/divider_large"
         android:orientation="vertical"
         android:showDividers="middle">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="?android:listDivider"
+            android:background="?backgroundColorSecondary"
+            android:divider="@drawable/divider_medium"
             android:orientation="vertical"
+            android:paddingBottom="@dimen/margin_between"
             android:showDividers="middle">
 
             <LinearLayout style="@style/LayoutRow">
@@ -114,52 +116,30 @@
 
             </LinearLayout>
 
-            <LinearLayout style="@style/LayoutRow">
+            <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+                android:id="@+id/note_input"
+                style="@style/LayoutRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/note"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine|textCapSentences"
+                app:startIconDrawable="@drawable/ic_note"
+                tools:ignore="RtlSymmetry" />
 
-                <ImageView
-                    style="@style/LayoutRowImageMultiline"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_note"
-                    app:tint="?iconColorPrimary" />
-
-                <EditText
-                    android:id="@+id/note_input"
-                    style="@style/LayoutRowItemMultiline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/note"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:paddingStart="@dimen/margin_between"
-                    android:paddingLeft="@dimen/margin_between"
-                    tools:ignore="RtlSymmetry" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/alarm_container"
-                style="@style/LayoutRow">
-
-                <ImageView
-                    style="@style/LayoutRowImage"
-                    android:contentDescription="@null"
-                    android:padding="2dp"
-                    app:srcCompat="@drawable/ic_alarm"
-                    app:tint="?iconColorPrimary" />
-
-                <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
-                    android:id="@+id/alarm_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/alarm_reminder"
-                    android:inputType="number"
-                    app:endIconContentDescription="@string/alarm_reminder_none"
-                    app:endIconDrawable="@drawable/ic_clear"
-                    app:endIconMode="custom"
-                    app:suffixText="@string/minutes" />
-
-            </LinearLayout>
+            <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+                android:id="@+id/alarm_input"
+                style="@style/LayoutRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/alarm_reminder"
+                android:inputType="number"
+                app:endIconContentDescription="@string/alarm_reminder_none"
+                app:endIconDrawable="@drawable/ic_clear"
+                app:endIconMode="custom"
+                app:prefixText="@string/in"
+                app:startIconDrawable="@drawable/ic_alarm"
+                app:suffixText="@string/minutes" />
 
         </LinearLayout>
 
@@ -169,9 +149,8 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:clipToPadding="false"
-            android:divider="@drawable/divider_medium"
+            android:divider="@drawable/divider_large"
             android:orientation="vertical"
-            android:paddingTop="@dimen/margin_between"
             android:paddingBottom="92dp"
             android:showDividers="middle" />
 

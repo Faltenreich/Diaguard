@@ -27,19 +27,17 @@ public class StickyHintInputView extends TextInputLayout implements ViewBindable
     private CharSequence hint;
     private int inputType = INPUT_TYPE_DEFAULT;
 
-    public StickyHintInputView(Context context) {
-        super(context);
-        init(null);
-    }
-
-    public StickyHintInputView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(attrs);
-    }
-
     public StickyHintInputView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
+    }
+
+    public StickyHintInputView(Context context, AttributeSet attrs) {
+        this(context, attrs, R.attr.textInputStyle);
+    }
+
+    public StickyHintInputView(Context context) {
+        this(context, null);
     }
 
     @Override

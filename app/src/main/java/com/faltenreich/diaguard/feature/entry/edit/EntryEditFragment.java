@@ -8,11 +8,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -128,8 +126,7 @@ public class EntryEditFragment
     private ChipGroup tagListView;
     private TagAutoCompleteAdapter tagAdapter;
     private ImageView tagEditButton;
-    private EditText noteInput;
-    private ViewGroup alarmContainer;
+    private StickyHintInputView noteInput;
     private StickyHintInputView alarmInput;
     private LinearLayout measurementContainer;
 
@@ -197,7 +194,6 @@ public class EntryEditFragment
         tagListView = getBinding().tagListView;
         tagEditButton = getBinding().tagEditButton;
         noteInput = getBinding().noteInput;
-        alarmContainer = getBinding().alarmContainer;
         alarmInput = getBinding().alarmInput;
         measurementContainer = getBinding().measurementContainer;
     }
@@ -236,10 +232,10 @@ public class EntryEditFragment
         tagListView.setVisibility(View.GONE);
         tagEditButton.setOnClickListener(view -> openTagSettings());
 
-        EditTextUtils.afterTextChanged(noteInput, () -> viewModel.getEntry().setNote(noteInput.getText().toString()));
+        EditTextUtils.afterTextChanged(noteInput.getEditText(), () -> viewModel.getEntry().setNote(noteInput.getText()));
 
-        alarmContainer.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
-        // alarmInput.setOnClickListener(view -> requestPermissionToPostNotification());
+        alarmInput.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
+        // FIXME: alarmInput.setOnClickListener(view -> requestPermissionToPostNotification());
         alarmInput.setEndIconOnClickListener(view -> alarmInput.setText(null));
         EditTextUtils.afterTextChanged(
             alarmInput.getEditText(),

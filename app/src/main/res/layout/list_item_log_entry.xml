@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="0dp"
-                android:paddingBottom="@dimen/padding" />
+                android:paddingBottom="@dimen/margin_between" />
 
             <TextView
                 android:id="@+id/note_label"

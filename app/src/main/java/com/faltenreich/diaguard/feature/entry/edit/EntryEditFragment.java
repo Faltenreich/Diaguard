@@ -8,9 +8,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -126,7 +128,8 @@ public class EntryEditFragment
     private ChipGroup tagListView;
     private TagAutoCompleteAdapter tagAdapter;
     private ImageView tagEditButton;
-    private StickyHintInputView noteInput;
+    private EditText noteInput;
+    private ViewGroup alarmContainer;
     private StickyHintInputView alarmInput;
     private LinearLayout measurementContainer;
 
@@ -194,6 +197,7 @@ public class EntryEditFragment
         tagListView = getBinding().tagListView;
         tagEditButton = getBinding().tagEditButton;
         noteInput = getBinding().noteInput;
+        alarmContainer = getBinding().alarmContainer;
         alarmInput = getBinding().alarmInput;
         measurementContainer = getBinding().measurementContainer;
     }
@@ -232,11 +236,13 @@ public class EntryEditFragment
         tagListView.setVisibility(View.GONE);
         tagEditButton.setOnClickListener(view -> openTagSettings());
 
-        EditTextUtils.afterTextChanged(noteInput.getEditText(), () -> viewModel.getEntry().setNote(noteInput.getText()));
+        EditTextUtils.afterTextChanged(noteInput, () -> viewModel.getEntry().setNote(noteInput.getText().toString()));
 
-        alarmInput.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
+        alarmContainer.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
         // FIXME: alarmInput.setOnClickListener(view -> requestPermissionToPostNotification());
         alarmInput.setEndIconOnClickListener(view -> alarmInput.setText(null));
+        // Workaround: Display hint inside EditText instead of TextInputLayout
+        alarmInput.getEditText().setHint(R.string.alarm_reminder);
         EditTextUtils.afterTextChanged(
             alarmInput.getEditText(),
             () -> viewModel.setAlarmInMinutes(alarmInput.getText())

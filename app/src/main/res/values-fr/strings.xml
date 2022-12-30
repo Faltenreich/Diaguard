@@ -283,6 +283,7 @@
     <string name="name">Nom</string>
     <string name="nutriments">Nutriments</string>
     <string name="nutriments_per_100g">Nutriments par 100 g</string>
+    <string name="per_100g">par 100 g</string>
     <string name="proteins">Protéines</string>
     <string name="salt">Sel</string>
     <string name="sodium">Sodium</string>

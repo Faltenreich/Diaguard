@@ -180,7 +180,7 @@
             android:clipToPadding="false"
             android:divider="@drawable/divider_large"
             android:orientation="vertical"
-            android:paddingBottom="92dp"
+            android:paddingBottom="@dimen/fab_offset"
             android:showDividers="middle" />
 
     </LinearLayout>

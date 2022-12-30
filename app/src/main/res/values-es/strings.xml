@@ -285,6 +285,7 @@
     <string name="name">Nombre</string>
     <string name="nutriments">Nutrientes</string>
     <string name="nutriments_per_100g">Nutrientes por 100 g</string>
+    <string name="per_100g">por 100 g</string>
     <string name="proteins">Proteínas</string>
     <string name="salt">Sal</string>
     <string name="sodium">Sodio</string>

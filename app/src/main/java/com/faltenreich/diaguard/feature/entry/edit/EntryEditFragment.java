@@ -13,7 +13,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -127,7 +126,6 @@ public class EntryEditFragment
     private AutoCompleteTextView tagInput;
     private ChipGroup tagListView;
     private TagAutoCompleteAdapter tagAdapter;
-    private ImageView tagEditButton;
     private EditText noteInput;
     private ViewGroup alarmContainer;
     private StickyHintInputView alarmInput;
@@ -185,6 +183,12 @@ public class EntryEditFragment
         if (item.getItemId() == R.id.action_delete) {
             deleteEntry();
             return true;
+        } else if (item.getItemId() == R.id.action_categories) {
+            openCategorySettings();
+            return true;
+        } else if (item.getItemId() == R.id.action_tags) {
+            openTagSettings();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -195,7 +199,6 @@ public class EntryEditFragment
         timeButton = getBinding().timeButton;
         tagInput = getBinding().tagInput;
         tagListView = getBinding().tagListView;
-        tagEditButton = getBinding().tagEditButton;
         noteInput = getBinding().noteInput;
         alarmContainer = getBinding().alarmContainer;
         alarmInput = getBinding().alarmInput;
@@ -234,7 +237,6 @@ public class EntryEditFragment
             addTag(tagAdapter.getItem(position));
         });
         tagListView.setVisibility(View.GONE);
-        tagEditButton.setOnClickListener(view -> openTagSettings());
 
         EditTextUtils.afterTextChanged(noteInput, () -> viewModel.getEntry().setNote(noteInput.getText().toString()));
 
@@ -557,7 +559,6 @@ public class EntryEditFragment
         Events.post(new PermissionRequestEvent(Permission.POST_NOTIFICATIONS, PermissionUseCase.REMINDER));
     }
 
-    // TODO: Add option to open category settings (e.g. via button in section header)
     private void openCategorySettings() {
         openFragment(new CategoryListFragment(), true);
     }

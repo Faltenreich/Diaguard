@@ -28,9 +28,6 @@
     <string name="cancel">Avorter</string>
     <string name="categories">Catégories</string>
     <string name="category">Catégorie</string>
-    <string name="category_pin">Catégorie de broche</string>
-    <string name="category_pin_confirm">%s a été fixé</string>
-    <string name="category_unpin_confirm">%s a été détaché</string>
     <string name="cleanup">Nettoyer</string>
     <string name="cleanup_desc">Ceci va effacer toutes les entrées effectuées à la date sélectionnée et auparavant.</string>
     <string name="contact">Contact</string>
@@ -323,7 +320,6 @@
     <string name="show_branded_food">Recherche d\'aliments de marque</string>
     <string name="show_branded_food_desc">Comprend des milliers de produits emballés qui sont demandés via le réseau (peut entraîner des doublons, par exemple un produit provenant de différents fabricants)</string>
     <string name="search_prompt">Commencez la recherche en tapant</string>
-    <string name="pinned">fixé</string>
     <string name="change_now">Changer maintenant</string>
     <string name="help">Aider</string>
     <string name="category_preference_desc">Active:\nLa catégorie est affichée\n\nFixé:\nLa catégorie est automatiquement présélectionnée pour les nouvelles entrées\n\nTrier:\n Maintenez le symbole en six points et faites glisser le curseur vers le haut ou le bas</string>

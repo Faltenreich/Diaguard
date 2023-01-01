@@ -398,28 +398,6 @@ public class PreferenceStore {
         return getActiveCategories(null);
     }
 
-    public Category[] getPinnedCategories() {
-        List<Category> pinnedCategories = new ArrayList<>();
-        for (Category category : getActiveCategories()) {
-            if (isCategoryPinned(category)) {
-                pinnedCategories.add(category);
-            }
-        }
-        return pinnedCategories.toArray(new Category[0]);
-    }
-
-    private String getCategoryPinnedName(Category category) {
-        return getKey(R.string.preference_categories_pinned, category.name());
-    }
-
-    public boolean isCategoryPinned(Category category) {
-        return sharedPreferences.getBoolean(getCategoryPinnedName(category), false);
-    }
-
-    public void setCategoryPinned(Category category, boolean isPinned) {
-        sharedPreferences.edit().putBoolean(getCategoryPinnedName(category), isPinned).apply();
-    }
-
     // UNITS
 
     private String[] getUnitsNames(Category category) {

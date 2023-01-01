@@ -34,9 +34,6 @@
     <string name="cancel">Abbrechen</string>
     <string name="categories">Kategorien</string>
     <string name="category">Kategorie</string>
-    <string name="category_pin">Kategorie fixieren</string>
-    <string name="category_pin_confirm">%s wurde fixiert</string>
-    <string name="category_unpin_confirm">%s wurde losgelöst</string>
     <string name="cleanup">Aufräumen</string>
     <string name="cleanup_desc">Dies wird alle Einträge am und vor dem gewählten Datum dauerhaft löschen.</string>
     <string name="contact">Kontakt</string>
@@ -325,7 +322,6 @@
     <string name="show_branded_food">Markenprodukte durchsuchen</string>
     <string name="show_branded_food_desc">Umfasst tausende abgepackter Lebensmittel, die über das Internet abgefragt werden (Führt unter Umständen zu Duplikaten, z. B. beim gleichen Produkt von verschiedenen Herstellern)</string>
     <string name="search_prompt">Tippen, um Suche zu beginnen</string>
-    <string name="pinned">fixiert</string>
     <string name="change_now">Jetzt ändern</string>
     <string name="help">Hilfe</string>
     <string name="category_preference_desc">Aktiv:\nKategorie wird angezeigt\n\nFixiert:\nKategorie wird bei neuen Einträgen automatisch vorausgewählt\n\nSortieren:\nSechs-Punkte-Symbol gedrückt halten und nach oben oder unten ziehen</string>

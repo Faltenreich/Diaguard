@@ -34,9 +34,6 @@
     <string name="cancel">Abbandona</string>
     <string name="categories">Categorie</string>
     <string name="category">Categoria</string>
-    <string name="category_pin">Categoria di congelamento</string>
-    <string name="category_pin_confirm">%s fissa</string>
-    <string name="category_unpin_confirm">%s staccata</string>
     <string name="cleanup">Pulisci</string>
     <string name="cleanup_desc">In questo modo tutti i dati verranno cancellati definitivamente alla data scelta e prima di essa.</string>
     <string name="contact">Contatto</string>
@@ -325,7 +322,6 @@
     <string name="show_branded_food">Cerca cibo di marca</string>
     <string name="show_branded_food_desc">Include migliaia di cibi di marca che vengono scaricati via rete (Si possono avere duplicati, per esempio un produtto da due differenti produttori)</string>
     <string name="search_prompt">Inizia a cercare mentre scrivi</string>
-    <string name="pinned">appuntato</string>
     <string name="change_now">Cambia ora</string>
     <string name="help">Aiuto</string>
     <string name="category_preference_desc">Attivo:\nLa categoria viene visualizzata\n\nFisso:\nla categoria è preselezionata automaticamente per i nuovi valori\n\nOrdina:\ntieni premuto il simbolo a sei punti e trascinalo su o giù</string>

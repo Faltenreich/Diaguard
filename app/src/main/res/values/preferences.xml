@@ -38,7 +38,6 @@
     <string name="preference_import">import</string>
 
     <string name="preference_categories">categories</string>
-    <string name="preference_categories_pinned">categoryPinned%s</string>
     <string name="preference_categories_active">%s_active</string>
     <string name="preference_categories_sort_index">%s_sortIndex</string>
 

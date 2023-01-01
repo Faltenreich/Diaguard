@@ -29,9 +29,6 @@
     <string name="cancel">Cancelar</string>
     <string name="categories">Categorías</string>
     <string name="category">Categoría</string>
-    <string name="category_pin">Categoría pin</string>
-    <string name="category_pin_confirm">%s se fijó</string>
-    <string name="category_unpin_confirm">%s se separado</string>
     <string name="cleanup">Limpiar</string>
     <string name="cleanup_desc">Esto eliminará todas las entradas en la fecha y sobre la fecha seleccionada de forma permanente.</string>
     <string name="contact">Contacto</string>
@@ -325,7 +322,6 @@
     <string name="show_branded_food">Buscar alimentos de marca</string>
     <string name="show_branded_food_desc">Incluye miles de productos empaquetados que se solicitan a través de la red (puede dar lugar a duplicados, por ejemplo, un producto de diferentes fabricantes)</string>
     <string name="search_prompt">Comience la búsqueda escribiendo</string>
-    <string name="pinned">fijó</string>
     <string name="change_now">Cambiar ahora</string>
     <string name="help">Ayudar</string>
     <string name="category_preference_desc">Activo:\nSe muestra la categoría\n\nFijó:\nLa categoría se preselecciona automáticamente para nuevas entradas\n\nOrdenar:\nMantenga presionado el símbolo de seis puntos y arrastre hacia arriba o hacia abajo</string>

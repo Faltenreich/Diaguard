@@ -308,9 +308,21 @@ public class EntryEditFragment
             entry.getMeasurementCache().set(indexInCache, measurement);
         } else {
             measurement.setEntry(entry);
-            // FIXME: Creates zero-value measurements
-            entry.getMeasurementCache().add(measurement);
         }
+    }
+
+    private List<Measurement> getMeasurements() {
+        List<Measurement> measurements = new ArrayList<>();
+        for (int childIndex = 0; childIndex < measurementContainer.getChildCount(); childIndex++) {
+            View child = measurementContainer.getChildAt(childIndex);
+            if (child instanceof MeasurementView) {
+                MeasurementView<?> measurementView = (MeasurementView<?>) child;
+                if (measurementView.hasInput()) {
+                    measurements.add(measurementView.getMeasurement());
+                }
+            }
+        }
+        return measurements;
     }
 
     private int indexOf(Category category) {
@@ -395,7 +407,7 @@ public class EntryEditFragment
     private boolean inputIsValid() {
         boolean inputIsValid = true;
 
-        List<Measurement> measurements = viewModel.getMeasurements();
+        List<Measurement> measurements = getMeasurements();
         if (measurements.isEmpty()) {
             // Allow entries with no measurements but with a note or tag
             if (StringUtils.isBlank(viewModel.getEntry().getNote()) && tagListView.getChildCount() == 0) {
@@ -407,7 +419,7 @@ public class EntryEditFragment
                 View view = measurementContainer.getChildAt(index);
                 if (view instanceof MeasurementView<?>) {
                     MeasurementView<?> measurementView = (MeasurementView<?>) view;
-                    if (!measurementView.getInputView().isValid()) {
+                    if (measurementView.hasInput() && !measurementView.isValid()) {
                         inputIsValid = false;
                     }
                 }
@@ -432,7 +444,7 @@ public class EntryEditFragment
 
     private void submit() {
         Entry entry = viewModel.getEntry();
-        List<Measurement> measurements = viewModel.getMeasurements();
+        List<Measurement> measurements = getMeasurements();
         entry.setMeasurementCache(measurements);
         boolean isNewEntry = !entry.isPersisted();
         entry = EntryDao.getInstance().createOrUpdate(entry);

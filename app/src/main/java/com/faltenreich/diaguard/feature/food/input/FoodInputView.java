@@ -140,20 +140,12 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         }
     }
 
-    public boolean isValid() {
-        boolean isValid = true;
-        if (!hasInput()) {
-            foodInputField.setError(getContext().getString(R.string.validator_value_empty));
-            isValid = false;
-        } else if (!StringUtils.isBlank(foodInputField.getText().trim())) {
-            isValid = PreferenceStore.getInstance().isValueValid(foodInputField.getEditText(), Category.MEAL);
-        }
-        return isValid;
+    public boolean hasInput() {
+        return !StringUtils.isBlank(foodInputField.getText()) || foodListAdapter.hasFoodEaten();
     }
 
-    public boolean hasInput() {
-        return !StringUtils.isBlank(foodInputField.getText().trim())
-            || !foodListAdapter.hasFoodEaten();
+    public boolean isValid() {
+        return PreferenceStore.getInstance().isValueValid(foodInputField.getEditText(), Category.MEAL);
     }
 
     private void addItem(FoodEaten foodEaten) {

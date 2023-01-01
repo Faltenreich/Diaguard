@@ -20,6 +20,8 @@ import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 @SuppressLint("ViewConstructor")
 public class PressureInputView extends MeasurementInputView<ListItemMeasurementPressureBinding, Pressure> {
 
+    private final PreferenceStore preferenceStore = PreferenceStore.getInstance();
+
     private final StickyHintInputView systolicInputField;
     private final StickyHintInputView diastolicInputField;
 
@@ -39,9 +41,9 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
     @Override
     protected void onBind(Pressure measurement) {
         systolicInputField.setText(measurement.getValuesForUI()[0]);
-        systolicInputField.setSuffixText(PreferenceStore.getInstance().getUnitAcronym(Category.PRESSURE));
+        systolicInputField.setSuffixText(preferenceStore.getUnitAcronym(Category.PRESSURE));
         EditTextUtils.afterTextChanged(systolicInputField.getEditText(), () ->
-            measurement.setSystolic(PreferenceStore.getInstance().formatCustomToDefaultUnit(
+            measurement.setSystolic(preferenceStore.formatCustomToDefaultUnit(
                 measurement.getCategory(),
                 systolicInputField.getText() != null ? FloatUtils.parseNumber(systolicInputField.getText()) : 0))
         );
@@ -55,22 +57,23 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
         });
 
         diastolicInputField.setText(measurement.getValuesForUI()[1]);
-        diastolicInputField.setSuffixText(PreferenceStore.getInstance().getUnitAcronym(Category.PRESSURE));
+        diastolicInputField.setSuffixText(preferenceStore.getUnitAcronym(Category.PRESSURE));
         EditTextUtils.afterTextChanged(diastolicInputField.getEditText(), () ->
-            measurement.setDiastolic(PreferenceStore.getInstance().formatCustomToDefaultUnit(
+            measurement.setDiastolic(preferenceStore.formatCustomToDefaultUnit(
                 measurement.getCategory(),
                 diastolicInputField.getText() != null ? FloatUtils.parseNumber(diastolicInputField.getText()) : 0))
         );
     }
 
     @Override
+    public boolean hasInput() {
+        return !StringUtils.isBlank(systolicInputField.getText())
+            && !StringUtils.isBlank(diastolicInputField.getText());
+    }
+
+    @Override
     public boolean isValid() {
-        String systolic = systolicInputField.getText() != null ? systolicInputField.getText().trim() : "";
-        String diastolic = diastolicInputField.getText() != null ? diastolicInputField.getText().trim() : "";
-        if (StringUtils.isBlank(systolic) && StringUtils.isBlank(diastolic)) {
-            return true;
-        }
-        return PreferenceStore.getInstance().isValueValid(systolicInputField.getEditText(), Category.PRESSURE)
-            && PreferenceStore.getInstance().isValueValid(diastolicInputField.getEditText(), Category.PRESSURE);
+        return preferenceStore.isValueValid(systolicInputField.getEditText(), Category.PRESSURE)
+            && preferenceStore.isValueValid(diastolicInputField.getEditText(), Category.PRESSURE);
     }
 }

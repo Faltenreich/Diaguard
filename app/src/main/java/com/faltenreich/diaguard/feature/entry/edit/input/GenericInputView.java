@@ -17,7 +17,10 @@ import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
  * Created by Faltenreich on 20.09.2015.
  */
 @SuppressLint("ViewConstructor")
-public class GenericInputView<T extends Measurement> extends MeasurementInputView<ListItemMeasurementGenericBinding, T> implements TextWatcher {
+public class GenericInputView<T extends Measurement>
+    extends MeasurementInputView<ListItemMeasurementGenericBinding, T>
+    implements TextWatcher
+{
 
     private final StickyHintInputView inputField;
 
@@ -49,20 +52,21 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
     }
 
     @Override
+    public boolean hasInput() {
+        return !StringUtils.isBlank(inputField.getText());
+    }
+
+    @Override
     public boolean isValid() {
         return StringUtils.isBlank(inputField.getText())
             || PreferenceStore.getInstance().isValueValid(inputField.getEditText(), getMeasurement().getCategory());
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
+    public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
     @Override
     public void afterTextChanged(Editable editable) {

@@ -20,6 +20,8 @@ import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 @SuppressLint("ViewConstructor")
 public class InsulinInputView extends MeasurementInputView<ListItemMeasurementInsulinBinding, Insulin> {
 
+    private final PreferenceStore preferenceStore = PreferenceStore.getInstance();
+
     private final StickyHintInputView bolusInputField;
     private final StickyHintInputView correctionInputField;
     private final StickyHintInputView basalInputField;
@@ -42,23 +44,21 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
     @Override
     protected void onBind(Insulin measurement) {
         bolusInputField.setText(measurement.getValuesForUI()[0]);
-        bolusInputField.setSuffixText(PreferenceStore.getInstance().getUnitAcronym(Category.INSULIN));
+        bolusInputField.setSuffixText(preferenceStore.getUnitAcronym(Category.INSULIN));
         EditTextUtils.afterTextChanged(bolusInputField.getEditText(), () -> {
-            measurement.setBolus(bolusInputField.getText().length() > 0 ?
-                PreferenceStore.getInstance().formatCustomToDefaultUnit(
-                    measurement.getCategory(),
-                    FloatUtils.parseNumber(bolusInputField.getText())
-                ) : 0);
+            float value = bolusInputField.getText() != null && bolusInputField.getText().length() > 0
+                ? preferenceStore.formatCustomToDefaultUnit(measurement.getCategory(), FloatUtils.parseNumber(bolusInputField.getText()))
+                : 0;
+            measurement.setBolus(value);
         });
 
         correctionInputField.setText(measurement.getValuesForUI()[1]);
-        correctionInputField.setSuffixText(PreferenceStore.getInstance().getUnitAcronym(Category.INSULIN));
+        correctionInputField.setSuffixText(preferenceStore.getUnitAcronym(Category.INSULIN));
         EditTextUtils.afterTextChanged(correctionInputField.getEditText(), () -> {
-            measurement.setCorrection(correctionInputField.getText().length() > 0 ?
-                PreferenceStore.getInstance().formatCustomToDefaultUnit(
-                    measurement.getCategory(),
-                    FloatUtils.parseNumber(correctionInputField.getText())
-                ) : 0);
+            float value = correctionInputField.getText() != null && correctionInputField.getText().length() > 0
+                ? preferenceStore.formatCustomToDefaultUnit(measurement.getCategory(), FloatUtils.parseNumber(correctionInputField.getText()))
+                : 0;
+            measurement.setCorrection(value);
         });
         // Workaround: Fixing imeOptions for TextInputLayout in horizontal LinearLayout
         correctionInputField.getEditText().setOnEditorActionListener((textView, actionId, keyEvent) -> {
@@ -70,36 +70,30 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
         });
 
         basalInputField.setText(measurement.getValuesForUI()[2]);
-        basalInputField.setSuffixText(PreferenceStore.getInstance().getUnitAcronym(Category.INSULIN));
+        basalInputField.setSuffixText(preferenceStore.getUnitAcronym(Category.INSULIN));
         EditTextUtils.afterTextChanged(basalInputField.getEditText(), () -> {
-            measurement.setBasal(basalInputField.getText().length() > 0 ?
-                PreferenceStore.getInstance().formatCustomToDefaultUnit(
-                    measurement.getCategory(),
-                    FloatUtils.parseNumber(basalInputField.getText())
-                ) : 0);
+            float value = basalInputField.getText() != null && basalInputField.getText().length() > 0
+                ? preferenceStore.formatCustomToDefaultUnit(measurement.getCategory(), FloatUtils.parseNumber(basalInputField.getText()))
+                : 0;
+            measurement.setBasal(value);
         });
     }
 
     @Override
+    public boolean hasInput() {
+        return !StringUtils.isBlank(bolusInputField.getText())
+            || !StringUtils.isBlank(correctionInputField.getText())
+            || !StringUtils.isBlank(basalInputField.getText());
+    }
+
+    @Override
     public boolean isValid() {
-        String bolus = bolusInputField.getText().trim();
-        String correction = correctionInputField.getText().trim();
-        String basal = basalInputField.getText().trim();
-
-        if (StringUtils.isBlank(bolus) && StringUtils.isBlank(correction) && StringUtils.isBlank(basal)) {
-            return true;
-        }
-
-        boolean isValid = true;
-        if (!StringUtils.isBlank(bolus)) {
-            isValid = PreferenceStore.getInstance().isValueValid(bolusInputField.getEditText(), Category.INSULIN);
-        }
-        if (!StringUtils.isBlank(correction)) {
-            isValid = PreferenceStore.getInstance().isValueValid(correctionInputField.getEditText(), Category.INSULIN, true);
-        }
-        if (!StringUtils.isBlank(basal)) {
-            isValid = PreferenceStore.getInstance().isValueValid(basalInputField.getEditText(), Category.INSULIN);
-        }
-        return isValid;
+        boolean isBolusValid = StringUtils.isBlank(bolusInputField.getText())
+            || preferenceStore.isValueValid(bolusInputField.getEditText(), Category.INSULIN, false);
+        boolean isCorrectionValid = StringUtils.isBlank(correctionInputField.getText())
+            || preferenceStore.isValueValid(correctionInputField.getEditText(), Category.INSULIN, true);
+        boolean isBasalValid = StringUtils.isBlank(basalInputField.getText())
+            || preferenceStore.isValueValid(basalInputField.getEditText(), Category.INSULIN, false);
+        return isBolusValid && isCorrectionValid && isBasalValid;
     }
 }

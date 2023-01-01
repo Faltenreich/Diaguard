@@ -141,13 +141,13 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
         boolean isValid = true;
 
         // Blood Sugar
-        if (!Validator.validateEditTextEvent(getContext(), getBinding().bloodsugarCurrentInput.getEditText(), Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), getBinding().bloodsugarCurrentInput, Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), getBinding().bloodsugarTargetInput.getEditText(), Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), getBinding().bloodsugarTargetInput, Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), getBinding().correctionInput.getEditText(), Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), getBinding().correctionInput, Category.BLOODSUGAR, false)) {
             isValid = false;
         }
 
@@ -155,7 +155,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
         if (getBinding().foodInputView.getTotalCarbohydrates() > 0) {
             StickyHintInputView factorInput = getBinding().factorInput;
             // Factor
-            if (!Validator.validateEditTextFactor(getContext(), factorInput.getEditText(), false)) {
+            if (!Validator.validateEditTextFactor(getContext(), factorInput, false)) {
                 isValid = false;
             } else {
                 factorInput.setError(null);

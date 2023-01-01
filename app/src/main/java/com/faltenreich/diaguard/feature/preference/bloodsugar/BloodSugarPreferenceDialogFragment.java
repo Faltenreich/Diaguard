@@ -3,20 +3,23 @@ package com.faltenreich.diaguard.feature.preference.bloodsugar;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.EditTextPreferenceDialogFragmentCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.validation.Validator;
-import com.faltenreich.diaguard.shared.view.edittext.LocalizedNumberEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class BloodSugarPreferenceDialogFragment extends EditTextPreferenceDialogFragmentCompat {
 
+    private final PreferenceStore preferenceStore = PreferenceStore.getInstance();
+
+    @NonNull
     public static BloodSugarPreferenceDialogFragment newInstance(String key) {
         BloodSugarPreferenceDialogFragment fragment = new BloodSugarPreferenceDialogFragment();
         Bundle arguments = new Bundle();
@@ -25,32 +28,30 @@ public class BloodSugarPreferenceDialogFragment extends EditTextPreferenceDialog
         return fragment;
     }
 
-    private LocalizedNumberEditText editTextValue;
-    private TextView textViewUnit;
+    private TextInputLayout textInputLayout;
+    private EditText editText;
 
     private BloodSugarPreferenceDialogFragment() {
         super();
     }
 
     @Override
-    protected void onBindDialogView(View view) {
+    protected void onBindDialogView(@NonNull View view) {
         super.onBindDialogView(view);
         bindViews(view);
         initLayout();
     }
 
     private void bindViews(View view) {
-        editTextValue = view.findViewById(android.R.id.edit);
-        textViewUnit = view.findViewById(R.id.unit);
+        textInputLayout = view.findViewById(R.id.text_input_layout);
+        editText = view.findViewById(android.R.id.edit);
     }
 
     private void initLayout() {
         BloodSugarPreference preference = (BloodSugarPreference) getPreference();
-
-        editTextValue.setText(preference.getValueForUi());
-        editTextValue.setSelection(editTextValue.getText() != null ? editTextValue.getText().length() : 0);
-
-        textViewUnit.setText(PreferenceStore.getInstance().getUnitName(Category.BLOODSUGAR));
+        editText.setText(preference.getValueForUi());
+        editText.setSelection(editText.getText() != null ? editText.getText().length() : 0);
+        textInputLayout.setSuffixText(preferenceStore.getUnitName(Category.BLOODSUGAR));
     }
 
     @NonNull
@@ -63,7 +64,7 @@ public class BloodSugarPreferenceDialogFragment extends EditTextPreferenceDialog
                 // Close dialog only if input is valid, otherwise keep open
                 boolean isValid = Validator.validateEditTextEvent(
                     getContext(),
-                    editTextValue,
+                    textInputLayout,
                     Category.BLOODSUGAR,
                     true
                 );
@@ -79,10 +80,9 @@ public class BloodSugarPreferenceDialogFragment extends EditTextPreferenceDialog
     @Override
     public void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
-
-        if (positiveResult && editTextValue != null && editTextValue.getText() != null) {
+        if (positiveResult && editText.getText() != null) {
             BloodSugarPreference preference = (BloodSugarPreference) getPreference();
-            preference.setValueFromUi(editTextValue.getText().toString());
+            preference.setValueFromUi(editText.getText().toString());
         }
     }
 }

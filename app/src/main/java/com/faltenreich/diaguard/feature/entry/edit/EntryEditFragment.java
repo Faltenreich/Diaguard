@@ -118,7 +118,6 @@ public class EntryEditFragment
     }
 
     private final EntryEditViewModel viewModel = new EntryEditViewModel();
-    private boolean isRecreated;
 
     private NestedScrollView scrollView;
     private Button dateButton;
@@ -160,7 +159,6 @@ public class EntryEditFragment
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        isRecreated = scrollView != null;
         bindViews();
         initLayout();
         initData();
@@ -310,6 +308,7 @@ public class EntryEditFragment
             entry.getMeasurementCache().set(indexInCache, measurement);
         } else {
             measurement.setEntry(entry);
+            // FIXME: Creates zero-value measurements
             entry.getMeasurementCache().add(measurement);
         }
     }

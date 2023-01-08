@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.validation.Validator;
 import com.google.android.material.textfield.TextInputLayout;
 
+// TODO: Style like BaseDialogFragment, e.g. TagEditFragment
 public class BloodSugarPreferenceDialogFragment extends EditTextPreferenceDialogFragmentCompat {
 
     private final PreferenceStore preferenceStore = PreferenceStore.getInstance();

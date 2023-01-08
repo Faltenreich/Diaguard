@@ -9,6 +9,8 @@ import android.text.method.KeyListener;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,6 +23,7 @@ import java.text.DecimalFormatSymbols;
  * so every default decimal separator is replaced with its localized counterpart (de-DE: "Hello." -> "Hello,")
  */
 
+@SuppressWarnings("unused")
 public class LocalizedNumberEditText extends TextInputEditText implements TextWatcher {
 
     private static final String TAG = LocalizedNumberEditText.class.getSimpleName();
@@ -52,12 +55,14 @@ public class LocalizedNumberEditText extends TextInputEditText implements TextWa
     /**
      * @return The input with all of its localized separators replaced by the default separator
      */
+    @Nullable
     public String getNonLocalizedText() {
-        return getText().toString().replace(LOCALIZED_SEPARATOR, DEFAULT_SEPARATOR);
+        return getText() != null
+            ? getText().toString().replace(LOCALIZED_SEPARATOR, DEFAULT_SEPARATOR)
+            : null;
     }
 
     /**
-     *
      * @return The input as number if available, otherwise null
      */
     public Float getNumber() {
@@ -121,9 +126,9 @@ public class LocalizedNumberEditText extends TextInputEditText implements TextWa
             int firstIndexOfLocalizedSeparator = LocalizedNumberEditTextUtils.firstIndexOfOrLastIndex(text, LOCALIZED_SEPARATOR);
             int firstIndexOfSeparator = Math.min(firstIndexOfDefaultSeparator, firstIndexOfLocalizedSeparator);
             String localized = text.substring(0, firstIndexOfSeparator + 1);
-            String localizing = text.substring(firstIndexOfSeparator, text.length())
-                    .replace(LOCALIZED_SEPARATOR.toString(), "")
-                    .replace(DEFAULT_SEPARATOR.toString(), "");
+            String localizing = text.substring(firstIndexOfSeparator)
+                .replace(LOCALIZED_SEPARATOR.toString(), "")
+                .replace(DEFAULT_SEPARATOR.toString(), "");
             return localized + localizing;
         } else {
             return text;
@@ -152,10 +157,8 @@ public class LocalizedNumberEditText extends TextInputEditText implements TextWa
     }
 
     @Override
-    public void beforeTextChanged(CharSequence text, int start, int count, int after) {
-    }
+    public void beforeTextChanged(CharSequence text, int start, int count, int after) {}
 
     @Override
-    public void afterTextChanged(Editable editable) {
-    }
+    public void afterTextChanged(Editable editable) {}
 }

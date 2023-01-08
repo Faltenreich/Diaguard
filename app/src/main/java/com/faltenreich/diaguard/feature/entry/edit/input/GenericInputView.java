@@ -2,16 +2,22 @@ package com.faltenreich.diaguard.feature.entry.edit.input;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 
+import androidx.core.content.ContextCompat;
+
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementGenericBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.data.validation.Validator;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * Created by Faltenreich on 20.09.2015.
@@ -59,7 +65,7 @@ public class GenericInputView<T extends Measurement>
     @Override
     public boolean isValid() {
         return StringUtils.isBlank(inputField.getText())
-            || PreferenceStore.getInstance().isValueValid(inputField.getEditText(), getMeasurement().getCategory());
+            || Validator.validateEventValue(inputField.getEditText(), getMeasurement().getCategory());
     }
 
     @Override
@@ -74,5 +80,21 @@ public class GenericInputView<T extends Measurement>
         float value = FloatUtils.parseNumber(editable.toString());
         value = PreferenceStore.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), value);
         measurement.setValues(value);
+        invalidateEndIcon();
+    }
+
+    private void invalidateEndIcon() {
+        if (!hasInput()) {
+            inputField.setEndIconMode(TextInputLayout.END_ICON_NONE);
+            inputField.setEndIconDrawable(null);
+        } else if (isValid()) {
+            inputField.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+            inputField.setEndIconDrawable(R.drawable.ic_done);
+            inputField.setEndIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.green)));
+        } else {
+            inputField.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+            inputField.setEndIconDrawable(R.drawable.ic_clear);
+            inputField.setEndIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.red)));
+        }
     }
 }

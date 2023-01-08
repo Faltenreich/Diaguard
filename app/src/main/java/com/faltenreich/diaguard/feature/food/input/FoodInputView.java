@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.data.validation.Validator;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
@@ -145,7 +146,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     }
 
     public boolean isValid() {
-        return PreferenceStore.getInstance().isValueValid(foodInputField.getEditText(), Category.MEAL);
+        return Validator.validateEventValue(foodInputField.getEditText(), Category.MEAL);
     }
 
     private void addItem(FoodEaten foodEaten) {

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -173,39 +172,6 @@ public class PreferenceStore {
             throw new Resources.NotFoundException("Resource \"category_extrema\" not found: IntArray with event value extrema");
         }
         return getContext().getResources().getIntArray(resourceIdExtrema);
-    }
-
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean validateEventValue(Category category, float value) {
-        int[] extrema = getExtrema(category);
-
-        if (extrema.length != 2)
-            throw new IllegalStateException("IntArray with event value extrema has to contain two values");
-
-        return value > extrema[0] && value < extrema[1];
-    }
-
-    public boolean isValueValid(TextView textView, Category category) {
-        return isValueValid(textView, category, false);
-    }
-
-    public boolean isValueValid(TextView textView, Category category, boolean allowNegativeValues) {
-        boolean isValid = true;
-        textView.setError(null);
-        try {
-            float value = PreferenceStore.getInstance().formatCustomToDefaultUnit(category, FloatUtils.parseNumber(textView.getText().toString()));
-            if (allowNegativeValues) {
-                value = Math.abs(value);
-            }
-            if (!PreferenceStore.getInstance().validateEventValue(category, value)) {
-                textView.setError(textView.getContext().getString(R.string.validator_value_unrealistic));
-                isValid = false;
-            }
-        } catch (NumberFormatException exception) {
-            textView.setError(textView.getContext().getString(R.string.validator_value_number));
-            isValid = false;
-        }
-        return isValid;
     }
 
     public void setPdfExportStyle(PdfExportStyle style) {

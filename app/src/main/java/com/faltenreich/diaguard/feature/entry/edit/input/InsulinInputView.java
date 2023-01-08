@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.data.validation.Validator;
 import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 
@@ -89,11 +90,11 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
     @Override
     public boolean isValid() {
         boolean isBolusValid = StringUtils.isBlank(bolusInputField.getText())
-            || preferenceStore.isValueValid(bolusInputField.getEditText(), Category.INSULIN, false);
+            || Validator.validateEventValue(bolusInputField.getEditText(), Category.INSULIN, false);
         boolean isCorrectionValid = StringUtils.isBlank(correctionInputField.getText())
-            || preferenceStore.isValueValid(correctionInputField.getEditText(), Category.INSULIN, true);
+            || Validator.validateEventValue(correctionInputField.getEditText(), Category.INSULIN, true);
         boolean isBasalValid = StringUtils.isBlank(basalInputField.getText())
-            || preferenceStore.isValueValid(basalInputField.getEditText(), Category.INSULIN, false);
+            || Validator.validateEventValue(basalInputField.getEditText(), Category.INSULIN, false);
         return isBolusValid && isCorrectionValid && isBasalValid;
     }
 }

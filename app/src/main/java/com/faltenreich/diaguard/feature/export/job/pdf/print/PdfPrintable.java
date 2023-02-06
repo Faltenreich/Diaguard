@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
-import com.pdfjet.Point;
-
 public interface PdfPrintable {
 
     float getHeight();
@@ -10,5 +8,5 @@ public interface PdfPrintable {
         return 100;
     }
 
-    void drawOn(PdfPage page, Point position) throws Exception;
+    void drawOn(PdfPage pagen) throws Exception;
 }

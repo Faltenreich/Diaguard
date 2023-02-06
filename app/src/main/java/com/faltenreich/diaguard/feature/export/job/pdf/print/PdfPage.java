@@ -22,7 +22,9 @@ public class PdfPage extends Page {
         position = getStartPoint();
 
         if (cache.getConfig().exportHeader()) {
-            draw(new PdfHeader(cache));
+            PdfHeader header = new PdfHeader(cache);
+            header.drawOn(this, position);
+            position.setY(position.getY() + header.getHeight());
         }
 
         if (cache.getConfig().exportFooter()) {

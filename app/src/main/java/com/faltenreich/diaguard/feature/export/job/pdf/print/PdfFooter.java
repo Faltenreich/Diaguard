@@ -11,7 +11,7 @@ import com.pdfjet.TextLine;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-public class PdfFooter implements PdfPrintable {
+public class PdfFooter {
 
     private final TextLine createdBy;
     private final TextLine url;
@@ -30,12 +30,10 @@ public class PdfFooter implements PdfPrintable {
         url.setText(context.getString(R.string.app_homepage_short));
     }
 
-    @Override
     public float getHeight() {
         return createdBy.getHeight();
     }
 
-    @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
         createdBy.setPosition(position.getX(), position.getY());
         createdBy.drawOn(page);

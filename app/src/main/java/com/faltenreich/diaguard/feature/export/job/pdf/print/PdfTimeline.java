@@ -191,8 +191,8 @@ public class PdfTimeline implements PdfPrintable {
     }
 
     @Override
-    public void drawOn(PdfPage page, Point position) throws Exception {
-        position = drawChart(page, position, bloodSugars);
+    public void drawOn(PdfPage page) throws Exception {
+        Point position = drawChart(page, page.getPosition(), bloodSugars);
         table.setLocation(position.getX(), position.getY());
         table.drawOn(page);
     }

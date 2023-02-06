@@ -4,11 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.shared.data.database.entity.Entry;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
@@ -17,11 +12,15 @@ import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNoteFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.shared.data.database.entity.Entry;
+import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
-import com.pdfjet.Point;
 
 import org.joda.time.DateTimeConstants;
 
@@ -52,8 +51,8 @@ public class PdfTable implements PdfPrintable {
     }
 
     @Override
-    public void drawOn(PdfPage page, Point position) throws Exception {
-        table.setLocation(position.getX(), position.getY());
+    public void drawOn(PdfPage page) throws Exception {
+        table.setLocation(page.getPosition().getX(), page.getPosition().getY());
         table.drawOn(page);
     }
 

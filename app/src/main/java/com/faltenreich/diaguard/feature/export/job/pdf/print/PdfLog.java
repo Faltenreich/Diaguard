@@ -5,6 +5,13 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
+import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
+import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.MultilineCell;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
@@ -18,17 +25,9 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
-import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.MultilineCell;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
-import com.pdfjet.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +55,8 @@ public class PdfLog implements PdfPrintable {
     }
 
     @Override
-    public void drawOn(PdfPage page, Point position) throws Exception {
-        table.setLocation(position.getX(), position.getY());
+    public void drawOn(PdfPage page) throws Exception {
+        table.setLocation(page.getPosition().getX(), page.getPosition().getY());
         table.drawOn(page);
     }
 

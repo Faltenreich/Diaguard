@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
@@ -35,32 +34,44 @@ public class PdfTable implements PdfPrintable {
 
     private final PdfExportCache cache;
     private final List<Entry> entriesOfDay;
-    private final SizedTable table;
+    private final List<List<Cell>> measurements;
+    private final List<List<Cell>> notes;
 
     PdfTable(PdfExportCache cache, List<Entry> entriesOfDay) {
         this.cache = cache;
         this.entriesOfDay = entriesOfDay;
-        this.table = new SizedTable();
+        this.measurements = new ArrayList<>();
+        this.notes = new ArrayList<>();
         init();
     }
 
     @Override
-    public float getHeight() {
-        float height = table.getHeight();
-        return height > 0 ? height + PdfPage.MARGIN : 0f;
-    }
-
-    @Override
     public void drawOn(PdfPage page) throws Exception {
+        SizedTable table = new SizedTable();
+        table.setData(measurements);
+
+        float newY = page.getPosition().getY() + table.getHeight();
+        float maxY = page.getEndPoint().getY();
+        if (newY > maxY) {
+            page = new PdfPage(cache);
+            cache.setPage(page);
+        }
+
         table.setLocation(page.getPosition().getX(), page.getPosition().getY());
         table.drawOn(page);
+
+        table.setLocation(page.getPosition().getX(), page.getPosition().getY() + table.getHeight());
+        // TODO: Chunk notes on exceeding page size
+        table.setData(notes);
+        table.drawOn(page);
+
+        // TODO: Add heights of all SizedTables
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
     private void init() {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContext();
-
-        List<List<Cell>> data = new ArrayList<>();
 
         List<Cell> cells = new ArrayList<>();
         Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
@@ -79,7 +90,7 @@ public class PdfTable implements PdfPrintable {
                 .build();
             cells.add(hourCell);
         }
-        data.add(cells);
+        measurements.add(cells);
 
         LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(cache.getDateTime(), config.getCategories(), HOURS_TO_SKIP);
         int rowIndex = 0;
@@ -91,19 +102,19 @@ public class PdfTable implements PdfPrintable {
                 switch (category) {
                     case INSULIN:
                         if (config.splitInsulin()) {
-                            data.add(createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.bolus), backgroundColor));
-                            data.add(createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.correction), backgroundColor));
-                            data.add(createMeasurementRows(cache, items, cellWidth, 2, label + " " + context.getString(R.string.basal), backgroundColor));
+                            measurements.add(createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.bolus), backgroundColor));
+                            measurements.add(createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.correction), backgroundColor));
+                            measurements.add(createMeasurementRows(cache, items, cellWidth, 2, label + " " + context.getString(R.string.basal), backgroundColor));
                         } else {
-                            data.add(createMeasurementRows(cache, items, cellWidth, -1, label, backgroundColor));
+                            measurements.add(createMeasurementRows(cache, items, cellWidth, -1, label, backgroundColor));
                         }
                         break;
                     case PRESSURE:
-                        data.add(createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.systolic_acronym), backgroundColor));
-                        data.add(createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.diastolic_acronym), backgroundColor));
+                        measurements.add(createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.systolic_acronym), backgroundColor));
+                        measurements.add(createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.diastolic_acronym), backgroundColor));
                         break;
                     default:
-                        data.add(createMeasurementRows(cache, items, cellWidth, 0, label, backgroundColor));
+                        measurements.add(createMeasurementRows(cache, items, cellWidth, 0, label, backgroundColor));
                         break;
                 }
                 rowIndex++;
@@ -118,18 +129,13 @@ public class PdfTable implements PdfPrintable {
                     pdfNotes.add(pdfNote);
                 }
             }
-            data.addAll(CellFactory.createRowsForNotes(cache, pdfNotes, getLabelWidth()));
+            notes.addAll(CellFactory.createRowsForNotes(cache, pdfNotes, getLabelWidth()));
         }
 
-        boolean hasData = data.size() > 1;
-        if (!hasData) {
-            data.add(CellFactory.createEmptyRow(cache));
-        }
-
-        try {
-            table.setData(data);
-        } catch (Exception exception) {
-            Log.e(TAG, exception.toString());
+        // FIXME: Never executed (Legacy bug)
+        boolean isEmpty = measurements.isEmpty() && notes.isEmpty();
+        if (isEmpty) {
+            notes.add(CellFactory.createEmptyRow(cache));
         }
     }
 

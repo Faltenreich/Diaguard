@@ -16,7 +16,7 @@ import org.joda.time.format.DateTimeFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PdfHeader implements PdfPrintable {
+public class PdfHeader {
 
     private static final String TAG = PdfHeader.class.getSimpleName();
 
@@ -53,7 +53,6 @@ public class PdfHeader implements PdfPrintable {
         }
     }
 
-    @Override
     public float getHeight() {
         if (text != null) {
             return text.getHeight() + MARGIN_BOTTOM;
@@ -61,7 +60,6 @@ public class PdfHeader implements PdfPrintable {
         return 0f;
     }
 
-    @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
         text.setLocation(position.getX(), position.getY());
         text.setWidth(page.getWidth());

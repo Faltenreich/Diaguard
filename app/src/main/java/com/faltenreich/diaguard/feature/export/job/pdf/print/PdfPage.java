@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
-import android.util.Log;
-
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.pdfjet.Letter;
 import com.pdfjet.Page;
@@ -57,14 +55,5 @@ public class PdfPage extends Page {
 
     public Point getPosition() {
         return position;
-    }
-
-    public void draw(PdfPrintable printable) {
-        try {
-            printable.drawOn(this, position);
-            position.setY(position.getY() + printable.getHeight());
-        } catch (Exception exception) {
-            Log.e(TAG, exception.toString());
-        }
     }
 }

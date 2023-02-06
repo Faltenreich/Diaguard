@@ -48,7 +48,6 @@ public class PdfLog implements PdfPrintable {
         init();
     }
 
-    @Override
     public float getHeight() {
         float height = table.getHeight();
         return height > 0 ? height + PdfPage.MARGIN : 0f;

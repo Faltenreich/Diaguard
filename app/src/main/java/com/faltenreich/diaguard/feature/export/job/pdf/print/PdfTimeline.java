@@ -61,7 +61,6 @@ public class PdfTimeline implements PdfPrintable {
         init();
     }
 
-    @Override
     public float getHeight() {
         return chart.getHeight() + table.getHeight() + PdfPage.MARGIN;
     }

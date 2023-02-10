@@ -109,7 +109,6 @@ public class PdfLog implements PdfPrintable {
         for (Entry entry : entriesOfDay) {
             List<List<Cell>> rows = new ArrayList<>();
             int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
-            int oldSize = data.size();
             String time = entry.getDate().toString("HH:mm");
 
             for (Measurement measurement : entry.getMeasurementCache()) {

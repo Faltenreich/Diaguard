@@ -6,5 +6,5 @@ public interface PdfPrintable {
         return 100;
     }
 
-    void drawOn(PdfPage pagen) throws Exception;
+    void drawOn(PdfPage page) throws Exception;
 }

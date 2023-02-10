@@ -7,8 +7,6 @@ import com.pdfjet.Point;
 
 public class PdfPage extends Page {
 
-    private static final String TAG = PdfPage.class.getSimpleName();
-
     private static final float PADDING_EDGES = 60;
     static final float MARGIN = 20;
 

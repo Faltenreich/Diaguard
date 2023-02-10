@@ -24,12 +24,14 @@ import com.pdfjet.Color;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 public class PdfTable implements PdfPrintable {
 
-    private static final String TAG = PdfTable.class.getSimpleName();
+    private static final int COLUMN_INDEX_NOTE = 1;
     private static final int HOURS_TO_SKIP = 2;
 
     private final PdfExportCache cache;
@@ -50,23 +52,36 @@ public class PdfTable implements PdfPrintable {
         SizedTable table = new SizedTable();
         table.setData(measurements);
 
-        float newY = page.getPosition().getY() + table.getHeight();
-        float maxY = page.getEndPoint().getY();
-        if (newY > maxY) {
+        if (page.getPosition().getY() + table.getHeight() > page.getEndPoint().getY()) {
             page = new PdfPage(cache);
-            cache.setPage(page);
         }
 
         table.setLocation(page.getPosition().getX(), page.getPosition().getY());
         table.drawOn(page);
 
-        table.setLocation(page.getPosition().getX(), page.getPosition().getY() + table.getHeight());
-        // TODO: Chunk notes on exceeding page size
-        table.setData(notes);
-        table.drawOn(page);
+        page.getPosition().setY(page.getPosition().getY() + table.getHeight());
 
-        // TODO: Add heights of all SizedTables
-        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
+        for (List<Cell> row : notes) {
+            float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
+            if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
+                page = new PdfPage(cache);
+                Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
+                    .setWidth(getLabelWidth())
+                    .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
+                    .build();
+                rowHeight += headerCell.getHeight();
+                table.setData(Arrays.asList(Collections.singletonList(headerCell), row));
+            } else {
+                table.setData(Collections.singletonList(row));
+            }
+            table.setLocation(page.getPosition().getX(), page.getPosition().getY());
+            table.drawOn(page);
+            page.getPosition().setY(page.getPosition().getY() + rowHeight);
+        }
+
+        page.getPosition().setY(page.getPosition().getY() + PdfPage.MARGIN);
+
+        cache.setPage(page);
     }
 
     private void init() {
@@ -135,7 +150,7 @@ public class PdfTable implements PdfPrintable {
         // FIXME: Never executed (Legacy bug)
         boolean isEmpty = measurements.isEmpty() && notes.isEmpty();
         if (isEmpty) {
-            notes.add(CellFactory.createEmptyRow(cache));
+            measurements.add(CellFactory.createEmptyRow(cache));
         }
     }
 

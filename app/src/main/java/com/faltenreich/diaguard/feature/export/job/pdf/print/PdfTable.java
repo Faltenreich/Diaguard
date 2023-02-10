@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.feature.export.job.pdf.print;
 import android.content.Context;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNote;
@@ -50,30 +49,18 @@ public class PdfTable implements PdfPrintable {
         SizedTable table = new SizedTable();
         List<List<Cell>> tableData = new ArrayList<>();
 
+        Cell dayCell = CellFactory.getDayCell(cache.getDateTime(), cache.getFontBold());
+
         List<Cell> header = new ArrayList<>();
-
-        Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
-            .setWidth(getLabelWidth())
-            .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
-            .build();
-        header.add(headerCell);
-
-        float cellWidth = (cache.getPage().getWidth() - getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / 2f);
-        for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += PdfTable.HOURS_TO_SKIP) {
-            Cell hourCell = new CellBuilder(new Cell(cache.getFontNormal()))
-                .setWidth(cellWidth)
-                .setText(Integer.toString(hour))
-                .setForegroundColor(Color.gray)
-                .setTextAlignment(Align.CENTER)
-                .build();
-            header.add(hourCell);
-        }
+        header.add(dayCell);
+        header.addAll(CellFactory.getHourCells(cache.getFontNormal(), cache.getPage().getWidth(), PdfTable.HOURS_TO_SKIP));
         tableData.add(header);
 
         if (entriesOfDay.isEmpty()) {
             tableData.add(CellFactory.createEmptyRow(cache));
         } else {
             LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(cache.getDateTime(), config.getCategories(), HOURS_TO_SKIP);
+            float cellWidth = (cache.getPage().getWidth() - getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / 2f);
             int rowIndex = 0;
             for (Category category : values.keySet()) {
                 CategoryValueListItem[] items = values.get(category);
@@ -122,8 +109,8 @@ public class PdfTable implements PdfPrintable {
                     float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
                     if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
                         page = new PdfPage(cache);
-                        rowHeight += headerCell.getHeight();
-                        table.setData(Arrays.asList(Collections.singletonList(headerCell), row));
+                        rowHeight += dayCell.getHeight();
+                        table.setData(Arrays.asList(Collections.singletonList(dayCell), row));
                     } else {
                         table.setData(Collections.singletonList(row));
                     }

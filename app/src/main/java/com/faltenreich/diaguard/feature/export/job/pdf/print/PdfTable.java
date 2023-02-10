@@ -55,11 +55,11 @@ public class PdfTable implements PdfPrintable {
 
         List<Cell> header = new ArrayList<>();
         header.add(dayCell);
-        header.addAll(cellFactory.getHourCells(PdfTable.HOURS_TO_SKIP));
+        header.addAll(cellFactory.getHourRow(PdfTable.HOURS_TO_SKIP));
         tableData.add(header);
 
         if (entriesOfDay.isEmpty()) {
-            tableData.add(cellFactory.getEmptyCells());
+            tableData.add(cellFactory.getEmptyRow());
         } else {
             LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(cache.getDateTime(), config.getCategories(), HOURS_TO_SKIP);
             float cellWidth = (cache.getPage().getWidth() - getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / 2f);
@@ -107,7 +107,7 @@ public class PdfTable implements PdfPrintable {
             for (Entry entry : entriesOfDay) {
                 PdfNote pdfNote = PdfNoteFactory.createNote(config, entry);
                 if (pdfNote != null) {
-                    List<Cell> row = cellFactory.createRowForNote(pdfNote, isFirst);
+                    List<Cell> row = cellFactory.getNoteRow(pdfNote, isFirst);
                     float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
                     if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
                         page = new PdfPage(cache);

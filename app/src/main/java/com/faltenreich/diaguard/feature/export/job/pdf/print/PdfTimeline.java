@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNote;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNoteFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedBox;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -44,7 +43,7 @@ public class PdfTimeline implements PdfPrintable {
     private static final int HEADER_HEIGHT = 22;
 
     private final PdfExportCache cache;
-    private final CellFactory cellFactory;
+    private final PdfCellFactory cellFactory;
     private final List<Entry> entriesOfDay;
     private final SizedBox chart;
     private final List<List<Cell>> tableData;
@@ -58,7 +57,7 @@ public class PdfTimeline implements PdfPrintable {
     PdfTimeline(PdfExportCache cache, List<Entry> entriesOfDay) {
         float width = cache.getPage().getWidth();
         this.cache = cache;
-        this.cellFactory = new CellFactory(cache);
+        this.cellFactory = new PdfCellFactory(cache);
         this.entriesOfDay = entriesOfDay;
         this.showChartForBloodSugar = cache.getConfig().hasCategory(Category.BLOODSUGAR);
         this.chart = new SizedBox(width, showChartForBloodSugar ? (width / 4) : HEADER_HEIGHT);

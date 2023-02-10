@@ -7,7 +7,6 @@ import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNote;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNoteFactory;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -28,12 +27,12 @@ public class PdfTable implements PdfPrintable {
     private static final int HOURS_TO_SKIP = 2;
 
     private final PdfExportCache cache;
-    private final CellFactory cellFactory;
+    private final PdfCellFactory cellFactory;
     private final List<Entry> entriesOfDay;
 
     PdfTable(PdfExportCache cache, List<Entry> entriesOfDay) {
         this.cache = cache;
-        this.cellFactory = new CellFactory(cache);
+        this.cellFactory = new PdfCellFactory(cache);
         this.entriesOfDay = entriesOfDay;
     }
 

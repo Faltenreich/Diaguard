@@ -36,64 +36,27 @@ public class PdfTable implements PdfPrintable {
 
     private final PdfExportCache cache;
     private final List<Entry> entriesOfDay;
-    private final List<List<Cell>> measurements;
-    private final List<List<Cell>> notes;
 
     PdfTable(PdfExportCache cache, List<Entry> entriesOfDay) {
         this.cache = cache;
         this.entriesOfDay = entriesOfDay;
-        this.measurements = new ArrayList<>();
-        this.notes = new ArrayList<>();
-        init();
     }
 
     @Override
     public void drawOn(PdfPage page) throws Exception {
-        SizedTable table = new SizedTable();
-        table.setData(measurements);
-
-        if (page.getPosition().getY() + table.getHeight() > page.getEndPoint().getY()) {
-            page = new PdfPage(cache);
-        }
-
-        table.setLocation(page.getPosition().getX(), page.getPosition().getY());
-        table.drawOn(page);
-
-        page.getPosition().setY(page.getPosition().getY() + table.getHeight());
-
-        for (List<Cell> row : notes) {
-            float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
-            if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
-                page = new PdfPage(cache);
-                Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
-                    .setWidth(getLabelWidth())
-                    .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
-                    .build();
-                rowHeight += headerCell.getHeight();
-                table.setData(Arrays.asList(Collections.singletonList(headerCell), row));
-            } else {
-                table.setData(Collections.singletonList(row));
-            }
-            table.setLocation(page.getPosition().getX(), page.getPosition().getY());
-            table.drawOn(page);
-            page.getPosition().setY(page.getPosition().getY() + rowHeight);
-        }
-
-        page.getPosition().setY(page.getPosition().getY() + PdfPage.MARGIN);
-
-        cache.setPage(page);
-    }
-
-    private void init() {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContext();
 
-        List<Cell> cells = new ArrayList<>();
+        SizedTable table = new SizedTable();
+        List<List<Cell>> tableData = new ArrayList<>();
+
+        List<Cell> header = new ArrayList<>();
+
         Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
             .setWidth(getLabelWidth())
             .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
             .build();
-        cells.add(headerCell);
+        header.add(headerCell);
 
         float cellWidth = (cache.getPage().getWidth() - getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / 2f);
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += PdfTable.HOURS_TO_SKIP) {
@@ -103,55 +66,78 @@ public class PdfTable implements PdfPrintable {
                 .setForegroundColor(Color.gray)
                 .setTextAlignment(Align.CENTER)
                 .build();
-            cells.add(hourCell);
+            header.add(hourCell);
         }
-        measurements.add(cells);
+        tableData.add(header);
 
-        LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(cache.getDateTime(), config.getCategories(), HOURS_TO_SKIP);
-        int rowIndex = 0;
-        for (Category category : values.keySet()) {
-            CategoryValueListItem[] items = values.get(category);
-            if (items != null) {
-                String label = context.getString(category.getStringAcronymResId());
-                int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
-                switch (category) {
-                    case INSULIN:
-                        if (config.splitInsulin()) {
-                            measurements.add(createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.bolus), backgroundColor));
-                            measurements.add(createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.correction), backgroundColor));
-                            measurements.add(createMeasurementRows(cache, items, cellWidth, 2, label + " " + context.getString(R.string.basal), backgroundColor));
-                        } else {
-                            measurements.add(createMeasurementRows(cache, items, cellWidth, -1, label, backgroundColor));
-                        }
-                        break;
-                    case PRESSURE:
-                        measurements.add(createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.systolic_acronym), backgroundColor));
-                        measurements.add(createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.diastolic_acronym), backgroundColor));
-                        break;
-                    default:
-                        measurements.add(createMeasurementRows(cache, items, cellWidth, 0, label, backgroundColor));
-                        break;
+        if (entriesOfDay.isEmpty()) {
+            tableData.add(CellFactory.createEmptyRow(cache));
+        } else {
+            LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(cache.getDateTime(), config.getCategories(), HOURS_TO_SKIP);
+            int rowIndex = 0;
+            for (Category category : values.keySet()) {
+                CategoryValueListItem[] items = values.get(category);
+                if (items != null) {
+                    String label = context.getString(category.getStringAcronymResId());
+                    int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
+                    switch (category) {
+                        case INSULIN:
+                            if (config.splitInsulin()) {
+                                tableData.add(createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.bolus), backgroundColor));
+                                tableData.add(createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.correction), backgroundColor));
+                                tableData.add(createMeasurementRows(cache, items, cellWidth, 2, label + " " + context.getString(R.string.basal), backgroundColor));
+                            } else {
+                                tableData.add(createMeasurementRows(cache, items, cellWidth, -1, label, backgroundColor));
+                            }
+                            break;
+                        case PRESSURE:
+                            tableData.add(createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.systolic_acronym), backgroundColor));
+                            tableData.add(createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.diastolic_acronym), backgroundColor));
+                            break;
+                        default:
+                            tableData.add(createMeasurementRows(cache, items, cellWidth, 0, label, backgroundColor));
+                            break;
+                    }
+                    rowIndex++;
                 }
-                rowIndex++;
             }
         }
 
+        table.setData(tableData);
+
+        if (page.getPosition().getY() + table.getHeight() > page.getEndPoint().getY()) {
+            page = new PdfPage(cache);
+        }
+        table.setLocation(page.getPosition().getX(), page.getPosition().getY());
+        table.drawOn(page);
+
+        page.getPosition().setY(page.getPosition().getY() + table.getHeight());
+
         if (config.exportNotes() || config.exportTags() || config.exportFood()) {
-            List<PdfNote> pdfNotes = new ArrayList<>();
+            boolean isFirst = true;
             for (Entry entry : entriesOfDay) {
                 PdfNote pdfNote = PdfNoteFactory.createNote(config, entry);
                 if (pdfNote != null) {
-                    pdfNotes.add(pdfNote);
+                    List<Cell> row = CellFactory.createRowForNote(cache, pdfNote, getLabelWidth(), isFirst);
+                    float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
+                    if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
+                        page = new PdfPage(cache);
+                        rowHeight += headerCell.getHeight();
+                        table.setData(Arrays.asList(Collections.singletonList(headerCell), row));
+                    } else {
+                        table.setData(Collections.singletonList(row));
+                    }
+                    table.setLocation(page.getPosition().getX(), page.getPosition().getY());
+                    table.drawOn(page);
+                    page.getPosition().setY(page.getPosition().getY() + rowHeight);
+                    isFirst = false;
                 }
             }
-            notes.addAll(CellFactory.createRowsForNotes(cache, pdfNotes, getLabelWidth()));
         }
 
-        // FIXME: Never executed (Legacy bug)
-        boolean isEmpty = measurements.isEmpty() && notes.isEmpty();
-        if (isEmpty) {
-            measurements.add(CellFactory.createEmptyRow(cache));
-        }
+        page.getPosition().setY(page.getPosition().getY() + PdfPage.MARGIN);
+
+        cache.setPage(page);
     }
 
     private List<Cell> createMeasurementRows(PdfExportCache cache, CategoryValueListItem[] items, float cellWidth, int valueIndex, String label, int backgroundColor) {

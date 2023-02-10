@@ -28,35 +28,40 @@ public class CellFactory {
         return row;
     }
 
+    @Deprecated
     public static List<List<Cell>> createRowsForNotes(PdfExportCache cache, List<PdfNote> pdfNotes, float labelWidth) {
         List<List<Cell>> rows = new ArrayList<>();
         for (PdfNote note : pdfNotes) {
             boolean isFirst = pdfNotes.indexOf(note) == 0;
-
-            ArrayList<Cell> noteCells = new ArrayList<>();
-
-            Cell timeCell = new CellBuilder(new Cell(cache.getFontNormal()))
-                .setWidth(labelWidth)
-                .setText(Helper.getTimeFormat().print(note.getDateTime()))
-                .setForegroundColor(Color.gray)
-                .build();
-            if (isFirst) {
-                timeCell.setBorder(Border.TOP, true);
-            }
-            noteCells.add(timeCell);
-
-            Cell noteCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
-                .setWidth(cache.getPage().getWidth() -labelWidth)
-                .setText(note.getNote())
-                .setForegroundColor(Color.gray)
-                .build();
-            if (isFirst) {
-                noteCell.setBorder(Border.TOP, true);
-            }
-            noteCells.add(noteCell);
-
-            rows.add(noteCells);
+            List<Cell> row = createRowForNote(cache, note, labelWidth, isFirst);
+            rows.add(row);
         }
         return rows;
+    }
+
+    public static List<Cell> createRowForNote(PdfExportCache cache, PdfNote pdfNote, float labelWidth, boolean appendBorder) {
+        ArrayList<Cell> row = new ArrayList<>();
+
+        Cell timeCell = new CellBuilder(new Cell(cache.getFontNormal()))
+            .setWidth(labelWidth)
+            .setText(Helper.getTimeFormat().print(pdfNote.getDateTime()))
+            .setForegroundColor(Color.gray)
+            .build();
+        if (appendBorder) {
+            timeCell.setBorder(Border.TOP, true);
+        }
+        row.add(timeCell);
+
+        Cell noteCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
+            .setWidth(cache.getPage().getWidth() - labelWidth)
+            .setText(pdfNote.getNote())
+            .setForegroundColor(Color.gray)
+            .build();
+        if (appendBorder) {
+            noteCell.setBorder(Border.TOP, true);
+        }
+        row.add(noteCell);
+
+        return row;
     }
 }

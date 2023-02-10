@@ -32,7 +32,7 @@ public class CellFactory {
             .build();
     }
 
-    public List<Cell> getHourCells(int hoursToSkip) {
+    public List<Cell> getHourRow(int hoursToSkip) {
         List<Cell> cells = new ArrayList<>();
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += hoursToSkip) {
             cells.add(getHourCell(hour));
@@ -50,6 +50,12 @@ public class CellFactory {
             .build();
     }
 
+    public List<Cell> getEmptyRow() {
+        List<Cell> row = new ArrayList<>();
+        row.add(getEmptyCell());
+        return row;
+    }
+
     private Cell getEmptyCell() {
         return new CellBuilder(new Cell(cache.getFontNormal()))
             .setWidth(cache.getPage().getWidth())
@@ -59,24 +65,7 @@ public class CellFactory {
             .build();
     }
 
-    public List<Cell> getEmptyCells() {
-        List<Cell> row = new ArrayList<>();
-        row.add(getEmptyCell());
-        return row;
-    }
-
-    @Deprecated
-    public List<List<Cell>> createRowsForNotes(List<PdfNote> pdfNotes) {
-        List<List<Cell>> rows = new ArrayList<>();
-        for (PdfNote note : pdfNotes) {
-            boolean isFirst = pdfNotes.indexOf(note) == 0;
-            List<Cell> row = createRowForNote(note, isFirst);
-            rows.add(row);
-        }
-        return rows;
-    }
-
-    public List<Cell> createRowForNote(PdfNote pdfNote, boolean appendBorder) {
+    public List<Cell> getNoteRow(PdfNote pdfNote, boolean appendBorder) {
         ArrayList<Cell> row = new ArrayList<>();
 
         Cell timeCell = new CellBuilder(new Cell(cache.getFontNormal()))
@@ -100,5 +89,16 @@ public class CellFactory {
         row.add(noteCell);
 
         return row;
+    }
+
+    @Deprecated
+    public List<List<Cell>> getNoteRows(List<PdfNote> pdfNotes) {
+        List<List<Cell>> rows = new ArrayList<>();
+        for (PdfNote pdfNote : pdfNotes) {
+            boolean isFirst = pdfNotes.indexOf(pdfNote) == 0;
+            List<Cell> row = getNoteRow(pdfNote, isFirst);
+            rows.add(row);
+        }
+        return rows;
     }
 }

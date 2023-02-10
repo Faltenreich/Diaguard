@@ -104,7 +104,7 @@ public class PdfTimeline implements PdfPrintable {
 
         // TODO: Is never true since empty rows will be created for every category
         if (tableData.isEmpty() && notes.isEmpty()) {
-            List<Cell> row = cellFactory.getEmptyCells();
+            List<Cell> row = cellFactory.getEmptyRow();
             float rowHeight = row.get(0).getHeight();
             table.setData(Collections.singletonList(row));
             if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
@@ -186,7 +186,7 @@ public class PdfTimeline implements PdfPrintable {
             rowIndex++;
         }
 
-        notes.addAll(cellFactory.createRowsForNotes(pdfNotes));
+        notes.addAll(cellFactory.getNoteRows(pdfNotes));
     }
 
     private List<Cell> createRowForMeasurements(Category category, CategoryValueListItem[] values, int rowIndex, int valueIndex, String label) {

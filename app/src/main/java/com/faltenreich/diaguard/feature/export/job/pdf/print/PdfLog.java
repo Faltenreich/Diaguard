@@ -80,7 +80,7 @@ public class PdfLog implements PdfPrintable {
         }
 
         if (data.isEmpty()) {
-            List<Cell> row = cellFactory.getEmptyCells();
+            List<Cell> row = cellFactory.getEmptyRow();
             rowHeight = row.get(0).getHeight();
             table.setData(Collections.singletonList(row));
             if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {

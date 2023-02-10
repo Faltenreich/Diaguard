@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
@@ -52,10 +51,7 @@ public class PdfLog implements PdfPrintable {
     public void drawOn(PdfPage page) throws Exception {
         SizedTable table = new SizedTable();
 
-        Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
-            .setWidth(getLabelWidth())
-            .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
-            .build();
+        Cell headerCell = CellFactory.getDayCell(cache.getDateTime(), cache.getFontBold());
         float rowHeight = headerCell.getHeight();
         table.setData(Collections.singletonList(Collections.singletonList(headerCell)));
         if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {

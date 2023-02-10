@@ -9,9 +9,7 @@ import com.pdfjet.Align;
 import com.pdfjet.Border;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
-import com.pdfjet.Font;
 
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
@@ -21,24 +19,30 @@ public class CellFactory {
 
     private static final float CELL_WIDTH_DAY = 100;
 
-    public static Cell getDayCell(DateTime dateTime, Font font) {
-        return new CellBuilder(new Cell(font))
+    private final PdfExportCache cache;
+
+    public CellFactory(PdfExportCache cache) {
+        this.cache = cache;
+    }
+
+    public Cell getDayCell() {
+        return new CellBuilder(new Cell(cache.getFontBold()))
             .setWidth(CELL_WIDTH_DAY)
-            .setText(DateTimeUtils.toWeekDayAndDate(dateTime))
+            .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
             .build();
     }
 
-    public static List<Cell> getHourCells(Font font, float pageWidth, int hoursToSkip) {
+    public List<Cell> getHourCells(int hoursToSkip) {
         List<Cell> cells = new ArrayList<>();
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += hoursToSkip) {
-            cells.add(getHourCell(hour, font, pageWidth));
+            cells.add(getHourCell(hour));
         }
         return cells;
     }
 
-    private static Cell getHourCell(Integer hour, Font font, float pageWidth) {
-        float cellWidth = (pageWidth - CELL_WIDTH_DAY) / (DateTimeConstants.HOURS_PER_DAY / 2f);
-        return new CellBuilder(new Cell(font))
+    private Cell getHourCell(Integer hour) {
+        float cellWidth = (cache.getPage().getWidth() - CELL_WIDTH_DAY) / (DateTimeConstants.HOURS_PER_DAY / 2f);
+        return new CellBuilder(new Cell(cache.getFontNormal()))
             .setWidth(cellWidth)
             .setText(Integer.toString(hour))
             .setForegroundColor(Color.gray)
@@ -46,7 +50,7 @@ public class CellFactory {
             .build();
     }
 
-    private static Cell getEmptyCell(PdfExportCache cache) {
+    private Cell getEmptyCell() {
         return new CellBuilder(new Cell(cache.getFontNormal()))
             .setWidth(cache.getPage().getWidth())
             .setText(cache.getContext().getString(R.string.no_data))
@@ -55,28 +59,28 @@ public class CellFactory {
             .build();
     }
 
-    public static List<Cell> createEmptyRow(PdfExportCache cache) {
+    public List<Cell> getEmptyCells() {
         List<Cell> row = new ArrayList<>();
-        row.add(getEmptyCell(cache));
+        row.add(getEmptyCell());
         return row;
     }
 
     @Deprecated
-    public static List<List<Cell>> createRowsForNotes(PdfExportCache cache, List<PdfNote> pdfNotes, float labelWidth) {
+    public List<List<Cell>> createRowsForNotes(List<PdfNote> pdfNotes) {
         List<List<Cell>> rows = new ArrayList<>();
         for (PdfNote note : pdfNotes) {
             boolean isFirst = pdfNotes.indexOf(note) == 0;
-            List<Cell> row = createRowForNote(cache, note, labelWidth, isFirst);
+            List<Cell> row = createRowForNote(note, isFirst);
             rows.add(row);
         }
         return rows;
     }
 
-    public static List<Cell> createRowForNote(PdfExportCache cache, PdfNote pdfNote, float labelWidth, boolean appendBorder) {
+    public List<Cell> createRowForNote(PdfNote pdfNote, boolean appendBorder) {
         ArrayList<Cell> row = new ArrayList<>();
 
         Cell timeCell = new CellBuilder(new Cell(cache.getFontNormal()))
-            .setWidth(labelWidth)
+            .setWidth(CELL_WIDTH_DAY)
             .setText(Helper.getTimeFormat().print(pdfNote.getDateTime()))
             .setForegroundColor(Color.gray)
             .build();
@@ -86,7 +90,7 @@ public class CellFactory {
         row.add(timeCell);
 
         Cell noteCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
-            .setWidth(cache.getPage().getWidth() - labelWidth)
+            .setWidth(cache.getPage().getWidth() - CELL_WIDTH_DAY)
             .setText(pdfNote.getNote())
             .setForegroundColor(Color.gray)
             .build();

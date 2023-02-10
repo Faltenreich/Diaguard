@@ -44,6 +44,7 @@ public class PdfTimeline implements PdfPrintable {
     private static final int HEADER_HEIGHT = 22;
 
     private final PdfExportCache cache;
+    private final CellFactory cellFactory;
     private final List<Entry> entriesOfDay;
     private final SizedBox chart;
     private final List<List<Cell>> tableData;
@@ -57,6 +58,7 @@ public class PdfTimeline implements PdfPrintable {
     PdfTimeline(PdfExportCache cache, List<Entry> entriesOfDay) {
         float width = cache.getPage().getWidth();
         this.cache = cache;
+        this.cellFactory = new CellFactory(cache);
         this.entriesOfDay = entriesOfDay;
         this.showChartForBloodSugar = cache.getConfig().hasCategory(Category.BLOODSUGAR);
         this.chart = new SizedBox(width, showChartForBloodSugar ? (width / 4) : HEADER_HEIGHT);
@@ -102,7 +104,7 @@ public class PdfTimeline implements PdfPrintable {
 
         // TODO: Is never true since empty rows will be created for every category
         if (tableData.isEmpty() && notes.isEmpty()) {
-            List<Cell> row = CellFactory.createEmptyRow(cache);
+            List<Cell> row = cellFactory.getEmptyCells();
             float rowHeight = row.get(0).getHeight();
             table.setData(Collections.singletonList(row));
             if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
@@ -184,7 +186,7 @@ public class PdfTimeline implements PdfPrintable {
             rowIndex++;
         }
 
-        notes.addAll(CellFactory.createRowsForNotes(cache, pdfNotes, getLabelWidth()));
+        notes.addAll(cellFactory.createRowsForNotes(pdfNotes));
     }
 
     private List<Cell> createRowForMeasurements(Category category, CategoryValueListItem[] values, int rowIndex, int valueIndex, String label) {

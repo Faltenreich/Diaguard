@@ -37,11 +37,13 @@ public class PdfLog implements PdfPrintable {
     private static final float TIME_WIDTH = 72;
 
     private final PdfExportCache cache;
+    private final CellFactory cellFactory;
     private final List<Entry> entriesOfDay;
     private final List<List<List<Cell>>> data;
 
     PdfLog(PdfExportCache cache, List<Entry> entriesOfDay) {
         this.cache = cache;
+        this.cellFactory = new CellFactory(cache);
         this.entriesOfDay = entriesOfDay;
         this.data = new ArrayList<>();
         init();
@@ -51,7 +53,7 @@ public class PdfLog implements PdfPrintable {
     public void drawOn(PdfPage page) throws Exception {
         SizedTable table = new SizedTable();
 
-        Cell headerCell = CellFactory.getDayCell(cache.getDateTime(), cache.getFontBold());
+        Cell headerCell = cellFactory.getDayCell();
         float rowHeight = headerCell.getHeight();
         table.setData(Collections.singletonList(Collections.singletonList(headerCell)));
         if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
@@ -78,7 +80,7 @@ public class PdfLog implements PdfPrintable {
         }
 
         if (data.isEmpty()) {
-            List<Cell> row = CellFactory.createEmptyRow(cache);
+            List<Cell> row = cellFactory.getEmptyCells();
             rowHeight = row.get(0).getHeight();
             table.setData(Collections.singletonList(row));
             if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {

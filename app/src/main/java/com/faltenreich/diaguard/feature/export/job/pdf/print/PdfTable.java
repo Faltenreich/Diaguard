@@ -34,10 +34,12 @@ public class PdfTable implements PdfPrintable {
     private static final int HOURS_TO_SKIP = 2;
 
     private final PdfExportCache cache;
+    private final CellFactory cellFactory;
     private final List<Entry> entriesOfDay;
 
     PdfTable(PdfExportCache cache, List<Entry> entriesOfDay) {
         this.cache = cache;
+        this.cellFactory = new CellFactory(cache);
         this.entriesOfDay = entriesOfDay;
     }
 
@@ -49,15 +51,15 @@ public class PdfTable implements PdfPrintable {
         SizedTable table = new SizedTable();
         List<List<Cell>> tableData = new ArrayList<>();
 
-        Cell dayCell = CellFactory.getDayCell(cache.getDateTime(), cache.getFontBold());
+        Cell dayCell = cellFactory.getDayCell();
 
         List<Cell> header = new ArrayList<>();
         header.add(dayCell);
-        header.addAll(CellFactory.getHourCells(cache.getFontNormal(), cache.getPage().getWidth(), PdfTable.HOURS_TO_SKIP));
+        header.addAll(cellFactory.getHourCells(PdfTable.HOURS_TO_SKIP));
         tableData.add(header);
 
         if (entriesOfDay.isEmpty()) {
-            tableData.add(CellFactory.createEmptyRow(cache));
+            tableData.add(cellFactory.getEmptyCells());
         } else {
             LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(cache.getDateTime(), config.getCategories(), HOURS_TO_SKIP);
             float cellWidth = (cache.getPage().getWidth() - getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / 2f);
@@ -105,7 +107,7 @@ public class PdfTable implements PdfPrintable {
             for (Entry entry : entriesOfDay) {
                 PdfNote pdfNote = PdfNoteFactory.createNote(config, entry);
                 if (pdfNote != null) {
-                    List<Cell> row = CellFactory.createRowForNote(cache, pdfNote, getLabelWidth(), isFirst);
+                    List<Cell> row = cellFactory.createRowForNote(pdfNote, isFirst);
                     float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
                     if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
                         page = new PdfPage(cache);

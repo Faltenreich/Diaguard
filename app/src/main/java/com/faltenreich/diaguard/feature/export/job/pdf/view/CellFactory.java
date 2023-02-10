@@ -32,7 +32,6 @@ public class CellFactory {
         List<List<Cell>> rows = new ArrayList<>();
         for (PdfNote note : pdfNotes) {
             boolean isFirst = pdfNotes.indexOf(note) == 0;
-            boolean isLast = pdfNotes.indexOf(note) == pdfNotes.size() - 1;
 
             ArrayList<Cell> noteCells = new ArrayList<>();
 
@@ -44,9 +43,6 @@ public class CellFactory {
             if (isFirst) {
                 timeCell.setBorder(Border.TOP, true);
             }
-            if (isLast) {
-                timeCell.setBorder(Border.BOTTOM, true);
-            }
             noteCells.add(timeCell);
 
             Cell noteCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
@@ -56,9 +52,6 @@ public class CellFactory {
                 .build();
             if (isFirst) {
                 noteCell.setBorder(Border.TOP, true);
-            }
-            if (isLast) {
-                noteCell.setBorder(Border.BOTTOM, true);
             }
             noteCells.add(noteCell);
 

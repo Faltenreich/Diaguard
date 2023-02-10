@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNote;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNoteFactory;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedBox;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
@@ -29,13 +29,15 @@ import com.pdfjet.TextLine;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PdfTimeline implements PdfPrintable {
 
-    private static final String TAG = PdfTimeline.class.getSimpleName();
+    private static final int COLUMN_INDEX_NOTE = 1;
     private static final float POINT_RADIUS = 5;
     private static final float PADDING = 12;
     private static final int HOUR_INTERVAL = 2;
@@ -44,7 +46,8 @@ public class PdfTimeline implements PdfPrintable {
     private final PdfExportCache cache;
     private final List<Entry> entriesOfDay;
     private final SizedBox chart;
-    private final SizedTable table;
+    private final List<List<Cell>> tableData;
+    private final List<List<Cell>> notes;
 
     private final boolean showChartForBloodSugar;
     private List<BloodSugar> bloodSugars;
@@ -57,12 +60,62 @@ public class PdfTimeline implements PdfPrintable {
         this.entriesOfDay = entriesOfDay;
         this.showChartForBloodSugar = cache.getConfig().hasCategory(Category.BLOODSUGAR);
         this.chart = new SizedBox(width, showChartForBloodSugar ? (width / 4) : HEADER_HEIGHT);
-        this.table = new SizedTable();
+        this.tableData = new ArrayList<>();
+        this.notes = new ArrayList<>();
         init();
     }
 
-    public float getHeight() {
-        return chart.getHeight() + table.getHeight() + PdfPage.MARGIN;
+    @Override
+    public void drawOn(PdfPage page) throws Exception {
+        SizedTable table = new SizedTable();
+        table.setData(tableData);
+
+        if (page.getPosition().getY() + table.getHeight() + chart.getHeight() > page.getEndPoint().getY()) {
+            page = new PdfPage(cache);
+        }
+
+        chart.setPosition(page.getPosition().getX(), page.getPosition().getY());
+        drawChart(page, page.getPosition(), bloodSugars);
+        page.getPosition().setY(page.getPosition().getY() + chart.getHeight());
+
+        table.setLocation(page.getPosition().getX(), page.getPosition().getY());
+        table.drawOn(page);
+        page.getPosition().setY(page.getPosition().getY() + table.getHeight());
+
+        for (List<Cell> row : notes) {
+            float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
+            if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
+                page = new PdfPage(cache);
+                Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
+                    .setWidth(getLabelWidth())
+                    .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
+                    .build();
+                rowHeight += headerCell.getHeight();
+                table.setData(Arrays.asList(Collections.singletonList(headerCell), row));
+            } else {
+                table.setData(Collections.singletonList(row));
+            }
+            table.setLocation(page.getPosition().getX(), page.getPosition().getY());
+            table.drawOn(page);
+            page.getPosition().setY(page.getPosition().getY() + rowHeight);
+        }
+
+        // TODO: Is never true since empty rows will be created for every category
+        if (tableData.isEmpty() && notes.isEmpty()) {
+            List<Cell> row = CellFactory.createEmptyRow(cache);
+            float rowHeight = row.get(0).getHeight();
+            table.setData(Collections.singletonList(row));
+            if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
+                page = new PdfPage(cache);
+            }
+            table.setLocation(page.getPosition().getX(), page.getPosition().getY());
+            table.drawOn(page);
+            page.getPosition().setY(page.getPosition().getY() + rowHeight);
+        }
+
+        page.getPosition().setY(page.getPosition().getY() + PdfPage.MARGIN);
+
+        cache.setPage(page);
     }
 
     private void init() {
@@ -104,7 +157,6 @@ public class PdfTimeline implements PdfPrintable {
     }
 
     private void initTable() {
-        List<List<Cell>> tableData = new ArrayList<>();
         Context context = cache.getContext();
 
         int rowIndex = 0;
@@ -132,18 +184,7 @@ public class PdfTimeline implements PdfPrintable {
             rowIndex++;
         }
 
-        tableData.addAll(CellFactory.createRowsForNotes(cache, pdfNotes, getLabelWidth()));
-
-        if (tableData.isEmpty() && !showChartForBloodSugar) {
-            tableData.add(CellFactory.createEmptyRow(cache));
-        }
-
-        try {
-            // Must be executed early to know the table's height
-            table.setData(tableData);
-        } catch (Exception exception) {
-            Log.e(TAG, exception.toString());
-        }
+        notes.addAll(CellFactory.createRowsForNotes(cache, pdfNotes, getLabelWidth()));
     }
 
     private List<Cell> createRowForMeasurements(Category category, CategoryValueListItem[] values, int rowIndex, int valueIndex, String label) {
@@ -189,16 +230,8 @@ public class PdfTimeline implements PdfPrintable {
         return row;
     }
 
-    @Override
-    public void drawOn(PdfPage page) throws Exception {
-        Point position = drawChart(page, page.getPosition(), bloodSugars);
-        table.setLocation(position.getX(), position.getY());
-        table.drawOn(page);
-    }
-
     private Point drawChart(PdfPage page, Point position, List<BloodSugar> bloodSugars) throws Exception {
         chart.setColor(Color.transparent);
-        chart.setPosition(position.getX(), position.getY());
         float[] coordinates = chart.drawOn(page);
 
         TextLine label = new TextLine(cache.getFontNormal());

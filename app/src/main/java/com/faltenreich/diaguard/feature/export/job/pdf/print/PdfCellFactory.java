@@ -1,9 +1,11 @@
-package com.faltenreich.diaguard.feature.export.job.pdf.view;
+package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNote;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.MultilineCell;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
 import com.faltenreich.diaguard.shared.Helper;
@@ -19,24 +21,25 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CellFactory {
+class PdfCellFactory {
 
     private static final float CELL_WIDTH_DAY = 100;
+    private static final float CELL_WIDTH_TIME_LOG = 72;
 
     private final PdfExportCache cache;
 
-    public CellFactory(PdfExportCache cache) {
+    PdfCellFactory(PdfExportCache cache) {
         this.cache = cache;
     }
 
-    public Cell getDayCell() {
+    Cell getDayCell() {
         return new CellBuilder(new Cell(cache.getFontBold()))
             .setWidth(CELL_WIDTH_DAY)
             .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
             .build();
     }
 
-    public List<Cell> getHourRow(int hoursToSkip) {
+    List<Cell> getHourRow(int hoursToSkip) {
         List<Cell> cells = new ArrayList<>();
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += hoursToSkip) {
             cells.add(getHourCell(hour));
@@ -54,7 +57,7 @@ public class CellFactory {
             .build();
     }
 
-    public List<Cell> getEmptyRow() {
+    List<Cell> getEmptyRow() {
         List<Cell> row = new ArrayList<>();
         row.add(getEmptyCell());
         return row;
@@ -69,7 +72,7 @@ public class CellFactory {
             .build();
     }
 
-    public List<Cell> getNoteRow(PdfNote pdfNote, boolean appendBorder) {
+    List<Cell> getNoteRow(PdfNote pdfNote, boolean appendBorder) {
         ArrayList<Cell> row = new ArrayList<>();
 
         Cell timeCell = new CellBuilder(new Cell(cache.getFontNormal()))
@@ -96,7 +99,7 @@ public class CellFactory {
     }
 
     @Deprecated
-    public List<List<Cell>> getNoteRows(List<PdfNote> pdfNotes) {
+    List<List<Cell>> getNoteRows(List<PdfNote> pdfNotes) {
         List<List<Cell>> rows = new ArrayList<>();
         for (PdfNote pdfNote : pdfNotes) {
             boolean isFirst = pdfNotes.indexOf(pdfNote) == 0;
@@ -106,7 +109,7 @@ public class CellFactory {
         return rows;
     }
 
-    public List<Cell> getTableRow(
+    List<Cell> getTableRow(
         CategoryValueListItem[] items,
         int valueIndex,
         String label,
@@ -153,5 +156,40 @@ public class CellFactory {
             cells.add(measurementCell);
         }
         return cells;
+    }
+
+    List<Cell> getLogRow(String title, String subtitle, String description, int backgroundColor, int foregroundColor) {
+        List<Cell> entryRow = new ArrayList<>();
+        float width = cache.getPage().getWidth();
+
+        Cell titleCell = new CellBuilder(new Cell(cache.getFontNormal()))
+            .setWidth(CELL_WIDTH_TIME_LOG)
+            .setText(title)
+            .setBackgroundColor(backgroundColor)
+            .setForegroundColor(Color.gray)
+            .build();
+        entryRow.add(titleCell);
+
+        Cell subtitleCell = new CellBuilder(new Cell(cache.getFontNormal()))
+            .setWidth(CELL_WIDTH_DAY)
+            .setText(subtitle)
+            .setBackgroundColor(backgroundColor)
+            .setForegroundColor(Color.gray)
+            .build();
+        entryRow.add(subtitleCell);
+
+        Cell descriptionCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
+            .setWidth(width - titleCell.getWidth() - subtitleCell.getWidth())
+            .setText(description)
+            .setBackgroundColor(backgroundColor)
+            .setForegroundColor(foregroundColor)
+            .build();
+        entryRow.add(descriptionCell);
+
+        return entryRow;
+    }
+
+    List<Cell> getLogRow(String title, String subtitle, String description, int backgroundColor) {
+        return getLogRow(title, subtitle, description, backgroundColor, Color.black);
     }
 }

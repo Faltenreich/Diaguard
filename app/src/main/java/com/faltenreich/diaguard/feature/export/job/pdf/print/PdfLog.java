@@ -6,9 +6,6 @@ import android.text.TextUtils;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.MultilineCell;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -34,16 +31,15 @@ import java.util.List;
 public class PdfLog implements PdfPrintable {
 
     private static final int COLUMN_INDEX_NOTE = 2;
-    private static final float TIME_WIDTH = 72;
 
     private final PdfExportCache cache;
-    private final CellFactory cellFactory;
+    private final PdfCellFactory cellFactory;
     private final List<Entry> entriesOfDay;
     private final List<List<List<Cell>>> data;
 
     PdfLog(PdfExportCache cache, List<Entry> entriesOfDay) {
         this.cache = cache;
-        this.cellFactory = new CellFactory(cache);
+        this.cellFactory = new PdfCellFactory(cache);
         this.entriesOfDay = entriesOfDay;
         this.data = new ArrayList<>();
         init();
@@ -143,8 +139,7 @@ public class PdfLog implements PdfPrintable {
                     }
                 }
 
-                rows.add(getRow(
-                    cache,
+                rows.add(cellFactory.getLogRow(
                     time,
                     context.getString(category.getStringAcronymResId()),
                     measurementText,
@@ -166,8 +161,7 @@ public class PdfLog implements PdfPrintable {
                             }
                         }
                     }
-                    rows.add(getRow(
-                        cache,
+                    rows.add(cellFactory.getLogRow(
                         rows.isEmpty() ? time : null,
                         context.getString(R.string.tags),
                         TextUtils.join(", ", tagNames),
@@ -177,8 +171,7 @@ public class PdfLog implements PdfPrintable {
             }
 
             if (config.exportNotes() && !StringUtils.isBlank(entry.getNote())) {
-                rows.add(getRow(
-                    cache,
+                rows.add(cellFactory.getLogRow(
                     rows.isEmpty() ? time : null,
                     context.getString(R.string.note),
                     entry.getNote(),
@@ -189,40 +182,5 @@ public class PdfLog implements PdfPrintable {
             rowIndex++;
             data.add(rows);
         }
-    }
-
-    private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor, int foregroundColor) {
-        List<Cell> entryRow = new ArrayList<>();
-        float width = cache.getPage().getWidth();
-
-        Cell titleCell = new CellBuilder(new Cell(cache.getFontNormal()))
-            .setWidth(PdfLog.TIME_WIDTH)
-            .setText(title)
-            .setBackgroundColor(backgroundColor)
-            .setForegroundColor(Color.gray)
-            .build();
-        entryRow.add(titleCell);
-
-        Cell subtitleCell = new CellBuilder(new Cell(cache.getFontNormal()))
-            .setWidth(getLabelWidth())
-            .setText(subtitle)
-            .setBackgroundColor(backgroundColor)
-            .setForegroundColor(Color.gray)
-            .build();
-        entryRow.add(subtitleCell);
-
-        Cell descriptionCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
-            .setWidth(width - titleCell.getWidth() - subtitleCell.getWidth())
-            .setText(description)
-            .setBackgroundColor(backgroundColor)
-            .setForegroundColor(foregroundColor)
-            .build();
-        entryRow.add(descriptionCell);
-
-        return entryRow;
-    }
-
-    private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor) {
-        return getRow(cache, title, subtitle, description, backgroundColor, Color.black);
     }
 }

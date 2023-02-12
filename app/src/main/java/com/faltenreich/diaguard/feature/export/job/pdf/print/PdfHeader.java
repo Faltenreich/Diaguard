@@ -22,47 +22,54 @@ public class PdfHeader {
 
     private static final float MARGIN_BOTTOM = 20;
 
+    private final PdfExportCache cache;
     private SizedText text;
 
     PdfHeader(PdfExportCache cache) {
-        DateTime weekStart = DateTimeUtils.atStartOfWeek(cache.getDateTime());
-        TextLine week = new TextLine(cache.getFontHeader());
-        week.setText(String.format("%s %d",
-            cache.getContext().getString(R.string.calendarweek),
-            weekStart.getWeekOfWeekyear())
-        );
-        Paragraph weekParagraph = new Paragraph(week);
+        this.cache = cache;
 
-        DateTime weekEnd = DateTimeUtils.atEndOfWeek(weekStart);
-        TextLine interval = new TextLine(cache.getFontNormal());
-        interval.setText(String.format("%s - %s",
-            DateTimeFormat.mediumDate().print(weekStart),
-            DateTimeFormat.mediumDate().print(weekEnd))
-        );
-        Paragraph intervalParagraph = new Paragraph(interval);
+        if (cache.getConfig().includeCalendarWeek()) {
+            DateTime weekStart = DateTimeUtils.atStartOfWeek(cache.getDateTime());
+            TextLine week = new TextLine(cache.getFontHeader());
+            week.setText(String.format("%s %d",
+                cache.getContext().getString(R.string.calendarweek),
+                weekStart.getWeekOfWeekyear())
+            );
+            Paragraph weekParagraph = new Paragraph(week);
 
-        List<Paragraph> paragraphs = new ArrayList<>();
-        paragraphs.add(weekParagraph);
-        paragraphs.add(intervalParagraph);
+            DateTime weekEnd = DateTimeUtils.atEndOfWeek(weekStart);
+            TextLine interval = new TextLine(cache.getFontNormal());
+            interval.setText(String.format("%s - %s",
+                DateTimeFormat.mediumDate().print(weekStart),
+                DateTimeFormat.mediumDate().print(weekEnd))
+            );
+            Paragraph intervalParagraph = new Paragraph(interval);
 
-        try {
-            text = new SizedText(paragraphs);
-            text.setParagraphLeading(week.getFont().getBodyHeight());
-        } catch (Exception exception) {
-            Log.e(TAG, exception.toString());
+            List<Paragraph> paragraphs = new ArrayList<>();
+            paragraphs.add(weekParagraph);
+            paragraphs.add(intervalParagraph);
+
+            try {
+                text = new SizedText(paragraphs);
+                text.setParagraphLeading(week.getFont().getBodyHeight());
+            } catch (Exception exception) {
+                Log.e(TAG, exception.toString());
+            }
         }
     }
 
     public float getHeight() {
-        if (text != null) {
+        if (cache.getConfig().includeCalendarWeek() && text != null) {
             return text.getHeight() + MARGIN_BOTTOM;
         }
         return 0f;
     }
 
     public void drawOn(PdfPage page, Point position) throws Exception {
-        text.setLocation(position.getX(), position.getY());
-        text.setWidth(page.getWidth());
-        text.drawOn(page);
+        if (cache.getConfig().includeCalendarWeek()) {
+            text.setLocation(position.getX(), position.getY());
+            text.setWidth(page.getWidth());
+            text.drawOn(page);
+        }
     }
 }

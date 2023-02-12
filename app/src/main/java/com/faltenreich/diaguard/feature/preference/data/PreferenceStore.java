@@ -219,20 +219,28 @@ public class PreferenceStore {
         return style != null ? style : defaultStyle;
     }
 
-    public void setExportHeader(boolean exportHeader) {
-        sharedPreferences.edit().putBoolean(getKey(R.string.preference_export_header), exportHeader).apply();
+    public void setIncludeCalendarWeek(boolean includeCalendarWeek) {
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_include_calendar_week), includeCalendarWeek).apply();
     }
 
-    public boolean exportHeader() {
-        return sharedPreferences.getBoolean(getKey(R.string.preference_export_header), true);
+    public boolean includeCalendarWeek() {
+        return sharedPreferences.getBoolean(getKey(R.string.preference_include_calendar_week), true);
     }
 
-    public void setExportFooter(boolean exportFooter) {
-        sharedPreferences.edit().putBoolean(getKey(R.string.preference_export_footer), exportFooter).apply();
+    public void setIncludeGeneratedDate(boolean includeGeneratedDate) {
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_include_generated_date), includeGeneratedDate).apply();
     }
 
-    public boolean exportFooter() {
-        return sharedPreferences.getBoolean(getKey(R.string.preference_export_footer), true);
+    public boolean includeGeneratedDate() {
+        return sharedPreferences.getBoolean(getKey(R.string.preference_include_generated_date), true);
+    }
+
+    public void setIncludePageNumber(boolean includePageNumber) {
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_include_page_number), includePageNumber).apply();
+    }
+
+    public boolean includePageNumber() {
+        return sharedPreferences.getBoolean(getKey(R.string.preference_include_page_number), true);
     }
 
     public void setExportNotes(boolean exportNotes) {

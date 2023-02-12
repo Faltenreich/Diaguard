@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
+import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.pdfjet.Letter;
 import com.pdfjet.Page;
 import com.pdfjet.Point;
@@ -11,22 +12,26 @@ public class PdfPage extends Page {
     static final float MARGIN = 20;
 
     private final Point position;
-    private PdfFooter footer;
+    private final PdfFooter footer;
 
     public PdfPage(PdfExportCache cache) throws Exception {
         super(cache.getPdf(), Letter.PORTRAIT);
         position = getStartPoint();
 
-        if (cache.getConfig().exportHeader()) {
+        PdfExportConfig config = cache.getConfig();
+
+        if (config.includeCalendarWeek()) {
             PdfHeader header = new PdfHeader(cache);
             header.drawOn(this, position);
             position.setY(position.getY() + header.getHeight());
         }
 
-        if (cache.getConfig().exportFooter()) {
+        if (config.includeGeneratedDate() || config.includePageNumber()) {
             // We jump to the end of the page
             footer = new PdfFooter(cache);
             footer.drawOn(this, new Point(PADDING_EDGES, super.getHeight() - PADDING_EDGES));
+        } else {
+            footer = null;
         }
     }
 

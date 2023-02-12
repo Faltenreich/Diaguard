@@ -13,8 +13,9 @@ import org.joda.time.DateTime;
 public class PdfExportConfig extends ExportConfig {
 
     private final PdfExportStyle style;
-    private final boolean exportHeader;
-    private final boolean exportFooter;
+    private final boolean includeCalendarWeek;
+    private final boolean includeGeneratedDate;
+    private final boolean includePageNumber;
     private final boolean exportNotes;
     private final boolean exportTags;
     private final boolean skipEmptyDays;
@@ -29,8 +30,9 @@ public class PdfExportConfig extends ExportConfig {
         DateTime dateEnd,
         Category[] categories,
         PdfExportStyle style,
-        boolean exportHeader,
-        boolean exportFooter,
+        boolean includeCalendarWeek,
+        boolean includeGeneratedDate,
+        boolean includePageNumber,
         boolean exportNotes,
         boolean exportTags,
         boolean skipEmptyDays,
@@ -40,8 +42,9 @@ public class PdfExportConfig extends ExportConfig {
     ) {
         super(context, callback, dateStart, dateEnd, categories, FileType.PDF);
         this.style = style;
-        this.exportHeader = exportHeader;
-        this.exportFooter = exportFooter;
+        this.includeCalendarWeek = includeCalendarWeek;
+        this.includeGeneratedDate = includeGeneratedDate;
+        this.includePageNumber = includePageNumber;
         this.exportNotes = exportNotes;
         this.exportTags = exportTags;
         this.skipEmptyDays = skipEmptyDays;
@@ -54,12 +57,16 @@ public class PdfExportConfig extends ExportConfig {
         return style;
     }
 
-    public boolean exportHeader() {
-        return exportHeader;
+    public boolean includeCalendarWeek() {
+        return includeCalendarWeek;
     }
 
-    public boolean exportFooter() {
-        return exportFooter;
+    public boolean includeGeneratedDate() {
+        return includeGeneratedDate;
+    }
+
+    public boolean includePageNumber() {
+        return includePageNumber;
     }
 
     public boolean exportNotes() {
@@ -90,8 +97,9 @@ public class PdfExportConfig extends ExportConfig {
     public void persistInSharedPreferences() {
         super.persistInSharedPreferences();
         PreferenceStore.getInstance().setPdfExportStyle(style);
-        PreferenceStore.getInstance().setExportHeader(exportHeader);
-        PreferenceStore.getInstance().setExportFooter(exportFooter);
+        PreferenceStore.getInstance().setIncludeCalendarWeek(includeCalendarWeek);
+        PreferenceStore.getInstance().setIncludeGeneratedDate(includeGeneratedDate);
+        PreferenceStore.getInstance().setIncludePageNumber(includePageNumber);
         PreferenceStore.getInstance().setExportNotes(exportNotes);
         PreferenceStore.getInstance().setExportTags(exportTags);
         PreferenceStore.getInstance().setSkipEmptyDays(skipEmptyDays);

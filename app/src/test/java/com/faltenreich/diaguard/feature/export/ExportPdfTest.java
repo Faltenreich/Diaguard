@@ -38,14 +38,38 @@ public class ExportPdfTest {
     }
 
     @Test
-    public void selectingPDF_shouldShowHeaderCheckBox() {
-        Espresso.onView(ViewMatchers.withId(R.id.header_checkbox))
+    public void selectingPDF_shouldShowCalendarWeekCheckBox() {
+        Espresso.onView(ViewMatchers.withId(R.id.include_calendar_week_checkbox))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     @Test
-    public void selectingPDF_shouldShowFooterCheckBox() {
-        Espresso.onView(ViewMatchers.withId(R.id.header_checkbox))
+    public void selectingPDF_shouldShowGeneratedDateCheckBox() {
+        Espresso.onView(ViewMatchers.withId(R.id.include_generated_date_checkbox))
+            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+    }
+
+    @Test
+    public void selectingPDF_shouldShowPageNumberCheckBox() {
+        Espresso.onView(ViewMatchers.withId(R.id.include_page_number_checkbox))
+            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+    }
+
+    @Test
+    public void selectingPDF_shouldShowNoteCheckbox() {
+        Espresso.onView(ViewMatchers.withId(R.id.note_checkbox))
+            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+    }
+
+    @Test
+    public void selectingPDF_shouldShowTagsCheckbox() {
+        Espresso.onView(ViewMatchers.withId(R.id.tags_checkbox))
+            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+    }
+
+    @Test
+    public void selectingPDF_shouldShowEmptyDaysCheckbox() {
+        Espresso.onView(ViewMatchers.withId(R.id.empty_days_checkbox))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 }

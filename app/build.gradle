@@ -73,7 +73,7 @@ def espresso = '3.5.0'
 def jodaTime = '2.10.3'
 def ormLite = '5.1'
 def retrofit = '2.7.1'
-def robolectric = '4.8.1'
+def robolectric = '4.9.2'
 
 dependencies {
     implementation project(':pdfjet')

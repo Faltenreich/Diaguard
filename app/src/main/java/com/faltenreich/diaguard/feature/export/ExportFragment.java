@@ -128,8 +128,9 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
         getBinding().dateRangeButton.setOnClickListener((view) -> openDateRangePicker());
         getBinding().dateMoreButton.setOnClickListener((view) -> openDateRangeSuggestionsPicker());
 
-        ViewUtils.setChecked(getBinding().headerCheckbox, PreferenceStore.getInstance().exportHeader(), false);
-        ViewUtils.setChecked(getBinding().footerCheckbox, PreferenceStore.getInstance().exportFooter(), false);
+        ViewUtils.setChecked(getBinding().includeCalendarWeekCheckbox, PreferenceStore.getInstance().includeCalendarWeek(), false);
+        ViewUtils.setChecked(getBinding().includeGeneratedDateCheckbox, PreferenceStore.getInstance().includeGeneratedDate(), false);
+        ViewUtils.setChecked(getBinding().includePageNumberCheckbox, PreferenceStore.getInstance().includePageNumber(), false);
         ViewUtils.setChecked(getBinding().noteCheckbox, PreferenceStore.getInstance().exportNotes(), false);
         ViewUtils.setChecked(getBinding().tagsCheckbox, PreferenceStore.getInstance().exportTags(), false);
         ViewUtils.setChecked(getBinding().emptyDaysCheckbox, PreferenceStore.getInstance().skipEmptyDays(), false);
@@ -195,8 +196,9 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
 
     private void setFormat(FileType format) {
         getBinding().styleGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
-        getBinding().headerGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
-        getBinding().footerGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        getBinding().includeCalendarWeekGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        getBinding().includeGeneratedDateGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        getBinding().includePageNumberGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
     }
 
     private PdfExportStyle getStyle() {
@@ -243,8 +245,9 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
             dateEnd,
             categories,
             getStyle(),
-            getBinding().headerCheckbox.isChecked(),
-            getBinding().footerCheckbox.isChecked(),
+            getBinding().includeCalendarWeekCheckbox.isChecked(),
+            getBinding().includeGeneratedDateCheckbox.isChecked(),
+            getBinding().includePageNumberCheckbox.isChecked(),
             getBinding().noteCheckbox.isChecked(),
             getBinding().tagsCheckbox.isChecked(),
             getBinding().emptyDaysCheckbox.isChecked(),

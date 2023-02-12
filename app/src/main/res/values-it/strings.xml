@@ -336,8 +336,9 @@
     <string name="theme_time_based">Dal momento della giornata</string>
     <string name="theme_system">Impostazioni di sistema</string>
     <string name="table">Tabella</string>
-    <string name="export_append_header">Aggiungi all\'inizio\n(mostra settimana del calendario)</string>
-    <string name="export_append_footer">Aggiungi alla fine\n(showing data di esportazione)</string>
+    <string name="export_append_calendar_week">Aggiungi la settimana di calendario</string>
+    <string name="export_append_generated_date">Aggiungi la data di esportazione</string>
+    <string name="export_append_page_number">Aggiungi il numero di paginar</string>
     <string name="export_history">Esporta cronologia</string>
     <string name="share">Condividi</string>
     <string name="open">Apri</string>

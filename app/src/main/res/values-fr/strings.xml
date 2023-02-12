@@ -54,6 +54,7 @@
     <string name="entry_new">Nouvelle entrée</string>
     <string name="export">Exportation</string>
     <string name="export_progress">PDF est créé</string>
+    <string name="export_page">Page %d</string>
     <string name="export_stamp">Rapport généré sur</string>
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>

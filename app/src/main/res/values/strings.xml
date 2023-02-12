@@ -90,6 +90,7 @@
     <string name="export">Export</string>
     <string name="export_complete">Saved to %s</string>
     <string name="export_progress">PDF is being created</string>
+    <string name="export_page">Page %d</string>
     <string name="export_stamp">Report generated on</string>
     <string name="facebook" translatable="false">Facebook</string>
     <string name="first_visit">First visit?</string>

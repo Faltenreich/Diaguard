@@ -65,6 +65,7 @@
     <string name="export">Esporta</string>
     <string name="export_complete">Salvato in %s</string>
     <string name="export_progress">Il PDF è stato creato</string>
+    <string name="export_page">Pagina %d</string>
     <string name="export_stamp">Il rapport è stato generato in</string>
     <string name="first_visit">Prima visita?</string>
     <string name="first_visit_desc">Inserisci il tuo primo valore</string>

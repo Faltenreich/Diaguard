@@ -67,38 +67,37 @@ public class PdfTimeline implements PdfPrintable {
     }
 
     @Override
-    public void drawOn(PdfPage page) throws Exception {
+    public void print() throws Exception {
         SizedTable table = new SizedTable();
         table.setData(tableData);
 
-        if (page.getPosition().getY() + table.getHeight() + chart.getHeight() > page.getEndPoint().getY()) {
-            page = new PdfPage(cache);
+        if (cache.getPage().getPosition().getY() + table.getHeight() + chart.getHeight() > cache.getPage().getEndPoint().getY()) {
+            cache.setPage(new PdfPage(cache));
         }
 
-        chart.setPosition(page.getPosition().getX(), page.getPosition().getY());
-        drawChart(page, page.getPosition(), bloodSugars);
-        page.getPosition().setY(page.getPosition().getY() + chart.getHeight());
+        chart.setPosition(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+        drawChart();
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + chart.getHeight());
 
-        table.setLocation(page.getPosition().getX(), page.getPosition().getY());
-        table.drawOn(page);
-        page.getPosition().setY(page.getPosition().getY() + table.getHeight());
+        table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+        table.drawOn(cache.getPage());
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
 
         for (List<Cell> row : notes) {
             float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
-            if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
-                page = new PdfPage(cache);
+            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+                cache.setPage(new PdfPage(cache));
                 Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
-                    .setWidth(getLabelWidth())
+                    .setWidth(cellFactory.getLabelWidth())
                     .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
                     .build();
-                rowHeight += headerCell.getHeight();
                 table.setData(Arrays.asList(Collections.singletonList(headerCell), row));
             } else {
                 table.setData(Collections.singletonList(row));
             }
-            table.setLocation(page.getPosition().getX(), page.getPosition().getY());
-            table.drawOn(page);
-            page.getPosition().setY(page.getPosition().getY() + rowHeight);
+            table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+            table.drawOn(cache.getPage());
+            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
         }
 
         // TODO: Is never true since empty rows will be created for every category
@@ -106,17 +105,15 @@ public class PdfTimeline implements PdfPrintable {
             List<Cell> row = cellFactory.getEmptyRow();
             float rowHeight = row.get(0).getHeight();
             table.setData(Collections.singletonList(row));
-            if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
-                page = new PdfPage(cache);
+            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+                cache.setPage(new PdfPage(cache));
             }
-            table.setLocation(page.getPosition().getX(), page.getPosition().getY());
-            table.drawOn(page);
-            page.getPosition().setY(page.getPosition().getY() + rowHeight);
+            table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+            table.drawOn(cache.getPage());
+            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
         }
 
-        page.getPosition().setY(page.getPosition().getY() + PdfPage.MARGIN);
-
-        cache.setPage(page);
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
     private void init() {
@@ -193,7 +190,7 @@ public class PdfTimeline implements PdfPrintable {
 
         Cell titleCell = new Cell(cache.getFontNormal());
         titleCell.setText(label);
-        titleCell.setWidth(getLabelWidth());
+        titleCell.setWidth(cellFactory.getLabelWidth());
         titleCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white);
         titleCell.setFgColor(Color.gray);
         titleCell.setPenColor(Color.gray);
@@ -221,7 +218,7 @@ public class PdfTimeline implements PdfPrintable {
             String text = customValue > 0 ? FloatUtils.parseFloat(customValue) : "";
             valueCell.setText(text);
 
-            valueCell.setWidth((cache.getPage().getWidth() - getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
+            valueCell.setWidth((cache.getPage().getWidth() - cellFactory.getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
             valueCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white);
             valueCell.setFgColor(Color.black);
             valueCell.setPenColor(Color.gray);
@@ -231,9 +228,9 @@ public class PdfTimeline implements PdfPrintable {
         return row;
     }
 
-    private Point drawChart(PdfPage page, Point position, List<BloodSugar> bloodSugars) throws Exception {
+    private Point drawChart() throws Exception {
         chart.setColor(Color.transparent);
-        float[] coordinates = chart.drawOn(page);
+        float[] coordinates = chart.drawOn(cache.getPage());
 
         TextLine label = new TextLine(cache.getFontNormal());
         label.setColor(Color.gray);
@@ -248,7 +245,7 @@ public class PdfTimeline implements PdfPrintable {
         float chartStartY = 0;
         float chartEndY = chartStartY + chartHeight;
 
-        float contentStartX = getLabelWidth();
+        float contentStartX = cellFactory.getLabelWidth();
         float contentStartY = chartStartY + label.getHeight() + PADDING;
         float contentEndX = chartEndX;
         float contentEndY = chartEndY;
@@ -262,7 +259,7 @@ public class PdfTimeline implements PdfPrintable {
         header.setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()));
         header.setPosition(chartStartX, chartStartY + header.getHeight());
         header.placeIn(chart);
-        header.drawOn(page);
+        header.drawOn(cache.getPage());
 
         // Labels for x axis
         int minutes = 0;
@@ -272,12 +269,12 @@ public class PdfTimeline implements PdfPrintable {
             label.setText(String.valueOf(minutes / 60));
             label.setPosition(x - label.getWidth() / 2, chartStartY + header.getHeight());
             label.placeIn(chart);
-            label.drawOn(page);
+            label.drawOn(cache.getPage());
 
             line.setStartPoint(x, chartStartY + header.getHeight() + 8);
             line.setEndPoint(x, contentEndY);
             line.placeIn(chart);
-            line.drawOn(page);
+            line.drawOn(cache.getPage());
 
             minutes += xStep;
         }
@@ -300,12 +297,12 @@ public class PdfTimeline implements PdfPrintable {
                 label.setText(PreferenceStore.getInstance().getMeasurementForUi(Category.BLOODSUGAR, labelValue));
                 label.setPosition(chartStartX, labelY + (label.getHeight() / 4));
                 label.placeIn(chart);
-                label.drawOn(page);
+                label.drawOn(cache.getPage());
 
                 line.setStartPoint(chartStartX + label.getWidth() + PADDING, labelY);
                 line.setEndPoint(contentEndX, labelY);
                 line.placeIn(chart);
-                line.drawOn(page);
+                line.drawOn(cache.getPage());
 
                 labelValue += yStep;
             }
@@ -331,10 +328,10 @@ public class PdfTimeline implements PdfPrintable {
                 }
                 point.setColor(color);
                 point.placeIn(chart);
-                point.drawOn(page);
+                point.drawOn(cache.getPage());
             }
         }
 
-        return new Point(position.getX(), coordinates[1]);
+        return new Point(cache.getPage().getPosition().getX(), coordinates[1]);
     }
 }

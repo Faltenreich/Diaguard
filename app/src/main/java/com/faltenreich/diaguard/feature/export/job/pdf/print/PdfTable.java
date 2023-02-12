@@ -37,14 +37,13 @@ public class PdfTable implements PdfPrintable {
     }
 
     @Override
-    public void drawOn(PdfPage page) throws Exception {
-        drawTableOn(page);
-        drawNotesOn(page);
-        page.getPosition().setY(page.getPosition().getY() + PdfPage.MARGIN);
-        cache.setPage(page);
+    public void print() throws Exception {
+        drawTableOn();
+        drawNotesOn();
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
-    private void drawTableOn(PdfPage page) throws Exception {
+    private void drawTableOn() throws Exception {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContext();
         SizedTable table = new SizedTable();
@@ -91,15 +90,15 @@ public class PdfTable implements PdfPrintable {
         }
 
         table.setData(tableData);
-        if (page.getPosition().getY() + table.getHeight() > page.getEndPoint().getY()) {
-            page = new PdfPage(cache);
+        if (cache.getPage().getPosition().getY() + table.getHeight() > cache.getPage().getEndPoint().getY()) {
+            cache.setPage(new PdfPage(cache));
         }
-        table.setLocation(page.getPosition().getX(), page.getPosition().getY());
-        table.drawOn(page);
-        page.getPosition().setY(page.getPosition().getY() + table.getHeight());
+        table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+        table.drawOn(cache.getPage());
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
     }
 
-    private void drawNotesOn(PdfPage page) throws Exception {
+    private void drawNotesOn() throws Exception {
         PdfExportConfig config = cache.getConfig();
         SizedTable table = new SizedTable();
         boolean isFirst = true;
@@ -108,17 +107,16 @@ public class PdfTable implements PdfPrintable {
             if (pdfNote != null) {
                 List<Cell> row = cellFactory.getNoteRow(pdfNote, isFirst);
                 float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
-                if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
-                    page = new PdfPage(cache);
-                    Cell dayCell = cellFactory.getDayCell();
-                    rowHeight += dayCell.getHeight();
-                    table.setData(Arrays.asList(Collections.singletonList(dayCell), row));
+                if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+                    cache.setPage(new PdfPage(cache));
+                    List<Cell> header = Collections.singletonList(cellFactory.getDayCell());
+                    table.setData(Arrays.asList(header, row));
                 } else {
                     table.setData(Collections.singletonList(row));
                 }
-                table.setLocation(page.getPosition().getX(), page.getPosition().getY());
-                table.drawOn(page);
-                page.getPosition().setY(page.getPosition().getY() + rowHeight);
+                table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+                table.drawOn(cache.getPage());
+                cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
                 isFirst = false;
             }
         }

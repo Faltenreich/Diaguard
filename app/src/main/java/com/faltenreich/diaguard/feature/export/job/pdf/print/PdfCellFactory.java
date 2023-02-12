@@ -32,6 +32,10 @@ class PdfCellFactory {
         this.cache = cache;
     }
 
+    float getLabelWidth() {
+        return CELL_WIDTH_DAY;
+    }
+
     Cell getDayCell() {
         return new CellBuilder(new Cell(cache.getFontBold()))
             .setWidth(CELL_WIDTH_DAY)

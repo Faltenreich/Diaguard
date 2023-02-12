@@ -46,50 +46,48 @@ public class PdfLog implements PdfPrintable {
     }
 
     @Override
-    public void drawOn(PdfPage page) throws Exception {
+    public void print() throws Exception {
         SizedTable table = new SizedTable();
 
         Cell headerCell = cellFactory.getDayCell();
         float rowHeight = headerCell.getHeight();
         table.setData(Collections.singletonList(Collections.singletonList(headerCell)));
-        if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
-            page = new PdfPage(cache);
+        if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+            cache.setPage(new PdfPage(cache));
         }
-        table.setLocation(page.getPosition().getX(), page.getPosition().getY());
-        table.drawOn(page);
-        page.getPosition().setY(page.getPosition().getY() + rowHeight);
+        table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+        table.drawOn(cache.getPage());
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
 
         for (List<List<Cell>> entry : data) {
             rowHeight = 0f;
             for (List<Cell> row : entry) {
                 rowHeight += row.get(COLUMN_INDEX_NOTE).getHeight();
             }
-            if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
-                page = new PdfPage(cache);
+            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+                cache.setPage(new PdfPage(cache));
                 rowHeight += headerCell.getHeight();
                 entry.add(0, Collections.singletonList(headerCell));
             }
             table.setData(entry);
-            table.setLocation(page.getPosition().getX(), page.getPosition().getY());
-            table.drawOn(page);
-            page.getPosition().setY(page.getPosition().getY() + rowHeight);
+            table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+            table.drawOn(cache.getPage());
+            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
         }
 
         if (data.isEmpty()) {
             List<Cell> row = cellFactory.getEmptyRow();
             rowHeight = row.get(0).getHeight();
             table.setData(Collections.singletonList(row));
-            if (page.getPosition().getY() + rowHeight > page.getEndPoint().getY()) {
-                page = new PdfPage(cache);
+            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+                cache.setPage(new PdfPage(cache));
             }
-            table.setLocation(page.getPosition().getX(), page.getPosition().getY());
-            table.drawOn(page);
-            page.getPosition().setY(page.getPosition().getY() + rowHeight);
+            table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+            table.drawOn(cache.getPage());
+            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
         }
 
-        page.getPosition().setY(page.getPosition().getY() + PdfPage.MARGIN);
-
-        cache.setPage(page);
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
     private void init() {

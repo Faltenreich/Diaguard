@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:paddingBottom="@dimen/fab_offset"
-        android:descendantFocusability="blocksDescendants">
+        android:descendantFocusability="blocksDescendants"
+        android:paddingBottom="@dimen/fab_offset">
 
         <ImageView
             android:id="@+id/date_icon"
@@ -38,8 +38,8 @@
             android:gravity="start|center_vertical"
             android:textAllCaps="false"
             android:textColor="?android:textColorPrimary"
-            app:layout_constraintStart_toEndOf="@id/date_icon"
             app:layout_constraintEnd_toStartOf="@id/date_more_button"
+            app:layout_constraintStart_toEndOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/date/ddmmyy" />
 
@@ -110,7 +110,7 @@
             app:layout_constraintBottom_toBottomOf="@id/style_spinner"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/style_spinner"
-            app:srcCompat="@drawable/ic_view"
+            app:srcCompat="@drawable/ic_layout"
             app:tint="?iconColorPrimary" />
 
         <Spinner
@@ -143,10 +143,11 @@
             android:layout_height="@dimen/size_image"
             android:contentDescription="@null"
             android:padding="2dp"
+            android:scaleX="-1"
             app:layout_constraintBottom_toBottomOf="@id/include_calendar_week_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/include_calendar_week_checkbox"
-            app:srcCompat="@drawable/ic_header"
+            app:srcCompat="@drawable/ic_position_top_right"
             app:tint="?iconColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -180,10 +181,12 @@
             android:layout_height="@dimen/size_image"
             android:contentDescription="@null"
             android:padding="2dp"
+            android:scaleX="-1"
+            android:scaleY="-1"
             app:layout_constraintBottom_toBottomOf="@id/include_generated_date_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/include_generated_date_checkbox"
-            app:srcCompat="@drawable/ic_footer"
+            app:srcCompat="@drawable/ic_position_top_right"
             app:tint="?iconColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -217,10 +220,11 @@
             android:layout_height="@dimen/size_image"
             android:contentDescription="@null"
             android:padding="2dp"
+            android:scaleY="-1"
             app:layout_constraintBottom_toBottomOf="@id/include_page_number_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/include_page_number_checkbox"
-            app:srcCompat="@drawable/ic_footer"
+            app:srcCompat="@drawable/ic_position_top_right"
             app:tint="?iconColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatCheckBox

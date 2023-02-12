@@ -138,7 +138,7 @@ public class PdfLog implements PdfPrintable {
                 }
 
                 rows.add(cellFactory.getLogRow(
-                    time,
+                    rows.isEmpty() ? time : null,
                     context.getString(category.getStringAcronymResId()),
                     measurementText,
                     backgroundColor,

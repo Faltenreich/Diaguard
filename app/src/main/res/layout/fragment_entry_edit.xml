@@ -28,7 +28,7 @@
                 <ImageView
                     style="@style/LayoutRowImage"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_time"
+                    app:srcCompat="@drawable/ic_time"
                     app:tint="?iconColorPrimary" />
 
                 <Button

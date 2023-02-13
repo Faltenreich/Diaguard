@@ -23,7 +23,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:contentDescription="@null"
-            android:src="@drawable/ic_time"
+            app:srcCompat="@drawable/ic_time"
             app:layout_constraintBottom_toBottomOf="@id/date_range_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/date_range_button"

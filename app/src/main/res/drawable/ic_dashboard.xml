@@ -1,5 +1,15 @@
-<vector android:height="24dp" android:tint="#FFFFFF"
-    android:viewportHeight="24" android:viewportWidth="24"
-    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@android:color/white" android:pathData="M3,13h8L11,3L3,3v10zM3,21h8v-6L3,15v6zM13,21h8L21,11h-8v10zM13,3v6h8L21,3h-8z"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48"
+    android:tint="?attr/colorControlNormal">
+  <group
+      android:rotation="90"
+      android:pivotY="24"
+      android:pivotX="24">
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M8.85,42.8Q7.3,42.8 6.25,41.75Q5.2,40.7 5.2,39.15V8.85Q5.2,7.3 6.25,6.25Q7.3,5.2 8.85,5.2H18.55Q20.05,5.2 21.125,6.25Q22.2,7.3 22.2,8.85V39.15Q22.2,40.7 21.125,41.75Q20.05,42.8 18.55,42.8ZM29.5,20.3Q27.95,20.3 26.9,19.25Q25.85,18.2 25.85,16.65V8.85Q25.85,7.3 26.9,6.25Q27.95,5.2 29.5,5.2H39.15Q40.7,5.2 41.75,6.25Q42.8,7.3 42.8,8.85V16.65Q42.8,18.2 41.75,19.25Q40.7,20.3 39.15,20.3ZM29.5,42.8Q27.95,42.8 26.9,41.75Q25.85,40.7 25.85,39.15V27.6Q25.85,26.05 26.9,25Q27.95,23.95 29.5,23.95H39.15Q40.7,23.95 41.75,25Q42.8,26.05 42.8,27.6V39.15Q42.8,40.7 41.75,41.75Q40.7,42.8 39.15,42.8Z"/>
+  </group>
 </vector>

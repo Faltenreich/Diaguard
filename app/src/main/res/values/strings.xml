@@ -87,6 +87,7 @@
     <string name="export">Export</string>
     <string name="export_complete">Saved to %s</string>
     <string name="export_progress">PDF is being created</string>
+    <string name="export_page">Page %d</string>
     <string name="export_stamp">Report generated on</string>
     <string name="facebook" translatable="false">Facebook</string>
     <string name="first_visit">First visit?</string>
@@ -503,8 +504,9 @@
     <string name="theme_time_based">By time of day</string>
     <string name="theme_system">System setting</string>
     <string name="table">Table</string>
-    <string name="export_append_header">Append header\n(showing calendar week)</string>
-    <string name="export_append_footer">Append footer\n(showing date of export)</string>
+    <string name="export_append_calendar_week">Append calendar week</string>
+    <string name="export_append_generated_date">Append date of export</string>
+    <string name="export_append_page_number">Append page number</string>
     <string name="export_history">Export history</string>
     <string name="share">Share</string>
     <string name="open">Open</string>

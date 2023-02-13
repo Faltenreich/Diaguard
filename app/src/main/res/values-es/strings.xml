@@ -53,6 +53,7 @@
     <string name="entry_new">Nueva entrada</string>
     <string name="export">Exportación</string>
     <string name="export_progress">PDF será creado</string>
+    <string name="export_page">Página %d</string>
     <string name="export_stamp">Informe generado en</string>
     <string name="first_visit">Eres nuevo?</string>
     <string name="first_visit_desc">Ingresar los primeros valores</string>
@@ -334,8 +335,9 @@
     <string name="theme_time_based">Por hora del día</string>
     <string name="theme_system">Configuración del sistema</string>
     <string name="table">Tabla</string>
-    <string name="export_append_header">Agregar encabezado\n(que muestra la semana calendario)</string>
-    <string name="export_append_footer">Agregar pie de página\n(que muestra la fecha de exportación)</string>
+    <string name="export_append_calendar_week">Añadir semana de calendario</string>
+    <string name="export_append_generated_date">Añadir fecha de exportación</string>
+    <string name="export_append_page_number">Añadir número de página</string>
     <string name="export_history">Exportaciones pasadas</string>
     <string name="share">Compartir</string>
     <string name="open">Abierto</string>

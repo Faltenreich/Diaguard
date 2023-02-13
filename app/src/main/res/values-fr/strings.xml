@@ -51,6 +51,7 @@
     <string name="entry_new">Nouvelle entrée</string>
     <string name="export">Exportation</string>
     <string name="export_progress">PDF est créé</string>
+    <string name="export_page">Page %d</string>
     <string name="export_stamp">Rapport généré sur</string>
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
@@ -332,8 +333,9 @@
     <string name="theme_time_based">Par heure de la journée</string>
     <string name="theme_system">Paramètres du système</string>
     <string name="table">Tableau</string>
-    <string name="export_append_header">Ajouter un en-tête\n(montrant la semaine civile)</string>
-    <string name="export_append_footer">Ajouter le pied de page\n(indiquant la date d\'exportation)</string>
+    <string name="export_append_calendar_week">Append la semaine du calendrier</string>
+    <string name="export_append_generated_date">Appliquer la date d\'exportation</string>
+    <string name="export_append_page_number">Ajouter le numéro de page</string>
     <string name="export_history">Exportations passées</string>
     <string name="share">Partager</string>
     <string name="open">Ouvert</string>

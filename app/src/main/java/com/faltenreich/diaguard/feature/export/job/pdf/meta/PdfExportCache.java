@@ -51,6 +51,10 @@ public class PdfExportCache {
         this.page = page;
     }
 
+    public int getPageCount() {
+        return pdf.getPageCount();
+    }
+
     public Context getContext() {
         return config.getContext();
     }

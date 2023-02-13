@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:paddingBottom="@dimen/fab_offset"
-        android:descendantFocusability="blocksDescendants">
+        android:descendantFocusability="blocksDescendants"
+        android:paddingBottom="@dimen/fab_offset">
 
         <ImageView
             android:id="@+id/date_icon"
@@ -38,8 +38,8 @@
             android:gravity="start|center_vertical"
             android:textAllCaps="false"
             android:textColor="?android:textColorPrimary"
-            app:layout_constraintStart_toEndOf="@id/date_icon"
             app:layout_constraintEnd_toStartOf="@id/date_more_button"
+            app:layout_constraintStart_toEndOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/date/ddmmyy" />
 
@@ -110,7 +110,7 @@
             app:layout_constraintBottom_toBottomOf="@id/style_spinner"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/style_spinner"
-            app:srcCompat="@drawable/ic_view"
+            app:srcCompat="@drawable/ic_layout"
             app:tint="?iconColorPrimary" />
 
         <Spinner
@@ -138,78 +138,119 @@
             app:constraint_referenced_ids="style_icon,style_spinner,style_divider" />
 
         <ImageView
-            android:id="@+id/header_icon"
+            android:id="@+id/include_calendar_week_icon"
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
             android:contentDescription="@null"
             android:padding="2dp"
-            app:layout_constraintBottom_toBottomOf="@id/header_checkbox"
+            android:scaleX="-1"
+            app:layout_constraintBottom_toBottomOf="@id/include_calendar_week_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
-            app:layout_constraintTop_toTopOf="@id/header_checkbox"
-            app:srcCompat="@drawable/ic_header"
+            app:layout_constraintTop_toTopOf="@id/include_calendar_week_checkbox"
+            app:srcCompat="@drawable/ic_position_top_right"
             app:tint="?iconColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/header_checkbox"
+            android:id="@+id/include_calendar_week_checkbox"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:padding="@dimen/margin_between"
-            android:text="@string/export_append_header"
+            android:text="@string/export_append_calendar_week"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/style_divider" />
 
         <View
-            android:id="@+id/header_divider"
+            android:id="@+id/include_calendar_week_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="?android:listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_checkbox" />
+            app:layout_constraintTop_toBottomOf="@id/include_calendar_week_checkbox" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/header_group"
+            android:id="@+id/include_calendar_week_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="header_icon,header_checkbox,header_divider" />
+            app:constraint_referenced_ids="include_calendar_week_icon,include_calendar_week_checkbox,include_calendar_week_divider" />
 
         <ImageView
-            android:id="@+id/footer_icon"
+            android:id="@+id/include_generated_date_icon"
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
             android:contentDescription="@null"
             android:padding="2dp"
-            app:layout_constraintBottom_toBottomOf="@id/footer_checkbox"
+            android:scaleX="-1"
+            android:scaleY="-1"
+            app:layout_constraintBottom_toBottomOf="@id/include_generated_date_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
-            app:layout_constraintTop_toTopOf="@id/footer_checkbox"
-            app:srcCompat="@drawable/ic_footer"
+            app:layout_constraintTop_toTopOf="@id/include_generated_date_checkbox"
+            app:srcCompat="@drawable/ic_position_top_right"
             app:tint="?iconColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/footer_checkbox"
+            android:id="@+id/include_generated_date_checkbox"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:padding="@dimen/margin_between"
-            android:text="@string/export_append_footer"
+            android:text="@string/export_append_generated_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_range_button"
-            app:layout_constraintTop_toBottomOf="@id/header_divider" />
+            app:layout_constraintTop_toBottomOf="@id/include_calendar_week_divider" />
 
         <View
-            android:id="@+id/footer_divider"
+            android:id="@+id/include_generated_date_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="?android:listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/footer_checkbox" />
+            app:layout_constraintTop_toBottomOf="@id/include_generated_date_checkbox" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/footer_group"
+            android:id="@+id/include_generated_date_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="footer_icon,footer_checkbox,footer_divider" />
+            app:constraint_referenced_ids="include_generated_date_icon,include_generated_date_checkbox,include_generated_date_divider" />
+
+        <ImageView
+            android:id="@+id/include_page_number_icon"
+            android:layout_width="@dimen/size_image"
+            android:layout_height="@dimen/size_image"
+            android:contentDescription="@null"
+            android:padding="2dp"
+            android:scaleY="-1"
+            app:layout_constraintBottom_toBottomOf="@id/include_page_number_checkbox"
+            app:layout_constraintStart_toStartOf="@id/date_icon"
+            app:layout_constraintTop_toTopOf="@id/include_page_number_checkbox"
+            app:srcCompat="@drawable/ic_position_top_right"
+            app:tint="?iconColorPrimary" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/include_page_number_checkbox"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_element_large"
+            android:padding="@dimen/margin_between"
+            android:text="@string/export_append_page_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/date_range_button"
+            app:layout_constraintTop_toBottomOf="@id/include_generated_date_divider" />
+
+        <View
+            android:id="@+id/include_page_number_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/include_page_number_checkbox" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/include_page_number_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="include_page_number_icon,include_page_number_checkbox,include_page_number_divider" />
 
         <ImageView
             android:id="@+id/note_icon"
@@ -230,7 +271,7 @@
             android:text="@string/note_append"
             app:layout_constraintEnd_toEndOf="@id/format_spinner"
             app:layout_constraintStart_toStartOf="@id/date_range_button"
-            app:layout_constraintTop_toBottomOf="@id/footer_divider" />
+            app:layout_constraintTop_toBottomOf="@id/include_page_number_divider" />
 
         <View
             android:id="@+id/note_divider"

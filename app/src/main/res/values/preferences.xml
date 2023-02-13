@@ -54,8 +54,9 @@
 
     <!-- Export -->
     <string name="preference_export_pdf_style">exportPdfStyle</string>
-    <string name="preference_export_header">exportHeader</string>
-    <string name="preference_export_footer">exportFooter</string>
+    <string name="preference_include_calendar_week">exportHeader</string>
+    <string name="preference_include_generated_date">exportFooter</string>
+    <string name="preference_include_page_number">includePageNumber</string>
     <string name="preference_export_notes">export_notes</string>
     <string name="preference_export_tags">export_tags</string>
     <string name="preference_export_food">export_food</string>

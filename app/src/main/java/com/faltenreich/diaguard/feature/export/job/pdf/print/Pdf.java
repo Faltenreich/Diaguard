@@ -34,4 +34,8 @@ public class Pdf extends PDF {
             formatter.print(config.getDateEnd()))
         );
     }
+
+    public int getPageCount() {
+        return pages.size();
+    }
 }

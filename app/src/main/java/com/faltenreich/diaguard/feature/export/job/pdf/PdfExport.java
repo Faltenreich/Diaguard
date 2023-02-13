@@ -53,12 +53,7 @@ public class PdfExport extends AsyncTask<Void, String, Pair<File, String>> {
 
                 PdfPrintable printable = PdfPrintableFactory.createPrintable(cache);
                 if (printable != null) {
-                    float newY = cache.getPage().getPosition().getY() + printable.getHeight();
-                    float maxY = cache.getPage().getEndPoint().getY();
-                    if (newY > maxY) {
-                        cache.setPage(new PdfPage(cache));
-                    }
-                    cache.getPage().draw(printable);
+                    printable.print();
                 }
 
                 publishProgress(cache);

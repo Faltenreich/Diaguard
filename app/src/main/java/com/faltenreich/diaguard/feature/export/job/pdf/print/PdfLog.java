@@ -2,9 +2,11 @@ package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
+import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
+import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
@@ -18,61 +20,79 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
-import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.CellBuilder;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.MultilineCell;
-import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
-import com.pdfjet.Point;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PdfLog implements PdfPrintable {
 
-    private static final String TAG = PdfLog.class.getSimpleName();
-    private static final float TIME_WIDTH = 72;
+    private static final int COLUMN_INDEX_NOTE = 2;
 
     private final PdfExportCache cache;
+    private final PdfCellFactory cellFactory;
     private final List<Entry> entriesOfDay;
-    private final SizedTable table;
+    private final List<List<List<Cell>>> data;
 
     PdfLog(PdfExportCache cache, List<Entry> entriesOfDay) {
         this.cache = cache;
+        this.cellFactory = new PdfCellFactory(cache);
         this.entriesOfDay = entriesOfDay;
-        this.table = new SizedTable();
+        this.data = new ArrayList<>();
         init();
     }
 
     @Override
-    public float getHeight() {
-        float height = table.getHeight();
-        return height > 0 ? height + PdfPage.MARGIN : 0f;
-    }
+    public void print() throws Exception {
+        SizedTable table = new SizedTable();
 
-    @Override
-    public void drawOn(PdfPage page, Point position) throws Exception {
-        table.setLocation(position.getX(), position.getY());
-        table.drawOn(page);
+        Cell headerCell = cellFactory.getDayCell();
+        float rowHeight = headerCell.getHeight();
+        table.setData(Collections.singletonList(Collections.singletonList(headerCell)));
+        if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+            cache.setPage(new PdfPage(cache));
+        }
+        table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+        table.drawOn(cache.getPage());
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
+
+        for (List<List<Cell>> entry : data) {
+            rowHeight = 0f;
+            for (List<Cell> row : entry) {
+                rowHeight += row.get(COLUMN_INDEX_NOTE).getHeight();
+            }
+            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+                cache.setPage(new PdfPage(cache));
+                rowHeight += headerCell.getHeight();
+                entry.add(0, Collections.singletonList(headerCell));
+            }
+            table.setData(entry);
+            table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+            table.drawOn(cache.getPage());
+            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
+        }
+
+        if (data.isEmpty()) {
+            List<Cell> row = cellFactory.getEmptyRow();
+            rowHeight = row.get(0).getHeight();
+            table.setData(Collections.singletonList(row));
+            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+                cache.setPage(new PdfPage(cache));
+            }
+            table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+            table.drawOn(cache.getPage());
+            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
+        }
+
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
     private void init() {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContext();
-
-        List<List<Cell>> data = new ArrayList<>();
-        List<Cell> headerRow = new ArrayList<>();
-        Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
-            .setWidth(getLabelWidth())
-            .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
-            .build();
-        headerRow.add(headerCell);
-        data.add(headerRow);
 
         for (Entry entry : entriesOfDay) {
             List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
@@ -81,8 +101,8 @@ public class PdfLog implements PdfPrintable {
 
         int rowIndex = 0;
         for (Entry entry : entriesOfDay) {
+            List<List<Cell>> rows = new ArrayList<>();
             int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
-            int oldSize = data.size();
             String time = entry.getDate().toString("HH:mm");
 
             for (Measurement measurement : entry.getMeasurementCache()) {
@@ -117,9 +137,8 @@ public class PdfLog implements PdfPrintable {
                     }
                 }
 
-                data.add(getRow(
-                    cache,
-                    data.size() == oldSize ? time : null,
+                rows.add(cellFactory.getLogRow(
+                    rows.isEmpty() ? time : null,
                     context.getString(category.getStringAcronymResId()),
                     measurementText,
                     backgroundColor,
@@ -140,9 +159,8 @@ public class PdfLog implements PdfPrintable {
                             }
                         }
                     }
-                    data.add(getRow(
-                        cache,
-                        data.size() == oldSize ? time : null,
+                    rows.add(cellFactory.getLogRow(
+                        rows.isEmpty() ? time : null,
                         context.getString(R.string.tags),
                         TextUtils.join(", ", tagNames),
                         backgroundColor
@@ -150,65 +168,17 @@ public class PdfLog implements PdfPrintable {
                 }
             }
 
-            if (config.exportNotes()) {
-                if (!StringUtils.isBlank(entry.getNote())) {
-                    data.add(getRow(
-                        cache,
-                        data.size() == oldSize ? time : null,
-                        context.getString(R.string.note),
-                        entry.getNote(),
-                        backgroundColor
-                    ));
-                }
+            if (config.exportNotes() && !StringUtils.isBlank(entry.getNote())) {
+                rows.add(cellFactory.getLogRow(
+                    rows.isEmpty() ? time : null,
+                    context.getString(R.string.note),
+                    entry.getNote(),
+                    backgroundColor
+                ));
             }
 
             rowIndex++;
+            data.add(rows);
         }
-
-        boolean hasData = data.size() > 1;
-        if (!hasData) {
-            data.add(CellFactory.createEmptyRow(cache));
-        }
-
-        try {
-            table.setData(data);
-        } catch (Exception exception) {
-            Log.e(TAG, exception.toString());
-        }
-    }
-
-    private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor, int foregroundColor) {
-        List<Cell> entryRow = new ArrayList<>();
-        float width = cache.getPage().getWidth();
-
-        Cell titleCell = new CellBuilder(new Cell(cache.getFontNormal()))
-            .setWidth(PdfLog.TIME_WIDTH)
-            .setText(title)
-            .setBackgroundColor(backgroundColor)
-            .setForegroundColor(Color.gray)
-            .build();
-        entryRow.add(titleCell);
-
-        Cell subtitleCell = new CellBuilder(new Cell(cache.getFontNormal()))
-            .setWidth(getLabelWidth())
-            .setText(subtitle)
-            .setBackgroundColor(backgroundColor)
-            .setForegroundColor(Color.gray)
-            .build();
-        entryRow.add(subtitleCell);
-
-        Cell descriptionCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
-            .setWidth(width - titleCell.getWidth() - subtitleCell.getWidth())
-            .setText(description)
-            .setBackgroundColor(backgroundColor)
-            .setForegroundColor(foregroundColor)
-            .build();
-        entryRow.add(descriptionCell);
-
-        return entryRow;
-    }
-
-    private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor) {
-        return getRow(cache, title, subtitle, description, backgroundColor, Color.black);
     }
 }

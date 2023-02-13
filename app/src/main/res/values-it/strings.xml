@@ -62,6 +62,7 @@
     <string name="export">Esporta</string>
     <string name="export_complete">Salvato in %s</string>
     <string name="export_progress">Il PDF è stato creato</string>
+    <string name="export_page">Pagina %d</string>
     <string name="export_stamp">Il rapport è stato generato in</string>
     <string name="first_visit">Prima visita?</string>
     <string name="first_visit_desc">Inserisci il tuo primo valore</string>
@@ -334,8 +335,9 @@
     <string name="theme_time_based">Dal momento della giornata</string>
     <string name="theme_system">Impostazioni di sistema</string>
     <string name="table">Tabella</string>
-    <string name="export_append_header">Aggiungi all\'inizio\n(mostra settimana del calendario)</string>
-    <string name="export_append_footer">Aggiungi alla fine\n(showing data di esportazione)</string>
+    <string name="export_append_calendar_week">Aggiungi la settimana di calendario</string>
+    <string name="export_append_generated_date">Aggiungi la data di esportazione</string>
+    <string name="export_append_page_number">Aggiungi il numero di paginar</string>
     <string name="export_history">Esporta cronologia</string>
     <string name="share">Condividi</string>
     <string name="open">Apri</string>

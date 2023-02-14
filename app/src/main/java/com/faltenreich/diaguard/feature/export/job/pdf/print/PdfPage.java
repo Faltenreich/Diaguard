@@ -35,7 +35,7 @@ public class PdfPage extends Page {
         }
     }
 
-    private Point getStartPoint() {
+    public Point getStartPoint() {
         return new Point(PADDING_EDGES, PADDING_EDGES);
     }
 

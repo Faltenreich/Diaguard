@@ -68,7 +68,7 @@ public class PdfExport extends AsyncTask<Void, String, Pair<File, String>> {
                 return new Pair<>(null, config.getContext().getString(R.string.no_data));
             }
         } catch (Exception exception) {
-            Log.e(TAG, exception.toString());
+            Log.e(TAG, exception.toString(), exception);
             return new Pair<>(null, config.getContext().getString(R.string.error_unexpected));
         }
     }

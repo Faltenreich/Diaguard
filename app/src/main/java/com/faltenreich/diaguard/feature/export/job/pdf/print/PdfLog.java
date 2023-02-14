@@ -25,160 +25,141 @@ import com.pdfjet.Cell;
 import com.pdfjet.Color;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class PdfLog implements PdfPrintable {
 
-    private static final int COLUMN_INDEX_NOTE = 2;
-
     private final PdfExportCache cache;
     private final PdfCellFactory cellFactory;
     private final List<Entry> entriesOfDay;
-    private final List<List<List<Cell>>> data;
 
     PdfLog(PdfExportCache cache, List<Entry> entriesOfDay) {
         this.cache = cache;
         this.cellFactory = new PdfCellFactory(cache);
         this.entriesOfDay = entriesOfDay;
-        this.data = new ArrayList<>();
-        init();
     }
 
     @Override
     public void print() throws Exception {
-        SizedTable table = new SizedTable();
+        PdfExportConfig config = cache.getConfig();
+        Context context = config.getContext();
 
-        Cell headerCell = cellFactory.getDayCell();
-        float rowHeight = headerCell.getHeight();
-        table.setData(Collections.singletonList(Collections.singletonList(headerCell)));
-        if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
-            cache.setPage(new PdfPage(cache));
-        }
-        table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
-        table.drawOn(cache.getPage());
-        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
+        List<Cell> header = Collections.singletonList(cellFactory.getDayCell());
+        if (entriesOfDay.isEmpty()) {
+            List<List<Cell>> rows = Arrays.asList(header, cellFactory.getEmptyRow());
+            addRows(rows);
+        } else {
+            for (int entryIndex = 0; entryIndex < entriesOfDay.size(); entryIndex++) {
+                List<List<Cell>> rows = new ArrayList<>();
+                if (entryIndex == 0) {
+                    rows.add(header);
+                }
+                Entry entry = entriesOfDay.get(entryIndex);
+                boolean isFirstMeasurementOfEntry = true;
+                int backgroundColor = entryIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
+                String time = entry.getDate().toString("HH:mm");
 
-        for (List<List<Cell>> entry : data) {
-            rowHeight = 0f;
-            for (List<Cell> row : entry) {
-                rowHeight += row.get(COLUMN_INDEX_NOTE).getHeight();
-            }
-            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
-                cache.setPage(new PdfPage(cache));
-                rowHeight += headerCell.getHeight();
-                entry.add(0, Collections.singletonList(headerCell));
-            }
-            table.setData(entry);
-            table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
-            table.drawOn(cache.getPage());
-            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
-        }
+                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
+                for (Measurement measurement : measurements) {
+                    Category category = measurement.getCategory();
+                    int textColor = Color.black;
+                    if (category == Category.BLOODSUGAR && config.highlightLimits()) {
+                        BloodSugar bloodSugar = (BloodSugar) measurement;
+                        float value = bloodSugar.getMgDl();
+                        if (value > PreferenceStore.getInstance().getLimitHyperglycemia()) {
+                            textColor = cache.getColorHyperglycemia();
+                        } else if (value < PreferenceStore.getInstance().getLimitHypoglycemia()) {
+                            textColor = cache.getColorHypoglycemia();
+                        }
+                    }
 
-        if (data.isEmpty()) {
-            List<Cell> row = cellFactory.getEmptyRow();
-            rowHeight = row.get(0).getHeight();
-            table.setData(Collections.singletonList(row));
-            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
-                cache.setPage(new PdfPage(cache));
+                    String measurementText = measurement.print(context);
+
+                    if (category == Category.MEAL && config.exportFood()) {
+                        List<String> foodOfDay = new ArrayList<>();
+                        Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
+                        if (meal != null) {
+                            for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
+                                String foodNote = foodEaten.print();
+                                if (foodNote != null) {
+                                    foodOfDay.add(foodNote);
+                                }
+                            }
+                        }
+                        if (!foodOfDay.isEmpty()) {
+                            String foodText = TextUtils.join(", ", foodOfDay);
+                            measurementText = String.format("%s\n%s", measurementText, foodText);
+                        }
+                    }
+
+                    List<Cell> row = cellFactory.getLogRow(
+                        time,
+                        context.getString(category.getStringAcronymResId()),
+                        measurementText,
+                        backgroundColor,
+                        textColor
+                    );
+                    rows.add(row);
+                    isFirstMeasurementOfEntry= false;
+                }
+
+                if (config.exportTags()) {
+                    List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                    if (!entryTags.isEmpty()) {
+                        List<String> tagNames = new ArrayList<>();
+                        for (EntryTag entryTag : entryTags) {
+                            Tag tag = entryTag.getTag();
+                            if (tag != null) {
+                                String tagName = tag.getName();
+                                if (!StringUtils.isBlank(tagName)) {
+                                    tagNames.add(tagName);
+                                }
+                            }
+                        }
+                        List<Cell> row = cellFactory.getLogRow(
+                            isFirstMeasurementOfEntry ? time : null,
+                            context.getString(R.string.tags),
+                            TextUtils.join(", ", tagNames),
+                            backgroundColor
+                        );
+                        rows.add(row);
+                        isFirstMeasurementOfEntry = false;
+                    }
+                }
+
+                if (config.exportNotes() && !StringUtils.isBlank(entry.getNote())) {
+                    List<Cell> row = cellFactory.getLogRow(
+                        isFirstMeasurementOfEntry ? time : null,
+                        context.getString(R.string.note),
+                        entry.getNote(),
+                        backgroundColor
+                    );
+                    rows.add(row);
+                }
+                addRows(rows);
             }
-            table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
-            table.drawOn(cache.getPage());
-            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
         }
 
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
-    private void init() {
-        PdfExportConfig config = cache.getConfig();
-        Context context = config.getContext();
+    private void addRows(List<List<Cell>> rows) throws Exception {
+        SizedTable table = new SizedTable();
+        table.setData(rows);
 
-        for (Entry entry : entriesOfDay) {
-            List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
-            entry.setMeasurementCache(measurements);
+        if (cache.getPage().getPosition().getY() + table.getHeight() > cache.getPage().getEndPoint().getY()) {
+            cache.setPage(new PdfPage(cache));
         }
-
-        int rowIndex = 0;
-        for (Entry entry : entriesOfDay) {
-            List<List<Cell>> rows = new ArrayList<>();
-            int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
-            String time = entry.getDate().toString("HH:mm");
-
-            for (Measurement measurement : entry.getMeasurementCache()) {
-                Category category = measurement.getCategory();
-                int textColor = Color.black;
-                if (category == Category.BLOODSUGAR && config.highlightLimits()) {
-                    BloodSugar bloodSugar = (BloodSugar) measurement;
-                    float value = bloodSugar.getMgDl();
-                    if (value > PreferenceStore.getInstance().getLimitHyperglycemia()) {
-                        textColor = cache.getColorHyperglycemia();
-                    } else if (value < PreferenceStore.getInstance().getLimitHypoglycemia()) {
-                        textColor = cache.getColorHypoglycemia();
-                    }
-                }
-
-                String measurementText = measurement.print(context);
-
-                if (category == Category.MEAL && config.exportFood()) {
-                    List<String> foodOfDay = new ArrayList<>();
-                    Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
-                    if (meal != null) {
-                        for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
-                            String foodNote = foodEaten.print();
-                            if (foodNote != null) {
-                                foodOfDay.add(foodNote);
-                            }
-                        }
-                    }
-                    if (!foodOfDay.isEmpty()) {
-                        String foodText = TextUtils.join(", ", foodOfDay);
-                        measurementText = String.format("%s\n%s", measurementText, foodText);
-                    }
-                }
-
-                rows.add(cellFactory.getLogRow(
-                    rows.isEmpty() ? time : null,
-                    context.getString(category.getStringAcronymResId()),
-                    measurementText,
-                    backgroundColor,
-                    textColor
-                ));
-            }
-
-            if (config.exportTags()) {
-                List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
-                if (!entryTags.isEmpty()) {
-                    List<String> tagNames = new ArrayList<>();
-                    for (EntryTag entryTag : entryTags) {
-                        Tag tag = entryTag.getTag();
-                        if (tag != null) {
-                            String tagName = tag.getName();
-                            if (!StringUtils.isBlank(tagName)) {
-                                tagNames.add(tagName);
-                            }
-                        }
-                    }
-                    rows.add(cellFactory.getLogRow(
-                        rows.isEmpty() ? time : null,
-                        context.getString(R.string.tags),
-                        TextUtils.join(", ", tagNames),
-                        backgroundColor
-                    ));
-                }
-            }
-
-            if (config.exportNotes() && !StringUtils.isBlank(entry.getNote())) {
-                rows.add(cellFactory.getLogRow(
-                    rows.isEmpty() ? time : null,
-                    context.getString(R.string.note),
-                    entry.getNote(),
-                    backgroundColor
-                ));
-            }
-
-            rowIndex++;
-            data.add(rows);
+        if (cache.getPage().getPosition().getY() == cache.getPage().getStartPoint().getY()) {
+            List<Cell> header = Collections.singletonList(cellFactory.getDayCell());
+            rows.add(0, header);
+            table.setData(rows);
         }
+        table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+        table.drawOn(cache.getPage());
+
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
     }
 }

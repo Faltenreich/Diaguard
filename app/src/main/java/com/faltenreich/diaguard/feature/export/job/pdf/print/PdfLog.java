@@ -33,16 +33,14 @@ public class PdfLog implements PdfPrintable {
 
     private final PdfExportCache cache;
     private final PdfCellFactory cellFactory;
-    private final List<Entry> entriesOfDay;
 
-    PdfLog(PdfExportCache cache, PdfCellFactory cellFactory, List<Entry> entriesOfDay) {
+    PdfLog(PdfExportCache cache, PdfCellFactory cellFactory) {
         this.cache = cache;
         this.cellFactory = cellFactory;
-        this.entriesOfDay = entriesOfDay;
     }
 
     @Override
-    public void print() throws Exception {
+    public void print(List<Entry> entriesOfDay) throws Exception {
         if (entriesOfDay.isEmpty()) {
             addRows(Arrays.asList(
                 Collections.singletonList(cellFactory.getDayCell()),
@@ -51,7 +49,7 @@ public class PdfLog implements PdfPrintable {
             );
         } else {
             for (int entryIndex = 0; entryIndex < entriesOfDay.size(); entryIndex++) {
-                addRows(getRowsForEntryIndex(entryIndex), true);
+                addRows(getRowsForEntryIndex(entriesOfDay, entryIndex), true);
             }
         }
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
@@ -82,7 +80,7 @@ public class PdfLog implements PdfPrintable {
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
     }
 
-    private List<List<Cell>> getRowsForEntryIndex(int entryIndex) {
+    private List<List<Cell>> getRowsForEntryIndex(List<Entry> entriesOfDay, int entryIndex) {
         List<List<Cell>> rows = new ArrayList<>();
 
         PdfExportConfig config = cache.getConfig();

@@ -38,12 +38,10 @@ public class PdfTimeline implements PdfPrintable {
 
     private final PdfExportCache cache;
     private final PdfCellFactory cellFactory;
-    private final List<Entry> entriesOfDay;
 
-    PdfTimeline(PdfExportCache cache, PdfCellFactory cellFactory, List<Entry> entriesOfDay) {
+    PdfTimeline(PdfExportCache cache, PdfCellFactory cellFactory) {
         this.cache = cache;
         this.cellFactory = cellFactory;
-        this.entriesOfDay = entriesOfDay;
     }
 
     private boolean showChartForBloodSugar() {
@@ -51,7 +49,7 @@ public class PdfTimeline implements PdfPrintable {
     }
 
     @Override
-    public void print() throws Exception {
+    public void print(List<Entry> entriesOfDay) throws Exception {
         if (entriesOfDay.isEmpty()) {
             SizedTable table = new SizedTable();
             table.setData(Arrays.asList(

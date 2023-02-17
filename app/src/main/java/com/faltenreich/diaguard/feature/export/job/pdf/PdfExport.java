@@ -12,24 +12,30 @@ import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
+import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfCellFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPage;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPageFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPrintable;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPrintableFactory;
+import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
+import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import java.io.File;
+import java.util.List;
 
 public class PdfExport extends AsyncTask<Void, String, Pair<File, String>> {
 
     private static final String TAG = PdfExport.class.getSimpleName();
 
     private final PdfExportConfig config;
+    private final EntryDao entryDao;
 
     public PdfExport(PdfExportConfig config) {
         this.config = config;
+        this.entryDao = EntryDao.getInstance();
     }
 
     @Override
@@ -37,6 +43,7 @@ public class PdfExport extends AsyncTask<Void, String, Pair<File, String>> {
         try {
             File file = Export.getExportFile(config);
             PdfExportCache cache = new PdfExportCache(config, file);
+            PdfCellFactory cellFactory = new PdfCellFactory(cache);
             while (cache.isDateTimeValid()) {
                 boolean isNewPage = config.getDateStart().equals(cache.getDateTime())
                     || cache.isDateTimeForNewWeek();
@@ -51,9 +58,11 @@ public class PdfExport extends AsyncTask<Void, String, Pair<File, String>> {
                     cache.setPage(page);
                 }
 
-                PdfPrintable printable = PdfPrintableFactory.createPrintable(cache);
-                if (printable != null) {
-                    printable.print();
+                List<Entry> entriesOfDay = entryDao.getEntriesOfDay(cache.getDateTime());
+                boolean exportDay = !entriesOfDay.isEmpty() || !cache.getConfig().skipEmptyDays();
+                if (exportDay) {
+                    PdfPrintable printable = PdfPrintableFactory.createPrintable(cache, cellFactory);
+                    printable.print(entriesOfDay);
                 }
 
                 publishProgress(cache);

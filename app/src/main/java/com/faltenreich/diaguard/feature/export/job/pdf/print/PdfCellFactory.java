@@ -25,14 +25,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-class PdfCellFactory {
+public class PdfCellFactory {
 
     private static final float CELL_WIDTH_DAY = 100;
     private static final float CELL_WIDTH_TIME_LOG = 72;
 
     private final PdfExportCache cache;
 
-    PdfCellFactory(PdfExportCache cache) {
+    public PdfCellFactory(PdfExportCache cache) {
         this.cache = cache;
     }
 

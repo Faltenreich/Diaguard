@@ -28,22 +28,20 @@ public class PdfTable implements PdfPrintable {
 
     private final PdfExportCache cache;
     private final PdfCellFactory cellFactory;
-    private final List<Entry> entriesOfDay;
 
-    PdfTable(PdfExportCache cache, PdfCellFactory cellFactory, List<Entry> entriesOfDay) {
+    PdfTable(PdfExportCache cache, PdfCellFactory cellFactory) {
         this.cache = cache;
         this.cellFactory = cellFactory;
-        this.entriesOfDay = entriesOfDay;
     }
 
     @Override
-    public void print() throws Exception {
-        drawTableOn();
-        drawNotesOn();
+    public void print(List<Entry> entriesOfDay) throws Exception {
+        drawTableOn(entriesOfDay);
+        drawNotesOn(entriesOfDay);
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
-    private void drawTableOn() throws Exception {
+    private void drawTableOn(List<Entry> entriesOfDay) throws Exception {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContext();
         SizedTable table = new SizedTable();
@@ -98,7 +96,7 @@ public class PdfTable implements PdfPrintable {
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
     }
 
-    private void drawNotesOn() throws Exception {
+    private void drawNotesOn(List<Entry> entriesOfDay) throws Exception {
         PdfExportConfig config = cache.getConfig();
         SizedTable table = new SizedTable();
         boolean isFirst = true;

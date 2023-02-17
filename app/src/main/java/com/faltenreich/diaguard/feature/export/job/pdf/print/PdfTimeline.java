@@ -52,52 +52,52 @@ public class PdfTimeline implements PdfPrintable {
 
     @Override
     public void print() throws Exception {
-        List<BloodSugar> bloodSugars = new ArrayList<>();
-        List<PdfNote> notes = new ArrayList<>();
-
-        for (Entry entry : entriesOfDay) {
-            if (showChartForBloodSugar()) {
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-                for (Measurement measurement : measurements) {
-                    if (measurement instanceof BloodSugar) {
-                        bloodSugars.add((BloodSugar) measurement);
-                    }
-                }
-            }
-            PdfNote note = PdfNoteFactory.createNote(cache.getConfig(), entry);
-            if (note != null) {
-                notes.add(note);
-            }
-        }
-
-        List<Category> categories = new ArrayList<>();
-        for (Category category : cache.getConfig().getCategories()) {
-            if (category != Category.BLOODSUGAR) {
-                categories.add(category);
-            }
-        }
-        LinkedHashMap<Category, CategoryValueListItem[]> measurements = EntryDao.getInstance().getAverageDataTable(
-            cache.getDateTime(),
-            categories.toArray(new Category[0]),
-            HOUR_INTERVAL
-        );
-
-        printChart(bloodSugars);
-        printTable(measurements);
-        printNotes(notes);
-
-        // TODO: Is never true since empty rows will be created for every category
-        if (false) {
-            List<Cell> row = cellFactory.getEmptyRow();
-            float rowHeight = row.get(0).getHeight();
+        if (entriesOfDay.isEmpty()) {
             SizedTable table = new SizedTable();
-            table.setData(Collections.singletonList(row));
-            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+            table.setData(Arrays.asList(
+                Collections.singletonList(cellFactory.getDayCell()),
+                cellFactory.getEmptyRow())
+            );
+            if (cache.getPage().getPosition().getY() + table.getHeight() > cache.getPage().getEndPoint().getY()) {
                 cache.setPage(new PdfPage(cache));
             }
             table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
             table.drawOn(cache.getPage());
-            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
+            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
+        } else {
+            List<BloodSugar> bloodSugars = new ArrayList<>();
+            List<PdfNote> notes = new ArrayList<>();
+
+            for (Entry entry : entriesOfDay) {
+                if (showChartForBloodSugar()) {
+                    List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                    for (Measurement measurement : measurements) {
+                        if (measurement instanceof BloodSugar) {
+                            bloodSugars.add((BloodSugar) measurement);
+                        }
+                    }
+                }
+                PdfNote note = PdfNoteFactory.createNote(cache.getConfig(), entry);
+                if (note != null) {
+                    notes.add(note);
+                }
+            }
+
+            List<Category> categories = new ArrayList<>();
+            for (Category category : cache.getConfig().getCategories()) {
+                if (category != Category.BLOODSUGAR) {
+                    categories.add(category);
+                }
+            }
+            LinkedHashMap<Category, CategoryValueListItem[]> measurements = EntryDao.getInstance().getAverageDataTable(
+                cache.getDateTime(),
+                categories.toArray(new Category[0]),
+                HOUR_INTERVAL
+            );
+
+            printChart(bloodSugars);
+            printTable(measurements);
+            printNotes(notes);
         }
 
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);

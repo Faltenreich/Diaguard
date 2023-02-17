@@ -46,28 +46,36 @@ public class PdfLog implements PdfPrintable {
         if (entriesOfDay.isEmpty()) {
             addRows(Arrays.asList(
                 Collections.singletonList(cellFactory.getDayCell()),
-                cellFactory.getEmptyRow())
+                cellFactory.getEmptyRow()),
+                false
             );
         } else {
             for (int entryIndex = 0; entryIndex < entriesOfDay.size(); entryIndex++) {
-                addRows(getRowsForEntryIndex(entryIndex));
+                addRows(getRowsForEntryIndex(entryIndex), true);
             }
         }
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
-    private void addRows(List<List<Cell>> rows) throws Exception {
+    private void addRows(List<List<Cell>> rows, boolean appendHeaderIfNeeded) throws Exception {
         SizedTable table = new SizedTable();
-        table.setData(rows);
 
-        if (cache.getPage().getPosition().getY() + table.getHeight() > cache.getPage().getEndPoint().getY()) {
-            cache.setPage(new PdfPage(cache));
+        float rowHeight = 0f;
+        for (List<Cell> row : rows) {
+            rowHeight += row.get(row.size() - 1).getHeight();
         }
-        if (cache.getPage().getPosition().getY() == cache.getPage().getStartPoint().getY()) {
-            List<Cell> header = Collections.singletonList(cellFactory.getDayCell());
-            rows.add(0, header);
+        if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+            cache.setPage(new PdfPage(cache));
+            List<List<Cell>> rowsWithHeader = new ArrayList<>();
+            if (appendHeaderIfNeeded) {
+                rowsWithHeader.add(Collections.singletonList(cellFactory.getDayCell()));
+            }
+            rowsWithHeader.addAll(rows);
+            table.setData(rowsWithHeader);
+        } else {
             table.setData(rows);
         }
+
         table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
         table.drawOn(cache.getPage());
 

@@ -17,13 +17,14 @@ public class PdfPrintableFactory {
         boolean exportDay = !entriesOfDay.isEmpty() || !cache.getConfig().skipEmptyDays();
         if (exportDay) {
             PdfExportStyle style = cache.getConfig().getStyle();
+            PdfCellFactory cellFactory = new PdfCellFactory(cache);
             switch (style) {
                 case TABLE:
-                    return new PdfTable(cache, entriesOfDay);
+                    return new PdfTable(cache, cellFactory, entriesOfDay);
                 case LOG:
-                    return new PdfLog(cache, entriesOfDay);
+                    return new PdfLog(cache, cellFactory, entriesOfDay);
                 case TIMELINE:
-                    return new PdfTimeline(cache, entriesOfDay);
+                    return new PdfTimeline(cache, cellFactory, entriesOfDay);
                 default:
                     throw new IllegalArgumentException("Unsupported style: " + style);
             }

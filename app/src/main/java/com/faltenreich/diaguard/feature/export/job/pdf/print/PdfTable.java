@@ -30,9 +30,9 @@ public class PdfTable implements PdfPrintable {
     private final PdfCellFactory cellFactory;
     private final List<Entry> entriesOfDay;
 
-    PdfTable(PdfExportCache cache, List<Entry> entriesOfDay) {
+    PdfTable(PdfExportCache cache, PdfCellFactory cellFactory, List<Entry> entriesOfDay) {
         this.cache = cache;
-        this.cellFactory = new PdfCellFactory(cache);
+        this.cellFactory = cellFactory;
         this.entriesOfDay = entriesOfDay;
     }
 

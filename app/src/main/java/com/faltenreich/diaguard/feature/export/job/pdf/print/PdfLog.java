@@ -35,113 +35,24 @@ public class PdfLog implements PdfPrintable {
     private final PdfCellFactory cellFactory;
     private final List<Entry> entriesOfDay;
 
-    PdfLog(PdfExportCache cache, List<Entry> entriesOfDay) {
+    PdfLog(PdfExportCache cache, PdfCellFactory cellFactory, List<Entry> entriesOfDay) {
         this.cache = cache;
-        this.cellFactory = new PdfCellFactory(cache);
+        this.cellFactory = cellFactory;
         this.entriesOfDay = entriesOfDay;
     }
 
     @Override
     public void print() throws Exception {
-        PdfExportConfig config = cache.getConfig();
-        Context context = config.getContext();
-
-        List<Cell> header = Collections.singletonList(cellFactory.getDayCell());
         if (entriesOfDay.isEmpty()) {
-            List<List<Cell>> rows = Arrays.asList(header, cellFactory.getEmptyRow());
-            addRows(rows);
+            addRows(Arrays.asList(
+                Collections.singletonList(cellFactory.getDayCell()),
+                cellFactory.getEmptyRow())
+            );
         } else {
             for (int entryIndex = 0; entryIndex < entriesOfDay.size(); entryIndex++) {
-                List<List<Cell>> rows = new ArrayList<>();
-                if (entryIndex == 0) {
-                    rows.add(header);
-                }
-                Entry entry = entriesOfDay.get(entryIndex);
-                boolean isFirstMeasurementOfEntry = true;
-                int backgroundColor = entryIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
-                String time = entry.getDate().toString("HH:mm");
-
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
-                for (Measurement measurement : measurements) {
-                    Category category = measurement.getCategory();
-                    int textColor = Color.black;
-                    if (category == Category.BLOODSUGAR && config.highlightLimits()) {
-                        BloodSugar bloodSugar = (BloodSugar) measurement;
-                        float value = bloodSugar.getMgDl();
-                        if (value > PreferenceStore.getInstance().getLimitHyperglycemia()) {
-                            textColor = cache.getColorHyperglycemia();
-                        } else if (value < PreferenceStore.getInstance().getLimitHypoglycemia()) {
-                            textColor = cache.getColorHypoglycemia();
-                        }
-                    }
-
-                    String measurementText = measurement.print(context);
-
-                    if (category == Category.MEAL && config.exportFood()) {
-                        List<String> foodOfDay = new ArrayList<>();
-                        Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
-                        if (meal != null) {
-                            for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
-                                String foodNote = foodEaten.print();
-                                if (foodNote != null) {
-                                    foodOfDay.add(foodNote);
-                                }
-                            }
-                        }
-                        if (!foodOfDay.isEmpty()) {
-                            String foodText = TextUtils.join(", ", foodOfDay);
-                            measurementText = String.format("%s\n%s", measurementText, foodText);
-                        }
-                    }
-
-                    List<Cell> row = cellFactory.getLogRow(
-                        time,
-                        context.getString(category.getStringAcronymResId()),
-                        measurementText,
-                        backgroundColor,
-                        textColor
-                    );
-                    rows.add(row);
-                    isFirstMeasurementOfEntry= false;
-                }
-
-                if (config.exportTags()) {
-                    List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
-                    if (!entryTags.isEmpty()) {
-                        List<String> tagNames = new ArrayList<>();
-                        for (EntryTag entryTag : entryTags) {
-                            Tag tag = entryTag.getTag();
-                            if (tag != null) {
-                                String tagName = tag.getName();
-                                if (!StringUtils.isBlank(tagName)) {
-                                    tagNames.add(tagName);
-                                }
-                            }
-                        }
-                        List<Cell> row = cellFactory.getLogRow(
-                            isFirstMeasurementOfEntry ? time : null,
-                            context.getString(R.string.tags),
-                            TextUtils.join(", ", tagNames),
-                            backgroundColor
-                        );
-                        rows.add(row);
-                        isFirstMeasurementOfEntry = false;
-                    }
-                }
-
-                if (config.exportNotes() && !StringUtils.isBlank(entry.getNote())) {
-                    List<Cell> row = cellFactory.getLogRow(
-                        isFirstMeasurementOfEntry ? time : null,
-                        context.getString(R.string.note),
-                        entry.getNote(),
-                        backgroundColor
-                    );
-                    rows.add(row);
-                }
-                addRows(rows);
+                addRows(getRowsForEntryIndex(entryIndex));
             }
         }
-
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
@@ -161,5 +72,99 @@ public class PdfLog implements PdfPrintable {
         table.drawOn(cache.getPage());
 
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
+    }
+
+    private List<List<Cell>> getRowsForEntryIndex(int entryIndex) {
+        List<List<Cell>> rows = new ArrayList<>();
+
+        PdfExportConfig config = cache.getConfig();
+        Context context = config.getContext();
+
+        if (entryIndex == 0) {
+            rows.add(Collections.singletonList(cellFactory.getDayCell()));
+        }
+        Entry entry = entriesOfDay.get(entryIndex);
+        boolean isFirstMeasurementOfEntry = true;
+        int backgroundColor = entryIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
+        String time = entry.getDate().toString("HH:mm");
+
+        List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
+        for (Measurement measurement : measurements) {
+            Category category = measurement.getCategory();
+            int textColor = Color.black;
+            if (category == Category.BLOODSUGAR && config.highlightLimits()) {
+                BloodSugar bloodSugar = (BloodSugar) measurement;
+                float value = bloodSugar.getMgDl();
+                if (value > PreferenceStore.getInstance().getLimitHyperglycemia()) {
+                    textColor = cache.getColorHyperglycemia();
+                } else if (value < PreferenceStore.getInstance().getLimitHypoglycemia()) {
+                    textColor = cache.getColorHypoglycemia();
+                }
+            }
+
+            String measurementText = measurement.print(context);
+
+            if (category == Category.MEAL && config.exportFood()) {
+                List<String> foodOfDay = new ArrayList<>();
+                Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
+                if (meal != null) {
+                    for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
+                        String foodNote = foodEaten.print();
+                        if (foodNote != null) {
+                            foodOfDay.add(foodNote);
+                        }
+                    }
+                }
+                if (!foodOfDay.isEmpty()) {
+                    String foodText = TextUtils.join(", ", foodOfDay);
+                    measurementText = String.format("%s\n%s", measurementText, foodText);
+                }
+            }
+
+            List<Cell> row = cellFactory.getLogRow(
+                time,
+                context.getString(category.getStringAcronymResId()),
+                measurementText,
+                backgroundColor,
+                textColor
+            );
+            rows.add(row);
+            isFirstMeasurementOfEntry= false;
+        }
+
+        if (config.exportTags()) {
+            List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+            if (!entryTags.isEmpty()) {
+                List<String> tagNames = new ArrayList<>();
+                for (EntryTag entryTag : entryTags) {
+                    Tag tag = entryTag.getTag();
+                    if (tag != null) {
+                        String tagName = tag.getName();
+                        if (!StringUtils.isBlank(tagName)) {
+                            tagNames.add(tagName);
+                        }
+                    }
+                }
+                List<Cell> row = cellFactory.getLogRow(
+                    isFirstMeasurementOfEntry ? time : null,
+                    context.getString(R.string.tags),
+                    TextUtils.join(", ", tagNames),
+                    backgroundColor
+                );
+                rows.add(row);
+                isFirstMeasurementOfEntry = false;
+            }
+        }
+
+        if (config.exportNotes() && !StringUtils.isBlank(entry.getNote())) {
+            List<Cell> row = cellFactory.getLogRow(
+                isFirstMeasurementOfEntry ? time : null,
+                context.getString(R.string.note),
+                entry.getNote(),
+                backgroundColor
+            );
+            rows.add(row);
+        }
+        return rows;
     }
 }

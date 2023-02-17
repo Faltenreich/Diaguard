@@ -54,10 +54,10 @@ public class PdfTimeline implements PdfPrintable {
     private LinkedHashMap<Category, CategoryValueListItem[]> measurements;
     private List<PdfNote> pdfNotes;
 
-    PdfTimeline(PdfExportCache cache, List<Entry> entriesOfDay) {
+    PdfTimeline(PdfExportCache cache, PdfCellFactory cellFactory, List<Entry> entriesOfDay) {
         float width = cache.getPage().getWidth();
         this.cache = cache;
-        this.cellFactory = new PdfCellFactory(cache);
+        this.cellFactory = cellFactory;
         this.entriesOfDay = entriesOfDay;
         this.showChartForBloodSugar = cache.getConfig().hasCategory(Category.BLOODSUGAR);
         this.chart = new SizedBox(width, showChartForBloodSugar ? (width / 4) : HEADER_HEIGHT);

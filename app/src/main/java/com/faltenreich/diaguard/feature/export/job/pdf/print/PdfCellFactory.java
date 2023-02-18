@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
+import android.content.Context;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
@@ -19,16 +21,18 @@ import com.pdfjet.Color;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-class PdfCellFactory {
+public class PdfCellFactory {
 
     private static final float CELL_WIDTH_DAY = 100;
     private static final float CELL_WIDTH_TIME_LOG = 72;
 
     private final PdfExportCache cache;
 
-    PdfCellFactory(PdfExportCache cache) {
+    public PdfCellFactory(PdfExportCache cache) {
         this.cache = cache;
     }
 
@@ -102,17 +106,6 @@ class PdfCellFactory {
         return row;
     }
 
-    @Deprecated
-    List<List<Cell>> getNoteRows(List<PdfNote> pdfNotes) {
-        List<List<Cell>> rows = new ArrayList<>();
-        for (PdfNote pdfNote : pdfNotes) {
-            boolean isFirst = pdfNotes.indexOf(pdfNote) == 0;
-            List<Cell> row = getNoteRow(pdfNote, isFirst);
-            rows.add(row);
-        }
-        return rows;
-    }
-
     List<Cell> getTableRow(
         CategoryValueListItem[] items,
         int valueIndex,
@@ -162,7 +155,13 @@ class PdfCellFactory {
         return cells;
     }
 
-    List<Cell> getLogRow(String title, String subtitle, String description, int backgroundColor, int foregroundColor) {
+    List<Cell> getLogRow(
+        String title,
+        String subtitle,
+        String description,
+        int backgroundColor,
+        int foregroundColor
+    ) {
         List<Cell> entryRow = new ArrayList<>();
         float width = cache.getPage().getWidth();
 
@@ -195,5 +194,79 @@ class PdfCellFactory {
 
     List<Cell> getLogRow(String title, String subtitle, String description, int backgroundColor) {
         return getLogRow(title, subtitle, description, backgroundColor, Color.black);
+    }
+
+    public List<List<Cell>> getTimelineRows(
+        Context context,
+        LinkedHashMap<Category, CategoryValueListItem[]> measurements,
+        int hourInterval
+    ) {
+        List<List<Cell>> tableData = new ArrayList<>();
+        int rowIndex = 0;
+        for (Map.Entry<Category, CategoryValueListItem[]> entry : measurements.entrySet()) {
+            Category category = entry.getKey();
+            CategoryValueListItem[] values = entry.getValue();
+            String label = context.getString(category.getStringAcronymResId());
+            switch (category) {
+                case INSULIN:
+                    if (cache.getConfig().splitInsulin()) {
+                        tableData.add(getTimelineRow(category, values, rowIndex, 0, label + " " + context.getString(R.string.bolus), hourInterval));
+                        tableData.add(getTimelineRow(category, values, rowIndex, 1, label + " " + context.getString(R.string.correction), hourInterval));
+                        tableData.add(getTimelineRow(category, values, rowIndex, 2, label + " " + context.getString(R.string.basal), hourInterval));
+                    } else {
+                        tableData.add(getTimelineRow(category, values, rowIndex, -1, label, hourInterval));
+                    }
+                    break;
+                case PRESSURE:
+                    tableData.add(getTimelineRow(category, values, rowIndex, 0,  label + " " + context.getString(R.string.systolic_acronym), hourInterval));
+                    tableData.add(getTimelineRow(category, values, rowIndex, 1, label + " " + context.getString(R.string.diastolic_acronym), hourInterval));
+                    break;
+                default:
+                    tableData.add(getTimelineRow(category, values, rowIndex, -1, label, hourInterval));
+            }
+            rowIndex++;
+        }
+        return tableData;
+    }
+
+    private List<Cell> getTimelineRow(
+        Category category,
+        CategoryValueListItem[] values,
+        int rowIndex,
+        int valueIndex,
+        String label,
+        int hourInterval
+    ) {
+        List<Cell> row = new ArrayList<>();
+
+        Cell titleCell = new Cell(cache.getFontNormal());
+        titleCell.setText(label);
+        titleCell.setWidth(getLabelWidth());
+        titleCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.transparent);
+        titleCell.setFgColor(Color.gray);
+        titleCell.setPenColor(Color.gray);
+        row.add(titleCell);
+
+        for (CategoryValueListItem item : values) {
+            Cell valueCell = new Cell(cache.getFontNormal());
+            float value = 0;
+            switch (valueIndex) {
+                case -1: value = item.getValueTotal(); break;
+                case 0: value = item.getValueOne(); break;
+                case 1: value = item.getValueTwo(); break;
+                case 2: value = item.getValueThree(); break;
+            }
+            float customValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(category, value);
+            String text = customValue > 0 ? FloatUtils.parseFloat(customValue) : "";
+            valueCell.setText(text);
+
+            valueCell.setWidth((cache.getPage().getWidth() - getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / hourInterval));
+            valueCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.transparent);
+            valueCell.setFgColor(Color.black);
+            valueCell.setPenColor(Color.gray);
+            valueCell.setTextAlignment(Align.CENTER);
+            row.add(valueCell);
+        }
+        return row;
     }
 }

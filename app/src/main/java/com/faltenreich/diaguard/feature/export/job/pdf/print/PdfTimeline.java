@@ -1,8 +1,5 @@
 package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
-import android.content.Context;
-
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNote;
@@ -17,8 +14,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
-import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Line;
@@ -32,7 +27,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PdfTimeline implements PdfPrintable {
 
@@ -44,193 +38,82 @@ public class PdfTimeline implements PdfPrintable {
 
     private final PdfExportCache cache;
     private final PdfCellFactory cellFactory;
-    private final List<Entry> entriesOfDay;
-    private final SizedBox chart;
-    private final List<List<Cell>> tableData;
-    private final List<List<Cell>> notes;
 
-    private final boolean showChartForBloodSugar;
-    private List<BloodSugar> bloodSugars;
-    private LinkedHashMap<Category, CategoryValueListItem[]> measurements;
-    private List<PdfNote> pdfNotes;
-
-    PdfTimeline(PdfExportCache cache, List<Entry> entriesOfDay) {
-        float width = cache.getPage().getWidth();
+    PdfTimeline(PdfExportCache cache, PdfCellFactory cellFactory) {
         this.cache = cache;
-        this.cellFactory = new PdfCellFactory(cache);
-        this.entriesOfDay = entriesOfDay;
-        this.showChartForBloodSugar = cache.getConfig().hasCategory(Category.BLOODSUGAR);
-        this.chart = new SizedBox(width, showChartForBloodSugar ? (width / 4) : HEADER_HEIGHT);
-        this.tableData = new ArrayList<>();
-        this.notes = new ArrayList<>();
-        init();
+        this.cellFactory = cellFactory;
+    }
+
+    private boolean showChartForBloodSugar() {
+        return cache.getConfig().hasCategory(Category.BLOODSUGAR);
     }
 
     @Override
-    public void print() throws Exception {
-        SizedTable table = new SizedTable();
-        table.setData(tableData);
-
-        if (cache.getPage().getPosition().getY() + table.getHeight() + chart.getHeight() > cache.getPage().getEndPoint().getY()) {
-            cache.setPage(new PdfPage(cache));
-        }
-
-        chart.setPosition(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
-        drawChart();
-        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + chart.getHeight());
-
-        table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
-        table.drawOn(cache.getPage());
-        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
-
-        for (List<Cell> row : notes) {
-            float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
-            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+    public void print(List<Entry> entriesOfDay) throws Exception {
+        if (entriesOfDay.isEmpty()) {
+            SizedTable table = new SizedTable();
+            table.setData(Arrays.asList(
+                Collections.singletonList(cellFactory.getDayCell()),
+                cellFactory.getEmptyRow())
+            );
+            if (cache.getPage().getPosition().getY() + table.getHeight() > cache.getPage().getEndPoint().getY()) {
                 cache.setPage(new PdfPage(cache));
-                Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
-                    .setWidth(cellFactory.getLabelWidth())
-                    .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
-                    .build();
-                table.setData(Arrays.asList(Collections.singletonList(headerCell), row));
-            } else {
-                table.setData(Collections.singletonList(row));
             }
             table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
             table.drawOn(cache.getPage());
             cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
-        }
+        } else {
+            List<BloodSugar> bloodSugars = new ArrayList<>();
+            List<PdfNote> notes = new ArrayList<>();
 
-        // TODO: Is never true since empty rows will be created for every category
-        if (tableData.isEmpty() && notes.isEmpty()) {
-            List<Cell> row = cellFactory.getEmptyRow();
-            float rowHeight = row.get(0).getHeight();
-            table.setData(Collections.singletonList(row));
-            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+            for (Entry entry : entriesOfDay) {
+                if (showChartForBloodSugar()) {
+                    List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                    for (Measurement measurement : measurements) {
+                        if (measurement instanceof BloodSugar) {
+                            bloodSugars.add((BloodSugar) measurement);
+                        }
+                    }
+                }
+                PdfNote note = PdfNoteFactory.createNote(cache.getConfig(), entry);
+                if (note != null) {
+                    notes.add(note);
+                }
+            }
+
+            List<Category> categories = new ArrayList<>();
+            for (Category category : cache.getConfig().getCategories()) {
+                if (category != Category.BLOODSUGAR) {
+                    categories.add(category);
+                }
+            }
+            LinkedHashMap<Category, CategoryValueListItem[]> measurements = EntryDao.getInstance().getAverageDataTable(
+                cache.getDateTime(),
+                categories.toArray(new Category[0]),
+                HOUR_INTERVAL
+            );
+
+            float chartWidth = cache.getPage().getWidth();
+            SizedBox chart = new SizedBox(chartWidth, showChartForBloodSugar() ? (chartWidth / 4) : HEADER_HEIGHT);
+
+            SizedTable table = new SizedTable();
+            table.setData(cellFactory.getTimelineRows(cache.getContext(), measurements, HOUR_INTERVAL));
+
+            if (cache.getPage().getPosition().getY() + chart.getHeight() + table.getHeight() > cache.getPage().getEndPoint().getY()) {
                 cache.setPage(new PdfPage(cache));
             }
-            table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
-            table.drawOn(cache.getPage());
-            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + rowHeight);
+
+            printChart(chart, bloodSugars);
+            printTable(table);
+            printNotes(notes);
         }
 
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
-    private void init() {
-        fetchData();
-        initTable();
-    }
-
-    private void fetchData() {
-        bloodSugars = new ArrayList<>();
-        pdfNotes = new ArrayList<>();
-
-        for (Entry entry : entriesOfDay) {
-            if (showChartForBloodSugar) {
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-                for (Measurement measurement : measurements) {
-                    if (measurement instanceof BloodSugar) {
-                        bloodSugars.add((BloodSugar) measurement);
-                    }
-                }
-            }
-
-            PdfNote pdfNote = PdfNoteFactory.createNote(cache.getConfig(), entry);
-            if (pdfNote != null) {
-                pdfNotes.add(pdfNote);
-            }
-        }
-
-        List<Category> categories = new ArrayList<>();
-        for (Category category : cache.getConfig().getCategories()) {
-            if (category != Category.BLOODSUGAR) {
-                categories.add(category);
-            }
-        }
-        measurements = EntryDao.getInstance().getAverageDataTable(
-            cache.getDateTime(),
-            categories.toArray(new Category[0]),
-            HOUR_INTERVAL
-        );
-    }
-
-    private void initTable() {
-        Context context = cache.getContext();
-
-        int rowIndex = 0;
-        for (Map.Entry<Category, CategoryValueListItem[]> entry : measurements.entrySet()) {
-            Category category = entry.getKey();
-            CategoryValueListItem[] values = entry.getValue();
-            String label = context.getString(category.getStringAcronymResId());
-            switch (category) {
-                case INSULIN:
-                    if (cache.getConfig().splitInsulin()) {
-                        tableData.add(createRowForMeasurements(category, values, rowIndex, 0, label + " " + context.getString(R.string.bolus)));
-                        tableData.add(createRowForMeasurements(category, values, rowIndex, 1, label + " " + context.getString(R.string.correction)));
-                        tableData.add(createRowForMeasurements(category, values, rowIndex, 2, label + " " + context.getString(R.string.basal)));
-                    } else {
-                        tableData.add(createRowForMeasurements(category, values, rowIndex, -1, label));
-                    }
-                    break;
-                case PRESSURE:
-                    tableData.add(createRowForMeasurements(category, values, rowIndex, 0,  label + " " + context.getString(R.string.systolic_acronym)));
-                    tableData.add(createRowForMeasurements(category, values, rowIndex, 1, label + " " + context.getString(R.string.diastolic_acronym)));
-                    break;
-                default:
-                    tableData.add(createRowForMeasurements(category, values, rowIndex, -1, label));
-            }
-            rowIndex++;
-        }
-
-        notes.addAll(cellFactory.getNoteRows(pdfNotes));
-    }
-
-    private List<Cell> createRowForMeasurements(Category category, CategoryValueListItem[] values, int rowIndex, int valueIndex, String label) {
-        List<Cell> row = new ArrayList<>();
-
-        Cell titleCell = new Cell(cache.getFontNormal());
-        titleCell.setText(label);
-        titleCell.setWidth(cellFactory.getLabelWidth());
-        titleCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white);
-        titleCell.setFgColor(Color.gray);
-        titleCell.setPenColor(Color.gray);
-        row.add(titleCell);
-
-        for (CategoryValueListItem item : values) {
-            Cell valueCell = new Cell(cache.getFontNormal());
-
-            float value = 0;
-            switch (valueIndex) {
-                case -1:
-                    value = item.getValueTotal();
-                    break;
-                case 0:
-                    value = item.getValueOne();
-                    break;
-                case 1:
-                    value = item.getValueTwo();
-                    break;
-                case 2:
-                    value = item.getValueThree();
-                    break;
-            }
-            float customValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(category, value);
-            String text = customValue > 0 ? FloatUtils.parseFloat(customValue) : "";
-            valueCell.setText(text);
-
-            valueCell.setWidth((cache.getPage().getWidth() - cellFactory.getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
-            valueCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white);
-            valueCell.setFgColor(Color.black);
-            valueCell.setPenColor(Color.gray);
-            valueCell.setTextAlignment(Align.CENTER);
-            row.add(valueCell);
-        }
-        return row;
-    }
-
-    private Point drawChart() throws Exception {
+    private void printChart(SizedBox chart, List<BloodSugar> bloodSugars) throws Exception {
         chart.setColor(Color.transparent);
-        float[] coordinates = chart.drawOn(cache.getPage());
+        chart.setPosition(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
 
         TextLine label = new TextLine(cache.getFontNormal());
         label.setColor(Color.gray);
@@ -238,7 +121,6 @@ public class PdfTimeline implements PdfPrintable {
         Line line = new Line();
         line.setColor(Color.gray);
 
-        float chartWidth = chart.getWidth();
         float chartHeight = chart.getHeight();
         float chartStartX = 0;
         float chartEndX = chartStartX + chart.getWidth();
@@ -247,10 +129,8 @@ public class PdfTimeline implements PdfPrintable {
 
         float contentStartX = cellFactory.getLabelWidth();
         float contentStartY = chartStartY + label.getHeight() + PADDING;
-        float contentEndX = chartEndX;
-        float contentEndY = chartEndY;
-        float contentWidth = contentEndX - contentStartX;
-        float contentHeight = contentEndY - contentStartY;
+        float contentWidth = chartEndX - contentStartX;
+        float contentHeight = chartEndY - contentStartY;
 
         int xStep = DateTimeConstants.MINUTES_PER_HOUR * HOUR_INTERVAL;
         float xMax = DateTimeConstants.MINUTES_PER_DAY;
@@ -272,14 +152,14 @@ public class PdfTimeline implements PdfPrintable {
             label.drawOn(cache.getPage());
 
             line.setStartPoint(x, chartStartY + header.getHeight() + 8);
-            line.setEndPoint(x, contentEndY);
+            line.setEndPoint(x, chartEndY);
             line.placeIn(chart);
             line.drawOn(cache.getPage());
 
             minutes += xStep;
         }
 
-        if (showChartForBloodSugar) {
+        if (showChartForBloodSugar()) {
             float yMin = 40;
             float yMax = 210;
             for (BloodSugar bloodSugar : bloodSugars) {
@@ -288,7 +168,7 @@ public class PdfTimeline implements PdfPrintable {
                 }
             }
             int yStep = (int) ((yMax - yMin) / 5);
-            yStep = Math.round((yStep + 10) / 10) * 10;
+            yStep = Math.round((yStep + 10f) / 10) * 10;
 
             // Labels for y axis
             int labelValue = yStep;
@@ -300,7 +180,7 @@ public class PdfTimeline implements PdfPrintable {
                 label.drawOn(cache.getPage());
 
                 line.setStartPoint(chartStartX + label.getWidth() + PADDING, labelY);
-                line.setEndPoint(contentEndX, labelY);
+                line.setEndPoint(chartEndX, labelY);
                 line.placeIn(chart);
                 line.drawOn(cache.getPage());
 
@@ -332,6 +212,34 @@ public class PdfTimeline implements PdfPrintable {
             }
         }
 
-        return new Point(cache.getPage().getPosition().getX(), coordinates[1]);
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + chart.getHeight());
+    }
+
+    private void printTable(SizedTable table) throws Exception {
+        table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+        table.drawOn(cache.getPage());
+        cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
+    }
+
+    private void printNotes(List<PdfNote> notes) throws Exception {
+        for (int noteIndex = 0; noteIndex < notes.size(); noteIndex++) {
+            PdfNote note = notes.get(noteIndex);
+            SizedTable table = new SizedTable();
+            List<Cell> row = cellFactory.getNoteRow(note, noteIndex == 0);
+            float rowHeight = row.get(COLUMN_INDEX_NOTE).getHeight();
+            if (cache.getPage().getPosition().getY() + rowHeight > cache.getPage().getEndPoint().getY()) {
+                cache.setPage(new PdfPage(cache));
+                Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
+                    .setWidth(cellFactory.getLabelWidth())
+                    .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
+                    .build();
+                table.setData(Arrays.asList(Collections.singletonList(headerCell), row));
+            } else {
+                table.setData(Collections.singletonList(row));
+            }
+            table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
+            table.drawOn(cache.getPage());
+            cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
+        }
     }
 }

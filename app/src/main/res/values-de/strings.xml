@@ -107,7 +107,6 @@
     <string name="no_data">Keine Einträge vorhanden</string>
     <string name="note">Notiz</string>
     <string name="notes">Notizen</string>
-    <string name="note_append">Notizen anhängen</string>
     <string name="nutriments">Nährstoffe</string>
     <string name="nutriments_per_100g">Nährstoffe pro 100 g</string>
     <string name="per_100g">pro 100 g</string>
@@ -308,7 +307,6 @@
 
     <string name="tag">Stimmung</string>
     <string name="tags">Stimmungen</string>
-    <string name="tags_append">Stimmungen anhängen</string>
     <string name="search">Suche</string>
     <string name="search_hint">Notizen, Stimmungen, …</string>
     <string name="no_results_found">Keine Ergebnisse gefunden</string>
@@ -335,9 +333,8 @@
     <string name="theme_time_based">Nach Tageszeit</string>
     <string name="theme_system">Systemeinstellung</string>
     <string name="table">Tabelle</string>
-    <string name="export_append_calendar_week">Kalenderwoche anhängen</string>
-    <string name="export_append_generated_date">Datum des Exports anhängen</string>
-    <string name="export_append_page_number">Seitennummer anhängen</string>
+    <string name="export_date">Datum des Exports</string>
+    <string name="page_number">Seitennummer</string>
     <string name="export_history">Frühere Exporte</string>
     <string name="share">Teilen</string>
     <string name="open">Öffnen</string>

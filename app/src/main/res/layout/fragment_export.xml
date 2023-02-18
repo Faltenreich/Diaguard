@@ -258,6 +258,16 @@
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="settings_header,style_group,include_calendar_week_group,include_generated_date_group,include_page_number_group" />
 
+        <TextView
+            android:id="@+id/data_header"
+            style="@style/Padding"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?android:listDivider"
+            android:text="@string/data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/include_page_number_divider" />
 
         <ImageView
             android:id="@+id/note_icon"
@@ -269,17 +279,6 @@
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/note_checkbox"
             app:tint="?iconColorPrimary" />
-
-        <TextView
-            android:id="@+id/data_header"
-            style="@style/Padding"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="?android:listDivider"
-            android:text="@string/data"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/include_page_number_divider" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/note_checkbox"

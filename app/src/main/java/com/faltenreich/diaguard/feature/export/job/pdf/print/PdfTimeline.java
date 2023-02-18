@@ -93,23 +93,26 @@ public class PdfTimeline implements PdfPrintable {
                 HOUR_INTERVAL
             );
 
-            printChart(bloodSugars);
-            printTable(measurements);
+            float chartWidth = cache.getPage().getWidth();
+            SizedBox chart = new SizedBox(chartWidth, showChartForBloodSugar() ? (chartWidth / 4) : HEADER_HEIGHT);
+
+            SizedTable table = new SizedTable();
+            table.setData(cellFactory.getTimelineRows(cache.getContext(), measurements, HOUR_INTERVAL));
+
+            if (cache.getPage().getPosition().getY() + chart.getHeight() + table.getHeight() > cache.getPage().getEndPoint().getY()) {
+                cache.setPage(new PdfPage(cache));
+            }
+
+            printChart(chart, bloodSugars);
+            printTable(table);
             printNotes(notes);
         }
 
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + PdfPage.MARGIN);
     }
 
-    private void printChart(List<BloodSugar> bloodSugars) throws Exception {
-        float width = cache.getPage().getWidth();
-        SizedBox chart = new SizedBox(width, showChartForBloodSugar() ? (width / 4) : HEADER_HEIGHT);
+    private void printChart(SizedBox chart, List<BloodSugar> bloodSugars) throws Exception {
         chart.setColor(Color.transparent);
-
-        if (cache.getPage().getPosition().getY() + chart.getHeight() > cache.getPage().getEndPoint().getY()) {
-            cache.setPage(new PdfPage(cache));
-        }
-
         chart.setPosition(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
 
         TextLine label = new TextLine(cache.getFontNormal());
@@ -126,10 +129,8 @@ public class PdfTimeline implements PdfPrintable {
 
         float contentStartX = cellFactory.getLabelWidth();
         float contentStartY = chartStartY + label.getHeight() + PADDING;
-        float contentEndX = chartEndX;
-        float contentEndY = chartEndY;
-        float contentWidth = contentEndX - contentStartX;
-        float contentHeight = contentEndY - contentStartY;
+        float contentWidth = chartEndX - contentStartX;
+        float contentHeight = chartEndY - contentStartY;
 
         int xStep = DateTimeConstants.MINUTES_PER_HOUR * HOUR_INTERVAL;
         float xMax = DateTimeConstants.MINUTES_PER_DAY;
@@ -151,7 +152,7 @@ public class PdfTimeline implements PdfPrintable {
             label.drawOn(cache.getPage());
 
             line.setStartPoint(x, chartStartY + header.getHeight() + 8);
-            line.setEndPoint(x, contentEndY);
+            line.setEndPoint(x, chartEndY);
             line.placeIn(chart);
             line.drawOn(cache.getPage());
 
@@ -167,7 +168,7 @@ public class PdfTimeline implements PdfPrintable {
                 }
             }
             int yStep = (int) ((yMax - yMin) / 5);
-            yStep = Math.round((yStep + 10) / 10) * 10;
+            yStep = Math.round((yStep + 10f) / 10) * 10;
 
             // Labels for y axis
             int labelValue = yStep;
@@ -179,7 +180,7 @@ public class PdfTimeline implements PdfPrintable {
                 label.drawOn(cache.getPage());
 
                 line.setStartPoint(chartStartX + label.getWidth() + PADDING, labelY);
-                line.setEndPoint(contentEndX, labelY);
+                line.setEndPoint(chartEndX, labelY);
                 line.placeIn(chart);
                 line.drawOn(cache.getPage());
 
@@ -214,17 +215,9 @@ public class PdfTimeline implements PdfPrintable {
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + chart.getHeight());
     }
 
-    private void printTable(LinkedHashMap<Category, CategoryValueListItem[]> measurements) throws Exception {
-        SizedTable table = new SizedTable();
-        table.setData(cellFactory.getTimelineRows(cache.getContext(), measurements, HOUR_INTERVAL));
-
-        if (cache.getPage().getPosition().getY() + table.getHeight() > cache.getPage().getEndPoint().getY()) {
-            cache.setPage(new PdfPage(cache));
-        }
-
+    private void printTable(SizedTable table) throws Exception {
         table.setLocation(cache.getPage().getPosition().getX(), cache.getPage().getPosition().getY());
         table.drawOn(cache.getPage());
-
         cache.getPage().getPosition().setY(cache.getPage().getPosition().getY() + table.getHeight());
     }
 

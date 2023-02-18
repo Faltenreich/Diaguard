@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
 class TestDataImport implements Importing {
 
     private static final String TAG = TagImport.class.getSimpleName();
-    private static final int DATA_COUNT = 10000;
+    private static final int DATA_COUNT = 1000;
 
     @Override
     public boolean requiresImport() {
@@ -22,9 +22,10 @@ class TestDataImport implements Importing {
     @Override
     public void importData() {
         for (int count = 0; count < DATA_COUNT; count++) {
-            DateTime dateTime = DateTime.now().minusHours(count);
+            DateTime dateTime = DateTime.now().minusMinutes(count);
             Entry entry = new Entry();
             entry.setDate(dateTime);
+            entry.setNote(dateTime.toString());
             EntryDao.getInstance().createOrUpdate(entry);
 
             BloodSugar bloodSugar = new BloodSugar();

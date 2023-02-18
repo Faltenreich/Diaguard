@@ -90,11 +90,11 @@ public class PdfLog implements PdfPrintable {
             rows.add(Collections.singletonList(cellFactory.getDayCell()));
         }
         Entry entry = entriesOfDay.get(entryIndex);
-        boolean isFirstMeasurementOfEntry = true;
         int backgroundColor = entryIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
         String time = entry.getDate().toString("HH:mm");
 
         List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
+        boolean isFirstMeasurementOfEntry = true;
         for (Measurement measurement : measurements) {
             Category category = measurement.getCategory();
             int textColor = Color.black;
@@ -128,7 +128,7 @@ public class PdfLog implements PdfPrintable {
             }
 
             List<Cell> row = cellFactory.getLogRow(
-                time,
+                isFirstMeasurementOfEntry ? time : null,
                 context.getString(category.getStringAcronymResId()),
                 measurementText,
                 backgroundColor,

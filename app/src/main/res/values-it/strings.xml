@@ -108,7 +108,6 @@
     <string name="no_data">Nessun dato  disponibile</string>
     <string name="note">Nota</string>
     <string name="notes">Note</string>
-    <string name="note_append">Aggiungi note</string>
     <string name="nutriments">Nutrienti</string>
     <string name="nutriments_per_100g">Nutrienti per 100 g</string>
     <string name="ok">OK</string>
@@ -307,7 +306,6 @@
 
     <string name="tag">Etichetta</string>
     <string name="tags">Etichette</string>
-    <string name="tags_append">Aggiungi etichetta</string>
     <string name="search">Cerca</string>
     <string name="search_hint">Note, etichette, …</string>
     <string name="no_results_found">Nessun risultato trovato</string>
@@ -335,9 +333,8 @@
     <string name="theme_time_based">Dal momento della giornata</string>
     <string name="theme_system">Impostazioni di sistema</string>
     <string name="table">Tabella</string>
-    <string name="export_append_calendar_week">Aggiungi la settimana di calendario</string>
-    <string name="export_append_generated_date">Aggiungi la data di esportazione</string>
-    <string name="export_append_page_number">Aggiungi il numero di paginar</string>
+    <string name="export_date">Data di esportazione</string>
+    <string name="page_number">Numero di paginar</string>
     <string name="export_history">Esporta cronologia</string>
     <string name="share">Condividi</string>
     <string name="open">Apri</string>

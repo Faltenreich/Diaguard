@@ -97,7 +97,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?android:listDivider"
-            android:text="@string/settings"
+            android:text="@string/layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/format_spinner" />
@@ -155,7 +155,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:padding="@dimen/margin_between"
-            android:text="@string/export_append_calendar_week"
+            android:text="@string/calendarweek"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/style_divider" />
@@ -194,7 +194,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:padding="@dimen/margin_between"
-            android:text="@string/export_append_generated_date"
+            android:text="@string/export_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/include_calendar_week_divider" />
@@ -232,7 +232,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:padding="@dimen/margin_between"
-            android:text="@string/export_append_page_number"
+            android:text="@string/page_number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/include_generated_date_divider" />
@@ -252,6 +252,13 @@
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="include_page_number_icon,include_page_number_checkbox,include_page_number_divider" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/layout_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="settings_header,style_group,include_calendar_week_group,include_generated_date_group,include_page_number_group" />
+
+
         <ImageView
             android:id="@+id/note_icon"
             android:layout_width="@dimen/size_image"
@@ -263,15 +270,26 @@
             app:layout_constraintTop_toTopOf="@id/note_checkbox"
             app:tint="?iconColorPrimary" />
 
+        <TextView
+            android:id="@+id/data_header"
+            style="@style/Padding"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?android:listDivider"
+            android:text="@string/data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/include_page_number_divider" />
+
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/note_checkbox"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:padding="@dimen/margin_between"
-            android:text="@string/note_append"
+            android:text="@string/notes"
             app:layout_constraintEnd_toEndOf="@id/format_spinner"
             app:layout_constraintStart_toStartOf="@id/date_range_button"
-            app:layout_constraintTop_toBottomOf="@id/include_page_number_divider" />
+            app:layout_constraintTop_toBottomOf="@id/data_header" />
 
         <View
             android:id="@+id/note_divider"
@@ -299,7 +317,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:padding="@dimen/margin_between"
-            android:text="@string/tags_append"
+            android:text="@string/tags"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_range_button"
             app:layout_constraintTop_toBottomOf="@id/note_divider" />

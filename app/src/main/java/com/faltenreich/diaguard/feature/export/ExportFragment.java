@@ -195,10 +195,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private void setFormat(FileType format) {
-        getBinding().styleGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
-        getBinding().includeCalendarWeekGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
-        getBinding().includeGeneratedDateGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
-        getBinding().includePageNumberGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        getBinding().layoutGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
     }
 
     private PdfExportStyle getStyle() {

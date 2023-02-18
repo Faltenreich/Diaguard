@@ -140,7 +140,6 @@
     <string name="no_data">No data available</string>
     <string name="note">Note</string>
     <string name="notes">Notes</string>
-    <string name="note_append">Append notes</string>
     <string name="nutriments">Nutriments</string>
     <string name="nutriments_per_100g">Nutriments per 100 g</string>
     <string name="ok">OK</string>
@@ -478,7 +477,6 @@
 
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
-    <string name="tags_append">Append tags</string>
     <string name="search">Search</string>
     <string name="search_hint">Notes, tags, …</string>
     <string name="no_results_found">No results found</string>
@@ -506,9 +504,8 @@
     <string name="theme_time_based">By time of day</string>
     <string name="theme_system">System setting</string>
     <string name="table">Table</string>
-    <string name="export_append_calendar_week">Append calendar week</string>
-    <string name="export_append_generated_date">Append date of export</string>
-    <string name="export_append_page_number">Append page number</string>
+    <string name="export_date">Date of export</string>
+    <string name="page_number">Page number</string>
     <string name="export_history">Export history</string>
     <string name="share">Share</string>
     <string name="open">Open</string>
@@ -545,5 +542,6 @@
     <string name="timeline_show_dots_desc">Mark measurements with dots (Disabling this will stop highlighting limits)</string>
     <string name="timeline_show_lines">Show lines</string>
     <string name="timeline_show_lines_desc">Connect measurements with lines</string>
+    <string name="layout">Layout</string>
 
 </resources>

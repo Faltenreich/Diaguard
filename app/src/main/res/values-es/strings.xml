@@ -83,7 +83,6 @@
     <string name="no_data">No hay entradas para mostrar</string>
     <string name="note">Nota</string>
     <string name="notes">Notas</string>
-    <string name="note_append">Adjuntar notas</string>
     <string name="ok">OK</string>
     <string name="overview">Sobrevista</string>
     <string name="pulse">Pulso</string>
@@ -308,7 +307,6 @@
     <string name="search">Búsqueda</string>
     <string name="tag">Palabra clave</string>
     <string name="tags">Palabras clave</string>
-    <string name="tags_append">Adjuntar palabras clave</string>
 
     <string name="no_results_found">No se encontraron resultados</string>
     <string name="search_hint">Notas, palabras clave, …</string>
@@ -336,9 +334,8 @@
     <string name="theme_time_based">Por hora del día</string>
     <string name="theme_system">Configuración del sistema</string>
     <string name="table">Tabla</string>
-    <string name="export_append_calendar_week">Añadir semana de calendario</string>
-    <string name="export_append_generated_date">Añadir fecha de exportación</string>
-    <string name="export_append_page_number">Añadir número de página</string>
+    <string name="export_date">Fecha de exportación</string>
+    <string name="page_number">Número de página</string>
     <string name="export_history">Exportaciones pasadas</string>
     <string name="share">Compartir</string>
     <string name="open">Abierto</string>

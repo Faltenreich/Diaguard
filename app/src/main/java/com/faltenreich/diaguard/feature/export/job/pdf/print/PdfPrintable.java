@@ -1,14 +1,10 @@
 package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
-import com.pdfjet.Point;
+import com.faltenreich.diaguard.shared.data.database.entity.Entry;
+
+import java.util.List;
 
 public interface PdfPrintable {
 
-    float getHeight();
-
-    default float getLabelWidth() {
-        return 100;
-    }
-
-    void drawOn(PdfPage page, Point position) throws Exception;
+    void print(List<Entry> entriesOfDay) throws Exception;
 }

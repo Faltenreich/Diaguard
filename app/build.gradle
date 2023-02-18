@@ -7,9 +7,10 @@ android {
     defaultConfig {
         minSdk 16
         targetSdk 31
-        versionCode 56
-        versionName "3.10.0"
-        vectorDrawables.useSupportLibrary true
+        versionCode 57
+        versionName "3.11.0"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -93,7 +94,8 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    // Workaround: Force obsolete version of OkHttp to fix crash on Android 4 (https://github.com/square/okhttp/issues/4622)
+    // Workaround: Force obsolete version of OkHttp to fix crash on Android 4
+    // https://github.com/square/okhttp/issues/4622
     // noinspection GradleDependency
     implementation("com.squareup.okhttp3:okhttp") { version { strictly '3.12.8' } }
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
@@ -103,7 +105,8 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries:$aboutLibrariesVersion"
 
     implementation 'org.apache.commons:commons-text:1.9'
-    // Workaround: Versioning is currently broken (https://github.com/square/picasso/issues/2179)
+    // Workaround: Versioning is currently broken
+    // https://github.com/square/picasso/issues/2179
     //noinspection GradleDependency
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.opencsv:opencsv:3.10'

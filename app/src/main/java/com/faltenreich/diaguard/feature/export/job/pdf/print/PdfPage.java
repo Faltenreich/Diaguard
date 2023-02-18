@@ -1,38 +1,41 @@
 package com.faltenreich.diaguard.feature.export.job.pdf.print;
 
-import android.util.Log;
-
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
+import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.pdfjet.Letter;
 import com.pdfjet.Page;
 import com.pdfjet.Point;
 
 public class PdfPage extends Page {
 
-    private static final String TAG = PdfPage.class.getSimpleName();
-
     private static final float PADDING_EDGES = 60;
     static final float MARGIN = 20;
 
     private final Point position;
-    private PdfFooter footer;
+    private final PdfFooter footer;
 
     public PdfPage(PdfExportCache cache) throws Exception {
         super(cache.getPdf(), Letter.PORTRAIT);
         position = getStartPoint();
 
-        if (cache.getConfig().exportHeader()) {
-            draw(new PdfHeader(cache));
+        PdfExportConfig config = cache.getConfig();
+
+        if (config.includeCalendarWeek()) {
+            PdfHeader header = new PdfHeader(cache);
+            header.drawOn(this, position);
+            position.setY(position.getY() + header.getHeight());
         }
 
-        if (cache.getConfig().exportFooter()) {
+        if (config.includeGeneratedDate() || config.includePageNumber()) {
             // We jump to the end of the page
             footer = new PdfFooter(cache);
             footer.drawOn(this, new Point(PADDING_EDGES, super.getHeight() - PADDING_EDGES));
+        } else {
+            footer = null;
         }
     }
 
-    private Point getStartPoint() {
+    public Point getStartPoint() {
         return new Point(PADDING_EDGES, PADDING_EDGES);
     }
 
@@ -55,14 +58,5 @@ public class PdfPage extends Page {
 
     public Point getPosition() {
         return position;
-    }
-
-    public void draw(PdfPrintable printable) {
-        try {
-            printable.drawOn(this, position);
-            position.setY(position.getY() + printable.getHeight());
-        } catch (Exception exception) {
-            Log.e(TAG, exception.toString());
-        }
     }
 }

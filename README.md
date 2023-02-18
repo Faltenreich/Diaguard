@@ -1,6 +1,6 @@
 # Diaguard
 
-[![Version](https://img.shields.io/badge/Release-3.10.0-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
+[![Version](https://img.shields.io/badge/Release-3.11.0-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <img src="./resource/image/marketing/showcase.png" width="750"> 

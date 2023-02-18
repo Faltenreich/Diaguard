@@ -86,6 +86,9 @@ dependencies {
     testImplementation "joda-time:joda-time:$jodaTime"
     debugImplementation 'androidx.fragment:fragment-testing:1.5.5'
 
+    // Workaround: Force updated version to fix build error on archiving
+    // https://stackoverflow.com/questions/69817925/problem-duplicate-class-androidx-lifecycle-viewmodel-found-in-modules
+    implementation "androidx.appcompat:appcompat:1.6.1"
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -97,7 +100,8 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    // Workaround: Force obsolete version of OkHttp to fix crash on Android 4 (https://github.com/square/okhttp/issues/4622)
+    // Workaround: Force obsolete version of OkHttp to fix crash on Android 4
+    // https://github.com/square/okhttp/issues/4622
     // noinspection GradleDependency
     implementation("com.squareup.okhttp3:okhttp") { version { strictly '3.12.8' } }
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
@@ -107,7 +111,8 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries:$aboutLibrariesVersion"
 
     implementation 'org.apache.commons:commons-text:1.9'
-    // Workaround: Versioning is currently broken (https://github.com/square/picasso/issues/2179)
+    // Workaround: Versioning is currently broken
+    // https://github.com/square/picasso/issues/2179
     //noinspection GradleDependency
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.opencsv:opencsv:3.10'

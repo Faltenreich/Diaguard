@@ -146,7 +146,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     }
 
     public boolean isValid() {
-        return Validator.validateEventValue(foodInputField.getEditText(), Category.MEAL);
+        return Validator.validateEventValue(foodInputField, Category.MEAL);
     }
 
     private void addItem(FoodEaten foodEaten) {

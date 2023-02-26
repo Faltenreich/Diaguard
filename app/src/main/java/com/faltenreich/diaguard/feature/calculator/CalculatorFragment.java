@@ -155,7 +155,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
         if (getBinding().foodInputView.getTotalCarbohydrates() > 0) {
             StickyHintInputView factorInput = getBinding().factorInput;
             // Factor
-            if (!Validator.validateEditTextFactor(getContext(), factorInput, false)) {
+            if (!Validator.validateEditTextFactor(factorInput, false)) {
                 isValid = false;
             } else {
                 factorInput.setError(null);

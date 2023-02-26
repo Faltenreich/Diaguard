@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.shared.data.validation;
 
 import android.content.Context;
 import android.text.Editable;
-import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -37,29 +36,29 @@ public class Validator {
                 return validateEventValue(context, inputView, category, hint.toString());
 
             } else {
-                inputView.setError(context.getString(R.string.validator_value_empty));
+                setError(inputView, context.getString(R.string.validator_value_empty));
                 return false;
             }
 
         } else {
-            inputView.setError(context.getString(R.string.validator_value_empty));
+            setError(inputView, context.getString(R.string.validator_value_empty));
             return false;
         }
     }
 
     private static boolean validateEventValue(Context context, TextInputLayout inputView, Category category, String value) {
-        inputView.setError(null);
+        setError(inputView, null);
 
         boolean isValid = true;
         if (containsNumber(value)) {
             float parsedValue = FloatUtils.parseNumber(value);
             float defaultValue = PreferenceStore.getInstance().formatCustomToDefaultUnit(category, parsedValue);
             if (!validateEventValue(category, defaultValue)) {
-                inputView.setError(context.getString(R.string.validator_value_unrealistic));
+                setError(inputView, context.getString(R.string.validator_value_unrealistic));
                 isValid = false;
             }
         } else {
-            inputView.setError(context.getString(R.string.validator_value_number));
+            setError(inputView, context.getString(R.string.validator_value_number));
             isValid = false;
         }
         return isValid;
@@ -75,30 +74,32 @@ public class Validator {
         return value > extrema[0] && value < extrema[1];
     }
 
-    public static boolean validateEventValue(TextView textView, Category category, boolean allowNegativeValues) {
+    public static boolean validateEventValue(TextInputLayout inputView, Category category, boolean allowNegativeValues) {
+        Context context = inputView.getContext();
         boolean isValid = true;
-        textView.setError(null);
+        setError(inputView, null);
         try {
-            float value = PreferenceStore.getInstance().formatCustomToDefaultUnit(category, FloatUtils.parseNumber(textView.getText().toString()));
+            float value = PreferenceStore.getInstance().formatCustomToDefaultUnit(category, FloatUtils.parseNumber(inputView.getEditText().getText().toString()));
             if (allowNegativeValues) {
                 value = Math.abs(value);
             }
             if (!Validator.validateEventValue(category, value)) {
-                textView.setError(textView.getContext().getString(R.string.validator_value_unrealistic));
+                setError(inputView, context.getString(R.string.validator_value_unrealistic));
                 isValid = false;
             }
         } catch (NumberFormatException exception) {
-            textView.setError(textView.getContext().getString(R.string.validator_value_number));
+            setError(inputView, context.getString(R.string.validator_value_number));
             isValid = false;
         }
         return isValid;
     }
 
-    public static boolean validateEventValue(TextView textView, Category category) {
-        return validateEventValue(textView, category, false);
+    public static boolean validateEventValue(TextInputLayout inputView, Category category) {
+        return validateEventValue(inputView, category, false);
     }
 
-    public static boolean validateEditTextFactor(Context context, TextInputLayout inputView, boolean canBeEmpty) {
+    public static boolean validateEditTextFactor(TextInputLayout inputView, boolean canBeEmpty) {
+        Context context = inputView.getContext();
         Editable editable = inputView.getEditText().getText();
 
         if (editable == null) {
@@ -119,7 +120,7 @@ public class Validator {
                 if (charSequence != null && charSequence.toString().length() > 0) {
                     return validateFactor(context, inputView, charSequence.toString());
                 } else {
-                    inputView.setError(context.getString(R.string.validator_value_empty));
+                    setError(inputView, context.getString(R.string.validator_value_empty));
                     return false;
                 }
             }
@@ -128,17 +129,21 @@ public class Validator {
 
     private static boolean validateFactor(Context context, TextInputLayout inputView, String value) {
         if (!containsNumber(value)) {
-            inputView.setError(context.getString(R.string.validator_value_number));
+            setError(inputView, context.getString(R.string.validator_value_number));
             return false;
         }
 
         float parsedValue = FloatUtils.parseNumber(value);
         if (parsedValue < 0.1f || parsedValue > 20) {
-            inputView.setError(context.getString(R.string.validator_value_unrealistic));
+            setError(inputView, context.getString(R.string.validator_value_unrealistic));
             return false;
         }
 
-        inputView.setError(null);
+        setError(inputView, null);
         return true;
+    }
+
+    private static void setError(TextInputLayout inputView, String error) {
+        inputView.setError(error);
     }
 }

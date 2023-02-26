@@ -65,7 +65,7 @@ public class GenericInputView<T extends Measurement>
     @Override
     public boolean isValid() {
         return StringUtils.isBlank(inputField.getText())
-            || Validator.validateEventValue(inputField.getEditText(), getMeasurement().getCategory());
+            || Validator.validateEventValue(inputField, getMeasurement().getCategory());
     }
 
     @Override

@@ -90,11 +90,11 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
     @Override
     public boolean isValid() {
         boolean isBolusValid = StringUtils.isBlank(bolusInputField.getText())
-            || Validator.validateEventValue(bolusInputField.getEditText(), Category.INSULIN, false);
+            || Validator.validateEventValue(bolusInputField, Category.INSULIN, false);
         boolean isCorrectionValid = StringUtils.isBlank(correctionInputField.getText())
-            || Validator.validateEventValue(correctionInputField.getEditText(), Category.INSULIN, true);
+            || Validator.validateEventValue(correctionInputField, Category.INSULIN, true);
         boolean isBasalValid = StringUtils.isBlank(basalInputField.getText())
-            || Validator.validateEventValue(basalInputField.getEditText(), Category.INSULIN, false);
+            || Validator.validateEventValue(basalInputField, Category.INSULIN, false);
         return isBolusValid && isCorrectionValid && isBasalValid;
     }
 }

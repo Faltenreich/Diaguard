@@ -74,7 +74,7 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
 
     @Override
     public boolean isValid() {
-        return Validator.validateEventValue(systolicInputField.getEditText(), Category.PRESSURE)
-            && Validator.validateEventValue(diastolicInputField.getEditText(), Category.PRESSURE);
+        return Validator.validateEventValue(systolicInputField, Category.PRESSURE)
+            && Validator.validateEventValue(diastolicInputField, Category.PRESSURE);
     }
 }

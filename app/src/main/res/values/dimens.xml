@@ -59,5 +59,7 @@
     <dimen name="toolbar_title_padding">8dp</dimen>
     <!-- 72 per guideline minus 8 from padding -->
     <dimen name="toolbar_title_inset">64dp</dimen>
+    <!-- Used for indented successors -->
+    <dimen name="text_input_layout_start_drawable_width">44dp</dimen>
 
 </resources>

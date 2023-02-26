@@ -9,8 +9,15 @@
     android:layout_height="wrap_content"
     android:hint="@string/grams"
     android:inputType="number"
+    android:paddingStart="@dimen/text_input_layout_start_drawable_width"
+    android:paddingLeft="@dimen/text_input_layout_start_drawable_width"
+    android:paddingTop="@dimen/padding"
+    android:paddingEnd="@dimen/margin_between"
+    android:paddingRight="@dimen/margin_between"
+    android:paddingBottom="@dimen/margin_between"
     app:endIconContentDescription="@string/food_delete"
     app:endIconDrawable="@drawable/ic_clear"
     app:endIconMode="custom"
     app:suffixText="@string/grams"
-    tools:helperText="@string/per_100g" />
+    tools:helperText="@string/per_100g"
+    tools:ignore="RtlCompat" />

@@ -4,16 +4,18 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingStart="@dimen/margin_between"
-    android:paddingTop="@dimen/padding"
-    android:paddingEnd="@dimen/margin_between"
-    android:paddingBottom="@dimen/margin_between">
+    android:layout_height="wrap_content">
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
         android:id="@+id/input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:paddingStart="@dimen/margin_between"
+        android:paddingLeft="@dimen/margin_between"
+        android:paddingTop="@dimen/padding"
+        android:paddingEnd="@dimen/margin_between"
+        android:paddingRight="@dimen/margin_between"
+        android:paddingBottom="@dimen/margin_between" />
 
 </LinearLayout>

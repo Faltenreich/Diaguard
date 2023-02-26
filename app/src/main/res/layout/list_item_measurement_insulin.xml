@@ -3,13 +3,12 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:divider="?android:listDivider"
     android:orientation="vertical"
-    android:paddingStart="@dimen/margin_between"
-    android:paddingTop="@dimen/padding"
-    android:paddingEnd="@dimen/margin_between"
-    android:paddingBottom="@dimen/margin_between">
+    android:showDividers="middle">
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
         android:id="@+id/bolus_input_field"
@@ -17,14 +16,21 @@
         android:layout_height="wrap_content"
         android:hint="@string/bolus"
         android:inputType="numberDecimal"
+        android:paddingStart="@dimen/margin_between"
+        android:paddingLeft="@dimen/margin_between"
+        android:paddingTop="@dimen/padding"
+        android:paddingEnd="@dimen/margin_between"
+        android:paddingRight="@dimen/margin_between"
+        android:paddingBottom="@dimen/margin_between"
         app:startIconDrawable="@drawable/ic_category_insulin" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/divider_medium"
+        android:divider="?android:listDivider"
         android:orientation="horizontal"
-        android:showDividers="middle">
+        android:showDividers="middle"
+        tools:ignore="RtlSymmetry">
 
         <!-- FIXME: Move to basal_input_field on forward -->
         <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
@@ -34,8 +40,10 @@
             android:layout_weight="1"
             android:hint="@string/correction"
             android:inputType="numberDecimal|numberSigned"
-            app:startIconDrawable="@drawable/ic_category_insulin"
-            app:startIconTint="@android:color/transparent" />
+            android:paddingStart="@dimen/text_input_layout_start_drawable_width"
+            android:paddingLeft="@dimen/margin_between"
+            android:paddingTop="@dimen/padding"
+            android:paddingBottom="@dimen/margin_between" />
 
         <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
             android:id="@+id/basal_input_field"
@@ -43,7 +51,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/basal"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:paddingTop="@dimen/padding"
+            android:paddingEnd="@dimen/margin_between"
+            android:paddingRight="@dimen/margin_between"
+            android:paddingBottom="@dimen/margin_between" />
 
     </LinearLayout>
 

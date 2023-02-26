@@ -230,7 +230,6 @@
         <item name="cardElevation">@dimen/card_elevation</item>
     </style>
 
-    <style name="NavigationView">
-    </style>
+    <style name="NavigationView"/>
 
 </resources>

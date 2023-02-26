@@ -120,8 +120,8 @@
             <LinearLayout
                 android:id="@+id/alarm_container"
                 style="@style/LayoutRow"
-                android:paddingEnd="@dimen/padding"
-                android:paddingRight="@dimen/padding">
+                android:paddingEnd="@dimen/margin_between"
+                android:paddingRight="@dimen/margin_between">
 
                 <ImageView
                     style="@style/LayoutRowImage"
@@ -138,8 +138,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/alarm_reminder"
                     android:inputType="number"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
                     app:endIconContentDescription="@string/alarm_reminder_none"
                     app:endIconDrawable="@drawable/ic_clear"
                     app:endIconMode="custom"
@@ -152,12 +150,11 @@
 
         <LinearLayout
             android:id="@+id/measurement_container"
-            style="@style/Padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:clipToPadding="false"
-            android:divider="@drawable/divider_large"
+            android:divider="?android:listDivider"
             android:orientation="vertical"
             android:paddingBottom="@dimen/fab_offset"
             android:showDividers="middle" />

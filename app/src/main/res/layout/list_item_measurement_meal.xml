@@ -4,7 +4,11 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/margin_between"
+    android:paddingTop="@dimen/padding"
+    android:paddingEnd="@dimen/margin_between"
+    android:paddingBottom="@dimen/margin_between">
 
     <com.faltenreich.diaguard.feature.food.input.FoodInputView
         android:id="@+id/food_input_view"

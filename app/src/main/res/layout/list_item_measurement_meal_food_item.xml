@@ -3,6 +3,7 @@
 <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/amount_input"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,4 +12,5 @@
     app:endIconContentDescription="@string/food_delete"
     app:endIconDrawable="@drawable/ic_clear"
     app:endIconMode="custom"
-    app:suffixText="@string/grams"/>
+    app:suffixText="@string/grams"
+    tools:helperText="@string/per_100g" />

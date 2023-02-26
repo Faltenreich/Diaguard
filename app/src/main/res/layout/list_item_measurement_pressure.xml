@@ -7,6 +7,10 @@
     android:layout_height="wrap_content"
     android:divider="@drawable/divider_medium"
     android:orientation="horizontal"
+    android:paddingStart="@dimen/margin_between"
+    android:paddingTop="@dimen/padding"
+    android:paddingEnd="@dimen/margin_between"
+    android:paddingBottom="@dimen/margin_between"
     android:showDividers="middle">
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView

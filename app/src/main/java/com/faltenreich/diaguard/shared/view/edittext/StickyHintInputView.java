@@ -76,6 +76,8 @@ public class StickyHintInputView extends TextInputLayout implements ViewBindable
 
     private void initLayout() {
         setHint(hint);
+        setBoxStrokeWidth(0);
+        setBoxStrokeWidthFocused(0);
         inputField.setInputType(inputType);
     }
 

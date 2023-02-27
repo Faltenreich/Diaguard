@@ -28,7 +28,6 @@
         android:paddingLeft="@dimen/text_input_layout_start_drawable_width"
         tools:ignore="RtlSymmetry">
 
-        <!-- FIXME: Move to basal_input_field on forward -->
         <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
             android:id="@+id/correction_input_field"
             android:layout_width="0dp"

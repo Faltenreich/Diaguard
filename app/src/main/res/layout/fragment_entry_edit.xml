@@ -94,57 +94,27 @@
 
             </LinearLayout>
 
-            <LinearLayout style="@style/LayoutRow">
+            <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+                android:id="@+id/note_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/note"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine|textCapSentences"
+                app:startIconDrawable="@drawable/ic_note"
+                tools:ignore="RtlSymmetry" />
 
-                <ImageView
-                    style="@style/LayoutRowImageMultiline"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_note"
-                    app:tint="?iconColorPrimary" />
-
-                <EditText
-                    android:id="@+id/note_input"
-                    style="@style/LayoutRowItemMultiline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/note"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:paddingStart="@dimen/margin_between"
-                    android:paddingLeft="@dimen/margin_between"
-                    tools:ignore="RtlSymmetry" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/alarm_container"
-                style="@style/LayoutRow"
-                android:paddingEnd="@dimen/margin_between"
-                android:paddingRight="@dimen/margin_between">
-
-                <ImageView
-                    style="@style/LayoutRowImage"
-                    android:layout_marginEnd="@dimen/margin_between"
-                    android:layout_marginRight="@dimen/margin_between"
-                    android:contentDescription="@null"
-                    android:padding="2dp"
-                    app:srcCompat="@drawable/ic_alarm"
-                    app:tint="?iconColorPrimary" />
-
-                <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
-                    android:id="@+id/alarm_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/alarm_reminder"
-                    android:inputType="number"
-                    app:endIconContentDescription="@string/alarm_reminder_none"
-                    app:endIconDrawable="@drawable/ic_clear"
-                    app:endIconMode="custom"
-                    app:hintEnabled="false"
-                    app:suffixText="@string/minutes" />
-
-            </LinearLayout>
+            <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+                android:id="@+id/alarm_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/alarm_reminder"
+                android:inputType="number"
+                app:startIconDrawable="@drawable/ic_alarm"
+                app:endIconContentDescription="@string/alarm_reminder_none"
+                app:endIconDrawable="@drawable/ic_clear"
+                app:endIconMode="custom"
+                app:suffixText="@string/minutes" />
 
         </LinearLayout>
 

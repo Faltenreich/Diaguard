@@ -8,11 +8,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -125,8 +123,7 @@ public class EntryEditFragment
     private AutoCompleteTextView tagInput;
     private ChipGroup tagListView;
     private TagAutoCompleteAdapter tagAdapter;
-    private EditText noteInput;
-    private ViewGroup alarmContainer;
+    private StickyHintInputView noteInput;
     private StickyHintInputView alarmInput;
     private LinearLayout measurementContainer;
 
@@ -198,7 +195,6 @@ public class EntryEditFragment
         tagInput = getBinding().tagInput;
         tagListView = getBinding().tagListView;
         noteInput = getBinding().noteInput;
-        alarmContainer = getBinding().alarmContainer;
         alarmInput = getBinding().alarmInput;
         measurementContainer = getBinding().measurementContainer;
     }
@@ -236,9 +232,12 @@ public class EntryEditFragment
         });
         tagListView.setVisibility(View.GONE);
 
-        EditTextUtils.afterTextChanged(noteInput, () -> viewModel.getEntry().setNote(noteInput.getText().toString()));
+        EditTextUtils.afterTextChanged(
+            noteInput.getEditText(),
+            () -> viewModel.getEntry().setNote(noteInput.getText())
+        );
 
-        alarmContainer.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
+        alarmInput.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
         // FIXME: alarmInput.setOnClickListener(view -> requestPermissionToPostNotification());
         alarmInput.setEndIconOnClickListener(view -> alarmInput.setText(null));
         // Workaround: Display hint inside EditText instead of TextInputLayout

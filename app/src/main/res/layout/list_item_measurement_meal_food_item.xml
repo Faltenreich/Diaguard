@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/amount_input"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:hint="@string/grams"
-    android:inputType="number"
     android:paddingStart="@dimen/text_input_layout_start_drawable_width"
     android:paddingLeft="@dimen/text_input_layout_start_drawable_width"
-    android:paddingTop="@dimen/padding"
-    android:paddingEnd="@dimen/margin_between"
-    android:paddingRight="@dimen/margin_between"
-    android:paddingBottom="@dimen/margin_between"
-    app:endIconContentDescription="@string/food_delete"
-    app:endIconDrawable="@drawable/ic_clear"
-    app:endIconMode="custom"
-    app:suffixText="@string/grams"
-    tools:helperText="@string/per_100g"
-    tools:ignore="RtlCompat" />
+    tools:ignore="RtlSymmetry">
+
+    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
+        android:id="@+id/amount_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/grams"
+        android:inputType="number"
+        app:endIconContentDescription="@string/food_delete"
+        app:endIconDrawable="@drawable/ic_clear"
+        app:endIconMode="custom"
+        app:suffixText="@string/grams"
+        tools:helperText="@string/per_100g" />
+
+</FrameLayout>

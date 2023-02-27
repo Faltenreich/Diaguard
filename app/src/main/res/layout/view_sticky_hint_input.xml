@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
+        android:layout_marginBottom="@dimen/text_input_layout_helper_text_bottom_offset"
         tools:text="20"/>
 
 </merge>

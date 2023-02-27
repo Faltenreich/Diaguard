@@ -75,9 +75,13 @@ public class StickyHintInputView extends TextInputLayout implements ViewBindable
     }
 
     private void initLayout() {
+        int paddingVertical = getResources().getDimensionPixelSize(R.dimen.padding);
+        int paddingHorizontal = getResources().getDimensionPixelSize(R.dimen.margin_between);
+        setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
         setHint(hint);
         setBoxStrokeWidth(0);
         setBoxStrokeWidthFocused(0);
+        setHelperTextEnabled(true);
         inputField.setInputType(inputType);
     }
 

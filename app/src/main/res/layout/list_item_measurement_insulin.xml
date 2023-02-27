@@ -16,12 +16,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/bolus"
         android:inputType="numberDecimal"
-        android:paddingStart="@dimen/margin_between"
-        android:paddingLeft="@dimen/margin_between"
-        android:paddingTop="@dimen/padding"
-        android:paddingEnd="@dimen/margin_between"
-        android:paddingRight="@dimen/margin_between"
-        android:paddingBottom="@dimen/margin_between"
         app:startIconDrawable="@drawable/ic_category_insulin" />
 
     <LinearLayout
@@ -30,6 +24,8 @@
         android:divider="?android:listDivider"
         android:orientation="horizontal"
         android:showDividers="middle"
+        android:paddingStart="@dimen/text_input_layout_start_drawable_width"
+        android:paddingLeft="@dimen/text_input_layout_start_drawable_width"
         tools:ignore="RtlSymmetry">
 
         <!-- FIXME: Move to basal_input_field on forward -->
@@ -39,11 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/correction"
-            android:inputType="numberDecimal|numberSigned"
-            android:paddingStart="@dimen/text_input_layout_start_drawable_width"
-            android:paddingLeft="@dimen/margin_between"
-            android:paddingTop="@dimen/padding"
-            android:paddingBottom="@dimen/margin_between" />
+            android:inputType="numberDecimal|numberSigned" />
 
         <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
             android:id="@+id/basal_input_field"
@@ -51,11 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/basal"
-            android:inputType="numberDecimal"
-            android:paddingTop="@dimen/padding"
-            android:paddingEnd="@dimen/margin_between"
-            android:paddingRight="@dimen/margin_between"
-            android:paddingBottom="@dimen/margin_between" />
+            android:inputType="numberDecimal" />
 
     </LinearLayout>
 

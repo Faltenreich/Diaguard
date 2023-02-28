@@ -240,8 +240,7 @@ public class EntryEditFragment
         alarmInput.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
         // FIXME: alarmInput.setOnClickListener(view -> requestPermissionToPostNotification());
         alarmInput.setEndIconOnClickListener(view -> alarmInput.setText(null));
-        // Workaround: Display hint inside EditText instead of TextInputLayout
-        alarmInput.getEditText().setHint(R.string.alarm_reminder);
+        alarmInput.setHint(R.string.alarm_reminder);
         EditTextUtils.afterTextChanged(
             alarmInput.getEditText(),
             () -> viewModel.setAlarmInMinutes(alarmInput.getText())

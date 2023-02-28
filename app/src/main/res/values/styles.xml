@@ -232,4 +232,22 @@
 
     <style name="NavigationView"/>
 
+    <style name="TextInputLayout">
+        <item name="android:paddingLeft">@dimen/margin_between</item>
+        <item name="android:paddingStart">@dimen/margin_between</item>
+        <item name="android:paddingRight">@dimen/margin_between</item>
+        <item name="android:paddingEnd">@dimen/margin_between</item>
+        <item name="android:paddingTop">@dimen/padding</item>
+        <item name="android:paddingBottom">@dimen/padding</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <!-- Forcing space reservation for helper text -->
+        <item name="helperText">" "</item>
+        <item name="helperTextEnabled">true</item>
+    </style>
+
+    <style name="TextInputEditText">
+        <item name="android:layout_marginBottom">@dimen/text_input_layout_helper_text_bottom_offset</item>
+    </style>
+
 </resources>

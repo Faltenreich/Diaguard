@@ -61,6 +61,8 @@
     <dimen name="toolbar_title_inset">64dp</dimen>
     <!-- Aligning successors at the same x position as with a start drawable -->
     <dimen name="text_input_layout_start_drawable_width">36dp</dimen>
+    <!-- Aligning helper text at the same padding as with a TextInputEditText -->
+    <dimen name="text_input_layout_helper_text_padding">16dp</dimen>
     <!-- Aligning helper text at the same y offset as the hint -->
     <dimen name="text_input_layout_helper_text_bottom_offset">-12dp</dimen>
 

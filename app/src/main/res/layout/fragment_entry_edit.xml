@@ -23,10 +23,18 @@
             android:orientation="vertical"
             android:showDividers="middle">
 
-            <LinearLayout style="@style/LayoutRow">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/text_input_layout_helper_text_padding">
 
                 <ImageView
-                    style="@style/LayoutRowImage"
+                    android:layout_width="@dimen/size_image"
+                    android:layout_height="@dimen/size_image"
+                    android:layout_marginEnd="@dimen/margin_between"
+                    android:layout_marginRight="@dimen/margin_between"
                     android:contentDescription="@null"
                     app:srcCompat="@drawable/ic_time"
                     app:tint="?iconColorPrimary" />
@@ -35,7 +43,7 @@
                     android:id="@+id/date_button"
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:textAllCaps="false"
                     android:textColor="?android:textColorPrimary"
                     tools:text="@tools:sample/date/ddmmyy" />
@@ -44,7 +52,7 @@
                     android:id="@+id/time_button"
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:textAllCaps="false"
                     android:textColor="?android:textColorPrimary"
                     tools:text="@tools:sample/date/hhmm" />
@@ -80,10 +88,10 @@
                     android:id="@+id/tag_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-8dp"
                     android:animateLayoutChanges="true"
                     android:paddingStart="60dp"
                     android:paddingTop="0dp"
-                    android:layout_marginTop="-8dp"
                     android:paddingEnd="@dimen/margin_between"
                     android:paddingBottom="@dimen/margin_between"
                     app:chipSpacingVertical="@dimen/margin_between"

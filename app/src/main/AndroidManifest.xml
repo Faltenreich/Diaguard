@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <queries>
+        <package android:name="tk.glucodata"/>
+    </queries>
+
     <application
         android:name=".DiaguardApplication"
         android:allowBackup="true"
@@ -47,6 +51,15 @@
         </provider>
 
         <receiver android:name=".feature.alarm.AlarmBroadcastReceiver" />
+
+        <receiver
+            android:name=".feature.cgm.xdrip.xDripBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="glucodata.Minute"/>
+            </intent-filter>
+        </receiver>
 
         <meta-data
             android:name="android.max_aspect"

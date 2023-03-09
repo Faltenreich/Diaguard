@@ -163,6 +163,7 @@ public class EntryEditFragment
 
     @Override
     public void onResume() {
+        // FIXME: Applies data of first row to every row on resume
         super.onResume();
         viewModel.observeTags(requireContext(), this::setTags);
     }

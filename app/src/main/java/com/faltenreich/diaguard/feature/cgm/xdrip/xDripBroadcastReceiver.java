@@ -25,7 +25,7 @@ public class xDripBroadcastReceiver extends BroadcastReceiver {
         CgmData cgmData = mapper.mapData(intent);
         if (cgmData != null) {
             Log.v(TAG, "Received CgmData: " + cgmData);
-            repository.store(context, cgmData);
+            repository.store(cgmData);
         }
     }
 }

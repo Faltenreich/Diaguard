@@ -542,5 +542,6 @@
     <string name="timeline_show_lines">Show lines</string>
     <string name="timeline_show_lines_desc">Connect measurements with lines</string>
     <string name="layout">Layout</string>
+    <string name="cgm" translatable="false">CGM</string>
 
 </resources>

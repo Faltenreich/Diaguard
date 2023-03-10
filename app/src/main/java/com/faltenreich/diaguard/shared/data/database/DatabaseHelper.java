@@ -29,7 +29,6 @@ import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.view.image.ImageLoader;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -56,7 +55,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_2_2 = 21;
     public static final int DATABASE_VERSION_3_0 = 22;
     public static final int DATABASE_VERSION_3_1 = 23;
-    public static final int DATABASE_VERSION_3_12 = 24;
 
     public static final Class[] tables = new Class[]{
             Entry.class,
@@ -83,7 +81,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public static int getVersion() {
-        return DATABASE_VERSION_3_12;
+        return DATABASE_VERSION_3_1;
     }
 
     @Override
@@ -122,22 +120,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     case DATABASE_VERSION_3_0:
                         upgradeToVersion23(sqLiteDatabase);
                         break;
-                    case DATABASE_VERSION_3_1:
-                        upgradeToVersion24(sqLiteDatabase);
-                        break;
-
                 }
                 upgradeFromVersion++;
             }
         }
-    }
-
-    private void upgradeToVersion24(SQLiteDatabase sqLiteDatabase) {
-        String query = String.format("ALTER TABLE bloodsugar ADD COLUMN %s %s",
-            BloodSugar.Column.SOURCE,
-            DataType.ENUM_STRING.getDataPersister().getSqlType()
-        );
-        sqLiteDatabase.execSQL(query);
     }
 
     private void upgradeToVersion23(SQLiteDatabase sqLiteDatabase) {

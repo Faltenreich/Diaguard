@@ -15,6 +15,7 @@ import androidx.preference.PreferenceManager;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.cgm.xdrip.xDripRepository;
+import com.faltenreich.diaguard.feature.config.ApplicationConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.feature.navigation.MainFragmentType;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -58,7 +59,7 @@ public class PreferenceStore {
     public void init(Context context) {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.context = context;
-        this.xDripRepository.toggleBroadcastReceiver(context, shouldReadCgmDataFromXDrip());
+        this.xDripRepository.toggleBroadcastReceiver(context, ApplicationConfig.isCgmSupported() && shouldReadCgmDataFromXDrip());
     }
 
     public void setDefaultValues(Context context) {

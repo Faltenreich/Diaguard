@@ -15,10 +15,9 @@ class BloodSugarHypoCountDashboardValue implements DashboardValue {
 
     BloodSugarHypoCountDashboardValue(Context context, List<BloodSugar> bloodSugars) {
         key = context.getString(R.string.hypo);
-        value = context.getString(
-            R.string.dashboard_percentage,
-            100 * (float) countHypos(bloodSugars) / (float) bloodSugars.size()
-        );
+        value = bloodSugars.size() > 0
+            ? context.getString(R.string.dashboard_percentage, getPercentage(bloodSugars))
+            : context.getString(R.string.placeholder);
     }
 
     @Override
@@ -31,7 +30,11 @@ class BloodSugarHypoCountDashboardValue implements DashboardValue {
         return value;
     }
 
-    private int countHypos(List<BloodSugar> bloodSugars) {
+    private float getPercentage(List<BloodSugar> bloodSugars) {
+        return 100 * (float) getCount(bloodSugars) / (float) bloodSugars.size();
+    }
+
+    private int getCount(List<BloodSugar> bloodSugars) {
         float limit = PreferenceStore.getInstance().getLimitHypoglycemia();
         int hypoCount = 0;
         for (BloodSugar bloodSugar : bloodSugars) {

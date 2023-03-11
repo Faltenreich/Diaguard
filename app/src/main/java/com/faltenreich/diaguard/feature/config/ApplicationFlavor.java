@@ -21,6 +21,10 @@ enum ApplicationFlavor {
         return this == ApplicationFlavor.BETA;
     }
 
+    public boolean isCgmSupported() {
+        return this == ApplicationFlavor.BETA;
+    }
+
     @Nullable
     static ApplicationFlavor fromIdentifier(String identifier) {
         for (ApplicationFlavor flavor : ApplicationFlavor.values()) {

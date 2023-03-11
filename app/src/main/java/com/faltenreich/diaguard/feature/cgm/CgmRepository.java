@@ -24,7 +24,7 @@ public class CgmRepository {
    private final TagDao tagDao = TagDao.getInstance();
    private final EntryTagDao entryTagDao = EntryTagDao.getInstance();
 
-   public void store(Context context, CgmData cgmData) {
+   public void storeData(Context context, CgmData cgmData) {
       Entry entry = new Entry();
       entry.setDate(cgmData.getDateTime());
       entryDao.createOrUpdate(entry);

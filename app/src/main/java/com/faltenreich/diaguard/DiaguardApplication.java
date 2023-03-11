@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.faltenreich.diaguard.feature.alarm.NotificationUtils;
+import com.faltenreich.diaguard.feature.cgm.xdrip.xDripRepository;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.Database;
 import com.faltenreich.diaguard.shared.data.database.importing.Import;

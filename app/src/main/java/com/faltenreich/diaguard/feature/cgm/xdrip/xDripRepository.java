@@ -26,11 +26,11 @@ public class xDripRepository {
         Log.d(TAG, "Toggled xDripBroadcastReceiver: " + isEnabled);
     }
 
-    public void handleIntent(Context context, Intent intent) {
+    public void handleIntent(Intent intent) {
         CgmData cgmData = mapper.mapData(intent);
         if (cgmData != null) {
             Log.v(TAG, "Received CgmData: " + cgmData);
-            repository.storeData(context, cgmData);
+            repository.storeData(cgmData);
         }
     }
 }

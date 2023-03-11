@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.feature.export.Exportable;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.shared.Helper;
 import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -23,6 +24,12 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
     public class Column extends BaseEntity.Column {
         public static final String DATE = "date";
         public static final String NOTE = "note";
+        public static final String SOURCE = "source";
+    }
+
+    public enum Source {
+        USER,
+        CGM
     }
 
     @DatabaseField(columnName = Column.DATE)
@@ -30,6 +37,14 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
 
     @DatabaseField(columnName = Column.NOTE)
     private String note;
+
+    @DatabaseField(
+        columnName = Column.SOURCE,
+        dataType = DataType.ENUM_STRING,
+        defaultValue = "USER",
+        unknownEnumName = "USER"
+    )
+    private Source source;
 
     @ForeignCollectionField
     private ForeignCollection<Measurement> measurements;
@@ -50,6 +65,14 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Source getSource() {
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
     }
 
     public ForeignCollection<Measurement> getMeasurements() {

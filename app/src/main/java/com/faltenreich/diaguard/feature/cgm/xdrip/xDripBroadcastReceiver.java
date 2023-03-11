@@ -10,6 +10,6 @@ public class xDripBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        repository.handleIntent(context, intent);
+        repository.handleIntent(intent);
     }
 }

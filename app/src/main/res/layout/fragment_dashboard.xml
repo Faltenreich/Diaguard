@@ -137,6 +137,26 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
+                                android:text="@string/target" />
+
+                            <TextView
+                                android:id="@+id/target_count_label"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:textColor="?android:attr/textColorPrimary"
+                                tools:text="0"
+                                style="@style/NumberResizeable"/>
+
+                        </TableRow>
+
+                        <TableRow style="@style/BoxRow">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
                                 android:text="@string/hyper" />
 
                             <TextView

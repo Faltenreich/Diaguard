@@ -257,6 +257,7 @@
     <string name="per">por</string>
     <string name="per_day">por día</string>
     <string name="target_area">Área objetivo</string>
+    <string name="target">Objetivo</string>
     <string name="year">Año</string>
     <string name="alarm_delete">Retire la memoria</string>
     <string name="alarm_deleted">Eliminado la memoria</string>

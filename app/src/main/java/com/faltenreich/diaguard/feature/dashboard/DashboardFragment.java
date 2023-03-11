@@ -57,6 +57,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
     private ViewGroup todayLayout;
     private TextView totalCountLabel;
+    private TextView targetCountLabel;
     private TextView hyperglycemiaCountLabel;
     private TextView hypoglycemiaCountLabel;
 
@@ -108,6 +109,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
         todayLayout = getBinding().todayLayout;
         totalCountLabel = getBinding().totalCountLabel;
+        targetCountLabel = getBinding().targetCountLabel;
         hyperglycemiaCountLabel = getBinding().hyperglycemiaCountLabel;
         hypoglycemiaCountLabel = getBinding().hypoglycemiaCountLabel;
 
@@ -215,15 +217,16 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
     private void updateDashboard() {
         new DashboardValueTask(getContext(), values -> {
-            if (isAdded() && values != null && values.length == 7) {
+            if (isAdded() && values != null && values.length == 8) {
                 totalCountLabel.setText(values[0].getValue());
-                hyperglycemiaCountLabel.setText(values[1].getValue());
-                hypoglycemiaCountLabel.setText(values[2].getValue());
-                averageDayLabel.setText(values[3].getValue());
-                averageWeekLabel.setText(values[4].getValue());
-                averageMonthLabel.setText(values[5].getValue());
+                targetCountLabel.setText(values[1].getValue());
+                hyperglycemiaCountLabel.setText(values[2].getValue());
+                hypoglycemiaCountLabel.setText(values[3].getValue());
+                averageDayLabel.setText(values[4].getValue());
+                averageWeekLabel.setText(values[5].getValue());
+                averageMonthLabel.setText(values[6].getValue());
 
-                DashboardValue hba1c = values[6];
+                DashboardValue hba1c = values[7];
                 hba1cLabel.setText(hba1c.getKey());
                 hba1cValue.setText(hba1c.getValue());
                 if (hba1c.getEntry() != null) {

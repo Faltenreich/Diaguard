@@ -159,6 +159,7 @@
     <string name="systolic">Systolic</string>
     <string name="systolic_acronym" translatable="false">syst.</string>
     <string name="target_area">Target area</string>
+    <string name="target">Target</string>
     <string name="timeline">Timeline</string>
     <string name="to">to</string>
     <string name="today">Today</string>

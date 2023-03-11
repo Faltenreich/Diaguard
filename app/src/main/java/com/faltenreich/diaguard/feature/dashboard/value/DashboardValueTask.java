@@ -21,6 +21,7 @@ public class DashboardValueTask extends BaseAsyncTask<Void, Void, DashboardValue
         List<BloodSugar> bloodSugars = getBloodSugarOfToday();
         return new DashboardValue[] {
             new BloodSugarCountDashboardValue(getContext(), bloodSugars),
+            new BloodSugarTargetCountDashboardValue(getContext(), bloodSugars),
             new BloodSugarHyperCountDashboardValue(getContext(), bloodSugars),
             new BloodSugarHypoCountDashboardValue(getContext(), bloodSugars),
             new BloodSugarAverageDayDashboardValue(getContext()),

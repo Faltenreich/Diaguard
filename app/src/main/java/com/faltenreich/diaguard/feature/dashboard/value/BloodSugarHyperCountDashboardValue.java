@@ -15,7 +15,10 @@ class BloodSugarHyperCountDashboardValue implements DashboardValue {
 
     BloodSugarHyperCountDashboardValue(Context context, List<BloodSugar> bloodSugars) {
         key = context.getString(R.string.hyper);
-        value = Integer.toString(countHypers(bloodSugars));
+        value = context.getString(
+            R.string.dashboard_percentage,
+            100 * (float) countHypers(bloodSugars) / (float) bloodSugars.size()
+        );
     }
 
     @Override
@@ -29,10 +32,11 @@ class BloodSugarHyperCountDashboardValue implements DashboardValue {
     }
 
     private int countHypers(List<BloodSugar> bloodSugars) {
+        float limit = PreferenceStore.getInstance().getLimitHyperglycemia();
         int hyperCount = 0;
         for (BloodSugar bloodSugar : bloodSugars) {
             float mgDl = bloodSugar.getMgDl();
-            if (mgDl > PreferenceStore.getInstance().getLimitHyperglycemia()) {
+            if (mgDl > limit) {
                 hyperCount++;
             }
         }

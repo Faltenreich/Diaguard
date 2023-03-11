@@ -544,6 +544,7 @@
     <string name="layout">Layout</string>
     <string name="cgm" translatable="false">CGM</string>
     <string name="cgm_xdrip" translatable="false">xDrip</string>
-    <string name="cgm_xdrip_desc" translatable="false">Log data targeting xDrip</string>
+    <string name="cgm_xdrip_desc">Log data targeting xDrip</string>
+    <string name="dashboard_percentage">%.0f%%</string>
 
 </resources>

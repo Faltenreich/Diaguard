@@ -371,5 +371,7 @@
     <string name="timeline_show_dots_desc">Messungen mit Punkten markieren (Deaktivieren dieser Funktion verhindert das Hervorheben von Extremwerten)</string>
     <string name="timeline_show_lines">Linien anzeigen</string>
     <string name="timeline_show_lines_desc">Messungen mit Linien verbinden</string>
+    <string name="cgm_xdrip_desc">Daten für xDrip mitschneiden</string>
+    <string name="dashboard_percentage">%.0f %%</string>
 
 </resources>

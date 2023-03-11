@@ -657,4 +657,10 @@ public class PreferenceStore {
     public boolean showBrandedFood() {
         return sharedPreferences.getBoolean(getKey(R.string.preference_food_show_branded), true);
     }
+
+    // CGM
+
+    public boolean readCgmDataFromXDrip() {
+        return sharedPreferences.getBoolean(getKey(R.string.preference_cgm_xdrip), false);
+    }
 }

@@ -543,5 +543,7 @@
     <string name="timeline_show_lines_desc">Connect measurements with lines</string>
     <string name="layout">Layout</string>
     <string name="cgm" translatable="false">CGM</string>
+    <string name="cgm_xdrip" translatable="false">xDrip</string>
+    <string name="cgm_xdrip_desc" translatable="false">Read data directed to xDrip</string>
 
 </resources>

@@ -53,6 +53,9 @@
 
     <string name="preference_input_queries">inputQueries</string>
 
+    <string name="preference_cgm">cgm</string>
+    <string name="preference_cgm_xdrip">cgmXDrip</string>
+
     <!-- Export -->
     <string name="preference_export_pdf_style">exportPdfStyle</string>
     <string name="preference_include_calendar_week">exportHeader</string>

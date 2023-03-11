@@ -27,6 +27,7 @@ public class DashboardValueTask extends BaseAsyncTask<Void, Void, DashboardValue
             new BloodSugarAverageDayDashboardValue(getContext()),
             new BloodSugarAverageWeekDashboardValue(getContext()),
             new BloodSugarAverageMonthDashboardValue(getContext()),
+            new BloodSugarAverageQuarterDashboardValue(getContext()),
             new HbA1cDashboardValue(getContext())
         };
     }

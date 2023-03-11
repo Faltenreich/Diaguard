@@ -65,6 +65,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     private TextView averageDayLabel;
     private TextView averageWeekLabel;
     private TextView averageMonthLabel;
+    private TextView averageQuarterLabel;
 
     private ViewGroup trendLayout;
     private LineChart chartView;
@@ -117,6 +118,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
         averageDayLabel = getBinding().averageDayLabel;
         averageWeekLabel = getBinding().averageWeekLabel;
         averageMonthLabel = getBinding().averageMonthLabel;
+        averageQuarterLabel = getBinding().averageQuarterLabel;
 
         trendLayout = getBinding().trendLayout;
         chartView = getBinding().chartView;
@@ -217,7 +219,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
     private void updateDashboard() {
         new DashboardValueTask(getContext(), values -> {
-            if (isAdded() && values != null && values.length == 8) {
+            if (isAdded() && values != null && values.length == 9) {
                 totalCountLabel.setText(values[0].getValue());
                 targetCountLabel.setText(values[1].getValue());
                 hyperglycemiaCountLabel.setText(values[2].getValue());
@@ -225,8 +227,9 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
                 averageDayLabel.setText(values[4].getValue());
                 averageWeekLabel.setText(values[5].getValue());
                 averageMonthLabel.setText(values[6].getValue());
+                averageQuarterLabel.setText(values[7].getValue());
 
-                DashboardValue hba1c = values[7];
+                DashboardValue hba1c = values[8];
                 hba1cLabel.setText(hba1c.getKey());
                 hba1cValue.setText(hba1c.getValue());
                 if (hba1c.getEntry() != null) {

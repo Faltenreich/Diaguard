@@ -290,6 +290,26 @@
 
                         </TableRow>
 
+                        <TableRow style="@style/BoxRow">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:text="@string/quarter" />
+
+                            <TextView
+                                android:id="@+id/average_quarter_label"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/placeholder"
+                                android:textColor="?android:attr/textColorPrimary"
+                                style="@style/NumberResizeable"/>
+
+                        </TableRow>
+
                     </TableLayout>
 
                 </LinearLayout>

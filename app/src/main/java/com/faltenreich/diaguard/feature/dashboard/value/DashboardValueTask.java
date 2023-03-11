@@ -15,7 +15,7 @@ import java.util.List;
 public class DashboardValueTask extends BaseAsyncTask<Void, Void, DashboardValue[]> {
 
     public DashboardValueTask(
-        Context context,2
+        Context context,
         OnAsyncProgressListener<DashboardValue[]> onAsyncProgressListener
     ) {
         super(context, onAsyncProgressListener);

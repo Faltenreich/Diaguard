@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.feature.dashboard.value;
 import android.content.Context;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 
 import java.util.List;
@@ -13,10 +12,16 @@ class BloodSugarTargetCountDashboardValue implements DashboardValue {
     private final String key;
     private final String value;
 
-    BloodSugarTargetCountDashboardValue(Context context, List<BloodSugar> bloodSugars) {
+    BloodSugarTargetCountDashboardValue(
+        Context context,
+        List<BloodSugar> total,
+        List<BloodSugar> target
+    ) {
         key = context.getString(R.string.hyper);
-        value = bloodSugars.size() > 0
-            ? context.getString(R.string.dashboard_percentage, getPercentage(bloodSugars))
+        value = total.size() > 0
+            ? context.getString(
+                R.string.dashboard_percentage,
+            100 * (float) target.size() / (float) total.size())
             : context.getString(R.string.placeholder);
     }
 
@@ -28,22 +33,5 @@ class BloodSugarTargetCountDashboardValue implements DashboardValue {
     @Override
     public String getValue() {
         return value;
-    }
-
-    private float getPercentage(List<BloodSugar> bloodSugars) {
-        return 100 * (float) getCount(bloodSugars) / (float) bloodSugars.size();
-    }
-
-    private int getCount(List<BloodSugar> bloodSugars) {
-        float limitHypo = PreferenceStore.getInstance().getLimitHypoglycemia();
-        float limitHyper = PreferenceStore.getInstance().getLimitHyperglycemia();
-        int targetCount = 0;
-        for (BloodSugar bloodSugar : bloodSugars) {
-            float mgDl = bloodSugar.getMgDl();
-            if (mgDl >= limitHypo && mgDl <= limitHyper) {
-                targetCount++;
-            }
-        }
-        return targetCount;
     }
 }

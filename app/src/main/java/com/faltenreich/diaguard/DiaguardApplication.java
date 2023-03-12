@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
-import com.faltenreich.diaguard.feature.alarm.NotificationUtils;
+import com.faltenreich.diaguard.feature.notification.NotificationUtils;
 import com.faltenreich.diaguard.feature.cgm.xdrip.XDripBroadcastReceiver;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.Database;

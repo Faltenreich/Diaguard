@@ -1,8 +1,6 @@
-package com.faltenreich.diaguard.feature.alarm;
+package com.faltenreich.diaguard.feature.notification;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +8,9 @@ import android.media.RingtoneManager;
 import android.os.Build;
 
 import androidx.annotation.StringRes;
+import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.navigation.MainActivity;
@@ -26,32 +26,32 @@ import org.joda.time.DateTimeConstants;
 public class NotificationUtils {
 
     private static final int ALARM_NOTIFICATION_ID = 34248273;
-    private static final String GENERAL_NOTIFICATION_CHANNEL_ID = "diaguard_general";
-    private static final int VIBRATION_DURATION_IN_MILLIS = DateTimeConstants.MILLIS_PER_SECOND;
     private static final int CGM_NOTIFICATION_ID = 34248274;
-    private static final String CGM_NOTIFICATION_CHANNEL_ID = "diaguard_cgm";
+    private static final int VIBRATION_DURATION_IN_MILLIS = DateTimeConstants.MILLIS_PER_SECOND;
 
-    private static NotificationManager getNotificationManager(Context context) {
-        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-    }
-
-    private static boolean shouldNotificationVibrate(Context context) {
-        return android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O || getNotificationManager(context).getNotificationChannel(GENERAL_NOTIFICATION_CHANNEL_ID).shouldVibrate();
+    private static NotificationManagerCompat getNotificationManager(Context context) {
+        return NotificationManagerCompat.from(context);
     }
 
     public static void setupNotifications(Context context) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationManager notificationManager = getNotificationManager(context);
-            NotificationChannel notificationChannel = new NotificationChannel(GENERAL_NOTIFICATION_CHANNEL_ID, context.getString(R.string.general), NotificationManager.IMPORTANCE_DEFAULT);
-            notificationChannel.enableVibration(true);
-            notificationManager.createNotificationChannel(notificationChannel);
+        for (NotificationChannel notificationChannel : NotificationChannel.values()) {
+            if (notificationChannel.isActive()) {
+                NotificationChannelCompat notificationChannelCompat = new NotificationChannelCompat.Builder(
+                    notificationChannel.getId(),
+                    notificationChannel.getImportance())
+                    .setName(context.getString(notificationChannel.getLabelRes()))
+                    .setVibrationEnabled(notificationChannel.enableVibration())
+                    .build();
+                getNotificationManager(context).createNotificationChannel(notificationChannelCompat);
+            }
         }
     }
 
     public static void showNotification(Context context, @StringRes int titleResId, String message) {
+        NotificationChannel notificationChannel = NotificationChannel.ALARM;
         String title = context.getString(titleResId);
         NotificationCompat.Builder builder =
-            new NotificationCompat.Builder(context, GENERAL_NOTIFICATION_CHANNEL_ID)
+            new NotificationCompat.Builder(context, notificationChannel.getId())
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -60,7 +60,7 @@ public class NotificationUtils {
                 .setSound(PreferenceStore.getInstance().isSoundAllowed()
                     ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION) 
                     : null)
-                .setVibrate(shouldNotificationVibrate(context) && PreferenceStore.getInstance().isVibrationAllowed()
+                .setVibrate(notificationChannel.enableVibration() && PreferenceStore.getInstance().isVibrationAllowed()
                     ? new long[]{VIBRATION_DURATION_IN_MILLIS}
                     : null);
 
@@ -77,17 +77,18 @@ public class NotificationUtils {
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_ONLY_ALERT_ONCE | Notification.FLAG_AUTO_CANCEL;
 
-        NotificationManager notificationManager = getNotificationManager(context);
-        notificationManager.notify(ALARM_NOTIFICATION_ID, notification);
+        getNotificationManager(context).notify(ALARM_NOTIFICATION_ID, notification);
     }
 
     public static void updateOngoingNotification(Context context, String title) {
-        Notification notification = new NotificationCompat.Builder(context, CGM_NOTIFICATION_CHANNEL_ID)
+        // TODO: Make silent
+        NotificationChannel notificationChannel = NotificationChannel.ALARM;
+        Notification notification = new NotificationCompat.Builder(context, notificationChannel.getId())
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setTicker(title)
             .setOngoing(true)
             .build();
-        NotificationManager notificationManager = getNotificationManager(context);
-        notificationManager.notify(CGM_NOTIFICATION_ID, notification);
+        // getNotificationManager(context).notify(CGM_NOTIFICATION_ID, notification);
     }
 }

@@ -53,7 +53,7 @@
         <receiver android:name=".feature.alarm.AlarmBroadcastReceiver" />
 
         <receiver
-            android:name=".feature.cgm.xdrip.xDripBroadcastReceiver"
+            android:name=".feature.cgm.xdrip.XDripBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

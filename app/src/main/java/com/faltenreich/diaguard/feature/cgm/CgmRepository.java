@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.feature.cgm;
 
+import android.content.Context;
+
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
@@ -13,7 +15,7 @@ public class CgmRepository {
    private final EntryDao entryDao = EntryDao.getInstance();
    private final MeasurementDao measurementDao =  MeasurementDao.getInstance(BloodSugar.class);
 
-   public void storeData(CgmData cgmData) {
+   public void storeData(Context context, CgmData cgmData) {
       Entry entry = new Entry();
       entry.setDate(cgmData.getDateTime());
       entry.setSource(Entry.Source.CGM);

@@ -12,9 +12,9 @@ import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 
 import org.joda.time.DateTime;
 
-class xDripMapper {
+class XDripMapper {
 
-   private static final String TAG = xDripMapper.class.getSimpleName();
+   private static final String TAG = XDripMapper.class.getSimpleName();
 
    private static final String ACTION = "glucodata.Minute";
    private static final String ALARM_BIT_MASK = "glucodata.Minute.Alarm";

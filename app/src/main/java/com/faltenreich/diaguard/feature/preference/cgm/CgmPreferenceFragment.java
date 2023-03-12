@@ -4,15 +4,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.cgm.xdrip.xDripRepository;
+import com.faltenreich.diaguard.feature.cgm.xdrip.XDripBroadcastReceiver;
 import com.faltenreich.diaguard.feature.preference.PreferenceFragment;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 
 public class CgmPreferenceFragment extends PreferenceFragment
     implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-    private final PreferenceStore preferenceStore = PreferenceStore.getInstance();
-    private final xDripRepository xDripRepository = new xDripRepository();
 
     public CgmPreferenceFragment() {
         super(R.xml.preferences_cgm, R.string.cgm);
@@ -33,8 +29,7 @@ public class CgmPreferenceFragment extends PreferenceFragment
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(getString(R.string.preference_cgm_xdrip))) {
-            boolean shouldReadCgmDataFromXDrip = preferenceStore.shouldReadCgmDataFromXDrip();
-            xDripRepository.toggleBroadcastReceiver(requireContext(), shouldReadCgmDataFromXDrip);
+            XDripBroadcastReceiver.invalidate(requireContext());
         }
     }
 }

@@ -56,7 +56,6 @@
     <string name="export_progress">PDF est créé</string>
     <string name="export_page">Page %d</string>
     <string name="export_stamp">Rapport généré sur</string>
-    <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
     <string name="food_add">Ajouter l\'aliment</string>
     <string name="food_add_desc">Ajouter l\'aliment</string>

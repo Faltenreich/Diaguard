@@ -93,7 +93,6 @@
     <string name="export_page">Page %d</string>
     <string name="export_stamp">Report generated on</string>
     <string name="facebook" translatable="false">Facebook</string>
-    <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
     <string name="food">Food</string>
     <string name="food_add">Add food</string>

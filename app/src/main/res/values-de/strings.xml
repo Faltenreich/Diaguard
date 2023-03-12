@@ -67,7 +67,6 @@
     <string name="export_progress">PDF wird erstellt</string>
     <string name="export_page">Seite %d</string>
     <string name="export_stamp">Bericht generiert am</string>
-    <string name="first_visit">Neu hier?</string>
     <string name="first_visit_desc">Ersten Wert eintragen</string>
     <string name="food">Lebensmittel</string>
     <string name="food_add">Lebensmittel hinzufügen</string>

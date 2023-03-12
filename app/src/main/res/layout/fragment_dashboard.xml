@@ -28,42 +28,47 @@
             app:cardElevation="2dp"
             app:cardUseCompatPadding="true">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 style="@style/Padding"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/latest_value_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/first_visit"
+                    android:text="@string/placeholder"
                     android:textColor="?colorPrimary"
-                    android:textSize="32sp"/>
+                    android:textSize="54sp"
+                    tools:text="120"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/latest_value_unit_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="@dimen/padding">
+                    android:textColor="?android:textColorSecondary"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginLeft="@dimen/padding"
+                    android:layout_marginBottom="@dimen/margin_between_large"
+                    tools:text="@string/bloodsugar_units_default"
+                    app:layout_constraintStart_toEndOf="@id/latest_value_label"
+                    app:layout_constraintBottom_toBottomOf="@id/latest_value_label" />
 
-                    <TextView
-                        android:id="@+id/latest_time_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="@string/first_visit_desc"/>
+                <TextView
+                    android:id="@+id/latest_ago_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/latest_value_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginBottom="@dimen/padding"
+                    tools:text="@string/latest_moments"/>
 
-                    <TextView
-                        android:id="@+id/latest_ago_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 

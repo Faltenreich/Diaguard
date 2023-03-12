@@ -39,9 +39,10 @@ public class CgmRepository {
 
    public void updateNotification(Context context, BloodSugar bloodSugar) {
       float value = preferenceStore.formatDefaultToCustomUnit(Category.BLOODSUGAR, bloodSugar.getMgDl());
-      String title = String.format("%s %s",
+      String title = String.format("%s %s %s",
           FloatUtils.parseFloat(value),
-          preferenceStore.getUnitAcronym(Category.BLOODSUGAR)
+          preferenceStore.getUnitAcronym(Category.BLOODSUGAR),
+          bloodSugar.getTrend() != null ? bloodSugar.getTrend().unicodeIcon : ""
       );
       NotificationUtils.updateOngoingNotification(context, title);
    }

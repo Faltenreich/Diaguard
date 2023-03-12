@@ -40,7 +40,8 @@ public class NotificationUtils {
                     notificationChannel.getId(),
                     notificationChannel.getImportance())
                     .setName(context.getString(notificationChannel.getLabelRes()))
-                    .setVibrationEnabled(notificationChannel.enableVibration())
+                    .setVibrationEnabled(!notificationChannel.isOngoing())
+                    .setShowBadge(!notificationChannel.isOngoing())
                     .build();
                 getNotificationManager(context).createNotificationChannel(notificationChannelCompat);
             }
@@ -60,7 +61,7 @@ public class NotificationUtils {
                 .setSound(PreferenceStore.getInstance().isSoundAllowed()
                     ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION) 
                     : null)
-                .setVibrate(notificationChannel.enableVibration() && PreferenceStore.getInstance().isVibrationAllowed()
+                .setVibrate(!notificationChannel.isOngoing() && PreferenceStore.getInstance().isVibrationAllowed()
                     ? new long[]{VIBRATION_DURATION_IN_MILLIS}
                     : null);
 
@@ -81,14 +82,12 @@ public class NotificationUtils {
     }
 
     public static void updateOngoingNotification(Context context, String title) {
-        // TODO: Make silent
-        NotificationChannel notificationChannel = NotificationChannel.ALARM;
+        NotificationChannel notificationChannel = NotificationChannel.CGM;
         Notification notification = new NotificationCompat.Builder(context, notificationChannel.getId())
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
-            .setTicker(title)
             .setOngoing(true)
             .build();
-        // getNotificationManager(context).notify(CGM_NOTIFICATION_ID, notification);
+        getNotificationManager(context).notify(CGM_NOTIFICATION_ID, notification);
     }
 }

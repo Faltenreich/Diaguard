@@ -10,24 +10,24 @@ import com.faltenreich.diaguard.feature.config.ApplicationConfig;
 
 public enum NotificationChannel {
 
-   ALARM("alarm", R.string.alarm, NotificationManagerCompat.IMPORTANCE_DEFAULT, true),
-   CGM("cgm", R.string.cgm, NotificationManagerCompat.IMPORTANCE_MIN, false);
+   ALARM("alarm", R.string.alarm, NotificationManagerCompat.IMPORTANCE_DEFAULT, false),
+   CGM("cgm", R.string.cgm, NotificationManagerCompat.IMPORTANCE_LOW, true);
 
    private final String id;
    private final int labelRes;
    private final int importance;
-   private final boolean enableVibration;
+   private final boolean isOngoing;
 
    NotificationChannel(
        String id,
        @StringRes int labelRes,
        int importance,
-       boolean enableVibration
+       boolean isOngoing
    ) {
       this.id = id;
       this.labelRes = labelRes;
       this.importance = importance;
-      this.enableVibration = enableVibration;
+      this.isOngoing = isOngoing;
    }
 
    public String getId() {
@@ -43,8 +43,8 @@ public enum NotificationChannel {
       return importance;
    }
 
-   public boolean enableVibration() {
-      return enableVibration;
+   public boolean isOngoing() {
+      return isOngoing;
    }
 
    public boolean isActive() {

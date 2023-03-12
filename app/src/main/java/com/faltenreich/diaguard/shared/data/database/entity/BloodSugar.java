@@ -20,20 +20,23 @@ public class BloodSugar extends Measurement {
     }
 
     public enum Trend {
-        FALLING_QUICKLY(R.string.trend_falling_quickly, R.drawable.ic_arrow_down),
-        FALLING(R.string.trend_falling, R.drawable.ic_arrow_down_right),
-        STEADY(R.string.trend_steady, R.drawable.ic_arrow_forward),
-        RISING(R.string.trend_rising, R.drawable.ic_arrow_up_right),
-        RISING_QUICKLY(R.string.trend_rising_quickly, R.drawable.ic_arrow_up);
+        FALLING_QUICKLY(R.string.trend_falling_quickly, "↓", R.drawable.ic_arrow_down),
+        FALLING(R.string.trend_falling, "↘", R.drawable.ic_arrow_down_right),
+        STEADY(R.string.trend_steady, "→", R.drawable.ic_arrow_forward),
+        RISING(R.string.trend_rising, "↗", R.drawable.ic_arrow_up_right),
+        RISING_QUICKLY(R.string.trend_rising_quickly, "↑", R.drawable.ic_arrow_up);
 
         @StringRes public final int titleRes;
+        public final String unicodeIcon;
         @DrawableRes public final int iconRes;
 
         Trend(
             @StringRes int titleRes,
+            String unicodeIcon,
             @DrawableRes int iconRes
         ) {
             this.titleRes = titleRes;
+            this.unicodeIcon = unicodeIcon;
             this.iconRes = iconRes;
         }
     }

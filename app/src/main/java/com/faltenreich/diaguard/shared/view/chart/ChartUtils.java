@@ -25,7 +25,7 @@ public class ChartUtils {
     public static final int NO_DATA_TEXT_RESOURCE_ID = R.string.no_data;
     public static final int NO_DATA_COLOR_RESOURCE_ID = R.color.gray_darker;
 
-    public static final float LINE_WIDTH = 2;
+    public static final float LINE_WIDTH = 1;
 
     private static final float VIEW_PORT_OFFSET = 10;
     private static final float TEXT_SIZE = 14;

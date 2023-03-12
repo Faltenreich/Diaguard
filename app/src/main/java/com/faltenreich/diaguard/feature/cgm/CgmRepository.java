@@ -1,6 +1,10 @@
 package com.faltenreich.diaguard.feature.cgm;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.faltenreich.diaguard.feature.notification.NotificationUtils;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -38,12 +42,33 @@ public class CgmRepository {
    }
 
    public void updateNotification(Context context, BloodSugar bloodSugar) {
-      float value = preferenceStore.formatDefaultToCustomUnit(Category.BLOODSUGAR, bloodSugar.getMgDl());
+      float mgDl = bloodSugar.getMgDl();
+      float mgDlNormalized = preferenceStore.formatDefaultToCustomUnit(Category.BLOODSUGAR, mgDl);
+      String mgDlAsText = FloatUtils.parseFloat(mgDlNormalized);
       String title = String.format("%s %s %s",
-          FloatUtils.parseFloat(value),
+          mgDlAsText,
           preferenceStore.getUnitAcronym(Category.BLOODSUGAR),
           bloodSugar.getTrend() != null ? bloodSugar.getTrend().unicodeIcon : ""
       );
-      NotificationUtils.updateOngoingNotification(context, title);
+
+      // TODO: Check dimensions
+      final int width = (int) context.getResources().getDimension(android.R.dimen.notification_large_icon_width);
+      final int height = (int) context.getResources().getDimension(android.R.dimen.notification_large_icon_height);
+      Bitmap icon = textAsBitmap(mgDlAsText, width, Color.WHITE);
+      NotificationUtils.updateOngoingNotification(context, title, icon);
+   }
+
+   public Bitmap textAsBitmap(String text, float textSize, int textColor) {
+      Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+      paint.setTextSize(textSize);
+      paint.setColor(textColor);
+      paint.setTextAlign(Paint.Align.LEFT);
+      float baseline = -paint.ascent(); // ascent() is negative
+      int width = (int) (paint.measureText(text) + 0.5f); // round
+      int height = (int) (baseline + paint.descent() + 0.5f);
+      Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+      Canvas canvas = new Canvas(image);
+      canvas.drawText(text, 0, baseline, paint);
+      return image;
    }
 }

@@ -132,19 +132,26 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     private void upgradeToVersion24(SQLiteDatabase sqLiteDatabase) {
-        String query = String.format("ALTER TABLE \'%s\' ADD COLUMN %s %s",
+        // Add source to Entry
+        sqLiteDatabase.execSQL(String.format("ALTER TABLE \'%s\' ADD COLUMN %s %s",
             DatabaseHelper.ENTRY,
             Entry.Column.SOURCE,
             DataType.ENUM_STRING.getDataPersister().getSqlType()
-        );
-        sqLiteDatabase.execSQL(query);
+        ));
+        // Add trend to BloodSugar
+        sqLiteDatabase.execSQL(String.format("ALTER TABLE bloodsugar ADD COLUMN %s %s",
+            BloodSugar.Column.TREND,
+            DataType.ENUM_STRING.getDataPersister().getSqlType()
+        ));
     }
 
 
     private void upgradeToVersion23(SQLiteDatabase sqLiteDatabase) {
         // Food.imageUrl should be removed but column dropping is not supported in SQLite
-        String query = String.format("ALTER TABLE \'%s\' ADD COLUMN %s TEXT", DatabaseHelper.FOOD, Food.Column.DELETED_AT);
-        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.execSQL(String.format("ALTER TABLE \'%s\' ADD COLUMN %s TEXT",
+            DatabaseHelper.FOOD,
+            Food.Column.DELETED_AT
+        ));
         ImageLoader.getInstance().clearDiskCache(context);
     }
 

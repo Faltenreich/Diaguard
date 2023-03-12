@@ -21,6 +21,7 @@ public class CgmRepository {
 
       BloodSugar bloodSugar = new BloodSugar();
       bloodSugar.setMgDl(cgmData.getGlucoseInMgDl());
+      bloodSugar.setTrend(cgmData.getTrend());
       bloodSugar.setEntry(entry);
       measurementDao.createOrUpdate(bloodSugar);
 

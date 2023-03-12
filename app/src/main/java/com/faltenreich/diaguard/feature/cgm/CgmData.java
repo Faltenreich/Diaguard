@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.shared.Helper;
+import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 
 import org.joda.time.DateTime;
 
@@ -12,14 +13,14 @@ public class CgmData {
    @NonNull private final String sensorSerialNumber;
    @NonNull private final DateTime dateTime;
    private final int glucoseInMgDl;
-   @Nullable private final CgmTrend trend;
+   @Nullable private final BloodSugar.Trend trend;
    @Nullable private final CgmAlarm alarm;
 
    public CgmData(
        @NonNull String sensorSerialNumber,
        @NonNull DateTime dateTime,
        int glucoseInMgDl,
-       @Nullable CgmTrend trend,
+       @Nullable BloodSugar.Trend trend,
        @Nullable CgmAlarm alarm
     ) {
       this.sensorSerialNumber = sensorSerialNumber;
@@ -44,7 +45,7 @@ public class CgmData {
    }
 
    @Nullable
-   public CgmTrend getTrend() {
+   public BloodSugar.Trend getTrend() {
       return trend;
    }
 

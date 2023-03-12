@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.feature.cgm.CgmData;
 import com.faltenreich.diaguard.feature.cgm.CgmAlarm;
-import com.faltenreich.diaguard.feature.cgm.CgmTrend;
+import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 
 import org.joda.time.DateTime;
 
@@ -39,7 +39,7 @@ class xDripMapper {
       }
       DateTime dateTime = new DateTime(timeInMillis);
       int glucoseInMgDl = extras.getInt(GLUCOSE_IN_MG_DL);
-      CgmTrend trend = mapTrend(extras.getFloat(RATE_OF_CHANGE));
+      BloodSugar.Trend trend = mapTrend(extras.getFloat(RATE_OF_CHANGE));
       CgmAlarm alarmIndicator = mapAlarm(extras.getInt(ALARM_BIT_MASK));
 
       return new CgmData(
@@ -52,23 +52,23 @@ class xDripMapper {
    }
 
    @Nullable
-   private CgmTrend mapTrend(float rateOfChange) {
+   private BloodSugar.Trend mapTrend(float rateOfChange) {
       if (rateOfChange <= -2.0f) {
-         return CgmTrend.FALLING_QUICKLY;
+         return BloodSugar.Trend.FALLING_QUICKLY;
       }
       if (rateOfChange <= -1.0f) {
-         return CgmTrend.FALLING;
+         return BloodSugar.Trend.FALLING;
       }
       if (rateOfChange <= 1.0f) {
-         return CgmTrend.STEADY;
+         return BloodSugar.Trend.STEADY;
       }
       if (rateOfChange <= 2.0f) {
-         return CgmTrend.RISING;
+         return BloodSugar.Trend.RISING;
       }
       if (Float.isNaN(rateOfChange)) {
          return null;
       }
-      return CgmTrend.RISING_QUICKLY;
+      return BloodSugar.Trend.RISING_QUICKLY;
    }
 
    @Nullable

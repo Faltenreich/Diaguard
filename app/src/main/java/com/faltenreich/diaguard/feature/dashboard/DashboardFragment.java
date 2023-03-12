@@ -53,7 +53,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
     private ViewGroup latestLayout;
     private TextView latestValueLabel;
-    private TextView latestValueUnitLabel;
+    private ImageView latestTrendImageView;
     private TextView latestAgoLabel;
 
     private ViewGroup todayLayout;
@@ -106,7 +106,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     private void bindViews() {
         latestLayout = getBinding().latestLayout;
         latestValueLabel = getBinding().latestValueLabel;
-        latestValueUnitLabel = getBinding().latestValueUnitLabel;
+        latestTrendImageView = getBinding().latestTrendImageView;
         latestAgoLabel = getBinding().latestAgoLabel;
 
         todayLayout = getBinding().todayLayout;
@@ -181,7 +181,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
             // Value
             latestValueLabel.setText(bloodSugar.toString());
-            latestValueUnitLabel.setText(PreferenceStore.getInstance().getUnitAcronym(Category.BLOODSUGAR));
+            latestTrendImageView.setImageResource(R.drawable.ic_arrow_back);
 
             // Highlighting
             if (PreferenceStore.getInstance().limitsAreHighlighted()) {
@@ -204,7 +204,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
         } else {
             latestValueLabel.setText(R.string.placeholder);
             latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-            latestValueUnitLabel.setText(null);
+            latestTrendImageView.setImageDrawable(null);
 
             latestAgoLabel.setText(R.string.first_visit_desc);
             latestAgoLabel.setTextColor(ColorUtils.getTextColorSecondary(getContext()));

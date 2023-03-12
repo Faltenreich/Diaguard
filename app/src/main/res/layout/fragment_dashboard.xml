@@ -21,9 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:clickable="true"
+            android:contentDescription="@string/measurement_latest"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:contentDescription="@string/measurement_latest"
             app:cardCornerRadius="4dp"
             app:cardElevation="2dp"
             app:cardUseCompatPadding="true">
@@ -40,33 +40,33 @@
                     android:text="@string/placeholder"
                     android:textColor="?colorPrimary"
                     android:textSize="54sp"
-                    tools:text="120"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="120" />
 
-                <TextView
-                    android:id="@+id/latest_value_unit_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?android:textColorSecondary"
-                    android:layout_marginStart="@dimen/padding"
-                    android:layout_marginLeft="@dimen/padding"
-                    android:layout_marginBottom="@dimen/margin_between_large"
-                    tools:text="@string/bloodsugar_units_default"
+                <ImageView
+                    android:id="@+id/latest_trend_image_view"
+                    android:layout_width="@dimen/size_image_small"
+                    android:layout_height="@dimen/size_image_small"
+                    android:layout_margin="@dimen/padding"
+                    android:contentDescription="@string/trend"
                     app:layout_constraintStart_toEndOf="@id/latest_value_label"
-                    app:layout_constraintBottom_toBottomOf="@id/latest_value_label" />
+                    app:layout_constraintTop_toTopOf="@id/latest_value_label"
+                    app:layout_constraintBottom_toBottomOf="@id/latest_value_label"
+                    tools:src="@drawable/ic_arrow_back"
+                    tools:tint="@color/green" />
 
                 <TextView
                     android:id="@+id/latest_ago_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/latest_value_label"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginBottom="@dimen/padding"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="@dimen/padding"
-                    tools:text="@string/latest_moments"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/latest_value_label"
+                    tools:text="@string/latest_moments" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -92,9 +92,9 @@
                 android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:contentDescription="@string/today"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/today"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="2dp"
                 app:cardUseCompatPadding="true">
@@ -110,7 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/today"
-                        android:textColor="?colorPrimary"/>
+                        android:textColor="?colorPrimary" />
 
                     <TableLayout
                         android:layout_width="match_parent"
@@ -126,13 +126,13 @@
 
                             <TextView
                                 android:id="@+id/total_count_label"
+                                style="@style/NumberResizeable"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:textColor="?android:attr/textColorPrimary"
-                                tools:text="0"
-                                style="@style/NumberResizeable"/>
+                                tools:text="0" />
 
                         </TableRow>
 
@@ -146,13 +146,13 @@
 
                             <TextView
                                 android:id="@+id/target_count_label"
+                                style="@style/NumberResizeable"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:textColor="?android:attr/textColorPrimary"
-                                tools:text="0"
-                                style="@style/NumberResizeable"/>
+                                tools:text="0" />
 
                         </TableRow>
 
@@ -166,13 +166,13 @@
 
                             <TextView
                                 android:id="@+id/hyperglycemia_count_label"
+                                style="@style/NumberResizeable"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:textColor="?android:attr/textColorPrimary"
-                                tools:text="0"
-                                style="@style/NumberResizeable"/>
+                                tools:text="0" />
 
                         </TableRow>
 
@@ -186,13 +186,13 @@
 
                             <TextView
                                 android:id="@+id/hypoglycemia_count_label"
+                                style="@style/NumberResizeable"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:textColor="?android:attr/textColorPrimary"
-                                tools:text="0"
-                                style="@style/NumberResizeable"/>
+                                tools:text="0" />
 
                         </TableRow>
 
@@ -207,13 +207,13 @@
                 android:id="@+id/average_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
                 android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:contentDescription="@string/average"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/average"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="2dp"
                 app:cardUseCompatPadding="true">
@@ -229,7 +229,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/average"
-                        android:textColor="?colorPrimary"/>
+                        android:textColor="?colorPrimary" />
 
                     <TableLayout
                         android:layout_width="match_parent"
@@ -245,13 +245,13 @@
 
                             <TextView
                                 android:id="@+id/average_day_label"
+                                style="@style/NumberResizeable"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?android:attr/textColorPrimary"
-                                style="@style/NumberResizeable"/>
+                                android:textColor="?android:attr/textColorPrimary" />
 
                         </TableRow>
 
@@ -265,13 +265,13 @@
 
                             <TextView
                                 android:id="@+id/average_week_label"
+                                style="@style/NumberResizeable"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?android:attr/textColorPrimary"
-                                style="@style/NumberResizeable"/>
+                                android:textColor="?android:attr/textColorPrimary" />
 
                         </TableRow>
 
@@ -285,13 +285,13 @@
 
                             <TextView
                                 android:id="@+id/average_month_label"
+                                style="@style/NumberResizeable"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?android:attr/textColorPrimary"
-                                style="@style/NumberResizeable"/>
+                                android:textColor="?android:attr/textColorPrimary" />
 
                         </TableRow>
 
@@ -305,13 +305,13 @@
 
                             <TextView
                                 android:id="@+id/average_quarter_label"
+                                style="@style/NumberResizeable"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?android:attr/textColorPrimary"
-                                style="@style/NumberResizeable"/>
+                                android:textColor="?android:attr/textColorPrimary" />
 
                         </TableRow>
 
@@ -330,9 +330,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:clickable="true"
+            android:contentDescription="@string/hba1c"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:contentDescription="@string/hba1c"
             app:cardCornerRadius="4dp"
             app:cardElevation="2dp"
             app:cardUseCompatPadding="true">
@@ -341,27 +341,27 @@
                 style="@style/Padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/height_element"
                 android:layout_gravity="center"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/height_element"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/hba1c_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/hba1c_estimated"/>
+                    android:text="@string/hba1c_estimated" />
 
                 <TextView
                     android:id="@+id/hba1c_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_between"
+                    android:layout_marginLeft="@dimen/margin_between"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:layout_marginLeft="@dimen/margin_between"
-                    android:layout_marginStart="@dimen/margin_between"
                     android:textColor="?android:attr/textColorPrimary"
-                    tools:text="-"/>
+                    tools:text="-" />
 
             </LinearLayout>
 
@@ -374,9 +374,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:clickable="true"
+            android:contentDescription="@string/trend"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:contentDescription="@string/trend"
             app:cardCornerRadius="4dp"
             app:cardElevation="2dp"
             app:cardUseCompatPadding="true">
@@ -393,7 +393,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
                     android:text="@string/trend"
-                    android:textColor="?colorPrimary"/>
+                    android:textColor="?colorPrimary" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/chart_view"

@@ -181,7 +181,11 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
             // Value
             latestValueLabel.setText(bloodSugar.toString());
-            latestTrendImageView.setImageResource(R.drawable.ic_arrow_back);
+            if (bloodSugar.getTrend() != null) {
+                latestTrendImageView.setImageResource(bloodSugar.getTrend().iconRes);
+            } else {
+                latestTrendImageView.setImageDrawable(null);
+            }
 
             // Highlighting
             if (PreferenceStore.getInstance().limitsAreHighlighted()) {
@@ -203,7 +207,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
             latestAgoLabel.setTextColor(latestAgoLabelTextColor);
         } else {
             latestValueLabel.setText(R.string.placeholder);
-            latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+            latestValueLabel.setTextColor(ColorUtils.getTextColorPrimary(getContext()));
             latestTrendImageView.setImageDrawable(null);
 
             latestAgoLabel.setText(R.string.first_visit_desc);

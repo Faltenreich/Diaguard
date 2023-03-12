@@ -546,5 +546,10 @@
     <string name="cgm_xdrip" translatable="false">xDrip</string>
     <string name="cgm_xdrip_desc">Log data targeting xDrip</string>
     <string name="dashboard_percentage">%.0f%%</string>
+    <string name="trend_falling_quickly">Falling quickly</string>
+    <string name="trend_falling">Falling</string>
+    <string name="trend_steady">Steady</string>
+    <string name="trend_rising">Rising</string>
+    <string name="trend_rising_quickly">Rising quickly</string>
 
 </resources>

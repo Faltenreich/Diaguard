@@ -1,8 +1,11 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -17,11 +20,22 @@ public class BloodSugar extends Measurement {
     }
 
     public enum Trend {
-        FALLING_QUICKLY,
-        FALLING,
-        STEADY,
-        RISING,
-        RISING_QUICKLY
+        FALLING_QUICKLY(R.string.trend_falling_quickly, R.drawable.ic_arrow_down),
+        FALLING(R.string.trend_falling, R.drawable.ic_arrow_down_right),
+        STEADY(R.string.trend_steady, R.drawable.ic_arrow_forward),
+        RISING(R.string.trend_rising, R.drawable.ic_arrow_up_right),
+        RISING_QUICKLY(R.string.trend_rising_quickly, R.drawable.ic_arrow_up);
+
+        @StringRes public final int titleRes;
+        @DrawableRes public final int iconRes;
+
+        Trend(
+            @StringRes int titleRes,
+            @DrawableRes int iconRes
+        ) {
+            this.titleRes = titleRes;
+            this.iconRes = iconRes;
+        }
     }
 
     @DatabaseField(columnName = Column.MGDL)

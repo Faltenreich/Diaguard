@@ -11,7 +11,7 @@ public class XDripRepository {
 
     private static final String TAG = XDripRepository.class.getSimpleName();
 
-    private final CgmRepository repository = new CgmRepository();
+    private final CgmRepository repository = CgmRepository.getInstance();
     private final XDripMapper mapper = new XDripMapper();
 
     public void handleIntent(Context context, Intent intent) {

@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Icon;
 import android.media.RingtoneManager;
 import android.os.Build;
 
@@ -86,11 +85,16 @@ public class NotificationUtils {
 
     public static void updateOngoingNotification(Context context, String title, Bitmap icon) {
         NotificationChannel notificationChannel = NotificationChannel.CGM;
-        Notification notification = new NotificationCompat.Builder(context, notificationChannel.getId())
-            .setSmallIcon(IconCompat.createWithBitmap(icon)) // FIXME: Support API 22 and older
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, notificationChannel.getId())
             .setContentTitle(title)
-            .setOngoing(true)
-            .build();
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setOngoing(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            builder.setSmallIcon(IconCompat.createWithBitmap(icon));
+        } else {
+            builder.setSmallIcon(R.drawable.ic_notification);
+        }
+        Notification notification = builder.build();
         getNotificationManager(context).notify(CGM_NOTIFICATION_ID, notification);
     }
 }

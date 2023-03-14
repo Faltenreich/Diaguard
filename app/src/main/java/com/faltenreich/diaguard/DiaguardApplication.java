@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
+import com.faltenreich.diaguard.feature.cgm.CgmRepository;
 import com.faltenreich.diaguard.feature.notification.NotificationUtils;
 import com.faltenreich.diaguard.feature.cgm.xdrip.XDripBroadcastReceiver;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -46,5 +47,6 @@ public class DiaguardApplication extends Application {
         ThemeUtils.setUiMode(this, theme);
         ImageLoader.getInstance().init(this);
         XDripBroadcastReceiver.invalidate(this);
+        CgmRepository.getInstance().showNotificationIfNeeded(this);
     }
 }

@@ -24,6 +24,17 @@ public class CgmRepository {
    private final MeasurementDao measurementDao =  MeasurementDao.getInstance(BloodSugar.class);
    private final PreferenceStore preferenceStore = PreferenceStore.getInstance();
 
+   private static CgmRepository instance;
+
+   public static CgmRepository getInstance() {
+      if (instance == null) {
+         instance = new CgmRepository();
+      }
+      return instance;
+   }
+
+   private CgmRepository() {}
+
    public void storeData(Context context, CgmData cgmData) {
       Entry entry = new Entry();
       entry.setDate(cgmData.getDateTime());
@@ -41,15 +52,25 @@ public class CgmRepository {
       updateNotification(context, bloodSugar);
    }
 
+   public void showNotificationIfNeeded(Context context) {
+      // TODO: If notification is active
+      // TODO: where source equals CGM
+      Entry latestEntry = entryDao.getLatestWithMeasurement(BloodSugar.class);
+      if (latestEntry != null) {
+         BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
+         if (bloodSugar != null) {
+            updateNotification(context, bloodSugar);
+         }
+      }
+   }
+
    public void updateNotification(Context context, BloodSugar bloodSugar) {
       float mgDl = bloodSugar.getMgDl();
       float mgDlNormalized = preferenceStore.formatDefaultToCustomUnit(Category.BLOODSUGAR, mgDl);
       String mgDlAsText = FloatUtils.parseFloat(mgDlNormalized);
-      String title = String.format("%s %s %s",
-          mgDlAsText,
-          preferenceStore.getUnitAcronym(Category.BLOODSUGAR),
-          bloodSugar.getTrend() != null ? bloodSugar.getTrend().unicodeIcon : ""
-      );
+      String title = bloodSugar.getTrend() != null
+          ? String.format("%s %s", mgDlAsText, bloodSugar.getTrend().unicodeIcon)
+          : mgDlAsText;
 
       // TODO: Check dimensions
       final int width = (int) context.getResources().getDimension(android.R.dimen.notification_large_icon_width);

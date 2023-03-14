@@ -94,6 +94,15 @@ public class NotificationUtils {
         } else {
             builder.setSmallIcon(R.drawable.ic_notification);
         }
+
+        Intent intent  = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+            ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            : PendingIntent.FLAG_UPDATE_CURRENT;
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent , flags);
+        builder.setContentIntent(pendingIntent);
+
         Notification notification = builder.build();
         getNotificationManager(context).notify(CGM_NOTIFICATION_ID, notification);
     }

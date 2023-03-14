@@ -47,6 +47,6 @@ public class DiaguardApplication extends Application {
         ThemeUtils.setUiMode(this, theme);
         ImageLoader.getInstance().init(this);
         XDripBroadcastReceiver.invalidate(this);
-        CgmRepository.getInstance().showNotificationIfNeeded(this);
+        CgmRepository.getInstance().invalidateNotification(this);
     }
 }

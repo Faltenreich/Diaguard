@@ -97,4 +97,8 @@ public class NotificationUtils {
         Notification notification = builder.build();
         getNotificationManager(context).notify(CGM_NOTIFICATION_ID, notification);
     }
+
+    public static void hideOngoingNotification(Context context) {
+        getNotificationManager(context).cancel(CGM_NOTIFICATION_ID);
+    }
 }

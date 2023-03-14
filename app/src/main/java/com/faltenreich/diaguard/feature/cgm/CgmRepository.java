@@ -2,9 +2,7 @@ package com.faltenreich.diaguard.feature.cgm;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 
 import com.faltenreich.diaguard.feature.notification.NotificationUtils;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -16,6 +14,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.shared.image.BitmapUtils;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class CgmRepository {
@@ -49,22 +48,31 @@ public class CgmRepository {
 
       Events.post(new EntryAddedEvent(entry, null, null));
 
-      updateNotification(context, bloodSugar);
+      showNotificationIfNeeded(context, bloodSugar);
    }
 
-   public void showNotificationIfNeeded(Context context) {
-      // TODO: If notification is active
-      // TODO: where source equals CGM
-      Entry latestEntry = entryDao.getLatestWithMeasurement(BloodSugar.class);
-      if (latestEntry != null) {
-         BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
-         if (bloodSugar != null) {
-            updateNotification(context, bloodSugar);
+   public void invalidateNotification(Context context) {
+      if (preferenceStore.showCgmNotification()) {
+         // TODO: where source equals CGM
+         Entry latestEntry = entryDao.getLatestWithMeasurement(BloodSugar.class);
+         if (latestEntry != null) {
+            BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
+            if (bloodSugar != null) {
+               showNotificationIfNeeded(context, bloodSugar);
+            }
          }
+      } else {
+         hideNotification(context);
       }
    }
 
-   public void updateNotification(Context context, BloodSugar bloodSugar) {
+   public void showNotificationIfNeeded(Context context, BloodSugar bloodSugar) {
+      if (preferenceStore.showCgmNotification()) {
+         showNotification(context, bloodSugar);
+      }
+   }
+
+   private void showNotification(Context context, BloodSugar bloodSugar) {
       float mgDl = bloodSugar.getMgDl();
       float mgDlNormalized = preferenceStore.formatDefaultToCustomUnit(Category.BLOODSUGAR, mgDl);
       String mgDlAsText = FloatUtils.parseFloat(mgDlNormalized);
@@ -75,21 +83,11 @@ public class CgmRepository {
       // TODO: Check dimensions
       final int width = (int) context.getResources().getDimension(android.R.dimen.notification_large_icon_width);
       final int height = (int) context.getResources().getDimension(android.R.dimen.notification_large_icon_height);
-      Bitmap icon = textAsBitmap(mgDlAsText, width, Color.WHITE);
+      Bitmap icon = BitmapUtils.createBitmapFromText(mgDlAsText, width, Color.WHITE);
       NotificationUtils.updateOngoingNotification(context, title, icon);
    }
 
-   public Bitmap textAsBitmap(String text, float textSize, int textColor) {
-      Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-      paint.setTextSize(textSize);
-      paint.setColor(textColor);
-      paint.setTextAlign(Paint.Align.LEFT);
-      float baseline = -paint.ascent(); // ascent() is negative
-      int width = (int) (paint.measureText(text) + 0.5f); // round
-      int height = (int) (baseline + paint.descent() + 0.5f);
-      Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-      Canvas canvas = new Canvas(image);
-      canvas.drawText(text, 0, baseline, paint);
-      return image;
+   private void hideNotification(Context context) {
+      NotificationUtils.hideOngoingNotification(context);
    }
 }

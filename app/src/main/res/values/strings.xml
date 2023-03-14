@@ -543,8 +543,11 @@
     <string name="timeline_show_lines_desc">Connect measurements with lines</string>
     <string name="layout">Layout</string>
     <string name="cgm" translatable="false">CGM</string>
+    <string name="cgm_sources">Sources</string>
     <string name="cgm_xdrip" translatable="false">xDrip</string>
-    <string name="cgm_xdrip_desc">Log data targeting xDrip</string>
+    <string name="cgm_xdrip_desc">Capture measurements that are broadcasted to xDrip</string>
+    <string name="cgm_notification">Show notification</string>
+    <string name="cgm_notification_desc">Display latest reading and trend in ongoing notification</string>
     <string name="dashboard_percentage">%.0f%%</string>
     <string name="trend_falling_quickly">Falling quickly</string>
     <string name="trend_falling">Falling</string>

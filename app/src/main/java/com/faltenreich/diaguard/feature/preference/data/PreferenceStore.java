@@ -659,4 +659,8 @@ public class PreferenceStore {
     public boolean shouldReadCgmDataFromXDrip() {
         return sharedPreferences.getBoolean(getKey(R.string.preference_cgm_xdrip), false);
     }
+
+    public boolean showCgmNotification() {
+        return sharedPreferences.getBoolean(getKey(R.string.preference_cgm_notification), false);
+    }
 }

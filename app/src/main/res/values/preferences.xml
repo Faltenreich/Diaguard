@@ -55,6 +55,7 @@
 
     <string name="preference_cgm">cgm</string>
     <string name="preference_cgm_xdrip">cgmXDrip</string>
+    <string name="preference_cgm_notification">cgmNotification</string>
 
     <!-- Export -->
     <string name="preference_export_pdf_style">exportPdfStyle</string>

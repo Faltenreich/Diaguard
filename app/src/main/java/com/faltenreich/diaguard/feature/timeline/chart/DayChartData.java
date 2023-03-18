@@ -6,6 +6,7 @@ import androidx.annotation.ColorRes;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.ArrayUtils;
@@ -43,14 +44,14 @@ public class DayChartData extends CombinedData {
     private final Context context;
     private final boolean showDots;
     private final boolean showLines;
-    private final List<Measurement> values;
+    private final List<BloodSugar> values;
     private float yAxisMaximum;
 
     public DayChartData(
         Context context,
         boolean showDots,
         boolean showLines,
-        List<Measurement> values
+        List<BloodSugar> values
     ) {
         super();
         this.context = context;

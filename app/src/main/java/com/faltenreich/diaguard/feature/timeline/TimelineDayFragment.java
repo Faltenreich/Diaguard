@@ -27,9 +27,10 @@ import com.faltenreich.diaguard.feature.timeline.table.CategoryValueViewHolder;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
+import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
+import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
-import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.GridDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
@@ -59,6 +60,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
     private CategoryValueListAdapter valueAdapter;
     private Category[] categories;
 
+    private final MeasurementDao<BloodSugar> bloodSugarDao = MeasurementDao.getInstance(BloodSugar.class);
     private TimelineDayData data;
 
     public static TimelineDayFragment createInstance(DateTime dateTime) {
@@ -134,23 +136,18 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<DayChartData>() {
                 @Override
                 public DayChartData onShouldLoad(Context context) {
-                    List<Measurement> values = new ArrayList<>();
-                    List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(data.getDay());
-                    if (entries != null && entries.size() > 0) {
-                        for (Entry entry : entries) {
-                            // TODO: Improve performance by using transaction / bulk fetch
-                            List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, new Category[] { Category.BLOODSUGAR });
-                            values.addAll(measurements);
-                        }
-                    }
-                    return new DayChartData(
+                    long millis = System.currentTimeMillis();
+                    List<BloodSugar> measurements = bloodSugarDao.getMeasurements(data.getDay());
+                    DayChartData chartData = new DayChartData(
                         context,
                         PreferenceStore.getInstance().showDotsInTimeline(),
                         PreferenceStore.getInstance().showLinesInTimeline(),
-                        values
+                        measurements
                     );
+                    long delta = System.currentTimeMillis() - millis;
+                    Log.d(TAG, "Fetching data for chart on " + data.getDay() + " took " + delta + " millis for " + measurements.size() + " measurements");
+                    return chartData;
                 }
-
                 @Override
                 public void onDidLoad(DayChartData chartData) {
                     data.setChartData(chartData);

@@ -184,7 +184,7 @@ public class TimelineFragment
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
-        // TODO: Re-enable goToDay(day);
+        goToDay(day);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Activity;
@@ -25,10 +26,10 @@ import com.faltenreich.diaguard.shared.data.database.entity.Pulse;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.database.entity.Weight;
 import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryDeprecated;
-import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.view.image.ImageLoader;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -55,6 +56,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_2_2 = 21;
     public static final int DATABASE_VERSION_3_0 = 22;
     public static final int DATABASE_VERSION_3_1 = 23;
+    public static final int DATABASE_VERSION_4_0 = 24;
 
     public static final Class[] tables = new Class[]{
             Entry.class,
@@ -81,7 +83,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public static int getVersion() {
-        return DATABASE_VERSION_3_1;
+        return DATABASE_VERSION_4_0;
     }
 
     @Override
@@ -120,16 +122,36 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     case DATABASE_VERSION_3_0:
                         upgradeToVersion23(sqLiteDatabase);
                         break;
+                    case DATABASE_VERSION_3_1:
+                        upgradeToVersion24(sqLiteDatabase);
+                        break;
                 }
                 upgradeFromVersion++;
             }
         }
     }
 
+    private void upgradeToVersion24(SQLiteDatabase sqLiteDatabase) {
+        // Add source to Entry
+        sqLiteDatabase.execSQL(String.format("ALTER TABLE \'%s\' ADD COLUMN %s %s",
+            DatabaseHelper.ENTRY,
+            Entry.Column.SOURCE,
+            DataType.ENUM_STRING.getDataPersister().getSqlType()
+        ));
+        // Add trend to BloodSugar
+        sqLiteDatabase.execSQL(String.format("ALTER TABLE bloodsugar ADD COLUMN %s %s",
+            BloodSugar.Column.TREND,
+            DataType.ENUM_STRING.getDataPersister().getSqlType()
+        ));
+    }
+
+
     private void upgradeToVersion23(SQLiteDatabase sqLiteDatabase) {
         // Food.imageUrl should be removed but column dropping is not supported in SQLite
-        String query = String.format("ALTER TABLE \'%s\' ADD COLUMN %s TEXT", DatabaseHelper.FOOD, Food.Column.DELETED_AT);
-        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.execSQL(String.format("ALTER TABLE \'%s\' ADD COLUMN %s TEXT",
+            DatabaseHelper.FOOD,
+            Food.Column.DELETED_AT
+        ));
         ImageLoader.getInstance().clearDiskCache(context);
     }
 

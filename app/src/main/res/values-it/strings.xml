@@ -64,7 +64,6 @@
     <string name="export_progress">Il PDF è stato creato</string>
     <string name="export_page">Pagina %d</string>
     <string name="export_stamp">Il rapport è stato generato in</string>
-    <string name="first_visit">Prima visita?</string>
     <string name="first_visit_desc">Inserisci il tuo primo valore</string>
     <string name="food">Cibo</string>
     <string name="food_add">Aggiungi cibo</string>
@@ -125,6 +124,7 @@
     <string name="store_values">Salva</string>
     <string name="systolic">Sistolica</string>
     <string name="target_area">Area obiettivo</string>
+    <string name="target">Obiettivo</string>
     <string name="timeline">Linea temporale</string>
     <string name="to">a</string>
     <string name="today">Oggi</string>

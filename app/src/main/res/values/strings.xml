@@ -90,7 +90,6 @@
     <string name="export_page">Page %d</string>
     <string name="export_stamp">Report generated on</string>
     <string name="facebook" translatable="false">Facebook</string>
-    <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
     <string name="food">Food</string>
     <string name="food_add">Add food</string>
@@ -158,6 +157,7 @@
     <string name="systolic">Systolic</string>
     <string name="systolic_acronym" translatable="false">syst.</string>
     <string name="target_area">Target area</string>
+    <string name="target">Target</string>
     <string name="timeline">Timeline</string>
     <string name="to">to</string>
     <string name="today">Today</string>
@@ -541,5 +541,17 @@
     <string name="timeline_show_lines">Show lines</string>
     <string name="timeline_show_lines_desc">Connect measurements with lines</string>
     <string name="layout">Layout</string>
+    <string name="cgm" translatable="false">CGM</string>
+    <string name="cgm_sources">Sources</string>
+    <string name="cgm_xdrip" translatable="false">xDrip</string>
+    <string name="cgm_xdrip_desc">Capture measurements that are broadcasted to xDrip</string>
+    <string name="cgm_notification">Show notification</string>
+    <string name="cgm_notification_desc">Display latest reading and trend in ongoing notification</string>
+    <string name="dashboard_percentage">%.0f%%</string>
+    <string name="trend_falling_quickly">Falling quickly</string>
+    <string name="trend_falling">Falling</string>
+    <string name="trend_steady">Steady</string>
+    <string name="trend_rising">Rising</string>
+    <string name="trend_rising_quickly">Rising quickly</string>
 
 </resources>

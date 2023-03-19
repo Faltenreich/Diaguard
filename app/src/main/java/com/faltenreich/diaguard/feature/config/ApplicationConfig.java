@@ -20,4 +20,9 @@ public class ApplicationConfig {
         ApplicationFlavor flavor = getFlavor();
         return flavor != null && flavor.isCalculatorEnabled();
     }
+
+    public static boolean isCgmSupported() {
+        ApplicationFlavor flavor = getFlavor();
+        return flavor != null && flavor.isCgmSupported();
+    }
 }

@@ -1,8 +1,8 @@
 #
-# generated on 2019/02/02 11:08:30
+# generated on 2023/03/12 02:32:40
 #
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.Entry
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.Entry
 tableName=entry
 # --table-fields-start--
 # --field-start--
@@ -12,6 +12,13 @@ columnName=date
 # --field-start--
 fieldName=note
 columnName=note
+# --field-end--
+# --field-start--
+fieldName=source
+columnName=source
+dataPersister=ENUM_STRING
+defaultValue=USER
+unknownEnumValue=com.faltenreich.diaguard.shared.data.database.entity.Entry$Source#USER
 # --field-end--
 # --field-start--
 fieldName=measurements
@@ -34,12 +41,17 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.BloodSugar
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.BloodSugar
 tableName=bloodsugar
 # --table-fields-start--
 # --field-start--
 fieldName=mgDl
 columnName=mgDl
+# --field-end--
+# --field-start--
+fieldName=trend
+columnName=trend
+dataPersister=ENUM_STRING
 # --field-end--
 # --field-start--
 fieldName=entry
@@ -65,7 +77,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.Insulin
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.Insulin
 tableName=insulin
 # --table-fields-start--
 # --field-start--
@@ -104,7 +116,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.Meal
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.Meal
 tableName=meal
 # --table-fields-start--
 # --field-start--
@@ -139,7 +151,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.Activity
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.Activity
 tableName=activity
 # --table-fields-start--
 # --field-start--
@@ -174,7 +186,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.HbA1c
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.HbA1c
 tableName=hba1c
 # --table-fields-start--
 # --field-start--
@@ -205,7 +217,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.Weight
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.Weight
 tableName=weight
 # --table-fields-start--
 # --field-start--
@@ -236,7 +248,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.Pulse
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.Pulse
 tableName=pulse
 # --table-fields-start--
 # --field-start--
@@ -266,7 +278,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.Pressure
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.Pressure
 tableName=pressure
 # --table-fields-start--
 # --field-start--
@@ -301,7 +313,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.Food
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.Food
 tableName=food
 # --table-fields-start--
 # --field-start--
@@ -380,9 +392,8 @@ fieldName=serverId
 columnName=serverId
 # --field-end--
 # --field-start--
-fieldName=isDeleted
-columnName=isDeleted
-defaultValue=false
+fieldName=deletedAt
+columnName=deletedAt
 # --field-end--
 # --field-start--
 fieldName=id
@@ -401,7 +412,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.FoodEaten
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.FoodEaten
 tableName=foodeaten
 # --table-fields-start--
 # --field-start--
@@ -439,7 +450,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.OxygenSaturation
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.OxygenSaturation
 tableName=oxygensaturation
 # --table-fields-start--
 # --field-start--
@@ -470,7 +481,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.Tag
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.Tag
 tableName=tag
 # --table-fields-start--
 # --field-start--
@@ -494,7 +505,7 @@ columnName=updatedAt
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.data.entity.EntryTag
+dataClass=com.faltenreich.diaguard.shared.data.database.entity.EntryTag
 tableName=entrytag
 # --table-fields-start--
 # --field-start--

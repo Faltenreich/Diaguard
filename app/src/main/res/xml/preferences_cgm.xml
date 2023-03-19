@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/cgm">
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/preference_cgm_notification"
+        android:summary="@string/cgm_notification_desc"
+        android:title="@string/cgm_notification" />
+
+    <PreferenceCategory android:title="@string/cgm_sources">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_cgm_xdrip"
+            android:summary="@string/cgm_xdrip_desc"
+            android:title="@string/cgm_xdrip" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

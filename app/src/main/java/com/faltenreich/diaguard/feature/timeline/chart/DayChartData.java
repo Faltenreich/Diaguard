@@ -6,6 +6,7 @@ import androidx.annotation.ColorRes;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.ArrayUtils;
@@ -24,6 +25,7 @@ public class DayChartData extends CombinedData {
 
     private static final float Y_MAX_VALUE_DEFAULT = 200;
     private static final float Y_MAX_VALUE_OFFSET = 20;
+    private static final String LABEL_LINE = "line";
 
     private enum DataSetType {
         TARGET("target", R.color.green),
@@ -42,14 +44,14 @@ public class DayChartData extends CombinedData {
     private final Context context;
     private final boolean showDots;
     private final boolean showLines;
-    private final List<Measurement> values;
+    private final List<BloodSugar> values;
     private float yAxisMaximum;
 
     public DayChartData(
         Context context,
         boolean showDots,
         boolean showLines,
-        List<Measurement> values
+        List<BloodSugar> values
     ) {
         super();
         this.context = context;
@@ -70,8 +72,7 @@ public class DayChartData extends CombinedData {
                 int xValue = value.getEntry().getDate().getMinuteOfDay();
                 float yValue = ArrayUtils.sum(value.getValues());
                 yValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, yValue);
-                Entry chartEntry = new Entry(xValue, yValue, value.getEntry());
-                addEntry(chartEntry);
+                addEntry(new Entry(xValue, yValue, value.getEntry()));
             }
         } else {
             // Add fake entry to display empty chart
@@ -117,11 +118,10 @@ public class DayChartData extends CombinedData {
 
     private ILineDataSet getLineDataSet() {
         if (getLineData().getDataSetCount() == 0) {
-            DataSetType type = DataSetType.TARGET;
             ILineDataSet dataSet = new DayChartLineDataSet(
                 context,
-                type.label,
-                type.colorResId
+                LABEL_LINE,
+                android.R.color.white // TODO: Support dark mode
             );
             getLineData().addDataSet(dataSet);
             return dataSet;
@@ -133,11 +133,7 @@ public class DayChartData extends CombinedData {
     private IScatterDataSet getScatterDataSet(DataSetType type) {
         IScatterDataSet dataSet = getScatterData().getDataSetByLabel(type.label, true);
         if (dataSet == null) {
-            dataSet = new DayChartScatterDataSet(
-                context,
-                type.label,
-                type.colorResId
-            );
+            dataSet = new DayChartScatterDataSet(context, type.label, type.colorResId);
             getScatterData().addDataSet(dataSet);
         }
         return dataSet;

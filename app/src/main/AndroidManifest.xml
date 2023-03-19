@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
+    <queries>
+        <package android:name="tk.glucodata"/>
+    </queries>
+
     <application
         android:name=".DiaguardApplication"
         android:allowBackup="true"
@@ -25,6 +29,7 @@
             android:resizeableActivity="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:exported="true"
+            android:launchMode="singleTop"
             tools:ignore="UnusedAttribute">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,6 +51,15 @@
         </provider>
 
         <receiver android:name=".feature.alarm.AlarmBroadcastReceiver" />
+
+        <receiver
+            android:name=".feature.cgm.xdrip.XDripBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="glucodata.Minute"/>
+            </intent-filter>
+        </receiver>
 
         <meta-data
             android:name="android.max_aspect"

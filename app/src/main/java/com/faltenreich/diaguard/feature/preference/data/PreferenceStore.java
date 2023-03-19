@@ -48,10 +48,6 @@ public class PreferenceStore {
     private SharedPreferences sharedPreferences;
     private Context context;
 
-    private PreferenceStore() {
-
-    }
-
     public void init(Context context) {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.context = context;
@@ -600,5 +596,15 @@ public class PreferenceStore {
 
     public boolean showBrandedFood() {
         return sharedPreferences.getBoolean(getKey(R.string.preference_food_show_branded), true);
+    }
+
+    // CGM
+
+    public boolean shouldReadCgmDataFromXDrip() {
+        return sharedPreferences.getBoolean(getKey(R.string.preference_cgm_xdrip), false);
+    }
+
+    public boolean showCgmNotification() {
+        return sharedPreferences.getBoolean(getKey(R.string.preference_cgm_notification), false);
     }
 }

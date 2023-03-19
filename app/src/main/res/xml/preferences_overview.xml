@@ -61,6 +61,11 @@
             android:title="@string/food"
             app:fragment="com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment" />
 
+        <Preference
+            android:key="@string/preference_cgm"
+            android:title="@string/cgm"
+            app:fragment="com.faltenreich.diaguard.feature.preference.cgm.CgmPreferenceFragment" />
+
         <com.faltenreich.diaguard.feature.preference.backup.BackupExportPreference
             android:key="@string/preference_backup"
             android:summary="@string/backup_desc"

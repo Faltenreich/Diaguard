@@ -55,7 +55,6 @@
     <string name="export_progress">PDF será creado</string>
     <string name="export_page">Página %d</string>
     <string name="export_stamp">Informe generado en</string>
-    <string name="first_visit">Eres nuevo?</string>
     <string name="first_visit_desc">Ingresar los primeros valores</string>
     <string name="food_add">Añadir alimentos</string>
     <string name="food_add_desc">Añadir alimentos</string>
@@ -255,6 +254,7 @@
     <string name="per">por</string>
     <string name="per_day">por día</string>
     <string name="target_area">Área objetivo</string>
+    <string name="target">Objetivo</string>
     <string name="year">Año</string>
     <string name="alarm_delete">Retire la memoria</string>
     <string name="alarm_deleted">Eliminado la memoria</string>

@@ -13,11 +13,7 @@ import java.util.ArrayList;
 
 class DayChartScatterDataSet extends ScatterDataSet {
 
-    DayChartScatterDataSet(
-        Context context,
-        String label,
-        @ColorRes int colorResource
-    ) {
+    DayChartScatterDataSet(Context context, String label, @ColorRes int colorResource) {
         super(new ArrayList<>(), label);
         setColor(ContextCompat.getColor(context, colorResource));
         setScatterShapeSize(context.getResources().getDimension(R.dimen.chart_scatter_size));

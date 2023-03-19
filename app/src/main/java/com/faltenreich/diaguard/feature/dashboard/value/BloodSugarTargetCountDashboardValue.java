@@ -7,21 +7,21 @@ import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 
 import java.util.List;
 
-class BloodSugarHypoCountDashboardValue implements DashboardValue {
+class BloodSugarTargetCountDashboardValue implements DashboardValue {
 
     private final String key;
     private final String value;
 
-    BloodSugarHypoCountDashboardValue(
+    BloodSugarTargetCountDashboardValue(
         Context context,
         List<BloodSugar> total,
-        List<BloodSugar> hypo
+        List<BloodSugar> target
     ) {
-        key = context.getString(R.string.hypo);
+        key = context.getString(R.string.hyper);
         value = total.size() > 0
             ? context.getString(
                 R.string.dashboard_percentage,
-            100 * (float) hypo.size() / (float) total.size())
+            100 * (float) target.size() / (float) total.size())
             : context.getString(R.string.placeholder);
     }
 

@@ -39,6 +39,7 @@ import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
+import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.ValueFormatter;
@@ -53,11 +54,12 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
     private ViewGroup latestLayout;
     private TextView latestValueLabel;
-    private TextView latestTimeLabel;
+    private ImageView latestTrendImageView;
     private TextView latestAgoLabel;
 
     private ViewGroup todayLayout;
     private TextView totalCountLabel;
+    private TextView targetCountLabel;
     private TextView hyperglycemiaCountLabel;
     private TextView hypoglycemiaCountLabel;
 
@@ -65,6 +67,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     private TextView averageDayLabel;
     private TextView averageWeekLabel;
     private TextView averageMonthLabel;
+    private TextView averageQuarterLabel;
 
     private ViewGroup trendLayout;
     private LineChart chartView;
@@ -104,11 +107,12 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     private void bindViews() {
         latestLayout = getBinding().latestLayout;
         latestValueLabel = getBinding().latestValueLabel;
-        latestTimeLabel = getBinding().latestTimeLabel;
+        latestTrendImageView = getBinding().latestTrendImageView;
         latestAgoLabel = getBinding().latestAgoLabel;
 
         todayLayout = getBinding().todayLayout;
         totalCountLabel = getBinding().totalCountLabel;
+        targetCountLabel = getBinding().targetCountLabel;
         hyperglycemiaCountLabel = getBinding().hyperglycemiaCountLabel;
         hypoglycemiaCountLabel = getBinding().hypoglycemiaCountLabel;
 
@@ -116,6 +120,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
         averageDayLabel = getBinding().averageDayLabel;
         averageWeekLabel = getBinding().averageWeekLabel;
         averageMonthLabel = getBinding().averageMonthLabel;
+        averageQuarterLabel = getBinding().averageQuarterLabel;
 
         trendLayout = getBinding().trendLayout;
         chartView = getBinding().chartView;
@@ -173,11 +178,15 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
             return;
         }
         if (latestEntry != null) {
-            latestValueLabel.setTextSize(54);
             BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
 
             // Value
             latestValueLabel.setText(bloodSugar.toString());
+            if (bloodSugar.getTrend() != null) {
+                latestTrendImageView.setImageResource(bloodSugar.getTrend().iconRes);
+            } else {
+                latestTrendImageView.setImageDrawable(null);
+            }
 
             // Highlighting
             if (PreferenceStore.getInstance().limitsAreHighlighted()) {
@@ -191,40 +200,35 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
             }
 
             // Time
-            latestTimeLabel.setText(String.format("%s %s - ",
-                    Helper.getDateFormat().print(latestEntry.getDate()),
-                    Helper.getTimeFormat().print(latestEntry.getDate())));
             int differenceInMinutes = Minutes.minutesBetween(latestEntry.getDate(), new DateTime()).getMinutes();
-
-            // Highlight if last measurement is more than eight hours ago
-            latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-            if (differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
-                latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-            }
-
             latestAgoLabel.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
+            int latestAgoLabelTextColor = differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8
+                ? ContextCompat.getColor(getContext(), R.color.red)
+                : ColorUtils.getTextColorSecondary(getContext());
+            latestAgoLabel.setTextColor(latestAgoLabelTextColor);
         } else {
-            latestValueLabel.setTextSize(32);
-            latestValueLabel.setText(R.string.first_visit);
-            latestValueLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+            latestValueLabel.setText(R.string.placeholder);
+            latestValueLabel.setTextColor(ColorUtils.getTextColorPrimary(getContext()));
+            latestTrendImageView.setImageDrawable(null);
 
-            latestTimeLabel.setText(R.string.first_visit_desc);
-            latestAgoLabel.setText(null);
-            latestAgoLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_darker));
+            latestAgoLabel.setText(R.string.first_visit_desc);
+            latestAgoLabel.setTextColor(ColorUtils.getTextColorSecondary(getContext()));
         }
     }
 
     private void updateDashboard() {
         new DashboardValueTask(getContext(), values -> {
-            if (isAdded() && values != null && values.length == 7) {
+            if (isAdded() && values != null && values.length == 9) {
                 totalCountLabel.setText(values[0].getValue());
-                hyperglycemiaCountLabel.setText(values[1].getValue());
-                hypoglycemiaCountLabel.setText(values[2].getValue());
-                averageDayLabel.setText(values[3].getValue());
-                averageWeekLabel.setText(values[4].getValue());
-                averageMonthLabel.setText(values[5].getValue());
+                targetCountLabel.setText(values[1].getValue());
+                hyperglycemiaCountLabel.setText(values[2].getValue());
+                hypoglycemiaCountLabel.setText(values[3].getValue());
+                averageDayLabel.setText(values[4].getValue());
+                averageWeekLabel.setText(values[5].getValue());
+                averageMonthLabel.setText(values[6].getValue());
+                averageQuarterLabel.setText(values[7].getValue());
 
-                DashboardValue hba1c = values[6];
+                DashboardValue hba1c = values[8];
                 hba1cLabel.setText(hba1c.getKey());
                 hba1cValue.setText(hba1c.getValue());
                 if (hba1c.getEntry() != null) {

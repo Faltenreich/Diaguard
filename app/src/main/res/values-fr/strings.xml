@@ -53,7 +53,6 @@
     <string name="export_progress">PDF est créé</string>
     <string name="export_page">Page %d</string>
     <string name="export_stamp">Rapport généré sur</string>
-    <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
     <string name="food_add">Ajouter l\'aliment</string>
     <string name="food_add_desc">Ajouter l\'aliment</string>
@@ -253,6 +252,7 @@
     <string name="per">par</string>
     <string name="per_day">par jour</string>
     <string name="target_area">Zone cible</string>
+    <string name="target">Cible</string>
     <string name="year">An</string>
     <string name="alarm_delete">Retirer la mémoire</string>
     <string name="alarm_deleted">Retiré la mémoire</string>

@@ -64,7 +64,6 @@
     <string name="export_progress">PDF wird erstellt</string>
     <string name="export_page">Seite %d</string>
     <string name="export_stamp">Bericht generiert am</string>
-    <string name="first_visit">Neu hier?</string>
     <string name="first_visit_desc">Ersten Wert eintragen</string>
     <string name="food">Lebensmittel</string>
     <string name="food_add">Lebensmittel hinzufügen</string>
@@ -125,6 +124,7 @@
     <string name="store_values">Eintragen</string>
     <string name="systolic">Systolisch</string>
     <string name="target_area">Zielbereich</string>
+    <string name="target">Ziel</string>
     <string name="timeline">Tagebuch</string>
     <string name="to">zu</string>
     <string name="today">Heute</string>
@@ -371,5 +371,10 @@
     <string name="timeline_show_dots_desc">Messungen mit Punkten markieren (Deaktivieren dieser Funktion verhindert das Hervorheben von Extremwerten)</string>
     <string name="timeline_show_lines">Linien anzeigen</string>
     <string name="timeline_show_lines_desc">Messungen mit Linien verbinden</string>
+    <string name="cgm_sources">Quellen</string>
+    <string name="cgm_xdrip_desc">Messwerte erfassen, die an xDrip gesendet werden</string>
+    <string name="cgm_notification">Benachrichtigung anzeigen</string>
+    <string name="cgm_notification_desc">Letzten Messwert und Trend in Benachrichtigung anzeigen</string>
+    <string name="dashboard_percentage">%.0f %%</string>
 
 </resources>

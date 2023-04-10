@@ -1,6 +1,5 @@
 plugins {
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.compose")
     kotlin("plugin.serialization")
@@ -10,33 +9,15 @@ plugins {
 
 kotlin {
     android()
-    ios()
-
-    cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        version = "1.0"
-        ios.deploymentTarget = "14.1"
-        podfile = project.file("../iosApp/Podfile")
-        framework {
-            baseName = "shared"
-        }
-    }
 
     sourceSets {
-
         val commonMain by getting {
             dependencies {
                 implementation(compose.ui)
                 implementation(compose.foundation)
-                @Suppress("OPT_IN_IS_NOT_ENABLED")
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.material3)
                 implementation(compose.runtime)
-                // FIXME: Not supported on iOS yet
-                // implementation(compose.preview)
-                // implementation("org.jetbrains.compose.ui:ui-test-junit4:")
-
+                implementation(compose.preview)
                 implementation(Dependencies.Koin.core)
                 implementation(Dependencies.Koin.annotations)
                 implementation(Dependencies.Kotlinx.coroutines)
@@ -61,19 +42,9 @@ kotlin {
                 implementation(Dependencies.Ktor.android)
             }
         }
-        val androidTest by getting {
+        val androidInstrumentedTest by getting {
             dependencies {
                 implementation(Dependencies.Koin.testJunit4)
-            }
-        }
-        val iosMain by getting {
-            dependencies {
-                implementation(Dependencies.Ktor.ios)
-            }
-        }
-        val iosTest by getting {
-            dependencies {
-
             }
         }
     }

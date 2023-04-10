@@ -45,7 +45,6 @@ object Dependencies {
         const val android = "io.ktor:ktor-client-okhttp:${Versions.ktor}"
         const val core = "io.ktor:ktor-client-core:${Versions.ktor}"
         const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:${Versions.ktor}"
-        const val ios = "io.ktor:ktor-client-darwin:${Versions.ktor}"
         const val mock = "io.ktor:ktor-client-mock:${Versions.ktor}"
         const val serialization = "io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}"
     }

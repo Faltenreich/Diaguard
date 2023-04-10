@@ -86,7 +86,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.faltenreich.rhyme"
+    namespace = "com.faltenreich.diaguard"
     compileSdk = 33
     defaultConfig {
         minSdk = 21
@@ -107,5 +107,5 @@ dependencies {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "com.faltenreich.rhyme"
+    multiplatformResourcesPackage = "com.faltenreich.diaguard"
 }

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.faltenreich.rhyme"
+    namespace = "com.faltenreich.diaguard"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.faltenreich.rhyme"
+        applicationId = "com.faltenreich.diaguard"
         minSdk = 21
         targetSdk = 33
         versionCode = 58

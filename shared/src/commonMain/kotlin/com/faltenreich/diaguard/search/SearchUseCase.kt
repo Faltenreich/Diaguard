@@ -1,11 +1,8 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package com.faltenreich.diaguard.search
 
 import com.faltenreich.diaguard.language.LanguageRepository
 import com.faltenreich.diaguard.word.RhymeType
 import com.faltenreich.diaguard.word.Word
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map

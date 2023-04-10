@@ -1,11 +1,7 @@
-@file:OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-
 package com.faltenreich.diaguard.search
 
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds

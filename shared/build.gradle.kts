@@ -51,7 +51,12 @@ kotlin {
 
     sourceSets {
         all {
-            languageSettings.optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+            languageSettings {
+                optIn("androidx.compose.foundation.ExperimentalFoundationApi")
+                optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+                optIn("kotlinx.coroutines.FlowPreview")
+            }
         }
     }
 }

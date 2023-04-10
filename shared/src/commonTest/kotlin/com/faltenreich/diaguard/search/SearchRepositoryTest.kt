@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package com.faltenreich.diaguard.search
 
 import app.cash.turbine.test

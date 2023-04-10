@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.word
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WordListView(
     words: Map<RhymeType, List<Word>>,

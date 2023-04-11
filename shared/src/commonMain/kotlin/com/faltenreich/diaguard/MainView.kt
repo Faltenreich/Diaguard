@@ -5,7 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.search.SearchView
+import com.faltenreich.diaguard.dashboard.DashboardView
 
 @Composable
 fun MainView() {
@@ -14,7 +14,7 @@ fun MainView() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            SearchView()
+            DashboardView()
         }
     }
 }

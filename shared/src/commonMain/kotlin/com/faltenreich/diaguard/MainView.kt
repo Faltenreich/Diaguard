@@ -16,7 +16,6 @@ import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
 
-
 @Composable
 fun MainView() {
     MainTheme {

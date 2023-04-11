@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard
 
 import android.app.Application
-import com.faltenreich.diaguard.shared.di.DependencyInjection
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.logger.Level

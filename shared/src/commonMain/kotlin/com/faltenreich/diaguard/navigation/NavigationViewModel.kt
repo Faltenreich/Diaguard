@@ -3,7 +3,9 @@ package com.faltenreich.diaguard.navigation
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import org.koin.core.annotation.Single
 
+@Single
 class NavigationViewModel : ViewModel() {
 
     private val screen = MutableStateFlow<Screen>(Screen.Dashboard)

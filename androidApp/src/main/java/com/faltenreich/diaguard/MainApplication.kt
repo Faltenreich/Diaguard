@@ -10,7 +10,8 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         DependencyInjection.setup {
-            androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
+            // TODO: Set to none for release
+            androidLogger(Level.DEBUG)
             androidContext(this@MainApplication)
         }
     }

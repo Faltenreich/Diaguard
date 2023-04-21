@@ -61,6 +61,7 @@ kotlin {
     }
 }
 
+// TODO: Find way to avoid redundant declarations
 android {
     namespace = "com.faltenreich.diaguard"
     compileSdk = 33
@@ -68,11 +69,17 @@ android {
         minSdk = 21
         targetSdk = 33
     }
+
     // Workaround for unresolved reference on Android
     // https://github.com/icerockdev/moko-resources/issues/353
     sourceSets["main"].apply {
         assets.srcDir(File(buildDir, "generated/moko/androidMain/assets"))
         res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 

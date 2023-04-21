@@ -1,17 +1,17 @@
 object Versions {
 
-    const val androidCompose = "1.6.1"
-    const val androidGradle = "7.3.1"
+    const val androidCompose = "1.7.0"
+    const val androidGradle = "8.0.0"
     const val compose = "1.4.0-rc03"
     const val coroutines = "1.6.4"
     const val koin = "3.4.0"
     const val koinAnnotations = "1.2.0"
-    const val kotlin = "1.8.10"
-    const val ksp = "1.8.10-1.0.9"
-    const val ktor = "2.1.3"
-    const val moko = "0.20.1"
-    const val serialization = "1.4.1"
-    const val turbine = "0.12.1"
+    const val kotlin = "1.8.20"
+    const val ksp = "1.8.20-1.0.11"
+    const val ktor = "2.2.4"
+    const val moko = "0.21.1"
+    const val serialization = "1.5.0"
+    const val turbine = "0.12.3"
 }
 
 object Dependencies {

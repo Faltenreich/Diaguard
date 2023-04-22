@@ -5,7 +5,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material3.*
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -14,6 +22,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryForm
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.shared.datetime.DateTimeRepository
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
@@ -36,6 +45,7 @@ fun MainView() {
 private fun BottomNavigation(
     modifier: Modifier = Modifier,
     viewModel: NavigationViewModel = inject(),
+    dateTimeRepository: DateTimeRepository = inject(),
 ) {
     BottomAppBar(
         modifier = modifier,
@@ -44,7 +54,7 @@ private fun BottomNavigation(
                 Icon(Icons.Filled.List, "")
             }
         },
-        floatingActionButton = { ActionButton { viewModel.navigate(Screen.EntryForm(Entry())) } },
+        floatingActionButton = { ActionButton { viewModel.navigate(Screen.EntryForm(Entry(dateTimeRepository.now()))) } },
     )
 }
 

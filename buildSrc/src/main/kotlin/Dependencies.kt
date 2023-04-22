@@ -4,6 +4,7 @@ object Versions {
     const val androidGradle = "8.0.0"
     const val compose = "1.4.0-rc03"
     const val coroutines = "1.6.4"
+    const val dateTime = "0.4.0"
     const val koin = "3.4.0"
     const val koinAnnotations = "1.2.0"
     const val kotlin = "1.8.20"
@@ -36,6 +37,7 @@ object Dependencies {
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
         const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+        const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}"
     }
 

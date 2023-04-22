@@ -1,3 +1,7 @@
 package com.faltenreich.diaguard.entry
 
-class Entry
+import com.faltenreich.diaguard.shared.datetime.DateTime
+
+data class Entry(
+    val dateTime: DateTime,
+)

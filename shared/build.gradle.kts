@@ -21,6 +21,7 @@ kotlin {
                 implementation(Dependencies.Koin.core)
                 implementation(Dependencies.Koin.annotations)
                 implementation(Dependencies.Kotlinx.coroutines)
+                implementation(Dependencies.Kotlinx.dateTime)
                 implementation(Dependencies.Kotlinx.serialization)
                 implementation(Dependencies.Ktor.core)
                 implementation(Dependencies.Ktor.contentNegotiation)

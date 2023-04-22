@@ -2,6 +2,7 @@ package com.faltenreich.diaguard
 
 import com.faltenreich.diaguard.shared.architecture.coroutineModule
 import com.faltenreich.diaguard.shared.clipboard.clipboardModule
+import com.faltenreich.diaguard.shared.datetime.dateTimeModule
 import com.faltenreich.diaguard.shared.localization.localizationModule
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
@@ -23,6 +24,7 @@ private fun mainModules() = listOf(
     DomainModule().module,
     coroutineModule(),
     clipboardModule(),
+    dateTimeModule(),
     localizationModule(),
 )
 

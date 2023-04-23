@@ -44,9 +44,4 @@ interface DateTime {
      * Nanoseconds-of-millisecond ranging from 0 to 1,000
      */
     val nanosOfMillis: Int
-
-    /**
-     * Converts date time to a string in ISO-8601 format
-     */
-    fun toIsoString(): String
 }

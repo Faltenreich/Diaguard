@@ -7,6 +7,7 @@ import org.koin.core.annotation.Single
 @Single
 class EntryDao(
     private val database: Database,
+    // TODO: Remove when dao has been encapsulated better
     private val dateTimeRepository: DateTimeRepository,
 ) {
 
@@ -17,6 +18,6 @@ class EntryDao(
     }
 
     fun insert(entry: Entry) {
-        database.sqlDelightDatabase.database.entryQueries.insert(entry.dateTime.toIsoString(), entry.note)
+        database.sqlDelightDatabase.database.entryQueries.insert(dateTimeRepository.convertDateTimeToIsoString(entry.dateTime), entry.note)
     }
 }

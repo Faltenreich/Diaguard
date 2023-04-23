@@ -29,10 +29,6 @@ class KotlinxDateTime(private val localDateTime: LocalDateTime) : DateTime {
     override val nanosOfMillis: Int
         get() = localDateTime.nanosecond.mod(NANO_SECONDS_PER_SECOND)
 
-    override fun toIsoString(): String {
-        return localDateTime.toString()
-    }
-
     override fun toString(): String {
         return localDateTime.toString()
     }

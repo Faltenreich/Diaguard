@@ -11,13 +11,13 @@ class EntryDao(
     private val dateTimeRepository: DateTimeRepository,
 ) {
 
-    fun getAll(): List<Entry> {
+    suspend fun getAll(): List<Entry> {
         return database.sqlDelightDatabase.database.entryQueries.selectAll { id, date_time, note ->
             Entry(id, dateTimeRepository.convertIsoStringToDateTime(date_time), note)
         }.executeAsList()
     }
 
-    fun insert(entry: Entry) {
+    suspend fun insert(entry: Entry) {
         database.sqlDelightDatabase.database.entryQueries.insert(dateTimeRepository.convertDateTimeToIsoString(entry.dateTime), entry.note)
     }
 }

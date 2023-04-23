@@ -12,6 +12,7 @@ object Versions {
     const val ktor = "2.2.4"
     const val moko = "0.21.1"
     const val serialization = "1.5.0"
+    const val sqlDelight = "2.0.0-alpha05"
     const val turbine = "0.12.3"
 }
 
@@ -54,6 +55,11 @@ object Dependencies {
 
         const val resourcesPlugin = "dev.icerock.moko:resources-generator:${Versions.moko}"
         const val resources = "dev.icerock.moko:resources:${Versions.moko}"
+    }
+
+    object SqlDelight {
+
+        const val android = "app.cash.sqldelight:android-driver:${Versions.sqlDelight}"
     }
 
     object Turbine {

@@ -5,11 +5,13 @@ plugins {
     kotlin("plugin.serialization")
     id("dev.icerock.mobile.multiplatform-resources")
     id("com.google.devtools.ksp")
+    id("app.cash.sqldelight")
 }
 
 kotlin {
     android()
 
+    @Suppress("UNUSED_VARIABLE")
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -41,6 +43,7 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Koin.android)
                 implementation(Dependencies.Ktor.android)
+                implementation(Dependencies.SqlDelight.android)
             }
         }
         val androidInstrumentedTest by getting {
@@ -92,4 +95,12 @@ dependencies {
 
 multiplatformResources {
     multiplatformResourcesPackage = "com.faltenreich.diaguard"
+}
+
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("com.faltenreich.diaguard")
+        }
+    }
 }

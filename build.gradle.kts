@@ -6,6 +6,7 @@ plugins {
     id("com.android.library") version Versions.androidGradle apply false
     id("org.jetbrains.compose") version Versions.compose apply false
     id("com.google.devtools.ksp") version Versions.ksp apply false
+    id("app.cash.sqldelight") version Versions.sqlDelight apply false
 }
 
 buildscript {

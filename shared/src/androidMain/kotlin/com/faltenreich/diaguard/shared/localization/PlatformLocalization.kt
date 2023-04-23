@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.localization
 
 import androidx.compose.ui.text.intl.Locale
+import com.faltenreich.diaguard.shared.architecture.Context
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.desc.Resource
 import dev.icerock.moko.resources.desc.StringDesc

@@ -1,0 +1,12 @@
+CREATE TABLE entry (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    date_time TEXT NOT NULL,
+    note TEXT
+);
+
+selectAll:
+SELECT * FROM entry;
+
+insert:
+INSERT INTO entry(date_time, note)
+VALUES (?, ?);

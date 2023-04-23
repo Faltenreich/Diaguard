@@ -1,14 +1,12 @@
 package com.faltenreich.diaguard.shared.database.sqldelight
 
-import com.faltenreich.diaguard.Database
-
 class SqlDelightDatabase {
 
-    private lateinit var database: Database
+    lateinit var database: SqlDelightGeneratedDatabase
 
-    fun createDatabase(driverFactory: SqlDelightDriverFactory): Database {
+    fun createDatabase(driverFactory: SqlDelightDriverFactory): SqlDelightGeneratedDatabase {
         val driver = driverFactory.createDriver()
-        database = Database(driver)
+        database = SqlDelightGeneratedDatabase(driver)
         return database
     }
 }

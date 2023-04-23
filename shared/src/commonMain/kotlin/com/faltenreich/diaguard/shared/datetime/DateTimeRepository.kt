@@ -10,4 +10,8 @@ class DateTimeRepository(
     fun now(): DateTime {
         return api.now()
     }
+
+    fun createDateTimeFromIsoString(isoString: String): DateTime {
+        return api.createDateTimeFromIsoString(isoString)
+    }
 }

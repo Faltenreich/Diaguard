@@ -54,7 +54,7 @@ private fun BottomNavigation(
                 Icon(Icons.Filled.List, "")
             }
         },
-        floatingActionButton = { ActionButton { viewModel.navigate(Screen.EntryForm(Entry(dateTimeRepository.now()))) } },
+        floatingActionButton = { ActionButton { viewModel.navigate(Screen.EntryForm(Entry(0, dateTimeRepository.now(), null))) } },
     )
 }
 

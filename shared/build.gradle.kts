@@ -99,8 +99,8 @@ multiplatformResources {
 
 sqldelight {
     databases {
-        create("Database") {
-            packageName.set("com.faltenreich.diaguard")
+        create("SqlDelightGeneratedDatabase") {
+            packageName.set("com.faltenreich.diaguard.shared.database.sqldelight")
         }
     }
 }

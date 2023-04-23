@@ -60,6 +60,7 @@ object Dependencies {
     object SqlDelight {
 
         const val android = "app.cash.sqldelight:android-driver:${Versions.sqlDelight}"
+        const val coroutines = "app.cash.sqldelight:coroutines-extensions:${Versions.sqlDelight}"
     }
 
     object Turbine {

@@ -28,6 +28,7 @@ kotlin {
                 implementation(Dependencies.Ktor.core)
                 implementation(Dependencies.Ktor.contentNegotiation)
                 implementation(Dependencies.Ktor.serialization)
+                implementation(Dependencies.SqlDelight.coroutines)
             }
         }
         val commonTest by getting {

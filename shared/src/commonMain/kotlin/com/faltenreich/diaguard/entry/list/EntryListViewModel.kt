@@ -3,25 +3,17 @@ package com.faltenreich.diaguard.entry.list
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import org.koin.core.annotation.Single
 
 @Single
 class EntryListViewModel(
-    private val dispatcher: CoroutineDispatcher,
-    private val entryRepository: EntryRepository = inject(),
+    entryRepository: EntryRepository = inject(),
 ) : ViewModel() {
 
-    private val state = MutableStateFlow(EntryListViewState())
-    val viewState = state.asStateFlow()
-
-    init {
-        viewModelScope.launch(dispatcher) {
-            val entries = entryRepository.getAll()
-            state.value = state.value.copy(entries = entries)
-        }
-    }
+    private val entries = entryRepository.getAll()
+    private val state = entries.map(::EntryListViewState)
+    val viewState = state.stateIn(viewModelScope, SharingStarted.Lazily, EntryListViewState())
 }

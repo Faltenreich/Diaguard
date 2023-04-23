@@ -11,7 +11,7 @@ class DateTimeRepository(
         return api.now()
     }
 
-    fun createDateTimeFromIsoString(isoString: String): DateTime {
-        return api.createDateTimeFromIsoString(isoString)
+    fun convertIsoStringToDateTime(isoString: String): DateTime {
+        return api.convertIsoStringToDateTime(isoString)
     }
 }

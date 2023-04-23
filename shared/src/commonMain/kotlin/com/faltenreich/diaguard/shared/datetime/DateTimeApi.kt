@@ -4,5 +4,5 @@ interface DateTimeApi {
 
     fun now(): DateTime
 
-    fun createDateTimeFromIsoString(isoString: String): DateTime
+    fun convertIsoStringToDateTime(isoString: String): DateTime
 }

@@ -1,5 +1,7 @@
-package com.faltenreich.diaguard.entry
+package com.faltenreich.diaguard.entry.form
 
+import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeRepository
 import com.faltenreich.diaguard.shared.di.inject
@@ -10,13 +12,13 @@ import kotlinx.coroutines.launch
 import org.koin.core.annotation.Single
 
 @Single
-class EntryViewModel(
+class EntryFormViewModel(
     private val dispatcher: CoroutineDispatcher,
     private val entryRepository: EntryRepository = inject(),
     private val dateTimeRepository: DateTimeRepository = inject(),
 ) : ViewModel() {
 
-    private val state = MutableStateFlow(EntryViewState(Entry(id = null, dateTime = dateTimeRepository.now())))
+    private val state = MutableStateFlow(EntryFormViewState(Entry(id = null, dateTime = dateTimeRepository.now())))
     val viewState = state.asStateFlow()
 
     fun setNote(note: String) {

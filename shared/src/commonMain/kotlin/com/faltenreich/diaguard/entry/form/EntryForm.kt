@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.entry
+package com.faltenreich.diaguard.entry.form
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
@@ -7,22 +7,23 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
 fun EntryForm(
     modifier: Modifier = Modifier,
-    viewModel: EntryViewModel = inject(),
+    viewModel: EntryFormViewModel = inject(),
 ) {
-    val viewState = viewModel.viewState.collectAsState()
-    val entry = viewState.value.entry
+    val viewState = viewModel.viewState.collectAsState().value
     Column(modifier = modifier) {
         TextField(
-            value = entry.note ?: "",
+            value = viewState.entry.note ?: "",
             onValueChange = viewModel::setNote,
         )
         Button(viewModel::submit) {
             Text("Submit")
         }
+        EntryList()
     }
 }

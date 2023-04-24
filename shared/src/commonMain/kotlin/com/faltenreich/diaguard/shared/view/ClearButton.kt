@@ -11,8 +11,8 @@ import com.faltenreich.diaguard.shared.localization.Localization
 
 @Composable
 fun ClearButton(
-    onClick: () -> Unit,
     localization: Localization = inject(),
+    onClick: () -> Unit,
 ) {
     Icon(
         Icons.Default.Clear,

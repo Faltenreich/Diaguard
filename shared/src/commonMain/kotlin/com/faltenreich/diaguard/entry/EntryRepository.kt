@@ -15,4 +15,8 @@ class EntryRepository(
     fun insert(entry: Entry) {
         dao.insert(entry)
     }
+
+    fun delete(entry: Entry) {
+        dao.delete(entry)
+    }
 }

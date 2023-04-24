@@ -25,4 +25,9 @@ class EntryDao(
     fun insert(entry: Entry) {
         database.sqlDelightDatabase.database.entryQueries.insert(dateTimeRepository.convertDateTimeToIsoString(entry.dateTime), entry.note)
     }
+
+    fun delete(entry: Entry) {
+        val entryId = entry.id ?: return
+        database.sqlDelightDatabase.database.entryQueries.delete(entryId)
+    }
 }

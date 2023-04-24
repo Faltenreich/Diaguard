@@ -5,17 +5,14 @@ import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeRepository
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import org.koin.core.annotation.Single
 
 @Single
 class EntryFormViewModel(
-    private val dispatcher: CoroutineDispatcher,
     private val entryRepository: EntryRepository = inject(),
-    private val dateTimeRepository: DateTimeRepository = inject(),
+    dateTimeRepository: DateTimeRepository = inject(),
 ) : ViewModel() {
 
     private val state = MutableStateFlow(EntryFormViewState(Entry(id = null, dateTime = dateTimeRepository.now())))
@@ -25,7 +22,7 @@ class EntryFormViewModel(
         state.value = state.value.copy(entry = state.value.entry.copy(note = note))
     }
 
-    fun submit() = viewModelScope.launch(dispatcher) {
+    fun submit() {
         entryRepository.insert(state.value.entry)
     }
 }

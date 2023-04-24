@@ -10,3 +10,7 @@ SELECT * FROM entry;
 insert:
 INSERT INTO entry(date_time, note)
 VALUES (?, ?);
+
+delete:
+DELETE FROM entry
+WHERE id = ?;

@@ -1,12 +1,9 @@
 package com.faltenreich.diaguard.shared.database.sqldelight
 
-class SqlDelightDatabase {
+import org.koin.core.annotation.Single
 
-    lateinit var database: SqlDelightGeneratedDatabase
+@Single
+class SqlDelightDatabase(driverFactory: SqlDelightDriverFactory) {
 
-    fun createDatabase(driverFactory: SqlDelightDriverFactory): SqlDelightGeneratedDatabase {
-        val driver = driverFactory.createDriver()
-        database = SqlDelightGeneratedDatabase(driver)
-        return database
-    }
+    val api = SqlDelightApi(driverFactory.createDriver())
 }

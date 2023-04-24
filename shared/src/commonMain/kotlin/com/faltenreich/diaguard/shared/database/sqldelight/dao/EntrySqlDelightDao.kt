@@ -4,8 +4,8 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryDao
-import com.faltenreich.diaguard.shared.database.Database
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryQueries
+import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightDatabase
 import com.faltenreich.diaguard.shared.datetime.DateTimeRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -14,13 +14,13 @@ import org.koin.core.annotation.Single
 @Single
 class EntrySqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
-    private val database: Database,
+    private val database: SqlDelightDatabase,
     // TODO: Remove when dao has been encapsulated better
     private val dateTimeRepository: DateTimeRepository,
 ) : EntryDao {
 
     private val queries: EntryQueries
-        get() = database.sqlDelightDatabase.database.entryQueries
+        get() = database.api.entryQueries
 
     override fun getAll(): Flow<List<Entry>> {
         return queries.selectAll { id, date_time, note ->

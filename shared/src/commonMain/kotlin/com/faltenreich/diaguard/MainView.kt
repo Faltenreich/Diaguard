@@ -22,7 +22,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.Screen
-import com.faltenreich.diaguard.shared.datetime.DateTimeRepository
+import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
@@ -45,7 +45,7 @@ fun MainView() {
 private fun BottomNavigation(
     modifier: Modifier = Modifier,
     viewModel: NavigationViewModel = inject(),
-    dateTimeRepository: DateTimeRepository = inject(),
+    dateTimeApi: DateTimeApi = inject(),
 ) {
     BottomAppBar(
         modifier = modifier,
@@ -54,7 +54,7 @@ private fun BottomNavigation(
                 Icon(Icons.Filled.List, "")
             }
         },
-        floatingActionButton = { ActionButton { viewModel.navigate(Screen.EntryForm(Entry(0, dateTimeRepository.now(), null))) } },
+        floatingActionButton = { ActionButton { viewModel.navigate(Screen.EntryForm(Entry(0, dateTimeApi.now(), null))) } },
     )
 }
 

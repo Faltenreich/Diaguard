@@ -8,12 +8,19 @@ interface DateTimeApi {
     fun now(): DateTime
 
     /**
-     * Converts date time to a string in ISO-8601 format
-     */
-    fun convertDateTimeToIsoString(dateTime: DateTime): String
-
-    /**
      * Converts string in ISO-8601 format to date time
      */
-    fun convertIsoStringToDateTime(isoString: String): DateTime
+    fun isoStringToDateTime(isoString: String): DateTime
+
+    /**
+     * Converts date time to a string in ISO-8601 format
+     */
+    fun dateTimeToIsoString(dateTime: DateTime): String
+
+    /**
+     * Converts date time to a string formatted for current locale
+     */
+    fun dateTimeToLocalizedString(dateTime: DateTime): String {
+        TODO("Unsupported by kotlinx-datetime")
+    }
 }

@@ -25,7 +25,7 @@ class EntrySqlDelightDao(
         return queries.selectAll { id, dateTime, note ->
             Entry(
                 id = id,
-                dateTime = dateTimeApi.convertIsoStringToDateTime(dateTime),
+                dateTime = dateTimeApi.isoStringToDateTime(dateTime),
                 note = note,
             )
         }.asFlow().mapToList(dispatcher)
@@ -33,7 +33,7 @@ class EntrySqlDelightDao(
 
     override fun insert(entry: Entry) {
         queries.insert(
-            dateTime = dateTimeApi.convertDateTimeToIsoString(entry.dateTime),
+            dateTime = dateTimeApi.dateTimeToIsoString(entry.dateTime),
             note = entry.note,
         )
     }

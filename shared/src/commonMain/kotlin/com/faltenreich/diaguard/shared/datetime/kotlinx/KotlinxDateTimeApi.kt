@@ -13,11 +13,11 @@ class KotlinxDateTimeApi : DateTimeApi {
         return KotlinxDateTime(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
     }
 
-    override fun convertDateTimeToIsoString(dateTime: DateTime): String {
-        return dateTime.toString()
+    override fun isoStringToDateTime(isoString: String): DateTime {
+        return KotlinxDateTime(LocalDateTime.parse(isoString))
     }
 
-    override fun convertIsoStringToDateTime(isoString: String): DateTime {
-        return KotlinxDateTime(LocalDateTime.parse(isoString))
+    override fun dateTimeToIsoString(dateTime: DateTime): String {
+        return dateTime.toString()
     }
 }

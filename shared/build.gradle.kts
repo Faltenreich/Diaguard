@@ -42,6 +42,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(Dependencies.Androidx.composeMaterial3)
                 implementation(Dependencies.Koin.android)
                 implementation(Dependencies.Ktor.android)
                 implementation(Dependencies.SqlDelight.android)

@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.entry.list
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,13 +26,13 @@ fun EntryListItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = "Entry ${entry.id}",
-            modifier = Modifier.weight(1f),
+            text = entry.id.toString(),
+            modifier = Modifier.width(48.dp),
         )
-        Text(
-            text = dateTimeApi.dateTimeToLocalizedString(entry.dateTime),
-            modifier = Modifier.weight(2f),
-        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(dateTimeApi.dateTimeToLocalizedString(entry.dateTime))
+            Text(entry.note ?: "")
+        }
         ClearButton { onDelete(entry) }
     }
 }

@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
+import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +23,7 @@ class EntrySqlDelightDao(
     }
 
     override fun getAll(): Flow<List<Entry>> {
-        return queries.selectAll { id, dateTime, note ->
+        return queries.getAll { id, dateTime, note ->
             Entry(
                 id = id,
                 dateTime = dateTimeApi.isoStringToDateTime(dateTime),
@@ -31,15 +32,35 @@ class EntrySqlDelightDao(
         }.asFlow().mapToList(dispatcher)
     }
 
-    override fun insert(entry: Entry) {
-        queries.insert(
+    override fun getLastId(): Long? {
+        return queries.getLastId().executeAsOneOrNull()
+    }
+
+    override fun getById(id: Long): Entry? {
+        return queries.getById(id) { _, dateTime, note ->
+            Entry(
+                id = id,
+                dateTime = dateTimeApi.isoStringToDateTime(dateTime),
+                note = note,
+            )
+        }.executeAsOneOrNull()
+    }
+
+    override fun create(dateTime: DateTime) {
+        queries.create(
+            dateTime = dateTimeApi.dateTimeToIsoString(dateTime),
+        )
+    }
+
+    override fun update(entry: Entry) {
+        queries.update(
+            id = entry.id,
             dateTime = dateTimeApi.dateTimeToIsoString(entry.dateTime),
             note = entry.note,
         )
     }
 
     override fun delete(entry: Entry) {
-        val entryId = entry.id ?: return
-        queries.delete(id = entryId)
+        queries.deleteById(id = entry.id)
     }
 }

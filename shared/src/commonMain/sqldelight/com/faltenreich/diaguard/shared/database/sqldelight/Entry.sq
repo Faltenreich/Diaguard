@@ -1,16 +1,30 @@
 CREATE TABLE entry (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     dateTime TEXT NOT NULL,
     note TEXT
 );
 
-selectAll:
-SELECT * FROM entry;
+create:
+INSERT INTO entry(dateTime)
+VALUES (?);
 
-insert:
-INSERT INTO entry(dateTime, note)
-VALUES (?, ?);
+getLastId:
+SELECT last_insert_rowid();
 
-delete:
+getById:
+SELECT * FROM entry
+WHERE id = ?;
+
+getAll:
+SELECT * FROM entry
+ORDER BY dateTime DESC;
+
+update:
+UPDATE entry
+SET dateTime = ?,
+    note = ?
+WHERE id = ?;
+
+deleteById:
 DELETE FROM entry
 WHERE id = ?;

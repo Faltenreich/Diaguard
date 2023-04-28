@@ -1,7 +1,9 @@
 object Versions {
 
     const val androidCompose = "1.7.0"
-    const val androidGradle = "8.0.0"
+    // FIXME: 8.0.0 breaks svg support of moko-resources
+    // https://github.com/icerockdev/moko-resources/issues/466
+    const val androidGradle = "7.4.2"
     const val compose = "1.4.0-rc03"
     const val composeMaterial3 = "1.1.0-rc01"
     const val coroutines = "1.6.4"
@@ -11,7 +13,7 @@ object Versions {
     const val kotlin = "1.8.20"
     const val ksp = "1.8.20-1.0.11"
     const val ktor = "2.2.4"
-    const val moko = "0.21.1"
+    const val moko = "0.22.0"
     const val serialization = "1.5.0"
     const val sqlDelight = "2.0.0-alpha05"
     const val turbine = "0.12.3"

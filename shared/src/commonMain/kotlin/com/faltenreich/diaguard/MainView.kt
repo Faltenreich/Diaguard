@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -9,7 +8,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -17,7 +15,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
@@ -26,12 +23,14 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.dashboard.Dashboard
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
+import com.faltenreich.diaguard.log.Log
+import com.faltenreich.diaguard.navigation.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.BottomSheetState
+import com.faltenreich.diaguard.timeline.Timeline
 import kotlinx.coroutines.launch
 
 @Composable
@@ -56,19 +55,7 @@ fun MainView() {
                 }
 
                 if (sheetState.isVisible) {
-                    BottomSheet(
-                        onDismissRequest = { scope.launch { sheetState.hide() } },
-                        sheetState = sheetState,
-                    ) {
-                        Column {
-                            Button(onClick = {}) {
-                                Text("One")
-                            }
-                            Button(onClick = {}) {
-                                Text("Two")
-                            }
-                        }
-                    }
+                    BottomSheetNavigation(sheetState = sheetState)
                 }
             }
         }
@@ -116,6 +103,8 @@ private fun Content(
 ) {
     when (viewModel.uiState.collectAsState().value) {
         is Screen.Dashboard -> Dashboard(modifier = modifier)
+        is Screen.Timeline -> Timeline(modifier = modifier)
+        is Screen.Log -> Log(modifier = modifier)
         is Screen.EntryForm -> EntryForm(modifier = modifier)
     }
 }

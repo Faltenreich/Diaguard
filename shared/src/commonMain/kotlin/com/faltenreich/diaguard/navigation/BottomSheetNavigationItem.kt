@@ -20,7 +20,7 @@ import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
-fun MenuItem(
+fun BottomSheetNavigationItem(
     icon: ImageResource,
     label: StringResource,
     modifier: Modifier = Modifier,

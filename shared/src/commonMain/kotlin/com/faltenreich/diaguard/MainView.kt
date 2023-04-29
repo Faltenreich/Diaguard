@@ -10,7 +10,6 @@ import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -20,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
+import com.faltenreich.diaguard.navigation.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.DashboardTarget
 import com.faltenreich.diaguard.navigation.EntryFormTarget
@@ -43,9 +43,11 @@ fun MainView() {
                         bottomBar = {
                             BottomAppBar(
                                 actions = {
-                                    IconButton(onClick = { scope.launch { sheetState.show() } }) {
-                                        Icon(Icons.Filled.Menu, "")
-                                    }
+                                    BottomAppBarItem(
+                                        image = Icons.Filled.Menu,
+                                        contentDescription = MR.strings.menu_open,
+                                        onClick = { scope.launch { sheetState.show() } },
+                                    )
                                     // TODO: Actions
                                 },
                                 floatingActionButton = {

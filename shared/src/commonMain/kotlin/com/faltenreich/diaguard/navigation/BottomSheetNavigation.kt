@@ -25,17 +25,17 @@ fun BottomSheetNavigation(
         sheetState = sheetState,
     ) {
         Column {
-            MenuItem(
+            BottomSheetNavigationItem(
                 icon = MR.images.ic_dashboard,
                 label = MR.strings.dashboard,
                 onClick = { navigator.replaceAll(DashboardTarget) },
             )
-            MenuItem(
+            BottomSheetNavigationItem(
                 icon = MR.images.ic_timeline,
                 label = MR.strings.timeline,
                 onClick = { navigator.replaceAll(TimelineTarget) },
             )
-            MenuItem(
+            BottomSheetNavigationItem(
                 icon = MR.images.ic_log,
                 label = MR.strings.log,
                 onClick = { navigator.replaceAll(LogTarget) },

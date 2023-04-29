@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.view
 
-expect class BottomSheetState {
+expect class BottomSheetState constructor() {
 
     val isVisible: Boolean
 

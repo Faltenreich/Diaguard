@@ -31,6 +31,7 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.BottomSheetState
 import com.faltenreich.diaguard.timeline.Timeline
+import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
 
 @Composable
@@ -77,23 +78,16 @@ private fun BottomNavigation(
             }
             // TODO: Actions
         },
-        floatingActionButton = { ActionButton { viewModel.navigate(Screen.EntryForm(Entry(0, dateTimeApi.now(), null))) } },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { viewModel.navigate(Screen.EntryForm(Entry(0, dateTimeApi.now(), null))) },
+                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            ) {
+                Icon(Icons.Filled.Add, stringResource(MR.strings.entry_new))
+            }
+        },
     )
-}
-
-@Composable
-private fun ActionButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-) {
-    FloatingActionButton(
-        onClick = onClick,
-        modifier = modifier,
-        containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-    ) {
-        Icon(Icons.Filled.Add, "")
-    }
 }
 
 @Composable

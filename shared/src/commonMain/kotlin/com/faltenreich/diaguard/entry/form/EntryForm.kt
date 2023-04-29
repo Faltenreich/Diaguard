@@ -7,11 +7,13 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
 fun EntryForm(
+    entry: Entry?,
     modifier: Modifier = Modifier,
     viewModel: EntryFormViewModel = inject(),
 ) {

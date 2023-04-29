@@ -30,6 +30,8 @@ kotlin {
                 implementation(Dependencies.Ktor.contentNegotiation)
                 implementation(Dependencies.Ktor.serialization)
                 implementation(Dependencies.SqlDelight.coroutines)
+                implementation(Dependencies.Voyager.navigator)
+                implementation(Dependencies.Voyager.transitions)
             }
         }
         val commonTest by getting {

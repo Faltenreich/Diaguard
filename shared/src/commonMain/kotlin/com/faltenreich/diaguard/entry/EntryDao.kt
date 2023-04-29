@@ -13,6 +13,8 @@ interface EntryDao {
 
     fun getById(id: Long): Entry?
 
+    fun getByQuery(query: String): Flow<List<Entry>>
+
     fun update(entry: Entry)
 
     fun delete(entry: Entry)

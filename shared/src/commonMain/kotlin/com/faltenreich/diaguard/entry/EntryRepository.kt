@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import org.koin.core.annotation.Single
 
 @Single
@@ -30,8 +29,6 @@ class EntryRepository(
     }
 
     fun search(query: String): Flow<List<Entry>> {
-        return flow {
-            // TODO: Emit from EntryDao
-        }
+        return dao.getByQuery(query)
     }
 }

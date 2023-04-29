@@ -19,6 +19,10 @@ getAll:
 SELECT * FROM entry
 ORDER BY dateTime DESC;
 
+getByQuery:
+SELECT * FROM entry
+WHERE note LIKE '%' + ? + '%';
+
 update:
 UPDATE entry
 SET dateTime = ?,

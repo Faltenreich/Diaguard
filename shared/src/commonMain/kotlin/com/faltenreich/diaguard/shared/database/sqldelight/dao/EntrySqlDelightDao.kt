@@ -46,6 +46,16 @@ class EntrySqlDelightDao(
         }.executeAsOneOrNull()
     }
 
+    override fun getByQuery(query: String): Flow<List<Entry>> {
+        return queries.getByQuery(query) { id, dateTime, note ->
+            Entry(
+                id = id,
+                dateTime = dateTimeApi.isoStringToDateTime(dateTime),
+                note = note,
+            )
+        }.asFlow().mapToList(dispatcher)
+    }
+
     override fun create(dateTime: DateTime) {
         queries.create(
             dateTime = dateTimeApi.dateTimeToIsoString(dateTime),

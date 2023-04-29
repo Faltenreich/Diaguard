@@ -13,13 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.faltenreich.diaguard.MR
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
+import dev.icerock.moko.resources.compose.painterResource
+import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun MenuItem(
@@ -40,23 +38,13 @@ fun MenuItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(icon.drawableResId),
+            painter = painterResource(icon),
             contentDescription = null,
             modifier = Modifier.size(36.dp),
             colorFilter = ColorFilter.tint(Color.DarkGray),
         )
         Text(
-            text = stringResource(label.resourceId)
+            text = stringResource(label),
         )
     }
-}
-
-@Preview
-@Composable
-private fun MenuItemPreview() {
-    MenuItem(
-        icon = MR.images.ic_dashboard,
-        label = MR.strings.dashboard,
-        onClick = {},
-    )
 }

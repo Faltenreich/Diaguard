@@ -59,6 +59,8 @@ object Dependencies {
 
         const val resourcesPlugin = "dev.icerock.moko:resources-generator:${Versions.moko}"
         const val resources = "dev.icerock.moko:resources:${Versions.moko}"
+        const val resourcesCompose = "dev.icerock.moko:resources-compose:${Versions.moko}"
+        const val resourcesTest = "dev.icerock.moko:resources-test:${Versions.moko}"
     }
 
     object SqlDelight {

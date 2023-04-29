@@ -11,6 +11,8 @@ plugins {
 kotlin {
     android()
 
+    ios()
+
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
         val commonMain by getting {
@@ -19,7 +21,6 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.runtime)
-                implementation(compose.preview)
                 implementation(Dependencies.Koin.core)
                 implementation(Dependencies.Koin.annotations)
                 implementation(Dependencies.Kotlinx.coroutines)
@@ -53,6 +54,7 @@ kotlin {
                 implementation(Dependencies.Koin.testJunit4)
             }
         }
+        val iosMain by getting
     }
 
     sourceSets {
@@ -91,6 +93,8 @@ android {
 
 dependencies {
     commonMainApi(Dependencies.Moko.resources)
+    commonMainApi(Dependencies.Moko.resourcesCompose)
+    commonTestImplementation(Dependencies.Moko.resourcesTest)
     add("kspCommonMainMetadata", Dependencies.Koin.kspCompiler)
     add("kspAndroid", Dependencies.Koin.kspCompiler)
 }

@@ -32,7 +32,7 @@ object DashboardTarget : NavigationTarget(), Screen {
         BottomAppBarItem(
             image = Icons.Filled.Search,
             contentDescription = MR.strings.search_open,
-            onClick = { navigator.push(EntrySearchTarget) },
+            onClick = { navigator.push(EntrySearchTarget()) },
         )
     }
 }
@@ -61,10 +61,10 @@ data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget(), Scree
     }
 }
 
-object EntrySearchTarget : NavigationTarget(), Screen {
+data class EntrySearchTarget(val query: String? = null) : NavigationTarget(), Screen {
 
     @Composable
     override fun Content() {
-        EntrySearch()
+        EntrySearch(query = query)
     }
 }

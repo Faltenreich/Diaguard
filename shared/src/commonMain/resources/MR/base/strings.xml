@@ -8,7 +8,6 @@
     <string name="log">Log</string>
     <string name="menu_open">Open menu</string>
     <string name="search_open">Open search</string>
-    <string name="search_placeholder">Search for rhymes&#8230;</string>
-    <string name="search_hint">Enter text to search for rhymes</string>
+    <string name="search_placeholder">Search for entries&#8230;</string>
     <string name="timeline">Timeline</string>
 </resources>

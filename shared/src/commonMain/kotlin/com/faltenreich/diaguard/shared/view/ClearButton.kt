@@ -5,12 +5,11 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.MR
+import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun ClearButton(
-    localization: Localization = inject(),
     onClick: () -> Unit,
 ) {
     IconButton(
@@ -18,7 +17,7 @@ fun ClearButton(
     ) {
         Icon(
             Icons.Default.Clear,
-            contentDescription = localization.getString(com.faltenreich.diaguard.MR.strings.clear_input),
+            contentDescription = stringResource(MR.strings.clear_input),
         )
     }
 }

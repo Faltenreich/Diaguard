@@ -28,17 +28,17 @@ fun BottomSheetNavigation(
             MenuItem(
                 icon = MR.images.ic_dashboard,
                 label = MR.strings.dashboard,
-                onClick = { navigator.replaceAll(NavigationTarget.Dashboard) },
+                onClick = { navigator.replaceAll(DashboardTarget) },
             )
             MenuItem(
                 icon = MR.images.ic_timeline,
                 label = MR.strings.timeline,
-                onClick = { navigator.replaceAll(NavigationTarget.Timeline) },
+                onClick = { navigator.replaceAll(TimelineTarget) },
             )
             MenuItem(
                 icon = MR.images.ic_log,
                 label = MR.strings.log,
-                onClick = { navigator.replaceAll(NavigationTarget.Log) },
+                onClick = { navigator.replaceAll(LogTarget) },
             )
         }
     }

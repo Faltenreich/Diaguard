@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.navigation.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.DashboardTarget
 import com.faltenreich.diaguard.navigation.EntryFormTarget
+import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.shared.view.BottomSheetState
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
@@ -48,7 +49,7 @@ fun MainView() {
                                         contentDescription = MR.strings.menu_open,
                                         onClick = { scope.launch { sheetState.show() } },
                                     )
-                                    // TODO: Actions
+                                    (navigator.lastItem as? NavigationTarget)?.BottomAppBarItems()
                                 },
                                 floatingActionButton = {
                                     FloatingActionButton(

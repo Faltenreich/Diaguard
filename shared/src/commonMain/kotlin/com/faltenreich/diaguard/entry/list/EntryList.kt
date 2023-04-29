@@ -7,6 +7,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
@@ -16,7 +17,7 @@ fun EntryList(
 ) {
     val viewState = viewModel.viewState.collectAsState().value
     LazyColumn(modifier = modifier) {
-        items(items = viewState.entries, key = { it.id ?: 0 }) { entry ->
+        items(items = viewState.entries, key = Entry::id) { entry ->
             Column(
                 modifier = Modifier.animateItemPlacement(),
             ) {

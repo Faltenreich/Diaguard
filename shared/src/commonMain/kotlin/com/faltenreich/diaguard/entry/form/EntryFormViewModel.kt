@@ -6,11 +6,12 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.koin.core.annotation.Single
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.InjectedParam
 
-@Single
+@Factory
 class EntryFormViewModel(
-    entry: Entry?,
+    @InjectedParam entry: Entry?,
     private val entryRepository: EntryRepository = inject(),
 ) : ViewModel() {
 

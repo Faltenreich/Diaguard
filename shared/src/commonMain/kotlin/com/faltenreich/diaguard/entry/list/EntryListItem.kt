@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -9,7 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.navigation.EntryFormTarget
 import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.ClearButton
@@ -21,8 +25,11 @@ fun EntryListItem(
     onDelete: (Entry) -> Unit,
 ) {
     val dateTimeApi = inject<DateTimeApi>()
+    val navigator = LocalNavigator.currentOrThrow
     Row(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier
+            .clickable(onClick = { navigator.push(EntryFormTarget(entry)) })
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(

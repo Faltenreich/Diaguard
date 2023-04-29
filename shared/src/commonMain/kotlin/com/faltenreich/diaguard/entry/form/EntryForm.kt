@@ -8,14 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.shared.di.inject
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun EntryForm(
     entry: Entry?,
     modifier: Modifier = Modifier,
-    viewModel: EntryFormViewModel = inject(),
+    viewModel: EntryFormViewModel = inject { parametersOf(entry) },
 ) {
     val viewState = viewModel.viewState.collectAsState().value
     Column(modifier = modifier) {
@@ -26,6 +26,5 @@ fun EntryForm(
         Button(viewModel::submit) {
             Text("Submit")
         }
-        EntryList()
     }
 }

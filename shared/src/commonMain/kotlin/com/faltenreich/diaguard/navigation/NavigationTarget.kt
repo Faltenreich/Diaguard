@@ -25,7 +25,7 @@ sealed class NavigationTarget {
 
     open val topAppBarStyle: TopAppBarStyle = TopAppBarStyle.Hidden
 
-    open val bottomAppBarStyle: BottomAppBarStyle = BottomAppBarStyle.Hidden
+    open val bottomAppBarStyle: BottomAppBarStyle = BottomAppBarStyle.Visible()
 }
 
 object DashboardTarget : NavigationTarget(), Screen {

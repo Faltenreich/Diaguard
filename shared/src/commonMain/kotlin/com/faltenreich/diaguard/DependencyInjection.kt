@@ -4,7 +4,6 @@ import com.faltenreich.diaguard.shared.architecture.coroutineModule
 import com.faltenreich.diaguard.shared.clipboard.clipboardModule
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.datetime.dateTimeModule
-import com.faltenreich.diaguard.shared.localization.localizationModule
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
 import org.koin.core.context.startKoin
@@ -27,7 +26,6 @@ private fun mainModules() = listOf(
     clipboardModule(),
     dateTimeModule(),
     sqlDelightModule(),
-    localizationModule(),
 )
 
 @Module

@@ -2,13 +2,17 @@
 
 <resources>
     <string name="app_name">Diaguard</string>
+    <string name="cancel">Cancel</string>
     <string name="clear_input">Clear input</string>
     <string name="dashboard">Dashboard</string>
     <string name="entry_edit">Edit entry</string>
     <string name="entry_new">New entry</string>
     <string name="entry_new_description">Create new entry</string>
+    <string name="entry_save">Save entry</string>
     <string name="log">Log</string>
     <string name="menu_open">Open menu</string>
+    <string name="note">Note</string>
+    <string name="ok">OK</string>
     <string name="search_open">Open search</string>
     <string name="navigate_back">Go back</string>
     <string name="search_placeholder">Search for entries&#8230;</string>

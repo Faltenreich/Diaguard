@@ -3,23 +3,28 @@ package com.faltenreich.diaguard.entry.form
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.koin.core.annotation.Factory
 import org.koin.core.annotation.InjectedParam
+import org.koin.core.annotation.Single
 
-@Factory
+@Single
 class EntryFormViewModel(
-    @InjectedParam entry: Entry?,
-    private val entryRepository: EntryRepository = inject(),
+    @InjectedParam entry: Entry,
 ) : ViewModel() {
 
-    private val state = MutableStateFlow(EntryFormViewState(entry ?: entryRepository.create()))
+    private val entryRepository: EntryRepository = inject()
+    private val state = MutableStateFlow(EntryFormViewState(entry))
     val viewState = state.asStateFlow()
 
     fun setNote(note: String) {
         state.value = state.value.copy(entry = state.value.entry.copy(note = note))
+    }
+
+    fun setDateTime(dateTime: DateTime) {
+        state.value = state.value.copy(entry = state.value.entry.copy(dateTime = dateTime))
     }
 
     fun submit() {

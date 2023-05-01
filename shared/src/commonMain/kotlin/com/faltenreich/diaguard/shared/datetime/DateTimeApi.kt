@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.shared.datetime
 
+import com.faltenreich.diaguard.shared.primitive.format
+
 interface DateTimeApi {
 
     /**
@@ -11,6 +13,11 @@ interface DateTimeApi {
      * Converts string in ISO-8601 format to date time
      */
     fun isoStringToDateTime(isoString: String): DateTime
+
+    /**
+     * Converts millis to date time
+     */
+    fun millisToDateTime(millis: Long): DateTime
 
     /**
      * Converts date time to a string in ISO-8601 format

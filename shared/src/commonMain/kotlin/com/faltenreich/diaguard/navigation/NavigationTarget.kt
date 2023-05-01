@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -80,6 +81,18 @@ data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget(), Scree
             else MR.strings.entry_new
         ))
     }
+
+    override val bottomAppBarStyle = BottomAppBarStyle.Visible(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {}, // TODO: Communicate with view model
+                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            ) {
+                Icon(Icons.Filled.Check, stringResource(MR.strings.entry_save))
+            }
+        }
+    )
 
     @Composable
     override fun Content() {

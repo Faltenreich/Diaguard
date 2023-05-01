@@ -11,10 +11,8 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.koin.core.annotation.Single
 import kotlin.time.Duration.Companion.seconds
 
-@Single
 class EntrySearchViewModel(
     searchUseCase: EntrySearchUseCase,
     dispatcher: CoroutineDispatcher,

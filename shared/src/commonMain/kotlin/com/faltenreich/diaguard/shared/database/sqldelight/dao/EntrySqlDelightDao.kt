@@ -10,9 +10,7 @@ import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import org.koin.core.annotation.Single
 
-@Single
 class EntrySqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
     private val dateTimeApi: DateTimeApi,

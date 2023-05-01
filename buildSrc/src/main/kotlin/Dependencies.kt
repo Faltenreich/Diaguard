@@ -9,7 +9,7 @@ object Versions {
     const val coroutines = "1.6.4"
     const val dateTime = "0.4.0"
     const val koin = "3.4.0"
-    const val koinAnnotations = "1.2.0"
+    const val koinAndroidCompose = "3.4.4"
     const val kotlin = "1.8.20"
     const val ksp = "1.8.20-1.0.11"
     const val ktor = "2.2.4"
@@ -31,9 +31,8 @@ object Dependencies {
     object Koin {
 
         const val android = "io.insert-koin:koin-android:${Versions.koin}"
-        const val annotations = "io.insert-koin:koin-annotations:${Versions.koinAnnotations}"
+        const val androidCompose = "io.insert-koin:koin-androidx-compose:${Versions.koinAndroidCompose}"
         const val core = "io.insert-koin:koin-core:${Versions.koin}"
-        const val kspCompiler = "io.insert-koin:koin-ksp-compiler:${Versions.koinAnnotations}"
         const val ktor = "io.insert-koin:koin-ktor:${Versions.koin}"
         const val test = "io.insert-koin:koin-test:${Versions.koin}"
         const val testJunit4 = "io.insert-koin:koin-test-junit4:${Versions.koin}"

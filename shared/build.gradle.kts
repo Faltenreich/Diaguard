@@ -22,7 +22,6 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.runtime)
                 implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Koin.annotations)
                 implementation(Dependencies.Kotlinx.coroutines)
                 implementation(Dependencies.Kotlinx.dateTime)
                 implementation(Dependencies.Kotlinx.serialization)
@@ -47,6 +46,7 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Androidx.composeMaterial3)
                 implementation(Dependencies.Koin.android)
+                implementation(Dependencies.Koin.androidCompose)
                 implementation(Dependencies.Ktor.android)
                 implementation(Dependencies.SqlDelight.android)
             }
@@ -97,8 +97,6 @@ dependencies {
     commonMainApi(Dependencies.Moko.resources)
     commonMainApi(Dependencies.Moko.resourcesCompose)
     commonTestImplementation(Dependencies.Moko.resourcesTest)
-    add("kspCommonMainMetadata", Dependencies.Koin.kspCompiler)
-    add("kspAndroid", Dependencies.Koin.kspCompiler)
 }
 
 multiplatformResources {

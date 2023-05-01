@@ -2,9 +2,7 @@ package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import kotlinx.coroutines.flow.Flow
-import org.koin.core.annotation.Single
 
-@Single
 class EntryRepository(
     private val dao: EntryDao,
     private val dateTimeApi: DateTimeApi,

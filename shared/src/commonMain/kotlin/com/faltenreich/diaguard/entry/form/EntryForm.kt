@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.entry.form
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -16,6 +18,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
+import com.faltenreich.diaguard.shared.view.TimePicker
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
@@ -26,16 +29,24 @@ fun EntryForm(
     val dateTimeApi = inject<DateTimeApi>()
     val viewState = viewModel.viewState.collectAsState().value
     val datePickerState = remember { mutableStateOf(false) }
+    val timePickerState = remember { mutableStateOf(false) }
     Column(modifier = modifier.padding(16.dp)) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            Button(onClick = { datePickerState.value = true }) {
+                Text(dateTimeApi.dateToLocalizedString(viewState.entry.dateTime.date))
+            }
+            Button(onClick = { timePickerState.value = true }) {
+                Text(dateTimeApi.timeToLocalizedString(viewState.entry.dateTime.time))
+            }
+        }
         TextField(
             value = viewState.entry.note ?: "",
             onValueChange = viewModel::setNote,
             modifier = Modifier.fillMaxWidth(),
             placeholder = { Text(stringResource(MR.strings.note)) },
         )
-        Button(onClick = { datePickerState.value = true }) {
-            Text(dateTimeApi.dateTimeToLocalizedString(viewState.entry.dateTime))
-        }
     }
     if (datePickerState.value) {
         DatePicker(
@@ -43,6 +54,15 @@ fun EntryForm(
             onPick = { date ->
                 datePickerState.value = false
                 viewModel.setDate(date)
+            },
+        )
+    }
+    if (timePickerState.value) {
+        TimePicker(
+            time = viewState.entry.dateTime.time,
+            onPick = { date ->
+                timePickerState.value = false
+                viewModel.setTime(date)
             },
         )
     }

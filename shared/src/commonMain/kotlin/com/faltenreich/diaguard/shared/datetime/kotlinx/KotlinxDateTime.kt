@@ -7,9 +7,14 @@ import kotlinx.datetime.LocalDateTime
 
 class KotlinxDateTime(
     private val localDateTime: LocalDateTime,
-    override val date: Date = KotlinxDate(localDateTime.date),
-    override val time: Time = KotlinxTime(localDateTime.time),
-) : DateTime, Date by date, Time by time {
+) : DateTime {
+
+
+    override val date: Date
+        get() = KotlinxDate(localDateTime.date)
+
+    override val time: Time
+    get() = KotlinxTime(localDateTime.time)
 
     override fun toString(): String {
         return localDateTime.toString()

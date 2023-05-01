@@ -5,33 +5,33 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import com.faltenreich.diaguard.shared.di.inject
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 actual fun DatePicker(
-    dateTime: DateTime,
-    onDatePick: (DateTime) -> Unit,
+    date: Date,
+    onPick: (Date) -> Unit,
 ) {
     val dateTimeApi = inject<DateTimeApi>()
     val datePickerState = rememberDatePickerState()
     androidx.compose.material3.DatePickerDialog(
-        onDismissRequest = { onDatePick(dateTime) },
+        onDismissRequest = { onPick(date) },
         confirmButton = {
             TextButton(
                 onClick = {
                     val millis = datePickerState.selectedDateMillis ?: return@TextButton
-                    val localDateTime = dateTimeApi.millisToDateTime(millis)
-                    onDatePick(localDateTime)
+                    val dateTime = dateTimeApi.millisToDateTime(millis)
+                    onPick(dateTime.date)
                 }
             ) {
                 Text(stringResource(MR.strings.ok))
             }
         },
         dismissButton = {
-            TextButton(onClick = { onDatePick(dateTime) }) {
+            TextButton(onClick = { onPick(date) }) {
                 Text(stringResource(MR.strings.cancel))
             }
         },

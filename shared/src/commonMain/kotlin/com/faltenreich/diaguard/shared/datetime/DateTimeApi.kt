@@ -31,11 +31,11 @@ interface DateTimeApi {
         // TODO: Localize format which is currently unsupported by kotlinx-datetime
         return dateTime.run {
             "%02d.%02d.%04d %02d:%02d".format(
-                dayOfMonth,
-                monthOfYear,
-                year,
-                hourOfDay,
-                minuteOfHour,
+                date.dayOfMonth,
+                date.monthOfYear,
+                date.year,
+                time.hourOfDay,
+                time.minuteOfHour,
             )
         }
     }

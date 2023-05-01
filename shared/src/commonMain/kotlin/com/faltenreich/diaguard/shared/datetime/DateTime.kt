@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.shared.datetime
 /**
  * Temporal interface representing local date and time
  */
-interface DateTime : Date, Time {
+interface DateTime {
 
     /**
      * Local date

@@ -39,10 +39,10 @@ fun EntryForm(
     }
     if (datePickerState.value) {
         DatePicker(
-            dateTime = viewState.entry.dateTime,
-            onDatePick = { dateTime ->
+            date = viewState.entry.dateTime.date,
+            onPick = { date ->
                 datePickerState.value = false
-                viewModel.setDateTime(dateTime)
+                viewModel.setDate(date)
             },
         )
     }

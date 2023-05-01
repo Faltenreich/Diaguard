@@ -19,4 +19,6 @@ interface Date {
      * Day-of-month ranging from 1 to 31, depending on month
      */
     val dayOfMonth: Int
+
+    fun atTime(time: Time): DateTime
 }

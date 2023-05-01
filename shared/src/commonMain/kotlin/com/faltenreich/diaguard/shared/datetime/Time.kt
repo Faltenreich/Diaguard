@@ -29,4 +29,6 @@ interface Time {
      * Nanoseconds-of-millisecond ranging from 0 to 1,000
      */
     val nanosOfMillis: Int
+
+    fun atDate(date: Date): DateTime
 }

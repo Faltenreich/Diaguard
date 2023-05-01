@@ -25,7 +25,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.timeline.Timeline
 import dev.icerock.moko.resources.compose.stringResource
 
-sealed interface NavigationTarget {
+sealed interface NavigationTarget : Screen {
 
     val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.Hidden
@@ -34,7 +34,7 @@ sealed interface NavigationTarget {
         get() = BottomAppBarStyle.Visible()
 }
 
-object DashboardTarget : NavigationTarget, Screen {
+object DashboardTarget : NavigationTarget {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
@@ -47,7 +47,7 @@ object DashboardTarget : NavigationTarget, Screen {
     }
 }
 
-object TimelineTarget : NavigationTarget, Screen {
+object TimelineTarget : NavigationTarget {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
@@ -60,7 +60,7 @@ object TimelineTarget : NavigationTarget, Screen {
     }
 }
 
-object LogTarget : NavigationTarget, Screen {
+object LogTarget : NavigationTarget {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
@@ -73,7 +73,7 @@ object LogTarget : NavigationTarget, Screen {
     }
 }
 
-data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget, Screen {
+data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget {
 
     override val topAppBarStyle = TopAppBarStyle.CenterAligned {
         Text(stringResource(
@@ -100,7 +100,7 @@ data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget, Screen 
     }
 }
 
-data class EntrySearchTarget(val query: String? = null) : NavigationTarget, Screen {
+data class EntrySearchTarget(val query: String? = null) : NavigationTarget {
 
     @Composable
     override fun Content() {

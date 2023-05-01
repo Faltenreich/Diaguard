@@ -3,45 +3,15 @@ package com.faltenreich.diaguard.shared.datetime
 /**
  * Temporal interface representing local date and time
  */
-interface DateTime {
+interface DateTime : Date, Time {
 
     /**
-     * Year starting at 0 AD
+     * Local date
      */
-    val year: Int
+    val date: Date
 
     /**
-     * Month-of-year ranging from 1 to 12
+     * Local time
      */
-    val monthOfYear: Int
-
-    /**
-     * Day-of-month ranging from 1 to 31, depending on month
-     */
-    val dayOfMonth: Int
-
-    /**
-     * Hour-of-day ranging from 0 to 24
-     */
-    val hourOfDay: Int
-
-    /**
-     * Minute-of-hour ranging from 0 to 60
-     */
-    val minuteOfHour: Int
-
-    /**
-     * Second-of-minute ranging from 0 to 60
-     */
-    val secondOfMinute: Int
-
-    /**
-     * Milliseconds-of-second ranging from 0 to 1,000
-     */
-    val millisOfSecond: Int
-
-    /**
-     * Nanoseconds-of-millisecond ranging from 0 to 1,000
-     */
-    val nanosOfMillis: Int
+    val time: Time
 }

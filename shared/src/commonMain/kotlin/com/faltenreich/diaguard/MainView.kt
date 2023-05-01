@@ -34,7 +34,7 @@ fun MainView() {
     MainTheme {
         Surface (
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             Navigator(screen = LogTarget) { navigator ->
                 val scope = rememberCoroutineScope()

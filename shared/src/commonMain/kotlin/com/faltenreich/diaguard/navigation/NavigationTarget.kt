@@ -25,26 +25,29 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.timeline.Timeline
 import dev.icerock.moko.resources.compose.stringResource
 
-sealed class NavigationTarget {
+sealed interface NavigationTarget {
 
-    open val topAppBarStyle: TopAppBarStyle = TopAppBarStyle.Hidden
+    val topAppBarStyle: TopAppBarStyle
+        get() = TopAppBarStyle.Hidden
 
-    open val bottomAppBarStyle: BottomAppBarStyle = BottomAppBarStyle.Visible()
+    val bottomAppBarStyle: BottomAppBarStyle
+        get() = BottomAppBarStyle.Visible()
 }
 
-object DashboardTarget : NavigationTarget(), Screen {
+object DashboardTarget : NavigationTarget, Screen {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
         floatingActionButton = { EntryFormFloatingActionButton() },
     )
 
-    @Composable override fun Content() {
+    @Composable
+    override fun Content() {
         Dashboard()
     }
 }
 
-object TimelineTarget : NavigationTarget(), Screen {
+object TimelineTarget : NavigationTarget, Screen {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
@@ -57,7 +60,7 @@ object TimelineTarget : NavigationTarget(), Screen {
     }
 }
 
-object LogTarget : NavigationTarget(), Screen {
+object LogTarget : NavigationTarget, Screen {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
@@ -70,7 +73,7 @@ object LogTarget : NavigationTarget(), Screen {
     }
 }
 
-data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget(), Screen {
+data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget, Screen {
 
     override val topAppBarStyle = TopAppBarStyle.CenterAligned {
         Text(stringResource(
@@ -97,7 +100,7 @@ data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget(), Scree
     }
 }
 
-data class EntrySearchTarget(val query: String? = null) : NavigationTarget(), Screen {
+data class EntrySearchTarget(val query: String? = null) : NavigationTarget, Screen {
 
     @Composable
     override fun Content() {

@@ -13,19 +13,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
 import dev.icerock.moko.resources.compose.stringResource
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun EntryForm(
-    entry: Entry?,
+    viewModel: EntryFormViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = inject<EntryFormViewModel> { parametersOf(entry) }
     val dateTimeApi = inject<DateTimeApi>()
     val viewState = viewModel.viewState.collectAsState().value
     val datePickerState = remember { mutableStateOf(false) }

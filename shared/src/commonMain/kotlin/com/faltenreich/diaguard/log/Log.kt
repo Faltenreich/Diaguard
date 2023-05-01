@@ -1,10 +1,19 @@
 package com.faltenreich.diaguard.log
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.entry.list.EntryList
 
 @Composable
-fun Log(modifier: Modifier = Modifier) {
-    Text("Log", modifier = modifier)
+fun Log(
+    viewModel: LogViewModel,
+    modifier: Modifier = Modifier,
+) {
+    val state = viewModel.viewState.collectAsState().value
+    EntryList(
+        entries = state.entries,
+        modifier = modifier,
+        onDelete = viewModel::delete,
+    )
 }

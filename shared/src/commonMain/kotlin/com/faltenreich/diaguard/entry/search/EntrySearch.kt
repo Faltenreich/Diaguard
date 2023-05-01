@@ -7,16 +7,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.SearchField
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun EntrySearch(
-    query: String? = null,
+    viewModel: EntrySearchViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = inject<EntrySearchViewModel>()
     val state = viewModel.viewState.collectAsState().value
     Box(
         modifier = modifier.padding(16.dp),

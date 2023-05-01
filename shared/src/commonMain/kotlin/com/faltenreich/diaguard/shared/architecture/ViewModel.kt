@@ -1,10 +1,11 @@
 package com.faltenreich.diaguard.shared.architecture
 
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
 import kotlinx.coroutines.CoroutineScope
 
-expect abstract class ViewModel() {
+abstract class ViewModel : ScreenModel {
 
     val viewModelScope: CoroutineScope
-
-    protected open fun onCleared()
+        get() = coroutineScope
 }

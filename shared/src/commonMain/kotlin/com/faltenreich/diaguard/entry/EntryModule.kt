@@ -1,16 +1,16 @@
 package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
-import com.faltenreich.diaguard.entry.list.EntryListViewModel
 import com.faltenreich.diaguard.entry.search.EntrySearchUseCase
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
+import com.faltenreich.diaguard.log.LogViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 fun entryModule() = module {
     singleOf(::EntryRepository)
 
-    singleOf(::EntryListViewModel)
+    singleOf(::LogViewModel)
 
     singleOf(::EntrySearchUseCase)
     singleOf(::EntrySearchViewModel)

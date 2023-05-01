@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class EntrySearchViewModel(
+    query: String?,
     searchUseCase: EntrySearchUseCase,
     dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
@@ -31,6 +32,7 @@ class EntrySearchViewModel(
                 .onEach { entries -> state.value = EntrySearchViewState.Result(state.value.query, entries) }
                 .collect()
         }
+        query?.let(::onQueryChange)
     }
 
     fun onQueryChange(query: String) {

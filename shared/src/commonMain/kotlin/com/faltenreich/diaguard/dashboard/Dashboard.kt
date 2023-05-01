@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.dashboard
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.entry.list.EntryList
 
 @Composable
 fun Dashboard(modifier: Modifier = Modifier) {
-    EntryList(modifier = modifier)
+    Text("Dashboard", modifier = modifier)
 }

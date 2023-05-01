@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.entry.list
+package com.faltenreich.diaguard.log
 
 import com.faltenreich.diaguard.entry.Entry
 
-data class EntryListViewState(
+data class LogViewState(
     val entries: List<Entry> = emptyList(),
 )

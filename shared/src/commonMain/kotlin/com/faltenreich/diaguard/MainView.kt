@@ -22,7 +22,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import com.faltenreich.diaguard.navigation.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.BottomSheetNavigation
-import com.faltenreich.diaguard.navigation.DashboardTarget
+import com.faltenreich.diaguard.navigation.LogTarget
 import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.TopAppBarStyle
 import com.faltenreich.diaguard.shared.view.BottomSheetState
@@ -36,7 +36,7 @@ fun MainView() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            Navigator(screen = DashboardTarget) { navigator ->
+            Navigator(screen = LogTarget) { navigator ->
                 val scope = rememberCoroutineScope()
                 val sheetState = remember { BottomSheetState() }
                 Box {

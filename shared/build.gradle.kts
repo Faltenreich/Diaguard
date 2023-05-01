@@ -46,16 +46,11 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Androidx.composeMaterial3)
                 implementation(Dependencies.Koin.android)
-                implementation(Dependencies.Koin.androidCompose)
                 implementation(Dependencies.Ktor.android)
                 implementation(Dependencies.SqlDelight.android)
             }
         }
-        val androidInstrumentedTest by getting {
-            dependencies {
-                implementation(Dependencies.Koin.testJunit4)
-            }
-        }
+        val androidInstrumentedTest by getting
         val iosMain by getting
     }
 

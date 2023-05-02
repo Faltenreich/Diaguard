@@ -6,9 +6,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import com.faltenreich.diaguard.shared.datetime.Time
-import com.faltenreich.diaguard.shared.di.inject
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
@@ -16,7 +14,6 @@ actual fun TimePicker(
     time: Time,
     onPick: (Time) -> Unit,
 ) {
-    val api = inject<DateTimeApi>()
     val state = rememberTimePickerState(
         initialHour = time.hourOfDay,
         initialMinute = time.minuteOfHour,
@@ -26,7 +23,7 @@ actual fun TimePicker(
     DatePickerDialog(
         onDismissRequest = { onPick(time) },
         confirmButton = {
-            TextButton(onClick = { onPick(api.time(state.hour, state.minute)) }) {
+            TextButton(onClick = { onPick(Time(state.hour, state.minute)) }) {
                 Text(stringResource(MR.strings.ok))
             }
         },

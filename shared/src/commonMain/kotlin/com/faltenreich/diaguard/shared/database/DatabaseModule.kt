@@ -8,5 +8,5 @@ import org.koin.dsl.module
 
 fun databaseModule() = module {
     singleOf(::SqlDelightDatabase)
-    single<EntryDao> { EntrySqlDelightDao(get(), get()) }
+    single<EntryDao> { EntrySqlDelightDao(get()) }
 }

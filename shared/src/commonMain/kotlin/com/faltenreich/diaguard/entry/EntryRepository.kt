@@ -1,11 +1,10 @@
 package com.faltenreich.diaguard.entry
 
-import com.faltenreich.diaguard.shared.datetime.DateTimeApi
+import com.faltenreich.diaguard.shared.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
 class EntryRepository(
     private val dao: EntryDao,
-    private val dateTimeApi: DateTimeApi,
 ) {
 
     fun getAll(): Flow<List<Entry>> {
@@ -13,7 +12,7 @@ class EntryRepository(
     }
 
     fun create(): Entry {
-        dao.create(dateTimeApi.now())
+        dao.create(DateTime.now())
         val id = dao.getLastId() ?: throw IllegalStateException("No entry found")
         return dao.getById(id) ?: throw IllegalStateException("No entry found")
     }

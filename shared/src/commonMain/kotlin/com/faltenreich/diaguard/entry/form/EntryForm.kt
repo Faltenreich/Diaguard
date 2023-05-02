@@ -15,8 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.shared.datetime.DateTimeApi
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
 import com.faltenreich.diaguard.shared.view.TimePicker
 import dev.icerock.moko.resources.compose.stringResource
@@ -26,7 +24,6 @@ fun EntryForm(
     viewModel: EntryFormViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val dateTimeApi = inject<DateTimeApi>()
     val viewState = viewModel.viewState.collectAsState().value
     val datePickerState = remember { mutableStateOf(false) }
     val timePickerState = remember { mutableStateOf(false) }
@@ -35,10 +32,10 @@ fun EntryForm(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Button(onClick = { datePickerState.value = true }) {
-                Text(dateTimeApi.dateToLocalizedString(viewState.entry.dateTime.date))
+                Text(viewState.entry.dateTime.date.localized())
             }
             Button(onClick = { timePickerState.value = true }) {
-                Text(dateTimeApi.timeToLocalizedString(viewState.entry.dateTime.time))
+                Text(viewState.entry.dateTime.time.localized())
             }
         }
         TextField(

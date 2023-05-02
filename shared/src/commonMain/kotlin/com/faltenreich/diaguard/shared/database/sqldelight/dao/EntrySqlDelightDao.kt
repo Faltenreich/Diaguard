@@ -7,13 +7,11 @@ import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.datetime.DateTime
-import com.faltenreich.diaguard.shared.datetime.DateTimeApi
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 class EntrySqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
-    private val dateTimeApi: DateTimeApi,
 ) : EntryDao, SqlDelightDao<EntryQueries> {
 
     override fun getQueries(api: SqlDelightApi): EntryQueries {
@@ -24,7 +22,7 @@ class EntrySqlDelightDao(
         return queries.getAll { id, dateTime, note ->
             Entry(
                 id = id,
-                dateTime = dateTimeApi.isoStringToDateTime(dateTime),
+                dateTime = DateTime(dateTime),
                 note = note,
             )
         }.asFlow().mapToList(dispatcher)
@@ -38,7 +36,7 @@ class EntrySqlDelightDao(
         return queries.getById(id) { _, dateTime, note ->
             Entry(
                 id = id,
-                dateTime = dateTimeApi.isoStringToDateTime(dateTime),
+                dateTime = DateTime(dateTime),
                 note = note,
             )
         }.executeAsOneOrNull()
@@ -48,7 +46,7 @@ class EntrySqlDelightDao(
         return queries.getByQuery(query) { id, dateTime, note ->
             Entry(
                 id = id,
-                dateTime = dateTimeApi.isoStringToDateTime(dateTime),
+                dateTime = DateTime(dateTime),
                 note = note,
             )
         }.asFlow().mapToList(dispatcher)
@@ -56,14 +54,14 @@ class EntrySqlDelightDao(
 
     override fun create(dateTime: DateTime) {
         queries.create(
-            dateTime = dateTimeApi.dateTimeToIsoString(dateTime),
+            dateTime = dateTime.isoString,
         )
     }
 
     override fun update(entry: Entry) {
         queries.update(
             id = entry.id,
-            dateTime = dateTimeApi.dateTimeToIsoString(entry.dateTime),
+            dateTime = entry.dateTime.isoString,
             note = entry.note,
         )
     }

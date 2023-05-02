@@ -7,26 +7,28 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateTimeApi
-import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxTime
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.Time
 import dev.icerock.moko.resources.compose.stringResource
-import kotlinx.datetime.LocalTime
 
 @Composable
 actual fun DatePicker(
     date: Date,
     onPick: (Date) -> Unit,
 ) {
-    val api = inject<DateTimeApi>()
     val state = rememberDatePickerState(
-        // TODO: Remove dependency to library
-        initialSelectedDateMillis = date.atTime(KotlinxTime(LocalTime(0, 0))).millisSince1970,
+        initialSelectedDateMillis = date.atTime(Time(0, 0)).millisSince1970,
     )
     DatePickerDialog(
         onDismissRequest = { onPick(date) },
         confirmButton = {
-            TextButton(onClick = { onPick(state.selectedDateMillis?.let(api::date) ?: date) }) {
+            TextButton(
+                onClick = {
+                    onPick(state.selectedDateMillis?.let { millis ->
+                        DateTime(millis).date
+                    } ?: date)
+                },
+            ) {
                 Text(stringResource(MR.strings.ok))
             }
         },

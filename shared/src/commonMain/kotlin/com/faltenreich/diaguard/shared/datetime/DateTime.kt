@@ -1,13 +1,16 @@
 package com.faltenreich.diaguard.shared.datetime
 
+import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDate
+import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTime
+import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxTime
 import com.faltenreich.diaguard.shared.primitive.format
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
+// TODO: Extract everything related to kotlinx.datetime
 class DateTime(
     year: Int,
     monthOfYear: Int,
@@ -17,6 +20,25 @@ class DateTime(
     secondOfMinute: Int,
     millisOfSecond: Int,
     nanosOfMillis: Int,
+) : Dateable by KotlinxDate(
+    year = year,
+    monthOfYear = monthOfYear,
+    dayOfMonth = dayOfMonth,
+), Timeable by KotlinxTime(
+    hourOfDay = hourOfDay,
+    minuteOfHour = minuteOfHour,
+    secondOfMinute = secondOfMinute,
+    millisOfSecond = millisOfSecond,
+    nanosOfMillis = nanosOfMillis,
+), DateTimeable by KotlinxDateTime(
+    year = year,
+    monthOfYear = monthOfYear,
+    dayOfMonth = dayOfMonth,
+    hourOfDay = hourOfDay,
+    minuteOfHour = minuteOfHour,
+    secondOfMinute = secondOfMinute,
+    millisOfSecond = millisOfSecond,
+    nanosOfMillis = nanosOfMillis,
 ) {
 
     private constructor(localDateTime: LocalDateTime) : this(
@@ -39,38 +61,6 @@ class DateTime(
             .fromEpochMilliseconds(millis)
             .toLocalDateTime(TimeZone.currentSystemDefault()),
     )
-
-    private val localDateTime = LocalDateTime(
-        year = year,
-        monthNumber = monthOfYear,
-        dayOfMonth = dayOfMonth,
-        hour = hourOfDay,
-        minute = minuteOfHour,
-        second = secondOfMinute,
-        nanosecond = millisOfSecond * DateTimeConstants.NANOS_PER_SECOND + nanosOfMillis,
-    )
-
-    val date: Date
-        get() = Date(
-            year = localDateTime.year,
-            monthOfYear = localDateTime.monthNumber,
-            dayOfMonth = localDateTime.dayOfMonth,
-        )
-
-    val time: Time
-        get() = Time(
-            hourOfDay = localDateTime.hour,
-            minuteOfHour = localDateTime.minute,
-            secondOfMinute = localDateTime.second,
-            millisOfSecond = localDateTime.nanosecond / DateTimeConstants.NANOS_PER_SECOND,
-            nanosOfMillis = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
-        )
-
-    val millisSince1970: Long
-        get() = localDateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
-
-    val isoString: String
-        get() = localDateTime.toString()
 
     fun localized(): String {
         return "%s %s".format(

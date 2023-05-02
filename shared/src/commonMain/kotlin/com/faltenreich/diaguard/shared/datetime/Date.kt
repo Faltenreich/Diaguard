@@ -1,37 +1,17 @@
 package com.faltenreich.diaguard.shared.datetime
 
+import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDate
 import com.faltenreich.diaguard.shared.primitive.format
-import kotlinx.datetime.LocalDate
 
 class Date(
     year: Int,
     monthOfYear: Int,
     dayOfMonth: Int,
+) : Dateable by KotlinxDate(
+    year = year,
+    monthOfYear = monthOfYear,
+    dayOfMonth = dayOfMonth,
 ) {
-
-    private val localDate = LocalDate(
-        year = year,
-        monthNumber = monthOfYear,
-        dayOfMonth = dayOfMonth,
-    )
-
-    /**
-     * Year starting at 0 AD
-     */
-    val year: Int
-        get() = localDate.year
-
-    /**
-     * Month-of-year ranging from 1 to 12
-     */
-    val monthOfYear: Int
-        get() = localDate.monthNumber
-
-    /**
-     * Day-of-month ranging from 1 to 31, depending on month
-     */
-    val dayOfMonth: Int
-        get() = localDate.dayOfMonth
 
     fun atTime(time: Time): DateTime {
         return DateTime(

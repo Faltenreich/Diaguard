@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeApi
+import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxTime
 import com.faltenreich.diaguard.shared.di.inject
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.datetime.LocalTime
 
 @Composable
 actual fun DatePicker(
@@ -18,7 +20,8 @@ actual fun DatePicker(
 ) {
     val api = inject<DateTimeApi>()
     val state = rememberDatePickerState(
-        initialSelectedDateMillis = null, // TODO: Pass millis from parameter
+        // TODO: Remove dependency to library
+        initialSelectedDateMillis = date.atTime(KotlinxTime(LocalTime(0, 0))).millisSince1970,
     )
     DatePickerDialog(
         onDismissRequest = { onPick(date) },

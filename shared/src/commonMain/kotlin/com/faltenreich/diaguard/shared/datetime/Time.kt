@@ -1,8 +1,5 @@
 package com.faltenreich.diaguard.shared.datetime
 
-/**
- * Temporal interface representing local time
- */
 interface Time {
 
     /**

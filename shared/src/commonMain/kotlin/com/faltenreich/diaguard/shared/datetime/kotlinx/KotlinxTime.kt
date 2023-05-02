@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.datetime.kotlinx
 
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -19,10 +20,10 @@ class KotlinxTime(private val localTime: LocalTime) : Time {
         get() = localTime.second
 
     override val millisOfSecond: Int
-        get() = localTime.nanosecond / NANO_SECONDS_PER_SECOND
+        get() = localTime.nanosecond / DateTimeConstants.NANOS_PER_SECOND
 
     override val nanosOfMillis: Int
-        get() = localTime.nanosecond.mod(NANO_SECONDS_PER_SECOND)
+        get() = localTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND)
 
     override fun atDate(date: Date): DateTime {
         val localDate = LocalDate(
@@ -36,10 +37,5 @@ class KotlinxTime(private val localTime: LocalTime) : Time {
 
     override fun toString(): String {
         return localTime.toString()
-    }
-
-    companion object {
-
-        const val NANO_SECONDS_PER_SECOND = 1_000
     }
 }

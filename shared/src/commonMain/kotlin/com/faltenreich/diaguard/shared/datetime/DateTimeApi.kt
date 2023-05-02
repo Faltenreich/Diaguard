@@ -15,7 +15,7 @@ interface DateTimeApi {
     fun isoStringToDateTime(isoString: String): DateTime
 
     /**
-     * Converts millis to date time
+     * Converts millis to date
      */
     fun date(millis: Long): Date
 

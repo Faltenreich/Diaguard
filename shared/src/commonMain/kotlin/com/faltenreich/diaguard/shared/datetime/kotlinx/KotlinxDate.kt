@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.datetime.kotlinx
 
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -23,7 +24,7 @@ class KotlinxDate(private val localDate: LocalDate) : Date {
             hour = time.hourOfDay,
             minute = time.minuteOfHour,
             second = time.secondOfMinute,
-            nanosecond = time.millisOfSecond * KotlinxTime.NANO_SECONDS_PER_SECOND + time.nanosOfMillis,
+            nanosecond = time.millisOfSecond * DateTimeConstants.NANOS_PER_SECOND + time.nanosOfMillis,
         )
         val localDateTime = localDate.atTime(localTime)
         return KotlinxDateTime(localDateTime)

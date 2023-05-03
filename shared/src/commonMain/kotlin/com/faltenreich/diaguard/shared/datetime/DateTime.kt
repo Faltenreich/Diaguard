@@ -4,13 +4,7 @@ import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDate
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTime
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxTime
 import com.faltenreich.diaguard.shared.primitive.format
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
-// TODO: Extract everything related to kotlinx.datetime
 class DateTime(
     year: Int,
     monthOfYear: Int,
@@ -41,26 +35,20 @@ class DateTime(
     nanosOfMillis = nanosOfMillis,
 ) {
 
-    private constructor(localDateTime: LocalDateTime) : this(
-        year = localDateTime.year,
-        monthOfYear = localDateTime.monthNumber,
-        dayOfMonth = localDateTime.dayOfMonth,
-        hourOfDay = localDateTime.hour,
-        minuteOfHour = localDateTime.minute,
-        secondOfMinute = localDateTime.second,
-        millisOfSecond = localDateTime.nanosecond / DateTimeConstants.NANOS_PER_SECOND,
-        nanosOfMillis = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
+    private constructor(kotlinxDateTime: KotlinxDateTime) : this(
+        year = kotlinxDateTime.date.year,
+        monthOfYear = kotlinxDateTime.date.monthOfYear,
+        dayOfMonth = kotlinxDateTime.date.dayOfMonth,
+        hourOfDay = kotlinxDateTime.time.hourOfDay,
+        minuteOfHour = kotlinxDateTime.time.minuteOfHour,
+        secondOfMinute = kotlinxDateTime.time.secondOfMinute,
+        millisOfSecond = kotlinxDateTime.time.millisOfSecond,
+        nanosOfMillis = kotlinxDateTime.time.nanosOfMillis,
     )
 
-    constructor(isoString: String) : this(
-        localDateTime = LocalDateTime.parse(isoString),
-    )
+    constructor(isoString: String) : this(KotlinxDateTime(isoString = isoString))
 
-    constructor(millis: Long) : this(
-        localDateTime = Instant
-            .fromEpochMilliseconds(millis)
-            .toLocalDateTime(TimeZone.currentSystemDefault()),
-    )
+    constructor(millis: Long) : this(KotlinxDateTime(millis = millis))
 
     fun localized(): String {
         return "%s %s".format(
@@ -72,8 +60,7 @@ class DateTime(
     companion object {
 
         fun now(): DateTime {
-            val localDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-            return DateTime(localDateTime)
+            return DateTime(KotlinxDateTime.now())
         }
     }
 }

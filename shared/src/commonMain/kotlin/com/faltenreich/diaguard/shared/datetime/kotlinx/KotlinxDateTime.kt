@@ -4,9 +4,12 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.DateTimeable
 import com.faltenreich.diaguard.shared.datetime.Time
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 
 class KotlinxDateTime(
     year: Int,
@@ -18,6 +21,27 @@ class KotlinxDateTime(
     millisOfSecond: Int,
     nanosOfMillis: Int,
 ) : DateTimeable {
+
+    private constructor(localDateTime: LocalDateTime) : this(
+        year = localDateTime.year,
+        monthOfYear = localDateTime.monthNumber,
+        dayOfMonth = localDateTime.dayOfMonth,
+        hourOfDay = localDateTime.hour,
+        minuteOfHour = localDateTime.minute,
+        secondOfMinute = localDateTime.second,
+        millisOfSecond = localDateTime.nanosecond / DateTimeConstants.NANOS_PER_SECOND,
+        nanosOfMillis = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
+    )
+
+    constructor(isoString: String) : this(
+        localDateTime = LocalDateTime.parse(isoString),
+    )
+
+    constructor(millis: Long) : this(
+        localDateTime = Instant
+            .fromEpochMilliseconds(millis)
+            .toLocalDateTime(TimeZone.currentSystemDefault()),
+    )
 
     private val localDateTime = LocalDateTime(
         year = year,
@@ -50,4 +74,13 @@ class KotlinxDateTime(
 
     override val isoString: String
         get() = localDateTime.toString()
+
+    companion object {
+
+        fun now(): KotlinxDateTime {
+            val now = Clock.System.now()
+            val localDateTime = now.toLocalDateTime(TimeZone.currentSystemDefault())
+            return KotlinxDateTime(localDateTime)
+        }
+    }
 }

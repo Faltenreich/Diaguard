@@ -15,15 +15,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
 import com.faltenreich.diaguard.shared.view.TimePicker
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun EntryForm(
-    viewModel: EntryFormViewModel,
     modifier: Modifier = Modifier,
+    viewModel: EntryFormViewModel,
 ) {
+    val formatter = inject<DateTimeFormatter>()
     val viewState = viewModel.viewState.collectAsState().value
     val datePickerState = remember { mutableStateOf(false) }
     val timePickerState = remember { mutableStateOf(false) }
@@ -32,10 +35,10 @@ fun EntryForm(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Button(onClick = { datePickerState.value = true }) {
-                Text(viewState.entry.dateTime.date.localized())
+                Text(formatter.format(viewState.entry.dateTime.date))
             }
             Button(onClick = { timePickerState.value = true }) {
-                Text(viewState.entry.dateTime.time.localized())
+                Text(formatter.format(viewState.entry.dateTime.time))
             }
         }
         TextField(

@@ -14,6 +14,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.navigation.EntryFormTarget
+import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.ClearButton
 
 @Composable
@@ -23,6 +25,7 @@ fun EntryListItem(
     onDelete: (Entry) -> Unit,
 ) {
     val navigator = LocalNavigator.currentOrThrow
+    val formatter = inject<DateTimeFormatter>()
     Row(
         modifier = modifier
             .clickable(onClick = { navigator.push(EntryFormTarget(entry)) })
@@ -34,7 +37,7 @@ fun EntryListItem(
             modifier = Modifier.width(48.dp),
         )
         Column(modifier = Modifier.weight(1f)) {
-            Text(entry.dateTime.localized())
+            Text(formatter.format(entry.dateTime))
             Text(entry.note ?: "")
         }
         ClearButton { onDelete(entry) }

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.shared.datetime
 
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxTime
-import com.faltenreich.diaguard.shared.primitive.format
 
 class Time(
     hourOfDay: Int,
@@ -27,13 +26,6 @@ class Time(
             secondOfMinute = secondOfMinute,
             millisOfSecond = millisOfSecond,
             nanosOfMillis = nanosOfMillis,
-        )
-    }
-
-    fun localized(): String {
-        return "%02d:%02d".format(
-            hourOfDay,
-            minuteOfHour,
         )
     }
 

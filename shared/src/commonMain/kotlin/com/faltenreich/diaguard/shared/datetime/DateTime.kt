@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.shared.datetime
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDate
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTime
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxTime
-import com.faltenreich.diaguard.shared.primitive.format
 
 class DateTime(
     year: Int,
@@ -49,13 +48,6 @@ class DateTime(
     constructor(isoString: String) : this(KotlinxDateTime(isoString = isoString))
 
     constructor(millis: Long) : this(KotlinxDateTime(millis = millis))
-
-    fun localized(): String {
-        return "%s %s".format(
-            date.localized(),
-            time.localized(),
-        )
-    }
 
     companion object {
 

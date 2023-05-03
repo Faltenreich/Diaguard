@@ -86,6 +86,7 @@ fun MainView() {
                         },
                     )
                     if (sheetState.isVisible) {
+                        // FIXME: Wrap inside BottomSheetScaffold or ModalBottomSheetLayout to fix broken animations caused by nested Composables
                         BottomSheetNavigation(sheetState = sheetState)
                     }
                 }

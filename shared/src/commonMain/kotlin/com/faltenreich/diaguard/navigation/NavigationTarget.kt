@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.Dashboard
 import com.faltenreich.diaguard.entry.Entry
@@ -73,7 +75,10 @@ object LogTarget : NavigationTarget {
     }
 }
 
-data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget {
+data class EntryFormTarget(
+    val entry: Entry? = null,
+    private val viewModel: EntryFormViewModel = EntryFormViewModel(entry),
+) : NavigationTarget {
 
     override val topAppBarStyle = TopAppBarStyle.CenterAligned {
         Text(stringResource(
@@ -84,8 +89,12 @@ data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         floatingActionButton = {
+            val navigator = LocalNavigator.currentOrThrow
             FloatingActionButton(
-                onClick = {}, // TODO: Communicate with view model
+                onClick = {
+                    viewModel.submit()
+                    navigator.pop()
+                },
                 containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             ) {
@@ -96,7 +105,7 @@ data class EntryFormTarget(val entry: Entry? = null) : NavigationTarget {
 
     @Composable
     override fun Content() {
-        EntryForm(viewModel = rememberScreenModel { EntryFormViewModel(entry) })
+        EntryForm(viewModel = rememberScreenModel { viewModel })
     }
 }
 

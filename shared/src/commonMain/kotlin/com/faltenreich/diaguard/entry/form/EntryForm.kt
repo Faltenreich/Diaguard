@@ -34,16 +34,16 @@ import com.faltenreich.diaguard.shared.view.DatePicker
 import com.faltenreich.diaguard.shared.view.TimePicker
 import dev.icerock.moko.resources.compose.stringResource
 
-class EntryForm(private val entry: Entry?) : Screen<EntryFormViewModel> {
+class EntryForm(private val entry: Entry?) : Screen {
 
     override val topAppBarStyle = TopAppBarStyle.CenterAligned {
-        val viewModel = rememberViewModel()
+        val viewModel = rememberViewModel { EntryFormViewModel(entry) }
         Text(stringResource(viewModel.title))
     }
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         floatingActionButton = {
-            val viewModel = rememberViewModel()
+            val viewModel = rememberViewModel { EntryFormViewModel(entry) }
             val navigator = LocalNavigator.currentOrThrow
             FloatingActionButton(
                 onClick = {
@@ -58,13 +58,9 @@ class EntryForm(private val entry: Entry?) : Screen<EntryFormViewModel> {
         }
     )
 
-    override fun createViewModel(): EntryFormViewModel {
-        return EntryFormViewModel(entry)
-    }
-
     @Composable
     override fun Content() {
-        val viewModel = rememberViewModel()
+        val viewModel = rememberViewModel { EntryFormViewModel(entry) }
         val formatter = inject<DateTimeFormatter>()
         val viewState = viewModel.viewState.collectAsState().value
         val datePickerState = remember { mutableStateOf(false) }

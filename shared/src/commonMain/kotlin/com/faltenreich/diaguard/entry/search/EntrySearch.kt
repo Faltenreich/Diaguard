@@ -13,15 +13,11 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.SearchField
 import dev.icerock.moko.resources.compose.stringResource
 
-class EntrySearch(private val query: String? = null) : Screen<EntrySearchViewModel> {
-
-    override fun createViewModel(): EntrySearchViewModel {
-        return EntrySearchViewModel(query, inject(), inject())
-    }
+class EntrySearch(private val query: String? = null) : Screen {
 
     @Composable
     override fun Content() {
-        val viewModel = rememberViewModel()
+        val viewModel = rememberViewModel { EntrySearchViewModel(query, inject(), inject()) }
         val state = viewModel.viewState.collectAsState().value
         Box(
             modifier = Modifier.padding(16.dp),

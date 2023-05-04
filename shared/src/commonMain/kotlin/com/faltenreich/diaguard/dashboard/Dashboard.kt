@@ -7,16 +7,12 @@ import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 
-class Dashboard : Screen<DashboardViewModel> {
+class Dashboard : Screen {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
         floatingActionButton = { EntryFormFloatingActionButton() },
     )
-
-    override fun createViewModel(): DashboardViewModel {
-        return DashboardViewModel()
-    }
 
     @Composable
     override fun Content() {

@@ -7,16 +7,12 @@ import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 
-class Timeline : Screen<TimelineViewModel> {
+class Timeline : Screen {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
         floatingActionButton = { EntryFormFloatingActionButton() },
     )
-
-    override fun createViewModel(): TimelineViewModel {
-        return TimelineViewModel()
-    }
 
     @Composable
     override fun Content() {

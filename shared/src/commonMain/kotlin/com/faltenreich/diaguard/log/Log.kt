@@ -15,20 +15,16 @@ import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.rememberViewModel
 import com.faltenreich.diaguard.shared.di.inject
 
-class Log : Screen<LogViewModel> {
+class Log : Screen {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
         floatingActionButton = { EntryFormFloatingActionButton() },
     )
 
-    override fun createViewModel(): LogViewModel {
-        return LogViewModel(inject())
-    }
-
     @Composable
     override fun Content() {
-        val viewModel = rememberViewModel()
+        val viewModel = rememberViewModel { LogViewModel(inject()) }
         when (val state = viewModel.viewState.collectAsState().value) {
             is LogViewState.Requesting -> Box(
                 modifier = Modifier.fillMaxSize(),

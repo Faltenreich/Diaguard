@@ -7,11 +7,11 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.navigation.DashboardTarget
-import com.faltenreich.diaguard.navigation.LogTarget
-import com.faltenreich.diaguard.navigation.TimelineTarget
+import com.faltenreich.diaguard.dashboard.Dashboard
+import com.faltenreich.diaguard.log.Log
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.BottomSheetState
+import com.faltenreich.diaguard.timeline.Timeline
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,17 +31,17 @@ fun BottomSheetNavigation(
             BottomSheetNavigationItem(
                 icon = MR.images.ic_dashboard,
                 label = MR.strings.dashboard,
-                onClick = { navigator.replaceAll(DashboardTarget()) },
+                onClick = { navigator.replaceAll(Dashboard()) },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_timeline,
                 label = MR.strings.timeline,
-                onClick = { navigator.replaceAll(TimelineTarget()) },
+                onClick = { navigator.replaceAll(Timeline()) },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_log,
                 label = MR.strings.log,
-                onClick = { navigator.replaceAll(LogTarget()) },
+                onClick = { navigator.replaceAll(Log()) },
             )
         }
     }

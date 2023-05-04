@@ -2,12 +2,20 @@ package com.faltenreich.diaguard.timeline
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
+import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 
-@Composable
-fun Timeline(
-    viewModel: TimelineViewModel,
-    modifier: Modifier = Modifier,
-) {
-    Text("Timeline", modifier = modifier)
+class Timeline : NavigationTarget {
+
+    override val bottomAppBarStyle = BottomAppBarStyle.Visible(
+        actions = { EntrySearchBottomAppBarItem() },
+        floatingActionButton = { EntryFormFloatingActionButton() },
+    )
+
+    @Composable
+    override fun Content() {
+        Text("Timeline")
+    }
 }

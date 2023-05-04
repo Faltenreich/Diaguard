@@ -2,12 +2,20 @@ package com.faltenreich.diaguard.dashboard
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
+import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 
-@Composable
-fun Dashboard(
-    viewModel: DashboardViewModel,
-    modifier: Modifier = Modifier,
-) {
-    Text("Dashboard", modifier = modifier)
+class Dashboard : NavigationTarget {
+
+    override val bottomAppBarStyle = BottomAppBarStyle.Visible(
+        actions = { EntrySearchBottomAppBarItem() },
+        floatingActionButton = { EntryFormFloatingActionButton() },
+    )
+
+    @Composable
+    override fun Content() {
+        Text("Dashboard")
+    }
 }

@@ -7,22 +7,33 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import cafe.adriel.voyager.core.model.rememberScreenModel
+import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
 import com.faltenreich.diaguard.entry.list.EntryList
+import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.shared.di.inject
 
-@Composable
-fun Log(
-    viewModel: LogViewModel,
-    modifier: Modifier = Modifier,
-) {
-    when (val state = viewModel.viewState.collectAsState().value) {
-        is LogViewState.Requesting -> Box(
-            modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) { CircularProgressIndicator() }
-        is LogViewState.Responding -> EntryList(
-            entries = state.entries,
-            modifier = modifier,
-            onDelete = viewModel::delete,
-        )
+class Log : NavigationTarget {
+
+    override val bottomAppBarStyle = BottomAppBarStyle.Visible(
+        actions = { EntrySearchBottomAppBarItem() },
+        floatingActionButton = { EntryFormFloatingActionButton() },
+    )
+
+    @Composable
+    override fun Content() {
+        val viewModel = rememberScreenModel { LogViewModel(inject()) }
+        when (val state = viewModel.viewState.collectAsState().value) {
+            is LogViewState.Requesting -> Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) { CircularProgressIndicator() }
+            is LogViewState.Responding -> EntryList(
+                entries = state.entries,
+                onDelete = viewModel::delete,
+            )
+        }
     }
 }

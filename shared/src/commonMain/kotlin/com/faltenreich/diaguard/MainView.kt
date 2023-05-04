@@ -20,7 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
-import com.faltenreich.diaguard.navigation.LogTarget
+import com.faltenreich.diaguard.log.Log
 import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
@@ -38,7 +38,7 @@ fun MainView() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background,
         ) {
-            Navigator(screen = LogTarget()) { navigator ->
+            Navigator(screen = Log()) { navigator ->
                 val scope = rememberCoroutineScope()
                 val sheetState = remember { BottomSheetState() }
                 Box {

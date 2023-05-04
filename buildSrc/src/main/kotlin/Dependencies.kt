@@ -4,7 +4,7 @@ object Versions {
     // FIXME: 8.0.0 breaks svg support of moko-resources
     // https://github.com/icerockdev/moko-resources/issues/466
     const val androidGradle = "7.4.2"
-    const val compose = "1.4.0-rc03"
+    const val compose = "1.4.0"
     const val composeMaterial3 = "1.1.0-rc01"
     const val coroutines = "1.6.4"
     const val dateTime = "0.4.0"

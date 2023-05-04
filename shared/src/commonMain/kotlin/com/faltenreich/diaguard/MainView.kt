@@ -36,7 +36,7 @@ fun MainView() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background,
         ) {
-            Navigator(screen = LogTarget) { navigator ->
+            Navigator(screen = LogTarget()) { navigator ->
                 val scope = rememberCoroutineScope()
                 val sheetState = remember { BottomSheetState() }
                 Box {

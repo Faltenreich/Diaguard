@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry.form
 
+import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -7,6 +8,7 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
+import dev.icerock.moko.resources.StringResource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -17,6 +19,8 @@ class EntryFormViewModel(
     private val entryRepository: EntryRepository = inject()
     private val state = MutableStateFlow(EntryFormViewState(entry ?: entryRepository.create()))
     val viewState = state.asStateFlow()
+
+    val title: StringResource = if (entry != null) MR.strings.entry_edit else MR.strings.entry_new
 
     fun setDate(date: Date) {
         setDateTime(state.value.entry.dateTime.time.atDate(date))

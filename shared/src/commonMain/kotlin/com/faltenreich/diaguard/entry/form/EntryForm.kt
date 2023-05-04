@@ -23,8 +23,8 @@ import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun EntryForm(
-    modifier: Modifier = Modifier,
     viewModel: EntryFormViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val formatter = inject<DateTimeFormatter>()
     val viewState = viewModel.viewState.collectAsState().value

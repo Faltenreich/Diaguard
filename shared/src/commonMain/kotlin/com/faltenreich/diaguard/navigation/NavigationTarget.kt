@@ -14,6 +14,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.Dashboard
+import com.faltenreich.diaguard.dashboard.DashboardViewModel
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
@@ -25,6 +26,7 @@ import com.faltenreich.diaguard.log.Log
 import com.faltenreich.diaguard.log.LogViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.timeline.Timeline
+import com.faltenreich.diaguard.timeline.TimelineViewModel
 import dev.icerock.moko.resources.compose.stringResource
 
 sealed interface NavigationTarget : Screen {
@@ -36,7 +38,7 @@ sealed interface NavigationTarget : Screen {
         get() = BottomAppBarStyle.Visible()
 }
 
-object DashboardTarget : NavigationTarget {
+class DashboardTarget : NavigationTarget {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
@@ -45,11 +47,11 @@ object DashboardTarget : NavigationTarget {
 
     @Composable
     override fun Content() {
-        Dashboard()
+        Dashboard(viewModel = rememberScreenModel { DashboardViewModel() })
     }
 }
 
-object TimelineTarget : NavigationTarget {
+class TimelineTarget : NavigationTarget {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
@@ -58,11 +60,11 @@ object TimelineTarget : NavigationTarget {
 
     @Composable
     override fun Content() {
-        Timeline()
+        Timeline(viewModel = rememberScreenModel { TimelineViewModel() })
     }
 }
 
-object LogTarget : NavigationTarget {
+class LogTarget : NavigationTarget {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
@@ -75,16 +77,11 @@ object LogTarget : NavigationTarget {
     }
 }
 
-data class EntryFormTarget(
-    val entry: Entry? = null,
-    private val viewModel: EntryFormViewModel = EntryFormViewModel(entry),
-) : NavigationTarget {
+data class EntryFormTarget(private val entry: Entry?) : NavigationTarget {
 
     override val topAppBarStyle = TopAppBarStyle.CenterAligned {
-        Text(stringResource(
-            if (entry != null) MR.strings.entry_edit
-            else MR.strings.entry_new
-        ))
+        Text(stringResource(MR.strings.entry_new))
+        // TODO: Text(stringResource(viewModel.title))
     }
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
@@ -92,7 +89,7 @@ data class EntryFormTarget(
             val navigator = LocalNavigator.currentOrThrow
             FloatingActionButton(
                 onClick = {
-                    viewModel.submit()
+                    // TODO: viewModel.submit()
                     navigator.pop()
                 },
                 containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
@@ -105,11 +102,11 @@ data class EntryFormTarget(
 
     @Composable
     override fun Content() {
-        EntryForm(viewModel = rememberScreenModel { viewModel })
+        EntryForm(viewModel = rememberScreenModel { EntryFormViewModel(entry) })
     }
 }
 
-data class EntrySearchTarget(val query: String? = null) : NavigationTarget {
+class EntrySearchTarget(private val query: String? = null) : NavigationTarget {
 
     @Composable
     override fun Content() {

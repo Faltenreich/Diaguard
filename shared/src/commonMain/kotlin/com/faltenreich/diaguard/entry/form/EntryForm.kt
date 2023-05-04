@@ -20,13 +20,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.rememberViewModel
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
@@ -34,16 +34,16 @@ import com.faltenreich.diaguard.shared.view.DatePicker
 import com.faltenreich.diaguard.shared.view.TimePicker
 import dev.icerock.moko.resources.compose.stringResource
 
-class EntryForm(private val entry: Entry?) : NavigationTarget {
+class EntryForm(private val entry: Entry?) : Screen<EntryFormViewModel> {
 
     override val topAppBarStyle = TopAppBarStyle.CenterAligned {
-        val viewModel = rememberScreenModel { EntryFormViewModel(entry) }
+        val viewModel = rememberViewModel()
         Text(stringResource(viewModel.title))
     }
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         floatingActionButton = {
-            val viewModel = rememberScreenModel { EntryFormViewModel(entry) }
+            val viewModel = rememberViewModel()
             val navigator = LocalNavigator.currentOrThrow
             FloatingActionButton(
                 onClick = {
@@ -58,9 +58,13 @@ class EntryForm(private val entry: Entry?) : NavigationTarget {
         }
     )
 
+    override fun createViewModel(): EntryFormViewModel {
+        return EntryFormViewModel(entry)
+    }
+
     @Composable
     override fun Content() {
-        val viewModel = rememberScreenModel { EntryFormViewModel(entry) }
+        val viewModel = rememberViewModel()
         val formatter = inject<DateTimeFormatter>()
         val viewState = viewModel.viewState.collectAsState().value
         val datePickerState = remember { mutableStateOf(false) }

@@ -21,10 +21,11 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
 import com.faltenreich.diaguard.log.Log
-import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarOwner
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigation
+import com.faltenreich.diaguard.navigation.top.TopAppBarOwner
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.view.BottomSheetState
 import dev.icerock.moko.resources.compose.stringResource
@@ -44,8 +45,8 @@ fun MainView() {
                 Box {
                     Scaffold(
                         topBar = {
-                            val navigationTarget = navigator.lastItem as? NavigationTarget ?: return@Scaffold
-                            when (val style = navigationTarget.topAppBarStyle) {
+                            val screen = navigator.lastItem as? TopAppBarOwner ?: return@Scaffold
+                            when (val style = screen.topAppBarStyle) {
                                 is TopAppBarStyle.Hidden -> Unit
                                 is TopAppBarStyle.CenterAligned -> CenterAlignedTopAppBar(
                                     title = { style.content() },
@@ -70,8 +71,8 @@ fun MainView() {
                             )
                         },
                         bottomBar = {
-                            val navigationTarget = navigator.lastItem as? NavigationTarget ?: return@Scaffold
-                            when (val style = navigationTarget.bottomAppBarStyle) {
+                            val screen = navigator.lastItem as? BottomAppBarOwner ?: return@Scaffold
+                            when (val style = screen.bottomAppBarStyle) {
                                 is BottomAppBarStyle.Hidden -> Unit
                                 is BottomAppBarStyle.Visible -> {
                                     BottomAppBar(

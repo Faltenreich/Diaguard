@@ -6,18 +6,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.rememberViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.SearchField
 import dev.icerock.moko.resources.compose.stringResource
 
-class EntrySearch(private val query: String? = null) : NavigationTarget {
+class EntrySearch(private val query: String? = null) : Screen<EntrySearchViewModel> {
+
+    override fun createViewModel(): EntrySearchViewModel {
+        return EntrySearchViewModel(query, inject(), inject())
+    }
 
     @Composable
     override fun Content() {
-        val viewModel = rememberScreenModel { EntrySearchViewModel(query, inject(), inject()) }
+        val viewModel = rememberViewModel()
         val state = viewModel.viewState.collectAsState().value
         Box(
             modifier = Modifier.padding(16.dp),

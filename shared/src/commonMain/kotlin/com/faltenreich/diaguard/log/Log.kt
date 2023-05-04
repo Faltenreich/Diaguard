@@ -7,24 +7,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.rememberViewModel
 import com.faltenreich.diaguard.shared.di.inject
 
-class Log : NavigationTarget {
+class Log : Screen<LogViewModel> {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = { EntrySearchBottomAppBarItem() },
         floatingActionButton = { EntryFormFloatingActionButton() },
     )
 
+    override fun createViewModel(): LogViewModel {
+        return LogViewModel(inject())
+    }
+
     @Composable
     override fun Content() {
-        val viewModel = rememberScreenModel { LogViewModel(inject()) }
+        val viewModel = rememberViewModel()
         when (val state = viewModel.viewState.collectAsState().value) {
             is LogViewState.Requesting -> Box(
                 modifier = Modifier.fillMaxSize(),

@@ -8,7 +8,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.faltenreich.diaguard"
+        applicationId = "com.faltenreich.diaguard.beta"
         minSdk = 21
         targetSdk = 33
         versionCode = 58

@@ -2,6 +2,11 @@ package com.faltenreich.diaguard.log
 
 import com.faltenreich.diaguard.entry.Entry
 
-data class LogViewState(
-    val entries: List<Entry> = emptyList(),
-)
+sealed class LogViewState {
+
+    object Requesting : LogViewState()
+
+    class Responding(
+        val entries: List<Entry> = emptyList(),
+    ) : LogViewState()
+}

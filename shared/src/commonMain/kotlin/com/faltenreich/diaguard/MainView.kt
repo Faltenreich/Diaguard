@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,8 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.transitions.FadeTransition
 import com.faltenreich.diaguard.navigation.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.BottomSheetNavigation
@@ -29,6 +30,7 @@ import com.faltenreich.diaguard.shared.view.BottomSheetState
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainView() {
     MainTheme {
@@ -61,9 +63,11 @@ fun MainView() {
                             }
                         },
                         content = { padding ->
-                            Box(modifier = Modifier.padding(padding)) {
-                                CurrentScreen()
-                            }
+                            // FIXME: Crashes on pushing same Screen twice
+                            FadeTransition(
+                                navigator = navigator,
+                                modifier = Modifier.padding(padding),
+                            )
                         },
                         bottomBar = {
                             val navigationTarget = navigator.lastItem as? NavigationTarget ?: return@Scaffold

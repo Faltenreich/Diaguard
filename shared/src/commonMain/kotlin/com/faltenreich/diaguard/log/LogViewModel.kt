@@ -12,8 +12,8 @@ class LogViewModel(
 ) : ViewModel() {
 
     private val entries = entryRepository.getAll()
-    private val state = entries.map(::LogViewState)
-    val viewState = state.stateIn(viewModelScope, SharingStarted.Lazily, LogViewState())
+    private val state = entries.map { entries -> LogViewState.Responding(entries) }
+    val viewState = state.stateIn(viewModelScope, SharingStarted.Lazily, LogViewState.Requesting)
 
     fun delete(entry: Entry) {
         entryRepository.delete(entry)

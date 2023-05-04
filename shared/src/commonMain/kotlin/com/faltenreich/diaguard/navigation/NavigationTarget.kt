@@ -24,6 +24,8 @@ import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.log.Log
 import com.faltenreich.diaguard.log.LogViewModel
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.timeline.Timeline
 import com.faltenreich.diaguard.timeline.TimelineViewModel

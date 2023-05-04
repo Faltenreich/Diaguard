@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation
+package com.faltenreich.diaguard.navigation.bottom
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -7,6 +7,9 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.navigation.DashboardTarget
+import com.faltenreich.diaguard.navigation.LogTarget
+import com.faltenreich.diaguard.navigation.TimelineTarget
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.BottomSheetState
 import kotlinx.coroutines.launch

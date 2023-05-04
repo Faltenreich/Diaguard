@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.navigation.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.EntrySearchTarget
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 
 @Composable
 fun EntrySearchBottomAppBarItem() {

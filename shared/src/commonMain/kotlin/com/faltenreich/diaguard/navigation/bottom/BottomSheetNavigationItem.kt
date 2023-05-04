@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation
+package com.faltenreich.diaguard.navigation.bottom
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

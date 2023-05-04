@@ -20,12 +20,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
-import com.faltenreich.diaguard.navigation.BottomAppBarItem
-import com.faltenreich.diaguard.navigation.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.LogTarget
 import com.faltenreich.diaguard.navigation.NavigationTarget
-import com.faltenreich.diaguard.navigation.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigation
+import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.view.BottomSheetState
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch

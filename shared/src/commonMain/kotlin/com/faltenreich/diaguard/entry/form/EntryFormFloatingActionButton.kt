@@ -11,7 +11,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.navigation.EntryFormTarget
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
@@ -20,7 +19,7 @@ fun EntryFormFloatingActionButton(
 ) {
     val navigator = LocalNavigator.currentOrThrow
     FloatingActionButton(
-        onClick = { navigator.push(EntryFormTarget(entry)) },
+        onClick = { navigator.push(EntryForm(entry)) },
         containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
     ) {

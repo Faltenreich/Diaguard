@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.navigation.EntryFormTarget
+import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.ClearButton
@@ -28,7 +28,7 @@ fun EntryListItem(
     val formatter = inject<DateTimeFormatter>()
     Row(
         modifier = modifier
-            .clickable(onClick = { navigator.push(EntryFormTarget(entry)) })
+            .clickable(onClick = { navigator.push(EntryForm(entry)) })
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

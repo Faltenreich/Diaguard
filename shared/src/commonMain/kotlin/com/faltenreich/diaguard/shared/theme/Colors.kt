@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.theme
 
 import androidx.compose.ui.graphics.Color
 
-object Color {
+object Colors {
 
     val Green = Color(0xff478063)
     val GreenLight = Color(0xff6d947f)

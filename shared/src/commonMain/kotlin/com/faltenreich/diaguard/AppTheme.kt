@@ -9,14 +9,14 @@ import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.faltenreich.diaguard.shared.theme.Color
+import com.faltenreich.diaguard.shared.theme.Colors
 import com.faltenreich.diaguard.shared.theme.Dimensions
+import com.faltenreich.diaguard.shared.theme.LocalDimensions
 
 @Composable
 fun AppTheme(
@@ -25,13 +25,13 @@ fun AppTheme(
 ) {
     val colorScheme = if (darkTheme) {
         darkColorScheme(
-            primary = Color.Green,
-            secondary = Color.GreenDarker,
+            primary = Colors.Green,
+            secondary = Colors.GreenDarker,
         )
     } else {
         lightColorScheme(
-            primary = Color.Green,
-            secondary = Color.GreenDarker,
+            primary = Colors.Green,
+            secondary = Colors.GreenDarker,
         )
     }
     val typography = Typography(
@@ -55,23 +55,21 @@ fun AppTheme(
     )
 }
 
-private val LocalDimensions = staticCompositionLocalOf { Dimensions.forPhone() }
-
 object AppTheme {
 
     val colorScheme: ColorScheme
         @Composable
         get() = MaterialTheme.colorScheme
 
-    val typography: Typography
+    val dimensions: Dimensions
         @Composable
-        get() = MaterialTheme.typography
+        get() = LocalDimensions.current
 
     val shapes: Shapes
         @Composable
         get() = MaterialTheme.shapes
 
-    val dimensions: Dimensions
+    val typography: Typography
         @Composable
-        get() = LocalDimensions.current
+        get() = MaterialTheme.typography
 }

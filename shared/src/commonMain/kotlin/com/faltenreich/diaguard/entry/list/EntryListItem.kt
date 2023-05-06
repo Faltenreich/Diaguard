@@ -9,9 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
@@ -29,14 +29,14 @@ fun EntryListItem(
     Row(
         modifier = modifier
             .clickable(onClick = { navigator.push(EntryForm(entry)) })
-            .padding(16.dp),
+            .padding(AppTheme.dimensions.padding.P_3),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = entry.id.toString(),
-            modifier = Modifier.width(48.dp),
+            modifier = Modifier.width(AppTheme.dimensions.size.MinimumTouchSize),
         )
-        Column(modifier = Modifier.weight(1f)) {
+        Column(modifier = Modifier.weight(AppTheme.dimensions.weight.W_1)) {
             Text(formatter.format(entry.dateTime))
             Text(entry.note ?: "")
         }

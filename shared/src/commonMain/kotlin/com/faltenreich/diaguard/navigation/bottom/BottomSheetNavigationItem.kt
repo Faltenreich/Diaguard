@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.unit.dp
+import com.faltenreich.diaguard.AppTheme
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.painterResource
@@ -31,16 +31,16 @@ fun BottomSheetNavigationItem(
             .fillMaxWidth()
             .clickable(onClick = onClick)
             .padding(
-                horizontal = 24.dp,
-                vertical = 16.dp,
+                horizontal = AppTheme.dimensions.padding.P_3_5,
+                vertical = AppTheme.dimensions.padding.P_3,
             ),
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
+        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3_5),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
             painter = painterResource(icon),
             contentDescription = null,
-            modifier = Modifier.size(36.dp),
+            modifier = Modifier.size(AppTheme.dimensions.padding.P_4),
             colorFilter = ColorFilter.tint(Color.DarkGray),
         )
         Text(

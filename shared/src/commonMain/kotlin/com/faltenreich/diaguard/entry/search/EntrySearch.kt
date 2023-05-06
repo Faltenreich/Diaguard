@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.rememberViewModel
@@ -20,7 +20,7 @@ class EntrySearch(private val query: String? = null) : Screen {
         val viewModel = rememberViewModel { EntrySearchViewModel(query, inject(), inject()) }
         val state = viewModel.viewState.collectAsState().value
         Box(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(AppTheme.dimensions.padding.P_3),
         ) {
             SearchField(
                 query = state.query,

@@ -19,9 +19,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.navigation.Screen
@@ -65,9 +65,9 @@ class EntryForm(private val entry: Entry?) : Screen {
         val viewState = viewModel.viewState.collectAsState().value
         val datePickerState = remember { mutableStateOf(false) }
         val timePickerState = remember { mutableStateOf(false) }
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(AppTheme.dimensions.padding.P_3)) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
             ) {
                 Button(onClick = { datePickerState.value = true }) {
                     Text(formatter.format(viewState.entry.dateTime.date))

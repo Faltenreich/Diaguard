@@ -31,16 +31,19 @@ fun BottomSheetNavigation(
             BottomSheetNavigationItem(
                 icon = MR.images.ic_dashboard,
                 label = MR.strings.dashboard,
+                isActive = navigator.lastItem is Dashboard,
                 onClick = { navigator.replaceAll(Dashboard()) },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_timeline,
                 label = MR.strings.timeline,
+                isActive = navigator.lastItem is Timeline,
                 onClick = { navigator.replaceAll(Timeline()) },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_log,
                 label = MR.strings.log,
+                isActive = navigator.lastItem is Log,
                 onClick = { navigator.replaceAll(Log()) },
             )
         }

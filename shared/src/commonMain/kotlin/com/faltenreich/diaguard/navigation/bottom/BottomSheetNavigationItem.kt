@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import com.faltenreich.diaguard.AppTheme
 import dev.icerock.moko.resources.ImageResource
@@ -23,6 +22,7 @@ import dev.icerock.moko.resources.compose.stringResource
 fun BottomSheetNavigationItem(
     icon: ImageResource,
     label: StringResource,
+    isActive: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -37,14 +37,18 @@ fun BottomSheetNavigationItem(
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3_5),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        val onPrimaryColor =
+            if (isActive) AppTheme.colorScheme.primary
+            else AppTheme.colorScheme.onBackground
         Image(
             painter = painterResource(icon),
             contentDescription = null,
             modifier = Modifier.size(AppTheme.dimensions.padding.P_4),
-            colorFilter = ColorFilter.tint(Color.DarkGray),
+            colorFilter = ColorFilter.tint(onPrimaryColor),
         )
         Text(
             text = stringResource(label),
+            color = onPrimaryColor,
         )
     }
 }

@@ -32,19 +32,28 @@ fun BottomSheetNavigation(
                 icon = MR.images.ic_dashboard,
                 label = MR.strings.dashboard,
                 isActive = navigator.lastItem is Dashboard,
-                onClick = { navigator.replaceAll(Dashboard()) },
+                onClick = {
+                    scope.launch { sheetState.hide() }
+                    navigator.replaceAll(Dashboard())
+                },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_timeline,
                 label = MR.strings.timeline,
                 isActive = navigator.lastItem is Timeline,
-                onClick = { navigator.replaceAll(Timeline()) },
+                onClick = {
+                    scope.launch { sheetState.hide() }
+                    navigator.replaceAll(Timeline())
+                },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_log,
                 label = MR.strings.log,
                 isActive = navigator.lastItem is Log,
-                onClick = { navigator.replaceAll(Log()) },
+                onClick = {
+                    scope.launch { sheetState.hide() }
+                    navigator.replaceAll(Log())
+                },
             )
         }
     }

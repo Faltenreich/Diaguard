@@ -5,34 +5,52 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.datetime.DatePickerBottomAppBarItem
 import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.rememberViewModel
+import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.DatePicker
 
 class Log : Screen {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
-        actions = { EntrySearchBottomAppBarItem() },
+        actions = {
+            EntrySearchBottomAppBarItem()
+            DatePickerBottomAppBarItem()
+        },
         floatingActionButton = { EntryFormFloatingActionButton() },
     )
 
     @Composable
     override fun Content() {
         val viewModel = rememberViewModel { LogViewModel(inject()) }
-        when (val state = viewModel.viewState.collectAsState().value) {
+        val datePickerState = remember { mutableStateOf(false) }
+        when (val viewState = viewModel.viewState.collectAsState().value) {
             is LogViewState.Requesting -> Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) { CircularProgressIndicator() }
             is LogViewState.Responding -> EntryList(
-                entries = state.entries,
+                entries = viewState.entries,
                 onDelete = viewModel::delete,
+            )
+        }
+        if (datePickerState.value) {
+            DatePicker(
+                date = Date.today(),
+                onPick = { date ->
+                    datePickerState.value = false
+                    viewModel.setDate(date)
+                },
             )
         }
     }

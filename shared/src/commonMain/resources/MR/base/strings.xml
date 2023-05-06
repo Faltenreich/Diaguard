@@ -5,6 +5,7 @@
     <string name="cancel">Cancel</string>
     <string name="clear_input">Clear input</string>
     <string name="dashboard">Dashboard</string>
+    <string name="date_pick">Change date</string>
     <string name="entry_edit">Edit entry</string>
     <string name="entry_new">New entry</string>
     <string name="entry_new_description">Create new entry</string>

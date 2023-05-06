@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import kotlinx.coroutines.flow.Flow
 
-class EntrySearchUseCase(
+class SearchEntriesUseCase(
     private val entryRepository: EntryRepository,
 ) {
 

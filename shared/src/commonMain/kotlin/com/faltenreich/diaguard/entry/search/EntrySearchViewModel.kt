@@ -15,7 +15,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class EntrySearchViewModel(
     query: String?,
-    searchUseCase: EntrySearchUseCase,
+    searchEntries: SearchEntriesUseCase,
     dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
@@ -28,7 +28,7 @@ class EntrySearchViewModel(
                 .filterIsInstance<EntrySearchViewState.Loading>()
                 .debounce(1.seconds)
                 .distinctUntilChanged()
-                .flatMapLatest { state -> searchUseCase(state.query) }
+                .flatMapLatest { state -> searchEntries(query = state.query) }
                 .onEach { entries -> state.value = EntrySearchViewState.Result(state.value.query, entries) }
                 .collect()
         }

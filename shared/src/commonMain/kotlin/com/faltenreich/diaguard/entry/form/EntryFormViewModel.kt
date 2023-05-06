@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -14,10 +13,11 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class EntryFormViewModel(
     entry: Entry?,
+    getEntry: GetEntryUseCase = inject(),
+    private val submitEntry: SubmitEntryUseCase = inject(),
 ) : ViewModel() {
 
-    private val entryRepository: EntryRepository = inject()
-    private val state = MutableStateFlow(EntryFormViewState(entry ?: entryRepository.create()))
+    private val state = MutableStateFlow(EntryFormViewState(getEntry(entry)))
     val viewState = state.asStateFlow()
 
     val title: StringResource = if (entry != null) MR.strings.entry_edit else MR.strings.entry_new
@@ -39,6 +39,6 @@ class EntryFormViewModel(
     }
 
     fun submit() {
-        entryRepository.update(state.value.entry)
+        submitEntry(state.value.entry)
     }
 }

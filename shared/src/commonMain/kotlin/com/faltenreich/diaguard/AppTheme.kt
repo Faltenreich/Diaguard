@@ -9,12 +9,12 @@ import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.faltenreich.diaguard.shared.theme.Color
 
 @Composable
 fun AppTheme(
@@ -23,13 +23,13 @@ fun AppTheme(
 ) {
     val colorScheme = if (darkTheme) {
         darkColorScheme(
-            primary = Color(0xFFBB86FC),
-            secondary = Color(0xFF03DAC5),
+            primary = Color.Green,
+            secondary = Color.GreenDarker,
         )
     } else {
         lightColorScheme(
-            primary = Color(0xFF6200EE),
-            secondary = Color(0xFF03DAC5),
+            primary = Color.Green,
+            secondary = Color.GreenDarker,
         )
     }
     val typography = Typography(
@@ -66,4 +66,8 @@ object AppTheme {
     val shapes: Shapes
         @Composable
         get() = MaterialTheme.shapes
+
+    val dimensions: Dimensions
+        @Composable
+        get() = LocalDimensions.current
 }

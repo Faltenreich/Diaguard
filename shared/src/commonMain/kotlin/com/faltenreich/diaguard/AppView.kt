@@ -11,7 +11,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -33,11 +32,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MainView() {
-    MainTheme {
+fun AppView() {
+    AppTheme {
         Surface (
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background,
+            color = AppTheme.colorScheme.background,
         ) {
             Navigator(screen = Log()) { navigator ->
                 val scope = rememberCoroutineScope()

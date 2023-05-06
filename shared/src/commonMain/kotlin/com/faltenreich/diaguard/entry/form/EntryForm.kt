@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Button
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -31,10 +28,11 @@ import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
+import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.shared.view.TimePicker
 import dev.icerock.moko.resources.compose.stringResource
 
-class EntryForm(private val entry: Entry?) : Screen {
+class EntryForm(private val entry: Entry? = null) : Screen {
 
     override val topAppBarStyle = TopAppBarStyle.CenterAligned {
         val viewModel = rememberViewModel { EntryFormViewModel(entry) }
@@ -45,14 +43,7 @@ class EntryForm(private val entry: Entry?) : Screen {
         floatingActionButton = {
             val viewModel = rememberViewModel { EntryFormViewModel(entry) }
             val navigator = LocalNavigator.currentOrThrow
-            FloatingActionButton(
-                onClick = {
-                    viewModel.submit()
-                    navigator.pop()
-                },
-                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            ) {
+            FloatingActionButton(onClick = { viewModel.submit(); navigator.pop() }) {
                 Icon(Icons.Filled.Check, stringResource(MR.strings.entry_save))
             }
         }

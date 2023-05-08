@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.view
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -22,7 +21,7 @@ fun SearchField(
     TextField(
         value = query ?: "",
         onValueChange = onQueryChange,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         placeholder = placeholder?.let { { Text(placeholder) } },
         leadingIcon = { Icon(Icons.Default.Search, null) },
         trailingIcon = { ClearButton(onClick = { onQueryChange("") }) },

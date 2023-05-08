@@ -1,18 +1,20 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.application")
     kotlin("android")
 }
 
 android {
-    namespace = "com.faltenreich.diaguard"
-    compileSdk = 33
+    namespace = Configuration.Project.nameSpace
+    compileSdk = Configuration.Android.compileSdk
 
     defaultConfig {
-        applicationId = "com.faltenreich.diaguard.beta"
-        minSdk = 21
-        targetSdk = 33
-        versionCode = 58
-        versionName = "4.0.0"
+        applicationId = "${Configuration.Project.nameSpace}.beta"
+        minSdk = Configuration.Android.minSdk
+        targetSdk = Configuration.Android.targetSdk
+        versionCode = Configuration.Project.versionCode
+        versionName = Configuration.Project.versionName
     }
 
     buildTypes {
@@ -27,7 +29,7 @@ android {
     }
 
     buildFeatures.compose = true
-    composeOptions.kotlinCompilerExtensionVersion = "1.4.5"
+    composeOptions.kotlinCompilerExtensionVersion = Versions.composeCompiler
     packagingOptions.resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
 }
 

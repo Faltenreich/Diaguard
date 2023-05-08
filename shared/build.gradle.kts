@@ -66,25 +66,16 @@ kotlin {
     }
 }
 
-// TODO: Find way to avoid redundant declarations
 android {
-    namespace = "com.faltenreich.diaguard"
-    compileSdk = 33
+    namespace = Configuration.Project.nameSpace
+    compileSdk = Configuration.Android.compileSdk
     defaultConfig {
-        minSdk = 21
-        targetSdk = 33
-    }
-
-    // Workaround for unresolved reference on Android
-    // https://github.com/icerockdev/moko-resources/issues/353
-    sourceSets["main"].apply {
-        assets.srcDir(File(buildDir, "generated/moko/androidMain/assets"))
-        res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
+        minSdk = Configuration.Android.minSdk
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Configuration.Java.version
+        targetCompatibility = Configuration.Java.version
     }
 }
 
@@ -95,13 +86,13 @@ dependencies {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "com.faltenreich.diaguard"
+    multiplatformResourcesPackage = Configuration.Project.nameSpace
 }
 
 sqldelight {
     databases {
         create("SqlDelightApi") {
-            packageName.set("com.faltenreich.diaguard.shared.database.sqldelight")
+            packageName.set("${Configuration.Project.nameSpace}.shared.database.sqldelight")
         }
     }
 }

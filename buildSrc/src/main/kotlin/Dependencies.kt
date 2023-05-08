@@ -1,3 +1,5 @@
+import org.gradle.api.JavaVersion
+
 object Versions {
 
     const val androidCompose = "1.7.0"
@@ -5,6 +7,7 @@ object Versions {
     // https://github.com/icerockdev/moko-resources/issues/466
     const val androidGradle = "7.4.2"
     const val compose = "1.4.0"
+    const val composeCompiler = "1.4.5"
     const val composeMaterial3 = "1.1.0-rc01"
     const val coroutines = "1.6.4"
     const val dateTime = "0.4.0"
@@ -17,6 +20,28 @@ object Versions {
     const val sqlDelight = "2.0.0-alpha05"
     const val turbine = "0.12.3"
     const val voyager = "1.0.0-rc05"
+}
+
+object Configuration {
+
+    object Project {
+
+        const val nameSpace = "com.faltenreich.diaguard"
+        const val versionCode = 58
+        const val versionName = "4.0.0"
+    }
+
+    object Java {
+
+        val version = JavaVersion.VERSION_17
+    }
+
+    object Android {
+
+        const val compileSdk = 33
+        const val minSdk = 21
+        const val targetSdk = 33
+    }
 }
 
 object Dependencies {

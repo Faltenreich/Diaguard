@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry
 
+import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.GetEntryUseCase
 import com.faltenreich.diaguard.entry.form.SubmitEntryUseCase
@@ -17,5 +18,6 @@ fun entryModule() = module {
 
     singleOf(::GetEntryUseCase)
     singleOf(::SubmitEntryUseCase)
+    singleOf(::DeleteEntryUseCase)
     single { (entry: Entry?) -> EntryFormViewModel(entry = entry) }
 }

@@ -15,6 +15,7 @@ class EntryFormViewModel(
     entry: Entry?,
     getEntry: GetEntryUseCase = inject(),
     private val submitEntry: SubmitEntryUseCase = inject(),
+    private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel() {
 
     private val state = MutableStateFlow(EntryFormViewState(getEntry(entry)))
@@ -40,5 +41,9 @@ class EntryFormViewModel(
 
     fun submit() {
         submitEntry(state.value.entry)
+    }
+
+    fun delete() {
+        deleteEntry(state.value.entry)
     }
 }

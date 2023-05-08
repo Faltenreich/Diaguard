@@ -38,6 +38,11 @@ class EntryForm(private val entry: Entry? = null) : Screen {
     }
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
+        actions = {
+            val viewModel = rememberViewModel { EntryFormViewModel(entry) }
+            val navigator = LocalNavigator.currentOrThrow
+            EntrySearchBottomAppBarItem(onClick = { viewModel.delete(); navigator.pop() })
+        },
         floatingActionButton = {
             val viewModel = rememberViewModel { EntryFormViewModel(entry) }
             val navigator = LocalNavigator.currentOrThrow

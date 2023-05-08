@@ -39,10 +39,7 @@ class Log : Screen {
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) { CircularProgressIndicator() }
-            is LogViewState.Responding -> EntryList(
-                entries = viewState.entries,
-                onDelete = viewModel::delete,
-            )
+            is LogViewState.Responding -> EntryList(viewState.entries)
         }
         if (datePickerState.value) {
             DatePicker(

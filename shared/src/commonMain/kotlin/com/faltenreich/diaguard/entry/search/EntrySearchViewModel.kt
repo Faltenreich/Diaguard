@@ -1,8 +1,7 @@
 package com.faltenreich.diaguard.entry.search
 
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,9 +16,8 @@ import kotlin.time.Duration.Companion.seconds
 
 class EntrySearchViewModel(
     query: String?,
-    searchEntries: SearchEntriesUseCase,
-    dispatcher: CoroutineDispatcher,
-    private val entryRepository: EntryRepository,
+    searchEntries: SearchEntriesUseCase = inject(),
+    dispatcher: CoroutineDispatcher = inject(),
 ) : ViewModel() {
 
     private val state = MutableStateFlow<EntrySearchViewState>(EntrySearchViewState.Idle)
@@ -42,9 +40,5 @@ class EntrySearchViewModel(
         state.value =
             if (query.isBlank()) EntrySearchViewState.Idle
             else EntrySearchViewState.Loading(query)
-    }
-
-    fun delete(entry: Entry) {
-        entryRepository.delete(entry)
     }
 }

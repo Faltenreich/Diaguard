@@ -7,12 +7,13 @@ import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
 fun EntryList(
     entries: List<Entry>,
     modifier: Modifier = Modifier,
-    onDelete: (Entry) -> Unit,
+    viewModel: EntryListViewModel = inject(),
 ) {
     LazyColumn(modifier = modifier) {
         items(items = entries, key = Entry::id) { entry ->
@@ -21,7 +22,7 @@ fun EntryList(
             ) {
                 EntryListItem(
                     entry,
-                    onDelete = onDelete,
+                    onDelete = viewModel::delete,
                 )
                 Divider()
             }

@@ -65,7 +65,12 @@ class EntryForm(private val entry: Entry? = null) : Screen {
             }
             Divider()
             FormRow(icon = MR.images.ic_tag) {
-                Text("Tag")
+                TextInput(
+                    input = "",
+                    hint = stringResource(MR.strings.tag),
+                    onInputChange = { TODO() },
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
             Divider()
             FormRow(icon = MR.images.ic_note) {
@@ -79,7 +84,9 @@ class EntryForm(private val entry: Entry? = null) : Screen {
             Divider()
             FormRow(icon = MR.images.ic_alarm) {
                 TextButton(onClick = {}) {
-                    Text("Alarm")
+                    TextButton(onClick = { TODO() }) {
+                        Text(stringResource(MR.strings.alarm_placeholder))
+                    }
                 }
             }
         }

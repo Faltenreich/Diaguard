@@ -1,16 +1,13 @@
 package com.faltenreich.diaguard.entry.form
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -18,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.navigation.Screen
@@ -29,6 +25,8 @@ import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
+import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.TimePicker
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -56,23 +54,34 @@ class EntryForm(private val entry: Entry? = null) : Screen {
         val viewState = viewModel.viewState.collectAsState().value
         val datePickerState = remember { mutableStateOf(false) }
         val timePickerState = remember { mutableStateOf(false) }
-        Column(modifier = Modifier.padding(AppTheme.dimensions.padding.P_3)) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
-            ) {
-                Button(onClick = { datePickerState.value = true }) {
+        Column {
+            FormRow(icon = MR.images.ic_time) {
+                TextButton(onClick = { datePickerState.value = true }) {
                     Text(formatter.format(viewState.entry.dateTime.date))
                 }
-                Button(onClick = { timePickerState.value = true }) {
+                TextButton(onClick = { timePickerState.value = true }) {
                     Text(formatter.format(viewState.entry.dateTime.time))
                 }
             }
-            TextField(
-                value = viewState.entry.note ?: "",
-                onValueChange = viewModel::setNote,
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text(stringResource(MR.strings.note)) },
-            )
+            Divider()
+            FormRow(icon = MR.images.ic_tag) {
+                Text("Tag")
+            }
+            Divider()
+            FormRow(icon = MR.images.ic_note) {
+                TextInput(
+                    input = viewState.entry.note ?: "",
+                    hint = stringResource(MR.strings.note),
+                    onInputChange = viewModel::setNote,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+            Divider()
+            FormRow(icon = MR.images.ic_alarm) {
+                TextButton(onClick = {}) {
+                    Text("Alarm")
+                }
+            }
         }
         if (datePickerState.value) {
             DatePicker(

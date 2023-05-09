@@ -11,6 +11,7 @@ import dev.icerock.moko.resources.StringResource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 
 class EntryFormViewModel(
@@ -22,6 +23,9 @@ class EntryFormViewModel(
     private val id = MutableStateFlow(entry?.id)
     private val dateTime = MutableStateFlow(entry?.dateTime ?: DateTime.now())
     private val note = MutableStateFlow(entry?.note)
+
+    // TODO: If true, intercept back navigation via LocalNavigator.currentOrThrow
+    private val hasChanged = note.distinctUntilChanged { old, new -> old != new }
 
     private val state = combine(dateTime, note, ::EntryFormViewState)
     val viewState = state.stateIn(viewModelScope, SharingStarted.Lazily, EntryFormViewState(dateTime.value, note.value))

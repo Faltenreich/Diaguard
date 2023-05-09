@@ -10,8 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -28,6 +26,8 @@ import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.TimePicker
+import com.faltenreich.diaguard.shared.view.rememberDatePickerState
+import com.faltenreich.diaguard.shared.view.rememberTimePickerState
 import dev.icerock.moko.resources.compose.stringResource
 
 class EntryForm(private val entry: Entry? = null) : Screen {
@@ -57,14 +57,14 @@ class EntryForm(private val entry: Entry? = null) : Screen {
         val viewModel = rememberViewModel { EntryFormViewModel(entry) }
         val formatter = inject<DateTimeFormatter>()
         val viewState = viewModel.viewState.collectAsState().value
-        val datePickerState = remember { mutableStateOf(false) }
-        val timePickerState = remember { mutableStateOf(false) }
+        val datePickerState = rememberDatePickerState()
+        val timePickerState = rememberTimePickerState()
         Column {
             FormRow(icon = MR.images.ic_time) {
-                TextButton(onClick = { datePickerState.value = true }) {
+                TextButton(onClick = { datePickerState.isShown = true }) {
                     Text(formatter.format(viewState.entry.dateTime.date))
                 }
-                TextButton(onClick = { timePickerState.value = true }) {
+                TextButton(onClick = { timePickerState.isShown = true }) {
                     Text(formatter.format(viewState.entry.dateTime.time))
                 }
             }
@@ -95,20 +95,20 @@ class EntryForm(private val entry: Entry? = null) : Screen {
                 }
             }
         }
-        if (datePickerState.value) {
+        if (datePickerState.isShown) {
             DatePicker(
                 date = viewState.entry.dateTime.date,
                 onPick = { date ->
-                    datePickerState.value = false
+                    datePickerState.isShown = false
                     viewModel.setDate(date)
                 },
             )
         }
-        if (timePickerState.value) {
+        if (timePickerState.isShown) {
             TimePicker(
                 time = viewState.entry.dateTime.time,
                 onPick = { date ->
-                    timePickerState.value = false
+                    timePickerState.isShown = false
                     viewModel.setTime(date)
                 },
             )

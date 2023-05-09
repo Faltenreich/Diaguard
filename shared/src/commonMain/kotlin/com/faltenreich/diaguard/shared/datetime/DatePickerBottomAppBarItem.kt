@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.datetime
+package com.faltenreich.diaguard.shared.datetime
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange

@@ -19,11 +19,11 @@ class EntrySqlDelightDao(
     }
 
     override fun getAll(): Flow<List<Entry>> {
-        return queries.getAll { id, dateTime, note ->
+        return queries.getAll { id, createdAt, updatedAt, note ->
             Entry(
                 id = id,
-                createdAt = DateTime(dateTime),
-                updatedAt = DateTime(dateTime),
+                createdAt = DateTime(isoString = createdAt),
+                updatedAt = DateTime(isoString = updatedAt),
                 note = note,
             )
         }.asFlow().mapToList(dispatcher)
@@ -34,37 +34,40 @@ class EntrySqlDelightDao(
     }
 
     override fun getById(id: Long): Entry? {
-        return queries.getById(id) { _, dateTime, note ->
+        return queries.getById(id) { _, createdAt, updatedAt, note ->
             Entry(
                 id = id,
-                createdAt = DateTime(dateTime),
-                updatedAt = DateTime(dateTime),
+                createdAt = DateTime(isoString = createdAt),
+                updatedAt = DateTime(isoString = updatedAt),
                 note = note,
             )
         }.executeAsOneOrNull()
     }
 
     override fun getByQuery(query: String): Flow<List<Entry>> {
-        return queries.getByQuery(query) { id, dateTime, note ->
+        return queries.getByQuery(query) { id, createdAt, updatedAt, note ->
             Entry(
                 id = id,
-                createdAt = DateTime(dateTime),
-                updatedAt = DateTime(dateTime),
+                createdAt = DateTime(isoString = createdAt),
+                updatedAt = DateTime(isoString = updatedAt),
                 note = note,
             )
         }.asFlow().mapToList(dispatcher)
     }
 
     override fun create(dateTime: DateTime) {
+        val dateTimeIsoString = dateTime.isoString
         queries.create(
-            dateTime = dateTime.isoString,
+            createdAt = dateTimeIsoString,
+            updatedAt = dateTimeIsoString,
         )
     }
 
     override fun update(entry: Entry) {
         queries.update(
             id = entry.id,
-            dateTime = entry.createdAt.isoString,
+            createdAt = entry.createdAt.isoString,
+            updatedAt = entry.updatedAt.isoString,
             note = entry.note,
         )
     }

@@ -12,13 +12,14 @@ class EntryRepository(
     }
 
     fun create(): Entry {
-        dao.create(DateTime.now())
+        val now = DateTime.now()
+        dao.create(createdAt = now, dateTime = now)
         val id = dao.getLastId() ?: throw IllegalStateException("No entry found")
         return dao.getById(id) ?: throw IllegalStateException("No entry found")
     }
 
     fun update(entry: Entry) {
-        dao.update(entry)
+        dao.update(entry.copy(updatedAt = DateTime.now()))
     }
 
     fun delete(entry: Entry) {

@@ -10,5 +10,6 @@ data class Entry(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
+    val dateTime: DateTime,
     val note: String?,
 ) : DatabaseEntity

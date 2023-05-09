@@ -24,15 +24,15 @@ class EntryFormViewModel(
     val title: StringResource = if (entry != null) MR.strings.entry_edit else MR.strings.entry_new
 
     fun setDate(date: Date) {
-        setDateTime(state.value.entry.createdAt.time.atDate(date))
+        setDateTime(state.value.entry.dateTime.time.atDate(date))
     }
 
     fun setTime(time: Time) {
-        setDateTime(state.value.entry.createdAt.date.atTime(time))
+        setDateTime(state.value.entry.dateTime.date.atTime(time))
     }
 
     private fun setDateTime(dateTime: DateTime) {
-        state.value = state.value.copy(entry = state.value.entry.copy(createdAt = dateTime))
+        state.value = state.value.copy(entry = state.value.entry.copy(dateTime = dateTime))
     }
 
     fun setNote(note: String) {

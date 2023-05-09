@@ -2,35 +2,28 @@ CREATE TABLE entry (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     createdAt TEXT NOT NULL,
     updatedAt TEXT NOT NULL,
+    dateTime TEXT NOT NULL,
     note TEXT
 );
 
 create:
-INSERT INTO entry(createdAt, updatedAt)
-VALUES (?, ?);
+INSERT INTO entry(createdAt, updatedAt, dateTime)
+VALUES (?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
 
 getById:
-SELECT * FROM entry
-WHERE id = ?;
+SELECT * FROM entry WHERE id = ?;
 
 getAll:
-SELECT * FROM entry
-ORDER BY updatedAt DESC;
+SELECT * FROM entry ORDER BY dateTime DESC;
 
 getByQuery:
-SELECT * FROM entry
-WHERE note LIKE '%' + ? + '%';
+SELECT * FROM entry WHERE note LIKE '%' + ? + '%';
 
 update:
-UPDATE entry
-SET createdAt = ?,
-    updatedAt = ?,
-    note = ?
-WHERE id = ?;
+UPDATE entry SET updatedAt = ?, dateTime = ?, note = ? WHERE id = ?;
 
 deleteById:
-DELETE FROM entry
-WHERE id = ?;
+DELETE FROM entry WHERE id = ?;

@@ -7,7 +7,7 @@ interface EntryDao {
 
     fun getAll(): Flow<List<Entry>>
 
-    fun create(dateTime: DateTime)
+    fun create(createdAt: DateTime, dateTime: DateTime)
 
     fun getLastId(): Long?
 

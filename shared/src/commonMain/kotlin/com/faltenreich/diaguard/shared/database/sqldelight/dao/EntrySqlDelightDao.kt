@@ -7,11 +7,13 @@ import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 class EntrySqlDelightDao(
-    private val dispatcher: CoroutineDispatcher,
+    private val dispatcher: CoroutineDispatcher = inject(),
+    private val mapper: EntrySqlDelightMapper = inject(),
 ) : EntryDao, SqlDelightDao<EntryQueries> {
 
     override fun getQueries(api: SqlDelightApi): EntryQueries {
@@ -19,14 +21,7 @@ class EntrySqlDelightDao(
     }
 
     override fun getAll(): Flow<List<Entry>> {
-        return queries.getAll { id, createdAt, updatedAt, note ->
-            Entry(
-                id = id,
-                createdAt = DateTime(isoString = createdAt),
-                updatedAt = DateTime(isoString = updatedAt),
-                note = note,
-            )
-        }.asFlow().mapToList(dispatcher)
+        return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun getLastId(): Long? {
@@ -34,40 +29,26 @@ class EntrySqlDelightDao(
     }
 
     override fun getById(id: Long): Entry? {
-        return queries.getById(id) { _, createdAt, updatedAt, note ->
-            Entry(
-                id = id,
-                createdAt = DateTime(isoString = createdAt),
-                updatedAt = DateTime(isoString = updatedAt),
-                note = note,
-            )
-        }.executeAsOneOrNull()
+        return queries.getById(id, mapper::map).executeAsOneOrNull()
     }
 
     override fun getByQuery(query: String): Flow<List<Entry>> {
-        return queries.getByQuery(query) { id, createdAt, updatedAt, note ->
-            Entry(
-                id = id,
-                createdAt = DateTime(isoString = createdAt),
-                updatedAt = DateTime(isoString = updatedAt),
-                note = note,
-            )
-        }.asFlow().mapToList(dispatcher)
+        return queries.getByQuery(query, mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun create(dateTime: DateTime) {
-        val dateTimeIsoString = dateTime.isoString
+    override fun create(createdAt: DateTime, dateTime: DateTime) {
         queries.create(
-            createdAt = dateTimeIsoString,
-            updatedAt = dateTimeIsoString,
+            createdAt = createdAt.isoString,
+            updatedAt = createdAt.isoString,
+            dateTime = dateTime.isoString,
         )
     }
 
     override fun update(entry: Entry) {
         queries.update(
             id = entry.id,
-            createdAt = entry.createdAt.isoString,
             updatedAt = entry.updatedAt.isoString,
+            dateTime = entry.dateTime.isoString,
             note = entry.note,
         )
     }

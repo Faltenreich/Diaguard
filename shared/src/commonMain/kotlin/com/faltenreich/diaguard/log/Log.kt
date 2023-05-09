@@ -20,12 +20,16 @@ import com.faltenreich.diaguard.shared.datetime.DatePickerBottomAppBarItem
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
 
-class Log : Screen {
+class Log(date: Date = Date.today()) : Screen {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = {
+            val viewModel = rememberViewModel { LogViewModel(date) }
             EntrySearchBottomAppBarItem()
-            DatePickerBottomAppBarItem()
+            DatePickerBottomAppBarItem(
+                date = { viewModel.viewState.value.date },
+                onDatePick = viewModel::setDate,
+            )
         },
         floatingActionButton = { EntryFormFloatingActionButton() },
     )

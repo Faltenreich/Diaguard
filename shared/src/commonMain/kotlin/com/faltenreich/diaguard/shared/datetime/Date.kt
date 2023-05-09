@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.datetime
 
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDate
+import com.faltenreich.diaguard.shared.primitive.format
 
 class Date(
     year: Int,
@@ -22,6 +23,14 @@ class Date(
             secondOfMinute = time.secondOfMinute,
             millisOfSecond = time.millisOfSecond,
             nanosOfMillis = time.nanosOfMillis,
+        )
+    }
+
+    override fun toString(): String {
+        return "%02d.%02d.%04d".format(
+            dayOfMonth,
+            monthOfYear,
+            year,
         )
     }
 

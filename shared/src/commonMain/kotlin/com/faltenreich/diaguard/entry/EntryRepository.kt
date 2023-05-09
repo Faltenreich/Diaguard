@@ -22,8 +22,8 @@ class EntryRepository(
         dao.update(entry.copy(updatedAt = DateTime.now()))
     }
 
-    fun delete(entry: Entry) {
-        dao.delete(entry)
+    fun deleteById(id: Long) {
+        dao.deleteById(id)
     }
 
     fun search(query: String): Flow<List<Entry>> {

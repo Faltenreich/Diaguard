@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.entry.form
 
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.shared.datetime.DateTime
 
 data class EntryFormViewState(
-    val entry: Entry,
+    val dateTime: DateTime,
+    val note: String?,
 )

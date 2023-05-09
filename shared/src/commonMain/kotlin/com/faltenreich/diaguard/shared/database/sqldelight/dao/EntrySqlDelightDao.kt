@@ -53,7 +53,7 @@ class EntrySqlDelightDao(
         )
     }
 
-    override fun delete(entry: Entry) {
-        queries.deleteById(id = entry.id)
+    override fun deleteById(id: Long) {
+        queries.deleteById(id)
     }
 }

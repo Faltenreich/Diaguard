@@ -17,5 +17,5 @@ interface EntryDao {
 
     fun update(entry: Entry)
 
-    fun delete(entry: Entry)
+    fun deleteById(id: Long)
 }

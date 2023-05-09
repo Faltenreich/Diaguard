@@ -9,41 +9,46 @@ import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import dev.icerock.moko.resources.StringResource
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
 class EntryFormViewModel(
     entry: Entry?,
-    getEntry: GetEntryUseCase = inject(),
     private val submitEntry: SubmitEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel() {
 
-    private val state = MutableStateFlow(EntryFormViewState(getEntry(entry)))
-    val viewState = state.asStateFlow()
+    private val id = MutableStateFlow(entry?.id)
+    private val dateTime = MutableStateFlow(entry?.dateTime ?: DateTime.now())
+    private val note = MutableStateFlow(entry?.note)
 
-    val title: StringResource = if (entry != null) MR.strings.entry_edit else MR.strings.entry_new
+    private val state = combine(dateTime, note, ::EntryFormViewState)
+    val viewState = state.stateIn(viewModelScope, SharingStarted.Lazily, EntryFormViewState(dateTime.value, note.value))
+
+    val title: StringResource
+        get() =
+            if (id.value != null) MR.strings.entry_edit
+            else MR.strings.entry_new
 
     fun setDate(date: Date) {
-        setDateTime(state.value.entry.dateTime.time.atDate(date))
+        this.dateTime.value = dateTime.value.time.atDate(date)
     }
 
     fun setTime(time: Time) {
-        setDateTime(state.value.entry.dateTime.date.atTime(time))
-    }
-
-    private fun setDateTime(dateTime: DateTime) {
-        state.value = state.value.copy(entry = state.value.entry.copy(dateTime = dateTime))
+        this.dateTime.value = dateTime.value.date.atTime(time)
     }
 
     fun setNote(note: String) {
-        state.value = state.value.copy(entry = state.value.entry.copy(note = note))
+        this.note.value = note
     }
 
     fun submit() {
-        submitEntry(state.value.entry)
+        // submitEntry(state.value.entry)
     }
 
     fun delete() {
-        deleteEntry(state.value.entry)
+        val id = this.id.value ?: throw IllegalStateException("Cannot delete entry without id")
+        deleteEntry(id)
     }
 }

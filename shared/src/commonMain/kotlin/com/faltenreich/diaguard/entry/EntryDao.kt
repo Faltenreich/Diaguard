@@ -15,7 +15,12 @@ interface EntryDao {
 
     fun getByQuery(query: String): Flow<List<Entry>>
 
-    fun update(entry: Entry)
+    fun update(
+        id: Long,
+        updatedAt: DateTime,
+        dateTime: DateTime,
+        note: String?,
+    )
 
     fun deleteById(id: Long)
 }

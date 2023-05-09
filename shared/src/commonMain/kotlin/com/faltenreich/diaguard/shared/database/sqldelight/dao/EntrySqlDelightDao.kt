@@ -44,12 +44,17 @@ class EntrySqlDelightDao(
         )
     }
 
-    override fun update(entry: Entry) {
+    override fun update(
+        id: Long,
+        updatedAt: DateTime,
+        dateTime: DateTime,
+        note: String?,
+    ) {
         queries.update(
-            id = entry.id,
-            updatedAt = entry.updatedAt.isoString,
-            dateTime = entry.dateTime.isoString,
-            note = entry.note,
+            updatedAt = updatedAt.isoString,
+            dateTime = dateTime.isoString,
+            note = note,
+            id = id,
         )
     }
 

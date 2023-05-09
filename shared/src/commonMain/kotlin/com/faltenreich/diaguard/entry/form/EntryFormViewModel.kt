@@ -44,7 +44,11 @@ class EntryFormViewModel(
     }
 
     fun submit() {
-        // submitEntry(state.value.entry)
+        submitEntry(
+            id = id.value,
+            dateTime = dateTime.value,
+            note = note.value,
+        )
     }
 
     fun delete() {

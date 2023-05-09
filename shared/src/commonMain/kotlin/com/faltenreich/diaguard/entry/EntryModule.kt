@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
-import com.faltenreich.diaguard.entry.form.GetEntryUseCase
 import com.faltenreich.diaguard.entry.form.SubmitEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
@@ -19,7 +18,6 @@ fun entryModule() = module {
 
     singleOf(::SearchEntriesUseCase)
 
-    singleOf(::GetEntryUseCase)
     singleOf(::SubmitEntryUseCase)
     singleOf(::DeleteEntryUseCase)
     single { (entry: Entry?) -> EntryFormViewModel(entry) }

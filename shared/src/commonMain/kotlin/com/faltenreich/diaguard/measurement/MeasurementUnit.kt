@@ -1,14 +1,16 @@
-package com.faltenreich.diaguard.entry
+package com.faltenreich.diaguard.measurement
 
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
 /**
- * Entity representing one entry at a given point in time
+ * Entity representing the unit of a [Measurement]
  */
-data class Entry(
+data class MeasurementUnit(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
-    val note: String?,
+    val name: String,
+    val factor: Float,
+    val property: MeasurementProperty,
 ) : DatabaseEntity

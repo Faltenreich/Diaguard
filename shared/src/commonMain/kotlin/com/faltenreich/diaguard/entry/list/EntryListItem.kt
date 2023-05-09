@@ -37,7 +37,7 @@ fun EntryListItem(
             modifier = Modifier.width(AppTheme.dimensions.size.MinimumTouchSize),
         )
         Column(modifier = Modifier.weight(AppTheme.dimensions.weight.W_1)) {
-            Text(formatter.format(entry.dateTime))
+            Text(formatter.format(entry.createdAt))
             Text(entry.note ?: "")
         }
         ClearButton { onDelete(entry) }

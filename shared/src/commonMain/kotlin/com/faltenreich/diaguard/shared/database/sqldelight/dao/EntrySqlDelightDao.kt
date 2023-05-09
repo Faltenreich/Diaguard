@@ -22,7 +22,8 @@ class EntrySqlDelightDao(
         return queries.getAll { id, dateTime, note ->
             Entry(
                 id = id,
-                dateTime = DateTime(dateTime),
+                createdAt = DateTime(dateTime),
+                updatedAt = DateTime(dateTime),
                 note = note,
             )
         }.asFlow().mapToList(dispatcher)
@@ -36,7 +37,8 @@ class EntrySqlDelightDao(
         return queries.getById(id) { _, dateTime, note ->
             Entry(
                 id = id,
-                dateTime = DateTime(dateTime),
+                createdAt = DateTime(dateTime),
+                updatedAt = DateTime(dateTime),
                 note = note,
             )
         }.executeAsOneOrNull()
@@ -46,7 +48,8 @@ class EntrySqlDelightDao(
         return queries.getByQuery(query) { id, dateTime, note ->
             Entry(
                 id = id,
-                dateTime = DateTime(dateTime),
+                createdAt = DateTime(dateTime),
+                updatedAt = DateTime(dateTime),
                 note = note,
             )
         }.asFlow().mapToList(dispatcher)
@@ -61,7 +64,7 @@ class EntrySqlDelightDao(
     override fun update(entry: Entry) {
         queries.update(
             id = entry.id,
-            dateTime = entry.dateTime.isoString,
+            dateTime = entry.createdAt.isoString,
             note = entry.note,
         )
     }

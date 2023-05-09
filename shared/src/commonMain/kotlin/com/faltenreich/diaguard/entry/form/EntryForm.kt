@@ -62,10 +62,10 @@ class EntryForm(private val entry: Entry? = null) : Screen {
         Column {
             FormRow(icon = MR.images.ic_time) {
                 TextButton(onClick = { datePickerState.isShown = true }) {
-                    Text(formatter.format(viewState.entry.dateTime.date))
+                    Text(formatter.format(viewState.entry.createdAt.date))
                 }
                 TextButton(onClick = { timePickerState.isShown = true }) {
-                    Text(formatter.format(viewState.entry.dateTime.time))
+                    Text(formatter.format(viewState.entry.createdAt.time))
                 }
             }
             Divider()
@@ -97,7 +97,7 @@ class EntryForm(private val entry: Entry? = null) : Screen {
         }
         if (datePickerState.isShown) {
             DatePicker(
-                date = viewState.entry.dateTime.date,
+                date = viewState.entry.createdAt.date,
                 onPick = { date ->
                     datePickerState.isShown = false
                     viewModel.setDate(date)
@@ -106,7 +106,7 @@ class EntryForm(private val entry: Entry? = null) : Screen {
         }
         if (timePickerState.isShown) {
             TimePicker(
-                time = viewState.entry.dateTime.time,
+                time = viewState.entry.createdAt.time,
                 onPick = { date ->
                     timePickerState.isShown = false
                     viewModel.setTime(date)

@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.shared.view.rememberDatePickerState
 
 @Composable
 fun DatePickerBottomAppBarItem(
-    date: () -> Date,
+    date: Date,
     onDatePick: (Date) -> Unit,
 ) {
     val datePickerState = rememberDatePickerState()
@@ -21,7 +21,7 @@ fun DatePickerBottomAppBarItem(
     )
     if (datePickerState.isShown) {
         DatePicker(
-            date = date(),
+            date = date,
             onPick = {
                 datePickerState.isShown = false
                 onDatePick(it)

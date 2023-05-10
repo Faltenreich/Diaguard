@@ -1,13 +1,11 @@
 package com.faltenreich.diaguard.entry.form
 
-import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
-import dev.icerock.moko.resources.StringResource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -27,13 +25,22 @@ class EntryFormViewModel(
     // TODO: If true, intercept back navigation via LocalNavigator.currentOrThrow
     private val hasChanged = note.distinctUntilChanged { old, new -> old != new }
 
-    private val state = combine(dateTime, note, ::EntryFormViewState)
-    val viewState = state.stateIn(viewModelScope, SharingStarted.Lazily, EntryFormViewState(dateTime.value, note.value))
-
-    val title: StringResource
-        get() =
-            if (id.value != null) MR.strings.entry_edit
-            else MR.strings.entry_new
+    private val state = combine(id, dateTime, note) { id, dateTime, note ->
+        EntryFormViewState(
+            dateTime = dateTime,
+            note = note,
+            isEditing = id != null,
+        )
+    }
+    val viewState = state.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = EntryFormViewState(
+            dateTime = dateTime.value,
+            note = note.value,
+            isEditing = id.value != null,
+        )
+    )
 
     fun setDate(date: Date) {
         this.dateTime.value = dateTime.value.time.atDate(date)

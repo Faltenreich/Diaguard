@@ -34,14 +34,19 @@ class EntryForm(private val entry: Entry? = null) : Screen {
 
     override val topAppBarStyle = TopAppBarStyle.CenterAligned {
         val viewModel = rememberViewModel { EntryFormViewModel(entry) }
-        Text(stringResource(viewModel.title))
+        val viewState = viewModel.viewState.collectAsState().value
+        val title = if (viewState.isEditing) MR.strings.entry_edit else MR.strings.entry_new
+        Text(stringResource(title))
     }
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = {
             val viewModel = rememberViewModel { EntryFormViewModel(entry) }
-            val navigator = LocalNavigator.currentOrThrow
-            EntrySearchBottomAppBarItem(onClick = { viewModel.delete(); navigator.pop() })
+            val viewState = viewModel.viewState.collectAsState().value
+            if (viewState.isEditing) {
+                val navigator = LocalNavigator.currentOrThrow
+                EntrySearchBottomAppBarItem(onClick = { viewModel.delete(); navigator.pop() })
+            }
         },
         floatingActionButton = {
             val viewModel = rememberViewModel { EntryFormViewModel(entry) }

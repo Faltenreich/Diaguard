@@ -2,20 +2,9 @@ package com.faltenreich.diaguard.dashboard
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
-import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
-import com.faltenreich.diaguard.navigation.Screen
-import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.shared.di.inject
 
-class Dashboard : Screen {
-
-    override val bottomAppBarStyle = BottomAppBarStyle.Visible(
-        actions = { EntrySearchBottomAppBarItem() },
-        floatingActionButton = { EntryFormFloatingActionButton() },
-    )
-
-    @Composable
-    override fun Content() {
-        Text("Dashboard")
-    }
+@Composable
+fun Dashboard(viewModel: DashboardViewModel = inject()) {
+    Text("Dashboard")
 }

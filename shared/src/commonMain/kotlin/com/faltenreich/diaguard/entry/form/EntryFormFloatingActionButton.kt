@@ -9,6 +9,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -19,7 +20,7 @@ fun EntryFormFloatingActionButton(
 ) {
     val navigator = LocalNavigator.currentOrThrow
     FloatingActionButton(
-        onClick = { navigator.push(EntryForm(entry)) },
+        onClick = { navigator.push(Screen.EntryForm(entry)) },
         modifier = modifier,
     ) {
         Icon(Icons.Filled.Add, stringResource(MR.strings.entry_new_description))

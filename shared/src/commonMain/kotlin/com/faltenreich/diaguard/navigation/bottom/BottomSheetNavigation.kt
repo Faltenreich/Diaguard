@@ -7,11 +7,9 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.dashboard.Dashboard
-import com.faltenreich.diaguard.log.Log
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.BottomSheetState
-import com.faltenreich.diaguard.timeline.Timeline
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,28 +29,28 @@ fun BottomSheetNavigation(
             BottomSheetNavigationItem(
                 icon = MR.images.ic_dashboard,
                 label = MR.strings.dashboard,
-                isActive = navigator.lastItem is Dashboard,
+                isActive = navigator.lastItem is Screen.Dashboard,
                 onClick = {
                     scope.launch { sheetState.hide() }
-                    navigator.replaceAll(Dashboard())
+                    navigator.replaceAll(Screen.Dashboard())
                 },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_timeline,
                 label = MR.strings.timeline,
-                isActive = navigator.lastItem is Timeline,
+                isActive = navigator.lastItem is Screen.Timeline,
                 onClick = {
                     scope.launch { sheetState.hide() }
-                    navigator.replaceAll(Timeline())
+                    navigator.replaceAll(Screen.Timeline())
                 },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_log,
                 label = MR.strings.log,
-                isActive = navigator.lastItem is Log,
+                isActive = navigator.lastItem is Screen.Log,
                 onClick = {
                     scope.launch { sheetState.hide() }
-                    navigator.replaceAll(Log())
+                    navigator.replaceAll(Screen.Log())
                 },
             )
         }

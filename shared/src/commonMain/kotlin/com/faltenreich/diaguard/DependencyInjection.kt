@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard
 
+import com.faltenreich.diaguard.dashboard.dashboardModule
 import com.faltenreich.diaguard.entry.entryModule
 import com.faltenreich.diaguard.log.logModule
 import com.faltenreich.diaguard.shared.architecture.coroutineModule
@@ -27,6 +28,7 @@ private fun mainModules() = listOf(
     sqlDelightModule(),
     databaseModule(),
     dateTimeModule(),
+    dashboardModule(),
     logModule(),
     timelineModule(),
     entryModule(),

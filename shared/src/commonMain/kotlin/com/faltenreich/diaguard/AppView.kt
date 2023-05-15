@@ -19,7 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
-import com.faltenreich.diaguard.log.Log
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarOwner
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
@@ -38,7 +38,7 @@ fun AppView() {
             modifier = Modifier.fillMaxSize(),
             color = AppTheme.colorScheme.background,
         ) {
-            Navigator(screen = Log()) { navigator ->
+            Navigator(screen = Screen.Log()) { navigator ->
                 val scope = rememberCoroutineScope()
                 val sheetState = remember { BottomSheetState() }
                 Box {

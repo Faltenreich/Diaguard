@@ -12,15 +12,16 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.rememberViewModel
+import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.view.SearchField
 import dev.icerock.moko.resources.compose.stringResource
+import org.koin.core.parameter.parametersOf
 
 class EntrySearch(private val query: String? = null) : Screen {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = {
-            val viewModel = rememberViewModel { EntrySearchViewModel(query) }
+            val viewModel = getViewModel<EntrySearchViewModel> { parametersOf(query) }
             val state = viewModel.viewState.collectAsState().value
             SearchField(
                 query = state.query,
@@ -32,7 +33,7 @@ class EntrySearch(private val query: String? = null) : Screen {
 
     @Composable
     override fun Content() {
-        val viewModel = rememberViewModel { EntrySearchViewModel(query) }
+        val viewModel = getViewModel<EntrySearchViewModel> { parametersOf(query) }
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,

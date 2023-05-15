@@ -4,8 +4,8 @@ import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.SubmitEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListViewModel
+import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
-import com.faltenreich.diaguard.log.LogViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -14,11 +14,10 @@ fun entryModule() = module {
 
     singleOf(::EntryListViewModel)
 
-    singleOf(::LogViewModel)
-
     singleOf(::SearchEntriesUseCase)
+    factory { (query: String?) -> EntrySearchViewModel(query) }
 
     singleOf(::SubmitEntryUseCase)
     singleOf(::DeleteEntryUseCase)
-    single { (entry: Entry?) -> EntryFormViewModel(entry) }
+    factory { (entry: Entry?) -> EntryFormViewModel(entry) }
 }

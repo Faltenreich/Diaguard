@@ -99,6 +99,7 @@ object Dependencies {
 
     object Voyager {
 
+        const val android = "cafe.adriel.voyager:voyager-koin:${Versions.voyager}"
         const val navigator = "cafe.adriel.voyager:voyager-navigator:${Versions.voyager}"
         const val transitions = "cafe.adriel.voyager:voyager-transitions:${Versions.voyager}"
     }

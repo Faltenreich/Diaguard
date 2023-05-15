@@ -1,11 +1,13 @@
 package com.faltenreich.diaguard
 
 import com.faltenreich.diaguard.entry.entryModule
+import com.faltenreich.diaguard.log.logModule
 import com.faltenreich.diaguard.shared.architecture.coroutineModule
 import com.faltenreich.diaguard.shared.clipboard.clipboardModule
 import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.datetime.dateTimeModule
+import com.faltenreich.diaguard.timeline.timelineModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
@@ -25,5 +27,7 @@ private fun mainModules() = listOf(
     sqlDelightModule(),
     databaseModule(),
     dateTimeModule(),
+    logModule(),
+    timelineModule(),
     entryModule(),
 )

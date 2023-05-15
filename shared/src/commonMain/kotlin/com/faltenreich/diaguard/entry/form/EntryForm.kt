@@ -17,9 +17,9 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.rememberViewModel
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
@@ -29,11 +29,12 @@ import com.faltenreich.diaguard.shared.view.TimePicker
 import com.faltenreich.diaguard.shared.view.rememberDatePickerState
 import com.faltenreich.diaguard.shared.view.rememberTimePickerState
 import dev.icerock.moko.resources.compose.stringResource
+import org.koin.core.parameter.parametersOf
 
 class EntryForm(private val entry: Entry? = null) : Screen {
 
     override val topAppBarStyle = TopAppBarStyle.CenterAligned {
-        val viewModel = rememberViewModel { EntryFormViewModel(entry) }
+        val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry) }
         val viewState = viewModel.viewState.collectAsState().value
         val title = if (viewState.isEditing) MR.strings.entry_edit else MR.strings.entry_new
         Text(stringResource(title))
@@ -41,7 +42,7 @@ class EntryForm(private val entry: Entry? = null) : Screen {
 
     override val bottomAppBarStyle = BottomAppBarStyle.Visible(
         actions = {
-            val viewModel = rememberViewModel { EntryFormViewModel(entry) }
+            val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry) }
             val viewState = viewModel.viewState.collectAsState().value
             if (viewState.isEditing) {
                 val navigator = LocalNavigator.currentOrThrow
@@ -49,7 +50,7 @@ class EntryForm(private val entry: Entry? = null) : Screen {
             }
         },
         floatingActionButton = {
-            val viewModel = rememberViewModel { EntryFormViewModel(entry) }
+            val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry) }
             val navigator = LocalNavigator.currentOrThrow
             FloatingActionButton(onClick = { viewModel.submit(); navigator.pop() }) {
                 Icon(Icons.Filled.Check, stringResource(MR.strings.entry_save))
@@ -59,7 +60,7 @@ class EntryForm(private val entry: Entry? = null) : Screen {
 
     @Composable
     override fun Content() {
-        val viewModel = rememberViewModel { EntryFormViewModel(entry) }
+        val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry) }
         val formatter = inject<DateTimeFormatter>()
         val viewState = viewModel.viewState.collectAsState().value
         val datePickerState = rememberDatePickerState()

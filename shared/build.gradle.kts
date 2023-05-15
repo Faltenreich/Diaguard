@@ -48,6 +48,7 @@ kotlin {
                 implementation(Dependencies.Koin.android)
                 implementation(Dependencies.Ktor.android)
                 implementation(Dependencies.SqlDelight.android)
+                implementation(Dependencies.Voyager.android)
             }
         }
         val androidInstrumentedTest by getting

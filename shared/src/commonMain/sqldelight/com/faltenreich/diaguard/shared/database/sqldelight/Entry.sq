@@ -1,13 +1,13 @@
 CREATE TABLE entry (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    createdAt TEXT NOT NULL,
-    updatedAt TEXT NOT NULL,
-    dateTime TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    date_time TEXT NOT NULL,
     note TEXT
 );
 
 create:
-INSERT INTO entry(createdAt, updatedAt, dateTime)
+INSERT INTO entry(created_at, updated_at, date_time)
 VALUES (?, ?, ?);
 
 getLastId:
@@ -17,13 +17,13 @@ getById:
 SELECT * FROM entry WHERE id = ?;
 
 getAll:
-SELECT * FROM entry ORDER BY dateTime DESC;
+SELECT * FROM entry ORDER BY date_time DESC;
 
 getByQuery:
 SELECT * FROM entry WHERE note LIKE '%' + ? + '%';
 
 update:
-UPDATE entry SET updatedAt = ?, dateTime = ?, note = ? WHERE id = ?;
+UPDATE entry SET updated_at = ?, date_time = ?, note = ? WHERE id = ?;
 
 deleteById:
 DELETE FROM entry WHERE id = ?;

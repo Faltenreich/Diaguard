@@ -38,9 +38,9 @@ class EntrySqlDelightDao(
 
     override fun create(createdAt: DateTime, dateTime: DateTime) {
         queries.create(
-            createdAt = createdAt.isoString,
-            updatedAt = createdAt.isoString,
-            dateTime = dateTime.isoString,
+            created_at = createdAt.isoString,
+            updated_at = createdAt.isoString,
+            date_time = dateTime.isoString,
         )
     }
 
@@ -51,8 +51,8 @@ class EntrySqlDelightDao(
         note: String?,
     ) {
         queries.update(
-            updatedAt = updatedAt.isoString,
-            dateTime = dateTime.isoString,
+            updated_at = updatedAt.isoString,
+            date_time = dateTime.isoString,
             note = note,
             id = id,
         )

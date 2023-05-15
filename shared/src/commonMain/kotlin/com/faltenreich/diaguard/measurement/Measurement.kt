@@ -13,5 +13,6 @@ data class Measurement(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
+    val property: MeasurementProperty,
     val entry: Entry,
 ) : DatabaseEntity

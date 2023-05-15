@@ -22,10 +22,10 @@ import cafe.adriel.voyager.transitions.FadeTransition
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyleFactory
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigation
+import com.faltenreich.diaguard.navigation.bottom.bottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.top.TopAppBarStyleFactory
+import com.faltenreich.diaguard.navigation.top.topAppBarStyle
 import com.faltenreich.diaguard.shared.view.BottomSheetState
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
@@ -45,7 +45,7 @@ fun AppView() {
                     Scaffold(
                         topBar = {
                             val screen = navigator.lastItem as? Screen ?: return@Scaffold
-                            when (val style = TopAppBarStyleFactory.forScreen(screen)) {
+                            when (val style = screen.topAppBarStyle()) {
                                 is TopAppBarStyle.Hidden -> Unit
                                 is TopAppBarStyle.CenterAligned -> CenterAlignedTopAppBar(
                                     title = { style.content() },
@@ -71,7 +71,7 @@ fun AppView() {
                         },
                         bottomBar = {
                             val screen = navigator.lastItem as? Screen ?: return@Scaffold
-                            when (val style = BottomAppBarStyleFactory.forScreen(screen)) {
+                            when (val style = screen.bottomAppBarStyle()) {
                                 is BottomAppBarStyle.Hidden -> Unit
                                 is BottomAppBarStyle.Visible -> {
                                     BottomAppBar(

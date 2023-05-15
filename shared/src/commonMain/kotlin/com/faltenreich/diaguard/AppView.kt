@@ -21,11 +21,11 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
-import com.faltenreich.diaguard.navigation.bottom.BottomAppBarOwner
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyleFactory
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigation
-import com.faltenreich.diaguard.navigation.top.TopAppBarOwner
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.top.TopAppBarStyleFactory
 import com.faltenreich.diaguard.shared.view.BottomSheetState
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
@@ -44,8 +44,8 @@ fun AppView() {
                 Box {
                     Scaffold(
                         topBar = {
-                            val screen = navigator.lastItem as? TopAppBarOwner ?: return@Scaffold
-                            when (val style = screen.topAppBarStyle) {
+                            val screen = navigator.lastItem as? Screen ?: return@Scaffold
+                            when (val style = TopAppBarStyleFactory.forScreen(screen)) {
                                 is TopAppBarStyle.Hidden -> Unit
                                 is TopAppBarStyle.CenterAligned -> CenterAlignedTopAppBar(
                                     title = { style.content() },
@@ -70,8 +70,8 @@ fun AppView() {
                             )
                         },
                         bottomBar = {
-                            val screen = navigator.lastItem as? BottomAppBarOwner ?: return@Scaffold
-                            when (val style = screen.bottomAppBarStyle) {
+                            val screen = navigator.lastItem as? Screen ?: return@Scaffold
+                            when (val style = BottomAppBarStyleFactory.forScreen(screen)) {
                                 is BottomAppBarStyle.Hidden -> Unit
                                 is BottomAppBarStyle.Visible -> {
                                     BottomAppBar(

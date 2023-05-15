@@ -32,7 +32,7 @@ fun BottomSheetNavigation(
                 isActive = navigator.lastItem is Screen.Dashboard,
                 onClick = {
                     scope.launch { sheetState.hide() }
-                    navigator.replaceAll(Screen.Dashboard())
+                    navigator.replaceAll(Screen.Dashboard)
                 },
             )
             BottomSheetNavigationItem(

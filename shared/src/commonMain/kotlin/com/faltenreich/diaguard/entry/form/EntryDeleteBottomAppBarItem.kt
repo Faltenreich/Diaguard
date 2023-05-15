@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 
 @Composable
-fun EntrySearchBottomAppBarItem(
+fun EntryDeleteBottomAppBarItem(
     onClick: () -> Unit,
 ) {
     BottomAppBarItem(

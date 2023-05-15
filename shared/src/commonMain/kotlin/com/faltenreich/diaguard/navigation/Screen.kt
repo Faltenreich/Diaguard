@@ -11,11 +11,12 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.Dashboard
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.form.EntryDeleteBottomAppBarItem
 import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
-import com.faltenreich.diaguard.entry.form.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.entry.search.EntrySearch
+import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.log.Log
 import com.faltenreich.diaguard.log.LogViewModel
@@ -41,7 +42,7 @@ sealed class Screen : VoyagerScreen, TopAppBarOwner, BottomAppBarOwner {
     class Dashboard : Screen() {
 
         override val bottomAppBarStyle = BottomAppBarStyle.Visible(
-            actions = { com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem() },
+            actions = { EntrySearchBottomAppBarItem() },
             floatingActionButton = { EntryFormFloatingActionButton() },
         )
 
@@ -57,7 +58,7 @@ sealed class Screen : VoyagerScreen, TopAppBarOwner, BottomAppBarOwner {
             actions = {
                 val viewModel = getViewModel<LogViewModel> { parametersOf(date) }
                 val viewState = viewModel.viewState.collectAsState().value
-                com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem()
+                EntrySearchBottomAppBarItem()
                 DatePickerBottomAppBarItem(
                     date = viewState.date,
                     onDatePick = viewModel::setDate,
@@ -78,7 +79,7 @@ sealed class Screen : VoyagerScreen, TopAppBarOwner, BottomAppBarOwner {
             actions = {
                 val viewModel = getViewModel<TimelineViewModel> { parametersOf(date) }
                 val viewState = viewModel.viewState.collectAsState().value
-                com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem()
+                EntrySearchBottomAppBarItem()
                 DatePickerBottomAppBarItem(
                     date = viewState.date,
                     onDatePick = viewModel::setDate,
@@ -108,7 +109,7 @@ sealed class Screen : VoyagerScreen, TopAppBarOwner, BottomAppBarOwner {
                 val viewState = viewModel.viewState.collectAsState().value
                 if (viewState.isEditing) {
                     val navigator = LocalNavigator.currentOrThrow
-                    EntrySearchBottomAppBarItem(onClick = { viewModel.delete(); navigator.pop() })
+                    EntryDeleteBottomAppBarItem(onClick = { viewModel.delete(); navigator.pop() })
                 }
             },
             floatingActionButton = {

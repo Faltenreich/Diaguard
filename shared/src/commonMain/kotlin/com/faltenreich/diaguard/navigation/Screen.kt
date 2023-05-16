@@ -13,7 +13,6 @@ import org.koin.core.parameter.parametersOf
 
 typealias VoyagerScreen = cafe.adriel.voyager.core.screen.Screen
 
-// FIXME: Parameters must be parcelable to be cached by Voyager
 sealed class Screen : VoyagerScreen {
 
     object Dashboard : Screen() {
@@ -24,7 +23,7 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    class Log(val date: Date = Date.today()) : Screen() {
+    data class Log(val date: Date = Date.today()) : Screen() {
 
         @Composable
         override fun Content() {
@@ -32,7 +31,7 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    class Timeline(val date: Date = Date.today()) : Screen() {
+    data class Timeline(val date: Date = Date.today()) : Screen() {
 
         @Composable
         override fun Content() {
@@ -40,7 +39,7 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    class EntryForm(val entry: Entry? = null) : Screen() {
+    data class EntryForm(val entry: Entry? = null) : Screen() {
 
         @Composable
         override fun Content() {
@@ -48,7 +47,7 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    class EntrySearch(val query: String? = null) : Screen() {
+    data class EntrySearch(val query: String? = null) : Screen() {
 
         @Composable
         override fun Content() {

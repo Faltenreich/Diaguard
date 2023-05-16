@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.shared.datetime.kotlinx
 
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Timeable
+import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
+import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.LocalTime
 
 class KotlinxTime(
@@ -12,7 +14,7 @@ class KotlinxTime(
     nanosOfMillis: Int,
 ) : Timeable {
 
-    private val localTime = LocalTime(
+    private var localTime = LocalTime(
         hour = hourOfDay,
         minute = minuteOfHour,
         second = secondOfMinute,
@@ -33,4 +35,16 @@ class KotlinxTime(
 
     override val nanosOfMillis: Int
         get() = localTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND)
+
+    private fun readObject(inputStream: ObjectInputStream) {
+        localTime = LocalTime.fromNanosecondOfDay(inputStream.readLong())
+    }
+
+    private fun writeObject(outputStream: ObjectOutputStream) {
+        val nanosOfDay = hourOfDay * DateTimeConstants.NANOS_PER_HOUR +
+            minuteOfHour * DateTimeConstants.NANOS_PER_MINUTE +
+            secondOfMinute * DateTimeConstants.NANOS_PER_SECOND +
+            nanosOfMillis
+        outputStream.writeLong(nanosOfDay)
+    }
 }

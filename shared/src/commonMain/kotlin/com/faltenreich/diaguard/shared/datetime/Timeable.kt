@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.shared.datetime
 
-interface Timeable {
+import com.faltenreich.diaguard.shared.serialization.Serializable
+
+interface Timeable : Serializable {
 
     /**
      * Hour-of-day ranging from 0 to 24

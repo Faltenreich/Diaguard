@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.shared.datetime
 
-interface DateTimeable {
+import com.faltenreich.diaguard.shared.serialization.Serializable
+
+interface DateTimeable : Serializable {
 
     val date: Date
 

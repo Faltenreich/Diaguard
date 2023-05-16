@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.shared.datetime
 
-interface Dateable {
+import com.faltenreich.diaguard.shared.serialization.Serializable
+
+interface Dateable : Serializable {
 
     /**
      * Year starting at 0 AD

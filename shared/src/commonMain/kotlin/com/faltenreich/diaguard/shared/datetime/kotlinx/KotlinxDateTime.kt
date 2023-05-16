@@ -4,6 +4,8 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.DateTimeable
 import com.faltenreich.diaguard.shared.datetime.Time
+import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
+import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
@@ -43,7 +45,7 @@ class KotlinxDateTime(
             .toLocalDateTime(TimeZone.currentSystemDefault()),
     )
 
-    private val localDateTime = LocalDateTime(
+    private var localDateTime = LocalDateTime(
         year = year,
         monthNumber = monthOfYear,
         dayOfMonth = dayOfMonth,
@@ -74,6 +76,16 @@ class KotlinxDateTime(
 
     override val isoString: String
         get() = localDateTime.toString()
+
+    private fun readObject(inputStream: ObjectInputStream) {
+        localDateTime = Instant
+            .fromEpochMilliseconds(inputStream.readLong())
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+    }
+
+    private fun writeObject(outputStream: ObjectOutputStream) {
+        outputStream.writeLong(millisSince1970)
+    }
 
     companion object {
 

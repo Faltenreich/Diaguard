@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.view
 
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberTimePickerState
@@ -19,8 +18,7 @@ actual fun TimePicker(
         initialMinute = time.minuteOfHour,
         is24Hour = true,
     )
-    // TODO: Replace with TimePickerDialog
-    DatePickerDialog(
+    TimePickerDialog(
         onDismissRequest = { onPick(time) },
         confirmButton = {
             TextButton(onClick = { onPick(Time(state.hour, state.minute)) }) {

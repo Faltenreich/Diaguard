@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.view
 
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +24,6 @@ class DatePickerState {
 
 @Composable
 fun rememberDatePickerState(): DatePickerState {
-    rememberTopAppBarState()
     return rememberSaveable(saver = DatePickerState.Saver) {
         DatePickerState()
     }

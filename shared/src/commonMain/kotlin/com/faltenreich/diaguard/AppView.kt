@@ -8,7 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
@@ -32,6 +36,7 @@ fun AppView() {
         ) {
             Navigator(screen = Screen.Log()) { navigator ->
                 Box {
+                    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
                     val scope = rememberCoroutineScope()
                     val bottomSheetState = rememberBottomSheetState()
                     Scaffold(
@@ -43,7 +48,6 @@ fun AppView() {
                             )
                         },
                         content = { padding ->
-                            // FIXME: Crashes on pushing same Screen twice
                             FadeTransition(
                                 navigator = navigator,
                                 modifier = Modifier.padding(padding),
@@ -53,24 +57,32 @@ fun AppView() {
                             val screen = navigator.lastItem as? Screen ?: return@Scaffold
                             BottomAppBar(
                                 style = screen.bottomAppBarStyle(),
-                                onMenuClick = { scope.launch { bottomSheetState.show() } },
+                                onMenuClick = { openBottomSheet = true },
                             )
                         },
                     )
-                    if (bottomSheetState.isVisible) {
-                        // FIXME: Skips animation, maybe due to shared bottomSheetState
+                    if (openBottomSheet) {
                         BottomSheet(
-                            onDismissRequest = { scope.launch { bottomSheetState.hide() } },
+                            onDismissRequest = { openBottomSheet = false },
                             sheetState = bottomSheetState,
                         ) {
+                            val closeBottomSheet: (() -> Unit) -> Unit = { then ->
+                                scope.launch {
+                                    bottomSheetState.hide()
+                                }.invokeOnCompletion {
+                                    openBottomSheet = false
+                                    then()
+                                }
+                            }
                             Column {
                                 BottomSheetNavigationItem(
                                     icon = MR.images.ic_dashboard,
                                     label = MR.strings.dashboard,
                                     isActive = navigator.lastItem is Screen.Dashboard,
                                     onClick = {
-                                        scope.launch { bottomSheetState.hide() }
-                                        navigator.replaceAll(Screen.Dashboard)
+                                        closeBottomSheet {
+                                            navigator.replaceAll(Screen.Dashboard)
+                                        }
                                     },
                                 )
                                 BottomSheetNavigationItem(
@@ -78,8 +90,9 @@ fun AppView() {
                                     label = MR.strings.timeline,
                                     isActive = navigator.lastItem is Screen.Timeline,
                                     onClick = {
-                                        scope.launch { bottomSheetState.hide() }
-                                        navigator.replaceAll(Screen.Timeline())
+                                        closeBottomSheet {
+                                            navigator.replaceAll(Screen.Timeline())
+                                        }
                                     },
                                 )
                                 BottomSheetNavigationItem(
@@ -87,8 +100,9 @@ fun AppView() {
                                     label = MR.strings.log,
                                     isActive = navigator.lastItem is Screen.Log,
                                     onClick = {
-                                        scope.launch { bottomSheetState.hide() }
-                                        navigator.replaceAll(Screen.Log())
+                                        closeBottomSheet {
+                                            navigator.replaceAll(Screen.Log())
+                                        }
                                     },
                                 )
                             }

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.GetMeasurementPropertiesUseCase
+import com.faltenreich.diaguard.measurement.property.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime

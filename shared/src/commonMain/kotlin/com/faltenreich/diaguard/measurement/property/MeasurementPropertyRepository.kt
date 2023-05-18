@@ -1,5 +1,6 @@
-package com.faltenreich.diaguard.measurement
+package com.faltenreich.diaguard.measurement.property
 
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 

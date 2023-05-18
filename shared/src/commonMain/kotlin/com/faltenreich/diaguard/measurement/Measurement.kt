@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement
 
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
 

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement
+package com.faltenreich.diaguard.measurement.property
 
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow

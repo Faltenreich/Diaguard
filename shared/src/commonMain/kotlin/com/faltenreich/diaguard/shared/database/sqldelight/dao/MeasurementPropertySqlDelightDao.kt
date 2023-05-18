@@ -3,9 +3,9 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
-import com.faltenreich.diaguard.measurement.MeasurementProperty
-import com.faltenreich.diaguard.measurement.MeasurementPropertyDao
-import com.faltenreich.diaguard.measurement.MeasurementUnit
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementPropertyQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.datetime.DateTime

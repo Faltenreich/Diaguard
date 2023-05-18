@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.shared.database
 
 import com.faltenreich.diaguard.entry.EntryDao
-import com.faltenreich.diaguard.measurement.MeasurementPropertyDao
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightDatabase
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.EntrySqlDelightDao
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.EntrySqlDelightMapper

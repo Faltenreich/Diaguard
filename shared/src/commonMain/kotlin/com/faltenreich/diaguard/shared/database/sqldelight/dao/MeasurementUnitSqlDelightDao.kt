@@ -24,8 +24,6 @@ class MeasurementUnitSqlDelightDao(
     override fun create(
         createdAt: DateTime,
         name: String,
-        factor: Double,
-        typeId: Long,
     ) {
         queries.create(
             created_at = createdAt.isoString,

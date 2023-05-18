@@ -9,14 +9,10 @@ class MeasurementUnitRepository(
 
     fun create(
         name: String,
-        factor: Double,
-        typeId: Long,
     ): Long {
         dao.create(
             createdAt = DateTime.now(),
             name = name,
-            factor = factor,
-            typeId = typeId,
         )
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }

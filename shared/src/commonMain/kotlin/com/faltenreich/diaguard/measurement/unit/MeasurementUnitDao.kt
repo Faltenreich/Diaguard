@@ -8,8 +8,6 @@ interface MeasurementUnitDao {
     fun create(
         createdAt: DateTime,
         name: String,
-        factor: Double,
-        typeId: Long,
     )
 
     fun getLastId(): Long?

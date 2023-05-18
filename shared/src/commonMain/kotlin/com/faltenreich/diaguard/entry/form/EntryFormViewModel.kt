@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -16,6 +17,7 @@ class EntryFormViewModel(
     entry: Entry?,
     private val submitEntry: SubmitEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
+    getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
 ) : ViewModel() {
 
     private val id = MutableStateFlow(entry?.id)
@@ -25,11 +27,17 @@ class EntryFormViewModel(
     // TODO: If true, intercept back navigation via LocalNavigator.currentOrThrow
     private val hasChanged = note.distinctUntilChanged { old, new -> old != new }
 
-    private val state = combine(id, dateTime, note) { id, dateTime, note ->
+    private val state = combine(
+        id,
+        dateTime,
+        note,
+        getMeasurementProperties(),
+    ) { id, dateTime, note, measurementProperties ->
         EntryFormViewState(
             dateTime = dateTime,
             note = note,
             isEditing = id != null,
+            measurementProperties = measurementProperties,
         )
     }
     val viewState = state.stateIn(
@@ -39,6 +47,7 @@ class EntryFormViewModel(
             dateTime = dateTime.value,
             note = note.value,
             isEditing = id.value != null,
+            measurementProperties = emptyList(),
         )
     )
 

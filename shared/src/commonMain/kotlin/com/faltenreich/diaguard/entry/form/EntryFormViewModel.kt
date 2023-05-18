@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.property.GetMeasurementPropertiesUseCase
+import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementDataUseCase
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementData
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -17,7 +18,7 @@ class EntryFormViewModel(
     entry: Entry?,
     private val submitEntry: SubmitEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-    getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
+    getMeasurementData: GetMeasurementDataUseCase = inject(),
 ) : ViewModel() {
 
     private val id = MutableStateFlow(entry?.id)
@@ -31,13 +32,13 @@ class EntryFormViewModel(
         id,
         dateTime,
         note,
-        getMeasurementProperties(),
-    ) { id, dateTime, note, measurementProperties ->
+        getMeasurementData(),
+    ) { id, dateTime, note, measurementData ->
         EntryFormViewState(
             dateTime = dateTime,
             note = note,
             isEditing = id != null,
-            measurementProperties = measurementProperties,
+            measurementData = measurementData,
         )
     }
     val viewState = state.stateIn(
@@ -47,7 +48,7 @@ class EntryFormViewModel(
             dateTime = dateTime.value,
             note = note.value,
             isEditing = id.value != null,
-            measurementProperties = emptyList(),
+            measurementData = MeasurementData(properties = emptyList()),
         )
     )
 

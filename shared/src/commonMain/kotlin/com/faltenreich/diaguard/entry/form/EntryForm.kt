@@ -7,17 +7,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementInput
 import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
-import com.faltenreich.diaguard.shared.view.DropDownMenu
-import com.faltenreich.diaguard.shared.view.DropDownMenuItem
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.TimePicker
@@ -33,7 +28,6 @@ fun EntryForm(
     val viewState = viewModel.viewState.collectAsState().value
     val datePickerState = rememberDatePickerState()
     val timePickerState = rememberTimePickerState()
-    var openMeasurementPropertyPicker by remember { mutableStateOf(false) }
     Column {
         FormRow(icon = MR.images.ic_time) {
             TextButton(onClick = { datePickerState.isShown = true }) {
@@ -69,10 +63,14 @@ fun EntryForm(
                 }
             }
         }
-        TextButton(onClick = { openMeasurementPropertyPicker = true }) {
-            Text("Selects measurements")
+        Divider()
+        viewState.measurementData.properties.forEach { property ->
+            MeasurementInput(
+                property = property.property,
+                types = property.values.map { it.type },
+                onInputChange = { input, type ->  },
+            )
         }
-
     }
     if (datePickerState.isShown) {
         DatePicker(
@@ -91,16 +89,5 @@ fun EntryForm(
                 viewModel.setTime(date)
             },
         )
-    }
-    DropDownMenu(
-        expanded = openMeasurementPropertyPicker,
-        onDismissRequest = { openMeasurementPropertyPicker = false }
-    ) {
-        viewState.measurementProperties.forEach { property ->
-            DropDownMenuItem(
-                text = { Text(property.name) },
-                onClick = { TODO() },
-            )
-        }
     }
 }

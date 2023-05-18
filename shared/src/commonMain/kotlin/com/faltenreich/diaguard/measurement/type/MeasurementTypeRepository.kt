@@ -24,6 +24,10 @@ class MeasurementTypeRepository(
         return dao.getByPropertyId(propertyId)
     }
 
+    fun getByPropertyIds(propertyIds: List<Long>): Flow<List<MeasurementType>> {
+        TODO()
+    }
+
     fun update(
         id: Long,
         name: String,

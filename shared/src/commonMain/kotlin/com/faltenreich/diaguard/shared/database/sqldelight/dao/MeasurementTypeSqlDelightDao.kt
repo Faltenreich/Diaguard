@@ -2,10 +2,8 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeDao
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementTypeQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementTypeSqlDelightMapper
@@ -27,16 +25,15 @@ class MeasurementTypeSqlDelightDao(
         createdAt: DateTime,
         name: String,
         sortIndex: Long,
-        selectedUnit: MeasurementUnit,
-        property: MeasurementProperty,
+        propertyId: Long,
     ) {
         queries.create(
             created_at = createdAt.isoString,
             updated_at = createdAt.isoString,
             name = name,
             sort_index = sortIndex,
-            selected_unit_id = selectedUnit.id,
-            property_id = property.id,
+            selected_unit_id = null,
+            property_id = propertyId,
         )
     }
 
@@ -44,8 +41,8 @@ class MeasurementTypeSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getByProperty(property: MeasurementProperty): Flow<List<MeasurementType>> {
-        return queries.getByProperty(property.id, mapper::map).asFlow().mapToList(dispatcher)
+    override fun getByPropertyId(propertyId: Long): Flow<List<MeasurementType>> {
+        return queries.getByProperty(propertyId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun update(
@@ -53,13 +50,13 @@ class MeasurementTypeSqlDelightDao(
         updatedAt: DateTime,
         name: String,
         sortIndex: Long,
-        selectedUnit: MeasurementUnit,
+        selectedUnitId: Long?,
     ) {
         queries.update(
             updated_at = updatedAt.isoString,
             name = name,
             sort_index = sortIndex,
-            selected_unit_id = selectedUnit.id,
+            selected_unit_id = selectedUnitId,
             id = id,
         )
     }

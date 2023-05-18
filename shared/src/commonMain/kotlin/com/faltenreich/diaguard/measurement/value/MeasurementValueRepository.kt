@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.measurement.value
 
-import com.faltenreich.diaguard.measurement.Measurement
-import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
@@ -11,20 +9,20 @@ class MeasurementValueRepository(
 
     fun create(
         value: Double,
-        type: MeasurementType,
-        measurement: Measurement,
+        typeId: Long,
+        measurementId: Long,
     ): Long {
         dao.create(
             createdAt = DateTime.now(),
             value = value,
-            type = type,
-            measurement = measurement,
+            typeId = typeId,
+            measurementId = measurementId,
         )
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
-    fun getByMeasurement(measurement: Measurement): Flow<List<MeasurementValue>> {
-        return dao.getByMeasurement(measurement)
+    fun getByMeasurementId(measurementId: Long): Flow<List<MeasurementValue>> {
+        return dao.getByMeasurementId(measurementId)
     }
 
     fun update(

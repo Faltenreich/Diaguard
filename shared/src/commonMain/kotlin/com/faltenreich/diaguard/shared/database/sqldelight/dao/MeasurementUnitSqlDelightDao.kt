@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementUnitQueries
@@ -26,14 +25,14 @@ class MeasurementUnitSqlDelightDao(
         createdAt: DateTime,
         name: String,
         factor: Double,
-        type: MeasurementType,
+        typeId: Long,
     ) {
         queries.create(
             created_at = createdAt.isoString,
             updated_at = createdAt.isoString,
             name = name,
             factor = factor,
-            type_id = type.id,
+            type_id = typeId,
         )
     }
 
@@ -41,8 +40,8 @@ class MeasurementUnitSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getByType(type: MeasurementType): Flow<List<MeasurementUnit>> {
-        return queries.getByType(type.id, mapper::map).asFlow().mapToList(dispatcher)
+    override fun getByTypeId(typeId: Long): Flow<List<MeasurementUnit>> {
+        return queries.getByType(typeId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun update(

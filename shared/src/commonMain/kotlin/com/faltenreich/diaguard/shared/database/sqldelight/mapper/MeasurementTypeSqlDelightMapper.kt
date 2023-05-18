@@ -11,7 +11,7 @@ class MeasurementTypeSqlDelightMapper {
         updatedAt: String,
         name: String,
         sortIndex: Long,
-        selectedUnitId: Long,
+        selectedUnitId: Long?,
         propertyId: Long,
     ): MeasurementType {
         return MeasurementType(

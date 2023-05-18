@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement
 
-import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -12,6 +11,6 @@ data class Measurement(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
-    val type: MeasurementType,
-    val entry: Entry,
+    val typeId: Long,
+    val entryId: Long,
 ) : DatabaseEntity

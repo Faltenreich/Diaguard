@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.database
 
 import com.faltenreich.diaguard.entry.EntryDao
+import com.faltenreich.diaguard.measurement.MeasurementDao
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeDao
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
@@ -10,6 +11,8 @@ import com.faltenreich.diaguard.shared.database.sqldelight.dao.EntrySqlDelightDa
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.EntrySqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementPropertySqlDelightDao
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementPropertySqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementSqlDelightDao
+import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementTypeSqlDelightDao
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementTypeSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementUnitSqlDelightDao
@@ -36,4 +39,7 @@ fun databaseModule() = module {
 
     singleOf(::MeasurementValueSqlDelightMapper)
     single<MeasurementValueDao> { MeasurementValueSqlDelightDao() }
+
+    singleOf(::MeasurementSqlDelightMapper)
+    single<MeasurementDao> { MeasurementSqlDelightDao() }
 }

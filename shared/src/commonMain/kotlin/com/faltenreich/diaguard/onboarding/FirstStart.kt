@@ -20,12 +20,12 @@ class FirstStart(
         if (!isEmpty) {
             return
         }
-        val bloodSugarPropertyId = measurementPropertyRepository.create("Blood Sugar")
+        val bloodSugarPropertyId = measurementPropertyRepository.create("Blood Sugar", icon = "\uD83E\uDE78")
         val bloodSugarTypeId = measurementTypeRepository.create("Blood Sugar", propertyId = bloodSugarPropertyId)
         val mgDlUnitId = measurementUnitRepository.create("mg/dL")
         measurementTypeUnitRepository.create(factor = 1.0, typeId = bloodSugarTypeId, unitId = mgDlUnitId)
 
-        val insulinPropertyId = measurementPropertyRepository.create("Insulin")
+        val insulinPropertyId = measurementPropertyRepository.create("Insulin", icon = "\uD83D\uDC89")
         val insulinBolusTypeId = measurementTypeRepository.create("Bolus", propertyId = insulinPropertyId)
         val insulinCorrectionTypeId = measurementTypeRepository.create("Correction", propertyId = insulinPropertyId)
         val insulinBasalTypeId = measurementTypeRepository.create("Basal", propertyId = insulinPropertyId)

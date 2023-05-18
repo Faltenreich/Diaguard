@@ -32,12 +32,14 @@ class MeasurementPropertySqlDelightDao(
     override fun create(
         createdAt: DateTime,
         name: String,
+        icon: String?,
         sortIndex: Long,
     ) {
         queries.create(
             created_at = createdAt.isoString,
             updated_at = createdAt.isoString,
             name = name,
+            icon = icon,
             sort_index = sortIndex,
         )
     }
@@ -46,11 +48,13 @@ class MeasurementPropertySqlDelightDao(
         id: Long,
         updatedAt: DateTime,
         name: String,
+        icon: String?,
         sortIndex: Long,
     ) {
         queries.update(
             updated_at = updatedAt.isoString,
             name = name,
+            icon = icon,
             sort_index = sortIndex,
             id = id,
         )

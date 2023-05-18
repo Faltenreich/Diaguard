@@ -3,12 +3,13 @@ CREATE TABLE measurementProperty (
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
     name TEXT NOT NULL,
+    icon TEXT,
     sort_index INTEGER NOT NULL
 );
 
 create:
-INSERT INTO measurementProperty(created_at, updated_at, name, sort_index)
-VALUES (?, ?, ?, ?);
+INSERT INTO measurementProperty(created_at, updated_at, name, icon, sort_index)
+VALUES (?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
@@ -17,7 +18,7 @@ getAll:
 SELECT * FROM measurementProperty ORDER BY sort_index ASC;
 
 update:
-UPDATE measurementProperty SET updated_at = ?, name = ?, sort_index = ? WHERE id = ?;
+UPDATE measurementProperty SET updated_at = ?, name = ?, icon = ?, sort_index = ? WHERE id = ?;
 
 deleteById:
 DELETE FROM measurementProperty WHERE id = ?;

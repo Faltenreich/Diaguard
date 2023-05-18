@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementInput
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
 import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
@@ -64,8 +64,8 @@ fun EntryForm(
             }
         }
         Divider()
-        viewState.measurementData.properties.forEach { property ->
-            MeasurementInput(
+        viewState.measurementInputViewState.properties.forEach { property ->
+            MeasurementPropertyInput(
                 property = property.property,
                 types = property.values.map { it.type },
                 onInputChange = { input, type ->  },

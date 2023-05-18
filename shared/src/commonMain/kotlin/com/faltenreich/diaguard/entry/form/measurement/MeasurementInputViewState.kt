@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.entry.form.measurement
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 
-data class MeasurementData(
+data class MeasurementInputViewState(
     val properties: List<Property>,
 ) {
 

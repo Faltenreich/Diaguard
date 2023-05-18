@@ -1,31 +1,31 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
-import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.FormRow
 
 @Composable
-fun MeasurementInput(
+fun MeasurementPropertyInput(
     property: MeasurementProperty,
     types: List<MeasurementType>,
     modifier: Modifier = Modifier,
     onInputChange: (String, MeasurementType) -> Unit,
 ) {
-    Row(modifier = modifier) {
-        Text(property.name)
+    FormRow(
+        icon = MR.images.ic_log,
+        modifier = modifier,
+    ) {
         Column {
             types.forEach { type ->
-                TextInput(
-                    input = "",
-                    hint = type.name,
-                    onInputChange = { input -> onInputChange(input, type) },
+                MeasurementTypeInput(
+                    type = type,
                     modifier = Modifier.fillMaxWidth(),
+                    onInputChange = onInputChange,
                 )
             }
         }

@@ -1,37 +1,60 @@
 package com.faltenreich.diaguard.onboarding
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnitRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.flow.first
+import dev.icerock.moko.resources.compose.stringResource
 
-class FirstStart(
-    private val measurementPropertyRepository: MeasurementPropertyRepository = inject(),
-    private val measurementTypeRepository: MeasurementTypeRepository = inject(),
-    private val measurementUnitRepository: MeasurementUnitRepository = inject(),
-    private val measurementTypeUnitRepository: MeasurementTypeUnitRepository = inject(),
+@Composable
+fun FirstStart(
+    modifier: Modifier = Modifier,
 ) {
-
-    suspend operator fun invoke() {
-        // TODO: Improve check
-        val isEmpty = measurementPropertyRepository.getAll().first().isEmpty()
-        if (!isEmpty) {
-            return
-        }
-        val bloodSugarPropertyId = measurementPropertyRepository.create("Blood Sugar", icon = "\uD83E\uDE78")
-        val bloodSugarTypeId = measurementTypeRepository.create("Blood Sugar", propertyId = bloodSugarPropertyId)
-        val mgDlUnitId = measurementUnitRepository.create("mg/dL")
-        measurementTypeUnitRepository.create(factor = 1.0, typeId = bloodSugarTypeId, unitId = mgDlUnitId)
-
-        val insulinPropertyId = measurementPropertyRepository.create("Insulin", icon = "\uD83D\uDC89")
-        val insulinBolusTypeId = measurementTypeRepository.create("Bolus", propertyId = insulinPropertyId)
-        val insulinCorrectionTypeId = measurementTypeRepository.create("Correction", propertyId = insulinPropertyId)
-        val insulinBasalTypeId = measurementTypeRepository.create("Basal", propertyId = insulinPropertyId)
-        val ieUnitId = measurementUnitRepository.create("IE")
-        measurementTypeUnitRepository.create(factor = 1.0, typeId = insulinBolusTypeId, unitId = ieUnitId)
-        measurementTypeUnitRepository.create(factor = 1.0, typeId = insulinCorrectionTypeId, unitId = ieUnitId)
-        measurementTypeUnitRepository.create(factor = 1.0, typeId = insulinBasalTypeId, unitId = ieUnitId)
+    LoadData()
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        CircularProgressIndicator()
     }
+}
+
+@Composable
+private fun LoadData(
+    measurementPropertyRepository: MeasurementPropertyRepository = inject(),
+    measurementTypeRepository: MeasurementTypeRepository = inject(),
+    measurementUnitRepository: MeasurementUnitRepository = inject(),
+    measurementTypeUnitRepository: MeasurementTypeUnitRepository = inject(),
+) {
+    val bloodSugarPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.blood_sugar), icon = "\uD83E\uDE78")
+    val bloodSugarTypeId = measurementTypeRepository.create(stringResource(MR.strings.blood_sugar), propertyId = bloodSugarPropertyId)
+    val mgDlUnitId = measurementUnitRepository.create(stringResource(MR.strings.mg_per_dl))
+    measurementTypeUnitRepository.create(factor = 1.0, typeId = bloodSugarTypeId, unitId = mgDlUnitId)
+
+    val insulinPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.insulin), icon = "\uD83D\uDC89")
+    val insulinBolusTypeId = measurementTypeRepository.create(stringResource(MR.strings.bolus), propertyId = insulinPropertyId)
+    val insulinCorrectionTypeId = measurementTypeRepository.create(stringResource(MR.strings.correction), propertyId = insulinPropertyId)
+    val insulinBasalTypeId = measurementTypeRepository.create(stringResource(MR.strings.basal), propertyId = insulinPropertyId)
+    val ieUnitId = measurementUnitRepository.create(stringResource(MR.strings.insulin_units))
+    measurementTypeUnitRepository.create(factor = 1.0, typeId = insulinBolusTypeId, unitId = ieUnitId)
+    measurementTypeUnitRepository.create(factor = 1.0, typeId = insulinCorrectionTypeId, unitId = ieUnitId)
+    measurementTypeUnitRepository.create(factor = 1.0, typeId = insulinBasalTypeId, unitId = ieUnitId)
+
+    val mealPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.meal), icon = "\uD83C\uDF5E")
+    val mealTypeId = measurementTypeRepository.create(stringResource(MR.strings.meal), propertyId = mealPropertyId)
+    val carbohydratesUnitId = measurementUnitRepository.create(stringResource(MR.strings.carbohydrates))
+    measurementTypeUnitRepository.create(factor = 1.0, typeId = mealTypeId, unitId = carbohydratesUnitId)
+
+    val activityPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.activity), icon = "\uD83C\uDFC3")
+    val activityTypeId = measurementTypeRepository.create(stringResource(MR.strings.activity), propertyId = activityPropertyId)
+    val minutesUnitId = measurementUnitRepository.create(stringResource(MR.strings.minutes))
+    measurementTypeUnitRepository.create(factor = 1.0, typeId = activityTypeId, unitId = minutesUnitId)
 }

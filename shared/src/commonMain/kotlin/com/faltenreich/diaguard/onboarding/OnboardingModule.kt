@@ -5,5 +5,5 @@ import org.koin.dsl.module
 
 fun onboardingModule() = module {
     singleOf(::OnboardingViewModel)
-    singleOf(::FirstStart)
+    singleOf(::HasDataUseCase)
 }

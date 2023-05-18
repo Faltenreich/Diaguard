@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.measurement
 import com.faltenreich.diaguard.measurement.property.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnitRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import org.koin.core.module.dsl.singleOf
@@ -13,6 +14,7 @@ fun measurementModule() = module {
     singleOf(::MeasurementTypeRepository)
     singleOf(::MeasurementUnitRepository)
     singleOf(::MeasurementValueRepository)
+    singleOf(::MeasurementTypeUnitRepository)
     singleOf(::MeasurementRepository)
 
     singleOf(::GetMeasurementPropertiesUseCase)

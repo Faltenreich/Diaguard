@@ -3,37 +3,35 @@ package com.faltenreich.diaguard.measurement.unit
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
-class MeasurementUnitRepository(
-    private val dao: MeasurementUnitDao,
+class MeasurementTypeUnitRepository(
+    private val dao: MeasurementTypeUnitDao,
 ) {
 
     fun create(
-        name: String,
         factor: Double,
         typeId: Long,
+        unitId: Long,
     ): Long {
         dao.create(
             createdAt = DateTime.now(),
-            name = name,
             factor = factor,
             typeId = typeId,
+            unitId = unitId,
         )
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
-    fun getById(id: Long): Flow<MeasurementUnit?> {
-        return dao.getById(id)
+    fun getByTypeId(typeId: Long): Flow<List<MeasurementTypeUnit>> {
+        return dao.getByTypeId(typeId)
     }
 
     fun update(
         id: Long,
-        name: String,
         factor: Double,
     ) {
         dao.update(
             id = id,
             updatedAt = DateTime.now(),
-            name = name,
             factor = factor,
         )
     }

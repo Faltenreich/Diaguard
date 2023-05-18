@@ -3,23 +3,22 @@ package com.faltenreich.diaguard.measurement.unit
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
-interface MeasurementUnitDao {
+interface MeasurementTypeUnitDao {
 
     fun create(
         createdAt: DateTime,
-        name: String,
         factor: Double,
         typeId: Long,
+        unitId: Long,
     )
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): Flow<MeasurementUnit?>
+    fun getByTypeId(typeId: Long): Flow<List<MeasurementTypeUnit>>
 
     fun update(
         id: Long,
         updatedAt: DateTime,
-        name: String,
         factor: Double,
     )
 

@@ -2,23 +2,21 @@ CREATE TABLE measurementUnit (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
-    name TEXT NOT NULL,
-    factor REAL NOT NULL,
-    type_id INTEGER NOT NULL
+    name TEXT NOT NULL
 );
 
 create:
-INSERT INTO measurementUnit(created_at, updated_at, name, factor, type_id)
-VALUES (?, ?, ?, ?, ?);
+INSERT INTO measurementUnit(created_at, updated_at, name)
+VALUES (?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
 
-getByType:
-SELECT * FROM measurementUnit WHERE type_id = ?;
+getById:
+SELECT * FROM measurementUnit WHERE id = ?;
 
 update:
-UPDATE measurementUnit SET updated_at = ?, name = ?, factor = ? WHERE id = ?;
+UPDATE measurementUnit SET updated_at = ?, name = ? WHERE id = ?;
 
 deleteById:
 DELETE FROM measurementUnit WHERE id = ?;

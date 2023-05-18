@@ -1,21 +1,25 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
-class MeasurementUnitSqlDelightMapper {
+class MeasurementTypeUnitSqlDelightMapper {
 
     fun map(
         id: Long,
         createdAt: String,
         updatedAt: String,
-        name: String,
-    ): MeasurementUnit {
-        return MeasurementUnit(
+        factor: Double,
+        typeId: Long,
+        unitId: Long,
+    ): MeasurementTypeUnit {
+        return MeasurementTypeUnit(
             id = id,
             createdAt = DateTime(isoString = createdAt),
             updatedAt = DateTime(isoString = updatedAt),
-            name = name,
+            factor = factor,
+            typeId = typeId,
+            unitId = unitId,
         )
     }
 }

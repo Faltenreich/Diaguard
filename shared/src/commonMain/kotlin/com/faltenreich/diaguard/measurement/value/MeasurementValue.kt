@@ -11,6 +11,7 @@ data class MeasurementValue(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
-    val value: Float,
-    val measurement: Measurement,
+    val value: Double,
+    val typeId: Long,
+    val measurementId: Long,
 ) : DatabaseEntity

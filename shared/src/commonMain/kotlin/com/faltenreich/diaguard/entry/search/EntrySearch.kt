@@ -14,9 +14,12 @@ import com.faltenreich.diaguard.shared.di.inject
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
-fun EntrySearch(viewModel: EntrySearchViewModel = inject()) {
+fun EntrySearch(
+    modifier: Modifier = Modifier,
+    viewModel: EntrySearchViewModel = inject(),
+) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         when (val viewState = viewModel.viewState.collectAsState().value) {

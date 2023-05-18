@@ -11,12 +11,18 @@ import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
-fun Log(viewModel: LogViewModel = inject()) {
+fun Log(
+    modifier: Modifier = Modifier,
+    viewModel: LogViewModel = inject(),
+) {
     when (val viewState = viewModel.viewState.collectAsState().value) {
         is LogViewState.Requesting -> Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) { CircularProgressIndicator() }
-        is LogViewState.Responding -> EntryList(viewState.entries)
+        is LogViewState.Responding -> EntryList(
+            entries = viewState.entries,
+            modifier = modifier,
+        )
     }
 }

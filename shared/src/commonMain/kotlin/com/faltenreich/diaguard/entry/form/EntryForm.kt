@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.entry.form
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -23,13 +25,18 @@ import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun EntryForm(
+    modifier: Modifier = Modifier,
     viewModel: EntryFormViewModel = inject(),
     formatter: DateTimeFormatter = inject(),
 ) {
     val viewState = viewModel.viewState.collectAsState().value
     val datePickerState = rememberDatePickerState()
     val timePickerState = rememberTimePickerState()
-    Column {
+
+    Column(
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+    ) {
         FormRow(icon = { ResourceIcon(MR.images.ic_time) }) {
             TextButton(onClick = { datePickerState.isShown = true }) {
                 Text(formatter.format(viewState.dateTime.date))

@@ -5,13 +5,13 @@ import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
 /**
- * Entity representing the unit of a [Measurement]
+ * Entity representing the unit of a [MeasurementProperty]
  */
 data class MeasurementUnit(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
     val name: String,
-    val factor: Float,
-    val property: MeasurementProperty,
+    val factor: Double,
+    val propertyId: Long,
 ) : DatabaseEntity

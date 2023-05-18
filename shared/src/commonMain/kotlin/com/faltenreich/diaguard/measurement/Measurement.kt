@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.shared.datetime.DateTime
 /**
  * Entity representing one reading of a [MeasurementProperty] at one moment in time
  *
- *
  */
 data class Measurement(
     override val id: Long,

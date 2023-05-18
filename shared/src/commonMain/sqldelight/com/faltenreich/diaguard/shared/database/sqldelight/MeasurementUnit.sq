@@ -1,0 +1,30 @@
+CREATE TABLE measurementUnit (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    name TEXT NOT NULL,
+    factor REAL NOT NULL,
+    property_id INTEGER NOT NULL
+);
+
+create:
+INSERT INTO measurementUnit(created_at, updated_at, name, factor, property_id)
+VALUES (?, ?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getById:
+SELECT * FROM measurementUnit WHERE id = ?;
+
+getByProperty:
+SELECT * FROM measurementUnit WHERE property_id = ?;
+
+getAll:
+SELECT * FROM measurementUnit ORDER BY updated_at DESC ;
+
+update:
+UPDATE measurementUnit SET updated_at = ?, name = ?, factor = ? WHERE id = ?;
+
+deleteById:
+DELETE FROM measurementUnit WHERE id = ?;

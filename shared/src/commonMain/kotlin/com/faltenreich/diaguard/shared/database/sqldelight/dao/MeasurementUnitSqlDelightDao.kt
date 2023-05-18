@@ -4,6 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementUnitQueries
@@ -22,6 +23,21 @@ class MeasurementUnitSqlDelightDao(
         return api.measurementUnitQueries
     }
 
+    override fun create(
+        createdAt: DateTime,
+        name: String,
+        factor: Double,
+        type: MeasurementType,
+    ) {
+        queries.create(
+            created_at = createdAt.isoString,
+            updated_at = createdAt.isoString,
+            name = name,
+            factor = factor,
+            type_id = type.id,
+        )
+    }
+
     override fun getLastId(): Long? {
         return queries.getLastId().executeAsOneOrNull()
     }
@@ -30,27 +46,12 @@ class MeasurementUnitSqlDelightDao(
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
-    override fun getByProperty(property: MeasurementProperty): Flow<List<MeasurementUnit>> {
-        return queries.getByProperty(property.id, mapper::map).asFlow().mapToList(dispatcher)
+    override fun getByType(property: MeasurementProperty): Flow<List<MeasurementUnit>> {
+        return queries.getByType(property.id, mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun getAll(): Flow<List<MeasurementUnit>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
-    }
-
-    override fun create(
-        createdAt: DateTime,
-        name: String,
-        factor: Double,
-        property: MeasurementProperty,
-    ) {
-        queries.create(
-            created_at = createdAt.isoString,
-            updated_at = createdAt.isoString,
-            name = name,
-            factor = factor,
-            property_id = property.id,
-        )
     }
 
     override fun update(

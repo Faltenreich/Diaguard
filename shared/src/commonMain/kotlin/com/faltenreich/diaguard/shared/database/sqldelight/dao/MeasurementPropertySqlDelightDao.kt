@@ -5,7 +5,6 @@ import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementPropertyQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -38,14 +37,12 @@ class MeasurementPropertySqlDelightDao(
         createdAt: DateTime,
         name: String,
         sortIndex: Long,
-        selectedUnit: MeasurementUnit,
     ) {
         queries.create(
             created_at = createdAt.isoString,
             updated_at = createdAt.isoString,
             name = name,
             sort_index = sortIndex,
-            selected_unit_id = selectedUnit.id,
         )
     }
 
@@ -54,13 +51,11 @@ class MeasurementPropertySqlDelightDao(
         updatedAt: DateTime,
         name: String,
         sortIndex: Long,
-        selectedUnit: MeasurementUnit,
     ) {
         queries.update(
             updated_at = updatedAt.isoString,
             name = name,
             sort_index = sortIndex,
-            selected_unit_id = selectedUnit.id,
             id = id,
         )
     }

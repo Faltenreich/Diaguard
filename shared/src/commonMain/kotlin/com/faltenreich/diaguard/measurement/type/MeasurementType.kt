@@ -1,17 +1,20 @@
-package com.faltenreich.diaguard.measurement.unit
+package com.faltenreich.diaguard.measurement.type
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
 /**
- * Entity representing the unit of a [MeasurementProperty]
+ * Entity representing one type of [MeasurementProperty]
+ *
+ * TODO: Possible and target ranges
  */
-data class MeasurementUnit(
+data class MeasurementType(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
     val name: String,
-    val factor: Double,
-    val typeId: Long,
+    val sortIndex: Long,
+    val selectedUnitId: Long,
+    val propertyId: Long,
 ) : DatabaseEntity

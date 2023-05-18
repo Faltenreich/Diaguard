@@ -12,5 +12,4 @@ data class MeasurementProperty(
     override val updatedAt: DateTime,
     val name: String,
     val sortIndex: Long,
-    val selectedUnitId: Long,
 ) : DatabaseEntity

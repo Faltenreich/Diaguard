@@ -11,7 +11,7 @@ class MeasurementUnitSqlDelightMapper {
         updatedAt: String,
         name: String,
         factor: Double,
-        propertyId: Long,
+        typeId: Long,
     ): MeasurementUnit {
         return MeasurementUnit(
             id = id,
@@ -19,7 +19,7 @@ class MeasurementUnitSqlDelightMapper {
             updatedAt = DateTime(isoString = updatedAt),
             name = name,
             factor = factor,
-            propertyId = propertyId,
+            typeId = typeId,
         )
     }
 }

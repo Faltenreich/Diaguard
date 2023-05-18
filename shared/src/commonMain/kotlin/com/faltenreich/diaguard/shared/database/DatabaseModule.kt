@@ -8,17 +8,17 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.measurement.value.MeasurementValueDao
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightDatabase
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.EntrySqlDelightDao
-import com.faltenreich.diaguard.shared.database.sqldelight.dao.EntrySqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementPropertySqlDelightDao
-import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementPropertySqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementSqlDelightDao
-import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementTypeSqlDelightDao
-import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementTypeSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementUnitSqlDelightDao
-import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementUnitSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementValueSqlDelightDao
-import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementValueSqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntrySqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertySqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementSqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementTypeSqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementValueSqlDelightMapper
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 

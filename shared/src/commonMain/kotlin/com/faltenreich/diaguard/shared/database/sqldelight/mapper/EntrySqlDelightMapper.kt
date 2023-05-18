@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.database.sqldelight.dao
+package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.datetime.DateTime

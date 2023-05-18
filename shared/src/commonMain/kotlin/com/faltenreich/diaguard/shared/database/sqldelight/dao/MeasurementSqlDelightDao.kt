@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.measurement.MeasurementDao
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementSqlDelightMapper
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher

@@ -1,9 +1,9 @@
-package com.faltenreich.diaguard.shared.database.sqldelight.dao
+package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
-class MeasurementPropertySqlDelightMapper {
+class MeasurementTypeSqlDelightMapper {
 
     fun map(
         id: Long,
@@ -11,13 +11,17 @@ class MeasurementPropertySqlDelightMapper {
         updatedAt: String,
         name: String,
         sortIndex: Long,
-    ): MeasurementProperty {
-        return MeasurementProperty(
+        selectedUnitId: Long,
+        propertyId: Long,
+    ): MeasurementType {
+        return MeasurementType(
             id = id,
             createdAt = DateTime(isoString = createdAt),
             updatedAt = DateTime(isoString = updatedAt),
             name = name,
             sortIndex = sortIndex,
+            selectedUnitId = selectedUnitId,
+            propertyId = propertyId,
         )
     }
 }

@@ -22,13 +22,15 @@ import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationItem
 import com.faltenreich.diaguard.navigation.bottom.bottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.topAppBarStyle
+import com.faltenreich.diaguard.onboarding.OnboardingViewModel
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun AppView() {
+fun AppView(onboardingViewModel: OnboardingViewModel = inject()) {
     AppTheme {
         Surface (
             modifier = Modifier.fillMaxSize(),

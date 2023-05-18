@@ -13,9 +13,6 @@ VALUES (?, ?, ?, ?);
 getLastId:
 SELECT last_insert_rowid();
 
-getById:
-SELECT * FROM measurementProperty WHERE id = ?;
-
 getAll:
 SELECT * FROM measurementProperty ORDER BY sort_index ASC;
 

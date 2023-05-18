@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement.unit
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
@@ -16,11 +15,7 @@ interface MeasurementUnitDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): Flow<MeasurementUnit?>
-
-    fun getByType(property: MeasurementProperty): Flow<List<MeasurementUnit>>
-
-    fun getAll(): Flow<List<MeasurementUnit>>
+    fun getByType(type: MeasurementType): Flow<List<MeasurementUnit>>
 
     fun update(
         id: Long,

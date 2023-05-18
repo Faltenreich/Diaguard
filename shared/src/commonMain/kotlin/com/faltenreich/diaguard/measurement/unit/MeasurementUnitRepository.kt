@@ -22,8 +22,8 @@ class MeasurementUnitRepository(
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
-    fun getAll(): Flow<List<MeasurementUnit>> {
-        return dao.getAll()
+    fun getByType(type: MeasurementType): Flow<List<MeasurementUnit>> {
+        return dao.getByType(type)
     }
 
     fun update(

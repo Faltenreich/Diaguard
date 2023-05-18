@@ -14,14 +14,8 @@ VALUES (?, ?, ?, ?, ?);
 getLastId:
 SELECT last_insert_rowid();
 
-getById:
-SELECT * FROM measurementUnit WHERE id = ?;
-
 getByType:
 SELECT * FROM measurementUnit WHERE type_id = ?;
-
-getAll:
-SELECT * FROM measurementUnit ORDER BY updated_at DESC ;
 
 update:
 UPDATE measurementUnit SET updated_at = ?, name = ?, factor = ? WHERE id = ?;

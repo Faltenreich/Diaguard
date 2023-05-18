@@ -9,7 +9,7 @@ interface EntryDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): Entry?
+    fun getById(id: Long): Flow<Entry?>
 
     fun getByQuery(query: String): Flow<List<Entry>>
 

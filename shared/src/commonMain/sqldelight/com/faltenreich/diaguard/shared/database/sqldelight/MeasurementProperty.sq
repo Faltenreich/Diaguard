@@ -3,13 +3,12 @@ CREATE TABLE measurementProperty (
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
     name TEXT NOT NULL,
-    sortIndex INTEGER,
-    entry_id INTEGER NOT NULL,
-    FOREIGN KEY (entry_id) REFERENCES entry(id) ON DELETE CASCADE
+    sort_index INTEGER NOT NULL,
+    selected_unit_id INTEGER NOT NULL
 );
 
 create:
-INSERT INTO measurementProperty(created_at, updated_at, name, sortIndex, entry_id)
+INSERT INTO measurementProperty(created_at, updated_at, name, sort_index, selected_unit_id)
 VALUES (?, ?, ?, ?, ?);
 
 getLastId:
@@ -19,10 +18,10 @@ getById:
 SELECT * FROM measurementProperty WHERE id = ?;
 
 getAll:
-SELECT * FROM measurementProperty ORDER BY sortIndex ASC;
+SELECT * FROM measurementProperty ORDER BY sort_index ASC;
 
 update:
-UPDATE measurementProperty SET updated_at = ?, name = ?, sortIndex = ? WHERE id = ?;
+UPDATE measurementProperty SET updated_at = ?, name = ?, sort_index = ?, selected_unit_id = ? WHERE id = ?;
 
 deleteById:
 DELETE FROM measurementProperty WHERE id = ?;

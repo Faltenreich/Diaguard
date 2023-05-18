@@ -8,13 +8,13 @@ interface MeasurementPropertyDao {
     fun create(
         createdAt: DateTime,
         name: String,
-        sortIndex: Int,
+        sortIndex: Long,
         selectedUnit: MeasurementUnit,
     )
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): MeasurementProperty?
+    fun getById(id: Long): Flow<MeasurementProperty?>
 
     fun getAll(): Flow<List<MeasurementProperty>>
 
@@ -22,7 +22,7 @@ interface MeasurementPropertyDao {
         id: Long,
         updatedAt: DateTime,
         name: String,
-        sortIndex: Int,
+        sortIndex: Long,
         selectedUnit: MeasurementUnit,
     )
 

@@ -5,8 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface EntryDao {
 
-    fun getAll(): Flow<List<Entry>>
-
     fun create(createdAt: DateTime, dateTime: DateTime)
 
     fun getLastId(): Long?
@@ -14,6 +12,8 @@ interface EntryDao {
     fun getById(id: Long): Entry?
 
     fun getByQuery(query: String): Flow<List<Entry>>
+
+    fun getAll(): Flow<List<Entry>>
 
     fun update(
         id: Long,

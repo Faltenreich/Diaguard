@@ -1,0 +1,28 @@
+CREATE TABLE measurementProperty (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    name TEXT NOT NULL,
+    sortIndex INTEGER,
+    entry_id INTEGER NOT NULL,
+    FOREIGN KEY (entry_id) REFERENCES entry(id) ON DELETE CASCADE
+);
+
+create:
+INSERT INTO measurementProperty(created_at, updated_at, name, sortIndex, entry_id)
+VALUES (?, ?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getById:
+SELECT * FROM measurementProperty WHERE id = ?;
+
+getAll:
+SELECT * FROM measurementProperty ORDER BY sortIndex ASC;
+
+update:
+UPDATE measurementProperty SET updated_at = ?, name = ?, sortIndex = ? WHERE id = ?;
+
+deleteById:
+DELETE FROM measurementProperty WHERE id = ?;

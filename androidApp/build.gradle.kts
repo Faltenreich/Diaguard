@@ -10,7 +10,8 @@ android {
     compileSdk = Configuration.Android.compileSdk
 
     defaultConfig {
-        applicationId = "${Configuration.Project.nameSpace}.beta"
+        // TODO: Introduce flavors
+        applicationId = "${Configuration.Project.nameSpace}.compose"
         minSdk = Configuration.Android.minSdk
         targetSdk = Configuration.Android.targetSdk
         versionCode = Configuration.Project.versionCode

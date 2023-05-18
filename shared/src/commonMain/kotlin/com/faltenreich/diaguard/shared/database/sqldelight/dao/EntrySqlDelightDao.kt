@@ -20,10 +20,6 @@ class EntrySqlDelightDao(
         return api.entryQueries
     }
 
-    override fun getAll(): Flow<List<Entry>> {
-        return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
-    }
-
     override fun getLastId(): Long? {
         return queries.getLastId().executeAsOneOrNull()
     }
@@ -34,6 +30,10 @@ class EntrySqlDelightDao(
 
     override fun getByQuery(query: String): Flow<List<Entry>> {
         return queries.getByQuery(query, mapper::map).asFlow().mapToList(dispatcher)
+    }
+
+    override fun getAll(): Flow<List<Entry>> {
+        return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun create(createdAt: DateTime, dateTime: DateTime) {

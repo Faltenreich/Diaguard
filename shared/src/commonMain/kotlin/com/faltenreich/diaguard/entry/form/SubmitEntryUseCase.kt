@@ -24,11 +24,10 @@ class SubmitEntryUseCase(
             note = note,
         )
         measurements.properties.forEach { (_, values) ->
-            values.map { (value, type) ->
+            values.map { (type, value, input) ->
                 // TODO: Validate and normalize by unit
-                val normalized = value.toDoubleOrNull() ?: return@map
-                // FIXME: Pass id of existing value
-                val valueId = measurementValueRepository.create(
+                val normalized = input.toDoubleOrNull() ?: return@map
+                val valueId = value?.id ?: measurementValueRepository.create(
                     value = normalized,
                     typeId = type.id,
                     entryId = entryId,

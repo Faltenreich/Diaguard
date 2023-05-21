@@ -25,8 +25,9 @@ class GetMeasurementsUseCase(
                     values = types.map { type ->
                         val value = values?.firstOrNull { it.typeId == type.id }
                         MeasurementInputViewState.Property.Value(
-                            value = value?.value?.toString() ?: "",
                             type = type,
+                            value = value,
+                            input = value?.value?.toString() ?: "",
                         )
                     }
                 )

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsUseCase
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementInput
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementInputViewState
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -27,23 +28,20 @@ class EntryFormViewModel(
     private val dateTime = MutableStateFlow(entry?.dateTime ?: DateTime.now())
     private val note = MutableStateFlow(entry?.note)
     private val measurementLegacy = getMeasurementsUseCase(entry?.id)
-    private val measurementInput = MutableStateFlow((emptyList<MeasurementInputViewState.Property.Value>()))
+    private val measurementInput = MutableStateFlow((emptyList<MeasurementInput>()))
     private val measurements = combine(measurementLegacy, measurementInput) { legacy, input ->
         legacy.copy(
             properties = legacy.properties.map { property ->
                 property.copy(
                     values = property.values.map { value ->
                         value.copy(
-                            value = input.firstOrNull { it.type == value.type }?.value ?: value.value
+                            input = input.firstOrNull { it.type == value.type }?.input ?: value.input
                         )
                     }
                 )
             },
         )
     }
-
-    // TODO: If true, intercept back navigation via LocalNavigator.currentOrThrow
-    private val hasChanged = note.distinctUntilChanged { old, new -> old != new }
 
     private val state = combine(
         id,
@@ -58,6 +56,10 @@ class EntryFormViewModel(
             measurements = measurements,
         )
     }
+
+    // TODO: If true, intercept back navigation via LocalNavigator.currentOrThrow
+    private val hasChanged = state.distinctUntilChanged { old, new -> old != new }
+
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
@@ -84,7 +86,7 @@ class EntryFormViewModel(
     fun setMeasurement(value: String, type: MeasurementType) = viewModelScope.launch {
         measurementInput.value = measurementInput.value
             .filterNot { it.type == type }
-            .plus(MeasurementInputViewState.Property.Value(value = value, type = type))
+            .plus(MeasurementInput(input = value, type = type))
     }
 
     fun submit() {

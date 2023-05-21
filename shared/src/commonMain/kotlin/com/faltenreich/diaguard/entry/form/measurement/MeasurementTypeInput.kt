@@ -12,7 +12,7 @@ fun MeasurementTypeInput(
     modifier: Modifier = Modifier,
 ) {
     TextInput(
-        input = value.value,
+        input = value.input,
         hint = value.type.name,
         modifier = modifier,
         onInputChange = { input -> onInputChange(input, value.type) },

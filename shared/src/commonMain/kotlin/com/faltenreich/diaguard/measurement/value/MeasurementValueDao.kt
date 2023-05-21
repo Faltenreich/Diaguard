@@ -9,12 +9,12 @@ interface MeasurementValueDao {
         createdAt: DateTime,
         value: Double,
         typeId: Long,
-        measurementId: Long,
+        entryId: Long,
     )
 
     fun getLastId(): Long?
 
-    fun getByMeasurementId(measurementId: Long): Flow<List<MeasurementValue>>
+    fun getByEntryId(entryId: Long): Flow<List<MeasurementValue>>
 
     fun update(
         id: Long,

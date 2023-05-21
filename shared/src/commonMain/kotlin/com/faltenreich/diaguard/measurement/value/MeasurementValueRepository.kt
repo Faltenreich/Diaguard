@@ -10,19 +10,19 @@ class MeasurementValueRepository(
     fun create(
         value: Double,
         typeId: Long,
-        measurementId: Long,
+        entryId: Long,
     ): Long {
         dao.create(
             createdAt = DateTime.now(),
             value = value,
             typeId = typeId,
-            measurementId = measurementId,
+            entryId = entryId,
         )
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
-    fun getByMeasurementId(measurementId: Long): Flow<List<MeasurementValue>> {
-        return dao.getByMeasurementId(measurementId)
+    fun getByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
+        return dao.getByEntryId(entryId)
     }
 
     fun update(

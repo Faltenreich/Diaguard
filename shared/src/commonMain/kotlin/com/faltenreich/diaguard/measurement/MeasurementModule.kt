@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement
 
-import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnitRepository
@@ -13,9 +12,6 @@ fun measurementModule() = module {
     singleOf(::MeasurementPropertyRepository)
     singleOf(::MeasurementTypeRepository)
     singleOf(::MeasurementUnitRepository)
-    singleOf(::MeasurementValueRepository)
     singleOf(::MeasurementTypeUnitRepository)
-    singleOf(::MeasurementRepository)
-
-    singleOf(::GetMeasurementsUseCase)
+    singleOf(::MeasurementValueRepository)
 }

@@ -17,8 +17,9 @@ class SubmitEntryUseCase(
         note: String?,
         measurements: MeasurementInputViewState,
     ) {
+        val entryId = id ?: entryRepository.create(dateTime)
         entryRepository.update(
-            id = id ?: entryRepository.create(dateTime),
+            id = entryId,
             dateTime = dateTime,
             note = note,
         )
@@ -29,7 +30,7 @@ class SubmitEntryUseCase(
                     id = measurementValueRepository.create(
                         value = normalized,
                         typeId = type.id,
-                        measurementId = 0L, // TODO: Remove
+                        entryId = entryId,
                     ),
                     value = normalized,
                 )

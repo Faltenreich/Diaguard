@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.measurement.value
 
-import com.faltenreich.diaguard.measurement.Measurement
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
 /**
- * Entity representing one value of a [Measurement]
+ * Entity representing one value of a [Entry]
  */
 data class MeasurementValue(
     override val id: Long,

@@ -25,14 +25,14 @@ class MeasurementValueSqlDelightDao(
         createdAt: DateTime,
         value: Double,
         typeId: Long,
-        measurementId: Long,
+        entryId: Long,
     ) {
         queries.create(
             created_at = createdAt.isoString,
             updated_at = createdAt.isoString,
             value_ = value,
             type_id = typeId,
-            measurement_id = measurementId,
+            entry_id = entryId,
         )
     }
 
@@ -40,8 +40,8 @@ class MeasurementValueSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getByMeasurementId(measurementId: Long): Flow<List<MeasurementValue>> {
-        return queries.getByMeasurement(measurementId, mapper::map).asFlow().mapToList(dispatcher)
+    override fun getByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
+        return queries.getByEntry(entryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun update(

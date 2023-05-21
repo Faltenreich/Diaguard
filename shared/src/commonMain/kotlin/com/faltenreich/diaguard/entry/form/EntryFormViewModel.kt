@@ -92,6 +92,7 @@ class EntryFormViewModel(
             id = id.value,
             dateTime = dateTime.value,
             note = note.value,
+            measurements = viewState.value.measurements,
         )
     }
 

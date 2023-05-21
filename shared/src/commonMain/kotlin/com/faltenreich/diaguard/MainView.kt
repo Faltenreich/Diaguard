@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.navigation.bottom.bottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.topAppBarStyle
 import com.faltenreich.diaguard.shared.view.BottomSheet
+import com.faltenreich.diaguard.shared.view.keyboardPadding
 import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 import kotlinx.coroutines.launch
 
@@ -33,7 +34,7 @@ fun MainView(
 ) {
     AppTheme {
         Surface (
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize().keyboardPadding(),
             color = AppTheme.colorScheme.background,
         ) {
             Navigator(screen = Screen.Log()) { navigator ->

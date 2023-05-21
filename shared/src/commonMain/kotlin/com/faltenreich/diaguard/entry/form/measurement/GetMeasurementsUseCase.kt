@@ -26,7 +26,7 @@ class GetMeasurementsUseCase(
                         val value = values?.firstOrNull { it.typeId == type.id }
                         MeasurementInputViewState.Property.Value(
                             type = type,
-                            value = value,
+                            valueId = value?.id,
                             input = value?.value?.toString() ?: "",
                         )
                     }

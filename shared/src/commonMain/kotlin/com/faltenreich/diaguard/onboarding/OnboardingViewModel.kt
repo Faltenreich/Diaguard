@@ -12,8 +12,8 @@ class OnboardingViewModel(
 
     private val state = hasData().map { hasData ->
         when (hasData) {
-            true -> OnboardingViewState.FirstStart
-            false -> OnboardingViewState.SubsequentStart
+            true -> OnboardingViewState.SubsequentStart
+            false -> OnboardingViewState.FirstStart
         }
     }
     val viewState = state.stateIn(

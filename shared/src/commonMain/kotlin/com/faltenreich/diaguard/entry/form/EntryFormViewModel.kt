@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.entry.form
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementInputViewState
+import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -13,17 +14,33 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class EntryFormViewModel(
     entry: Entry?,
     private val submitEntry: SubmitEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-    getMeasurementData: GetMeasurementsUseCase = inject(),
+    getMeasurementsUseCase: GetMeasurementsUseCase = inject(),
 ) : ViewModel() {
 
     private val id = MutableStateFlow(entry?.id)
     private val dateTime = MutableStateFlow(entry?.dateTime ?: DateTime.now())
     private val note = MutableStateFlow(entry?.note)
+    private val measurementLegacy = getMeasurementsUseCase()
+    private val measurementInput = MutableStateFlow((emptyList<MeasurementInputViewState.Property.Value>()))
+    private val measurements = combine(measurementLegacy, measurementInput) { legacy, input ->
+        legacy.copy(
+            properties = legacy.properties.map { property ->
+                property.copy(
+                    values = property.values.map { value ->
+                        value.copy(
+                            value = input.firstOrNull { it.type == value.type }?.value ?: value.value
+                        )
+                    }
+                )
+            },
+        )
+    }
 
     // TODO: If true, intercept back navigation via LocalNavigator.currentOrThrow
     private val hasChanged = note.distinctUntilChanged { old, new -> old != new }
@@ -32,13 +49,13 @@ class EntryFormViewModel(
         id,
         dateTime,
         note,
-        getMeasurementData(),
-    ) { id, dateTime, note, measurementData ->
+        measurements,
+    ) { id, dateTime, note, measurements ->
         EntryFormViewState(
             dateTime = dateTime,
             note = note,
             isEditing = id != null,
-            measurementInputViewState = measurementData,
+            measurements = measurements,
         )
     }
     val viewState = state.stateIn(
@@ -48,7 +65,7 @@ class EntryFormViewModel(
             dateTime = dateTime.value,
             note = note.value,
             isEditing = id.value != null,
-            measurementInputViewState = MeasurementInputViewState(properties = emptyList()),
+            measurements = MeasurementInputViewState(properties = emptyList()),
         )
     )
 
@@ -62,6 +79,12 @@ class EntryFormViewModel(
 
     fun setNote(note: String) {
         this.note.value = note
+    }
+
+    fun setMeasurement(value: String, type: MeasurementType) = viewModelScope.launch {
+        measurementInput.value = measurementInput.value
+            .filterNot { it.type == type }
+            .plus(MeasurementInputViewState.Property.Value(value = value, type = type))
     }
 
     fun submit() {

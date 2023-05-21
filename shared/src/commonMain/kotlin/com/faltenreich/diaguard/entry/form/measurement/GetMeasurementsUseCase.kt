@@ -27,6 +27,7 @@ class GetMeasurementsUseCase(
                         values = types.map { type ->
                             // TODO: Pass selected unit and potential value
                             MeasurementInputViewState.Property.Value(
+                                value = "",
                                 type = type,
                             )
                         }

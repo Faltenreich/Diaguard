@@ -10,6 +10,6 @@ class HasDataUseCase(
 ) {
 
     operator fun invoke(): Flow<Boolean> {
-        return measurementPropertyRepository.getAll().map(List<*>::isEmpty)
+        return measurementPropertyRepository.getAll().map(List<*>::isNotEmpty)
     }
 }

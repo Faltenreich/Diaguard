@@ -5,27 +5,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.view.FormRow
 
 @Composable
 fun MeasurementPropertyInput(
-    property: MeasurementProperty,
-    types: List<MeasurementType>,
+    property: MeasurementInputViewState.Property,
     modifier: Modifier = Modifier,
     onInputChange: (String, MeasurementType) -> Unit,
 ) {
     FormRow(
-        icon = { Text(property.icon ?: property.name.firstOrNull()?.toString() ?: "") },
+        icon = { Text(property.property.icon ?: property.property.name.firstOrNull()?.toString() ?: "") },
         modifier = modifier,
     ) {
         Column {
-            types.forEach { type ->
+            property.values.forEach { value ->
                 MeasurementTypeInput(
-                    type = type,
-                    modifier = Modifier.fillMaxWidth(),
+                    value = value,
                     onInputChange = onInputChange,
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         }

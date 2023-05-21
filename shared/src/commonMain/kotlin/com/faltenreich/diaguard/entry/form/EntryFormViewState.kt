@@ -7,5 +7,5 @@ data class EntryFormViewState(
     val dateTime: DateTime,
     val note: String?,
     val isEditing: Boolean,
-    val measurementInputViewState: MeasurementInputViewState,
+    val measurements: MeasurementInputViewState,
 )

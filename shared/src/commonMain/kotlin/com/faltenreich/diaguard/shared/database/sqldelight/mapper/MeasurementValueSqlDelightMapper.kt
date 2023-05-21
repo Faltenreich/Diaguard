@@ -11,7 +11,7 @@ class MeasurementValueSqlDelightMapper {
         updatedAt: String,
         value: Double,
         typeId: Long,
-        measurementId: Long,
+        entryId: Long,
     ): MeasurementValue {
         return MeasurementValue(
             id = id,
@@ -19,7 +19,7 @@ class MeasurementValueSqlDelightMapper {
             updatedAt = DateTime(isoString = updatedAt),
             value = value,
             typeId = typeId,
-            measurementId = measurementId,
+            entryId = entryId,
         )
     }
 }

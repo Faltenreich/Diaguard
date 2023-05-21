@@ -9,9 +9,10 @@ import androidx.compose.ui.Modifier
 @Composable
 fun TextInput(
     input: String,
-    hint: String,
     onInputChange: (String) -> Unit,
+    hint: String,
     modifier: Modifier = Modifier,
+    maxLines: Int = Int.MAX_VALUE,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
     TextField(
@@ -19,6 +20,8 @@ fun TextInput(
         onValueChange = onInputChange,
         modifier = modifier,
         placeholder = { Text(hint) },
+        maxLines = maxLines,
+        singleLine = maxLines == 1,
         keyboardOptions = keyboardOptions,
     )
 }

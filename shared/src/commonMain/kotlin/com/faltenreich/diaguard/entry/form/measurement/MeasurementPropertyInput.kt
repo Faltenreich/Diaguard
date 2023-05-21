@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.shared.view.FormRow
 fun MeasurementPropertyInput(
     property: MeasurementInputViewState.Property,
     modifier: Modifier = Modifier,
-    onInputChange: (String, MeasurementType) -> Unit,
+    onInputChange: (MeasurementType, String) -> Unit,
 ) {
     FormRow(
         icon = { Text(property.property.icon ?: property.property.name.firstOrNull()?.toString() ?: "") },
@@ -22,7 +22,7 @@ fun MeasurementPropertyInput(
             property.values.forEach { value ->
                 MeasurementTypeInput(
                     value = value,
-                    onInputChange = onInputChange,
+                    onInputChange = { input -> onInputChange(value.type, input) },
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

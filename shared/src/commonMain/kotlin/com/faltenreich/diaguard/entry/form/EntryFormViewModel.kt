@@ -83,10 +83,10 @@ class EntryFormViewModel(
         this.note.value = note
     }
 
-    fun setMeasurement(value: String, type: MeasurementType) = viewModelScope.launch {
+    fun setMeasurement(type: MeasurementType, value: String) = viewModelScope.launch {
         measurementInput.value = measurementInput.value
             .filterNot { it.type == type }
-            .plus(MeasurementInput(input = value, type = type))
+            .plus(MeasurementInput(type = type, input = value))
     }
 
     fun submit() {

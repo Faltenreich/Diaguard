@@ -4,20 +4,20 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.view.TextInput
 
 @Composable
 fun MeasurementTypeInput(
     value: MeasurementInputViewState.Property.Value,
-    onInputChange: (String, MeasurementType) -> Unit,
+    onInputChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TextInput(
         input = value.input,
+        onInputChange = onInputChange,
         hint = value.type.name,
         modifier = modifier,
-        onInputChange = { input -> onInputChange(input, value.type) },
+        maxLines = 1,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
     )
 }

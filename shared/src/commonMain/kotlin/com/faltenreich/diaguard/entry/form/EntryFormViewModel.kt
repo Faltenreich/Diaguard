@@ -26,7 +26,7 @@ class EntryFormViewModel(
     private val id = MutableStateFlow(entry?.id)
     private val dateTime = MutableStateFlow(entry?.dateTime ?: DateTime.now())
     private val note = MutableStateFlow(entry?.note)
-    private val measurementLegacy = getMeasurementsUseCase()
+    private val measurementLegacy = getMeasurementsUseCase(entry?.id)
     private val measurementInput = MutableStateFlow((emptyList<MeasurementInputViewState.Property.Value>()))
     private val measurements = combine(measurementLegacy, measurementInput) { legacy, input ->
         legacy.copy(

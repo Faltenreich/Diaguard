@@ -38,7 +38,7 @@ fun EntryListItem(
         )
         Column(modifier = Modifier.weight(AppTheme.dimensions.weight.W_1)) {
             Text(formatter.format(entry.dateTime))
-            Text(entry.note ?: "")
+            entry.note?.let { note -> Text(note) }
         }
         ClearButton { onDelete(entry) }
     }

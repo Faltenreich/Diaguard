@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.value
 
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
@@ -14,4 +15,8 @@ data class MeasurementValue(
     val value: Double,
     val typeId: Long,
     val entryId: Long,
-) : DatabaseEntity
+) : DatabaseEntity {
+
+    lateinit var type: MeasurementType
+    lateinit var entry: Entry
+}

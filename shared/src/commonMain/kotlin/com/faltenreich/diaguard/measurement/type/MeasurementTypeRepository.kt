@@ -9,12 +9,14 @@ class MeasurementTypeRepository(
 
     fun create(
         name: String,
+        selectedUnitId: Long,
         propertyId: Long,
     ): Long {
         dao.create(
             createdAt = DateTime.now(),
             name = name,
             sortIndex = 0, // TODO: Current max + 1
+            selectedUnitId = selectedUnitId,
             propertyId = propertyId,
         )
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
@@ -32,7 +34,7 @@ class MeasurementTypeRepository(
         id: Long,
         name: String,
         sortIndex: Long,
-        selectedUnitId: Long?,
+        selectedUnitId: Long,
     ) {
         dao.update(
             id = id,

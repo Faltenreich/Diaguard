@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry
 
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
@@ -12,4 +13,7 @@ data class Entry(
     override val updatedAt: DateTime,
     val dateTime: DateTime,
     val note: String?,
-) : DatabaseEntity
+) : DatabaseEntity {
+
+    lateinit var values: List<MeasurementValue>
+}

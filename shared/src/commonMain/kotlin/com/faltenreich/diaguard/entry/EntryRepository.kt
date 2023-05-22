@@ -1,14 +1,25 @@
 package com.faltenreich.diaguard.entry
 
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 class EntryRepository(
     private val dao: EntryDao,
+    private val measurementValueRepository: MeasurementValueRepository,
 ) {
 
     fun getAll(): Flow<List<Entry>> {
-        return dao.getAll()
+        return dao.getAll().map { entries ->
+            entries.map { entry ->
+                // TODO: Replace with flow with suspending function
+                entry.apply {
+                    values = measurementValueRepository.getByEntryId(entry.id).first()
+                }
+            }
+        }
     }
 
     fun create(dateTime: DateTime): Long {

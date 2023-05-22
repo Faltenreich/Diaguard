@@ -19,6 +19,7 @@ class GetMeasurementsUseCase(
         return measurementPropertyRepository.getAll().map { properties ->
             val values = entryId?.let(measurementValueRepository::getByEntryId)?.firstOrNull()
             MeasurementInputViewState(properties = properties.map { property ->
+                // FIXME: Replace with lateinit var when available
                 val types = measurementTypeRepository.getByPropertyId(property.id).first()
                 MeasurementInputViewState.Property(
                     property = property,

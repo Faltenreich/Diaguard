@@ -16,11 +16,8 @@ SELECT last_insert_rowid();
 getById:
 SELECT * FROM entry WHERE id = ?;
 
-getByPageLowerThan:
-SELECT * FROM entry WHERE date_time < ? ORDER BY date_time DESC LIMIT ? OFFSET ?;
-
-getByPageGreaterThanOrEqual:
-SELECT * FROM entry WHERE date_time >= ? ORDER BY date_time ASC LIMIT ? OFFSET ?;
+getByDateRange:
+SELECT * FROM entry WHERE date_time >= :startDateTime AND date_time <= :endDateTime ORDER BY date_time;
 
 getAll:
 SELECT * FROM entry ORDER BY date_time DESC;

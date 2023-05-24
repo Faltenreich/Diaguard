@@ -5,4 +5,5 @@ import org.koin.dsl.module
 
 fun logModule() = module {
     singleOf(::LogViewModel)
+    singleOf(::GetLogDataUseCase)
 }

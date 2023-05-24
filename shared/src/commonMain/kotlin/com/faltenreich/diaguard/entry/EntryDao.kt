@@ -11,6 +11,11 @@ interface EntryDao {
 
     fun getById(id: Long): Flow<Entry?>
 
+    fun getByDateRange(
+        startDateTime: DateTime,
+        endDateTime: DateTime,
+    ): Flow<List<Entry>>
+
     fun getByQuery(query: String): Flow<List<Entry>>
 
     fun getAll(): Flow<List<Entry>>

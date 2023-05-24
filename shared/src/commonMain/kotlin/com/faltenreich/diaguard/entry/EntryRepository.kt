@@ -11,8 +11,8 @@ class EntryRepository(
     private val measurementValueRepository: MeasurementValueRepository,
 ) {
 
-    fun getAll(): Flow<List<Entry>> {
-        return dao.getAll().map { entries ->
+    private fun Flow<List<Entry>>.deep(): Flow<List<Entry>> {
+        return map { entries ->
             entries.map { entry ->
                 // TODO: Replace with flow with suspending function
                 entry.apply {
@@ -20,6 +20,10 @@ class EntryRepository(
                 }
             }
         }
+    }
+
+    fun getAll(): Flow<List<Entry>> {
+        return dao.getAll().deep()
     }
 
     fun create(dateTime: DateTime): Long {
@@ -45,6 +49,6 @@ class EntryRepository(
     }
 
     fun search(query: String): Flow<List<Entry>> {
-        return dao.getByQuery(query)
+        return dao.getByQuery(query).deep()
     }
 }

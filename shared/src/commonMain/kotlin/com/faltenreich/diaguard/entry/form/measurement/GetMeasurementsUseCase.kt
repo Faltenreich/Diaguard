@@ -4,12 +4,15 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.di.inject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class GetMeasurementsUseCase(
+    private val dispatcher: CoroutineDispatcher = inject(),
     private val measurementPropertyRepository: MeasurementPropertyRepository = inject(),
     private val measurementTypeRepository: MeasurementTypeRepository = inject(),
     private val measurementValueRepository: MeasurementValueRepository = inject(),
@@ -33,6 +36,6 @@ class GetMeasurementsUseCase(
                     }
                 )
             })
-        }
+        }.flowOn(dispatcher)
     }
 }

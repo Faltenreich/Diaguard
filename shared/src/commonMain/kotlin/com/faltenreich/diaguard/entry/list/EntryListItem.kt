@@ -21,8 +21,8 @@ import com.faltenreich.diaguard.shared.view.ClearButton
 @Composable
 fun EntryListItem(
     entry: Entry,
-    modifier: Modifier = Modifier,
     onDelete: (Entry) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val navigator = LocalNavigator.currentOrThrow
     val formatter = inject<DateTimeFormatter>()

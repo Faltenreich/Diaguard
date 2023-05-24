@@ -44,7 +44,7 @@ class EntryFormViewModel(
                 )
             },
         )
-    }.flowOn(dispatcher)
+    }
 
     private val state = combine(
         id,
@@ -61,7 +61,7 @@ class EntryFormViewModel(
     }.flowOn(dispatcher)
 
     // TODO: If true, intercept back navigation via LocalNavigator.currentOrThrow
-    private val hasChanged = state.distinctUntilChanged { old, new -> old != new }.flowOn(dispatcher)
+    private val hasChanged = state.distinctUntilChanged { old, new -> old != new }
 
     val viewState = state.stateIn(
         scope = viewModelScope,

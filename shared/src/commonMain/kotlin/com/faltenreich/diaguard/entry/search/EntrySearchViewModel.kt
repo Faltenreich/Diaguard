@@ -16,8 +16,8 @@ import kotlin.time.Duration.Companion.seconds
 
 class EntrySearchViewModel(
     query: String?,
-    searchEntries: SearchEntriesUseCase = inject(),
     dispatcher: CoroutineDispatcher = inject(),
+    searchEntries: SearchEntriesUseCase = inject(),
 ) : ViewModel() {
 
     private val state = MutableStateFlow<EntrySearchViewState>(EntrySearchViewState.Idle)

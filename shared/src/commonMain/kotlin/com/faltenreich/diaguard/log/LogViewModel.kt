@@ -16,23 +16,21 @@ import kotlinx.coroutines.launch
 
 class LogViewModel(
     initialDate: Date,
-    dispatcher: CoroutineDispatcher = inject(),
+    private val dispatcher: CoroutineDispatcher = inject(),
+    private val getLogData: GetLogDataUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel() {
 
     private val currentDate = MutableStateFlow(initialDate)
-    private val pagination = MutableStateFlow(LogPaginationState())
+    private val pagination = MutableStateFlow(LogPaginationState(minimumDate = initialDate, maximumDate = initialDate))
     private val data = MutableStateFlow(emptyList<LogData>())
     private val state = combine(currentDate, data) { currentDate, data ->
-        when {
-            data.isEmpty() -> LogViewState.Requesting(initialDate)
-            else -> LogViewState.Responding(currentDate, data)
-        }
+        LogViewState(currentDate, data)
     }.flowOn(dispatcher)
     val viewState: StateFlow<LogViewState> = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = LogViewState.Requesting(initialDate),
+        initialValue = LogViewState(initialDate, emptyList()),
     )
 
     init {
@@ -47,5 +45,15 @@ class LogViewModel(
 
     fun delete(entry: Entry) {
         deleteEntry(entry.id)
+    }
+
+    fun nextMonth() = viewModelScope.launch(dispatcher) {
+        val maximumDate = pagination.value.maximumDate
+        pagination.value = pagination.value.copy(maximumDate = Date(
+            year = maximumDate.year,
+            monthOfYear = maximumDate.monthOfYear + 1,
+            dayOfMonth = maximumDate.dayOfMonth,
+        ))
+        data.value = data.value + getLogData(startDate = maximumDate, endDate = pagination.value.maximumDate)
     }
 }

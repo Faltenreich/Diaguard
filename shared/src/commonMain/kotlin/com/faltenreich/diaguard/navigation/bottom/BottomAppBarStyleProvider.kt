@@ -34,7 +34,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 val viewState = viewModel.viewState.collectAsState().value
                 EntrySearchBottomAppBarItem()
                 DatePickerBottomAppBarItem(
-                    date = viewState.date,
+                    date = viewState.currentDate,
                     onDatePick = viewModel::setDate,
                 )
             },

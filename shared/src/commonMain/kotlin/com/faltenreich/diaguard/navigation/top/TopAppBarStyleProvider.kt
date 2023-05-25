@@ -21,7 +21,7 @@ fun Screen.topAppBarStyle(): TopAppBarStyle {
         is Screen.Log -> TopAppBarStyle.CenterAligned {
             val viewModel = getViewModel<LogViewModel> { parametersOf(date) }
             val viewState = viewModel.viewState.collectAsState().value
-            val title = viewState.date.toString()
+            val title = viewState.currentDate.toString()
             Text(title)
         }
         else -> TopAppBarStyle.Hidden

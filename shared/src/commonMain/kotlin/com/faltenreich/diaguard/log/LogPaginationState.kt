@@ -1,12 +1,8 @@
 package com.faltenreich.diaguard.log
 
+import com.faltenreich.diaguard.shared.datetime.Date
+
 data class LogPaginationState(
-    val page: Int = 0,
-    val pageSize: Int = PAGE_SIZE,
-) {
-
-    companion object {
-
-        private const val PAGE_SIZE = 30
-    }
-}
+    val minimumDate: Date,
+    val maximumDate: Date,
+)

@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.shared.datetime
 
-import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDate
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTime
-import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxTime
 
 class DateTime(
     year: Int,
@@ -13,17 +11,7 @@ class DateTime(
     secondOfMinute: Int,
     millisOfSecond: Int,
     nanosOfMillis: Int,
-) : Dateable by KotlinxDate(
-    year = year,
-    monthOfYear = monthOfYear,
-    dayOfMonth = dayOfMonth,
-), Timeable by KotlinxTime(
-    hourOfDay = hourOfDay,
-    minuteOfHour = minuteOfHour,
-    secondOfMinute = secondOfMinute,
-    millisOfSecond = millisOfSecond,
-    nanosOfMillis = nanosOfMillis,
-), DateTimeable by KotlinxDateTime(
+) : DateTimeable by KotlinxDateTime(
     year = year,
     monthOfYear = monthOfYear,
     dayOfMonth = dayOfMonth,

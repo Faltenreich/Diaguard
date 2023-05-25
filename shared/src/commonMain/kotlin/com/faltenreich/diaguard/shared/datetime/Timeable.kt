@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.datetime
 
 import com.faltenreich.diaguard.shared.serialization.Serializable
 
-interface Timeable : Serializable {
+interface Timeable : Serializable, Comparable<Timeable> {
 
     /**
      * Hour-of-day ranging from 0 to 24
@@ -28,4 +28,16 @@ interface Timeable : Serializable {
      * Nanoseconds-of-millisecond ranging from 0 to 1,000
      */
     val nanosOfMillis: Int
+
+    override fun compareTo(other: Timeable): Int {
+        return compareValuesBy(
+            this,
+            other,
+            { it.hourOfDay },
+            { it.minuteOfHour },
+            { it.secondOfMinute },
+            { it.millisOfSecond },
+            { it.nanosOfMillis },
+        )
+    }
 }

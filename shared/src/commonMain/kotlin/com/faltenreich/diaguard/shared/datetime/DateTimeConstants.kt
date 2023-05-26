@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.datetime
 
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 object DateTimeConstants {
 
     const val MONTHS_PER_YEAR = 12

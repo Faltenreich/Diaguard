@@ -12,7 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
-import com.faltenreich.diaguard.shared.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
 import com.faltenreich.diaguard.shared.view.FormRow

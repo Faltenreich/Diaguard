@@ -1,12 +1,11 @@
-package com.faltenreich.diaguard.shared.datetime
+package com.faltenreich.diaguard.shared.view
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
-import com.faltenreich.diaguard.shared.view.DatePicker
-import com.faltenreich.diaguard.shared.view.rememberDatePickerState
+import com.faltenreich.diaguard.shared.datetime.Date
 
 @Composable
 fun DatePickerBottomAppBarItem(

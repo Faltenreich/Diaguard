@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.shared.datetime
 
-import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxTime
 import com.faltenreich.diaguard.shared.primitive.format
+import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
+import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.shared.serialization.Serializable
+import kotlinx.datetime.LocalTime
 
 class Time(
     hourOfDay: Int,
@@ -10,13 +12,44 @@ class Time(
     secondOfMinute: Int = 0,
     millisOfSecond: Int = 0,
     nanosOfMillis: Int = 0,
-) : Timeable by KotlinxTime(
-    hourOfDay = hourOfDay,
-    minuteOfHour = minuteOfHour,
-    secondOfMinute = secondOfMinute,
-    millisOfSecond = millisOfSecond,
-    nanosOfMillis = nanosOfMillis,
-), Serializable, Comparable<Timeable> {
+) : Serializable, Comparable<Time> {
+
+    private var delegate: LocalTime = LocalTime(
+        hour = hourOfDay,
+        minute = minuteOfHour,
+        second = secondOfMinute,
+        nanosecond = millisOfSecond * DateTimeConstants.NANOS_PER_SECOND + nanosOfMillis,
+    )
+
+    /**
+     * Hour-of-day ranging from 0 to 24
+     */
+    val hourOfDay: Int
+        get() = delegate.hour
+
+    /**
+     * Minute-of-hour ranging from 0 to 60
+     */
+    val minuteOfHour: Int
+        get() = delegate.minute
+
+    /**
+     * Second-of-minute ranging from 0 to 60
+     */
+    val secondOfMinute: Int
+        get() = delegate.second
+
+    /**
+     * Milliseconds-of-second ranging from 0 to 1,000
+     */
+    val millisOfSecond: Int
+        get() = delegate.nanosecond / DateTimeConstants.NANOS_PER_SECOND
+
+    /**
+     * Nanoseconds-of-millisecond ranging from 0 to 1,000
+     */
+    val nanosOfMillis: Int
+        get() = delegate.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND)
 
     fun atDate(date: Date): DateTime {
         return DateTime(
@@ -31,7 +64,7 @@ class Time(
         )
     }
 
-    override fun compareTo(other: Timeable): Int {
+    override fun compareTo(other: Time): Int {
         return when {
             hourOfDay > other.hourOfDay -> 1
             hourOfDay < other.hourOfDay -> -1
@@ -48,7 +81,7 @@ class Time(
     }
 
     override fun equals(other: Any?): Boolean {
-        return other is Timeable &&
+        return other is Time &&
             hourOfDay == other.hourOfDay &&
             minuteOfHour == other.minuteOfHour &&
             secondOfMinute == other.secondOfMinute &&
@@ -71,6 +104,20 @@ class Time(
             secondOfMinute,
             millisOfSecond,
         )
+    }
+
+    @Suppress("unused")
+    private fun readObject(inputStream: ObjectInputStream) {
+        delegate = LocalTime.fromNanosecondOfDay(inputStream.readLong())
+    }
+
+    @Suppress("unused")
+    private fun writeObject(outputStream: ObjectOutputStream) {
+        val nanosOfDay = hourOfDay * DateTimeConstants.NANOS_PER_HOUR +
+            minuteOfHour * DateTimeConstants.NANOS_PER_MINUTE +
+            secondOfMinute * DateTimeConstants.NANOS_PER_SECOND +
+            nanosOfMillis
+        outputStream.writeLong(nanosOfDay)
     }
 
     companion object {

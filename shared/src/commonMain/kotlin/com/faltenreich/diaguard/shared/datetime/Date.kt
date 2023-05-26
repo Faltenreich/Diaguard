@@ -1,18 +1,40 @@
 package com.faltenreich.diaguard.shared.datetime
 
-import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDate
 import com.faltenreich.diaguard.shared.primitive.format
+import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
+import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.shared.serialization.Serializable
+import kotlinx.datetime.LocalDate
 
 class Date(
     year: Int,
     monthOfYear: Int,
     dayOfMonth: Int,
-) : Dateable by KotlinxDate(
-    year = year,
-    monthOfYear = monthOfYear,
-    dayOfMonth = dayOfMonth,
-), Serializable, Comparable<Dateable> {
+) : Serializable, Comparable<Date> {
+
+    private var delegate: LocalDate = LocalDate(
+        year = year,
+        monthNumber = monthOfYear,
+        dayOfMonth = dayOfMonth,
+    )
+
+    /**
+     * Year starting at 0 AD
+     */
+    val year: Int
+        get() = delegate.year
+
+    /**
+     * Month-of-year ranging from 1 to 12
+     */
+    val monthOfYear: Int
+        get() = delegate.monthNumber
+
+    /**
+     * Day-of-month ranging from 1 to 31, depending on month
+     */
+    val dayOfMonth: Int
+        get() = delegate.dayOfMonth
 
     fun atTime(time: Time): DateTime {
         return DateTime(
@@ -27,7 +49,7 @@ class Date(
         )
     }
 
-    override fun compareTo(other: Dateable): Int {
+    override fun compareTo(other: Date): Int {
         return when {
             year > other.year -> 1
             year < other.year -> -1
@@ -40,7 +62,7 @@ class Date(
     }
 
     override fun equals(other: Any?): Boolean {
-        return other is Dateable &&
+        return other is Date &&
             year == other.year &&
             monthOfYear == other.monthOfYear &&
             dayOfMonth == other.dayOfMonth
@@ -58,6 +80,16 @@ class Date(
             monthOfYear,
             year,
         )
+    }
+
+    @Suppress("unused")
+    private fun readObject(inputStream: ObjectInputStream) {
+        delegate = LocalDate.fromEpochDays(inputStream.readLong().toInt())
+    }
+
+    @Suppress("unused")
+    private fun writeObject(outputStream: ObjectOutputStream) {
+        outputStream.writeLong(delegate.toEpochDays().toLong())
     }
 
     companion object {

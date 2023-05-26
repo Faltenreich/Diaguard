@@ -14,8 +14,8 @@ import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.log.LogViewModel
 import com.faltenreich.diaguard.navigation.Screen
-import com.faltenreich.diaguard.shared.datetime.DatePickerBottomAppBarItem
 import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.shared.view.DatePickerBottomAppBarItem
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.shared.view.SearchField
 import com.faltenreich.diaguard.timeline.TimelineViewModel

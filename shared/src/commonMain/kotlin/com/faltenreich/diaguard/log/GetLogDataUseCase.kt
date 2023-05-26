@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.log
 
 import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.shared.datetime.DateProgression
 
 class GetLogDataUseCase {
 
@@ -8,11 +9,10 @@ class GetLogDataUseCase {
         startDate: Date,
         endDate: Date,
     ): List<LogData> {
-        val dateRange = startDate.dayOfMonth .. endDate.dayOfMonth
-        return dateRange.map { dayOfMonth ->
-            val date = startDate // TODO: Calculate dates
+        val dateRange = DateProgression(startDate, endDate)
+        return dateRange.map { date ->
             listOfNotNull(
-                LogData.MonthHeader(date).takeIf { dayOfMonth == 0 },
+                LogData.MonthHeader(date).takeIf { date.dayOfMonth == 0 },
                 LogData.DayHeader(date),
                 LogData.EmptyContent(date)
             )

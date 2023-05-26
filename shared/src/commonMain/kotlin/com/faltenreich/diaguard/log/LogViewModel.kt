@@ -35,7 +35,9 @@ class LogViewModel(
 
     init {
         viewModelScope.launch(dispatcher) {
-
+            val endDate = initialDate.plusMonths(1)
+            data.value = data.value + getLogData(startDate = initialDate, endDate = endDate)
+            pagination.value = pagination.value.copy(maximumDate = endDate)
         }
     }
 
@@ -48,12 +50,9 @@ class LogViewModel(
     }
 
     fun nextMonth() = viewModelScope.launch(dispatcher) {
-        val maximumDate = pagination.value.maximumDate
-        pagination.value = pagination.value.copy(maximumDate = Date(
-            year = maximumDate.year,
-            monthOfYear = maximumDate.monthOfYear + 1,
-            dayOfMonth = maximumDate.dayOfMonth,
-        ))
-        data.value = data.value + getLogData(startDate = maximumDate, endDate = pagination.value.maximumDate)
+        val startDate = pagination.value.maximumDate.plusDays(1)
+        val endDate = startDate.plusMonths(1)
+        data.value = data.value + getLogData(startDate = startDate, endDate = endDate)
+        pagination.value = pagination.value.copy(maximumDate = endDate)
     }
 }

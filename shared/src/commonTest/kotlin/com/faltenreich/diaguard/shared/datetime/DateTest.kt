@@ -1,15 +1,43 @@
 package com.faltenreich.diaguard.shared.datetime
 
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class DateTest {
 
     @Test
-    fun `date is comparable`() {
-        // FIXME: Make date and time comparable
-        val sooner = Date(year = 0, monthOfYear = 0, dayOfMonth = 0)
-        val later = Date(year = 0, monthOfYear = 0, dayOfMonth = 1)
-        assertTrue(sooner < later)
+    fun `date is equal if year and month and day are equal`() {
+        assertEquals(
+            Date(year = 5, monthOfYear = 5, dayOfMonth = 5),
+            Date(year = 5, monthOfYear = 5, dayOfMonth = 5),
+        )
+    }
+
+    @Test
+    fun `date is sooner if years are lower`() {
+        assertTrue(
+            Date(year = 4, monthOfYear = 6, dayOfMonth = 6)
+                <
+                Date(year = 5, monthOfYear = 5, dayOfMonth = 5)
+        )
+    }
+
+    @Test
+    fun `date is sooner if months are lower but years are not`() {
+        assertTrue(
+            Date(year = 5, monthOfYear = 4, dayOfMonth = 6)
+                <
+                Date(year = 5, monthOfYear = 5, dayOfMonth = 5)
+        )
+    }
+
+    @Test
+    fun `date is sooner if days are lower but years and months are not`() {
+        assertTrue(
+            Date(year = 5, monthOfYear = 5, dayOfMonth = 4)
+                <
+                Date(year = 5, monthOfYear = 5, dayOfMonth = 5)
+        )
     }
 }

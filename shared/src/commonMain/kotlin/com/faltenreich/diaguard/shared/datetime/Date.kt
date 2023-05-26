@@ -38,6 +38,9 @@ class Date(
     val dayOfMonth: Int
         get() = delegate.dayOfMonth
 
+    val weekDay: String
+        get() = delegate.dayOfWeek.name
+
     private constructor(localDate: LocalDate) : this(
         year = localDate.year,
         monthOfYear = localDate.monthNumber,

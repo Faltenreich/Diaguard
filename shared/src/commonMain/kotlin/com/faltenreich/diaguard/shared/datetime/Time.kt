@@ -1,10 +1,11 @@
 package com.faltenreich.diaguard.shared.datetime
 
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.shared.serialization.Serializable
-import kotlinx.datetime.LocalTime
+import org.koin.core.parameter.parametersOf
 
 class Time(
     hourOfDay: Int,
@@ -14,42 +15,30 @@ class Time(
     nanosOfMillis: Int = 0,
 ) : Serializable, Comparable<Time> {
 
-    private var delegate: LocalTime = LocalTime(
-        hour = hourOfDay,
-        minute = minuteOfHour,
-        second = secondOfMinute,
-        nanosecond = millisOfSecond * DateTimeConstants.NANOS_PER_SECOND + nanosOfMillis,
-    )
+    private val delegate: Timeable = inject {
+        parametersOf(
+            hourOfDay,
+            minuteOfHour,
+            secondOfMinute,
+            millisOfSecond,
+            nanosOfMillis,
+        )
+    }
 
-    /**
-     * Hour-of-day ranging from 0 to 24
-     */
     val hourOfDay: Int
-        get() = delegate.hour
+        get() = delegate.hourOfDay
 
-    /**
-     * Minute-of-hour ranging from 0 to 60
-     */
     val minuteOfHour: Int
-        get() = delegate.minute
+        get() = delegate.minuteOfHour
 
-    /**
-     * Second-of-minute ranging from 0 to 60
-     */
     val secondOfMinute: Int
-        get() = delegate.second
+        get() = delegate.secondOfMinute
 
-    /**
-     * Milliseconds-of-second ranging from 0 to 1,000
-     */
     val millisOfSecond: Int
-        get() = delegate.nanosecond / DateTimeConstants.NANOS_PER_SECOND
+        get() = delegate.millisOfSecond
 
-    /**
-     * Nanoseconds-of-millisecond ranging from 0 to 1,000
-     */
-    val nanosOfMillis: Int
-        get() = delegate.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND)
+    val nanosOfMilli: Int
+        get() = delegate.nanosOfMilli
 
     fun atDate(date: Date): DateTime {
         return DateTime(
@@ -60,7 +49,7 @@ class Time(
             minuteOfHour = minuteOfHour,
             secondOfMinute = secondOfMinute,
             millisOfSecond = millisOfSecond,
-            nanosOfMillis = nanosOfMillis,
+            nanosOfMilli = nanosOfMilli,
         )
     }
 
@@ -74,8 +63,8 @@ class Time(
             secondOfMinute < other.secondOfMinute -> -1
             millisOfSecond > other.millisOfSecond -> 1
             millisOfSecond < other.millisOfSecond -> -1
-            nanosOfMillis > other.nanosOfMillis -> 1
-            nanosOfMillis < other.nanosOfMillis -> -1
+            nanosOfMilli > other.nanosOfMilli -> 1
+            nanosOfMilli < other.nanosOfMilli -> -1
             else -> 0
         }
     }
@@ -86,7 +75,7 @@ class Time(
             minuteOfHour == other.minuteOfHour &&
             secondOfMinute == other.secondOfMinute &&
             millisOfSecond == other.millisOfSecond &&
-            nanosOfMillis == other.nanosOfMillis
+            nanosOfMilli == other.nanosOfMilli
     }
 
     override fun hashCode(): Int {
@@ -94,7 +83,7 @@ class Time(
             minuteOfHour.hashCode().times(31) +
             secondOfMinute.hashCode().times(31) +
             millisOfSecond.hashCode().times(31) +
-            nanosOfMillis.hashCode().times(31)
+            nanosOfMilli.hashCode().times(31)
     }
 
     override fun toString(): String {
@@ -108,16 +97,12 @@ class Time(
 
     @Suppress("unused")
     private fun readObject(inputStream: ObjectInputStream) {
-        delegate = LocalTime.fromNanosecondOfDay(inputStream.readLong())
+        delegate.readObject(inputStream)
     }
 
     @Suppress("unused")
     private fun writeObject(outputStream: ObjectOutputStream) {
-        val nanosOfDay = hourOfDay * DateTimeConstants.NANOS_PER_HOUR +
-            minuteOfHour * DateTimeConstants.NANOS_PER_MINUTE +
-            secondOfMinute * DateTimeConstants.NANOS_PER_SECOND +
-            nanosOfMillis
-        outputStream.writeLong(nanosOfDay)
+        delegate.writeObject(outputStream)
     }
 
     companion object {

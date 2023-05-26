@@ -18,6 +18,6 @@ fun LogDay(
         modifier = modifier,
     ) {
         Text(date.dayOfMonth.toString())
-        Text(date.weekDay)
+        Text("Mo.") // TODO
     }
 }

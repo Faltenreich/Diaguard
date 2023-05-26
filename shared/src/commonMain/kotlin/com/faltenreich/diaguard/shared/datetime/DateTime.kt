@@ -1,15 +1,11 @@
 package com.faltenreich.diaguard.shared.datetime
 
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.shared.serialization.Serializable
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
+import org.koin.core.parameter.parametersOf
 
 class DateTime(
     year: Int,
@@ -19,61 +15,62 @@ class DateTime(
     minuteOfHour: Int,
     secondOfMinute: Int,
     millisOfSecond: Int,
-    nanosOfMillis: Int,
+    nanosOfMilli: Int,
 ) : Serializable, Comparable<DateTime> {
 
-    private constructor(localDateTime: LocalDateTime) : this(
-        year = localDateTime.year,
-        monthOfYear = localDateTime.monthNumber,
-        dayOfMonth = localDateTime.dayOfMonth,
-        hourOfDay = localDateTime.hour,
-        minuteOfHour = localDateTime.minute,
-        secondOfMinute = localDateTime.second,
-        millisOfSecond = localDateTime.nanosecond / DateTimeConstants.NANOS_PER_SECOND,
-        nanosOfMillis = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
-    )
-
-    constructor(isoString: String) : this(
-        localDateTime = LocalDateTime.parse(isoString),
-    )
-
-    constructor(millis: Long) : this(
-        localDateTime = Instant
-            .fromEpochMilliseconds(millis)
-            .toLocalDateTime(TimeZone.currentSystemDefault()),
-    )
-
-    private var localDateTime = LocalDateTime(
-        year = year,
-        monthNumber = monthOfYear,
-        dayOfMonth = dayOfMonth,
-        hour = hourOfDay,
-        minute = minuteOfHour,
-        second = secondOfMinute,
-        nanosecond = millisOfSecond * DateTimeConstants.NANOS_PER_SECOND + nanosOfMillis,
-    )
+    private var delegate: DateTimeable = inject {
+        parametersOf(
+            year,
+            monthOfYear,
+            dayOfMonth,
+            hourOfDay,
+            minuteOfHour,
+            secondOfMinute,
+            millisOfSecond,
+            nanosOfMilli,
+        )
+    }
 
     val date: Date
-        get() = Date(
-            year = localDateTime.year,
-            monthOfYear = localDateTime.monthNumber,
-            dayOfMonth = localDateTime.dayOfMonth,
-        )
+        get() = delegate.date
 
     val time: Time
-        get() = Time(
-            hourOfDay = localDateTime.hour,
-            minuteOfHour = localDateTime.minute,
-            secondOfMinute = localDateTime.second,
-            millisOfSecond = localDateTime.nanosecond / DateTimeConstants.NANOS_PER_SECOND,
-            nanosOfMillis = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
-        )
+        get() = delegate.time
 
     val millisSince1970: Long
-        get() = localDateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+        get() = delegate.millisSince1970
 
     val isoString: String
-        get() = localDateTime.toString()
+        get() = delegate.isoString
+
+    constructor(dateTimeable: DateTimeable) : this(
+        year = dateTimeable.date.year,
+        monthOfYear = dateTimeable.date.monthOfYear,
+        dayOfMonth = dateTimeable.date.dayOfMonth,
+        hourOfDay = dateTimeable.time.hourOfDay,
+        minuteOfHour = dateTimeable.time.minuteOfHour,
+        secondOfMinute = dateTimeable.time.secondOfMinute,
+        millisOfSecond = dateTimeable.time.millisOfSecond,
+        nanosOfMilli = dateTimeable.time.nanosOfMilli,
+    )
+
+    constructor(
+        isoString: String,
+        factory: DateTimeFactory<Dateable, Timeable, DateTimeable> = inject(),
+    ) : this(
+        dateTimeable = factory.fromIsoString(isoString),
+    )
+
+    constructor(
+        millis: Long,
+        factory: DateTimeFactory<Dateable, Timeable, DateTimeable> = inject(),
+    ) : this(
+        dateTimeable = factory.fromMillis(millis),
+    )
+
+    fun now(): DateTime {
+        return DateTime(delegate.now())
+    }
 
     override fun compareTo(other: DateTime): Int {
         return compareValuesBy(
@@ -103,22 +100,20 @@ class DateTime(
 
     @Suppress("unused")
     private fun readObject(inputStream: ObjectInputStream) {
-        localDateTime = Instant
-            .fromEpochMilliseconds(inputStream.readLong())
-            .toLocalDateTime(TimeZone.currentSystemDefault())
+        delegate.readObject(inputStream)
     }
 
     @Suppress("unused")
     private fun writeObject(outputStream: ObjectOutputStream) {
-        outputStream.writeLong(millisSince1970)
+        delegate.writeObject(outputStream)
     }
 
     companion object {
 
+        private val factory = inject<DateTimeFactory<Dateable, Timeable, DateTimeable>>()
+
         fun now(): DateTime {
-            val now = Clock.System.now()
-            val localDateTime = now.toLocalDateTime(TimeZone.currentSystemDefault())
-            return DateTime(localDateTime)
+            return DateTime(factory.now())
         }
     }
 }

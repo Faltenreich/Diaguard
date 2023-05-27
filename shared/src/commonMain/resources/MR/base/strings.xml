@@ -49,4 +49,29 @@
     <string name="weekday_saturday_short">Sat</string>
     <string name="weekday_sunday">Sunday</string>
     <string name="weekday_weekday_sunday_short">Sun</string>
+
+    <string name="month_january">January</string>
+    <string name="month_january_short">Jan</string>
+    <string name="month_february">February</string>
+    <string name="month_february_short">Feb</string>
+    <string name="month_march">March</string>
+    <string name="month_march_short">Mar</string>
+    <string name="month_april">April</string>
+    <string name="month_april_short">Apr</string>
+    <string name="month_may">May</string>
+    <string name="month_may_short">May</string>
+    <string name="month_june">June</string>
+    <string name="month_june_short">Jun</string>
+    <string name="month_july">July</string>
+    <string name="month_july_short">Jul</string>
+    <string name="month_august">August</string>
+    <string name="month_august_short">Aug</string>
+    <string name="month_september">September</string>
+    <string name="month_september_short">Sep</string>
+    <string name="month_october">October</string>
+    <string name="month_october_short">Oct</string>
+    <string name="month_november">November</string>
+    <string name="month_november_short">Nov</string>
+    <string name="month_december">December</string>
+    <string name="month_december_short">Dec</string>
 </resources>

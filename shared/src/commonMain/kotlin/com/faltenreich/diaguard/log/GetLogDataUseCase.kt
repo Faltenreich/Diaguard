@@ -12,7 +12,7 @@ class GetLogDataUseCase {
         val dateRange = DateProgression(startDate, endDate)
         return dateRange.map { date ->
             listOfNotNull(
-                LogData.MonthHeader(date).takeIf { date.dayOfMonth == 0 },
+                LogData.MonthHeader(date).takeIf { date.dayOfMonth == 1 },
                 LogData.DayHeader(date),
                 LogData.EmptyContent(date)
             )

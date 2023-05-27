@@ -18,6 +18,6 @@ fun LogDay(
         modifier = modifier,
     ) {
         Text(formatter.formatDayOfMonth(date))
-        Text(formatter.formatDayOfWeek(date))
+        Text(formatter.formatDayOfWeek(date, abbreviated = true))
     }
 }

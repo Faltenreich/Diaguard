@@ -21,6 +21,9 @@ class Date(
     val monthOfYear: Int
         get() = delegate.monthOfYear
 
+    val month: Month
+        get() = delegate.month
+
     val dayOfMonth: Int
         get() = delegate.dayOfMonth
 

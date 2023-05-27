@@ -25,13 +25,18 @@ class DateTimeFormatter {
         }
     }
 
+    @Composable
+    fun formatMonth(date: Date, abbreviated: Boolean): String {
+        return date.month.run { stringResource(if (abbreviated) abbreviation else label) }
+    }
+
     fun formatDayOfMonth(date: Date): String {
         return "%02d".format(date.dayOfMonth)
     }
 
     @Composable
-    fun formatDayOfWeek(date: Date): String {
-        return stringResource(date.dayOfWeek.abbreviation)
+    fun formatDayOfWeek(date: Date, abbreviated: Boolean): String {
+        return date.dayOfWeek.run { stringResource(if (abbreviated) abbreviation else label) }
     }
 
     fun formatTime(time: Time): String {

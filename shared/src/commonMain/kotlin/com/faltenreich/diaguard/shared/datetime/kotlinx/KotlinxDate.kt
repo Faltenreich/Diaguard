@@ -1,9 +1,17 @@
 package com.faltenreich.diaguard.shared.datetime.kotlinx
 
 import com.faltenreich.diaguard.shared.datetime.Dateable
+import com.faltenreich.diaguard.shared.datetime.DayOfWeek
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DayOfWeek.FRIDAY
+import kotlinx.datetime.DayOfWeek.MONDAY
+import kotlinx.datetime.DayOfWeek.SATURDAY
+import kotlinx.datetime.DayOfWeek.SUNDAY
+import kotlinx.datetime.DayOfWeek.THURSDAY
+import kotlinx.datetime.DayOfWeek.TUESDAY
+import kotlinx.datetime.DayOfWeek.WEDNESDAY
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 
@@ -33,6 +41,18 @@ class KotlinxDate(
 
     override val dayOfMonth: Int
         get() = delegate.dayOfMonth
+
+    override val dayOfWeek: DayOfWeek
+        get() = when (delegate.dayOfWeek) {
+            MONDAY -> DayOfWeek.MONDAY
+            TUESDAY -> DayOfWeek.TUESDAY
+            WEDNESDAY -> DayOfWeek.WEDNESDAY
+            THURSDAY -> DayOfWeek.THURSDAY
+            FRIDAY -> DayOfWeek.FRIDAY
+            SATURDAY -> DayOfWeek.SATURDAY
+            SUNDAY -> DayOfWeek.SUNDAY
+            else -> throw IllegalStateException("Unknown dayOfWeek: ${delegate.dayOfWeek}")
+        }
 
     override fun plusDays(days: Int): Dateable {
         return KotlinxDate(delegate.plus(days, DateTimeUnit.DAY))

@@ -25,6 +25,6 @@ fun LogMonth(
             .background(Color.LightGray)
             .padding(all = AppTheme.dimensions.padding.P_2),
     ) {
-        Text(formatter.format(date)) // TODO: Format month of year
+        Text(formatter.formatDate(date)) // TODO: Format month of year
     }
 }

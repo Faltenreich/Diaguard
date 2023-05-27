@@ -73,12 +73,13 @@ class DateTime(
     }
 
     override fun compareTo(other: DateTime): Int {
-        return compareValuesBy(
-            this,
-            other,
-            { it.date },
-            { it.time },
-        )
+        return when {
+            date > other.date -> 1
+            date < other.date -> -1
+            time > other.time -> 1
+            time < other.time -> -1
+            else -> 0
+        }
     }
 
     override fun equals(other: Any?): Boolean {

@@ -39,10 +39,10 @@ fun EntryForm(
     ) {
         FormRow(icon = { ResourceIcon(MR.images.ic_time) }) {
             TextButton(onClick = { datePickerState.isShown = true }) {
-                Text(formatter.format(viewState.dateTime.date))
+                Text(formatter.formatDate(viewState.dateTime.date))
             }
             TextButton(onClick = { timePickerState.isShown = true }) {
-                Text(formatter.format(viewState.dateTime.time))
+                Text(formatter.formatTime(viewState.dateTime.time))
             }
         }
         Divider()

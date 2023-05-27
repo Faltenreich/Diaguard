@@ -24,6 +24,9 @@ class Date(
     val dayOfMonth: Int
         get() = delegate.dayOfMonth
 
+    val dayOfWeek: DayOfWeek
+        get() = delegate.dayOfWeek
+
     private constructor(dateable: Dateable) : this(
         year = dateable.year,
         monthOfYear = dateable.monthOfYear,

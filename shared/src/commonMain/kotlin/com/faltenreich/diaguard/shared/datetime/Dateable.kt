@@ -21,6 +21,11 @@ interface Dateable {
     val dayOfMonth: Int
 
     /**
+     * Day-of-week ranging from start- to end of week, depending on the locale
+     */
+    val dayOfWeek: DayOfWeek
+
+    /**
      * Returns this date plus the given days
      */
     fun plusDays(days: Int): Dateable

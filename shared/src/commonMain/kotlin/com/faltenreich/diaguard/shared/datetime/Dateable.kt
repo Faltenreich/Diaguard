@@ -32,9 +32,19 @@ interface Dateable {
     val dayOfWeek: DayOfWeek
 
     /**
+     * Returns this date minus the given days
+     */
+    fun minusDays(days: Int): Dateable
+
+    /**
      * Returns this date plus the given days
      */
     fun plusDays(days: Int): Dateable
+
+    /**
+     * Returns this date minus the given months
+     */
+    fun minusMonths(months: Int): Dateable
 
     /**
      * Returns this date plus the given months

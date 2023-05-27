@@ -9,6 +9,7 @@ class GetLogDataUseCase {
         startDate: Date,
         endDate: Date,
     ): List<LogData> {
+        println("Fetching log data between $startDate and $endDate")
         val dateRange = DateProgression(startDate, endDate)
         return dateRange.map { date ->
             listOfNotNull(

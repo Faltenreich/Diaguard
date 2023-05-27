@@ -35,9 +35,11 @@ class LogViewModel(
 
     init {
         viewModelScope.launch(dispatcher) {
+            val startDate = initialDate.minusMonths(1)
             val endDate = initialDate.plusMonths(1)
-            data.value = data.value + getLogData(startDate = initialDate, endDate = endDate)
-            pagination.value = pagination.value.copy(maximumDate = endDate)
+            data.value = data.value + getLogData(startDate = startDate, endDate = endDate)
+            pagination.value = pagination.value.copy(minimumDate = startDate, maximumDate = endDate)
+            // FIXME: Notify ui about initial fetch and scroll to initial date
         }
     }
 
@@ -47,6 +49,13 @@ class LogViewModel(
 
     fun delete(entry: Entry) {
         deleteEntry(entry.id)
+    }
+
+    fun previousMonth() = viewModelScope.launch(dispatcher) {
+        val endDate = pagination.value.minimumDate.minusDays(1)
+        val startDate = endDate.minusMonths(1)
+        data.value = getLogData(startDate = startDate, endDate = endDate) + data.value
+        pagination.value = pagination.value.copy(minimumDate = startDate)
     }
 
     fun nextMonth() = viewModelScope.launch(dispatcher) {

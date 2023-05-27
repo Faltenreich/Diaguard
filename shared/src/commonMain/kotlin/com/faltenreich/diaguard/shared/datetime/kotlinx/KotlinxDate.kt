@@ -13,6 +13,7 @@ import kotlinx.datetime.DayOfWeek.THURSDAY
 import kotlinx.datetime.DayOfWeek.TUESDAY
 import kotlinx.datetime.DayOfWeek.WEDNESDAY
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
 class KotlinxDate(
@@ -54,8 +55,16 @@ class KotlinxDate(
             else -> throw IllegalStateException("Unknown dayOfWeek: ${delegate.dayOfWeek}")
         }
 
+    override fun minusDays(days: Int): Dateable {
+        return KotlinxDate(delegate.minus(days, DateTimeUnit.DAY))
+    }
+
     override fun plusDays(days: Int): Dateable {
         return KotlinxDate(delegate.plus(days, DateTimeUnit.DAY))
+    }
+
+    override fun minusMonths(months: Int): Dateable {
+        return KotlinxDate(delegate.minus(months, DateTimeUnit.MONTH))
     }
 
     override fun plusMonths(months: Int): Dateable {

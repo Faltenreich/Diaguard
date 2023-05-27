@@ -36,8 +36,16 @@ class Date(
         dayOfMonth = dateable.dayOfMonth,
     )
 
+    fun minusDays(days: Int): Date {
+        return Date(delegate.minusDays(days))
+    }
+
     fun plusDays(days: Int): Date {
         return Date(delegate.plusDays(days))
+    }
+
+    fun minusMonths(months: Int): Date {
+        return Date(delegate.minusMonths(months))
     }
 
     fun plusMonths(months: Int): Date {

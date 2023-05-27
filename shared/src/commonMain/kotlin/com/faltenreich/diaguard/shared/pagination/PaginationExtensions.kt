@@ -8,10 +8,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 
 @Composable
-fun LazyListState.Paginate(
+fun LazyListState.onPagination(
     buffer : Int = 0,
-    onPaginate : (direction: PaginationDirection) -> Unit,
-){
+    onPagination : (direction: PaginationDirection) -> Unit,
+): LazyListState {
     require(buffer >= 0) { "Buffer must not be negative but was $buffer" }
     val reachedEnd = remember {
         derivedStateOf {
@@ -24,7 +24,7 @@ fun LazyListState.Paginate(
         snapshotFlow { reachedEnd.value }
             .collect { reachedEnd ->
                 if (reachedEnd) {
-                    onPaginate(PaginationDirection.END)
+                    onPagination(PaginationDirection.END)
                 }
             }
     }
@@ -39,8 +39,9 @@ fun LazyListState.Paginate(
         snapshotFlow { reachedStart.value }
             .collect { reachedStart ->
                 if (reachedStart) {
-                    onPaginate(PaginationDirection.START)
+                    onPagination(PaginationDirection.START)
                 }
             }
     }
+    return this
 }

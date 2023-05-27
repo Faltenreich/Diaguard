@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.pagination.PaginationDirection
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,8 +25,13 @@ class LogViewModel(
     private val currentDate = MutableStateFlow(initialDate)
     private val pagination = MutableStateFlow(LogPaginationState(minimumDate = initialDate, maximumDate = initialDate))
     private val data = MutableStateFlow(emptyList<LogData>())
-    private val state = combine(currentDate, data) { currentDate, data ->
-        LogViewState(currentDate, data)
+    private val state = combine(pagination, data) { pagination, data ->
+        val scrollPosition = pagination.targetDate?.let { targetDate -> data.indexOfFirst { it.date == targetDate } }
+        LogViewState(
+            currentDate = currentDate.value,
+            data = data,
+            scrollPosition = scrollPosition,
+        )
     }.flowOn(dispatcher)
     val viewState: StateFlow<LogViewState> = state.stateIn(
         scope = viewModelScope,
@@ -34,34 +40,42 @@ class LogViewModel(
     )
 
     init {
-        viewModelScope.launch(dispatcher) {
-            val startDate = initialDate.minusMonths(1)
-            val endDate = initialDate.plusMonths(1)
-            data.value = data.value + getLogData(startDate = startDate, endDate = endDate)
-            pagination.value = pagination.value.copy(minimumDate = startDate, maximumDate = endDate)
-            // FIXME: Notify ui about initial fetch and scroll to initial date
-        }
+        setDate(initialDate)
     }
 
-    fun setDate(date: Date) {
-        currentDate.value = date
+    fun setDate(date: Date) = viewModelScope.launch(dispatcher) {
+        val startDate = date.minusMonths(1)
+        val endDate = date.plusMonths(1)
+        data.value = data.value + getLogData(startDate = startDate, endDate = endDate)
+        pagination.value = pagination.value.copy(
+            minimumDate = startDate,
+            maximumDate = endDate,
+            targetDate = date,
+        )
     }
 
     fun delete(entry: Entry) {
         deleteEntry(entry.id)
     }
 
-    fun previousMonth() = viewModelScope.launch(dispatcher) {
+    fun onPagination(direction: PaginationDirection) {
+        when (direction) {
+            PaginationDirection.START -> previousMonth()
+            PaginationDirection.END -> nextMonth()
+        }
+    }
+
+    private fun previousMonth() = viewModelScope.launch(dispatcher) {
         val endDate = pagination.value.minimumDate.minusDays(1)
         val startDate = endDate.minusMonths(1)
         data.value = getLogData(startDate = startDate, endDate = endDate) + data.value
-        pagination.value = pagination.value.copy(minimumDate = startDate)
+        pagination.value = pagination.value.copy(minimumDate = startDate, targetDate = null)
     }
 
-    fun nextMonth() = viewModelScope.launch(dispatcher) {
+    private fun nextMonth() = viewModelScope.launch(dispatcher) {
         val startDate = pagination.value.maximumDate.plusDays(1)
         val endDate = startDate.plusMonths(1)
         data.value = data.value + getLogData(startDate = startDate, endDate = endDate)
-        pagination.value = pagination.value.copy(maximumDate = endDate)
+        pagination.value = pagination.value.copy(maximumDate = endDate, targetDate = null)
     }
 }

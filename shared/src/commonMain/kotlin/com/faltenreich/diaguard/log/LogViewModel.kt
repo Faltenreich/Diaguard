@@ -25,10 +25,10 @@ class LogViewModel(
     private val currentDate = MutableStateFlow(initialDate)
     private val pagination = MutableStateFlow(LogPaginationState(minimumDate = initialDate, maximumDate = initialDate))
     private val data = MutableStateFlow(emptyList<LogData>())
-    private val state = combine(pagination, data) { pagination, data ->
+    private val state = combine(currentDate, pagination, data) { currentDate, pagination, data ->
         val scrollPosition = pagination.targetDate?.let { targetDate -> data.indexOfFirst { it.date == targetDate } }
         LogViewState(
-            currentDate = currentDate.value,
+            currentDate = currentDate,
             data = data,
             scrollPosition = scrollPosition,
         )
@@ -41,6 +41,10 @@ class LogViewModel(
 
     init {
         setDate(initialDate)
+    }
+
+    fun onScroll(firstVisibleItemIndex: Int) = viewModelScope.launch(dispatcher) {
+        currentDate.value = data.value[firstVisibleItemIndex].date
     }
 
     fun setDate(date: Date) = viewModelScope.launch(dispatcher) {

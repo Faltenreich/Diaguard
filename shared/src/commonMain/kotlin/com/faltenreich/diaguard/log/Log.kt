@@ -24,6 +24,7 @@ fun Log(
     viewState.scrollPosition?.let { scrollPosition ->
         coroutineScope.launch {
             listState.scrollToItem(scrollPosition)
+            viewModel.resetScroll()
         }
     }
 

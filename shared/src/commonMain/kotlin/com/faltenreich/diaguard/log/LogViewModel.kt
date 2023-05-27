@@ -48,14 +48,23 @@ class LogViewModel(
     }
 
     fun setDate(date: Date) = viewModelScope.launch(dispatcher) {
-        val startDate = date.minusMonths(1)
-        val endDate = date.plusMonths(1)
-        data.value = data.value + getLogData(startDate = startDate, endDate = endDate)
-        pagination.value = pagination.value.copy(
-            minimumDate = startDate,
-            maximumDate = endDate,
-            targetDate = date,
-        )
+        val indexOfDate = data.value.indexOfFirst { it.date == date }
+        if (indexOfDate >= 0) {
+            pagination.value = pagination.value.copy(targetDate = date)
+        } else {
+            val startDate = date.minusMonths(1)
+            val endDate = date.plusMonths(1)
+            data.value = data.value + getLogData(startDate = startDate, endDate = endDate)
+            pagination.value = pagination.value.copy(
+                minimumDate = startDate,
+                maximumDate = endDate,
+                targetDate = date,
+            )
+        }
+    }
+
+    fun resetScroll() = viewModelScope.launch {
+        pagination.value = pagination.value.copy(targetDate = null)
     }
 
     fun delete(entry: Entry) {

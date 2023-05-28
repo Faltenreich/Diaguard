@@ -2,6 +2,9 @@ package com.faltenreich.diaguard.log
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
+import com.faltenreich.diaguard.log.item.LogData
+import com.faltenreich.diaguard.log.usecase.GetLogDataUseCase
+import com.faltenreich.diaguard.log.usecase.MapLogDataUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.inject
@@ -19,20 +22,24 @@ class LogViewModel(
     initialDate: Date,
     private val dispatcher: CoroutineDispatcher = inject(),
     private val getLogData: GetLogDataUseCase = inject(),
+    private val mapLogData: MapLogDataUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel() {
+
+    private data class LogPaginationState(
+        val minimumDate: Date,
+        val maximumDate: Date,
+        val targetDate: Date? = null,
+    )
 
     private val currentDate = MutableStateFlow(initialDate)
     private val pagination = MutableStateFlow(LogPaginationState(minimumDate = initialDate, maximumDate = initialDate))
     private val data = MutableStateFlow(emptyList<LogData>())
     private val state = combine(currentDate, pagination, data) { currentDate, pagination, data ->
-        val scrollPosition = pagination.targetDate?.let { targetDate -> data.indexOfFirst { it.date == targetDate } }
-        val groupedData = data.groupBy { it.date.year to it.date.monthOfYear }.map { (_, data) ->
-            data.first().date.month to data
-        }.toMap()
+        val scrollPosition = pagination.targetDate?.let { date -> data.indexOfFirst { it.date == date } }
         LogViewState(
             currentDate = currentDate,
-            data = groupedData,
+            data = mapLogData(data),
             scrollPosition = scrollPosition,
         )
     }.flowOn(dispatcher)

@@ -1,5 +1,6 @@
-package com.faltenreich.diaguard.log
+package com.faltenreich.diaguard.log.usecase
 
+import com.faltenreich.diaguard.log.item.LogData
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateProgression
 

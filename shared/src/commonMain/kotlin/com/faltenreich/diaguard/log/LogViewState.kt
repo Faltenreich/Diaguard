@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.log
 
+import com.faltenreich.diaguard.log.item.LogData
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.Month
 

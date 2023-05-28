@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.log
+package com.faltenreich.diaguard.log.item
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.log
+package com.faltenreich.diaguard.log.item
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.datetime.Date

@@ -33,7 +33,7 @@ class EntryRepository(
         return dao.getByDateRange(
             startDateTime = date.atTime(Time.atStartOfDay()),
             endDateTime = date.atTime(Time.atEndOfDay()),
-        )
+        ).deep()
     }
 
     fun getAll(): Flow<List<Entry>> {

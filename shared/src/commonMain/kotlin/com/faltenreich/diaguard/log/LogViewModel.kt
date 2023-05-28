@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.log
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.log.item.LogData
+import com.faltenreich.diaguard.log.usecase.FetchEntriesUseCase
 import com.faltenreich.diaguard.log.usecase.GetLogDataUseCase
 import com.faltenreich.diaguard.log.usecase.MapLogDataUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -22,6 +23,7 @@ class LogViewModel(
     initialDate: Date,
     private val dispatcher: CoroutineDispatcher = inject(),
     private val getLogData: GetLogDataUseCase = inject(),
+    private val fetchEntries: FetchEntriesUseCase = inject(),
     private val mapLogData: MapLogDataUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel() {
@@ -53,10 +55,6 @@ class LogViewModel(
         setDate(initialDate)
     }
 
-    fun onScroll(firstVisibleItemIndex: Int) = viewModelScope.launch(dispatcher) {
-        currentDate.value = data.value[firstVisibleItemIndex].date
-    }
-
     fun setDate(date: Date) = viewModelScope.launch(dispatcher) {
         val indexOfDate = data.value.indexOfFirst { it.date == date }
         if (indexOfDate >= 0) {
@@ -70,15 +68,43 @@ class LogViewModel(
                 maximumDate = endDate,
                 targetDate = date,
             )
+            requestEntries(startDate, endDate)
         }
+    }
+
+    private fun previousMonth() = viewModelScope.launch(dispatcher) {
+        val endDate = pagination.value.minimumDate.minusDays(1)
+        val startDate = endDate.minusMonths(1)
+        data.value = getLogData(startDate = startDate, endDate = endDate) + data.value
+        pagination.value = pagination.value.copy(minimumDate = startDate, targetDate = null)
+        requestEntries(startDate, endDate)
+    }
+
+    private fun nextMonth() = viewModelScope.launch(dispatcher) {
+        val startDate = pagination.value.maximumDate.plusDays(1)
+        val endDate = startDate.plusMonths(1)
+        data.value = data.value + getLogData(startDate = startDate, endDate = endDate)
+        pagination.value = pagination.value.copy(maximumDate = endDate, targetDate = null)
+        requestEntries(startDate, endDate)
+    }
+
+    private fun requestEntries(startDate: Date, endDate: Date) = viewModelScope.launch(dispatcher) {
+        // TODO: Refactor and optimize this mess
+        val entries = fetchEntries(startDate = startDate, endDate = endDate)
+        data.value = data.value
+            .map { it to entries[it.date] }
+            .map {
+                it.takeIf { it.first is LogData.EmptyContent }?.second?.firstOrNull()?.let { entry -> LogData.EntryContent(entry) }
+                    ?: it.first
+            }
+    }
+
+    fun onScroll(firstVisibleItemIndex: Int) = viewModelScope.launch(dispatcher) {
+        currentDate.value = data.value[firstVisibleItemIndex].date
     }
 
     fun resetScroll() = viewModelScope.launch {
         pagination.value = pagination.value.copy(targetDate = null)
-    }
-
-    fun delete(entry: Entry) {
-        deleteEntry(entry.id)
     }
 
     fun onPagination(direction: PaginationDirection) {
@@ -88,17 +114,7 @@ class LogViewModel(
         }
     }
 
-    private fun previousMonth() = viewModelScope.launch(dispatcher) {
-        val endDate = pagination.value.minimumDate.minusDays(1)
-        val startDate = endDate.minusMonths(1)
-        data.value = getLogData(startDate = startDate, endDate = endDate) + data.value
-        pagination.value = pagination.value.copy(minimumDate = startDate, targetDate = null)
-    }
-
-    private fun nextMonth() = viewModelScope.launch(dispatcher) {
-        val startDate = pagination.value.maximumDate.plusDays(1)
-        val endDate = startDate.plusMonths(1)
-        data.value = data.value + getLogData(startDate = startDate, endDate = endDate)
-        pagination.value = pagination.value.copy(maximumDate = endDate, targetDate = null)
+    fun delete(entry: Entry) {
+        deleteEntry(entry.id)
     }
 }

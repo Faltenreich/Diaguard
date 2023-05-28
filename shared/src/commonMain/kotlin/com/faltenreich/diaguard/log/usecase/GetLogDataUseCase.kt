@@ -11,8 +11,7 @@ class GetLogDataUseCase {
         endDate: Date,
     ): List<LogData> {
         println("Fetching log data between $startDate and $endDate")
-        val dateRange = DateProgression(startDate, endDate)
-        return dateRange.map { date ->
+        return DateProgression(startDate, endDate).map { date ->
             listOfNotNull(
                 LogData.MonthHeader(date).takeIf { date.dayOfMonth == 1 },
                 LogData.DayHeader(date),

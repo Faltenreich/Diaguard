@@ -11,12 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
-import com.faltenreich.diaguard.shared.datetime.Month
+import com.faltenreich.diaguard.shared.datetime.MonthOfYear
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
 fun LogMonth(
-    month: Month,
+    monthOfYear: MonthOfYear,
     modifier: Modifier = Modifier,
     formatter: DateTimeFormatter = inject(),
 ) {
@@ -27,6 +27,6 @@ fun LogMonth(
             .padding(all = AppTheme.dimensions.padding.P_2),
         contentAlignment = Alignment.BottomStart,
     ) {
-        Text(formatter.formatMonth(month, abbreviated = false))
+        Text(formatter.formatMonth(monthOfYear.month, abbreviated = false))
     }
 }

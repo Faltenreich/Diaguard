@@ -41,8 +41,8 @@ fun Log(
         modifier = modifier.fillMaxSize(),
         state = listState,
     ) {
-        viewState.items.forEach { (month, items) ->
-            stickyHeader { LogMonth(month) }
+        viewState.items.forEach { (monthOfYear, items) ->
+            stickyHeader { LogMonth(monthOfYear) }
             items(items, key = { it.key }) {item ->
                 when (item) {
                     is LogItem.MonthHeader -> Unit

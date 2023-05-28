@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.log.usecase
 
 import com.faltenreich.diaguard.log.item.LogItem
-import com.faltenreich.diaguard.shared.datetime.Month
+import com.faltenreich.diaguard.shared.datetime.MonthOfYear
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -11,9 +11,10 @@ class MapLogItemsUseCase(
 
     suspend operator fun invoke(
         data: List<LogItem>,
-    ): Map<Month, List<LogItem>> = withContext(dispatcher) {
+    ): Map<MonthOfYear, List<LogItem>> = withContext(dispatcher) {
         data.groupBy { it.date.year to it.date.monthOfYear }.map { (_, data) ->
-            data.first().date.month to data
+            val date = data.first().date
+            MonthOfYear(date.month, date.year) to data
         }.toMap()
     }
 }

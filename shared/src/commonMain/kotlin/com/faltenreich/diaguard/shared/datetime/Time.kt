@@ -43,7 +43,7 @@ class Time(
     fun atDate(date: Date): DateTime {
         return DateTime(
             year = date.year,
-            monthOfYear = date.monthOfYear,
+            monthNumber = date.monthNumber,
             dayOfMonth = date.dayOfMonth,
             hourOfDay = hourOfDay,
             minuteOfHour = minuteOfHour,

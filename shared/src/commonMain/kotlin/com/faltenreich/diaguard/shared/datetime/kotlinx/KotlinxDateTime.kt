@@ -15,7 +15,7 @@ import kotlinx.datetime.toLocalDateTime
 
 class KotlinxDateTime(
     year: Int,
-    monthOfYear: Int,
+    monthNumber: Int,
     dayOfMonth: Int,
     hourOfDay: Int,
     minuteOfHour: Int,
@@ -26,7 +26,7 @@ class KotlinxDateTime(
 
     private var localDateTime = LocalDateTime(
         year = year,
-        monthNumber = monthOfYear,
+        monthNumber = monthNumber,
         dayOfMonth = dayOfMonth,
         hour = hourOfDay,
         minute = minuteOfHour,
@@ -37,7 +37,7 @@ class KotlinxDateTime(
     override val date: Date
         get() = Date(
             year = localDateTime.year,
-            monthOfYear = localDateTime.monthNumber,
+            monthNumber = localDateTime.monthNumber,
             dayOfMonth = localDateTime.dayOfMonth,
         )
 
@@ -58,7 +58,7 @@ class KotlinxDateTime(
 
     private constructor(localDateTime: LocalDateTime) : this(
         year = localDateTime.year,
-        monthOfYear = localDateTime.monthNumber,
+        monthNumber = localDateTime.monthNumber,
         dayOfMonth = localDateTime.dayOfMonth,
         hourOfDay = localDateTime.hour,
         minuteOfHour = localDateTime.minute,

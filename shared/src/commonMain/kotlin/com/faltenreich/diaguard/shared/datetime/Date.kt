@@ -9,20 +9,23 @@ import org.koin.core.parameter.parametersOf
 
 class Date(
     year: Int,
-    monthOfYear: Int,
+    monthNumber: Int,
     dayOfMonth: Int,
 ) : Serializable, Comparable<Date> {
 
-    private val delegate: Dateable = inject { parametersOf(year, monthOfYear, dayOfMonth) }
+    private val delegate: Dateable = inject { parametersOf(year, monthNumber, dayOfMonth) }
 
     val year: Int
         get() = delegate.year
 
-    val monthOfYear: Int
-        get() = delegate.monthOfYear
+    val monthNumber: Int
+        get() = delegate.monthNumber
 
     val month: Month
         get() = delegate.month
+
+    val monthOfYear: MonthOfYear
+        get() = delegate.monthOfYear
 
     val dayOfMonth: Int
         get() = delegate.dayOfMonth
@@ -32,7 +35,7 @@ class Date(
 
     private constructor(dateable: Dateable) : this(
         year = dateable.year,
-        monthOfYear = dateable.monthOfYear,
+        monthNumber = dateable.monthNumber,
         dayOfMonth = dateable.dayOfMonth,
     )
 
@@ -55,7 +58,7 @@ class Date(
     fun atTime(time: Time): DateTime {
         return DateTime(
             year = year,
-            monthOfYear = monthOfYear,
+            monthNumber = monthNumber,
             dayOfMonth = dayOfMonth,
             hourOfDay = time.hourOfDay,
             minuteOfHour = time.minuteOfHour,
@@ -69,8 +72,8 @@ class Date(
         return when {
             year > other.year -> 1
             year < other.year -> -1
-            monthOfYear > other.monthOfYear -> 1
-            monthOfYear < other.monthOfYear -> -1
+            monthNumber > other.monthNumber -> 1
+            monthNumber < other.monthNumber -> -1
             dayOfMonth > other.dayOfMonth -> 1
             dayOfMonth < other.dayOfMonth -> -1
             else -> 0
@@ -80,20 +83,20 @@ class Date(
     override fun equals(other: Any?): Boolean {
         return other is Date &&
             year == other.year &&
-            monthOfYear == other.monthOfYear &&
+            monthNumber == other.monthNumber &&
             dayOfMonth == other.dayOfMonth
     }
 
     override fun hashCode(): Int {
         return year.hashCode().times(31) +
-            monthOfYear.hashCode().times(31) +
+            monthNumber.hashCode().times(31) +
             dayOfMonth.hashCode().times(31)
     }
 
     override fun toString(): String {
         return "%02d.%02d.%04d".format(
             dayOfMonth,
-            monthOfYear,
+            monthNumber,
             year,
         )
     }

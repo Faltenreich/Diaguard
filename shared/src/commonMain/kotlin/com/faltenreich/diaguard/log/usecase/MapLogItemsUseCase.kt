@@ -10,11 +10,11 @@ class MapLogItemsUseCase(
 ) {
 
     suspend operator fun invoke(
-        data: List<LogItem>,
+        items: List<LogItem>,
     ): Map<MonthOfYear, List<LogItem>> = withContext(dispatcher) {
-        data.groupBy { it.date.year to it.date.monthOfYear }.map { (_, data) ->
-            val date = data.first().date
-            MonthOfYear(date.month, date.year) to data
-        }.toMap()
+        items
+            .groupBy { item -> item.date.monthOfYear }
+            .map { (monthOfYear, itemsOfMonth) -> monthOfYear to itemsOfMonth }
+            .toMap()
     }
 }

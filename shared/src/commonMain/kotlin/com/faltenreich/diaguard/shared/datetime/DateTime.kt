@@ -9,7 +9,7 @@ import org.koin.core.parameter.parametersOf
 
 class DateTime(
     year: Int,
-    monthOfYear: Int,
+    monthNumber: Int,
     dayOfMonth: Int,
     hourOfDay: Int,
     minuteOfHour: Int,
@@ -21,7 +21,7 @@ class DateTime(
     private var delegate: DateTimeable = inject {
         parametersOf(
             year,
-            monthOfYear,
+            monthNumber,
             dayOfMonth,
             hourOfDay,
             minuteOfHour,
@@ -45,7 +45,7 @@ class DateTime(
 
     constructor(dateTimeable: DateTimeable) : this(
         year = dateTimeable.date.year,
-        monthOfYear = dateTimeable.date.monthOfYear,
+        monthNumber = dateTimeable.date.monthNumber,
         dayOfMonth = dateTimeable.date.dayOfMonth,
         hourOfDay = dateTimeable.time.hourOfDay,
         minuteOfHour = dateTimeable.time.minuteOfHour,

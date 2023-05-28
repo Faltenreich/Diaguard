@@ -11,15 +11,21 @@ interface Dateable {
     val year: Int
 
     /**
-     * Month-of-year ranging from 1 to 12
+     * Month-of-year as number ranging from 1 to 12
      */
-    val monthOfYear: Int
+    val monthNumber: Int
 
     /**
      * Month ranging from January to December
      */
     val month: Month
-        get() = Month.fromMonthOfYear(monthOfYear)
+        get() = Month.fromMonthNumber(monthNumber)
+
+    /**
+     * Month-of-year as pair of Month and year
+     */
+    val monthOfYear: MonthOfYear
+        get() = MonthOfYear(month, year)
 
     /**
      * Day-of-month ranging from 1 to 31, depending on month

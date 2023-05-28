@@ -19,7 +19,7 @@ class DateTimeFormatter {
         return date.run {
             "%02d.%02d.%04d".format(
                 dayOfMonth,
-                monthOfYear,
+                monthNumber,
                 year,
             )
         }

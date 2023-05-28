@@ -4,67 +4,67 @@ import com.faltenreich.diaguard.MR
 import dev.icerock.moko.resources.StringResource
 
 enum class Month(
-    val monthOfYear: Int,
+    val monthNumber: Int,
     val label: StringResource,
     val abbreviation: StringResource,
 ) {
     JANUARY(
-        monthOfYear = 1,
+        monthNumber = 1,
         label = MR.strings.month_january,
         abbreviation = MR.strings.month_january_short,
     ),
     FEBRUARY(
-        monthOfYear = 2,
+        monthNumber = 2,
         label = MR.strings.month_february,
         abbreviation = MR.strings.month_february_short,
     ),
     MARCH(
-        monthOfYear = 3,
+        monthNumber = 3,
         label = MR.strings.month_march,
         abbreviation = MR.strings.month_march_short,
     ),
     APRIL(
-        monthOfYear = 4,
+        monthNumber = 4,
         label = MR.strings.month_april,
         abbreviation = MR.strings.month_april_short,
     ),
     MAY(
-        monthOfYear = 5,
+        monthNumber = 5,
         label = MR.strings.month_may,
         abbreviation = MR.strings.month_may_short,
     ),
     JUNE(
-        monthOfYear = 6,
+        monthNumber = 6,
         label = MR.strings.month_june,
         abbreviation = MR.strings.month_june_short,
     ),
     JULY(
-        monthOfYear = 7,
+        monthNumber = 7,
         label = MR.strings.month_july,
         abbreviation = MR.strings.month_july_short,
     ),
     AUGUST(
-        monthOfYear = 8,
+        monthNumber = 8,
         label = MR.strings.month_august,
         abbreviation = MR.strings.month_august_short,
     ),
     SEPTEMBER(
-        monthOfYear = 9,
+        monthNumber = 9,
         label = MR.strings.month_september,
         abbreviation = MR.strings.month_september_short,
     ),
     OCTOBER(
-        monthOfYear = 10,
+        monthNumber = 10,
         label = MR.strings.month_october,
         abbreviation = MR.strings.month_october_short,
     ),
     NOVEMBER(
-        monthOfYear = 11,
+        monthNumber = 11,
         label = MR.strings.month_november,
         abbreviation = MR.strings.month_november_short,
     ),
     DECEMBER(
-        monthOfYear = 12,
+        monthNumber = 12,
         label = MR.strings.month_december,
         abbreviation = MR.strings.month_december_short,
     ),
@@ -72,8 +72,8 @@ enum class Month(
 
     companion object {
 
-        fun fromMonthOfYear(monthOfYear: Int): Month {
-            return values().first { it.monthOfYear == monthOfYear }
+        fun fromMonthNumber(monthNumber: Int): Month {
+            return values().first { it.monthNumber == monthNumber }
         }
     }
 }

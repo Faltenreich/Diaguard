@@ -18,26 +18,26 @@ import kotlinx.datetime.plus
 
 class KotlinxDate(
     year: Int,
-    monthOfYear: Int,
+    monthNumber: Int,
     dayOfMonth: Int,
 ) : Dateable {
 
     private var delegate: LocalDate = LocalDate(
         year = year,
-        monthNumber = monthOfYear,
+        monthNumber = monthNumber,
         dayOfMonth = dayOfMonth,
     )
 
     private constructor(localDate: LocalDate) : this(
         year = localDate.year,
-        monthOfYear = localDate.monthNumber,
+        monthNumber = localDate.monthNumber,
         dayOfMonth = localDate.dayOfMonth,
     )
 
     override val year: Int
         get() = delegate.year
 
-    override val monthOfYear: Int
+    override val monthNumber: Int
         get() = delegate.monthNumber
 
     override val dayOfMonth: Int

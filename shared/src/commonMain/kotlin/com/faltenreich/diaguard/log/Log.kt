@@ -8,10 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.log.item.LogData
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
+import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.pagination.onPagination
@@ -24,7 +24,11 @@ fun Log(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val viewState = viewModel.viewState.collectAsState().value
-    val listState = rememberLazyListState().onPagination(buffer = 10, viewModel::onPagination)
+    val listState = rememberLazyListState().onPagination(
+        buffer = 10,
+        condition = viewState.items.isNotEmpty(),
+        onPagination = viewModel::onPagination,
+    )
     viewModel.onScroll(listState.firstVisibleItemIndex)
     viewState.scrollPosition?.let { scrollPosition ->
         coroutineScope.launch {
@@ -37,14 +41,14 @@ fun Log(
         modifier = modifier.fillMaxSize(),
         state = listState,
     ) {
-        viewState.data.forEach { (month, data) ->
+        viewState.items.forEach { (month, items) ->
             stickyHeader { LogMonth(month) }
-            items(data, key = { it.key }) {data ->
-                when (data) {
-                    is LogData.MonthHeader -> Unit
-                    is LogData.DayHeader -> LogDay(data.date)
-                    is LogData.EntryContent -> LogEntry(data.entry, onDelete = viewModel::delete)
-                    is LogData.EmptyContent -> LogEmpty()
+            items(items, key = { it.key }) {item ->
+                when (item) {
+                    is LogItem.MonthHeader -> Unit
+                    is LogItem.DayHeader -> LogDay(item.date)
+                    is LogItem.EntryContent -> LogEntry(item.entry, onDelete = viewModel::delete)
+                    is LogItem.EmptyContent -> LogEmpty()
                 }
             }
         }

@@ -6,13 +6,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun LazyListState.onPagination(
     buffer : Int = 0,
+    condition: Boolean,
     onPagination : (direction: PaginationDirection) -> Unit,
 ): LazyListState {
     require(buffer >= 0) { "Buffer must not be negative but was $buffer" }
+    if (!condition) {
+        return this
+    }
+
     val reachedEnd = remember {
         derivedStateOf {
             val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()
@@ -22,10 +28,9 @@ fun LazyListState.onPagination(
     }
     LaunchedEffect(reachedEnd){
         snapshotFlow { reachedEnd.value }
-            .collect { reachedEnd ->
-                if (reachedEnd) {
-                    onPagination(PaginationDirection.END)
-                }
+            .distinctUntilChanged()
+            .collect {
+                onPagination(PaginationDirection.END)
             }
     }
     val reachedStart = remember {
@@ -37,10 +42,9 @@ fun LazyListState.onPagination(
     }
     LaunchedEffect(reachedStart){
         snapshotFlow { reachedStart.value }
-            .collect { reachedStart ->
-                if (reachedStart) {
-                    onPagination(PaginationDirection.START)
-                }
+            .distinctUntilChanged()
+            .collect {
+                onPagination(PaginationDirection.START)
             }
     }
     return this

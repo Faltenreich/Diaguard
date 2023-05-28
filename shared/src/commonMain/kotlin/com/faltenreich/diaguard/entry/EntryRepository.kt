@@ -29,6 +29,10 @@ class EntryRepository(
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
+    fun getByDateRange(startDateTime: DateTime, endDateTime: DateTime): Flow<List<Entry>> {
+        return dao.getByDateRange(startDateTime, endDateTime).deep()
+    }
+
     fun getByDate(date: Date): Flow<List<Entry>> {
         return dao.getByDateRange(
             startDateTime = date.atTime(Time.atStartOfDay()),

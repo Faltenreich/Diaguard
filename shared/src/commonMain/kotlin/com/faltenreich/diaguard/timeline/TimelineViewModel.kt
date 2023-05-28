@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.timeline
 
 import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.entry.deep
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.inject
@@ -18,7 +19,7 @@ class TimelineViewModel(
 ) : ViewModel() {
 
     private val currentDate = MutableStateFlow(initialDate)
-    private val entries = entryRepository.getAll()
+    private val entries = entryRepository.getAll().deep()
     private val state = combine(currentDate, entries) { currentDate, entries ->
         TimelineViewState.Responding(currentDate, entries)
     }.flowOn(dispatcher)

@@ -15,6 +15,9 @@ VALUES (?, ?, ?, ?, ?, ?);
 getLastId:
 SELECT last_insert_rowid();
 
+getById:
+SELECT * FROM measurementType WHERE id = ?;
+
 getByProperty:
 SELECT * FROM measurementType WHERE property_id = ?;
 

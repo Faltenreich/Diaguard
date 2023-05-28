@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.log.usecase
 
 import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.entry.deep
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateProgression
@@ -22,7 +23,7 @@ class GetLogItemsUseCase(
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atTime(Time.atStartOfDay()),
             endDateTime = endDate.atTime(Time.atEndOfDay()),
-        ).first().groupBy { it.dateTime.date }
+        ).deep().first().groupBy { it.dateTime.date }
         DateProgression(startDate, endDate).map { date ->
             val headers = listOfNotNull(
                 LogItem.MonthHeader(date).takeIf { date.dayOfMonth == 1 },

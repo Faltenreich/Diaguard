@@ -21,6 +21,10 @@ class MeasurementPropertyRepository(
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
+    fun getById(id: Long): Flow<MeasurementProperty?> {
+        return dao.getById(id)
+    }
+
     fun getAll(): Flow<List<MeasurementProperty>> {
         return dao.getAll()
     }

@@ -1,28 +1,16 @@
 package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.measurement.value.deep
 import com.faltenreich.diaguard.shared.datetime.DateTime
-import com.faltenreich.diaguard.shared.datetime.Time
+import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class EntryRepository(
     private val dao: EntryDao,
-    private val measurementValueRepository: MeasurementValueRepository,
 ) {
-
-    private fun Flow<List<Entry>>.deep(): Flow<List<Entry>> {
-        return map { entries ->
-            entries.map { entry ->
-                // TODO: Replace with flow with suspending function
-                entry.apply {
-                    values = measurementValueRepository.getByEntryId(entry.id).first()
-                }
-            }
-        }
-    }
 
     fun create(dateTime: DateTime): Long {
         dao.create(createdAt = DateTime.now(), dateTime = dateTime)
@@ -30,18 +18,11 @@ class EntryRepository(
     }
 
     fun getByDateRange(startDateTime: DateTime, endDateTime: DateTime): Flow<List<Entry>> {
-        return dao.getByDateRange(startDateTime, endDateTime).deep()
-    }
-
-    fun getByDate(date: Date): Flow<List<Entry>> {
-        return dao.getByDateRange(
-            startDateTime = date.atTime(Time.atStartOfDay()),
-            endDateTime = date.atTime(Time.atEndOfDay()),
-        ).deep()
+        return dao.getByDateRange(startDateTime, endDateTime)
     }
 
     fun getAll(): Flow<List<Entry>> {
-        return dao.getAll().deep()
+        return dao.getAll()
     }
 
     fun update(
@@ -62,6 +43,18 @@ class EntryRepository(
     }
 
     fun search(query: String): Flow<List<Entry>> {
-        return dao.getByQuery(query).deep()
+        return dao.getByQuery(query)
+    }
+}
+
+fun Flow<List<Entry>>.deep(
+    valueRepository: MeasurementValueRepository = inject(),
+): Flow<List<Entry>> {
+    return map { entries ->
+        entries.map { entry ->
+            entry.apply {
+                values = valueRepository.getByEntryId(entry.id).deep(entry).first()
+            }
+        }
     }
 }

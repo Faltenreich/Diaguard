@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementPropertyQueries
@@ -23,6 +24,10 @@ class MeasurementPropertySqlDelightDao(
 
     override fun getLastId(): Long? {
         return queries.getLastId().executeAsOneOrNull()
+    }
+
+    override fun getById(id: Long): Flow<MeasurementProperty?> {
+        return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
     override fun getAll(): Flow<List<MeasurementProperty>> {

@@ -26,8 +26,8 @@ class DateTimeFormatter {
     }
 
     @Composable
-    fun formatMonth(date: Date, abbreviated: Boolean): String {
-        return date.month.run { stringResource(if (abbreviated) abbreviation else label) }
+    fun formatMonth(month: Month, abbreviated: Boolean): String {
+        return month.run { stringResource(if (abbreviated) abbreviation else label) }
     }
 
     fun formatDayOfMonth(date: Date): String {

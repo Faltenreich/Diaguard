@@ -28,7 +28,7 @@ fun Screen.topAppBarStyle(
             val viewState = viewModel.viewState.collectAsState().value
             val currentDateLabel = viewState.currentDate.let { date ->
                 "%s %04d".format(
-                    dateTimeFormatter.formatMonth(date, abbreviated = false),
+                    dateTimeFormatter.formatMonth(date.month, abbreviated = false),
                     date.year,
                 )
             }

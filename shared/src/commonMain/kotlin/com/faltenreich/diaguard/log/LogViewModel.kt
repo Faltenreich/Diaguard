@@ -27,16 +27,19 @@ class LogViewModel(
     private val data = MutableStateFlow(emptyList<LogData>())
     private val state = combine(currentDate, pagination, data) { currentDate, pagination, data ->
         val scrollPosition = pagination.targetDate?.let { targetDate -> data.indexOfFirst { it.date == targetDate } }
+        val groupedData = data.groupBy { it.date.year to it.date.monthOfYear }.map { (_, data) ->
+            data.first().date.month to data
+        }.toMap()
         LogViewState(
             currentDate = currentDate,
-            data = data,
+            data = groupedData,
             scrollPosition = scrollPosition,
         )
     }.flowOn(dispatcher)
     val viewState: StateFlow<LogViewState> = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = LogViewState(initialDate, emptyList()),
+        initialValue = LogViewState(initialDate, emptyMap()),
     )
 
     init {

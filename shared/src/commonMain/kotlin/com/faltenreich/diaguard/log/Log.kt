@@ -32,12 +32,15 @@ fun Log(
         modifier = modifier.fillMaxSize(),
         state = listState,
     ) {
-        items(items = viewState.data, key = LogData::key) { data ->
-            when (data) {
-                is LogData.MonthHeader -> LogMonth(data.date)
-                is LogData.DayHeader -> LogDay(data.date)
-                is LogData.EntryContent -> LogEntry(data.entry, onDelete = viewModel::delete)
-                is LogData.EmptyContent -> LogEmpty()
+        viewState.data.forEach { (month, data) ->
+            stickyHeader { LogMonth(month) }
+            items(data, key = { it.key }) {data ->
+                when (data) {
+                    is LogData.MonthHeader -> Unit
+                    is LogData.DayHeader -> LogDay(data.date)
+                    is LogData.EntryContent -> LogEntry(data.entry, onDelete = viewModel::delete)
+                    is LogData.EmptyContent -> LogEmpty()
+                }
             }
         }
     }

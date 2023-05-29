@@ -8,12 +8,10 @@ import com.faltenreich.diaguard.entry.list.EntryListItem
 @Composable
 fun LogEntry(
     entry: Entry,
-    onDelete: (Entry) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     EntryListItem(
         entry = entry,
-        onDelete = onDelete,
         modifier = modifier,
     )
 }

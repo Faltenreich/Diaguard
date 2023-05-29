@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.log
 
-import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.log.usecase.GetLogItemsUseCase
@@ -105,7 +104,8 @@ class LogViewModel(
         }
     }
 
-    fun delete(entry: Entry) {
-        deleteEntry(entry.id)
+    fun remove(item: LogItem.EntryContent) = viewModelScope.launch(dispatcher) {
+        items.value = items.value.filterNot { it == item }
+        deleteEntry(item.entry.id)
     }
 }

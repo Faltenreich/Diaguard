@@ -22,7 +22,6 @@ import com.faltenreich.diaguard.shared.di.inject
 @Composable
 fun EntryListItem(
     entry: Entry,
-    onDelete: (Entry) -> Unit,
     modifier: Modifier = Modifier,
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) {

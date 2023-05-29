@@ -25,8 +25,8 @@ fun Screen.topAppBarStyle(
         }
         is Screen.Log -> TopAppBarStyle.CenterAligned {
             val viewModel = getViewModel<LogViewModel> { parametersOf(date) }
-            val viewState = viewModel.viewState.collectAsState().value
-            val currentDateLabel = viewState.currentDate.let { date ->
+            val currentDate = viewModel.currentDate.collectAsState().value
+            val currentDateLabel = currentDate.let { date ->
                 "%s %04d".format(
                     dateTimeFormatter.formatMonth(date.month, abbreviated = false),
                     date.year,

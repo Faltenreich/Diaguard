@@ -32,10 +32,10 @@ fun Log(
     val viewState = viewModel.viewState.collectAsState().value
     val listState = rememberLazyListState().onPagination(
         buffer = 10,
-        condition = viewState.items.isNotEmpty(),
+        condition = viewState.items.isNotEmpty() && viewState.scrollPosition == null,
         onPagination = viewModel::onPagination,
     )
-    viewModel.onScroll(listState.firstVisibleItemIndex)
+    // TODO: viewModel.onScroll(listState.firstVisibleItemIndex)
     viewState.scrollPosition?.let { scrollPosition ->
         coroutineScope.launch {
             listState.scrollToItem(scrollPosition)

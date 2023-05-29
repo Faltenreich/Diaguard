@@ -31,10 +31,10 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         is Screen.Log -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<LogViewModel> { parametersOf(date) }
-                val viewState = viewModel.viewState.collectAsState().value
+                val currentDate = viewModel.currentDate.collectAsState().value
                 EntrySearchBottomAppBarItem()
                 DatePickerBottomAppBarItem(
-                    date = viewState.currentDate,
+                    date = currentDate,
                     onDatePick = viewModel::setDate,
                 )
             },

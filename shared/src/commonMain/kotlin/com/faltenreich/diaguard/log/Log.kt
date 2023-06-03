@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogDay
@@ -27,7 +26,6 @@ fun Log(
     viewModel: LogViewModel = inject(),
 ) {
     // FIXME: Gets not updated on entry change
-    val viewState = viewModel.viewState.collectAsState().value
     // FIXME: Previous items are added on top which causes pagination loop
     val items = viewModel.items.collectAsPaginationItems()
     // TODO: viewModel.onScroll(listState.firstVisibleItemIndex)

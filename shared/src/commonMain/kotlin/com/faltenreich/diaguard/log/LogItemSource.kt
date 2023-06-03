@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.log.usecase
+package com.faltenreich.diaguard.log
 
 import app.cash.paging.PagingConfig
 import app.cash.paging.PagingSource
@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.first
 
-class LogItemPagingSource(
+class LogItemSource(
     private val entryRepository: EntryRepository = inject(),
 ) : PagingSource<Date, LogItem>() {
 

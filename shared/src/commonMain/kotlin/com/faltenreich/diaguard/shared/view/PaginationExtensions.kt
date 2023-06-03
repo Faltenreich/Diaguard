@@ -14,6 +14,8 @@ expect class PaginationItems<T : Any> {
     val itemCount: Int
 
     fun peek(index: Int): T?
+
+    fun get(index: Int): T?
 }
 
 @Composable

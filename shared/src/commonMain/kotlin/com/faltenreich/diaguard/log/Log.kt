@@ -3,11 +3,11 @@ package com.faltenreich.diaguard.log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogDay
@@ -15,38 +15,25 @@ import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.pagination.onPagination
+import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.SwipeToDismiss
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
 import com.faltenreich.diaguard.shared.view.paginationItems
 import com.faltenreich.diaguard.shared.view.rememberSwipeToDismissState
-import kotlinx.coroutines.launch
 
 @Composable
 fun Log(
     modifier: Modifier = Modifier,
     viewModel: LogViewModel = inject(),
 ) {
-    val coroutineScope = rememberCoroutineScope()
     // FIXME: Gets not updated on entry change
     val viewState = viewModel.viewState.collectAsState().value
+    // FIXME: Previous items are added on top which causes pagination loop
     val listItems = viewModel.items.collectAsPaginationItems()
-    val listState = rememberLazyListState().onPagination(
-        buffer = 10,
-        condition = viewState.scrollPosition == null,
-        onPagination = viewModel::onPagination,
-    )
     // TODO: viewModel.onScroll(listState.firstVisibleItemIndex)
-    viewState.scrollPosition?.let { scrollPosition ->
-        coroutineScope.launch {
-            listState.scrollToItem(scrollPosition)
-            viewModel.resetScroll()
-        }
-    }
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        state = listState,
     ) {
         paginationItems(listItems, key = { it.key }) { item ->
             when (item) {
@@ -74,7 +61,11 @@ fun Log(
                     }
                 }
                 is LogItem.EmptyContent -> LogEmpty()
-                null -> Unit
+                null -> Skeleton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(AppTheme.dimensions.size.MediumTouchSize),
+                )
             }
         }
     }

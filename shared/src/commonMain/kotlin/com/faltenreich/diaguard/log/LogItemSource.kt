@@ -28,8 +28,8 @@ class LogItemSource(
 
     override suspend fun load(params: PagingSourceLoadParams<Date>): PagingSourceLoadResult<Date, LogItem> {
         val startDate = params.key ?: throw IllegalArgumentException("Missing key")
-        val months = params.loadSize
-        val endDate = startDate.plusMonths(months)
+        val days = params.loadSize
+        val endDate = startDate.plusDays(days)
         println("LogViewModel: Fetching data for: $startDate - $endDate")
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atTime(Time.atStartOfDay()),
@@ -47,7 +47,7 @@ class LogItemSource(
         }.flatten()
         val page = PagingSourceLoadResultPage(
             data = items,
-            prevKey = startDate.minusDays(1).minusMonths(1),
+            prevKey = startDate.minusDays(PAGE_SIZE_IN_DAYS + 1),
             nextKey = endDate.plusDays(1),
             itemsBefore = 1, // TODO: Calculate placeholder size (page size?)
             itemsAfter = 1,
@@ -58,8 +58,10 @@ class LogItemSource(
 
     companion object {
 
+        private const val PAGE_SIZE_IN_DAYS = 20
+
         fun newConfig(): PagingConfig {
-            return PagingConfig(pageSize = 1)
+            return PagingConfig(pageSize = PAGE_SIZE_IN_DAYS)
         }
     }
 }

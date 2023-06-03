@@ -27,6 +27,6 @@ fun LogMonth(
             .padding(all = AppTheme.dimensions.padding.P_2),
         contentAlignment = Alignment.BottomStart,
     ) {
-        Text(formatter.formatMonth(monthOfYear.month, abbreviated = false))
+        Text(formatter.formatMonthOfYear(monthOfYear, abbreviated = false))
     }
 }

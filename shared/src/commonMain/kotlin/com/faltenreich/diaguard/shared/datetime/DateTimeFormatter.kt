@@ -30,6 +30,16 @@ class DateTimeFormatter {
         return month.run { stringResource(if (abbreviated) abbreviation else label) }
     }
 
+    @Composable
+    fun formatMonthOfYear(monthOfYear: MonthOfYear, abbreviated: Boolean): String {
+        return monthOfYear.run {
+            "%s %04d".format(
+                formatMonth(month, abbreviated = abbreviated),
+                year,
+            )
+        }
+    }
+
     fun formatDayOfMonth(date: Date): String {
         return "%02d".format(date.dayOfMonth)
     }

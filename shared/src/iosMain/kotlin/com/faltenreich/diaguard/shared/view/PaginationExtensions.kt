@@ -17,7 +17,7 @@ actual fun <T : Any> Flow<PagingData<T>>.collectAsPaginationItems(
     TODO("Not yet implemented")
 }
 
-actual fun <T : Any> LazyListScope.paginationItems(
+actual fun <T : Any> LazyListScope.items(
     items: PaginationItems<T>,
     key: ((item: T) -> Any)?,
     itemContent: @Composable LazyItemScope.(value: T?) -> Unit
@@ -25,6 +25,8 @@ actual fun <T : Any> LazyListScope.paginationItems(
     TODO("Not yet implemented")
 }
 
-actual fun <T : Any> Flow<PagingData<T>>.cachedIn(scope: CoroutineScope): Flow<PagingData<T>> {
+actual fun <T : Any> Flow<PagingData<T>>.cachedIn(
+    scope: CoroutineScope,
+): Flow<PagingData<T>> {
     TODO("Not yet implemented")
 }

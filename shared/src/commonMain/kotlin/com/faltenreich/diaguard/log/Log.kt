@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.SwipeToDismiss
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
-import com.faltenreich.diaguard.shared.view.paginationItems
+import com.faltenreich.diaguard.shared.view.items
 import com.faltenreich.diaguard.shared.view.rememberSwipeToDismissState
 
 @Composable
@@ -29,13 +29,13 @@ fun Log(
     // FIXME: Gets not updated on entry change
     val viewState = viewModel.viewState.collectAsState().value
     // FIXME: Previous items are added on top which causes pagination loop
-    val listItems = viewModel.items.collectAsPaginationItems()
+    val items = viewModel.items.collectAsPaginationItems()
     // TODO: viewModel.onScroll(listState.firstVisibleItemIndex)
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
     ) {
-        paginationItems(listItems, key = { it.key }) { item ->
+        items(items, key = { it.key }) { item ->
             when (item) {
                 is LogItem.MonthHeader -> Unit
                 is LogItem.DayHeader -> LogDay(item.date)

@@ -47,7 +47,7 @@ class LogItemPagingSource(
         }.flatten()
         val page = PagingSourceLoadResultPage(
             data = items,
-            prevKey = startDate.minusMonths(1).minusDays(1),
+            prevKey = startDate.minusDays(1).minusMonths(1),
             nextKey = endDate.plusDays(1),
             itemsBefore = 1, // TODO: Calculate placeholder size (page size?)
             itemsAfter = 1,

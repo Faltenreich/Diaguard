@@ -16,10 +16,12 @@ expect fun <T : Any> Flow<PagingData<T>>.collectAsPaginationItems(
     context: CoroutineContext = EmptyCoroutineContext,
 ): PaginationItems<T>
 
-expect fun <T : Any> LazyListScope.paginationItems(
+expect fun <T : Any> LazyListScope.items(
     items: PaginationItems<T>,
     key: ((item: T) -> Any)? = null,
-    itemContent: @Composable LazyItemScope.(value: T?) -> Unit
+    itemContent: @Composable LazyItemScope.(value: T?) -> Unit,
 )
 
-expect fun <T : Any> Flow<PagingData<T>>.cachedIn(scope: CoroutineScope): Flow<PagingData<T>>
+expect fun <T : Any> Flow<PagingData<T>>.cachedIn(
+    scope: CoroutineScope,
+): Flow<PagingData<T>>

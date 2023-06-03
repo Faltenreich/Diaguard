@@ -21,10 +21,10 @@ actual fun <T : Any> Flow<PagingData<T>>.collectAsPaginationItems(
     return collectAsLazyPagingItems()
 }
 
-actual fun <T : Any> LazyListScope.paginationItems(
+actual fun <T : Any> LazyListScope.items(
     items: PaginationItems<T>,
     key: ((item: T) -> Any)?,
-    itemContent: @Composable LazyItemScope.(value: T?) -> Unit
+    itemContent: @Composable LazyItemScope.(value: T?) -> Unit,
 ) {
     items(
         items = items,
@@ -33,6 +33,8 @@ actual fun <T : Any> LazyListScope.paginationItems(
     )
 }
 
-actual fun <T : Any> Flow<PagingData<T>>.cachedIn(scope: CoroutineScope): Flow<PagingData<T>> {
+actual fun <T : Any> Flow<PagingData<T>>.cachedIn(
+    scope: CoroutineScope,
+): Flow<PagingData<T>> {
     return cachedIn(scope = scope)
 }

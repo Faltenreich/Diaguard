@@ -27,12 +27,6 @@ class LogViewModel(
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel() {
 
-    data class LogPaginationState(
-        val minimumDate: Date,
-        val maximumDate: Date,
-        val targetDate: Date? = null,
-    )
-
     val currentDate = MutableStateFlow(initialDate)
     private val pagination = MutableStateFlow(
         LogPaginationState(

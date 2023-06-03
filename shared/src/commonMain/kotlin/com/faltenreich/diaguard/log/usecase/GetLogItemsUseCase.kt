@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.log.usecase
 
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.deep
-import com.faltenreich.diaguard.log.LogViewModel
+import com.faltenreich.diaguard.log.LogPaginationState
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.shared.datetime.DateProgression
 import com.faltenreich.diaguard.shared.datetime.Time
@@ -15,7 +15,7 @@ class GetLogItemsUseCase(
 ) {
 
     operator fun invoke(
-        pagination: Flow<LogViewModel.LogPaginationState>,
+        pagination: Flow<LogPaginationState>,
     ): Flow<List<LogItem>> {
         return pagination.map { pagination ->
             println("LogViewModel: Fetching data: $pagination")

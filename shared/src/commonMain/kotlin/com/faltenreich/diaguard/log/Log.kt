@@ -31,6 +31,7 @@ fun Log(
 ) {
     // FIXME: Gets not updated on entry change
     // FIXME: Previous items are added on top which causes pagination loop
+    // TODO: Scroll to index of initial date
     val items = viewModel.items.collectAsPaginationItems()
     val listState = rememberLazyListState()
     // TODO: viewModel.onScroll(listState.firstVisibleItemIndex)

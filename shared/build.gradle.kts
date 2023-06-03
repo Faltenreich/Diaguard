@@ -28,6 +28,7 @@ kotlin {
                 implementation(Dependencies.Ktor.core)
                 implementation(Dependencies.Ktor.contentNegotiation)
                 implementation(Dependencies.Ktor.serialization)
+                implementation(Dependencies.Paging.common)
                 implementation(Dependencies.SqlDelight.coroutines)
                 implementation(Dependencies.Voyager.navigator)
                 implementation(Dependencies.Voyager.transitions)
@@ -47,6 +48,8 @@ kotlin {
                 implementation(Dependencies.Androidx.composeMaterial3)
                 implementation(Dependencies.Koin.android)
                 implementation(Dependencies.Ktor.android)
+                implementation(Dependencies.Paging.android)
+                implementation(Dependencies.Paging.androidCompose)
                 implementation(Dependencies.SqlDelight.android)
                 implementation(Dependencies.Voyager.android)
             }

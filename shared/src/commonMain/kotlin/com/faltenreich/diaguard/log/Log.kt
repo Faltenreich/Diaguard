@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -15,10 +14,11 @@ import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItem
-import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.pagination.onPagination
 import com.faltenreich.diaguard.shared.view.SwipeToDismiss
+import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
+import com.faltenreich.diaguard.shared.view.paginationItems
 import com.faltenreich.diaguard.shared.view.rememberSwipeToDismissState
 import kotlinx.coroutines.launch
 
@@ -30,9 +30,10 @@ fun Log(
     val coroutineScope = rememberCoroutineScope()
     // FIXME: Gets not updated on entry change
     val viewState = viewModel.viewState.collectAsState().value
+    val listItems = viewModel.items.collectAsPaginationItems()
     val listState = rememberLazyListState().onPagination(
         buffer = 10,
-        condition = viewState.items.isNotEmpty() && viewState.scrollPosition == null,
+        condition = viewState.scrollPosition == null,
         onPagination = viewModel::onPagination,
     )
     // TODO: viewModel.onScroll(listState.firstVisibleItemIndex)
@@ -47,35 +48,33 @@ fun Log(
         modifier = modifier.fillMaxSize(),
         state = listState,
     ) {
-        viewState.items.forEach { (monthOfYear, items) ->
-            stickyHeader { LogMonth(monthOfYear) }
-            items(items, key = { it.key }) {item ->
-                when (item) {
-                    is LogItem.MonthHeader -> Unit
-                    is LogItem.DayHeader -> LogDay(item.date)
-                    is LogItem.EntryContent -> {
-                        val swipeToDismissState = rememberSwipeToDismissState()
-                        // TODO: Animate item replacement
-                        if (swipeToDismissState.isDismissed()) {
-                            viewModel.remove(item)
-                        }
-                        SwipeToDismiss(
-                            state = swipeToDismissState,
-                            background = {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(AppTheme.colorScheme.error),
-                                )
-                            },
-                        ) {
-                            LogEntry(
-                                entry = item.entry,
-                            )
-                        }
+        paginationItems(listItems, key = { it.key }) { item ->
+            when (item) {
+                is LogItem.MonthHeader -> Unit
+                is LogItem.DayHeader -> LogDay(item.date)
+                is LogItem.EntryContent -> {
+                    val swipeToDismissState = rememberSwipeToDismissState()
+                    // TODO: Animate item replacement
+                    if (swipeToDismissState.isDismissed()) {
+                        viewModel.remove(item)
                     }
-                    is LogItem.EmptyContent -> LogEmpty()
+                    SwipeToDismiss(
+                        state = swipeToDismissState,
+                        background = {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(AppTheme.colorScheme.error),
+                            )
+                        },
+                    ) {
+                        LogEntry(
+                            entry = item.entry,
+                        )
+                    }
                 }
+                is LogItem.EmptyContent -> LogEmpty()
+                null -> Unit
             }
         }
     }

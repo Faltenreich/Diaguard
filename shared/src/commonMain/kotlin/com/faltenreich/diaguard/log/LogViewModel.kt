@@ -1,8 +1,12 @@
 package com.faltenreich.diaguard.log
 
+import app.cash.paging.Pager
+import app.cash.paging.PagingConfig
+import app.cash.paging.PagingData
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.log.usecase.GetLogItemsUseCase
+import com.faltenreich.diaguard.log.usecase.LogItemPagingSource
 import com.faltenreich.diaguard.log.usecase.MapLogItemsUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
@@ -14,7 +18,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -34,23 +37,25 @@ class LogViewModel(
             maximumDate = initialDate.plusMonths(1),
         )
     )
-    // FIXME: getLogItems is only called once
-    private val items: Flow<List<LogItem>> = getLogItems(pagination)
+    // private val items: Flow<List<LogItem>> = getLogItems(pagination)
+    val items: Flow<PagingData<LogItem>> = Pager(
+        pagingSourceFactory = { LogItemPagingSource(initialDate = initialDate) },
+        config = PagingConfig(pageSize = 20),
+    ).flow
     private val state = combine(pagination, items) { pagination, items ->
-        val scrollPosition = pagination.targetDate?.let { date -> items.indexOfFirst { it.date == date } }
         LogViewState(
-            items = mapLogItems(items),
-            scrollPosition = scrollPosition,
+            items = items,
+            scrollPosition = null, // TODO: pagination.targetDate?.let { date -> items.indexOfFirst { it.date == date } }
         )
     }.flowOn(dispatcher)
     val viewState: StateFlow<LogViewState> = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = LogViewState(emptyMap()),
+        initialValue = LogViewState(PagingData.empty<LogItem>()),
     )
 
     fun setDate(date: Date) = viewModelScope.launch(dispatcher) {
-        val indexOfDate = items.first().indexOfFirst { it.date == date }
+        val indexOfDate = -1 // TODO: items.first().indexOfFirst { it.date == date }
         if (indexOfDate >= 0) {
             pagination.value = pagination.value.copy(targetDate = date)
         } else {
@@ -77,11 +82,13 @@ class LogViewModel(
         pagination.value = pagination.value.copy(maximumDate = endDate, targetDate = null)
     }
 
+    /*
     fun onScroll(firstVisibleItemIndex: Int) = viewModelScope.launch(dispatcher) {
         println("LogViewModel: onScroll")
         val firstVisibleItem = items.first().getOrNull(firstVisibleItemIndex) ?: return@launch
         currentDate.value = firstVisibleItem.date
     }
+    */
 
     fun resetScroll() = viewModelScope.launch {
         println("LogViewModel: resetScroll")

@@ -14,6 +14,9 @@ object Versions {
     const val ksp = "1.8.20-1.0.11"
     const val ktor = "2.2.4"
     const val moko = "0.22.1"
+    const val paging = "3.1.1-0.2.0"
+    const val pagingAndroid = "3.1.1"
+    const val pagingAndroidCompose = "1.0.0-alpha17"
     const val serialization = "1.5.0"
     const val sqlDelight = "2.0.0-alpha05"
     const val turbine = "0.12.3"
@@ -82,6 +85,13 @@ object Dependencies {
         const val resources = "dev.icerock.moko:resources:${Versions.moko}"
         const val resourcesCompose = "dev.icerock.moko:resources-compose:${Versions.moko}"
         const val resourcesTest = "dev.icerock.moko:resources-test:${Versions.moko}"
+    }
+
+    object Paging {
+
+        const val common = "app.cash.paging:paging-common:${Versions.paging}"
+        const val android = "androidx.paging:paging-runtime:${Versions.pagingAndroid}"
+        const val androidCompose = "androidx.paging:paging-compose:${Versions.pagingAndroidCompose}"
     }
 
     object SqlDelight {

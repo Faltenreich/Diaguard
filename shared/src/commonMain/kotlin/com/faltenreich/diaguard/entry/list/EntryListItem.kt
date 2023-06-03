@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.entry.list
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -14,7 +13,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
@@ -36,12 +34,14 @@ fun EntryListItem(
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
         ) {
             Text(dateTimeFormatter.formatTime(entry.dateTime.time))
+            /*
             entry.values.forEach { value ->
                 Row {
                     MeasurementPropertyIcon(value.type.property)
                     Text(value.value.toString())
                 }
             }
+            */
         }
     }
 }

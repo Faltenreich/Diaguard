@@ -9,7 +9,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-expect class PaginationItems<T : Any>
+expect class PaginationItems<T : Any> {
+
+    val itemCount: Int
+
+    fun peek(index: Int): T?
+}
 
 @Composable
 expect fun <T : Any> Flow<PagingData<T>>.collectAsPaginationItems(

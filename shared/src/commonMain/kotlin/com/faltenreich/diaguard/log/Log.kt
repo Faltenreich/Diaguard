@@ -13,11 +13,11 @@ import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.SwipeToDismiss
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
-import com.faltenreich.diaguard.shared.view.items
 import com.faltenreich.diaguard.shared.view.rememberSwipeToDismissState
 
 @Composable
@@ -33,11 +33,11 @@ fun Log(
     LazyColumn(
         modifier = modifier.fillMaxSize(),
     ) {
-        items(items, key = { it.key }) { item ->
-            when (item) {
-                is LogItem.MonthHeader -> Unit
-                is LogItem.DayHeader -> LogDay(item.date)
-                is LogItem.EntryContent -> {
+        (0 until items.itemCount).forEach { index ->
+            when (val item = items.peek(index)) {
+                is LogItem.MonthHeader -> stickyHeader { LogMonth(item.date.monthOfYear) }
+                is LogItem.DayHeader -> item { LogDay(item.date) }
+                is LogItem.EntryContent -> item {
                     val swipeToDismissState = rememberSwipeToDismissState()
                     // TODO: Animate item replacement
                     if (swipeToDismissState.isDismissed()) {
@@ -58,12 +58,14 @@ fun Log(
                         )
                     }
                 }
-                is LogItem.EmptyContent -> LogEmpty()
-                null -> Skeleton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(AppTheme.dimensions.size.MediumTouchSize),
-                )
+                is LogItem.EmptyContent -> item { LogEmpty() }
+                null -> item {
+                    Skeleton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(AppTheme.dimensions.size.MediumTouchSize),
+                    )
+                }
             }
         }
     }

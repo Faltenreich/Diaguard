@@ -51,17 +51,17 @@ fun Log(
         state = listState,
     ) {
         for (index in 0 until items.itemCount) {
-            when (items.peek(index)) {
+            when (val peek = items.peek(index)) {
                 // FIXME: Sticky headers lead to endless upwards pagination
-                is LogItem.MonthHeader -> stickyHeader {
+                is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
                     val item = items.get(index) ?: throw IllegalStateException()
                     LogMonth(item.date.monthOfYear)
                 }
-                is LogItem.DayHeader -> item {
+                is LogItem.DayHeader -> item(key = peek.key) {
                     val item = items.get(index) ?: throw IllegalStateException()
                     LogDay(item.date)
                 }
-                is LogItem.EntryContent -> item {
+                is LogItem.EntryContent -> item(key = peek.key) {
                     val item = items.get(index) as? LogItem.EntryContent ?: throw IllegalStateException()
                     val swipeToDismissState = rememberSwipeToDismissState()
                     // TODO: Animate item replacement
@@ -83,7 +83,7 @@ fun Log(
                         )
                     }
                 }
-                is LogItem.EmptyContent -> item { LogEmpty() }
+                is LogItem.EmptyContent -> item(key = peek.key) { LogEmpty() }
                 null -> item {
                     Skeleton(
                         modifier = Modifier

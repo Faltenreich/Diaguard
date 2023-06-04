@@ -30,6 +30,7 @@ class LogItemSource(
     private lateinit var cache: Cache
 
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
+        println("LogViewModel: getRefreshKey for: $state")
         val anchorPosition = state.anchorPosition ?: return null
         val anchorPage = state.closestPageToPosition(anchorPosition) ?: return null
         return anchorPage.prevKey?.plusDays(1) ?: anchorPage.nextKey?.minusDays(1)
@@ -57,6 +58,7 @@ class LogItemSource(
             }
             else -> throw IllegalArgumentException("Unhandled parameters: $params")
         }
+        println("LogViewModel: Fetching data for: $startDate - $endDate")
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atTime(Time.atStartOfDay()),
             endDateTime = endDate.atTime(Time.atEndOfDay()),
@@ -71,7 +73,7 @@ class LogItemSource(
             val content = entryContent ?: listOf(LogItem.EmptyContent(date))
             headers + content
         }.flatten()
-        return PagingSourceLoadResultPage(
+        val page = PagingSourceLoadResultPage(
             data = items,
             prevKey = cache.startDate.minusDays(1),
             nextKey = cache.endDate.plusDays(1),
@@ -79,6 +81,8 @@ class LogItemSource(
             // itemsBefore = 1,
             itemsAfter = PAGE_SIZE_IN_DAYS,
         )
+        println("LogViewModel: Fetched data for $startDate - $endDate, previous: ${page.prevKey}, next: ${page.nextKey}")
+        return page
     }
 
     companion object {
@@ -86,7 +90,10 @@ class LogItemSource(
         private const val PAGE_SIZE_IN_DAYS = 20
 
         fun newConfig(): PagingConfig {
-            return PagingConfig(pageSize = PAGE_SIZE_IN_DAYS)
+            return PagingConfig(
+                pageSize = PAGE_SIZE_IN_DAYS,
+                // prefetchDistance = 1,
+            )
         }
     }
 }

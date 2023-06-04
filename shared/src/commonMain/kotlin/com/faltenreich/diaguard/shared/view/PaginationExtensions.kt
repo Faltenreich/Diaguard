@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import app.cash.paging.PagingData
 import app.cash.paging.PagingSourceLoadParams
+import app.cash.paging.TerminalSeparatorType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
@@ -39,3 +40,17 @@ expect fun <T : Any> PagingSourceLoadParams<T>.isRefreshing(): Boolean
 expect fun <T : Any> PagingSourceLoadParams<T>.isAppending(): Boolean
 
 expect fun <T : Any> PagingSourceLoadParams<T>.isPrepending(): Boolean
+
+expect fun <T : Any> PagingData<T>.insertHeaderItem(
+    terminalSeparatorType: TerminalSeparatorType = TerminalSeparatorType.FULLY_COMPLETE,
+    item: T
+): PagingData<T>
+
+expect fun  <T : R, R : Any> PagingData<T>.insertSeparators(
+    terminalSeparatorType: TerminalSeparatorType = TerminalSeparatorType.FULLY_COMPLETE,
+    generator: suspend (T?, T?) -> R?,
+): PagingData<R>
+
+fun <T : Any> PaginationItems<T>.firstIndexOrNull(condition: (T) -> Boolean): T? {
+    TODO()
+}

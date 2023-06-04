@@ -21,7 +21,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.SwipeToDismiss
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
-import com.faltenreich.diaguard.shared.view.items
 import com.faltenreich.diaguard.shared.view.rememberSwipeToDismissState
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -51,11 +50,19 @@ fun Log(
         modifier = modifier.fillMaxSize(),
         state = listState,
     ) {
-        items(items, key = { it.key }) { item ->
-            when (item) {
-                is LogItem.MonthHeader -> LogMonth(item.date.monthOfYear)
-                is LogItem.DayHeader -> LogDay(item.date)
-                is LogItem.EntryContent -> {
+        for (index in 0 until items.itemCount) {
+            when (items.peek(index)) {
+                // FIXME: Sticky headers lead to endless upwards pagination
+                is LogItem.MonthHeader -> stickyHeader {
+                    val item = items.get(index) ?: throw IllegalStateException()
+                    LogMonth(item.date.monthOfYear)
+                }
+                is LogItem.DayHeader -> item {
+                    val item = items.get(index) ?: throw IllegalStateException()
+                    LogDay(item.date)
+                }
+                is LogItem.EntryContent -> item {
+                    val item = items.get(index) as? LogItem.EntryContent ?: throw IllegalStateException()
                     val swipeToDismissState = rememberSwipeToDismissState()
                     // TODO: Animate item replacement
                     if (swipeToDismissState.isDismissed()) {
@@ -76,12 +83,14 @@ fun Log(
                         )
                     }
                 }
-                is LogItem.EmptyContent -> LogEmpty()
-                null -> Skeleton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(AppTheme.dimensions.size.MediumTouchSize),
-                )
+                is LogItem.EmptyContent -> item { LogEmpty() }
+                null -> item {
+                    Skeleton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(AppTheme.dimensions.size.MediumTouchSize),
+                    )
+                }
             }
         }
     }

@@ -43,7 +43,7 @@ class LogItemSource(
 
         when {
             params.isRefreshing() -> {
-                startDate = key.minusDays(params.loadSize)
+                startDate = key
                 endDate = key.plusDays(params.loadSize)
                 cache = Arguments(prevKey = startDate, nextKey = endDate)
             }
@@ -79,8 +79,8 @@ class LogItemSource(
             data = items,
             prevKey = cache.prevKey.minusDays(1),
             nextKey = cache.nextKey.plusDays(1),
-            itemsBefore = 1, // TODO: Calculate placeholder size (page size?)
-            itemsAfter = 1,
+            // itemsBefore = PAGE_SIZE_IN_DAYS,
+            // itemsAfter = PAGE_SIZE_IN_DAYS,
         )
         println("LogViewModel: Fetched data for $startDate - $endDate, previous: ${page.prevKey}, next: ${page.nextKey}")
         return page
@@ -91,7 +91,7 @@ class LogItemSource(
         private const val PAGE_SIZE_IN_DAYS = 20
 
         fun newConfig(): PagingConfig {
-            return PagingConfig(pageSize = PAGE_SIZE_IN_DAYS, initialLoadSize = PAGE_SIZE_IN_DAYS)
+            return PagingConfig(pageSize = PAGE_SIZE_IN_DAYS)
         }
     }
 }

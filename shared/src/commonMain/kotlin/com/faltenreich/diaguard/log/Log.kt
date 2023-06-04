@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.SwipeToDismiss
@@ -55,7 +56,7 @@ fun Log(
     ) {
         items(items, key = { it.key }) { item ->
             when (item) {
-                is LogItem.MonthHeader -> Unit
+                is LogItem.MonthHeader -> LogMonth(item.date.monthOfYear)
                 is LogItem.DayHeader -> LogDay(item.date)
                 is LogItem.EntryContent -> {
                     val swipeToDismissState = rememberSwipeToDismissState()

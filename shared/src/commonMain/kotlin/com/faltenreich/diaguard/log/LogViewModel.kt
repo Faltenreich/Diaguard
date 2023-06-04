@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.log
 
 import app.cash.paging.Pager
 import app.cash.paging.PagingData
+import app.cash.paging.PagingSource
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -19,11 +20,12 @@ class LogViewModel(
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel() {
 
+    private lateinit var dataSource: PagingSource<Date, LogItem>
     val currentDate = MutableStateFlow(initialDate)
     val items: Flow<PagingData<LogItem>> = Pager(
         config = LogItemSource.newConfig(),
         initialKey = initialDate,
-        pagingSourceFactory = { LogItemSource() },
+        pagingSourceFactory = { LogItemSource().also { dataSource = it } },
     ).flow.cachedIn(viewModelScope)
 
     fun setDate(date: Date) = viewModelScope.launch(dispatcher) {
@@ -47,5 +49,6 @@ class LogViewModel(
 
     fun remove(item: LogItem.EntryContent) = viewModelScope.launch(dispatcher) {
         deleteEntry(item.entry.id)
+        dataSource.invalidate()
     }
 }

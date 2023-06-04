@@ -42,6 +42,7 @@ class LogItemSource(
         val endDate: Date
         when {
             params.isRefreshing() -> {
+                // FIXME: Leads to delayed sticky header as start of month will be loaded afterwards
                 startDate = key
                 endDate = key.plusDays(params.loadSize)
                 cache = Cache(startDate = startDate, endDate = endDate)
@@ -87,6 +88,7 @@ class LogItemSource(
 
     companion object {
 
+        // FIXME: Leads to delayed sticky headers as start of month will potentially not be included on pagination
         private const val PAGE_SIZE_IN_DAYS = 20
 
         fun newConfig(): PagingConfig {

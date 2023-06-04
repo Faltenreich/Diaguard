@@ -22,15 +22,14 @@ class LogItemSource(
     private val entryRepository: EntryRepository = inject(),
 ) : PagingSource<Date, LogItem>() {
 
-    private lateinit var cache: Arguments
-
-    private data class Arguments(
-        val prevKey: Date,
-        val nextKey: Date,
+    private data class Cache(
+        val startDate: Date,
+        val endDate: Date,
     )
 
+    private lateinit var cache: Cache
+
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
-        println("LogViewModel: getRefreshKey for: $state")
         val anchorPosition = state.anchorPosition ?: return null
         val anchorPage = state.closestPageToPosition(anchorPosition) ?: return null
         return anchorPage.prevKey?.plusDays(1) ?: anchorPage.nextKey?.minusDays(1)
@@ -40,27 +39,24 @@ class LogItemSource(
         val key = params.key ?: throw IllegalArgumentException("Missing key")
         val startDate: Date
         val endDate: Date
-
         when {
             params.isRefreshing() -> {
                 startDate = key
                 endDate = key.plusDays(params.loadSize)
-                cache = Arguments(prevKey = startDate, nextKey = endDate)
+                cache = Cache(startDate = startDate, endDate = endDate)
             }
             params.isPrepending() -> {
                 startDate = key.minusDays(params.loadSize)
                 endDate = key
-                cache = cache.copy(prevKey = startDate)
+                cache = cache.copy(startDate = startDate)
             }
             params.isAppending() -> {
                 startDate = key
                 endDate = key.plusDays(params.loadSize)
-                cache = cache.copy(nextKey = endDate)
+                cache = cache.copy(endDate = endDate)
             }
             else -> throw IllegalArgumentException("Unhandled parameters: $params")
         }
-
-        println("LogViewModel: Fetching data for: $startDate - $endDate")
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atTime(Time.atStartOfDay()),
             endDateTime = endDate.atTime(Time.atEndOfDay()),
@@ -75,15 +71,14 @@ class LogItemSource(
             val content = entryContent ?: listOf(LogItem.EmptyContent(date))
             headers + content
         }.flatten()
-        val page = PagingSourceLoadResultPage(
+        return PagingSourceLoadResultPage(
             data = items,
-            prevKey = cache.prevKey.minusDays(1),
-            nextKey = cache.nextKey.plusDays(1),
-            // itemsBefore = PAGE_SIZE_IN_DAYS,
-            // itemsAfter = PAGE_SIZE_IN_DAYS,
+            prevKey = cache.startDate.minusDays(1),
+            nextKey = cache.endDate.plusDays(1),
+            // FIXME: Leads to endless pagination due to stuck scroll position
+            // itemsBefore = 1,
+            itemsAfter = PAGE_SIZE_IN_DAYS,
         )
-        println("LogViewModel: Fetched data for $startDate - $endDate, previous: ${page.prevKey}, next: ${page.nextKey}")
-        return page
     }
 
     companion object {

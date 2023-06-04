@@ -52,7 +52,6 @@ fun Log(
     ) {
         for (index in 0 until items.itemCount) {
             when (val peek = items.peek(index)) {
-                // FIXME: Sticky headers lead to endless upwards pagination
                 is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
                     val item = items.get(index) ?: throw IllegalStateException()
                     LogMonth(item.date.monthOfYear)

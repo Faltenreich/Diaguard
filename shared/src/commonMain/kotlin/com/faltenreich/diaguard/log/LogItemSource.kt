@@ -13,11 +13,21 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateProgression
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.isAppending
+import com.faltenreich.diaguard.shared.view.isPrepending
+import com.faltenreich.diaguard.shared.view.isRefreshing
 import kotlinx.coroutines.flow.first
 
 class LogItemSource(
     private val entryRepository: EntryRepository = inject(),
 ) : PagingSource<Date, LogItem>() {
+
+    private lateinit var cache: Arguments
+
+    private data class Arguments(
+        val prevKey: Date,
+        val nextKey: Date,
+    )
 
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
         println("LogViewModel: getRefreshKey for: $state")
@@ -27,9 +37,29 @@ class LogItemSource(
     }
 
     override suspend fun load(params: PagingSourceLoadParams<Date>): PagingSourceLoadResult<Date, LogItem> {
-        val startDate = params.key ?: throw IllegalArgumentException("Missing key")
-        val days = params.loadSize
-        val endDate = startDate.plusDays(days)
+        val key = params.key ?: throw IllegalArgumentException("Missing key")
+        val startDate: Date
+        val endDate: Date
+
+        when {
+            params.isRefreshing() -> {
+                startDate = key.minusDays(params.loadSize)
+                endDate = key.plusDays(params.loadSize)
+                cache = Arguments(prevKey = startDate, nextKey = endDate)
+            }
+            params.isPrepending() -> {
+                startDate = key.minusDays(params.loadSize)
+                endDate = key
+                cache = cache.copy(prevKey = startDate)
+            }
+            params.isAppending() -> {
+                startDate = key
+                endDate = key.plusDays(params.loadSize)
+                cache = cache.copy(nextKey = endDate)
+            }
+            else -> throw IllegalArgumentException("Unhandled parameters: $params")
+        }
+
         println("LogViewModel: Fetching data for: $startDate - $endDate")
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atTime(Time.atStartOfDay()),
@@ -47,8 +77,8 @@ class LogItemSource(
         }.flatten()
         val page = PagingSourceLoadResultPage(
             data = items,
-            prevKey = startDate.minusDays(PAGE_SIZE_IN_DAYS + 1),
-            nextKey = endDate.plusDays(1),
+            prevKey = cache.prevKey.minusDays(1),
+            nextKey = cache.nextKey.plusDays(1),
             itemsBefore = 1, // TODO: Calculate placeholder size (page size?)
             itemsAfter = 1,
         )
@@ -61,7 +91,7 @@ class LogItemSource(
         private const val PAGE_SIZE_IN_DAYS = 20
 
         fun newConfig(): PagingConfig {
-            return PagingConfig(pageSize = PAGE_SIZE_IN_DAYS)
+            return PagingConfig(pageSize = PAGE_SIZE_IN_DAYS, initialLoadSize = PAGE_SIZE_IN_DAYS)
         }
     }
 }

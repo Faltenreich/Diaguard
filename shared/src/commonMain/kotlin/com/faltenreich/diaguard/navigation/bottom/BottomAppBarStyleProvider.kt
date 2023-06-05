@@ -54,7 +54,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         )
         is Screen.EntryForm -> BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry) }
+                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
                 val viewState = viewModel.viewState.collectAsState().value
                 if (viewState.isEditing) {
                     val navigator = LocalNavigator.currentOrThrow
@@ -62,7 +62,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 }
             },
             floatingActionButton = {
-                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry) }
+                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
                 val navigator = LocalNavigator.currentOrThrow
                 FloatingActionButton(onClick = { viewModel.submit(); navigator.pop() }) {
                     Icon(Icons.Filled.Check, stringResource(MR.strings.entry_save))

@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 
 class EntryFormViewModel(
     entry: Entry?,
+    date: Date?,
     private val dispatcher: CoroutineDispatcher = inject(),
     private val submitEntry: SubmitEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
@@ -28,7 +29,7 @@ class EntryFormViewModel(
 ) : ViewModel() {
 
     private val id = MutableStateFlow(entry?.id)
-    private val dateTime = MutableStateFlow(entry?.dateTime ?: DateTime.now())
+    private val dateTime = MutableStateFlow(entry?.dateTime ?: date?.atTime(DateTime.now().time) ?: DateTime.now())
     private val note = MutableStateFlow(entry?.note)
     private val measurementLegacy = getMeasurementsUseCase(entry?.id)
     private val measurementInput = MutableStateFlow((emptyList<MeasurementInput>()))

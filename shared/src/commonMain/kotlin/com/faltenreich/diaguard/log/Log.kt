@@ -82,7 +82,10 @@ fun Log(
                         )
                     }
                 }
-                is LogItem.EmptyContent -> item(key = peek.key) { LogEmpty() }
+                is LogItem.EmptyContent -> item(key = peek.key) {
+                    val item = items.get(index) ?: throw IllegalStateException()
+                    LogEmpty(item.date)
+                }
                 null -> item {
                     Skeleton(
                         modifier = Modifier

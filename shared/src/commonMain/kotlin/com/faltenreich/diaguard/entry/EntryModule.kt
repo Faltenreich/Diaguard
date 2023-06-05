@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsUseCase
 import com.faltenreich.diaguard.entry.list.EntryListViewModel
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
+import com.faltenreich.diaguard.shared.datetime.Date
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -21,5 +22,5 @@ fun entryModule() = module {
     singleOf(::GetMeasurementsUseCase)
     singleOf(::SubmitEntryUseCase)
     singleOf(::DeleteEntryUseCase)
-    factory { (entry: Entry?) -> EntryFormViewModel(entry) }
+    factory { (entry: Entry?, date: Date?) -> EntryFormViewModel(entry = entry, date = date) }
 }

@@ -25,7 +25,7 @@ fun EntryListItem(
 ) {
     val navigator = LocalNavigator.currentOrThrow
     Card(
-        modifier = modifier.clickable(onClick = { navigator.push(Screen.EntryForm(entry)) }),
+        modifier = modifier.clickable(onClick = { navigator.push(Screen.EntryForm(entry = entry)) }),
     ) {
         Column(
             modifier = Modifier

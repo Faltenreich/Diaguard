@@ -39,11 +39,11 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    data class EntryForm(val entry: Entry? = null) : Screen() {
+    data class EntryForm(val entry: Entry? = null, val date: Date? = null) : Screen() {
 
         @Composable
         override fun Content() {
-            EntryForm(viewModel = getViewModel { parametersOf(entry) })
+            EntryForm(viewModel = getViewModel { parametersOf(entry, date) })
         }
     }
 

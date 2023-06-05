@@ -12,7 +12,7 @@ import org.koin.core.parameter.parametersOf
 fun Screen.topAppBarStyle(): TopAppBarStyle {
     return when (this) {
         is Screen.EntryForm -> TopAppBarStyle.CenterAligned {
-            val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry) }
+            val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
             val viewState = viewModel.viewState.collectAsState().value
             val title = if (viewState.isEditing) MR.strings.entry_edit else MR.strings.entry_new
             Text(stringResource(title))

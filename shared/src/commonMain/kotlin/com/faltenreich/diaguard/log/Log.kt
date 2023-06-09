@@ -5,14 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.IntOffset
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
@@ -60,14 +58,7 @@ fun Log(
                 }
                 is LogItem.DayHeader -> item(key = peek.key) {
                     val item = items.get(index) ?: throw IllegalStateException()
-                    LogDay(
-                        date = item.date,
-                        // FIXME: firstVisibleItemIndex is off due to stickyHeader
-                        // FIXME: Set offset for leaving item as well
-                        modifier = if (index == listState.firstVisibleItemIndex + 4) Modifier.offset {
-                            IntOffset(0, listState.firstVisibleItemScrollOffset)
-                        } else Modifier
-                    )
+                    LogDay(item.date,)
                 }
                 is LogItem.EntryContent -> item(key = peek.key) {
                     val item = items.get(index) as? LogItem.EntryContent ?: throw IllegalStateException()

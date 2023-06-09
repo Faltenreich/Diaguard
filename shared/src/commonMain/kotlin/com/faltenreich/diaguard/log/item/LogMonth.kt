@@ -22,9 +22,9 @@ fun LogMonth(
 ) {
     Box(
         modifier = modifier
-            .aspectRatio(34f / 9f)
+            .aspectRatio(32f / 9f)
             .background(Color.LightGray)
-            .padding(all = AppTheme.dimensions.padding.P_2),
+            .padding(all = AppTheme.dimensions.padding.P_3),
         contentAlignment = Alignment.BottomStart,
     ) {
         Text(formatter.formatMonthOfYear(monthOfYear, abbreviated = false))

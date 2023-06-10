@@ -5,7 +5,8 @@ import com.faltenreich.diaguard.measurement.value.deep
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 class EntryRepository(
@@ -50,10 +51,17 @@ class EntryRepository(
 fun Flow<List<Entry>>.deep(
     valueRepository: MeasurementValueRepository = inject(),
 ): Flow<List<Entry>> {
-    return map { entries ->
-        entries.map { entry ->
-            entry.apply {
-                values = valueRepository.getByEntryId(entry.id).deep(entry).first()
+    return flatMapLatest { entries ->
+        combine(
+            entries.map { entry ->
+                valueRepository.getByEntryId(entry.id).deep(entry).map {  values ->
+                    entry to values
+                }
+            }
+        ) {
+            it.map { (entry, values) ->
+                entry.values = values
+                entry
             }
         }
     }

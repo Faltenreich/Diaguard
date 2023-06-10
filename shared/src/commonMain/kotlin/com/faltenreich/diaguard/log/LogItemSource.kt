@@ -8,6 +8,7 @@ import app.cash.paging.PagingSourceLoadResultPage
 import app.cash.paging.PagingState
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.entry.deep
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateProgression
@@ -61,10 +62,11 @@ class LogItemSource(
             else -> throw IllegalArgumentException("Unhandled parameters: $params")
         }
         println("LogViewModel: Fetching data for: $startDate - $endDate")
+        // FIXME: Deep copies break pagination
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atTime(Time.atStartOfDay()),
             endDateTime = endDate.atTime(Time.atEndOfDay()),
-        ).first()
+        ).deep().first()
         val items = DateProgression(startDate, endDate).map { date ->
             val headers = listOfNotNull(
                 LogItem.MonthHeader(date).takeIf { date.dayOfMonth == 1 },

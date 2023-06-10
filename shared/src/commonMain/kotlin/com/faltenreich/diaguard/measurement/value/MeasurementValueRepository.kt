@@ -2,12 +2,12 @@ package com.faltenreich.diaguard.measurement.value
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
-import com.faltenreich.diaguard.measurement.type.deep
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 class MeasurementValueRepository(
@@ -52,11 +52,18 @@ fun Flow<List<MeasurementValue>>.deep(
     entry: Entry,
     typeRepository: MeasurementTypeRepository = inject(),
 ): Flow<List<MeasurementValue>> {
-    return map { values ->
-        values.map { value ->
-            value.apply {
-                this.type = typeRepository.getById(value.id).filterNotNull().deep().first()
-                this.entry = entry
+    return flatMapLatest { values ->
+        combine(
+            values.map { value ->
+                typeRepository.getById(value.typeId).filterNotNull().map { type ->
+                    value to type
+                }
+            }
+        ) {
+            it.map { (value, type) ->
+                value.entry = entry
+                value.type = type
+                value
             }
         }
     }

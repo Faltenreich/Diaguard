@@ -3,8 +3,6 @@
 
 package com.faltenreich.diaguard.shared.view
 
-import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
@@ -12,7 +10,6 @@ import androidx.paging.TerminalSeparatorType
 import androidx.paging.cachedIn
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import androidx.paging.insertSeparators
 import app.cash.paging.PagingSourceLoadParams
 import app.cash.paging.insertHeaderItem
@@ -27,18 +24,6 @@ actual fun <T : Any> Flow<PagingData<T>>.collectAsPaginationItems(
     context: CoroutineContext,
 ): PaginationItems<T> {
     return collectAsLazyPagingItems()
-}
-
-actual fun <T : Any> LazyListScope.items(
-    items: PaginationItems<T>,
-    key: ((item: T) -> Any)?,
-    itemContent: @Composable LazyItemScope.(value: T?) -> Unit,
-) {
-    items(
-        items = items,
-        key = key,
-        itemContent = itemContent,
-    )
 }
 
 actual fun <T : Any> Flow<PagingData<T>>.cachedIn(

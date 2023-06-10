@@ -2,8 +2,8 @@ import org.gradle.api.JavaVersion
 
 object Versions {
 
-    const val androidCompose = "1.7.1"
-    const val androidGradle = "8.0.1"
+    const val androidCompose = "1.7.2"
+    const val androidGradle = "8.0.2"
     const val compose = "1.4.0"
     const val composeCompiler = "1.4.6"
     const val composeMaterial3 = "1.1.0"
@@ -14,9 +14,9 @@ object Versions {
     const val ksp = "1.8.20-1.0.11"
     const val ktor = "2.2.4"
     const val moko = "0.22.1"
-    const val paging = "3.1.1-0.2.0"
-    const val pagingAndroid = "3.1.1"
-    const val pagingAndroidCompose = "1.0.0-alpha17"
+    const val paging = "3.2.0-alpha05-0.2.2"
+    const val pagingAndroid = "3.2.0-beta01"
+    const val pagingAndroidCompose = "3.2.0-beta01"
     const val serialization = "1.5.0"
     const val sqlDelight = "2.0.0-alpha05"
     const val turbine = "0.12.3"

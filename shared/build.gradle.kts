@@ -83,6 +83,12 @@ android {
     }
 }
 
+// TODO: Remove when Compose 1.4.0+ is out
+compose {
+    kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.7")
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.21")
+}
+
 dependencies {
     commonMainApi(Dependencies.Moko.resources)
     commonMainApi(Dependencies.Moko.resourcesCompose)

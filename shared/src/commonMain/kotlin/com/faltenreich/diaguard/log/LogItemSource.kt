@@ -17,7 +17,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
 import com.faltenreich.diaguard.shared.view.isRefreshing
-import kotlinx.coroutines.flow.first
 
 class LogItemSource(
     private val entryRepository: EntryRepository = inject(),
@@ -66,7 +65,7 @@ class LogItemSource(
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atTime(Time.atStartOfDay()),
             endDateTime = endDate.atTime(Time.atEndOfDay()),
-        ).deep().first()
+        ).deep()
         val items = DateProgression(startDate, endDate).map { date ->
             val headers = listOfNotNull(
                 LogItem.MonthHeader(date).takeIf { date.dayOfMonth == 1 },

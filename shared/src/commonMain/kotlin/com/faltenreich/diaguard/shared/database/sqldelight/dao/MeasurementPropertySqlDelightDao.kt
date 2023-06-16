@@ -26,7 +26,11 @@ class MeasurementPropertySqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getById(id: Long): Flow<MeasurementProperty?> {
+    override fun getById(id: Long): MeasurementProperty? {
+        return queries.getById(id, mapper::map).executeAsOneOrNull()
+    }
+
+    override fun observeById(id: Long): Flow<MeasurementProperty?> {
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 

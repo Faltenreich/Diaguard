@@ -40,8 +40,12 @@ class MeasurementValueSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
+    override fun observeByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
         return queries.getByEntry(entryId, mapper::map).asFlow().mapToList(dispatcher)
+    }
+
+    override fun getByEntryId(entryId: Long): List<MeasurementValue> {
+        return queries.getByEntry(entryId, mapper::map).executeAsList()
     }
 
     override fun update(

@@ -18,7 +18,7 @@ class EntryRepository(
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
-    fun getByDateRange(startDateTime: DateTime, endDateTime: DateTime): Flow<List<Entry>> {
+    fun getByDateRange(startDateTime: DateTime, endDateTime: DateTime): List<Entry> {
         return dao.getByDateRange(startDateTime, endDateTime)
     }
 
@@ -54,7 +54,7 @@ fun Flow<List<Entry>>.deep(
     return flatMapLatest { entries ->
         combine(
             entries.map { entry ->
-                valueRepository.getByEntryId(entry.id).deep(entry).map {  values ->
+                valueRepository.observeByEntryId(entry.id).deep(entry).map {  values ->
                     entry to values
                 }
             }
@@ -63,6 +63,16 @@ fun Flow<List<Entry>>.deep(
                 entry.values = values
                 entry
             }
+        }
+    }
+}
+
+fun List<Entry>.deep(
+    valueRepository: MeasurementValueRepository = inject(),
+): List<Entry> {
+    return map { entry ->
+        entry.apply {
+            values = valueRepository.getByEntryId(entry.id).deep(entry = entry)
         }
     }
 }

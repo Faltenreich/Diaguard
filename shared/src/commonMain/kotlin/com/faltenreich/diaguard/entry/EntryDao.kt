@@ -14,7 +14,7 @@ interface EntryDao {
     fun getByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
-    ): Flow<List<Entry>>
+    ): List<Entry>
 
     fun getByQuery(query: String): Flow<List<Entry>>
 

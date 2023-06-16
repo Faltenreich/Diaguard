@@ -27,7 +27,11 @@ class MeasurementTypeRepository(
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
-    fun getById(id: Long): Flow<MeasurementType?> {
+    fun observeById(id: Long): Flow<MeasurementType?> {
+        return dao.observeById(id)
+    }
+
+    fun getById(id: Long): MeasurementType? {
         return dao.getById(id)
     }
 
@@ -60,8 +64,17 @@ fun Flow<MeasurementType>.deep(
 ): Flow<MeasurementType> {
     return map { type ->
         type.apply {
-            this.property = propertyRepository.getById(propertyId).filterNotNull().first()
+            this.property = propertyRepository.observeById(propertyId).filterNotNull().first()
             // TODO: Selected unit
         }
+    }
+}
+
+fun MeasurementType.deep(
+    propertyRepository: MeasurementPropertyRepository = inject(),
+): MeasurementType {
+    return apply {
+        this.property = propertyRepository.getById(propertyId) ?: throw IllegalStateException()
+        // TODO: Selected unit
     }
 }

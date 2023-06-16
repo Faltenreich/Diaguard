@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.value
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.type.deep
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +29,11 @@ class MeasurementValueRepository(
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
-    fun getByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
+    fun observeByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
+        return dao.observeByEntryId(entryId)
+    }
+
+    fun getByEntryId(entryId: Long): List<MeasurementValue> {
         return dao.getByEntryId(entryId)
     }
 
@@ -55,7 +60,7 @@ fun Flow<List<MeasurementValue>>.deep(
     return flatMapLatest { values ->
         combine(
             values.map { value ->
-                typeRepository.getById(value.typeId).filterNotNull().map { type ->
+                typeRepository.observeById(value.typeId).filterNotNull().deep().map { type ->
                     value to type
                 }
             }
@@ -65,6 +70,18 @@ fun Flow<List<MeasurementValue>>.deep(
                 value.type = type
                 value
             }
+        }
+    }
+}
+
+fun List<MeasurementValue>.deep(
+    entry: Entry,
+    typeRepository: MeasurementTypeRepository = inject(),
+): List<MeasurementValue> {
+    return map { value ->
+        value.apply {
+            this.type = typeRepository.getById(value.typeId)?.deep() ?: throw IllegalStateException()
+            this.entry = entry
         }
     }
 }

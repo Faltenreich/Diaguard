@@ -15,7 +15,9 @@ interface MeasurementTypeDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): Flow<MeasurementType?>
+    fun observeById(id: Long): Flow<MeasurementType?>
+
+    fun getById(id: Long): MeasurementType?
 
     fun getByPropertyId(propertyId: Long): Flow<List<MeasurementType>>
 

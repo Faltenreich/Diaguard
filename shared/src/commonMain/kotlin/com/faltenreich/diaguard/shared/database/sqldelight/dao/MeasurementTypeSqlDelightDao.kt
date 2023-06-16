@@ -43,8 +43,12 @@ class MeasurementTypeSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getById(id: Long): Flow<MeasurementType?> {
+    override fun observeById(id: Long): Flow<MeasurementType?> {
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
+    }
+
+    override fun getById(id: Long): MeasurementType? {
+        return queries.getById(id, mapper::map).executeAsOneOrNull()
     }
 
     override fun getByPropertyId(propertyId: Long): Flow<List<MeasurementType>> {

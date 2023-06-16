@@ -33,12 +33,12 @@ class EntrySqlDelightDao(
     override fun getByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
-    ): Flow<List<Entry>> {
+    ): List<Entry> {
         return queries.getByDateRange(
             startDateTime = startDateTime.isoString,
             endDateTime = endDateTime.isoString,
             mapper::map,
-        ).asFlow().mapToList(dispatcher)
+        ).executeAsList()
     }
 
     override fun getByQuery(query: String): Flow<List<Entry>> {

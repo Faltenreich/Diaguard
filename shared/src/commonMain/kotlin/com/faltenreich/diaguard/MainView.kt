@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,9 +19,11 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationItem
 import com.faltenreich.diaguard.navigation.bottom.bottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBar
+import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.top.topAppBarStyle
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.keyboardPadding
@@ -44,11 +47,15 @@ fun MainView(
                     val bottomSheetState = rememberBottomSheetState()
                     Scaffold(
                         topBar = {
-                            val screen = navigator.lastItem as? Screen ?: return@Scaffold
-                            TopAppBar(
-                                style = screen.topAppBarStyle(),
-                                navigator = navigator,
-                            )
+                            val screen = navigator.lastItem as? Screen
+                            val style = screen?.topAppBarStyle()
+                            AnimatedVisibility(style != null && style != TopAppBarStyle.Hidden) {
+                                style ?: return@AnimatedVisibility
+                                TopAppBar(
+                                    style = style,
+                                    navigator = navigator,
+                                )
+                            }
                         },
                         content = { padding ->
                             FadeTransition(
@@ -57,11 +64,15 @@ fun MainView(
                             )
                         },
                         bottomBar = {
-                            val screen = navigator.lastItem as? Screen ?: return@Scaffold
-                            BottomAppBar(
-                                style = screen.bottomAppBarStyle(),
-                                onMenuClick = { openBottomSheet = true },
-                            )
+                            val screen = navigator.lastItem as? Screen
+                            val style = screen?.bottomAppBarStyle()
+                            AnimatedVisibility(style != null && style != BottomAppBarStyle.Hidden) {
+                                style ?: return@AnimatedVisibility
+                                BottomAppBar(
+                                    style = style,
+                                    onMenuClick = { openBottomSheet = true },
+                                )
+                            }
                         },
                     )
                     if (openBottomSheet) {

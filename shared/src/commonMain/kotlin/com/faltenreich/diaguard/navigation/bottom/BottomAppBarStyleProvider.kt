@@ -56,6 +56,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             actions = {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
                 val navigator = LocalNavigator.currentOrThrow
+                // TODO: Intercept with confirmation dialog if something has changed
                 EntryDeleteBottomAppBarItem(onClick = { viewModel.deleteIfNeeded(); navigator.pop() })
             },
             floatingActionButton = {

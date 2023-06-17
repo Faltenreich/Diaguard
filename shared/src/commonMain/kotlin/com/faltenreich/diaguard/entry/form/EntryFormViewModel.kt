@@ -21,7 +21,7 @@ class EntryFormViewModel(
     private val dispatcher: CoroutineDispatcher = inject(),
     private val submitEntry: SubmitEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-    getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
+    private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
 ) : ViewModel() {
 
     private val id: Long? = entry?.id
@@ -37,7 +37,13 @@ class EntryFormViewModel(
 
     var note: String by mutableStateOf(entry?.note ?: "")
 
-    var measurements: List<MeasurementPropertyInputData> by mutableStateOf(getMeasurementInputData(entry))
+    var measurements: List<MeasurementPropertyInputData> by mutableStateOf(emptyList())
+
+    init {
+        viewModelScope.launch(dispatcher) {
+            measurements = getMeasurementInputData(entry)
+        }
+    }
 
     fun updateMeasurementValue(update: MeasurementTypeInputData) {
         measurements = measurements.map { property ->

@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.entry.form
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementInput
@@ -29,8 +32,16 @@ class EntryFormViewModel(
 ) : ViewModel() {
 
     private val id = MutableStateFlow(entry?.id)
-    private val dateTime = MutableStateFlow(entry?.dateTime ?: date?.atTime(DateTime.now().time) ?: DateTime.now())
-    private val note = MutableStateFlow(entry?.note)
+
+    private val dateTime = MutableStateFlow(
+        entry?.dateTime
+            ?: date?.atTime(DateTime.now().time)
+            ?: DateTime.now()
+    )
+
+    var note by mutableStateOf(entry?.note)
+        private set
+
     private val measurementLegacy = getMeasurementsUseCase(entry?.id)
     private val measurementInput = MutableStateFlow((emptyList<MeasurementInput>()))
     private val measurements = combine(measurementLegacy, measurementInput) { legacy, input ->
@@ -50,12 +61,10 @@ class EntryFormViewModel(
     private val state = combine(
         id,
         dateTime,
-        note,
         measurements,
-    ) { id, dateTime, note, measurements ->
+    ) { id, dateTime, measurements ->
         EntryFormViewState(
             dateTime = dateTime,
-            note = note,
             isEditing = id != null,
             measurements = measurements,
         )
@@ -69,7 +78,6 @@ class EntryFormViewModel(
         started = SharingStarted.Lazily,
         initialValue = EntryFormViewState(
             dateTime = dateTime.value,
-            note = note.value,
             isEditing = id.value != null,
             measurements = MeasurementInputViewState(properties = emptyList()),
         )
@@ -83,8 +91,8 @@ class EntryFormViewModel(
         dateTime.value = dateTime.value.date.atTime(time)
     }
 
-    fun setNote(note: String) = viewModelScope.launch(dispatcher) {
-        this@EntryFormViewModel.note.value = note
+    fun updateNote(note: String) {
+        this.note = note
     }
 
     fun setMeasurement(type: MeasurementType, value: String) = viewModelScope.launch(dispatcher) {
@@ -97,7 +105,7 @@ class EntryFormViewModel(
         submitEntry(
             id = id.value,
             dateTime = dateTime.value,
-            note = note.value,
+            note = note,
             measurements = viewState.value.measurements,
         )
     }

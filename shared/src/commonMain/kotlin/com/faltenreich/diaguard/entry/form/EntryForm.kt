@@ -57,9 +57,9 @@ fun EntryForm(
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_note) }) {
             TextInput(
-                input = viewState.note ?: "",
+                input = viewModel.note ?: "",
                 hint = stringResource(MR.strings.note),
-                onInputChange = viewModel::setNote,
+                onInputChange = viewModel::updateNote,
                 modifier = Modifier.fillMaxWidth(),
             )
         }

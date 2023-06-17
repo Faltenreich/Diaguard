@@ -70,9 +70,9 @@ fun EntryForm(
             }
         }
         Divider()
-        viewModel.measurements.properties.forEach { property ->
+        viewModel.measurements.forEach { property ->
             MeasurementPropertyInput(
-                property = property,
+                viewState = property,
                 onInputChange = viewModel::updateMeasurementValue,
             )
         }

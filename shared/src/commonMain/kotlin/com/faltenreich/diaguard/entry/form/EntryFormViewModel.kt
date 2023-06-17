@@ -5,7 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsUseCase
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementInputViewState
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputViewState
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputViewState
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -36,20 +37,20 @@ class EntryFormViewModel(
 
     var note: String by mutableStateOf(entry?.note ?: "")
 
-    var measurements: MeasurementInputViewState by mutableStateOf(getMeasurementsUseCase(entry))
+    var measurements: List<MeasurementPropertyInputViewState> by mutableStateOf(getMeasurementsUseCase(entry))
 
     val isEditing: Boolean
         get() = id != null
 
-    fun updateMeasurementValue(update: MeasurementInputViewState.Property.Value) {
-        measurements = measurements.copy(properties = measurements.properties.map { property ->
+    fun updateMeasurementValue(update: MeasurementTypeInputViewState) {
+        measurements = measurements.map { property ->
             property.copy(values = property.values.map { value ->
                 when (value.type) {
                     update.type -> update
                     else -> value
                 }
             })
-        })
+        }
     }
 
     fun submit() = viewModelScope.launch(dispatcher) {

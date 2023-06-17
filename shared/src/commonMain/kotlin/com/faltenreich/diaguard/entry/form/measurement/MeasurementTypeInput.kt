@@ -8,14 +8,14 @@ import com.faltenreich.diaguard.shared.view.TextInput
 
 @Composable
 fun MeasurementTypeInput(
-    value: MeasurementInputViewState.Property.Value,
-    onInputChange: (MeasurementInputViewState.Property.Value) -> Unit,
+    viewState: MeasurementTypeInputViewState,
+    onInputChange: (MeasurementTypeInputViewState) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TextInput(
-        input = value.input,
-        onInputChange = { input -> onInputChange(value.copy(input = input)) },
-        hint = value.type.name,
+        input = viewState.input,
+        onInputChange = { input -> onInputChange(viewState.copy(input = input)) },
+        hint = viewState.type.name,
         modifier = modifier,
         maxLines = 1,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),

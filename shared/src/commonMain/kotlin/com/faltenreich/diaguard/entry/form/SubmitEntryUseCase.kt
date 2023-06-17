@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.EntryRepository
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementInputViewState
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputViewState
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
@@ -15,7 +15,7 @@ class SubmitEntryUseCase(
         id: Long?,
         dateTime: DateTime,
         note: String?,
-        measurements: MeasurementInputViewState,
+        measurements: List<MeasurementPropertyInputViewState>,
     ) {
         val entryId = id ?: entryRepository.create(dateTime)
         entryRepository.update(
@@ -23,12 +23,12 @@ class SubmitEntryUseCase(
             dateTime = dateTime,
             note = note,
         )
-        measurements.properties.forEach { (_, values) ->
-            values.map { (type, valueId, input) ->
+        measurements.forEach { (_, values) ->
+            values.map { (type, value, input) ->
                 // TODO: Validate and normalize by unit
                 val normalized = input.toDoubleOrNull() ?: return@map
                 measurementValueRepository.update(
-                    id = valueId ?: measurementValueRepository.create(
+                    id = value?.id ?: measurementValueRepository.create(
                         value = normalized,
                         typeId = type.id,
                         entryId = entryId,

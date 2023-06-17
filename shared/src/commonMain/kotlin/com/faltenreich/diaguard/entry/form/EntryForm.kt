@@ -8,7 +8,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
@@ -29,7 +28,6 @@ fun EntryForm(
     viewModel: EntryFormViewModel = inject(),
     formatter: DateTimeFormatter = inject(),
 ) {
-    val viewState = viewModel.viewState.collectAsState().value
     val datePickerState = rememberDatePickerState()
     val timePickerState = rememberTimePickerState()
 
@@ -72,10 +70,10 @@ fun EntryForm(
             }
         }
         Divider()
-        viewState.measurements.properties.forEach { property ->
+        viewModel.measurements.properties.forEach { property ->
             MeasurementPropertyInput(
                 property = property,
-                onInputChange = viewModel::setMeasurement,
+                onInputChange = viewModel::updateMeasurementValue,
             )
         }
     }
@@ -84,16 +82,16 @@ fun EntryForm(
             date = viewModel.dateTime.date,
             onPick = { date ->
                 datePickerState.isShown = false
-                viewModel.setDate(date)
+                viewModel.date = date
             },
         )
     }
     if (timePickerState.isShown) {
         TimePicker(
             time = viewModel.dateTime.time,
-            onPick = { date ->
+            onPick = { time ->
                 timePickerState.isShown = false
-                viewModel.setTime(date)
+                viewModel.time = time
             },
         )
     }

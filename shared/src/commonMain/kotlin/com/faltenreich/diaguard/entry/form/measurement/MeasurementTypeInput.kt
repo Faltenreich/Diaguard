@@ -9,12 +9,12 @@ import com.faltenreich.diaguard.shared.view.TextInput
 @Composable
 fun MeasurementTypeInput(
     value: MeasurementInputViewState.Property.Value,
-    onInputChange: (String) -> Unit,
+    onInputChange: (MeasurementInputViewState.Property.Value) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TextInput(
         input = value.input,
-        onInputChange = onInputChange,
+        onInputChange = { input -> onInputChange(value.copy(input = input)) },
         hint = value.type.name,
         modifier = modifier,
         maxLines = 1,

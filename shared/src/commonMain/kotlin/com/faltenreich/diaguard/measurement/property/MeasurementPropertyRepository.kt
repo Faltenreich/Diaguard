@@ -29,8 +29,12 @@ class MeasurementPropertyRepository(
         return dao.observeById(id)
     }
 
-    fun getAll(): Flow<List<MeasurementProperty>> {
+    fun getAll(): List<MeasurementProperty> {
         return dao.getAll()
+    }
+
+    fun observeAll(): Flow<List<MeasurementProperty>> {
+        return dao.observeAll()
     }
 
     fun update(

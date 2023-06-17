@@ -35,7 +35,7 @@ class MeasurementTypeRepository(
         return dao.getById(id)
     }
 
-    fun getByPropertyId(propertyId: Long): Flow<List<MeasurementType>> {
+    fun getByPropertyId(propertyId: Long): List<MeasurementType> {
         return dao.getByPropertyId(propertyId)
     }
 

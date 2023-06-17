@@ -18,7 +18,9 @@ interface MeasurementPropertyDao {
 
     fun observeById(id: Long): Flow<MeasurementProperty?>
 
-    fun getAll(): Flow<List<MeasurementProperty>>
+    fun getAll(): List<MeasurementProperty>
+
+    fun observeAll(): Flow<List<MeasurementProperty>>
 
     fun update(
         id: Long,

@@ -1,11 +1,9 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 
 class GetMeasurementsUseCase(
     private val measurementPropertyRepository: MeasurementPropertyRepository,
@@ -13,24 +11,23 @@ class GetMeasurementsUseCase(
     private val measurementValueRepository: MeasurementValueRepository,
 ) {
 
-    operator fun invoke(entryId: Long?): Flow<MeasurementInputViewState> {
-        return measurementPropertyRepository.getAll().map { properties ->
-            val values = entryId?.let(measurementValueRepository::getByEntryId)
-            MeasurementInputViewState(properties = properties.map { property ->
-                // FIXME: Replace with lateinit var when available
-                val types = measurementTypeRepository.getByPropertyId(property.id).first()
-                MeasurementInputViewState.Property(
-                    property = property,
-                    values = types.map { type ->
-                        val value = values?.firstOrNull { it.typeId == type.id }
-                        MeasurementInputViewState.Property.Value(
-                            type = type,
-                            valueId = value?.id,
-                            input = value?.value?.toString() ?: "",
-                        )
-                    }
-                )
-            })
+    operator fun invoke(entry: Entry?): MeasurementInputViewState {
+        val entryId = entry?.id
+        val values = entryId?.let(measurementValueRepository::getByEntryId)
+        val properties = measurementPropertyRepository.getAll().map { property ->
+            val types = measurementTypeRepository.getByPropertyId(property.id)
+            MeasurementInputViewState.Property(
+                property = property,
+                values = types.map { type ->
+                    val value = values?.firstOrNull { it.typeId == type.id }
+                    MeasurementInputViewState.Property.Value(
+                        type = type,
+                        valueId = value?.id,
+                        input = value?.value?.toString() ?: "",
+                    )
+                }
+            )
         }
+        return MeasurementInputViewState(properties)
     }
 }

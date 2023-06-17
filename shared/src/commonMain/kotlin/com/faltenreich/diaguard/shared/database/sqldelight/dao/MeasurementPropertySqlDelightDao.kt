@@ -34,7 +34,11 @@ class MeasurementPropertySqlDelightDao(
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
-    override fun getAll(): Flow<List<MeasurementProperty>> {
+    override fun getAll(): List<MeasurementProperty> {
+        return queries.getAll(mapper::map).executeAsList()
+    }
+
+    override fun observeAll(): Flow<List<MeasurementProperty>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 

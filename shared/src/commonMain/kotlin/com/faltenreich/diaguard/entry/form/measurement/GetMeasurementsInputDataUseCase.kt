@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 
-class GetMeasurementsUseCase(
+class GetMeasurementsInputDataUseCase(
     private val measurementPropertyRepository: MeasurementPropertyRepository,
     private val measurementTypeRepository: MeasurementTypeRepository,
     private val measurementValueRepository: MeasurementValueRepository,

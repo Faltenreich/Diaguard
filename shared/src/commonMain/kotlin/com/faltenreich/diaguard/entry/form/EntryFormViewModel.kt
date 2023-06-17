@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsUseCase
+import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -21,7 +21,7 @@ class EntryFormViewModel(
     private val dispatcher: CoroutineDispatcher = inject(),
     private val submitEntry: SubmitEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-    getMeasurementsUseCase: GetMeasurementsUseCase = inject(),
+    getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
 ) : ViewModel() {
 
     private val id: Long? = entry?.id
@@ -37,10 +37,7 @@ class EntryFormViewModel(
 
     var note: String by mutableStateOf(entry?.note ?: "")
 
-    var measurements: List<MeasurementPropertyInputData> by mutableStateOf(getMeasurementsUseCase(entry))
-
-    val isEditing: Boolean
-        get() = id != null
+    var measurements: List<MeasurementPropertyInputData> by mutableStateOf(getMeasurementInputData(entry))
 
     fun updateMeasurementValue(update: MeasurementTypeInputData) {
         measurements = measurements.map { property ->
@@ -62,8 +59,8 @@ class EntryFormViewModel(
         )
     }
 
-    fun delete() = viewModelScope.launch(dispatcher) {
-        val id = id ?: throw IllegalStateException("Cannot delete entry without id")
+    fun deleteIfNeeded() = viewModelScope.launch(dispatcher) {
+        val id = id ?: return@launch
         deleteEntry(id)
     }
 }

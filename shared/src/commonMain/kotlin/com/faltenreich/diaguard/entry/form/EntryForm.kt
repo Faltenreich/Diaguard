@@ -39,10 +39,10 @@ fun EntryForm(
     ) {
         FormRow(icon = { ResourceIcon(MR.images.ic_time) }) {
             TextButton(onClick = { datePickerState.isShown = true }) {
-                Text(formatter.formatDate(viewState.dateTime.date))
+                Text(formatter.formatDate(viewModel.dateTime.date))
             }
             TextButton(onClick = { timePickerState.isShown = true }) {
-                Text(formatter.formatTime(viewState.dateTime.time))
+                Text(formatter.formatTime(viewModel.dateTime.time))
             }
         }
         Divider()
@@ -57,9 +57,9 @@ fun EntryForm(
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_note) }) {
             TextInput(
-                input = viewModel.note ?: "",
+                input = viewModel.note,
                 hint = stringResource(MR.strings.note),
-                onInputChange = viewModel::updateNote,
+                onInputChange = { input -> viewModel.note = input },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -81,7 +81,7 @@ fun EntryForm(
     }
     if (datePickerState.isShown) {
         DatePicker(
-            date = viewState.dateTime.date,
+            date = viewModel.dateTime.date,
             onPick = { date ->
                 datePickerState.isShown = false
                 viewModel.setDate(date)
@@ -90,7 +90,7 @@ fun EntryForm(
     }
     if (timePickerState.isShown) {
         TimePicker(
-            time = viewState.dateTime.time,
+            time = viewModel.dateTime.time,
             onPick = { date ->
                 timePickerState.isShown = false
                 viewModel.setTime(date)

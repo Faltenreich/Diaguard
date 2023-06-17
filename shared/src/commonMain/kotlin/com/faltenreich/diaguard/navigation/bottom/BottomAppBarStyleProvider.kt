@@ -55,8 +55,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         is Screen.EntryForm -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
-                val viewState = viewModel.viewState.collectAsState().value
-                if (viewState.isEditing) {
+                if (viewModel.isEditing) {
                     val navigator = LocalNavigator.currentOrThrow
                     EntryDeleteBottomAppBarItem(onClick = { viewModel.delete(); navigator.pop() })
                 }

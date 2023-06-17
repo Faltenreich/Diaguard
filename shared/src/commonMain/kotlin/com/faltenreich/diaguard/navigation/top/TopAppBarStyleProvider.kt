@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.navigation.top
 
 import androidx.compose.material3.Text
-import androidx.compose.runtime.collectAsState
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.navigation.Screen
@@ -13,8 +12,7 @@ fun Screen.topAppBarStyle(): TopAppBarStyle {
     return when (this) {
         is Screen.EntryForm -> TopAppBarStyle.CenterAligned {
             val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
-            val viewState = viewModel.viewState.collectAsState().value
-            val title = if (viewState.isEditing) MR.strings.entry_edit else MR.strings.entry_new
+            val title = if (viewModel.isEditing) MR.strings.entry_edit else MR.strings.entry_new
             Text(stringResource(title))
         }
         else -> TopAppBarStyle.Hidden

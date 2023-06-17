@@ -9,18 +9,18 @@ import com.faltenreich.diaguard.shared.view.FormRow
 
 @Composable
 fun MeasurementPropertyInput(
-    viewState: MeasurementPropertyInputViewState,
+    data: MeasurementPropertyInputData,
     modifier: Modifier = Modifier,
-    onInputChange: (MeasurementTypeInputViewState) -> Unit,
+    onInputChange: (MeasurementTypeInputData) -> Unit,
 ) {
     FormRow(
-        icon = { MeasurementPropertyIcon(viewState.property) },
+        icon = { MeasurementPropertyIcon(data.property) },
         modifier = modifier,
     ) {
         Column {
-            viewState.values.forEach { value ->
+            data.typeInputDataList.forEach { typeInputData ->
                 MeasurementTypeInput(
-                    viewState = value,
+                    data = typeInputData,
                     onInputChange = onInputChange,
                     modifier = Modifier.fillMaxWidth(),
                 )

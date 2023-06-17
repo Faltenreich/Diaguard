@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.entry.form.measurement
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 
-data class MeasurementPropertyInputViewState(
+data class MeasurementPropertyInputData(
     val property: MeasurementProperty,
-    val values: List<MeasurementTypeInputViewState>,
+    val typeInputDataList: List<MeasurementTypeInputData>,
 )

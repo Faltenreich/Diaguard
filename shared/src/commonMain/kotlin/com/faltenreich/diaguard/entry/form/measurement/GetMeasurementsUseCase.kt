@@ -11,18 +11,17 @@ class GetMeasurementsUseCase(
     private val measurementValueRepository: MeasurementValueRepository,
 ) {
 
-    operator fun invoke(entry: Entry?): List<MeasurementPropertyInputViewState> {
+    operator fun invoke(entry: Entry?): List<MeasurementPropertyInputData> {
         val entryId = entry?.id
         val values = entryId?.let(measurementValueRepository::getByEntryId)
         return measurementPropertyRepository.getAll().map { property ->
             val types = measurementTypeRepository.getByPropertyId(property.id)
-            MeasurementPropertyInputViewState(
+            MeasurementPropertyInputData(
                 property = property,
-                values = types.map { type ->
+                typeInputDataList = types.map { type ->
                     val value = values?.firstOrNull { it.typeId == type.id }
-                    MeasurementTypeInputViewState(
+                    MeasurementTypeInputData(
                         type = type,
-                        value = value,
                         input = value?.value?.toString() ?: "",
                     )
                 }

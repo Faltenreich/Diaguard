@@ -20,8 +20,7 @@ fun LogDay(
         modifier = modifier
             .padding(all = AppTheme.dimensions.padding.P_3),
     ) {
-        // Text(formatter.formatDayOfMonth(date))
-        Text(formatter.formatDate(date))
+        Text(formatter.formatDayOfMonth(date))
         Text(formatter.formatDayOfWeek(date, abbreviated = true))
     }
 }

@@ -61,7 +61,6 @@ class LogItemSource(
             else -> throw IllegalArgumentException("Unhandled parameters: $params")
         }
         println("LogViewModel: Fetching data for: $startDate - $endDate")
-        // FIXME: Deep copies break pagination
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atTime(Time.atStartOfDay()),
             endDateTime = endDate.atTime(Time.atEndOfDay()),
@@ -80,7 +79,7 @@ class LogItemSource(
             data = items,
             prevKey = cache.startDate.minusDays(1),
             nextKey = cache.endDate.plusDays(1),
-            // FIXME: Leads to endless pagination due to stuck scroll position
+            // FIXME: Prepending placeholders lead to endless pagination due to stuck scroll position
             // itemsBefore = 1,
             itemsAfter = PAGE_SIZE_IN_DAYS,
         )

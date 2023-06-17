@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
@@ -62,8 +63,8 @@ class EntryFormViewModel(
     }
 
     private val state = measurements.map { measurements ->
-        EntryFormViewState(measurements = measurements,)
-    }.flowOn(dispatcher)
+        EntryFormViewState(measurements = measurements)
+    }.flowOn(Dispatchers.Main.immediate) // FIXME: Replace with State
 
     val viewState = state.stateIn(
         scope = viewModelScope,

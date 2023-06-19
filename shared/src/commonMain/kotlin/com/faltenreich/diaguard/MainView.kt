@@ -40,7 +40,8 @@ fun MainView(
             modifier = modifier.fillMaxSize().keyboardPadding(),
             color = AppTheme.colorScheme.background,
         ) {
-            Navigator(screen = Screen.Log()) { navigator ->
+            // TODO: Get start screen from preferences
+            Navigator(screen = Screen.Timeline()) { navigator ->
                 Box {
                     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
                     val scope = rememberCoroutineScope()

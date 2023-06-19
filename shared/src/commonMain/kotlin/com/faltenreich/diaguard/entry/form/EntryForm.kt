@@ -63,10 +63,8 @@ fun EntryForm(
         }
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_alarm) }) {
-            TextButton(onClick = {}) {
-                TextButton(onClick = { TODO() }) {
-                    Text(stringResource(MR.strings.alarm_placeholder))
-                }
+            TextButton(onClick = { TODO() }) {
+                Text(stringResource(MR.strings.alarm_placeholder))
             }
         }
         Divider()

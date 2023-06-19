@@ -7,5 +7,6 @@ expect fun DrawScope.drawText(
     text: String,
     x: Float,
     y: Float,
+    size: Float,
     paint: Paint,
 )

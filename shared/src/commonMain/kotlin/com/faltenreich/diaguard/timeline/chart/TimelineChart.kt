@@ -9,8 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.unit.dp
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.drawText
 
 private const val Y_MIN = 0
@@ -18,22 +17,23 @@ private const val Y_MAX = 250
 private const val X_MIN = 0
 private const val X_MAX = 24
 
-private val AXIS_OFFSET = 40.dp
-
-@OptIn(ExperimentalTextApi::class)
 @Composable
 fun TimelineChart(
     modifier: Modifier = Modifier,
 ) {
-    val offset = LocalDensity.current.run { AXIS_OFFSET.toPx() }
+    val offset = LocalDensity.current.run { AppTheme.dimensions.padding.P_4.toPx() }
+    val fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() }
     Canvas(
         modifier = modifier.fillMaxSize(),
     ) {
-        drawAxis(offset = offset)
+        drawAxis(offset = offset, fontSize = fontSize)
     }
 }
 
-private fun DrawScope.drawAxis(offset: Float) {
+private fun DrawScope.drawAxis(
+    offset: Float,
+    fontSize: Float,
+) {
     drawLine(
         color = Color.Black,
         start = Offset(x = offset, y = offset),
@@ -47,8 +47,16 @@ private fun DrawScope.drawAxis(offset: Float) {
         strokeWidth = 5f,
     )
     val hours = 0 .. 24 step 2
-    val paint = Paint().apply { color = Color.Black }
+    val hoursCount = hours.last / hours.step
+    val paint = Paint().apply {
+        color = Color.Black
+    }
+    val graphWidth = size.width - offset
     hours.forEach { hour ->
-        drawText("Hello, World", x = 200f, y = 200f, paint)
+        val index = hour / hours.step
+        val hourWidth = graphWidth / hoursCount
+        val x = offset + index * hourWidth
+        val y = size.height - offset
+        drawText(hour.toString(), x, y, fontSize, paint)
     }
 }

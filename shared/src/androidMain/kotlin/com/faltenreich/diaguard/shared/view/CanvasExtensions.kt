@@ -8,7 +8,11 @@ actual fun DrawScope.drawText(
     text: String,
     x: Float,
     y: Float,
+    size: Float,
     paint: Paint,
 ) {
-    drawContext.canvas.nativeCanvas.drawText(text, x, y, paint.asFrameworkPaint())
+    val nativePaint = paint.asFrameworkPaint().apply {
+        textSize = size
+    }
+    drawContext.canvas.nativeCanvas.drawText(text, x, y, nativePaint)
 }

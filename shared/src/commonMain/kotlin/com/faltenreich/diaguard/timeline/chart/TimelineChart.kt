@@ -73,12 +73,12 @@ private fun DrawScope.drawXAxis(
     val hoursCount = hours.last / hours.step
 
     val widthPerDay = size.width
-    val widthPerHour = widthPerDay / hoursCount
+    val widthPerHour = (widthPerDay / hoursCount).toInt()
 
-    val xOfFirstHour = (offset.x % widthPerHour) + padding
+    val xOfFirstHour = ((offset.x % widthPerHour) + padding).toInt()
     val xOfLastHour = xOfFirstHour + (hoursCount * widthPerHour)
     val y = size.height - padding
-    (xOfFirstHour.toInt() .. xOfLastHour.toInt() + widthPerHour.toInt() step widthPerHour.toInt()).forEach { xOfHour ->
+    (xOfFirstHour - widthPerHour .. xOfLastHour + widthPerHour step widthPerHour).forEach { xOfHour ->
         val xOffsetNormalized = ceil(offset.x * -1) + xOfHour
         val xOffsetInHours = xOffsetNormalized / widthPerHour
         val hourNormalized = xOffsetInHours % hoursCount

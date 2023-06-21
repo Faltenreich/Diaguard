@@ -54,7 +54,7 @@ private fun DrawScope.drawYAxis(
 ) {
     val values = 0 .. 250 step 50
     val valuesCount = values.last / values.step
-    values.drop(1).forEach { value ->
+    values.drop(1).dropLast(1).forEach { value ->
         val index = value / values.step
         val height = size.height / valuesCount
         val x = 0f + padding
@@ -75,7 +75,7 @@ private fun DrawScope.drawXAxis(
     val widthPerDay = size.width
     val widthPerHour = widthPerDay / hoursCount
 
-    val xOfFirstHour = offset.x % widthPerHour
+    val xOfFirstHour = (offset.x % widthPerHour) + padding
     val xOfLastHour = xOfFirstHour + (hoursCount * widthPerHour)
     val y = size.height - padding
     (xOfFirstHour.toInt() .. xOfLastHour.toInt() + widthPerHour.toInt() step widthPerHour.toInt()).forEach { xOfHour ->
@@ -87,14 +87,7 @@ private fun DrawScope.drawXAxis(
             else -> 24 + (hourNormalized * hours.step)
         }.toInt()
         val x = xOfHour.toFloat()
-        drawText("$hour", x, y, fontSize, paint)
-    }
-
-    hours.forEach { hour ->
-        val index = hour / hours.step
-        val x = padding + (index * widthPerHour) + offset.x
-        val y = size.height - padding
-        // drawText(hour.toString(), x, y, fontSize, paint)
+        drawText(hour.toString(), x, y, fontSize, paint)
     }
 }
 

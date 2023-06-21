@@ -17,6 +17,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.drawText
+import kotlin.math.ceil
 
 private const val Y_MIN = 0
 private const val Y_MAX = 250
@@ -70,12 +71,30 @@ private fun DrawScope.drawXAxis(
 ) {
     val hours = 0 .. 24 step 2
     val hoursCount = hours.last / hours.step
+
+    val widthPerDay = size.width
+    val widthPerHour = widthPerDay / hoursCount
+
+    val xOfFirstHour = offset.x % widthPerHour
+    val xOfLastHour = xOfFirstHour + (hoursCount * widthPerHour)
+    val y = size.height - padding
+    (xOfFirstHour.toInt() .. xOfLastHour.toInt() + widthPerHour.toInt() step widthPerHour.toInt()).forEach { xOfHour ->
+        val xOffsetNormalized = ceil(offset.x * -1) + xOfHour
+        val xOffsetInHours = xOffsetNormalized / widthPerHour
+        val hourNormalized = xOffsetInHours % hoursCount
+        val hour = when {
+            hourNormalized >= 0 -> hourNormalized * hours.step
+            else -> 24 + (hourNormalized * hours.step)
+        }.toInt()
+        val x = xOfHour.toFloat()
+        drawText("$hour", x, y, fontSize, paint)
+    }
+
     hours.forEach { hour ->
         val index = hour / hours.step
-        val width = (size.width - padding) / hoursCount
-        val x = padding + (index * width) + offset.x
+        val x = padding + (index * widthPerHour) + offset.x
         val y = size.height - padding
-        drawText(hour.toString(), x, y, fontSize, paint)
+        // drawText(hour.toString(), x, y, fontSize, paint)
     }
 }
 

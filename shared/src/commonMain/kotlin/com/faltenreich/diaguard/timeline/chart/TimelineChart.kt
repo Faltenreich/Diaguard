@@ -78,6 +78,7 @@ private fun DrawScope.drawXAxis(
     val xOfFirstHour = (offset.x % widthPerHour).toInt()
     val xOfLastHour = xOfFirstHour + (hoursCount * widthPerHour)
     val y = size.height - padding
+    // TODO: Find sweet spot for start to display approaching hour and date
     (xOfFirstHour - widthPerHour .. xOfLastHour + widthPerHour step widthPerHour).forEach { xOfHour ->
         val xOffsetNormalized = ceil(offset.x * -1) + xOfHour
         val xOffsetInHours = xOffsetNormalized / widthPerHour
@@ -90,7 +91,7 @@ private fun DrawScope.drawXAxis(
             val xOffsetInDays = xOffsetNormalized / widthPerDay
             val date = DateTime.now().date.plusDays(xOffsetInDays.toInt())
             // y should be textSize - padding
-            drawText(dateTimeFormatter.formatDate(date), x, 32f, fontSize, paint)
+            drawText(dateTimeFormatter.formatDate(date), x + padding, 32f, fontSize, paint)
             // Hide day dividers initially
             if (offset.x != 0f) {
                 drawLine(
@@ -101,7 +102,7 @@ private fun DrawScope.drawXAxis(
                 )
             }
         }
-        drawText(hour.toString(), x, y, fontSize, paint)
+        drawText(hour.toString(), x + padding, y, fontSize, paint)
     }
 }
 

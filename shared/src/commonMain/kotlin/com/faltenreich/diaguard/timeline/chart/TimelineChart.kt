@@ -36,27 +36,36 @@ fun TimelineChart(
         modifier = modifier
             .fillMaxSize()
             .pointerInput(key1 = Unit) {
-                detectDragGestures(onDrag = { _, dragAmount -> offset += dragAmount })
+                detectDragGestures(onDrag = { _, dragAmount ->
+                    // TODO: Cap y at zero
+                    // TODO: Change y only if delta is larger than n to prevent accidental scroll
+                    offset += dragAmount
+                })
             },
     ) {
-        drawYAxis(fontSize, paint, padding)
+        drawYAxis(offset, fontSize, paint, padding)
         drawXAxis(offset, fontSize, paint, padding)
         drawValues(offset, fontSize, paint)
     }
 }
 
 private fun DrawScope.drawYAxis(
+    offset: Offset,
     fontSize: Float,
     paint: Paint,
     padding: Float,
 ) {
-    val values = 0 .. 250 step 50
-    val valuesCount = values.last / values.step
-    values.drop(1).dropLast(1).forEach { value ->
-        val index = value / values.step
-        val height = size.height / valuesCount
+    val step = 50
+    val window = 250
+    val min = 0
+    val max = min + window
+    val range = min .. max step step
+    val height = size.height / (range.last / range.step)
+    // TODO: Move window with offset
+    range.forEach { value ->
+        val index = range.indexOf(value)
         val x = 0f + padding
-        val y = size.height - index * height
+        val y = size.height - (index * height)
         drawText(value.toString(), x, y, fontSize, paint)
     }
 }

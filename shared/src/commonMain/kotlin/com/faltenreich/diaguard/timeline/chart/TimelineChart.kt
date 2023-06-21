@@ -68,6 +68,7 @@ private fun DrawScope.drawXAxis(
     fontSize: Float,
     paint: Paint,
     padding: Float,
+    strokeWidth: Float = 4f,
 ) {
     val hours = 0 .. 24 step 2
     val hoursCount = hours.last / hours.step
@@ -81,12 +82,25 @@ private fun DrawScope.drawXAxis(
     (xOfFirstHour - widthPerHour .. xOfLastHour + widthPerHour step widthPerHour).forEach { xOfHour ->
         val xOffsetNormalized = ceil(offset.x * -1) + xOfHour
         val xOffsetInHours = xOffsetNormalized / widthPerHour
-        val hourNormalized = xOffsetInHours % hoursCount
         val hour = when {
-            hourNormalized >= 0 -> hourNormalized * hours.step
-            else -> 24 + (hourNormalized * hours.step)
+            xOffsetInHours >= 0 -> (xOffsetInHours % hoursCount) * hours.step
+            else -> hours.last + ((xOffsetInHours % hoursCount) * hours.step)
         }.toInt()
         val x = xOfHour.toFloat()
+        if (hour == 0) {
+            // y should be textSize - padding
+            drawText("Date", x, 32f, fontSize, paint)
+            // Hide day dividers initially
+            if (offset.x != 0f) {
+                val xLine = x - padding
+                drawLine(
+                    color = Color.Gray,
+                    start = Offset(x = xLine, y = 0f),
+                    end = Offset(x = xLine, y = size.height),
+                    strokeWidth = strokeWidth,
+                )
+            }
+        }
         drawText(hour.toString(), x, y, fontSize, paint)
     }
 }

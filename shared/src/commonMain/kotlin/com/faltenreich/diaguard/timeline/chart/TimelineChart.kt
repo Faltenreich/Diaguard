@@ -16,13 +16,11 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.drawText
 import kotlin.math.ceil
-
-private const val Y_MIN = 0
-private const val Y_MAX = 250
-private const val X_MIN = 0
-private const val X_MAX = 24
 
 @Composable
 fun TimelineChart(
@@ -69,6 +67,7 @@ private fun DrawScope.drawXAxis(
     paint: Paint,
     padding: Float,
     strokeWidth: Float = 4f,
+    dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
     val hours = 0 .. 24 step 2
     val hoursCount = hours.last / hours.step
@@ -76,7 +75,7 @@ private fun DrawScope.drawXAxis(
     val widthPerDay = size.width
     val widthPerHour = (widthPerDay / hoursCount).toInt()
 
-    val xOfFirstHour = ((offset.x % widthPerHour) + padding).toInt()
+    val xOfFirstHour = (offset.x % widthPerHour).toInt()
     val xOfLastHour = xOfFirstHour + (hoursCount * widthPerHour)
     val y = size.height - padding
     (xOfFirstHour - widthPerHour .. xOfLastHour + widthPerHour step widthPerHour).forEach { xOfHour ->
@@ -84,19 +83,20 @@ private fun DrawScope.drawXAxis(
         val xOffsetInHours = xOffsetNormalized / widthPerHour
         val hour = when {
             xOffsetInHours >= 0 -> (xOffsetInHours % hoursCount) * hours.step
-            else -> hours.last + ((xOffsetInHours % hoursCount) * hours.step)
-        }.toInt()
+            else -> hours.last + (xOffsetInHours % hoursCount) * hours.step
+        }.toInt().let { if (it == 24) 0 else it }
         val x = xOfHour.toFloat()
         if (hour == 0) {
+            val xOffsetInDays = xOffsetNormalized / widthPerDay
+            val date = DateTime.now().date.plusDays(xOffsetInDays.toInt())
             // y should be textSize - padding
-            drawText("Date", x, 32f, fontSize, paint)
+            drawText(dateTimeFormatter.formatDate(date), x, 32f, fontSize, paint)
             // Hide day dividers initially
             if (offset.x != 0f) {
-                val xLine = x - padding
                 drawLine(
                     color = Color.Gray,
-                    start = Offset(x = xLine, y = 0f),
-                    end = Offset(x = xLine, y = size.height),
+                    start = Offset(x = x, y = 0f),
+                    end = Offset(x = x, y = size.height),
                     strokeWidth = strokeWidth,
                 )
             }

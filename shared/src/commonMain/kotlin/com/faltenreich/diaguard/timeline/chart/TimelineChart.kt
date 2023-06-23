@@ -32,12 +32,14 @@ fun TimelineChart(
     modifier: Modifier = Modifier,
     onDateChange: (Date) -> Unit,
 ) {
-    val padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() }
-    val fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() }
-    val paint = Paint().apply {
-        color = Color.Black
-    }
     var offset by remember { mutableStateOf(Offset.Zero) }
+    val state = TimelineChartState(
+        values = values,
+        offset = offset,
+        padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
+        paint = Paint().apply { color = Color.Black },
+        fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
+    )
     Canvas(
         modifier = modifier
             .fillMaxSize()
@@ -55,23 +57,15 @@ fun TimelineChart(
                 )
             },
     ) {
-        drawYAxis(offset, fontSize, paint, padding)
-        drawXAxis(offset, fontSize, paint, padding)
-        drawValues(values, offset, fontSize, paint)
+        drawYAxis(state)
+        drawXAxis(state)
+        drawValues(state)
     }
 }
 
-private fun DrawScope.drawYAxis(
-    offset: Offset,
-    fontSize: Float,
-    paint: Paint,
-    padding: Float,
-) {
-    val step = 50
-    val window = 250
-    val min = 0
-    val max = min + window
-    val range = min .. max step step
+private fun DrawScope.drawYAxis(state: TimelineChartState) = with(state) {
+    val max = yMin + yMax
+    val range = yMin .. max step yStep
     val height = size.height / (range.last / range.step)
     // TODO: Move window with offset
     range.drop(1).dropLast(1).forEach { value ->
@@ -83,14 +77,11 @@ private fun DrawScope.drawYAxis(
 }
 
 private fun DrawScope.drawXAxis(
-    offset: Offset,
-    fontSize: Float,
-    paint: Paint,
-    padding: Float,
-    strokeWidth: Float = 4f,
+    state: TimelineChartState,
     dateTimeFormatter: DateTimeFormatter = inject(),
-) {
-    val hours = 0 .. 24 step 2
+) = with(state) {
+
+    val hours = xMin .. xMax step xStep
     val hoursCount = hours.last / hours.step
 
     val widthPerDay = size.width
@@ -106,7 +97,7 @@ private fun DrawScope.drawXAxis(
         val hour = when {
             xOffsetInHours >= 0 -> (xOffsetInHours % hoursCount) * hours.step
             else -> hours.last + (xOffsetInHours % hoursCount) * hours.step
-        }.toInt().let { if (it == 24) 0 else it }
+        }.toInt().let { if (it == hours.last) hours.first else it }
         val x = xOfHour.toFloat()
         if (hour == 0) {
             val xOffsetInDays = xOffsetNormalized / widthPerDay
@@ -127,12 +118,9 @@ private fun DrawScope.drawXAxis(
 }
 
 private fun DrawScope.drawValues(
-    values: List<MeasurementValue>,
-    offset: Offset,
-    fontSize: Float,
-    paint: Paint,
-) {
-    val hours = 0 .. 24 step 2
+    state: TimelineChartState,
+) = with(state) {
+    val hours = xMin .. xMax step xStep
 
     drawText("$offset", x = size.width / 2 - 160, y = size.height / 2, fontSize, paint)
 
@@ -147,8 +135,6 @@ private fun DrawScope.drawValues(
         val x = offset.x + offsetOfDateTime
 
         val value = it.value
-        val yMax = 250f
-        val yMin = 0f
         val percentage = (value - yMin) / (yMax - yMin)
         val y = size.height - (percentage.toFloat() * size.height)
 

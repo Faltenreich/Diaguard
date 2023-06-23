@@ -62,7 +62,7 @@ private fun DrawScope.drawYAxis(
     val range = min .. max step step
     val height = size.height / (range.last / range.step)
     // TODO: Move window with offset
-    range.forEach { value ->
+    range.drop(1).dropLast(1).forEach { value ->
         val index = range.indexOf(value)
         val x = 0f + padding
         val y = size.height - (index * height)
@@ -99,8 +99,7 @@ private fun DrawScope.drawXAxis(
         if (hour == 0) {
             val xOffsetInDays = xOffsetNormalized / widthPerDay
             val date = DateTime.now().date.plusDays(xOffsetInDays.toInt())
-            // y should be textSize - padding
-            drawText(dateTimeFormatter.formatDate(date), x + padding, 32f, fontSize, paint)
+            drawText(dateTimeFormatter.formatDate(date), x + padding, y - fontSize - padding, fontSize, paint)
             // Hide day dividers initially
             if (offset.x != 0f) {
                 drawLine(

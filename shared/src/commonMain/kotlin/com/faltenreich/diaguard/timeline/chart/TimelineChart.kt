@@ -64,12 +64,10 @@ fun TimelineChart(
 }
 
 private fun DrawScope.drawYAxis(state: TimelineChartState) = with(state) {
-    val max = yMin + yMax
-    val range = yMin .. max step yStep
-    val height = size.height / (range.last / range.step)
+    val height = size.height / (yAxis.last / yAxis.step)
     // TODO: Move window with offset
-    range.drop(1).dropLast(1).forEach { value ->
-        val index = range.indexOf(value)
+    yAxis.drop(1).dropLast(1).forEach { value ->
+        val index = yAxis.indexOf(value)
         val x = 0f + padding
         val y = size.height - (index * height)
         drawText(value.toString(), x, y, fontSize, paint)
@@ -80,24 +78,20 @@ private fun DrawScope.drawXAxis(
     state: TimelineChartState,
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) = with(state) {
-
-    val hours = xMin .. xMax step xStep
-    val hoursCount = hours.last / hours.step
-
     val widthPerDay = size.width
-    val widthPerHour = (widthPerDay / hoursCount).toInt()
+    val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
     val xOfFirstHour = (offset.x % widthPerHour).toInt()
-    val xOfLastHour = xOfFirstHour + (hoursCount * widthPerHour)
+    val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
     val y = size.height - padding
     // TODO: Find sweet spot for start to display approaching hour and date
     (xOfFirstHour - widthPerHour .. xOfLastHour + widthPerHour step widthPerHour).forEach { xOfHour ->
         val xOffsetNormalized = ceil(offset.x * -1) + xOfHour
         val xOffsetInHours = xOffsetNormalized / widthPerHour
         val hour = when {
-            xOffsetInHours >= 0 -> (xOffsetInHours % hoursCount) * hours.step
-            else -> hours.last + (xOffsetInHours % hoursCount) * hours.step
-        }.toInt().let { if (it == hours.last) hours.first else it }
+            xOffsetInHours >= 0 -> (xOffsetInHours % xAxisLabelCount) * xAxis.step
+            else -> xAxis.last + (xOffsetInHours % xAxisLabelCount) * xAxis.step
+        }.toInt().let { if (it == xAxis.last) xAxis.first else it }
         val x = xOfHour.toFloat()
         if (hour == 0) {
             val xOffsetInDays = xOffsetNormalized / widthPerDay
@@ -120,28 +114,28 @@ private fun DrawScope.drawXAxis(
 private fun DrawScope.drawValues(
     state: TimelineChartState,
 ) = with(state) {
-    val hours = xMin .. xMax step xStep
-
     drawText("$offset", x = size.width / 2 - 160, y = size.height / 2, fontSize, paint)
 
-    values.forEach {
-        val dateTimeBase = Date.today().atTime(Time.atStartOfDay())
-        val dateTime = it.entry.dateTime
-        val widthPerDay = size.width
-        val widthPerHour = widthPerDay / (hours.last / hours.step)
-        val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
-        val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
-        val offsetOfDateTime = (offsetInMinutes / hours.step) * widthPerMinute
-        val x = offset.x + offsetOfDateTime
-
-        val value = it.value
-        val percentage = (value - yMin) / (yMax - yMin)
-        val y = size.height - (percentage.toFloat() * size.height)
-
-        drawCircle(
+    values.zipWithNext { first, second ->
+        val getX = { value: MeasurementValue ->
+            val dateTimeBase = Date.today().atTime(Time.atStartOfDay())
+            val dateTime = value.entry.dateTime
+            val widthPerDay = size.width
+            val widthPerHour = widthPerDay / (xAxis.last / xAxis.step)
+            val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
+            val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
+            val offsetOfDateTime = (offsetInMinutes / xAxis.step) * widthPerMinute
+            offset.x + offsetOfDateTime
+        }
+        val getY = { value: MeasurementValue ->
+            val percentage = (value.value - yAxis.first) / (yAxis.last - yAxis.first)
+            size.height - (percentage.toFloat() * size.height)
+        }
+        drawLine(
             color = Color.Green,
-            radius = 20f,
-            center = Offset(x, y),
+            start = Offset(getX(first), getY(first)),
+            end = Offset(getX(second), getY(second)),
+            strokeWidth = strokeWidth,
         )
     }
 }

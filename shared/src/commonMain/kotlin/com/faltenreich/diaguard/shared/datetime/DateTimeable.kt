@@ -30,6 +30,8 @@ interface DateTimeable {
      */
     fun now(): DateTimeable
 
+    fun minutesUntil(other: DateTimeable): Long
+
     /**
      * Deserializes date
      */

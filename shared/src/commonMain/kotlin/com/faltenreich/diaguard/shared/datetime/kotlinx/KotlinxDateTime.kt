@@ -7,11 +7,13 @@ import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.until
 
 class KotlinxDateTime(
     year: Int,
@@ -81,6 +83,14 @@ class KotlinxDateTime(
         return KotlinxDateTime(
             localDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
         )
+    }
+
+    override fun minutesUntil(other: DateTimeable): Long {
+        val timeZone = TimeZone.currentSystemDefault()
+        val instant = localDateTime.toInstant(timeZone)
+        val otherLocalDateTime = KotlinxDateTime(other.millisSince1970).localDateTime
+        val otherInstant = otherLocalDateTime.toInstant(timeZone)
+        return instant.until(otherInstant, DateTimeUnit.MINUTE)
     }
 
     override fun readObject(inputStream: ObjectInputStream) {

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
 
 sealed class TimelineViewState(val date: Date) {
@@ -9,6 +9,6 @@ sealed class TimelineViewState(val date: Date) {
 
     class Responding(
         date: Date,
-        val entries: List<Entry> = emptyList(),
+        val bloodSugarList: List<MeasurementValue>,
     ) : TimelineViewState(date)
 }

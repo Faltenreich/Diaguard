@@ -16,15 +16,21 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
+import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.drawText
 import kotlin.math.ceil
 
 @Composable
 fun TimelineChart(
-    modifier: Modifier = Modifier
+    values: List<MeasurementValue>,
+    modifier: Modifier = Modifier,
+    onDateChange: (Date) -> Unit,
 ) {
     val padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() }
     val fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() }
@@ -36,16 +42,22 @@ fun TimelineChart(
         modifier = modifier
             .fillMaxSize()
             .pointerInput(key1 = Unit) {
-                detectDragGestures(onDrag = { _, dragAmount ->
-                    // TODO: Cap y at zero
-                    // TODO: Change y only if delta is larger than n to prevent accidental scroll
-                    offset += dragAmount
-                })
+                detectDragGestures(
+                    onDrag = { _, dragAmount ->
+                        // TODO: Cap y at zero
+                        // TODO: Change y only if delta is larger than n to prevent accidental scroll
+                        offset += dragAmount
+                        val widthPerDay = size.width
+                        val offsetInDays = ceil(offset.x * -1) / widthPerDay
+                        val date = DateTime.now().date.plusDays(offsetInDays.toInt())
+                        onDateChange(date)
+                    },
+                )
             },
     ) {
         drawYAxis(offset, fontSize, paint, padding)
         drawXAxis(offset, fontSize, paint, padding)
-        drawValues(offset, fontSize, paint)
+        drawValues(values, offset, fontSize, paint)
     }
 }
 
@@ -115,9 +127,35 @@ private fun DrawScope.drawXAxis(
 }
 
 private fun DrawScope.drawValues(
+    values: List<MeasurementValue>,
     offset: Offset,
     fontSize: Float,
     paint: Paint,
 ) {
+    val hours = 0 .. 24 step 2
+
     drawText("$offset", x = size.width / 2 - 160, y = size.height / 2, fontSize, paint)
+
+    values.forEach {
+        val dateTimeBase = Date.today().atTime(Time.atStartOfDay())
+        val dateTime = it.entry.dateTime
+        val widthPerDay = size.width
+        val widthPerHour = widthPerDay / (hours.last / hours.step)
+        val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
+        val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
+        val offsetOfDateTime = (offsetInMinutes / hours.step) * widthPerMinute
+        val x = offset.x + offsetOfDateTime
+
+        val value = it.value
+        val yMax = 250f
+        val yMin = 0f
+        val percentage = (value - yMin) / (yMax - yMin)
+        val y = size.height - (percentage.toFloat() * size.height)
+
+        drawCircle(
+            color = Color.Green,
+            radius = 20f,
+            center = Offset(x, y),
+        )
+    }
 }

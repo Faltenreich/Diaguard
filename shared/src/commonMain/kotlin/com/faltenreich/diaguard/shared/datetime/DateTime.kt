@@ -72,6 +72,10 @@ class DateTime(
         return DateTime(delegate.now())
     }
 
+    fun minutesUntil(other: DateTime): Long {
+        return delegate.minutesUntil(other.delegate)
+    }
+
     override fun compareTo(other: DateTime): Int {
         return when {
             date > other.date -> 1

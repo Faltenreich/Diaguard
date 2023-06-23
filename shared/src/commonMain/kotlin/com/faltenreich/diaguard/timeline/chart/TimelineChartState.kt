@@ -1,17 +1,27 @@
 package com.faltenreich.diaguard.timeline.chart
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 
 data class TimelineChartState(
     val values: List<MeasurementValue>,
+    val initialDate: Date,
     val offset: Offset,
+
+    val dateTimeFormatter: DateTimeFormatter,
 
     val padding: Float,
     val paint: Paint,
     val fontSize: Float,
     val strokeWidth: Float = 4f,
+
+    val lineColorNormal: Color,
+    val lineColorLow: Color = Color.Blue,
+    val lineColorHigh: Color = Color.Red,
 
     private val xMin: Int = 0,
     private val xMax: Int = 24,

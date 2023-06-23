@@ -18,9 +18,7 @@ import androidx.compose.ui.platform.LocalDensity
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
-import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.drawText
@@ -35,10 +33,13 @@ fun TimelineChart(
     var offset by remember { mutableStateOf(Offset.Zero) }
     val state = TimelineChartState(
         values = values,
+        initialDate = Date.today(),
         offset = offset,
+        dateTimeFormatter = inject(),
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
         paint = Paint().apply { color = Color.Black },
         fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
+        lineColorNormal = AppTheme.colorScheme.primary,
     )
     Canvas(
         modifier = modifier
@@ -51,7 +52,7 @@ fun TimelineChart(
                         offset += dragAmount
                         val widthPerDay = size.width
                         val offsetInDays = ceil(offset.x * -1) / widthPerDay
-                        val date = DateTime.now().date.plusDays(offsetInDays.toInt())
+                        val date = state.initialDate.plusDays(offsetInDays.toInt())
                         onDateChange(date)
                     },
                 )
@@ -74,10 +75,7 @@ private fun DrawScope.drawYAxis(state: TimelineChartState) = with(state) {
     }
 }
 
-private fun DrawScope.drawXAxis(
-    state: TimelineChartState,
-    dateTimeFormatter: DateTimeFormatter = inject(),
-) = with(state) {
+private fun DrawScope.drawXAxis(state: TimelineChartState) = with(state) {
     val widthPerDay = size.width
     val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
@@ -95,7 +93,7 @@ private fun DrawScope.drawXAxis(
         val x = xOfHour.toFloat()
         if (hour == 0) {
             val xOffsetInDays = xOffsetNormalized / widthPerDay
-            val date = DateTime.now().date.plusDays(xOffsetInDays.toInt())
+            val date = initialDate.plusDays(xOffsetInDays.toInt())
             drawText(dateTimeFormatter.formatDate(date), x + padding, y - fontSize - padding, fontSize, paint)
             // Hide day dividers initially
             if (offset.x != 0f) {
@@ -111,13 +109,11 @@ private fun DrawScope.drawXAxis(
     }
 }
 
-private fun DrawScope.drawValues(
-    state: TimelineChartState,
-) = with(state) {
+private fun DrawScope.drawValues(state: TimelineChartState) = with(state) {
     drawText("$offset", x = size.width / 2 - 160, y = size.height / 2, fontSize, paint)
 
-    values.zipWithNext { first, second ->
-        val getX = { value: MeasurementValue ->
+    values
+        .map { value ->
             val dateTimeBase = Date.today().atTime(Time.atStartOfDay())
             val dateTime = value.entry.dateTime
             val widthPerDay = size.width
@@ -125,17 +121,19 @@ private fun DrawScope.drawValues(
             val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
             val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
             val offsetOfDateTime = (offsetInMinutes / xAxis.step) * widthPerMinute
-            offset.x + offsetOfDateTime
-        }
-        val getY = { value: MeasurementValue ->
+            val x = offset.x + offsetOfDateTime
+
             val percentage = (value.value - yAxis.first) / (yAxis.last - yAxis.first)
-            size.height - (percentage.toFloat() * size.height)
+            val y = size.height - (percentage.toFloat() * size.height)
+
+            Offset(x, y)
         }
-        drawLine(
-            color = Color.Green,
-            start = Offset(getX(first), getY(first)),
-            end = Offset(getX(second), getY(second)),
-            strokeWidth = strokeWidth,
-        )
+        .zipWithNext { first, second ->
+            drawLine(
+                color = lineColorNormal,
+                start = first,
+                end = second,
+                strokeWidth = strokeWidth,
+            )
     }
 }

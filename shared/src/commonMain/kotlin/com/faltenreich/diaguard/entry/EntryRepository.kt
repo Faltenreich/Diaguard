@@ -22,6 +22,10 @@ class EntryRepository(
         return dao.getByDateRange(startDateTime, endDateTime)
     }
 
+    fun observeByDateRange(startDateTime: DateTime, endDateTime: DateTime): Flow<List<Entry>> {
+        return dao.observeByDateRange(startDateTime, endDateTime)
+    }
+
     fun getAll(): Flow<List<Entry>> {
         return dao.getAll()
     }

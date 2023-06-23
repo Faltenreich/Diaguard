@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -22,21 +23,27 @@ class TimelineViewModel(
 ) : ViewModel() {
 
     private val currentDate = MutableStateFlow(initialDate)
-    private val entries = currentDate.map { date ->
-        entryRepository.getByDateRange(
+    private val entries = currentDate.flatMapConcat { date ->
+        entryRepository.observeByDateRange(
             startDateTime = date.minusDays(1).atTime(Time.atStartOfDay()),
             endDateTime = date.plusDays(1).atTime(Time.atEndOfDay()),
         ).deep()
     }
-    private val state = combine(currentDate, entries) { currentDate, entries ->
-        val bloodSugarList = entries
+    private val bloodSugarList = entries.map { entries ->
+        entries
             .map(Entry::values)
             .flatMap { values ->
                 // TODO: Identify MeasurementType of Blood Sugar
                 values.filter { value -> value.typeId == 1L }
             }
-        TimelineViewState.Responding(currentDate, bloodSugarList)
-    }.flowOn(dispatcher)
+    }
+
+    private val state = combine(
+        currentDate,
+        bloodSugarList,
+        TimelineViewState::Responding,
+    ).flowOn(dispatcher)
+
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,

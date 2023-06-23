@@ -16,6 +16,11 @@ interface EntryDao {
         endDateTime: DateTime,
     ): List<Entry>
 
+    fun observeByDateRange(
+        startDateTime: DateTime,
+        endDateTime: DateTime,
+    ): Flow<List<Entry>>
+
     fun getByQuery(query: String): Flow<List<Entry>>
 
     fun getAll(): Flow<List<Entry>>

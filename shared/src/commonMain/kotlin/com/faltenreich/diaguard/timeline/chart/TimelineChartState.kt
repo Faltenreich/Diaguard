@@ -17,7 +17,7 @@ data class TimelineChartState(
     val padding: Float,
     val paint: Paint,
     val fontSize: Float,
-    val strokeWidth: Float = 4f,
+    val strokeWidth: Float = 12f,
 
     val lineColorNormal: Color,
     val lineColorLow: Color = Color.Blue,

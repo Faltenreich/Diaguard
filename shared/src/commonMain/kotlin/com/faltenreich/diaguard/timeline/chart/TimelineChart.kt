@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -119,7 +120,17 @@ private fun DrawScope.drawXAxis(state: TimelineChartState) = with(state) {
 }
 
 private fun DrawScope.drawValues(state: TimelineChartState) = with(state) {
-    drawText("$offset", x = size.width / 2 - 160, y = size.height / 2, fontSize, paint)
+    drawText("$offset", x = padding, y = padding, fontSize, paint)
+
+    // TODO: Get percentages from extremas
+    val brush = Brush.verticalGradient(
+        colorStops = arrayOf(
+            .3f to lineColorHigh,
+            .35f to lineColorNormal,
+            .8f to lineColorNormal,
+            .85f to lineColorLow,
+        ),
+    )
 
     values
         .map { value ->
@@ -139,7 +150,7 @@ private fun DrawScope.drawValues(state: TimelineChartState) = with(state) {
         }
         .zipWithNext { first, second ->
             drawLine(
-                color = lineColorNormal,
+                brush = brush,
                 start = first,
                 end = second,
                 strokeWidth = strokeWidth,

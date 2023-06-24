@@ -23,17 +23,20 @@ import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.drawText
 import kotlin.math.ceil
+import kotlin.math.floor
 
 @Composable
 fun TimelineChart(
+    initialDate: Date,
     values: List<MeasurementValue>,
     modifier: Modifier = Modifier,
     onDateChange: (Date) -> Unit,
 ) {
+    // TODO: Reset remember when initialDate changes
     var offset by remember { mutableStateOf(Offset.Zero) }
     val state = TimelineChartState(
         values = values,
-        initialDate = Date.today(),
+        initialDate = initialDate,
         offset = offset,
         dateTimeFormatter = inject(),
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
@@ -92,7 +95,7 @@ private fun DrawScope.drawXAxis(state: TimelineChartState) = with(state) {
         }.toInt().let { if (it == xAxis.last) xAxis.first else it }
         val x = xOfHour.toFloat()
         if (hour == 0) {
-            val xOffsetInDays = xOffsetNormalized / widthPerDay
+            val xOffsetInDays = floor(xOffsetNormalized / widthPerDay)
             val date = initialDate.plusDays(xOffsetInDays.toInt())
             drawText(dateTimeFormatter.formatDate(date), x + padding, y - fontSize - padding, fontSize, paint)
             // Hide day dividers initially

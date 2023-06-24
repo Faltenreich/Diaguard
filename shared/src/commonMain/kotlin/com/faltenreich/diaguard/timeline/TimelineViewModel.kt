@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -24,7 +24,7 @@ class TimelineViewModel(
 ) : ViewModel() {
 
     private val currentDate = MutableStateFlow(initialDate)
-    private val entries = currentDate.flatMapConcat { date ->
+    private val entries = currentDate.flatMapLatest { date ->
         entryRepository.observeByDateRange(
             startDateTime = date.minusDays(1).atTime(Time.atStartOfDay()),
             endDateTime = date.plusDays(1).atTime(Time.atEndOfDay()),

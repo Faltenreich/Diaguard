@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -39,6 +40,7 @@ class TimelineViewModel(
     }
 
     private val state = combine(
+        flowOf(initialDate),
         currentDate,
         bloodSugarList,
         TimelineViewState::Responding,
@@ -47,7 +49,10 @@ class TimelineViewModel(
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = TimelineViewState.Requesting(initialDate),
+        initialValue = TimelineViewState.Requesting(
+            initialDate = initialDate,
+            currentDate = initialDate,
+        ),
     )
 
     fun setDate(date: Date) {

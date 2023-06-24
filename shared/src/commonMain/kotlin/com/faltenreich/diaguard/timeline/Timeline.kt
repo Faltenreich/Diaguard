@@ -15,16 +15,12 @@ fun Timeline(
     viewModel: TimelineViewModel = inject(),
 ) {
     val viewState = viewModel.viewState.collectAsState().value
-    val values = when (viewState) {
-        is TimelineViewState.Requesting -> emptyList()
-        is TimelineViewState.Responding -> viewState.bloodSugarList
-    }
     Column(
         modifier = modifier.fillMaxSize(),
     ) {
         TimelineChart(
-            initialDate = viewState.date,
-            values = values,
+            initialDate = viewState.initialDate,
+            values = viewState.bloodSugarList,
             modifier = Modifier.weight(2f),
             onDateChange = viewModel::setDate,
         )

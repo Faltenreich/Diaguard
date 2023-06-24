@@ -23,7 +23,6 @@ import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.drawText
 import kotlin.math.ceil
-import kotlin.math.floor
 
 @Composable
 fun TimelineChart(
@@ -79,23 +78,30 @@ private fun DrawScope.drawYAxis(state: TimelineChartState) = with(state) {
 }
 
 private fun DrawScope.drawXAxis(state: TimelineChartState) = with(state) {
+    val y = size.height - padding
+
     val widthPerDay = size.width
     val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
-    val xOfFirstHour = (offset.x % widthPerHour).toInt()
+    val xOffset = offset.x.toInt()
+    val xOfFirstHour = xOffset % widthPerHour
     val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
-    val y = size.height - padding
-    // TODO: Find sweet spot for start to display approaching hour and date
-    (xOfFirstHour - widthPerHour .. xOfLastHour + widthPerHour step widthPerHour).forEach { xOfHour ->
-        val xOffsetNormalized = ceil(offset.x * -1) + xOfHour
-        val xOffsetInHours = xOffsetNormalized / widthPerHour
+    // Paint one additional hour per side to support cut-off labels
+    val (xStart, xEnd) = xOfFirstHour - widthPerHour to xOfLastHour + widthPerHour
+    val xProgression = xStart .. xEnd step widthPerHour
+
+    xProgression.forEach { xOfLabel ->
+        val xAbsolute = -(xOffset - xOfLabel)
+        val xOffsetInHours = xAbsolute / widthPerHour
+        val xOffsetInHoursOfDay = ((xOffsetInHours % xAxis.last) * xAxis.step) % xAxis.last
         val hour = when {
-            xOffsetInHours >= 0 -> (xOffsetInHours % xAxisLabelCount) * xAxis.step
-            else -> xAxis.last + (xOffsetInHours % xAxisLabelCount) * xAxis.step
-        }.toInt().let { if (it == xAxis.last) xAxis.first else it }
-        val x = xOfHour.toFloat()
+            xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + xAxis.last
+            else -> xOffsetInHoursOfDay
+        }
+
+        val x = xOfLabel.toFloat()
         if (hour == 0) {
-            val xOffsetInDays = floor(xOffsetNormalized / widthPerDay)
+            val xOffsetInDays = xAbsolute / widthPerDay
             val date = initialDate.plusDays(xOffsetInDays.toInt())
             drawText(dateTimeFormatter.formatDate(date), x + padding, y - fontSize - padding, fontSize, paint)
             // Hide day dividers initially
@@ -117,7 +123,7 @@ private fun DrawScope.drawValues(state: TimelineChartState) = with(state) {
 
     values
         .map { value ->
-            val dateTimeBase = Date.today().atTime(Time.atStartOfDay())
+            val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
             val dateTime = value.entry.dateTime
             val widthPerDay = size.width
             val widthPerHour = widthPerDay / (xAxis.last / xAxis.step)

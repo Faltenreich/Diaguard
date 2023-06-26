@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -124,20 +125,6 @@ private fun DrawScope.drawXAxis(state: TimelineChartState) = with(state) {
 private fun DrawScope.drawValues(state: TimelineChartState) = with(state) {
     drawText("$offset", x = padding, y = padding, fontSize, paint)
 
-    // TODO: Get percentages from extremas
-    val brush = Brush.verticalGradient(
-        colorStops = arrayOf(
-            .3f to lineColorHigh,
-            .35f to lineColorNormal,
-            .8f to lineColorNormal,
-            .85f to lineColorLow,
-        ),
-    )
-    val style = Stroke(width = strokeWidth)
-
-    val path = Path()
-    path.reset()
-
     val coordinates = values.map { value ->
         val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
         val dateTime = value.entry.dateTime
@@ -153,10 +140,38 @@ private fun DrawScope.drawValues(state: TimelineChartState) = with(state) {
 
         Offset(x, y)
     }
-    coordinates.zipWithNext { start, end ->
-        path.moveTo(start.x, start.y)
-        path.bezierBetween(start, end)
-        drawPath(path = path, brush = brush, style = style)
+
+    // TODO: Get percentages from extremas
+    val brush = Brush.verticalGradient(
+        colorStops = arrayOf(
+            .3f to lineColorHigh,
+            .35f to lineColorNormal,
+            .8f to lineColorNormal,
+            .85f to lineColorLow,
+        ),
+    )
+
+    val path = Path()
+    path.reset()
+
+    if (coordinates.size == 1) {
+        drawCircle(
+            brush = brush,
+            radius = strokeWidth * 2,
+            center = coordinates.first(),
+            style = Fill,
+        )
+    } else {
+        val style = Stroke(width = strokeWidth)
+        coordinates.zipWithNext { start, end ->
+            path.moveTo(start.x, start.y)
+            path.bezierBetween(start, end)
+            drawPath(
+                path = path,
+                brush = brush,
+                style = style,
+            )
+        }
     }
 }
 

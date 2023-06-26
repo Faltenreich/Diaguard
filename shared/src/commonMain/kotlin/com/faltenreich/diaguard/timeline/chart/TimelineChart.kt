@@ -13,7 +13,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import com.faltenreich.diaguard.AppTheme
@@ -131,29 +133,48 @@ private fun DrawScope.drawValues(state: TimelineChartState) = with(state) {
             .85f to lineColorLow,
         ),
     )
+    val style = Stroke(width = strokeWidth)
 
-    values
-        .map { value ->
-            val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
-            val dateTime = value.entry.dateTime
-            val widthPerDay = size.width
-            val widthPerHour = widthPerDay / (xAxis.last / xAxis.step)
-            val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
-            val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
-            val offsetOfDateTime = (offsetInMinutes / xAxis.step) * widthPerMinute
-            val x = offset.x + offsetOfDateTime
+    val path = Path()
+    path.reset()
 
-            val percentage = (value.value - yAxis.first) / (yAxis.last - yAxis.first)
-            val y = size.height - (percentage.toFloat() * size.height)
+    val coordinates = values.map { value ->
+        val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
+        val dateTime = value.entry.dateTime
+        val widthPerDay = size.width
+        val widthPerHour = widthPerDay / (xAxis.last / xAxis.step)
+        val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
+        val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
+        val offsetOfDateTime = (offsetInMinutes / xAxis.step) * widthPerMinute
+        val x = offset.x + offsetOfDateTime
 
-            Offset(x, y)
-        }
-        .zipWithNext { first, second ->
-            drawLine(
-                brush = brush,
-                start = first,
-                end = second,
-                strokeWidth = strokeWidth,
-            )
+        val percentage = (value.value - yAxis.first) / (yAxis.last - yAxis.first)
+        val y = size.height - (percentage.toFloat() * size.height)
+
+        Offset(x, y)
     }
+    coordinates.zipWithNext { start, end ->
+        path.moveTo(start.x, start.y)
+        path.bezierBetween(start, end)
+        drawPath(path = path, brush = brush, style = style)
+    }
+}
+
+private fun Path.bezierBetween(start: Offset, end: Offset) {
+    val control1 = Offset(
+        x = (start.x + end.x) / 2,
+        y = start.y,
+    )
+    val control2 = Offset(
+        x = (start.x + end.x) / 2,
+        y = end.y,
+    )
+    cubicTo(
+        x1 = control1.x,
+        y1 = control1.y,
+        x2 = control2.x,
+        y2 = control2.y,
+        x3 = end.x,
+        y3 = end.y,
+    )
 }

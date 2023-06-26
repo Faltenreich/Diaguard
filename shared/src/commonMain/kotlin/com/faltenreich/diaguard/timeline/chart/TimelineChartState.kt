@@ -15,13 +15,13 @@ data class TimelineChartState(
     val dateTimeFormatter: DateTimeFormatter,
 
     val padding: Float,
-    val paint: Paint,
+    val fontPaint: Paint,
     val fontSize: Float,
     val strokeWidth: Float = 8f,
 
     val lineColorNormal: Color,
-    val lineColorLow: Color = Color.Blue,
-    val lineColorHigh: Color = Color.Red,
+    val lineColorLow: Color,
+    val lineColorHigh: Color,
 
     private val xMin: Int = 0,
     private val xMax: Int = 24,

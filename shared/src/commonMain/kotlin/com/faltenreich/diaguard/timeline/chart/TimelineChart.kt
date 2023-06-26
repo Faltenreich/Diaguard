@@ -43,9 +43,11 @@ fun TimelineChart(
         offset = offset,
         dateTimeFormatter = inject(),
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
-        paint = Paint().apply { color = Color.Black },
+        fontPaint = Paint().apply { color = Color.Black },
         fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
         lineColorNormal = AppTheme.colorScheme.primary,
+        lineColorLow = AppTheme.colorScheme.primary,
+        lineColorHigh = AppTheme.colorScheme.error,
     )
     Canvas(
         modifier = modifier
@@ -77,7 +79,8 @@ private fun DrawScope.drawYAxis(state: TimelineChartState) = with(state) {
         val index = yAxis.indexOf(value)
         val x = 0f + padding
         val y = size.height - (index * height)
-        drawText(value.toString(), x, y, fontSize, paint)
+        drawText(value.toString(), x, y, fontSize, fontPaint)
+        drawLine(Color.LightGray, start = Offset(x = 0f, y = y), end = Offset(x = size.width, y = y))
     }
 }
 
@@ -107,23 +110,24 @@ private fun DrawScope.drawXAxis(state: TimelineChartState) = with(state) {
         if (hour == 0) {
             val xOffsetInDays = xAbsolute / widthPerDay
             val date = initialDate.plusDays(xOffsetInDays.toInt())
-            drawText(dateTimeFormatter.formatDate(date), x + padding, y - fontSize - padding, fontSize, paint)
+            drawText(dateTimeFormatter.formatDate(date), x + padding, y - fontSize - padding, fontSize, fontPaint)
             // Hide day dividers initially
             if (offset.x != 0f) {
                 drawLine(
                     color = Color.Gray,
                     start = Offset(x = x, y = 0f),
                     end = Offset(x = x, y = size.height),
-                    strokeWidth = strokeWidth,
+                    strokeWidth = Stroke.DefaultMiter,
                 )
             }
         }
-        drawText(hour.toString(), x + padding, y, fontSize, paint)
+        drawText(hour.toString(), x + padding, y, fontSize, fontPaint)
+        drawLine(Color.LightGray, start = Offset(x = x, y = 0f), end = Offset(x = x, y = size.height))
     }
 }
 
 private fun DrawScope.drawValues(state: TimelineChartState) = with(state) {
-    drawText("$offset", x = padding, y = padding, fontSize, paint)
+    drawText("$offset", x = padding, y = padding, fontSize, fontPaint)
 
     val coordinates = values.map { value ->
         val dateTimeBase = initialDate.atTime(Time.atStartOfDay())

@@ -10,22 +10,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
-import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.drawText
+import com.faltenreich.diaguard.timeline.chart.drawing.TimelineValues
+import com.faltenreich.diaguard.timeline.chart.drawing.TimelineXAxis
+import com.faltenreich.diaguard.timeline.chart.drawing.TimelineYAxis
 import kotlin.math.ceil
 
 @Composable
@@ -66,134 +61,8 @@ fun TimelineChart(
                 )
             },
     ) {
-        drawYAxis(state)
-        drawXAxis(state)
-        drawValues(state)
+        TimelineYAxis(state)
+        TimelineXAxis(state)
+        TimelineValues(state)
     }
-}
-
-private fun DrawScope.drawYAxis(state: TimelineChartState) = with(state) {
-    val height = size.height / (yAxis.last / yAxis.step)
-    // TODO: Move window with offset
-    yAxis.drop(1).dropLast(1).forEach { value ->
-        val index = yAxis.indexOf(value)
-        val x = 0f + padding
-        val y = size.height - (index * height)
-        drawText(value.toString(), x, y, fontSize, fontPaint)
-        drawLine(Color.LightGray, start = Offset(x = 0f, y = y), end = Offset(x = size.width, y = y))
-    }
-}
-
-private fun DrawScope.drawXAxis(state: TimelineChartState) = with(state) {
-    val y = size.height - padding
-
-    val widthPerDay = size.width
-    val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
-
-    val xOffset = offset.x.toInt()
-    val xOfFirstHour = xOffset % widthPerHour
-    val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
-    // Paint one additional hour per side to support cut-off labels
-    val (xStart, xEnd) = xOfFirstHour - widthPerHour to xOfLastHour + widthPerHour
-    val xProgression = xStart .. xEnd step widthPerHour
-
-    xProgression.forEach { xOfLabel ->
-        val xAbsolute = -(xOffset - xOfLabel)
-        val xOffsetInHours = xAbsolute / widthPerHour
-        val xOffsetInHoursOfDay = ((xOffsetInHours % xAxis.last) * xAxis.step) % xAxis.last
-        val hour = when {
-            xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + xAxis.last
-            else -> xOffsetInHoursOfDay
-        }
-
-        val x = xOfLabel.toFloat()
-        if (hour == 0) {
-            val xOffsetInDays = xAbsolute / widthPerDay
-            val date = initialDate.plusDays(xOffsetInDays.toInt())
-            drawText(dateTimeFormatter.formatDate(date), x + padding, y - fontSize - padding, fontSize, fontPaint)
-            // Hide day dividers initially
-            if (offset.x != 0f) {
-                drawLine(
-                    color = Color.Gray,
-                    start = Offset(x = x, y = 0f),
-                    end = Offset(x = x, y = size.height),
-                    strokeWidth = Stroke.DefaultMiter,
-                )
-            }
-        }
-        drawText(hour.toString(), x + padding, y, fontSize, fontPaint)
-        drawLine(Color.LightGray, start = Offset(x = x, y = 0f), end = Offset(x = x, y = size.height))
-    }
-}
-
-private fun DrawScope.drawValues(state: TimelineChartState) = with(state) {
-    drawText("$offset", x = padding, y = padding, fontSize, fontPaint)
-
-    val coordinates = values.map { value ->
-        val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
-        val dateTime = value.entry.dateTime
-        val widthPerDay = size.width
-        val widthPerHour = widthPerDay / (xAxis.last / xAxis.step)
-        val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
-        val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
-        val offsetOfDateTime = (offsetInMinutes / xAxis.step) * widthPerMinute
-        val x = offset.x + offsetOfDateTime
-
-        val percentage = (value.value - yAxis.first) / (yAxis.last - yAxis.first)
-        val y = size.height - (percentage.toFloat() * size.height)
-
-        Offset(x, y)
-    }
-
-    // TODO: Get percentages from extremas
-    val brush = Brush.verticalGradient(
-        colorStops = arrayOf(
-            .3f to lineColorHigh,
-            .35f to lineColorNormal,
-            .8f to lineColorNormal,
-            .85f to lineColorLow,
-        ),
-    )
-
-    val path = Path()
-    path.reset()
-
-    if (coordinates.size == 1) {
-        drawCircle(
-            brush = brush,
-            radius = strokeWidth * 2,
-            center = coordinates.first(),
-            style = Fill,
-        )
-    } else {
-        val style = Stroke(width = strokeWidth)
-        coordinates.zipWithNext { start, end ->
-            path.moveTo(start.x, start.y)
-            path.bezierBetween(start, end)
-            drawPath(
-                path = path,
-                brush = brush,
-                style = style,
-            )
-        }
-    }
-}
-
-private fun Path.bezierBetween(start: Offset, end: Offset) {
-    val control1 = Offset(
-        x = (start.x + end.x) / 2,
-        y = start.y,
-    )
-    val control2 = Offset(
-        x = (start.x + end.x) / 2,
-        y = end.y,
-    )
-    cubicTo(
-        x1 = control1.x,
-        y1 = control1.y,
-        x2 = control2.x,
-        y2 = control2.y,
-        x3 = end.x,
-        y3 = end.y,
-    )
 }

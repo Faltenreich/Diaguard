@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.timeline.chart
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
@@ -18,6 +19,7 @@ data class TimelineChartState(
     val fontPaint: Paint,
     val fontSize: Float,
     val strokeWidth: Float = 8f,
+    val dotRadius: Float = 16f,
 
     val lineColorNormal: Color,
     val lineColorLow: Color,
@@ -38,4 +40,13 @@ data class TimelineChartState(
 
     private val yRange: IntRange = yMin .. yMax
     val yAxis: IntProgression = yRange step yStep
+
+    val brush = Brush.verticalGradient(
+        colorStops = arrayOf(
+            .3f to lineColorHigh,
+            .35f to lineColorNormal,
+            .8f to lineColorNormal,
+            .85f to lineColorLow,
+        ),
+    )
 }

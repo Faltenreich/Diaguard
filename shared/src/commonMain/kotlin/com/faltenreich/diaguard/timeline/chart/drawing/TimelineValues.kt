@@ -9,13 +9,10 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.view.bezierBetween
-import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.chart.TimelineChartState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineValues(state: TimelineChartState) = with(state) {
-    drawText("$offset", x = padding, y = padding, fontSize, fontPaint)
-
     val coordinates = values.map { value ->
         val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
         val dateTime = value.entry.dateTime

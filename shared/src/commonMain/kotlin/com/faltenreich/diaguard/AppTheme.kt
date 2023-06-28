@@ -2,7 +2,6 @@ package com.faltenreich.diaguard
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
@@ -16,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.faltenreich.diaguard.shared.theme.Colors
 import com.faltenreich.diaguard.shared.theme.Dimensions
+import com.faltenreich.diaguard.shared.theme.LocalColors
 import com.faltenreich.diaguard.shared.theme.LocalDimensions
 
 @Composable
@@ -57,9 +57,9 @@ fun AppTheme(
 
 object AppTheme {
 
-    val colorScheme: ColorScheme
+    val colors: Colors
         @Composable
-        get() = MaterialTheme.colorScheme
+        get() = LocalColors.current
 
     val dimensions: Dimensions
         @Composable

@@ -38,8 +38,8 @@ fun BottomSheetNavigationItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val onPrimaryColor =
-            if (isActive) AppTheme.colorScheme.primary
-            else AppTheme.colorScheme.onBackground
+            if (isActive) AppTheme.colors.Material.primary
+            else AppTheme.colors.Material.onBackground
         Image(
             painter = painterResource(icon),
             contentDescription = null,

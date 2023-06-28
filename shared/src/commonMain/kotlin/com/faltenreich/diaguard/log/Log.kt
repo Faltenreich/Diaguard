@@ -73,7 +73,7 @@ fun Log(
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .background(AppTheme.colorScheme.error),
+                                    .background(AppTheme.colors.Red),
                             )
                         },
                     ) {

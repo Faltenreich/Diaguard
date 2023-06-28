@@ -40,9 +40,9 @@ fun TimelineChart(
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
         fontPaint = Paint().apply { color = Color.Black },
         fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
-        lineColorNormal = AppTheme.colorScheme.primary,
-        lineColorLow = AppTheme.colorScheme.primary,
-        lineColorHigh = AppTheme.colorScheme.error,
+        lineColorNormal = AppTheme.colors.Green,
+        lineColorLow = AppTheme.colors.Blue,
+        lineColorHigh = AppTheme.colors.Red,
     )
     Canvas(
         modifier = modifier

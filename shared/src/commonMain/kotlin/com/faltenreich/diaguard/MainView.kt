@@ -38,7 +38,7 @@ fun MainView(
     AppTheme {
         Surface (
             modifier = modifier.fillMaxSize().keyboardPadding(),
-            color = AppTheme.colorScheme.background,
+            color = AppTheme.colors.Material.background,
         ) {
             // TODO: Get start screen from preferences
             Navigator(screen = Screen.Timeline()) { navigator ->

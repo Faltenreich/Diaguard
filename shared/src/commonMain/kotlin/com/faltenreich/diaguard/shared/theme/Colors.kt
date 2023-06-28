@@ -1,8 +1,18 @@
 package com.faltenreich.diaguard.shared.theme
 
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
+val LocalColors = staticCompositionLocalOf { Colors }
+
 object Colors {
+
+    val Material: ColorScheme
+        @Composable
+        get() = MaterialTheme.colorScheme
 
     val Green = Color(0xff478063)
     val GreenLight = Color(0xff6d947f)
@@ -17,9 +27,9 @@ object Colors {
     val RedLight = Color(0xffe96353)
     val RedDark = Color(0xffc95a4a)
 
-    val Yellow = Color(0xFBC02D)
+    val Yellow = Color(0xffFBC02D)
 
-    val Blue = Color(0x5771cd)
+    val Blue = Color(0xff5771cd)
 
     val Gray = Color(0xababab)
     val GrayLight = Color(0xffd4d4d4)

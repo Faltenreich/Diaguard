@@ -5,8 +5,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.platform.LocalDensity
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.timeline.chart.TimelineChart
+import com.faltenreich.diaguard.timeline.chart.TimelineChartConfig
 import com.faltenreich.diaguard.timeline.list.TimelineList
 
 @Composable
@@ -21,8 +26,17 @@ fun Timeline(
         TimelineChart(
             initialDate = viewState.initialDate,
             values = viewState.bloodSugarList,
-            modifier = Modifier.weight(2f),
+            config = TimelineChartConfig(
+                dateTimeFormatter = inject(),
+                padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
+                fontPaint = Paint().apply { color = Color.Black },
+                fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
+                lineColorNormal = AppTheme.colors.Green,
+                lineColorLow = AppTheme.colors.Blue,
+                lineColorHigh = AppTheme.colors.Red,
+            ),
             onDateChange = viewModel::setDate,
+            modifier = Modifier.weight(2f),
         )
         TimelineList(
             modifier = Modifier.weight(1f),

@@ -6,13 +6,20 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.view.bezierBetween
-import com.faltenreich.diaguard.timeline.chart.TimelineChartState
+import com.faltenreich.diaguard.timeline.chart.TimelineChartConfig
 
 @Suppress("FunctionName")
-fun DrawScope.TimelineValues(state: TimelineChartState) = with(state) {
+fun DrawScope.TimelineValues(
+    offset: Offset,
+    initialDate: Date,
+    values: List<MeasurementValue>,
+    config: TimelineChartConfig,
+) = with(config) {
     val coordinates = values.map { value ->
         val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
         val dateTime = value.entry.dateTime
@@ -45,7 +52,7 @@ fun DrawScope.TimelineValues(state: TimelineChartState) = with(state) {
     val path = Path()
     path.reset()
 
-    drawValue(coordinates.first(), state, brush)
+    drawValue(coordinates.first(), brush, config)
 
     val style = Stroke(width = strokeWidth)
     coordinates.zipWithNext { start, end ->
@@ -57,14 +64,14 @@ fun DrawScope.TimelineValues(state: TimelineChartState) = with(state) {
             brush = brush,
             style = style,
         )
-        drawValue(end, state, brush)
+        drawValue(end, brush, config)
     }
 }
 
-private fun DrawScope.drawValue(offset: Offset, state: TimelineChartState, brush: Brush) = with(state) {
+private fun DrawScope.drawValue(offset: Offset, brush: Brush, config: TimelineChartConfig) {
     drawCircle(
         brush = brush,
-        radius = dotRadius,
+        radius = config.dotRadius,
         center = offset,
         style = Fill,
     )

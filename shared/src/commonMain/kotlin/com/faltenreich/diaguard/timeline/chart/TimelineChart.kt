@@ -10,11 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.inject
@@ -27,23 +23,13 @@ import kotlin.math.ceil
 fun TimelineChart(
     initialDate: Date,
     values: List<MeasurementValue>,
-    modifier: Modifier = Modifier,
+    config: TimelineChartConfig,
     onDateChange: (Date) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: TimelineChartViewModel = inject(),
 ) {
     // TODO: Reset remember when initialDate changes
     var offset by remember { mutableStateOf(Offset.Zero) }
-    val state = TimelineChartState(
-        values = values,
-        initialDate = initialDate,
-        offset = offset,
-        dateTimeFormatter = inject(),
-        padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
-        fontPaint = Paint().apply { color = Color.Black },
-        fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
-        lineColorNormal = AppTheme.colors.Green,
-        lineColorLow = AppTheme.colors.Blue,
-        lineColorHigh = AppTheme.colors.Red,
-    )
     Canvas(
         modifier = modifier
             .fillMaxSize()
@@ -53,16 +39,17 @@ fun TimelineChart(
                         // TODO: Cap y at zero
                         // TODO: Change y only if delta is larger than n to prevent accidental scroll
                         offset += dragAmount
+
                         val widthPerDay = size.width
                         val offsetInDays = ceil(offset.x * -1) / widthPerDay
-                        val date = state.initialDate.plusDays(offsetInDays.toInt())
+                        val date = initialDate.plusDays(offsetInDays.toInt())
                         onDateChange(date)
                     },
                 )
             },
     ) {
-        TimelineYAxis(state)
-        TimelineXAxis(state)
-        TimelineValues(state)
+        TimelineYAxis(config)
+        TimelineXAxis(offset, initialDate, config)
+        TimelineValues(offset, initialDate, values, config)
     }
 }

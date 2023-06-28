@@ -4,10 +4,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.shared.view.drawText
-import com.faltenreich.diaguard.timeline.chart.TimelineChartState
+import com.faltenreich.diaguard.timeline.chart.TimelineChartConfig
 
 @Suppress("FunctionName")
-fun DrawScope.TimelineYAxis(state: TimelineChartState) = with(state) {
+fun DrawScope.TimelineYAxis(config: TimelineChartConfig) = with(config) {
     val height = size.height / (yAxis.last / yAxis.step)
     // TODO: Move window with offset
     yAxis.drop(1).dropLast(1).forEach { value ->

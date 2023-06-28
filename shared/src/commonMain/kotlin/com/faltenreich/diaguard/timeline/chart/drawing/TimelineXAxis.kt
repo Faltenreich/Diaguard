@@ -6,10 +6,14 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.view.drawText
-import com.faltenreich.diaguard.timeline.chart.TimelineChartState
+import com.faltenreich.diaguard.timeline.chart.TimelineChartConfig
 
 @Suppress("FunctionName")
-fun DrawScope.TimelineXAxis(state: TimelineChartState) = with(state) {
+fun DrawScope.TimelineXAxis(
+    offset: Offset,
+    initialDate: Date,
+    config: TimelineChartConfig,
+) = with(config) {
     val widthPerDay = size.width
     val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
@@ -32,13 +36,18 @@ fun DrawScope.TimelineXAxis(state: TimelineChartState) = with(state) {
         if (hour == 0) {
             val xOffsetInDays = xAbsolute / widthPerDay
             val date = initialDate.plusDays(xOffsetInDays.toInt())
-            drawDate(date, x, state)
+            drawDate(date, x, offset, config)
         }
-        drawHour(hour, x, state)
+        drawHour(hour, x, config)
     }
 }
 
-private fun DrawScope.drawDate(date: Date, x: Float, state: TimelineChartState) = with(state) {
+private fun DrawScope.drawDate(
+    date: Date,
+    x: Float,
+    offset: Offset,
+    config: TimelineChartConfig,
+) = with(config) {
     drawText(
         text = dateTimeFormatter.formatDate(date),
         x = x + padding,
@@ -56,7 +65,7 @@ private fun DrawScope.drawDate(date: Date, x: Float, state: TimelineChartState) 
     }
 }
 
-private fun DrawScope.drawHour(hour: Int, x: Float, state: TimelineChartState) = with(state) {
+private fun DrawScope.drawHour(hour: Int, x: Float, config: TimelineChartConfig) = with(config) {
     drawText(
         text = hour.toString(),
         x = x + padding,

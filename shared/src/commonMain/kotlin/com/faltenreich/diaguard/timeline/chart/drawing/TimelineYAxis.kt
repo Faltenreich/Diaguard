@@ -5,13 +5,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.chart.TimelineChartConfig
-import com.faltenreich.diaguard.timeline.chart.TimelineChartState
 
 class TimelineYAxis(
     private val config: TimelineChartConfig,
-) {
+) : ChartDrawable {
 
-    fun drawOn(drawScope: DrawScope, state: TimelineChartState) {
+    override fun drawOn(drawScope: DrawScope) {
         drawScope.drawAxis()
     }
 

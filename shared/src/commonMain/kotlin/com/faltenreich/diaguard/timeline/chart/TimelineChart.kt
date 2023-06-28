@@ -31,9 +31,6 @@ fun TimelineChart(
     // TODO: Reset remember when initialDate changes
     var offset by remember { mutableStateOf(Offset.Zero) }
     val state = TimelineChartState(offset, initialDate, values)
-    val timelineYAxis = TimelineYAxis(config)
-    val timelineXAxis = TimelineXAxis(config)
-    val timelineValues = TimelineValues(config)
     Canvas(
         modifier = modifier
             .fillMaxSize()
@@ -52,8 +49,8 @@ fun TimelineChart(
                 )
             },
     ) {
-        timelineYAxis.drawOn(this, state)
-        timelineXAxis.drawOn(this, state)
-        timelineValues.drawOn(this,state)
+        TimelineYAxis(config).drawOn(this)
+        TimelineXAxis(state, config).drawOn(this)
+        TimelineValues(state, config).drawOn(this)
     }
 }

@@ -12,22 +12,20 @@ import com.faltenreich.diaguard.timeline.chart.TimelineChartConfig
 import com.faltenreich.diaguard.timeline.chart.TimelineChartState
 
 class TimelineXAxis(
+    private val state: TimelineChartState,
     private val config: TimelineChartConfig,
     private val dateTimeFormatter: DateTimeFormatter = inject(),
-) {
+) : ChartDrawable {
 
-    fun drawOn(drawScope: DrawScope, state: TimelineChartState) {
-        drawScope.drawAxis(state.offset, state.initialDate)
+    override fun drawOn(drawScope: DrawScope) {
+        drawScope.drawAxis()
     }
 
-    private fun DrawScope.drawAxis(
-        offset: Offset,
-        initialDate: Date,
-    ) = with(config) {
+    private fun DrawScope.drawAxis() = with(config) {
         val widthPerDay = size.width
         val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
-        val xOffset = offset.x.toInt()
+        val xOffset = state.offset.x.toInt()
         val xOfFirstHour = xOffset % widthPerHour
         val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
         // Paint one additional hour per side to support cut-off labels
@@ -45,8 +43,8 @@ class TimelineXAxis(
             val x = xOfLabel.toFloat()
             if (hour == 0) {
                 val xOffsetInDays = xAbsolute / widthPerDay
-                val date = initialDate.plusDays(xOffsetInDays.toInt())
-                drawDate(date, x, offset, config)
+                val date = state.initialDate.plusDays(xOffsetInDays.toInt())
+                drawDate(date, x, state.offset, config)
             }
             drawHour(hour, x, config)
         }

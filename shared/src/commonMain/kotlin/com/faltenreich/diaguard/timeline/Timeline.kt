@@ -27,7 +27,6 @@ fun Timeline(
             initialDate = viewState.initialDate,
             values = viewState.bloodSugarList,
             config = TimelineChartConfig(
-                dateTimeFormatter = inject(),
                 padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
                 fontPaint = Paint().apply { color = Color.Black },
                 fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },

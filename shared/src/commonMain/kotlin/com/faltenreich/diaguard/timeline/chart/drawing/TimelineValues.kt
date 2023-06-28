@@ -45,7 +45,7 @@ fun DrawScope.TimelineValues(state: TimelineChartState) = with(state) {
     val path = Path()
     path.reset()
 
-    drawValue(coordinates.first(), state)
+    drawValue(coordinates.first(), state, brush)
 
     val style = Stroke(width = strokeWidth)
     coordinates.zipWithNext { start, end ->
@@ -57,11 +57,11 @@ fun DrawScope.TimelineValues(state: TimelineChartState) = with(state) {
             brush = brush,
             style = style,
         )
-        drawValue(end, state)
+        drawValue(end, state, brush)
     }
 }
 
-private fun DrawScope.drawValue(offset: Offset, state: TimelineChartState) = with(state) {
+private fun DrawScope.drawValue(offset: Offset, state: TimelineChartState, brush: Brush) = with(state) {
     drawCircle(
         brush = brush,
         radius = dotRadius,

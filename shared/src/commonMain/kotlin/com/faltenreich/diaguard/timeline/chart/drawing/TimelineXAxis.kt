@@ -11,80 +11,74 @@ import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.chart.TimelineChartConfig
 import com.faltenreich.diaguard.timeline.chart.TimelineChartState
 
-class TimelineXAxis(
-    private val state: TimelineChartState,
-    private val config: TimelineChartConfig,
-    private val dateTimeFormatter: DateTimeFormatter = inject(),
-) : ChartDrawable {
+@Suppress("FunctionName")
+fun DrawScope.TimelineXAxis(
+    state: TimelineChartState,
+    config: TimelineChartConfig,
+) = with(config) {
+    val widthPerDay = size.width
+    val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
-    override fun drawOn(drawScope: DrawScope) {
-        drawScope.drawAxis()
-    }
+    val xOffset = state.offset.x.toInt()
+    val xOfFirstHour = xOffset % widthPerHour
+    val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
+    // Paint one additional hour per side to support cut-off labels
+    val (xStart, xEnd) = xOfFirstHour - widthPerHour to xOfLastHour + widthPerHour
+    val xProgression = xStart .. xEnd step widthPerHour
 
-    private fun DrawScope.drawAxis() = with(config) {
-        val widthPerDay = size.width
-        val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
-
-        val xOffset = state.offset.x.toInt()
-        val xOfFirstHour = xOffset % widthPerHour
-        val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
-        // Paint one additional hour per side to support cut-off labels
-        val (xStart, xEnd) = xOfFirstHour - widthPerHour to xOfLastHour + widthPerHour
-        val xProgression = xStart .. xEnd step widthPerHour
-
-        xProgression.forEach { xOfLabel ->
-            val xAbsolute = -(xOffset - xOfLabel)
-            val xOffsetInHours = xAbsolute / widthPerHour
-            val xOffsetInHoursOfDay = ((xOffsetInHours % xAxis.last) * xAxis.step) % xAxis.last
-            val hour = when {
-                xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + xAxis.last
-                else -> xOffsetInHoursOfDay
-            }
-            val x = xOfLabel.toFloat()
-            if (hour == 0) {
-                val xOffsetInDays = xAbsolute / widthPerDay
-                val date = state.initialDate.plusDays(xOffsetInDays.toInt())
-                drawDate(date, x, state.offset, config)
-            }
-            drawHour(hour, x, config)
+    xProgression.forEach { xOfLabel ->
+        val xAbsolute = -(xOffset - xOfLabel)
+        val xOffsetInHours = xAbsolute / widthPerHour
+        val xOffsetInHoursOfDay = ((xOffsetInHours % xAxis.last) * xAxis.step) % xAxis.last
+        val hour = when {
+            xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + xAxis.last
+            else -> xOffsetInHoursOfDay
         }
-    }
-
-    private fun DrawScope.drawDate(
-        date: Date,
-        x: Float,
-        offset: Offset,
-        config: TimelineChartConfig,
-    ) = with(config) {
-        drawText(
-            text = dateTimeFormatter.formatDate(date),
-            x = x + padding,
-            y= padding + fontSize,
-            size = fontSize,
-            paint = fontPaint,
-        )
-        if (offset.x != 0f) {
-            drawLine(
-                color = Color.Gray,
-                start = Offset(x = x, y = 0f),
-                end = Offset(x = x, y = size.height),
-                strokeWidth = Stroke.DefaultMiter,
-            )
+        val x = xOfLabel.toFloat()
+        if (hour == 0) {
+            val xOffsetInDays = xAbsolute / widthPerDay
+            val date = state.initialDate.plusDays(xOffsetInDays.toInt())
+            drawDate(date, x, state.offset, config)
         }
+        drawHour(hour, x, config)
     }
+}
 
-    private fun DrawScope.drawHour(hour: Int, x: Float, config: TimelineChartConfig) = with(config) {
-        drawText(
-            text = hour.toString(),
-            x = x + padding,
-            y = size.height - padding,
-            size = fontSize,
-            paint = fontPaint,
-        )
+private fun DrawScope.drawDate(
+    date: Date,
+    x: Float,
+    offset: Offset,
+    config: TimelineChartConfig,
+    dateTimeFormatter: DateTimeFormatter = inject(),
+) = with(config) {
+    drawText(
+        text = dateTimeFormatter.formatDate(date),
+        x = x + padding,
+        y= padding + fontSize,
+        size = fontSize,
+        paint = fontPaint,
+    )
+    if (offset.x != 0f) {
         drawLine(
-            color = Color.LightGray,
+            color = Color.Gray,
             start = Offset(x = x, y = 0f),
             end = Offset(x = x, y = size.height),
+            strokeWidth = Stroke.DefaultMiter,
         )
     }
+}
+
+private fun DrawScope.drawHour(hour: Int, x: Float, config: TimelineChartConfig) = with(config) {
+    drawText(
+        text = hour.toString(),
+        x = x + padding,
+        y = size.height - padding,
+        size = fontSize,
+        paint = fontPaint,
+    )
+    drawLine(
+        color = Color.LightGray,
+        start = Offset(x = x, y = 0f),
+        end = Offset(x = x, y = size.height),
+    )
 }

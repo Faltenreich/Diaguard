@@ -49,8 +49,8 @@ fun TimelineChart(
                 )
             },
     ) {
-        TimelineYAxis(config).drawOn(this)
-        TimelineXAxis(state, config).drawOn(this)
-        TimelineValues(state, config).drawOn(this)
+        TimelineYAxis(config)
+        TimelineXAxis(state, config)
+        TimelineValues(state, config)
     }
 }

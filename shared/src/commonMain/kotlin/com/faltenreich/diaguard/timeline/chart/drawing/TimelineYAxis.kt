@@ -26,7 +26,7 @@ fun DrawScope.TimelineYAxis(
             drawText(
                 text = value.toString(),
                 x= x,
-                y = y,
+                y = y - padding,
                 size = fontSize,
                 paint = fontPaint,
             )

@@ -1,16 +1,21 @@
 package com.faltenreich.diaguard.entry.form
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
@@ -18,6 +23,7 @@ import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.TimePicker
+import com.faltenreich.diaguard.shared.view.ignoreParentPadding
 import com.faltenreich.diaguard.shared.view.rememberDatePickerState
 import com.faltenreich.diaguard.shared.view.rememberTimePickerState
 import dev.icerock.moko.resources.compose.stringResource
@@ -32,8 +38,8 @@ fun EntryForm(
     val timePickerState = rememberTimePickerState()
 
     Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
+        modifier = modifier.verticalScroll(rememberScrollState()).padding(AppTheme.dimensions.padding.P_3),
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
     ) {
         FormRow(icon = { ResourceIcon(MR.images.ic_time) }) {
             TextButton(onClick = { datePickerState.isShown = true }) {
@@ -43,36 +49,46 @@ fun EntryForm(
                 Text(formatter.formatTime(viewModel.dateTime.time))
             }
         }
-        Divider()
-        FormRow(icon = { ResourceIcon(MR.images.ic_tag) }) {
-            TextInput(
-                input = "",
-                hint = stringResource(MR.strings.tag),
-                onInputChange = { TODO() },
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-        Divider()
-        FormRow(icon = { ResourceIcon(MR.images.ic_note) }) {
-            TextInput(
-                input = viewModel.note,
-                hint = stringResource(MR.strings.note),
-                onInputChange = { input -> viewModel.note = input },
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-        Divider()
+        TextInput(
+            input = viewModel.tag,
+            onInputChange = { input -> viewModel.tag = input },
+            label = stringResource(MR.strings.tag),
+            leadingIcon = { ResourceIcon(MR.images.ic_tag) },
+            modifier = Modifier.fillMaxWidth()
+        )
+        TextInput(
+            input = viewModel.note,
+            onInputChange = { input -> viewModel.note = input },
+            label = stringResource(MR.strings.note),
+            leadingIcon = { ResourceIcon(MR.images.ic_note) },
+            modifier = Modifier.fillMaxWidth()
+        )
         FormRow(icon = { ResourceIcon(MR.images.ic_alarm) }) {
-            TextButton(onClick = { TODO() }) {
-                Text(stringResource(MR.strings.alarm_placeholder))
-            }
+            Text(stringResource(MR.strings.alarm_placeholder))
         }
-        Divider()
+
+        Divider(
+            modifier = Modifier.ignoreParentPadding(horizontal = AppTheme.dimensions.padding.P_3),
+        )
+
         viewModel.measurements.forEach { property ->
-            MeasurementPropertyInput(
-                data = property,
-                onInputChange = viewModel::updateMeasurementValue,
-            )
+            property.typeInputDataList.forEachIndexed { index, type ->
+                TextInput(
+                    input = type.input,
+                    onInputChange = { input ->
+                        viewModel.updateMeasurementValue(
+                            type.copy(
+                                input = input
+                            )
+                        )
+                    },
+                    label = type.type.name,
+                    leadingIcon = { if (index == 0) MeasurementPropertyIcon(property.property) },
+                    modifier = Modifier.fillMaxWidth(),
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                )
+            }
         }
     }
     if (datePickerState.isShown) {

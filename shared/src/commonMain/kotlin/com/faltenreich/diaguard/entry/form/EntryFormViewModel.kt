@@ -35,6 +35,7 @@ class EntryFormViewModel(
         get() = dateTime.time
         set(value) { dateTime = dateTime.date.atTime(value) }
 
+    var tag: String by mutableStateOf("")
     var note: String by mutableStateOf(entry?.note ?: "")
 
     var measurements: List<MeasurementPropertyInputData> by mutableStateOf(emptyList())

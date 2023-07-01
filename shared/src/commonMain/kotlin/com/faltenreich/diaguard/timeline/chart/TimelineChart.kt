@@ -37,9 +37,7 @@ fun TimelineChart(
             .pointerInput(key1 = Unit) {
                 detectDragGestures(
                     onDrag = { _, dragAmount ->
-                        // TODO: Cap y at zero
-                        // TODO: Change y only if delta is larger than n to prevent accidental scroll
-                        offset += dragAmount
+                        offset = viewModel.calculateScrollOffset(offset, dragAmount)
 
                         val widthPerDay = size.width
                         val offsetInDays = ceil(offset.x * -1) / widthPerDay

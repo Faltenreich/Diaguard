@@ -30,6 +30,7 @@ fun Timeline(
                 fontPaint = Paint().apply { color = AppTheme.colors.material.onBackground },
                 fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
                 gridStrokeColor = AppTheme.colors.material.onSurfaceVariant,
+                gridShadowColor = AppTheme.colors.material.scrim,
                 valueColorNormal = AppTheme.colors.Green,
                 valueColorLow = AppTheme.colors.Blue,
                 valueColorHigh = AppTheme.colors.Red,

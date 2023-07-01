@@ -65,7 +65,7 @@ private fun DrawScope.drawDate(
         val gradient = Brush.horizontalGradient(
             colorStops = arrayOf(
                 .0f to Color.Transparent,
-                1f to Color.Black,
+                1f to gridShadowColor,
             ),
             startX = x - gradientWidth,
             endX = x,

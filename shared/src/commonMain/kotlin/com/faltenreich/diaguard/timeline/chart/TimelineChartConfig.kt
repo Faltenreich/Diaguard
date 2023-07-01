@@ -10,6 +10,7 @@ data class TimelineChartConfig(
 
     val gridStrokeColor: Color,
     val gridStrokeWidth: Float = 0f,
+    val gridShadowColor: Color,
 
     val valueColorNormal: Color,
     val valueColorLow: Color,

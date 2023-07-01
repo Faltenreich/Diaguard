@@ -7,5 +7,6 @@ import com.faltenreich.diaguard.shared.datetime.Date
 data class TimelineState(
     val offset: Offset,
     val initialDate: Date,
-    val values: List<MeasurementValue>,
+    val currentDate: Date,
+    val bloodSugarList: List<MeasurementValue>,
 )

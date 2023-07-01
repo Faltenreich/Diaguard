@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.ui.geometry.Offset
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.deep
@@ -40,16 +41,18 @@ class TimelineViewModel(
     }
 
     private val state = combine(
+        flowOf(Offset.Zero),
         flowOf(initialDate),
         currentDate,
         bloodSugarList,
-        ::TimelineViewState,
+        ::TimelineState,
     ).flowOn(dispatcher)
 
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = TimelineViewState(
+        initialValue = TimelineState(
+            offset = Offset.Zero,
             initialDate = initialDate,
             currentDate = initialDate,
             bloodSugarList = emptyList(),

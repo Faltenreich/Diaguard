@@ -29,7 +29,7 @@ fun TimelineCanvas(
 ) {
     // TODO: Reset remember when initialDate changes
     var offset by remember { mutableStateOf(Offset.Zero) }
-    val state = TimelineState(offset, initialDate, values)
+    val state = TimelineState(offset, initialDate, initialDate, values)
     val config = TimelineConfig(
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
         fontPaint = Paint().apply { color = AppTheme.colors.material.onBackground },

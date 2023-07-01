@@ -21,7 +21,7 @@ fun DrawScope.TimelineYAxis(
                 color = gridStrokeColor,
                 start = Offset(x = 0f, y = y),
                 end = Offset(x = size.width, y = y),
-                strokeWidth = gridStrokeWidthHour,
+                strokeWidth = gridStrokeWidth,
             )
             drawText(
                 text = value.toString(),

@@ -9,8 +9,7 @@ data class TimelineChartConfig(
     val fontSize: Float,
 
     val gridStrokeColor: Color,
-    val gridStrokeWidthHour: Float = 0f,
-    val gridStrokeWidthDay: Float = 2f,
+    val gridStrokeWidth: Float = 0f,
 
     val valueColorNormal: Color,
     val valueColorLow: Color,

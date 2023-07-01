@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.shared.theme.LocalDimensions
 
 @Composable
 fun AppTheme(
-    darkTheme: Boolean = true, // isSystemInDarkTheme(),
+    darkTheme: Boolean = false, // isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme) {

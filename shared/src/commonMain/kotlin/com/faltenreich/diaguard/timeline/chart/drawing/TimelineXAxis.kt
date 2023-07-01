@@ -1,6 +1,9 @@
 package com.faltenreich.diaguard.timeline.chart.drawing
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
@@ -56,12 +59,21 @@ private fun DrawScope.drawDate(
         size = fontSize,
         paint = fontPaint,
     )
+    // Hide date indicator initially
     if (offset.x != 0f) {
-        drawLine(
-            color = gridStrokeColor,
-            start = Offset(x = x, y = 0f),
-            end = Offset(x = x, y = size.height),
-            strokeWidth = gridStrokeWidthDay,
+        val gradientWidth = 40f
+        val gradient = Brush.horizontalGradient(
+            colorStops = arrayOf(
+                .0f to Color.Transparent,
+                1f to Color.Black,
+            ),
+            startX = x - gradientWidth,
+            endX = x,
+        )
+        drawRect(
+            brush = gradient,
+            topLeft = Offset(x = x - gradientWidth, y = 0f),
+            size = Size(width = gradientWidth, height = size.height),
         )
     }
 }
@@ -71,7 +83,7 @@ private fun DrawScope.drawHour(hour: Int, x: Float, config: TimelineChartConfig)
         color = gridStrokeColor,
         start = Offset(x = x, y = 0f),
         end = Offset(x = x, y = size.height),
-        strokeWidth = gridStrokeWidthHour,
+        strokeWidth = gridStrokeWidth,
     )
     drawText(
         text = hour.toString(),

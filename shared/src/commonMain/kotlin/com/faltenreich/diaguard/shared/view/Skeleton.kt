@@ -11,6 +11,6 @@ fun Skeleton(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.background(AppTheme.colors.Material.error),
+        modifier = modifier.background(AppTheme.colors.material.error),
     )
 }

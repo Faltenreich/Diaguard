@@ -7,12 +7,16 @@ data class TimelineChartConfig(
     val padding: Float,
     val fontPaint: Paint,
     val fontSize: Float,
-    val strokeWidth: Float = 8f,
-    val dotRadius: Float = 16f,
 
-    val lineColorNormal: Color,
-    val lineColorLow: Color,
-    val lineColorHigh: Color,
+    val gridStrokeColor: Color,
+    val gridStrokeWidthHour: Float = 0f,
+    val gridStrokeWidthDay: Float = 2f,
+
+    val valueColorNormal: Color,
+    val valueColorLow: Color,
+    val valueColorHigh: Color,
+    val valueStrokeWidth: Float = 8f,
+    val valueDotRadius: Float = 16f,
 
     private val xMin: Int = 0,
     private val xMax: Int = 24,

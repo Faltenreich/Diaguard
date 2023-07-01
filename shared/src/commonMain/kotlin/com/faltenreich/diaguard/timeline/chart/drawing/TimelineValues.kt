@@ -39,19 +39,19 @@ fun DrawScope.TimelineValues(
     // TODO: Get percentages from extremas
     val brush = Brush.verticalGradient(
         colorStops = arrayOf(
-            .3f to lineColorHigh,
-            .35f to lineColorNormal,
-            .8f to lineColorNormal,
-            .85f to lineColorLow,
+            .3f to valueColorHigh,
+            .35f to valueColorNormal,
+            .8f to valueColorNormal,
+            .85f to valueColorLow,
         ),
     )
 
     val path = Path()
     path.reset()
 
-    drawValue(coordinates.first(), dotRadius, brush)
+    drawValue(coordinates.first(), valueDotRadius, brush)
 
-    val style = Stroke(width = strokeWidth)
+    val style = Stroke(width = valueStrokeWidth)
     coordinates.zipWithNext { start, end ->
         path.moveTo(start.x, start.y)
         path.bezierBetween(start, end)
@@ -61,7 +61,7 @@ fun DrawScope.TimelineValues(
             brush = brush,
             style = style,
         )
-        drawValue(end, dotRadius, brush)
+        drawValue(end, valueDotRadius, brush)
     }
 }
 

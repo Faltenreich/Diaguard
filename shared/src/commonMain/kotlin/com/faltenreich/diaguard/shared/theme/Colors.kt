@@ -10,7 +10,7 @@ val LocalColors = staticCompositionLocalOf { Colors }
 
 object Colors {
 
-    val Material: ColorScheme
+    val material: ColorScheme
         @Composable
         get() = MaterialTheme.colorScheme
 

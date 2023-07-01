@@ -1,9 +1,7 @@
 package com.faltenreich.diaguard.timeline.chart.drawing
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
@@ -60,25 +58,26 @@ private fun DrawScope.drawDate(
     )
     if (offset.x != 0f) {
         drawLine(
-            color = Color.Gray,
+            color = gridStrokeColor,
             start = Offset(x = x, y = 0f),
             end = Offset(x = x, y = size.height),
-            strokeWidth = Stroke.DefaultMiter,
+            strokeWidth = gridStrokeWidthDay,
         )
     }
 }
 
 private fun DrawScope.drawHour(hour: Int, x: Float, config: TimelineChartConfig) = with(config) {
+    drawLine(
+        color = gridStrokeColor,
+        start = Offset(x = x, y = 0f),
+        end = Offset(x = x, y = size.height),
+        strokeWidth = gridStrokeWidthHour,
+    )
     drawText(
         text = hour.toString(),
         x = x + padding,
         y = size.height - padding,
         size = fontSize,
         paint = fontPaint,
-    )
-    drawLine(
-        color = Color.LightGray,
-        start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = size.height),
     )
 }

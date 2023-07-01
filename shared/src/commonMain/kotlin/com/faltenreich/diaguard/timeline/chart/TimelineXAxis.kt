@@ -10,11 +10,11 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.TimelineState
+import com.faltenreich.diaguard.timeline.TimelineViewState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
-    state: TimelineState,
+    state: TimelineViewState,
     config: TimelineConfig,
 ) = with(config) {
     val widthPerDay = size.width

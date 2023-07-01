@@ -10,11 +10,11 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.view.bezierBetween
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.TimelineState
+import com.faltenreich.diaguard.timeline.TimelineViewState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineValues(
-    state: TimelineState,
+    state: TimelineViewState,
     config: TimelineConfig,
 ) = with(config) {
     val coordinates = state.bloodSugarList.map { value ->

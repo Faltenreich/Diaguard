@@ -45,13 +45,13 @@ class TimelineViewModel(
         flowOf(initialDate),
         currentDate,
         bloodSugarList,
-        ::TimelineState,
+        ::TimelineViewState,
     ).flowOn(dispatcher)
 
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = TimelineState(
+        initialValue = TimelineViewState(
             offset = Offset.Zero,
             initialDate = initialDate,
             currentDate = initialDate,

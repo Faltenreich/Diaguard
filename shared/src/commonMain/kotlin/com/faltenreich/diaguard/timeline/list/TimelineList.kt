@@ -2,11 +2,11 @@ package com.faltenreich.diaguard.timeline.list
 
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.TimelineState
+import com.faltenreich.diaguard.timeline.TimelineViewState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineList(
-    state: TimelineState,
+    state: TimelineViewState,
     config: TimelineConfig,
 ) {
 

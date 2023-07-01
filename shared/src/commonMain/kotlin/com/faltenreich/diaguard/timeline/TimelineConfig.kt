@@ -1,9 +1,9 @@
-package com.faltenreich.diaguard.timeline.chart
+package com.faltenreich.diaguard.timeline
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 
-data class TimelineChartConfig(
+data class TimelineConfig(
     val padding: Float,
     val fontPaint: Paint,
     val fontSize: Float,

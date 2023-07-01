@@ -1,13 +1,13 @@
-package com.faltenreich.diaguard.timeline.chart.drawing
+package com.faltenreich.diaguard.timeline.chart
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.shared.view.drawText
-import com.faltenreich.diaguard.timeline.chart.TimelineChartConfig
+import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineYAxis(
-    config: TimelineChartConfig,
+    config: TimelineConfig,
 ) = with(config) {
     val height = size.height / (yAxis.last / yAxis.step)
     yAxis

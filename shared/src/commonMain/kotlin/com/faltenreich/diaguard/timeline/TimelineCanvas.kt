@@ -17,8 +17,6 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.timeline.chart.TimelineChart
-import com.faltenreich.diaguard.timeline.chart.TimelineChartConfig
-import com.faltenreich.diaguard.timeline.chart.TimelineChartState
 import com.faltenreich.diaguard.timeline.list.TimelineList
 import kotlin.math.ceil
 
@@ -31,8 +29,8 @@ fun TimelineCanvas(
 ) {
     // TODO: Reset remember when initialDate changes
     var offset by remember { mutableStateOf(Offset.Zero) }
-    val state = TimelineChartState(offset, initialDate, values)
-    val config = TimelineChartConfig(
+    val state = TimelineState(offset, initialDate, values)
+    val config = TimelineConfig(
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
         fontPaint = Paint().apply { color = AppTheme.colors.material.onBackground },
         fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },

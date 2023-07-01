@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.timeline.list
 
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import com.faltenreich.diaguard.timeline.chart.TimelineChartConfig
-import com.faltenreich.diaguard.timeline.chart.TimelineChartState
+import com.faltenreich.diaguard.timeline.TimelineConfig
+import com.faltenreich.diaguard.timeline.TimelineState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineList(
-    state: TimelineChartState,
-    config: TimelineChartConfig,
+    state: TimelineState,
+    config: TimelineConfig,
 ) {
 
 }

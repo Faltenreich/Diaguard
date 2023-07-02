@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.shared.view.drawText
 fun DrawScope.TimelineYAxis(
     state: TimelineChartState,
 ) = with(state) {
-    val size = state.chartSize
+    val size = chartSize
     val heightPerSection = size.height / (yAxis.last / yAxis.step)
     yAxis
         .drop(0)

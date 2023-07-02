@@ -65,6 +65,7 @@ kotlin {
                 optIn("androidx.compose.material3.ExperimentalMaterial3Api")
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 optIn("kotlinx.coroutines.FlowPreview")
+                optIn("androidx.compose.ui.text.ExperimentalTextApi")
             }
         }
     }

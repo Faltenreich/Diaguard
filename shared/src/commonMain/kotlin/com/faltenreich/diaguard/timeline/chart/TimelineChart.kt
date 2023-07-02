@@ -13,6 +13,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.rememberTextMeasurer
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
@@ -29,6 +30,7 @@ fun TimelineChart(
     modifier: Modifier = Modifier,
 ) {
     // TODO: Reset remember when initialDate changes
+    val textMeasurer = rememberTextMeasurer()
     var offset by remember { mutableStateOf(Offset.Zero) }
     val chartState = TimelineChartState(
         offset = offset,
@@ -36,6 +38,7 @@ fun TimelineChart(
         currentDate = currentDate,
         valuesForChart = valuesForChart,
         propertiesForList = propertiesForList,
+        textMeasurer = textMeasurer,
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
         fontPaint = Paint().apply { color = AppTheme.colors.material.onBackground },
         fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
@@ -62,6 +65,7 @@ fun TimelineChart(
             },
     ) {
         chartState.timelineSize = size
+        // TODO: Date and time in the middle with chart above and list below, separately scrollable
         TimelineYAxis(chartState)
         TimelineList(chartState)
         TimelineXAxis(chartState)

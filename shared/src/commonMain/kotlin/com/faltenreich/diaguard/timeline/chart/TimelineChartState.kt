@@ -4,6 +4,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
@@ -14,6 +15,8 @@ data class TimelineChartState(
     val currentDate: Date,
     val valuesForChart: List<MeasurementValue>,
     val propertiesForList: List<MeasurementProperty>,
+
+    val textMeasurer: TextMeasurer,
 
     val padding: Float,
     val fontPaint: Paint,

@@ -19,7 +19,7 @@ fun DrawScope.TimelineXAxis(
     val widthPerDay = size.width
     val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
-    val xOffset = state.offset.x.toInt()
+    val xOffset = offset.x.toInt()
     val xOfFirstHour = xOffset % widthPerHour
     val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
     // Paint one additional hour per side to support cut-off labels
@@ -37,7 +37,7 @@ fun DrawScope.TimelineXAxis(
         val x = xOfLabel.toFloat()
         if (hour == 0) {
             val xOffsetInDays = xAbsolute / widthPerDay
-            val date = state.initialDate.plusDays(xOffsetInDays.toInt())
+            val date = initialDate.plusDays(xOffsetInDays.toInt())
             drawDate(date, x, state)
         }
         drawHour(hour, x, state)
@@ -50,10 +50,11 @@ private fun DrawScope.drawDate(
     state: TimelineChartState,
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) = with(state) {
+    val dateAsText = dateTimeFormatter.formatDate(date)
     drawText(
-        text = dateTimeFormatter.formatDate(date),
-        x = x + padding,
-        y = state.timelineSize.height - padding,
+        text = dateAsText,
+        x = x + timelineSize.width / 2 - textMeasurer.measure(dateAsText).size.width / 2,
+        y = timelineSize.height - padding,
         size = fontSize,
         paint = fontPaint,
     )
@@ -71,7 +72,7 @@ private fun DrawScope.drawDate(
         drawRect(
             brush = gradient,
             topLeft = Offset(x = x - gradientWidth, y = 0f),
-            size = Size(width = gradientWidth, height = state.timelineSize.height),
+            size = Size(width = gradientWidth, height = timelineSize.height),
         )
     }
 }
@@ -83,13 +84,13 @@ private fun DrawScope.drawHour(
     drawLine(
         color = gridStrokeColor,
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = state.timelineOrigin.y + state.timelineSize.height - state.dateTimeSize.height + padding),
+        end = Offset(x = x, y = timelineOrigin.y + timelineSize.height - dateTimeSize.height + padding),
         strokeWidth = gridStrokeWidth,
     )
     drawText(
         text = hour.toString(),
         x = x + padding,
-        y = state.timelineSize.height - padding - fontSize - padding,
+        y = timelineSize.height - padding - fontSize - padding,
         size = fontSize,
         paint = fontPaint,
     )

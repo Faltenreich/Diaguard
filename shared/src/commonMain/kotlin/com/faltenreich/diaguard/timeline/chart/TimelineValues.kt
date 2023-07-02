@@ -1,38 +1,51 @@
 package com.faltenreich.diaguard.timeline.chart
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.view.bezierBetween
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineValues(
-    state: TimelineChartState,
-) = with(state) {
-    val size = chartSize
-
-    val coordinates = valuesForChart.map { value ->
-        val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
+    values: List<MeasurementValue>,
+    initialDate: Date,
+    origin: Offset,
+    size: Size,
+    scrollOffset: Offset,
+    xAxis: IntProgression,
+    yAxis: IntProgression,
+    valueColorNormal: Color,
+    valueColorLow: Color,
+    valueColorHigh: Color,
+    valueDotRadius: Float,
+    valueStrokeWidth: Float,
+) {
+    val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
+    val coordinates = values.map { value ->
         val dateTime = value.entry.dateTime
         val widthPerDay = size.width
         val widthPerHour = widthPerDay / (xAxis.last / xAxis.step)
         val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
         val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
         val offsetOfDateTime = (offsetInMinutes / xAxis.step) * widthPerMinute
-        val x = offset.x + offsetOfDateTime
+        val x = origin.x + scrollOffset.x + offsetOfDateTime
 
         val percentage = (value.value - yAxis.first) / (yAxis.last - yAxis.first)
-        val y = size.height - (percentage.toFloat() * size.height)
+        val y = origin.y + size.height - (percentage.toFloat() * size.height)
 
         Offset(x, y)
     }
     if (coordinates.isEmpty()) {
-        return@with
+        return
     }
 
     // TODO: Get percentages from extremas
@@ -64,7 +77,11 @@ fun DrawScope.TimelineValues(
     }
 }
 
-private fun DrawScope.drawValue(position: Offset, dotRadius: Float, brush: Brush) {
+private fun DrawScope.drawValue(
+    position: Offset,
+    dotRadius: Float,
+    brush: Brush,
+) {
     drawCircle(
         brush = brush,
         radius = dotRadius,

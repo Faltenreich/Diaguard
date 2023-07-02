@@ -68,6 +68,20 @@ fun TimelineChart(
         TimelineYAxis(chartState)
         TimelineList(chartState)
         TimelineXAxis(chartState)
-        TimelineValues(chartState)
+
+        TimelineValues(
+            values = valuesForChart,
+            initialDate = initialDate,
+            origin = chartState.chartOrigin,
+            size = chartState.chartSize,
+            scrollOffset = offset,
+            xAxis = chartState.xAxis,
+            yAxis = chartState.yAxis,
+            valueColorNormal = chartState.valueColorNormal,
+            valueColorLow = chartState.valueColorLow,
+            valueColorHigh = chartState.valueColorHigh,
+            valueDotRadius = chartState.valueDotRadius,
+            valueStrokeWidth = chartState.valueStrokeWidth,
+        )
     }
 }

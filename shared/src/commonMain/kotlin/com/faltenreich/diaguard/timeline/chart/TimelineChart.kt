@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.view.bezierBetween
@@ -16,12 +15,11 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChart(
-    values: List<MeasurementValue>,
-    initialDate: Date,
-    scrollOffset: Offset,
     origin: Offset,
     size: Size,
+    offset: Offset,
     config: TimelineConfig,
+    values: List<MeasurementValue>,
 ) = with(config) {
     val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
     val coordinates = values.map { value ->
@@ -31,7 +29,7 @@ fun DrawScope.TimelineChart(
         val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
         val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
         val offsetOfDateTime = (offsetInMinutes / xAxis.step) * widthPerMinute
-        val x = origin.x + scrollOffset.x + offsetOfDateTime
+        val x = origin.x + offset.x + offsetOfDateTime
 
         val percentage = (value.value - yAxis.first) / (yAxis.last - yAxis.first)
         val y = origin.y + size.height - (percentage.toFloat() * size.height)

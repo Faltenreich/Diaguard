@@ -3,9 +3,12 @@ package com.faltenreich.diaguard.timeline
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.text.TextMeasurer
+import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 
 data class TimelineConfig(
+    val initialDate: Date,
+
     val textMeasurer: TextMeasurer,
     val dateTimeFormatter: DateTimeFormatter,
 

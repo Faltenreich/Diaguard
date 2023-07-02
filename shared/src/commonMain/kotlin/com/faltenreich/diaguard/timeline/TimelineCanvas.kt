@@ -48,6 +48,7 @@ fun TimelineCanvas(
         fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
     )
     val config = TimelineConfig(
+        initialDate = initialDate,
         textMeasurer = rememberTextMeasurer(),
         dateTimeFormatter = dateTimeFormatter,
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
@@ -77,17 +78,25 @@ fun TimelineCanvas(
     ) {
         chartState.timelineSize = size
         // TODO: Date and time in the middle with chart above and list below, separately scrollable
-        TimelineYAxis(chartState, config)
-        TimelineList(chartState, config)
+        TimelineYAxis(
+            origin = Offset.Zero,
+            size = chartState.chartSize,
+            config = config,
+        )
+        TimelineList(
+            origin = chartState.listOrigin,
+            size = chartState.listSize,
+            config = config,
+            properties = chartState.propertiesForList,
+        )
         TimelineXAxis(chartState, config)
 
         TimelineChart(
-            values = valuesForChart,
-            initialDate = initialDate,
-            scrollOffset = offset,
             origin = chartState.chartOrigin,
             size = chartState.chartSize,
+            offset = offset,
             config = config,
+            values = valuesForChart,
         )
     }
 }

@@ -1,17 +1,17 @@
 package com.faltenreich.diaguard.timeline.chart
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.shared.view.drawText
-import com.faltenreich.diaguard.timeline.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineYAxis(
-    state: TimelineCanvasState,
+    origin: Offset,
+    size: Size,
     config: TimelineConfig,
 ) = with(config) {
-    val size = state.chartSize
     val heightPerSection = size.height / (yAxis.last / yAxis.step)
     yAxis
         .drop(0)

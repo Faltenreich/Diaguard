@@ -1,21 +1,24 @@
 package com.faltenreich.diaguard.timeline.chart
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.view.drawText
-import com.faltenreich.diaguard.timeline.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineList(
-    state: TimelineCanvasState,
+    origin: Offset,
+    size: Size,
     config: TimelineConfig,
+    properties: List<MeasurementProperty>,
 ) = with(config) {
-    state.propertiesForList.forEachIndexed { index, property ->
+    properties.forEachIndexed { index, property ->
         val iconSize = fontSize
         val heightPerProperty = iconSize + padding * 2
-        val x = state.listOrigin.x
-        val y = state.listOrigin.y + index * heightPerProperty
+        val x = origin.x
+        val y = origin.y + index * heightPerProperty
         drawText(
             text = property.icon ?: "",
             x = x + padding,
@@ -25,8 +28,8 @@ fun DrawScope.TimelineList(
         )
         drawLine(
             color = gridStrokeColor,
-            start = Offset(x = state.listOrigin.x, y = y),
-            end = Offset(x = state.listOrigin.x + state.listSize.width, y = y),
+            start = Offset(x = origin.x, y = y),
+            end = Offset(x = origin.x + size.width, y = y),
             strokeWidth = gridStrokeWidth,
         )
     }

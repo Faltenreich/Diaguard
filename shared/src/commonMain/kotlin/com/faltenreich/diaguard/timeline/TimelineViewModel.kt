@@ -4,6 +4,7 @@ import androidx.compose.ui.geometry.Offset
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.deep
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.Time
@@ -22,6 +23,7 @@ class TimelineViewModel(
     initialDate: Date,
     dispatcher: CoroutineDispatcher = inject(),
     entryRepository: EntryRepository = inject(),
+    measurementPropertyRepository: MeasurementPropertyRepository = inject(),
 ) : ViewModel() {
 
     private val currentDate = MutableStateFlow(initialDate)
@@ -31,20 +33,26 @@ class TimelineViewModel(
             endDateTime = date.plusDays(1).atTime(Time.atEndOfDay()),
         ).deep()
     }
-    private val bloodSugarList = entries.map { entries ->
+    private val valuesForChart = entries.map { entries ->
         entries
             .map(Entry::values)
             .flatMap { values ->
-                // TODO: Identify MeasurementType of Blood Sugar
-                values.filter { value -> value.typeId == 1L }
+                // TODO: Identify Blood Sugar
+                values.filter { value -> value.type.property.id == 1L }
             }
     }
+    private val propertiesForList = measurementPropertyRepository.observeAll().map { properties ->
+        // TODO: Identify Blood Sugar
+        properties.filterNot { property -> property.id != 1L }
+    }
+
 
     private val state = combine(
         flowOf(Offset.Zero),
         flowOf(initialDate),
         currentDate,
-        bloodSugarList,
+        valuesForChart,
+        propertiesForList,
         ::TimelineViewState,
     ).flowOn(dispatcher)
 
@@ -55,7 +63,8 @@ class TimelineViewModel(
             offset = Offset.Zero,
             initialDate = initialDate,
             currentDate = initialDate,
-            bloodSugarList = emptyList(),
+            valuesForChart = emptyList(),
+            propertiesForList = emptyList(),
         ),
     )
 

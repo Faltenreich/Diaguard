@@ -14,7 +14,7 @@ fun Timeline(
     val viewState = viewModel.viewState.collectAsState().value
     TimelineCanvas(
         initialDate = viewState.initialDate,
-        values = viewState.bloodSugarList,
+        values = viewState.valuesForChart,
         onDateChange = viewModel::setDate,
         modifier = modifier.fillMaxSize(),
     )

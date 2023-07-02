@@ -19,7 +19,7 @@ fun DrawScope.TimelineValues(
 ) = with(config) {
     val size = state.chartSize
 
-    val coordinates = state.bloodSugarList.map { value ->
+    val coordinates = state.valuesForChart.map { value ->
         val dateTimeBase = state.initialDate.atTime(Time.atStartOfDay())
         val dateTime = value.entry.dateTime
         val widthPerDay = size.width

@@ -26,12 +26,6 @@ fun DrawScope.TimelineXAxis(
     val (xStart, xEnd) = xOfFirstHour - widthPerHour to xOfLastHour + widthPerHour
     val xProgression = xStart .. xEnd step widthPerHour
 
-    drawRect(
-        color = valueColorNormal,
-        topLeft = dateTimeOrigin,
-        size = dateTimeSize,
-    )
-
     xProgression.forEach { xOfLabel ->
         val xAbsolute = -(xOffset - xOfLabel)
         val xOffsetInHours = xAbsolute / widthPerHour
@@ -89,7 +83,7 @@ private fun DrawScope.drawHour(
     drawLine(
         color = gridStrokeColor,
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = state.timelineSize.height),
+        end = Offset(x = x, y = state.timelineOrigin.y + state.timelineSize.height - state.dateTimeSize.height + padding),
         strokeWidth = gridStrokeWidth,
     )
     drawText(

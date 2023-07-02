@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.timeline.chart.TimelineChart
@@ -24,14 +25,16 @@ import kotlin.math.ceil
 @Composable
 fun TimelineCanvas(
     initialDate: Date,
-    values: List<MeasurementValue>,
+    valuesForChart: List<MeasurementValue>,
+    propertiesForList: List<MeasurementProperty>,
     onDateChange: (Date) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     // TODO: Reset remember when initialDate changes
     var offset by remember { mutableStateOf(Offset.Zero) }
     var chartWeight by remember { mutableStateOf(2f) }
-    val state = TimelineViewState(offset, initialDate, initialDate, values)
+    // FIXME: Pass mutable offset without copying state
+    val state = TimelineViewState(offset, initialDate, initialDate, valuesForChart, propertiesForList)
     val config = TimelineConfig(
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
         fontPaint = Paint().apply { color = AppTheme.colors.material.onBackground },

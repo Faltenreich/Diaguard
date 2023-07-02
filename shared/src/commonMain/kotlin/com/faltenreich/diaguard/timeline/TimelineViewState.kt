@@ -14,7 +14,15 @@ data class TimelineViewState(
     val propertiesForList: List<MeasurementProperty>,
 ) {
 
-    var timelineSize: Size = Size.Unspecified
-    var chartSize: Size = Size.Unspecified
-    var listSize: Size = Size.Unspecified
+    var timelineSize: Size = Size.Zero
+    val timelineOrigin: Offset
+        get() = Offset.Zero
+
+    var chartSize: Size = Size.Zero
+    val chartOrigin: Offset
+        get() = Offset.Zero
+
+    var listSize: Size = Size.Zero
+    val listOrigin: Offset
+        get() = Offset(x = 0f, y = chartSize.height)
 }

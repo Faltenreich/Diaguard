@@ -43,7 +43,7 @@ class TimelineViewModel(
     }
     private val propertiesForList = measurementPropertyRepository.observeAll().map { properties ->
         // TODO: Identify Blood Sugar
-        properties.filterNot { property -> property.id != 1L }
+        properties.filterNot { property -> property.id == 1L }
     }
 
 

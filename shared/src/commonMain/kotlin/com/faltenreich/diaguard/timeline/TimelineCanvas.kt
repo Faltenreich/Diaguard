@@ -18,6 +18,8 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.timeline.chart.TimelineChart
 import com.faltenreich.diaguard.timeline.chart.TimelineList
 import com.faltenreich.diaguard.timeline.chart.TimelineXAxis
@@ -32,6 +34,7 @@ fun TimelineCanvas(
     propertiesForList: List<MeasurementProperty>,
     onDateChange: (Date) -> Unit,
     modifier: Modifier = Modifier,
+    dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
     // TODO: Reset remember when initialDate changes
     var offset by remember { mutableStateOf(Offset.Zero) }
@@ -41,7 +44,12 @@ fun TimelineCanvas(
         currentDate = currentDate,
         valuesForChart = valuesForChart,
         propertiesForList = propertiesForList,
+        padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
+        fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
+    )
+    val config = TimelineConfig(
         textMeasurer = rememberTextMeasurer(),
+        dateTimeFormatter = dateTimeFormatter,
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
         fontPaint = Paint().apply { color = AppTheme.colors.material.onBackground },
         fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
@@ -69,9 +77,9 @@ fun TimelineCanvas(
     ) {
         chartState.timelineSize = size
         // TODO: Date and time in the middle with chart above and list below, separately scrollable
-        TimelineYAxis(chartState)
-        TimelineList(chartState)
-        TimelineXAxis(chartState)
+        TimelineYAxis(chartState, config)
+        TimelineList(chartState, config)
+        TimelineXAxis(chartState, config)
 
         TimelineChart(
             values = valuesForChart,
@@ -79,13 +87,7 @@ fun TimelineCanvas(
             scrollOffset = offset,
             origin = chartState.chartOrigin,
             size = chartState.chartSize,
-            xAxis = chartState.xAxis,
-            yAxis = chartState.yAxis,
-            valueColorNormal = chartState.valueColorNormal,
-            valueColorLow = chartState.valueColorLow,
-            valueColorHigh = chartState.valueColorHigh,
-            valueDotRadius = chartState.valueDotRadius,
-            valueStrokeWidth = chartState.valueStrokeWidth,
+            config = config,
         )
     }
 }

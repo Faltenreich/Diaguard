@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.timeline.chart
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
@@ -13,6 +12,7 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.view.bezierBetween
+import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChart(
@@ -21,14 +21,8 @@ fun DrawScope.TimelineChart(
     scrollOffset: Offset,
     origin: Offset,
     size: Size,
-    xAxis: IntProgression,
-    yAxis: IntProgression,
-    valueColorNormal: Color,
-    valueColorLow: Color,
-    valueColorHigh: Color,
-    valueDotRadius: Float,
-    valueStrokeWidth: Float,
-) {
+    config: TimelineConfig,
+) = with(config) {
     val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
     val coordinates = values.map { value ->
         val dateTime = value.entry.dateTime
@@ -45,7 +39,7 @@ fun DrawScope.TimelineChart(
         Offset(x, y)
     }
     if (coordinates.isEmpty()) {
-        return
+        return@with
     }
 
     // TODO: Get percentages from extremas

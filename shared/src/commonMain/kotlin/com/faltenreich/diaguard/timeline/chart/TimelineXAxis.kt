@@ -5,6 +5,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
@@ -15,6 +16,13 @@ fun DrawScope.TimelineXAxis(
     state: TimelineChartState,
 ) = with(state) {
     val size = state.chartSize
+
+    drawRect(
+        color = Color.LightGray,
+        topLeft = dateTimeOrigin,
+        size = dateTimeSize,
+        style = Fill,
+    )
 
     val widthPerDay = size.width
     val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
@@ -54,7 +62,7 @@ private fun DrawScope.drawDate(
     drawText(
         text = dateAsText,
         x = x + timelineSize.width / 2 - textMeasurer.measure(dateAsText).size.width / 2,
-        y = timelineSize.height - padding,
+        y = dateTimeOrigin.y + dateTimeSize.height - padding,
         size = fontSize,
         paint = fontPaint,
     )
@@ -84,13 +92,13 @@ private fun DrawScope.drawHour(
     drawLine(
         color = gridStrokeColor,
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = timelineOrigin.y + timelineSize.height - dateTimeSize.height + padding),
+        end = Offset(x = x, y = timelineOrigin.y + timelineSize.height),
         strokeWidth = gridStrokeWidth,
     )
     drawText(
         text = hour.toString(),
         x = x + padding,
-        y = timelineSize.height - padding - fontSize - padding,
+        y = dateTimeOrigin.y + padding + fontSize,
         size = fontSize,
         paint = fontPaint,
     )

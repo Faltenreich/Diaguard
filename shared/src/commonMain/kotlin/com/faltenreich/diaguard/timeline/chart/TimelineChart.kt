@@ -30,7 +30,6 @@ fun TimelineChart(
     modifier: Modifier = Modifier,
 ) {
     // TODO: Reset remember when initialDate changes
-    val textMeasurer = rememberTextMeasurer()
     var offset by remember { mutableStateOf(Offset.Zero) }
     val chartState = TimelineChartState(
         offset = offset,
@@ -38,7 +37,7 @@ fun TimelineChart(
         currentDate = currentDate,
         valuesForChart = valuesForChart,
         propertiesForList = propertiesForList,
-        textMeasurer = textMeasurer,
+        textMeasurer = rememberTextMeasurer(),
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
         fontPaint = Paint().apply { color = AppTheme.colors.material.onBackground },
         fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },

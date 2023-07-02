@@ -69,7 +69,7 @@ data class TimelineChartState(
     val listOrigin: Offset
         get() = Offset(
             x = timelineOrigin.x,
-            y =  timelineOrigin.y + timelineSize.height - listSize.height - dateTimeSize.height,
+            y =  timelineOrigin.y + chartSize.height + dateTimeSize.height,
         )
     val listSize: Size
         get() = Size(
@@ -81,7 +81,7 @@ data class TimelineChartState(
     val dateTimeOrigin: Offset
         get() = Offset(
             x = timelineOrigin.x,
-            y = timelineOrigin.y + timelineSize.height - dateTimeSize.height,
+            y = timelineOrigin.y + chartSize.height,
         )
     val dateTimeSize: Size
         get() = Size(

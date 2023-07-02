@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -76,24 +77,53 @@ fun TimelineCanvas(
                 )
             },
     ) {
-        chartState.timelineSize = size
         // TODO: Date and time in the middle with chart above and list below, separately scrollable
+        chartState.timelineSize = size
+
+        val timelineOrigin = Offset.Zero
+        val timelineSize = size
+
+        val dateTimeSize = Size(
+            width = timelineSize.width,
+            height = config.fontSize * 2 + config.padding * 3,
+        )
+        val listItemHeight = config.fontSize + config.padding * 2
+        val listSize = Size(
+            width = timelineSize.width,
+            height = listItemHeight * propertiesForList.size,
+        )
+        val chartSize = Size(
+            width = timelineSize.width,
+            height = timelineSize.height - listSize.height - dateTimeSize.height,
+        )
+
+        val dateTimeOrigin = Offset(
+            x = timelineOrigin.x,
+            y = timelineOrigin.y + chartSize.height,
+        )
+        val listOrigin = Offset(
+            x = timelineOrigin.x,
+            y =  timelineOrigin.y + chartSize.height + dateTimeSize.height,
+        )
+        val chartOrigin = timelineOrigin
+
+
         TimelineYAxis(
-            origin = Offset.Zero,
-            size = chartState.chartSize,
+            origin = chartOrigin,
+            size = chartSize,
             config = config,
         )
         TimelineList(
-            origin = chartState.listOrigin,
-            size = chartState.listSize,
+            origin = listOrigin,
+            size = listSize,
             config = config,
             properties = chartState.propertiesForList,
         )
         TimelineXAxis(chartState, config)
 
         TimelineChart(
-            origin = chartState.chartOrigin,
-            size = chartState.chartSize,
+            origin = chartOrigin,
+            size = chartSize,
             offset = offset,
             config = config,
             values = valuesForChart,

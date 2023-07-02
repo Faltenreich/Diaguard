@@ -8,27 +8,28 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.view.drawText
-import com.faltenreich.diaguard.timeline.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
-    state: TimelineCanvasState,
+    origin: Offset,
+    size: Size,
+    dateTimeOrigin: Offset,
+    dateTimeSize: Size,
+    offset: Offset,
     config: TimelineConfig,
 ) = with(config) {
-    val size = state.chartSize
-
     drawRect(
         color = Color.LightGray,
-        topLeft = state.dateTimeOrigin,
-        size = state.dateTimeSize,
+        topLeft = dateTimeOrigin,
+        size = dateTimeSize,
         style = Fill,
     )
 
     val widthPerDay = size.width
     val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
-    val xOffset = state.offset.x.toInt()
+    val xOffset = offset.x.toInt()
     val xOfFirstHour = xOffset % widthPerHour
     val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
     // Paint one additional hour per side to support cut-off labels
@@ -46,29 +47,33 @@ fun DrawScope.TimelineXAxis(
         val x = xOfLabel.toFloat()
         if (hour == 0) {
             val xOffsetInDays = xAbsolute / widthPerDay
-            val date = state.initialDate.plusDays(xOffsetInDays.toInt())
-            drawDate(date, x, state, config)
+            val date = initialDate.plusDays(xOffsetInDays.toInt())
+            drawDate(origin, size, dateTimeOrigin, dateTimeSize, offset, config, date, x)
         }
-        drawHour(hour, x, state, config)
+        drawHour(origin, size, dateTimeOrigin, dateTimeSize, offset, config, hour, x)
     }
 }
 
 private fun DrawScope.drawDate(
+    origin: Offset,
+    size: Size,
+    dateTimeOrigin: Offset,
+    dateTimeSize: Size,
+    offset: Offset,
+    config: TimelineConfig,
     date: Date,
     x: Float,
-    state: TimelineCanvasState,
-    config: TimelineConfig,
 ) = with(config) {
     val dateAsText = dateTimeFormatter.formatDate(date)
     drawText(
         text = dateAsText,
-        x = x + state.timelineSize.width / 2 - textMeasurer.measure(dateAsText).size.width / 2,
-        y = state.dateTimeOrigin.y + state.dateTimeSize.height - padding,
+        x = x + size.width / 2 - textMeasurer.measure(dateAsText).size.width / 2,
+        y = dateTimeOrigin.y + dateTimeSize.height - padding,
         size = fontSize,
         paint = fontPaint,
     )
     // Hide date indicator initially
-    if (state.offset.x != 0f) {
+    if (offset.x != 0f) {
         val gradientWidth = 40f
         val gradient = Brush.horizontalGradient(
             colorStops = arrayOf(
@@ -81,26 +86,31 @@ private fun DrawScope.drawDate(
         drawRect(
             brush = gradient,
             topLeft = Offset(x = x - gradientWidth, y = 0f),
-            size = Size(width = gradientWidth, height = state.timelineSize.height),
+            size = Size(width = gradientWidth, height = size.height),
         )
     }
 }
 
 private fun DrawScope.drawHour(
-    hour: Int, x: Float,
-    state: TimelineCanvasState,
+    origin: Offset,
+    size: Size,
+    dateTimeOrigin: Offset,
+    dateTimeSize: Size,
+    offset: Offset,
     config: TimelineConfig,
+    hour: Int,
+    x: Float,
 ) = with(config) {
     drawLine(
         color = gridStrokeColor,
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = state.timelineOrigin.y + state.timelineSize.height),
+        end = Offset(x = x, y = origin.y + size.height),
         strokeWidth = gridStrokeWidth,
     )
     drawText(
         text = hour.toString(),
         x = x + padding,
-        y = state.dateTimeOrigin.y + padding + fontSize,
+        y = dateTimeOrigin.y + padding + fontSize,
         size = fontSize,
         paint = fontPaint,
     )

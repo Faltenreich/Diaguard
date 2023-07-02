@@ -39,15 +39,6 @@ fun TimelineCanvas(
 ) {
     // TODO: Reset remember when initialDate changes
     var offset by remember { mutableStateOf(Offset.Zero) }
-    val chartState = TimelineCanvasState(
-        offset = offset,
-        initialDate = initialDate,
-        currentDate = currentDate,
-        valuesForChart = valuesForChart,
-        propertiesForList = propertiesForList,
-        padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
-        fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
-    )
     val config = TimelineConfig(
         initialDate = initialDate,
         textMeasurer = rememberTextMeasurer(),
@@ -78,7 +69,6 @@ fun TimelineCanvas(
             },
     ) {
         // TODO: Date and time in the middle with chart above and list below, separately scrollable
-        chartState.timelineSize = size
 
         val timelineOrigin = Offset.Zero
         val timelineSize = size
@@ -117,10 +107,16 @@ fun TimelineCanvas(
             origin = listOrigin,
             size = listSize,
             config = config,
-            properties = chartState.propertiesForList,
+            properties = propertiesForList,
         )
-        TimelineXAxis(chartState, config)
-
+        TimelineXAxis(
+            origin = timelineOrigin,
+            size = timelineSize,
+            dateTimeOrigin = dateTimeOrigin,
+            dateTimeSize = dateTimeSize,
+            offset = offset,
+            config = config,
+        )
         TimelineChart(
             origin = chartOrigin,
             size = chartSize,

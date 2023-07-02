@@ -1,14 +1,21 @@
-package com.faltenreich.diaguard.timeline.list
+package com.faltenreich.diaguard.timeline.chart
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.shared.view.drawText
-import com.faltenreich.diaguard.timeline.chart.TimelineChartState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineList(
     state: TimelineChartState,
 ) = with(state) {
+    drawRect(
+        color = Color.LightGray,
+        topLeft = listOrigin,
+        size = listSize,
+        style = Fill,
+    )
     state.propertiesForList.forEachIndexed { index, property ->
         val iconSize = fontSize
         val heightPerProperty = iconSize + padding * 2

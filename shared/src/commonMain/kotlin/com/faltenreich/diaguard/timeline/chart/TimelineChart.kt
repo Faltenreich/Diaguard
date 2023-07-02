@@ -7,6 +7,7 @@ fun DrawScope.TimelineChart(
     state: TimelineChartState,
 ) {
     TimelineYAxis(state)
+    TimelineList(state)
     TimelineXAxis(state)
     TimelineValues(state)
 }

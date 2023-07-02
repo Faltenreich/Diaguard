@@ -19,7 +19,6 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.timeline.chart.TimelineChart
 import com.faltenreich.diaguard.timeline.chart.TimelineChartState
-import com.faltenreich.diaguard.timeline.list.TimelineList
 import kotlin.math.ceil
 
 @Composable
@@ -66,6 +65,5 @@ fun TimelineCanvas(
     ) {
         chartState.timelineSize = size
         TimelineChart(chartState)
-        TimelineList(chartState)
     }
 }

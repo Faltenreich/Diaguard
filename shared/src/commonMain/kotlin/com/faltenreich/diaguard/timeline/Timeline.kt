@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.timeline.chart.TimelineChart
 
 @Composable
 fun Timeline(
@@ -13,7 +12,7 @@ fun Timeline(
     viewModel: TimelineViewModel = inject(),
 ) {
     val viewState = viewModel.viewState.collectAsState().value
-    TimelineChart(
+    TimelineCanvas(
         initialDate = viewState.initialDate,
         currentDate = viewState.currentDate,
         valuesForChart = viewState.valuesForChart,

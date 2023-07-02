@@ -1,87 +1,91 @@
 package com.faltenreich.diaguard.timeline.chart
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.rememberTextMeasurer
-import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.graphics.drawscope.Stroke
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
-import kotlin.math.ceil
+import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
+import com.faltenreich.diaguard.shared.datetime.Time
+import com.faltenreich.diaguard.shared.view.bezierBetween
 
-@Composable
-fun TimelineChart(
+@Suppress("FunctionName")
+fun DrawScope.TimelineChart(
+    values: List<MeasurementValue>,
     initialDate: Date,
-    currentDate: Date,
-    valuesForChart: List<MeasurementValue>,
-    propertiesForList: List<MeasurementProperty>,
-    onDateChange: (Date) -> Unit,
-    modifier: Modifier = Modifier,
+    scrollOffset: Offset,
+    origin: Offset,
+    size: Size,
+    xAxis: IntProgression,
+    yAxis: IntProgression,
+    valueColorNormal: Color,
+    valueColorLow: Color,
+    valueColorHigh: Color,
+    valueDotRadius: Float,
+    valueStrokeWidth: Float,
 ) {
-    // TODO: Reset remember when initialDate changes
-    var offset by remember { mutableStateOf(Offset.Zero) }
-    val chartState = TimelineChartState(
-        offset = offset,
-        initialDate = initialDate,
-        currentDate = currentDate,
-        valuesForChart = valuesForChart,
-        propertiesForList = propertiesForList,
-        textMeasurer = rememberTextMeasurer(),
-        padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
-        fontPaint = Paint().apply { color = AppTheme.colors.material.onBackground },
-        fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
-        gridStrokeColor = AppTheme.colors.material.onSurfaceVariant,
-        gridShadowColor = AppTheme.colors.material.scrim,
-        valueColorNormal = AppTheme.colors.Green,
-        valueColorLow = AppTheme.colors.Blue,
-        valueColorHigh = AppTheme.colors.Red,
-    )
-    Canvas(
-        modifier = modifier
-            .fillMaxSize()
-            .pointerInput(key1 = Unit) {
-                detectDragGestures(
-                    onDrag = { _, dragAmount ->
-                        offset += dragAmount * 1.5f
+    val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
+    val coordinates = values.map { value ->
+        val dateTime = value.entry.dateTime
+        val widthPerDay = size.width
+        val widthPerHour = widthPerDay / (xAxis.last / xAxis.step)
+        val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
+        val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
+        val offsetOfDateTime = (offsetInMinutes / xAxis.step) * widthPerMinute
+        val x = origin.x + scrollOffset.x + offsetOfDateTime
 
-                        val widthPerDay = size.width
-                        val offsetInDays = ceil(offset.x * -1) / widthPerDay
-                        val date = initialDate.plusDays(offsetInDays.toInt())
-                        onDateChange(date)
-                    },
-                )
-            },
-    ) {
-        chartState.timelineSize = size
-        // TODO: Date and time in the middle with chart above and list below, separately scrollable
-        TimelineYAxis(chartState)
-        TimelineList(chartState)
-        TimelineXAxis(chartState)
+        val percentage = (value.value - yAxis.first) / (yAxis.last - yAxis.first)
+        val y = origin.y + size.height - (percentage.toFloat() * size.height)
 
-        TimelineValues(
-            values = valuesForChart,
-            initialDate = initialDate,
-            origin = chartState.chartOrigin,
-            size = chartState.chartSize,
-            scrollOffset = offset,
-            xAxis = chartState.xAxis,
-            yAxis = chartState.yAxis,
-            valueColorNormal = chartState.valueColorNormal,
-            valueColorLow = chartState.valueColorLow,
-            valueColorHigh = chartState.valueColorHigh,
-            valueDotRadius = chartState.valueDotRadius,
-            valueStrokeWidth = chartState.valueStrokeWidth,
-        )
+        Offset(x, y)
     }
+    if (coordinates.isEmpty()) {
+        return
+    }
+
+    // TODO: Get percentages from extremas
+    val brush = Brush.verticalGradient(
+        colorStops = arrayOf(
+            .3f to valueColorHigh,
+            .35f to valueColorNormal,
+            .8f to valueColorNormal,
+            .85f to valueColorLow,
+        ),
+    )
+
+    val path = Path()
+    path.reset()
+
+    drawValue(coordinates.first(), valueDotRadius, brush)
+
+    val style = Stroke(width = valueStrokeWidth)
+    coordinates.zipWithNext { start, end ->
+        path.moveTo(start.x, start.y)
+        path.bezierBetween(start, end)
+
+        drawPath(
+            path = path,
+            brush = brush,
+            style = style,
+        )
+        drawValue(end, valueDotRadius, brush)
+    }
+}
+
+private fun DrawScope.drawValue(
+    position: Offset,
+    dotRadius: Float,
+    brush: Brush,
+) {
+    drawCircle(
+        brush = brush,
+        radius = dotRadius,
+        center = position,
+        style = Fill,
+    )
 }

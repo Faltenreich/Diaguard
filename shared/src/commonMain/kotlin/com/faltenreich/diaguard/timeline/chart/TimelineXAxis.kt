@@ -10,10 +10,11 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.drawText
+import com.faltenreich.diaguard.timeline.TimelineCanvasState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
-    state: TimelineChartState,
+    state: TimelineCanvasState,
 ) = with(state) {
     val size = state.chartSize
 
@@ -55,7 +56,7 @@ fun DrawScope.TimelineXAxis(
 private fun DrawScope.drawDate(
     date: Date,
     x: Float,
-    state: TimelineChartState,
+    state: TimelineCanvasState,
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) = with(state) {
     val dateAsText = dateTimeFormatter.formatDate(date)
@@ -87,7 +88,7 @@ private fun DrawScope.drawDate(
 
 private fun DrawScope.drawHour(
     hour: Int, x: Float,
-    state: TimelineChartState,
+    state: TimelineCanvasState,
 ) = with(state) {
     drawLine(
         color = gridStrokeColor,

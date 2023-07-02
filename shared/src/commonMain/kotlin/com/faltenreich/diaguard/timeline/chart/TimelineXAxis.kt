@@ -16,12 +16,6 @@ fun DrawScope.TimelineXAxis(
 ) = with(state) {
     val size = state.chartSize
 
-    drawRect(
-        color = valueColorNormal,
-        topLeft = dateTimeOrigin,
-        size = dateTimeSize,
-    )
-
     val widthPerDay = size.width
     val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
@@ -31,6 +25,12 @@ fun DrawScope.TimelineXAxis(
     // Paint one additional hour per side to support cut-off labels
     val (xStart, xEnd) = xOfFirstHour - widthPerHour to xOfLastHour + widthPerHour
     val xProgression = xStart .. xEnd step widthPerHour
+
+    drawRect(
+        color = valueColorNormal,
+        topLeft = dateTimeOrigin,
+        size = dateTimeSize,
+    )
 
     xProgression.forEach { xOfLabel ->
         val xAbsolute = -(xOffset - xOfLabel)
@@ -44,7 +44,7 @@ fun DrawScope.TimelineXAxis(
         if (hour == 0) {
             val xOffsetInDays = xAbsolute / widthPerDay
             val date = state.initialDate.plusDays(xOffsetInDays.toInt())
-            drawDate(date, x, state.offset, state)
+            drawDate(date, x, state)
         }
         drawHour(hour, x, state)
     }
@@ -53,14 +53,13 @@ fun DrawScope.TimelineXAxis(
 private fun DrawScope.drawDate(
     date: Date,
     x: Float,
-    offset: Offset,
     state: TimelineChartState,
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) = with(state) {
     drawText(
         text = dateTimeFormatter.formatDate(date),
         x = x + padding,
-        y = state.timelineSize.height - padding - fontSize - padding,
+        y = state.timelineSize.height - padding,
         size = fontSize,
         paint = fontPaint,
     )
@@ -96,7 +95,7 @@ private fun DrawScope.drawHour(
     drawText(
         text = hour.toString(),
         x = x + padding,
-        y = state.timelineSize.height - padding,
+        y = state.timelineSize.height - padding - fontSize - padding,
         size = fontSize,
         paint = fontPaint,
     )

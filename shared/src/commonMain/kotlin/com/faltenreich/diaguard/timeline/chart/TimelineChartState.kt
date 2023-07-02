@@ -45,28 +45,44 @@ data class TimelineChartState(
     private val yRange: IntRange = yMin .. yMax
     val yAxis: IntProgression = yRange step yStep
 
-    var timelineSize: Size = Size.Zero
+    // Timeline
     val timelineOrigin: Offset
         get() = Offset.Zero
+    // Gets set late
+    var timelineSize: Size = Size.Zero
 
-    // TODO: Calculate via fontSize and padding of TimelineConfig
-    val dateTimeSize: Size = Size(width = timelineSize.width, height = 200f)
-
-    // TODO: Calculate via fontSize and padding of TimelineConfig
-    val listItemHeight: Float = 100f
-    val listSize: Size
-        get() = Size(
-            width = timelineSize.width,
-            height = listItemHeight * propertiesForList.size,
-        )
-    val listOrigin: Offset
-        get() = Offset(x = 0f, y = chartSize.height)
-
+    // Chart
+    val chartOrigin: Offset
+        get() = timelineOrigin
     val chartSize: Size
         get() = Size(
             width = timelineSize.width,
             height = timelineSize.height - listSize.height - dateTimeSize.height,
         )
-    val chartOrigin: Offset
-        get() = timelineOrigin
+
+    // List
+    val listItemHeight: Float
+        get() = fontSize + padding * 2
+    val listOrigin: Offset
+        get() = Offset(
+            x = timelineOrigin.x,
+            y =  timelineOrigin.y + timelineSize.height - listSize.height - dateTimeSize.height,
+        )
+    val listSize: Size
+        get() = Size(
+            width = timelineSize.width,
+            height = listItemHeight * propertiesForList.size,
+        )
+
+    // Date and time
+    val dateTimeOrigin: Offset
+        get() = Offset(
+            x = timelineOrigin.x,
+            y = timelineOrigin.y + timelineSize.height - dateTimeSize.height,
+        )
+    val dateTimeSize: Size
+        get() = Size(
+            width = timelineSize.width,
+            height = fontSize * 2 + padding * 3,
+        )
 }

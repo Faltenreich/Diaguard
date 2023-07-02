@@ -16,6 +16,12 @@ fun DrawScope.TimelineXAxis(
 ) = with(state) {
     val size = state.chartSize
 
+    drawRect(
+        color = valueColorNormal,
+        topLeft = dateTimeOrigin,
+        size = dateTimeSize,
+    )
+
     val widthPerDay = size.width
     val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 

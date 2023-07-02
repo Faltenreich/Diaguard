@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -29,6 +30,7 @@ fun TimelineCanvas(
 ) {
     // TODO: Reset remember when initialDate changes
     var offset by remember { mutableStateOf(Offset.Zero) }
+    var chartWeight by remember { mutableStateOf(2f) }
     val state = TimelineViewState(offset, initialDate, initialDate, values)
     val config = TimelineConfig(
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
@@ -56,6 +58,15 @@ fun TimelineCanvas(
                 )
             },
     ) {
+        state.timelineSize = size
+        state.chartSize = Size(
+            width = state.timelineSize.width,
+            height = state.timelineSize.height / chartWeight,
+        )
+        state.listSize = Size(
+            width = state.timelineSize.width,
+            height = state.timelineSize.height - state.chartSize.height,
+        )
         TimelineChart(state, config)
         TimelineList(state, config)
     }

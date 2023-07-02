@@ -17,6 +17,8 @@ fun DrawScope.TimelineXAxis(
     state: TimelineViewState,
     config: TimelineConfig,
 ) = with(config) {
+    val size = state.chartSize
+
     val widthPerDay = size.width
     val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
@@ -39,9 +41,9 @@ fun DrawScope.TimelineXAxis(
         if (hour == 0) {
             val xOffsetInDays = xAbsolute / widthPerDay
             val date = state.initialDate.plusDays(xOffsetInDays.toInt())
-            drawDate(date, x, state.offset, config)
+            drawDate(date, x, state.offset, state, config)
         }
-        drawHour(hour, x, config)
+        drawHour(hour, x, state, config)
     }
 }
 
@@ -49,9 +51,11 @@ private fun DrawScope.drawDate(
     date: Date,
     x: Float,
     offset: Offset,
+    state: TimelineViewState,
     config: TimelineConfig,
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) = with(config) {
+    val size = state.chartSize
     drawText(
         text = dateTimeFormatter.formatDate(date),
         x = x + padding,
@@ -78,7 +82,12 @@ private fun DrawScope.drawDate(
     }
 }
 
-private fun DrawScope.drawHour(hour: Int, x: Float, config: TimelineConfig) = with(config) {
+private fun DrawScope.drawHour(
+    hour: Int, x: Float,
+    state: TimelineViewState,
+    config: TimelineConfig,
+) = with(config) {
+    val size = state.chartSize
     drawLine(
         color = gridStrokeColor,
         start = Offset(x = x, y = 0f),

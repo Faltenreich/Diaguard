@@ -27,11 +27,13 @@ fun AppTheme(
         darkColorScheme(
             primary = Colors.Green,
             secondary = Colors.GreenDarker,
+            surface = Colors.GreenDarker,
         )
     } else {
         lightColorScheme(
             primary = Colors.Green,
             secondary = Colors.GreenDarker,
+            surface = Colors.Green,
             scrim = Color.LightGray,
         )
     }

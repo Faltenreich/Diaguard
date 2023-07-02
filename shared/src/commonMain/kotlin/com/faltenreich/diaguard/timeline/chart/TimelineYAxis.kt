@@ -14,7 +14,7 @@ fun DrawScope.TimelineYAxis(
     val size = state.chartSize
     val heightPerSection = size.height / (yAxis.last / yAxis.step)
     yAxis
-        .drop(1)
+        .drop(0)
         .dropLast(1)
         .forEach { value ->
             val index = yAxis.indexOf(value)
@@ -28,7 +28,7 @@ fun DrawScope.TimelineYAxis(
             )
             drawText(
                 text = value.toString(),
-                x= x,
+                x = x,
                 y = y - padding,
                 size = fontSize,
                 paint = fontPaint,

@@ -55,11 +55,10 @@ private fun DrawScope.drawDate(
     config: TimelineConfig,
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) = with(config) {
-    val size = state.chartSize
     drawText(
         text = dateTimeFormatter.formatDate(date),
         x = x + padding,
-        y= padding + fontSize,
+        y = state.timelineSize.height - padding - fontSize - padding,
         size = fontSize,
         paint = fontPaint,
     )
@@ -77,7 +76,7 @@ private fun DrawScope.drawDate(
         drawRect(
             brush = gradient,
             topLeft = Offset(x = x - gradientWidth, y = 0f),
-            size = Size(width = gradientWidth, height = size.height),
+            size = Size(width = gradientWidth, height = state.timelineSize.height),
         )
     }
 }
@@ -87,17 +86,16 @@ private fun DrawScope.drawHour(
     state: TimelineViewState,
     config: TimelineConfig,
 ) = with(config) {
-    val size = state.chartSize
     drawLine(
         color = gridStrokeColor,
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = size.height),
+        end = Offset(x = x, y = state.timelineSize.height),
         strokeWidth = gridStrokeWidth,
     )
     drawText(
         text = hour.toString(),
         x = x + padding,
-        y = size.height - padding,
+        y = state.timelineSize.height - padding,
         size = fontSize,
         paint = fontPaint,
     )

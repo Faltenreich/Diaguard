@@ -9,14 +9,11 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.drawText
-import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.TimelineViewState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
-    state: TimelineViewState,
-    config: TimelineConfig,
-) = with(config) {
+    state: TimelineChartState,
+) = with(state) {
     val size = state.chartSize
 
     val widthPerDay = size.width
@@ -41,9 +38,9 @@ fun DrawScope.TimelineXAxis(
         if (hour == 0) {
             val xOffsetInDays = xAbsolute / widthPerDay
             val date = state.initialDate.plusDays(xOffsetInDays.toInt())
-            drawDate(date, x, state.offset, state, config)
+            drawDate(date, x, state.offset, state)
         }
-        drawHour(hour, x, state, config)
+        drawHour(hour, x, state)
     }
 }
 
@@ -51,10 +48,9 @@ private fun DrawScope.drawDate(
     date: Date,
     x: Float,
     offset: Offset,
-    state: TimelineViewState,
-    config: TimelineConfig,
+    state: TimelineChartState,
     dateTimeFormatter: DateTimeFormatter = inject(),
-) = with(config) {
+) = with(state) {
     drawText(
         text = dateTimeFormatter.formatDate(date),
         x = x + padding,
@@ -83,9 +79,8 @@ private fun DrawScope.drawDate(
 
 private fun DrawScope.drawHour(
     hour: Int, x: Float,
-    state: TimelineViewState,
-    config: TimelineConfig,
-) = with(config) {
+    state: TimelineChartState,
+) = with(state) {
     drawLine(
         color = gridStrokeColor,
         start = Offset(x = x, y = 0f),

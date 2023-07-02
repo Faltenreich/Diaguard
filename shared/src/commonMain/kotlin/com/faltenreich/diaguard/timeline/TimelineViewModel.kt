@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline
 
-import androidx.compose.ui.geometry.Offset
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.deep
@@ -48,7 +47,6 @@ class TimelineViewModel(
 
 
     private val state = combine(
-        flowOf(Offset.Zero),
         flowOf(initialDate),
         currentDate,
         valuesForChart,
@@ -60,7 +58,6 @@ class TimelineViewModel(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = TimelineViewState(
-            offset = Offset.Zero,
             initialDate = initialDate,
             currentDate = initialDate,
             valuesForChart = emptyList(),

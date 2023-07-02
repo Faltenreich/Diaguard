@@ -18,12 +18,14 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.timeline.chart.TimelineChart
+import com.faltenreich.diaguard.timeline.chart.TimelineChartState
 import com.faltenreich.diaguard.timeline.list.TimelineList
 import kotlin.math.ceil
 
 @Composable
 fun TimelineCanvas(
     initialDate: Date,
+    currentDate: Date,
     valuesForChart: List<MeasurementValue>,
     propertiesForList: List<MeasurementProperty>,
     onDateChange: (Date) -> Unit,
@@ -31,10 +33,12 @@ fun TimelineCanvas(
 ) {
     // TODO: Reset remember when initialDate changes
     var offset by remember { mutableStateOf(Offset.Zero) }
-    var chartWeight by remember { mutableStateOf(2f) }
-    // FIXME: Pass mutable offset without copying state
-    val state = TimelineViewState(offset, initialDate, initialDate, valuesForChart, propertiesForList)
-    val config = TimelineConfig(
+    val chartState = TimelineChartState(
+        offset = offset,
+        initialDate = initialDate,
+        currentDate = currentDate,
+        valuesForChart = valuesForChart,
+        propertiesForList = propertiesForList,
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
         fontPaint = Paint().apply { color = AppTheme.colors.material.onBackground },
         fontSize = LocalDensity.current.run { AppTheme.typography.bodyMedium.fontSize.toPx() },
@@ -60,8 +64,8 @@ fun TimelineCanvas(
                 )
             },
     ) {
-        state.timelineSize = size
-        TimelineChart(state, config)
-        TimelineList(state, config)
+        chartState.timelineSize = size
+        TimelineChart(chartState)
+        TimelineList(chartState)
     }
 }

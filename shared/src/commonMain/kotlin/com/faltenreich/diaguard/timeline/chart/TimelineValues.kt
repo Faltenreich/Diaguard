@@ -9,14 +9,11 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.view.bezierBetween
-import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.TimelineViewState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineValues(
-    state: TimelineViewState,
-    config: TimelineConfig,
-) = with(config) {
+    state: TimelineChartState,
+) = with(state) {
     val size = state.chartSize
 
     val coordinates = state.valuesForChart.map { value ->

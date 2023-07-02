@@ -3,14 +3,12 @@ package com.faltenreich.diaguard.timeline.list
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.shared.view.drawText
-import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.TimelineViewState
+import com.faltenreich.diaguard.timeline.chart.TimelineChartState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineList(
-    state: TimelineViewState,
-    config: TimelineConfig,
-) = with(config) {
+    state: TimelineChartState,
+) = with(state) {
     state.propertiesForList.forEachIndexed { index, property ->
         val iconSize = fontSize
         val heightPerProperty = iconSize + padding * 2

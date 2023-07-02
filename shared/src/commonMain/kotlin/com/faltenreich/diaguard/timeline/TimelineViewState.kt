@@ -18,11 +18,24 @@ data class TimelineViewState(
     val timelineOrigin: Offset
         get() = Offset.Zero
 
-    var chartSize: Size = Size.Zero
-    val chartOrigin: Offset
-        get() = Offset.Zero
+    // TODO: Calculate via fontSize and padding of TimelineConfig
+    val dateTimeSize: Size = Size(width = timelineSize.width, height = 200f)
 
-    var listSize: Size = Size.Zero
+    // TODO: Calculate via fontSize and padding of TimelineConfig
+    val listItemHeight: Float = 100f
+    val listSize: Size
+        get() = Size(
+            width = timelineSize.width,
+            height = listItemHeight * propertiesForList.size,
+        )
     val listOrigin: Offset
         get() = Offset(x = 0f, y = chartSize.height)
+
+    val chartSize: Size
+        get() = Size(
+            width = timelineSize.width,
+            height = timelineSize.height - listSize.height - dateTimeSize.height,
+        )
+    val chartOrigin: Offset
+        get() = timelineOrigin
 }

@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
+import kotlin.math.floor
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
@@ -24,12 +25,6 @@ fun DrawScope.TimelineXAxis(
         color = Color.LightGray,
         topLeft = timeOrigin,
         size = timeSize,
-        style = Fill,
-    )
-    drawRect(
-        color = Color.Gray,
-        topLeft = dateOrigin,
-        size = dateSize,
         style = Fill,
     )
 
@@ -69,18 +64,18 @@ fun DrawScope.TimelineXAxis(
                 size = Size(width = gradientWidth, height = size.height),
             )
         } else if (hour == xAxis.last / 2) {
-            val xOffsetInDays = xAbsolute / widthPerDay
-            val date = initialDate.plusDays(xOffsetInDays.toInt())
+            val xOffsetInDays = floor(xAbsolute / widthPerDay).toInt()
+            val date = initialDate.plusDays(xOffsetInDays)
             val dateAsText = dateTimeFormatter.formatDate(date)
             drawText(
                 text = dateAsText,
-                x = x + dateSize.width / 2 - textMeasurer.measure(dateAsText).size.width / 2,
+                x = x - textMeasurer.measure(dateAsText).size.width / 2,
                 y = dateOrigin.y + dateSize.height / 2 + fontSize / 2,
                 size = fontSize,
                 paint = fontPaint,
             )
         }
-        drawHour(origin, size, timeOrigin, timeSize, offset, config, hour, x)
+        drawHour(origin, size, timeOrigin, timeSize, dateOrigin, dateSize, offset, config, hour, x)
     }
 }
 
@@ -89,6 +84,8 @@ private fun DrawScope.drawHour(
     size: Size,
     timeOrigin: Offset,
     timeSize: Size,
+    dateOrigin: Offset,
+    dateSize: Size,
     offset: Offset,
     config: TimelineConfig,
     hour: Int,
@@ -97,7 +94,7 @@ private fun DrawScope.drawHour(
     drawLine(
         color = gridStrokeColor,
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = origin.y + size.height),
+        end = Offset(x = x, y = origin.y + size.height - dateSize.height),
         strokeWidth = gridStrokeWidth,
     )
     drawText(

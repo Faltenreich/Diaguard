@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
-import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
@@ -53,49 +52,35 @@ fun DrawScope.TimelineXAxis(
             else -> xOffsetInHoursOfDay
         }
         val x = xOfLabel.toFloat()
-        if (hour == 0) {
+        // Hide date indicator initially
+        if (hour == xAxis.first && offset.x != 0f) {
+            val gradientWidth = 40f
+            val gradient = Brush.horizontalGradient(
+                colorStops = arrayOf(
+                    .0f to Color.Transparent,
+                    1f to gridShadowColor,
+                ),
+                startX = x - gradientWidth,
+                endX = x,
+            )
+            drawRect(
+                brush = gradient,
+                topLeft = Offset(x = x - gradientWidth, y = 0f),
+                size = Size(width = gradientWidth, height = size.height),
+            )
+        } else if (hour == xAxis.last / 2) {
             val xOffsetInDays = xAbsolute / widthPerDay
             val date = initialDate.plusDays(xOffsetInDays.toInt())
-            drawDate(origin, size, dateOrigin, dateSize, offset, config, date, x)
+            val dateAsText = dateTimeFormatter.formatDate(date)
+            drawText(
+                text = dateAsText,
+                x = x + dateSize.width / 2 - textMeasurer.measure(dateAsText).size.width / 2,
+                y = dateOrigin.y + dateSize.height / 2 + fontSize / 2,
+                size = fontSize,
+                paint = fontPaint,
+            )
         }
         drawHour(origin, size, timeOrigin, timeSize, offset, config, hour, x)
-    }
-}
-
-private fun DrawScope.drawDate(
-    origin: Offset,
-    size: Size,
-    dateOrigin: Offset,
-    dateSize: Size,
-    offset: Offset,
-    config: TimelineConfig,
-    date: Date,
-    x: Float,
-) = with(config) {
-    val dateAsText = dateTimeFormatter.formatDate(date)
-    drawText(
-        text = dateAsText,
-        x = x + dateSize.width / 2 - textMeasurer.measure(dateAsText).size.width / 2,
-        y = dateOrigin.y + dateSize.height / 2 + fontSize / 2,
-        size = fontSize,
-        paint = fontPaint,
-    )
-    // Hide date indicator initially
-    if (offset.x != 0f) {
-        val gradientWidth = 40f
-        val gradient = Brush.horizontalGradient(
-            colorStops = arrayOf(
-                .0f to Color.Transparent,
-                1f to gridShadowColor,
-            ),
-            startX = x - gradientWidth,
-            endX = x,
-        )
-        drawRect(
-            brush = gradient,
-            topLeft = Offset(x = x - gradientWidth, y = 0f),
-            size = Size(width = gradientWidth, height = size.height),
-        )
     }
 }
 

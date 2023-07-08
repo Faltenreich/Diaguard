@@ -3,10 +3,8 @@ package com.faltenreich.diaguard.timeline.chart
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.graphics.drawscope.Stroke
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
@@ -40,44 +38,51 @@ fun DrawScope.TimelineChart(
         Offset(x, y)
     }
 
-    // TODO: Get percentages from extremas
     val brush = Brush.verticalGradient(
         colorStops = arrayOf(
-            .3f to valueColorHigh,
-            .35f to valueColorNormal,
-            .8f to valueColorNormal,
-            .85f to valueColorLow,
+            1 - yHighFraction to valueColorHigh,
+            1 - yHighFraction to valueColorNormal,
+            1 - yLowFraction to valueColorNormal,
+            1 - yLowFraction to valueColorLow,
         ),
+        startY = origin.y,
+        endY = origin.y + size.height,
     )
 
-    val path = Path()
-    path.reset()
+    valuePath.reset()
 
-    drawValue(coordinates.first(), valueDotRadius, brush)
+    drawValue(coordinates.first(), brush, config)
 
-    val style = Stroke(width = valueStrokeWidth)
     coordinates.zipWithNext { start, end ->
-        path.moveTo(start.x, start.y)
-        path.bezierBetween(start, end)
-
-        drawPath(
-            path = path,
-            brush = brush,
-            style = style,
-        )
-        drawValue(end, valueDotRadius, brush)
+        connectValues(start, end, brush, config)
+        drawValue(end, brush, config)
     }
 }
 
 private fun DrawScope.drawValue(
     position: Offset,
-    dotRadius: Float,
     brush: Brush,
-) {
+    config: TimelineConfig,
+) = with(config) {
     drawCircle(
         brush = brush,
-        radius = dotRadius,
+        radius = valueDotRadius,
         center = position,
         style = Fill,
+    )
+}
+
+private fun DrawScope.connectValues(
+    start: Offset,
+    end: Offset,
+    brush: Brush,
+    config: TimelineConfig,
+) = with(config) {
+    valuePath.moveTo(start.x, start.y)
+    valuePath.bezierBetween(start, end)
+    drawPath(
+        path = valuePath,
+        brush = brush,
+        style = valueStroke,
     )
 }

@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.timeline
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
@@ -30,8 +32,11 @@ data class TimelineConfig(
     private val xMax: Int = 24,
     private val xStep: Int = 2,
 
-    private val yMin: Int = 0,
-    private val yMax: Int = 250,
+    // TODO: Pass values
+    val yMin: Int = 0,
+    val yLow: Int = 70,
+    val yHigh: Int = 180,
+    val yMax: Int = 250,
     private val yStep: Int = 50,
 ) {
 
@@ -41,4 +46,9 @@ data class TimelineConfig(
 
     private val yRange: IntRange = yMin .. yMax
     val yAxis: IntProgression = yRange step yStep
+
+    val yLowFraction: Float = (yLow - yMin).toFloat() / (yMax - yMin).toFloat()
+    val yHighFraction: Float = (yHigh - yMin).toFloat() / (yMax - yMin).toFloat()
+    val valueStroke: Stroke = Stroke(width = valueStrokeWidth)
+    val valuePath: Path = Path()
 }

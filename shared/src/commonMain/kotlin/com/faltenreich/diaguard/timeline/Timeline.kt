@@ -14,7 +14,6 @@ fun Timeline(
     val viewState = viewModel.viewState.collectAsState().value
     TimelineCanvas(
         initialDate = viewState.initialDate,
-        currentDate = viewState.currentDate,
         valuesForChart = viewState.valuesForChart,
         propertiesForList = viewState.propertiesForList,
         onDateChange = viewModel::setDate,

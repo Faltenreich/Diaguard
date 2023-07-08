@@ -14,15 +14,23 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 fun DrawScope.TimelineXAxis(
     origin: Offset,
     size: Size,
-    dateTimeOrigin: Offset,
-    dateTimeSize: Size,
+    timeOrigin: Offset,
+    timeSize: Size,
+    dateOrigin: Offset,
+    dateSize: Size,
     offset: Offset,
     config: TimelineConfig,
 ) = with(config) {
     drawRect(
         color = Color.LightGray,
-        topLeft = dateTimeOrigin,
-        size = dateTimeSize,
+        topLeft = timeOrigin,
+        size = timeSize,
+        style = Fill,
+    )
+    drawRect(
+        color = Color.Gray,
+        topLeft = dateOrigin,
+        size = dateSize,
         style = Fill,
     )
 
@@ -48,17 +56,17 @@ fun DrawScope.TimelineXAxis(
         if (hour == 0) {
             val xOffsetInDays = xAbsolute / widthPerDay
             val date = initialDate.plusDays(xOffsetInDays.toInt())
-            drawDate(origin, size, dateTimeOrigin, dateTimeSize, offset, config, date, x)
+            drawDate(origin, size, dateOrigin, dateSize, offset, config, date, x)
         }
-        drawHour(origin, size, dateTimeOrigin, dateTimeSize, offset, config, hour, x)
+        drawHour(origin, size, timeOrigin, timeSize, offset, config, hour, x)
     }
 }
 
 private fun DrawScope.drawDate(
     origin: Offset,
     size: Size,
-    dateTimeOrigin: Offset,
-    dateTimeSize: Size,
+    dateOrigin: Offset,
+    dateSize: Size,
     offset: Offset,
     config: TimelineConfig,
     date: Date,
@@ -67,8 +75,8 @@ private fun DrawScope.drawDate(
     val dateAsText = dateTimeFormatter.formatDate(date)
     drawText(
         text = dateAsText,
-        x = x + size.width / 2 - textMeasurer.measure(dateAsText).size.width / 2,
-        y = dateTimeOrigin.y + dateTimeSize.height - padding,
+        x = x + dateSize.width / 2 - textMeasurer.measure(dateAsText).size.width / 2,
+        y = dateOrigin.y + dateSize.height / 2 + fontSize / 2,
         size = fontSize,
         paint = fontPaint,
     )
@@ -94,8 +102,8 @@ private fun DrawScope.drawDate(
 private fun DrawScope.drawHour(
     origin: Offset,
     size: Size,
-    dateTimeOrigin: Offset,
-    dateTimeSize: Size,
+    timeOrigin: Offset,
+    timeSize: Size,
     offset: Offset,
     config: TimelineConfig,
     hour: Int,
@@ -110,7 +118,7 @@ private fun DrawScope.drawHour(
     drawText(
         text = hour.toString(),
         x = x + padding,
-        y = dateTimeOrigin.y + padding + fontSize,
+        y = timeOrigin.y + padding + fontSize,
         size = fontSize,
         paint = fontPaint,
     )

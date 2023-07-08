@@ -21,6 +21,9 @@ fun DrawScope.TimelineChart(
     config: TimelineConfig,
     values: List<MeasurementValue>,
 ) = with(config) {
+    if (values.isEmpty()) {
+        return@with
+    }
     val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
     val coordinates = values.map { value ->
         val dateTime = value.entry.dateTime
@@ -35,9 +38,6 @@ fun DrawScope.TimelineChart(
         val y = origin.y + size.height - (percentage.toFloat() * size.height)
 
         Offset(x, y)
-    }
-    if (coordinates.isEmpty()) {
-        return@with
     }
 
     // TODO: Get percentages from extremas

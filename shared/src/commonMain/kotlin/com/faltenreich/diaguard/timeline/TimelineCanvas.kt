@@ -30,7 +30,6 @@ import kotlin.math.ceil
 @Composable
 fun TimelineCanvas(
     initialDate: Date,
-    currentDate: Date,
     valuesForChart: List<MeasurementValue>,
     propertiesForList: List<MeasurementProperty>,
     onDateChange: (Date) -> Unit,
@@ -71,9 +70,13 @@ fun TimelineCanvas(
         val origin = Offset.Zero
         val size = size
 
-        val dateTimeSize = Size(
+        val timeSize = Size(
             width = size.width,
-            height = config.fontSize * 2 + config.padding * 3,
+            height = config.fontSize + config.padding * 2,
+        )
+        val dateSize = Size(
+            width = size.width,
+            height = config.fontSize * 3 + config.padding * 2,
         )
         val listItemHeight = config.fontSize + config.padding * 2
         val listSize = Size(
@@ -82,7 +85,7 @@ fun TimelineCanvas(
         )
         val chartSize = Size(
             width = size.width,
-            height = size.height - listSize.height - dateTimeSize.height,
+            height = size.height - listSize.height - timeSize.height - dateSize.height,
         )
 
         val chartOrigin = origin
@@ -90,9 +93,13 @@ fun TimelineCanvas(
             x = origin.x,
             y =  origin.y + chartSize.height,
         )
-        val dateTimeOrigin = Offset(
+        val timeOrigin = Offset(
             x = origin.x,
             y = origin.y + chartSize.height + listSize.height,
+        )
+        val dateOrigin = Offset(
+            x = origin.x,
+            y = timeOrigin.y + timeSize.height,
         )
 
         TimelineYAxis(
@@ -100,17 +107,13 @@ fun TimelineCanvas(
             size = chartSize,
             config = config,
         )
-        TimelineList(
-            origin = listOrigin,
-            size = listSize,
-            config = config,
-            properties = propertiesForList,
-        )
         TimelineXAxis(
             origin = origin,
             size = size,
-            dateTimeOrigin = dateTimeOrigin,
-            dateTimeSize = dateTimeSize,
+            timeOrigin = timeOrigin,
+            timeSize = timeSize,
+            dateOrigin = dateOrigin,
+            dateSize = dateSize,
             offset = offset,
             config = config,
         )
@@ -120,6 +123,12 @@ fun TimelineCanvas(
             offset = offset,
             config = config,
             values = valuesForChart,
+        )
+        TimelineList(
+            origin = listOrigin,
+            size = listSize,
+            config = config,
+            properties = propertiesForList,
         )
     }
 }

@@ -68,8 +68,6 @@ fun TimelineCanvas(
                 )
             },
     ) {
-        // TODO: Date and time in the middle with chart above and list below, separately scrollable
-
         val origin = Offset.Zero
         val size = size
 
@@ -87,16 +85,15 @@ fun TimelineCanvas(
             height = size.height - listSize.height - dateTimeSize.height,
         )
 
-        val dateTimeOrigin = Offset(
-            x = origin.x,
-            y = origin.y + chartSize.height,
-        )
+        val chartOrigin = origin
         val listOrigin = Offset(
             x = origin.x,
-            y =  origin.y + chartSize.height + dateTimeSize.height,
+            y =  origin.y + chartSize.height,
         )
-        val chartOrigin = origin
-
+        val dateTimeOrigin = Offset(
+            x = origin.x,
+            y = origin.y + chartSize.height + listSize.height,
+        )
 
         TimelineYAxis(
             origin = chartOrigin,

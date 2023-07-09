@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 
@@ -65,6 +64,7 @@ fun DrawScope.TimelineXAxis(
     drawDates(dateOrigin, dateSize, offset, config)
 }
 
+// FIXME: Scrolling left is okay, right not yet
 private fun DrawScope.drawDates(
     origin: Offset,
     size: Size,
@@ -74,9 +74,8 @@ private fun DrawScope.drawDates(
     val widthPerDay = size.width
 
     val xOfFirstHour = offset.x % widthPerDay
-    val xOffsetInDays = -floor(offset.x / widthPerDay).toInt()
+    val xOffsetInDays = -(offset.x / widthPerDay).toInt()
 
-    // FIXME: Date gets shifted when indicator is at second half of screen
     val secondDate = initialDate.plusDays(xOffsetInDays)
     val firstDate = secondDate.minusDays(1)
 
@@ -92,14 +91,23 @@ private fun DrawScope.drawDates(
     val firstDateTextWidth = textMeasurer.measure(firstDateAsText).size.width
     val secondDateTextWidth = textMeasurer.measure(secondDateAsText).size.width
 
+    val xStart = padding
+    val xBeforeIndicator = xOfFirstHour - firstDateTextWidth / 2 - padding - 200
     val xCenterOfFirstDate = xOfFirstHour - size.width / 2 - firstDateTextWidth / 2
-    // TODO: Show previous date
+    drawText(
+        text = firstDateAsText,
+        x = max(min(xStart, xBeforeIndicator), xCenterOfFirstDate),
+        y = origin.y + size.height / 2 + fontSize / 2,
+        size = fontSize,
+        paint = fontPaint,
+    )
 
+    val xAfterIndicator = xOfFirstHour + padding
     val xCenterOfSecondDate = xOfFirstHour + size.width / 2 - secondDateTextWidth / 2
-
+    val xEnd = size.width - secondDateTextWidth - padding * 4
     drawText(
         text = secondDateAsText,
-        x = max(min(xCenterOfSecondDate, size.width - secondDateTextWidth - padding * 4), xOfFirstHour + padding),
+        x = max(min(xCenterOfSecondDate, xEnd), xAfterIndicator),
         y = origin.y + size.height / 2 + fontSize / 2,
         size = fontSize,
         paint = fontPaint,

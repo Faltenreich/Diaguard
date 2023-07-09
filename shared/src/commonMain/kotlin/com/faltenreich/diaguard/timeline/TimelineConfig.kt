@@ -7,9 +7,11 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
+import com.faltenreich.diaguard.shared.datetime.DayOfWeek
 
 data class TimelineConfig(
     val initialDate: Date,
+    val daysOfWeek: Map<DayOfWeek, String>,
 
     val textMeasurer: TextMeasurer,
     val dateTimeFormatter: DateTimeFormatter,

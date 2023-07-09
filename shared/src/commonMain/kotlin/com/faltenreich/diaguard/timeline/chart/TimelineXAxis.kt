@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 import kotlin.math.floor
@@ -90,7 +91,10 @@ private fun DrawScope.drawDate(
     date: Date,
     x: Float,
 ) = with(config) {
-    val dateAsText = dateTimeFormatter.formatDate(date)
+    val dateAsText = "%s, %s".format(
+        daysOfWeek[date.dayOfWeek],
+        dateTimeFormatter.formatDate(date),
+    )
     drawText(
         text = dateAsText,
         x = x - textMeasurer.measure(dateAsText).size.width / 2,

@@ -92,7 +92,7 @@ private fun DrawScope.drawDates(
     val secondDateTextWidth = textMeasurer.measure(secondDateAsText).size.width
 
     val xStart = padding
-    val xBeforeIndicator = xOfFirstHour - firstDateTextWidth / 2 - padding - 200
+    val xBeforeIndicator = xOfFirstHour - firstDateTextWidth - padding - 80 // FIXME: Fix magic offset
     val xCenterOfFirstDate = xOfFirstHour - size.width / 2 - firstDateTextWidth / 2
     drawText(
         text = firstDateAsText,
@@ -104,7 +104,7 @@ private fun DrawScope.drawDates(
 
     val xAfterIndicator = xOfFirstHour + padding
     val xCenterOfSecondDate = xOfFirstHour + size.width / 2 - secondDateTextWidth / 2
-    val xEnd = size.width - secondDateTextWidth - padding * 4
+    val xEnd = size.width - secondDateTextWidth - padding * 4 // FIXME: Fix magic offset
     drawText(
         text = secondDateAsText,
         x = max(min(xCenterOfSecondDate, xEnd), xAfterIndicator),

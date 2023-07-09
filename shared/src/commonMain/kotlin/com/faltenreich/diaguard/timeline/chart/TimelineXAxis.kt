@@ -11,6 +11,8 @@ import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 import kotlin.math.floor
+import kotlin.math.max
+import kotlin.math.min
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
@@ -41,9 +43,9 @@ fun DrawScope.TimelineXAxis(
     val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
     // Paint one additional hour per side to support cut-off labels
     val (xStart, xEnd) = xOfFirstHour - widthPerHour to xOfLastHour + widthPerHour
-    val xProgression = xStart .. xEnd step widthPerHour
+    val xOfHours = xStart .. xEnd step widthPerHour
 
-    xProgression.forEach { xOfLabel ->
+    xOfHours.forEach { xOfLabel ->
         val xAbsolute = -(xOffset - xOfLabel)
         val xOffsetInHours = xAbsolute / widthPerHour
         val xOffsetInHoursOfDay = ((xOffsetInHours % xAxis.last) * xAxis.step) % xAxis.last
@@ -52,16 +54,56 @@ fun DrawScope.TimelineXAxis(
             else -> xOffsetInHoursOfDay
         }
         val x = xOfLabel.toFloat()
-        // Hide date indicator initially
-        if (hour == xAxis.first && offset.x != 0f) {
-            drawDateIndicator(config, x)
-        } else if (hour == xAxis.last / 2) {
-            val xOffsetInDays = floor(xAbsolute / widthPerDay).toInt()
-            val date = initialDate.plusDays(xOffsetInDays)
-            drawDate(dateOrigin, dateSize, config, date, x)
+        if (hour == xAxis.first) {
+            // Hide date indicator initially
+            if (offset.x != 0f) {
+                drawDateIndicator(config, x)
+            }
         }
         drawHour(origin, size, timeOrigin, timeSize, dateOrigin, dateSize, offset, config, hour, x)
     }
+    drawDates(dateOrigin, dateSize, offset, config)
+}
+
+private fun DrawScope.drawDates(
+    origin: Offset,
+    size: Size,
+    offset: Offset,
+    config: TimelineConfig,
+) = with(config) {
+    val widthPerDay = size.width
+
+    val xOfFirstHour = offset.x % widthPerDay
+    val xOffsetInDays = -floor(offset.x / widthPerDay).toInt()
+
+    // FIXME: Date gets shifted when indicator is at second half of screen
+    val secondDate = initialDate.plusDays(xOffsetInDays)
+    val firstDate = secondDate.minusDays(1)
+
+    val firstDateAsText = "%s, %s".format(
+        daysOfWeek[firstDate.dayOfWeek],
+        dateTimeFormatter.formatDate(firstDate),
+    )
+    val secondDateAsText = "%s, %s".format(
+        daysOfWeek[secondDate.dayOfWeek],
+        dateTimeFormatter.formatDate(secondDate),
+    )
+
+    val firstDateTextWidth = textMeasurer.measure(firstDateAsText).size.width
+    val secondDateTextWidth = textMeasurer.measure(secondDateAsText).size.width
+
+    val xCenterOfFirstDate = xOfFirstHour - size.width / 2 - firstDateTextWidth / 2
+    // TODO: Show previous date
+
+    val xCenterOfSecondDate = xOfFirstHour + size.width / 2 - secondDateTextWidth / 2
+
+    drawText(
+        text = secondDateAsText,
+        x = max(min(xCenterOfSecondDate, size.width - secondDateTextWidth - padding * 4), xOfFirstHour + padding),
+        y = origin.y + size.height / 2 + fontSize / 2,
+        size = fontSize,
+        paint = fontPaint,
+    )
 }
 
 private fun DrawScope.drawDateIndicator(
@@ -91,13 +133,16 @@ private fun DrawScope.drawDate(
     date: Date,
     x: Float,
 ) = with(config) {
-    val dateAsText = "%s, %s".format(
+    val text = "%s, %s".format(
         daysOfWeek[date.dayOfWeek],
         dateTimeFormatter.formatDate(date),
     )
+    val textWidth = textMeasurer.measure(text).size.width
+    val xCenterOfDate = x - textWidth / 2
+    val xMax = dateSize.width - textWidth - padding * 4 // FIXME: Why multiplier of 4?
     drawText(
-        text = dateAsText,
-        x = x - textMeasurer.measure(dateAsText).size.width / 2,
+        text = text,
+        x = min(xCenterOfDate, xMax),
         y = dateOrigin.y + dateSize.height / 2 + fontSize / 2,
         size = fontSize,
         paint = fontPaint,

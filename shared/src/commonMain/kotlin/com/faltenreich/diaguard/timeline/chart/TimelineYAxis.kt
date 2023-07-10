@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline.chart
 
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
@@ -36,7 +35,6 @@ fun DrawScope.TimelineYAxis(
             val textSize = textMeasurer.measure(text)
 
             val path = Path()
-            val cornerRadius = CornerRadius(x = 20f, y = 20f)
             val rect = RoundRect(
                 rect = Rect(
                     left = x - padding / 2,

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
@@ -21,6 +22,7 @@ data class TimelineConfig(
     val fontSize: Float,
 
     val backgroundColor: Color = Color.White,
+    val cornerRadius: CornerRadius = CornerRadius(x = 20f, y = 20f),
 
     val gridStrokeColor: Color,
     val gridStrokeWidth: Float = 0f,

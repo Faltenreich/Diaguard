@@ -1,11 +1,15 @@
 package com.faltenreich.diaguard.navigation.bottom
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.EntryDeleteBottomAppBarItem
 import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
@@ -69,12 +73,19 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         )
         is Screen.EntrySearch -> BottomAppBarStyle.Visible(
             actions = {
+                val navigator = LocalNavigator.currentOrThrow
                 val viewModel = getViewModel<EntrySearchViewModel> { parametersOf(query) }
                 val state = viewModel.viewState.collectAsState().value
                 SearchField(
                     query = state.query,
                     placeholder = stringResource(MR.strings.search_placeholder),
-                    onQueryChange = viewModel::onQueryChange,
+                    onQueryChange = { query ->
+                        if (query.isBlank()) navigator.pop()
+                        else viewModel.onQueryChange(query)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = AppTheme.dimensions.padding.P_3),
                 )
             }
         )

@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
+import androidx.compose.material3.BottomAppBar as Material3BottomBar
 
 @Composable
 fun BottomAppBar(
@@ -13,7 +14,7 @@ fun BottomAppBar(
     when (style) {
         is BottomAppBarStyle.Hidden -> Unit
         is BottomAppBarStyle.Visible -> {
-            androidx.compose.material3.BottomAppBar(
+            Material3BottomBar(
                 actions = {
                     BottomAppBarItem(
                         image = Icons.Filled.Menu,

@@ -13,13 +13,13 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun SearchField(
-    query: String? = null,
-    placeholder: String? = null,
-    modifier: Modifier = Modifier,
+    query: String = "",
+    placeholder: String?,
     onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TextField(
-        value = query ?: "",
+        value = query,
         onValueChange = onQueryChange,
         modifier = modifier,
         placeholder = placeholder?.let { { Text(placeholder) } },

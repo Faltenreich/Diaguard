@@ -64,19 +64,23 @@ fun DrawScope.TimelineXAxis(
     drawDates(dateOrigin, dateSize, offset, config)
 }
 
-// FIXME: Scrolling left is okay, right not yet
 private fun DrawScope.drawDates(
     origin: Offset,
     size: Size,
     offset: Offset,
     config: TimelineConfig,
 ) = with(config) {
+    val isScrollingToRight = offset.x < 0
     val widthPerDay = size.width
 
-    val xOfFirstHour = offset.x % widthPerDay
+    val xOfFirstHour =
+        if (isScrollingToRight) widthPerDay + offset.x % widthPerDay
+        else offset.x % widthPerDay
     val xOffsetInDays = -(offset.x / widthPerDay).toInt()
 
-    val secondDate = initialDate.plusDays(xOffsetInDays)
+    val secondDate =
+        if (isScrollingToRight) initialDate.plusDays(xOffsetInDays + 1)
+        else initialDate.plusDays(xOffsetInDays)
     val firstDate = secondDate.minusDays(1)
 
     val firstDateAsText = "%s, %s".format(
@@ -92,7 +96,7 @@ private fun DrawScope.drawDates(
     val secondDateTextWidth = textMeasurer.measure(secondDateAsText).size.width
 
     val xStart = padding
-    val xBeforeIndicator = xOfFirstHour - firstDateTextWidth - padding - 80 // FIXME: Fix magic offset
+    val xBeforeIndicator = xOfFirstHour - firstDateTextWidth - padding - 60 // FIXME: Fix magic offset
     val xCenterOfFirstDate = xOfFirstHour - size.width / 2 - firstDateTextWidth / 2
     drawText(
         text = firstDateAsText,

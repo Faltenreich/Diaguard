@@ -17,4 +17,8 @@ data class MeasurementProperty(
 ) : DatabaseEntity {
 
     lateinit var types: List<MeasurementType>
+
+    // TODO: Identify Blood Sugar accordingly
+    val isBloodSugar: Boolean
+        get() = id == 1L
 }

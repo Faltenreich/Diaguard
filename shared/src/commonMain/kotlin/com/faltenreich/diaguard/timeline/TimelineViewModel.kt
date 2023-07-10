@@ -3,12 +3,15 @@ package com.faltenreich.diaguard.timeline
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.deep
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -26,30 +29,29 @@ class TimelineViewModel(
 ) : ViewModel() {
 
     private val currentDate = MutableStateFlow(initialDate)
-    private val entries = currentDate.flatMapLatest { date ->
+    private val entries: Flow<List<Entry>> = currentDate.flatMapLatest { date ->
         entryRepository.observeByDateRange(
             startDateTime = date.minusDays(1).atTime(Time.atStartOfDay()),
             endDateTime = date.plusDays(1).atTime(Time.atEndOfDay()),
         ).deep()
     }
-    private val valuesForChart = entries.map { entries ->
+    private val values: Flow<Pair<List<MeasurementValue>, List<MeasurementValue>>> = entries.map { entries ->
         entries
-            .map(Entry::values)
-            .flatMap { values ->
-                // TODO: Identify Blood Sugar
-                values.filter { value -> value.type.property.id == 1L }
-            }
-    }
-    private val propertiesForList = measurementPropertyRepository.observeAll().map { properties ->
-        // TODO: Identify Blood Sugar
-        properties.filterNot { property -> property.id == 1L }
-    }
+            .flatMap(Entry::values)
+            .partition { value -> value.type.property.isBloodSugar }
 
+    }
+    private val valuesForChart = values.map { it.first }
+    private val valuesForList = values.map { it.second }
+    private val propertiesForList = measurementPropertyRepository.observeAll().map { properties ->
+        properties.filterNot(MeasurementProperty::isBloodSugar)
+    }
 
     private val state = combine(
         flowOf(initialDate),
         currentDate,
         valuesForChart,
+        valuesForList,
         propertiesForList,
         ::TimelineViewState,
     ).flowOn(dispatcher)
@@ -61,6 +63,7 @@ class TimelineViewModel(
             initialDate = initialDate,
             currentDate = initialDate,
             valuesForChart = emptyList(),
+            valuesForList = emptyList(),
             propertiesForList = emptyList(),
         ),
     )

@@ -8,5 +8,6 @@ data class TimelineViewState(
     val initialDate: Date,
     val currentDate: Date,
     val valuesForChart: List<MeasurementValue>,
+    val valuesForList: List<MeasurementValue>,
     val propertiesForList: List<MeasurementProperty>,
 )

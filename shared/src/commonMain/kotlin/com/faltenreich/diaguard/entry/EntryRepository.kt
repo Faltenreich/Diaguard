@@ -63,6 +63,7 @@ fun Flow<List<Entry>>.deep(
                 }
             }
         ) {
+            // FIXME: Initially not called
             it.map { (entry, values) ->
                 entry.values = values
                 entry

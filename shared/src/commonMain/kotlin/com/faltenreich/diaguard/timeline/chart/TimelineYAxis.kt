@@ -1,7 +1,11 @@
 package com.faltenreich.diaguard.timeline.chart
 
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
@@ -18,16 +22,38 @@ fun DrawScope.TimelineYAxis(
         .dropLast(1)
         .forEach { value ->
             val index = yAxis.indexOf(value)
-            val x = 0f + padding
-            val y = size.height - (index * heightPerSection)
+            val x = origin.x + padding
+            val y = origin.y + size.height - (index * heightPerSection)
+
             drawLine(
                 color = gridStrokeColor,
-                start = Offset(x = 0f, y = y),
-                end = Offset(x = size.width, y = y),
+                start = Offset(x = origin.x, y = y),
+                end = Offset(x = origin.x + size.width, y = y),
                 strokeWidth = gridStrokeWidth,
             )
+
+            val text = value.toString()
+            val textSize = textMeasurer.measure(text)
+
+            val path = Path()
+            val cornerRadius = CornerRadius(x = 20f, y = 20f)
+            val rect = RoundRect(
+                rect = Rect(
+                    left = x - padding / 2,
+                    top = y - textSize.size.height - padding / 2,
+                    right = x + textSize.size.width + padding,
+                    bottom = y - padding / 2,
+                ),
+                cornerRadius = cornerRadius,
+            )
+            path.addRoundRect(rect)
+            drawPath(
+                path = path,
+                color = backgroundColor,
+            )
+
             drawText(
-                text = value.toString(),
+                text = text,
                 x = x,
                 y = y - padding,
                 size = fontSize,

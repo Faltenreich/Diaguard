@@ -105,11 +105,7 @@ fun TimelineCanvas(
             y = timeOrigin.y + timeSize.height,
         )
 
-        TimelineYAxis(
-            origin = chartOrigin,
-            size = chartSize,
-            config = config,
-        )
+        // TODO: Draw values above grid but below axis
         TimelineXAxis(
             origin = origin,
             size = size,
@@ -126,6 +122,11 @@ fun TimelineCanvas(
             offset = offset,
             config = config,
             values = valuesForChart,
+        )
+        TimelineYAxis(
+            origin = chartOrigin,
+            size = chartSize,
+            config = config,
         )
         TimelineList(
             origin = listOrigin,

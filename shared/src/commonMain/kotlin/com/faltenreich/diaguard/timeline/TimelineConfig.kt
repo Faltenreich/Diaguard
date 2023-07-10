@@ -20,6 +20,8 @@ data class TimelineConfig(
     val fontPaint: Paint,
     val fontSize: Float,
 
+    val backgroundColor: Color = Color.White,
+
     val gridStrokeColor: Color,
     val gridStrokeWidth: Float = 0f,
     val gridShadowColor: Color,

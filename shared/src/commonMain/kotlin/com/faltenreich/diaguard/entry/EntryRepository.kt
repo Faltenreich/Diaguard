@@ -56,15 +56,16 @@ fun Flow<List<Entry>>.deep(
     valueRepository: MeasurementValueRepository = inject(),
 ): Flow<List<Entry>> {
     return flatMapLatest { entries ->
-        combine(
-            entries.map { entry ->
-                valueRepository.observeByEntryId(entry.id).deep(entry).map {  values ->
+        val flows = entries.map { entry ->
+            valueRepository.observeByEntryId(entry.id)
+                .deep(entry)
+                .map {  values ->
                     entry to values
                 }
-            }
-        ) {
-            // FIXME: Initially not called
-            it.map { (entry, values) ->
+        }
+        combine(flows) { entriesWithValues ->
+            // FIXME: Sometimes not called
+            entriesWithValues.map { (entry, values) ->
                 entry.values = values
                 entry
             }

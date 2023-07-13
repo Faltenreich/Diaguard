@@ -58,14 +58,14 @@ fun Flow<List<MeasurementValue>>.deep(
     typeRepository: MeasurementTypeRepository = inject(),
 ): Flow<List<MeasurementValue>> {
     return flatMapLatest { values ->
-        combine(
-            values.map { value ->
-                typeRepository.observeById(value.typeId).filterNotNull().deep().map { type ->
-                    value to type
-                }
-            }
-        ) {
-            it.map { (value, type) ->
+        val flows = values.map { value ->
+            typeRepository.observeById(value.typeId)
+                .filterNotNull()
+                .deep()
+                .map { type -> value to type }
+        }
+        combine(flows) { valuesWithTypes ->
+            valuesWithTypes.map { (value, type) ->
                 value.entry = entry
                 value.type = type
                 value

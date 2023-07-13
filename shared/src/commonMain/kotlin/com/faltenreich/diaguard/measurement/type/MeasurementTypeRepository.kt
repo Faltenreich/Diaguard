@@ -4,8 +4,9 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 class MeasurementTypeRepository(
@@ -62,10 +63,16 @@ class MeasurementTypeRepository(
 fun Flow<MeasurementType>.deep(
     propertyRepository: MeasurementPropertyRepository = inject(),
 ): Flow<MeasurementType> {
-    return map { type ->
-        type.apply {
-            this.property = propertyRepository.observeById(propertyId).filterNotNull().first()
-            // TODO: Selected unit
+    return flatMapLatest { type ->
+        val flows = propertyRepository.observeById(type.propertyId)
+            .filterNotNull()
+            .map { property -> type to property }
+        combine(flows) { typeWithProperty ->
+            typeWithProperty.map { (type, property) ->
+                // TODO: Set selected unit
+                type.property = property
+                type
+            }.first()
         }
     }
 }

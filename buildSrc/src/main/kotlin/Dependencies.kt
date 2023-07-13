@@ -8,6 +8,7 @@ object Versions {
     const val composeCompiler = "1.4.7"
     const val composeMaterial3 = "1.1.0"
     const val coroutines = "1.6.4"
+    const val dataStore = "1.0.0"
     const val dateTime = "0.4.0"
     const val koin = "3.4.0"
     const val kotlin = "1.8.21"
@@ -51,6 +52,7 @@ object Dependencies {
 
         const val activityCompose = "androidx.activity:activity-compose:${Versions.androidCompose}"
         const val composeMaterial3 = "androidx.compose.material3:material3:${Versions.composeMaterial3}"
+        const val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
     }
 
     object Koin {

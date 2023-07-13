@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.log
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -72,8 +71,7 @@ fun Log(
                         background = {
                             Box(
                                 modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(AppTheme.colors.Red),
+                                    .fillMaxSize(),
                             )
                         },
                     ) {

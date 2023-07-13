@@ -41,7 +41,7 @@ fun MainView(
             color = AppTheme.colors.material.background,
         ) {
             // TODO: Get start screen from preferences
-            Navigator(screen = Screen.Timeline()) { navigator ->
+            Navigator(screen = Screen.Log()) { navigator ->
                 Box {
                     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
                     val scope = rememberCoroutineScope()

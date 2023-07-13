@@ -10,8 +10,7 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.timeline.Timeline
 import org.koin.core.parameter.parametersOf
-
-typealias VoyagerScreen = cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.Screen as VoyagerScreen
 
 sealed class Screen : VoyagerScreen {
 

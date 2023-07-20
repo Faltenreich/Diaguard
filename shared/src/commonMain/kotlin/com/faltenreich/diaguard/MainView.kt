@@ -120,6 +120,16 @@ fun MainView(
                                         }
                                     },
                                 )
+                                BottomSheetNavigationItem(
+                                    icon = MR.images.ic_preferences,
+                                    label = MR.strings.preferences,
+                                    isActive = navigator.lastItem is Screen.PreferenceList,
+                                    onClick = {
+                                        closeBottomSheet {
+                                            navigator.replaceAll(Screen.PreferenceList)
+                                        }
+                                    },
+                                )
                             }
                         }
                     }

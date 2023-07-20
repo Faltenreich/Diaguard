@@ -29,6 +29,7 @@
     <string name="no_entries">No entries available</string>
     <string name="note">Note</string>
     <string name="ok">OK</string>
+    <string name="preferences">Preferences</string>
     <string name="search_open">Open search</string>
     <string name="navigate_back">Go back</string>
     <string name="search_placeholder">Search for entries&#8230;</string>

@@ -82,6 +82,7 @@ fun MainView(
                             sheetState = bottomSheetState,
                         ) {
                             val closeBottomSheet: (() -> Unit) -> Unit = { then ->
+                                // Delay content replacement to reduce jank
                                 scope.launch {
                                     bottomSheetState.hide()
                                 }.invokeOnCompletion {
@@ -126,7 +127,7 @@ fun MainView(
                                     isActive = navigator.lastItem is Screen.PreferenceList,
                                     onClick = {
                                         closeBottomSheet {
-                                            navigator.replaceAll(Screen.PreferenceList)
+                                            navigator.push(Screen.PreferenceList)
                                         }
                                     },
                                 )

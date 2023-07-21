@@ -26,6 +26,9 @@ class EntryFormViewModel(
 
     private val id: Long? = entry?.id
 
+    val isEditing: Boolean
+        get() = id != null
+
     var dateTime: DateTime by mutableStateOf(entry?.dateTime ?: date?.atTime(DateTime.now().time) ?: DateTime.now())
         private set
     var date: Date

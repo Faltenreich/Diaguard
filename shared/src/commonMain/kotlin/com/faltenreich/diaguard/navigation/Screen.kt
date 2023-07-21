@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.entry.search.EntrySearch
 import com.faltenreich.diaguard.log.Log
-import com.faltenreich.diaguard.preference.PreferenceList
+import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.timeline.Timeline

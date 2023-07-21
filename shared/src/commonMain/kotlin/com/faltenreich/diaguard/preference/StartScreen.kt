@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.preference
 
-enum class StartScreen(val stableId: Int) {
+import com.faltenreich.diaguard.preference.list.item.SelectablePreference
+
+enum class StartScreen(override val stableId: Int) : SelectablePreference {
     DASHBOARD(stableId = 0),
     TIMELINE(stableId = 1),
     LOG(stableId = 2),

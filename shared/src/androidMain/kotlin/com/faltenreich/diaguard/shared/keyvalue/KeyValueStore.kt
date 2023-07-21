@@ -15,7 +15,10 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-actual class KeyValueStore(private val context: Context, storeName: String) {
+actual class KeyValueStore(
+    private val context: Context,
+    storeName: String = STORE_NAME_DEFAULT,
+) {
 
     private val Context.dataStore by preferencesDataStore(name = storeName)
 
@@ -49,5 +52,10 @@ actual class KeyValueStore(private val context: Context, storeName: String) {
     actual suspend inline fun <reified T> write(key: String, value: T) {
         val preferencesKey = getKey<T>(key)
         write { preferences -> preferences[preferencesKey] = value }
+    }
+
+    companion object {
+
+        private const val STORE_NAME_DEFAULT = "user_preferences"
     }
 }

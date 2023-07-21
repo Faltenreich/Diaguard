@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.shared.clipboard.clipboardModule
 import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.datetime.dateTimeModule
+import com.faltenreich.diaguard.shared.keyvalue.keyValueStoreModule
 import com.faltenreich.diaguard.timeline.timelineModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -28,6 +29,7 @@ object DependencyInjection {
 private fun mainModules() = listOf(
     coroutineModule(),
     clipboardModule(),
+    keyValueStoreModule(),
     sqlDelightModule(),
     databaseModule(),
     dateTimeModule(),

@@ -3,7 +3,6 @@ package com.faltenreich.diaguard
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -11,7 +10,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -20,15 +18,13 @@ import cafe.adriel.voyager.transitions.FadeTransition
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationItem
+import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.bottom.bottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.top.topAppBarStyle
-import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.keyboardPadding
 import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -44,7 +40,6 @@ fun MainView(
             Navigator(screen = Screen.Log()) { navigator ->
                 Box {
                     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-                    val scope = rememberCoroutineScope()
                     val bottomSheetState = rememberBottomSheetState()
                     Scaffold(
                         topBar = {
@@ -77,62 +72,11 @@ fun MainView(
                         },
                     )
                     if (openBottomSheet) {
-                        BottomSheet(
+                        BottomSheetNavigation(
+                            bottomSheetState = bottomSheetState,
+                            navigator = navigator,
                             onDismissRequest = { openBottomSheet = false },
-                            sheetState = bottomSheetState,
-                        ) {
-                            val closeBottomSheet: (() -> Unit) -> Unit = { then ->
-                                // Delay content replacement to reduce jank
-                                scope.launch {
-                                    bottomSheetState.hide()
-                                }.invokeOnCompletion {
-                                    openBottomSheet = false
-                                    then()
-                                }
-                            }
-                            Column {
-                                BottomSheetNavigationItem(
-                                    icon = MR.images.ic_dashboard,
-                                    label = MR.strings.dashboard,
-                                    isActive = navigator.lastItem is Screen.Dashboard,
-                                    onClick = {
-                                        closeBottomSheet {
-                                            navigator.replaceAll(Screen.Dashboard)
-                                        }
-                                    },
-                                )
-                                BottomSheetNavigationItem(
-                                    icon = MR.images.ic_timeline,
-                                    label = MR.strings.timeline,
-                                    isActive = navigator.lastItem is Screen.Timeline,
-                                    onClick = {
-                                        closeBottomSheet {
-                                            navigator.replaceAll(Screen.Timeline())
-                                        }
-                                    },
-                                )
-                                BottomSheetNavigationItem(
-                                    icon = MR.images.ic_log,
-                                    label = MR.strings.log,
-                                    isActive = navigator.lastItem is Screen.Log,
-                                    onClick = {
-                                        closeBottomSheet {
-                                            navigator.replaceAll(Screen.Log())
-                                        }
-                                    },
-                                )
-                                BottomSheetNavigationItem(
-                                    icon = MR.images.ic_preferences,
-                                    label = MR.strings.preferences,
-                                    isActive = navigator.lastItem is Screen.PreferenceList,
-                                    onClick = {
-                                        closeBottomSheet {
-                                            navigator.push(Screen.PreferenceList)
-                                        }
-                                    },
-                                )
-                            }
-                        }
+                        )
                     }
                 }
             }

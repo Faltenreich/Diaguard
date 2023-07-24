@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.dashboard.dashboardModule
 import com.faltenreich.diaguard.entry.entryModule
 import com.faltenreich.diaguard.log.logModule
 import com.faltenreich.diaguard.measurement.measurementModule
+import com.faltenreich.diaguard.navigation.navigationModule
 import com.faltenreich.diaguard.onboarding.onboardingModule
 import com.faltenreich.diaguard.preference.preferenceModule
 import com.faltenreich.diaguard.shared.architecture.coroutineModule
@@ -37,6 +38,7 @@ private fun mainModules() = listOf(
     dateTimeModule(),
 
     onboardingModule(),
+    navigationModule(),
     dashboardModule(),
     logModule(),
     timelineModule(),

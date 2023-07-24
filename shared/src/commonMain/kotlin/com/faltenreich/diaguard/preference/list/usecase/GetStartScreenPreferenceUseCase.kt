@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.preference.list.usecase
 
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.preference.PreferenceStore
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.item.SelectablePreferenceOption
@@ -11,11 +10,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetStartScreenPreferenceUseCase(
-    private val preferenceStore: PreferenceStore = inject(),
+    private val getStartScreen: GetStartScreenUseCase = inject(),
+    private val setStartScreen: SetStartScreenUseCase = inject(),
 ) {
 
     operator fun invoke(): Flow<Preference> {
-        return preferenceStore.startScreen.map { startScreen ->
+        return getStartScreen().map { startScreen ->
             Preference.Selection(
                 title = { stringResource(MR.strings.start_screen) },
                 subtitle = { stringResource(startScreen.labelResource) },
@@ -23,7 +23,7 @@ class GetStartScreenPreferenceUseCase(
                     SelectablePreferenceOption(
                         label = { stringResource(value.labelResource) },
                         isSelected = value == startScreen,
-                        onSelected = { preferenceStore.setStartScreen(value) },
+                        onSelected = { setStartScreen(value) },
                     )
                 },
             )

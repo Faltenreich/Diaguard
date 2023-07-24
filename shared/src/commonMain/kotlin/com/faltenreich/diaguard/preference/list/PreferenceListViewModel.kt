@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class PreferenceListViewModel(
-    getStartScreenPreference: GetStartScreenPreferenceUseCase,
+    getStartScreenPreference: GetStartScreenPreferenceUseCase = inject(),
     getAppVersionPreference: GetAppVersionPreferenceUseCase = inject(),
 ) : ViewModel() {
 

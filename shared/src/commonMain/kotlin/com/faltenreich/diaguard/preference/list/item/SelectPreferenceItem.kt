@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.preference.list.item
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.shared.view.DropDownMenu
@@ -31,22 +33,23 @@ fun <T : SelectablePreference> SelectPreferenceItem(
             .fillMaxWidth()
             .padding(all = AppTheme.dimensions.padding.P_3),
         ) {
-            Text(preference.title)
-            preference.subtitle?.let { subtitle -> Text(subtitle) }
+            Text(preference.title())
+            preference.subtitle?.invoke()?.let { subtitle -> Text(subtitle) }
         }
         DropDownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
         ) {
             preference.options.forEach { option ->
-                Text(option.first, modifier = Modifier
+                Text(option.label(), modifier = Modifier
                     .clickable {
                         scope.launch {
-                            preference.onSelection(option.second)
+                            option.onSelected()
                             isExpanded = false
                         }
                     }
                     .fillMaxWidth()
+                    .background(if (option.isSelected) AppTheme.colors.material.secondaryContainer else Color.Transparent)
                     .padding(all = AppTheme.dimensions.padding.P_3),
                 )
             }

@@ -1,21 +1,22 @@
 package com.faltenreich.diaguard.preference.list
 
+import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.preference.list.item.SelectableOption
 import com.faltenreich.diaguard.preference.list.item.SelectablePreference
 
 sealed class Preference(
-    val title: String,
-    val subtitle: String?,
+    val title: @Composable () -> String,
+    val subtitle: @Composable (() -> String)?,
 ) {
 
     class Plain(
-        title: String,
-        subtitle: String?,
+        title: @Composable () -> String,
+        subtitle: @Composable (() -> String)?,
     ) : Preference(title, subtitle)
 
     class Selection<T : SelectablePreference>(
-        title: String,
-        subtitle: String?,
-        val options: List<Pair<String, T>>,
-        val onSelection: suspend (T) -> Unit,
+        title: @Composable () -> String,
+        subtitle: @Composable (() -> String)?,
+        val options: List<SelectableOption<T>>,
     ) : Preference(title, subtitle)
 }

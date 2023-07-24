@@ -31,10 +31,12 @@
     <string name="ok">OK</string>
     <string name="preferences">Preferences</string>
     <string name="search_open">Open search</string>
+    <string name="start_screen">Start screen</string>
     <string name="navigate_back">Go back</string>
     <string name="search_placeholder">Search for entries&#8230;</string>
     <string name="tag">Tag</string>
     <string name="timeline">Timeline</string>
+    <string name="version">Version</string>
 
     <string name="weekday_monday">Monday</string>
     <string name="weekday_monday_short">Mon</string>

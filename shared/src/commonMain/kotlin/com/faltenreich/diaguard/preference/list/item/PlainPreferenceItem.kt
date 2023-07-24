@@ -14,7 +14,7 @@ fun PlainPreferenceItem(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
-        Text(preference.title)
-        preference.subtitle?.let { subtitle -> Text(subtitle) }
+        Text(preference.title())
+        preference.subtitle?.invoke()?.let { subtitle -> Text(subtitle) }
     }
 }

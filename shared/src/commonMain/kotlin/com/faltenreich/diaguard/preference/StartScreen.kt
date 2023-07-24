@@ -6,7 +6,7 @@ import dev.icerock.moko.resources.StringResource
 
 enum class StartScreen(
     override val stableId: Int,
-    val labelResource: StringResource,
+    override val labelResource: StringResource,
 ) : SelectablePreference {
     DASHBOARD(
         stableId = 0,

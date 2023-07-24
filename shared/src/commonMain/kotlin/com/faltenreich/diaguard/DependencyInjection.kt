@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.onboarding.onboardingModule
 import com.faltenreich.diaguard.preference.preferenceModule
 import com.faltenreich.diaguard.shared.architecture.coroutineModule
 import com.faltenreich.diaguard.shared.clipboard.clipboardModule
+import com.faltenreich.diaguard.shared.config.configModule
 import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.datetime.dateTimeModule
@@ -28,6 +29,7 @@ object DependencyInjection {
 
 private fun mainModules() = listOf(
     coroutineModule(),
+    configModule(),
     clipboardModule(),
     keyValueStoreModule(),
     sqlDelightModule(),

@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.preference.list.usecase.GetAppVersionPreferenceU
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenUseCase
 import com.faltenreich.diaguard.preference.list.usecase.SetStartScreenUseCase
-import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -13,8 +12,8 @@ fun preferenceModule() = module {
     singleOf(::PreferenceStore)
     singleOf(::PreferenceListViewModel)
 
-    factoryOf(::GetStartScreenUseCase)
-    factoryOf(::SetStartScreenUseCase)
-    factoryOf(::GetStartScreenPreferenceUseCase)
-    factoryOf(::GetAppVersionPreferenceUseCase)
+    singleOf(::GetStartScreenUseCase)
+    singleOf(::SetStartScreenUseCase)
+    singleOf(::GetStartScreenPreferenceUseCase)
+    singleOf(::GetAppVersionPreferenceUseCase)
 }

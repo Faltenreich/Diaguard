@@ -18,6 +18,7 @@ import dev.icerock.moko.resources.compose.stringResource
 fun FirstStart(
     modifier: Modifier = Modifier,
 ) {
+    // TODO: Prevent subsequent calls on recomposition
     LoadData()
     Box(
         modifier = modifier.fillMaxSize(),

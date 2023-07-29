@@ -9,7 +9,7 @@ plugins {
 }
 
 kotlin {
-    android()
+    androidTarget()
 
     ios()
 
@@ -83,12 +83,12 @@ android {
         sourceCompatibility = Configuration.Java.version
         targetCompatibility = Configuration.Java.version
     }
-}
-
-// TODO: Remove when Compose 1.4.0+ is out
-compose {
-    kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.7")
-    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.21")
+    // FIXME
+    //  Fixes missing resources on JVM (should be fixed with moko-resources:0.23.1)
+    //  https://github.com/icerockdev/moko-resources/issues/510
+    sourceSets {
+        getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
+    }
 }
 
 dependencies {

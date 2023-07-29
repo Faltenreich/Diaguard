@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.shared.view.DropDownMenu
+import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
 
 @Composable
@@ -33,7 +34,7 @@ fun <T : SelectablePreference> SelectPreferenceItem(
             .fillMaxWidth()
             .padding(all = AppTheme.dimensions.padding.P_3),
         ) {
-            Text(preference.title())
+            Text(stringResource(preference.title))
             preference.subtitle?.invoke()?.let { subtitle -> Text(subtitle) }
         }
         DropDownMenu(

@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.list.Preference
+import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun PlainPreferenceItem(
@@ -18,7 +19,7 @@ fun PlainPreferenceItem(
         .padding(all = AppTheme.dimensions.padding.P_3)
         .clickable {},
     ) {
-        Text(preference.title())
+        Text(stringResource(preference.title))
         preference.subtitle?.invoke()?.let { subtitle -> Text(subtitle) }
     }
 }

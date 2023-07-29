@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.shared.config.BuildConfig
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.primitive.format
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -19,7 +18,7 @@ class GetAppVersionPreferenceUseCase(
             buildConfig.getBuildNumber(),
         )
         val preference = Preference.Plain(
-            title = { stringResource(MR.strings.version) },
+            title = MR.strings.version,
             subtitle = { appVersion },
         )
         return flowOf(preference)

@@ -17,7 +17,7 @@ class GetStartScreenPreferenceUseCase(
     operator fun invoke(): Flow<Preference> {
         return getStartScreen().map { startScreen ->
             Preference.Selection(
-                title = { stringResource(MR.strings.start_screen) },
+                title = MR.strings.start_screen,
                 subtitle = { stringResource(startScreen.labelResource) },
                 options = StartScreen.values().map { value ->
                     SelectablePreferenceOption(

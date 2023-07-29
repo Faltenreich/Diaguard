@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.preference.list
 
+import com.faltenreich.diaguard.preference.list.usecase.GetAboutPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetAppVersionPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -12,16 +13,19 @@ import kotlinx.coroutines.flow.stateIn
 
 class PreferenceListViewModel(
     getStartScreenPreference: GetStartScreenPreferenceUseCase = inject(),
+    getAboutPreference: GetAboutPreferenceUseCase = inject(),
     getAppVersionPreference: GetAppVersionPreferenceUseCase = inject(),
 ) : ViewModel() {
 
     private val listItems: Flow<List<Preference>> = combine(
         getStartScreenPreference(),
+        getAboutPreference(),
         getAppVersionPreference(),
-    ) { getStartScreenPreference, appVersionPreference ->
+    ) { getStartScreenPreference, getAboutPreference, appVersionPreference ->
         listOf(
-            appVersionPreference,
             getStartScreenPreference,
+            getAboutPreference,
+            appVersionPreference,
         )
     }
 

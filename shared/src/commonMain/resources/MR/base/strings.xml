@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <resources>
+    <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="alarm_placeholder">No alarm set</string>
     <string name="app_name">Diaguard</string>

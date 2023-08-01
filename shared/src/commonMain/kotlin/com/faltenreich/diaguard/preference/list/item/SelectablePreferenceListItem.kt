@@ -27,9 +27,10 @@ fun <T : SelectablePreference> SelectablePreferenceItem(
     val scope = rememberCoroutineScope()
     var isExpanded by rememberSaveable { mutableStateOf(false) }
     Box(modifier = modifier) {
-        PreferenceListItem(modifier = Modifier.clickable { isExpanded = true }) {
-            PreferenceContentLayout(preference = preference)
-        }
+        PreferenceListItem(
+            preference = preference,
+            modifier = Modifier.clickable { isExpanded = true },
+        )
         DropDownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },

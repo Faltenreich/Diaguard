@@ -10,7 +10,8 @@ fun PlainPreferenceItem(
     preference: Preference.Plain,
     modifier: Modifier = Modifier,
 ) {
-    PreferenceListItem(modifier = modifier.clickable {}) {
-        PreferenceContentLayout(preference = preference)
-    }
+    PreferenceListItem(
+        preference = preference,
+        modifier = modifier.clickable {},
+    )
 }

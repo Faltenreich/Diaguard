@@ -18,7 +18,8 @@ class GetStartScreenPreferenceUseCase(
         return getStartScreen().map { startScreen ->
             Preference.Selection(
                 title = MR.strings.start_screen,
-                subtitle = { stringResource(startScreen.labelResource) },
+                // TODO: subtitle = { stringResource(startScreen.labelResource) },
+                subtitle = null,
                 options = StartScreen.values().map { value ->
                     SelectablePreferenceOption(
                         label = { stringResource(value.labelResource) },

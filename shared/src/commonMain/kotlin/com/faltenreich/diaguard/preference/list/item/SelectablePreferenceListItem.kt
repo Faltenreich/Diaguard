@@ -22,20 +22,18 @@ import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
 
 @Composable
-fun <T : SelectablePreference> SelectPreferenceItem(
+fun <T : SelectablePreference> SelectablePreferenceItem(
     preference: Preference.Selection<T>,
     modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
     var isExpanded by rememberSaveable { mutableStateOf(false) }
-    Box {
-        Column(modifier = modifier
-            .clickable { isExpanded = true }
-            .fillMaxWidth()
-            .padding(all = AppTheme.dimensions.padding.P_3),
-        ) {
-            Text(stringResource(preference.title))
-            preference.subtitle?.invoke()?.let { subtitle -> Text(subtitle) }
+    Box(modifier = modifier) {
+        PreferenceListItem(modifier = Modifier.clickable { isExpanded = true }) {
+            Column {
+                Text(stringResource(preference.title))
+                preference.subtitle?.let { subtitle -> Text(subtitle) }
+            }
         }
         DropDownMenu(
             expanded = isExpanded,

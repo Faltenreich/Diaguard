@@ -2,11 +2,9 @@ package com.faltenreich.diaguard.preference.list.item
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.list.Preference
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -15,11 +13,10 @@ fun PlainPreferenceItem(
     preference: Preference.Plain,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier
-        .padding(all = AppTheme.dimensions.padding.P_3)
-        .clickable {},
-    ) {
-        Text(stringResource(preference.title))
-        preference.subtitle?.invoke()?.let { subtitle -> Text(subtitle) }
+    PreferenceListItem(modifier = modifier.clickable {}) {
+        Column {
+            Text(stringResource(preference.title))
+            preference.subtitle?.let { subtitle -> Text(subtitle) }
+        }
     }
 }

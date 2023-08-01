@@ -13,13 +13,12 @@ class GetAppVersionPreferenceUseCase(
 ) {
 
     operator fun invoke(): Flow<Preference> {
-        val appVersion = "%s-%d".format(
-            buildConfig.getVersionName(),
-            buildConfig.getBuildNumber(),
-        )
         val preference = Preference.Plain(
             title = MR.strings.version,
-            subtitle = { appVersion },
+            subtitle = "%s-%d".format(
+                buildConfig.getVersionName(),
+                buildConfig.getBuildNumber(),
+            ),
         )
         return flowOf(preference)
     }

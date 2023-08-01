@@ -10,4 +10,5 @@ data class Size(
     val ImageLarge: Dp = 64.dp,
     val MinimumTouchSize: Dp = 48.dp,
     val MediumTouchSize: Dp = 56.dp,
+    val ListOffsetWidth: Dp = 60.dp,
 )

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.preference.list.item
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -22,8 +23,9 @@ fun PreferenceListItem(
         top?.invoke()
         Row(
             modifier = Modifier
-                .padding(all = AppTheme.dimensions.padding.P_3)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .defaultMinSize(minHeight = AppTheme.dimensions.size.ListItemHeightMinimum)
+                .padding(all = AppTheme.dimensions.padding.P_3),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(modifier = Modifier.width(AppTheme.dimensions.size.ListOffsetWidth)) {

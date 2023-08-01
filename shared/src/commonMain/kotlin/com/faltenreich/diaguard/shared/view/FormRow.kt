@@ -17,7 +17,7 @@ fun FormRow(
 ) {
     Row(
         modifier = modifier
-            .defaultMinSize(minHeight = AppTheme.dimensions.size.MediumTouchSize)
+            .defaultMinSize(minHeight = AppTheme.dimensions.size.TouchSizeMedium)
             .padding(AppTheme.dimensions.padding.P_3),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         verticalAlignment = Alignment.CenterVertically,

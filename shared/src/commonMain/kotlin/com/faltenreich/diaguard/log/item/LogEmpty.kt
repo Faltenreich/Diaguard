@@ -26,7 +26,7 @@ fun LogEmpty(
         modifier = modifier
             .clickable { navigator.push(Screen.EntryForm(date = date)) }
             .fillMaxWidth()
-            .height(AppTheme.dimensions.size.MediumTouchSize)
+            .height(AppTheme.dimensions.size.TouchSizeMedium)
             .padding(all = AppTheme.dimensions.padding.P_3),
     )
 }

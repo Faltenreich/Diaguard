@@ -88,7 +88,7 @@ fun Log(
                     Skeleton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(AppTheme.dimensions.size.MediumTouchSize),
+                            .height(AppTheme.dimensions.size.TouchSizeMedium),
                     )
                 }
             }

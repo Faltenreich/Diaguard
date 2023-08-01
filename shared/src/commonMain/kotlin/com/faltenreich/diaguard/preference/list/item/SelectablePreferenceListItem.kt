@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.preference.list.item
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -18,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.shared.view.DropDownMenu
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
 
 @Composable
@@ -30,14 +28,12 @@ fun <T : SelectablePreference> SelectablePreferenceItem(
     var isExpanded by rememberSaveable { mutableStateOf(false) }
     Box(modifier = modifier) {
         PreferenceListItem(modifier = Modifier.clickable { isExpanded = true }) {
-            Column {
-                Text(stringResource(preference.title))
-                preference.subtitle?.let { subtitle -> Text(subtitle) }
-            }
+            PreferenceContentLayout(preference = preference)
         }
         DropDownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
+            modifier = modifier,
         ) {
             preference.options.forEach { option ->
                 Text(option.label(), modifier = Modifier

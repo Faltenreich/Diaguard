@@ -6,7 +6,7 @@ object Versions {
     const val androidGradle = "8.1.0"
     const val compose = "1.4.3"
     const val composeCompiler = "1.5.1"
-    const val composeMaterial3 = "1.1.0"
+    const val composeMaterial3 = "1.2.0-alpha04"
     const val coroutines = "1.6.4"
     const val dataStore = "1.0.0"
     const val dateTime = "0.4.0"
@@ -40,9 +40,9 @@ object Configuration {
 
     object Android {
 
-        const val compileSdk = 33
+        const val compileSdk = 34
         const val minSdk = 21
-        const val targetSdk = 33
+        const val targetSdk = 34
     }
 }
 

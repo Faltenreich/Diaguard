@@ -11,3 +11,9 @@ expect fun SwipeToDismiss(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit,
 )
+
+expect class SwipeToDismissState
+expect fun SwipeToDismissState.isDismissed(): Boolean
+
+@Composable
+expect fun rememberSwipeToDismissState(): SwipeToDismissState

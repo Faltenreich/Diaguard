@@ -20,7 +20,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.SwipeToDismiss
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
-import com.faltenreich.diaguard.shared.view.isDismissed
 import com.faltenreich.diaguard.shared.view.rememberSwipeToDismissState
 import kotlinx.coroutines.flow.distinctUntilChanged
 

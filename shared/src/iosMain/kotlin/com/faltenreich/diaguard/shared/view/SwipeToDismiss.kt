@@ -13,14 +13,3 @@ actual fun SwipeToDismiss(
 ) {
     TODO("Not yet implemented")
 }
-
-actual class SwipeToDismissState
-
-actual fun SwipeToDismissState.isDismissed(): Boolean {
-    TODO("Not yet implemented")
-}
-
-@Composable
-actual fun rememberSwipeToDismissState(): SwipeToDismissState {
-    TODO("Not yet implemented")
-}

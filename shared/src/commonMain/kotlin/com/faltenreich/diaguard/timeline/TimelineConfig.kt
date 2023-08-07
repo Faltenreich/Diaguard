@@ -21,7 +21,7 @@ data class TimelineConfig(
     val fontPaint: Paint,
     val fontSize: Float,
 
-    val backgroundColor: Color = Color.White,
+    val backgroundColor: Color,
     val cornerRadius: CornerRadius = CornerRadius(x = 20f, y = 20f),
 
     val gridStrokeColor: Color,

@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
-import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
@@ -135,29 +134,6 @@ private fun DrawScope.drawDateIndicator(
         brush = gradient,
         topLeft = Offset(x = x - gradientWidth, y = 0f),
         size = Size(width = gradientWidth, height = size.height),
-    )
-}
-
-private fun DrawScope.drawDate(
-    dateOrigin: Offset,
-    dateSize: Size,
-    config: TimelineConfig,
-    date: Date,
-    x: Float,
-) = with(config) {
-    val text = "%s, %s".format(
-        daysOfWeek[date.dayOfWeek],
-        dateTimeFormatter.formatDate(date),
-    )
-    val textWidth = textMeasurer.measure(text).size.width
-    val xCenterOfDate = x - textWidth / 2
-    val xMax = dateSize.width - textWidth - padding * 4 // FIXME: Why multiplier of 4?
-    drawText(
-        text = text,
-        x = min(xCenterOfDate, xMax),
-        y = dateOrigin.y + dateSize.height / 2 + fontSize / 2,
-        size = fontSize,
-        paint = fontPaint,
     )
 }
 

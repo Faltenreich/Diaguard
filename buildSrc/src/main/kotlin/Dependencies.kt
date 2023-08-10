@@ -10,7 +10,7 @@ object Versions {
     const val coroutines = "1.6.4"
     const val dataStore = "1.0.0"
     const val dateTime = "0.4.0"
-    const val koin = "3.4.0"
+    const val koin = "3.4.3"
     const val kotlin = "1.9.0"
     const val ksp = "1.9.0-1.0.12"
     const val ktor = "2.2.4"

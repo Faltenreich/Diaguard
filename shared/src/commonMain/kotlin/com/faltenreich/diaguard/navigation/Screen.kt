@@ -8,12 +8,19 @@ import com.faltenreich.diaguard.entry.search.EntrySearch
 import com.faltenreich.diaguard.log.Log
 import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.PreferenceList
+import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.timeline.Timeline
 import org.koin.core.parameter.parametersOf
 import cafe.adriel.voyager.core.screen.Screen as VoyagerScreen
 
+/**
+ * Component that can be navigated to
+ *
+ * State restoration requires every parameter to implement
+ * [com.faltenreich.diaguard.shared.serialization.Serializable]
+ */
 sealed class Screen : VoyagerScreen {
 
     data object Dashboard : Screen() {
@@ -56,11 +63,14 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
+    // FIXME: Supports no state restoration until parameter implements Serializable
     data class PreferenceList(val preferences: List<Preference>? = null) : Screen() {
 
         @Composable
         override fun Content() {
-            PreferenceList(viewModel = getViewModel { parametersOf(preferences) })
+            // FIXME: Reuses same instance for different parameters
+            val viewModel = getViewModel<PreferenceListViewModel> { parametersOf(preferences) }
+            PreferenceList(viewModel = viewModel)
         }
     }
 }

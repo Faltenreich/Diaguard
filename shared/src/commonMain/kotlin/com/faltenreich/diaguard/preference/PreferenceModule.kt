@@ -19,5 +19,7 @@ fun preferenceModule() = module {
     singleOf(::GetAboutPreferenceUseCase)
     singleOf(::GetAppVersionPreferenceUseCase)
 
-    factory { (preferences: List<Preference>?) -> PreferenceListViewModel(preferences) }
+    factory { (preferences: List<Preference>?) ->
+        PreferenceListViewModel(preferences)
+    }
 }

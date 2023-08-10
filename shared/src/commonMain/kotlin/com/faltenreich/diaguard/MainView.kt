@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -26,7 +25,6 @@ import com.faltenreich.diaguard.navigation.top.topAppBarStyle
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainView(
     modifier: Modifier = Modifier,

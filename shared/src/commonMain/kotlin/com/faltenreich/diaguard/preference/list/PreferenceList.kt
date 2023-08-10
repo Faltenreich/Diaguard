@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.preference.list.item.CategoryPreferenceListItem
+import com.faltenreich.diaguard.preference.list.item.FolderPreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.PlainPreferenceItem
 import com.faltenreich.diaguard.preference.list.item.SelectablePreferenceItem
 import com.faltenreich.diaguard.shared.di.inject
@@ -20,7 +21,7 @@ fun PreferenceList(
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(viewState.listItems) { preference ->
             when (preference) {
-                is Preference.Folder -> TODO()
+                is Preference.Folder -> FolderPreferenceListItem(preference)
                 is Preference.Category -> CategoryPreferenceListItem(preference)
                 is Preference.Plain -> PlainPreferenceItem(preference)
                 is Preference.Selection<*> -> SelectablePreferenceItem(preference)

@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.entry.search.EntrySearch
 import com.faltenreich.diaguard.log.Log
+import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.getViewModel
@@ -15,7 +16,7 @@ import cafe.adriel.voyager.core.screen.Screen as VoyagerScreen
 
 sealed class Screen : VoyagerScreen {
 
-    object Dashboard : Screen() {
+    data object Dashboard : Screen() {
 
         @Composable
         override fun Content() {
@@ -55,11 +56,11 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    object PreferenceList : Screen() {
+    data class PreferenceList(val preferences: List<Preference>? = null) : Screen() {
 
         @Composable
         override fun Content() {
-            PreferenceList(viewModel = getViewModel())
+            PreferenceList(viewModel = getViewModel { parametersOf(preferences) })
         }
     }
 }

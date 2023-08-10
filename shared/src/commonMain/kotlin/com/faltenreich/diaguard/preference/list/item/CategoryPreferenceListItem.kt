@@ -30,7 +30,7 @@ fun CategoryPreferenceListItem(
                 start = AppTheme.dimensions.padding.P_3,
                 top = AppTheme.dimensions.padding.P_3,
                 end = AppTheme.dimensions.padding.P_3,
-                bottom = AppTheme.dimensions.padding.P_1,
+                bottom = AppTheme.dimensions.padding.P_2,
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {

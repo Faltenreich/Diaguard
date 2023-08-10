@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.preference.list.item.SelectablePreferenceOption
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
 
+// TODO: Implement Serializable
 sealed class Preference(
     val title: StringResource,
     val subtitle: String?,

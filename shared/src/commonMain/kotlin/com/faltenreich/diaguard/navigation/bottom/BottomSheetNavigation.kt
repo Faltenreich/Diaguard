@@ -70,7 +70,7 @@ fun BottomSheetNavigation(
                 isActive = navigator.lastItem is Screen.PreferenceList,
                 onClick = {
                     closeBottomSheet {
-                        navigator.push(Screen.PreferenceList)
+                        navigator.push(Screen.PreferenceList())
                     }
                 },
             )

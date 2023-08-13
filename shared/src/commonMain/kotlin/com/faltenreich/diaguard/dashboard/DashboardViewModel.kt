@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class DashboardViewModel : ViewModel() {
 
-    private val state = MutableStateFlow<DashboardViewState>(DashboardViewState.Unknown)
+    private val state = MutableStateFlow<DashboardViewState>(DashboardViewState.Loading)
     val viewState = state.asStateFlow()
 }

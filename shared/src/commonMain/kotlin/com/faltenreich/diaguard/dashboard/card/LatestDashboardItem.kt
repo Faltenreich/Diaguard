@@ -17,7 +17,7 @@ import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun LatestDashboardItem(
-    data: DashboardViewState.Revisit.BloodSugar,
+    data: DashboardViewState.Revisit.BloodSugar?,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {

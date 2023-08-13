@@ -22,7 +22,7 @@ fun Dashboard(
     viewModel: DashboardViewModel = inject(),
 ) {
     when (val state = viewModel.viewState.collectAsState().value) {
-        is DashboardViewState.Unknown -> Unit
+        is DashboardViewState.Loading -> Unit
         is DashboardViewState.FirstVisit -> Unit
         is DashboardViewState.Revisit -> Column(
             modifier = modifier.padding(

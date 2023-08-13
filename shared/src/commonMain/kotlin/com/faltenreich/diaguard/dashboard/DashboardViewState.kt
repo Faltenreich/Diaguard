@@ -4,16 +4,16 @@ import com.faltenreich.diaguard.shared.datetime.Date
 
 sealed interface DashboardViewState {
 
-    data object Unknown : DashboardViewState
+    data object Loading: DashboardViewState
 
     data object FirstVisit : DashboardViewState
 
     data class Revisit(
-        val bloodSugar: BloodSugar,
-        val today: Today,
-        val average: Average,
-        val hbA1c: HbA1c,
-        val trend: Trend,
+        val bloodSugar: BloodSugar?,
+        val today: Today?,
+        val average: Average?,
+        val hbA1c: HbA1c?,
+        val trend: Trend?,
     ) : DashboardViewState {
 
         data class BloodSugar(

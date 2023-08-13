@@ -1,11 +1,26 @@
 package com.faltenreich.diaguard.dashboard
 
+import com.faltenreich.diaguard.dashboard.usecase.IsFirstVisitUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.faltenreich.diaguard.shared.di.inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
-class DashboardViewModel : ViewModel() {
+class DashboardViewModel(
+    isFirstVisit: IsFirstVisitUseCase = inject(),
+) : ViewModel() {
 
-    private val state = MutableStateFlow<DashboardViewState>(DashboardViewState.Loading)
-    val viewState = state.asStateFlow()
+    private val state: Flow<DashboardViewState> = isFirstVisit().map { isFirstVisit ->
+        when (isFirstVisit) {
+            true -> DashboardViewState.FirstVisit
+            false -> DashboardViewState.Revisit()
+        }
+    }
+    val viewState = state.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = DashboardViewState.Loading,
+    )
 }

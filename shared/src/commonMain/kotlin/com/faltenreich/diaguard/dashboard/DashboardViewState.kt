@@ -9,11 +9,11 @@ sealed interface DashboardViewState {
     data object FirstVisit : DashboardViewState
 
     data class Revisit(
-        val bloodSugar: BloodSugar?,
-        val today: Today?,
-        val average: Average?,
-        val hbA1c: HbA1c?,
-        val trend: Trend?,
+        val bloodSugar: BloodSugar? = null,
+        val today: Today? = null,
+        val average: Average? = null,
+        val hbA1c: HbA1c? = null,
+        val trend: Trend? = null,
     ) : DashboardViewState {
 
         data class BloodSugar(

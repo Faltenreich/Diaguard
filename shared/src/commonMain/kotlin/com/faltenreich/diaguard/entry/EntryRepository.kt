@@ -30,6 +30,10 @@ class EntryRepository(
         return dao.getAll()
     }
 
+    fun countAll(): Flow<Long> {
+        return dao.countAll()
+    }
+
     fun update(
         id: Long,
         dateTime: DateTime,

@@ -25,6 +25,9 @@ SELECT * FROM entry ORDER BY date_time DESC;
 getByQuery:
 SELECT * FROM entry WHERE note LIKE '%' + ? + '%';
 
+countAll:
+SELECT COUNT(*) FROM entry;
+
 update:
 UPDATE entry SET updated_at = ?, date_time = ?, note = ? WHERE id = ?;
 

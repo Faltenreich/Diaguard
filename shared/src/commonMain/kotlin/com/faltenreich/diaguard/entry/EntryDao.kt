@@ -25,6 +25,8 @@ interface EntryDao {
 
     fun getAll(): Flow<List<Entry>>
 
+    fun countAll(): Flow<Long>
+
     fun update(
         id: Long,
         updatedAt: DateTime,

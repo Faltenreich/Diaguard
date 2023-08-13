@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOne
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryDao
@@ -58,6 +59,10 @@ class EntrySqlDelightDao(
 
     override fun getAll(): Flow<List<Entry>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
+    }
+
+    override fun countAll(): Flow<Long> {
+        return queries.countAll().asFlow().mapToOne(dispatcher)
     }
 
     override fun create(createdAt: DateTime, dateTime: DateTime) {

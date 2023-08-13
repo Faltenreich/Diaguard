@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.card.AverageDashboardItem
@@ -20,6 +21,7 @@ fun Dashboard(
     modifier: Modifier = Modifier,
     viewModel: DashboardViewModel = inject(),
 ) {
+    val state = viewModel.viewState.collectAsState().value
     Column(
         modifier = modifier.padding(
             horizontal = AppTheme.dimensions.padding.P_3,
@@ -27,15 +29,30 @@ fun Dashboard(
         ),
         verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
     ) {
-        LatestDashboardItem(modifier = modifier.fillMaxWidth())
+        LatestDashboardItem(
+            data = state.bloodSugar,
+            modifier = modifier.fillMaxWidth(),
+        )
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
         ) {
-            TodayDashboardItem(modifier = Modifier.weight(1f))
-            AverageDashboardItem(modifier = Modifier.weight(1f))
+            TodayDashboardItem(
+                data = state.today,
+                modifier = Modifier.weight(1f),
+            )
+            AverageDashboardItem(
+                data = state.average,
+                modifier = Modifier.weight(1f),
+            )
         }
-        HbA1cDashboardItem(modifier = Modifier.fillMaxWidth())
-        TrendDashboardItem(modifier = Modifier.fillMaxWidth())
+        HbA1cDashboardItem(
+            data = state.hbA1c,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        TrendDashboardItem(
+            data = state.trend,
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }

@@ -10,9 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.dashboard.DashboardViewState
 
 @Composable
 fun LatestDashboardItem(
+    data: DashboardViewState.BloodSugar?,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {

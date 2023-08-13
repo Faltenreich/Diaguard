@@ -7,9 +7,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.dashboard.DashboardViewState
 
 @Composable
 fun HbA1cDashboardItem(
+    data: DashboardViewState.HbA1c?,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {

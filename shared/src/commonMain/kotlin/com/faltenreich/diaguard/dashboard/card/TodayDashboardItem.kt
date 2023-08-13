@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.dashboard.DashboardViewState
 
 @Composable
 fun TodayDashboardItem(
-    data: DashboardViewState.Today?,
+    data: DashboardViewState.Revisit.Today,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {

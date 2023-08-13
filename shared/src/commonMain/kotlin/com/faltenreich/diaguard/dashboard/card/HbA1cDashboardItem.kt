@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.dashboard.DashboardViewState
 
 @Composable
 fun HbA1cDashboardItem(
-    data: DashboardViewState.HbA1c?,
+    data: DashboardViewState.Revisit.HbA1c,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {

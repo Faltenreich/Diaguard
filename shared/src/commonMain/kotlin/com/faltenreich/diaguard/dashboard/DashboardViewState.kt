@@ -2,37 +2,44 @@ package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.shared.datetime.Date
 
-class DashboardViewState(
-    val bloodSugar: BloodSugar? = null,
-    val today: Today? = null,
-    val average: Average? = null,
-    val hbA1c: HbA1c? = null,
-    val trend: Trend? = null,
-) {
+sealed interface DashboardViewState {
 
-    data class BloodSugar(
-        val value: String,
-        val dateTime: String,
-        val ago: String,
-    )
+    data object Unknown : DashboardViewState
 
-    data class Today(
-        val totalCount: String,
-        val hyperCount: String,
-        val hypoCount: String,
-    )
+    data object FirstVisit : DashboardViewState
 
-    data class Average(
-        val day: String,
-        val week: String,
-        val month: String,
-    )
+    data class Revisit(
+        val bloodSugar: BloodSugar,
+        val today: Today,
+        val average: Average,
+        val hbA1c: HbA1c,
+        val trend: Trend,
+    ) : DashboardViewState {
 
-    data class HbA1c(
-        val value: String,
-    )
+        data class BloodSugar(
+            val value: String,
+            val dateTime: String,
+            val ago: String,
+        )
 
-    data class Trend(
-        val values: Map<Date, Int>,
-    )
+        data class Today(
+            val totalCount: String,
+            val hyperCount: String,
+            val hypoCount: String,
+        )
+
+        data class Average(
+            val day: String,
+            val week: String,
+            val month: String,
+        )
+
+        data class HbA1c(
+            val value: String,
+        )
+
+        data class Trend(
+            val values: Map<Date, Int>,
+        )
+    }
 }

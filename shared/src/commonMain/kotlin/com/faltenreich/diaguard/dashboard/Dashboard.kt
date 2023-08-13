@@ -21,38 +21,41 @@ fun Dashboard(
     modifier: Modifier = Modifier,
     viewModel: DashboardViewModel = inject(),
 ) {
-    val state = viewModel.viewState.collectAsState().value
-    Column(
-        modifier = modifier.padding(
-            horizontal = AppTheme.dimensions.padding.P_3,
-            vertical = AppTheme.dimensions.padding.P_2,
-        ),
-        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-    ) {
-        LatestDashboardItem(
-            data = state.bloodSugar,
-            modifier = modifier.fillMaxWidth(),
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+    when (val state = viewModel.viewState.collectAsState().value) {
+        is DashboardViewState.Unknown -> Unit
+        is DashboardViewState.FirstVisit -> Unit
+        is DashboardViewState.Revisit -> Column(
+            modifier = modifier.padding(
+                horizontal = AppTheme.dimensions.padding.P_3,
+                vertical = AppTheme.dimensions.padding.P_2,
+            ),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
         ) {
-            TodayDashboardItem(
-                data = state.today,
-                modifier = Modifier.weight(1f),
+            LatestDashboardItem(
+                data = state.bloodSugar,
+                modifier = modifier.fillMaxWidth(),
             )
-            AverageDashboardItem(
-                data = state.average,
-                modifier = Modifier.weight(1f),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+            ) {
+                TodayDashboardItem(
+                    data = state.today,
+                    modifier = Modifier.weight(1f),
+                )
+                AverageDashboardItem(
+                    data = state.average,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+            HbA1cDashboardItem(
+                data = state.hbA1c,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            TrendDashboardItem(
+                data = state.trend,
+                modifier = Modifier.fillMaxWidth(),
             )
         }
-        HbA1cDashboardItem(
-            data = state.hbA1c,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        TrendDashboardItem(
-            data = state.trend,
-            modifier = Modifier.fillMaxWidth(),
-        )
     }
 }

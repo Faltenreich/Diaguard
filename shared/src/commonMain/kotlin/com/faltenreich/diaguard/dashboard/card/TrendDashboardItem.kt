@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.dashboard.DashboardViewState
 
 @Composable
 fun TrendDashboardItem(
-    data: DashboardViewState.Trend?,
+    data: DashboardViewState.Revisit.Trend,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {

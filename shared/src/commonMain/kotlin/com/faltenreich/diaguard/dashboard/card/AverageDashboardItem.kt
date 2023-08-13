@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.dashboard.DashboardViewState
 
 @Composable
 fun AverageDashboardItem(
-    data: DashboardViewState.Average?,
+    data: DashboardViewState.Revisit.Average,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {

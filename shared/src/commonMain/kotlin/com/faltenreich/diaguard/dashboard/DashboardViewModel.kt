@@ -21,13 +21,7 @@ class DashboardViewModel(
         when (isFirstVisit) {
             true -> DashboardViewState.FirstVisit
             false -> DashboardViewState.Revisit(
-                bloodSugar = latestBloodSugar?.run {
-                    DashboardViewState.Revisit.BloodSugar(
-                        value = value.toString(),
-                        dateTime = entry.dateTime.toString(),
-                        ago = "",
-                    )
-                },
+                latestBloodSugar = latestBloodSugar,
             )
         }
     }

@@ -32,7 +32,7 @@ fun Dashboard(
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
         ) {
             LatestDashboardItem(
-                data = state.bloodSugar,
+                data = state.latestBloodSugar,
                 modifier = modifier.fillMaxWidth(),
             )
             Row(

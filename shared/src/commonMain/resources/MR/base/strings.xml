@@ -38,6 +38,10 @@
     <string name="search_placeholder">Search for entries&#8230;</string>
     <string name="tag">Tag</string>
     <string name="timeline">Timeline</string>
+    <string name="date_time_ago_moments">Moments ago</string>
+    <string name="date_time_ago_minutes">%d minutes ago</string>
+    <string name="date_time_ago_hours">%d hours ago</string>
+    <string name="date_time_ago_days">%d days ago</string>
     <string name="version">Version</string>
 
     <string name="weekday_monday">Monday</string>

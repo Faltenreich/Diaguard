@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.dashboard
 
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
 
 sealed interface DashboardViewState {
@@ -17,9 +18,7 @@ sealed interface DashboardViewState {
     ) : DashboardViewState {
 
         data class BloodSugar(
-            val value: String,
-            val dateTime: String,
-            val ago: String,
+            val value: MeasurementValue,
         )
 
         data class Today(

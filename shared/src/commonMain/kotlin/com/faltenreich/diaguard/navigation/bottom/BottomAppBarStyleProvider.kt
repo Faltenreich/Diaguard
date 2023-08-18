@@ -89,6 +89,6 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 )
             }
         )
-        is Screen.PreferenceList -> BottomAppBarStyle.Visible()
+        else -> BottomAppBarStyle.Visible()
     }
 }

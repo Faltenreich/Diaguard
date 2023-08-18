@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.preference.list
 
+import cafe.adriel.voyager.navigator.Navigator
 import com.faltenreich.diaguard.preference.list.item.SelectablePreference
 import com.faltenreich.diaguard.preference.list.item.SelectablePreferenceOption
 import dev.icerock.moko.resources.ImageResource
@@ -24,6 +25,8 @@ sealed class Preference(
     class Plain(
         title: StringResource,
         subtitle: String?,
+        // FIXME: Find way to pass Composable context
+        val onClick: (Navigator) -> Unit,
     ) : Preference(title, subtitle)
 
     class Selection<T : SelectablePreference>(

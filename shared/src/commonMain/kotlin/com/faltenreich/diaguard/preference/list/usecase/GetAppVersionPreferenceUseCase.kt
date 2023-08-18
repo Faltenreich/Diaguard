@@ -19,6 +19,7 @@ class GetAppVersionPreferenceUseCase(
                 buildConfig.getVersionName(),
                 buildConfig.getBuildNumber(),
             ),
+            onClick = {},
         )
         return flowOf(preference)
     }

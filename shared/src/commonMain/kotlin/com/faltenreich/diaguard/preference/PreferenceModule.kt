@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
 import com.faltenreich.diaguard.preference.list.usecase.GetAboutPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetAppVersionPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetMeasurementPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenUseCase
 import com.faltenreich.diaguard.preference.list.usecase.SetStartScreenUseCase
@@ -16,6 +17,7 @@ fun preferenceModule() = module {
     singleOf(::GetStartScreenUseCase)
     singleOf(::SetStartScreenUseCase)
     singleOf(::GetStartScreenPreferenceUseCase)
+    singleOf(::GetMeasurementPreferenceUseCase)
     singleOf(::GetAboutPreferenceUseCase)
     singleOf(::GetAppVersionPreferenceUseCase)
 

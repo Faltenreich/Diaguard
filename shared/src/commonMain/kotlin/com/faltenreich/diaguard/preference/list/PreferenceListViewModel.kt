@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.preference.list
 
-import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.preference.list.usecase.GetAboutPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetAppVersionPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetMeasurementPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -16,21 +16,22 @@ import kotlinx.coroutines.flow.stateIn
 class PreferenceListViewModel(
     preferences: List<Preference>?,
     getStartScreenPreference: GetStartScreenPreferenceUseCase = inject(),
+    getMeasurementPreference: GetMeasurementPreferenceUseCase = inject(),
     getAboutPreference: GetAboutPreferenceUseCase = inject(),
     getAppVersionPreference: GetAppVersionPreferenceUseCase = inject(),
 ) : ViewModel() {
 
     private val default: Flow<List<Preference>> = combine(
         getStartScreenPreference(),
+        getMeasurementPreference(),
         getAboutPreference(),
         getAppVersionPreference(),
-    ) { getStartScreenPreference, getAboutPreference, appVersionPreference ->
+    ) { getStartScreenPreference, getMeasurementPreference, getAboutPreference, appVersionPreference ->
         listOf(
             getStartScreenPreference,
+            getMeasurementPreference,
             getAboutPreference,
             appVersionPreference,
-            // TODO: Extract into use case
-            Preference.Folder(MR.strings.dashboard, listOf(appVersionPreference))
         )
     }
 

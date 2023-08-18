@@ -79,6 +79,7 @@ class MeasurementValueSqlDelightMapper(
                     icon = propertyIcon,
                     sortIndex = propertySortIndex,
                 )
+                // TODO: Selected unit
             }
             entry = entryMapper.map(
                 id = entryId,

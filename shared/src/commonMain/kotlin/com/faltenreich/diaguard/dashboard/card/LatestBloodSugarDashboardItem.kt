@@ -15,6 +15,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
+import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
@@ -22,9 +23,10 @@ import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun LatestDashboardItem(
-    data: DashboardViewState.Revisit.BloodSugar?,
+    data: DashboardViewState.Revisit.LatestBloodSugar?,
     modifier: Modifier = Modifier,
     dateTimeFormatter: DateTimeFormatter = inject(),
+    valueFormatter: MeasurementValueFormatter = inject(),
 ) {
     val navigator = LocalNavigator.currentOrThrow
     Card(
@@ -47,7 +49,7 @@ fun LatestDashboardItem(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = data.value.value.toString(), // TODO: Format
+                    text = valueFormatter.formatValue(value = data.value, unit = data.unit),
                     style = AppTheme.typography.headlineLarge,
                 )
                 Row {

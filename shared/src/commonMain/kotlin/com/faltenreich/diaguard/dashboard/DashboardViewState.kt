@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.dashboard
 
+import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
 
@@ -10,15 +11,16 @@ sealed interface DashboardViewState {
     data object FirstVisit : DashboardViewState
 
     data class Revisit(
-        val latestBloodSugar: BloodSugar? = null,
+        val latestBloodSugar: LatestBloodSugar? = null,
         val today: Today? = null,
         val average: Average? = null,
         val hbA1c: HbA1c? = null,
         val trend: Trend? = null,
     ) : DashboardViewState {
 
-        data class BloodSugar(
+        data class LatestBloodSugar(
             val value: MeasurementValue,
+            val unit: MeasurementTypeUnit,
         )
 
         data class Today(

@@ -18,7 +18,12 @@ data class MeasurementProperty(
 
     lateinit var types: List<MeasurementType>
 
-    // TODO: Identify Blood Sugar accordingly
     val isBloodSugar: Boolean
-        get() = id == 1L
+        get() = id == BLOOD_SUGAR_ID
+
+    companion object {
+
+        // TODO: Identify Blood Sugar accordingly
+        const val BLOOD_SUGAR_ID = 1L
+    }
 }

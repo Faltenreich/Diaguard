@@ -16,6 +16,8 @@ interface MeasurementValueDao {
 
     fun observeByEntryId(entryId: Long): Flow<List<MeasurementValue>>
 
+    fun observeLatestByPropertyId(propertyId: Long): Flow<MeasurementValue?>
+
     fun getByEntryId(entryId: Long): List<MeasurementValue>
 
     fun update(

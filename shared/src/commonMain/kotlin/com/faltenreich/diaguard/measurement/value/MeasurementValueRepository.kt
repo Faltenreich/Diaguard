@@ -33,6 +33,10 @@ class MeasurementValueRepository(
         return dao.observeByEntryId(entryId)
     }
 
+    fun observeLatestByPropertyId(propertyId: Long): Flow<MeasurementValue?> {
+        return dao.observeLatestByPropertyId(propertyId)
+    }
+
     fun getByEntryId(entryId: Long): List<MeasurementValue> {
         return dao.getByEntryId(entryId)
     }

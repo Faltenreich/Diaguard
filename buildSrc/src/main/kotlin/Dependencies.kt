@@ -6,7 +6,7 @@ object Versions {
     const val androidGradle = "8.1.0"
     const val compose = "1.4.3"
     const val composeCompiler = "1.5.1"
-    const val composeMaterial3 = "1.1.0"
+    const val composeMaterial3 = "1.1.1"
     const val coroutines = "1.6.4"
     const val dataStore = "1.0.0"
     const val dateTime = "0.4.0"
@@ -15,11 +15,10 @@ object Versions {
     const val ksp = "1.9.0-1.0.12"
     const val ktor = "2.2.4"
     const val moko = "0.23.0"
-    const val paging = "3.2.0-alpha05-0.2.2"
-    const val pagingAndroid = "3.2.0-beta01"
-    const val pagingAndroidCompose = "3.2.0-beta01"
+    const val paging = "3.2.0-alpha05-0.2.3"
+    const val pagingAndroid = "3.2.0"
     const val serialization = "1.5.0"
-    const val sqlDelight = "2.0.0-rc01"
+    const val sqlDelight = "2.0.0"
     const val turbine = "0.12.3"
     const val voyager = "1.0.0-rc06"
 }
@@ -93,7 +92,7 @@ object Dependencies {
 
         const val common = "app.cash.paging:paging-common:${Versions.paging}"
         const val android = "androidx.paging:paging-runtime:${Versions.pagingAndroid}"
-        const val androidCompose = "androidx.paging:paging-compose:${Versions.pagingAndroidCompose}"
+        const val androidCompose = "androidx.paging:paging-compose:${Versions.pagingAndroid}"
     }
 
     object SqlDelight {

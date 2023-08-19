@@ -15,6 +15,9 @@ fun Screen.topAppBarStyle(): TopAppBarStyle {
             val titleResource = if (viewModel.isEditing) MR.strings.entry_edit else MR.strings.entry_new
             Text(stringResource(titleResource))
         }
+        is Screen.MeasurementPropertyList -> TopAppBarStyle.CenterAligned {
+            Text(stringResource(MR.strings.measurement_properties))
+        }
         is Screen.PreferenceList -> TopAppBarStyle.CenterAligned {
             Text(stringResource(MR.strings.preferences))
         }

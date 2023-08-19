@@ -13,10 +13,12 @@ fun MeasurementPropertyList(
     modifier: Modifier = Modifier,
     viewModel: MeasurementPropertyListViewModel = inject(),
 ) {
-    val state = viewModel.viewState.collectAsState().value
-    LazyColumn(modifier = modifier) {
-        items(state, key = MeasurementProperty::id) { property ->
-            MeasurementPropertyListItem(property)
+    when (val state = viewModel.viewState.collectAsState().value) {
+        is MeasurementPropertyListViewState.Loading -> Unit
+        is MeasurementPropertyListViewState.Loaded -> LazyColumn(modifier = modifier) {
+            items(state.listItems, key = MeasurementProperty::id) { property ->
+                MeasurementPropertyListItem(property)
+            }
         }
     }
 }

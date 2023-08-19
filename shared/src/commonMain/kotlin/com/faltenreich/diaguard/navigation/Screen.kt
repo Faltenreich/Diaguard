@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.entry.search.EntrySearch
 import com.faltenreich.diaguard.log.Log
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyList
+import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
 import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel

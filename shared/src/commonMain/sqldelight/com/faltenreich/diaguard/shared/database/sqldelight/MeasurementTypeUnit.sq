@@ -17,6 +17,9 @@ SELECT last_insert_rowid();
 getByType:
 SELECT * FROM measurementTypeUnit WHERE type_id = ?;
 
+getAll:
+SELECT * FROM measurementTypeUnit ORDER BY updated_at DESC;
+
 update:
 UPDATE measurementTypeUnit SET updated_at = ?, factor = ? WHERE id = ?;
 

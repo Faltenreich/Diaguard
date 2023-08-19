@@ -20,6 +20,7 @@ data class MeasurementType(
     val propertyId: Long,
 ) : DatabaseEntity {
 
-    lateinit var selectedUnit: MeasurementUnit
     lateinit var property: MeasurementProperty
+    lateinit var units: List<MeasurementUnit>
+    lateinit var selectedUnit: MeasurementUnit
 }

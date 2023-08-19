@@ -15,6 +15,9 @@ SELECT last_insert_rowid();
 getById:
 SELECT * FROM measurementUnit WHERE id = ?;
 
+getAll:
+SELECT * FROM measurementUnit ORDER BY updated_at DESC;
+
 update:
 UPDATE measurementUnit SET updated_at = ?, name = ? WHERE id = ?;
 

@@ -14,6 +14,8 @@ interface MeasurementUnitDao {
 
     fun getById(id: Long): Flow<MeasurementUnit?>
 
+    fun observeAll(): Flow<List<MeasurementUnit>>
+
     fun update(
         id: Long,
         updatedAt: DateTime,

@@ -21,6 +21,9 @@ SELECT * FROM measurementType WHERE id = ?;
 getByProperty:
 SELECT * FROM measurementType WHERE property_id = ?;
 
+getAll:
+SELECT * FROM measurementType ORDER BY sort_index ASC;
+
 update:
 UPDATE measurementType SET updated_at = ?, name = ?, sort_index = ?, selected_unit_id = ? WHERE id = ?;
 

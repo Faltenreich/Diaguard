@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
@@ -38,6 +39,10 @@ class MeasurementUnitSqlDelightDao(
 
     override fun getById(id: Long): Flow<MeasurementUnit?> {
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
+    }
+
+    override fun observeAll(): Flow<List<MeasurementUnit>> {
+        return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun update(

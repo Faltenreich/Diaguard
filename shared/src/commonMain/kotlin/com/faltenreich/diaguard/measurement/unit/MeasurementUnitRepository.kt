@@ -21,6 +21,10 @@ class MeasurementUnitRepository(
         return dao.getById(id)
     }
 
+    fun observeAll(): Flow<List<MeasurementUnit>> {
+        return dao.observeAll()
+    }
+
     fun update(
         id: Long,
         name: String,

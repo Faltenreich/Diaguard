@@ -15,7 +15,7 @@ fun Screen.topAppBarStyle(): TopAppBarStyle {
         is Screen.MeasurementPropertyList -> TopAppBarStyle.CenterAligned {
             Text(stringResource(MR.strings.measurement_properties))
         }
-        is Screen.MeasurementTypeList -> TopAppBarStyle.CenterAligned {
+        is Screen.MeasurementPropertyForm -> TopAppBarStyle.CenterAligned {
             Text(stringResource(MR.strings.measurement_property))
         }
         is Screen.PreferenceList -> TopAppBarStyle.CenterAligned {

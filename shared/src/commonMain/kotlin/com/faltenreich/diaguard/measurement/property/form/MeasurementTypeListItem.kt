@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.type.list
+package com.faltenreich.diaguard.measurement.property.form
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Divider

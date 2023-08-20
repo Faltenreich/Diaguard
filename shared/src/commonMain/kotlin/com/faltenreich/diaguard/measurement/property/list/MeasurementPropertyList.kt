@@ -31,7 +31,7 @@ fun MeasurementPropertyList(
                     onArrowDown = viewModel::incrementSortIndex.takeIf { index < listItems.size - 1 },
                     modifier = Modifier
                         .animateItemPlacement()
-                        .clickable { navigator.push(Screen.MeasurementTypeList(item)) },
+                        .clickable { navigator.push(Screen.MeasurementPropertyForm(item)) },
                 )
             }
         }

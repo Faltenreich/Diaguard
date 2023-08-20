@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.navigation.bottom
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.collectAsState
@@ -87,6 +88,14 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                         .fillMaxWidth()
                         .padding(end = AppTheme.dimensions.padding.P_3),
                 )
+            }
+        )
+        is Screen.MeasurementPropertyList -> BottomAppBarStyle.Visible(
+            floatingActionButton = {
+                val navigator = LocalNavigator.currentOrThrow
+                FloatingActionButton(onClick = { navigator.push(Screen.MeasurementPropertyForm()) }) {
+                    Icon(Icons.Filled.Add, stringResource(MR.strings.measurement_property_new))
+                }
             }
         )
         else -> BottomAppBarStyle.Visible()

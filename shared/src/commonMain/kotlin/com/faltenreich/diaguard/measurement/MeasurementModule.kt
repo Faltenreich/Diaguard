@@ -32,5 +32,5 @@ fun measurementModule() = module {
 
     singleOf(::GetMeasurementTypesUseCase)
     singleOf(::SetMeasurementTypeSortIndexUseCase)
-    factory { (property: MeasurementProperty) -> MeasurementPropertyFormViewModel(property) }
+    factory { (property: MeasurementProperty?) -> MeasurementPropertyFormViewModel(property ?: TODO()) }
 }

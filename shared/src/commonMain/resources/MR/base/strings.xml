@@ -27,6 +27,7 @@
     <string name="meal">Meal</string>
     <string name="mg_per_dl">mg/dl</string>
     <string name="measurement_properties">Categories</string>
+    <string name="measurement_property">Category</string>
     <string name="menu_open">Open menu</string>
     <string name="minutes">Minutes</string>
     <string name="no_entries">No entries available</string>

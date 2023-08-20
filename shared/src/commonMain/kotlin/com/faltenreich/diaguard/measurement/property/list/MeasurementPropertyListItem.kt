@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
@@ -22,10 +23,15 @@ fun MeasurementPropertyListItem(
 ) {
     Column(modifier = modifier) {
         FormRow(icon = { MeasurementPropertyIcon(property) }) {
-            Text(
-                text = property.name,
-                modifier = Modifier.weight(1f),
-            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(property.name)
+                property.types.takeIf { it.size > 1 }?.joinToString { it.name }?.let { typeNames ->
+                    Text(
+                        text = typeNames,
+                        style = AppTheme.typography.bodySmall,
+                    )
+                }
+            }
             IconButton(
                 onClick = { onArrowUp?.invoke(property) },
                 modifier = Modifier.alpha(if (onArrowUp != null) 1f else 0f),

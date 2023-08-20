@@ -6,7 +6,9 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.entry.search.EntrySearch
 import com.faltenreich.diaguard.log.Log
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
+import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
@@ -69,6 +71,14 @@ sealed class Screen : VoyagerScreen {
         @Composable
         override fun Content() {
             MeasurementPropertyList(viewModel = getViewModel())
+        }
+    }
+
+    data class MeasurementTypeList(val property: MeasurementProperty) : Screen() {
+
+        @Composable
+        override fun Content() {
+            MeasurementTypeList(viewModel = getViewModel { parametersOf(property) })
         }
     }
 

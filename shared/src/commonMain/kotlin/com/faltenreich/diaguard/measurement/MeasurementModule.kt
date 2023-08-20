@@ -5,6 +5,8 @@ import com.faltenreich.diaguard.measurement.property.list.GetMeasurementProperti
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
 import com.faltenreich.diaguard.measurement.property.list.SetMeasurementPropertySortIndexUseCase
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.type.list.GetMeasurementTypesUseCase
+import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeListViewModel
 import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnitRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
@@ -24,4 +26,7 @@ fun measurementModule() = module {
     singleOf(::GetMeasurementPropertiesUseCase)
     singleOf(::SetMeasurementPropertySortIndexUseCase)
     singleOf(::MeasurementPropertyListViewModel)
+
+    singleOf(::GetMeasurementTypesUseCase)
+    singleOf(::MeasurementTypeListViewModel)
 }

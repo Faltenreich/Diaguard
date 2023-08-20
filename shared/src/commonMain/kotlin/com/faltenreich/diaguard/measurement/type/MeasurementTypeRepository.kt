@@ -32,6 +32,10 @@ class MeasurementTypeRepository(
         return dao.observeById(id)
     }
 
+    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementType>> {
+        return dao.observeByPropertyId(propertyId)
+    }
+
     fun getById(id: Long): MeasurementType? {
         return dao.getById(id)
     }

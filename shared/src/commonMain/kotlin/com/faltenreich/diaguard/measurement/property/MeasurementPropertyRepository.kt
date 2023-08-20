@@ -10,13 +10,13 @@ class MeasurementPropertyRepository(
     fun create(
         name: String,
         icon: String? = null,
-        sortIndex: Long? = null,
+        sortIndex: Long,
     ): Long {
         dao.create(
             createdAt = DateTime.now(),
             name = name,
             icon = icon,
-            sortIndex = sortIndex ?: 0, // TODO: Current max + 1
+            sortIndex = sortIndex,
         )
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }

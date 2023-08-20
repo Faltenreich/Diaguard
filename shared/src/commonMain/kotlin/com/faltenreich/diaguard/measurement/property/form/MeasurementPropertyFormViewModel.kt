@@ -17,8 +17,6 @@ class MeasurementPropertyFormViewModel(
     private val setMeasurementTypeSortIndex: SetMeasurementTypeSortIndexUseCase = inject(),
 ) : ViewModel() {
 
-    private val id: Long = property.id
-
     var name by mutableStateOf<String>(property.name)
     var icon by mutableStateOf<String>(property.icon ?: "")
 

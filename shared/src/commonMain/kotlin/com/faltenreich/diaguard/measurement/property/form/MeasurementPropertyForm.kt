@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.property.form
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,8 +11,11 @@ import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.TextInput
 import dev.icerock.moko.resources.compose.stringResource
@@ -21,6 +25,7 @@ fun MeasurementPropertyForm(
     modifier: Modifier = Modifier,
     viewModel: MeasurementPropertyFormViewModel = inject(),
 ) {
+    val navigator = LocalNavigator.currentOrThrow
     val state = viewModel.viewState.collectAsState().value
     Column(modifier = modifier) {
         Column(
@@ -55,7 +60,9 @@ fun MeasurementPropertyForm(
                         type = item,
                         onArrowUp = viewModel::decrementSortIndex.takeIf { index > 0 },
                         onArrowDown = viewModel::incrementSortIndex.takeIf { index < listItems.size - 1 },
-                        modifier = Modifier.animateItemPlacement(),
+                        modifier = Modifier
+                            .animateItemPlacement()
+                            .clickable { navigator.push(Screen.MeasurementTypeForm(item)) },
                     )
                 }
             }

@@ -8,15 +8,16 @@ import dev.icerock.moko.resources.compose.stringResource
 fun Screen.topAppBarStyle(): TopAppBarStyle {
     return when (this) {
         is Screen.EntryForm -> TopAppBarStyle.CenterAligned {
-            val isEditing = entry?.id != null
-            val titleResource = if (isEditing) MR.strings.entry_edit else MR.strings.entry_new
-            Text(stringResource(titleResource))
+            Text(stringResource(MR.strings.entry))
         }
         is Screen.MeasurementPropertyList -> TopAppBarStyle.CenterAligned {
             Text(stringResource(MR.strings.measurement_properties))
         }
         is Screen.MeasurementPropertyForm -> TopAppBarStyle.CenterAligned {
             Text(stringResource(MR.strings.measurement_property))
+        }
+        is Screen.MeasurementTypeForm -> TopAppBarStyle.CenterAligned {
+            Text(stringResource(MR.strings.measurement_type))
         }
         is Screen.PreferenceList -> TopAppBarStyle.CenterAligned {
             Text(stringResource(MR.strings.preferences))

@@ -15,9 +15,8 @@
     <string name="dashboard">Dashboard</string>
     <string name="date_pick">Change date</string>
     <string name="entry_delete">Delete entry</string>
-    <string name="entry_edit">Edit entry</string>
+    <string name="entry">Edit entry</string>
     <string name="entry_first_description">Enter first entry</string>
-    <string name="entry_new">New entry</string>
     <string name="entry_new_description">Create new entry</string>
     <string name="entry_save">Save entry</string>
     <string name="entry_search_placeholder">Enter query to start search</string>
@@ -30,6 +29,10 @@
     <string name="measurement_properties">Categories</string>
     <string name="measurement_property">Category</string>
     <string name="measurement_property_new">New category</string>
+    <string name="measurement_type">Type</string>
+    <string name="measurement_types">Types</string>
+    <string name="measurement_unit">Unit</string>
+    <string name="measurement_units">Units</string>
     <string name="menu_open">Open menu</string>
     <string name="minutes">Minutes</string>
     <string name="name">Name</string>

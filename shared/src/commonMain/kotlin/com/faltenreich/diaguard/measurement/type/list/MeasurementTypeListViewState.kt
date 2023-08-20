@@ -1,10 +1,16 @@
 package com.faltenreich.diaguard.measurement.type.list
 
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 
-sealed class MeasurementTypeListViewState {
+sealed class MeasurementTypeListViewState(val property: MeasurementProperty) {
 
-    data object Loading : MeasurementTypeListViewState()
+    class Loading(
+        property: MeasurementProperty,
+    ) : MeasurementTypeListViewState(property = property)
 
-    data class Loaded(val listItems: List<MeasurementType>) : MeasurementTypeListViewState()
+    class Loaded(
+        property: MeasurementProperty,
+        val listItems: List<MeasurementType>,
+    ) : MeasurementTypeListViewState(property = property)
 }

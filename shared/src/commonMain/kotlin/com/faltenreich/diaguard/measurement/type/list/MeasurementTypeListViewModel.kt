@@ -15,12 +15,12 @@ class MeasurementTypeListViewModel(
 ) : ViewModel() {
 
     private val state = getMeasurementTypesUseCase(property).map { types ->
-        MeasurementTypeListViewState.Loaded(types)
+        MeasurementTypeListViewState.Loaded(property = property, listItems = types)
     }
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = MeasurementTypeListViewState.Loading,
+        initialValue = MeasurementTypeListViewState.Loading(property),
     )
 
     fun decrementSortIndex(type: MeasurementType) {

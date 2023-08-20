@@ -21,6 +21,7 @@
     <string name="entry_new_description">Create new entry</string>
     <string name="entry_save">Save entry</string>
     <string name="entry_search_placeholder">Enter query to start search</string>
+    <string name="icon">Icon</string>
     <string name="insulin">Insulin</string>
     <string name="insulin_units">IU</string>
     <string name="log">Log</string>
@@ -30,6 +31,7 @@
     <string name="measurement_property">Category</string>
     <string name="menu_open">Open menu</string>
     <string name="minutes">Minutes</string>
+    <string name="name">Name</string>
     <string name="no_entries">No entries available</string>
     <string name="note">Note</string>
     <string name="ok">OK</string>

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.measurement.property.list.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
 import com.faltenreich.diaguard.measurement.property.list.SetMeasurementPropertySortIndexUseCase
@@ -28,6 +29,8 @@ fun measurementModule() = module {
     singleOf(::GetMeasurementPropertiesUseCase)
     singleOf(::SetMeasurementPropertySortIndexUseCase)
     singleOf(::MeasurementPropertyListViewModel)
+
+    factory { (property: MeasurementProperty) -> MeasurementPropertyFormViewModel(property) }
 
     singleOf(::GetMeasurementTypesUseCase)
     singleOf(::SetMeasurementTypeSortIndexUseCase)

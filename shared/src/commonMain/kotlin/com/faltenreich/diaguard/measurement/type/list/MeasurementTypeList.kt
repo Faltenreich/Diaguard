@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.measurement.type.list
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -21,7 +20,12 @@ fun MeasurementTypeList(
                 items = listItems,
                 key = { _, item -> item.id },
             ) { index, item ->
-                Text(item.name)
+                MeasurementTypeListItem(
+                    type = item,
+                    onArrowUp = viewModel::decrementSortIndex.takeIf { index > 0 },
+                    onArrowDown = viewModel::incrementSortIndex.takeIf { index < listItems.size - 1 },
+                    modifier = Modifier.animateItemPlacement(),
+                )
             }
         }
     }

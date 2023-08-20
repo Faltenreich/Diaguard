@@ -37,25 +37,25 @@ private fun LoadData(
 ) {
     val bloodSugarPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.blood_sugar), icon = "\uD83E\uDE78", sortIndex = 0)
     val mgDlUnitId = measurementUnitRepository.create(stringResource(MR.strings.mg_per_dl))
-    val bloodSugarTypeId = measurementTypeRepository.create(stringResource(MR.strings.blood_sugar), selectedUnitId = mgDlUnitId, propertyId = bloodSugarPropertyId)
+    val bloodSugarTypeId = measurementTypeRepository.create(stringResource(MR.strings.blood_sugar), sortIndex = 0, selectedUnitId = mgDlUnitId, propertyId = bloodSugarPropertyId)
     measurementTypeUnitRepository.create(factor = 1.0, typeId = bloodSugarTypeId, unitId = mgDlUnitId)
 
     val insulinPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.insulin), icon = "\uD83D\uDC89", sortIndex = 1)
     val ieUnitId = measurementUnitRepository.create(stringResource(MR.strings.insulin_units))
-    val insulinBolusTypeId = measurementTypeRepository.create(stringResource(MR.strings.bolus), selectedUnitId = ieUnitId, propertyId = insulinPropertyId)
-    val insulinCorrectionTypeId = measurementTypeRepository.create(stringResource(MR.strings.correction), selectedUnitId = ieUnitId, propertyId = insulinPropertyId)
-    val insulinBasalTypeId = measurementTypeRepository.create(stringResource(MR.strings.basal), selectedUnitId = ieUnitId, propertyId = insulinPropertyId)
+    val insulinBolusTypeId = measurementTypeRepository.create(stringResource(MR.strings.bolus), sortIndex = 0, selectedUnitId = ieUnitId, propertyId = insulinPropertyId)
+    val insulinCorrectionTypeId = measurementTypeRepository.create(stringResource(MR.strings.correction), sortIndex = 1, selectedUnitId = ieUnitId, propertyId = insulinPropertyId)
+    val insulinBasalTypeId = measurementTypeRepository.create(stringResource(MR.strings.basal), sortIndex = 2, selectedUnitId = ieUnitId, propertyId = insulinPropertyId)
     measurementTypeUnitRepository.create(factor = 1.0, typeId = insulinBolusTypeId, unitId = ieUnitId)
     measurementTypeUnitRepository.create(factor = 1.0, typeId = insulinCorrectionTypeId, unitId = ieUnitId)
     measurementTypeUnitRepository.create(factor = 1.0, typeId = insulinBasalTypeId, unitId = ieUnitId)
 
     val mealPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.meal), icon = "\uD83C\uDF5E", sortIndex = 2)
     val carbohydratesUnitId = measurementUnitRepository.create(stringResource(MR.strings.carbohydrates))
-    val mealTypeId = measurementTypeRepository.create(stringResource(MR.strings.meal), selectedUnitId = carbohydratesUnitId, propertyId = mealPropertyId)
+    val mealTypeId = measurementTypeRepository.create(stringResource(MR.strings.meal), sortIndex = 0, selectedUnitId = carbohydratesUnitId, propertyId = mealPropertyId)
     measurementTypeUnitRepository.create(factor = 1.0, typeId = mealTypeId, unitId = carbohydratesUnitId)
 
     val activityPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.activity), icon = "\uD83C\uDFC3", sortIndex = 3)
     val minutesUnitId = measurementUnitRepository.create(stringResource(MR.strings.minutes))
-    val activityTypeId = measurementTypeRepository.create(stringResource(MR.strings.activity), selectedUnitId = minutesUnitId, propertyId = activityPropertyId)
+    val activityTypeId = measurementTypeRepository.create(stringResource(MR.strings.activity), sortIndex = 0, selectedUnitId = minutesUnitId, propertyId = activityPropertyId)
     measurementTypeUnitRepository.create(factor = 1.0, typeId = activityTypeId, unitId = minutesUnitId)
 }

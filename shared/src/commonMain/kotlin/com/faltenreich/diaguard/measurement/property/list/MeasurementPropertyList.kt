@@ -20,15 +20,15 @@ fun MeasurementPropertyList(
     when (val state = viewModel.viewState.collectAsState().value) {
         is MeasurementPropertyListViewState.Loading -> Unit
         is MeasurementPropertyListViewState.Loaded -> LazyColumn(modifier = modifier) {
-            val items = state.listItems
+            val listItems = state.listItems
             itemsIndexed(
-                items = items,
+                items = listItems,
                 key = { _, item -> item.id },
             ) { index, item ->
                 MeasurementPropertyListItem(
                     property = item,
                     onArrowUp = viewModel::decrementSortIndex.takeIf { index > 0 },
-                    onArrowDown = viewModel::incrementSortIndex.takeIf { index < items.size - 1 },
+                    onArrowDown = viewModel::incrementSortIndex.takeIf { index < listItems.size - 1 },
                     modifier = Modifier
                         .animateItemPlacement()
                         .clickable { navigator.push(Screen.MeasurementTypeList(item)) },

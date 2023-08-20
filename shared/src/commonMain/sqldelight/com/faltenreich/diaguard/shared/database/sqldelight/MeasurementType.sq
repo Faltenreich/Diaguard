@@ -19,7 +19,7 @@ getById:
 SELECT * FROM measurementType WHERE id = ?;
 
 getByProperty:
-SELECT * FROM measurementType WHERE property_id = ?;
+SELECT * FROM measurementType WHERE property_id = ? ORDER BY sort_index ASC;
 
 getAll:
 SELECT * FROM measurementType ORDER BY sort_index ASC;

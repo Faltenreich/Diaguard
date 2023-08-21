@@ -24,8 +24,8 @@ fun MeasurementTypeForm(
         verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
     ) {
         TextInput(
-            input = viewModel.name,
-            onInputChange = { input -> viewModel.name = input },
+            input = viewModel.name.collectAsState().value,
+            onInputChange = { input -> viewModel.name.value = input },
             label = stringResource(MR.strings.name),
             modifier = Modifier.fillMaxWidth(),
         )

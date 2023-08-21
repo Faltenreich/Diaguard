@@ -33,10 +33,10 @@ class MeasurementPropertyListViewModel(
         val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return
         val isDecrementing = sortIndex < property.sortIndex
 
-        setMeasurementPropertySortIndex(property = property, sortIndex = sortIndex)
+        setMeasurementPropertySortIndex(property, sortIndex = sortIndex)
 
         val replacement = properties.first { it.sortIndex == sortIndex }
         val replacementSortIndex = if (isDecrementing) sortIndex + 1 else sortIndex -1
-        setMeasurementPropertySortIndex(property = replacement, sortIndex = replacementSortIndex)
+        setMeasurementPropertySortIndex(replacement, sortIndex = replacementSortIndex)
     }
 }

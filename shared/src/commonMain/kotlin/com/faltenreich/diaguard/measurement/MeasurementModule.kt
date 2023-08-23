@@ -40,8 +40,8 @@ fun measurementModule() = module {
     singleOf(::SetMeasurementPropertyNameUseCase)
     singleOf(::SetMeasurementPropertyIconUseCase)
     singleOf(::SetMeasurementTypeSortIndexUseCase)
-    factory { (property: MeasurementProperty?) -> MeasurementPropertyFormViewModel(property ?: TODO()) }
+    factory { (property: MeasurementProperty) -> MeasurementPropertyFormViewModel(property) }
 
     singleOf(::SetMeasurementTypeNameUseCase)
-    factory { (type: MeasurementType?) -> MeasurementTypeFormViewModel(type ?: TODO()) }
+    factory { (type: MeasurementType) -> MeasurementTypeFormViewModel(type) }
 }

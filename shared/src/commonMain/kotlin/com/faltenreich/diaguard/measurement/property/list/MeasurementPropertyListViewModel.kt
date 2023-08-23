@@ -3,8 +3,9 @@ package com.faltenreich.diaguard.measurement.property.list
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
 class MeasurementPropertyListViewModel(
@@ -12,13 +13,18 @@ class MeasurementPropertyListViewModel(
     private val setMeasurementPropertySortIndex: SetMeasurementPropertySortIndexUseCase = inject(),
 ) : ViewModel() {
 
-    private val state = getMeasurementProperties().map { properties ->
-        MeasurementPropertyListViewState.Loaded(properties)
+    private val showFormDialog = MutableStateFlow(false)
+
+    private val state = combine(
+        showFormDialog,
+        getMeasurementProperties(),
+    ) { showFormDialog, properties ->
+        MeasurementPropertyListViewState.Loaded(showFormDialog, properties)
     }
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = MeasurementPropertyListViewState.Loading,
+        initialValue = MeasurementPropertyListViewState.Loading(showFormDialog = false),
     )
 
     fun decrementSortIndex(property: MeasurementProperty) {
@@ -38,5 +44,17 @@ class MeasurementPropertyListViewModel(
         val replacement = properties.first { it.sortIndex == sortIndex }
         val replacementSortIndex = if (isDecrementing) sortIndex + 1 else sortIndex -1
         setMeasurementPropertySortIndex(replacement, sortIndex = replacementSortIndex)
+    }
+
+    fun showFormDialog() {
+        showFormDialog.value = true
+    }
+
+    fun hideFormDialog() {
+        showFormDialog.value = false
+    }
+
+    fun createProperty() {
+
     }
 }

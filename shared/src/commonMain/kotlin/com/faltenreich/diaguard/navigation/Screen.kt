@@ -76,7 +76,7 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    data class MeasurementPropertyForm(val property: MeasurementProperty? = null) : Screen() {
+    data class MeasurementPropertyForm(val property: MeasurementProperty) : Screen() {
 
         @Composable
         override fun Content() {
@@ -84,7 +84,7 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    data class MeasurementTypeForm(val type: MeasurementType? = null) : Screen() {
+    data class MeasurementTypeForm(val type: MeasurementType) : Screen() {
 
         @Composable
         override fun Content() {

@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.log.LogViewModel
+import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.view.DatePickerBottomAppBarItem
@@ -92,8 +93,8 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         )
         is Screen.MeasurementPropertyList -> BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val navigator = LocalNavigator.currentOrThrow
-                FloatingActionButton(onClick = { navigator.push(Screen.MeasurementPropertyForm()) }) {
+                val viewModel = getViewModel<MeasurementPropertyListViewModel>()
+                FloatingActionButton(onClick = viewModel::showFormDialog) {
                     Icon(Icons.Filled.Add, stringResource(MR.strings.measurement_property_new))
                 }
             }

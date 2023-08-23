@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.measurement.property.list
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -10,6 +12,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.Dialog
 
 @Composable
 fun MeasurementPropertyList(
@@ -17,7 +20,8 @@ fun MeasurementPropertyList(
     viewModel: MeasurementPropertyListViewModel = inject(),
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    when (val state = viewModel.viewState.collectAsState().value) {
+    val state = viewModel.viewState.collectAsState().value
+    when (state) {
         is MeasurementPropertyListViewState.Loading -> Unit
         is MeasurementPropertyListViewState.Loaded -> LazyColumn(modifier = modifier) {
             val listItems = state.listItems
@@ -35,5 +39,11 @@ fun MeasurementPropertyList(
                 )
             }
         }
+    }
+    if (state.showFormDialog) {
+        Dialog(
+            onDismissRequest = viewModel::hideFormDialog,
+            confirmButton = { TextButton(onClick = viewModel::createProperty) { Text("Create") } },
+        )
     }
 }

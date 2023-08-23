@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.stateIn
 class MeasurementPropertyListViewModel(
     getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
     private val setMeasurementPropertySortIndex: SetMeasurementPropertySortIndexUseCase = inject(),
+    private val createMeasurementProperty: CreateMeasurementPropertyUseCase = inject(),
 ) : ViewModel() {
 
     private val showFormDialog = MutableStateFlow(false)
@@ -54,7 +55,12 @@ class MeasurementPropertyListViewModel(
         showFormDialog.value = false
     }
 
-    fun createProperty() {
-
+    fun createProperty(name: String) {
+        val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return
+        createMeasurementProperty(
+            name = name,
+            icon = null,
+            sortIndex = properties.maxOf(MeasurementProperty::sortIndex) + 1
+        )
     }
 }

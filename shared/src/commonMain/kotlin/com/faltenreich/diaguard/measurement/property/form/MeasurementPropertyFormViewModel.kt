@@ -20,6 +20,7 @@ class MeasurementPropertyFormViewModel(
     setMeasurementPropertyIcon: SetMeasurementPropertyIconUseCase = inject(),
     private val setMeasurementTypeSortIndex: SetMeasurementTypeSortIndexUseCase = inject(),
     private val createMeasurementType: CreateMeasurementTypeUseCase = inject(),
+    private val deleteMeasurementProperty: DeleteMeasurementPropertyUseCase = inject(),
 ) : ViewModel() {
 
     var name = MutableStateFlow(property.name)
@@ -85,5 +86,10 @@ class MeasurementPropertyFormViewModel(
             sortIndex = types.maxOf(MeasurementType::sortIndex) + 1,
             propertyId = viewState.value.property.id,
         )
+    }
+
+    fun deleteProperty(property: MeasurementProperty) {
+        // TODO: Confirm deletion
+        deleteMeasurementProperty(property)
     }
 }

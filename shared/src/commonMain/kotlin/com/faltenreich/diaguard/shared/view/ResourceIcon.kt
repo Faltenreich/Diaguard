@@ -11,11 +11,12 @@ import dev.icerock.moko.resources.compose.painterResource
 @Composable
 fun ResourceIcon(
     imageResource: ImageResource,
+    contentDescription: String? = null,
     modifier: Modifier = Modifier,
 ) {
     Icon(
         painter = painterResource(imageResource),
-        contentDescription = null,
+        contentDescription = contentDescription,
         modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
         tint = AppTheme.colors.material.onBackground,
     )

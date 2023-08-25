@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -12,7 +13,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.entry.form.EntryDeleteBottomAppBarItem
 import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
@@ -63,8 +63,11 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             actions = {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
                 val navigator = LocalNavigator.currentOrThrow
-                // TODO: Intercept with confirmation dialog if something has changed
-                EntryDeleteBottomAppBarItem(onClick = { viewModel.deleteIfNeeded(); navigator.pop() })
+                BottomAppBarItem(
+                    image = Icons.Filled.Delete,
+                    contentDescription = MR.strings.entry_delete,
+                    onClick = { viewModel.deleteIfNeeded(); navigator.pop() },
+                )
             },
             floatingActionButton = {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
@@ -101,6 +104,15 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             }
         )
         is Screen.MeasurementPropertyForm -> BottomAppBarStyle.Visible(
+            actions = {
+                val navigator = LocalNavigator.currentOrThrow
+                val viewModel = getViewModel<MeasurementPropertyFormViewModel> { parametersOf(property) }
+                BottomAppBarItem(
+                    image = Icons.Filled.Delete,
+                    contentDescription = MR.strings.measurement_property_delete,
+                    onClick = { viewModel.deleteProperty(property); navigator.pop() },
+                )
+            },
             floatingActionButton = {
                 val viewModel = getViewModel<MeasurementPropertyFormViewModel> { parametersOf(property) }
                 FloatingActionButton(onClick = viewModel::showFormDialog) {

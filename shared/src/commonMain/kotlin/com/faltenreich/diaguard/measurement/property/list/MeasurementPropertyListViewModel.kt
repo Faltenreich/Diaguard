@@ -12,7 +12,6 @@ class MeasurementPropertyListViewModel(
     getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
     private val setMeasurementPropertySortIndex: SetMeasurementPropertySortIndexUseCase = inject(),
     private val createMeasurementProperty: CreateMeasurementPropertyUseCase = inject(),
-    private val deleteMeasurementProperty: DeleteMeasurementPropertyUseCase = inject(),
 ) : ViewModel() {
 
     private val showFormDialog = MutableStateFlow(false)
@@ -63,10 +62,5 @@ class MeasurementPropertyListViewModel(
             icon = null,
             sortIndex = properties.maxOf(MeasurementProperty::sortIndex) + 1,
         )
-    }
-
-    fun deleteProperty(property: MeasurementProperty) {
-        // TODO: Confirm deletion
-        deleteMeasurementProperty(property)
     }
 }

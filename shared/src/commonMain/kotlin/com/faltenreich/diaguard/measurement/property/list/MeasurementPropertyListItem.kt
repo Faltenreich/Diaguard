@@ -28,7 +28,6 @@ fun MeasurementPropertyListItem(
     property: MeasurementProperty,
     onArrowUp: ((MeasurementProperty) -> Unit)?,
     onArrowDown: ((MeasurementProperty) -> Unit)?,
-    onDelete: (MeasurementProperty) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val recentlyCreated = (DateTime.now().millisSince1970 - property.createdAt.millisSince1970) < 5.seconds.inWholeMilliseconds
@@ -53,9 +52,6 @@ fun MeasurementPropertyListItem(
                         style = AppTheme.typography.bodySmall,
                     )
                 }
-            }
-            IconButton(onClick = { onDelete(property) }) {
-                ResourceIcon(MR.images.ic_delete)
             }
             IconButton(
                 onClick = { onArrowUp?.invoke(property) },

@@ -67,6 +67,7 @@ class EntryFormViewModel(
     }
 
     fun deleteIfNeeded() = viewModelScope.launch(dispatcher) {
+        // TODO: Intercept with confirmation dialog if something has changed
         val id = id ?: return@launch
         deleteEntry(id)
     }

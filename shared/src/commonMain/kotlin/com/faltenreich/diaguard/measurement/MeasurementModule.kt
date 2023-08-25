@@ -3,13 +3,13 @@ package com.faltenreich.diaguard.measurement
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.property.form.CreateMeasurementTypeUseCase
+import com.faltenreich.diaguard.measurement.property.form.DeleteMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.GetMeasurementTypesUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.measurement.property.form.SetMeasurementPropertyIconUseCase
 import com.faltenreich.diaguard.measurement.property.form.SetMeasurementPropertyNameUseCase
 import com.faltenreich.diaguard.measurement.property.form.SetMeasurementTypeSortIndexUseCase
 import com.faltenreich.diaguard.measurement.property.list.CreateMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.list.DeleteMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.list.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
 import com.faltenreich.diaguard.measurement.property.list.SetMeasurementPropertySortIndexUseCase

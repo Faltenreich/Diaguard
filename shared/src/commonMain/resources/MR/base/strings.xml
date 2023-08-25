@@ -29,8 +29,10 @@
     <string name="mg_per_dl">mg/dl</string>
     <string name="measurement_properties">Categories</string>
     <string name="measurement_property">Category</string>
+    <string name="measurement_property_delete">Delete category</string>
     <string name="measurement_property_new">New category</string>
     <string name="measurement_type">Type</string>
+    <string name="measurement_type_delete">Delete type</string>
     <string name="measurement_type_new">New type</string>
     <string name="measurement_types">Types</string>
     <string name="measurement_unit">Unit</string>

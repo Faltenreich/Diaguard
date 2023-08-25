@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.TextInputDialog
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
@@ -27,6 +28,7 @@ fun MeasurementPropertyForm(
 ) {
     val navigator = LocalNavigator.currentOrThrow
     val state = viewModel.viewState.collectAsState().value
+
     Column(modifier = modifier) {
         Column(
             modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3),
@@ -67,5 +69,17 @@ fun MeasurementPropertyForm(
                 }
             }
         }
+    }
+
+    if (state.showFormDialog) {
+        TextInputDialog(
+            title = stringResource(MR.strings.measurement_type_new),
+            label = stringResource(MR.strings.name),
+            onDismissRequest = viewModel::hideFormDialog,
+            onConfirmRequest = { name ->
+                viewModel.createType(name)
+                viewModel.hideFormDialog()
+            }
+        )
     }
 }

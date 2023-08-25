@@ -60,7 +60,7 @@ class MeasurementPropertyListViewModel(
         createMeasurementProperty(
             name = name,
             icon = null,
-            sortIndex = properties.maxOf(MeasurementProperty::sortIndex) + 1
+            sortIndex = properties.maxOf(MeasurementProperty::sortIndex) + 1,
         )
     }
 }

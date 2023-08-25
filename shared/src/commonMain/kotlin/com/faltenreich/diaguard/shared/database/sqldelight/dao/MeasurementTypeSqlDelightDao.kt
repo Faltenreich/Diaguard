@@ -26,7 +26,7 @@ class MeasurementTypeSqlDelightDao(
         createdAt: DateTime,
         name: String,
         sortIndex: Long,
-        selectedUnitId: Long,
+        selectedUnitId: Long?,
         propertyId: Long,
     ) {
         queries.create(
@@ -68,7 +68,7 @@ class MeasurementTypeSqlDelightDao(
         updatedAt: DateTime,
         name: String,
         sortIndex: Long,
-        selectedUnitId: Long,
+        selectedUnitId: Long?,
     ) {
         queries.update(
             updated_at = updatedAt.isoString,

@@ -16,7 +16,7 @@ class MeasurementTypeRepository(
     fun create(
         name: String,
         sortIndex: Long,
-        selectedUnitId: Long,
+        selectedUnitId: Long?,
         propertyId: Long,
     ): Long {
         dao.create(
@@ -53,7 +53,7 @@ class MeasurementTypeRepository(
         id: Long,
         name: String,
         sortIndex: Long,
-        selectedUnitId: Long,
+        selectedUnitId: Long?,
     ) {
         dao.update(
             id = id,

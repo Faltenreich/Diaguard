@@ -27,7 +27,7 @@ class GetMeasurementTypesUseCase(
                     typeUnits.any { typeUnit -> typeUnit.typeId == type.id && typeUnit.unitId == unit.id }
                 }
                 // TODO: Get information, e.g. from SharedPreference
-                type.selectedUnit = type.units.first()
+                type.selectedUnit = type.units.firstOrNull()
                 type
             }
         }

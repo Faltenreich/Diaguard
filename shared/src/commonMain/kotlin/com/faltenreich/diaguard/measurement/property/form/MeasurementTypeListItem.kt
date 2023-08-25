@@ -25,7 +25,7 @@ fun MeasurementTypeListItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(type.name)
                 Text(
-                    text = type.selectedUnit.name,
+                    text = type.selectedUnit?.name ?: "",
                     style = AppTheme.typography.bodySmall,
                 )
             }

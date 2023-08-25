@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.property.form
+package com.faltenreich.diaguard.shared.view
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
@@ -13,17 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.shared.view.Dialog
-import com.faltenreich.diaguard.shared.view.TextInput
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
-fun MeasurementPropertyFormDialog(
+fun TextInputDialog(
+    title: String,
+    label: String,
     onDismissRequest: () -> Unit,
-    onConfirmRequest: (name: String) -> Unit,
+    onConfirmRequest: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var name by mutableStateOf("")
+    var input by mutableStateOf("")
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -31,7 +31,7 @@ fun MeasurementPropertyFormDialog(
     Dialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = { onConfirmRequest(name) }) {
+            TextButton(onClick = { onConfirmRequest(input) }) {
                 Text(stringResource(MR.strings.create))
             }
         },
@@ -41,12 +41,12 @@ fun MeasurementPropertyFormDialog(
                 Text(stringResource(MR.strings.cancel))
             }
         },
-        title = { Text(stringResource(MR.strings.measurement_property_new)) },
+        title = { Text(title) },
         text = {
             TextInput(
-                input = name,
-                onInputChange = { name = it },
-                label = stringResource(MR.strings.name),
+                input = input,
+                onInputChange = { input = it },
+                label = label,
                 modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
             )
         }

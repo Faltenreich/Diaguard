@@ -8,9 +8,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormDialog
+import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.TextInputDialog
+import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun MeasurementPropertyList(
@@ -39,7 +41,9 @@ fun MeasurementPropertyList(
         }
     }
     if (state.showFormDialog) {
-        MeasurementPropertyFormDialog(
+        TextInputDialog(
+            title = stringResource(MR.strings.measurement_property_new),
+            label = stringResource(MR.strings.name),
             onDismissRequest = viewModel::hideFormDialog,
             onConfirmRequest = { name ->
                 viewModel.createProperty(name)

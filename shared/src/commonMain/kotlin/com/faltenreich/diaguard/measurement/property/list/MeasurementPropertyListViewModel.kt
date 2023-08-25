@@ -29,22 +29,23 @@ class MeasurementPropertyListViewModel(
     )
 
     fun decrementSortIndex(property: MeasurementProperty) {
-        setSortIndex(property, sortIndex = property.sortIndex - 1)
+        val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return
+        swapSortIndexes(first = property, second = properties.last { it.sortIndex < property.sortIndex })
     }
 
     fun incrementSortIndex(property: MeasurementProperty) {
-        setSortIndex(property, sortIndex = property.sortIndex + 1)
+        val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return
+        swapSortIndexes(first = property, second = properties.first { it.sortIndex > property.sortIndex })
     }
 
-    private fun setSortIndex(property: MeasurementProperty, sortIndex: Long) {
-        val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return
-        val isDecrementing = sortIndex < property.sortIndex
-
-        setMeasurementPropertySortIndex(property, sortIndex = sortIndex)
-
-        val replacement = properties.first { it.sortIndex == sortIndex }
-        val replacementSortIndex = if (isDecrementing) sortIndex + 1 else sortIndex -1
-        setMeasurementPropertySortIndex(replacement, sortIndex = replacementSortIndex)
+    private fun swapSortIndexes(
+        first: MeasurementProperty,
+        second: MeasurementProperty,
+    ) {
+        val firstSortIndex = first.sortIndex
+        val secondSortIndex = second.sortIndex
+        setMeasurementPropertySortIndex(first, sortIndex = secondSortIndex)
+        setMeasurementPropertySortIndex(second, sortIndex = firstSortIndex)
     }
 
     fun showFormDialog() {

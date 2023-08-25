@@ -33,6 +33,7 @@ fun MeasurementPropertyList(
                     property = item,
                     onArrowUp = viewModel::decrementSortIndex.takeIf { index > 0 },
                     onArrowDown = viewModel::incrementSortIndex.takeIf { index < listItems.size - 1 },
+                    onDelete = viewModel::deleteProperty,
                     modifier = Modifier
                         .animateItemPlacement()
                         .clickable { navigator.push(Screen.MeasurementPropertyForm(item)) },

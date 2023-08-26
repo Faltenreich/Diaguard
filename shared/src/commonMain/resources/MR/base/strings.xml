@@ -34,6 +34,7 @@
     <string name="measurement_type">Type</string>
     <string name="measurement_type_delete">Delete type</string>
     <string name="measurement_type_new">New type</string>
+    <string name="measurement_type_unit_selected_description">Selected unit</string>
     <string name="measurement_types">Types</string>
     <string name="measurement_unit">Unit</string>
     <string name="measurement_units">Units</string>

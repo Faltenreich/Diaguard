@@ -14,4 +14,8 @@ data class MeasurementTypeUnit(
     val factor: Double,
     val typeId: Long,
     val unitId: Long,
-) : DatabaseEntity
+) : DatabaseEntity {
+
+    lateinit var type: MeasurementType
+    lateinit var unit: MeasurementUnit
+}

@@ -7,21 +7,25 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MeasurementTypeFormViewModel(
     type: MeasurementType,
     setMeasurementTypeName: SetMeasurementTypeNameUseCase = inject(),
+    getMeasurementTypeUnits: GetMeasurementTypeUnitsUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
 ) : ViewModel() {
 
     var name = MutableStateFlow(type.name)
 
-    private val state = flowOf(type).map { type -> MeasurementTypeFormViewState.Loaded(type) }
+    private val state = combine(
+        flowOf(type),
+        getMeasurementTypeUnits(type),
+    ) { type, typeUnits -> MeasurementTypeFormViewState.Loaded(type, typeUnits) }
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,

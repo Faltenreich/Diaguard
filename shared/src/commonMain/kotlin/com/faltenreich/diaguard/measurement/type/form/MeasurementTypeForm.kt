@@ -1,14 +1,17 @@
 package com.faltenreich.diaguard.measurement.type.form
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.TextInput
 import dev.icerock.moko.resources.compose.stringResource
@@ -18,16 +21,31 @@ fun MeasurementTypeForm(
     modifier: Modifier = Modifier,
     viewModel: MeasurementTypeFormViewModel = inject(),
 ) {
-    val viewState = viewModel.viewState.collectAsState().value
-    Column(
-        modifier = modifier.padding(all = AppTheme.dimensions.padding.P_3),
-        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
-    ) {
+    val state = viewModel.viewState.collectAsState().value
+
+    Column(modifier = modifier) {
         TextInput(
             input = viewModel.name.collectAsState().value,
             onInputChange = { input -> viewModel.name.value = input },
             label = stringResource(MR.strings.name),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(all = AppTheme.dimensions.padding.P_3),
         )
+
+        Divider()
+
+        when (state) {
+            is MeasurementTypeFormViewState.Loading -> Unit
+            is MeasurementTypeFormViewState.Loaded -> LazyColumn {
+                items(
+                    items = state.typeUnits,
+                    key = MeasurementTypeUnit::id,
+                ) { typeUnit ->
+                    MeasurementTypeUnitListItem(
+                        typeUnit = typeUnit,
+                        modifier = Modifier.animateItemPlacement(),
+                    )
+                }
+            }
+        }
     }
 }

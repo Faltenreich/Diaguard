@@ -40,6 +40,8 @@ class MeasurementPropertyFormViewModel(
         initialValue = MeasurementPropertyFormViewState.Loading(property, showFormDialog = false),
     )
 
+    val types = (viewState.value as? MeasurementPropertyFormViewState.Loaded)?.types
+
     init {
         // FIXME: Setting both at the same time cancels the first collector
         viewModelScope.launch {
@@ -53,22 +55,23 @@ class MeasurementPropertyFormViewModel(
     }
 
     fun decrementSortIndex(type: MeasurementType) {
-        setSortIndex(type, sortIndex = type.sortIndex - 1)
+        val types = types ?: return
+        swapSortIndexes(first = type, second = types.last { it.sortIndex < type.sortIndex })
     }
 
     fun incrementSortIndex(type: MeasurementType) {
-        setSortIndex(type, sortIndex = type.sortIndex + 1)
+        val types = types ?: return
+        swapSortIndexes(first = type, second = types.first { it.sortIndex > type.sortIndex })
     }
 
-    private fun setSortIndex(type: MeasurementType, sortIndex: Long) {
-        val types = (viewState.value as? MeasurementPropertyFormViewState.Loaded)?.types ?: return
-        val isDecrementing = sortIndex < type.sortIndex
-
-        setMeasurementTypeSortIndex(type = type, sortIndex = sortIndex)
-
-        val replacement = types.first { it.sortIndex == sortIndex }
-        val replacementSortIndex = if (isDecrementing) sortIndex + 1 else sortIndex -1
-        setMeasurementTypeSortIndex(type = replacement, sortIndex = replacementSortIndex)
+    private fun swapSortIndexes(
+        first: MeasurementType,
+        second: MeasurementType,
+    ) {
+        val firstSortIndex = first.sortIndex
+        val secondSortIndex = second.sortIndex
+        setMeasurementTypeSortIndex(first, sortIndex = secondSortIndex)
+        setMeasurementTypeSortIndex(second, sortIndex = firstSortIndex)
     }
 
     fun showFormDialog() {

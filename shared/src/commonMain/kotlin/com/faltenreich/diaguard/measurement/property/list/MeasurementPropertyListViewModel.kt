@@ -28,13 +28,15 @@ class MeasurementPropertyListViewModel(
         initialValue = MeasurementPropertyListViewState.Loading(showFormDialog = false),
     )
 
+    private val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems
+
     fun decrementSortIndex(property: MeasurementProperty) {
-        val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return
+        val properties = properties ?: return
         swapSortIndexes(first = property, second = properties.last { it.sortIndex < property.sortIndex })
     }
 
     fun incrementSortIndex(property: MeasurementProperty) {
-        val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return
+        val properties = properties ?: return
         swapSortIndexes(first = property, second = properties.first { it.sortIndex > property.sortIndex })
     }
 

@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.log.LogViewModel
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
+import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewModel
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.view.DatePickerBottomAppBarItem
@@ -119,6 +120,17 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                     Icon(Icons.Filled.Add, stringResource(MR.strings.measurement_type_new))
                 }
             }
+        )
+        is Screen.MeasurementTypeForm -> BottomAppBarStyle.Visible(
+            actions = {
+                val navigator = LocalNavigator.currentOrThrow
+                val viewModel = getViewModel<MeasurementTypeFormViewModel> { parametersOf(type) }
+                BottomAppBarItem(
+                    image = Icons.Filled.Delete,
+                    contentDescription = MR.strings.measurement_type_delete,
+                    onClick = { viewModel.deleteType(type); navigator.pop() },
+                )
+            },
         )
         else -> BottomAppBarStyle.Visible()
     }

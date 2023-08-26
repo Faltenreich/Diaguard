@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 class MeasurementTypeFormViewModel(
     type: MeasurementType,
     setMeasurementTypeName: SetMeasurementTypeNameUseCase = inject(),
+    private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
 ) : ViewModel() {
 
     var name = MutableStateFlow(type.name)
@@ -33,5 +34,9 @@ class MeasurementTypeFormViewModel(
             name.debounce(DateTimeConstants.INPUT_DEBOUNCE)
                 .collectLatest { name -> setMeasurementTypeName(type, name = name) }
         }
+    }
+
+    fun deleteType(type: MeasurementType) {
+        deleteMeasurementType(type)
     }
 }

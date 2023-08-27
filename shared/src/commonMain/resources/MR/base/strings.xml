@@ -8,7 +8,9 @@
     <string name="basal">Basal</string>
     <string name="blood_sugar">Blood Sugar</string>
     <string name="bolus">Bolus</string>
+    <string name="bread_units">Bread units</string>
     <string name="cancel">Cancel</string>
+    <string name="carbohydrate_units">Carbohydrate units</string>
     <string name="carbohydrates">Carbohydrates</string>
     <string name="clear_input">Clear input</string>
     <string name="correction">Correction</string>
@@ -40,6 +42,7 @@
     <string name="measurement_units">Units</string>
     <string name="menu_open">Open menu</string>
     <string name="minutes">Minutes</string>
+    <string name="mmol_per_l">mmol/L</string>
     <string name="name">Name</string>
     <string name="no_entries">No entries available</string>
     <string name="note">Note</string>

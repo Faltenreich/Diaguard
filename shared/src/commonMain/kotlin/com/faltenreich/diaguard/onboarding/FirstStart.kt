@@ -37,8 +37,10 @@ private fun LoadData(
 ) {
     val bloodSugarPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.blood_sugar), icon = "\uD83E\uDE78", sortIndex = 0)
     val mgDlUnitId = measurementUnitRepository.create(stringResource(MR.strings.mg_per_dl))
+    val mmolLUnitId = measurementUnitRepository.create(stringResource(MR.strings.mmol_per_l))
     val bloodSugarTypeId = measurementTypeRepository.create(stringResource(MR.strings.blood_sugar), sortIndex = 0, selectedUnitId = mgDlUnitId, propertyId = bloodSugarPropertyId)
     measurementTypeUnitRepository.create(factor = 1.0, typeId = bloodSugarTypeId, unitId = mgDlUnitId)
+    measurementTypeUnitRepository.create(factor = 0.0555, typeId = bloodSugarTypeId, unitId = mmolLUnitId)
 
     val insulinPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.insulin), icon = "\uD83D\uDC89", sortIndex = 1)
     val ieUnitId = measurementUnitRepository.create(stringResource(MR.strings.insulin_units))
@@ -51,8 +53,12 @@ private fun LoadData(
 
     val mealPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.meal), icon = "\uD83C\uDF5E", sortIndex = 2)
     val carbohydratesUnitId = measurementUnitRepository.create(stringResource(MR.strings.carbohydrates))
+    val carbohydrateUnitsUnitId = measurementUnitRepository.create(stringResource(MR.strings.carbohydrate_units))
+    val breadUnitsUnitId = measurementUnitRepository.create(stringResource(MR.strings.bread_units))
     val mealTypeId = measurementTypeRepository.create(stringResource(MR.strings.meal), sortIndex = 0, selectedUnitId = carbohydratesUnitId, propertyId = mealPropertyId)
     measurementTypeUnitRepository.create(factor = 1.0, typeId = mealTypeId, unitId = carbohydratesUnitId)
+    measurementTypeUnitRepository.create(factor = 0.1, typeId = mealTypeId, unitId = carbohydrateUnitsUnitId)
+    measurementTypeUnitRepository.create(factor = 0.0833, typeId = mealTypeId, unitId = breadUnitsUnitId)
 
     val activityPropertyId = measurementPropertyRepository.create(stringResource(MR.strings.activity), icon = "\uD83C\uDFC3", sortIndex = 3)
     val minutesUnitId = measurementUnitRepository.create(stringResource(MR.strings.minutes))

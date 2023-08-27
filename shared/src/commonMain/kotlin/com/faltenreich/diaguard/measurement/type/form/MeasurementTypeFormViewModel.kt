@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.type.form
 
 import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
@@ -17,6 +18,7 @@ class MeasurementTypeFormViewModel(
     type: MeasurementType,
     setMeasurementTypeName: SetMeasurementTypeNameUseCase = inject(),
     getMeasurementTypeUnits: GetMeasurementTypeUnitsUseCase = inject(),
+    private val setSelectedMeasurementTypeUnit: SetSelectedMeasurementTypeUnitUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
 ) : ViewModel() {
 
@@ -42,5 +44,12 @@ class MeasurementTypeFormViewModel(
 
     fun deleteType(type: MeasurementType) {
         deleteMeasurementType(type)
+    }
+
+    fun selectTypeUnit(typeUnit: MeasurementTypeUnit) {
+        setSelectedMeasurementTypeUnit(
+            type = viewState.value.type,
+            typeUnit = typeUnit,
+        )
     }
 }

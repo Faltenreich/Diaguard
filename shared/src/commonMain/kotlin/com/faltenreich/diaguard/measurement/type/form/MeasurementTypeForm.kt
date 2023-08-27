@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.type.form
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -42,7 +43,9 @@ fun MeasurementTypeForm(
                 ) { typeUnit ->
                     MeasurementTypeUnitListItem(
                         typeUnit = typeUnit,
-                        modifier = Modifier.animateItemPlacement(),
+                        modifier = Modifier
+                            .animateItemPlacement()
+                            .clickable { viewModel.selectTypeUnit(typeUnit) },
                     )
                 }
             }

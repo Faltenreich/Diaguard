@@ -3,25 +3,17 @@ package com.faltenreich.diaguard.measurement.property.form
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 
-sealed class MeasurementPropertyFormViewState(
-    val property: MeasurementProperty,
-    val showFormDialog: Boolean,
-) {
+sealed class MeasurementPropertyFormViewState(val property: MeasurementProperty) {
 
     class Loading(
         property: MeasurementProperty,
-        showFormDialog: Boolean,
-    ) : MeasurementPropertyFormViewState(
-        property = property,
-        showFormDialog = showFormDialog,
-    )
+    ) : MeasurementPropertyFormViewState(property)
 
     class Loaded(
         property: MeasurementProperty,
-        showFormDialog: Boolean,
+        val showFormDialog: Boolean,
+        val showDeletionDialog: Boolean,
         val types: List<MeasurementType>,
-    ) : MeasurementPropertyFormViewState(
-        property = property,
-        showFormDialog = showFormDialog,
-    )
+        val measurementCount: Int = 0, // TODO
+    ) : MeasurementPropertyFormViewState(property)
 }

@@ -106,12 +106,11 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         )
         is Screen.MeasurementPropertyForm -> BottomAppBarStyle.Visible(
             actions = {
-                val navigator = LocalNavigator.currentOrThrow
                 val viewModel = getViewModel<MeasurementPropertyFormViewModel> { parametersOf(property) }
                 BottomAppBarItem(
                     image = Icons.Filled.Delete,
                     contentDescription = MR.strings.measurement_property_delete,
-                    onClick = { viewModel.deleteProperty(property); navigator.pop() },
+                    onClick = viewModel::deletePropertyIfConfirmed,
                 )
             },
             floatingActionButton = {

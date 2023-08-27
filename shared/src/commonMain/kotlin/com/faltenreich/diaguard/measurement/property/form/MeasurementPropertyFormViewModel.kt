@@ -27,17 +27,24 @@ class MeasurementPropertyFormViewModel(
     var icon = MutableStateFlow(property.icon ?: "")
 
     private val showFormDialog = MutableStateFlow(false)
+    private val showDeletionDialog = MutableStateFlow(false)
 
     private val state = combine(
         showFormDialog,
+        showDeletionDialog,
         getMeasurementTypesUseCase(property),
-    ) { showFormDialog, types ->
-        MeasurementPropertyFormViewState.Loaded(property, showFormDialog, types)
+    ) { showFormDialog, showDeletionDialog, types ->
+        MeasurementPropertyFormViewState.Loaded(
+            property = property,
+            showFormDialog = showFormDialog,
+            showDeletionDialog = showDeletionDialog,
+            types = types,
+        )
     }
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = MeasurementPropertyFormViewState.Loading(property, showFormDialog = false),
+        initialValue = MeasurementPropertyFormViewState.Loading(property),
     )
 
     val types: List<MeasurementType>?
@@ -81,8 +88,7 @@ class MeasurementPropertyFormViewModel(
         showFormDialog.value = false
     }
 
-    fun createType(name: String) {
-        val types = (viewState.value as? MeasurementPropertyFormViewState.Loaded)?.types ?: return
+    fun createType(name: String, types: List<MeasurementType>) {
         createMeasurementType(
             name = name,
             sortIndex = types.maxOf(MeasurementType::sortIndex) + 1,
@@ -90,8 +96,15 @@ class MeasurementPropertyFormViewModel(
         )
     }
 
+    fun deletePropertyIfConfirmed() {
+        showDeletionDialog.value = true
+    }
+
+    fun hideDeletionDialog() {
+        showDeletionDialog.value = false
+    }
+
     fun deleteProperty(property: MeasurementProperty) {
-        // TODO: Confirm deletion
         deleteMeasurementProperty(property)
     }
 }

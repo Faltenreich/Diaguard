@@ -52,6 +52,13 @@ class MeasurementValueRepository(
         )
     }
 
+    fun update(value: MeasurementValue) {
+        update(
+            id = value.id,
+            value = value.value,
+        )
+    }
+
     fun deleteById(id: Long) {
         dao.deleteById(id)
     }

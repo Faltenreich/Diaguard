@@ -45,12 +45,7 @@ class MeasurementUnitSqlDelightDao(
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun update(
-        id: Long,
-        updatedAt: DateTime,
-        name: String,
-        factor: Double,
-    ) {
+    override fun update(unit: MeasurementUnit) = with(unit) {
         queries.update(
             updated_at = updatedAt.isoString,
             name = name,

@@ -47,19 +47,8 @@ class MeasurementTypeRepository(
         return dao.observeAll()
     }
 
-    fun update(
-        id: Long,
-        name: String,
-        sortIndex: Long,
-        selectedTypeUnitId: Long?,
-    ) {
-        dao.update(
-            id = id,
-            updatedAt = DateTime.now(),
-            name = name,
-            sortIndex = sortIndex,
-            selectedTypeUnitId = selectedTypeUnitId,
-        )
+    fun update(type: MeasurementType) {
+        dao.update(type)
     }
 
     fun deleteById(id: Long) {

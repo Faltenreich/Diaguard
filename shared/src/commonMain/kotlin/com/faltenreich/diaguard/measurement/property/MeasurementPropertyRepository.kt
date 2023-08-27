@@ -37,19 +37,8 @@ class MeasurementPropertyRepository(
         return dao.observeAll()
     }
 
-    fun update(
-        id: Long,
-        name: String,
-        icon: String?,
-        sortIndex: Long,
-    ) {
-        dao.update(
-            id = id,
-            updatedAt = DateTime.now(),
-            name = name,
-            icon = icon,
-            sortIndex = sortIndex,
-        )
+    fun update(property: MeasurementProperty) {
+        dao.update(property)
     }
 
     fun deleteById(id: Long) {

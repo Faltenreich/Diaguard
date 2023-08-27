@@ -9,11 +9,6 @@ class SetMeasurementTypeNameUseCase(
 ) {
 
     operator fun invoke(type: MeasurementType, name: String) {
-        measurementTypeRepository.update(
-            id = type.id,
-            name = name,
-            sortIndex = type.sortIndex,
-            selectedTypeUnitId = type.selectedTypeUnitId,
-        )
+        measurementTypeRepository.update(type.copy(name = name))
     }
 }

@@ -9,11 +9,6 @@ class SetMeasurementPropertySortIndexUseCase(
 ) {
 
     operator fun invoke(property: MeasurementProperty, sortIndex: Long) {
-        measurementPropertyRepository.update(
-            id = property.id,
-            name = property.name,
-            icon = property.icon,
-            sortIndex = sortIndex,
-        )
+        measurementPropertyRepository.update(property.copy(sortIndex = sortIndex))
     }
 }

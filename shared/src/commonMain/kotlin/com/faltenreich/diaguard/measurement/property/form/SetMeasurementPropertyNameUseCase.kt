@@ -9,11 +9,6 @@ class SetMeasurementPropertyNameUseCase(
 ) {
 
     operator fun invoke(property: MeasurementProperty, name: String) {
-        measurementPropertyRepository.update(
-            id = property.id,
-            name = name,
-            icon = property.icon,
-            sortIndex = property.sortIndex,
-        )
+        measurementPropertyRepository.update(property.copy(name = name))
     }
 }

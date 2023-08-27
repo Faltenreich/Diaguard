@@ -47,6 +47,14 @@ class EntryRepository(
         )
     }
 
+    fun update(entry: Entry) {
+        update(
+            id = entry.id,
+            dateTime = entry.dateTime,
+            note = entry.note,
+        )
+    }
+
     fun deleteById(id: Long) {
         dao.deleteById(id)
     }

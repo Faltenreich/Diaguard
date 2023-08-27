@@ -13,11 +13,6 @@ class SetSelectedMeasurementTypeUnitUseCase(
         type: MeasurementType,
         typeUnit: MeasurementTypeUnit,
     ) {
-        measurementTypeRepository.update(
-            id = type.id,
-            name = type.name,
-            sortIndex = type.sortIndex,
-            selectedTypeUnitId = typeUnit.id,
-        )
+        measurementTypeRepository.update(type.copy(selectedTypeUnitId = typeUnit.id))
     }
 }

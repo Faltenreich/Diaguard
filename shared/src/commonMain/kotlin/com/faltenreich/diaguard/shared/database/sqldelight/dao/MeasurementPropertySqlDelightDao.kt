@@ -57,13 +57,7 @@ class MeasurementPropertySqlDelightDao(
         )
     }
 
-    override fun update(
-        id: Long,
-        updatedAt: DateTime,
-        name: String,
-        icon: String?,
-        sortIndex: Long,
-    ) {
+    override fun update(property: MeasurementProperty) = with(property) {
         queries.update(
             updated_at = updatedAt.isoString,
             name = name,

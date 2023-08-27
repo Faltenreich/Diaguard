@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -22,14 +24,18 @@ class MeasurementTypeFormViewModel(
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
 ) : ViewModel() {
 
-    var name = MutableStateFlow<String?>(null)
+    var name = MutableStateFlow("")
 
     private val type = getMeasurementTypeUseCase(measurementTypeId)
 
     private val state = type.flatMapLatest { type ->
-        getMeasurementTypeUnits(type!!).map { typeUnits ->
-            MeasurementTypeFormViewState.Loaded(type, typeUnits)
+        when (type) {
+            null -> flowOf(MeasurementTypeFormViewState.Error)
+            else -> getMeasurementTypeUnits(type).map { typeUnits ->
+                MeasurementTypeFormViewState.Loaded(type, typeUnits)
+            }
         }
+
     }
     val viewState = state.stateIn(
         scope = viewModelScope,
@@ -39,19 +45,15 @@ class MeasurementTypeFormViewModel(
 
     init {
         viewModelScope.launch {
-            type.collectLatest { type ->
-                if (name.value == null && type != null) {
-                    name.value = type.name
-                }
-            }
+            type.filterNotNull().collectLatest { type -> name.value = type.name }
         }
         // FIXME: Setting other flow at the same time cancels the first collector
         viewModelScope.launch {
-             name.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
-                 val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
-                 if (type != null && name != null) {
-                     setMeasurementTypeName(type, name = name)
-                 }
+            name.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
+                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
+                if (type != null) {
+                    setMeasurementTypeName(type, name = name)
+                }
             }
         }
     }

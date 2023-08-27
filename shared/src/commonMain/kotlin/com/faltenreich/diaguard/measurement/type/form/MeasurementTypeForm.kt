@@ -27,7 +27,7 @@ fun MeasurementTypeForm(
 
         is MeasurementTypeFormViewState.Loaded -> Column(modifier = modifier) {
             TextInput(
-                input = viewModel.name.collectAsState().value ?: "",
+                input = viewModel.name.collectAsState().value,
                 onInputChange = { input -> viewModel.name.value = input },
                 label = stringResource(MR.strings.name),
                 modifier = Modifier.fillMaxWidth()
@@ -50,5 +50,7 @@ fun MeasurementTypeForm(
                 }
             }
         }
+
+        is MeasurementTypeFormViewState.Error -> Unit
     }
 }

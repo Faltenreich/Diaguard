@@ -11,4 +11,6 @@ sealed class MeasurementTypeFormViewState {
         val type: MeasurementType,
         val typeUnits: List<MeasurementTypeUnit>,
     ) : MeasurementTypeFormViewState()
+
+    data object Error : MeasurementTypeFormViewState()
 }

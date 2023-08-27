@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement.type.form
 
-import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MeasurementTypeFormViewModel(
-    type: MeasurementType,
+    measurementTypeId: Long,
     getMeasurementTypeUseCase: GetMeasurementTypeUseCase = inject(),
     setMeasurementTypeName: SetMeasurementTypeNameUseCase = inject(),
     getMeasurementTypeUnits: GetMeasurementTypeUnitsUseCase = inject(),
@@ -23,9 +22,11 @@ class MeasurementTypeFormViewModel(
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
 ) : ViewModel() {
 
-    var name = MutableStateFlow(type.name)
+    var name = MutableStateFlow<String?>(null)
 
-    private val state = getMeasurementTypeUseCase(type).flatMapLatest { type ->
+    private val type = getMeasurementTypeUseCase(measurementTypeId)
+
+    private val state = type.flatMapLatest { type ->
         getMeasurementTypeUnits(type!!).map { typeUnits ->
             MeasurementTypeFormViewState.Loaded(type, typeUnits)
         }
@@ -33,24 +34,35 @@ class MeasurementTypeFormViewModel(
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = MeasurementTypeFormViewState.Loading(type)
+        initialValue = MeasurementTypeFormViewState.Loading
     )
 
     init {
+        viewModelScope.launch {
+            type.collectLatest { type ->
+                if (name.value == null && type != null) {
+                    name.value = type.name
+                }
+            }
+        }
         // FIXME: Setting other flow at the same time cancels the first collector
         viewModelScope.launch {
-            name.debounce(DateTimeConstants.INPUT_DEBOUNCE)
-                .collectLatest { name -> setMeasurementTypeName(type, name = name) }
+             name.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
+                 val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
+                 if (type != null && name != null) {
+                     setMeasurementTypeName(type, name = name)
+                 }
+            }
         }
     }
 
-    fun deleteType(type: MeasurementType) {
-        deleteMeasurementType(type)
+    fun deleteType(measurementTypeId: Long) {
+        deleteMeasurementType(measurementTypeId)
     }
 
     fun selectTypeUnit(typeUnit: MeasurementTypeUnit) {
         setSelectedMeasurementTypeUnit(
-            type = viewState.value.type,
+            type = typeUnit.type,
             typeUnit = typeUnit,
         )
     }

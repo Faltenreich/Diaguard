@@ -22,21 +22,21 @@ fun MeasurementTypeForm(
     modifier: Modifier = Modifier,
     viewModel: MeasurementTypeFormViewModel = inject(),
 ) {
-    val state = viewModel.viewState.collectAsState().value
+    when (val state = viewModel.viewState.collectAsState().value) {
+        is MeasurementTypeFormViewState.Loading -> Unit
 
-    Column(modifier = modifier) {
-        TextInput(
-            input = viewModel.name.collectAsState().value,
-            onInputChange = { input -> viewModel.name.value = input },
-            label = stringResource(MR.strings.name),
-            modifier = Modifier.fillMaxWidth().padding(all = AppTheme.dimensions.padding.P_3),
-        )
+        is MeasurementTypeFormViewState.Loaded -> Column(modifier = modifier) {
+            TextInput(
+                input = viewModel.name.collectAsState().value ?: "",
+                onInputChange = { input -> viewModel.name.value = input },
+                label = stringResource(MR.strings.name),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(all = AppTheme.dimensions.padding.P_3),
+            )
 
-        FormRowLabel(stringResource(MR.strings.measurement_units))
+            FormRowLabel(stringResource(MR.strings.measurement_units))
 
-        when (state) {
-            is MeasurementTypeFormViewState.Loading -> Unit
-            is MeasurementTypeFormViewState.Loaded -> LazyColumn {
+            LazyColumn {
                 items(
                     items = state.typeUnits,
                     key = MeasurementTypeUnit::id,

@@ -9,7 +9,7 @@ class GetMeasurementTypeUseCase(
     private val measurementTypeRepository: MeasurementTypeRepository = inject(),
 ) {
 
-    operator fun invoke(measurementType: MeasurementType): Flow<MeasurementType?> {
-        return measurementTypeRepository.observeById(measurementType.id)
+    operator fun invoke(measurementTypeId: Long): Flow<MeasurementType?> {
+        return measurementTypeRepository.observeById(measurementTypeId)
     }
 }

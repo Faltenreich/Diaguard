@@ -64,7 +64,7 @@ fun MeasurementPropertyForm(
                         onArrowDown = viewModel::incrementSortIndex.takeIf { index < listItems.size - 1 },
                         modifier = Modifier
                             .animateItemPlacement()
-                            .clickable { navigator.push(Screen.MeasurementTypeForm(item)) },
+                            .clickable { navigator.push(Screen.MeasurementTypeForm(item.id)) },
                     )
                 }
             }

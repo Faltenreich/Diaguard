@@ -3,12 +3,12 @@ package com.faltenreich.diaguard.measurement.type.form
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
 
-sealed class MeasurementTypeFormViewState(val type: MeasurementType) {
+sealed class MeasurementTypeFormViewState {
 
-    class Loading(type: MeasurementType) : MeasurementTypeFormViewState(type)
+    data object Loading : MeasurementTypeFormViewState()
 
-    class Loaded(
-        type: MeasurementType,
+    data class Loaded(
+        val type: MeasurementType,
         val typeUnits: List<MeasurementTypeUnit>,
-    ) : MeasurementTypeFormViewState(type)
+    ) : MeasurementTypeFormViewState()
 }

@@ -62,7 +62,13 @@ class MeasurementTypeSqlDelightDao(
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun update(type: MeasurementType) = with(type) {
+    override fun update(
+        id: Long,
+        updatedAt: DateTime,
+        name: String,
+        sortIndex: Long,
+        selectedTypeUnitId: Long?,
+    ) {
         queries.update(
             updated_at = updatedAt.isoString,
             name = name,

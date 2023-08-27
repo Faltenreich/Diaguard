@@ -22,7 +22,13 @@ interface MeasurementPropertyDao {
 
     fun observeAll(): Flow<List<MeasurementProperty>>
 
-    fun update(property: MeasurementProperty)
+    fun update(
+        id: Long,
+        updatedAt: DateTime,
+        name: String,
+        icon: String?,
+        sortIndex: Long,
+    )
 
     fun deleteById(id: Long)
 }

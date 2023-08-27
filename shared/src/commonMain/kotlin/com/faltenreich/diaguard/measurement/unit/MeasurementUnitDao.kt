@@ -16,7 +16,11 @@ interface MeasurementUnitDao {
 
     fun observeAll(): Flow<List<MeasurementUnit>>
 
-    fun update(unit: MeasurementUnit)
+    fun update(
+        id: Long,
+        updatedAt: DateTime,
+        name: String,
+    )
 
     fun deleteById(id: Long)
 }

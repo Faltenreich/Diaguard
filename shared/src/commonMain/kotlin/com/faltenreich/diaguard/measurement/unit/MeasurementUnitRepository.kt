@@ -25,8 +25,24 @@ class MeasurementUnitRepository(
         return dao.observeAll()
     }
 
-    fun update(unit: MeasurementUnit) {
-        dao.update(unit)
+    fun update(
+        id: Long,
+        updatedAt: DateTime,
+        name: String,
+    ) {
+        dao.update(
+            id = id,
+            updatedAt = updatedAt,
+            name = name,
+        )
+    }
+
+    fun update(unit: MeasurementUnit) = with(unit) {
+        update(
+            id = id,
+            updatedAt = updatedAt,
+            name = name,
+        )
     }
 
     fun deleteById(id: Long) {

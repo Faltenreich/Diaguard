@@ -18,9 +18,8 @@ import kotlinx.coroutines.launch
 class MeasurementTypeFormViewModel(
     measurementTypeId: Long,
     getMeasurementTypeUseCase: GetMeasurementTypeUseCase = inject(),
-    setMeasurementTypeName: SetMeasurementTypeNameUseCase = inject(),
     getMeasurementTypeUnits: GetMeasurementTypeUnitsUseCase = inject(),
-    private val setSelectedMeasurementTypeUnit: SetSelectedMeasurementTypeUnitUseCase = inject(),
+    private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
 ) : ViewModel() {
 
@@ -52,20 +51,18 @@ class MeasurementTypeFormViewModel(
             name.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
                 val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
                 if (type != null) {
-                    setMeasurementTypeName(type, name = name)
+                    updateMeasurementType(type.copy(name = name))
                 }
             }
         }
     }
 
-    fun deleteType(measurementTypeId: Long) {
-        deleteMeasurementType(measurementTypeId)
+    fun setSelectedTypeUnit(typeUnit: MeasurementTypeUnit) {
+        val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: return
+        updateMeasurementType(type.copy(selectedTypeUnitId = typeUnit.id))
     }
 
-    fun selectTypeUnit(typeUnit: MeasurementTypeUnit) {
-        setSelectedMeasurementTypeUnit(
-            type = typeUnit.type,
-            typeUnit = typeUnit,
-        )
+    fun deleteType(measurementTypeId: Long) {
+        deleteMeasurementType(measurementTypeId)
     }
 }

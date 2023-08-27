@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.property.list
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.stateIn
 
 class MeasurementPropertyListViewModel(
     getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
-    private val setMeasurementPropertySortIndex: SetMeasurementPropertySortIndexUseCase = inject(),
+    private val updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementProperty: CreateMeasurementPropertyUseCase = inject(),
 ) : ViewModel() {
 
@@ -45,10 +46,8 @@ class MeasurementPropertyListViewModel(
         first: MeasurementProperty,
         second: MeasurementProperty,
     ) {
-        val firstSortIndex = first.sortIndex
-        val secondSortIndex = second.sortIndex
-        setMeasurementPropertySortIndex(first, sortIndex = secondSortIndex)
-        setMeasurementPropertySortIndex(second, sortIndex = firstSortIndex)
+        updateMeasurementProperty(first.copy(sortIndex = second.sortIndex))
+        updateMeasurementProperty(second.copy(sortIndex = first.sortIndex))
     }
 
     fun showFormDialog() {

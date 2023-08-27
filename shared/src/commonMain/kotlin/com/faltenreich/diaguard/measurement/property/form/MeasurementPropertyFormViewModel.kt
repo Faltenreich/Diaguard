@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.measurement.type.form.UpdateMeasurementTypeUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
@@ -16,10 +17,9 @@ import kotlinx.coroutines.launch
 class MeasurementPropertyFormViewModel(
     property: MeasurementProperty,
     getMeasurementTypesUseCase: GetMeasurementTypesUseCase = inject(),
-    setMeasurementPropertyName: SetMeasurementPropertyNameUseCase = inject(),
-    setMeasurementPropertyIcon: SetMeasurementPropertyIconUseCase = inject(),
-    private val setMeasurementTypeSortIndex: SetMeasurementTypeSortIndexUseCase = inject(),
+    updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementType: CreateMeasurementTypeUseCase = inject(),
+    private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementProperty: DeleteMeasurementPropertyUseCase = inject(),
 ) : ViewModel() {
 
@@ -47,11 +47,11 @@ class MeasurementPropertyFormViewModel(
         // FIXME: Setting both at the same time cancels the first collector
         viewModelScope.launch {
             name.debounce(DateTimeConstants.INPUT_DEBOUNCE)
-                .collectLatest { name -> setMeasurementPropertyName(property, name = name) }
+                .collectLatest { name -> updateMeasurementProperty(property.copy(name = name)) }
         }
         viewModelScope.launch {
             icon.debounce(DateTimeConstants.INPUT_DEBOUNCE)
-                .collectLatest { icon -> setMeasurementPropertyIcon(property, icon = icon) }
+                .collectLatest { icon -> updateMeasurementProperty(property.copy(icon = icon)) }
         }
     }
 
@@ -69,10 +69,8 @@ class MeasurementPropertyFormViewModel(
         first: MeasurementType,
         second: MeasurementType,
     ) {
-        val firstSortIndex = first.sortIndex
-        val secondSortIndex = second.sortIndex
-        setMeasurementTypeSortIndex(first, sortIndex = secondSortIndex)
-        setMeasurementTypeSortIndex(second, sortIndex = firstSortIndex)
+        updateMeasurementType(first.copy(sortIndex = second.sortIndex))
+        updateMeasurementType(second.copy(sortIndex = first.sortIndex))
     }
 
     fun showFormDialog() {

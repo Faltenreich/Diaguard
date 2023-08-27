@@ -18,4 +18,7 @@ data class MeasurementTypeUnit(
 
     lateinit var type: MeasurementType
     lateinit var unit: MeasurementUnit
+
+    val isSelected: Boolean
+        get() = type.selectedTypeUnitId == id
 }

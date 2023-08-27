@@ -6,20 +6,16 @@ import com.faltenreich.diaguard.measurement.property.form.CreateMeasurementTypeU
 import com.faltenreich.diaguard.measurement.property.form.DeleteMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.GetMeasurementTypesUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
-import com.faltenreich.diaguard.measurement.property.form.SetMeasurementPropertyIconUseCase
-import com.faltenreich.diaguard.measurement.property.form.SetMeasurementPropertyNameUseCase
-import com.faltenreich.diaguard.measurement.property.form.SetMeasurementTypeSortIndexUseCase
+import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.list.CreateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.list.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
-import com.faltenreich.diaguard.measurement.property.list.SetMeasurementPropertySortIndexUseCase
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.type.form.DeleteMeasurementTypeUseCase
 import com.faltenreich.diaguard.measurement.type.form.GetMeasurementTypeUnitsUseCase
 import com.faltenreich.diaguard.measurement.type.form.GetMeasurementTypeUseCase
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewModel
-import com.faltenreich.diaguard.measurement.type.form.SetMeasurementTypeNameUseCase
-import com.faltenreich.diaguard.measurement.type.form.SetSelectedMeasurementTypeUnitUseCase
+import com.faltenreich.diaguard.measurement.type.form.UpdateMeasurementTypeUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnitRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
@@ -37,22 +33,19 @@ fun measurementModule() = module {
     singleOf(::MeasurementValueRepository)
 
     singleOf(::GetMeasurementPropertiesUseCase)
-    singleOf(::SetMeasurementPropertySortIndexUseCase)
     singleOf(::CreateMeasurementPropertyUseCase)
     singleOf(::DeleteMeasurementPropertyUseCase)
     singleOf(::MeasurementPropertyListViewModel)
 
     singleOf(::GetMeasurementTypesUseCase)
-    singleOf(::SetMeasurementPropertyNameUseCase)
-    singleOf(::SetMeasurementPropertyIconUseCase)
-    singleOf(::SetMeasurementTypeSortIndexUseCase)
+    singleOf(::UpdateMeasurementPropertyUseCase)
     singleOf(::CreateMeasurementTypeUseCase)
     factory { (property: MeasurementProperty) -> MeasurementPropertyFormViewModel(property) }
 
     singleOf(::GetMeasurementTypeUseCase)
     singleOf(::GetMeasurementTypeUnitsUseCase)
-    singleOf(::SetMeasurementTypeNameUseCase)
-    singleOf(::SetSelectedMeasurementTypeUnitUseCase)
+
+    singleOf(::UpdateMeasurementTypeUseCase)
     singleOf(::DeleteMeasurementTypeUseCase)
     factory { (measurementTypeId: Long) -> MeasurementTypeFormViewModel(measurementTypeId) }
 }

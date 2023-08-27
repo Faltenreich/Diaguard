@@ -45,7 +45,7 @@ fun MeasurementTypeForm(
                         typeUnit = typeUnit,
                         modifier = Modifier
                             .animateItemPlacement()
-                            .clickable { viewModel.selectTypeUnit(typeUnit) },
+                            .clickable { viewModel.setSelectedTypeUnit(typeUnit) },
                     )
                 }
             }

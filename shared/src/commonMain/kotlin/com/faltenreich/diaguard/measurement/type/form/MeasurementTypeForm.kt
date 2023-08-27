@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -13,6 +12,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.FormRowLabel
 import com.faltenreich.diaguard.shared.view.TextInput
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -31,7 +31,7 @@ fun MeasurementTypeForm(
             modifier = Modifier.fillMaxWidth().padding(all = AppTheme.dimensions.padding.P_3),
         )
 
-        Divider()
+        FormRowLabel(stringResource(MR.strings.measurement_units))
 
         when (state) {
             is MeasurementTypeFormViewState.Loading -> Unit

@@ -3,17 +3,12 @@ package com.faltenreich.diaguard.measurement.property.form
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -21,6 +16,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.FormRowLabel
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.TextInputDialog
 import dev.icerock.moko.resources.compose.stringResource
@@ -52,17 +48,7 @@ fun MeasurementPropertyForm(
             )
         }
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Divider(modifier = Modifier.width(AppTheme.dimensions.padding.P_3_5))
-            Text(
-                text = stringResource(MR.strings.measurement_types),
-                style = AppTheme.typography.bodySmall,
-            )
-            Divider(modifier = Modifier.weight(1f))
-        }
+        FormRowLabel(stringResource(MR.strings.measurement_types))
 
         when (state) {
             is MeasurementPropertyFormViewState.Loading -> Unit

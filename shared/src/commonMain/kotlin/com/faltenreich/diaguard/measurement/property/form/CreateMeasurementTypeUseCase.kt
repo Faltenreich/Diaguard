@@ -15,7 +15,6 @@ class CreateMeasurementTypeUseCase(
         measurementTypeRepository.create(
             name = name,
             sortIndex = sortIndex,
-            selectedUnitId = null,
             propertyId = propertyId,
         )
     }

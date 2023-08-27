@@ -17,7 +17,7 @@ class SetSelectedMeasurementTypeUnitUseCase(
             id = type.id,
             name = type.name,
             sortIndex = type.sortIndex,
-            selectedUnitId = typeUnit.unitId,
+            selectedTypeUnitId = typeUnit.id,
         )
     }
 }

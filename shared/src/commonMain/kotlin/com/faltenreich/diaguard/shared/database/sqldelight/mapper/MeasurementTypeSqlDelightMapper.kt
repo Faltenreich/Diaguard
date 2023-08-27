@@ -20,7 +20,7 @@ class MeasurementTypeSqlDelightMapper {
             updatedAt = DateTime(isoString = updatedAt),
             name = name,
             sortIndex = sortIndex,
-            selectedUnitId = selectedUnitId,
+            selectedTypeUnitId = selectedUnitId,
             propertyId = propertyId,
         )
     }

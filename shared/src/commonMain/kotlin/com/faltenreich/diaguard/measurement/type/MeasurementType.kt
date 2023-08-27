@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.type
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
@@ -16,11 +16,11 @@ data class MeasurementType(
     override val updatedAt: DateTime,
     val name: String,
     val sortIndex: Long,
-    val selectedUnitId: Long?,
+    val selectedTypeUnitId: Long?,
     val propertyId: Long,
 ) : DatabaseEntity {
 
     lateinit var property: MeasurementProperty
-    lateinit var units: List<MeasurementUnit>
-    var selectedUnit: MeasurementUnit? = null
+    lateinit var typeUnits: List<MeasurementTypeUnit>
+    var selectedTypeUnit: MeasurementTypeUnit? = null
 }

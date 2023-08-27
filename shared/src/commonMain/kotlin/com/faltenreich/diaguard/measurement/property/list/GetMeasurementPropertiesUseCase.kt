@@ -29,11 +29,14 @@ class GetMeasurementPropertiesUseCase(
                         when (type.propertyId) {
                             property.id -> {
                                 type.property = property
-                                type.units = units.filter { unit ->
-                                    typeUnits.any { typeUnit -> typeUnit.typeId == type.id && typeUnit.unitId == unit.id }
-                                }
-                                // TODO: Get information, e.g. from SharedPreference
-                                type.selectedUnit = type.units.firstOrNull()
+                                type.typeUnits = typeUnits
+                                    .filter { typeUnit -> typeUnit.typeId == type.id }
+                                    .map { typeUnit ->
+                                        typeUnit.type = type
+                                        typeUnit.unit = units.first { unit -> unit.id == typeUnit.unitId }
+                                        typeUnit
+                                    }
+                                type.selectedTypeUnit = typeUnits.firstOrNull { typeUnit -> typeUnit.id == type.selectedTypeUnitId }
                                 true
                             }
                             else -> false

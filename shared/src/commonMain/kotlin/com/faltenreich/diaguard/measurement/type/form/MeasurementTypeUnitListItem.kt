@@ -29,7 +29,7 @@ fun MeasurementTypeUnitListItem(
                     style = AppTheme.typography.bodySmall,
                 )
             }
-            if (typeUnit.type.selectedUnitId == typeUnit.unitId) {
+            if (typeUnit.type.selectedTypeUnitId == typeUnit.unitId) {
                 Icon(
                     imageVector = Icons.Filled.Check,
                     contentDescription = stringResource(MR.strings.measurement_type_unit_selected_description),

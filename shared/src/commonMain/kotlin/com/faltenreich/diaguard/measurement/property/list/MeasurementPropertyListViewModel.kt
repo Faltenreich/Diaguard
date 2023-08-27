@@ -28,7 +28,8 @@ class MeasurementPropertyListViewModel(
         initialValue = MeasurementPropertyListViewState.Loading(showFormDialog = false),
     )
 
-    private val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems
+    private val properties: List<MeasurementProperty>?
+        get() = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems
 
     fun decrementSortIndex(property: MeasurementProperty) {
         val properties = properties ?: return

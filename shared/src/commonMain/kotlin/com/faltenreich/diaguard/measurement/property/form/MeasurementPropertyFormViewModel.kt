@@ -40,7 +40,8 @@ class MeasurementPropertyFormViewModel(
         initialValue = MeasurementPropertyFormViewState.Loading(property, showFormDialog = false),
     )
 
-    val types = (viewState.value as? MeasurementPropertyFormViewState.Loaded)?.types
+    val types: List<MeasurementType>?
+        get() = (viewState.value as? MeasurementPropertyFormViewState.Loaded)?.types
 
     init {
         // FIXME: Setting both at the same time cancels the first collector

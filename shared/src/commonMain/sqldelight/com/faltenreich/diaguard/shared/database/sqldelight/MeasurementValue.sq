@@ -26,6 +26,13 @@ WHERE measurementType.property_id == :propertyId
 ORDER BY entry.date_time DESC
 LIMIT 1;
 
+countByProperty:
+SELECT COUNT(*) FROM measurementValue
+INNER JOIN measurementType ON measurementType.id == type_id
+INNER JOIN measurementProperty ON measurementProperty.id == measurementType.property_id
+INNER JOIN entry ON entry.id == entry_id
+WHERE measurementType.property_id == :propertyId;
+
 update:
 UPDATE measurementValue SET updated_at = ?, value = ? WHERE id = ?;
 

@@ -14,6 +14,6 @@ sealed class MeasurementPropertyFormViewState(val property: MeasurementProperty)
         val showFormDialog: Boolean,
         val showDeletionDialog: Boolean,
         val types: List<MeasurementType>,
-        val measurementCount: Int = 0, // TODO
+        val measurementCount: Long,
     ) : MeasurementPropertyFormViewState(property)
 }

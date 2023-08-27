@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 class MeasurementPropertyFormViewModel(
     property: MeasurementProperty,
     getMeasurementTypesUseCase: GetMeasurementTypesUseCase = inject(),
+    countMeasurementValuesOfProperty: CountMeasurementValuesOfPropertyUseCase = inject(),
     updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementType: CreateMeasurementTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
@@ -33,12 +34,14 @@ class MeasurementPropertyFormViewModel(
         showFormDialog,
         showDeletionDialog,
         getMeasurementTypesUseCase(property),
-    ) { showFormDialog, showDeletionDialog, types ->
+        countMeasurementValuesOfProperty(property),
+    ) { showFormDialog, showDeletionDialog, types, measurementCount ->
         MeasurementPropertyFormViewState.Loaded(
             property = property,
             showFormDialog = showFormDialog,
             showDeletionDialog = showDeletionDialog,
             types = types,
+            measurementCount = measurementCount,
         )
     }
     val viewState = state.stateIn(
@@ -91,7 +94,7 @@ class MeasurementPropertyFormViewModel(
     fun createType(name: String, types: List<MeasurementType>) {
         createMeasurementType(
             name = name,
-            sortIndex = types.maxOf(MeasurementType::sortIndex) + 1,
+            sortIndex = types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
             propertyId = viewState.value.property.id,
         )
     }

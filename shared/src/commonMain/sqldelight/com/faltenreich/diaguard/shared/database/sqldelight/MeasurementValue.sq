@@ -33,6 +33,10 @@ INNER JOIN measurementProperty ON measurementProperty.id == measurementType.prop
 INNER JOIN entry ON entry.id == entry_id
 WHERE measurementType.property_id == :propertyId;
 
+countByType:
+SELECT COUNT(*) FROM measurementValue
+WHERE type_id == :typeId;
+
 update:
 UPDATE measurementValue SET updated_at = ?, value = ? WHERE id = ?;
 

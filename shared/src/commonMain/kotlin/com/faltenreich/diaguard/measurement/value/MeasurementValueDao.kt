@@ -22,6 +22,8 @@ interface MeasurementValueDao {
 
     fun observeCountByPropertyId(propertyId: Long): Flow<Long>
 
+    fun observeCountByTypeId(typeId: Long): Flow<Long>
+
     fun update(
         id: Long,
         updatedAt: DateTime,

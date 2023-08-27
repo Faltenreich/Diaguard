@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.type.form
 
+import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
@@ -19,22 +20,25 @@ class MeasurementTypeFormViewModel(
     measurementTypeId: Long,
     getMeasurementTypeUseCase: GetMeasurementTypeUseCase = inject(),
     getMeasurementTypeUnits: GetMeasurementTypeUnitsUseCase = inject(),
+    countMeasurementValuesOfType: CountMeasurementValuesOfTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
 ) : ViewModel() {
 
     var name = MutableStateFlow("")
 
+    private val showDeletionDialog = MutableStateFlow(false)
+
     private val type = getMeasurementTypeUseCase(measurementTypeId)
 
+    // TODO: Merge showDeletionDialog and countMeasurementValuesOfType into
     private val state = type.flatMapLatest { type ->
         when (type) {
             null -> flowOf(MeasurementTypeFormViewState.Error)
             else -> getMeasurementTypeUnits(type).map { typeUnits ->
-                MeasurementTypeFormViewState.Loaded(type, typeUnits)
+                MeasurementTypeFormViewState.Loaded(type, typeUnits, showDeletionDialog = false, measurementCount = 0)
             }
         }
-
     }
     val viewState = state.stateIn(
         scope = viewModelScope,
@@ -62,7 +66,15 @@ class MeasurementTypeFormViewModel(
         updateMeasurementType(type.copy(selectedTypeUnitId = typeUnit.id))
     }
 
-    fun deleteType(measurementTypeId: Long) {
-        deleteMeasurementType(measurementTypeId)
+    fun deleteTypeIfConfirmed() {
+        showDeletionDialog.value = true
+    }
+
+    fun hideDeletionDialog() {
+        showDeletionDialog.value = false
+    }
+
+    fun deleteType(type: MeasurementType) {
+        deleteMeasurementType(type.id)
     }
 }

@@ -10,6 +10,8 @@ sealed class MeasurementTypeFormViewState {
     data class Loaded(
         val type: MeasurementType,
         val typeUnits: List<MeasurementTypeUnit>,
+        val showDeletionDialog: Boolean,
+        val measurementCount: Long,
     ) : MeasurementTypeFormViewState()
 
     data object Error : MeasurementTypeFormViewState()

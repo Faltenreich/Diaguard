@@ -37,6 +37,7 @@
     <string name="measurement_property_new">New category</string>
     <string name="measurement_type">Type</string>
     <string name="measurement_type_delete">Delete type</string>
+    <string name="measurement_type_delete_description">This will irrevocably delete this type and all of its %d associated measurements</string>
     <string name="measurement_type_new">New type</string>
     <string name="measurement_type_unit_selected_description">Selected unit</string>
     <string name="measurement_types">Types</string>

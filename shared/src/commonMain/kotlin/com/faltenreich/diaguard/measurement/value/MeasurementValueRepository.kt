@@ -45,6 +45,10 @@ class MeasurementValueRepository(
         return dao.observeCountByPropertyId(propertyId)
     }
 
+    fun observeCountByTypeId(typeId: Long): Flow<Long> {
+        return dao.observeCountByTypeId(typeId)
+    }
+
     fun update(
         id: Long,
         value: Double,

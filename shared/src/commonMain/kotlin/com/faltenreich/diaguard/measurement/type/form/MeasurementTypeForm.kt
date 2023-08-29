@@ -1,11 +1,8 @@
 package com.faltenreich.diaguard.measurement.type.form
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -15,7 +12,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
+import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnitList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Dialog
 import com.faltenreich.diaguard.shared.view.FormRowLabel
@@ -44,19 +41,10 @@ fun MeasurementTypeForm(
 
                 FormRowLabel(stringResource(MR.strings.measurement_units))
 
-                LazyColumn {
-                    items(
-                        items = state.typeUnits,
-                        key = MeasurementTypeUnit::id,
-                    ) { typeUnit ->
-                        MeasurementTypeUnitListItem(
-                            typeUnit = typeUnit,
-                            modifier = Modifier
-                                .animateItemPlacement()
-                                .clickable { viewModel.setSelectedTypeUnit(typeUnit) },
-                        )
-                    }
-                }
+                MeasurementTypeUnitList(
+                    typeUnits = state.typeUnits,
+                    onItemClick = viewModel::setSelectedTypeUnit,
+                )
             }
 
             if (state.showDeletionDialog) {

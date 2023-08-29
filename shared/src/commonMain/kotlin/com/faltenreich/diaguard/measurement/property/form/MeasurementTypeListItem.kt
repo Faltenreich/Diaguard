@@ -24,10 +24,12 @@ fun MeasurementTypeListItem(
         FormRow(icon = { /* TODO */ }) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(type.name)
-                Text(
-                    text = type.selectedTypeUnit?.unit?.name ?: "",
-                    style = AppTheme.typography.bodySmall,
-                )
+                type.selectedTypeUnit?.unit?.let { unit ->
+                    Text(
+                        text = unit.name,
+                        style = AppTheme.typography.bodySmall,
+                    )
+                }
             }
             IconButton(
                 onClick = { onArrowUp?.invoke(type) },

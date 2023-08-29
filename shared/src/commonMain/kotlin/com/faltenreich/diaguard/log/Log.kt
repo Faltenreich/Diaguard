@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
@@ -18,9 +20,7 @@ import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
-import com.faltenreich.diaguard.shared.view.SwipeToDismiss
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
-import com.faltenreich.diaguard.shared.view.rememberSwipeToDismissState
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
@@ -61,24 +61,18 @@ fun Log(
                 }
                 is LogItem.EntryContent -> item(key = peek.key) {
                     val item = items.get(index) as? LogItem.EntryContent ?: throw IllegalStateException()
-                    val swipeToDismissState = rememberSwipeToDismissState()
                     // TODO: Animate item replacement
-                    if (swipeToDismissState.isDismissed()) {
-                        viewModel.remove(item)
-                    }
+                    val swipeToDismissState = rememberDismissState(
+                        confirmValueChange = {
+                            viewModel.remove(item)
+                            true
+                        }
+                    )
                     SwipeToDismiss(
                         state = swipeToDismissState,
-                        background = {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                            )
-                        },
-                    ) {
-                        LogEntry(
-                            entry = item.entry,
-                        )
-                    }
+                        background = { Box(modifier = Modifier.fillMaxSize()) },
+                        dismissContent = { LogEntry(entry = item.entry) },
+                    )
                 }
                 is LogItem.EmptyContent -> item(key = peek.key) {
                     val item = items.get(index) ?: throw IllegalStateException()

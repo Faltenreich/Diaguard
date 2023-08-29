@@ -23,5 +23,5 @@ data class MeasurementType(
     lateinit var units: List<MeasurementUnit>
 
     val selectedUnit: MeasurementUnit?
-        get() = units.firstOrNull()
+        get() = units.minByOrNull(MeasurementUnit::sortIndex)
 }

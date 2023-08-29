@@ -13,6 +13,7 @@ data class MeasurementUnit(
     override val updatedAt: DateTime,
     val name: String,
     val factor: Double,
+    val sortIndex: Long,
     val typeId: Long,
 ) : DatabaseEntity {
 

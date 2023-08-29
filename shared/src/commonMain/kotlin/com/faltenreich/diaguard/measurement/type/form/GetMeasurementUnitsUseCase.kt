@@ -14,7 +14,7 @@ class GetMeasurementUnitsUseCase(
     operator fun invoke(type: MeasurementType): Flow<List<MeasurementUnit>> {
         return measurementUnitRepository.getByTypeId(type.id).map { units ->
             units.map { unit ->
-                unit.type = type
+                unit.type = type.apply { this.units = units }
                 unit
             }
         }

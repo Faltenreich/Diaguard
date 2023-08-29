@@ -26,6 +26,7 @@ class GetMeasurementTypesUseCase(
                         unit.type = type
                         unit
                     }
+                type.selectedUnit = units.firstOrNull { unit -> unit.id == type.selectedUnitId }
                 type
             }
         }

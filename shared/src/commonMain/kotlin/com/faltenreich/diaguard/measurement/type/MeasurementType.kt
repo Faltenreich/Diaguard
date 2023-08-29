@@ -16,12 +16,11 @@ data class MeasurementType(
     override val updatedAt: DateTime,
     val name: String,
     val sortIndex: Long,
+    val selectedUnitId: Long?,
     val propertyId: Long,
 ) : DatabaseEntity {
 
     lateinit var property: MeasurementProperty
     lateinit var units: List<MeasurementUnit>
-
-    val selectedUnit: MeasurementUnit?
-        get() = units.firstOrNull()
+    var selectedUnit: MeasurementUnit? = null
 }

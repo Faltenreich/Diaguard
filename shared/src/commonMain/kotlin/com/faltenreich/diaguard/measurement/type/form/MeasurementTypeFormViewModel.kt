@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.type.form
 
 import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
@@ -58,6 +59,11 @@ class MeasurementTypeFormViewModel(
                 }
             }
         }
+    }
+
+    fun setSelectedUnit(unit: MeasurementUnit) {
+        val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: return
+        updateMeasurementType(type.copy(selectedUnitId = unit.id))
     }
 
     fun deleteTypeIfConfirmed() {

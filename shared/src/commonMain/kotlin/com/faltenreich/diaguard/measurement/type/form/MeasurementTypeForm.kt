@@ -43,7 +43,6 @@ fun MeasurementTypeForm(
 
                 MeasurementUnitList(
                     units = state.units,
-                    onItemClick = viewModel::setSelectedUnit,
                 )
             }
 

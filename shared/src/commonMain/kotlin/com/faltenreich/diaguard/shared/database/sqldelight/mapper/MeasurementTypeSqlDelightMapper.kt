@@ -11,7 +11,6 @@ class MeasurementTypeSqlDelightMapper {
         updatedAt: String,
         name: String,
         sortIndex: Long,
-        selectedUnitId: Long?,
         propertyId: Long,
     ): MeasurementType {
         return MeasurementType(
@@ -20,7 +19,6 @@ class MeasurementTypeSqlDelightMapper {
             updatedAt = DateTime(isoString = updatedAt),
             name = name,
             sortIndex = sortIndex,
-            selectedUnitId = selectedUnitId,
             propertyId = propertyId,
         )
     }

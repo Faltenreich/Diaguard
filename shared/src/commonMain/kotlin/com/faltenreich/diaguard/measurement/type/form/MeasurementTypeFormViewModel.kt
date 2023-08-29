@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.type.form
 
 import com.faltenreich.diaguard.measurement.type.MeasurementType
-import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnit
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class MeasurementTypeFormViewModel(
     measurementTypeId: Long,
     getMeasurementTypeUseCase: GetMeasurementTypeUseCase = inject(),
-    getMeasurementTypeUnits: GetMeasurementTypeUnitsUseCase = inject(),
+    getMeasurementUnits: GetMeasurementUnitsUseCase = inject(),
     countMeasurementValuesOfType: CountMeasurementValuesOfTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
@@ -35,8 +35,8 @@ class MeasurementTypeFormViewModel(
     private val state = type.flatMapLatest { type ->
         when (type) {
             null -> flowOf(MeasurementTypeFormViewState.Error)
-            else -> getMeasurementTypeUnits(type).map { typeUnits ->
-                MeasurementTypeFormViewState.Loaded(type, typeUnits, showDeletionDialog = false, measurementCount = 0)
+            else -> getMeasurementUnits(type).map { units ->
+                MeasurementTypeFormViewState.Loaded(type, units, showDeletionDialog = false, measurementCount = 0)
             }
         }
     }
@@ -61,9 +61,9 @@ class MeasurementTypeFormViewModel(
         }
     }
 
-    fun setSelectedTypeUnit(typeUnit: MeasurementTypeUnit) {
+    fun setSelectedUnit(unit: MeasurementUnit) {
         val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: return
-        updateMeasurementType(type.copy(selectedTypeUnitId = typeUnit.id))
+        updateMeasurementType(type.copy(selectedUnitId = unit.id))
     }
 
     fun deleteTypeIfConfirmed() {

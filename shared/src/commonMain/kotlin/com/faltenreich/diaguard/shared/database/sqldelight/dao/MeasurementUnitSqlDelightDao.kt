@@ -25,11 +25,15 @@ class MeasurementUnitSqlDelightDao(
     override fun create(
         createdAt: DateTime,
         name: String,
+        factor: Double,
+        typeId: Long,
     ) {
         queries.create(
             created_at = createdAt.isoString,
             updated_at = createdAt.isoString,
             name = name,
+            factor = factor,
+            type_id = typeId,
         )
     }
 
@@ -41,6 +45,10 @@ class MeasurementUnitSqlDelightDao(
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
+    override fun getByTypeId(typeId: Long): Flow<List<MeasurementUnit>> {
+        return queries.getByType(typeId, mapper::map).asFlow().mapToList(dispatcher)
+    }
+
     override fun observeAll(): Flow<List<MeasurementUnit>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
@@ -49,6 +57,7 @@ class MeasurementUnitSqlDelightDao(
         id: Long,
         updatedAt: DateTime,
         name: String,
+        factor: Double,
     ) {
         queries.update(
             updated_at = updatedAt.isoString,

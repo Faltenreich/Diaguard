@@ -5,24 +5,23 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeUnitListItem
 
 @Composable
-fun MeasurementTypeUnitList(
-    typeUnits: List<MeasurementTypeUnit>,
-    onItemClick: (MeasurementTypeUnit) -> Unit,
+fun MeasurementUnitList(
+    units: List<MeasurementUnit>,
+    onItemClick: (MeasurementUnit) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
         items(
-            items = typeUnits,
-            key = MeasurementTypeUnit::id,
-        ) { typeUnit ->
-            MeasurementTypeUnitListItem(
-                typeUnit = typeUnit,
+            items = units,
+            key = MeasurementUnit::id,
+        ) { unit ->
+            MeasurementUnitListItem(
+                unit = unit,
                 modifier = Modifier
                     .animateItemPlacement()
-                    .clickable { onItemClick(typeUnit) },
+                    .clickable { onItemClick(unit) },
             )
         }
     }

@@ -9,16 +9,24 @@ class MeasurementUnitRepository(
 
     fun create(
         name: String,
+        factor: Double,
+        typeId: Long,
     ): Long {
         dao.create(
             createdAt = DateTime.now(),
             name = name,
+            factor = factor,
+            typeId = typeId,
         )
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
     fun getById(id: Long): Flow<MeasurementUnit?> {
         return dao.getById(id)
+    }
+
+    fun getByTypeId(typeId: Long): Flow<List<MeasurementUnit>> {
+        return dao.getByTypeId(typeId)
     }
 
     fun observeAll(): Flow<List<MeasurementUnit>> {
@@ -29,11 +37,13 @@ class MeasurementUnitRepository(
         id: Long,
         updatedAt: DateTime,
         name: String,
+        factor: Double,
     ) {
         dao.update(
             id = id,
             updatedAt = updatedAt,
             name = name,
+            factor = factor,
         )
     }
 
@@ -42,6 +52,7 @@ class MeasurementUnitRepository(
             id = id,
             updatedAt = updatedAt,
             name = name,
+            factor = factor,
         )
     }
 

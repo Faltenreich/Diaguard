@@ -8,11 +8,15 @@ interface MeasurementUnitDao {
     fun create(
         createdAt: DateTime,
         name: String,
+        factor: Double,
+        typeId: Long,
     )
 
     fun getLastId(): Long?
 
     fun getById(id: Long): Flow<MeasurementUnit?>
+
+    fun getByTypeId(typeId: Long): Flow<List<MeasurementUnit>>
 
     fun observeAll(): Flow<List<MeasurementUnit>>
 
@@ -20,6 +24,7 @@ interface MeasurementUnitDao {
         id: Long,
         updatedAt: DateTime,
         name: String,
+        factor: Double,
     )
 
     fun deleteById(id: Long)

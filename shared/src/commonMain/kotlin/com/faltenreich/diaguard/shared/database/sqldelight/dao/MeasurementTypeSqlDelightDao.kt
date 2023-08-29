@@ -67,13 +67,13 @@ class MeasurementTypeSqlDelightDao(
         updatedAt: DateTime,
         name: String,
         sortIndex: Long,
-        selectedTypeUnitId: Long?,
+        selectedUnitId: Long?,
     ) {
         queries.update(
             updated_at = updatedAt.isoString,
             name = name,
             sort_index = sortIndex,
-            selected_type_unit_id = selectedTypeUnitId,
+            selected_type_unit_id = selectedUnitId,
             id = id,
         )
     }

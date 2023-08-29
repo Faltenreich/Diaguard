@@ -24,7 +24,7 @@ fun MeasurementTypeListItem(
         FormRow(icon = { /* TODO */ }) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(type.name)
-                type.selectedTypeUnit?.unit?.let { unit ->
+                type.selectedUnit?.let { unit ->
                     Text(
                         text = unit.name,
                         style = AppTheme.typography.bodySmall,

@@ -12,7 +12,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.measurement.unit.MeasurementTypeUnitList
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnitList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Dialog
 import com.faltenreich.diaguard.shared.view.FormRowLabel
@@ -41,9 +41,9 @@ fun MeasurementTypeForm(
 
                 FormRowLabel(stringResource(MR.strings.measurement_units))
 
-                MeasurementTypeUnitList(
-                    typeUnits = state.typeUnits,
-                    onItemClick = viewModel::setSelectedTypeUnit,
+                MeasurementUnitList(
+                    units = state.units,
+                    onItemClick = viewModel::setSelectedUnit,
                 )
             }
 

@@ -29,7 +29,7 @@ interface MeasurementTypeDao {
         updatedAt: DateTime,
         name: String,
         sortIndex: Long,
-        selectedTypeUnitId: Long?,
+        selectedUnitId: Long?,
     )
 
     fun deleteById(id: Long)

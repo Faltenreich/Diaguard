@@ -48,7 +48,7 @@ class MeasurementPropertySqlDelightDao(
         name: String,
         icon: String?,
         sortIndex: Long,
-        isCustom: Boolean,
+        isUserGenerated: Boolean,
     ) {
         queries.create(
             created_at = createdAt.isoString,
@@ -56,7 +56,7 @@ class MeasurementPropertySqlDelightDao(
             name = name,
             icon = icon,
             sort_index = sortIndex,
-            is_custom = isCustom.toSqlLiteLong(),
+            is_user_generated = isUserGenerated.toSqlLiteLong(),
         )
     }
 

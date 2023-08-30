@@ -64,7 +64,7 @@ class MeasurementPropertyListViewModel(
             name = name,
             icon = null,
             sortIndex = properties.maxOf(MeasurementProperty::sortIndex) + 1,
-            isCustom = true,
+            isUserGenerated = true,
         )
     }
 }

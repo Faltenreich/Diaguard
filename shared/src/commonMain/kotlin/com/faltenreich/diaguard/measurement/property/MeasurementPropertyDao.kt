@@ -10,7 +10,7 @@ interface MeasurementPropertyDao {
         name: String,
         icon: String?,
         sortIndex: Long,
-        isCustom: Boolean,
+        isUserGenerated: Boolean,
     )
 
     fun getLastId(): Long?

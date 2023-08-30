@@ -13,7 +13,7 @@ class MeasurementPropertySqlDelightMapper {
         name: String,
         icon: String?,
         sortIndex: Long,
-        isCustom: Long,
+        isUserGenerated: Long,
     ): MeasurementProperty {
         return MeasurementProperty(
             id = id,
@@ -22,7 +22,7 @@ class MeasurementPropertySqlDelightMapper {
             name = name,
             icon = icon,
             sortIndex = sortIndex,
-            isCustom = isCustom.toSqlLiteBoolean(),
+            isUserGenerated = isUserGenerated.toSqlLiteBoolean(),
         )
     }
 }

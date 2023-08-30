@@ -39,7 +39,7 @@ fun MeasurementTypeForm(
                         .fillMaxWidth()
                         .padding(all = AppTheme.dimensions.padding.P_3),
                 )
-                if (state.type.property.isCustom) {
+                if (state.type.property.isUserGenerated) {
                     TextInput(
                         input = viewModel.unit.collectAsState().value,
                         onInputChange = { input -> viewModel.unit.value = input },

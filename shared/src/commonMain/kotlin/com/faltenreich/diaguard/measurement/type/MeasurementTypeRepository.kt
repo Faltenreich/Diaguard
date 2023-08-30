@@ -51,12 +51,14 @@ class MeasurementTypeRepository(
         id: Long,
         name: String,
         sortIndex: Long,
+        selectedUnitId: Long?,
     ) {
         dao.update(
             id = id,
             updatedAt = DateTime.now(),
             name = name,
             sortIndex = sortIndex,
+            selectedUnitId = selectedUnitId,
         )
     }
 
@@ -65,6 +67,7 @@ class MeasurementTypeRepository(
             id = type.id,
             name = type.name,
             sortIndex = type.sortIndex,
+            selectedUnitId = type.selectedUnitId,
         )
     }
 

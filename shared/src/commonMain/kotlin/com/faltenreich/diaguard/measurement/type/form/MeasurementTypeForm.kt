@@ -50,7 +50,10 @@ fun MeasurementTypeForm(
                     )
                 } else {
                     FormRowLabel(stringResource(MR.strings.measurement_units))
-                    MeasurementUnitList(units = state.type.units)
+                    MeasurementUnitList(
+                        units = state.type.units,
+                        onItemClick = viewModel::setSelectedUnit,
+                    )
                 }
             }
 

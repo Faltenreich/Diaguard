@@ -13,7 +13,6 @@ data class MeasurementUnit(
     override val updatedAt: DateTime,
     val name: String,
     val factor: Double,
-    val sortIndex: Long,
     val typeId: Long,
 ) : DatabaseEntity {
 
@@ -23,5 +22,5 @@ data class MeasurementUnit(
         get() = factor == 1.0
 
     val isSelected: Boolean
-        get() = type.selectedUnit?.id == id
+        get() = type.selectedUnitId == id
 }

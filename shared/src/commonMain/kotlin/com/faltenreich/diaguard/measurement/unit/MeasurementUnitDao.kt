@@ -9,7 +9,6 @@ interface MeasurementUnitDao {
         createdAt: DateTime,
         name: String,
         factor: Double,
-        sortIndex: Long,
         typeId: Long,
     )
 
@@ -26,7 +25,6 @@ interface MeasurementUnitDao {
         updatedAt: DateTime,
         name: String,
         factor: Double,
-        sortIndex: Long,
     )
 
     fun deleteById(id: Long)

@@ -40,6 +40,7 @@ class MeasurementValueSqlDelightMapper(
         typeUpdatedAt: String,
         typeName: String,
         typeSortIndex: Long,
+        typeSelectedUnitId: Long?,
         typePropertyId: Long,
         propertyId: Long,
         propertyCreatedAt: String,
@@ -68,6 +69,7 @@ class MeasurementValueSqlDelightMapper(
                 updatedAt = typeUpdatedAt,
                 name = typeName,
                 sortIndex = typeSortIndex,
+                selectedUnitId = typeSelectedUnitId,
                 propertyId = typePropertyId,
             ).apply {
                 property = propertyMapper.map(

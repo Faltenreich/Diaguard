@@ -42,6 +42,7 @@
     <string name="measurement_types">Types</string>
     <string name="measurement_unit">Unit</string>
     <string name="measurement_unit_factor_description">equals %s %s</string>
+    <string name="measurement_unit_selected_description">Selected unit</string>
     <string name="measurement_units">Units</string>
     <string name="menu_open">Open menu</string>
     <string name="minutes">Minutes</string>

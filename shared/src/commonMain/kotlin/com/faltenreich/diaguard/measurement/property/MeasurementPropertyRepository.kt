@@ -11,12 +11,14 @@ class MeasurementPropertyRepository(
         name: String,
         icon: String? = null,
         sortIndex: Long,
+        isCustom: Boolean,
     ): Long {
         dao.create(
             createdAt = DateTime.now(),
             name = name,
             icon = icon,
             sortIndex = sortIndex,
+            isCustom = isCustom,
         )
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }

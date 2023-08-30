@@ -24,7 +24,4 @@ data class MeasurementType(
 
     val selectedUnit: MeasurementUnit?
         get() = units.minByOrNull(MeasurementUnit::sortIndex)
-
-    val isCustom: Boolean
-        get() = false
 }

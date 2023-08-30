@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.type.form
 
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 class GetMeasurementTypeUseCase(
+    private val measurementPropertyRepository: MeasurementPropertyRepository = inject(),
     private val measurementTypeRepository: MeasurementTypeRepository = inject(),
     private val measurementUnitRepository: MeasurementUnitRepository = inject(),
 ) {
@@ -18,6 +20,8 @@ class GetMeasurementTypeUseCase(
             measurementUnitRepository.getByTypeId(measurementTypeId),
         ) { type, units ->
             type?.apply {
+                this.property = measurementPropertyRepository.getById(propertyId)
+                    ?: throw IllegalStateException("Missing property for id $propertyId")
                 this.units = units.onEach { unit ->
                     unit.type = type
                 }

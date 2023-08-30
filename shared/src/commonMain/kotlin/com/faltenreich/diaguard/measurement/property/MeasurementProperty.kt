@@ -14,6 +14,7 @@ data class MeasurementProperty(
     val name: String,
     val icon: String?,
     val sortIndex: Long,
+    val isCustom: Boolean,
 ) : DatabaseEntity {
 
     lateinit var types: List<MeasurementType>

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
 class MeasurementPropertySqlDelightMapper {
@@ -12,6 +13,7 @@ class MeasurementPropertySqlDelightMapper {
         name: String,
         icon: String?,
         sortIndex: Long,
+        isCustom: Long,
     ): MeasurementProperty {
         return MeasurementProperty(
             id = id,
@@ -20,6 +22,7 @@ class MeasurementPropertySqlDelightMapper {
             name = name,
             icon = icon,
             sortIndex = sortIndex,
+            isCustom = isCustom.toSqlLiteBoolean(),
         )
     }
 }

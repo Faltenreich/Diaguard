@@ -11,11 +11,13 @@ class CreateMeasurementPropertyUseCase(
         name: String,
         icon: String?,
         sortIndex: Long,
+        isCustom: Boolean,
     ) {
         measurementPropertyRepository.create(
             name = name,
             icon = icon,
             sortIndex = sortIndex,
+            isCustom = isCustom,
         )
     }
 }

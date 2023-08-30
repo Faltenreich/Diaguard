@@ -9,8 +9,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -18,25 +16,23 @@ import kotlinx.coroutines.launch
 class MeasurementTypeFormViewModel(
     measurementTypeId: Long,
     getMeasurementTypeUseCase: GetMeasurementTypeUseCase = inject(),
-    getMeasurementUnits: GetMeasurementUnitsUseCase = inject(),
     countMeasurementValuesOfType: CountMeasurementValuesOfTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
 ) : ViewModel() {
 
     var name = MutableStateFlow("")
+    var unit = MutableStateFlow("")
 
     private val showDeletionDialog = MutableStateFlow(false)
 
     private val type = getMeasurementTypeUseCase(measurementTypeId)
 
     // TODO: Merge showDeletionDialog and countMeasurementValuesOfType into
-    private val state = type.flatMapLatest { type ->
+    private val state = type.map { type ->
         when (type) {
-            null -> flowOf(MeasurementTypeFormViewState.Error)
-            else -> getMeasurementUnits(type).map { units ->
-                MeasurementTypeFormViewState.Loaded(type, units, showDeletionDialog = false, measurementCount = 0)
-            }
+            null -> MeasurementTypeFormViewState.Error
+            else ->  MeasurementTypeFormViewState.Loaded(type, showDeletionDialog = false, measurementCount = 0)
         }
     }
     val viewState = state.stateIn(

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.type.form
 
 import com.faltenreich.diaguard.measurement.type.MeasurementType
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 
 sealed class MeasurementTypeFormViewState {
 
@@ -9,7 +8,6 @@ sealed class MeasurementTypeFormViewState {
 
     data class Loaded(
         val type: MeasurementType,
-        val units: List<MeasurementUnit>,
         val showDeletionDialog: Boolean,
         val measurementCount: Long,
     ) : MeasurementTypeFormViewState()

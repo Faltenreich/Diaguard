@@ -9,6 +9,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
@@ -22,7 +23,7 @@ fun MeasurementUnitListItem(
 ) {
     Column(modifier = modifier) {
         FormRow(icon = { /* TODO */ }) {
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(unit.name)
                     if (!unit.isDefault) {

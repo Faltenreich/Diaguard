@@ -18,10 +18,10 @@ getById:
 SELECT * FROM measurementUnit WHERE id = ?;
 
 getByType:
-SELECT * FROM measurementUnit WHERE type_id = ? ORDER BY updated_at;
+SELECT * FROM measurementUnit WHERE type_id = ? ORDER BY created_at ASC;
 
 getAll:
-SELECT * FROM measurementUnit ORDER BY updated_at;
+SELECT * FROM measurementUnit ORDER BY created_at ASC;
 
 update:
 UPDATE measurementUnit SET updated_at = ?, name = ?, factor = ? WHERE id = ?;

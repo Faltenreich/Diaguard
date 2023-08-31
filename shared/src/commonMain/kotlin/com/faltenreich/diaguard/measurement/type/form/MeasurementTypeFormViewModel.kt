@@ -21,7 +21,7 @@ class MeasurementTypeFormViewModel(
     countMeasurementValuesOfType: CountMeasurementValuesOfTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
-    private val createOrUpdateMeasurementUnit: CreateOrUpdateMeasurementUnitUseCase = inject(),
+    private val updateMeasurementUnit: UpdateMeasurementUnitUseCase = inject(),
 ) : ViewModel() {
 
     var typeName = MutableStateFlow("")
@@ -54,14 +54,15 @@ class MeasurementTypeFormViewModel(
         // FIXME: Setting other flow at the same time cancels the first collector
         viewModelScope.launch {
             typeName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
-                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: return@collectLatest
+                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: throw IllegalStateException("Type must not be null at this point")
                 updateMeasurementType(type.copy(name = name))
             }
         }
         viewModelScope.launch {
-            unitName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { unitName ->
-                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: return@collectLatest
-                createOrUpdateMeasurementUnit(name = unitName, type = type)
+            unitName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
+                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: throw IllegalStateException("Type must not be null at this point")
+                val unit = type.selectedUnit ?: throw IllegalStateException("selectedUnitId of $type must not be null at this point")
+                updateMeasurementUnit(unit.copy(name = name))
             }
         }
     }

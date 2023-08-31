@@ -91,11 +91,16 @@ class MeasurementPropertyFormViewModel(
         showFormDialog.value = false
     }
 
-    fun createType(name: String, types: List<MeasurementType>) {
+    fun createType(
+        typeName: String,
+        unitName: String,
+        types: List<MeasurementType>,
+    ) {
         createMeasurementType(
-            name = name,
-            sortIndex = types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
+            typeName = typeName,
+            typeSortIndex = types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
             propertyId = viewState.value.property.id,
+            unitName = unitName,
         )
     }
 

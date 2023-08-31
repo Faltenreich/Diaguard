@@ -16,12 +16,12 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Dialog
 import com.faltenreich.diaguard.shared.view.FormRowLabel
 import com.faltenreich.diaguard.shared.view.TextInput
-import com.faltenreich.diaguard.shared.view.TextInputDialog
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
@@ -75,12 +75,14 @@ fun MeasurementPropertyForm(
                 }
 
                 if (state.showFormDialog) {
-                    TextInputDialog(
-                        title = stringResource(MR.strings.measurement_type_new),
-                        label = stringResource(MR.strings.name),
+                    MeasurementTypeFormDialog(
                         onDismissRequest = viewModel::hideFormDialog,
-                        onConfirmRequest = { name ->
-                            viewModel.createType(name, types = state.types)
+                        onConfirmRequest = { typeName, unitName ->
+                            viewModel.createType(
+                                typeName = typeName,
+                                unitName = unitName,
+                                types = state.types,
+                            )
                             viewModel.hideFormDialog()
                         }
                     )

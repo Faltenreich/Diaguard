@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.view
+package com.faltenreich.diaguard.measurement.property.form
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
@@ -13,25 +13,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.shared.view.Dialog
+import com.faltenreich.diaguard.shared.view.TextInput
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
-fun TextInputDialog(
-    title: String,
-    label: String,
+fun MeasurementPropertyFormDialog(
     onDismissRequest: () -> Unit,
-    onConfirmRequest: (String) -> Unit,
+    onConfirmRequest: (propertyName: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var input by mutableStateOf("")
+    var propertyName by mutableStateOf("")
+
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
+
     Dialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = { onConfirmRequest(input) }) {
+            TextButton(onClick = { onConfirmRequest(propertyName) }) {
                 Text(stringResource(MR.strings.create))
             }
         },
@@ -41,12 +43,12 @@ fun TextInputDialog(
                 Text(stringResource(MR.strings.cancel))
             }
         },
-        title = { Text(title) },
+        title = { Text(stringResource(MR.strings.measurement_type_new)) },
         text = {
             TextInput(
-                input = input,
-                onInputChange = { input = it },
-                label = label,
+                input = propertyName,
+                onInputChange = { propertyName = it },
+                label = stringResource(MR.strings.name),
                 modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
             )
         }

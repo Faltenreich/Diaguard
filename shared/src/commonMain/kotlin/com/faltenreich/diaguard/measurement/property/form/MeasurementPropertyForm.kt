@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -19,7 +20,6 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.Dialog
 import com.faltenreich.diaguard.shared.view.FormRowLabel
 import com.faltenreich.diaguard.shared.view.TextInput
 import dev.icerock.moko.resources.compose.stringResource
@@ -89,7 +89,7 @@ fun MeasurementPropertyForm(
                 }
 
                 if (state.showDeletionDialog) {
-                    Dialog(
+                    AlertDialog(
                         onDismissRequest = viewModel::hideDeletionDialog,
                         confirmButton = {
                             TextButton(onClick = {

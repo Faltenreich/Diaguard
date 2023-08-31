@@ -9,7 +9,9 @@ fun MeasurementPropertyIcon(
     property: MeasurementProperty,
     modifier: Modifier = Modifier,
 ) {
-    val text = property.icon ?: property.name.firstOrNull()?.toString() ?: return
+    val text = property.icon?.takeIf(String::isNotBlank)
+        ?: property.name.firstOrNull()?.toString()
+        ?: return
     Text(
         text = text,
         modifier = modifier,

@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.list.Preference
-import com.faltenreich.diaguard.shared.view.DropDownMenu
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,7 +31,7 @@ fun <T : SelectablePreference> SelectablePreferenceItem(
             preference = preference,
             modifier = Modifier.clickable { isExpanded = true },
         )
-        DropDownMenu(
+        DropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
             modifier = modifier,

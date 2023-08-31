@@ -37,22 +37,11 @@ class MeasurementUnitRepository(
         id: Long,
         updatedAt: DateTime,
         name: String,
-        factor: Double,
     ) {
         dao.update(
             id = id,
             updatedAt = updatedAt,
             name = name,
-            factor = factor,
-        )
-    }
-
-    fun update(unit: MeasurementUnit) = with(unit) {
-        update(
-            id = id,
-            updatedAt = updatedAt,
-            name = name,
-            factor = factor,
         )
     }
 

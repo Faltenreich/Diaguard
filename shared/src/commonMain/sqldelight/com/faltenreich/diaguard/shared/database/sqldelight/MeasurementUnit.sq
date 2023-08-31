@@ -24,7 +24,7 @@ getAll:
 SELECT * FROM measurementUnit ORDER BY created_at ASC;
 
 update:
-UPDATE measurementUnit SET updated_at = ?, name = ?, factor = ? WHERE id = ?;
+UPDATE measurementUnit SET updated_at = ?, name = ? WHERE id = ?;
 
 deleteById:
 DELETE FROM measurementUnit WHERE id = ?;

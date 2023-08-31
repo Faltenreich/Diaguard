@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.measurement.property.list.GetMeasurementProperti
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.type.form.CountMeasurementValuesOfTypeUseCase
+import com.faltenreich.diaguard.measurement.type.form.CreateOrUpdateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.type.form.DeleteMeasurementTypeUseCase
 import com.faltenreich.diaguard.measurement.type.form.GetMeasurementTypeUseCase
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewModel
@@ -46,5 +47,6 @@ fun measurementModule() = module {
     singleOf(::CountMeasurementValuesOfTypeUseCase)
     singleOf(::UpdateMeasurementTypeUseCase)
     singleOf(::DeleteMeasurementTypeUseCase)
+    singleOf(::CreateOrUpdateMeasurementUnitUseCase)
     factory { (measurementTypeId: Long) -> MeasurementTypeFormViewModel(measurementTypeId) }
 }

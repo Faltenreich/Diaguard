@@ -25,6 +25,9 @@ class GetMeasurementTypeUseCase(
                 this.units = units.onEach { unit ->
                     unit.type = type
                 }
+                selectedUnitId?.let { selectedUnitId ->
+                    this.selectedUnit = units.first { unit -> unit.id == selectedUnitId }
+                }
             }
         }
     }

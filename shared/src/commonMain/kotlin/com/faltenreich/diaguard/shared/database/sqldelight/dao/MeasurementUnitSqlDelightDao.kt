@@ -57,12 +57,10 @@ class MeasurementUnitSqlDelightDao(
         id: Long,
         updatedAt: DateTime,
         name: String,
-        factor: Double,
     ) {
         queries.update(
             updated_at = updatedAt.isoString,
             name = name,
-            factor = factor,
             id = id,
         )
     }

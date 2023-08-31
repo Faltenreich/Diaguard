@@ -24,7 +24,6 @@ interface MeasurementUnitDao {
         id: Long,
         updatedAt: DateTime,
         name: String,
-        factor: Double,
     )
 
     fun deleteById(id: Long)

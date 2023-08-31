@@ -33,7 +33,7 @@ class MeasurementTypeSqlDelightDao(
             updated_at = createdAt.isoString,
             name = name,
             sort_index = sortIndex,
-            selected_type_unit_id = null,
+            selected_unit_id = null,
             property_id = propertyId,
         )
     }
@@ -73,7 +73,7 @@ class MeasurementTypeSqlDelightDao(
             updated_at = updatedAt.isoString,
             name = name,
             sort_index = sortIndex,
-            selected_type_unit_id = selectedUnitId,
+            selected_unit_id = selectedUnitId,
             id = id,
         )
     }

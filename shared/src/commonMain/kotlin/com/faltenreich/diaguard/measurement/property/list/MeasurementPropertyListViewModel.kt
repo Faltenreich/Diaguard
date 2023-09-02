@@ -24,9 +24,8 @@ class MeasurementPropertyListViewModel(
     private val state = combine(
         showFormDialog,
         getMeasurementProperties(),
-    ) { showFormDialog, properties ->
-        MeasurementPropertyListViewState.Loaded(showFormDialog, properties)
-    }.flowOn(dispatcher)
+        MeasurementPropertyListViewState::Loaded,
+    ).flowOn(dispatcher)
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,

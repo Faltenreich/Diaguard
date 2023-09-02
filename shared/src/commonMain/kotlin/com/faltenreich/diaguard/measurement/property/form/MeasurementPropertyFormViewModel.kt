@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -34,26 +35,20 @@ class MeasurementPropertyFormViewModel(
     private val showDeletionDialog = MutableStateFlow(false)
 
     private val state = combine(
+        flowOf(property),
         showFormDialog,
         showDeletionDialog,
         getMeasurementTypesUseCase(property),
         countMeasurementValuesOfProperty(property),
-    ) { showFormDialog, showDeletionDialog, types, measurementCount ->
-        MeasurementPropertyFormViewState.Loaded(
-            property = property,
-            showFormDialog = showFormDialog,
-            showDeletionDialog = showDeletionDialog,
-            types = types,
-            measurementCount = measurementCount,
-        )
-    }.flowOn(dispatcher)
+        MeasurementPropertyFormViewState::Loaded,
+    ).flowOn(dispatcher)
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = MeasurementPropertyFormViewState.Loading(property),
     )
 
-    val types: List<MeasurementType>?
+    private val types: List<MeasurementType>?
         get() = (viewState.value as? MeasurementPropertyFormViewState.Loaded)?.types
 
     init {

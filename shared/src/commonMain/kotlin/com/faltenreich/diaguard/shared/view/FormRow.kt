@@ -11,8 +11,8 @@ import com.faltenreich.diaguard.AppTheme
 
 @Composable
 fun FormRow(
-    icon: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    icon: @Composable (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     Row(
@@ -22,7 +22,7 @@ fun FormRow(
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        icon()
+        icon?.invoke()
         content()
     }
 }

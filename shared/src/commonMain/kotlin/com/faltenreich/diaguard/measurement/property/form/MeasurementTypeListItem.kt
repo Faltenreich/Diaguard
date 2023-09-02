@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -23,16 +22,11 @@ fun MeasurementTypeListItem(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        FormRow(icon = { /* TODO */ }) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(type.name)
-                type.selectedUnit?.let { unit ->
-                    Text(
-                        text = unit.name,
-                        style = AppTheme.typography.bodySmall,
-                    )
-                }
-            }
+        FormRow {
+            Text(
+                text = type.name,
+                modifier = Modifier.weight(1f),
+            )
             IconButton(
                 onClick = { onArrowUp(type) },
                 modifier = Modifier.alpha(if (showArrowUp) 1f else 0f),

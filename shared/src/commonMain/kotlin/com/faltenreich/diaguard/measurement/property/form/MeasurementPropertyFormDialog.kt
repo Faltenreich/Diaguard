@@ -43,7 +43,7 @@ fun MeasurementPropertyFormDialog(
                 Text(stringResource(MR.strings.cancel))
             }
         },
-        title = { Text(stringResource(MR.strings.measurement_type_new)) },
+        title = { Text(stringResource(MR.strings.measurement_property_new)) },
         text = {
             TextInput(
                 input = propertyName,

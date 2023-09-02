@@ -19,7 +19,7 @@
     <string name="delete">Delete</string>
     <string name="date_pick">Change date</string>
     <string name="entry_delete">Delete entry</string>
-    <string name="entry">Edit entry</string>
+    <string name="entry">Entry</string>
     <string name="entry_first_description">Enter first entry</string>
     <string name="entry_new_description">Create new entry</string>
     <string name="entry_save">Save entry</string>

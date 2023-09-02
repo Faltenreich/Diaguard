@@ -17,12 +17,12 @@ fun MeasurementPropertyIcon(
         ?: property.name.firstOrNull()?.toString()
         ?: return
     Box(
-        modifier = modifier.size(AppTheme.dimensions.size.ImageLarge),
+        modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
-            style = AppTheme.typography.headlineLarge,
+            style = AppTheme.typography.headlineSmall,
         )
     }
 }

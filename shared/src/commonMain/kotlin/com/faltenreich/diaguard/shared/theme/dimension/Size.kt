@@ -7,7 +7,7 @@ data class Size(
     val ImageSmaller: Dp = 18.dp,
     val ImageSmall: Dp = 24.dp,
     val ImageMedium: Dp = 28.dp,
-    val ImageLarge: Dp = 48.dp,
+    val ImageLarge: Dp = 36.dp,
     val ImageXLarge: Dp = 64.dp,
     val TouchSizeMinimum: Dp = 48.dp,
     val TouchSizeMedium: Dp = 56.dp,

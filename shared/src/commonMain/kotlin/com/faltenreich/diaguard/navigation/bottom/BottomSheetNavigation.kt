@@ -24,13 +24,12 @@ fun BottomSheetNavigation(
         sheetState = bottomSheetState,
     ) {
         val scope = rememberCoroutineScope()
-        val closeBottomSheet: (() -> Unit) -> Unit = { then ->
-            // Delay content replacement to reduce jank
+        val navigateTo: (Screen) -> Unit = { screen ->
             scope.launch {
+                navigator.replaceAll(screen)
                 bottomSheetState.hide()
             }.invokeOnCompletion {
                 onDismissRequest()
-                then()
             }
         }
         Column {
@@ -38,41 +37,25 @@ fun BottomSheetNavigation(
                 icon = MR.images.ic_dashboard,
                 label = MR.strings.dashboard,
                 isActive = navigator.lastItem is Screen.Dashboard,
-                onClick = {
-                    closeBottomSheet {
-                        navigator.replaceAll(Screen.Dashboard)
-                    }
-                },
+                onClick = { navigateTo(Screen.Dashboard) },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_timeline,
                 label = MR.strings.timeline,
                 isActive = navigator.lastItem is Screen.Timeline,
-                onClick = {
-                    closeBottomSheet {
-                        navigator.replaceAll(Screen.Timeline())
-                    }
-                },
+                onClick = { navigateTo(Screen.Timeline()) },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_log,
                 label = MR.strings.log,
                 isActive = navigator.lastItem is Screen.Log,
-                onClick = {
-                    closeBottomSheet {
-                        navigator.replaceAll(Screen.Log())
-                    }
-                },
+                onClick = { navigateTo(Screen.Log()) },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_preferences,
                 label = MR.strings.preferences,
                 isActive = navigator.lastItem is Screen.PreferenceList,
-                onClick = {
-                    closeBottomSheet {
-                        navigator.push(Screen.PreferenceList())
-                    }
-                },
+                onClick = { navigateTo(Screen.PreferenceList()) },
             )
         }
     }

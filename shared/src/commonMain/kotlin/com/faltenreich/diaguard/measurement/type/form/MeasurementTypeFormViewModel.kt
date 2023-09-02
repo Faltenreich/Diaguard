@@ -65,7 +65,8 @@ class MeasurementTypeFormViewModel(
             unitName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
                 val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: throw IllegalStateException("Type must not be null at this point")
                 val unit = type.selectedUnit ?: throw IllegalStateException("selectedUnitId of $type must not be null at this point")
-                updateMeasurementUnit(unit.copy(name = name))
+                // FIXME: Wrangles units
+                //  updateMeasurementUnit(unit.copy(name = name))
             }
         }
     }

@@ -35,12 +35,11 @@ class MeasurementUnitRepository(
 
     fun update(
         id: Long,
-        updatedAt: DateTime,
         name: String,
     ) {
         dao.update(
             id = id,
-            updatedAt = updatedAt,
+            updatedAt = DateTime.now(),
             name = name,
         )
     }

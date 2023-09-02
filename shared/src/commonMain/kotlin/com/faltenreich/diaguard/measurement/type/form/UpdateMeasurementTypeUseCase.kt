@@ -9,6 +9,11 @@ class UpdateMeasurementTypeUseCase(
 ) {
 
     operator fun invoke(type: MeasurementType) {
-        measurementTypeRepository.update(type)
+        measurementTypeRepository.update(
+            id = type.id,
+            name = type.name,
+            sortIndex = type.sortIndex,
+            selectedUnitId = type.selectedUnitId,
+        )
     }
 }

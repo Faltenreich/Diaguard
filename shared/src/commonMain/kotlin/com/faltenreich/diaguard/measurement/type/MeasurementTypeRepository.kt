@@ -62,15 +62,6 @@ class MeasurementTypeRepository(
         )
     }
 
-    fun update(type: MeasurementType) {
-        update(
-            id = type.id,
-            name = type.name,
-            sortIndex = type.sortIndex,
-            selectedUnitId = type.selectedUnitId,
-        )
-    }
-
     fun deleteById(id: Long) {
         dao.deleteById(id)
     }

@@ -48,7 +48,6 @@ fun LatestDashboardItem(
                         text = valueFormatter.formatValue(value = value, unit = unit),
                         style = AppTheme.typography.displayLarge,
                     )
-                    Text(dateTimeFormatter.formatDateTime(value.entry.dateTime))
                     Text(dateTimeFormatter.formatTimePassed(value.entry.dateTime))
                 }
             }

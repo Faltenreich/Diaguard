@@ -10,6 +10,6 @@ class CountMeasurementValuesOfPropertyUseCase(
 ) {
 
     operator fun invoke(property: MeasurementProperty): Flow<Long> {
-        return measurementValueRepository.observeCountByPropertyId(property.id)
+        return measurementValueRepository.observeByPropertyId(property.id)
     }
 }

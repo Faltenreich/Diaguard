@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.dashboard.usecase.GetLatestBloodSugarUseCase
+import com.faltenreich.diaguard.dashboard.usecase.GetTodayUseCase
 import com.faltenreich.diaguard.dashboard.usecase.IsFirstVisitUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -15,16 +16,19 @@ class DashboardViewModel(
     dispatcher: CoroutineDispatcher = inject(),
     isFirstVisit: IsFirstVisitUseCase = inject(),
     getLatestBloodSugar: GetLatestBloodSugarUseCase = inject(),
+    getToday: GetTodayUseCase = inject(),
 ) : ViewModel() {
 
     private val state: Flow<DashboardViewState> = combine(
         isFirstVisit(),
         getLatestBloodSugar(),
-    ) { isFirstVisit, latestBloodSugar ->
+        getToday(),
+    ) { isFirstVisit, latestBloodSugar, today ->
         when (isFirstVisit) {
             true -> DashboardViewState.FirstVisit
             false -> DashboardViewState.Revisit(
                 latestBloodSugar = latestBloodSugar,
+                today = today,
             )
         }
     }.flowOn(dispatcher)

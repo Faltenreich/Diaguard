@@ -41,8 +41,16 @@ class MeasurementValueRepository(
         return dao.getByEntryId(entryId)
     }
 
-    fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
-        return dao.observeCountByPropertyId(propertyId)
+    fun observeByPropertyId(propertyId: Long): Flow<Long> {
+        return dao.observeByPropertyId(propertyId)
+    }
+
+    fun observeByPropertyId(
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime
+    ): Flow<List<MeasurementValue>> {
+        return dao.observeByPropertyId(propertyId, minDateTime, maxDateTime)
     }
 
     fun observeCountByTypeId(typeId: Long): Flow<Long> {

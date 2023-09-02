@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.preference.list
 
-data class PreferenceListViewState(
-    val listItems: List<Preference>,
-)
+sealed interface PreferenceListViewState {
+
+    data object Loading : PreferenceListViewState
+
+    data class Loaded(val listItems: List<Preference>) : PreferenceListViewState
+}

@@ -11,6 +11,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormDialog
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.LoadingIndicator
 
 @Composable
 fun MeasurementPropertyList(
@@ -20,7 +21,7 @@ fun MeasurementPropertyList(
     val navigator = LocalNavigator.currentOrThrow
     val state = viewModel.viewState.collectAsState().value
     when (state) {
-        is MeasurementPropertyListViewState.Loading -> Unit
+        is MeasurementPropertyListViewState.Loading -> LoadingIndicator()
         is MeasurementPropertyListViewState.Loaded -> LazyColumn(modifier = modifier) {
             val listItems = state.listItems
             itemsIndexed(

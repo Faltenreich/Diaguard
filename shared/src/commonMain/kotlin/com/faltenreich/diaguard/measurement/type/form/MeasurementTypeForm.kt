@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.FormRowLabel
+import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextInput
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -27,7 +28,7 @@ fun MeasurementTypeForm(
     val navigator = LocalNavigator.currentOrThrow
 
     when (val state = viewModel.viewState.collectAsState().value) {
-        is MeasurementTypeFormViewState.Loading -> Unit
+        is MeasurementTypeFormViewState.Loading -> LoadingIndicator()
 
         is MeasurementTypeFormViewState.Loaded -> {
             Column(modifier = modifier) {

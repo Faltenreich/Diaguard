@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.preference.list.usecase
 
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.item.SelectablePreferenceOption
 import com.faltenreich.diaguard.shared.di.inject

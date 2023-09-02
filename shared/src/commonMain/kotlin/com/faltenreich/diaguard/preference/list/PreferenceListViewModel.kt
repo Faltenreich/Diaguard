@@ -39,13 +39,11 @@ class PreferenceListViewModel(
     }
 
     private val state = (preferences?.let(::flowOf) ?: default)
-        .map(::PreferenceListViewState)
+        .map(PreferenceListViewState::Loaded)
         .flowOn(dispatcher)
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = PreferenceListViewState(
-            listItems = emptyList(),
-        ),
+        initialValue = PreferenceListViewState.Loading,
     )
 }

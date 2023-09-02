@@ -21,6 +21,7 @@ import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.FormRowLabel
+import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextInput
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -30,87 +31,93 @@ fun MeasurementPropertyForm(
     viewModel: MeasurementPropertyFormViewModel = inject(),
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    val state = viewModel.viewState.collectAsState().value
 
-    Column(modifier = modifier) {
-        Column(
-            modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3),
-            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
-        ) {
-            TextInput(
-                input = viewModel.name.collectAsState().value,
-                onInputChange = { input -> viewModel.name.value = input },
-                label = stringResource(MR.strings.name),
-                modifier = Modifier.fillMaxWidth(),
-            )
-            TextInput(
-                input = viewModel.icon.collectAsState().value,
-                onInputChange = { input -> viewModel.icon.value = input },
-                label = stringResource(MR.strings.icon),
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
+    when (val viewState = viewModel.viewState.collectAsState().value) {
+        is MeasurementPropertyFormViewState.Loading -> LoadingIndicator(modifier = modifier)
 
-        FormRowLabel(stringResource(MR.strings.measurement_types))
-
-        when (state) {
-            is MeasurementPropertyFormViewState.Loading -> Unit
-
-            is MeasurementPropertyFormViewState.Loaded -> {
-                LazyColumn {
-                    val listItems = state.types
-                    itemsIndexed(
-                        items = listItems,
-                        key = { _, item -> item.id },
-                    ) { index, type ->
-                        MeasurementTypeListItem(
-                            type = type,
-                            onArrowUp = viewModel::decrementSortIndex,
-                            showArrowUp = index > 0,
-                            onArrowDown = viewModel::incrementSortIndex,
-                            showArrowDown = index < listItems.size - 1,
-                            modifier = Modifier
-                                .animateItemPlacement()
-                                .clickable { navigator.push(Screen.MeasurementTypeForm(type.id)) },
+        is MeasurementPropertyFormViewState.Loaded -> {
+            LazyColumn(modifier = modifier) {
+                item {
+                    Column(
+                        modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3),
+                        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+                    ) {
+                        TextInput(
+                            input = viewModel.name.collectAsState().value,
+                            onInputChange = { input -> viewModel.name.value = input },
+                            label = stringResource(MR.strings.name),
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        TextInput(
+                            input = viewModel.icon.collectAsState().value,
+                            onInputChange = { input -> viewModel.icon.value = input },
+                            label = stringResource(MR.strings.icon),
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     }
+
+                    FormRowLabel(stringResource(MR.strings.measurement_types))
                 }
 
-                if (state.showFormDialog) {
-                    MeasurementTypeFormDialog(
-                        onDismissRequest = viewModel::hideFormDialog,
-                        onConfirmRequest = { typeName, unitName ->
-                            viewModel.createType(
-                                typeName = typeName,
-                                unitName = unitName,
-                                types = state.types,
-                            )
-                            viewModel.hideFormDialog()
+                val listItems = viewState.types
+                itemsIndexed(
+                    items = listItems,
+                    key = { _, item -> item.id },
+                ) { index, type ->
+                    MeasurementTypeListItem(
+                        type = type,
+                        onArrowUp = viewModel::decrementSortIndex,
+                        showArrowUp = index > 0,
+                        onArrowDown = viewModel::incrementSortIndex,
+                        showArrowDown = index < listItems.size - 1,
+                        modifier = Modifier
+                            .animateItemPlacement()
+                            .clickable { navigator.push(Screen.MeasurementTypeForm(type.id)) },
+                    )
+                }
+            }
+
+            if (viewState.showFormDialog) {
+                MeasurementTypeFormDialog(
+                    onDismissRequest = viewModel::hideFormDialog,
+                    onConfirmRequest = { typeName, unitName ->
+                        viewModel.createType(
+                            typeName = typeName,
+                            unitName = unitName,
+                            types = viewState.types,
+                        )
+                        viewModel.hideFormDialog()
+                    }
+                )
+            }
+
+            if (viewState.showDeletionDialog) {
+                AlertDialog(
+                    onDismissRequest = viewModel::hideDeletionDialog,
+                    confirmButton = {
+                        TextButton(onClick = {
+                            viewModel.deleteProperty(viewState.property)
+                            viewModel.hideDeletionDialog()
+                            navigator.pop()
+                        }) {
+                            Text(stringResource(MR.strings.delete))
                         }
-                    )
-                }
-
-                if (state.showDeletionDialog) {
-                    AlertDialog(
-                        onDismissRequest = viewModel::hideDeletionDialog,
-                        confirmButton = {
-                            TextButton(onClick = {
-                                viewModel.deleteProperty(state.property)
-                                viewModel.hideDeletionDialog()
-                                navigator.pop()
-                            }) {
-                                Text(stringResource( MR.strings.delete))
-                            }
-                        },
-                        dismissButton = {
-                            TextButton(onClick = viewModel::hideDeletionDialog) {
-                                Text(stringResource( MR.strings.cancel))
-                            }
-                        },
-                        title = { Text(stringResource(MR.strings.measurement_property_delete)) },
-                        text = { Text(stringResource(MR.strings.measurement_property_delete_description, state.measurementCount)) },
-                    )
-                }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = viewModel::hideDeletionDialog) {
+                            Text(stringResource(MR.strings.cancel))
+                        }
+                    },
+                    title = { Text(stringResource(MR.strings.measurement_property_delete)) },
+                    text = {
+                        Text(
+                            stringResource(
+                                MR.strings.measurement_property_delete_description,
+                                viewState.measurementCount
+                            )
+                        )
+                    },
+                )
             }
         }
     }

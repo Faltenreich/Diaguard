@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.onboarding.FirstStart
 import com.faltenreich.diaguard.onboarding.OnboardingViewModel
 import com.faltenreich.diaguard.onboarding.OnboardingViewState
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.keyboardPadding
 
 @Composable
@@ -22,7 +23,7 @@ fun AppView(
             color = AppTheme.colors.material.background,
         ) {
             when (onboardingViewModel.viewState.collectAsState().value) {
-                is OnboardingViewState.Loading -> Unit
+                is OnboardingViewState.Loading -> LoadingIndicator()
                 is OnboardingViewState.FirstStart -> FirstStart(modifier = modifier)
                 is OnboardingViewState.SubsequentStart -> MainView(modifier = modifier)
             }

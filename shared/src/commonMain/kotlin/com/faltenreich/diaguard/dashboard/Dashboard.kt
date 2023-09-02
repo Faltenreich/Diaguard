@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.dashboard.card.LatestDashboardItem
 import com.faltenreich.diaguard.dashboard.card.TodayDashboardItem
 import com.faltenreich.diaguard.dashboard.card.TrendDashboardItem
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.LoadingIndicator
 
 @Composable
 fun Dashboard(
@@ -22,8 +23,8 @@ fun Dashboard(
     viewModel: DashboardViewModel = inject(),
 ) {
     when (val state = viewModel.viewState.collectAsState().value) {
-        is DashboardViewState.Loading -> Unit
-        is DashboardViewState.FirstVisit -> Unit
+        is DashboardViewState.Loading -> LoadingIndicator()
+        is DashboardViewState.FirstVisit -> Unit // TODO
         is DashboardViewState.Revisit -> Column(
             modifier = modifier.padding(
                 horizontal = AppTheme.dimensions.padding.P_3,

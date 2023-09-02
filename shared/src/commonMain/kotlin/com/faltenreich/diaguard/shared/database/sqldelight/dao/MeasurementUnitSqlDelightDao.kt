@@ -49,10 +49,6 @@ class MeasurementUnitSqlDelightDao(
         return queries.getByType(typeId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeSelectedByTypeId(typeId: Long): Flow<MeasurementUnit?> {
-        return queries.getSelectedByType(typeId, mapper::map).asFlow().mapToOneOrNull(dispatcher)
-    }
-
     override fun observeAll(): Flow<List<MeasurementUnit>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }

@@ -36,16 +36,9 @@ fun LatestDashboardItem(
         onClick = { navigator.push(Screen.EntryForm(entry = data?.value?.entry)) },
         modifier = modifier,
     ) {
-        when (data) {
-            null -> Text(
-                text = stringResource(MR.strings.entry_first_description),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = AppTheme.dimensions.padding.P_3),
-                textAlign = TextAlign.Center,
-                style = AppTheme.typography.headlineMedium,
-            )
-            else -> Column(
+        val (value, unit) = data?.value to data?.value?.type?.selectedUnit
+        when {
+            value != null && unit != null -> Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(all = AppTheme.dimensions.padding.P_3)
@@ -57,20 +50,28 @@ fun LatestDashboardItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = valueFormatter.formatValue(value = data.value, unit = data.unit),
+                        text = valueFormatter.formatValue(value = value, unit = unit),
                         style = AppTheme.typography.displayLarge,
                     )
                     Text(
-                        text = data.unit.name,
+                        text = unit.name,
                         style = AppTheme.typography.labelMedium,
                     )
                 }
                 Row {
-                    Text(dateTimeFormatter.formatDateTime(data.value.entry.dateTime))
+                    Text(dateTimeFormatter.formatDateTime(value.entry.dateTime))
                     Text(" - ")
-                    Text(dateTimeFormatter.formatTimePassed(data.value.entry.dateTime))
+                    Text(dateTimeFormatter.formatTimePassed(value.entry.dateTime))
                 }
             }
+            else -> Text(
+                text = stringResource(MR.strings.entry_first_description),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(all = AppTheme.dimensions.padding.P_3),
+                textAlign = TextAlign.Center,
+                style = AppTheme.typography.headlineMedium,
+            )
         }
     }
 }

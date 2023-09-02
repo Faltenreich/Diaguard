@@ -29,10 +29,6 @@ class MeasurementUnitRepository(
         return dao.observeByTypeId(typeId)
     }
 
-    fun observeSelectedByTypeId(typeId: Long): Flow<MeasurementUnit?> {
-        return dao.observeSelectedByTypeId(typeId)
-    }
-
     fun observeAll(): Flow<List<MeasurementUnit>> {
         return dao.observeAll()
     }

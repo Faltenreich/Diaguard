@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.shared.di.inject
 
 class MeasurementValueSqlDelightMapper(
     private val typeMapper: MeasurementTypeSqlDelightMapper = inject(),
+    private val unitMapper: MeasurementUnitSqlDelightMapper = inject(),
     private val propertyMapper: MeasurementPropertySqlDelightMapper = inject(),
     private val entryMapper: EntrySqlDelightMapper = inject(),
 ) {
@@ -42,6 +43,12 @@ class MeasurementValueSqlDelightMapper(
         typeSortIndex: Long,
         typeSelectedUnitId: Long?,
         typePropertyId: Long,
+        unitId: Long,
+        unitCreatedAt: String,
+        unitUpdatedAt: String,
+        unitName: String,
+        unitFactor: Double,
+        unitTypeId: Long,
         propertyId: Long,
         propertyCreatedAt: String,
         propertyUpdatedAt: String,
@@ -80,6 +87,14 @@ class MeasurementValueSqlDelightMapper(
                     icon = propertyIcon,
                     sortIndex = propertySortIndex,
                     isUserGenerated = propertyIsUserGenerated,
+                )
+                selectedUnit = unitMapper.map(
+                    id = unitId,
+                    createdAt = unitCreatedAt,
+                    updatedAt = unitUpdatedAt,
+                    name = unitName,
+                    factor = unitFactor,
+                    typeId = unitTypeId,
                 )
             }
             entry = entryMapper.map(

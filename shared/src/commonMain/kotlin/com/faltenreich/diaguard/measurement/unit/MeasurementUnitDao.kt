@@ -18,8 +18,6 @@ interface MeasurementUnitDao {
 
     fun observeByTypeId(typeId: Long): Flow<List<MeasurementUnit>>
 
-    fun observeSelectedByTypeId(typeId: Long): Flow<MeasurementUnit?>
-
     fun observeAll(): Flow<List<MeasurementUnit>>
 
     fun update(

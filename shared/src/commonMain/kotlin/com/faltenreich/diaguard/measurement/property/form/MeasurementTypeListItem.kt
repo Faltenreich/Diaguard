@@ -16,8 +16,10 @@ import com.faltenreich.diaguard.shared.view.ResourceIcon
 @Composable
 fun MeasurementTypeListItem(
     type: MeasurementType,
-    onArrowUp: ((MeasurementType) -> Unit)?,
-    onArrowDown: ((MeasurementType) -> Unit)?,
+    onArrowUp: (MeasurementType) -> Unit,
+    showArrowUp: Boolean,
+    onArrowDown: (MeasurementType) -> Unit,
+    showArrowDown: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -32,14 +34,14 @@ fun MeasurementTypeListItem(
                 }
             }
             IconButton(
-                onClick = { onArrowUp?.invoke(type) },
-                modifier = Modifier.alpha(if (onArrowUp != null) 1f else 0f),
+                onClick = { onArrowUp(type) },
+                modifier = Modifier.alpha(if (showArrowUp) 1f else 0f),
             ) {
                 ResourceIcon(MR.images.ic_arrow_up)
             }
             IconButton(
-                onClick = { onArrowDown?.invoke(type) },
-                modifier = Modifier.alpha(if (onArrowDown != null) 1f else 0f),
+                onClick = { onArrowDown(type) },
+                modifier = Modifier.alpha(if (showArrowDown) 1f else 0f),
             ) {
                 ResourceIcon(MR.images.ic_arrow_down)
             }

@@ -4,12 +4,16 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class MeasurementPropertyListViewModel(
+    private val dispatcher: CoroutineDispatcher = inject(),
     getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
     private val updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementProperty: CreateMeasurementPropertyUseCase = inject(),
@@ -22,7 +26,7 @@ class MeasurementPropertyListViewModel(
         getMeasurementProperties(),
     ) { showFormDialog, properties ->
         MeasurementPropertyListViewState.Loaded(showFormDialog, properties)
-    }
+    }.flowOn(dispatcher)
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
@@ -32,34 +36,34 @@ class MeasurementPropertyListViewModel(
     private val properties: List<MeasurementProperty>?
         get() = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems
 
-    fun decrementSortIndex(property: MeasurementProperty) {
-        val properties = properties ?: return
+    fun decrementSortIndex(property: MeasurementProperty) = viewModelScope.launch(dispatcher) {
+        val properties = properties ?: return@launch
         swapSortIndexes(first = property, second = properties.last { it.sortIndex < property.sortIndex })
     }
 
-    fun incrementSortIndex(property: MeasurementProperty) {
-        val properties = properties ?: return
+    fun incrementSortIndex(property: MeasurementProperty) = viewModelScope.launch(dispatcher) {
+        val properties = properties ?: return@launch
         swapSortIndexes(first = property, second = properties.first { it.sortIndex > property.sortIndex })
     }
 
     private fun swapSortIndexes(
         first: MeasurementProperty,
         second: MeasurementProperty,
-    ) {
+    ) = viewModelScope.launch(dispatcher) {
         updateMeasurementProperty(first.copy(sortIndex = second.sortIndex))
         updateMeasurementProperty(second.copy(sortIndex = first.sortIndex))
     }
 
-    fun showFormDialog() {
+    fun showFormDialog() = viewModelScope.launch(dispatcher) {
         showFormDialog.value = true
     }
 
-    fun hideFormDialog() {
+    fun hideFormDialog() = viewModelScope.launch(dispatcher) {
         showFormDialog.value = false
     }
 
-    fun createProperty(name: String) {
-        val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return
+    fun createProperty(name: String) = viewModelScope.launch(dispatcher) {
+        val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return@launch
         createMeasurementProperty(
             name = name,
             icon = null,

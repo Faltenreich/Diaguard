@@ -20,10 +20,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class TimelineViewModel(
     initialDate: Date,
-    dispatcher: CoroutineDispatcher = inject(),
+    private val dispatcher: CoroutineDispatcher = inject(),
     entryRepository: EntryRepository = inject(),
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
 ) : ViewModel() {
@@ -68,7 +69,7 @@ class TimelineViewModel(
         ),
     )
 
-    fun setDate(date: Date) {
+    fun setDate(date: Date) = viewModelScope.launch(dispatcher) {
         currentDate.value = date
     }
 }

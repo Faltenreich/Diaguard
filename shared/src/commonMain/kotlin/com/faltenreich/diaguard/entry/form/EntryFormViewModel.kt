@@ -46,7 +46,7 @@ class EntryFormViewModel(
         }
     }
 
-    fun updateMeasurementValue(update: MeasurementTypeInputData) {
+    fun updateMeasurementValue(update: MeasurementTypeInputData) = viewModelScope.launch(dispatcher) {
         measurements = measurements.map { property ->
             property.copy(typeInputDataList = property.typeInputDataList.map { value ->
                 when (value.type) {

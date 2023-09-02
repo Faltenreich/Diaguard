@@ -62,14 +62,16 @@ fun MeasurementPropertyForm(
                     itemsIndexed(
                         items = listItems,
                         key = { _, item -> item.id },
-                    ) { index, item ->
+                    ) { index, type ->
                         MeasurementTypeListItem(
-                            type = item,
-                            onArrowUp = viewModel::decrementSortIndex.takeIf { index > 0 },
-                            onArrowDown = viewModel::incrementSortIndex.takeIf { index < listItems.size - 1 },
+                            type = type,
+                            onArrowUp = viewModel::decrementSortIndex,
+                            showArrowUp = index > 0,
+                            onArrowDown = viewModel::incrementSortIndex,
+                            showArrowDown = index < listItems.size - 1,
                             modifier = Modifier
                                 .animateItemPlacement()
-                                .clickable { navigator.push(Screen.MeasurementTypeForm(item.id)) },
+                                .clickable { navigator.push(Screen.MeasurementTypeForm(type.id)) },
                         )
                     }
                 }

@@ -16,7 +16,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class EntrySearchViewModel(
     query: String?,
-    dispatcher: CoroutineDispatcher = inject(),
+    private val dispatcher: CoroutineDispatcher = inject(),
     searchEntries: SearchEntriesUseCase = inject(),
 ) : ViewModel() {
 
@@ -36,7 +36,7 @@ class EntrySearchViewModel(
         query?.let(::onQueryChange)
     }
 
-    fun onQueryChange(query: String) {
+    fun onQueryChange(query: String) = viewModelScope.launch(dispatcher) {
         state.value =
             if (query.isBlank()) EntrySearchViewState.Idle
             else EntrySearchViewState.Loading(query)

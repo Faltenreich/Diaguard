@@ -6,16 +6,19 @@ import com.faltenreich.diaguard.measurement.type.form.UpdateMeasurementTypeUseCa
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MeasurementPropertyFormViewModel(
     property: MeasurementProperty,
+    private val dispatcher: CoroutineDispatcher = inject(),
     getMeasurementTypesUseCase: GetMeasurementTypesUseCase = inject(),
     countMeasurementValuesOfProperty: CountMeasurementValuesOfPropertyUseCase = inject(),
     updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
@@ -43,7 +46,7 @@ class MeasurementPropertyFormViewModel(
             types = types,
             measurementCount = measurementCount,
         )
-    }
+    }.flowOn(dispatcher)
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
@@ -55,39 +58,39 @@ class MeasurementPropertyFormViewModel(
 
     init {
         // FIXME: Setting both at the same time cancels the first collector
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             name.debounce(DateTimeConstants.INPUT_DEBOUNCE)
                 .collectLatest { name -> updateMeasurementProperty(property.copy(name = name)) }
         }
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             icon.debounce(DateTimeConstants.INPUT_DEBOUNCE)
                 .collectLatest { icon -> updateMeasurementProperty(property.copy(icon = icon)) }
         }
     }
 
-    fun decrementSortIndex(type: MeasurementType) {
-        val types = types ?: return
+    fun decrementSortIndex(type: MeasurementType) = viewModelScope.launch(dispatcher) {
+        val types = types ?: return@launch
         swapSortIndexes(first = type, second = types.last { it.sortIndex < type.sortIndex })
     }
 
-    fun incrementSortIndex(type: MeasurementType) {
-        val types = types ?: return
+    fun incrementSortIndex(type: MeasurementType) = viewModelScope.launch(dispatcher) {
+        val types = types ?: return@launch
         swapSortIndexes(first = type, second = types.first { it.sortIndex > type.sortIndex })
     }
 
     private fun swapSortIndexes(
         first: MeasurementType,
         second: MeasurementType,
-    ) {
+    ) = viewModelScope.launch(dispatcher) {
         updateMeasurementType(first.copy(sortIndex = second.sortIndex))
         updateMeasurementType(second.copy(sortIndex = first.sortIndex))
     }
 
-    fun showFormDialog() {
+    fun showFormDialog() = viewModelScope.launch(dispatcher) {
         showFormDialog.value = true
     }
 
-    fun hideFormDialog() {
+    fun hideFormDialog() = viewModelScope.launch (dispatcher) {
         showFormDialog.value = false
     }
 
@@ -95,7 +98,7 @@ class MeasurementPropertyFormViewModel(
         typeName: String,
         unitName: String,
         types: List<MeasurementType>,
-    ) {
+    ) = viewModelScope.launch(dispatcher) {
         createMeasurementType(
             typeName = typeName,
             typeSortIndex = types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
@@ -104,15 +107,15 @@ class MeasurementPropertyFormViewModel(
         )
     }
 
-    fun deletePropertyIfConfirmed() {
+    fun deletePropertyIfConfirmed() = viewModelScope.launch(dispatcher) {
         showDeletionDialog.value = true
     }
 
-    fun hideDeletionDialog() {
+    fun hideDeletionDialog() = viewModelScope.launch(dispatcher) {
         showDeletionDialog.value = false
     }
 
-    fun deleteProperty(property: MeasurementProperty) {
+    fun deleteProperty(property: MeasurementProperty) = viewModelScope.launch(dispatcher) {
         deleteMeasurementProperty(property)
     }
 }

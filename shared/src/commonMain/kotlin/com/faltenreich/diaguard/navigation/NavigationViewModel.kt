@@ -4,11 +4,14 @@ import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class NavigationViewModel(
+    dispatcher: CoroutineDispatcher = inject(),
     getStartScreen: GetStartScreenUseCase = inject(),
 ) : ViewModel() {
 
@@ -20,7 +23,7 @@ class NavigationViewModel(
                 StartScreen.LOG -> Screen.Log()
             },
         )
-    }
+    }.flowOn(dispatcher)
     val viewState = state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,

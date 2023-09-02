@@ -26,8 +26,10 @@ import kotlin.time.Duration.Companion.seconds
 @Composable
 fun MeasurementPropertyListItem(
     property: MeasurementProperty,
-    onArrowUp: ((MeasurementProperty) -> Unit)?,
-    onArrowDown: ((MeasurementProperty) -> Unit)?,
+    onArrowUp: (MeasurementProperty) -> Unit,
+    showArrowUp: Boolean,
+    onArrowDown: (MeasurementProperty) -> Unit,
+    showArrowDown: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val recentlyCreated = (DateTime.now().millisSince1970 - property.createdAt.millisSince1970) < 5.seconds.inWholeMilliseconds
@@ -54,14 +56,14 @@ fun MeasurementPropertyListItem(
                 }
             }
             IconButton(
-                onClick = { onArrowUp?.invoke(property) },
-                modifier = Modifier.alpha(if (onArrowUp != null) 1f else 0f),
+                onClick = { onArrowUp(property) },
+                modifier = Modifier.alpha(if (showArrowUp) 1f else 0f),
             ) {
                 ResourceIcon(MR.images.ic_arrow_up)
             }
             IconButton(
-                onClick = { onArrowDown?.invoke(property) },
-                modifier = Modifier.alpha(if (onArrowDown != null) 1f else 0f),
+                onClick = { onArrowDown(property) },
+                modifier = Modifier.alpha(if (showArrowDown) 1f else 0f),
             ) {
                 ResourceIcon(MR.images.ic_arrow_down)
             }

@@ -23,6 +23,8 @@ interface MeasurementPropertyDao {
 
     fun observeAll(): Flow<List<MeasurementProperty>>
 
+    fun countAll(): Flow<Long>
+
     fun update(
         id: Long,
         updatedAt: DateTime,

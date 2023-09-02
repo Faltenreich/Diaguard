@@ -39,6 +39,10 @@ class MeasurementPropertyRepository(
         return dao.observeAll()
     }
 
+    fun countAll(): Flow<Long> {
+        return dao.countAll()
+    }
+
     fun update(
         id: Long,
         updatedAt: DateTime,

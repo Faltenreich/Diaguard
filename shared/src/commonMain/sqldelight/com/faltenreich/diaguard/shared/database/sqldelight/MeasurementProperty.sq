@@ -21,6 +21,9 @@ SELECT * FROM measurementProperty WHERE id = ?;
 getAll:
 SELECT * FROM measurementProperty ORDER BY sort_index ASC;
 
+countAll:
+SELECT COUNT(*) FROM measurementProperty;
+
 update:
 UPDATE measurementProperty SET updated_at = ?, name = ?, icon = ?, sort_index = ? WHERE id = ?;
 

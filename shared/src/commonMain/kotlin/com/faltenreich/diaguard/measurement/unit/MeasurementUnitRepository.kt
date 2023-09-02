@@ -21,12 +21,16 @@ class MeasurementUnitRepository(
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
-    fun getById(id: Long): Flow<MeasurementUnit?> {
-        return dao.getById(id)
+    fun observeById(id: Long): Flow<MeasurementUnit?> {
+        return dao.observeById(id)
     }
 
-    fun getByTypeId(typeId: Long): Flow<List<MeasurementUnit>> {
-        return dao.getByTypeId(typeId)
+    fun observeByTypeId(typeId: Long): Flow<List<MeasurementUnit>> {
+        return dao.observeByTypeId(typeId)
+    }
+
+    fun observeSelectedByTypeId(typeId: Long): Flow<MeasurementUnit?> {
+        return dao.observeSelectedByTypeId(typeId)
     }
 
     fun observeAll(): Flow<List<MeasurementUnit>> {

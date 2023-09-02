@@ -15,7 +15,7 @@ fun HbA1cDashboardItem(
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {
-        Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_2)) {
+        Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Text("Estimated HbA1c")
         }
     }

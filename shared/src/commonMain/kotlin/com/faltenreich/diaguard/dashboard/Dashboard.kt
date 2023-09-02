@@ -30,7 +30,7 @@ fun Dashboard(
                 horizontal = AppTheme.dimensions.padding.P_3,
                 vertical = AppTheme.dimensions.padding.P_2,
             ),
-            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         ) {
             LatestDashboardItem(
                 data = state.latestBloodSugar,
@@ -38,7 +38,7 @@ fun Dashboard(
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
             ) {
                 TodayDashboardItem(
                     data = state.today,

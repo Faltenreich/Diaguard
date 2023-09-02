@@ -19,15 +19,15 @@ class GetLatestBloodSugarUseCase(
         return measurementValueRepository.observeLatestByPropertyId(MeasurementProperty.BLOOD_SUGAR_ID)
             .flatMapLatest { value ->
                 when (value) {
-                    null -> flowOf(emptyList())
-                    else -> measurementUnitRepository.getByTypeId(value.typeId)
-                }.map { types -> value to types }
-            }.map { (value, types) ->
-                when (value) {
-                    null -> null
+                    null -> flowOf(null)
+                    else -> measurementUnitRepository.observeSelectedByTypeId(value.typeId)
+                }.map { unit -> value to unit }
+            }.map { (value, unit) ->
+                when {
+                    value == null || unit == null -> null
                     else -> DashboardViewState.Revisit.LatestBloodSugar(
                         value = value,
-                        unit = types.first(),
+                        unit = unit,
                     )
                 }
             }

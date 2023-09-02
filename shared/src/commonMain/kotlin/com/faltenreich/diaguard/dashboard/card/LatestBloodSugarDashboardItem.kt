@@ -1,9 +1,12 @@
 package com.faltenreich.diaguard.dashboard.card
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,13 +48,23 @@ fun LatestDashboardItem(
             else -> Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(all = AppTheme.dimensions.padding.P_2),
+                    .padding(all = AppTheme.dimensions.padding.P_3)
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
-                    text = valueFormatter.formatValue(value = data.value, unit = data.unit),
-                    style = AppTheme.typography.headlineLarge,
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = valueFormatter.formatValue(value = data.value, unit = data.unit),
+                        style = AppTheme.typography.displayLarge,
+                    )
+                    Text(
+                        text = data.unit.name,
+                        style = AppTheme.typography.labelMedium,
+                    )
+                }
                 Row {
                     Text(dateTimeFormatter.formatDateTime(data.value.entry.dateTime))
                     Text(" - ")

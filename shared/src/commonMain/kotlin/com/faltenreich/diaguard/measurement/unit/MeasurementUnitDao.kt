@@ -14,9 +14,11 @@ interface MeasurementUnitDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): Flow<MeasurementUnit?>
+    fun observeById(id: Long): Flow<MeasurementUnit?>
 
-    fun getByTypeId(typeId: Long): Flow<List<MeasurementUnit>>
+    fun observeByTypeId(typeId: Long): Flow<List<MeasurementUnit>>
+
+    fun observeSelectedByTypeId(typeId: Long): Flow<MeasurementUnit?>
 
     fun observeAll(): Flow<List<MeasurementUnit>>
 

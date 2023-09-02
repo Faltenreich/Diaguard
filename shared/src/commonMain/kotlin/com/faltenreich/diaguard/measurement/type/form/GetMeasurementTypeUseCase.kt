@@ -17,7 +17,7 @@ class GetMeasurementTypeUseCase(
     operator fun invoke(measurementTypeId: Long): Flow<MeasurementType?> {
         return combine(
             measurementTypeRepository.observeById(measurementTypeId),
-            measurementUnitRepository.getByTypeId(measurementTypeId),
+            measurementUnitRepository.observeByTypeId(measurementTypeId),
         ) { type, units ->
             type?.apply {
                 this.property = measurementPropertyRepository.getById(propertyId)

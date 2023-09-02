@@ -59,9 +59,8 @@ fun MeasurementPropertyForm(
                     FormRowLabel(stringResource(MR.strings.measurement_types))
                 }
 
-                val listItems = viewState.types
                 itemsIndexed(
-                    items = listItems,
+                    items = viewState.types,
                     key = { _, item -> item.id },
                 ) { index, type ->
                     MeasurementTypeListItem(
@@ -69,7 +68,7 @@ fun MeasurementPropertyForm(
                         onArrowUp = viewModel::decrementSortIndex,
                         showArrowUp = index > 0,
                         onArrowDown = viewModel::incrementSortIndex,
-                        showArrowDown = index < listItems.size - 1,
+                        showArrowDown = index < viewState.types.size - 1,
                         modifier = Modifier
                             .animateItemPlacement()
                             .clickable { navigator.push(Screen.MeasurementTypeForm(type.id)) },

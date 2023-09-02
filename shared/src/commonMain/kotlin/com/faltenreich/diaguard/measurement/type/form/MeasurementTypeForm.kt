@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.measurement.type.form
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -13,7 +15,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnitList
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.FormRowLabel
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
@@ -31,30 +33,43 @@ fun MeasurementTypeForm(
         is MeasurementTypeFormViewState.Loading -> LoadingIndicator()
 
         is MeasurementTypeFormViewState.Loaded -> {
-            Column(modifier = modifier) {
-                TextInput(
-                    input = viewModel.typeName.collectAsState().value,
-                    onInputChange = { input -> viewModel.typeName.value = input },
-                    label = stringResource(MR.strings.name),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = AppTheme.dimensions.padding.P_3),
-                )
-                if (state.type.property.isUserGenerated) {
+            LazyColumn(modifier = modifier) {
+                item {
                     TextInput(
-                        input = viewModel.unitName.collectAsState().value,
-                        onInputChange = { input -> viewModel.unitName.value = input },
-                        label = stringResource(MR.strings.measurement_unit),
+                        input = viewModel.typeName.collectAsState().value,
+                        onInputChange = { input -> viewModel.typeName.value = input },
+                        label = stringResource(MR.strings.name),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = AppTheme.dimensions.padding.P_3),
+                            .padding(all = AppTheme.dimensions.padding.P_3),
                     )
+                }
+                if (state.type.property.isUserGenerated) {
+                    item {
+                        TextInput(
+                            input = viewModel.unitName.collectAsState().value,
+                            onInputChange = { input -> viewModel.unitName.value = input },
+                            label = stringResource(MR.strings.measurement_unit),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = AppTheme.dimensions.padding.P_3),
+                        )
+                    }
                 } else {
-                    FormRowLabel(stringResource(MR.strings.measurement_units))
-                    MeasurementUnitList(
-                        units = state.type.units,
-                        onItemClick = viewModel::setSelectedUnit,
-                    )
+                    item {
+                        FormRowLabel(stringResource(MR.strings.measurement_units))
+                    }
+                    items(
+                        items = state.type.units,
+                        key = MeasurementUnit::id,
+                    ) { unit ->
+                        MeasurementUnitListItem(
+                            unit = unit,
+                            modifier = Modifier
+                                .animateItemPlacement()
+                                .clickable { viewModel.setSelectedUnit(unit) },
+                        )
+                    }
                 }
             }
 

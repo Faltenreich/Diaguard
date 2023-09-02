@@ -9,11 +9,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -34,11 +34,18 @@ class MeasurementTypeFormViewModel(
 
     private val type = getMeasurementTypeUseCase(measurementTypeId)
 
-    // TODO: Merge showDeletionDialog and countMeasurementValuesOfType into
-    private val state = type.map { type ->
+    private val state = combine(
+        getMeasurementTypeUseCase(measurementTypeId),
+        showDeletionDialog,
+        countMeasurementValuesOfType(measurementTypeId),
+    ) { type, showDeletionDialog, measurementCount ->
         when (type) {
             null -> MeasurementTypeFormViewState.Error
-            else ->  MeasurementTypeFormViewState.Loaded(type, showDeletionDialog = false, measurementCount = 0)
+            else ->  MeasurementTypeFormViewState.Loaded(
+                type = type,
+                showDeletionDialog = showDeletionDialog,
+                measurementCount = measurementCount,
+            )
         }
     }.flowOn(dispatcher)
     val viewState = state.stateIn(

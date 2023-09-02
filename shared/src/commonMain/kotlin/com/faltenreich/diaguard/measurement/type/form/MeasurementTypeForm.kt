@@ -29,7 +29,7 @@ fun MeasurementTypeForm(
 ) {
     val navigator = LocalNavigator.currentOrThrow
 
-    when (val state = viewModel.viewState.collectAsState().value) {
+    when (val viewState = viewModel.viewState.collectAsState().value) {
         is MeasurementTypeFormViewState.Loading -> LoadingIndicator()
 
         is MeasurementTypeFormViewState.Loaded -> {
@@ -44,7 +44,7 @@ fun MeasurementTypeForm(
                             .padding(all = AppTheme.dimensions.padding.P_3),
                     )
                 }
-                if (state.type.property.isUserGenerated) {
+                if (viewState.type.property.isUserGenerated) {
                     item {
                         TextInput(
                             input = viewModel.unitName.collectAsState().value,
@@ -60,7 +60,7 @@ fun MeasurementTypeForm(
                         FormRowLabel(stringResource(MR.strings.measurement_units))
                     }
                     items(
-                        items = state.type.units,
+                        items = viewState.type.units,
                         key = MeasurementUnit::id,
                     ) { unit ->
                         MeasurementUnitListItem(
@@ -73,12 +73,12 @@ fun MeasurementTypeForm(
                 }
             }
 
-            if (state.showDeletionDialog) {
+            if (viewState.showDeletionDialog) {
                 AlertDialog(
                     onDismissRequest = viewModel::hideDeletionDialog,
                     confirmButton = {
                         TextButton(onClick = {
-                            viewModel.deleteType(state.type)
+                            viewModel.deleteType(viewState.type)
                             viewModel.hideDeletionDialog()
                             navigator.pop()
                         }) {
@@ -91,7 +91,7 @@ fun MeasurementTypeForm(
                         }
                     },
                     title = { Text(stringResource(MR.strings.measurement_type_delete)) },
-                    text = { Text(stringResource(MR.strings.measurement_type_delete_description, state.measurementCount)) },
+                    text = { Text(stringResource(MR.strings.measurement_type_delete_description, viewState.measurementCount)) },
                 )
             }
         }

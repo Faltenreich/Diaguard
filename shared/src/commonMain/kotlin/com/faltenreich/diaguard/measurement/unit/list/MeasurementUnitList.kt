@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.measurement.type.form.MeasurementUnitListItem
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.FormRowLabel

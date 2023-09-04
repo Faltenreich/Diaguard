@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.type.form
+package com.faltenreich.diaguard.measurement.unit.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

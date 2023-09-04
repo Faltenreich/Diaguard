@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.faltenreich.diaguard.measurement.property.form.MeasurementTypeListItem
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.type.form
 
 import com.faltenreich.diaguard.measurement.type.MeasurementType
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
@@ -24,7 +23,6 @@ class MeasurementTypeFormViewModel(
     countMeasurementValuesOfType: CountMeasurementValuesOfTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
-    private val updateMeasurementUnit: UpdateMeasurementUnitUseCase = inject(),
 ) : ViewModel() {
 
     var typeName = MutableStateFlow("")
@@ -76,11 +74,6 @@ class MeasurementTypeFormViewModel(
                 //  updateMeasurementUnit(unit.copy(name = name))
             }
         }
-    }
-
-    fun setSelectedUnit(unit: MeasurementUnit) = viewModelScope.launch(dispatcher) {
-        val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: return@launch
-        updateMeasurementType(type.copy(selectedUnitId = unit.id))
     }
 
     fun deleteTypeIfConfirmed() = viewModelScope.launch(dispatcher) {

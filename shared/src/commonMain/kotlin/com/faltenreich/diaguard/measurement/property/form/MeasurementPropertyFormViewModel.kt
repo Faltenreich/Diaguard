@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
-import com.faltenreich.diaguard.measurement.type.form.UpdateMeasurementTypeUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
@@ -24,7 +23,6 @@ class MeasurementPropertyFormViewModel(
     countMeasurementValuesOfProperty: CountMeasurementValuesOfPropertyUseCase = inject(),
     updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementType: CreateMeasurementTypeUseCase = inject(),
-    private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementProperty: DeleteMeasurementPropertyUseCase = inject(),
 ) : ViewModel() {
 
@@ -61,24 +59,6 @@ class MeasurementPropertyFormViewModel(
             icon.debounce(DateTimeConstants.INPUT_DEBOUNCE)
                 .collectLatest { icon -> updateMeasurementProperty(property.copy(icon = icon)) }
         }
-    }
-
-    fun decrementSortIndex(type: MeasurementType) = viewModelScope.launch(dispatcher) {
-        val types = types ?: return@launch
-        swapSortIndexes(first = type, second = types.last { it.sortIndex < type.sortIndex })
-    }
-
-    fun incrementSortIndex(type: MeasurementType) = viewModelScope.launch(dispatcher) {
-        val types = types ?: return@launch
-        swapSortIndexes(first = type, second = types.first { it.sortIndex > type.sortIndex })
-    }
-
-    private fun swapSortIndexes(
-        first: MeasurementType,
-        second: MeasurementType,
-    ) = viewModelScope.launch(dispatcher) {
-        updateMeasurementType(first.copy(sortIndex = second.sortIndex))
-        updateMeasurementType(second.copy(sortIndex = first.sortIndex))
     }
 
     fun showFormDialog() = viewModelScope.launch(dispatcher) {

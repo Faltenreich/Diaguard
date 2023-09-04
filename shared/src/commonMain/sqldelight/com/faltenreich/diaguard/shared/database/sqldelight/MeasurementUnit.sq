@@ -20,6 +20,12 @@ SELECT * FROM measurementUnit WHERE id = ?;
 getByType:
 SELECT * FROM measurementUnit WHERE type_id = ? ORDER BY created_at ASC;
 
+getByPropertyId:
+SELECT measurementUnit.* FROM measurementUnit
+INNER JOIN measurementType ON measurementType.id = measurementUnit.type_id
+WHERE measurementType.property_id = ?
+ORDER BY measurementUnit.created_at ASC;
+
 getAll:
 SELECT * FROM measurementUnit ORDER BY created_at ASC;
 

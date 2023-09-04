@@ -17,8 +17,8 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.FormRowLabel
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextInput
 import dev.icerock.moko.resources.compose.stringResource
@@ -53,11 +53,13 @@ fun MeasurementPropertyForm(
                             modifier = Modifier.fillMaxWidth(),
                         )
                     }
-
-                    FormRowLabel(stringResource(MR.strings.measurement_types))
                 }
 
-                MeasurementTypeList(types = viewState.types)
+                if (viewState.property.isPredefined && viewState.types.size == 1) {
+                    MeasurementUnitList(units = viewState.types.first().units)
+                } else {
+                    MeasurementTypeList(types = viewState.types)
+                }
             }
 
             if (viewState.showFormDialog) {

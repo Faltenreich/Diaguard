@@ -18,6 +18,8 @@ interface MeasurementUnitDao {
 
     fun observeByTypeId(typeId: Long): Flow<List<MeasurementUnit>>
 
+    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit>>
+
     fun observeAll(): Flow<List<MeasurementUnit>>
 
     fun update(

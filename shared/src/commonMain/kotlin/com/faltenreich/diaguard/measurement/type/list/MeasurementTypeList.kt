@@ -6,15 +6,21 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.FormRowLabel
+import dev.icerock.moko.resources.compose.stringResource
 
 @Suppress("FunctionName")
 fun LazyListScope.MeasurementTypeList(
     types: List<MeasurementType>,
     viewModel: MeasurementTypeListViewModel = inject(),
 ) {
+    item {
+        FormRowLabel(stringResource(MR.strings.measurement_types))
+    }
     itemsIndexed(
         items = types,
         key = { _, item -> item.id },

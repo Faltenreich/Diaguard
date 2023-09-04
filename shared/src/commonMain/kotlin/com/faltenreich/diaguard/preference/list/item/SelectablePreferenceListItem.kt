@@ -27,7 +27,7 @@ fun <T : SelectablePreference> SelectablePreferenceItem(
     val scope = rememberCoroutineScope()
     var isExpanded by rememberSaveable { mutableStateOf(false) }
     Box(modifier = modifier) {
-        PreferenceListItem(
+        PreferenceListItemLayout(
             preference = preference,
             modifier = Modifier.clickable { isExpanded = true },
         )

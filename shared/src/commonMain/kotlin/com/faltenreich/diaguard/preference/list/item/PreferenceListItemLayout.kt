@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.preference.list.Preference
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
-fun PreferenceListItem(
+fun PreferenceListItemLayout(
     preference: Preference,
     modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)? = null,

@@ -13,7 +13,7 @@ fun PlainPreferenceItem(
     modifier: Modifier = Modifier,
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    PreferenceListItem(
+    PreferenceListItemLayout(
         preference = preference,
         modifier = modifier.clickable { preference.onClick(navigator) },
     )

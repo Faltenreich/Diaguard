@@ -14,7 +14,7 @@ fun FolderPreferenceListItem(
     modifier: Modifier = Modifier,
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    PreferenceListItem(
+    PreferenceListItemLayout(
         preference = preference,
         modifier = modifier.clickable {
             navigator.push(Screen.PreferenceList(preference.preferences))

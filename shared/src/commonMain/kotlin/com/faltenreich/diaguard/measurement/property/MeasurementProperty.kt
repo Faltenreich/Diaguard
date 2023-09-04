@@ -22,6 +22,9 @@ data class MeasurementProperty(
     val isBloodSugar: Boolean
         get() = id == BLOOD_SUGAR_ID
 
+    val isPredefined: Boolean
+        get() = !isUserGenerated
+
     companion object {
 
         // TODO: Identify Blood Sugar accordingly

@@ -1,12 +1,10 @@
 package com.faltenreich.diaguard.measurement.property.form
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -18,7 +16,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.FormRowLabel
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
@@ -59,21 +57,7 @@ fun MeasurementPropertyForm(
                     FormRowLabel(stringResource(MR.strings.measurement_types))
                 }
 
-                itemsIndexed(
-                    items = viewState.types,
-                    key = { _, item -> item.id },
-                ) { index, type ->
-                    MeasurementTypeListItem(
-                        type = type,
-                        onArrowUp = viewModel::decrementSortIndex,
-                        showArrowUp = index > 0,
-                        onArrowDown = viewModel::incrementSortIndex,
-                        showArrowDown = index < viewState.types.size - 1,
-                        modifier = Modifier
-                            .animateItemPlacement()
-                            .clickable { navigator.push(Screen.MeasurementTypeForm(type.id)) },
-                    )
-                }
+                MeasurementTypeList(types = viewState.types)
             }
 
             if (viewState.showFormDialog) {

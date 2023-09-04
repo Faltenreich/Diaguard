@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.measurement.type.form.UpdateMeasurementTypeUseCa
 import com.faltenreich.diaguard.measurement.type.form.UpdateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeListViewModel
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListViewModel
 import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import org.koin.core.module.dsl.singleOf
@@ -52,4 +53,6 @@ fun measurementModule() = module {
     singleOf(::DeleteMeasurementTypeUseCase)
     singleOf(::UpdateMeasurementUnitUseCase)
     factory { (measurementTypeId: Long) -> MeasurementTypeFormViewModel(measurementTypeId) }
+
+    singleOf(::MeasurementUnitListViewModel)
 }

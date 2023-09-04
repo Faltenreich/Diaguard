@@ -1,10 +1,8 @@
 package com.faltenreich.diaguard.measurement.type.form
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -15,9 +13,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.FormRowLabel
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextInput
 import dev.icerock.moko.resources.compose.stringResource
@@ -56,20 +53,7 @@ fun MeasurementTypeForm(
                         )
                     }
                 } else {
-                    item {
-                        FormRowLabel(stringResource(MR.strings.measurement_units))
-                    }
-                    items(
-                        items = viewState.type.units,
-                        key = MeasurementUnit::id,
-                    ) { unit ->
-                        MeasurementUnitListItem(
-                            unit = unit,
-                            modifier = Modifier
-                                .animateItemPlacement()
-                                .clickable { viewModel.setSelectedUnit(unit) },
-                        )
-                    }
+                    MeasurementUnitList(units = viewState.type.units)
                 }
             }
 

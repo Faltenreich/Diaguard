@@ -28,9 +28,9 @@ sealed interface DashboardViewState {
         )
 
         data class Average(
-            val day: String,
-            val week: String,
-            val month: String,
+            val day: String?,
+            val week: String?,
+            val month: String?,
         )
 
         data class HbA1c(

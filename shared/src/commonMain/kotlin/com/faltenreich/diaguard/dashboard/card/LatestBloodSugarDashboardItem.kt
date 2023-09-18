@@ -34,9 +34,9 @@ fun LatestDashboardItem(
         onClick = { navigator.push(Screen.EntryForm(entry = data?.value?.entry)) },
         modifier = modifier,
     ) {
-        val (value, unit) = data?.value to data?.value?.type?.selectedUnit
+        val value = data?.value
         when {
-            value != null && unit != null -> Column(
+            value != null -> Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(all = AppTheme.dimensions.padding.P_3)
@@ -45,7 +45,7 @@ fun LatestDashboardItem(
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = valueFormatter.formatValue(value = value, unit = unit),
+                        text = valueFormatter.formatValue(value),
                         style = AppTheme.typography.displayLarge,
                     )
                     Text(dateTimeFormatter.formatTimePassed(value.entry.dateTime))

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.database.sqldelight.GetAverageByDateTime
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 
@@ -105,5 +106,9 @@ class MeasurementValueSqlDelightMapper(
                 note = entryNote,
             )
         }
+    }
+
+    fun map(averageByDateTime: GetAverageByDateTime): Double? {
+        return averageByDateTime.AVG
     }
 }

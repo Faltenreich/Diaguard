@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class MeasurementValueSqlDelightDao(
     private val dispatcher: CoroutineDispatcher = inject(),
@@ -69,6 +70,19 @@ class MeasurementValueSqlDelightDao(
             maxDateTime.isoString,
             mapper::map,
         ).asFlow().mapToList(dispatcher)
+    }
+
+
+    override fun observeAverageByPropertyId(
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime
+    ): Flow<Double?> {
+        return queries.getAverageByDateTime(
+            propertyId,
+            minDateTime.isoString,
+            maxDateTime.isoString,
+        ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
     }
 
     override fun observeCountByTypeId(typeId: Long): Flow<Long> {

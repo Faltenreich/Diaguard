@@ -40,9 +40,8 @@ fun MainView(
                 Scaffold(
                     topBar = {
                         val screen = navigator.lastItem as? Screen
-                        val style = screen?.topAppBarStyle()
-                        AnimatedVisibility(style != null && style != TopAppBarStyle.Hidden) {
-                            style ?: return@AnimatedVisibility
+                        val style = screen?.topAppBarStyle() ?: TopAppBarStyle.Hidden
+                        AnimatedVisibility(style != TopAppBarStyle.Hidden) {
                             TopAppBar(
                                 style = style,
                                 navigator = navigator,
@@ -57,9 +56,8 @@ fun MainView(
                     },
                     bottomBar = {
                         val screen = navigator.lastItem as? Screen
-                        val style = screen?.bottomAppBarStyle()
-                        AnimatedVisibility(style != null && style != BottomAppBarStyle.Hidden) {
-                            style ?: return@AnimatedVisibility
+                        val style = screen?.bottomAppBarStyle() ?: BottomAppBarStyle.Hidden
+                        AnimatedVisibility(style != BottomAppBarStyle.Hidden) {
                             BottomAppBar(
                                 style = style,
                                 onMenuClick = { openBottomSheet = true },

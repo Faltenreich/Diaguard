@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.dashboard
 
+import com.faltenreich.diaguard.dashboard.usecase.GetAverageUseCase
 import com.faltenreich.diaguard.dashboard.usecase.GetLatestBloodSugarUseCase
 import com.faltenreich.diaguard.dashboard.usecase.GetTodayUseCase
 import com.faltenreich.diaguard.dashboard.usecase.IsFirstVisitUseCase
@@ -12,4 +13,5 @@ fun dashboardModule() = module {
     singleOf(::IsFirstVisitUseCase)
     singleOf(::GetLatestBloodSugarUseCase)
     singleOf(::GetTodayUseCase)
+    singleOf(::GetAverageUseCase)
 }

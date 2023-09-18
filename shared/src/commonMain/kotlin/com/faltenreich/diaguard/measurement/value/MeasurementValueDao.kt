@@ -28,6 +28,12 @@ interface MeasurementValueDao {
         maxDateTime: DateTime,
     ) : Flow<List<MeasurementValue>>
 
+    fun observeAverageByPropertyId(
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime
+    ): Flow<Double?>
+
     fun observeCountByTypeId(typeId: Long): Flow<Long>
 
     fun update(

@@ -1,11 +1,14 @@
 package com.faltenreich.diaguard.measurement.value
 
-class MeasurementValueFormatter {
+import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.primitive.NumberFormatter
+
+class MeasurementValueFormatter(
+    private val numberFormatter: NumberFormatter = inject(),
+) {
 
     fun formatValue(value: Double, factor: Double): String {
-        val valueForSelectedUnit = value * factor
-        // TODO: Format separator according to language
-        return valueForSelectedUnit.toString()
+        return numberFormatter.format(value * factor)
     }
 
     fun formatValue(value: MeasurementValue): String {

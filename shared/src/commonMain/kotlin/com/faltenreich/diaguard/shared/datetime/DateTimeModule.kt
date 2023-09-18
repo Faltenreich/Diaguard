@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalComposeUiApi::class)
-
 package com.faltenreich.diaguard.shared.datetime
 
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key.Companion.T
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDate
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTime

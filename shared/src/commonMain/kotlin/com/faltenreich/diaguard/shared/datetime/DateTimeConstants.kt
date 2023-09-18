@@ -7,6 +7,8 @@ object DateTimeConstants {
 
     const val MONTHS_PER_YEAR = 12
 
+    const val DAYS_PER_WEEK = 7
+
     const val HOURS_PER_DAY = 24
 
     const val MINUTES_PER_HOUR = 60

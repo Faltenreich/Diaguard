@@ -16,16 +16,25 @@ getLastId:
 SELECT last_insert_rowid();
 
 getById:
-SELECT * FROM measurementType WHERE id = ?;
+SELECT * FROM measurementType
+INNER JOIN measurementUnit ON measurementUnit.id = measurementType.selected_unit_id
+WHERE measurementType.id = ?;
 
 getByProperty:
-SELECT * FROM measurementType WHERE property_id = ? ORDER BY sort_index ASC;
+SELECT * FROM measurementType
+INNER JOIN measurementUnit ON measurementUnit.id = measurementType.selected_unit_id
+WHERE measurementType.property_id = ?
+ORDER BY measurementType.sort_index ASC;
 
 getAll:
-SELECT * FROM measurementType ORDER BY sort_index ASC;
+SELECT * FROM measurementType
+INNER JOIN measurementUnit ON measurementUnit.id = measurementType.selected_unit_id
+ORDER BY measurementType.sort_index ASC;
 
 update:
-UPDATE measurementType SET updated_at = ?, name = ?, sort_index = ?, selected_unit_id = ? WHERE id = ?;
+UPDATE measurementType
+SET updated_at = ?, name = ?, sort_index = ?, selected_unit_id = ?
+WHERE id = ?;
 
 deleteById:
 DELETE FROM measurementType WHERE id = ?;

@@ -44,7 +44,7 @@ class GetAverageUseCase(
                 maxDateTime = todayAtEndOfDay,
             ),
         ) { types: List<MeasurementType>, averageOfDay: Double?, averageOfWeek: Double?, averageOfMonth: Double? ->
-            val factor = types.first().selectedUnit?.factor ?: return@combine null
+            val factor = types.first().selectedUnit?.factor ?: throw IllegalStateException("Missing selected unit")
             DashboardViewState.Revisit.Average(
                 day = averageOfDay?.let {
                     measurementValueFormatter.formatValue(

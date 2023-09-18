@@ -11,8 +11,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.transitions.FadeTransition
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
@@ -50,18 +50,10 @@ fun MainView(
                         }
                     },
                     content = { padding ->
-                        Box(modifier = modifier.padding(padding)) {
-                            CurrentScreen()
-                        }
-                        /**
-                         * FIXME
-                         * Replace when this works with Compose 1.5+ and Material3 1.2+
-                         * https://github.com/adrielcafe/voyager/issues/182
                         FadeTransition(
                             navigator = navigator,
                             modifier = Modifier.padding(padding),
                         )
-                        */
                     },
                     bottomBar = {
                         val screen = navigator.lastItem as? Screen

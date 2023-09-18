@@ -13,7 +13,6 @@ kotlin {
 
     ios()
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -64,9 +63,10 @@ kotlin {
             languageSettings {
                 optIn("androidx.compose.foundation.ExperimentalFoundationApi")
                 optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+                optIn("androidx.compose.animation.ExperimentalAnimationApi")
+                optIn("androidx.compose.ui.text.ExperimentalTextApi")
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 optIn("kotlinx.coroutines.FlowPreview")
-                optIn("androidx.compose.ui.text.ExperimentalTextApi")
             }
         }
     }

@@ -20,7 +20,7 @@ object Versions {
     const val serialization = "1.5.0"
     const val sqlDelight = "2.0.0"
     const val turbine = "0.12.3"
-    const val voyager = "1.0.0-rc06"
+    const val voyager = "1.0.0-rc07"
 }
 
 object Configuration {

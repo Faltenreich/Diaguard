@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.shared.datetime
 
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.primitive.format
 
-class DateTimeFormatter(private val localization: Localization) {
+class DateTimeFormatter {
 
     fun formatDateTime(dateTime: DateTime): String {
         return dateTime.run {
@@ -26,7 +26,7 @@ class DateTimeFormatter(private val localization: Localization) {
     }
 
     fun formatMonth(month: Month, abbreviated: Boolean): String {
-        return month.run { localization.getString(if (abbreviated) abbreviation else label) }
+        return month.run { getString(if (abbreviated) abbreviation else label) }
     }
 
     fun formatMonthOfYear(monthOfYear: MonthOfYear, abbreviated: Boolean): String {
@@ -43,7 +43,7 @@ class DateTimeFormatter(private val localization: Localization) {
     }
 
     fun formatDayOfWeek(date: Date, abbreviated: Boolean): String {
-        return date.dayOfWeek.run { localization.getString(if (abbreviated) abbreviation else label) }
+        return date.dayOfWeek.run { getString(if (abbreviated) abbreviation else label) }
     }
 
     fun formatTime(time: Time): String {
@@ -58,16 +58,16 @@ class DateTimeFormatter(private val localization: Localization) {
     fun formatTimePassed(dateTime: DateTime): String {
         val minutesPassed = dateTime.minutesUntil(DateTime.now())
         return when {
-            minutesPassed < 2 -> localization.getString(MR.strings.date_time_ago_moments)
-            minutesPassed < DateTimeConstants.MINUTES_PER_HOUR * 2 -> localization.getString(
+            minutesPassed < 2 -> getString(MR.strings.date_time_ago_moments)
+            minutesPassed < DateTimeConstants.MINUTES_PER_HOUR * 2 -> getString(
                 MR.strings.date_time_ago_minutes,
                 minutesPassed,
             )
-            minutesPassed < DateTimeConstants.MINUTES_PER_DAY * 2 -> localization.getString(
+            minutesPassed < DateTimeConstants.MINUTES_PER_DAY * 2 -> getString(
                 MR.strings.date_time_ago_hours,
                 minutesPassed / DateTimeConstants.MINUTES_PER_HOUR,
             )
-            else -> localization.getString(
+            else -> getString(
                 MR.strings.date_time_ago_days,
                 minutesPassed / DateTimeConstants.MINUTES_PER_DAY,
             )

@@ -17,15 +17,12 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.navigation.Screen
-import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
-import com.faltenreich.diaguard.shared.di.inject
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun LatestDashboardItem(
     data: DashboardViewState.Revisit.LatestBloodSugar?,
     modifier: Modifier = Modifier,
-    dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
     val navigator = LocalNavigator.currentOrThrow
     Card(
@@ -45,7 +42,7 @@ fun LatestDashboardItem(
                         text = data.value,
                         style = AppTheme.typography.displayLarge,
                     )
-                    Text(dateTimeFormatter.formatTimePassed(data.entry.dateTime))
+                    Text(data.timePassed)
                 }
             }
             else -> Text(

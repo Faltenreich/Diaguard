@@ -1,13 +1,10 @@
 package com.faltenreich.diaguard.shared.datetime
 
-import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.format
-import dev.icerock.moko.resources.compose.stringResource
 
-class DateTimeFormatter(private val localization: Localization = inject()) {
+class DateTimeFormatter(private val localization: Localization) {
 
     fun formatDateTime(dateTime: DateTime): String {
         return dateTime.run {
@@ -28,12 +25,10 @@ class DateTimeFormatter(private val localization: Localization = inject()) {
         }
     }
 
-    @Composable
     fun formatMonth(month: Month, abbreviated: Boolean): String {
-        return month.run { stringResource(if (abbreviated) abbreviation else label) }
+        return month.run { localization.getString(if (abbreviated) abbreviation else label) }
     }
 
-    @Composable
     fun formatMonthOfYear(monthOfYear: MonthOfYear, abbreviated: Boolean): String {
         return monthOfYear.run {
             "%s %04d".format(
@@ -47,9 +42,8 @@ class DateTimeFormatter(private val localization: Localization = inject()) {
         return "%02d".format(date.dayOfMonth)
     }
 
-    @Composable
     fun formatDayOfWeek(date: Date, abbreviated: Boolean): String {
-        return date.dayOfWeek.run { stringResource(if (abbreviated) abbreviation else label) }
+        return date.dayOfWeek.run { localization.getString(if (abbreviated) abbreviation else label) }
     }
 
     fun formatTime(time: Time): String {

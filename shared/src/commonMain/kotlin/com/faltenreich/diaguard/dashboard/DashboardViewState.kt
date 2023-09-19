@@ -20,6 +20,7 @@ sealed interface DashboardViewState {
         data class LatestBloodSugar(
             val entry: Entry,
             val value: String,
+            val timePassed: String,
         )
 
         data class Today(

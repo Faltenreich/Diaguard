@@ -16,7 +16,6 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
-import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
@@ -27,16 +26,14 @@ fun LatestDashboardItem(
     data: DashboardViewState.Revisit.LatestBloodSugar?,
     modifier: Modifier = Modifier,
     dateTimeFormatter: DateTimeFormatter = inject(),
-    valueFormatter: MeasurementValueFormatter = inject(),
 ) {
     val navigator = LocalNavigator.currentOrThrow
     Card(
-        onClick = { navigator.push(Screen.EntryForm(entry = data?.value?.entry)) },
+        onClick = { navigator.push(Screen.EntryForm(entry = data?.entry)) },
         modifier = modifier,
     ) {
-        val value = data?.value
         when {
-            value != null -> Column(
+            data != null -> Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(all = AppTheme.dimensions.padding.P_3)
@@ -45,10 +42,10 @@ fun LatestDashboardItem(
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = valueFormatter.formatValue(value),
+                        text = data.value,
                         style = AppTheme.typography.displayLarge,
                     )
-                    Text(dateTimeFormatter.formatTimePassed(value.entry.dateTime))
+                    Text(dateTimeFormatter.formatTimePassed(data.entry.dateTime))
                 }
             }
             else -> Text(

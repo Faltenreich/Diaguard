@@ -20,8 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
+@Deprecated("Replace with official solution when available")
 fun TimePickerDialog(
     onDismissRequest: () -> Unit,
     confirmButton: @Composable () -> Unit,
@@ -54,7 +57,7 @@ fun TimePickerDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 20.dp),
-                    text = "Select Time",
+                    text = getString(MR.strings.time_select),
                     style = MaterialTheme.typography.labelMedium
                 )
                 content()

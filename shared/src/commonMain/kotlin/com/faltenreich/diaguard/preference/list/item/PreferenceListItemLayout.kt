@@ -32,7 +32,12 @@ fun PreferenceListItemLayout(
         Column {
             Column {
                 Text(getString(preference.title))
-                preference.subtitle?.let { subtitle -> Text(subtitle) }
+                preference.subtitle?.let { subtitle ->
+                    Text(
+                        text = subtitle,
+                        style = AppTheme.typography.bodySmall,
+                    )
+                }
             }
         }
         content?.invoke()

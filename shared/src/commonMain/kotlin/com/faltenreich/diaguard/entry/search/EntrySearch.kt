@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun EntrySearch(
@@ -23,7 +23,7 @@ fun EntrySearch(
         contentAlignment = Alignment.Center,
     ) {
         when (val viewState = viewModel.viewState.collectAsState().value) {
-            is EntrySearchViewState.Idle ->  Text(stringResource(MR.strings.entry_search_placeholder))
+            is EntrySearchViewState.Idle ->  Text(getString(MR.strings.entry_search_placeholder))
             is EntrySearchViewState.Loading -> LoadingIndicator()
             is EntrySearchViewState.Result -> EntryList(viewState.entries)
             is EntrySearchViewState.Error -> Text("Error")

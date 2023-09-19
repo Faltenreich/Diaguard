@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.Time
-import dev.icerock.moko.resources.compose.stringResource
+import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 actual fun DatePicker(
@@ -29,12 +29,12 @@ actual fun DatePicker(
                     } ?: date)
                 },
             ) {
-                Text(stringResource(MR.strings.ok))
+                Text(getString(MR.strings.ok))
             }
         },
         dismissButton = {
             TextButton(onClick = { onPick(date) }) {
-                Text(stringResource(MR.strings.cancel))
+                Text(getString(MR.strings.cancel))
             }
         },
     ) {

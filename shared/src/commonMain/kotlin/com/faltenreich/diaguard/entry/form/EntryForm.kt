@@ -14,6 +14,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DatePicker
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
@@ -21,7 +22,6 @@ import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.TimePicker
 import com.faltenreich.diaguard.shared.view.rememberDatePickerState
 import com.faltenreich.diaguard.shared.view.rememberTimePickerState
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun EntryForm(
@@ -47,7 +47,7 @@ fun EntryForm(
             TextInput(
                 input = viewModel.tag,
                 onInputChange = { input -> viewModel.tag = input },
-                label = stringResource(MR.strings.tag),
+                label = getString(MR.strings.tag),
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -56,13 +56,13 @@ fun EntryForm(
             TextInput(
                 input = viewModel.note,
                 onInputChange = { input -> viewModel.note = input },
-                label = stringResource(MR.strings.note),
+                label = getString(MR.strings.note),
                 modifier = Modifier.fillMaxWidth()
             )
         }
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_alarm) }) {
-            Text(stringResource(MR.strings.alarm_placeholder))
+            Text(getString(MR.strings.alarm_placeholder))
         }
         Divider()
         viewModel.measurements.forEach { property ->

@@ -22,11 +22,11 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DayOfWeek
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.timeline.chart.TimelineChart
 import com.faltenreich.diaguard.timeline.chart.TimelineList
 import com.faltenreich.diaguard.timeline.chart.TimelineXAxis
 import com.faltenreich.diaguard.timeline.chart.TimelineYAxis
-import dev.icerock.moko.resources.compose.stringResource
 import kotlin.math.ceil
 
 @Composable
@@ -42,7 +42,7 @@ fun TimelineCanvas(
     var offset by remember { mutableStateOf(Offset.Zero) }
     val config = TimelineConfig(
         initialDate = initialDate,
-        daysOfWeek = DayOfWeek.values().associateWith { stringResource(it.abbreviation) },
+        daysOfWeek = DayOfWeek.values().associateWith { getString(it.abbreviation) },
         textMeasurer = rememberTextMeasurer(),
         dateTimeFormatter = dateTimeFormatter,
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },

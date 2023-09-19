@@ -6,7 +6,7 @@ import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.datetime.Time
-import dev.icerock.moko.resources.compose.stringResource
+import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 actual fun TimePicker(
@@ -22,12 +22,12 @@ actual fun TimePicker(
         onDismissRequest = { onPick(time) },
         confirmButton = {
             TextButton(onClick = { onPick(Time(state.hour, state.minute)) }) {
-                Text(stringResource(MR.strings.ok))
+                Text(getString(MR.strings.ok))
             }
         },
         dismissButton = {
             TextButton(onClick = { onPick(time) }) {
-                Text(stringResource(MR.strings.cancel))
+                Text(getString(MR.strings.cancel))
             }
         },
     ) {

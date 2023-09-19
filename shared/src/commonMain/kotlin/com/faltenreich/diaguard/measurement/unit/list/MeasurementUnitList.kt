@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FormRowLabel
-import dev.icerock.moko.resources.compose.stringResource
 
 @Suppress("FunctionName")
 fun LazyListScope.MeasurementUnitList(
@@ -16,7 +16,7 @@ fun LazyListScope.MeasurementUnitList(
     viewModel: MeasurementUnitListViewModel = inject(),
 ) {
     item {
-        FormRowLabel(stringResource(MR.strings.measurement_units))
+        FormRowLabel(getString(MR.strings.measurement_units))
     }
     items(
         items = units,

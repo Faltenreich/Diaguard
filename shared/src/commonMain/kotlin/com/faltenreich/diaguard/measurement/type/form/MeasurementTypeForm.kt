@@ -15,9 +15,9 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextInput
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun MeasurementTypeForm(
@@ -35,7 +35,7 @@ fun MeasurementTypeForm(
                     TextInput(
                         input = viewModel.typeName.collectAsState().value,
                         onInputChange = { input -> viewModel.typeName.value = input },
-                        label = stringResource(MR.strings.name),
+                        label = getString(MR.strings.name),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(all = AppTheme.dimensions.padding.P_3),
@@ -46,7 +46,7 @@ fun MeasurementTypeForm(
                         TextInput(
                             input = viewModel.unitName.collectAsState().value,
                             onInputChange = { input -> viewModel.unitName.value = input },
-                            label = stringResource(MR.strings.measurement_unit),
+                            label = getString(MR.strings.measurement_unit),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = AppTheme.dimensions.padding.P_3),
@@ -66,16 +66,16 @@ fun MeasurementTypeForm(
                             viewModel.hideDeletionDialog()
                             navigator.pop()
                         }) {
-                            Text(stringResource( MR.strings.delete))
+                            Text(getString( MR.strings.delete))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = viewModel::hideDeletionDialog) {
-                            Text(stringResource( MR.strings.cancel))
+                            Text(getString( MR.strings.cancel))
                         }
                     },
-                    title = { Text(stringResource(MR.strings.measurement_type_delete)) },
-                    text = { Text(stringResource(MR.strings.measurement_type_delete_description, viewState.measurementCount)) },
+                    title = { Text(getString(MR.strings.measurement_type_delete)) },
+                    text = { Text(getString(MR.strings.measurement_type_delete_description, viewState.measurementCount)) },
                 )
             }
         }

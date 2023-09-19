@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun MeasurementPropertyFormDialog(
@@ -34,21 +34,21 @@ fun MeasurementPropertyFormDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = { onConfirmRequest(propertyName) }) {
-                Text(stringResource(MR.strings.create))
+                Text(getString(MR.strings.create))
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(stringResource(MR.strings.cancel))
+                Text(getString(MR.strings.cancel))
             }
         },
-        title = { Text(stringResource(MR.strings.measurement_property_new)) },
+        title = { Text(getString(MR.strings.measurement_property_new)) },
         text = {
             TextInput(
                 input = propertyName,
                 onInputChange = { propertyName = it },
-                label = stringResource(MR.strings.name),
+                label = getString(MR.strings.name),
                 modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
             )
         }

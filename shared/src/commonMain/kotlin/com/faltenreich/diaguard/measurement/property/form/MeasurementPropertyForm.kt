@@ -19,9 +19,9 @@ import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextInput
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun MeasurementPropertyForm(
@@ -43,13 +43,13 @@ fun MeasurementPropertyForm(
                         TextInput(
                             input = viewModel.name.collectAsState().value,
                             onInputChange = { input -> viewModel.name.value = input },
-                            label = stringResource(MR.strings.name),
+                            label = getString(MR.strings.name),
                             modifier = Modifier.fillMaxWidth(),
                         )
                         TextInput(
                             input = viewModel.icon.collectAsState().value,
                             onInputChange = { input -> viewModel.icon.value = input },
-                            label = stringResource(MR.strings.icon),
+                            label = getString(MR.strings.icon),
                             modifier = Modifier.fillMaxWidth(),
                         )
                     }
@@ -85,18 +85,18 @@ fun MeasurementPropertyForm(
                             viewModel.hideDeletionDialog()
                             navigator.pop()
                         }) {
-                            Text(stringResource(MR.strings.delete))
+                            Text(getString(MR.strings.delete))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = viewModel::hideDeletionDialog) {
-                            Text(stringResource(MR.strings.cancel))
+                            Text(getString(MR.strings.cancel))
                         }
                     },
-                    title = { Text(stringResource(MR.strings.measurement_property_delete)) },
+                    title = { Text(getString(MR.strings.measurement_property_delete)) },
                     text = {
                         Text(
-                            stringResource(
+                            getString(
                                 MR.strings.measurement_property_delete_description,
                                 viewState.measurementCount
                             )

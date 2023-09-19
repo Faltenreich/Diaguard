@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
-import dev.icerock.moko.resources.compose.stringResource
+import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun AverageDashboardItem(
@@ -23,29 +23,29 @@ fun AverageDashboardItem(
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(
-                    text = stringResource(MR.strings.average),
+                    text = getString(MR.strings.average),
                     color = AppTheme.colors.Green,
                 )
                 Row {
                     Text(
-                        text = stringResource(MR.strings.day),
+                        text = getString(MR.strings.day),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.day ?: stringResource(MR.strings.placeholder))
+                    Text(data?.day ?: getString(MR.strings.placeholder))
                 }
                 Row {
                     Text(
-                        text = stringResource(MR.strings.week),
+                        text = getString(MR.strings.week),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.week ?: stringResource(MR.strings.placeholder))
+                    Text(data?.week ?: getString(MR.strings.placeholder))
                 }
                 Row {
                     Text(
-                        text = stringResource(MR.strings.month),
+                        text = getString(MR.strings.month),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.month ?: stringResource(MR.strings.placeholder))
+                    Text(data?.month ?: getString(MR.strings.placeholder))
                 }
             }
         }

@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
-import dev.icerock.moko.resources.compose.stringResource
+import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun TodayDashboardItem(
@@ -23,29 +23,29 @@ fun TodayDashboardItem(
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(
-                    text = stringResource(MR.strings.today),
+                    text = getString(MR.strings.today),
                     color = AppTheme.colors.Green,
                 )
                 Row {
                     Text(
-                        text = stringResource(MR.strings.measurements),
+                        text = getString(MR.strings.measurements),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.totalCount?.toString() ?: stringResource(MR.strings.placeholder))
+                    Text(data?.totalCount?.toString() ?: getString(MR.strings.placeholder))
                 }
                 Row {
                     Text(
-                        text = stringResource(MR.strings.hyper),
+                        text = getString(MR.strings.hyper),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.hyperCount?.toString() ?: stringResource(MR.strings.placeholder))
+                    Text(data?.hyperCount?.toString() ?: getString(MR.strings.placeholder))
                 }
                 Row {
                     Text(
-                        text = stringResource(MR.strings.hypo),
+                        text = getString(MR.strings.hypo),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.hypoCount?.toString() ?: stringResource(MR.strings.placeholder))
+                    Text(data?.hypoCount?.toString() ?: getString(MR.strings.placeholder))
                 }
             }
         }

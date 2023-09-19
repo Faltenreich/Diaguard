@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.list.Preference
+import com.faltenreich.diaguard.shared.localization.getString
 import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun CategoryPreferenceListItem(
@@ -43,7 +43,7 @@ fun CategoryPreferenceListItem(
             )
         }
         Text(
-            text = stringResource(preference.title),
+            text = getString(preference.title),
             color = AppTheme.colors.material.primary,
             fontWeight = FontWeight.Bold,
         )

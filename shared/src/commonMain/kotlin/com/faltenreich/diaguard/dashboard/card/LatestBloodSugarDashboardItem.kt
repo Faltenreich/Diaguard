@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.navigation.Screen
-import dev.icerock.moko.resources.compose.stringResource
+import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun LatestDashboardItem(
@@ -46,7 +46,7 @@ fun LatestDashboardItem(
                 }
             }
             else -> Text(
-                text = stringResource(MR.strings.entry_first_description),
+                text = getString(MR.strings.entry_first_description),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(all = AppTheme.dimensions.padding.P_3),

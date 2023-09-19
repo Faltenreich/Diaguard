@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FormRow
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun MeasurementUnitListItem(
@@ -29,7 +29,7 @@ fun MeasurementUnitListItem(
                     Text(unit.name)
                     if (!unit.isDefault) {
                         Text(
-                            text = stringResource(
+                            text = getString(
                                 MR.strings.measurement_unit_factor_description,
                                 unit.factor.toString(), // TODO: Format
                                 unit.type.units.first(MeasurementUnit::isDefault).name,
@@ -41,7 +41,7 @@ fun MeasurementUnitListItem(
                 if (unit.isSelected) {
                     Icon(
                         imageVector = Icons.Filled.Check,
-                        contentDescription = stringResource(MR.strings.measurement_unit_selected_description),
+                        contentDescription = getString(MR.strings.measurement_unit_selected_description),
                         modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
                         tint = AppTheme.colors.Green,
                     )

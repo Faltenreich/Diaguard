@@ -13,10 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.localization.getString
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun BottomSheetNavigationItem(
@@ -47,7 +47,7 @@ fun BottomSheetNavigationItem(
             colorFilter = ColorFilter.tint(onPrimaryColor),
         )
         Text(
-            text = stringResource(label),
+            text = getString(label),
             color = onPrimaryColor,
         )
     }

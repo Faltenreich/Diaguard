@@ -10,8 +10,8 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun EntryFormFloatingActionButton(
@@ -23,6 +23,6 @@ fun EntryFormFloatingActionButton(
         onClick = { navigator.push(Screen.EntryForm(entry)) },
         modifier = modifier,
     ) {
-        Icon(Icons.Filled.Add, stringResource(MR.strings.entry_new_description))
+        Icon(Icons.Filled.Add, getString(MR.strings.entry_new_description))
     }
 }

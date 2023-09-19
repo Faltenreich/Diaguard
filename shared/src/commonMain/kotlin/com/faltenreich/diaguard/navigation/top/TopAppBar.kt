@@ -8,7 +8,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
 import com.faltenreich.diaguard.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun TopAppBar(
@@ -24,7 +24,7 @@ fun TopAppBar(
                     IconButton(onClick = navigator::pop) {
                         Icon(
                             Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(MR.strings.navigate_back),
+                            contentDescription = getString(MR.strings.navigate_back),
                         )
                     }
                 }

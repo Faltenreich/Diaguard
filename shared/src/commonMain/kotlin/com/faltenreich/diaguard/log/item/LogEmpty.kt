@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.datetime.Date
-import dev.icerock.moko.resources.compose.stringResource
+import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun LogEmpty(
@@ -22,7 +22,7 @@ fun LogEmpty(
 ) {
     val navigator = LocalNavigator.currentOrThrow
     Text(
-        text = stringResource(MR.strings.no_entries),
+        text = getString(MR.strings.no_entries),
         modifier = modifier
             .clickable { navigator.push(Screen.EntryForm(date = date)) }
             .fillMaxWidth()

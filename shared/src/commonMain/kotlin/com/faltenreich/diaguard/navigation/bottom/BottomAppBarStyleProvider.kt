@@ -23,11 +23,11 @@ import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyLis
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewModel
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DatePickerBottomAppBarItem
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.shared.view.SearchField
 import com.faltenreich.diaguard.timeline.TimelineViewModel
-import dev.icerock.moko.resources.compose.stringResource
 import org.koin.core.parameter.parametersOf
 
 fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
@@ -74,7 +74,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
                 val navigator = LocalNavigator.currentOrThrow
                 FloatingActionButton(onClick = { viewModel.submit(); navigator.pop() }) {
-                    Icon(Icons.Filled.Check, stringResource(MR.strings.entry_save))
+                    Icon(Icons.Filled.Check, getString(MR.strings.entry_save))
                 }
             }
         )
@@ -85,7 +85,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 val state = viewModel.viewState.collectAsState().value
                 SearchField(
                     query = state.query,
-                    placeholder = stringResource(MR.strings.search_placeholder),
+                    placeholder = getString(MR.strings.search_placeholder),
                     onQueryChange = { query ->
                         if (query.isBlank()) navigator.pop()
                         else viewModel.onQueryChange(query)
@@ -100,7 +100,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             floatingActionButton = {
                 val viewModel = getViewModel<MeasurementPropertyListViewModel>()
                 FloatingActionButton(onClick = viewModel::showFormDialog) {
-                    Icon(Icons.Filled.Add, stringResource(MR.strings.measurement_property_new))
+                    Icon(Icons.Filled.Add, getString(MR.strings.measurement_property_new))
                 }
             }
         )
@@ -116,7 +116,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             floatingActionButton = {
                 val viewModel = getViewModel<MeasurementPropertyFormViewModel> { parametersOf(property) }
                 FloatingActionButton(onClick = viewModel::showFormDialog) {
-                    Icon(Icons.Filled.Add, stringResource(MR.strings.measurement_type_new))
+                    Icon(Icons.Filled.Add, getString(MR.strings.measurement_type_new))
                 }
             }
         )

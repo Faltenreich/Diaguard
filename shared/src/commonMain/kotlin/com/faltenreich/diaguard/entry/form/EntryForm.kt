@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
-import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.DatePicker
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -28,7 +27,6 @@ import dev.icerock.moko.resources.compose.stringResource
 fun EntryForm(
     modifier: Modifier = Modifier,
     viewModel: EntryFormViewModel = inject(),
-    formatter: DateTimeFormatter = inject(),
 ) {
     val datePickerState = rememberDatePickerState()
     val timePickerState = rememberTimePickerState()
@@ -38,10 +36,10 @@ fun EntryForm(
     ) {
         FormRow(icon = { ResourceIcon(MR.images.ic_time) }) {
             TextButton(onClick = { datePickerState.isShown = true }) {
-                Text(formatter.formatDate(viewModel.dateTime.date))
+                Text(viewModel.dateFormatted)
             }
             TextButton(onClick = { timePickerState.isShown = true }) {
-                Text(formatter.formatTime(viewModel.dateTime.time))
+                Text(viewModel.timeFormatted)
             }
         }
         Divider()

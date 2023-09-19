@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.datetime.dateTimeModule
 import com.faltenreich.diaguard.shared.keyvalue.keyValueStoreModule
+import com.faltenreich.diaguard.shared.localization.localizationModule
 import com.faltenreich.diaguard.shared.primitive.primitiveModule
 import com.faltenreich.diaguard.shared.serialization.serializationModule
 import com.faltenreich.diaguard.timeline.timelineModule
@@ -31,16 +32,18 @@ object DependencyInjection {
 }
 
 private fun mainModules() = listOf(
+    // Common
     primitiveModule(),
     coroutineModule(),
     configModule(),
+    localizationModule(),
     clipboardModule(),
     serializationModule(),
     keyValueStoreModule(),
     sqlDelightModule(),
     databaseModule(),
     dateTimeModule(),
-
+    // Feature
     onboardingModule(),
     navigationModule(),
     dashboardModule(),

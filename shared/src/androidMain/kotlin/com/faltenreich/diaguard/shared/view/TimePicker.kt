@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.localization.getString
+import androidx.compose.material3.TimePicker as MaterialTimePicker
 
 @Composable
 actual fun TimePicker(
@@ -31,6 +32,6 @@ actual fun TimePicker(
             }
         },
     ) {
-        androidx.compose.material3.TimePicker(state = state)
+        MaterialTimePicker(state = state)
     }
 }

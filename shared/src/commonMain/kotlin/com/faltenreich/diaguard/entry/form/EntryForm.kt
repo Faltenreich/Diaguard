@@ -24,7 +24,6 @@ import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.TimePicker
-import com.faltenreich.diaguard.shared.view.rememberTimePickerState
 
 @Composable
 fun EntryForm(
@@ -32,7 +31,7 @@ fun EntryForm(
     viewModel: EntryFormViewModel = inject(),
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
-    val timePickerState = rememberTimePickerState()
+    var showTimePicker by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -41,7 +40,7 @@ fun EntryForm(
             TextButton(onClick = { showDatePicker = true }) {
                 Text(viewModel.dateFormatted)
             }
-            TextButton(onClick = { timePickerState.isShown = true }) {
+            TextButton(onClick = { showTimePicker = true }) {
                 Text(viewModel.timeFormatted)
             }
         }
@@ -103,11 +102,11 @@ fun EntryForm(
         )
     }
 
-    if (timePickerState.isShown) {
+    if (showTimePicker) {
         TimePicker(
             time = viewModel.dateTime.time,
             onPick = { time ->
-                timePickerState.isShown = false
+                showTimePicker = false
                 viewModel.time = time
             },
         )

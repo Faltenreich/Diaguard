@@ -10,6 +10,7 @@ object Versions {
     const val coroutines = "1.6.4"
     const val dataStore = "1.0.0"
     const val dateTime = "0.4.0"
+    const val emojiPicker = "1.4.0"
     const val koin = "3.4.3"
     const val kotlin = "1.9.10"
     const val ksp = "1.9.0-1.0.13"
@@ -52,6 +53,7 @@ object Dependencies {
         const val activityCompose = "androidx.activity:activity-compose:${Versions.androidCompose}"
         const val composeMaterial3 = "androidx.compose.material3:material3:${Versions.composeMaterial3}"
         const val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
+        const val emojiPicker = "androidx.emoji2:emoji2-emojipicker:${Versions.emojiPicker}"
     }
 
     object Koin {

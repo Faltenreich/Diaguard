@@ -46,6 +46,7 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Androidx.composeMaterial3)
                 implementation(Dependencies.Androidx.dataStore)
+                implementation(Dependencies.Androidx.emojiPicker)
                 implementation(Dependencies.Koin.android)
                 implementation(Dependencies.Ktor.android)
                 implementation(Dependencies.Paging.android)

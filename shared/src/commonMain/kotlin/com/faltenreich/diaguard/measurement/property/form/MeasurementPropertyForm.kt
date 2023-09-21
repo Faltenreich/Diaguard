@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.EmojiPicker
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextInput
 
@@ -52,6 +53,7 @@ fun MeasurementPropertyForm(
                             label = getString(MR.strings.icon),
                             modifier = Modifier.fillMaxWidth(),
                         )
+                        EmojiPicker(onEmojiPicked = { emoji -> viewModel.icon.value = emoji })
                     }
                 }
 

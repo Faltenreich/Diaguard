@@ -9,6 +9,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.MR
@@ -20,7 +24,6 @@ import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.TimePicker
-import com.faltenreich.diaguard.shared.view.rememberDatePickerState
 import com.faltenreich.diaguard.shared.view.rememberTimePickerState
 
 @Composable
@@ -28,14 +31,14 @@ fun EntryForm(
     modifier: Modifier = Modifier,
     viewModel: EntryFormViewModel = inject(),
 ) {
-    val datePickerState = rememberDatePickerState()
+    var showDatePicker by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState()
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
         FormRow(icon = { ResourceIcon(MR.images.ic_time) }) {
-            TextButton(onClick = { datePickerState.isShown = true }) {
+            TextButton(onClick = { showDatePicker = true }) {
                 Text(viewModel.dateFormatted)
             }
             TextButton(onClick = { timePickerState.isShown = true }) {
@@ -89,15 +92,17 @@ fun EntryForm(
             Divider()
         }
     }
-    if (datePickerState.isShown) {
+
+    if (showDatePicker) {
         DatePicker(
             date = viewModel.dateTime.date,
             onPick = { date ->
-                datePickerState.isShown = false
+                showDatePicker = false
                 viewModel.date = date
             },
         )
     }
+
     if (timePickerState.isShown) {
         TimePicker(
             time = viewModel.dateTime.time,

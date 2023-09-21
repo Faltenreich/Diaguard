@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.clipboard
 
-interface Clipboard {
+expect class Clipboard constructor() {
 
     fun copyToClipboard(string: String)
 }

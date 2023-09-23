@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 actual fun BottomSheet(
+    // FIXME: Not called when pulled down
     onDismissRequest: () -> Unit,
     modifier: Modifier,
     sheetState: BottomSheetState,

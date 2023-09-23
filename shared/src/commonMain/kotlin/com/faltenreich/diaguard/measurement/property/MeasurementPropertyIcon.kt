@@ -16,6 +16,17 @@ fun MeasurementPropertyIcon(
     val text = property.icon?.takeIf(String::isNotBlank)
         ?: property.name.firstOrNull()?.toString()
         ?: return
+    MeasurementPropertyIcon(
+        text = text,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun MeasurementPropertyIcon(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
         contentAlignment = Alignment.Center,

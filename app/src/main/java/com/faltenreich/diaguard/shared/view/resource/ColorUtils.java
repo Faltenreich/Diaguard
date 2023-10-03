@@ -22,17 +22,17 @@ public class ColorUtils {
 
     @ColorInt
     public static int getPrimaryColor(Context context) {
-        return getColor(context, R.attr.colorPrimary);
+        return getColor(context, com.google.android.material.R.attr.colorPrimary);
     }
 
     @ColorInt
     public static int getPrimaryDarkColor(Context context) {
-        return getColor(context, R.attr.colorPrimaryDark);
+        return getColor(context, com.google.android.material.R.attr.colorPrimaryDark);
     }
 
     @ColorInt
     public static int getAccentColor(Context context) {
-        return getColor(context, R.attr.colorAccent);
+        return getColor(context, com.google.android.material.R.attr.colorAccent);
     }
 
     @ColorInt

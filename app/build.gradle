@@ -12,8 +12,6 @@ android {
         versionName "3.11.2"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        // Android Test Orchestrator resets app state between every test
-        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildTypes {
@@ -51,7 +49,6 @@ android {
     }
 
     testOptions {
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
         animationsDisabled true
         unitTests.includeAndroidResources true
     }
@@ -93,7 +90,6 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
     testImplementation "joda-time:joda-time:$jodaTime"
     debugImplementation 'androidx.fragment:fragment-testing:1.6.1'
-    androidTestUtil 'androidx.test:orchestrator:1.4.2'
 
     // Workaround: Force updated version to fix build error on archiving
     // https://stackoverflow.com/questions/69817925/problem-duplicate-class-androidx-lifecycle-viewmodel-found-in-modules

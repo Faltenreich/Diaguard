@@ -55,7 +55,7 @@ public class EntryEditAlarmTest {
         Espresso.onView(ViewMatchers.withText("2"))
             .inRoot(RootMatchers.isDialog())
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.done_button))
+        Espresso.onView(ViewMatchers.withId(R.id.fab_primary))
             .inRoot(RootMatchers.isDialog())
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.alarm_button))

@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.opencsv.CSVReader;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -80,7 +79,7 @@ class FoodImport implements Importing {
             Log.i(TAG, String.format("Imported %d common food items from csv", foodList.size()));
             PreferenceStore.getInstance().setDidImportCommonFood(locale, true);
 
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             Log.e(TAG, exception.toString());
         }
     }

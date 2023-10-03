@@ -29,7 +29,9 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryDeprecated;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -68,7 +70,11 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         try {
-            CSVReader reader = new CSVReader(new InputStreamReader(inputStream), CsvMeta.CSV_DELIMITER);
+            CSVReader reader = new CSVReaderBuilder(new InputStreamReader(inputStream))
+                .withCSVParser(new CSVParserBuilder()
+                    .withSeparator(CsvMeta.CSV_DELIMITER)
+                    .build())
+                .build();
             String[] nextLine = reader.readNext();
 
             // First version was without meta information

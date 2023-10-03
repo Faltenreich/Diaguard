@@ -20,7 +20,8 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.opencsv.CSVWriter;
+import com.opencsv.CSVWriterBuilder;
+import com.opencsv.ICSVWriter;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
@@ -56,8 +57,9 @@ public class CsvExport extends AsyncTask<Void, String, File> {
             Export.getBackupFile(config, FileType.CSV) :
             Export.getExportFile(config);
         try {
-            FileWriter fileWriter = new FileWriter(file);
-            CSVWriter writer = new CSVWriter(fileWriter, CsvMeta.CSV_DELIMITER);
+            ICSVWriter writer = new CSVWriterBuilder(new FileWriter(file))
+                .withSeparator(CsvMeta.CSV_DELIMITER)
+                .build();
 
             if (isBackup) {
                 // Meta information to detect the data scheme in future iterations

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.faltenreich.diaguard.feature.export.job.csv.CsvMeta;
+import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,6 +32,10 @@ interface CsvImport {
         InputStream inputStream = assetManager.open(fileName);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        return new CSVReader(bufferedReader, CsvMeta.CSV_DELIMITER);
+        return new CSVReaderBuilder(bufferedReader)
+            .withCSVParser(new CSVParserBuilder()
+                .withSeparator(CsvMeta.CSV_DELIMITER)
+                .build())
+            .build();
     }
 }

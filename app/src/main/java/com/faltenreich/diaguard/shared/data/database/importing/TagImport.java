@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.opencsv.CSVReader;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,7 +56,7 @@ class TagImport implements Importing {
             Log.i(TAG, String.format("Imported %d tags from csv", tags.size()));
             PreferenceStore.getInstance().setDidImportTags(locale, true);
 
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             Log.e(TAG, exception.toString());
         }
     }

@@ -8,7 +8,7 @@ android {
     defaultConfig {
         minSdk 16
         targetSdk 33
-        versionCode 58
+        versionCode 59
         versionName "3.11.2"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

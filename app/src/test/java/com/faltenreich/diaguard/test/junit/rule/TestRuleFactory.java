@@ -11,6 +11,7 @@ public class TestRuleFactory {
         return RuleChain
             .outerRule(new ApplyAppTheme())
             .around(new CleanUpData())
+            .around(new MockImageLoader())
             .around(new FragmentRule<>(clazz));
     }
 }

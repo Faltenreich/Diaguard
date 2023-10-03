@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.shared.data.database.Database;
 import com.faltenreich.diaguard.shared.data.database.importing.Import;
 import com.faltenreich.diaguard.shared.data.database.migration.Migrator;
 import com.faltenreich.diaguard.shared.view.image.ImageLoader;
+import com.faltenreich.diaguard.shared.view.image.PicassoLoader;
 import com.faltenreich.diaguard.shared.view.theme.Theme;
 import com.faltenreich.diaguard.shared.view.theme.ThemeUtils;
 
@@ -43,6 +44,6 @@ public class DiaguardApplication extends Application {
         Theme theme = PreferenceStore.getInstance().getTheme();
         ThemeUtils.setDefaultNightMode(theme);
         ThemeUtils.setUiMode(this, theme);
-        ImageLoader.getInstance().init(this);
+        ImageLoader.getInstance().init(new PicassoLoader(this));
     }
 }

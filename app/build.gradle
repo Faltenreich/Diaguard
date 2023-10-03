@@ -9,7 +9,7 @@ android {
         minSdk 16
         targetSdk 33
         versionCode 58
-        versionName "3.11.1"
+        versionName "3.11.2"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -71,30 +71,33 @@ configurations {
     all*.exclude group: 'org.apache.commons', module: 'commons-io'
 }
 
-def espresso = '3.5.0'
-def jodaTime = '2.10.3'
+def espresso = '3.5.1'
+def jodaTime = '2.12.5'
 def ormLite = '5.1'
-def retrofit = '2.7.1'
-def robolectric = '4.9.2'
+def retrofit = '2.9.0'
+def robolectric = '4.10.3'
 
 dependencies {
     implementation project(':pdfjet')
 
+    // Workaround: Fix duplicate class caused by dependencies using different Kotlin versions
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.20"))
+
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.robolectric:robolectric:$robolectric"
-    testImplementation 'androidx.test.ext:junit:1.1.4'
+    testImplementation 'androidx.test.ext:junit:1.1.5'
     testImplementation "androidx.test.espresso:espresso-core:$espresso"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
     testImplementation "joda-time:joda-time:$jodaTime"
-    debugImplementation 'androidx.fragment:fragment-testing:1.5.5'
+    debugImplementation 'androidx.fragment:fragment-testing:1.6.1'
 
     // Workaround: Force updated version to fix build error on archiving
     // https://stackoverflow.com/questions/69817925/problem-duplicate-class-androidx-lifecycle-viewmodel-found-in-modules
     implementation "androidx.appcompat:appcompat:1.6.1"
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference:1.2.1'
 
     implementation "com.j256.ormlite:ormlite-core:$ormLite"
     implementation "com.j256.ormlite:ormlite-android:$ormLite"
@@ -107,12 +110,12 @@ dependencies {
     // noinspection GradleDependency
     implementation("com.squareup.okhttp3:okhttp") { version { strictly '3.12.8' } }
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.9'
 
     implementation "com.mikepenz:aboutlibraries-core:$aboutLibrariesVersion"
     implementation "com.mikepenz:aboutlibraries:$aboutLibrariesVersion"
 
-    implementation 'org.apache.commons:commons-text:1.9'
+    implementation 'org.apache.commons:commons-text:1.10.0'
     // Workaround: Versioning is currently broken
     // https://github.com/square/picasso/issues/2179
     //noinspection GradleDependency

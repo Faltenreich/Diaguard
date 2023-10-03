@@ -31,17 +31,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <!-- TODO: Add bottom padding and disable slide out of fab -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/image_list_view"
                 android:layout_width="@dimen/chart_offset_left"
                 android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/fab_offset"
                 tools:listItem="@layout/list_item_table_category_image" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/value_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/fab_offset"
                 tools:listItem="@layout/list_item_table_category_value" />
 
         </LinearLayout>

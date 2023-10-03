@@ -40,14 +40,11 @@
                 android:layout_height="match_parent" />
 
             <LinearLayout
-                android:id="@+id/fab_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:gravity="center"
-                android:orientation="vertical"
-                app:layout_behavior="com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior"
-                app:layout_dodgeInsetEdges="bottom">
+                android:orientation="vertical">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab_secondary"

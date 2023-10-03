@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -45,7 +43,6 @@ import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
-import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
 import com.faltenreich.diaguard.shared.view.search.SearchView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -61,7 +58,6 @@ public class MainActivity
     private Toolbar toolbar;
     private TextView toolbarTitle;
     private SearchView searchView;
-    private ViewGroup fabGroup;
     private FloatingActionButton fabPrimary;
     private FloatingActionButton fabSecondary;
 
@@ -141,7 +137,7 @@ public class MainActivity
     }
 
     @Override
-    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference preference) {
+    public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat caller, @NonNull Preference preference) {
         Fragment fragment = Navigation.instantiateFragment(preference, getSupportFragmentManager(), getClassLoader(), caller);
         openFragment(fragment, true);
         return true;
@@ -153,7 +149,6 @@ public class MainActivity
         toolbar = getBinding().toolbarContainer.toolbar;
         toolbarTitle = getBinding().toolbarContainer.toolbarTitle;
         searchView = getBinding().searchView;
-        fabGroup = getBinding().fabGroup;
         fabPrimary = getBinding().fabPrimary;
         fabSecondary = getBinding().fabSecondary;
     }
@@ -264,12 +259,6 @@ public class MainActivity
 
         invalidateFab(description != null ? description.getPrimaryProperties() : null, fabPrimary, fabPrimaryOffset);
         invalidateFab(description != null ? description.getSecondaryProperties() : null, fabSecondary, fabSecondaryOffset);
-
-        CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(fabGroup);
-        if (behavior instanceof SlideOutBehavior) {
-            boolean slideOut = description != null && description.slideOutOnScroll();
-            ((SlideOutBehavior) behavior).setSlideOut(slideOut);
-        }
     }
 
     @SuppressLint("RestrictedApi")

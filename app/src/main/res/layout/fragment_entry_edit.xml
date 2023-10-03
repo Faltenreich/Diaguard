@@ -177,7 +177,7 @@
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin_between"
             android:paddingTop="@dimen/margin_between"
-            android:paddingBottom="140dp"
+            android:paddingBottom="154dp"
             android:showDividers="middle" />
 
     </LinearLayout>

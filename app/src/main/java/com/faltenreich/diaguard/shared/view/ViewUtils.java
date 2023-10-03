@@ -12,9 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
@@ -45,17 +42,6 @@ public class ViewUtils {
             view.requestFocus();
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             view.clearFocus();
-        }
-    }
-
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        if (inputMethodManager != null) {
-            View view = activity.getCurrentFocus();
-            if (view == null) {
-                view = new View(activity);
-            }
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
@@ -93,18 +79,6 @@ public class ViewUtils {
 
     public static void showToast(Context context, String text) {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show();
-    }
-
-    public static void showToast(Context context, @StringRes int textResource) {
-        showToast(context, context.getString(textResource));
-    }
-
-    @Nullable
-    public static CoordinatorLayout.Behavior<?> getBehavior(View view) {
-        if (view.getLayoutParams() instanceof CoordinatorLayout.LayoutParams) {
-            return ((CoordinatorLayout.LayoutParams) view.getLayoutParams()).getBehavior();
-        }
-        return null;
     }
 
     public static void setChecked(CheckBox checkBox, boolean isChecked, boolean animated) {

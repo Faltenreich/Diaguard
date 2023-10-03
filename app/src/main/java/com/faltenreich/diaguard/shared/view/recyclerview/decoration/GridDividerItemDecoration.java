@@ -39,7 +39,7 @@ public class GridDividerItemDecoration extends DividerItemDecoration {
     }
 
     private void drawHorizontalLines(Canvas canvas, RecyclerView parent, int spanCount) {
-        for (int row = 0; row < parent.getChildCount() / spanCount; row++) {
+        for (int row = 0; row < (parent.getChildCount() / spanCount) - 1; row++) {
             View child = parent.getChildAt(row * spanCount);
             if (child != null) {
                 parent.getDecoratedBoundsWithMargins(child, bounds);

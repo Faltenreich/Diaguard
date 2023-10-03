@@ -10,9 +10,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="80dp">
+        android:paddingBottom="@dimen/fab_offset">
 
         <androidx.cardview.widget.CardView
             style="@style/CardViewNoMargin"
@@ -43,10 +43,10 @@
                         android:id="@+id/bloodsugar_current_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/margin_between"
-                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/bloodsugar"
-                        android:inputType="numberDecimal">
+                        android:inputType="numberDecimal"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between">
 
                         <requestFocus />
                     </com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView>
@@ -69,10 +69,10 @@
                         android:id="@+id/bloodsugar_target_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/margin_between"
-                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/pref_therapy_targets_target"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between" />
 
                 </LinearLayout>
 
@@ -92,10 +92,10 @@
                         android:id="@+id/correction_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/margin_between"
-                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/correction_value"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between" />
 
                 </LinearLayout>
 
@@ -139,10 +139,10 @@
                         android:id="@+id/factor_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/margin_between"
-                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/unit_factor_carbohydrates_unit"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between" />
 
                 </LinearLayout>
 

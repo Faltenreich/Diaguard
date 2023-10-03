@@ -97,13 +97,20 @@
 -dontwarn com.squareup.okhttp.*
 -dontwarn retrofit.appengine.**
 
--keep class com.faltenreich.diaguard.networking.openfoodfacts.dto.**
--keepclassmembers class com.faltenreich.diaguard.networking.openfoodfacts.** {
+-keep class retrofit2.** { *; }
+-keepattributes *Annotation*
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+
+-keep class com.faltenreich.diaguard.feature.food.networking.dto.**
+-keepclassmembers class com.faltenreich.diaguard.feature.food.networking.** {
   public void set*(***);
   public *** get*();
   public *** is*();
 }
--keepclassmembers class com.faltenreich.diaguard.networking.openfoodfacts.dto.** {
+-keepclassmembers class com.faltenreich.diaguard.feature.food.networking.dto.** {
       public <fields>;
 }
 ##---------------End: Retrofit ----------

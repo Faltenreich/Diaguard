@@ -14,8 +14,6 @@ import com.faltenreich.diaguard.shared.view.image.PicassoLoader;
 import com.faltenreich.diaguard.shared.view.theme.Theme;
 import com.faltenreich.diaguard.shared.view.theme.ThemeUtils;
 
-import net.danlew.android.joda.JodaTimeAndroid;
-
 public class DiaguardApplication extends Application {
 
     @SuppressLint("StaticFieldLeak")
@@ -34,7 +32,6 @@ public class DiaguardApplication extends Application {
 
     private void init() {
         context = getApplicationContext();
-        JodaTimeAndroid.init(this);
         PreferenceStore.getInstance().init(this);
         Database.getInstance().init(this);
         new Import(this).importDataIfNeeded();

@@ -17,7 +17,7 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-dontobfuscate.pro'
         }
@@ -92,6 +92,12 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
     testImplementation "joda-time:joda-time:$jodaTime"
     debugImplementation 'androidx.fragment:fragment-testing:1.6.1'
+
+    androidTestImplementation "com.google.guava:guava:32.1.2-android"
+    androidTestImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
     androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestUtil 'androidx.test:orchestrator:1.4.2'
 

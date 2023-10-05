@@ -372,5 +372,6 @@
     <string name="timeline_show_dots_desc">Contrassegnare le misure con dei punti (disattivando questo si smette di evidenziare i limiti)</string>
     <string name="timeline_show_lines">Mostra le linee</string>
     <string name="timeline_show_lines_desc">Collegare le misure con le linee</string>
+    <string name="layout">Layout</string>
 
 </resources>

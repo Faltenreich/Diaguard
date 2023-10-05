@@ -17,6 +17,7 @@
 ##---------------End: Custom ----------
 
 ##---------------Begin: Test ----------
+-keep class androidx.test.**
 -keep class androidx.test.runner.**
 -keepclassmembers class androidx.test.runner.** { *; }
 -dontwarn java.lang.reflect.AnnotatedType

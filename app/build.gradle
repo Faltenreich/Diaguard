@@ -91,8 +91,6 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
     testImplementation "joda-time:joda-time:$jodaTime"
     debugImplementation 'androidx.fragment:fragment-testing:1.6.1'
-    // Workaround: Fixes ClassNotFoundException: Didn't find class "androidx.test.platform.io.PlatformTestStorageRegistry"
-    debugImplementation "androidx.test:monitor:1.6.1"
 
     androidTestImplementation "com.google.guava:guava:32.1.2-android"
     androidTestImplementation 'junit:junit:4.13.2'

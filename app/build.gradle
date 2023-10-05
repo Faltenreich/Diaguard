@@ -11,14 +11,13 @@ android {
         versionCode 59
         versionName "3.11.2"
         vectorDrawables.useSupportLibrary true
-        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildTypes {
         debug {
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-dontobfuscate.pro'
         }

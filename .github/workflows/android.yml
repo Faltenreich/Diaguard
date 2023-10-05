@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -12,23 +12,36 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
         distribution: 'temurin'
-        cache: gradle
+        java-version: '17'
+        cache: 'gradle'
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
+    - name: Build
+      run: ./gradlew --no-daemon build
 
     - name: Unit Test
       run: ./gradlew testBetaDebugUnitTest --stacktrace
 
     - name: Instrumentation Test
-      uses: ReactiveCircus/android-emulator-runner@v2
+      uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 33
         target: google_apis
         arch: x86_64
-        script: ./gradlew connectedBetaDebugAndroidTest
+        script: ./gradlew connectedBetaDebugAndroidTest --stacktrace
+
+    - name: Upload Reports
+      uses: actions/upload-artifact@v2
+      with:
+        name: Test-Reports
+        path: app/build/reports
+      if: always()
 
     - name: Android Test Report
       uses: asadmansr/android-test-report-action@v1.2.0

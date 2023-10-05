@@ -6,16 +6,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
+
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
     - name: Unit Test
       run: ./gradlew testBetaDebugUnitTest --stacktrace
+
+    - name: Instrumentation Test
+      uses: ReactiveCircus/android-emulator-runner@v2
+      with:
+        api-level: 33
+        target: google_apis
+        arch: x86_64
+        script: ./gradlew connectedBetaDebugAndroidTest
+
     - name: Android Test Report
       uses: asadmansr/android-test-report-action@v1.2.0

@@ -14,42 +14,40 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
-import org.robolectric.annotation.LooperMode;
 
 @RunWith(AndroidJUnit4.class)
-@LooperMode(LooperMode.Mode.PAUSED)
-public class ExportCsvTest {
+public class ExportPdfTest {
 
     @Rule
     public final TestRule rule = TestRuleFactory.forFragment(ExportFragment.class);
 
     @Before
     public void setup() {
-        ExportTestUtils.selectFileType(FileType.CSV);
+        ExportTestUtils.selectFileType(FileType.PDF);
     }
 
     @Test
-    public void selectingPDF_shouldHideStyleSpinner() {
+    public void selectingPDF_shouldShowStyleSpinner() {
         Espresso.onView(ViewMatchers.withId(R.id.style_spinner))
-            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     @Test
-    public void selectingPDF_shouldHideCalendarWeekCheckBox() {
+    public void selectingPDF_shouldShowCalendarWeekCheckBox() {
         Espresso.onView(ViewMatchers.withId(R.id.include_calendar_week_checkbox))
-            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     @Test
-    public void selectingPDF_shouldHideGeneratedDateCheckBox() {
+    public void selectingPDF_shouldShowGeneratedDateCheckBox() {
         Espresso.onView(ViewMatchers.withId(R.id.include_generated_date_checkbox))
-            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     @Test
-    public void selectingPDF_shouldHidePageNumberCheckBox() {
+    public void selectingPDF_shouldShowPageNumberCheckBox() {
         Espresso.onView(ViewMatchers.withId(R.id.include_page_number_checkbox))
-            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     @Test

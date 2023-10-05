@@ -93,7 +93,7 @@ Domain-driven design improves the structure by grouping files in features. Every
  
 #### Testing
 
-Testing takes place via [JUnit](https://junit.org), [Espresso](https://developer.android.com/training/testing/espresso) and [Robolectric](http://robolectric.org). Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
+Testing takes place via [JUnit](https://junit.org) and [Espresso](https://developer.android.com/training/testing/espresso). Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
 
 #### Third-party licenses
 
@@ -120,7 +120,6 @@ This software uses following technologies with great appreciation:
 * [PDFjet](http://pdfjet.com)
 * [Picasso](http://square.github.io/picasso)
 * [Retrofit](https://square.github.io/retrofit)
-* [Robolectric](http://robolectric.org)
 * [Schweizer Nährwertdatenbank](http://naehrwertdaten.ch)
 * [Shields.io](https://shields.io)
 

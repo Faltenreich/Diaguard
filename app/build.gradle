@@ -77,7 +77,6 @@ def espresso = '3.5.1'
 def jodaTime = '2.12.5'
 def ormLite = '5.1'
 def retrofit = '2.9.0'
-def robolectric = '4.10.3'
 
 dependencies {
     implementation project(':pdfjet')
@@ -86,7 +85,6 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.20"))
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation "org.robolectric:robolectric:$robolectric"
     testImplementation 'androidx.test.ext:junit:1.1.5'
     testImplementation "androidx.test.espresso:espresso-core:$espresso"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"

@@ -14,26 +14,17 @@ import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 import org.hamcrest.core.AllOf;
 import org.hamcrest.core.Is;
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
-import org.robolectric.annotation.LooperMode;
-import org.robolectric.shadows.ShadowLooper;
 
 @RunWith(AndroidJUnit4.class)
-@LooperMode(LooperMode.Mode.PAUSED)
 public class TimelineTest {
 
     @Rule
     public final TestRule rule = TestRuleFactory.forFragment(TimelineFragment.class);
-
-    @Before
-    public void setup() {
-        ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
-    }
 
     @Test
     public void holdsThreeDaysAtOnce() {

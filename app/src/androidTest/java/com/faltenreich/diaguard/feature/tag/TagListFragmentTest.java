@@ -8,10 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
-import org.robolectric.annotation.LooperMode;
 
 @RunWith(AndroidJUnit4.class)
-@LooperMode(LooperMode.Mode.PAUSED)
 public class TagListFragmentTest {
 
     @Rule

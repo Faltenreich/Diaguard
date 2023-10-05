@@ -20,6 +20,7 @@ android {
             minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-dontobfuscate.pro'
+            testProguardFiles 'proguard-rules.pro'
         }
         release {
             minifyEnabled true

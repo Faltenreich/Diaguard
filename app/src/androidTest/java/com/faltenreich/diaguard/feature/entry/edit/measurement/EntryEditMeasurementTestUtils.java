@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.feature.entry.edit.measurement;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.RootMatchers;
@@ -25,22 +26,15 @@ public class EntryEditMeasurementTestUtils {
     }
 
     public static void addCategory(Category category) {
-        openFloatingMenuForCategories();
         openPickerForCategories();
         selectCategoryFromPicker(category);
     }
 
-    public static void openFloatingMenuForCategories() {
+    public static void openPickerForCategories() {
         Espresso.onView(AllOf.allOf(
-            ViewMatchers.withParent(ViewMatchers.withId(R.id.fab_secondary)),
-            ViewMatchers.withClassName(CoreMatchers.endsWith("ImageView")),
+            ViewMatchers.withId(R.id.fab_secondary),
             ViewMatchers.isDisplayed())
         ).perform(ViewActions.click());
-    }
-
-    public static void openPickerForCategories() {
-        Espresso.onView(ViewMatchers.withText("All"))
-            .perform(ViewActions.click());
     }
 
     public static void selectCategoryFromPicker(Category category) {

@@ -1,6 +1,5 @@
 buildscript {
     ext {
-        // Upgrade would increase minSdk
         aboutLibrariesVersion = '8.9.4'
 
         repos = {

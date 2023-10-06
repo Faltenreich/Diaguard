@@ -6,7 +6,7 @@ android {
     namespace 'com.faltenreich.diaguard'
 
     defaultConfig {
-        minSdk 16
+        minSdk 21
         targetSdk 33
         versionCode 59
         versionName "3.11.2"
@@ -17,7 +17,6 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-dontobfuscate.pro'
             testProguardFiles 'proguard-rules.pro'

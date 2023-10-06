@@ -8,14 +8,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  ci:
+  android:
     runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
         api-level:
           - 21
-          - 33
+          - 29
 
     steps:
     - name: Checkout

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.test.junit.rule;
 
 import android.Manifest;
+import android.os.Build;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -10,9 +11,11 @@ public class GrantRuntimePermissions extends TestRule {
 
     @Override
     public void applyBeforeTest() {
-        InstrumentationRegistry.getInstrumentation().getUiAutomation().grantRuntimePermission(
-            BuildConfig.APPLICATION_ID,
-            Manifest.permission.POST_NOTIFICATIONS);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            InstrumentationRegistry.getInstrumentation().getUiAutomation().grantRuntimePermission(
+                BuildConfig.APPLICATION_ID,
+                Manifest.permission.POST_NOTIFICATIONS);
+        }
     }
 
     @Override

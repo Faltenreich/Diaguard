@@ -2,11 +2,6 @@ name: ci
 
 on: [push, pull_request]
 
-env:
-  JAVA_VERSION: 17
-  MIN_SDK: 21
-  TARGET_SDK: 33
-
 jobs:
   ci:
     runs-on: macos-latest
@@ -14,8 +9,8 @@ jobs:
       fail-fast: false
       matrix:
         api-level:
-          - $MIN_SDK
-          - $TARGET_SDK
+          - 21
+          - 33
 
     steps:
     - name: Checkout
@@ -25,7 +20,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
-        java-version: $JAVA_VERSION
+        java-version: '17'
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3

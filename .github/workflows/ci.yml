@@ -1,0 +1,53 @@
+name: ci
+
+on: [push, pull_request]
+
+env:
+  JAVA_VERSION: 17
+  MIN_SDK: 21
+  TARGET_SDK: 33
+
+jobs:
+  ci:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level:
+          - ${{ env.MIN_SDK }}
+          - ${{ env.TARGET_SDK }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: ${{ env.JAVA_VERSION }}
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Grant execute permission for Gradle wrapper
+      run: chmod +x gradlew
+
+    - name: Build
+      run: ./gradlew build --no-daemon
+
+    - name: Run unit tests
+      run: ./gradlew testBetaDebugUnitTest
+
+    - name: Run instrumentation tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: ${{ matrix.api-level }}
+        script: ./gradlew connectedBetaDebugAndroidTest
+
+    - name: Upload test reports
+      uses: actions/upload-artifact@v2
+      with:
+        name: reports
+        path: app/build/reports
+      if: always()

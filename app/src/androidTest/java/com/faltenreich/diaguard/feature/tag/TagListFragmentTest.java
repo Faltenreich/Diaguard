@@ -16,7 +16,5 @@ public class TagListFragmentTest {
     public final TestRule rule = TestRuleFactory.forFragment(TagListFragment.class);
 
     @Test
-    public void launchingFragment_shouldSucceed() {
-
-    }
+    public void launchingFragment_shouldSucceed() {}
 }

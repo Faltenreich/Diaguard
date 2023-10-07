@@ -19,7 +19,9 @@ public class DateTimeUtils {
         Espresso.onView(ViewMatchers.withTagValue((Matchers.is("TOGGLE_BUTTON_TAG"))))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.mtrl_picker_text_input_date))
-            .perform(ViewActions.replaceText(DateTimeFormat.forPattern("M/d/yy").print(date)));
+            .perform(TextInputLayoutActions.replaceText(DateTimeFormat.forPattern("M/d/yy").print(date)));
+        Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.confirm_button))
+            .perform(ViewActions.click());
     }
 
     public static void setDateRange(LocalDate start, LocalDate end){
@@ -33,6 +35,9 @@ public class DateTimeUtils {
             .perform(ViewActions.click());
     }
 
+    // FIXME:
+    //  java.lang.RuntimeException: Action will not be performed because the target view does not match one or more of the following constraints:
+    //  (view has effective visibility <VISIBLE> and view.getGlobalVisibleRect() covers at least <90> percent of the view's area)
     public static void setTime(LocalTime time){
         Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.material_timepicker_mode_button))
             .perform(ViewActions.click());

@@ -16,7 +16,5 @@ public class CategoryListFragmentTest {
     public final TestRule rule = TestRuleFactory.forFragment(CategoryListFragment.class);
 
     @Test
-    public void launchingFragment_shouldSucceed() {
-
-    }
+    public void launchingFragment_shouldSucceed() {}
 }

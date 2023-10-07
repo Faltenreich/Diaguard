@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.test.espresso.viewaction.NestedScroll;
 import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 
 import org.hamcrest.core.IsNot;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -23,7 +22,6 @@ public class ExportCategoryTest {
     public final TestRule rule = TestRuleFactory.forFragment(ExportFragment.class);
 
     @Test
-    @Ignore("View is not fully visible")
     public void unselectingBloodSugar_shouldDisableCheckboxForHighlightLimits() {
         Espresso.onView(ViewMatchers.withText("Blood Sugar"))
             .perform(NestedScroll.nestedScrollTo(), ViewActions.click());

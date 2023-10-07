@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.test.espresso.viewaction.NestedScroll;
 import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -23,7 +22,6 @@ public class DashboardTest {
     public final TestRule rule = TestRuleFactory.forFragment(DashboardFragment.class);
 
     @Test
-    @Ignore("Check text instead of Snackbar")
     public void clickingHbA1c_shouldShowSnackbar() {
         Espresso.onView(ViewMatchers.withContentDescription(R.string.hba1c))
             .perform(NestedScroll.nestedScrollTo(), ViewActions.click());

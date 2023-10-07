@@ -89,14 +89,14 @@ private fun CreateProperties(
 
     val pressurePropertyId = measurementPropertyRepository.create(name = getString(MR.strings.pressure), icon = "⛽", sortIndex = 7, isUserGenerated = false)
     val pressureSystolicTypeId = measurementTypeRepository.create(name = getString(MR.strings.systolic), sortIndex = 0, propertyId = pressurePropertyId)
-    val pressureSystolicUnitId = measurementUnitRepository.create(name = getString(MR.strings.mmol_per_mol), factor = 1.0, typeId = pressureSystolicTypeId)
+    val pressureSystolicUnitId = measurementUnitRepository.create(name = getString(MR.strings.mmhg), factor = 1.0, typeId = pressureSystolicTypeId)
     measurementTypeRepository.update(id = pressureSystolicTypeId, name = getString(MR.strings.systolic), sortIndex = 0, selectedUnitId = pressureSystolicUnitId)
     val pressureDiastolicTypeId = measurementTypeRepository.create(name = getString(MR.strings.diastolic), sortIndex = 0, propertyId = pressurePropertyId)
-    val pressureDiastolicUnitId = measurementUnitRepository.create(name = getString(MR.strings.mmol_per_mol), factor = 1.0, typeId = pressureDiastolicTypeId)
+    val pressureDiastolicUnitId = measurementUnitRepository.create(name = getString(MR.strings.mmhg), factor = 1.0, typeId = pressureDiastolicTypeId)
     measurementTypeRepository.update(id = pressureDiastolicTypeId, name = getString(MR.strings.diastolic), sortIndex = 0, selectedUnitId = pressureDiastolicUnitId)
 
     val oxygenSaturationPropertyId = measurementPropertyRepository.create(name = getString(MR.strings.oxygen_saturation), icon = "O²", sortIndex = 8, isUserGenerated = false)
     val oxygenSaturationTypeId = measurementTypeRepository.create(name = getString(MR.strings.oxygen_saturation), sortIndex = 0, propertyId = oxygenSaturationPropertyId)
-    val oxygenSaturationUnitId = measurementUnitRepository.create(name = getString(MR.strings.spO2), factor = 1.0, typeId = oxygenSaturationTypeId)
+    val oxygenSaturationUnitId = measurementUnitRepository.create(name = getString(MR.strings.percent), factor = 1.0, typeId = oxygenSaturationTypeId)
     measurementTypeRepository.update(id = oxygenSaturationTypeId, name = getString(MR.strings.oxygen_saturation), sortIndex = 0, selectedUnitId = oxygenSaturationUnitId)
 }

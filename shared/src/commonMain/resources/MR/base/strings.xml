@@ -55,6 +55,7 @@
     <string name="measurements">Measurements</string>
     <string name="menu_open">Open menu</string>
     <string name="minutes">Minutes</string>
+    <string name="mmhg">mmHg</string>
     <string name="mmol_per_mol">mmol/mol</string>
     <string name="mmol_per_l">mmol/L</string>
     <string name="month">Month</string>
@@ -73,7 +74,6 @@
     <string name="start_screen">Start screen</string>
     <string name="navigate_back">Go back</string>
     <string name="search_placeholder">Search for entries&#8230;</string>
-    <string name="spO2">SpO2</string>
     <string name="systolic">Systolic</string>
     <string name="tag">Tag</string>
     <string name="timeline">Timeline</string>

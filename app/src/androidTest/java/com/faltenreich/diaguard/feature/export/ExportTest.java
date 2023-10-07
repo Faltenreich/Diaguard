@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 
 import org.joda.time.DateTime;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -23,19 +22,17 @@ public class ExportTest {
     public final TestRule rule = TestRuleFactory.forFragment(ExportFragment.class);
 
     @Test
-    @Ignore("DatePicker has changed")
     public void onStart_shouldStartAtStartOfWeek() {
         String date = Helper.getDateFormat().print(DateTime.now().withDayOfWeek(1));
         Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(date)));
+            .check(ViewAssertions.matches(ViewMatchers.withSubstring(date)));
     }
 
     @Test
-    @Ignore("DatePicker has changed")
     public void onStart_shouldEndAtToday() {
         String date = Helper.getDateFormat().print(DateTime.now());
         Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(date)));
+            .check(ViewAssertions.matches(ViewMatchers.withSubstring(date)));
     }
 
     @Test

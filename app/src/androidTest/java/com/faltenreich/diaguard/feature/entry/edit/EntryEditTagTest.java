@@ -7,6 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.test.espresso.viewaction.NestedScroll;
 import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 
 import org.junit.Rule;
@@ -24,6 +25,7 @@ public class EntryEditTagTest {
     public void creatingTagViaKeyboardInput_shouldAppendToList() {
         String tag = "new tag";
         Espresso.onView(ViewMatchers.withId(R.id.tag_input)).perform(
+            NestedScroll.nestedScrollTo(),
             ViewActions.click(),
             ViewActions.replaceText(tag),
             ViewActions.pressImeActionButton()

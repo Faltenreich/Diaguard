@@ -44,11 +44,14 @@ public class EntryEditDatePickerTest {
 
     @Test
     public void pickingDate_shouldApplyToForm() {
-        LocalDate date = LocalDate.now().minusDays(1);
         Espresso.onView(ViewMatchers.withId(R.id.date_button))
             .perform(ViewActions.click());
+
+        LocalDate date = LocalDate.now().minusDays(1);
         DateTimeUtils.setDate(date);
+
+        String expected = Helper.getDateFormat().print(date);
         Espresso.onView(ViewMatchers.withId(R.id.date_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(date))));
+            .check(ViewAssertions.matches(ViewMatchers.withText(expected)));
     }
 }

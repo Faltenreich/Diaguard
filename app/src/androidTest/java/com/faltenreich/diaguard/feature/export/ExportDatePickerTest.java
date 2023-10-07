@@ -33,7 +33,7 @@ public class ExportDatePickerTest {
     }
 
     @Test
-    public void pickingDate_shouldApplyToForm() {
+    public void pickingDateRange_shouldApplyToForm() {
         Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
             .perform(NestedScroll.nestedScrollTo(), ViewActions.click());
 

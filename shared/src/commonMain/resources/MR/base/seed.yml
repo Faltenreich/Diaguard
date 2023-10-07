@@ -1,0 +1,89 @@
+# Seed data for MeasurementProperty, MeasurementType and MeasurementUnit
+---
+properties:
+  - blood_sugar:
+      name:
+        - en: Blood sugar
+      types:
+        - measurement:
+            name:
+              - en: Measurement
+            units:
+              - mg_per_dl:
+                  factor: 1.0
+                  name:
+                    - en: Milligrams per deciliter
+                  abbreviation:
+                    - en: mg/dl
+              - mmol_per_l:
+                  factor: 0.0555
+                  name:
+                    - en: Millimoles per liter
+                  abbreviation:
+                    - en: mmol/l
+  - insulin:
+      name:
+        - en: Insulin
+      types:
+        - bolus:
+            name:
+              - en: Bolus
+            units:
+              - insulin units:
+                  factor: 1.0
+                  name:
+                    - en: Insulin units
+                  abbreviation:
+                    - en: IU
+        - correction:
+            name:
+              - en: Correction
+            units:
+              - insulin units:
+                  factor: 1.0
+                  name:
+                    - en: Insulin units
+                  abbreviation:
+                    - en: IU
+        - basal:
+            name:
+              - en: Basal
+            units:
+              - insulin units:
+                  factor: 1.0
+                  name:
+                    - en: Insulin units
+                  abbreviation:
+                    - en: IU
+  - meal:
+      name:
+        - en: Meal
+      types:
+        - meal:
+            name:
+              - en: Meal
+            units:
+              - carbohydrates:
+                  factor: 1.0
+                  name:
+                    - en: Carbohydrates
+                  abbreviation:
+                    - en: CHO
+              - carbohydrate units:
+                  factor: 0.1
+                  name:
+                    - en: Carbohydrate units
+                  abbreviation:
+                    - en: CU
+              - bread units:
+                  factor: 0.0833
+                  name:
+                    - en: Bread units
+                  abbreviation:
+                    - en: BU
+  - activity
+  - hba1c
+  - weight
+  - pulse
+  - pressure
+  - oxygen_saturation

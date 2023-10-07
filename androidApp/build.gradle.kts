@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         // TODO: Introduce flavors
-        applicationId = "${Configuration.Project.nameSpace}.compose"
+        applicationId = "${Configuration.Project.nameSpace}.beta"
         minSdk = Configuration.Android.minSdk
         targetSdk = Configuration.Android.targetSdk
         versionCode = Configuration.Project.versionCode

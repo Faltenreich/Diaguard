@@ -29,7 +29,7 @@ object Configuration {
     object Project {
 
         const val nameSpace = "com.faltenreich.diaguard"
-        const val versionCode = 58
+        const val versionCode = 60
         const val versionName = "4.0.0"
     }
 

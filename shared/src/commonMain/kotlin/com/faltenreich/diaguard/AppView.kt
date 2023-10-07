@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.onboarding.FirstStart
 import com.faltenreich.diaguard.onboarding.OnboardingViewModel
 import com.faltenreich.diaguard.onboarding.OnboardingViewState
+import com.faltenreich.diaguard.shared.database.DatabaseLegacyImport
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.keyboardPadding
@@ -17,6 +18,9 @@ fun AppView(
     modifier: Modifier = Modifier,
     onboardingViewModel: OnboardingViewModel = inject(),
 ) {
+    // TODO: Move into first start
+    DatabaseLegacyImport().import()
+
     AppTheme {
         Surface (
             modifier = modifier.fillMaxSize().keyboardPadding(),

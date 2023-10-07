@@ -9,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.test.espresso.DateTimeUtils;
+import com.faltenreich.diaguard.test.espresso.viewaction.NestedScroll;
 import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 
 import org.joda.time.LocalDate;
@@ -34,7 +35,7 @@ public class ExportDatePickerTest {
     @Test
     public void pickingDate_shouldApplyToForm() {
         Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
-            .perform(ViewActions.click());
+            .perform(NestedScroll.nestedScrollTo(), ViewActions.click());
 
         LocalDate start = LocalDate.now().minusDays(1);
         LocalDate end = LocalDate.now().plusDays(1);

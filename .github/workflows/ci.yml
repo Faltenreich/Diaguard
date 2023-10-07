@@ -10,6 +10,7 @@ on:
 jobs:
   android:
     runs-on: macos-latest
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:

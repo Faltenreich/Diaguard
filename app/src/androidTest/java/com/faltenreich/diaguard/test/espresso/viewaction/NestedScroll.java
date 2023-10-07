@@ -20,10 +20,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
 
-/**
- * Created by mlombardi on 5/9/17.
- */
-
 public final class NestedScroll {
 
     private NestedScroll() {

@@ -26,6 +26,7 @@ public class ExportCategoryTest {
         Espresso.onView(ViewMatchers.withText("Blood Sugar"))
             .perform(NestedScroll.nestedScrollTo(), ViewActions.click());
         Espresso.onView(ViewMatchers.withText("Highlight limits"))
+            .perform(NestedScroll.nestedScrollTo())
             .check(ViewAssertions.matches(IsNot.not(ViewMatchers.isEnabled())));
     }
 }

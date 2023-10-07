@@ -11,7 +11,6 @@ jobs:
   android:
     runs-on: macos-latest
     strategy:
-      fail-fast: false
       matrix:
         api-level:
           - 21
@@ -53,6 +52,12 @@ jobs:
 
     - name: Run unit tests
       run: ./gradlew testBetaDebugUnitTest
+
+    - name: Disable animations and transitions on Emulator
+      run:
+        adb shell settings put global window_animation_scale 0.0
+        adb shell settings put global transition_animation_scale 0.0
+        adb shell settings put global animator_duration_scale 0.0
 
     - name: Run instrumentation tests
       uses: reactivecircus/android-emulator-runner@v2

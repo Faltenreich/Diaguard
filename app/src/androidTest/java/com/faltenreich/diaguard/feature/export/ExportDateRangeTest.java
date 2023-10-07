@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.test.junit.rule.TestRuleFactory;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -33,7 +32,6 @@ public class ExportDateRangeTest {
     }
 
     @Test
-    @Ignore("DatePicker has changed")
     public void pickingDateRangeForToday_shouldApplyToForm() {
         DateTime expectedStart = DateTime.now();
         DateTime expectedEnd = DateTime.now();
@@ -42,12 +40,14 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
+        String expected = String.format("%s  -  %s",
+            Helper.getDateFormat().print(expectedStart),
+            Helper.getDateFormat().print(expectedEnd));
         Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
+            .check(ViewAssertions.matches(ViewMatchers.withText(expected)));
     }
 
     @Test
-    @Ignore("DatePicker has changed")
     public void pickingDateRangeForCurrentWeek_shouldApplyToForm() {
         DateTime expectedStart = DateTime.now().withDayOfWeek(1);
         DateTime expectedEnd = DateTime.now();
@@ -56,12 +56,14 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
+        String expected = String.format("%s  -  %s",
+            Helper.getDateFormat().print(expectedStart),
+            Helper.getDateFormat().print(expectedEnd));
         Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
+            .check(ViewAssertions.matches(ViewMatchers.withText(expected)));
     }
 
     @Test
-    @Ignore("DatePicker has changed")
     public void pickingDateRangeForLastTwoWeeks_shouldApplyToForm() {
         DateTime expectedStart = DateTime.now().withDayOfWeek(1).minusWeeks(1);
         DateTime expectedEnd = DateTime.now();
@@ -70,12 +72,14 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
+        String expected = String.format("%s  -  %s",
+            Helper.getDateFormat().print(expectedStart),
+            Helper.getDateFormat().print(expectedEnd));
         Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
+            .check(ViewAssertions.matches(ViewMatchers.withText(expected)));
     }
 
     @Test
-    @Ignore("DatePicker has changed")
     public void pickingDateRangeForLastFourWeeks_shouldApplyToForm() {
         DateTime expectedStart = DateTime.now().withDayOfWeek(1).minusWeeks(3);
         DateTime expectedEnd = DateTime.now();
@@ -84,12 +88,14 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
+        String expected = String.format("%s  -  %s",
+            Helper.getDateFormat().print(expectedStart),
+            Helper.getDateFormat().print(expectedEnd));
         Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
+            .check(ViewAssertions.matches(ViewMatchers.withText(expected)));
     }
 
     @Test
-    @Ignore("DatePicker has changed")
     public void pickingDateRangeForCurrentMonth_shouldApplyToForm() {
         DateTime expectedStart = DateTime.now().withDayOfMonth(1);
         DateTime expectedEnd = DateTime.now();
@@ -98,12 +104,14 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
+        String expected = String.format("%s  -  %s",
+            Helper.getDateFormat().print(expectedStart),
+            Helper.getDateFormat().print(expectedEnd));
         Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
+            .check(ViewAssertions.matches(ViewMatchers.withText(expected)));
     }
 
     @Test
-    @Ignore("DatePicker has changed")
     public void pickingDateRangeForCurrentQuarter_shouldApplyToForm() {
         DateTime expectedStart = DateTimeUtils.withStartOfQuarter(DateTime.now());
         DateTime expectedEnd = DateTime.now();
@@ -112,7 +120,10 @@ public class ExportDateRangeTest {
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(ViewActions.click());
 
+        String expected = String.format("%s  -  %s",
+            Helper.getDateFormat().print(expectedStart),
+            Helper.getDateFormat().print(expectedEnd));
         Espresso.onView(ViewMatchers.withId(R.id.date_range_button))
-            .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(expectedStart))));
+            .check(ViewAssertions.matches(ViewMatchers.withText(expected)));
     }
 }

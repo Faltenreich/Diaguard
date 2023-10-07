@@ -29,7 +29,8 @@ object Configuration {
     object Project {
 
         const val nameSpace = "com.faltenreich.diaguard"
-        const val versionCode = 60
+        // TODO: Increment version code
+        const val versionCode = 59
         const val versionName = "4.0.0"
     }
 

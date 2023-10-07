@@ -11,8 +11,18 @@ actual class DatabaseLegacyImport {
     actual fun import() {
         val context = inject<Context>()
         val databaseFile = context.getDatabasePath("diaguard.db")
-        // TODO: Return if file does not exist
+        if (!databaseFile.exists()) {
+            return
+        }
         val database = SQLiteDatabase.openDatabase(databaseFile.absolutePath, null, 0)
+
+        // TODO: Pass type ids from Database
+        val bloodSugarTypeId = 1L
+        val bolusTypeId = 2L
+        val correctionTypeId = 3L
+        val basalTypeId = 4L
+        val mealTypeId = 5L
+        val activityTypeId = 6L
 
         val entries = mutableListOf<Entry>()
         database.queryEach("entry") {
@@ -39,7 +49,7 @@ actual class DatabaseLegacyImport {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("mgDl"),
-                    typeId = 1, // TODO: Determine typeId of mgDl
+                    typeId = bloodSugarTypeId,
                     entryId = getLong("entry"),
                 )
             )
@@ -54,17 +64,7 @@ actual class DatabaseLegacyImport {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("bolus"),
-                    typeId = 1, // TODO: Determine typeId of bolus
-                    entryId = entryId,
-                )
-            )
-            values.add(
-                MeasurementValue(
-                    id = autoIncrement(),
-                    createdAt = createdAt,
-                    updatedAt = updatedAt,
-                    value = getDouble("basal"),
-                    typeId = 1, // TODO: Determine typeId of basal
+                    typeId = bolusTypeId,
                     entryId = entryId,
                 )
             )
@@ -74,7 +74,17 @@ actual class DatabaseLegacyImport {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("correction"),
-                    typeId = 1, // TODO: Determine typeId of correction
+                    typeId = correctionTypeId,
+                    entryId = entryId,
+                )
+            )
+            values.add(
+                MeasurementValue(
+                    id = autoIncrement(),
+                    createdAt = createdAt,
+                    updatedAt = updatedAt,
+                    value = getDouble("basal"),
+                    typeId = basalTypeId,
                     entryId = entryId,
                 )
             )
@@ -86,7 +96,7 @@ actual class DatabaseLegacyImport {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("carbohydrates"),
-                    typeId = 1, // TODO: Determine typeId of carbohydrates
+                    typeId = mealTypeId,
                     entryId = getLong("entry"),
                 )
             )
@@ -98,7 +108,7 @@ actual class DatabaseLegacyImport {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("minutes"),
-                    typeId = 1, // TODO: Determine typeId of minutes
+                    typeId = activityTypeId,
                     entryId = getLong("entry"),
                 )
             )

@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
+import com.faltenreich.diaguard.shared.database.DatabaseLegacyImport
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 
@@ -29,7 +30,13 @@ fun FirstStart(
 }
 
 @Composable
-private fun LoadData(
+private fun LoadData() {
+    CreateProperties()
+    DatabaseLegacyImport().import()
+}
+
+@Composable
+private fun CreateProperties(
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
     measurementTypeRepository: MeasurementTypeRepository = inject(),
     measurementUnitRepository: MeasurementUnitRepository = inject(),
@@ -62,4 +69,34 @@ private fun LoadData(
     val activityTypeId = measurementTypeRepository.create(name = getString(MR.strings.activity), sortIndex = 0, propertyId = activityPropertyId)
     val minutesUnitId = measurementUnitRepository.create(name = getString(MR.strings.minutes), factor = 1.0, typeId = activityTypeId)
     measurementTypeRepository.update(id = activityTypeId, name = getString(MR.strings.activity), sortIndex = 0, selectedUnitId = minutesUnitId)
+
+    val hbA1cPropertyId = measurementPropertyRepository.create(name = getString(MR.strings.hba1c), icon = "%", sortIndex = 4, isUserGenerated = false)
+    val hbA1cTypeId = measurementTypeRepository.create(name = getString(MR.strings.hba1c), sortIndex = 0, propertyId = hbA1cPropertyId)
+    val hbA1cPercentUnitId = measurementUnitRepository.create(name = getString(MR.strings.percent), factor = 1.0, typeId = hbA1cTypeId)
+    measurementUnitRepository.create(name = getString(MR.strings.mmol_per_mol), factor = 0.00001, typeId = hbA1cTypeId)
+    measurementTypeRepository.update(id = hbA1cTypeId, name = getString(MR.strings.hba1c), sortIndex = 0, selectedUnitId = hbA1cPercentUnitId)
+
+    val weightPropertyId = measurementPropertyRepository.create(name = getString(MR.strings.weight), icon = "\uD83C\uDFCB", sortIndex = 5, isUserGenerated = false)
+    val weightTypeId = measurementTypeRepository.create(name = getString(MR.strings.weight), sortIndex = 0, propertyId = weightPropertyId)
+    val weightKilogramUnitId = measurementUnitRepository.create(name = getString(MR.strings.kilogram), factor = 1.0, typeId = weightTypeId)
+    measurementUnitRepository.create(name = getString(MR.strings.pound), factor = 2.20462262185, typeId = weightTypeId)
+    measurementTypeRepository.update(id = weightTypeId, name = getString(MR.strings.weight), sortIndex = 0, selectedUnitId = weightKilogramUnitId)
+
+    val pulsePropertyId = measurementPropertyRepository.create(name = getString(MR.strings.pulse), icon = "\uD83D\uDC9A", sortIndex = 6, isUserGenerated = false)
+    val pulseTypeId = measurementTypeRepository.create(name = getString(MR.strings.pulse), sortIndex = 0, propertyId = pulsePropertyId)
+    val pulseBpmUnitId = measurementUnitRepository.create(name = getString(MR.strings.bpm), factor = 1.0, typeId = pulseTypeId)
+    measurementTypeRepository.update(id = pulseTypeId, name = getString(MR.strings.pulse), sortIndex = 0, selectedUnitId = pulseBpmUnitId)
+
+    val pressurePropertyId = measurementPropertyRepository.create(name = getString(MR.strings.pressure), icon = "⛽", sortIndex = 7, isUserGenerated = false)
+    val pressureSystolicTypeId = measurementTypeRepository.create(name = getString(MR.strings.systolic), sortIndex = 0, propertyId = pressurePropertyId)
+    val pressureSystolicUnitId = measurementUnitRepository.create(name = getString(MR.strings.mmol_per_mol), factor = 1.0, typeId = pressureSystolicTypeId)
+    measurementTypeRepository.update(id = pressureSystolicTypeId, name = getString(MR.strings.systolic), sortIndex = 0, selectedUnitId = pressureSystolicUnitId)
+    val pressureDiastolicTypeId = measurementTypeRepository.create(name = getString(MR.strings.diastolic), sortIndex = 0, propertyId = pressurePropertyId)
+    val pressureDiastolicUnitId = measurementUnitRepository.create(name = getString(MR.strings.mmol_per_mol), factor = 1.0, typeId = pressureDiastolicTypeId)
+    measurementTypeRepository.update(id = pressureDiastolicTypeId, name = getString(MR.strings.diastolic), sortIndex = 0, selectedUnitId = pressureDiastolicUnitId)
+
+    val oxygenSaturationPropertyId = measurementPropertyRepository.create(name = getString(MR.strings.oxygen_saturation), icon = "O²", sortIndex = 8, isUserGenerated = false)
+    val oxygenSaturationTypeId = measurementTypeRepository.create(name = getString(MR.strings.oxygen_saturation), sortIndex = 0, propertyId = oxygenSaturationPropertyId)
+    val oxygenSaturationUnitId = measurementUnitRepository.create(name = getString(MR.strings.spO2), factor = 1.0, typeId = oxygenSaturationTypeId)
+    measurementTypeRepository.update(id = oxygenSaturationTypeId, name = getString(MR.strings.oxygen_saturation), sortIndex = 0, selectedUnitId = oxygenSaturationUnitId)
 }

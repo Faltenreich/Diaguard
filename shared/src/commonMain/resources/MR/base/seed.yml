@@ -1,4 +1,4 @@
-# Seed data for MeasurementProperty, MeasurementType and MeasurementUnit
+# Properties, types and units bundled with the app
 ---
 properties:
   - blood_sugar:
@@ -9,13 +9,13 @@ properties:
             name:
               - en: Measurement
             units:
-              - mg_per_dl:
+              - milligrams per deciliter:
                   factor: 1.0
                   name:
                     - en: Milligrams per deciliter
                   abbreviation:
                     - en: mg/dl
-              - mmol_per_l:
+              - millimoles per liter:
                   factor: 0.0555
                   name:
                     - en: Millimoles per liter
@@ -81,9 +81,109 @@ properties:
                     - en: Bread units
                   abbreviation:
                     - en: BU
-  - activity
-  - hba1c
-  - weight
-  - pulse
-  - pressure
-  - oxygen_saturation
+  - activity:
+      name:
+        - en: Activity
+      types:
+        - session:
+            name:
+              - en: Session
+            units:
+              - minutes:
+                  factor: 1.0
+                  name:
+                    - en: Minutes
+                  abbreviation:
+                    - en: min
+  - hba1c:
+      name:
+        - en: HbA1c
+      types:
+        - measurement:
+            name:
+              - en: HbA1c
+            units:
+              - percent:
+                  factor: 1.0
+                  name:
+                    - en: Percent
+                  abbreviation:
+                    - en: %
+              - millimoles per mole:
+                  factor: 0.00001
+                  name:
+                    - en: Millimoles per mole
+                  abbreviation:
+                    - en: mmol/mol
+  - weight:
+      name:
+        - en: Weight
+      types:
+        - measurement:
+            name:
+              - en: Measurement
+            units:
+              - kilograms:
+                  factor: 1.0
+                  name:
+                    - en: Kilograms
+                  abbreviation:
+                    - en: kg
+              - pounds:
+                  factor: 2.20462262185
+                  name:
+                    - en: Pounds
+                  abbreviation:
+                    - en: lbs
+  - pulse:
+      name:
+        - en: Pulse
+      types:
+        - measurement:
+            name:
+              - en: Measurement
+            units:
+              - beats per minute:
+                  factor: 1.0
+                  name:
+                    - en: Beats per minute
+                  abbreviation:
+                    - en: bpm
+  - blood pressure:
+      name:
+        - en: Blood pressure
+      types:
+        - systolic:
+            name:
+              - en: Systolic
+            units:
+              - millimeters of mercury:
+                  factor: 1.0
+                  name:
+                    - en: Millimeters of mercury
+                  abbreviation:
+                    - en: mmHg
+        - diastolic:
+            name:
+              - en: Diastolic
+            units:
+              - millimeters of mercury:
+                  factor: 1.0
+                  name:
+                    - en: Millimeters of mercury
+                  abbreviation:
+                    - en: mmHg
+  - oxygen_saturation:
+      name:
+        - en: Oxygen saturation
+      types:
+        - measurement:
+            name:
+              - en: Measurement
+            units:
+              - percent:
+                  factor: 1.0
+                  name:
+                    - en: Percent
+                  abbreviation:
+                    - en: %

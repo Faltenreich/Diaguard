@@ -28,6 +28,8 @@ public class TimePicker {
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setHour(time.getHourOfDay())
             .setMinute(time.getMinuteOfDay())
+            // Workaround: com.google.android.material:material:1.7.+ changed the default inputMode to INPUT_MODE_KEYBOARD
+            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
             .build();
         if (callback != null) {
             picker.addOnNegativeButtonClickListener(view -> callback.accept(null));

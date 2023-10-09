@@ -10,7 +10,7 @@ class BackupUseCase(
 ) {
 
     operator fun invoke() {
-        seedImport()
+        val properties = seedImport()
         // Attention: Must be executed at last due to reusing seed data
         legacyImport()
     }

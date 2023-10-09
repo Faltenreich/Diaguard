@@ -7,7 +7,9 @@ import kotlin.test.Test
 class SeedImportTest {
 
     private val seedImport = SeedImport(
-        // FIXME: Injects Context on android which leads to KoinApplication has not been started
+        // FIXME: KoinApplication has not been started
+        //  caused by component relying on dependency injection due to Context on Android
+        //  read file via FileReader instead
         localization = Localization(),
         serialization = Serialization(),
     )

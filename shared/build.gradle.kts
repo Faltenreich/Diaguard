@@ -23,6 +23,7 @@ kotlin {
                 implementation(Dependencies.Koin.core)
                 implementation(Dependencies.Kotlinx.coroutines)
                 implementation(Dependencies.Kotlinx.dateTime)
+                implementation(Dependencies.Kotlinx.io)
                 implementation(Dependencies.Kotlinx.serialization)
                 implementation(Dependencies.Kotlinx.serializationYaml)
                 implementation(Dependencies.Ktor.core)

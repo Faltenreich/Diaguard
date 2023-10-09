@@ -11,6 +11,7 @@ object Versions {
     const val dataStore = "1.0.0"
     const val dateTime = "0.4.0"
     const val emojiPicker = "1.4.0"
+    const val io = "0.3.0"
     const val koin = "3.4.3"
     const val kotlin = "1.9.10"
     const val ksp = "1.9.0-1.0.13"
@@ -72,6 +73,7 @@ object Dependencies {
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
         const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
+        const val io = "org.jetbrains.kotlinx:kotlinx-io-core:${Versions.io}"
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}"
         const val serializationYaml = "net.mamoe.yamlkt:yamlkt:${Versions.serializationYaml}"
     }

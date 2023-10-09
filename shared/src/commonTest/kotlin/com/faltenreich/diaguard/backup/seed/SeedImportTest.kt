@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.import.seed
+package com.faltenreich.diaguard.backup.seed
 
 import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.import.legacy
+package com.faltenreich.diaguard.backup.legacy
 
 expect class LegacyImport constructor() {
 

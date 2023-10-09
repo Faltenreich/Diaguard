@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.import.legacy
+package com.faltenreich.diaguard.backup.legacy
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase

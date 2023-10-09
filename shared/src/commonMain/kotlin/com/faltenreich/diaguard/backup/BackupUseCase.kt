@@ -1,10 +1,10 @@
-package com.faltenreich.diaguard.import
+package com.faltenreich.diaguard.backup
 
-import com.faltenreich.diaguard.import.legacy.LegacyImport
-import com.faltenreich.diaguard.import.seed.SeedImport
+import com.faltenreich.diaguard.backup.legacy.LegacyImport
+import com.faltenreich.diaguard.backup.seed.SeedImport
 import com.faltenreich.diaguard.shared.di.inject
 
-class ImportUseCase(
+class BackupUseCase(
     private val seedImport: SeedImport = inject(),
     private val legacyImport: LegacyImport = inject(),
 ) {

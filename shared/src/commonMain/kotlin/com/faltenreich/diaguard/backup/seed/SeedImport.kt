@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.import.seed
+package com.faltenreich.diaguard.backup.seed
 
-import com.faltenreich.diaguard.import.Import
+import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
@@ -10,12 +10,12 @@ class SeedImport(
 ) : Import<List<SeedMeasurementProperty>> {
 
     override operator fun invoke(): List<SeedMeasurementProperty> {
-        val yaml = fileReader.readFile(IMPORT_FILE_PATH)
+        val yaml = fileReader.readFile(FILE_PATH)
         return serialization.decodeYaml(yaml)
     }
 
     companion object {
 
-        private const val IMPORT_FILE_PATH = "src/commonMain/resources/seed/properties.yml"
+        private const val FILE_PATH = "src/commonMain/resources/seed/properties.yml"
     }
 }

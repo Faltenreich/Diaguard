@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.import.mock
+package com.faltenreich.diaguard.backup.mock
 
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.import.Import
+import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository

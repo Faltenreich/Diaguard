@@ -7,19 +7,55 @@ import kotlin.test.assertEquals
 class KotlinxSerializationTest {
 
     private val serialization = KotlinxSerialization()
-    private val data = Dto(property = "value")
-    private val json = "{\"property\":\"value\"}"
+    private val data = Dto(one = "a", many = listOf("a", "b"))
+    private val json = """
+        {
+            "one": "a",
+            "many": [
+                "a",
+                "b"
+            ]
+        }
+    """
+    private val yaml = """
+        one: a
+        many:
+            - a
+            - b
+    """
 
     @Serializable
-    private data class Dto(val property: String)
+    private data class Dto(val one: String, val many: List<String>)
 
     @Test
-    fun `encodes data to json`() {
-        assertEquals(json, serialization.encode(data))
+    fun `encodes to JSON`() {
+        assertEquals(
+            expected = json.filterNot(Char::isWhitespace),
+            actual = serialization.encodeJson(data),
+        )
     }
 
     @Test
-    fun `decodes json to data`() {
-        assertEquals(data, serialization.decode(json))
+    fun `decodes from JSON`() {
+        assertEquals(
+            expected = data,
+            actual = serialization.decodeJson(json),
+        )
+    }
+
+    @Test
+    fun `encodes to YAML`() {
+        assertEquals(
+            expected = "\"" + yaml.replace("\n","\\n") + "\"",
+            actual = serialization.encodeYaml(yaml),
+        )
+    }
+
+    @Test
+    fun `decodes from YAML`() {
+        assertEquals(
+            expected = data,
+            actual = serialization.decodeYaml(yaml),
+        )
     }
 }

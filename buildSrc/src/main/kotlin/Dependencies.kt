@@ -18,7 +18,8 @@ object Versions {
     const val moko = "0.23.0"
     const val paging = "3.2.0-alpha05-0.2.3"
     const val pagingAndroid = "3.2.0"
-    const val serialization = "1.5.0"
+    const val serialization = "1.6.0"
+    const val serializationYaml = "0.13.0"
     const val sqlDelight = "2.0.0"
     const val turbine = "0.12.3"
     const val voyager = "1.0.0-rc07"
@@ -72,6 +73,7 @@ object Dependencies {
         const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}"
+        const val serializationYaml = "net.mamoe.yamlkt:yamlkt:${Versions.serializationYaml}"
     }
 
     object Ktor {

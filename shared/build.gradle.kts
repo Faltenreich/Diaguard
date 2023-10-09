@@ -24,6 +24,7 @@ kotlin {
                 implementation(Dependencies.Kotlinx.coroutines)
                 implementation(Dependencies.Kotlinx.dateTime)
                 implementation(Dependencies.Kotlinx.serialization)
+                implementation(Dependencies.Kotlinx.serializationYaml)
                 implementation(Dependencies.Ktor.core)
                 implementation(Dependencies.Ktor.contentNegotiation)
                 implementation(Dependencies.Ktor.serialization)

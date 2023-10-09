@@ -1,14 +1,19 @@
-package com.faltenreich.diaguard.shared.database
+package com.faltenreich.diaguard.import.legacy
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.database.getDateTime
+import com.faltenreich.diaguard.shared.database.getDouble
+import com.faltenreich.diaguard.shared.database.getLong
+import com.faltenreich.diaguard.shared.database.getString
+import com.faltenreich.diaguard.shared.database.queryEach
 import com.faltenreich.diaguard.shared.di.inject
 
-actual class DatabaseLegacyImport {
+actual class LegacyImport {
 
-    actual fun import() {
+    actual operator fun invoke() {
         val context = inject<Context>()
         val databaseFile = context.getDatabasePath("diaguard.db")
         if (!databaseFile.exists()) {

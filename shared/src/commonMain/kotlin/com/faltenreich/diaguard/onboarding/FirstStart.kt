@@ -7,11 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.import.legacy.LegacyImport
 import com.faltenreich.diaguard.import.seed.SeedImport
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
-import com.faltenreich.diaguard.shared.database.DatabaseLegacyImport
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 
@@ -33,10 +33,10 @@ fun FirstStart(
 @Composable
 private fun LoadData(
     seedImport: SeedImport = inject(),
-    legacyImport: DatabaseLegacyImport = inject(),
+    legacyImport: LegacyImport = inject(),
 ) {
     CreateProperties()
-    legacyImport.import()
+    legacyImport()
 }
 
 @Composable

@@ -1,6 +1,5 @@
-package com.faltenreich.diaguard.feature.onboarding
+package com.faltenreich.diaguard.import.seed
 
-import com.faltenreich.diaguard.onboarding.SeedImport
 import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import kotlin.test.Test
@@ -14,6 +13,6 @@ class SeedImportTest {
 
     @Test
     fun `imports from YAML`() {
-        seedImport.import()
+        seedImport()
     }
 }

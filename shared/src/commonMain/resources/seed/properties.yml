@@ -108,7 +108,7 @@ properties:
                   name:
                     - en: Percent
                   abbreviation:
-                    - en: %
+                    - en: '%'
               - millimoles per mole:
                   factor: 0.00001
                   name:
@@ -186,4 +186,4 @@ properties:
                   name:
                     - en: Percent
                   abbreviation:
-                    - en: %
+                    - en: '%'

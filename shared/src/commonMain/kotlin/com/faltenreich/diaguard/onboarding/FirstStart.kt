@@ -30,9 +30,12 @@ fun FirstStart(
 }
 
 @Composable
-private fun LoadData() {
+private fun LoadData(
+    seedImport: SeedImport = inject(),
+    legacyImport: DatabaseLegacyImport = inject(),
+) {
     CreateProperties()
-    DatabaseLegacyImport().import()
+    legacyImport.import()
 }
 
 @Composable

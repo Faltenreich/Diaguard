@@ -1,34 +1,29 @@
 package com.faltenreich.diaguard.onboarding
 
-import net.mamoe.yamlkt.Yaml
+import com.faltenreich.diaguard.shared.serialization.Serialization
 
-class SeedImport {
+class SeedImport(private val serialization: Serialization) {
 
     fun import() {
         val yaml = """
-            properties:
-                - blood_sugar:
-                    name:
-                        - en: Blood sugar
-                    types:
-                        - measurement:
-                            name:
-                                - en: Measurement
-                            units:
-                                - milligrams per deciliter:
-                                    factor: 1.0
-                                    name:
-                                        - en: Milligrams per deciliter
-                                    abbreviation:
-                                        - en: mg/dl
-                                - millimoles per liter:
-                                    factor: 0.0555
-                                    name:
-                                        - en: Millimoles per liter
-                                    abbreviation:
-                                        - en: mmol
+              - name:
+                - en: Blood sugar
+                types:
+                  - name:
+                      - en: Measurement
+                    units:
+                        - factor: 1.0
+                          name:
+                            - en: Milligrams per deciliter
+                          abbreviation:
+                            - en: mg/dl
+                        - factor: 0.0555
+                          name:
+                            - en: Millimoles per liter
+                          abbreviation:
+                            - en: mmol/l
         """
-        val data = Yaml.decodeFromString(Properties.serializer(), yaml)
-        data.properties.size
+        val data = serialization.decodeYaml<List<Property>>(yaml)
+        data.size
     }
 }

@@ -1,13 +1,14 @@
 package com.faltenreich.diaguard.backup.seed
 
-import com.faltenreich.diaguard.shared.file.FileReader
+import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import kotlin.test.Test
 
 class SeedImportTest {
 
     private val seedImport = SeedImport(
-        fileReader = FileReader(),
+        // FIXME: Injects Context on android which leads to KoinApplication has not been started
+        localization = Localization(),
         serialization = Serialization(),
     )
 

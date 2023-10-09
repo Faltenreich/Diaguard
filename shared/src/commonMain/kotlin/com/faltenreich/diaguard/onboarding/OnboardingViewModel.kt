@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.onboarding
 
+import com.faltenreich.diaguard.import.ImportUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 class OnboardingViewModel(
     dispatcher: CoroutineDispatcher = inject(),
     hasData: HasDataUseCase = inject(),
+    private val import: ImportUseCase = inject(),
 ) : ViewModel() {
 
     private val state = hasData().map { hasData ->
@@ -24,4 +26,8 @@ class OnboardingViewModel(
         started = SharingStarted.Lazily,
         initialValue = OnboardingViewState.Loading,
     )
+
+    fun prepareData() {
+        import()
+    }
 }

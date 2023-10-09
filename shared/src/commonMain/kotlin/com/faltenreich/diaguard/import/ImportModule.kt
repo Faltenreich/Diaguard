@@ -8,4 +8,5 @@ import org.koin.dsl.module
 fun importModule() = module {
     singleOf(::SeedImport)
     singleOf(::LegacyImport)
+    singleOf(::ImportUseCase)
 }

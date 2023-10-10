@@ -22,7 +22,7 @@ class SeedImport(
         seedData.forEachIndexed { propertySortIndex, property ->
             val propertyId = propertyRepository.create(
                 name = property.name.en, // TODO: Determine current locale
-                icon = null, // TODO: Add to seed data
+                icon = property.icon,
                 sortIndex = propertySortIndex.toLong(),
                 isUserGenerated = false,
             )

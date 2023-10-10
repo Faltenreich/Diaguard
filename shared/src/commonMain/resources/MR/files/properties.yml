@@ -1,5 +1,6 @@
 - name:
     en: Blood sugar
+  icon: 🩸
   types:
     - name:
         en: Blood sugar
@@ -16,6 +17,7 @@
               en: mmol/l
 - name:
     en: Insulin
+  icon: 💉
   types:
     - name:
         en: Bolus
@@ -43,6 +45,7 @@
               en: IU
 - name:
     en: Meal
+  icon: 🍞
   types:
     - name:
         en: Meal
@@ -64,6 +67,7 @@
               en: BU
 - name:
     en: Activity
+  icon: 🏃
   types:
     - name:
         en: Activity
@@ -75,6 +79,7 @@
               en: min
 - name:
     en: HbA1c
+  icon: '%'
   types:
     - name:
         en: HbA1c
@@ -91,6 +96,7 @@
               en: mmol/mol
 - name:
     en: Weight
+  icon: 🏋
   types:
     - name:
         en: Weight
@@ -107,6 +113,7 @@
               en: lbs
 - name:
     en: Pulse
+  icon: 💚
   types:
     - name:
           en: Pulse
@@ -118,6 +125,7 @@
               en: bpm
 - name:
     en: Blood pressure
+  icon: ⛽
   types:
     - name:
         en: Systolic
@@ -137,6 +145,7 @@
               en: mmHg
 - name:
     en: Oxygen saturation
+  icon: O²
   types:
     - name:
         en: Oxygen saturation

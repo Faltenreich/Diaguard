@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SeedMeasurementType(
-    val name: List<SeedLocalization>,
+    val name: SeedLocalization,
     val units: List<SeedMeasurementUnit>,
 )

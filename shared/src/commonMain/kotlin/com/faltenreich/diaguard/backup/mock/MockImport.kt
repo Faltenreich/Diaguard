@@ -12,7 +12,7 @@ class MockImport(
     private val measurementPropertyRepository: MeasurementPropertyRepository = inject(),
     private val measurementTypeRepository: MeasurementTypeRepository = inject(),
     private val measurementUnitRepository: MeasurementUnitRepository = inject(),
-) : Import<Unit> {
+) : Import {
 
     override operator fun invoke() {
         val bloodSugarPropertyId = measurementPropertyRepository.create(name = getString(MR.strings.blood_sugar), icon = "\uD83E\uDE78", sortIndex = 0, isUserGenerated = false)

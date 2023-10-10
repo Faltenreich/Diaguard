@@ -1,148 +1,148 @@
 - name:
-  - en: Blood sugar
+    en: Blood sugar
   types:
     - name:
-      - en: Measurement
+        en: Blood sugar
       units:
         - factor: 1.0
           name:
-            - en: Milligrams per deciliter
+              en: Milligrams per deciliter
           abbreviation:
-            - en: mg/dl
+              en: mg/dl
         - factor: 0.0555
           name:
-            - en: Millimoles per liter
+              en: Millimoles per liter
           abbreviation:
-            - en: mmol/l
+              en: mmol/l
 - name:
-  - en: Insulin
+    en: Insulin
   types:
     - name:
-      - en: Bolus
+        en: Bolus
       units:
         - factor: 1.0
           name:
-            - en: Insulin units
+              en: Insulin units
           abbreviation:
-            - en: IU
+              en: IU
     - name:
-      - en: Correction
+        en: Correction
       units:
         - factor: 1.0
           name:
-            - en: Insulin units
+              en: Insulin units
           abbreviation:
-            - en: IU
+              en: IU
     - name:
-      - en: Basal
+        en: Basal
       units:
         - factor: 1.0
           name:
-            - en: Insulin units
+              en: Insulin units
           abbreviation:
-            - en: IU
+              en: IU
 - name:
-  - en: Meal
+    en: Meal
   types:
     - name:
-      - en: Meal
+        en: Meal
       units:
         - factor: 1.0
           name:
-            - en: Carbohydrates
+              en: Carbohydrates
           abbreviation:
-            - en: CHO
+              en: CHO
         - factor: 0.1
           name:
-            - en: Carbohydrate units
+              en: Carbohydrate units
           abbreviation:
-            - en: CU
+              en: CU
         - factor: 0.0833
           name:
-            - en: Bread units
+              en: Bread units
           abbreviation:
-            - en: BU
+              en: BU
 - name:
-  - en: Activity
+    en: Activity
   types:
     - name:
-      - en: Session
+        en: Activity
       units:
         - factor: 1.0
           name:
-            - en: Minutes
+              en: Minutes
           abbreviation:
-            - en: min
+              en: min
 - name:
-  - en: HbA1c
+    en: HbA1c
   types:
     - name:
-      - en: HbA1c
+        en: HbA1c
       units:
         - factor: 1.0
           name:
-            - en: Percent
+              en: Percent
           abbreviation:
-            - en: '%'
+              en: '%'
         - factor: 0.00001
           name:
-            - en: Millimoles per mole
+              en: Millimoles per mole
           abbreviation:
-            - en: mmol/mol
+              en: mmol/mol
 - name:
-  - en: Weight
+    en: Weight
   types:
     - name:
-      - en: Measurement
+        en: Weight
       units:
         - factor: 1.0
           name:
-            - en: Kilograms
+              en: Kilograms
           abbreviation:
-            - en: kg
+              en: kg
         - factor: 2.20462262185
           name:
-            - en: Pounds
+              en: Pounds
           abbreviation:
-            - en: lbs
+              en: lbs
 - name:
-  - en: Pulse
+    en: Pulse
   types:
     - name:
-        - en: Measurement
+          en: Pulse
       units:
         - factor: 1.0
           name:
-            - en: Beats per minute
+              en: Beats per minute
           abbreviation:
-            - en: bpm
+              en: bpm
 - name:
-  - en: Blood pressure
+    en: Blood pressure
   types:
     - name:
-      - en: Systolic
+        en: Systolic
       units:
         - factor: 1.0
           name:
-            - en: Millimeters of mercury
+              en: Millimeters of mercury
           abbreviation:
-            - en: mmHg
+              en: mmHg
     - name:
-      - en: Diastolic
+        en: Diastolic
       units:
         - factor: 1.0
           name:
-            - en: Millimeters of mercury
+              en: Millimeters of mercury
           abbreviation:
-            - en: mmHg
+              en: mmHg
 - name:
-  - en: Oxygen saturation
+    en: Oxygen saturation
   types:
     - name:
-      - en: Measurement
+        en: Oxygen saturation
       units:
         - factor: 1.0
           name:
-            - en: Percent
+              en: Percent
           abbreviation:
-            - en: '%'
+              en: '%'

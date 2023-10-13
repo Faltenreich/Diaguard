@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.measurement.type.MeasurementTypeDao
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
-import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import io.mockative.Mock
 import io.mockative.classOf
@@ -20,10 +20,11 @@ class SeedImportTest {
     @Mock private val unitDao = mock(classOf<MeasurementUnitDao>())
 
     private val seedImport = SeedImport(
-        // FIXME: KoinApplication has not been started
-        //  caused by component relying on dependency injection due to Context on Android
-        //  read file via FileReader instead
-        localization = Localization(),
+        reader = object : SeedReader {
+            override fun invoke(): String {
+                return FileReader().readFile("src/commonTest/resources/properties.yml")
+            }
+        },
         serialization = Serialization(),
         mapper = SeedMapper(),
         propertyRepository = MeasurementPropertyRepository(dao = propertyDao),

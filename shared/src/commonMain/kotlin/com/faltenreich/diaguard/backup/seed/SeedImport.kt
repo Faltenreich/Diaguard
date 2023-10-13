@@ -1,15 +1,13 @@
 package com.faltenreich.diaguard.backup.seed
 
-import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
-import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
 class SeedImport(
-    private val localization: Localization,
+    private val reader: SeedReader,
     private val serialization: Serialization,
     private val mapper: SeedMapper,
     private val propertyRepository: MeasurementPropertyRepository,
@@ -18,7 +16,7 @@ class SeedImport(
 ) : Import {
 
     override operator fun invoke() {
-        val yaml = localization.getString(MR.files.properties)
+        val yaml = reader()
         val seedData = serialization.decodeYaml<List<SeedMeasurementProperty>>(yaml)
         val current: SeedLocalization.() -> String = { mapper(this) }
         seedData.forEachIndexed { propertySortIndex, property ->

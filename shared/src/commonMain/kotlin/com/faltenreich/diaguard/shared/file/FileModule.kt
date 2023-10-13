@@ -5,4 +5,5 @@ import org.koin.dsl.module
 
 fun fileModule() = module {
     singleOf(::FileReader)
+    singleOf(::ResourceFileReader)
 }

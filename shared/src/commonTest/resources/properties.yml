@@ -1,0 +1,157 @@
+- name:
+    en: Blood sugar
+  icon: 🩸
+  types:
+    - name:
+        en: Blood sugar
+      units:
+        - factor: 1.0
+          name:
+              en: Milligrams per deciliter
+          abbreviation:
+              en: mg/dl
+        - factor: 0.0555
+          name:
+              en: Millimoles per liter
+          abbreviation:
+              en: mmol/l
+- name:
+    en: Insulin
+  icon: 💉
+  types:
+    - name:
+        en: Bolus
+      units:
+        - factor: 1.0
+          name:
+              en: Insulin units
+          abbreviation:
+              en: IU
+    - name:
+        en: Correction
+      units:
+        - factor: 1.0
+          name:
+              en: Insulin units
+          abbreviation:
+              en: IU
+    - name:
+        en: Basal
+      units:
+        - factor: 1.0
+          name:
+              en: Insulin units
+          abbreviation:
+              en: IU
+- name:
+    en: Meal
+  icon: 🍞
+  types:
+    - name:
+        en: Meal
+      units:
+        - factor: 1.0
+          name:
+              en: Carbohydrates
+          abbreviation:
+              en: CHO
+        - factor: 0.1
+          name:
+              en: Carbohydrate units
+          abbreviation:
+              en: CU
+        - factor: 0.0833
+          name:
+              en: Bread units
+          abbreviation:
+              en: BU
+- name:
+    en: Activity
+  icon: 🏃
+  types:
+    - name:
+        en: Activity
+      units:
+        - factor: 1.0
+          name:
+              en: Minutes
+          abbreviation:
+              en: min
+- name:
+    en: HbA1c
+  icon: '%'
+  types:
+    - name:
+        en: HbA1c
+      units:
+        - factor: 1.0
+          name:
+              en: Percent
+          abbreviation:
+              en: '%'
+        - factor: 0.00001
+          name:
+              en: Millimoles per mole
+          abbreviation:
+              en: mmol/mol
+- name:
+    en: Weight
+  icon: 🏋
+  types:
+    - name:
+        en: Weight
+      units:
+        - factor: 1.0
+          name:
+              en: Kilograms
+          abbreviation:
+              en: kg
+        - factor: 2.20462262185
+          name:
+              en: Pounds
+          abbreviation:
+              en: lbs
+- name:
+    en: Pulse
+  icon: 💚
+  types:
+    - name:
+          en: Pulse
+      units:
+        - factor: 1.0
+          name:
+              en: Beats per minute
+          abbreviation:
+              en: bpm
+- name:
+    en: Blood pressure
+  icon: ⛽
+  types:
+    - name:
+        en: Systolic
+      units:
+        - factor: 1.0
+          name:
+              en: Millimeters of mercury
+          abbreviation:
+              en: mmHg
+    - name:
+        en: Diastolic
+      units:
+        - factor: 1.0
+          name:
+              en: Millimeters of mercury
+          abbreviation:
+              en: mmHg
+- name:
+    en: Oxygen saturation
+  icon: O²
+  types:
+    - name:
+        en: Oxygen saturation
+      units:
+        - factor: 1.0
+          name:
+              en: Percent
+          abbreviation:
+              en: '%'

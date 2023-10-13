@@ -7,11 +7,13 @@ import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.file.FileReader
+import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.mock
 import kotlin.test.Test
+import kotlin.test.assertNotNull
 
 class SeedImportTest {
 
@@ -19,10 +21,11 @@ class SeedImportTest {
     @Mock private val typeDao = mock(classOf<MeasurementTypeDao>())
     @Mock private val unitDao = mock(classOf<MeasurementUnitDao>())
 
+    private val reader = SystemFileReader("src/commonTest/resources/properties.yml")
     private val seedImport = SeedImport(
-        reader = object : SeedReader {
+        reader = object : FileReader {
             override fun invoke(): String {
-                return FileReader().readFile("src/commonTest/resources/properties.yml")
+                return reader()
             }
         },
         serialization = Serialization(),
@@ -34,6 +37,7 @@ class SeedImportTest {
 
     @Test
     fun `imports from YAML`() {
-        seedImport()
+        val yaml = seedImport()
+        assertNotNull(yaml)
     }
 }

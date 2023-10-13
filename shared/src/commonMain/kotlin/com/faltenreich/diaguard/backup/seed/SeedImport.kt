@@ -4,10 +4,11 @@ import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
+import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
 class SeedImport(
-    private val reader: SeedReader,
+    private val reader: FileReader,
     private val serialization: Serialization,
     private val mapper: SeedMapper,
     private val propertyRepository: MeasurementPropertyRepository,

@@ -16,6 +16,7 @@ object Versions {
     const val kotlin = "1.9.10"
     const val ksp = "1.9.0-1.0.13"
     const val ktor = "2.2.4"
+    const val mockative = "2.0.1"
     const val moko = "0.23.0"
     const val paging = "3.2.0-alpha05-0.2.3"
     const val pagingAndroid = "3.2.0"
@@ -85,6 +86,12 @@ object Dependencies {
         const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:${Versions.ktor}"
         const val mock = "io.ktor:ktor-client-mock:${Versions.ktor}"
         const val serialization = "io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}"
+    }
+
+    object Mockative {
+
+        const val core = "io.mockative:mockative:${Versions.mockative}"
+        const val processor = "io.mockative:mockative-processor:${Versions.mockative}"
     }
 
     object Moko {

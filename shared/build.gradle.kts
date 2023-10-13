@@ -40,6 +40,7 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(Dependencies.Koin.test)
                 implementation(Dependencies.Kotlinx.coroutinesTest)
+                implementation(Dependencies.Mockative.core)
                 implementation(Dependencies.Turbine.core)
                 implementation(Dependencies.Ktor.mock)
             }
@@ -98,6 +99,9 @@ dependencies {
     commonMainApi(Dependencies.Moko.resources)
     commonMainApi(Dependencies.Moko.resourcesCompose)
     commonTestImplementation(Dependencies.Moko.resourcesTest)
+    configurations
+        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
+        .forEach { add(it.name, Dependencies.Mockative.processor) }
 }
 
 multiplatformResources {

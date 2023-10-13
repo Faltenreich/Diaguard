@@ -40,7 +40,8 @@ class SeedImport(
                         factor = unit.factor,
                         typeId = typeId,
                     )
-                    if (unit.factor == 1.0) {
+                    val isSelectedUnit = unit.factor == 1.0
+                    if (isSelectedUnit) {
                         typeRepository.update(
                             id = typeId,
                             name = type.name.current(),

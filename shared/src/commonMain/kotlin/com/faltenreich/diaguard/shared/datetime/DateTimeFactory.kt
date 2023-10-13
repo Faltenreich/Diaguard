@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.shared.datetime
 
-interface DateTimeFactory<Date : Dateable, Time : Timeable, DateTime : DateTimeable> {
+interface DateTimeFactory {
 
-    fun now(): DateTime
+    fun now(): DateTimeable
 
-    fun fromIsoString(isoString: String): DateTime
+    fun fromIsoString(isoString: String): DateTimeable
 
-    fun fromMillis(millis: Long): DateTime
+    fun fromMillis(millis: Long): DateTimeable
 }

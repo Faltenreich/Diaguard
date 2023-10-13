@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.datetime.kotlinx
 
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 
-class KotlinxFactory : DateTimeFactory<KotlinxDate, KotlinxTime, KotlinxDateTime> {
+class KotlinxFactory : DateTimeFactory {
 
     override fun now(): KotlinxDateTime {
         return KotlinxDateTime.now()

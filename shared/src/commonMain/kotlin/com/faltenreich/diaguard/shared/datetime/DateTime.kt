@@ -56,14 +56,14 @@ class DateTime(
 
     constructor(
         isoString: String,
-        factory: DateTimeFactory<Dateable, Timeable, DateTimeable> = inject(),
+        factory: DateTimeFactory = inject(),
     ) : this(
         dateTimeable = factory.fromIsoString(isoString),
     )
 
     constructor(
         millis: Long,
-        factory: DateTimeFactory<Dateable, Timeable, DateTimeable> = inject(),
+        factory: DateTimeFactory = inject(),
     ) : this(
         dateTimeable = factory.fromMillis(millis),
     )
@@ -115,7 +115,7 @@ class DateTime(
 
     companion object {
 
-        private val factory = inject<DateTimeFactory<Dateable, Timeable, DateTimeable>>()
+        private val factory = inject<DateTimeFactory>()
 
         fun now(): DateTime {
             return DateTime(factory.now())

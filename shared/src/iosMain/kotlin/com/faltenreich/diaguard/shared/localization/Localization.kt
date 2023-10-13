@@ -5,9 +5,6 @@ import dev.icerock.moko.resources.StringResource
 
 actual class Localization {
 
-    actual val currentLocale: Locale
-        get() = TODO("Not yet implemented")
-
     actual fun getString(resource: StringResource, vararg args: Any): String {
         TODO("Not yet implemented")
     }

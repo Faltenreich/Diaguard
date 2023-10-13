@@ -1,12 +1,13 @@
 package com.faltenreich.diaguard.backup.seed
 
-import com.faltenreich.diaguard.shared.localization.Localization
+import androidx.compose.ui.text.intl.Locale
 
-class SeedMapper(private val localization: Localization) {
+class SeedMapper {
 
     operator fun invoke(seed: SeedLocalization): String {
-        val locale = localization.currentLocale
-        when (locale) {}
-        TODO()
+        val locale = Locale.current
+        return when (locale.language) {
+            else -> seed.en
+        }
     }
 }

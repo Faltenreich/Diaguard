@@ -14,7 +14,7 @@ class MeasurementPropertyRepository(
         isUserGenerated: Boolean,
     ): Long {
         dao.create(
-            createdAt = DateTime.now(),
+            createdAt = DateTime.now(), // FIXME: Remove strong dependency
             name = name,
             icon = icon,
             sortIndex = sortIndex,

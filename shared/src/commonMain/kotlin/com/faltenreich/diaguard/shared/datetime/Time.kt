@@ -33,6 +33,10 @@ interface Time : Serializable, Comparable<Time> {
 
     fun atDate(date: Date): DateTime
 
+    fun readObject(inputStream: ObjectInputStream)
+
+    fun writeObject(outputStream: ObjectOutputStream)
+
     fun copy(
         hourOfDay: Int = this.hourOfDay,
         minuteOfHour: Int = this.minuteOfHour,
@@ -40,14 +44,4 @@ interface Time : Serializable, Comparable<Time> {
         millisOfSecond: Int = this.millisOfSecond,
         nanosOfMilli: Int = this.nanosOfMilli,
     ): Time
-
-    /**
-     * Deserializes date
-     */
-    fun readObject(inputStream: ObjectInputStream)
-
-    /**
-     * Serializes date
-     */
-    fun writeObject(outputStream: ObjectOutputStream)
 }

@@ -44,33 +44,18 @@ interface Date : Serializable, Comparable<Date> {
 
     fun atEndOfDay(): DateTime
 
-    /**
-     * Returns this date minus the given days
-     */
     fun minusDays(days: Int): Date
 
-    /**
-     * Returns this date plus the given days
-     */
     fun plusDays(days: Int): Date
 
-    /**
-     * Returns this date minus the given months
-     */
     fun minusMonths(months: Int): Date
 
-    /**
-     * Returns this date plus the given months
-     */
     fun plusMonths(months: Int): Date
 
-    /**
-     * Deserializes date
-     */
     fun readObject(inputStream: ObjectInputStream)
 
-    /**
-     * Serializes date
-     */
     fun writeObject(outputStream: ObjectOutputStream)
+
+    // TODO
+    fun copy()
 }

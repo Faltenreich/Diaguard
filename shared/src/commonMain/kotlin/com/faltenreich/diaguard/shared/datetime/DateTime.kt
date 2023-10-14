@@ -26,20 +26,15 @@ interface DateTime : Serializable, Comparable<DateTime> {
      */
     val isoString: String
 
-    /**
-     * Current point in time
-     */
+    @Deprecated("")
     fun now(): DateTime
 
     fun minutesUntil(other: DateTime): Long
 
-    /**
-     * Deserializes date
-     */
     fun readObject(inputStream: ObjectInputStream)
 
-    /**
-     * Serializes date
-     */
     fun writeObject(outputStream: ObjectOutputStream)
+
+    // TODO
+    fun copy()
 }

@@ -8,18 +8,9 @@ import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.DayOfWeek.FRIDAY
-import kotlinx.datetime.DayOfWeek.MONDAY
-import kotlinx.datetime.DayOfWeek.SATURDAY
-import kotlinx.datetime.DayOfWeek.SUNDAY
-import kotlinx.datetime.DayOfWeek.THURSDAY
-import kotlinx.datetime.DayOfWeek.TUESDAY
-import kotlinx.datetime.DayOfWeek.WEDNESDAY
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
-import kotlinx.datetime.DateTimeUnit as KotlinxDateTimeUnit
 
 class KotlinxDate(
     year: Int,
@@ -27,7 +18,7 @@ class KotlinxDate(
     dayOfMonth: Int,
 ) : Date {
 
-    private var delegate: LocalDate = LocalDate(
+    private var delegate = LocalDate(
         year = year,
         monthNumber = monthNumber,
         dayOfMonth = dayOfMonth,
@@ -43,16 +34,7 @@ class KotlinxDate(
         get() = delegate.dayOfMonth
 
     override val dayOfWeek: DayOfWeek
-        get() = when (delegate.dayOfWeek) {
-            MONDAY -> DayOfWeek.MONDAY
-            TUESDAY -> DayOfWeek.TUESDAY
-            WEDNESDAY -> DayOfWeek.WEDNESDAY
-            THURSDAY -> DayOfWeek.THURSDAY
-            FRIDAY -> DayOfWeek.FRIDAY
-            SATURDAY -> DayOfWeek.SATURDAY
-            SUNDAY -> DayOfWeek.SUNDAY
-            else -> throw IllegalStateException("Unknown dayOfWeek: ${delegate.dayOfWeek}")
-        }
+        get() = delegate.dayOfWeek.toDomain()
 
     private constructor(localDate: LocalDate) : this(
         year = localDate.year,
@@ -99,23 +81,12 @@ class KotlinxDate(
         )
     }
 
-    private fun DateUnit.toKotlinx(): DateTimeUnit.DateBased {
-        return when (this) {
-            DateUnit.DAY -> KotlinxDateTimeUnit.DAY
-            DateUnit.WEEK -> KotlinxDateTimeUnit.WEEK
-            DateUnit.MONTH -> KotlinxDateTimeUnit.MONTH
-            DateUnit.QUARTER -> KotlinxDateTimeUnit.QUARTER
-            DateUnit.YEAR -> KotlinxDateTimeUnit.YEAR
-            DateUnit.CENTURY -> KotlinxDateTimeUnit.CENTURY
-        }
-    }
-
     override fun minus(value: Int, unit: DateUnit): Date {
-        return KotlinxDate(delegate.minus(value, unit.toKotlinx()))
+        return KotlinxDate(delegate.minus(value, unit.fromDomain()))
     }
 
     override fun plus(value: Int, unit: DateUnit): Date {
-        return KotlinxDate(delegate.plus(value, unit.toKotlinx()))
+        return KotlinxDate(delegate.plus(value, unit.fromDomain()))
     }
 
     override fun copy(year: Int, monthNumber: Int, dayOfMonth: Int): Date {

@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.shared.datetime
 
 import androidx.compose.ui.input.key.Key.Companion.T
-import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxFactory
+import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTimeFactory
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.parameter.ParametersHolder
 import org.koin.dsl.module
 
 fun dateTimeModule() = module {
-    single<DateTimeFactory> { KotlinxFactory() }
+    single<DateTimeFactory> { KotlinxDateTimeFactory() }
     singleOf(::DateTimeFormatter)
     singleOf(::FormatDateTimeUseCase)
 }

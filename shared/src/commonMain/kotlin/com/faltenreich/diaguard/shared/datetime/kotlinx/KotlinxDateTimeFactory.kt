@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.Time
 
-class KotlinxFactory : DateTimeFactory {
+class KotlinxDateTimeFactory : DateTimeFactory {
 
     override fun date(
         year: Int,

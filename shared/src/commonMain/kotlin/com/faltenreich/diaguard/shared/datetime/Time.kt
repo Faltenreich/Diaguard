@@ -31,18 +31,7 @@ interface Time : Serializable, Comparable<Time> {
      */
     val nanosOfMilli: Int
 
-    fun atDate(date: Date): DateTime {
-        return DateTime(
-            year = date.year,
-            monthNumber = date.monthNumber,
-            dayOfMonth = date.dayOfMonth,
-            hourOfDay = hourOfDay,
-            minuteOfHour = minuteOfHour,
-            secondOfMinute = secondOfMinute,
-            millisOfSecond = millisOfSecond,
-            nanosOfMilli = nanosOfMilli,
-        )
-    }
+    fun atDate(date: Date): DateTime
 
     fun copy(
         hourOfDay: Int = this.hourOfDay,

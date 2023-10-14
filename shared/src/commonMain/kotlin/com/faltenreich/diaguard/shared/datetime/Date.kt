@@ -38,44 +38,11 @@ interface Date : Serializable, Comparable<Date> {
      */
     val dayOfWeek: DayOfWeek
 
-    fun atTime(time: Time): DateTime {
-        return DateTime(
-            year = year,
-            monthNumber = monthNumber,
-            dayOfMonth = dayOfMonth,
-            hourOfDay = time.hourOfDay,
-            minuteOfHour = time.minuteOfHour,
-            secondOfMinute = time.secondOfMinute,
-            millisOfSecond = time.millisOfSecond,
-            nanosOfMilli = time.nanosOfMilli,
-        )
-    }
+    fun atTime(time: Time): DateTime
 
-    fun atStartOfDay(): DateTime {
-        return DateTime(
-            year = year,
-            monthNumber = monthNumber,
-            dayOfMonth = dayOfMonth,
-            hourOfDay = 0,
-            minuteOfHour = 0,
-            secondOfMinute = 0,
-            millisOfSecond = 0,
-            nanosOfMilli = 0,
-        )
-    }
+    fun atStartOfDay(): DateTime
 
-    fun atEndOfDay(): DateTime {
-        return DateTime(
-            year = year,
-            monthNumber = monthNumber,
-            dayOfMonth = dayOfMonth,
-            hourOfDay = 23,
-            minuteOfHour = 59,
-            secondOfMinute = 59,
-            millisOfSecond = 999,
-            nanosOfMilli = 999,
-        )
-    }
+    fun atEndOfDay(): DateTime
 
     /**
      * Returns this date minus the given days

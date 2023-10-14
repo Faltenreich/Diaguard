@@ -24,7 +24,7 @@ class KotlinxDateTime(
     minuteOfHour: Int,
     secondOfMinute: Int,
     millisOfSecond: Int,
-    nanosOfMillis: Int,
+    nanosOfMilli: Int,
 ) : DateTime {
 
     private var localDateTime = LocalDateTime(
@@ -34,7 +34,7 @@ class KotlinxDateTime(
         hour = hourOfDay,
         minute = minuteOfHour,
         second = secondOfMinute,
-        nanosecond = millisOfSecond * DateTimeConstants.NANOS_PER_SECOND + nanosOfMillis,
+        nanosecond = millisOfSecond * DateTimeConstants.NANOS_PER_SECOND + nanosOfMilli,
     )
 
     override val date: Date
@@ -67,7 +67,7 @@ class KotlinxDateTime(
         minuteOfHour = localDateTime.minute,
         secondOfMinute = localDateTime.second,
         millisOfSecond = localDateTime.nanosecond / DateTimeConstants.NANOS_PER_SECOND,
-        nanosOfMillis = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
+        nanosOfMilli = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
     )
 
     constructor(isoString: String) : this(

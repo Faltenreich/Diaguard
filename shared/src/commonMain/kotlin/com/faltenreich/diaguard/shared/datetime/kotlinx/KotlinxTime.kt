@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.shared.datetime.kotlinx
 
+import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.primitive.format
@@ -36,6 +38,19 @@ class KotlinxTime(
 
     override val nanosOfMilli: Int
         get() = delegate.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND)
+
+    override fun atDate(date: Date): DateTime {
+        return KotlinxDateTime(
+            year = date.year,
+            monthNumber = date.monthNumber,
+            dayOfMonth = date.dayOfMonth,
+            hourOfDay = hourOfDay,
+            minuteOfHour = minuteOfHour,
+            secondOfMinute = secondOfMinute,
+            millisOfSecond = millisOfSecond,
+            nanosOfMilli = nanosOfMilli,
+        )
+    }
 
     override fun readObject(inputStream: ObjectInputStream) {
         delegate = LocalTime.fromNanosecondOfDay(inputStream.readLong())

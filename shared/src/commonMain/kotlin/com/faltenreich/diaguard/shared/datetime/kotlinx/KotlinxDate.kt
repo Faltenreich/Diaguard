@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.shared.datetime.kotlinx
 
 import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DayOfWeek
+import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
@@ -55,6 +57,45 @@ class KotlinxDate(
             SUNDAY -> DayOfWeek.SUNDAY
             else -> throw IllegalStateException("Unknown dayOfWeek: ${delegate.dayOfWeek}")
         }
+
+    override fun atTime(time: Time): DateTime {
+        return KotlinxDateTime(
+            year = year,
+            monthNumber = monthNumber,
+            dayOfMonth = dayOfMonth,
+            hourOfDay = time.hourOfDay,
+            minuteOfHour = time.minuteOfHour,
+            secondOfMinute = time.secondOfMinute,
+            millisOfSecond = time.millisOfSecond,
+            nanosOfMilli = time.nanosOfMilli,
+        )
+    }
+
+    override fun atStartOfDay(): DateTime {
+        return KotlinxDateTime(
+            year = year,
+            monthNumber = monthNumber,
+            dayOfMonth = dayOfMonth,
+            hourOfDay = 0,
+            minuteOfHour = 0,
+            secondOfMinute = 0,
+            millisOfSecond = 0,
+            nanosOfMilli = 0,
+        )
+    }
+
+    override fun atEndOfDay(): DateTime {
+        return KotlinxDateTime(
+            year = year,
+            monthNumber = monthNumber,
+            dayOfMonth = dayOfMonth,
+            hourOfDay = 23,
+            minuteOfHour = 59,
+            secondOfMinute = 59,
+            millisOfSecond = 999,
+            nanosOfMilli = 999,
+        )
+    }
 
     override fun minusDays(days: Int): Date {
         return KotlinxDate(delegate.minus(days, DateTimeUnit.DAY))

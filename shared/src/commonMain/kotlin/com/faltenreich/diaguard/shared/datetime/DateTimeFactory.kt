@@ -2,9 +2,11 @@ package com.faltenreich.diaguard.shared.datetime
 
 interface DateTimeFactory {
 
-    fun now(): DateTime
-
-    fun date(year: Int, monthNumber: Int, dayOfMonth: Int): Date
+    fun date(
+        year: Int,
+        monthNumber: Int,
+        dayOfMonth: Int,
+    ): Date
 
     fun time(
         hourOfDay: Int,
@@ -29,9 +31,9 @@ interface DateTimeFactory {
 
     fun dateTime(isoString: String): DateTime
 
-    fun today(): Date
+    fun now(): DateTime
 
-    fun fromIsoString(isoString: String): DateTime
-
-    fun fromMillis(millis: Long): DateTime
+    fun today(): Date {
+        return now().date
+    }
 }

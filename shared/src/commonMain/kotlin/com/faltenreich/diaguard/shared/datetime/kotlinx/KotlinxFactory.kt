@@ -7,16 +7,32 @@ import com.faltenreich.diaguard.shared.datetime.Time
 
 class KotlinxFactory : DateTimeFactory {
 
-    override fun now(): KotlinxDateTime {
-        return KotlinxDateTime.now()
+    override fun date(
+        year: Int,
+        monthNumber: Int,
+        dayOfMonth: Int,
+    ): Date {
+        return KotlinxDate(
+            year,
+            monthNumber,
+            dayOfMonth,
+        )
     }
 
-    override fun today(): Date {
-        return DateTime.now().date
-    }
-
-    override fun date(year: Int, monthNumber: Int, dayOfMonth: Int): Date {
-        return KotlinxDate(year, monthNumber, dayOfMonth)
+    override fun time(
+        hourOfDay: Int,
+        minuteOfHour: Int,
+        secondOfMinute: Int,
+        millisOfSecond: Int,
+        nanosOfMilli: Int,
+    ): Time {
+        return KotlinxTime(
+            hourOfDay,
+            minuteOfHour,
+            secondOfMinute,
+            millisOfSecond,
+            nanosOfMilli,
+        )
     }
 
     override fun dateTime(
@@ -29,32 +45,27 @@ class KotlinxFactory : DateTimeFactory {
         millisOfSecond: Int,
         nanosOfMilli: Int,
     ): DateTime {
-        return KotlinxDateTime(year, monthNumber, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
+        return KotlinxDateTime(
+            year,
+            monthNumber,
+            dayOfMonth,
+            hourOfDay,
+            minuteOfHour,
+            secondOfMinute,
+            millisOfSecond,
+            nanosOfMilli
+        )
     }
 
     override fun dateTime(millis: Long): DateTime {
-        return KotlinxDateTime(millis = millis)
+        return KotlinxDateTime(millis)
     }
 
     override fun dateTime(isoString: String): DateTime {
-        return KotlinxDateTime(isoString = isoString)
-    }
-
-    override fun time(
-        hourOfDay: Int,
-        minuteOfHour: Int,
-        secondOfMinute: Int,
-        millisOfSecond: Int,
-        nanosOfMilli: Int,
-    ): Time {
-        return KotlinxTime(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
-    }
-
-    override fun fromIsoString(isoString: String): KotlinxDateTime {
         return KotlinxDateTime(isoString)
     }
 
-    override fun fromMillis(millis: Long): KotlinxDateTime {
-        return KotlinxDateTime(millis)
+    override fun now(): KotlinxDateTime {
+        return KotlinxDateTime.now()
     }
 }

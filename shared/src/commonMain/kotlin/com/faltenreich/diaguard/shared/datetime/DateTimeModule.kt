@@ -1,24 +1,12 @@
 package com.faltenreich.diaguard.shared.datetime
 
 import androidx.compose.ui.input.key.Key.Companion.T
-import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDate
-import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTime
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxFactory
-import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxTime
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.parameter.ParametersHolder
 import org.koin.dsl.module
 
 fun dateTimeModule() = module {
-    factory<Date> { (year: Int, monthNumber: Int, dayOfMonth: Int) ->
-        KotlinxDate(year, monthNumber, dayOfMonth)
-    }
-    factory<Time> { (hourOfDay: Int, minuteOfHour: Int, secondOfMinute: Int, millisOfSecond: Int, nanosOfMilli: Int) ->
-        KotlinxTime(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
-    }
-    factory<DateTime> { (year: Int, monthNumber: Int, dayOfMonth: Int, hourOfDay: Int, minuteOfHour: Int, secondOfMinute: Int, millisOfSecond: Int, nanosOfMilli: Int) ->
-        KotlinxDateTime(year, monthNumber, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
-    }
     single<DateTimeFactory> { KotlinxFactory() }
     singleOf(::DateTimeFormatter)
     singleOf(::FormatDateTimeUseCase)

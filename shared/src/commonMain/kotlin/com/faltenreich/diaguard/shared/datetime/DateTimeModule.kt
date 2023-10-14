@@ -13,7 +13,7 @@ fun dateTimeModule() = module {
     factory<Date> { (year: Int, monthNumber: Int, dayOfMonth: Int) ->
         KotlinxDate(year, monthNumber, dayOfMonth)
     }
-    factory<Timeable> { (hourOfDay: Int, minuteOfHour: Int, secondOfMinute: Int, millisOfSecond: Int, nanosOfMilli: Int) ->
+    factory<Time> { (hourOfDay: Int, minuteOfHour: Int, secondOfMinute: Int, millisOfSecond: Int, nanosOfMilli: Int) ->
         KotlinxTime(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
     }
     factory<DateTimeable> { (year: Int, monthNumber: Int, dayOfMonth: Int, hourOfDay: Int, minuteOfHour: Int, secondOfMinute: Int, millisOfSecond: Int, nanosOfMilli: Int) ->

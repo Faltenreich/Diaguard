@@ -49,7 +49,7 @@ class KotlinxDateTime(
             minuteOfHour = localDateTime.minute,
             secondOfMinute = localDateTime.second,
             millisOfSecond = localDateTime.nanosecond / DateTimeConstants.NANOS_PER_SECOND,
-            nanosOfMillis = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
+            nanosOfMilli = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
         )
 
     override val millisSince1970: Long

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.shared.datetime.kotlinx
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.shared.datetime.Time
 
 class KotlinxFactory : DateTimeFactory {
 
@@ -14,8 +15,18 @@ class KotlinxFactory : DateTimeFactory {
         return DateTime.now().date
     }
 
-    override fun at(year: Int, monthNumber: Int, dayOfMonth: Int): Date {
+    override fun date(year: Int, monthNumber: Int, dayOfMonth: Int): Date {
         return KotlinxDate(year, monthNumber, dayOfMonth)
+    }
+
+    override fun time(
+        hourOfDay: Int,
+        minuteOfHour: Int,
+        secondOfMinute: Int,
+        millisOfSecond: Int,
+        nanosOfMilli: Int,
+    ): Time {
+        return KotlinxTime(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
     }
 
     override fun fromIsoString(isoString: String): KotlinxDateTime {

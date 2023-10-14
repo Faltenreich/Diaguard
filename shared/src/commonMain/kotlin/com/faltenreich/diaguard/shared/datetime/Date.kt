@@ -86,6 +86,6 @@ interface Date : Serializable, Comparable<Date> {
 
         fun today(): Date = inject<DateTimeFactory>().today()
 
-        operator fun invoke(year: Int, monthNumber: Int, dayOfMonth: Int): Date = inject<DateTimeFactory>().at(year, monthNumber, dayOfMonth)
+        operator fun invoke(year: Int, monthNumber: Int, dayOfMonth: Int): Date = inject<DateTimeFactory>().date(year, monthNumber, dayOfMonth)
     }
 }

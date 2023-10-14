@@ -4,7 +4,15 @@ interface DateTimeFactory {
 
     fun now(): DateTimeable
 
-    fun at(year: Int, monthNumber: Int, dayOfMonth: Int): Date
+    fun date(year: Int, monthNumber: Int, dayOfMonth: Int): Date
+
+    fun time(
+        hourOfDay: Int,
+        minuteOfHour: Int,
+        secondOfMinute: Int = 0,
+        millisOfSecond: Int = 0,
+        nanosOfMilli: Int = 0,
+    ): Time
 
     fun today(): Date
 

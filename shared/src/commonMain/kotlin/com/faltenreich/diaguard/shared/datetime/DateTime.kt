@@ -67,15 +67,5 @@ interface DateTime : Serializable, Comparable<DateTime> {
                 nanosOfMilli
             )
         }
-
-        operator fun invoke(
-            millis: Long
-        ): DateTime {
-            return inject<DateTimeFactory>().dateTime(millis = millis)
-        }
-
-        operator fun invoke(isoString: String): DateTime {
-            return inject<DateTimeFactory>().dateTime(isoString)
-        }
     }
 }

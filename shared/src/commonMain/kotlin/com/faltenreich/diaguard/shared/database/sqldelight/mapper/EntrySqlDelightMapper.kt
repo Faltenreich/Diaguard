@@ -1,9 +1,11 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 
-class EntrySqlDelightMapper {
+class EntrySqlDelightMapper(
+    private val dateTimeFactory: DateTimeFactory,
+) {
 
     fun map(
         id: Long,
@@ -14,9 +16,9 @@ class EntrySqlDelightMapper {
     ): Entry {
         return Entry(
             id = id,
-            createdAt = DateTime(isoString = createdAt),
-            updatedAt = DateTime(isoString = updatedAt),
-            dateTime = DateTime(isoString = dateTime),
+            createdAt = dateTimeFactory.dateTime(isoString = createdAt),
+            updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
+            dateTime = dateTimeFactory.dateTime(isoString = dateTime),
             note = note,
         )
     }

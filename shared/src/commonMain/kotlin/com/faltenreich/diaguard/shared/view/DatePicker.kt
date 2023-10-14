@@ -7,7 +7,8 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import androidx.compose.material3.DatePicker as MaterialDatePicker
 
@@ -15,6 +16,7 @@ import androidx.compose.material3.DatePicker as MaterialDatePicker
 fun DatePicker(
     date: Date,
     onPick: (Date) -> Unit,
+    dateTimeFactory: DateTimeFactory = inject(),
 ) {
     val state = rememberDatePickerState(
         initialSelectedDateMillis = date.atStartOfDay().millisSince1970,
@@ -24,9 +26,7 @@ fun DatePicker(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onPick(state.selectedDateMillis?.let { millis ->
-                        DateTime(millis).date
-                    } ?: date)
+                    onPick(state.selectedDateMillis?.let(dateTimeFactory::dateTime)?.date ?: date)
                 },
             ) {
                 Text(getString(MR.strings.ok))

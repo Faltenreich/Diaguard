@@ -2,10 +2,11 @@ package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.sqldelight.GetAverageByDateTime
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 
 class MeasurementValueSqlDelightMapper(
+    private val dateTimeFactory: DateTimeFactory,
     private val typeMapper: MeasurementTypeSqlDelightMapper = inject(),
     private val unitMapper: MeasurementUnitSqlDelightMapper = inject(),
     private val propertyMapper: MeasurementPropertySqlDelightMapper = inject(),
@@ -22,8 +23,8 @@ class MeasurementValueSqlDelightMapper(
     ): MeasurementValue {
         return MeasurementValue(
             id = id,
-            createdAt = DateTime(isoString = createdAt),
-            updatedAt = DateTime(isoString = updatedAt),
+            createdAt = dateTimeFactory.dateTime(isoString = createdAt),
+            updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
             value = value,
             typeId = typeId,
             entryId = entryId,
@@ -65,8 +66,8 @@ class MeasurementValueSqlDelightMapper(
     ): MeasurementValue {
         return MeasurementValue(
             id = valueId,
-            createdAt = DateTime(isoString = valueCreatedAt),
-            updatedAt = DateTime(isoString = valueUpdatedAt),
+            createdAt = dateTimeFactory.dateTime(isoString = valueCreatedAt),
+            updatedAt = dateTimeFactory.dateTime(isoString = valueUpdatedAt),
             value = valueValue,
             typeId = valueTypeId,
             entryId = valueEntryId,

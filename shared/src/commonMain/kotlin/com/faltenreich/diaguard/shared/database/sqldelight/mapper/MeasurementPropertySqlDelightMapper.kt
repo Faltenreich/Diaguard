@@ -2,9 +2,11 @@ package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 
-class MeasurementPropertySqlDelightMapper {
+class MeasurementPropertySqlDelightMapper(
+    private val dateTimeFactory: DateTimeFactory,
+) {
 
     fun map(
         id: Long,
@@ -17,8 +19,8 @@ class MeasurementPropertySqlDelightMapper {
     ): MeasurementProperty {
         return MeasurementProperty(
             id = id,
-            createdAt = DateTime(isoString = createdAt),
-            updatedAt = DateTime(isoString = updatedAt),
+            createdAt = dateTimeFactory.dateTime(isoString = createdAt),
+            updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
             name = name,
             icon = icon,
             sortIndex = sortIndex,

@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.shared.database
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.shared.di.inject
 
 fun SQLiteDatabase.queryEach(table: String, onEach: Cursor.() -> Unit) {
     with (query(table, null, null, null, null, null, null)) {
@@ -22,7 +24,7 @@ fun Cursor.getLong(column: String): Long {
 }
 
 fun Cursor.getDateTime(column: String): DateTime {
-    return DateTime(millis = getLong(column))
+    return inject<DateTimeFactory>().dateTime(millis = getLong(column))
 }
 
 fun Cursor.getDouble(column: String): Double {

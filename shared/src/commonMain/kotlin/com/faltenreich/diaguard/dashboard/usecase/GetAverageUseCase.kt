@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
@@ -17,12 +17,13 @@ class GetAverageUseCase(
     private val measurementTypeRepository: MeasurementTypeRepository = inject(),
     private val measurementValueRepository: MeasurementValueRepository = inject(),
     private val measurementValueFormatter: MeasurementValueFormatter = inject(),
+    private val dateTimeFactory: DateTimeFactory = inject(),
 ) {
 
     operator fun invoke(): Flow<DashboardViewState.Revisit.Average?> {
         val propertyId = MeasurementProperty.BLOOD_SUGAR_ID
 
-        val today = Date.today()
+        val today = dateTimeFactory.today()
         val todayAtEndOfDay = today.atTime(Time.atEndOfDay())
 
         return combine(

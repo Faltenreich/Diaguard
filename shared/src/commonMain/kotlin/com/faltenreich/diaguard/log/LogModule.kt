@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.log
 
-import org.koin.core.module.dsl.singleOf
+import com.faltenreich.diaguard.shared.datetime.Date
 import org.koin.dsl.module
 
 fun logModule() = module {
-    singleOf(::LogViewModel)
+    factory { (date: Date?) -> LogViewModel(date = date) }
 }

@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.cachedIn
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,11 +16,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class LogViewModel(
-    initialDate: Date,
+    date: Date?,
+    dateTimeFactory: DateTimeFactory = inject(),
     private val dispatcher: CoroutineDispatcher = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel() {
 
+    private val initialDate: Date = date ?: dateTimeFactory.today()
     private lateinit var dataSource: PagingSource<Date, LogItem>
     val currentDate = MutableStateFlow(initialDate)
     val items: Flow<PagingData<LogItem>> = Pager(

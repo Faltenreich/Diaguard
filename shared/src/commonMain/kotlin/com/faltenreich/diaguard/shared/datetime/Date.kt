@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.datetime
 
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.shared.serialization.Serializable
@@ -81,11 +80,4 @@ interface Date : Serializable, Comparable<Date> {
      * Serializes date
      */
     fun writeObject(outputStream: ObjectOutputStream)
-
-    companion object {
-
-        fun today(): Date = inject<DateTimeFactory>().today()
-
-        operator fun invoke(year: Int, monthNumber: Int, dayOfMonth: Int): Date = inject<DateTimeFactory>().date(year, monthNumber, dayOfMonth)
-    }
 }

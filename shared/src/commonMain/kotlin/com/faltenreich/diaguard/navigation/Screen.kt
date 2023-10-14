@@ -35,7 +35,7 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    data class Log(val date: Date = Date.today()) : Screen() {
+    data class Log(val date: Date? = null) : Screen() {
 
         @Composable
         override fun Content() {
@@ -43,7 +43,7 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    data class Timeline(val date: Date = Date.today()) : Screen() {
+    data class Timeline(val date: Date? = null) : Screen() {
 
         @Composable
         override fun Content() {

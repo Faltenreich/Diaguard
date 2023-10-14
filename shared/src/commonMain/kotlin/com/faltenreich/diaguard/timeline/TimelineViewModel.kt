@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -23,12 +24,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class TimelineViewModel(
-    initialDate: Date,
+    date: Date?,
     private val dispatcher: CoroutineDispatcher = inject(),
+    dateTimeFactory: DateTimeFactory = inject(),
     entryRepository: EntryRepository = inject(),
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
 ) : ViewModel() {
 
+    private val initialDate = date ?: dateTimeFactory.today()
     private val currentDate = MutableStateFlow(initialDate)
     private val entries: Flow<List<Entry>> = currentDate.flatMapLatest { date ->
         entryRepository.observeByDateRange(

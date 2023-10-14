@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.timeline
 
-import org.koin.core.module.dsl.singleOf
+import com.faltenreich.diaguard.shared.datetime.Date
 import org.koin.dsl.module
 
 fun timelineModule() = module {
-    singleOf(::TimelineViewModel)
+    factory { (date: Date?) -> TimelineViewModel(date = date) }
 }

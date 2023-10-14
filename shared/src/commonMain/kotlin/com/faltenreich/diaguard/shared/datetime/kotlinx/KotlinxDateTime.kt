@@ -38,14 +38,14 @@ class KotlinxDateTime(
     )
 
     override val date: Date
-        get() = Date(
+        get() = KotlinxDate(
             year = localDateTime.year,
             monthNumber = localDateTime.monthNumber,
             dayOfMonth = localDateTime.dayOfMonth,
         )
 
     override val time: Time
-        get() = Time(
+        get() = KotlinxTime(
             hourOfDay = localDateTime.hour,
             minuteOfHour = localDateTime.minute,
             secondOfMinute = localDateTime.second,

@@ -44,13 +44,9 @@ interface Date : Serializable, Comparable<Date> {
 
     fun atEndOfDay(): DateTime
 
-    fun minusDays(days: Int): Date
+    fun minus(value: Int, unit: DateUnit): Date
 
-    fun plusDays(days: Int): Date
-
-    fun minusMonths(months: Int): Date
-
-    fun plusMonths(months: Int): Date
+    fun plus(value: Int, unit: DateUnit): Date
 
     //region Any
 

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.datetime.kotlinx
 
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.datetime.DayOfWeek
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.primitive.format
@@ -18,6 +19,7 @@ import kotlinx.datetime.DayOfWeek.WEDNESDAY
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
+import kotlinx.datetime.DateTimeUnit as KotlinxDateTimeUnit
 
 class KotlinxDate(
     year: Int,
@@ -97,20 +99,23 @@ class KotlinxDate(
         )
     }
 
-    override fun minusDays(days: Int): Date {
-        return KotlinxDate(delegate.minus(days, DateTimeUnit.DAY))
+    private fun DateUnit.toKotlinx(): DateTimeUnit.DateBased {
+        return when (this) {
+            DateUnit.DAY -> KotlinxDateTimeUnit.DAY
+            DateUnit.WEEK -> KotlinxDateTimeUnit.WEEK
+            DateUnit.MONTH -> KotlinxDateTimeUnit.MONTH
+            DateUnit.QUARTER -> KotlinxDateTimeUnit.QUARTER
+            DateUnit.YEAR -> KotlinxDateTimeUnit.YEAR
+            DateUnit.CENTURY -> KotlinxDateTimeUnit.CENTURY
+        }
     }
 
-    override fun plusDays(days: Int): Date {
-        return KotlinxDate(delegate.plus(days, DateTimeUnit.DAY))
+    override fun minus(value: Int, unit: DateUnit): Date {
+        return KotlinxDate(delegate.minus(value, unit.toKotlinx()))
     }
 
-    override fun minusMonths(months: Int): Date {
-        return KotlinxDate(delegate.minus(months, DateTimeUnit.MONTH))
-    }
-
-    override fun plusMonths(months: Int): Date {
-        return KotlinxDate(delegate.plus(months, DateTimeUnit.MONTH))
+    override fun plus(value: Int, unit: DateUnit): Date {
+        return KotlinxDate(delegate.plus(value, unit.toKotlinx()))
     }
 
     override fun copy(year: Int, monthNumber: Int, dayOfMonth: Int): Date {

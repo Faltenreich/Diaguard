@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.entry.deep
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateProgression
+import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
@@ -44,17 +45,17 @@ class LogItemSource(
             params.isRefreshing() -> {
                 // FIXME: Leads to delayed sticky header as start of month will be loaded afterwards
                 startDate = key
-                endDate = key.plusDays(params.loadSize)
+                endDate = key.plus(params.loadSize, DateUnit.DAY)
                 cache = Cache(startDate = startDate, endDate = endDate)
             }
             params.isPrepending() -> {
-                startDate = key.minusDays(params.loadSize)
+                startDate = key.minus(params.loadSize, DateUnit.DAY)
                 endDate = key
                 cache = cache.copy(startDate = startDate)
             }
             params.isAppending() -> {
                 startDate = key
-                endDate = key.plusDays(params.loadSize)
+                endDate = key.plus(params.loadSize, DateUnit.DAY)
                 cache = cache.copy(endDate = endDate)
             }
             else -> throw IllegalArgumentException("Unhandled parameters: $params")
@@ -76,8 +77,8 @@ class LogItemSource(
         }.flatten()
         val page = PagingSourceLoadResultPage(
             data = items,
-            prevKey = cache.startDate.minusDays(1),
-            nextKey = cache.endDate.plusDays(1),
+            prevKey = cache.startDate.minus(1, DateUnit.DAY),
+            nextKey = cache.endDate.plus(1, DateUnit.DAY),
             // FIXME: Prepending placeholders lead to endless pagination due to stuck scroll position
             // itemsBefore = 1,
             itemsAfter = PAGE_SIZE_IN_DAYS,

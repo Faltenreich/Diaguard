@@ -14,7 +14,7 @@ class DateIterator(
 
     override fun next(): Date {
         val next = current
-        current = current.plusDays(stepInDays)
+        current = current.plus(stepInDays, DateUnit.DAY)
         return next
     }
 }

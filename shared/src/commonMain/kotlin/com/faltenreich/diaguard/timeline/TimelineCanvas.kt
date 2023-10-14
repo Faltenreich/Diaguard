@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
+import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.datetime.DayOfWeek
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -65,7 +66,7 @@ fun TimelineCanvas(
 
                         val widthPerDay = size.width
                         val offsetInDays = ceil(offset.x * -1) / widthPerDay
-                        val date = initialDate.plusDays(offsetInDays.toInt())
+                        val date = initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
                         onDateChange(date)
                     },
                 )

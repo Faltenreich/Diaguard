@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -34,12 +34,12 @@ class GetAverageUseCase(
             ),
             measurementValueRepository.observeAverageByPropertyId(
                 propertyId = propertyId,
-                minDateTime = today.minusDays(DateTimeConstants.DAYS_PER_WEEK).atStartOfDay(),
+                minDateTime = today.minus(1, DateUnit.WEEK).atStartOfDay(),
                 maxDateTime = todayAtEndOfDay,
             ),
             measurementValueRepository.observeAverageByPropertyId(
                 propertyId = propertyId,
-                minDateTime = today.minusMonths(1).atStartOfDay(),
+                minDateTime = today.minus(1, DateUnit.MONTH).atStartOfDay(),
                 maxDateTime = todayAtEndOfDay,
             ),
         ) { types: List<MeasurementType>, averageOfDay: Double?, averageOfWeek: Double?, averageOfMonth: Double? ->

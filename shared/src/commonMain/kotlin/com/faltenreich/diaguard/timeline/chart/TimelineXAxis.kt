@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
+import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
@@ -78,9 +79,9 @@ private fun DrawScope.drawDates(
     val xOffsetInDays = -(offset.x / widthPerDay).toInt()
 
     val secondDate =
-        if (isScrollingToRight) initialDate.plusDays(xOffsetInDays + 1)
-        else initialDate.plusDays(xOffsetInDays)
-    val firstDate = secondDate.minusDays(1)
+        if (isScrollingToRight) initialDate.plus(xOffsetInDays + 1, DateUnit.DAY)
+        else initialDate.plus(xOffsetInDays, DateUnit.DAY)
+    val firstDate = secondDate.minus(1, DateUnit.DAY)
 
     val firstDateAsText = "%s, %s".format(
         daysOfWeek[firstDate.dayOfWeek],

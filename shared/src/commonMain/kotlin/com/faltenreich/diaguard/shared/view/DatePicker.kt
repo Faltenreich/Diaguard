@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
-import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.localization.getString
 import androidx.compose.material3.DatePicker as MaterialDatePicker
 
@@ -18,7 +17,7 @@ fun DatePicker(
     onPick: (Date) -> Unit,
 ) {
     val state = rememberDatePickerState(
-        initialSelectedDateMillis = date.atTime(Time(0, 0)).millisSince1970,
+        initialSelectedDateMillis = date.atStartOfDay().millisSince1970,
     )
     DatePickerDialog(
         onDismissRequest = { onPick(date) },

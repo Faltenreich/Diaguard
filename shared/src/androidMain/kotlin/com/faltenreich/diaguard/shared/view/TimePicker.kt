@@ -22,7 +22,7 @@ actual fun TimePicker(
     TimePickerDialog(
         onDismissRequest = { onPick(time) },
         confirmButton = {
-            TextButton(onClick = { onPick(Time(state.hour, state.minute)) }) {
+            TextButton(onClick = { onPick(time.copy(hourOfDay = state.hour, minuteOfHour = state.minute)) }) {
                 Text(getString(MR.strings.ok))
             }
         },

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.datetime
 
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.shared.serialization.Serializable
@@ -45,6 +44,14 @@ interface Time : Serializable, Comparable<Time> {
         )
     }
 
+    fun copy(
+        hourOfDay: Int = this.hourOfDay,
+        minuteOfHour: Int = this.minuteOfHour,
+        secondOfMinute: Int = this.secondOfMinute,
+        millisOfSecond: Int = this.millisOfSecond,
+        nanosOfMilli: Int = this.nanosOfMilli,
+    ): Time
+
     /**
      * Deserializes date
      */
@@ -54,21 +61,4 @@ interface Time : Serializable, Comparable<Time> {
      * Serializes date
      */
     fun writeObject(outputStream: ObjectOutputStream)
-
-    companion object {
-
-        operator fun invoke(
-            hourOfDay: Int,
-            minuteOfHour: Int,
-            secondOfMinute: Int = 0,
-            millisOfSecond: Int = 0,
-            nanosOfMilli: Int = 0,
-        ): Time {
-            return inject<DateTimeFactory>().time(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
-        }
-
-        fun now(): Time {
-            return DateTime.now().time
-        }
-    }
 }

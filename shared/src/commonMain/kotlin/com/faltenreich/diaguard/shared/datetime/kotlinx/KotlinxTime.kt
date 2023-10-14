@@ -49,6 +49,16 @@ class KotlinxTime(
         outputStream.writeLong(nanosOfDay)
     }
 
+    override fun copy(
+        hourOfDay: Int,
+        minuteOfHour: Int,
+        secondOfMinute: Int,
+        millisOfSecond: Int,
+        nanosOfMilli: Int
+    ): Time {
+        return KotlinxTime(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
+    }
+
     override fun compareTo(other: Time): Int {
         return when {
             hourOfDay > other.hourOfDay -> 1

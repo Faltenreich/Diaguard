@@ -19,6 +19,27 @@ class KotlinxFactory : DateTimeFactory {
         return KotlinxDate(year, monthNumber, dayOfMonth)
     }
 
+    override fun dateTime(
+        year: Int,
+        monthNumber: Int,
+        dayOfMonth: Int,
+        hourOfDay: Int,
+        minuteOfHour: Int,
+        secondOfMinute: Int,
+        millisOfSecond: Int,
+        nanosOfMilli: Int,
+    ): DateTime {
+        return KotlinxDateTime(year, monthNumber, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
+    }
+
+    override fun dateTime(millis: Long): DateTime {
+        return KotlinxDateTime(millis = millis)
+    }
+
+    override fun dateTime(isoString: String): DateTime {
+        return KotlinxDateTime(isoString = isoString)
+    }
+
     override fun time(
         hourOfDay: Int,
         minuteOfHour: Int,

@@ -16,7 +16,7 @@ fun dateTimeModule() = module {
     factory<Time> { (hourOfDay: Int, minuteOfHour: Int, secondOfMinute: Int, millisOfSecond: Int, nanosOfMilli: Int) ->
         KotlinxTime(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
     }
-    factory<DateTimeable> { (year: Int, monthNumber: Int, dayOfMonth: Int, hourOfDay: Int, minuteOfHour: Int, secondOfMinute: Int, millisOfSecond: Int, nanosOfMilli: Int) ->
+    factory<DateTime> { (year: Int, monthNumber: Int, dayOfMonth: Int, hourOfDay: Int, minuteOfHour: Int, secondOfMinute: Int, millisOfSecond: Int, nanosOfMilli: Int) ->
         KotlinxDateTime(year, monthNumber, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
     }
     single<DateTimeFactory> { KotlinxFactory() }

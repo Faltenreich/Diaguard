@@ -1,9 +1,10 @@
 package com.faltenreich.diaguard.shared.datetime.kotlinx
 
 import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
-import com.faltenreich.diaguard.shared.datetime.DateTimeable
 import com.faltenreich.diaguard.shared.datetime.Time
+import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.Clock
@@ -24,7 +25,7 @@ class KotlinxDateTime(
     secondOfMinute: Int,
     millisOfSecond: Int,
     nanosOfMillis: Int,
-) : DateTimeable {
+) : DateTime {
 
     private var localDateTime = LocalDateTime(
         year = year,
@@ -79,13 +80,13 @@ class KotlinxDateTime(
             .toLocalDateTime(TimeZone.currentSystemDefault()),
     )
 
-    override fun now(): DateTimeable {
+    override fun now(): DateTime {
         return KotlinxDateTime(
             localDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
         )
     }
 
-    override fun minutesUntil(other: DateTimeable): Long {
+    override fun minutesUntil(other: DateTime): Long {
         val timeZone = TimeZone.currentSystemDefault()
         val instant = localDateTime.toInstant(timeZone)
         val otherLocalDateTime = KotlinxDateTime(other.millisSince1970).localDateTime
@@ -101,6 +102,33 @@ class KotlinxDateTime(
 
     override fun writeObject(outputStream: ObjectOutputStream) {
         outputStream.writeLong(millisSince1970)
+    }
+
+    override fun compareTo(other: DateTime): Int {
+        return when {
+            date > other.date -> 1
+            date < other.date -> -1
+            time > other.time -> 1
+            time < other.time -> -1
+            else -> 0
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return other is DateTime &&
+            date == other.date &&
+            time == other.time
+    }
+
+    override fun hashCode(): Int {
+        return date.hashCode() + time.hashCode()
+    }
+
+    override fun toString(): String {
+        return "%s %s".format(
+            date.toString(),
+            time.toString(),
+        )
     }
 
     companion object {

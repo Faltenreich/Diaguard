@@ -1,10 +1,11 @@
 package com.faltenreich.diaguard.measurement.unit
 
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementUnitRepository(
     private val dao: MeasurementUnitDao,
+    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(
@@ -13,7 +14,7 @@ class MeasurementUnitRepository(
         typeId: Long,
     ): Long {
         dao.create(
-            createdAt = DateTime.now(),
+            createdAt = dateTimeFactory.now(),
             name = name,
             factor = factor,
             typeId = typeId,
@@ -43,7 +44,7 @@ class MeasurementUnitRepository(
     ) {
         dao.update(
             id = id,
-            updatedAt = DateTime.now(),
+            updatedAt = dateTimeFactory.now(),
             name = name,
         )
     }

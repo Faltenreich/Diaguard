@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
 class EntryFormViewModel(
     entry: Entry?,
     date: Date?,
+    dateTimeFactory: DateTimeFactory = inject(),
     private val dispatcher: CoroutineDispatcher = inject(),
     private val submitEntry: SubmitEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
@@ -28,7 +30,10 @@ class EntryFormViewModel(
 
     private val id: Long? = entry?.id
 
-    var dateTime: DateTime by mutableStateOf(entry?.dateTime ?: date?.atTime(DateTime.now().time) ?: DateTime.now())
+    var dateTime: DateTime by mutableStateOf(entry?.dateTime
+        ?: date?.atTime(dateTimeFactory.now().time)
+        ?: dateTimeFactory.now()
+    )
         private set
 
     var date: Date

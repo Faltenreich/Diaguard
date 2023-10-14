@@ -1,10 +1,12 @@
 package com.faltenreich.diaguard.measurement.property
 
 import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementPropertyRepository(
     private val dao: MeasurementPropertyDao,
+    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(
@@ -14,7 +16,7 @@ class MeasurementPropertyRepository(
         isUserGenerated: Boolean,
     ): Long {
         dao.create(
-            createdAt = DateTime.now(), // FIXME: Remove strong dependency
+            createdAt = dateTimeFactory.now(),
             name = name,
             icon = icon,
             sortIndex = sortIndex,

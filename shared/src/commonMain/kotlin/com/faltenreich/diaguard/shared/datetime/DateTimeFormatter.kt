@@ -55,8 +55,8 @@ class DateTimeFormatter {
         }
     }
 
-    fun formatTimePassed(dateTime: DateTime): String {
-        val minutesPassed = dateTime.minutesUntil(DateTime.now())
+    fun formatTimePassed(start: DateTime, end: DateTime): String {
+        val minutesPassed = start.minutesUntil(end)
         return when {
             minutesPassed < 2 -> getString(MR.strings.date_time_ago_moments)
             minutesPassed < DateTimeConstants.MINUTES_PER_HOUR * 2 -> getString(

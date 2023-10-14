@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.entry
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.deep
 import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -11,10 +12,11 @@ import kotlinx.coroutines.flow.map
 
 class EntryRepository(
     private val dao: EntryDao,
+    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(dateTime: DateTime): Long {
-        dao.create(createdAt = DateTime.now(), dateTime = dateTime)
+        dao.create(createdAt = dateTimeFactory.now(), dateTime = dateTime)
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
     }
 
@@ -41,7 +43,7 @@ class EntryRepository(
     ) {
         dao.update(
             id = id,
-            updatedAt = DateTime.now(),
+            updatedAt = dateTimeFactory.now(),
             dateTime = dateTime,
             note = note,
         )

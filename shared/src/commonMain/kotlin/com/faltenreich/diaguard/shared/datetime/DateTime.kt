@@ -77,9 +77,5 @@ interface DateTime : Serializable, Comparable<DateTime> {
         operator fun invoke(isoString: String): DateTime {
             return inject<DateTimeFactory>().dateTime(isoString)
         }
-
-        fun now(): DateTime {
-            return inject<DateTimeFactory>().now()
-        }
     }
 }

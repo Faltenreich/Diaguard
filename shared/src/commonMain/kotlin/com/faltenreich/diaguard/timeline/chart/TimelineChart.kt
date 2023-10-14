@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
-import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.view.bezierBetween
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
@@ -22,7 +21,7 @@ fun DrawScope.TimelineChart(
     if (values.isEmpty()) {
         return@with
     }
-    val dateTimeBase = initialDate.atTime(Time.atStartOfDay())
+    val dateTimeBase = initialDate.atStartOfDay()
     val coordinates = values.map { value ->
         val dateTime = value.entry.dateTime
         val widthPerDay = size.width

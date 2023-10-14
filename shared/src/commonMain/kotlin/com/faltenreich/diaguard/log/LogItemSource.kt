@@ -12,7 +12,6 @@ import com.faltenreich.diaguard.entry.deep
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateProgression
-import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
@@ -62,8 +61,8 @@ class LogItemSource(
         }
         println("LogViewModel: Fetching data for: $startDate - $endDate")
         val entries = entryRepository.getByDateRange(
-            startDateTime = startDate.atTime(Time.atStartOfDay()),
-            endDateTime = endDate.atTime(Time.atEndOfDay()),
+            startDateTime = startDate.atStartOfDay(),
+            endDateTime = endDate.atEndOfDay(),
         ).deep()
         val items = DateProgression(startDate, endDate).map { date ->
             val headers = listOfNotNull(

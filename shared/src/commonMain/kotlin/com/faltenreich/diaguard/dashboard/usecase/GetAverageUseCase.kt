@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
-import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -24,23 +23,23 @@ class GetAverageUseCase(
         val propertyId = MeasurementProperty.BLOOD_SUGAR_ID
 
         val today = dateTimeFactory.today()
-        val todayAtEndOfDay = today.atTime(Time.atEndOfDay())
+        val todayAtEndOfDay = today.atEndOfDay()
 
         return combine(
             measurementTypeRepository.observeByPropertyId(propertyId),
             measurementValueRepository.observeAverageByPropertyId(
                 propertyId = propertyId,
-                minDateTime = today.atTime(Time.atStartOfDay()),
+                minDateTime = today.atStartOfDay(),
                 maxDateTime = todayAtEndOfDay,
             ),
             measurementValueRepository.observeAverageByPropertyId(
                 propertyId = propertyId,
-                minDateTime = today.minusDays(DateTimeConstants.DAYS_PER_WEEK).atTime(Time.atStartOfDay()),
+                minDateTime = today.minusDays(DateTimeConstants.DAYS_PER_WEEK).atStartOfDay(),
                 maxDateTime = todayAtEndOfDay,
             ),
             measurementValueRepository.observeAverageByPropertyId(
                 propertyId = propertyId,
-                minDateTime = today.minusMonths(1).atTime(Time.atStartOfDay()),
+                minDateTime = today.minusMonths(1).atStartOfDay(),
                 maxDateTime = todayAtEndOfDay,
             ),
         ) { types: List<MeasurementType>, averageOfDay: Double?, averageOfWeek: Double?, averageOfMonth: Double? ->

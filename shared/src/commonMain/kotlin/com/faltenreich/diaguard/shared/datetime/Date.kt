@@ -51,6 +51,30 @@ interface Date : Serializable, Comparable<Date> {
         )
     }
 
+    fun atStartOfDay(): DateTime {
+        return atTime(
+            time = Time(
+                hourOfDay = 0,
+                minuteOfHour = 0,
+                secondOfMinute = 0,
+                millisOfSecond = 0,
+                nanosOfMilli = 0,
+            )
+        )
+    }
+
+    fun atEndOfDay(): DateTime {
+        return atTime(
+            time = Time(
+                hourOfDay = 23,
+                minuteOfHour = 59,
+                secondOfMinute = 59,
+                millisOfSecond = 999,
+                nanosOfMilli = 999,
+            )
+        )
+    }
+
     /**
      * Returns this date minus the given days
      */

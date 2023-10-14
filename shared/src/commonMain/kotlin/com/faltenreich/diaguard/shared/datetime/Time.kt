@@ -70,25 +70,5 @@ interface Time : Serializable, Comparable<Time> {
         fun now(): Time {
             return DateTime.now().time
         }
-
-        fun atStartOfDay(): Time {
-            return Time(
-                hourOfDay = 0,
-                minuteOfHour = 0,
-                secondOfMinute = 0,
-                millisOfSecond = 0,
-                nanosOfMilli = 0,
-            )
-        }
-
-        fun atEndOfDay(): Time {
-            return Time(
-                hourOfDay = 23,
-                minuteOfHour = 59,
-                secondOfMinute = 59,
-                millisOfSecond = 999,
-                nanosOfMilli = 999,
-            )
-        }
     }
 }

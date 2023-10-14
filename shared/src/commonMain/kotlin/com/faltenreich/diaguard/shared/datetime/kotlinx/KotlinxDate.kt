@@ -33,12 +33,6 @@ class KotlinxDate(
         dayOfMonth = dayOfMonth,
     )
 
-    private constructor(localDate: LocalDate) : this(
-        year = localDate.year,
-        monthNumber = localDate.monthNumber,
-        dayOfMonth = localDate.dayOfMonth,
-    )
-
     override val year: Int
         get() = delegate.year
 
@@ -59,6 +53,12 @@ class KotlinxDate(
             SUNDAY -> DayOfWeek.SUNDAY
             else -> throw IllegalStateException("Unknown dayOfWeek: ${delegate.dayOfWeek}")
         }
+
+    private constructor(localDate: LocalDate) : this(
+        year = localDate.year,
+        monthNumber = localDate.monthNumber,
+        dayOfMonth = localDate.dayOfMonth,
+    )
 
     override fun atTime(time: Time): DateTime {
         return KotlinxDateTime(

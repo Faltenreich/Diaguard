@@ -52,18 +52,6 @@ class KotlinxTime(
         )
     }
 
-    override fun readObject(inputStream: ObjectInputStream) {
-        delegate = LocalTime.fromNanosecondOfDay(inputStream.readLong())
-    }
-
-    override fun writeObject(outputStream: ObjectOutputStream) {
-        val nanosOfDay = hourOfDay * DateTimeConstants.NANOS_PER_HOUR +
-            minuteOfHour * DateTimeConstants.NANOS_PER_MINUTE +
-            secondOfMinute * DateTimeConstants.NANOS_PER_SECOND +
-            nanosOfMilli
-        outputStream.writeLong(nanosOfDay)
-    }
-
     override fun copy(
         hourOfDay: Int,
         minuteOfHour: Int,
@@ -72,22 +60,6 @@ class KotlinxTime(
         nanosOfMilli: Int
     ): Time {
         return KotlinxTime(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
-    }
-
-    override fun compareTo(other: Time): Int {
-        return when {
-            hourOfDay > other.hourOfDay -> 1
-            hourOfDay < other.hourOfDay -> -1
-            minuteOfHour > other.minuteOfHour -> 1
-            minuteOfHour < other.minuteOfHour -> -1
-            secondOfMinute > other.secondOfMinute -> 1
-            secondOfMinute < other.secondOfMinute -> -1
-            millisOfSecond > other.millisOfSecond -> 1
-            millisOfSecond < other.millisOfSecond -> -1
-            nanosOfMilli > other.nanosOfMilli -> 1
-            nanosOfMilli < other.nanosOfMilli -> -1
-            else -> 0
-        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -114,5 +86,17 @@ class KotlinxTime(
             secondOfMinute,
             millisOfSecond,
         )
+    }
+
+    override fun readObject(inputStream: ObjectInputStream) {
+        delegate = LocalTime.fromNanosecondOfDay(inputStream.readLong())
+    }
+
+    override fun writeObject(outputStream: ObjectOutputStream) {
+        val nanosOfDay = hourOfDay * DateTimeConstants.NANOS_PER_HOUR +
+            minuteOfHour * DateTimeConstants.NANOS_PER_MINUTE +
+            secondOfMinute * DateTimeConstants.NANOS_PER_SECOND +
+            nanosOfMilli
+        outputStream.writeLong(nanosOfDay)
     }
 }

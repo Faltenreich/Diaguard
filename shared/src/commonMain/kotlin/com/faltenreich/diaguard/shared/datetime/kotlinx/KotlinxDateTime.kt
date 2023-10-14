@@ -80,55 +80,12 @@ class KotlinxDateTime(
             .toLocalDateTime(TimeZone.currentSystemDefault()),
     )
 
-    override fun now(): DateTime {
-        return KotlinxDateTime(
-            localDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
-        )
-    }
-
     override fun minutesUntil(other: DateTime): Long {
         val timeZone = TimeZone.currentSystemDefault()
         val instant = localDateTime.toInstant(timeZone)
         val otherLocalDateTime = KotlinxDateTime(other.millisSince1970).localDateTime
         val otherInstant = otherLocalDateTime.toInstant(timeZone)
         return instant.until(otherInstant, DateTimeUnit.MINUTE)
-    }
-
-    override fun readObject(inputStream: ObjectInputStream) {
-        localDateTime = Instant
-            .fromEpochMilliseconds(inputStream.readLong())
-            .toLocalDateTime(TimeZone.currentSystemDefault())
-    }
-
-    override fun writeObject(outputStream: ObjectOutputStream) {
-        outputStream.writeLong(millisSince1970)
-    }
-
-    override fun compareTo(other: DateTime): Int {
-        return when {
-            date > other.date -> 1
-            date < other.date -> -1
-            time > other.time -> 1
-            time < other.time -> -1
-            else -> 0
-        }
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return other is DateTime &&
-            date == other.date &&
-            time == other.time
-    }
-
-    override fun hashCode(): Int {
-        return date.hashCode() + time.hashCode()
-    }
-
-    override fun toString(): String {
-        return "%s %s".format(
-            date.toString(),
-            time.toString(),
-        )
     }
 
     override fun copy(
@@ -151,6 +108,33 @@ class KotlinxDateTime(
             millisOfSecond = millisOfSecond,
             nanosOfMilli = nanosOfMilli,
         )
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return other is DateTime &&
+            date == other.date &&
+            time == other.time
+    }
+
+    override fun hashCode(): Int {
+        return date.hashCode() + time.hashCode()
+    }
+
+    override fun toString(): String {
+        return "%s %s".format(
+            date.toString(),
+            time.toString(),
+        )
+    }
+
+    override fun readObject(inputStream: ObjectInputStream) {
+        localDateTime = Instant
+            .fromEpochMilliseconds(inputStream.readLong())
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+    }
+
+    override fun writeObject(outputStream: ObjectOutputStream) {
+        outputStream.writeLong(millisSince1970)
     }
 
     companion object {

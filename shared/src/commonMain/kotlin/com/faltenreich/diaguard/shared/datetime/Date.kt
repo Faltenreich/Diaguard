@@ -52,13 +52,43 @@ interface Date : Serializable, Comparable<Date> {
 
     fun plusMonths(months: Int): Date
 
-    fun readObject(inputStream: ObjectInputStream)
-
-    fun writeObject(outputStream: ObjectOutputStream)
+    //region Any
 
     fun copy(
         year: Int = this.year,
         monthNumber: Int = this.monthNumber,
         dayOfMonth: Int = this.dayOfMonth,
     ): Date
+
+    override fun equals(other: Any?): Boolean
+
+    override fun hashCode(): Int
+
+    override fun toString(): String
+
+    //endregion Any
+
+    //region Serializable
+
+    fun readObject(inputStream: ObjectInputStream)
+
+    fun writeObject(outputStream: ObjectOutputStream)
+
+    //endregion Serializable
+
+    //region Comparable
+
+    override fun compareTo(other: Date): Int {
+        return when {
+            year > other.year -> 1
+            year < other.year -> -1
+            monthNumber > other.monthNumber -> 1
+            monthNumber < other.monthNumber -> -1
+            dayOfMonth > other.dayOfMonth -> 1
+            dayOfMonth < other.dayOfMonth -> -1
+            else -> 0
+        }
+    }
+
+    //endregion Comparable
 }

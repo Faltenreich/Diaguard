@@ -113,24 +113,12 @@ class KotlinxDate(
         return KotlinxDate(delegate.plus(months, DateTimeUnit.MONTH))
     }
 
-    override fun readObject(inputStream: ObjectInputStream) {
-        delegate = LocalDate.fromEpochDays(inputStream.readLong().toInt())
-    }
-
-    override fun writeObject(outputStream: ObjectOutputStream) {
-        outputStream.writeLong(delegate.toEpochDays().toLong())
-    }
-
-    override fun compareTo(other: Date): Int {
-        return when {
-            year > other.year -> 1
-            year < other.year -> -1
-            monthNumber > other.monthNumber -> 1
-            monthNumber < other.monthNumber -> -1
-            dayOfMonth > other.dayOfMonth -> 1
-            dayOfMonth < other.dayOfMonth -> -1
-            else -> 0
-        }
+    override fun copy(year: Int, monthNumber: Int, dayOfMonth: Int): Date {
+        return KotlinxDate(
+            year = year,
+            monthNumber = monthNumber,
+            dayOfMonth = dayOfMonth,
+        )
     }
 
     override fun equals(other: Any?): Boolean {
@@ -154,11 +142,11 @@ class KotlinxDate(
         )
     }
 
-    override fun copy(year: Int, monthNumber: Int, dayOfMonth: Int): Date {
-        return KotlinxDate(
-            year = year,
-            monthNumber = monthNumber,
-            dayOfMonth = dayOfMonth,
-        )
+    override fun readObject(inputStream: ObjectInputStream) {
+        delegate = LocalDate.fromEpochDays(inputStream.readLong().toInt())
+    }
+
+    override fun writeObject(outputStream: ObjectOutputStream) {
+        outputStream.writeLong(delegate.toEpochDays().toLong())
     }
 }

@@ -33,6 +33,8 @@ interface Time : Serializable, Comparable<Time> {
 
     fun atDate(date: Date): DateTime
 
+    //region Any
+
     fun copy(
         hourOfDay: Int = this.hourOfDay,
         minuteOfHour: Int = this.minuteOfHour,

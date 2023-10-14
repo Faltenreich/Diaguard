@@ -131,6 +131,28 @@ class KotlinxDateTime(
         )
     }
 
+    override fun copy(
+        year: Int,
+        monthNumber: Int,
+        dayOfMonth: Int,
+        hourOfDay: Int,
+        minuteOfHour: Int,
+        secondOfMinute: Int,
+        millisOfSecond: Int,
+        nanosOfMilli: Int
+    ): DateTime {
+        return KotlinxDateTime(
+            year = year,
+            monthNumber = monthNumber,
+            dayOfMonth = dayOfMonth,
+            hourOfDay = hourOfDay,
+            minuteOfHour = minuteOfHour,
+            secondOfMinute = secondOfMinute,
+            millisOfSecond = millisOfSecond,
+            nanosOfMilli = nanosOfMilli,
+        )
+    }
+
     companion object {
 
         fun now(): KotlinxDateTime {

@@ -56,6 +56,9 @@ interface Date : Serializable, Comparable<Date> {
 
     fun writeObject(outputStream: ObjectOutputStream)
 
-    // TODO
-    fun copy()
+    fun copy(
+        year: Int = this.year,
+        monthNumber: Int = this.monthNumber,
+        dayOfMonth: Int = this.dayOfMonth,
+    ): Date
 }

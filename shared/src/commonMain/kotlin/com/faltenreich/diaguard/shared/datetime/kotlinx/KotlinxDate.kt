@@ -153,4 +153,12 @@ class KotlinxDate(
             year,
         )
     }
+
+    override fun copy(year: Int, monthNumber: Int, dayOfMonth: Int): Date {
+        return KotlinxDate(
+            year = year,
+            monthNumber = monthNumber,
+            dayOfMonth = dayOfMonth,
+        )
+    }
 }

@@ -35,6 +35,14 @@ interface DateTime : Serializable, Comparable<DateTime> {
 
     fun writeObject(outputStream: ObjectOutputStream)
 
-    // TODO
-    fun copy()
+    fun copy(
+        year: Int = date.year,
+        monthNumber: Int = date.monthNumber,
+        dayOfMonth: Int = date.dayOfMonth,
+        hourOfDay: Int = time.hourOfDay,
+        minuteOfHour: Int = time.minuteOfHour,
+        secondOfMinute: Int = time.secondOfMinute,
+        millisOfSecond: Int = time.millisOfSecond,
+        nanosOfMilli: Int = time.nanosOfMilli,
+    ): DateTime
 }

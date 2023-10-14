@@ -1,59 +1,43 @@
 package com.faltenreich.diaguard.shared.datetime
 
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.shared.serialization.Serializable
-import org.koin.core.parameter.parametersOf
 
-class Date(
-    year: Int,
-    monthNumber: Int,
-    dayOfMonth: Int,
-) : Serializable, Comparable<Date> {
+interface Date : Serializable, Comparable<Date> {
 
-    private val delegate: Dateable = inject { parametersOf(year, monthNumber, dayOfMonth) }
-
+    /**
+     * Year starting at 0 AD
+     */
     val year: Int
-        get() = delegate.year
 
+    /**
+     * Month-of-year as number ranging from 1 to 12
+     */
     val monthNumber: Int
-        get() = delegate.monthNumber
 
+    /**
+     * Month ranging from January to December
+     */
     val month: Month
-        get() = delegate.month
+        get() = Month.fromMonthNumber(monthNumber)
 
+    /**
+     * Month-of-year as pair of Month and year
+     */
     val monthOfYear: MonthOfYear
-        get() = delegate.monthOfYear
+        get() = MonthOfYear(month, year)
 
+    /**
+     * Day-of-month ranging from 1 to 31, depending on month
+     */
     val dayOfMonth: Int
-        get() = delegate.dayOfMonth
 
+    /**
+     * Day-of-week ranging from start- to end of week, depending on the locale
+     */
     val dayOfWeek: DayOfWeek
-        get() = delegate.dayOfWeek
-
-    private constructor(dateable: Dateable) : this(
-        year = dateable.year,
-        monthNumber = dateable.monthNumber,
-        dayOfMonth = dateable.dayOfMonth,
-    )
-
-    fun minusDays(days: Int): Date {
-        return Date(delegate.minusDays(days))
-    }
-
-    fun plusDays(days: Int): Date {
-        return Date(delegate.plusDays(days))
-    }
-
-    fun minusMonths(months: Int): Date {
-        return Date(delegate.minusMonths(months))
-    }
-
-    fun plusMonths(months: Int): Date {
-        return Date(delegate.plusMonths(months))
-    }
 
     fun atTime(time: Time): DateTime {
         return DateTime(
@@ -68,53 +52,40 @@ class Date(
         )
     }
 
-    override fun compareTo(other: Date): Int {
-        return when {
-            year > other.year -> 1
-            year < other.year -> -1
-            monthNumber > other.monthNumber -> 1
-            monthNumber < other.monthNumber -> -1
-            dayOfMonth > other.dayOfMonth -> 1
-            dayOfMonth < other.dayOfMonth -> -1
-            else -> 0
-        }
-    }
+    /**
+     * Returns this date minus the given days
+     */
+    fun minusDays(days: Int): Date
 
-    override fun equals(other: Any?): Boolean {
-        return other is Date &&
-            year == other.year &&
-            monthNumber == other.monthNumber &&
-            dayOfMonth == other.dayOfMonth
-    }
+    /**
+     * Returns this date plus the given days
+     */
+    fun plusDays(days: Int): Date
 
-    override fun hashCode(): Int {
-        return year.hashCode().times(31) +
-            monthNumber.hashCode().times(31) +
-            dayOfMonth.hashCode().times(31)
-    }
+    /**
+     * Returns this date minus the given months
+     */
+    fun minusMonths(months: Int): Date
 
-    override fun toString(): String {
-        return "%02d.%02d.%04d".format(
-            dayOfMonth,
-            monthNumber,
-            year,
-        )
-    }
+    /**
+     * Returns this date plus the given months
+     */
+    fun plusMonths(months: Int): Date
 
-    @Suppress("unused")
-    private fun readObject(inputStream: ObjectInputStream) {
-        delegate.readObject(inputStream)
-    }
+    /**
+     * Deserializes date
+     */
+    fun readObject(inputStream: ObjectInputStream)
 
-    @Suppress("unused")
-    private fun writeObject(outputStream: ObjectOutputStream) {
-        delegate.writeObject(outputStream)
-    }
+    /**
+     * Serializes date
+     */
+    fun writeObject(outputStream: ObjectOutputStream)
 
     companion object {
 
-        fun today(): Date {
-            return DateTime.now().date
-        }
+        fun today(): Date = inject<DateTimeFactory>().today()
+
+        operator fun invoke(year: Int, monthNumber: Int, dayOfMonth: Int): Date = inject<DateTimeFactory>().at(year, monthNumber, dayOfMonth)
     }
 }

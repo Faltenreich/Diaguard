@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.shared.datetime.kotlinx
 
-import com.faltenreich.diaguard.shared.datetime.Dateable
+import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DayOfWeek
+import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.DateTimeUnit
@@ -20,7 +21,7 @@ class KotlinxDate(
     year: Int,
     monthNumber: Int,
     dayOfMonth: Int,
-) : Dateable {
+) : Date {
 
     private var delegate: LocalDate = LocalDate(
         year = year,
@@ -55,19 +56,19 @@ class KotlinxDate(
             else -> throw IllegalStateException("Unknown dayOfWeek: ${delegate.dayOfWeek}")
         }
 
-    override fun minusDays(days: Int): Dateable {
+    override fun minusDays(days: Int): Date {
         return KotlinxDate(delegate.minus(days, DateTimeUnit.DAY))
     }
 
-    override fun plusDays(days: Int): Dateable {
+    override fun plusDays(days: Int): Date {
         return KotlinxDate(delegate.plus(days, DateTimeUnit.DAY))
     }
 
-    override fun minusMonths(months: Int): Dateable {
+    override fun minusMonths(months: Int): Date {
         return KotlinxDate(delegate.minus(months, DateTimeUnit.MONTH))
     }
 
-    override fun plusMonths(months: Int): Dateable {
+    override fun plusMonths(months: Int): Date {
         return KotlinxDate(delegate.plus(months, DateTimeUnit.MONTH))
     }
 
@@ -77,5 +78,38 @@ class KotlinxDate(
 
     override fun writeObject(outputStream: ObjectOutputStream) {
         outputStream.writeLong(delegate.toEpochDays().toLong())
+    }
+
+    override fun compareTo(other: Date): Int {
+        return when {
+            year > other.year -> 1
+            year < other.year -> -1
+            monthNumber > other.monthNumber -> 1
+            monthNumber < other.monthNumber -> -1
+            dayOfMonth > other.dayOfMonth -> 1
+            dayOfMonth < other.dayOfMonth -> -1
+            else -> 0
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return other is Date &&
+            year == other.year &&
+            monthNumber == other.monthNumber &&
+            dayOfMonth == other.dayOfMonth
+    }
+
+    override fun hashCode(): Int {
+        return year.hashCode().times(31) +
+            monthNumber.hashCode().times(31) +
+            dayOfMonth.hashCode().times(31)
+    }
+
+    override fun toString(): String {
+        return "%02d.%02d.%04d".format(
+            dayOfMonth,
+            monthNumber,
+            year,
+        )
     }
 }

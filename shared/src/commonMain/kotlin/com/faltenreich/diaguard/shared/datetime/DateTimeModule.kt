@@ -10,7 +10,7 @@ import org.koin.core.parameter.ParametersHolder
 import org.koin.dsl.module
 
 fun dateTimeModule() = module {
-    factory<Dateable> { (year: Int, monthNumber: Int, dayOfMonth: Int) ->
+    factory<Date> { (year: Int, monthNumber: Int, dayOfMonth: Int) ->
         KotlinxDate(year, monthNumber, dayOfMonth)
     }
     factory<Timeable> { (hourOfDay: Int, minuteOfHour: Int, secondOfMinute: Int, millisOfSecond: Int, nanosOfMilli: Int) ->

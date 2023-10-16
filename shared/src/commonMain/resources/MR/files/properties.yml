@@ -3,7 +3,8 @@
     en: Blood sugar
   icon: 🩸
   types:
-    - name:
+    - key: blood_sugar
+      name:
         en: Blood sugar
       units:
         - factor: 1.0
@@ -21,7 +22,8 @@
     en: Insulin
   icon: 💉
   types:
-    - name:
+    - key: insulin_bolus
+      name:
         en: Bolus
       units:
         - factor: 1.0
@@ -29,7 +31,8 @@
               en: Insulin units
           abbreviation:
               en: IU
-    - name:
+    - key: insulin_correction
+      name:
         en: Correction
       units:
         - factor: 1.0
@@ -37,7 +40,8 @@
               en: Insulin units
           abbreviation:
               en: IU
-    - name:
+    - key: insulin_basal
+      name:
         en: Basal
       units:
         - factor: 1.0
@@ -50,7 +54,8 @@
     en: Meal
   icon: 🍞
   types:
-    - name:
+    - key: meal
+      name:
         en: Meal
       units:
         - factor: 1.0
@@ -73,7 +78,8 @@
     en: Activity
   icon: 🏃
   types:
-    - name:
+    - key: activity
+      name:
         en: Activity
       units:
         - factor: 1.0
@@ -86,7 +92,8 @@
     en: HbA1c
   icon: '%'
   types:
-    - name:
+    - key: hba1c
+      name:
         en: HbA1c
       units:
         - factor: 1.0
@@ -104,7 +111,8 @@
     en: Weight
   icon: 🏋
   types:
-    - name:
+    - key: weight
+      name:
         en: Weight
       units:
         - factor: 1.0
@@ -122,7 +130,8 @@
     en: Pulse
   icon: 💚
   types:
-    - name:
+    - key: pulse
+      name:
           en: Pulse
       units:
         - factor: 1.0
@@ -135,7 +144,8 @@
     en: Blood pressure
   icon: ⛽
   types:
-    - name:
+    - key: blood_pressure_systolic
+      name:
         en: Systolic
       units:
         - factor: 1.0
@@ -143,7 +153,8 @@
               en: Millimeters of mercury
           abbreviation:
               en: mmHg
-    - name:
+    - key: blood_pressure_diastolic#
+      name:
         en: Diastolic
       units:
         - factor: 1.0
@@ -156,7 +167,8 @@
     en: Oxygen saturation
   icon: O²
   types:
-    - name:
+    - key: oxygen_saturation
+      name:
         en: Oxygen saturation
       units:
         - factor: 1.0

@@ -11,12 +11,14 @@ class CreateMeasurementTypeUseCase(
 
     operator fun invoke(
         typeName: String,
+        typeKey: String?,
         typeSortIndex: Long,
         propertyId: Long,
         unitName: String,
     ) {
         val typeId = measurementTypeRepository.create(
             name = typeName,
+            key = typeKey,
             sortIndex = typeSortIndex,
             propertyId = propertyId,
         )

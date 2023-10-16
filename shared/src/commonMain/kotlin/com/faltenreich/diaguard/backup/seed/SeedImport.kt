@@ -30,6 +30,7 @@ class SeedImport(
             property.types.forEachIndexed { typeSortIndex, type ->
                 val typeId = typeRepository.create(
                     name = type.name.current(),
+                    key = type.key,
                     sortIndex = typeSortIndex.toLong(),
                     propertyId = propertyId,
                 )

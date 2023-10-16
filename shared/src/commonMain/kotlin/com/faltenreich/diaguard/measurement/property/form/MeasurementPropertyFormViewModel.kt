@@ -86,6 +86,7 @@ class MeasurementPropertyFormViewModel(
     ) = viewModelScope.launch(dispatcher) {
         createMeasurementType(
             typeName = typeName,
+            typeKey = null,
             typeSortIndex = types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
             propertyId = viewState.value.property.id,
             unitName = unitName,

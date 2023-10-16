@@ -15,6 +15,7 @@ data class MeasurementType(
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
     val name: String,
+    val key: String?,
     val sortIndex: Long,
     val selectedUnitId: Long?,
     val propertyId: Long,
@@ -24,6 +25,12 @@ data class MeasurementType(
     lateinit var units: List<MeasurementUnit>
 
     var selectedUnit: MeasurementUnit? = null
+
+    val isUserGenerated: Boolean
+        get() = key == null
+
+    val isPredefined: Boolean
+        get() = !isUserGenerated
 
     object PredefinedKey {
 

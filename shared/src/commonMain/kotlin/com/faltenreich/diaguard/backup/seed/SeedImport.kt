@@ -36,6 +36,7 @@ class SeedImport(
                 )
                 type.units.forEach { unit ->
                     val unitId = unitRepository.create(
+                        key = unit.key,
                         name = unit.name.current(),
                         factor = unit.factor,
                         typeId = typeId,

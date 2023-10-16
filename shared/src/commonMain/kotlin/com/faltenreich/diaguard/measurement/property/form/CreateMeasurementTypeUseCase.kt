@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.di.inject
 
@@ -10,10 +11,11 @@ class CreateMeasurementTypeUseCase(
 ) {
 
     operator fun invoke(
-        typeName: String,
         typeKey: String?,
+        typeName: String,
         typeSortIndex: Long,
         propertyId: Long,
+        unitKey: String?,
         unitName: String,
     ) {
         val typeId = measurementTypeRepository.create(
@@ -23,8 +25,9 @@ class CreateMeasurementTypeUseCase(
             propertyId = propertyId,
         )
         val unitId = measurementUnitRepository.create(
+            key = unitKey,
             name = unitName,
-            factor = 1.0,
+            factor = MeasurementUnit.FACTOR_DEFAULT,
             typeId = typeId,
         )
         measurementTypeRepository.update(

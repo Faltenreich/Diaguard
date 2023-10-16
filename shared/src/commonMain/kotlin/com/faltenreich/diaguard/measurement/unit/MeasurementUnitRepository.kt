@@ -10,11 +10,13 @@ class MeasurementUnitRepository(
 
     fun create(
         name: String,
+        key: String?,
         factor: Double,
         typeId: Long,
     ): Long {
         dao.create(
             createdAt = dateTimeFactory.now(),
+            key = key,
             name = name,
             factor = factor,
             typeId = typeId,

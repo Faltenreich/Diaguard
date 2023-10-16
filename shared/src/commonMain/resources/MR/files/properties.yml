@@ -7,12 +7,14 @@
       name:
         en: Blood sugar
       units:
-        - factor: 1.0
+        - key: blood_sugar_mg_dl
+          factor: 1.0
           name:
               en: Milligrams per deciliter
           abbreviation:
               en: mg/dl
-        - factor: 0.0555
+        - key: blood_sugar_mmol_l
+          factor: 0.0555
           name:
               en: Millimoles per liter
           abbreviation:
@@ -26,7 +28,8 @@
       name:
         en: Bolus
       units:
-        - factor: 1.0
+        - key: insulin_bolus_iu
+          factor: 1.0
           name:
               en: Insulin units
           abbreviation:
@@ -35,7 +38,8 @@
       name:
         en: Correction
       units:
-        - factor: 1.0
+        - key: insulin_correction_iu
+          factor: 1.0
           name:
               en: Insulin units
           abbreviation:
@@ -44,7 +48,8 @@
       name:
         en: Basal
       units:
-        - factor: 1.0
+        - key: insulin_basal_iu
+          factor: 1.0
           name:
               en: Insulin units
           abbreviation:
@@ -58,17 +63,20 @@
       name:
         en: Meal
       units:
-        - factor: 1.0
+        - key: meal_cho
+          factor: 1.0
           name:
               en: Carbohydrates
           abbreviation:
               en: CHO
-        - factor: 0.1
+        - key: meal_cu
+          factor: 0.1
           name:
               en: Carbohydrate units
           abbreviation:
               en: CU
-        - factor: 0.0833
+        - key: meal_bu
+          factor: 0.0833
           name:
               en: Bread units
           abbreviation:
@@ -82,7 +90,8 @@
       name:
         en: Activity
       units:
-        - factor: 1.0
+        - key: activity_minutes
+          factor: 1.0
           name:
               en: Minutes
           abbreviation:
@@ -96,12 +105,14 @@
       name:
         en: HbA1c
       units:
-        - factor: 1.0
+        - key: hba1c_percent
+          factor: 1.0
           name:
               en: Percent
           abbreviation:
               en: '%'
-        - factor: 0.00001
+        - key: hba1c_mmol_mol
+          factor: 0.00001
           name:
               en: Millimoles per mole
           abbreviation:
@@ -115,12 +126,14 @@
       name:
         en: Weight
       units:
-        - factor: 1.0
+        - key: weight_kg
+          factor: 1.0
           name:
               en: Kilograms
           abbreviation:
               en: kg
-        - factor: 2.20462262185
+        - key: weight_lbs
+          factor: 2.20462262185
           name:
               en: Pounds
           abbreviation:
@@ -134,7 +147,8 @@
       name:
           en: Pulse
       units:
-        - factor: 1.0
+        - key: pulse_bpm
+          factor: 1.0
           name:
               en: Beats per minute
           abbreviation:
@@ -148,16 +162,18 @@
       name:
         en: Systolic
       units:
-        - factor: 1.0
+        - key: blood_pressure_systolic_mm_hg
+          factor: 1.0
           name:
               en: Millimeters of mercury
           abbreviation:
               en: mmHg
-    - key: blood_pressure_diastolic#
+    - key: blood_pressure_diastolic
       name:
         en: Diastolic
       units:
-        - factor: 1.0
+        - key: blood_pressure_diastolic_mm_hg
+          factor: 1.0
           name:
               en: Millimeters of mercury
           abbreviation:
@@ -171,7 +187,8 @@
       name:
         en: Oxygen saturation
       units:
-        - factor: 1.0
+        - key: oxygen_saturation_percent
+          factor: 1.0
           name:
               en: Percent
           abbreviation:

@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SeedMeasurementUnit(
     val factor: Double,
+    val key: String,
     val name: SeedLocalization,
     val abbreviation: SeedLocalization,
 )

@@ -54,7 +54,7 @@ fun MeasurementPropertyForm(
                     )
                 }
 
-                if (viewState.property.isPredefined && viewState.types.size == 1) {
+                if (viewState.property.isSeed && viewState.types.size == 1) {
                     MeasurementUnitList(units = viewState.types.first().units)
                 } else {
                     MeasurementTypeList(types = viewState.types)

@@ -7,8 +7,8 @@ interface MeasurementTypeDao {
 
     fun create(
         createdAt: DateTime,
-        name: String,
         key: String?,
+        name: String,
         sortIndex: Long,
         propertyId: Long,
     )

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.property
 
+import com.faltenreich.diaguard.backup.seed.Seed
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -11,30 +12,24 @@ data class MeasurementProperty(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
+    override val key: String?,
     val name: String,
-    val key: String?,
     val icon: String?,
     val sortIndex: Long,
-) : DatabaseEntity {
+) : DatabaseEntity, Seed {
 
     lateinit var types: List<MeasurementType>
 
-    val isUserGenerated: Boolean
-        get() = key == null
-
-    val isPredefined: Boolean
-        get() = !isUserGenerated
-
     val isBloodSugar: Boolean
-        get() = key == PredefinedKey.BLOOD_SUGAR
+        get() = key == Key.BLOOD_SUGAR
 
     companion object {
 
-        // TODO: Replace with PredefinedKey.BLOOD_SUGAR
+        // TODO: Replace with Key.BLOOD_SUGAR
         const val BLOOD_SUGAR_ID = 1L
     }
 
-    object PredefinedKey {
+    object Key {
 
         const val BLOOD_SUGAR = "blood_sugar"
         const val INSULIN = "insulin"

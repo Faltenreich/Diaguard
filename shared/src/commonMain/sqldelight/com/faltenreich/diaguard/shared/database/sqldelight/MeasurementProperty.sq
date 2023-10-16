@@ -2,14 +2,14 @@ CREATE TABLE measurementProperty (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
-    name TEXT NOT NULL,
     key TEXT,
+    name TEXT NOT NULL,
     icon TEXT,
     sort_index INTEGER NOT NULL
 );
 
 create:
-INSERT INTO measurementProperty(created_at, updated_at, name, key, icon, sort_index)
+INSERT INTO measurementProperty(created_at, updated_at, key, name, icon, sort_index)
 VALUES (?, ?, ?, ?, ?, ?);
 
 getLastId:

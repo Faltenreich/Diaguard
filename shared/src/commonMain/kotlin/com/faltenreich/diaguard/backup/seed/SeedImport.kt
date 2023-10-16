@@ -22,15 +22,15 @@ class SeedImport(
         val current: SeedLocalization.() -> String = { mapper(this) }
         seedData.forEachIndexed { propertySortIndex, property ->
             val propertyId = propertyRepository.create(
-                name = property.name.current(),
                 key = property.key,
+                name = property.name.current(),
                 icon = property.icon,
                 sortIndex = propertySortIndex.toLong(),
             )
             property.types.forEachIndexed { typeSortIndex, type ->
                 val typeId = typeRepository.create(
-                    name = type.name.current(),
                     key = type.key,
+                    name = type.name.current(),
                     sortIndex = typeSortIndex.toLong(),
                     propertyId = propertyId,
                 )

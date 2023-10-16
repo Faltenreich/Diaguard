@@ -49,16 +49,16 @@ class MeasurementPropertySqlDelightDao(
 
     override fun create(
         createdAt: DateTime,
-        name: String,
         key: String?,
+        name: String,
         icon: String?,
         sortIndex: Long,
     ) {
         queries.create(
             created_at = createdAt.isoString,
             updated_at = createdAt.isoString,
-            name = name,
             key = key,
+            name = name,
             icon = icon,
             sort_index = sortIndex,
         )

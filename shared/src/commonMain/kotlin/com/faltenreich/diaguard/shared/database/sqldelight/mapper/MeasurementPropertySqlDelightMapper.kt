@@ -11,8 +11,8 @@ class MeasurementPropertySqlDelightMapper(
         id: Long,
         createdAt: String,
         updatedAt: String,
-        name: String,
         key: String?,
+        name: String,
         icon: String?,
         sortIndex: Long,
     ): MeasurementProperty {
@@ -20,8 +20,8 @@ class MeasurementPropertySqlDelightMapper(
             id = id,
             createdAt = dateTimeFactory.dateTime(isoString = createdAt),
             updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
-            name = name,
             key = key,
+            name = name,
             icon = icon,
             sortIndex = sortIndex,
         )

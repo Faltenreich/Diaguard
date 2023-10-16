@@ -15,15 +15,15 @@ class MeasurementTypeRepository(
 ) {
 
     fun create(
-        name: String,
         key: String?,
+        name: String,
         sortIndex: Long,
         propertyId: Long,
     ): Long {
         dao.create(
             createdAt = dateTimeFactory.now(),
-            name = name,
             key = key,
+            name = name,
             sortIndex = sortIndex,
             propertyId = propertyId,
         )

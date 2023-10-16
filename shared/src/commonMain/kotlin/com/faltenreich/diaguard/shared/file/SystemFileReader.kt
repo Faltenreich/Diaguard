@@ -7,7 +7,7 @@ import kotlinx.io.readString
 
 class SystemFileReader(private val path: String) : FileReader {
 
-    override fun invoke(): String {
+    override fun read(): String {
         return SystemFileSystem.source(Path(path)).buffered().readString()
     }
 }

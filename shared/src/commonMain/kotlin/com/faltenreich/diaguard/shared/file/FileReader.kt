@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.file
 
-interface FileReader {
+fun interface FileReader {
 
-    operator fun invoke(): String
+    fun read(): String
 }

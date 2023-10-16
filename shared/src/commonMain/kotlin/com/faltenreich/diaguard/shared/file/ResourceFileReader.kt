@@ -9,7 +9,7 @@ class ResourceFileReader(
     private val localization: Localization = inject(),
 ) : FileReader {
 
-    override fun invoke(): String {
+    override fun read(): String {
         return localization.getString(resource)
     }
 }

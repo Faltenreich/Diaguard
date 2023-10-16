@@ -17,7 +17,7 @@ class SeedImport(
 ) : Import {
 
     override operator fun invoke() {
-        val yaml = reader()
+        val yaml = reader.read()
         val seedData = serialization.decodeYaml<List<SeedMeasurementProperty>>(yaml)
         val current: SeedLocalization.() -> String = { mapper(this) }
         seedData.forEachIndexed { propertySortIndex, property ->

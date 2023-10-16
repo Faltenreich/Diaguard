@@ -9,6 +9,6 @@ class SystemFileReaderTest {
 
     @Test
     fun `reads file`() {
-        assertNotNull(systemFileReader())
+        assertNotNull(systemFileReader.read())
     }
 }

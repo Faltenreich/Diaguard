@@ -12,6 +12,9 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -61,7 +64,7 @@ class TimelineViewModel(
     ).flowOn(dispatcher)
 
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = CoroutineScope(Dispatchers.IO),
         started = SharingStarted.Lazily,
         initialValue = TimelineViewState(
             initialDate = initialDate,

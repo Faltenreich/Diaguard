@@ -35,6 +35,10 @@ class MeasurementPropertySqlDelightDao(
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
+    override fun getByKey(key: String): MeasurementProperty? {
+        return queries.getByKey(key, mapper::map).executeAsOneOrNull()
+    }
+
     override fun getAll(): List<MeasurementProperty> {
         return queries.getAll(mapper::map).executeAsList()
     }

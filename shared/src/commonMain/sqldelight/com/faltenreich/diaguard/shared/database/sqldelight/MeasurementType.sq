@@ -21,6 +21,11 @@ SELECT * FROM measurementType
 INNER JOIN measurementUnit ON measurementUnit.id = measurementType.selected_unit_id
 WHERE measurementType.id = ?;
 
+getByKey:
+SELECT * FROM measurementType
+INNER JOIN measurementUnit ON measurementUnit.id = measurementType.selected_unit_id
+WHERE measurementType.key = ?;
+
 getByProperty:
 SELECT * FROM measurementType
 INNER JOIN measurementUnit ON measurementUnit.id = measurementType.selected_unit_id

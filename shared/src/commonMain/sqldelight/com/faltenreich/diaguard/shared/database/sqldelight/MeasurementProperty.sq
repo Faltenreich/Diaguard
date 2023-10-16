@@ -18,6 +18,9 @@ SELECT last_insert_rowid();
 getById:
 SELECT * FROM measurementProperty WHERE id = ?;
 
+getByKey:
+SELECT * FROM measurementProperty WHERE key = ?;
+
 getAll:
 SELECT * FROM measurementProperty ORDER BY sort_index ASC;
 

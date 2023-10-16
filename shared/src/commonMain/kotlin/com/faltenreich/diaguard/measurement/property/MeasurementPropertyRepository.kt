@@ -22,7 +22,7 @@ class MeasurementPropertyRepository(
             icon = icon,
             sortIndex = sortIndex,
         )
-        return dao.getLastId() ?: throw IllegalStateException("No entry found")
+        return dao.getLastId() ?: throw IllegalStateException("Missing previously created entity")
     }
 
     fun getById(id: Long): MeasurementProperty? {
@@ -31,6 +31,10 @@ class MeasurementPropertyRepository(
 
     fun observeById(id: Long): Flow<MeasurementProperty?> {
         return dao.observeById(id)
+    }
+
+    fun getByKey(key: String): MeasurementProperty {
+        return dao.getByKey(key) ?: throw IllegalStateException("Missing entity for key: $key")
     }
 
     fun getAll(): List<MeasurementProperty> {

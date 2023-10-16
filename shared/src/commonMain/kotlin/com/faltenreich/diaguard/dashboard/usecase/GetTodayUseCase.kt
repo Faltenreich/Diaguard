@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.dashboard.usecase
 
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
@@ -10,20 +11,22 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetTodayUseCase(
+    private val measurementPropertyRepository: MeasurementPropertyRepository = inject(),
     private val measurementValueRepository: MeasurementValueRepository = inject(),
     private val dateTimeFactory: DateTimeFactory = inject(),
 ) {
 
     operator fun invoke(): Flow<DashboardViewState.Revisit.Today> {
+        val property = measurementPropertyRepository.getByKey(MeasurementProperty.Key.BLOOD_SUGAR)
         return measurementValueRepository.observeByPropertyId(
-            propertyId = MeasurementProperty.BLOOD_SUGAR_ID,
+            propertyId = property.id,
             minDateTime = dateTimeFactory.today().atStartOfDay(),
             maxDateTime = dateTimeFactory.today().atEndOfDay(),
         ).map { values: List<MeasurementValue> ->
             DashboardViewState.Revisit.Today(
                 totalCount = values.size,
-                hyperCount = 0,
-                hypoCount = 0,
+                hyperCount = 0, // TODO: Calculate count
+                hypoCount = 0, // TODO: Calculate count
             )
         }
     }

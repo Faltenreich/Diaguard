@@ -23,12 +23,6 @@ data class MeasurementProperty(
     val isBloodSugar: Boolean
         get() = key == Key.BLOOD_SUGAR
 
-    companion object {
-
-        // TODO: Replace with Key.BLOOD_SUGAR
-        const val BLOOD_SUGAR_ID = 1L
-    }
-
     object Key {
 
         const val BLOOD_SUGAR = "blood_sugar"

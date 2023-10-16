@@ -18,6 +18,9 @@ SELECT last_insert_rowid();
 getById:
 SELECT * FROM measurementUnit WHERE id = ?;
 
+getByKey:
+SELECT * FROM measurementUnit WHERE key = ?;
+
 getByType:
 SELECT * FROM measurementUnit WHERE type_id = ? ORDER BY created_at ASC;
 

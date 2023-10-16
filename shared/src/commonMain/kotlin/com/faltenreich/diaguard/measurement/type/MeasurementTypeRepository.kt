@@ -27,23 +27,27 @@ class MeasurementTypeRepository(
             sortIndex = sortIndex,
             propertyId = propertyId,
         )
-        return dao.getLastId() ?: throw IllegalStateException("No entry found")
-    }
-
-    fun observeById(id: Long): Flow<MeasurementType?> {
-        return dao.observeById(id)
-    }
-
-    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementType>> {
-        return dao.observeByPropertyId(propertyId)
+        return dao.getLastId() ?: throw IllegalStateException("Missing previously created entity")
     }
 
     fun getById(id: Long): MeasurementType? {
         return dao.getById(id)
     }
 
+    fun observeById(id: Long): Flow<MeasurementType?> {
+        return dao.observeById(id)
+    }
+
+    fun getByKey(key: String): MeasurementType {
+        return dao.getByKey(key) ?: throw IllegalStateException("Missing entity for key: $key")
+    }
+
     fun getByPropertyId(propertyId: Long): List<MeasurementType> {
         return dao.getByPropertyId(propertyId)
+    }
+
+    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementType>> {
+        return dao.observeByPropertyId(propertyId)
     }
 
     fun observeAll(): Flow<List<MeasurementType>> {

@@ -44,20 +44,24 @@ class MeasurementTypeSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun observeById(id: Long): Flow<MeasurementType?> {
-        return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
-    }
-
-    override fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementType>> {
-        return queries.getByProperty(propertyId, mapper::map).asFlow().mapToList(dispatcher)
-    }
-
     override fun getById(id: Long): MeasurementType? {
         return queries.getById(id, mapper::map).executeAsOneOrNull()
     }
 
+    override fun observeById(id: Long): Flow<MeasurementType?> {
+        return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
+    }
+
+    override fun getByKey(key: String): MeasurementType? {
+        return queries.getByKey(key, mapper::map).executeAsOneOrNull()
+    }
+
     override fun getByPropertyId(propertyId: Long): List<MeasurementType> {
         return queries.getByProperty(propertyId, mapper::map).executeAsList()
+    }
+
+    override fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementType>> {
+        return queries.getByProperty(propertyId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun observeAll(): Flow<List<MeasurementType>> {

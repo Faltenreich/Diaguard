@@ -9,15 +9,15 @@ class CreateMeasurementPropertyUseCase(
 
     operator fun invoke(
         name: String,
+        key: String?,
         icon: String?,
         sortIndex: Long,
-        isUserGenerated: Boolean,
     ) {
         measurementPropertyRepository.create(
             name = name,
+            key = key,
             icon = icon,
             sortIndex = sortIndex,
-            isUserGenerated = isUserGenerated,
         )
     }
 }

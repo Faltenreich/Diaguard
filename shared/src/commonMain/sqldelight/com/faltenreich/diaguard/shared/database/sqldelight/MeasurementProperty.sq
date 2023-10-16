@@ -3,13 +3,13 @@ CREATE TABLE measurementProperty (
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
     name TEXT NOT NULL,
+    key TEXT,
     icon TEXT,
-    sort_index INTEGER NOT NULL,
-    is_user_generated INTEGER NOT NULL
+    sort_index INTEGER NOT NULL
 );
 
 create:
-INSERT INTO measurementProperty(created_at, updated_at, name, icon, sort_index, is_user_generated)
+INSERT INTO measurementProperty(created_at, updated_at, name, key, icon, sort_index)
 VALUES (?, ?, ?, ?, ?, ?);
 
 getLastId:

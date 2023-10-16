@@ -23,9 +23,9 @@ class SeedImport(
         seedData.forEachIndexed { propertySortIndex, property ->
             val propertyId = propertyRepository.create(
                 name = property.name.current(),
+                key = property.key,
                 icon = property.icon,
                 sortIndex = propertySortIndex.toLong(),
-                isUserGenerated = false,
             )
             property.types.forEachIndexed { typeSortIndex, type ->
                 val typeId = typeRepository.create(

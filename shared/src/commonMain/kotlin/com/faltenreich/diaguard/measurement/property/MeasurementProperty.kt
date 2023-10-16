@@ -12,22 +12,38 @@ data class MeasurementProperty(
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
     val name: String,
+    val key: String?,
     val icon: String?,
     val sortIndex: Long,
-    val isUserGenerated: Boolean,
 ) : DatabaseEntity {
 
     lateinit var types: List<MeasurementType>
 
-    val isBloodSugar: Boolean
-        get() = id == BLOOD_SUGAR_ID
+    val isUserGenerated: Boolean
+        get() = key == null
 
     val isPredefined: Boolean
         get() = !isUserGenerated
 
+    val isBloodSugar: Boolean
+        get() = key == PredefinedKey.BLOOD_SUGAR
+
     companion object {
 
-        // TODO: Identify Blood Sugar accordingly
+        // TODO: Replace with PredefinedKey.BLOOD_SUGAR
         const val BLOOD_SUGAR_ID = 1L
+    }
+
+    object PredefinedKey {
+
+        const val BLOOD_SUGAR = "blood_sugar"
+        const val INSULIN = "insulin"
+        const val MEAL = "meal"
+        const val ACTIVITY = "activity"
+        const val HBA1C = "hba1c"
+        const val WEIGHT = "weight"
+        const val PULSE = "pulse"
+        const val BLOOD_PRESSURE = "blood_pressure"
+        const val OXYGEN_SATURATION = "oxygen_saturation"
     }
 }

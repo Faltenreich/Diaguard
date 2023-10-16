@@ -1,4 +1,5 @@
-- name:
+- key: blood_sugar
+  name:
     en: Blood sugar
   icon: 🩸
   types:
@@ -15,7 +16,8 @@
               en: Millimoles per liter
           abbreviation:
               en: mmol/l
-- name:
+- key: insulin
+  name:
     en: Insulin
   icon: 💉
   types:
@@ -43,7 +45,8 @@
               en: Insulin units
           abbreviation:
               en: IU
-- name:
+- key: meal
+  name:
     en: Meal
   icon: 🍞
   types:
@@ -65,7 +68,8 @@
               en: Bread units
           abbreviation:
               en: BU
-- name:
+- key: activity
+  name:
     en: Activity
   icon: 🏃
   types:
@@ -77,7 +81,8 @@
               en: Minutes
           abbreviation:
               en: min
-- name:
+- key: hba1c
+  name:
     en: HbA1c
   icon: '%'
   types:
@@ -94,7 +99,8 @@
               en: Millimoles per mole
           abbreviation:
               en: mmol/mol
-- name:
+- key: weight
+  name:
     en: Weight
   icon: 🏋
   types:
@@ -111,7 +117,8 @@
               en: Pounds
           abbreviation:
               en: lbs
-- name:
+- key: pulse
+  name:
     en: Pulse
   icon: 💚
   types:
@@ -123,7 +130,8 @@
               en: Beats per minute
           abbreviation:
               en: bpm
-- name:
+- key: blood_pressure
+  name:
     en: Blood pressure
   icon: ⛽
   types:
@@ -143,7 +151,8 @@
               en: Millimeters of mercury
           abbreviation:
               en: mmHg
-- name:
+- key: oxygen_saturation
+  name:
     en: Oxygen saturation
   icon: O²
   types:

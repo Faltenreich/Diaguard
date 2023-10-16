@@ -21,7 +21,7 @@ actual class LegacyImport {
         }
         val database = SQLiteDatabase.openDatabase(databaseFile.absolutePath, null, 0)
 
-        // TODO: Pass type ids from Database
+        // TODO: Fetch type ids via key
         val bloodSugarTypeId = 1L
         val bolusTypeId = 2L
         val correctionTypeId = 3L

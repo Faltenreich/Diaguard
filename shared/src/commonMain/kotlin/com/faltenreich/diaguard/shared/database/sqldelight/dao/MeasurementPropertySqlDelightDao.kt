@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementPropertyQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertySqlDelightMapper
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
@@ -51,17 +50,17 @@ class MeasurementPropertySqlDelightDao(
     override fun create(
         createdAt: DateTime,
         name: String,
+        key: String?,
         icon: String?,
         sortIndex: Long,
-        isUserGenerated: Boolean,
     ) {
         queries.create(
             created_at = createdAt.isoString,
             updated_at = createdAt.isoString,
             name = name,
+            key = key,
             icon = icon,
             sort_index = sortIndex,
-            is_user_generated = isUserGenerated.toSqlLiteLong(),
         )
     }
 

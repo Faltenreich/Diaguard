@@ -65,9 +65,9 @@ class MeasurementPropertyListViewModel(
         val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return@launch
         createMeasurementProperty(
             name = name,
+            key = null,
             icon = null,
             sortIndex = properties.maxOf(MeasurementProperty::sortIndex) + 1,
-            isUserGenerated = true,
         )
     }
 }

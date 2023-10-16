@@ -55,9 +55,9 @@ class MeasurementValueSqlDelightMapper(
         propertyCreatedAt: String,
         propertyUpdatedAt: String,
         propertyName: String,
+        propertyKey: String?,
         propertyIcon: String?,
         propertySortIndex: Long,
-        propertyIsUserGenerated: Long,
         entryId: Long,
         entryCreatedAt: String,
         entryUpdatedAt: String,
@@ -86,9 +86,9 @@ class MeasurementValueSqlDelightMapper(
                     createdAt = propertyCreatedAt,
                     updatedAt = propertyUpdatedAt,
                     name = propertyName,
+                    key = propertyKey,
                     icon = propertyIcon,
                     sortIndex = propertySortIndex,
-                    isUserGenerated = propertyIsUserGenerated,
                 )
                 selectedUnit = unitMapper.map(
                     id = unitId,

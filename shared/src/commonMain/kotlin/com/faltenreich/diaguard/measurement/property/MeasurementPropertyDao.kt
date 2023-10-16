@@ -8,9 +8,9 @@ interface MeasurementPropertyDao {
     fun create(
         createdAt: DateTime,
         name: String,
+        key: String?,
         icon: String?,
         sortIndex: Long,
-        isUserGenerated: Boolean,
     )
 
     fun getLastId(): Long?

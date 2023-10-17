@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.seed
 import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.localization.Localization
 
@@ -29,14 +30,14 @@ class SeedImport(
                     sortIndex = typeSortIndex.toLong(),
                     propertyId = propertyId,
                 )
-                type.units.forEach { unit ->
+                type.unitsWithFactor.forEach { (unit, factor) ->
                     val unitId = unitRepository.create(
                         key = unit.key,
                         name = localization.getString(unit.localization),
-                        factor = unit.factor,
+                        factor = factor,
                         typeId = typeId,
                     )
-                    val isSelectedUnit = unit.factor == 1.0
+                    val isSelectedUnit = factor == MeasurementUnit.FACTOR_DEFAULT
                     if (isSelectedUnit) {
                         typeRepository.update(
                             id = typeId,

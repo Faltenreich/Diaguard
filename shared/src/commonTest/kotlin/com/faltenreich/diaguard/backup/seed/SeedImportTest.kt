@@ -24,6 +24,8 @@ class SeedImportTest {
     private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
 
     private val seedImport = SeedImport(
+        factory = SeedFactory(),
+        // FIXME: Replace with stub or mock
         localization = Localization(),
         propertyRepository = MeasurementPropertyRepository(dao = propertyDao, dateTimeFactory = dateTimeFactory),
         typeRepository = MeasurementTypeRepository(dao = typeDao, dateTimeFactory = dateTimeFactory),

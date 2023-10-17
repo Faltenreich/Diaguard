@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.backup
 
-interface Import {
+fun interface Import {
 
-    operator fun invoke()
+    fun import()
 }

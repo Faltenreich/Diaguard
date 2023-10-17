@@ -1,10 +1,9 @@
 package com.faltenreich.diaguard.backup.seed
 
-import kotlinx.serialization.Serializable
+import dev.icerock.moko.resources.StringResource
 
-@Serializable
-data class SeedMeasurementType(
+enum class SeedMeasurementType(
     val key: String,
-    val name: SeedLocalization,
-    val units: List<SeedMeasurementUnit>,
+    val localization: StringResource,
+    val units: List<SeedMeasurementUnit> = emptyList(),
 )

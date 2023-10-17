@@ -7,6 +7,7 @@
     <string name="app_name">Diaguard</string>
     <string name="average">Average</string>
     <string name="basal">Basal</string>
+    <string name="blood_pressure">Blood pressure</string>
     <string name="blood_sugar">Blood sugar</string>
     <string name="bolus">Bolus</string>
     <string name="bpm">Bpm</string>
@@ -68,7 +69,6 @@
     <string name="placeholder">-</string>
     <string name="pound">Pound</string>
     <string name="preferences">Preferences</string>
-    <string name="pressure">Blood pressure</string>
     <string name="pulse">Pulse</string>
     <string name="search_open">Open search</string>
     <string name="start_screen">Start screen</string>

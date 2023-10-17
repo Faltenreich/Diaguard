@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.backup.seed
 
 interface Seed {
 
+    // Unique if not null
     val key: String?
 
     val isSeed: Boolean

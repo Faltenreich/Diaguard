@@ -26,14 +26,14 @@ class SeedImport(
             )
             property.types.forEachIndexed { typeSortIndex, type ->
                 val typeId = typeRepository.create(
-                    key = type.key,
+                    key = "${property.key}.${type.key}",
                     name = localization.getString(type.name),
                     sortIndex = typeSortIndex.toLong(),
                     propertyId = propertyId,
                 )
                 type.units.forEach { unit ->
                     val unitId = unitRepository.create(
-                        key = unit.key,
+                        key = "${property.key}.${type.key}.${unit.key}",
                         name = localization.getString(unit.name),
                         factor = unit.factor,
                         typeId = typeId,

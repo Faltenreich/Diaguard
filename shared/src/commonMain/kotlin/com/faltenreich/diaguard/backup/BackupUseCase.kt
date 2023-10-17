@@ -10,8 +10,8 @@ class BackupUseCase(
 ) {
 
     operator fun invoke() {
+        // Attention: Must be executed first as its data will be reused
         seedImport.import()
-        // Attention: Must be executed at last due to reusing seed data
         legacyImport()
     }
 }

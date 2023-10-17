@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.MR
 import dev.icerock.moko.resources.StringResource
 
 enum class SeedMeasurementProperty(
+    // TODO: Test uniqueness
     val key: String,
     val localization: StringResource,
     val icon: String,

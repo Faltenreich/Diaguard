@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.property
 
-import com.faltenreich.diaguard.backup.seed.Seed
+import com.faltenreich.diaguard.backup.seed.Seeded
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -16,7 +16,7 @@ data class MeasurementProperty(
     val name: String,
     val icon: String?,
     val sortIndex: Long,
-) : DatabaseEntity, Seed {
+) : DatabaseEntity, Seeded {
 
     lateinit var types: List<MeasurementType>
 

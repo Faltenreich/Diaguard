@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.backup.seed
 
-interface Seed {
+interface Seeded {
 
     // Unique if not null
     val key: String?

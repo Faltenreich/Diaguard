@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.unit
 
-import com.faltenreich.diaguard.backup.seed.Seed
+import com.faltenreich.diaguard.backup.seed.Seeded
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -16,7 +16,7 @@ data class MeasurementUnit(
     val name: String,
     val factor: Double,
     val typeId: Long,
-) : DatabaseEntity, Seed {
+) : DatabaseEntity, Seeded {
 
     lateinit var type: MeasurementType
 

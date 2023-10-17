@@ -8,15 +8,13 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTimeFactory
-import com.faltenreich.diaguard.shared.file.SystemFileReader
-import com.faltenreich.diaguard.shared.serialization.Serialization
+import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.test.returns
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.every
 import io.mockative.mock
 import kotlin.test.Test
-import kotlin.test.assertNotNull
 
 class SeedImportTest {
 
@@ -26,9 +24,7 @@ class SeedImportTest {
     private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
 
     private val seedImport = SeedImport(
-        reader = { SystemFileReader("src/commonTest/resources/properties.yml").read() },
-        serialization = Serialization(),
-        mapper = SeedMapper(),
+        localization = Localization(),
         propertyRepository = MeasurementPropertyRepository(dao = propertyDao, dateTimeFactory = dateTimeFactory),
         typeRepository = MeasurementTypeRepository(dao = typeDao, dateTimeFactory = dateTimeFactory),
         unitRepository = MeasurementUnitRepository(dao = unitDao, dateTimeFactory = dateTimeFactory),
@@ -41,8 +37,7 @@ class SeedImportTest {
     }
 
     @Test
-    fun `imports from YAML`() {
-        val yaml = seedImport()
-        assertNotNull(yaml)
+    fun `imports`() {
+        seedImport.import()
     }
 }

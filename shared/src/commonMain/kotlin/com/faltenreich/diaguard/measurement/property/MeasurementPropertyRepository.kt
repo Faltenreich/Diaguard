@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement.property
 
-import com.faltenreich.diaguard.backup.seed.property.BloodSugarSeed
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
@@ -39,7 +38,7 @@ class MeasurementPropertyRepository(
     }
 
     fun getBloodSugar(): MeasurementProperty {
-        return getByKey(BloodSugarSeed.KEY)
+        return getByKey(MeasurementProperty.Key.BLOOD_SUGAR)
     }
 
     fun getAll(): List<MeasurementProperty> {

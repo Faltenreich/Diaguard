@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import com.faltenreich.diaguard.backup.legacy.measurement.EntryLegacy
 import com.faltenreich.diaguard.backup.legacy.measurement.MeasurementValueLegacy
 import com.faltenreich.diaguard.backup.legacy.measurement.TagLegacy
-import com.faltenreich.diaguard.backup.seed.property.BloodSugarSeed
+import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.getDateTime
 import com.faltenreich.diaguard.shared.database.getDouble
 import com.faltenreich.diaguard.shared.database.getLong
@@ -58,7 +58,7 @@ actual class LegacyRepository {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("mgDl"),
-                    typeKey = BloodSugarSeed.KEY,
+                    typeKey = MeasurementType.Key.BLOOD_SUGAR,
                     entryId = getLong("entry"),
                 )
             )
@@ -73,6 +73,7 @@ actual class LegacyRepository {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("bolus"),
+                    typeKey = MeasurementType.Key.INSULIN_BOLUS,
                     entryId = entryId,
                 )
             )
@@ -82,6 +83,7 @@ actual class LegacyRepository {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("correction"),
+                    typeKey = MeasurementType.Key.INSULIN_CORRECTION,
                     entryId = entryId,
                 )
             )
@@ -91,6 +93,7 @@ actual class LegacyRepository {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("basal"),
+                    typeKey = MeasurementType.Key.INSULIN_BASAL,
                     entryId = entryId,
                 )
             )
@@ -102,6 +105,7 @@ actual class LegacyRepository {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("carbohydrates"),
+                    typeKey = MeasurementType.Key.MEAL,
                     entryId = getLong("entry"),
                 )
             )
@@ -113,6 +117,7 @@ actual class LegacyRepository {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("minutes"),
+                    typeKey = MeasurementType.Key.ACTIVITY,
                     entryId = getLong("entry"),
                 )
             )
@@ -124,6 +129,7 @@ actual class LegacyRepository {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("percent"),
+                    typeKey = MeasurementType.Key.HBA1C,
                     entryId = getLong("entry"),
                 )
             )
@@ -135,6 +141,7 @@ actual class LegacyRepository {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("kilogram"),
+                    typeKey = MeasurementType.Key.WEIGHT,
                     entryId = getLong("entry"),
                 )
             )
@@ -146,6 +153,7 @@ actual class LegacyRepository {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("frequency"),
+                    typeKey = MeasurementType.Key.PULSE,
                     entryId = getLong("entry"),
                 )
             )
@@ -160,6 +168,7 @@ actual class LegacyRepository {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("systolic"),
+                    typeKey = MeasurementType.Key.BLOOD_PRESSURE_SYSTOLIC,
                     entryId = entryId,
                 )
             )
@@ -169,6 +178,7 @@ actual class LegacyRepository {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("diastolic"),
+                    typeKey = MeasurementType.Key.BLOOD_PRESSURE_DIASTOLIC,
                     entryId = entryId,
                 )
             )
@@ -180,6 +190,7 @@ actual class LegacyRepository {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("percent"),
+                    typeKey = MeasurementType.Key.OXYGEN_SATURATION,
                     entryId = getLong("entry"),
                 )
             )

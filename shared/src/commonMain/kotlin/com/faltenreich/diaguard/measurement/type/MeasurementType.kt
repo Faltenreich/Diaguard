@@ -26,4 +26,20 @@ data class MeasurementType(
     lateinit var units: List<MeasurementUnit>
 
     var selectedUnit: MeasurementUnit? = null
+
+    object Key {
+
+        const val BLOOD_SUGAR = MeasurementProperty.Key.BLOOD_SUGAR
+        const val INSULIN_BOLUS = "${MeasurementProperty.Key.INSULIN}_bolus"
+        const val INSULIN_CORRECTION = "${MeasurementProperty.Key.INSULIN}_correction"
+        const val INSULIN_BASAL = "${MeasurementProperty.Key.INSULIN}_basal"
+        const val MEAL = MeasurementProperty.Key.MEAL
+        const val ACTIVITY = MeasurementProperty.Key.ACTIVITY
+        const val HBA1C = MeasurementProperty.Key.HBA1C
+        const val WEIGHT = MeasurementProperty.Key.WEIGHT
+        const val PULSE = MeasurementProperty.Key.PULSE
+        const val BLOOD_PRESSURE_SYSTOLIC = "${MeasurementProperty.Key.BLOOD_PRESSURE}_systolic"
+        const val BLOOD_PRESSURE_DIASTOLIC = "${MeasurementProperty.Key.BLOOD_PRESSURE}_diastolic"
+        const val OXYGEN_SATURATION = MeasurementProperty.Key.OXYGEN_SATURATION
+    }
 }

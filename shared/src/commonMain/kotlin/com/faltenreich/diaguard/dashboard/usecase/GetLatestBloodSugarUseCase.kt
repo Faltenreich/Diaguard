@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.dashboard.usecase
 
-import com.faltenreich.diaguard.backup.seed.property.BloodSugarSeed
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
@@ -20,7 +19,7 @@ class GetLatestBloodSugarUseCase(
 ) {
 
     operator fun invoke(): Flow<DashboardViewState.Revisit.LatestBloodSugar?> {
-        val property = measurementPropertyRepository.getByKey(BloodSugarSeed.KEY)
+        val property = measurementPropertyRepository.getBloodSugar()
         return measurementValueRepository.observeLatestByPropertyId(property.id).map { value ->
             when (value) {
                 null -> null

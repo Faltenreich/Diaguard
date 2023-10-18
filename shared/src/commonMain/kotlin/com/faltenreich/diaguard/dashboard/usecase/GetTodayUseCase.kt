@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.dashboard.usecase
 
-import com.faltenreich.diaguard.backup.seed.property.BloodSugarSeed
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
@@ -17,7 +16,7 @@ class GetTodayUseCase(
 ) {
 
     operator fun invoke(): Flow<DashboardViewState.Revisit.Today> {
-        val property = measurementPropertyRepository.getByKey(BloodSugarSeed.KEY)
+        val property = measurementPropertyRepository.getBloodSugar()
         return measurementValueRepository.observeByPropertyId(
             propertyId = property.id,
             minDateTime = dateTimeFactory.today().atStartOfDay(),

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.property
 
+import com.faltenreich.diaguard.backup.seed.property.BloodSugarSeed
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +36,10 @@ class MeasurementPropertyRepository(
 
     fun getByKey(key: String): MeasurementProperty {
         return dao.getByKey(key) ?: throw IllegalStateException("Missing entity for key: $key")
+    }
+
+    fun getBloodSugar(): MeasurementProperty {
+        return getByKey(BloodSugarSeed.KEY)
     }
 
     fun getAll(): List<MeasurementProperty> {

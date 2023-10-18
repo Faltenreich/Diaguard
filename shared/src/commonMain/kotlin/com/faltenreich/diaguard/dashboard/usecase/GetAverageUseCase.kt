@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.dashboard.usecase
 
-import com.faltenreich.diaguard.backup.seed.property.BloodSugarSeed
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementType
@@ -22,7 +21,7 @@ class GetAverageUseCase(
 ) {
 
     operator fun invoke(): Flow<DashboardViewState.Revisit.Average?> {
-        val property = measurementPropertyRepository.getByKey(BloodSugarSeed.KEY)
+        val property = measurementPropertyRepository.getBloodSugar()
         val propertyId = property.id
 
         val today = dateTimeFactory.today()

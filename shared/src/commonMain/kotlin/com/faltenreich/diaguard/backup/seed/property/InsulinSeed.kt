@@ -9,6 +9,12 @@ import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 class InsulinSeed : Seed<SeedMeasurementProperty> {
 
     override fun harvest(): SeedMeasurementProperty {
+        val unit = SeedMeasurementUnit(
+            key = "insulin_units",
+            name = MR.strings.insulin_units,
+            abbreviation = MR.strings.insulin_units_abbreviation,
+            factor = 1.0,
+        )
         return SeedMeasurementProperty(
             key = "insulin",
             name = MR.strings.insulin,
@@ -17,32 +23,17 @@ class InsulinSeed : Seed<SeedMeasurementProperty> {
                 SeedMeasurementType(
                     key = "bolus",
                     name = MR.strings.bolus,
-                    unit = SeedMeasurementUnit(
-                        key = "insulin_units",
-                        name = MR.strings.insulin_units,
-                        abbreviation = MR.strings.insulin_units_abbreviation,
-                        factor = 1.0,
-                    ),
+                    unit = unit,
                 ),
                 SeedMeasurementType(
                     key = "correction",
                     name = MR.strings.correction,
-                    unit = SeedMeasurementUnit(
-                        key = "insulin_units",
-                        name = MR.strings.insulin_units,
-                        abbreviation = MR.strings.insulin_units_abbreviation,
-                        factor = 1.0,
-                    ),
+                    unit = unit,
                 ),
                 SeedMeasurementType(
                     key = "basal",
                     name = MR.strings.basal,
-                    unit = SeedMeasurementUnit(
-                        key = "insulin_units",
-                        name = MR.strings.insulin_units,
-                        abbreviation = MR.strings.insulin_units_abbreviation,
-                        factor = 1.0,
-                    ),
+                    unit = unit,
                 ),
             ),
         )

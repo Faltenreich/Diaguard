@@ -33,7 +33,6 @@ class SeedImport(
             WeightSeed(),
             PulseSeed(),
             BloodPressureSeed(),
-            BloodSugarSeed(),
             OxygenSaturationSeed(),
         )
         seeds.forEachIndexed { propertySortIndex, seed ->

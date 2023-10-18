@@ -9,6 +9,12 @@ import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 class BloodPressureSeed : Seed<SeedMeasurementProperty> {
 
     override fun harvest(): SeedMeasurementProperty {
+        val unit = SeedMeasurementUnit(
+            key = "millimeters_of_mercury",
+            name = MR.strings.millimeters_of_mercury,
+            abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
+            factor = 1.0,
+        )
         return SeedMeasurementProperty(
             key = "blood_pressure",
             name = MR.strings.blood_pressure,
@@ -17,22 +23,12 @@ class BloodPressureSeed : Seed<SeedMeasurementProperty> {
                 SeedMeasurementType(
                     key = "systolic",
                     name = MR.strings.systolic,
-                    unit = SeedMeasurementUnit(
-                        key = "millimeters_of_mercury",
-                        name = MR.strings.millimeters_of_mercury,
-                        abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
-                        factor = 1.0,
-                    ),
+                    unit = unit,
                 ),
                 SeedMeasurementType(
                     key = "diastolic",
                     name = MR.strings.diastolic,
-                    unit = SeedMeasurementUnit(
-                        key = "millimeters_of_mercury",
-                        name = MR.strings.millimeters_of_mercury,
-                        abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
-                        factor = 1.0,
-                    ),
+                    unit = unit,
                 ),
             ),
         )

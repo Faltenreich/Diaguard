@@ -15,9 +15,29 @@ class EntryRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(dateTime: DateTime): Long {
-        dao.create(createdAt = dateTimeFactory.now(), dateTime = dateTime)
+    fun create(
+        createdAt: DateTime,
+        updatedAt: DateTime,
+        dateTime: DateTime,
+        note: String?,
+    ): Long {
+        dao.create(
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            dateTime = dateTime,
+            note = note,
+        )
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
+    }
+
+    fun create(dateTime: DateTime): Long {
+        val now = dateTimeFactory.now()
+        return create(
+            createdAt = now,
+            updatedAt = now,
+            dateTime = dateTime,
+            note = null,
+        )
     }
 
     fun getByDateRange(startDateTime: DateTime, endDateTime: DateTime): List<Entry> {

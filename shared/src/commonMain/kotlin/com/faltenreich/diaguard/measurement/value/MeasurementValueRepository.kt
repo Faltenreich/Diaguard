@@ -18,17 +18,35 @@ class MeasurementValueRepository(
 ) {
 
     fun create(
+        createdAt: DateTime,
+        updatedAt: DateTime,
         value: Double,
         typeId: Long,
         entryId: Long,
     ): Long {
         dao.create(
-            createdAt = dateTimeFactory.now(),
+            createdAt = createdAt,
+            updatedAt = updatedAt,
             value = value,
             typeId = typeId,
             entryId = entryId,
         )
         return dao.getLastId() ?: throw IllegalStateException("No entry found")
+    }
+
+    fun create(
+        value: Double,
+        typeId: Long,
+        entryId: Long,
+    ): Long {
+        val now = dateTimeFactory.now()
+        return create(
+            createdAt = now,
+            updatedAt = now,
+            value = value,
+            typeId = typeId,
+            entryId = entryId,
+        )
     }
 
     fun observeByEntryId(entryId: Long): Flow<List<MeasurementValue>> {

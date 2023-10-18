@@ -7,8 +7,8 @@ CREATE TABLE entry (
 );
 
 create:
-INSERT INTO entry(created_at, updated_at, date_time)
-VALUES (?, ?, ?);
+INSERT INTO entry(created_at, updated_at, date_time, note)
+VALUES (?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();

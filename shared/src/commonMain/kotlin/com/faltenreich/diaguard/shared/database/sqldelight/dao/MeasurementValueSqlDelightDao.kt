@@ -26,13 +26,14 @@ class MeasurementValueSqlDelightDao(
 
     override fun create(
         createdAt: DateTime,
+        updatedAt: DateTime,
         value: Double,
         typeId: Long,
         entryId: Long,
     ) {
         queries.create(
             created_at = createdAt.isoString,
-            updated_at = createdAt.isoString,
+            updated_at = updatedAt.isoString,
             value_ = value,
             type_id = typeId,
             entry_id = entryId,

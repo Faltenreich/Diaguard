@@ -5,7 +5,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface EntryDao {
 
-    fun create(createdAt: DateTime, dateTime: DateTime)
+    fun create(
+        createdAt: DateTime,
+        updatedAt: DateTime,
+        dateTime: DateTime,
+        note: String?,
+    )
 
     fun getLastId(): Long?
 

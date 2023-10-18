@@ -65,11 +65,17 @@ class EntrySqlDelightDao(
         return queries.countAll().asFlow().mapToOne(dispatcher)
     }
 
-    override fun create(createdAt: DateTime, dateTime: DateTime) {
+    override fun create(
+        createdAt: DateTime,
+        updatedAt: DateTime,
+        dateTime: DateTime,
+        note: String?,
+    ) {
         queries.create(
             created_at = createdAt.isoString,
-            updated_at = createdAt.isoString,
+            updated_at = updatedAt.isoString,
             date_time = dateTime.isoString,
+            note = note,
         )
     }
 

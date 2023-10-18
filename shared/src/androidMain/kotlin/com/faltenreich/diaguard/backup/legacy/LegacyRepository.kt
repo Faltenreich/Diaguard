@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import com.faltenreich.diaguard.backup.legacy.measurement.EntryLegacy
 import com.faltenreich.diaguard.backup.legacy.measurement.MeasurementValueLegacy
 import com.faltenreich.diaguard.backup.legacy.measurement.TagLegacy
+import com.faltenreich.diaguard.backup.seed.property.BloodSugarSeed
 import com.faltenreich.diaguard.shared.database.getDateTime
 import com.faltenreich.diaguard.shared.database.getDouble
 import com.faltenreich.diaguard.shared.database.getLong
@@ -57,6 +58,7 @@ actual class LegacyRepository {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("mgDl"),
+                    typeKey = BloodSugarSeed.KEY,
                     entryId = getLong("entry"),
                 )
             )

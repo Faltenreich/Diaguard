@@ -7,6 +7,7 @@ interface MeasurementValueDao {
 
     fun create(
         createdAt: DateTime,
+        updatedAt: DateTime,
         value: Double,
         typeId: Long,
         entryId: Long,

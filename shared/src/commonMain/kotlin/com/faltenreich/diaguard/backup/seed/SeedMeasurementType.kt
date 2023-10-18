@@ -9,22 +9,9 @@ data class SeedMeasurementType(
     val units: List<SeedMeasurementUnit>,
 ) {
 
-    class Builder {
-
-        lateinit var key: String
-        lateinit var name: StringResource
-        private val units = mutableListOf<SeedMeasurementUnit>()
-
-        fun unit(init: SeedMeasurementUnit.Builder.() -> Unit) {
-            units += SeedMeasurementUnit.Builder().apply(init).build()
-        }
-
-        fun build(): SeedMeasurementType {
-            return SeedMeasurementType(
-                key = key,
-                name = name,
-                units = units,
-            )
-        }
-    }
+    constructor(
+        key: String,
+        name: StringResource,
+        unit: SeedMeasurementUnit,
+    ) : this(key, name, listOf(unit))
 }

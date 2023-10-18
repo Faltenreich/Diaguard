@@ -12,16 +12,22 @@ import com.faltenreich.diaguard.shared.database.getString
 import com.faltenreich.diaguard.shared.database.queryEach
 import com.faltenreich.diaguard.shared.di.inject
 
-actual class LegacyImport {
+actual class LegacyRepository {
 
-    actual operator fun invoke() {
+    private val database: SQLiteDatabase?
+
+    init {
         val context = inject<Context>()
         val databaseFile = context.getDatabasePath("diaguard.db")
-        if (!databaseFile.exists()) {
-            return
+        database = if (databaseFile.exists()) {
+            SQLiteDatabase.openDatabase(databaseFile.absolutePath, null, 0)
+        } else {
+            null
         }
-        val database = SQLiteDatabase.openDatabase(databaseFile.absolutePath, null, 0)
+    }
 
+    actual fun getEntries(): List<EntryLegacy> {
+        val database = database ?: return emptyList()
         val entries = mutableListOf<EntryLegacy>()
         database.queryEach("entry") {
             entries.add(
@@ -34,12 +40,16 @@ actual class LegacyImport {
                 )
             )
         }
+        return entries
+    }
 
-        val values = mutableListOf<MeasurementValueLegacy>()
+    actual fun getMeasurementValues(): List<MeasurementValueLegacy> {
+        val database = database ?: return emptyList()
         // value ids must be recreated since legacy data might be merged
         var valueId = 0L
         val autoIncrement = { valueId++ }
 
+        val values = mutableListOf<MeasurementValueLegacy>()
         database.queryEach("bloodsugar") {
             values.add(
                 MeasurementValueLegacy(
@@ -172,7 +182,11 @@ actual class LegacyImport {
                 )
             )
         }
+        return values
+    }
 
+    actual fun getTags(): List<TagLegacy> {
+        val database = database ?: return emptyList()
         val tags = mutableListOf<TagLegacy>()
         database.queryEach("tag") {
             tags.add(
@@ -184,7 +198,6 @@ actual class LegacyImport {
                 )
             )
         }
-
-        println("Found ${entries.size} entries, ${values.size} values and ${tags.size} tags")
+        return tags
     }
 }

@@ -12,6 +12,6 @@ class ImportUseCase(
     operator fun invoke() {
         // Attention: Must be executed first as its data will be reused
         seedImport.import()
-        legacyImport()
+        legacyImport.import()
     }
 }

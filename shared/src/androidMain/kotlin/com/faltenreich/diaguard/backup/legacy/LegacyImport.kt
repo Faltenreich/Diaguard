@@ -2,8 +2,9 @@ package com.faltenreich.diaguard.backup.legacy
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.backup.legacy.measurement.EntryLegacy
+import com.faltenreich.diaguard.backup.legacy.measurement.MeasurementValueLegacy
+import com.faltenreich.diaguard.backup.legacy.measurement.TagLegacy
 import com.faltenreich.diaguard.shared.database.getDateTime
 import com.faltenreich.diaguard.shared.database.getDouble
 import com.faltenreich.diaguard.shared.database.getLong
@@ -29,10 +30,10 @@ actual class LegacyImport {
         val mealTypeId = 5L
         val activityTypeId = 6L
 
-        val entries = mutableListOf<Entry>()
+        val entries = mutableListOf<EntryLegacy>()
         database.queryEach("entry") {
             entries.add(
-                Entry(
+                EntryLegacy(
                     id = getLong("_id"),
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
@@ -42,14 +43,14 @@ actual class LegacyImport {
             )
         }
 
-        val values = mutableListOf<MeasurementValue>()
+        val values = mutableListOf<MeasurementValueLegacy>()
         // value ids must be recreated since legacy data might be merged
         var valueId = 0L
         val autoIncrement = { valueId++ }
 
         database.queryEach("bloodsugar") {
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
@@ -64,7 +65,7 @@ actual class LegacyImport {
             val updatedAt = getDateTime("updatedAt")
             val entryId = getLong("entry")
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = createdAt,
                     updatedAt = updatedAt,
@@ -74,7 +75,7 @@ actual class LegacyImport {
                 )
             )
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = createdAt,
                     updatedAt = updatedAt,
@@ -84,7 +85,7 @@ actual class LegacyImport {
                 )
             )
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = createdAt,
                     updatedAt = updatedAt,
@@ -96,7 +97,7 @@ actual class LegacyImport {
         }
         database.queryEach("meal") {
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
@@ -108,7 +109,7 @@ actual class LegacyImport {
         }
         database.queryEach("activity") {
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
@@ -120,7 +121,7 @@ actual class LegacyImport {
         }
         database.queryEach("hba1c") {
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
@@ -132,7 +133,7 @@ actual class LegacyImport {
         }
         database.queryEach("weight") {
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
@@ -144,7 +145,7 @@ actual class LegacyImport {
         }
         database.queryEach("pulse") {
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
@@ -159,7 +160,7 @@ actual class LegacyImport {
             val updatedAt = getDateTime("updatedAt")
             val entryId = getLong("entry")
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = createdAt,
                     updatedAt = updatedAt,
@@ -169,7 +170,7 @@ actual class LegacyImport {
                 )
             )
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = createdAt,
                     updatedAt = updatedAt,
@@ -181,7 +182,7 @@ actual class LegacyImport {
         }
         database.queryEach("oxygensaturation") {
             values.add(
-                MeasurementValue(
+                MeasurementValueLegacy(
                     id = autoIncrement(),
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
@@ -192,13 +193,16 @@ actual class LegacyImport {
             )
         }
 
-        val tags = mutableListOf<String>()
+        val tags = mutableListOf<TagLegacy>()
         database.queryEach("tag") {
-            val id = getLong("_id")
-            val createdAt = getDateTime("createdAt")
-            val updatedAt = getDateTime("updatedAt")
-            val name = getString("name")
-            tags.add(name)
+            tags.add(
+                TagLegacy(
+                    id = getLong("_id"),
+                    createdAt = getDateTime("createdAt"),
+                    updatedAt = getDateTime("updatedAt"),
+                    name = getString("name"),
+                )
+            )
         }
 
         println("Found ${entries.size} entries, ${values.size} values and ${tags.size} tags")

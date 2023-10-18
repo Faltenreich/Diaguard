@@ -22,14 +22,6 @@ actual class LegacyImport {
         }
         val database = SQLiteDatabase.openDatabase(databaseFile.absolutePath, null, 0)
 
-        // TODO: Fetch type ids via key
-        val bloodSugarTypeId = 1L
-        val bolusTypeId = 2L
-        val correctionTypeId = 3L
-        val basalTypeId = 4L
-        val mealTypeId = 5L
-        val activityTypeId = 6L
-
         val entries = mutableListOf<EntryLegacy>()
         database.queryEach("entry") {
             entries.add(
@@ -55,7 +47,6 @@ actual class LegacyImport {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("mgDl"),
-                    typeId = bloodSugarTypeId,
                     entryId = getLong("entry"),
                 )
             )
@@ -70,7 +61,6 @@ actual class LegacyImport {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("bolus"),
-                    typeId = bolusTypeId,
                     entryId = entryId,
                 )
             )
@@ -80,7 +70,6 @@ actual class LegacyImport {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("correction"),
-                    typeId = correctionTypeId,
                     entryId = entryId,
                 )
             )
@@ -90,7 +79,6 @@ actual class LegacyImport {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("basal"),
-                    typeId = basalTypeId,
                     entryId = entryId,
                 )
             )
@@ -102,7 +90,6 @@ actual class LegacyImport {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("carbohydrates"),
-                    typeId = mealTypeId,
                     entryId = getLong("entry"),
                 )
             )
@@ -114,7 +101,6 @@ actual class LegacyImport {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("minutes"),
-                    typeId = activityTypeId,
                     entryId = getLong("entry"),
                 )
             )
@@ -126,7 +112,6 @@ actual class LegacyImport {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("percent"),
-                    typeId = 1, // TODO: Determine typeId of percent
                     entryId = getLong("entry"),
                 )
             )
@@ -138,7 +123,6 @@ actual class LegacyImport {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("kilogram"),
-                    typeId = 1, // TODO: Determine typeId of kilogram
                     entryId = getLong("entry"),
                 )
             )
@@ -150,7 +134,6 @@ actual class LegacyImport {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("frequency"),
-                    typeId = 1, // TODO: Determine typeId of frequency
                     entryId = getLong("entry"),
                 )
             )
@@ -165,7 +148,6 @@ actual class LegacyImport {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("systolic"),
-                    typeId = 1, // TODO: Determine typeId of systolic
                     entryId = entryId,
                 )
             )
@@ -175,7 +157,6 @@ actual class LegacyImport {
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("diastolic"),
-                    typeId = 1, // TODO: Determine typeId of diastolic
                     entryId = entryId,
                 )
             )
@@ -187,7 +168,6 @@ actual class LegacyImport {
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("percent"),
-                    typeId = 1, // TODO: Determine typeId of percent
                     entryId = getLong("entry"),
                 )
             )

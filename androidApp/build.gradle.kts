@@ -16,6 +16,7 @@ android {
         targetSdk = Configuration.Android.targetSdk
         versionCode = Configuration.Project.versionCode
         versionName = Configuration.Project.versionName
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -36,6 +37,12 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
+
     implementation(Dependencies.Androidx.activityCompose)
     implementation(Dependencies.Koin.core)
     implementation(Dependencies.Koin.android)

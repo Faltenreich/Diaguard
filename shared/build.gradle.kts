@@ -58,7 +58,6 @@ kotlin {
                 implementation(Dependencies.Voyager.android)
             }
         }
-        val androidInstrumentedTest by getting
         val iosMain by getting
     }
 
@@ -87,6 +86,7 @@ android {
         sourceCompatibility = Configuration.Java.version
         targetCompatibility = Configuration.Java.version
     }
+
     // FIXME
     //  Fixes missing resources on JVM (should be fixed with moko-resources:0.23.1)
     //  https://github.com/icerockdev/moko-resources/issues/510

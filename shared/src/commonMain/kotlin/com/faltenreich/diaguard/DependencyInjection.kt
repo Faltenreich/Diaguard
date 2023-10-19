@@ -3,6 +3,7 @@ package com.faltenreich.diaguard
 import com.faltenreich.diaguard.backup.backupModule
 import com.faltenreich.diaguard.dashboard.dashboardModule
 import com.faltenreich.diaguard.entry.entryModule
+import com.faltenreich.diaguard.export.exportModule
 import com.faltenreich.diaguard.log.logModule
 import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
@@ -48,6 +49,7 @@ private fun mainModules() = listOf(
     dateTimeModule(),
     // Feature
     backupModule(),
+    exportModule(),
     onboardingModule(),
     navigationModule(),
     dashboardModule(),

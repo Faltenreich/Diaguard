@@ -1,9 +1,11 @@
 package com.faltenreich.diaguard.backup.seed
 
+import com.faltenreich.diaguard.shared.database.DatabaseKey
+
 interface Seedable {
 
     // Unique if not null
-    val key: String?
+    val key: DatabaseKey?
 
     val isSeed: Boolean
         get() = key != null

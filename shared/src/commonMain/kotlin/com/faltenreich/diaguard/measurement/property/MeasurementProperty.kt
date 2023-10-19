@@ -13,7 +13,7 @@ data class MeasurementProperty(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
-    override val key: String?,
+    override val key: DatabaseKey.MeasurementProperty?,
     val name: String,
     val icon: String?,
     val sortIndex: Long,
@@ -22,5 +22,5 @@ data class MeasurementProperty(
     lateinit var types: List<MeasurementType>
 
     val isBloodSugar: Boolean
-        get() = key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR.key
+        get() = key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR
 }

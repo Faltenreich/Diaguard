@@ -1,10 +1,11 @@
 package com.faltenreich.diaguard.shared.database
 
-object DatabaseKey {
+interface DatabaseKey {
 
-    private const val DELIMITER = "."
+    // Attention: Keys must not be altered as they will be engraved into the seed database
+    val key: String
 
-    enum class MeasurementProperty(val key: String) {
+    enum class MeasurementProperty(override val key: String) : DatabaseKey {
 
         BLOOD_SUGAR("blood_sugar"),
         INSULIN("insulin"),
@@ -15,9 +16,17 @@ object DatabaseKey {
         PULSE("pulse"),
         BLOOD_PRESSURE("blood_pressure"),
         OXYGEN_SATURATION("oxygen_saturation"),
+        ;
+
+        companion object {
+
+            fun from(key: String): MeasurementProperty {
+                return entries.first { it.key == key }
+            }
+        }
     }
 
-    enum class MeasurementType(val id: String, property: MeasurementProperty) {
+    enum class MeasurementType(val id: String, property: MeasurementProperty) : DatabaseKey {
 
         BLOOD_SUGAR("blood_sugar", MeasurementProperty.BLOOD_SUGAR),
         INSULIN_BOLUS( "bolus", MeasurementProperty.INSULIN),
@@ -33,10 +42,17 @@ object DatabaseKey {
         OXYGEN_SATURATION("oxygen_saturation", MeasurementProperty.OXYGEN_SATURATION),
         ;
 
-        val key: String = property.key + DELIMITER + id
+        override val key: String = property.key + DELIMITER + id
+
+        companion object {
+
+            fun from(key: String): MeasurementType {
+                return entries.first { it.key == key }
+            }
+        }
     }
 
-    enum class MeasurementUnit(val id: String, type: MeasurementType) {
+    enum class MeasurementUnit(val id: String, type: MeasurementType) : DatabaseKey {
 
         BLOOD_SUGAR_MILLIGRAMS_PER_DECILITER("milligrams_per_deciliter", MeasurementType.BLOOD_SUGAR),
         BLOOD_SUGAR_MILLIMOLES_PER_LITER("millimoles_per_liter", MeasurementType.BLOOD_SUGAR),
@@ -57,6 +73,18 @@ object DatabaseKey {
         OXYGEN_SATURATION("oxygen_saturation", MeasurementType.OXYGEN_SATURATION),
         ;
 
-        val key: String = type.key + DELIMITER + id
+        override val key: String = type.key + DELIMITER + id
+
+        companion object {
+
+            fun from(key: String): MeasurementUnit {
+                return entries.first { it.key == key }
+            }
+        }
+    }
+
+    companion object {
+
+        private const val DELIMITER = "."
     }
 }

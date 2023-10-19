@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 
 class MeasurementUnitSqlDelightMapper(
@@ -20,7 +21,7 @@ class MeasurementUnitSqlDelightMapper(
             id = id,
             createdAt = dateTimeFactory.dateTime(isoString = createdAt),
             updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
-            key = key,
+            key = key?.let(DatabaseKey.MeasurementUnit::from),
             name = name,
             factor = factor,
             typeId = typeId,

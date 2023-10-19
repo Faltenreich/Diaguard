@@ -68,9 +68,9 @@ interface DatabaseKey {
         WEIGHT_KILOGRAMS("kilograms", MeasurementType.WEIGHT),
         WEIGHT_POUNDS("pounds", MeasurementType.WEIGHT),
         PULSE("beats_per_minute", MeasurementType.PULSE),
-        BLOOD_PRESSURE_SYSTOLIC("systolic", MeasurementType.BLOOD_PRESSURE_SYSTOLIC),
-        BLOOD_PRESSURE_DIASTOLIC("diastolic", MeasurementType.BLOOD_PRESSURE_DIASTOLIC),
-        OXYGEN_SATURATION("oxygen_saturation", MeasurementType.OXYGEN_SATURATION),
+        BLOOD_PRESSURE_SYSTOLIC("millimeters_of_mercury", MeasurementType.BLOOD_PRESSURE_SYSTOLIC),
+        BLOOD_PRESSURE_DIASTOLIC("millimeters_of_mercury", MeasurementType.BLOOD_PRESSURE_DIASTOLIC),
+        OXYGEN_SATURATION("percent", MeasurementType.OXYGEN_SATURATION),
         ;
 
         override val key: String = type.key + DELIMITER + id

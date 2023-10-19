@@ -33,6 +33,7 @@
     <string name="entry_new_description">Create new entry</string>
     <string name="entry_save">Save entry</string>
     <string name="entry_search_placeholder">Enter query to start search</string>
+    <string name="export">Export</string>
     <string name="hba1c">HbA1c</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>

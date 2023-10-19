@@ -6,6 +6,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.export.PdfExport
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.BottomSheetState
@@ -50,6 +51,12 @@ fun BottomSheetNavigation(
                 label = MR.strings.log,
                 isActive = navigator.lastItem is Screen.Log,
                 onClick = { navigateTo(Screen.Log()) },
+            )
+            BottomSheetNavigationItem(
+                icon = MR.images.ic_dashboard,
+                label = MR.strings.export,
+                isActive = false,
+                onClick = { PdfExport().export() },
             )
             BottomSheetNavigationItem(
                 icon = MR.images.ic_preferences,

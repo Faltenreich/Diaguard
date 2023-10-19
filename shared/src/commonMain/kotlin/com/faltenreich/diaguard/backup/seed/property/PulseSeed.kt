@@ -5,19 +5,20 @@ import com.faltenreich.diaguard.backup.seed.Seed
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class PulseSeed : Seed<SeedMeasurementProperty> {
 
     override fun harvest(): SeedMeasurementProperty {
         return SeedMeasurementProperty(
-            key = "pulse",
+            key = DatabaseKey.MeasurementProperty.PULSE,
             name = MR.strings.pulse,
             icon = "\uD83D\uDC9A",
             type = SeedMeasurementType(
-                key = "pulse",
+                key = DatabaseKey.MeasurementType.PULSE,
                 name = MR.strings.pulse,
                 unit = SeedMeasurementUnit(
-                    key = "beats_per_minute",
+                    key = DatabaseKey.MeasurementUnit.PULSE,
                     name = MR.strings.beats_per_minute,
                     abbreviation = MR.strings.beats_per_minute_abbreviation,
                     factor = 1.0,

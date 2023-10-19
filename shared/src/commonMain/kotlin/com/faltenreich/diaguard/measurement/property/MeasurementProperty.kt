@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.measurement.property
 import com.faltenreich.diaguard.backup.seed.Seedable
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
 /**
@@ -21,18 +22,5 @@ data class MeasurementProperty(
     lateinit var types: List<MeasurementType>
 
     val isBloodSugar: Boolean
-        get() = key == Key.BLOOD_SUGAR
-
-    object Key {
-
-        const val BLOOD_SUGAR = "blood_sugar"
-        const val INSULIN = "insulin"
-        const val MEAL = "meal"
-        const val ACTIVITY = "activity"
-        const val HBA1C = "hba1c"
-        const val WEIGHT = "weight"
-        const val PULSE = "pulse"
-        const val BLOOD_PRESSURE = "blood_pressure"
-        const val OXYGEN_SATURATION = "oxygen_saturation"
-    }
+        get() = key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR.key
 }

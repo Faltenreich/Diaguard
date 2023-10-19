@@ -5,30 +5,35 @@ import com.faltenreich.diaguard.backup.seed.Seed
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class BloodPressureSeed : Seed<SeedMeasurementProperty> {
 
     override fun harvest(): SeedMeasurementProperty {
-        val unit = SeedMeasurementUnit(
-            key = "millimeters_of_mercury",
-            name = MR.strings.millimeters_of_mercury,
-            abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
-            factor = 1.0,
-        )
         return SeedMeasurementProperty(
-            key = "blood_pressure",
+            key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE,
             name = MR.strings.blood_pressure,
             icon = "⛽",
             types = listOf(
                 SeedMeasurementType(
-                    key = "systolic",
+                    key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_SYSTOLIC,
                     name = MR.strings.systolic,
-                    unit = unit,
+                    unit = SeedMeasurementUnit(
+                        key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_SYSTOLIC,
+                        name = MR.strings.millimeters_of_mercury,
+                        abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
+                        factor = 1.0,
+                    ),
                 ),
                 SeedMeasurementType(
-                    key = "diastolic",
+                    key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_DIASTOLIC,
                     name = MR.strings.diastolic,
-                    unit = unit,
+                    unit = SeedMeasurementUnit(
+                        key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_DIASTOLIC,
+                        name = MR.strings.millimeters_of_mercury,
+                        abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
+                        factor = 1.0,
+                    ),
                 ),
             ),
         )

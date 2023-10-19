@@ -51,7 +51,7 @@ object DatabaseKey {
         HBA1C_MILLIMOLES_PER_MOLES("millimoles_per_mole", MeasurementType.HBA1C),
         WEIGHT_KILOGRAMS("kilograms", MeasurementType.WEIGHT),
         WEIGHT_POUNDS("pounds", MeasurementType.WEIGHT),
-        PULSE_BEATS_PER_MINUTE("beats_per_minute", MeasurementType.PULSE),
+        PULSE("beats_per_minute", MeasurementType.PULSE),
         BLOOD_PRESSURE_SYSTOLIC("systolic", MeasurementType.BLOOD_PRESSURE_SYSTOLIC),
         BLOOD_PRESSURE_DIASTOLIC("diastolic", MeasurementType.BLOOD_PRESSURE_DIASTOLIC),
         OXYGEN_SATURATION("oxygen_saturation", MeasurementType.OXYGEN_SATURATION),

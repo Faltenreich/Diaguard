@@ -20,21 +20,21 @@ class SeedImport(
         seeds.forEachIndexed { propertySortIndex, seed ->
             val property = seed.harvest()
             val propertyId = propertyRepository.create(
-                key = property.key,
+                key = property.key.key,
                 name = localization.getString(property.name),
                 icon = property.icon,
                 sortIndex = propertySortIndex.toLong(),
             )
             property.types.forEachIndexed { typeSortIndex, type ->
                 val typeId = typeRepository.create(
-                    key = "${property.key}.${type.key}",
+                    key = type.key.key,
                     name = localization.getString(type.name),
                     sortIndex = typeSortIndex.toLong(),
                     propertyId = propertyId,
                 )
                 type.units.forEach { unit ->
                     val unitId = unitRepository.create(
-                        key = "${property.key}.${type.key}.${unit.key}",
+                        key = unit.key.key,
                         name = localization.getString(unit.name),
                         factor = unit.factor,
                         typeId = typeId,

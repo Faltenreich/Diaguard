@@ -35,32 +35,32 @@ fun BottomSheetNavigation(
         }
         Column {
             BottomSheetNavigationItem(
-                icon = MR.images.ic_dashboard,
                 label = MR.strings.dashboard,
+                icon = MR.images.ic_dashboard,
                 isActive = navigator.lastItem is Screen.Dashboard,
                 onClick = { navigateTo(Screen.Dashboard) },
             )
             BottomSheetNavigationItem(
-                icon = MR.images.ic_timeline,
                 label = MR.strings.timeline,
+                icon = MR.images.ic_timeline,
                 isActive = navigator.lastItem is Screen.Timeline,
                 onClick = { navigateTo(Screen.Timeline()) },
             )
             BottomSheetNavigationItem(
-                icon = MR.images.ic_log,
                 label = MR.strings.log,
+                icon = MR.images.ic_log,
                 isActive = navigator.lastItem is Screen.Log,
                 onClick = { navigateTo(Screen.Log()) },
             )
             BottomSheetNavigationItem(
-                icon = MR.images.ic_dashboard,
                 label = MR.strings.export,
-                isActive = false,
+                icon = null,
+                isActive = false, // TODO: When Screen is available
                 onClick = { PdfExport().export() },
             )
             BottomSheetNavigationItem(
-                icon = MR.images.ic_preferences,
                 label = MR.strings.preferences,
+                icon = MR.images.ic_preferences,
                 isActive = navigator.lastItem is Screen.PreferenceList,
                 onClick = { navigateTo(Screen.PreferenceList()) },
             )

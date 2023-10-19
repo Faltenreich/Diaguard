@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -20,8 +21,8 @@ import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun BottomSheetNavigationItem(
-    icon: ImageResource,
     label: StringResource,
+    icon: ImageResource?,
     isActive: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
@@ -40,12 +41,14 @@ fun BottomSheetNavigationItem(
         val onPrimaryColor =
             if (isActive) AppTheme.colors.material.primary
             else AppTheme.colors.material.onBackground
-        Image(
-            painter = painterResource(icon),
-            contentDescription = null,
-            modifier = Modifier.size(AppTheme.dimensions.padding.P_4),
-            colorFilter = ColorFilter.tint(onPrimaryColor),
-        )
+        icon?.let {
+            Image(
+                painter = painterResource(icon),
+                contentDescription = null,
+                modifier = Modifier.size(AppTheme.dimensions.padding.P_4),
+                colorFilter = ColorFilter.tint(onPrimaryColor),
+            )
+        } ?: Spacer(modifier = Modifier.size(AppTheme.dimensions.padding.P_4))
         Text(
             text = getString(label),
             color = onPrimaryColor,

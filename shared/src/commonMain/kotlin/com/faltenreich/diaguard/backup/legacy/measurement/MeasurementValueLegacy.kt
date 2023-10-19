@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
 data class MeasurementValueLegacy(
-    override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
     val value: Double,

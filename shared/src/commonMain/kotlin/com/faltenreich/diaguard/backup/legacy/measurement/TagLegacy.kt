@@ -4,7 +4,6 @@ import com.faltenreich.diaguard.backup.legacy.Legacy
 import com.faltenreich.diaguard.shared.datetime.DateTime
 
 data class TagLegacy(
-    override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
     val name: String,

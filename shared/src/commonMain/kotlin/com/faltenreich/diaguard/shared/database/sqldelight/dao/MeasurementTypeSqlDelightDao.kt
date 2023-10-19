@@ -64,6 +64,10 @@ class MeasurementTypeSqlDelightDao(
         return queries.getByProperty(propertyId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
+    override fun getAll(): List<MeasurementType> {
+        return queries.getAll(mapper::map).executeAsList()
+    }
+
     override fun observeAll(): Flow<List<MeasurementType>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }

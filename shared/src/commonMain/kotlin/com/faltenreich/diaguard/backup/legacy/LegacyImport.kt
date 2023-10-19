@@ -14,6 +14,7 @@ class LegacyImport(
 
     override fun import() {
         val entries = legacyRepository.getEntries()
+        val typeIdsByKey = typeRepository.getAll().associate { it.key to it.id }
         val values = legacyRepository.getMeasurementValues()
         val tags = legacyRepository.getTags()
 
@@ -29,11 +30,13 @@ class LegacyImport(
             )
             val valuesOfEntry = values.filter { value -> value.entryId == entryLegacyId }
             valuesOfEntry.forEach { value ->
+                val typeKey = value.typeKey
+                val typeId = typeIdsByKey[typeKey] ?: throw IllegalStateException("Missing id for type with key: $typeKey")
                 valueRepository.create(
                     createdAt = value.createdAt,
                     updatedAt = value.updatedAt,
                     value = value.value,
-                    typeId = TODO(),
+                    typeId = typeId,
                     entryId = entryId,
                 )
             }

@@ -50,6 +50,10 @@ class MeasurementTypeRepository(
         return dao.observeByPropertyId(propertyId)
     }
 
+    fun getAll(): List<MeasurementType> {
+        return dao.getAll()
+    }
+
     fun observeAll(): Flow<List<MeasurementType>> {
         return dao.observeAll()
     }

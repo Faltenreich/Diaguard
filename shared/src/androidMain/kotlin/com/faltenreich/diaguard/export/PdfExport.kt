@@ -33,7 +33,7 @@ actual class PdfExport {
         val pageInfo = PageInfo.Builder(PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT, pageNumber).create()
         val page = document.startPage(pageInfo)
 
-        page.canvas.drawText("Hello, World!", 0f, 0f, Paint().apply { color = Color.BLACK })
+        page.canvas.drawText("Hello, World!", 100f, 100f, Paint().apply { color = Color.BLACK })
 
         document.finishPage(page)
         document.writeTo(outputStream)

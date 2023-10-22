@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.export
 
 import androidx.compose.runtime.mutableStateOf
+import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
@@ -24,4 +25,14 @@ class ExportFormViewModel(
     var exportType = mutableStateOf(ExportType.PDF)
     val exportTypeLocalized
         get() = localization.getString(exportType.value.title)
+
+    // TODO: Read from preferences
+    var pdfLayout = mutableStateOf(PdfLayout.TABLE)
+    var includeCalendarWeek = mutableStateOf(true)
+    var includeDateOfExport = mutableStateOf(true)
+    var includePageNumber = mutableStateOf(true)
+
+    var includeNotes = mutableStateOf(true)
+    var includeTags = mutableStateOf(true)
+    var includeDaysWithoutEntries = mutableStateOf(true)
 }

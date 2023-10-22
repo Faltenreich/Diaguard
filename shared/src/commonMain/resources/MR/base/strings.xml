@@ -14,6 +14,7 @@
     <string name="beats_per_minute_abbreviation">Bpm</string>
     <string name="bread_units">Bread units</string>
     <string name="bread_units_abbreviation">BU</string>
+    <string name="calendar_week">Calendar week</string>
     <string name="cancel">Cancel</string>
     <string name="carbohydrates">Carbohydrates</string>
     <string name="carbohydrates_abbreviation">CHO</string>
@@ -24,8 +25,11 @@
     <string name="create">Create</string>
     <string name="csv">CSV</string>
     <string name="dashboard">Dashboard</string>
+    <string name="date_of_export">Date of export</string>
+    <string name="days_without_entries">Days without entries</string>
     <string name="delete">Delete</string>
     <string name="date_pick">Change date</string>
+    <string name="data">Data</string>
     <string name="day">Day</string>
     <string name="diastolic">Diastolic</string>
     <string name="entry_delete">Delete entry</string>
@@ -44,6 +48,7 @@
     <string name="insulin_units_abbreviation">IU</string>
     <string name="kilograms">Kilograms</string>
     <string name="kilograms_abbreviation">kg</string>
+    <string name="layout">Layout</string>
     <string name="log">Log</string>
     <string name="meal">Meal</string>
     <string name="measurement_properties">Categories</string>
@@ -76,8 +81,10 @@
     <string name="name">Name</string>
     <string name="no_entries">No entries available</string>
     <string name="note">Note</string>
+    <string name="notes">Notes</string>
     <string name="ok">OK</string>
     <string name="oxygen_saturation">Oxygen saturation</string>
+    <string name="page_number">Page number</string>
     <string name="percent">Percent</string>
     <string name="percent_abbreviation">%</string>
     <string name="placeholder">-</string>
@@ -91,7 +98,9 @@
     <string name="navigate_back">Go back</string>
     <string name="search_placeholder">Search for entries&#8230;</string>
     <string name="systolic">Systolic</string>
+    <string name="table">Table</string>
     <string name="tag">Tag</string>
+    <string name="tags">Tags</string>
     <string name="timeline">Timeline</string>
     <string name="time_select">Select time</string>
     <string name="today">Today</string>

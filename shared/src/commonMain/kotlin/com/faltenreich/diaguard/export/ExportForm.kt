@@ -21,7 +21,9 @@ import com.faltenreich.diaguard.shared.view.DateRangePicker
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
 import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
 import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.shared.view.FormRowLabel
 import com.faltenreich.diaguard.shared.view.ResourceIcon
+import com.faltenreich.diaguard.shared.view.TextCheckbox
 
 @Composable
 fun ExportForm(
@@ -70,7 +72,65 @@ fun ExportForm(
                 )
             }
         }
+
+        FormRowLabel(getString(MR.strings.layout))
+        // TODO: PdfLayout
+        FormRow(icon = { ResourceIcon(MR.images.ic_position_top_left) }) {
+            TextCheckbox(
+                text = getString(MR.strings.calendar_week),
+                checked = viewModel.includeCalendarWeek.value,
+                onCheckedChange = { viewModel.includeCalendarWeek.value = it },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
         Divider()
+        FormRow(icon = { ResourceIcon(MR.images.ic_position_bottom_left) }) {
+            TextCheckbox(
+                text = getString(MR.strings.date_of_export),
+                checked = viewModel.includeDateOfExport.value,
+                onCheckedChange = { viewModel.includeDateOfExport.value = it },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        Divider()
+        FormRow(icon = { ResourceIcon(MR.images.ic_position_bottom_right) }) {
+            TextCheckbox(
+                text = getString(MR.strings.page_number),
+                checked = viewModel.includePageNumber.value,
+                onCheckedChange = { viewModel.includePageNumber.value = it },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+
+        FormRowLabel(getString(MR.strings.data))
+        FormRow(icon = { ResourceIcon(MR.images.ic_note) }) {
+            TextCheckbox(
+                text = getString(MR.strings.notes),
+                checked = viewModel.includeNotes.value,
+                onCheckedChange = { viewModel.includeNotes.value = it },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        Divider()
+        FormRow(icon = { ResourceIcon(MR.images.ic_tag) }) {
+            TextCheckbox(
+                text = getString(MR.strings.tags),
+                checked = viewModel.includeTags.value,
+                onCheckedChange = { viewModel.includeTags.value = it },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        Divider()
+        FormRow(icon = { ResourceIcon(MR.images.ic_skip) }) {
+            TextCheckbox(
+                text = getString(MR.strings.days_without_entries),
+                checked = viewModel.includeDaysWithoutEntries.value,
+                onCheckedChange = { viewModel.includeDaysWithoutEntries.value = it },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+
+        FormRowLabel(getString(MR.strings.measurement_properties))
     }
 
     if (showDateRangePicker) {

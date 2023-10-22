@@ -1,12 +1,7 @@
 package com.faltenreich.diaguard.preference.list.item
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,9 +9,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.list.Preference
+import com.faltenreich.diaguard.shared.view.DropdownTextMenu
+import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,24 +26,16 @@ fun <T : SelectablePreference> SelectablePreferenceItem(
             preference = preference,
             modifier = Modifier.clickable { isExpanded = true },
         )
-        DropdownMenu(
+        DropdownTextMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
-            modifier = modifier,
-        ) {
-            preference.options.forEach { option ->
-                Text(option.label(), modifier = Modifier
-                    .clickable {
-                        scope.launch {
-                            option.onSelected()
-                            isExpanded = false
-                        }
-                    }
-                    .fillMaxWidth()
-                    .background(if (option.isSelected) AppTheme.colors.material.secondaryContainer else Color.Transparent)
-                    .padding(all = AppTheme.dimensions.padding.P_3),
+            items = preference.options.map { option ->
+                DropdownTextMenuItem(
+                    label = option.label(),
+                    onClick = { scope.launch { option.onSelected() } },
+                    isSelected = { option.isSelected },
                 )
             }
-        }
+        )
     }
 }

@@ -67,6 +67,7 @@
     <string name="measurement_units">Units</string>
     <string name="measurements">Measurements</string>
     <string name="menu_open">Open menu</string>
+    <string name="merge_values">Merge values</string>
     <string name="milligrams_per_deciliter">Milligrams per deciliter</string>
     <string name="milligrams_per_deciliter_abbreviation">mg/dl</string>
     <string name="millimoles_per_liter">Millimoles per liter</string>

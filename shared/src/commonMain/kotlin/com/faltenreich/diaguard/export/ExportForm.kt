@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DateRangePicker
@@ -48,8 +49,8 @@ fun ExportForm(
                 items = viewModel.exportTypes.map { type ->
                     DropdownTextMenuItem(
                         label = getString(type.title),
-                        onClick = { viewModel.exportType.value = type },
-                        isSelected = { viewModel.exportType.value == type },
+                        onClick = { viewModel.exportType = type },
+                        isSelected = { viewModel.exportType == type },
                     )
                 }
             )
@@ -62,8 +63,8 @@ fun ExportForm(
                 items = viewModel.pdfLayouts.map { layout ->
                     DropdownTextMenuItem(
                         label = getString(layout.title),
-                        onClick = { viewModel.pdfLayout.value = layout },
-                        isSelected = { viewModel.pdfLayout.value == layout },
+                        onClick = { viewModel.pdfLayout = layout },
+                        isSelected = { viewModel.pdfLayout == layout },
                     )
                 },
             )
@@ -72,8 +73,8 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(MR.images.ic_position_top_left) }) {
             TextCheckbox(
                 text = getString(MR.strings.calendar_week),
-                checked = viewModel.includeCalendarWeek.value,
-                onCheckedChange = { viewModel.includeCalendarWeek.value = it },
+                checked = viewModel.includeCalendarWeek,
+                onCheckedChange = { viewModel.includeCalendarWeek = it },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -81,8 +82,8 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(MR.images.ic_position_bottom_left) }) {
             TextCheckbox(
                 text = getString(MR.strings.date_of_export),
-                checked = viewModel.includeDateOfExport.value,
-                onCheckedChange = { viewModel.includeDateOfExport.value = it },
+                checked = viewModel.includeDateOfExport,
+                onCheckedChange = { viewModel.includeDateOfExport = it },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -90,8 +91,8 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(MR.images.ic_position_bottom_right) }) {
             TextCheckbox(
                 text = getString(MR.strings.page_number),
-                checked = viewModel.includePageNumber.value,
-                onCheckedChange = { viewModel.includePageNumber.value = it },
+                checked = viewModel.includePageNumber,
+                onCheckedChange = { viewModel.includePageNumber = it },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -100,8 +101,8 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(MR.images.ic_note) }) {
             TextCheckbox(
                 text = getString(MR.strings.notes),
-                checked = viewModel.includeNotes.value,
-                onCheckedChange = { viewModel.includeNotes.value = it },
+                checked = viewModel.includeNotes,
+                onCheckedChange = { viewModel.includeNotes = it },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -109,8 +110,8 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(MR.images.ic_tag) }) {
             TextCheckbox(
                 text = getString(MR.strings.tags),
-                checked = viewModel.includeTags.value,
-                onCheckedChange = { viewModel.includeTags.value = it },
+                checked = viewModel.includeTags,
+                onCheckedChange = { viewModel.includeTags = it },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -118,21 +119,38 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(MR.images.ic_skip) }) {
             TextCheckbox(
                 text = getString(MR.strings.days_without_entries),
-                checked = viewModel.includeDaysWithoutEntries.value,
-                onCheckedChange = { viewModel.includeDaysWithoutEntries.value = it },
+                checked = viewModel.includeDaysWithoutEntries,
+                onCheckedChange = { viewModel.includeDaysWithoutEntries = it },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
 
         FormRowLabel(getString(MR.strings.measurement_properties))
+        viewModel.properties.forEach { property ->
+            FormRow(icon = { MeasurementPropertyIcon(property.property) }) {
+                TextCheckbox(
+                    text = property.property.name,
+                    checked = property.isExported,
+                    onCheckedChange = { viewModel.setProperty(property.copy(isExported = !property.isExported)) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                TextCheckbox(
+                    text = getString(MR.strings.merge_values),
+                    checked = property.isMerged,
+                    onCheckedChange = { viewModel.setProperty(property.copy(isMerged = !property.isMerged)) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+            Divider()
+        }
     }
 
     if (showDateRangePicker) {
         DateRangePicker(
-            dateRange = viewModel.dateRange.value,
+            dateRange = viewModel.dateRange,
             onPick = { dateRange ->
                 showDateRangePicker = false
-                viewModel.dateRange.value = dateRange
+                viewModel.dateRange = dateRange
             }
         )
     }

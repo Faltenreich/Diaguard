@@ -51,7 +51,7 @@ class EntryFormViewModel(
     var tag: String by mutableStateOf("")
     var note: String by mutableStateOf(entry?.note ?: "")
 
-    var measurements: List<MeasurementPropertyInputData> by mutableStateOf(emptyList())
+    var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
 
     init {
         viewModelScope.launch(dispatcher) {

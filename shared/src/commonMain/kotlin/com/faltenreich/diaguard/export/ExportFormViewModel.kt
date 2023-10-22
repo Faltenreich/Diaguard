@@ -78,6 +78,24 @@ class ExportFormViewModel(
     }
 
     fun submit() {
-        export()
+        val data = when (exportType) {
+            ExportType.PDF -> ExportData.Pdf(
+                dateRange = dateRange,
+                includeNotes = includeNotes,
+                includeTags = includeTags,
+                includeDaysWithoutEntries = includeDaysWithoutEntries,
+                layout = pdfLayout,
+                includeCalendarWeek = includeCalendarWeek,
+                includeDateOfExport = includeDateOfExport,
+                includePageNumber = includePageNumber,
+            )
+            ExportType.CSV -> ExportData.Csv(
+                dateRange = dateRange,
+                includeNotes = includeNotes,
+                includeTags = includeTags,
+                includeDaysWithoutEntries = includeDaysWithoutEntries,
+            )
+        }
+        export(data)
     }
 }

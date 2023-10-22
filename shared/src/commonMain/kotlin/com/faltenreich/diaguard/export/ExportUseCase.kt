@@ -7,7 +7,10 @@ class ExportUseCase(
     private val pdfExport: PdfExport = inject(),
 ) {
 
-    operator fun invoke() {
-        pdfExport.export()
+    operator fun invoke(data: ExportData) {
+        when (data) {
+            is ExportData.Pdf -> pdfExport.export(data)
+            is ExportData.Csv -> TODO()
+        }
     }
 }

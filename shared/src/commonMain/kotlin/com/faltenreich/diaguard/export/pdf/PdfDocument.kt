@@ -16,6 +16,6 @@ data class PdfDocument(val pages: List<PdfPage>) {
     }
 }
 
-fun pdf(init: PdfDocument.Builder.() -> Unit): PdfDocument {
+fun document(init: PdfDocument.Builder.() -> Unit): PdfDocument {
     return PdfDocument.Builder().apply(init).build()
 }

@@ -5,11 +5,17 @@ class PdfExport(
 ) {
 
     fun export() {
-        val pdfDocument = pdf {
-            page {
+        pdfRepository.export(
+            document {
+                page {
+                    header {
 
+                    }
+                    footer {
+
+                    }
+                }
             }
-        }
-        pdfRepository.export(pdfDocument)
+        )
     }
 }

@@ -8,4 +8,7 @@ import org.koin.dsl.module
 fun exportModule() = module {
     singleOf(::PdfRepository)
     singleOf(::PdfExport)
+
+    singleOf(::ExportUseCase)
+    singleOf(::ExportFormViewModel)
 }

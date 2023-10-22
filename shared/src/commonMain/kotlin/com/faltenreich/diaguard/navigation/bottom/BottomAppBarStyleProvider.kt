@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
+import com.faltenreich.diaguard.export.ExportFormViewModel
 import com.faltenreich.diaguard.log.LogViewModel
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
@@ -94,6 +95,14 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                         .fillMaxWidth()
                         .padding(end = AppTheme.dimensions.padding.P_3),
                 )
+            }
+        )
+        is Screen.ExportForm -> BottomAppBarStyle.Visible(
+            floatingActionButton = {
+                val viewModel = getViewModel<ExportFormViewModel>()
+                FloatingActionButton(onClick = { viewModel.export() }) {
+                    Icon(Icons.Filled.Check, getString(MR.strings.export))
+                }
             }
         )
         is Screen.MeasurementPropertyList -> BottomAppBarStyle.Visible(

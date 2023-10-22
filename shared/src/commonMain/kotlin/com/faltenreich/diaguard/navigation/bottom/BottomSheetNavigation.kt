@@ -6,9 +6,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.export.pdf.PdfExport
 import com.faltenreich.diaguard.navigation.Screen
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.BottomSheetState
 import kotlinx.coroutines.launch
@@ -19,8 +17,6 @@ fun BottomSheetNavigation(
     navigator: Navigator,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    // TODO: Remove when Screen is available
-    pdfExport: PdfExport = inject(),
 ) {
     BottomSheet(
         onDismissRequest = onDismissRequest,
@@ -58,8 +54,8 @@ fun BottomSheetNavigation(
             BottomSheetNavigationItem(
                 label = MR.strings.export,
                 icon = null,
-                isActive = false, // TODO: Delegate when Screen is available
-                onClick = { pdfExport.export() },
+                isActive = navigator.lastItem is Screen.ExportForm,
+                onClick = { navigateTo(Screen.ExportForm) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.preferences,

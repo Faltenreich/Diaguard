@@ -3,7 +3,7 @@ import org.gradle.api.JavaVersion
 object Versions {
 
     const val androidCompose = "1.7.2"
-    const val androidGradle = "8.1.1"
+    const val androidGradle = "8.1.2"
     const val compose = "1.5.10-beta01"
     const val composeCompiler = "1.5.3"
     const val composeMaterial3 = "1.2.0-alpha07"

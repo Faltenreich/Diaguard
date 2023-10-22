@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export
+package com.faltenreich.diaguard.export.pdf
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -7,12 +7,14 @@ import org.junit.runner.RunWith
 import java.io.File
 
 @RunWith(AndroidJUnit4::class)
-class PdfExportTest {
+class PdfRepositoryTest {
+
+    private val repository = PdfRepository()
 
     @Test
     fun testExport() {
         val directory = InstrumentationRegistry.getInstrumentation().targetContext.cacheDir
         val file = File.createTempFile("tmp", "pdf", directory)
-        PdfExport().export(file)
+        repository.export(file)
     }
 }

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export
+package com.faltenreich.diaguard.export.pdf
 
 import android.content.Context
 import android.content.Intent
@@ -6,20 +6,19 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.pdf.PdfDocument
-import android.graphics.pdf.PdfDocument.PageInfo
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
 import com.faltenreich.diaguard.shared.di.inject
 import java.io.File
 import java.io.FileOutputStream
+import android.graphics.pdf.PdfDocument as AndroidPdfDocument
 
-actual class PdfExport {
+actual class PdfRepository {
 
     private val context = inject<Context>()
 
-    actual fun export() {
+    actual fun export(pdfDocument: PdfDocument) {
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
         val file = File(directory, "export.pdf")
         export(file)
@@ -27,10 +26,10 @@ actual class PdfExport {
 
     fun export(file: File) {
         val outputStream = FileOutputStream(file)
-        val document = PdfDocument()
+        val document = AndroidPdfDocument()
 
         val pageNumber = 1
-        val pageInfo = PageInfo.Builder(PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT, pageNumber).create()
+        val pageInfo = AndroidPdfDocument.PageInfo.Builder(PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT, pageNumber).create()
         val page = document.startPage(pageInfo)
 
         page.canvas.drawText("Hello, World!", 100f, 100f, Paint().apply { color = Color.BLACK })

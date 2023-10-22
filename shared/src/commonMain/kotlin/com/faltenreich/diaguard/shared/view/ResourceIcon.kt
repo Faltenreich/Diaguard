@@ -18,6 +18,6 @@ fun ResourceIcon(
         painter = painterResource(imageResource),
         contentDescription = contentDescription,
         modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
-        tint = AppTheme.colors.material.onBackground,
+        tint = AppTheme.colors.scheme.onBackground,
     )
 }

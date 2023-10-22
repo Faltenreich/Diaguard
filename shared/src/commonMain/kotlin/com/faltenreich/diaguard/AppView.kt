@@ -20,7 +20,7 @@ fun AppView(
     AppTheme {
         Surface (
             modifier = modifier.fillMaxSize().keyboardPadding(),
-            color = AppTheme.colors.material.background,
+            color = AppTheme.colors.scheme.background,
         ) {
             when (onboardingViewModel.viewState.collectAsState().value) {
                 is OnboardingViewState.Loading -> LoadingIndicator()

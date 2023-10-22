@@ -39,12 +39,12 @@ fun CategoryPreferenceListItem(
                 painter = painterResource(preference.icon),
                 contentDescription = null,
                 modifier = Modifier.size(AppTheme.dimensions.size.ImageSmall),
-                colorFilter = ColorFilter.tint(AppTheme.colors.material.primary),
+                colorFilter = ColorFilter.tint(AppTheme.colors.scheme.primary),
             )
         }
         Text(
             text = getString(preference.title),
-            color = AppTheme.colors.material.primary,
+            color = AppTheme.colors.scheme.primary,
             fontWeight = FontWeight.Bold,
         )
     }

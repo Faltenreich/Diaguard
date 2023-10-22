@@ -29,7 +29,7 @@ fun DropdownTextMenuItem(
             .clickable { onClick() }
             .fillMaxWidth()
             .background(
-                if (isSelected()) AppTheme.colors.material.secondaryContainer
+                if (isSelected()) AppTheme.colors.scheme.secondaryContainer
                 else Color.Transparent
             )
             .padding(all = AppTheme.dimensions.padding.P_3),

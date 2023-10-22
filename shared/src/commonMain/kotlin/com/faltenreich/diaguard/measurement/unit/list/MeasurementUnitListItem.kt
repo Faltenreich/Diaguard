@@ -43,7 +43,7 @@ fun MeasurementUnitListItem(
                         imageVector = Icons.Filled.Check,
                         contentDescription = getString(MR.strings.measurement_unit_selected_description),
                         modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
-                        tint = AppTheme.colors.Green,
+                        tint = AppTheme.colors.scheme.primary,
                     )
                 }
             }

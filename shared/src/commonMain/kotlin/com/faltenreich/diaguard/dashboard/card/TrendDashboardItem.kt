@@ -20,7 +20,7 @@ fun TrendDashboardItem(
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Text(
                 text = getString(MR.strings.trend),
-                color = AppTheme.colors.material.primary,
+                color = AppTheme.colors.scheme.primary,
             )
         }
     }

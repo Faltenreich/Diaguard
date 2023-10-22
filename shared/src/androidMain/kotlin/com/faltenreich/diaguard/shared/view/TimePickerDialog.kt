@@ -46,7 +46,7 @@ fun TimePickerDialog(
                 .height(IntrinsicSize.Min)
                 .background(
                     shape = AppTheme.shapes.extraLarge,
-                    color = AppTheme.colors.material.surface
+                    color = AppTheme.colors.scheme.surface
                 ),
         ) {
             Column(

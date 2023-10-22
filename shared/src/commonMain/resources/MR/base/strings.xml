@@ -105,6 +105,7 @@
     <string name="timeline">Timeline</string>
     <string name="time_select">Select time</string>
     <string name="today">Today</string>
+    <string name="trend">Trend</string>
     <string name="date_time_ago_moments">Moments ago</string>
     <string name="date_time_ago_minutes">%d minutes ago</string>
     <string name="date_time_ago_hours">%d hours ago</string>

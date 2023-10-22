@@ -7,7 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
+import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun HbA1cDashboardItem(
@@ -16,7 +18,10 @@ fun HbA1cDashboardItem(
 ) {
     Card(modifier = modifier) {
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
-            Text("Estimated HbA1c")
+            Text(
+                text = getString(MR.strings.hba1c),
+                color = AppTheme.colors.material.primary,
+            )
         }
     }
 }

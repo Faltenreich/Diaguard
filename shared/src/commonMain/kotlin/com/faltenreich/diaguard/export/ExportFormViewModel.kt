@@ -23,11 +23,15 @@ class ExportFormViewModel(
         get() = dateTimeFormatter.formatDateRange(dateRange.value)
 
     var exportType = mutableStateOf(ExportType.PDF)
-    val exportTypeLocalized
+    val exportTypeLocalized: String
         get() = localization.getString(exportType.value.title)
+    val exportTypes = listOf(ExportType.PDF, ExportType.CSV)
 
     // TODO: Read from preferences
     var pdfLayout = mutableStateOf(PdfLayout.TABLE)
+    val pdfLayoutLocalized: String
+        get() = localization.getString(pdfLayout.value.title)
+    val pdfLayouts = listOf(PdfLayout.TABLE, PdfLayout.TIMELINE, PdfLayout.LOG)
     var includeCalendarWeek = mutableStateOf(true)
     var includeDateOfExport = mutableStateOf(true)
     var includePageNumber = mutableStateOf(true)

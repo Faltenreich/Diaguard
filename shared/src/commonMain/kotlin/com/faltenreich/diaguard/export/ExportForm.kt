@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.export
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
@@ -18,7 +17,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DateRangePicker
-import com.faltenreich.diaguard.shared.view.DropdownTextMenu
+import com.faltenreich.diaguard.shared.view.DropdownButton
 import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.FormRowLabel
@@ -31,7 +30,6 @@ fun ExportForm(
     viewModel: ExportFormViewModel = inject(),
 ) {
     var showDateRangePicker by remember { mutableStateOf(false) }
-    var isDocumentTypeDropDownExpanded by remember { mutableStateOf(false) }
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
@@ -45,36 +43,32 @@ fun ExportForm(
         }
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_document) }) {
-            Box {
-                TextButton(
-                    onClick = { isDocumentTypeDropDownExpanded = true },
-                ) {
-                    Text(
-                        text = viewModel.exportTypeLocalized,
-                        modifier = Modifier.fillMaxWidth(),
+            DropdownButton(
+                text = viewModel.exportTypeLocalized,
+                items = viewModel.exportTypes.map { type ->
+                    DropdownTextMenuItem(
+                        label = getString(type.title),
+                        onClick = { viewModel.exportType.value = type },
+                        isSelected = { viewModel.exportType.value == type },
                     )
                 }
-                DropdownTextMenu(
-                    expanded = isDocumentTypeDropDownExpanded,
-                    onDismissRequest = { isDocumentTypeDropDownExpanded = false },
-                    items = listOf(
-                        DropdownTextMenuItem(
-                            label = getString(MR.strings.pdf),
-                            onClick = { viewModel.exportType.value = ExportType.PDF },
-                            isSelected = { viewModel.exportType.value == ExportType.PDF },
-                        ),
-                        DropdownTextMenuItem(
-                            label = getString(MR.strings.csv),
-                            onClick = { viewModel.exportType.value = ExportType.CSV },
-                            isSelected = { viewModel.exportType.value == ExportType.CSV },
-                        ),
-                    ),
-                )
-            }
+            )
         }
 
         FormRowLabel(getString(MR.strings.layout))
-        // TODO: PdfLayout
+        FormRow(icon = { ResourceIcon(MR.images.ic_layout) }) {
+            DropdownButton(
+                text = viewModel.pdfLayoutLocalized,
+                items = viewModel.pdfLayouts.map { layout ->
+                    DropdownTextMenuItem(
+                        label = getString(layout.title),
+                        onClick = { viewModel.pdfLayout.value = layout },
+                        isSelected = { viewModel.pdfLayout.value == layout },
+                    )
+                },
+            )
+        }
+        Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_position_top_left) }) {
             TextCheckbox(
                 text = getString(MR.strings.calendar_week),

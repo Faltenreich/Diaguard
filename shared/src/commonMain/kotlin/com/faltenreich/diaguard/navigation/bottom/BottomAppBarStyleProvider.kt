@@ -100,7 +100,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         is Screen.ExportForm -> BottomAppBarStyle.Visible(
             floatingActionButton = {
                 val viewModel = getViewModel<ExportFormViewModel>()
-                FloatingActionButton(onClick = { viewModel.export() }) {
+                FloatingActionButton(onClick = { viewModel.submit() }) {
                     Icon(Icons.Filled.Check, getString(MR.strings.export))
                 }
             }

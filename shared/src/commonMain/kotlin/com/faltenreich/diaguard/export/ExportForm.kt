@@ -132,14 +132,16 @@ fun ExportForm(
                     text = property.property.name,
                     checked = property.isExported,
                     onCheckedChange = { viewModel.setProperty(property.copy(isExported = !property.isExported)) },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.weight(1f),
                 )
-                TextCheckbox(
-                    text = getString(MR.strings.merge_values),
-                    checked = property.isMerged,
-                    onCheckedChange = { viewModel.setProperty(property.copy(isMerged = !property.isMerged)) },
-                    modifier = Modifier.fillMaxWidth(),
-                )
+                if (true) { // TODO: property.property.types.size > 1) {
+                    TextCheckbox(
+                        text = getString(MR.strings.merge_values),
+                        checked = property.isMerged,
+                        onCheckedChange = { viewModel.setProperty(property.copy(isMerged = !property.isMerged)) },
+                        modifier = Modifier.weight(1f),
+                    )
+                }
             }
             Divider()
         }

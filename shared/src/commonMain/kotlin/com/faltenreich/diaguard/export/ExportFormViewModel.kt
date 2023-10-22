@@ -12,12 +12,14 @@ import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ExportFormViewModel(
-    private val dispatcher: CoroutineDispatcher = inject(),
-    val export: ExportUseCase,
+    dispatcher: CoroutineDispatcher = inject(),
     getMeasurementProperties: GetMeasurementPropertiesUseCase,
+    private val export: ExportUseCase,
     dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val localization: Localization,
@@ -54,13 +56,16 @@ class ExportFormViewModel(
     init {
         viewModelScope.launch(dispatcher) {
             getMeasurementProperties().collect { properties ->
-                this@ExportFormViewModel.properties = properties.map { property ->
+                val exportProperties = properties.map { property ->
                     ExportFormMeasurementProperty(
                         property = property,
                         isExported = true,
                         isMerged = false,
                     )
                 }.sortedBy { it.property.sortIndex }
+                withContext(Dispatchers.Main) {
+                    this@ExportFormViewModel.properties = exportProperties
+                }
             }
         }
     }
@@ -70,5 +75,9 @@ class ExportFormViewModel(
             .filter { it.property != property.property }
             .plus(property)
             .sortedBy { it.property.sortIndex }
+    }
+
+    fun submit() {
+        export()
     }
 }

@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.DateRangePicker
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 
@@ -92,5 +93,15 @@ fun ExportForm(
             }
         }
         Divider()
+    }
+
+    if (showDateRangePicker) {
+        DateRangePicker(
+            dateRange = viewModel.dateRange.value,
+            onPick = { dateRange ->
+                showDateRangePicker = false
+                viewModel.dateRange.value = dateRange
+            }
+        )
     }
 }

@@ -21,9 +21,9 @@ import com.faltenreich.diaguard.shared.view.DateRangePicker
 import com.faltenreich.diaguard.shared.view.DropdownButton
 import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
 import com.faltenreich.diaguard.shared.view.FormRow
-import com.faltenreich.diaguard.shared.view.FormRowLabel
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextCheckbox
+import com.faltenreich.diaguard.shared.view.TextDivider
 
 @Composable
 fun ExportForm(
@@ -56,7 +56,7 @@ fun ExportForm(
             )
         }
 
-        FormRowLabel(getString(MR.strings.layout))
+        TextDivider(getString(MR.strings.layout))
         FormRow(icon = { ResourceIcon(MR.images.ic_layout) }) {
             DropdownButton(
                 text = viewModel.pdfLayoutLocalized,
@@ -97,7 +97,7 @@ fun ExportForm(
             )
         }
 
-        FormRowLabel(getString(MR.strings.data))
+        TextDivider(getString(MR.strings.data))
         FormRow(icon = { ResourceIcon(MR.images.ic_note) }) {
             TextCheckbox(
                 text = getString(MR.strings.notes),
@@ -125,7 +125,7 @@ fun ExportForm(
             )
         }
 
-        FormRowLabel(getString(MR.strings.measurement_properties))
+        TextDivider(getString(MR.strings.measurement_properties))
         viewModel.properties.forEach { property ->
             FormRow(icon = { MeasurementPropertyIcon(property.property) }) {
                 TextCheckbox(

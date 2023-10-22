@@ -22,6 +22,7 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DatePicker
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
+import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.TimePicker
 
@@ -66,7 +67,7 @@ fun EntryForm(
         FormRow(icon = { ResourceIcon(MR.images.ic_alarm) }) {
             Text(getString(MR.strings.alarm_placeholder))
         }
-        Divider()
+        TextDivider(getString(MR.strings.measurement_properties))
         viewModel.measurements.forEach { property ->
             FormRow(icon = { MeasurementPropertyIcon(property.property) }) {
                 Column {

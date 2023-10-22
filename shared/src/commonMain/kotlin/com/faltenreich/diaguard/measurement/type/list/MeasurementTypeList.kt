@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.FormRowLabel
+import com.faltenreich.diaguard.shared.view.TextDivider
 
 @Suppress("FunctionName")
 fun LazyListScope.MeasurementTypeList(
@@ -19,7 +19,7 @@ fun LazyListScope.MeasurementTypeList(
     viewModel: MeasurementTypeListViewModel = inject(),
 ) {
     item {
-        FormRowLabel(getString(MR.strings.measurement_types))
+        TextDivider(getString(MR.strings.measurement_types))
     }
     itemsIndexed(
         items = types,

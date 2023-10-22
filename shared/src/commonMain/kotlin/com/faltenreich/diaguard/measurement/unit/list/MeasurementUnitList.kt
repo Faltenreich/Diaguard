@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.FormRowLabel
+import com.faltenreich.diaguard.shared.view.TextDivider
 
 @Suppress("FunctionName")
 fun LazyListScope.MeasurementUnitList(
@@ -16,7 +16,7 @@ fun LazyListScope.MeasurementUnitList(
     viewModel: MeasurementUnitListViewModel = inject(),
 ) {
     item {
-        FormRowLabel(getString(MR.strings.measurement_units))
+        TextDivider(getString(MR.strings.measurement_units))
     }
     items(
         items = units,

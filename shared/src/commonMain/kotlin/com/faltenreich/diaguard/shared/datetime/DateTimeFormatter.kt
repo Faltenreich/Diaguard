@@ -25,6 +25,15 @@ class DateTimeFormatter {
         }
     }
 
+    fun formatDateRange(dateRange: ClosedRange<Date>): String {
+        return dateRange.run {
+            "%s - %s".format(
+                formatDate(start),
+                formatDate(endInclusive),
+            )
+        }
+    }
+
     fun formatMonth(month: Month, abbreviated: Boolean): String {
         return month.run { getString(if (abbreviated) abbreviation else label) }
     }

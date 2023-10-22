@@ -22,6 +22,7 @@
     <string name="clear_input">Clear input</string>
     <string name="correction">Correction</string>
     <string name="create">Create</string>
+    <string name="csv">CSV</string>
     <string name="dashboard">Dashboard</string>
     <string name="delete">Delete</string>
     <string name="date_pick">Change date</string>
@@ -80,6 +81,7 @@
     <string name="percent">Percent</string>
     <string name="percent_abbreviation">%</string>
     <string name="placeholder">-</string>
+    <string name="pdf">PDF</string>
     <string name="pounds">Pounds</string>
     <string name="pounds_abbreviation">lbs</string>
     <string name="preferences">Preferences</string>

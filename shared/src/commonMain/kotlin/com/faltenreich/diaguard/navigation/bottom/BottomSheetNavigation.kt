@@ -24,7 +24,7 @@ fun BottomSheetNavigation(
         sheetState = bottomSheetState,
     ) {
         val scope = rememberCoroutineScope()
-        val navigateTo: (Screen) -> Unit = { screen ->
+        val navigateTo: (screen: Screen) -> Unit = { screen ->
             scope.launch {
                 navigator.replaceAll(screen)
                 bottomSheetState.hide()
@@ -53,7 +53,7 @@ fun BottomSheetNavigation(
             )
             BottomSheetNavigationItem(
                 label = MR.strings.export,
-                icon = null,
+                icon = MR.images.ic_document,
                 isActive = navigator.lastItem is Screen.ExportForm,
                 onClick = { navigateTo(Screen.ExportForm) },
             )

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry.form
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
@@ -15,7 +16,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.entry.form.alarm.AlarmPicker
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -33,6 +36,7 @@ fun EntryForm(
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
+    var showAlarmPicker by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -65,12 +69,17 @@ fun EntryForm(
         }
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_alarm) }) {
-            Text(getString(MR.strings.alarm_placeholder))
+            AlarmPicker(
+                minutes = viewModel.alarmInMinutes,
+                onPick = { delay -> viewModel.alarmInMinutes = delay.minutes },
+            )
         }
         TextDivider(getString(MR.strings.measurement_properties))
         viewModel.measurements.forEach { property ->
             FormRow(icon = { MeasurementPropertyIcon(property.property) }) {
-                Column {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
+                ) {
                     property.typeInputDataList.forEach { type ->
                         TextInput(
                             input = type.input,

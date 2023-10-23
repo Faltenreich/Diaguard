@@ -50,6 +50,7 @@ class EntryFormViewModel(
 
     var tag: String by mutableStateOf("")
     var note: String by mutableStateOf(entry?.note ?: "")
+    var alarmInMinutes: Int? by mutableStateOf(null)
 
     var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
 

@@ -75,14 +75,11 @@ fun EntryForm(
                         TextInput(
                             input = type.input,
                             onInputChange = { input ->
-                                viewModel.updateMeasurementValue(
-                                    type.copy(
-                                        input = input
-                                    )
-                                )
+                                viewModel.updateMeasurementValue(type.copy(input = input))
                             },
-                            label = type.type.name,
                             modifier = Modifier.fillMaxWidth(),
+                            label = type.type.name,
+                            suffix = { Text(type.type.selectedUnit?.name ?: "") },
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         )

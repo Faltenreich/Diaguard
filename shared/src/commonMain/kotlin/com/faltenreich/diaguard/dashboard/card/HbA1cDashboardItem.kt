@@ -20,7 +20,7 @@ fun HbA1cDashboardItem(
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Text(
                 text = getString(MR.strings.hba1c),
-                color = AppTheme.colors.scheme.primary,
+                style = AppTheme.typography.labelMedium,
             )
         }
     }

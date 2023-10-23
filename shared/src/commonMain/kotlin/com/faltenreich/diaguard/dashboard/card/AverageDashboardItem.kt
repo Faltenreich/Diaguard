@@ -24,7 +24,7 @@ fun AverageDashboardItem(
             Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(
                     text = getString(MR.strings.average),
-                    color = AppTheme.colors.scheme.primary,
+                    style = AppTheme.typography.labelMedium,
                 )
                 Row {
                     Text(

@@ -42,7 +42,10 @@ fun LatestDashboardItem(
                         text = data.value,
                         style = AppTheme.typography.displayLarge,
                     )
-                    Text(data.timePassed)
+                    Text(
+                        text = data.timePassed,
+                        style = AppTheme.typography.bodyMedium,
+                    )
                 }
             }
             else -> Text(

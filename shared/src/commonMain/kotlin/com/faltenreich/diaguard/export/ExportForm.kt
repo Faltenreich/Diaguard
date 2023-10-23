@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.export
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
@@ -31,6 +34,7 @@ fun ExportForm(
     viewModel: ExportFormViewModel = inject(),
 ) {
     var showDateRangePicker by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
@@ -147,7 +151,11 @@ fun ExportForm(
         }
     }
 
-    if (showDateRangePicker) {
+    AnimatedVisibility(
+        visible = showDateRangePicker,
+        enter = fadeIn(),
+        exit = fadeOut(),
+    ) {
         DateRangePicker(
             dateRange = viewModel.dateRange,
             onPick = { dateRange ->

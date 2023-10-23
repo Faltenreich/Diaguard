@@ -21,6 +21,7 @@
     <string name="carbohydrate_units">Carbohydrate units</string>
     <string name="carbohydrate_units_abbreviation">CU</string>
     <string name="clear_input">Clear input</string>
+    <string name="close">Close</string>
     <string name="correction">Correction</string>
     <string name="create">Create</string>
     <string name="csv">CSV</string>
@@ -94,6 +95,7 @@
     <string name="pounds_abbreviation">lbs</string>
     <string name="preferences">Preferences</string>
     <string name="pulse">Pulse</string>
+    <string name="save">Save</string>
     <string name="search_open">Open search</string>
     <string name="start_screen">Start screen</string>
     <string name="navigate_back">Go back</string>

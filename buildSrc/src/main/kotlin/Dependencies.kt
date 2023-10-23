@@ -6,7 +6,7 @@ object Versions {
     const val androidGradle = "8.1.2"
     const val compose = "1.5.10-beta01"
     const val composeCompiler = "1.5.3"
-    const val composeMaterial3 = "1.2.0-alpha07"
+    const val composeMaterial3 = "1.2.0-alpha10"
     const val coroutines = "1.6.4"
     const val dataStore = "1.0.0"
     const val dateTime = "0.4.0"

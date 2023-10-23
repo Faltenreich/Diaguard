@@ -26,6 +26,7 @@ class MeasurementUnitSqlDelightDao(
         createdAt: DateTime,
         key: String?,
         name: String,
+        abbreviation: String,
         factor: Double,
         typeId: Long,
     ) {
@@ -34,6 +35,7 @@ class MeasurementUnitSqlDelightDao(
             updated_at = createdAt.isoString,
             key = key,
             name = name,
+            abbreviation = abbreviation,
             factor = factor,
             type_id = typeId,
         )
@@ -67,10 +69,12 @@ class MeasurementUnitSqlDelightDao(
         id: Long,
         updatedAt: DateTime,
         name: String,
+        abbreviation: String,
     ) {
         queries.update(
             updated_at = updatedAt.isoString,
             name = name,
+            abbreviation = abbreviation,
             id = id,
         )
     }

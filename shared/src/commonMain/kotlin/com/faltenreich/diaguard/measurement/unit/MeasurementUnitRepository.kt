@@ -10,6 +10,7 @@ class MeasurementUnitRepository(
 
     fun create(
         name: String,
+        abbreviation: String,
         key: String?,
         factor: Double,
         typeId: Long,
@@ -18,6 +19,7 @@ class MeasurementUnitRepository(
             createdAt = dateTimeFactory.now(),
             key = key,
             name = name,
+            abbreviation = abbreviation,
             factor = factor,
             typeId = typeId,
         )
@@ -47,11 +49,13 @@ class MeasurementUnitRepository(
     fun update(
         id: Long,
         name: String,
+        abbreviation: String,
     ) {
         dao.update(
             id = id,
             updatedAt = dateTimeFactory.now(),
             name = name,
+            abbreviation = abbreviation,
         )
     }
 

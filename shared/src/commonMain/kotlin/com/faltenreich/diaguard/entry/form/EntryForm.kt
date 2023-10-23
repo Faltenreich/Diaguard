@@ -79,7 +79,7 @@ fun EntryForm(
                             },
                             modifier = Modifier.fillMaxWidth(),
                             label = type.type.name,
-                            suffix = { Text(type.type.selectedUnit?.name ?: "") },
+                            suffix = { Text(type.type.selectedUnit?.abbreviation ?: "") },
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         )

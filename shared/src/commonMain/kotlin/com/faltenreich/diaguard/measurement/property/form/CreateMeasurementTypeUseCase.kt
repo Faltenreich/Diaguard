@@ -27,6 +27,7 @@ class CreateMeasurementTypeUseCase(
         val unitId = measurementUnitRepository.create(
             key = unitKey,
             name = unitName,
+            abbreviation = unitName, // TODO: Make it customizable?
             factor = MeasurementUnit.FACTOR_DEFAULT,
             typeId = typeId,
         )

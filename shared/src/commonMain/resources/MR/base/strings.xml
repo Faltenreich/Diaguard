@@ -88,7 +88,7 @@
     <string name="oxygen_saturation">Oxygen saturation</string>
     <string name="page_number">Page number</string>
     <string name="percent">Percent</string>
-    <string name="percent_abbreviation">%</string>
+    <string name="percent_abbreviation">%%</string>
     <string name="placeholder">-</string>
     <string name="pdf">PDF</string>
     <string name="pounds">Pounds</string>

@@ -36,6 +36,7 @@ class SeedImport(
                     val unitId = unitRepository.create(
                         key = unit.key.key,
                         name = localization.getString(unit.name),
+                        abbreviation = localization.getString(unit.abbreviation),
                         factor = unit.factor,
                         typeId = typeId,
                     )

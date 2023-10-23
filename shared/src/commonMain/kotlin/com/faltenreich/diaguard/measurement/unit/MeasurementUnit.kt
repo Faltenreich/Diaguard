@@ -15,6 +15,7 @@ data class MeasurementUnit(
     override val updatedAt: DateTime,
     override val key: DatabaseKey.MeasurementUnit?,
     val name: String,
+    val abbreviation: String,
     val factor: Double,
     val typeId: Long,
 ) : DatabaseEntity, Seedable {

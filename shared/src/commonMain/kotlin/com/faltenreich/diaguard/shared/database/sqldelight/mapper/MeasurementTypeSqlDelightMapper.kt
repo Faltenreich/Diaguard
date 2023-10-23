@@ -46,6 +46,7 @@ class MeasurementTypeSqlDelightMapper(
         selectedUnitUpdatedAt: String,
         selectedUnitKey: String?,
         selectedUnitName: String,
+        selectedUnitAbbreviation: String,
         selectedUnitFactor: Double,
         selectedUnitTypeId: Long,
     ): MeasurementType {
@@ -65,6 +66,7 @@ class MeasurementTypeSqlDelightMapper(
                 updatedAt = selectedUnitUpdatedAt,
                 key = selectedUnitKey,
                 name = selectedUnitName,
+                abbreviation = selectedUnitAbbreviation,
                 factor = selectedUnitFactor,
                 typeId = selectedUnitTypeId,
             )

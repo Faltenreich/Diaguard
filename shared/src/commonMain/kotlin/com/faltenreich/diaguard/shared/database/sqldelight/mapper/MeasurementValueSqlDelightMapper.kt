@@ -51,6 +51,7 @@ class MeasurementValueSqlDelightMapper(
         unitUpdatedAt: String,
         unitKey: String?,
         unitName: String,
+        unitAbbreviation: String,
         unitFactor: Double,
         unitTypeId: Long,
         propertyId: Long,
@@ -99,6 +100,7 @@ class MeasurementValueSqlDelightMapper(
                     updatedAt = unitUpdatedAt,
                     key = unitKey,
                     name = unitName,
+                    abbreviation = unitAbbreviation,
                     factor = unitFactor,
                     typeId = unitTypeId,
                 )

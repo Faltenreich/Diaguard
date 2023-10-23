@@ -14,6 +14,7 @@ class MeasurementUnitSqlDelightMapper(
         updatedAt: String,
         key: String?,
         name: String,
+        abbreviation: String,
         factor: Double,
         typeId: Long,
     ): MeasurementUnit {
@@ -23,6 +24,7 @@ class MeasurementUnitSqlDelightMapper(
             updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
             key = key?.let(DatabaseKey.MeasurementUnit::from),
             name = name,
+            abbreviation = abbreviation,
             factor = factor,
             typeId = typeId,
         )

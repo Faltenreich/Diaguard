@@ -4,37 +4,57 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import dev.icerock.moko.resources.StringResource
 
-enum class AlarmDelay(
-    val label: StringResource,
+sealed class AlarmDelay(
     val minutes: Int?,
+    val label: StringResource,
 ) {
-    NONE(
+
+    data object None : AlarmDelay(
+        minutes = null,
         label = MR.strings.alarm_none,
-        minutes = null,
-    ),
-    IN_5_MINUTES(
-        label = MR.strings.alarm_in_5_minutes,
+    )
+
+    data object In5Minutes : AlarmDelay(
         minutes = 5,
-    ),
-    IN_15_MINUTES(
-        label = MR.strings.alarm_in_15_minutes,
+        label = MR.strings.alarm_in_5_minutes,
+    )
+
+    data object In15Minutes : AlarmDelay(
         minutes = 15,
-    ),
-    IN_30_MINUTES(
-        label = MR.strings.alarm_in_30_minutes,
+        label = MR.strings.alarm_in_15_minutes,
+    )
+
+    data object In30Minutes : AlarmDelay(
         minutes = 30,
-    ),
-    IN_1_HOUR(
-        label = MR.strings.alarm_in_1_hour,
+        label = MR.strings.alarm_in_30_minutes,
+    )
+
+    data object In1Hour : AlarmDelay(
         minutes = DateTimeConstants.MINUTES_PER_HOUR,
-    ),
-    IN_2_HOURS(
-        label = MR.strings.alarm_in_2_hours,
+        label = MR.strings.alarm_in_1_hour,
+    )
+
+    data object In2Hours : AlarmDelay(
         minutes = 2 * DateTimeConstants.MINUTES_PER_HOUR,
-    ),
-    // TODO
-    CUSTOM(
+        label = MR.strings.alarm_in_2_hours,
+    )
+
+    class Custom(minutes: Int?) : AlarmDelay(
+        minutes = minutes,
         label = MR.strings.alarm_custom,
-        minutes = null,
-    ),
+    )
+
+    companion object {
+
+        val entries: List<AlarmDelay>
+            get() = listOf(
+                None,
+                In5Minutes,
+                In15Minutes,
+                In30Minutes,
+                In1Hour,
+                In2Hours,
+                Custom(minutes = null),
+            )
+    }
 }

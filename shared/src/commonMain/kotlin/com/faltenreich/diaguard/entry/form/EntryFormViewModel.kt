@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.form.alarm.AlarmDelay
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
@@ -50,7 +51,7 @@ class EntryFormViewModel(
 
     var tag: String by mutableStateOf("")
     var note: String by mutableStateOf(entry?.note ?: "")
-    var alarmInMinutes: Int? by mutableStateOf(null)
+    var alarmDelay: AlarmDelay by mutableStateOf(AlarmDelay.None)
 
     var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
 

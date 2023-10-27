@@ -3,7 +3,8 @@
 <resources>
     <string name="about">About</string>
     <string name="activity">Activity</string>
-    <string name="alarm_placeholder">No alarm set</string>
+    <string name="alarm_placeholder">In %s minutes</string>
+    <string name="alarm_none">No alarm set</string>
     <string name="app_name">Diaguard</string>
     <string name="average">Average</string>
     <string name="basal">Basal</string>

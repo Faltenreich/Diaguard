@@ -24,7 +24,6 @@ fun Dashboard(
 ) {
     when (val state = viewModel.viewState.collectAsState().value) {
         is DashboardViewState.Loading -> LoadingIndicator()
-        is DashboardViewState.FirstVisit -> Unit // TODO
         is DashboardViewState.Revisit -> Column(
             modifier = modifier.padding(
                 horizontal = AppTheme.dimensions.padding.P_3,

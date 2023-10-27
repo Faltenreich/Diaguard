@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
@@ -29,33 +28,23 @@ fun LatestDashboardItem(
         onClick = { navigator.push(Screen.EntryForm(entry = data?.entry)) },
         modifier = modifier,
     ) {
-        when {
-            data != null -> Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = AppTheme.dimensions.padding.P_3)
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = data.value,
-                        style = AppTheme.typography.displayLarge,
-                    )
-                    Text(
-                        text = data.timePassed,
-                        style = AppTheme.typography.bodyMedium,
-                    )
-                }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = AppTheme.dimensions.padding.P_3)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = data?.value ?: getString(MR.strings.placeholder),
+                    style = AppTheme.typography.displayLarge,
+                )
+                Text(
+                    text = data?.timePassed ?: getString(MR.strings.entry_first_description),
+                    style = AppTheme.typography.bodyMedium,
+                )
             }
-            else -> Text(
-                text = getString(MR.strings.entry_first_description),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = AppTheme.dimensions.padding.P_3),
-                textAlign = TextAlign.Center,
-                style = AppTheme.typography.headlineMedium,
-            )
         }
     }
 }

@@ -7,8 +7,6 @@ sealed interface DashboardViewState {
 
     data object Loading: DashboardViewState
 
-    data object FirstVisit : DashboardViewState
-
     data class Revisit(
         val latestBloodSugar: LatestBloodSugar? = null,
         val today: Today? = null,

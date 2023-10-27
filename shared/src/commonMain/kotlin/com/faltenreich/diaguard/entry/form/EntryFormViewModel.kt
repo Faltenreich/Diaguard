@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.alarm.AlarmDelay
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
@@ -15,6 +16,7 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
@@ -27,6 +29,7 @@ class EntryFormViewModel(
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
+    private val localization: Localization = inject(),
 ) : ViewModel() {
 
     private val id: Long? = entry?.id
@@ -50,8 +53,14 @@ class EntryFormViewModel(
         get() = formatDateTime(time)
 
     var tag: String by mutableStateOf("")
+
     var note: String by mutableStateOf(entry?.note ?: "")
+
     var alarmDelay: AlarmDelay by mutableStateOf(AlarmDelay.None)
+    val alarmDelayFormatted: String
+        get() = alarmDelay.minutes?.let { minutes ->
+            localization.getString(MR.strings.alarm_placeholder, minutes)
+        } ?: localization.getString(MR.strings.alarm_none)
 
     var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
 

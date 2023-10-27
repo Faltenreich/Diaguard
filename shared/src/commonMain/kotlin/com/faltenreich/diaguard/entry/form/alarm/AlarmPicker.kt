@@ -23,21 +23,18 @@ import com.faltenreich.diaguard.shared.view.TextInput
 
 @Composable
 fun AlarmPicker(
+    expanded: Boolean,
+    onDismissRequest: () -> Unit,
     delay: AlarmDelay,
     onPick: (AlarmDelay) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var expanded by remember { mutableStateOf(false) }
     var showCustomNumberPicker by remember { mutableStateOf(false) }
     var customNumber by mutableStateOf<Int?>(null)
 
-    TextButton(onClick = { expanded = true }) {
-        Text(delay.minutes?.let { minutes -> getString(MR.strings.alarm_placeholder, minutes) }
-            ?: getString(MR.strings.alarm_none))
-    }
     DropdownTextMenu(
         expanded = expanded,
-        onDismissRequest = { expanded = false },
+        onDismissRequest = onDismissRequest,
         items = AlarmDelay.entries.map { other ->
             DropdownTextMenuItem(
                 label = getString(other.label),

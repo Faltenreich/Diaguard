@@ -36,6 +36,7 @@ fun EntryForm(
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
+    var showAlarmPicker by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -68,10 +69,9 @@ fun EntryForm(
         }
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_alarm) }) {
-            AlarmPicker(
-                delay = viewModel.alarmDelay,
-                onPick = { viewModel.alarmDelay = it },
-            )
+            TextButton(onClick = { showAlarmPicker = true }) {
+                Text(viewModel.alarmDelayFormatted)
+            }
         }
         TextDivider(getString(MR.strings.measurement_properties))
         viewModel.measurements.forEach { property ->
@@ -117,4 +117,11 @@ fun EntryForm(
             },
         )
     }
+
+    AlarmPicker(
+        expanded = showAlarmPicker,
+        onDismissRequest = { showAlarmPicker = false },
+        delay = viewModel.alarmDelay,
+        onPick = { viewModel.alarmDelay = it },
+    )
 }

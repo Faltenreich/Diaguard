@@ -1,10 +1,12 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.shared.database.sqldelight.FoodQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertySqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 
 class FoodSqlDelightDao(
     private val dispatcher: CoroutineDispatcher = inject(),
-    private val mapper: MeasurementPropertySqlDelightMapper = inject(),
+    private val mapper: FoodSqlDelightMapper = inject(),
 ) : FoodDao, SqlDelightDao<FoodQueries> {
 
     override fun getQueries(api: SqlDelightApi): FoodQueries {
@@ -36,7 +38,23 @@ class FoodSqlDelightDao(
         sodium: Double?,
         sugar: Double?
     ) {
-        TODO("Not yet implemented")
+        queries.create(
+            created_at = createdAt.isoString,
+            updated_at = updatedAt.isoString,
+            name = name,
+            brand = brand,
+            ingredients = ingredients,
+            labels = labels,
+            carbohydrates = carbohydrates,
+            energy = energy,
+            fat = fat,
+            fatSaturated = fatSaturated,
+            fiber = fiber,
+            proteins = proteins,
+            salt = salt,
+            sodium = sodium,
+            sugar = sugar,
+        )
     }
 
     override fun getLastId(): Long? {
@@ -44,7 +62,7 @@ class FoodSqlDelightDao(
     }
 
     override fun observeAll(): Flow<List<Food>> {
-        TODO("Not yet implemented")
+        return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun update(
@@ -64,7 +82,23 @@ class FoodSqlDelightDao(
         sodium: Double?,
         sugar: Double?
     ) {
-        TODO("Not yet implemented")
+        queries.update(
+            updated_at = updatedAt.isoString,
+            name = name,
+            brand = brand,
+            ingredients = ingredients,
+            labels = labels,
+            carbohydrates = carbohydrates,
+            energy = energy,
+            fat = fat,
+            fatSaturated = fatSaturated,
+            fiber = fiber,
+            proteins = proteins,
+            salt = salt,
+            sodium = sodium,
+            sugar = sugar,
+            id = id,
+        )
     }
 
 

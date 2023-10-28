@@ -17,11 +17,20 @@ CREATE TABLE food (
     sugar REAL
 );
 
+create:
+INSERT INTO food(created_at, updated_at, name, brand, ingredients, labels, carbohydrates, energy, fat, fatSaturated, fiber, proteins, salt, sodium, sugar)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
 getLastId:
 SELECT last_insert_rowid();
 
 getAll:
 SELECT * FROM food ORDER BY name ASC;
+
+update:
+UPDATE food
+SET updated_at = ?, name = ?, brand = ?, ingredients = ?, labels = ?, carbohydrates = ?, energy = ?, fat = ?, fatSaturated = ?, fiber = ?, proteins = ?, salt = ?, sodium = ?, sugar = ?
+WHERE id = ?;
 
 deleteById:
 DELETE FROM food WHERE id = ?;

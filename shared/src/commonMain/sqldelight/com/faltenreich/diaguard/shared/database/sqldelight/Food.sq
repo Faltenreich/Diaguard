@@ -29,8 +29,7 @@ SELECT * FROM food ORDER BY name COLLATE NOCASE ASC;
 
 getByQuery:
 SELECT * FROM food
-WHERE name LIKE '%' + ? + '%'
-ORDER BY name COLLATE NOCASE ASC;
+WHERE name LIKE ('%' || :query || '%') ORDER BY name COLLATE NOCASE ASC;
 
 update:
 UPDATE food

@@ -23,7 +23,7 @@ getAll:
 SELECT * FROM entry ORDER BY date_time DESC;
 
 getByQuery:
-SELECT * FROM entry WHERE note LIKE '%' + ? + '%';
+SELECT * FROM entry WHERE note LIKE ('%' || :query || '%');
 
 countAll:
 SELECT COUNT(*) FROM entry;

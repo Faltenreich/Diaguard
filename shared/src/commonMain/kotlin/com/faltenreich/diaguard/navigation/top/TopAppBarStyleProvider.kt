@@ -19,6 +19,9 @@ fun Screen.topAppBarStyle(): TopAppBarStyle {
         is Screen.MeasurementTypeForm -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.measurement_type))
         }
+        is Screen.FoodList -> TopAppBarStyle.CenterAligned {
+            Text(getString(MR.strings.food))
+        }
         is Screen.ExportForm -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.export))
         }

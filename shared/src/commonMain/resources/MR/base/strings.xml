@@ -19,6 +19,7 @@
     <string name="cancel">Cancel</string>
     <string name="carbohydrates">Carbohydrates</string>
     <string name="carbohydrates_abbreviation">CHO</string>
+    <string name="carbohydrates_per_100g">CHO per 100g</string>
     <string name="carbohydrate_units">Carbohydrate units</string>
     <string name="carbohydrate_units_abbreviation">CU</string>
     <string name="clear_input">Clear input</string>

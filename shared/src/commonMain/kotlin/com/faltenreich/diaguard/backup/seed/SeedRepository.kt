@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.seed
 import com.faltenreich.diaguard.backup.seed.data.ActivitySeed
 import com.faltenreich.diaguard.backup.seed.data.BloodPressureSeed
 import com.faltenreich.diaguard.backup.seed.data.BloodSugarSeed
+import com.faltenreich.diaguard.backup.seed.data.FoodSeed
 import com.faltenreich.diaguard.backup.seed.data.HbA1cSeed
 import com.faltenreich.diaguard.backup.seed.data.InsulinSeed
 import com.faltenreich.diaguard.backup.seed.data.MealSeed
@@ -24,5 +25,9 @@ class SeedRepository {
             BloodPressureSeed(),
             OxygenSaturationSeed(),
         )
+    }
+
+    fun seedFood(): Seed<List<SeedFood>> {
+        return FoodSeed()
     }
 }

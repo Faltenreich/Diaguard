@@ -16,8 +16,8 @@ class SeedImport(
 ) : Import {
 
     override fun import() {
-        val seeds = seedRepository.seedMeasurementProperties()
-        seeds.forEachIndexed { propertySortIndex, seed ->
+        val propertySeeds = seedRepository.seedMeasurementProperties()
+        propertySeeds.forEachIndexed { propertySortIndex, seed ->
             val property = seed.harvest()
             val propertyId = propertyRepository.create(
                 key = property.key.key,
@@ -51,6 +51,11 @@ class SeedImport(
                     }
                 }
             }
+        }
+        val foodSeed = seedRepository.seedFood()
+        val foodSeedList = foodSeed.harvest()
+        foodSeedList.forEach { seed ->
+
         }
     }
 }

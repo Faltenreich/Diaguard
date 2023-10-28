@@ -6,6 +6,14 @@ class Serialization {
 
     @PublishedApi internal val implementation = KotlinxSerialization()
 
+    inline fun <reified T: Any> encodeCsv(data: T): String {
+        return implementation.encodeCsv(data)
+    }
+
+    inline fun <reified T: Any> decodeCsv(json: String): List<T> {
+        return implementation.decodeCsv(json)
+    }
+
     inline fun <reified T: Any> encodeJson(data: T): String {
         return implementation.encodeJson(data)
     }

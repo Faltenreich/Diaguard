@@ -8,21 +8,27 @@ import net.mamoe.yamlkt.Yaml
 
 class KotlinxSerialization {
 
+    @PublishedApi internal val csv = CSVFormat(
+        separator = ";",
+    )
+
     @PublishedApi internal val json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true
     }
 
+    @PublishedApi internal val yaml = Yaml
+
     inline fun <reified T: Any> encodeCsv(data: T): String {
-        return CSVFormat.encodeToString(data)
+        return this.csv.encodeToString(data)
     }
 
     inline fun <reified T : Any> decodeCsv(csv: String): T {
-        return CSVFormat.decodeFromString(csv)
+        return this.csv.decodeFromString(csv)
     }
 
     inline fun <reified T: Any> encodeJson(data: T): String {
-        return json.encodeToString(data)
+        return this.json.encodeToString(data)
     }
 
     inline fun <reified T : Any> decodeJson(json: String): T {
@@ -30,10 +36,10 @@ class KotlinxSerialization {
     }
 
     inline fun <reified T : Any> encodeYaml(data: T): String {
-        return Yaml.encodeToString(data)
+        return this.yaml.encodeToString(data)
     }
 
     inline fun <reified T : Any> decodeYaml(yaml: String): T {
-        return Yaml.decodeFromString(yaml)
+        return this.yaml.decodeFromString(yaml)
     }
 }

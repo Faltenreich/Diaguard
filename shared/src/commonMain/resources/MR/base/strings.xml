@@ -40,8 +40,11 @@
     <string name="entry_new_description">Create new entry</string>
     <string name="entry_save">Save entry</string>
     <string name="entry_search_placeholder">Enter query to start search</string>
+    <string name="entry_search_prompt">Search for entries&#8230;</string>
     <string name="export">Export</string>
     <string name="food">Food</string>
+    <string name="food_new">New food</string>
+    <string name="food_search_prompt">Search for food&#8230;</string>
     <string name="hba1c">HbA1c</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
@@ -101,7 +104,6 @@
     <string name="search_open">Open search</string>
     <string name="start_screen">Start screen</string>
     <string name="navigate_back">Go back</string>
-    <string name="search_placeholder">Search for entries&#8230;</string>
     <string name="systolic">Systolic</string>
     <string name="table">Table</string>
     <string name="tag">Tag</string>

@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.entry.Entry
 
 sealed class EntrySearchViewState(val query: String) {
 
-    object Idle: EntrySearchViewState("")
+    data object Idle: EntrySearchViewState("")
 
     class Loading(query: String): EntrySearchViewState(query)
 

@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.export.ExportFormViewModel
+import com.faltenreich.diaguard.food.list.FoodListViewModel
 import com.faltenreich.diaguard.log.LogViewModel
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
@@ -86,7 +87,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 val state = viewModel.viewState.collectAsState().value
                 SearchField(
                     query = state.query,
-                    placeholder = getString(MR.strings.search_placeholder),
+                    placeholder = getString(MR.strings.entry_search_prompt),
                     onQueryChange = { query ->
                         if (query.isBlank()) navigator.pop()
                         else viewModel.onQueryChange(query)
@@ -95,6 +96,25 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                         .fillMaxWidth()
                         .padding(end = AppTheme.dimensions.padding.P_3),
                 )
+            }
+        )
+        is Screen.FoodList -> BottomAppBarStyle.Visible(
+            actions = {
+                val viewModel = getViewModel<FoodListViewModel>()
+                val state = viewModel.viewState.collectAsState().value
+                SearchField(
+                    query = state.query,
+                    placeholder = getString(MR.strings.food_search_prompt),
+                    onQueryChange = viewModel::onQueryChange,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = AppTheme.dimensions.padding.P_3),
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(onClick = { TODO() }) {
+                    Icon(Icons.Filled.Add, getString(MR.strings.food_new))
+                }
             }
         )
         is Screen.ExportForm -> BottomAppBarStyle.Visible(

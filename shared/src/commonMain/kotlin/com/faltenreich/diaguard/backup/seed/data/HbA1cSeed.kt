@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.backup.seed.property
+package com.faltenreich.diaguard.backup.seed.data
 
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.seed.Seed

@@ -1,14 +1,14 @@
 package com.faltenreich.diaguard.backup.seed
 
-import com.faltenreich.diaguard.backup.seed.property.ActivitySeed
-import com.faltenreich.diaguard.backup.seed.property.BloodPressureSeed
-import com.faltenreich.diaguard.backup.seed.property.BloodSugarSeed
-import com.faltenreich.diaguard.backup.seed.property.HbA1cSeed
-import com.faltenreich.diaguard.backup.seed.property.InsulinSeed
-import com.faltenreich.diaguard.backup.seed.property.MealSeed
-import com.faltenreich.diaguard.backup.seed.property.OxygenSaturationSeed
-import com.faltenreich.diaguard.backup.seed.property.PulseSeed
-import com.faltenreich.diaguard.backup.seed.property.WeightSeed
+import com.faltenreich.diaguard.backup.seed.data.ActivitySeed
+import com.faltenreich.diaguard.backup.seed.data.BloodPressureSeed
+import com.faltenreich.diaguard.backup.seed.data.BloodSugarSeed
+import com.faltenreich.diaguard.backup.seed.data.HbA1cSeed
+import com.faltenreich.diaguard.backup.seed.data.InsulinSeed
+import com.faltenreich.diaguard.backup.seed.data.MealSeed
+import com.faltenreich.diaguard.backup.seed.data.OxygenSaturationSeed
+import com.faltenreich.diaguard.backup.seed.data.PulseSeed
+import com.faltenreich.diaguard.backup.seed.data.WeightSeed
 
 class SeedRepository {
 

@@ -31,6 +31,7 @@ fun FoodList(
     modifier: Modifier = Modifier,
     viewModel: FoodListViewModel = inject(),
 ) {
+    val viewState = viewModel.viewState.collectAsState().value
     val shimmerInstance = rememberShimmer(ShimmerBounds.Custom)
     Column {
         Row(
@@ -54,42 +55,42 @@ fun FoodList(
                 style = AppTheme.typography.bodyMedium,
             )
         }
-
-        when (val viewState = viewModel.viewState.collectAsState().value) {
-            is FoodListViewState.Loading -> (0 until 10).forEach {
-                Column {
-                    Row(
-                        modifier = modifier
-                            .height(AppTheme.dimensions.size.TouchSizeLarge)
-                            .padding(all = AppTheme.dimensions.padding.P_3),
-                        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Box(modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(1f)
-                            .shimmer(shimmerInstance)
-                            .background(AppTheme.colors.scheme.surfaceVariant),
-                        )
-                        Box(modifier = Modifier
-                            .fillMaxHeight()
-                            .width(AppTheme.dimensions.size.TouchSizeMedium)
-                            .shimmer(shimmerInstance)
-                            .background(AppTheme.colors.scheme.surfaceVariant),
-                        )
+        LazyColumn(modifier = modifier) {
+            when (viewState) {
+                is FoodListViewState.Loading -> items(10) {
+                    Column {
+                        Row(
+                            modifier = modifier
+                                .height(AppTheme.dimensions.size.TouchSizeLarge)
+                                .padding(all = AppTheme.dimensions.padding.P_3),
+                            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .weight(1f)
+                                    .shimmer(shimmerInstance)
+                                    .background(AppTheme.colors.scheme.surfaceVariant),
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .width(AppTheme.dimensions.size.TouchSizeMedium)
+                                    .shimmer(shimmerInstance)
+                                    .background(AppTheme.colors.scheme.surfaceVariant),
+                            )
+                        }
+                        Divider()
                     }
-                    Divider()
+                }
+                is FoodListViewState.Result -> items(viewState.items, key = Food::id) { food ->
+                    Column {
+                        FoodListItem(food)
+                        Divider()
+                    }
                 }
             }
-            is FoodListViewState.Result ->
-                LazyColumn(modifier = modifier) {
-                    items(viewState.items, key = Food::id) { food ->
-                        Column {
-                            FoodListItem(food)
-                            Divider()
-                        }
-                    }
-                }
         }
     }
 }

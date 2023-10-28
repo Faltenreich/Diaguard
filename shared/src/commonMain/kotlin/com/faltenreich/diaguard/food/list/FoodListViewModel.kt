@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.food.list
 
-import com.faltenreich.diaguard.entry.search.EntrySearchViewState
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,7 +25,7 @@ class FoodListViewModel(
     init {
         viewModelScope.launch(dispatcher) {
             state
-                .filterIsInstance<EntrySearchViewState.Loading>()
+                .filterIsInstance<FoodListViewState.Loading>()
                 .debounce(1.seconds)
                 .distinctUntilChanged()
                 .flatMapLatest { state -> searchFood(query = state.query) }

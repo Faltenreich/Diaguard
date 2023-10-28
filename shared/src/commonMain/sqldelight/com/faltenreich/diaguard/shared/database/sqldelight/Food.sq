@@ -1,0 +1,27 @@
+CREATE TABLE food (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    name TEXT NOT NULL,
+    brand TEXT,
+    ingredients TEXT,
+    labels TEXT,
+    carbohydrates REAL NOT NULL,
+    energy REAL,
+    fat REAL,
+    fatSaturated REAL,
+    fiber REAL,
+    proteins REAL,
+    salt REAL,
+    sodium REAL,
+    sugar REAL
+);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getAll:
+SELECT * FROM food ORDER BY name ASC;
+
+deleteById:
+DELETE FROM food WHERE id = ?;

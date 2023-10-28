@@ -16,5 +16,5 @@ data class SeedFood(
     val proteins: String,
     val salt: String,
     val sodium: String,
-    val sugars: String,
+    val sugar: String,
 )

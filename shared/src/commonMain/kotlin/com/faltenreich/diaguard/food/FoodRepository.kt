@@ -1,12 +1,10 @@
 package com.faltenreich.diaguard.food
 
 import com.faltenreich.diaguard.shared.datetime.DateTime
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
 class FoodRepository(
     private val dao: FoodDao,
-    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(
@@ -44,19 +42,6 @@ class FoodRepository(
             sugar = sugar,
         )
         return dao.getLastId() ?: throw IllegalStateException("Missing previously created entity")
-    }
-
-    fun create(
-        name: String,
-        carbohydrates: Double,
-    ): Long {
-        val now = dateTimeFactory.now()
-        return create(
-            createdAt = now,
-            updatedAt = now,
-            name = name,
-            carbohydrates = carbohydrates,
-        )
     }
 
     fun observeAll(): Flow<List<Food>> {

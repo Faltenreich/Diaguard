@@ -16,7 +16,6 @@ class FoodSeed(
 
     override fun harvest(): List<SeedFood> {
         val csv = fileReader.read()
-        // FIXME: IllegalStateException: Missing attribute at 3 in line 2
         return serialization.decodeCsv(csv)
     }
 }

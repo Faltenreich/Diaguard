@@ -7,7 +7,12 @@ import kotlin.test.assertEquals
 class KotlinxSerializationTest {
 
     private val serialization = KotlinxSerialization()
+    private val csvData = CsvDto(firstName = "John", lastName = "Doe")
     private val data = Dto(one = "a", many = listOf("a", "b"))
+    private val csv = """
+       firstName,lastName
+       John,Doe
+    """.trimIndent()
     private val json = """
         {
             "one": "a",
@@ -25,7 +30,26 @@ class KotlinxSerializationTest {
     """
 
     @Serializable
+    private data class CsvDto(val firstName: String, val lastName: String)
+
+    @Serializable
     private data class Dto(val one: String, val many: List<String>)
+
+    @Test
+    fun `encodes to CSV`() {
+        assertEquals(
+            expected = csv,
+            actual = serialization.encodeCsv(csvData),
+        )
+    }
+
+    @Test
+    fun `decodes from CSV`() {
+        assertEquals(
+            expected = csvData,
+            actual = serialization.decodeCsv(csv),
+        )
+    }
 
     @Test
     fun `encodes to JSON`() {

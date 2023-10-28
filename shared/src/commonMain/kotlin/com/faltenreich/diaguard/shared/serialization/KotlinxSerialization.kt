@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.serialization
 
+import app.softwork.serialization.csv.CSVFormat
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -10,6 +11,14 @@ class KotlinxSerialization {
     @PublishedApi internal val json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true
+    }
+
+    inline fun <reified T: Any> encodeCsv(data: T): String {
+        return CSVFormat.encodeToString(data)
+    }
+
+    inline fun <reified T : Any> decodeCsv(csv: String): T {
+        return CSVFormat.decodeFromString(csv)
     }
 
     inline fun <reified T: Any> encodeJson(data: T): String {

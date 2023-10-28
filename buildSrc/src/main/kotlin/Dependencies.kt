@@ -21,6 +21,7 @@ object Versions {
     const val paging = "3.2.0-alpha05-0.2.3"
     const val pagingAndroid = "3.2.0"
     const val serialization = "1.6.0"
+    const val serializationCsv = "0.0.15"
     const val serializationYaml = "0.13.0"
     const val sqlDelight = "2.0.0"
     const val turbine = "0.12.3"
@@ -76,6 +77,7 @@ object Dependencies {
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
         const val io = "org.jetbrains.kotlinx:kotlinx-io-core:${Versions.io}"
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}"
+        const val serializationCsv = "app.softwork:kotlinx-serialization-csv:${Versions.serializationCsv}"
         const val serializationYaml = "net.mamoe.yamlkt:yamlkt:${Versions.serializationYaml}"
     }
 

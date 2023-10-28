@@ -25,6 +25,7 @@ kotlin {
                 implementation(Dependencies.Kotlinx.dateTime)
                 implementation(Dependencies.Kotlinx.io)
                 implementation(Dependencies.Kotlinx.serialization)
+                implementation(Dependencies.Kotlinx.serializationCsv)
                 implementation(Dependencies.Kotlinx.serializationYaml)
                 implementation(Dependencies.Ktor.core)
                 implementation(Dependencies.Ktor.contentNegotiation)
@@ -70,6 +71,7 @@ kotlin {
                 optIn("androidx.compose.ui.text.ExperimentalTextApi")
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 optIn("kotlinx.coroutines.FlowPreview")
+                optIn("kotlinx.serialization.ExperimentalSerializationApi")
             }
         }
     }

@@ -60,6 +60,12 @@ fun BottomSheetNavigation(
             )
             Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
             BottomSheetNavigationItem(
+                label = MR.strings.food,
+                icon = null,
+                isActive = navigator.lastItem is Screen.FoodList,
+                onClick = { navigateTo(Screen.FoodList, false) },
+            )
+            BottomSheetNavigationItem(
                 label = MR.strings.export,
                 icon = null,
                 isActive = navigator.lastItem is Screen.ExportForm,

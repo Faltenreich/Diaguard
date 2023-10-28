@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.entry.search.EntrySearch
 import com.faltenreich.diaguard.export.ExportForm
+import com.faltenreich.diaguard.food.list.FoodList
 import com.faltenreich.diaguard.log.Log
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyForm
@@ -65,6 +66,14 @@ sealed class Screen : VoyagerScreen {
         @Composable
         override fun Content() {
             EntrySearch(viewModel = getViewModel { parametersOf(query) })
+        }
+    }
+
+    data object FoodList : Screen() {
+
+        @Composable
+        override fun Content() {
+            FoodList(viewModel = getViewModel())
         }
     }
 

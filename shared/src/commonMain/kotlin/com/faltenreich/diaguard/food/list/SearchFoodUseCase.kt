@@ -8,7 +8,7 @@ class SearchFoodUseCase(
     private val foodRepository: FoodRepository,
 ) {
 
-    operator fun invoke(query: String): Flow<List<Food>> {
-        TODO()
+    operator fun invoke(query: String?): Flow<List<Food>> {
+        return query?.let(foodRepository::observeByQuery) ?: foodRepository.observeAll()
     }
 }

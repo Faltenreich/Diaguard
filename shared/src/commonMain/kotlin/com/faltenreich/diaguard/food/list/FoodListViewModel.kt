@@ -20,7 +20,7 @@ class FoodListViewModel(
     private val searchFood: SearchFoodUseCase = inject(),
 ) : ViewModel() {
 
-    private val state = MutableStateFlow<FoodListViewState>(FoodListViewState.Idle)
+    private val state = MutableStateFlow<FoodListViewState>(FoodListViewState.Loading(query = null))
     val viewState = state.asStateFlow()
 
     init {
@@ -36,8 +36,6 @@ class FoodListViewModel(
     }
 
     fun onQueryChange(query: String) = viewModelScope.launch(dispatcher) {
-        state.value =
-            if (query.isBlank()) FoodListViewState.Idle
-            else FoodListViewState.Loading(query)
+        state.value = FoodListViewState.Loading(query = query.takeIf(String::isNotBlank))
     }
 }

@@ -63,6 +63,10 @@ class FoodRepository(
         return dao.observeAll()
     }
 
+    fun observeByQuery(query: String): Flow<List<Food>> {
+        return dao.observeByQuery(query)
+    }
+
     fun update(
         id: Long,
         updatedAt: DateTime,

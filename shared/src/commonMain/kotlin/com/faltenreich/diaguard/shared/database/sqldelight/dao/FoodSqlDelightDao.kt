@@ -65,6 +65,10 @@ class FoodSqlDelightDao(
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
+    override fun observeByQuery(query: String): Flow<List<Food>> {
+        return queries.getByQuery(query, mapper::map).asFlow().mapToList(dispatcher)
+    }
+
     override fun update(
         id: Long,
         updatedAt: DateTime,

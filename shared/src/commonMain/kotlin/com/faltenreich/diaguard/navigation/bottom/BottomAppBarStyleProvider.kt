@@ -103,7 +103,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 val viewModel = getViewModel<FoodListViewModel>()
                 val state = viewModel.viewState.collectAsState().value
                 SearchField(
-                    query = state.query,
+                    query = state.query ?: "",
                     placeholder = getString(MR.strings.food_search_prompt),
                     onQueryChange = viewModel::onQueryChange,
                     modifier = Modifier

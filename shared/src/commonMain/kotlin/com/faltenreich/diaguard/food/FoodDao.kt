@@ -27,6 +27,8 @@ interface FoodDao {
 
     fun observeAll(): Flow<List<Food>>
 
+    fun observeByQuery(query: String): Flow<List<Food>>
+
     fun update(
         id: Long,
         updatedAt: DateTime,

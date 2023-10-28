@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
@@ -49,37 +50,48 @@ fun EntryForm(
                 Text(viewModel.timeFormatted)
             }
         }
+
         Divider()
+
         FormRow(icon = { ResourceIcon(MR.images.ic_tag) }) {
             TextInput(
                 input = viewModel.tag,
-                onInputChange = { input -> viewModel.tag = input },
+                onInputChange = { viewModel.tag = it },
                 label = getString(MR.strings.tag),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
             )
         }
+
         Divider()
+
         FormRow(icon = { ResourceIcon(MR.images.ic_note) }) {
             TextInput(
                 input = viewModel.note,
-                onInputChange = { input -> viewModel.note = input },
+                onInputChange = { viewModel.note = it },
                 label = getString(MR.strings.note),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
             )
         }
+
         Divider()
+
         FormRow(icon = { ResourceIcon(MR.images.ic_alarm) }) {
             TextButton(onClick = { showAlarmPicker = true }) {
                 Text(viewModel.alarmDelayFormatted)
             }
         }
+
         TextDivider(getString(MR.strings.measurement_properties))
-        viewModel.measurements.forEach { property ->
+
+        val properties = viewModel.measurements
+        properties.forEachIndexed { propertyIndex, property ->
             FormRow(icon = { MeasurementPropertyIcon(property.property) }) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
-                ) {
-                    property.typeInputDataList.forEach { type ->
+                Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1)) {
+                    val types = property.typeInputDataList
+                    types.forEachIndexed { typeIndex, type ->
+                        val isLast = propertyIndex == properties.size - 1 && typeIndex == types.size - 1
                         TextInput(
                             input = type.input,
                             onInputChange = { input ->
@@ -89,7 +101,10 @@ fun EntryForm(
                             label = type.type.name,
                             suffix = { Text(type.type.selectedUnit?.abbreviation ?: "") },
                             maxLines = 1,
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Decimal,
+                                imeAction = if (isLast) ImeAction.Done else ImeAction.Next,
+                            ),
                         )
                     }
                 }

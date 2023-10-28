@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.view
 
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ fun TextInput(
     isError: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
     OutlinedTextField(
         value = input,
@@ -37,5 +39,6 @@ fun TextInput(
         maxLines = maxLines,
         singleLine = maxLines == 1,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
     )
 }

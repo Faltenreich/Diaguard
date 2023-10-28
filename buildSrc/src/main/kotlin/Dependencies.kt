@@ -23,6 +23,7 @@ object Versions {
     const val serialization = "1.6.0"
     const val serializationCsv = "0.0.15"
     const val serializationYaml = "0.13.0"
+    const val shimmer = "1.2.0"
     const val sqlDelight = "2.0.0"
     const val turbine = "0.12.3"
     const val voyager = "1.0.0-rc07"
@@ -109,6 +110,11 @@ object Dependencies {
         const val common = "app.cash.paging:paging-common:${Versions.paging}"
         const val android = "androidx.paging:paging-runtime:${Versions.pagingAndroid}"
         const val androidCompose = "androidx.paging:paging-compose:${Versions.pagingAndroid}"
+    }
+
+    object Shimmer {
+
+        const val core = "com.valentinilk.shimmer:compose-shimmer:${Versions.shimmer}"
     }
 
     object SqlDelight {

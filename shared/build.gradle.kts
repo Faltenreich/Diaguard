@@ -31,6 +31,7 @@ kotlin {
                 implementation(Dependencies.Ktor.contentNegotiation)
                 implementation(Dependencies.Ktor.serialization)
                 implementation(Dependencies.Paging.common)
+                implementation(Dependencies.Shimmer.core)
                 implementation(Dependencies.SqlDelight.coroutines)
                 implementation(Dependencies.Voyager.navigator)
                 implementation(Dependencies.Voyager.transitions)

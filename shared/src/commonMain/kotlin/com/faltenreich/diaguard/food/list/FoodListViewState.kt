@@ -2,15 +2,9 @@ package com.faltenreich.diaguard.food.list
 
 import com.faltenreich.diaguard.food.Food
 
-sealed class FoodListViewState(
-    val query: String?,
-    val items: List<Food>?,
-) {
+sealed class FoodListViewState(val items: List<Food>?) {
 
-    class Loading(query: String?): FoodListViewState(query, null)
+    data object Loading: FoodListViewState(null)
 
-    class Result(
-        query: String?,
-        items: List<Food>,
-    ): FoodListViewState(query, items)
+    class Result(items: List<Food>): FoodListViewState(items)
 }

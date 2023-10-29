@@ -101,11 +101,10 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         is Screen.FoodList -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<FoodListViewModel>()
-                val state = viewModel.viewState.collectAsState().value
                 SearchField(
-                    query = state.query ?: "",
+                    query = viewModel.query,
                     placeholder = getString(MR.strings.food_search_prompt),
-                    onQueryChange = viewModel::onQueryChange,
+                    onQueryChange = { viewModel.query = it },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(end = AppTheme.dimensions.padding.P_3),

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +18,6 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.itemsOptional
 
 @Composable
 fun FoodList(
@@ -48,7 +48,7 @@ fun FoodList(
             )
         }
         LazyColumn(modifier = modifier) {
-            itemsOptional(viewState.items, key = Food::id) { food ->
+            items(viewState.items ?: emptyList(), key = Food::id) { food ->
                 Column {
                     FoodListItem(food)
                     Divider()

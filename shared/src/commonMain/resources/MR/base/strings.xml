@@ -44,6 +44,7 @@
     <string name="entry_search_prompt">Search for entries&#8230;</string>
     <string name="export">Export</string>
     <string name="food">Food</string>
+    <string name="food_carbohydrates_info">%s %s per 100g</string>
     <string name="food_eaten_list">Entries</string>
     <string name="food_info">Info</string>
     <string name="food_new">New food</string>

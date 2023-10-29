@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.shared.view
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpOffset
+import com.faltenreich.diaguard.AppTheme
 
 @Composable
 fun DropdownTextMenu(
@@ -14,6 +16,7 @@ fun DropdownTextMenu(
     DropdownMenu(
         expanded = expanded,
         onDismissRequest = onDismissRequest,
+        offset = DpOffset(x = AppTheme.dimensions.padding.P_3, y = -AppTheme.dimensions.padding.P_3),
         modifier = modifier,
     ) {
         items.forEach { item ->

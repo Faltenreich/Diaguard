@@ -18,6 +18,8 @@ import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
 class EntryFormViewModel(
@@ -65,7 +67,10 @@ class EntryFormViewModel(
     var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
 
     init {
-        viewModelScope.launch(dispatcher) {
+        // Attention: Switching Dispatcher fixes
+        // IllegalStateException: Reading a state that was created after the snapshot was taken or in a snapshot that has not yet been applied
+        // TODO: Fix underlying problem by switching to StateFlow
+        viewModelScope.launch(Dispatchers.IO) {
             measurements = getMeasurementInputData(entry)
         }
     }

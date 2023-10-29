@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.detail.eaten.FoodEatenList
 import com.faltenreich.diaguard.food.detail.info.FoodInfo
 import com.faltenreich.diaguard.food.detail.nutrient.FoodNutrientList
@@ -29,7 +30,10 @@ fun FoodDetail(
         pageCount = { FoodDetailTab.entries.size },
     )
     Column(modifier = modifier) {
-        TabRow(selectedTabIndex = pagerState.currentPage) {
+        TabRow(
+            selectedTabIndex = pagerState.currentPage,
+            containerColor = AppTheme.colors.scheme.surfaceVariant,
+        ) {
             FoodDetailTab.entries.forEachIndexed { index, tab ->
                 Tab(
                     selected = pagerState.currentPage == index,

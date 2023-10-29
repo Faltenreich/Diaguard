@@ -22,11 +22,15 @@ fun FoodInfo(
     valueFormatter: MeasurementValueFormatter = inject(),
 ) {
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+        FormRow(icon = { ResourceIcon(MR.images.ic_food) }) {
+            Text(food.name)
+        }
+        Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_brand) }) {
             Text(food.brand ?: getString(MR.strings.placeholder))
         }
         Divider()
-        FormRow(icon = { ResourceIcon(MR.images.ic_ingredients) }) {
+        FormRow(icon = { ResourceIcon(MR.images.ic_list) }) {
             Text(food.ingredients ?: getString(MR.strings.placeholder))
         }
         Divider()
@@ -37,7 +41,7 @@ fun FoodInfo(
                 getString(MR.strings.carbohydrates_abbreviation),
             ))
         }
-        // TODO: Format and add additionals labels
+        // TODO: Format and add additional labels
         food.labels?.let { labels ->
             Divider()
             FormRow(icon = { ResourceIcon(MR.images.ic_info) }) {

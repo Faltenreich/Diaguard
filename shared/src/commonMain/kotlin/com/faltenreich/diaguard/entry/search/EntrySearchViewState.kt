@@ -2,13 +2,11 @@ package com.faltenreich.diaguard.entry.search
 
 import com.faltenreich.diaguard.entry.Entry
 
-sealed class EntrySearchViewState(val query: String) {
+sealed class EntrySearchViewState(val items: List<Entry>?) {
 
-    data object Idle: EntrySearchViewState("")
+    data object Idle: EntrySearchViewState(null)
 
-    class Loading(query: String): EntrySearchViewState(query)
+    data object Loading: EntrySearchViewState(null)
 
-    class Error(query: String): EntrySearchViewState(query)
-
-    class Result(query: String, val entries: List<Entry>): EntrySearchViewState(query)
+    class Result(items: List<Entry>): EntrySearchViewState(items)
 }

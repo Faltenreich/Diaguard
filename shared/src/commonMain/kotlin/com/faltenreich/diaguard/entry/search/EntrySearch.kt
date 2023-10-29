@@ -25,8 +25,7 @@ fun EntrySearch(
         when (val viewState = viewModel.viewState.collectAsState().value) {
             is EntrySearchViewState.Idle ->  Text(getString(MR.strings.entry_search_placeholder))
             is EntrySearchViewState.Loading -> LoadingIndicator()
-            is EntrySearchViewState.Result -> EntryList(viewState.entries)
-            is EntrySearchViewState.Error -> Text("Error")
+            is EntrySearchViewState.Result -> EntryList(viewState.items ?: emptyList())
         }
     }
 }

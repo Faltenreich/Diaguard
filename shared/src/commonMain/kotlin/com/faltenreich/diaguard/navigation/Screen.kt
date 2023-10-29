@@ -61,7 +61,7 @@ sealed class Screen : VoyagerScreen {
         }
     }
 
-    data class EntrySearch(val query: String? = null) : Screen() {
+    data class EntrySearch(val query: String = "") : Screen() {
 
         @Composable
         override fun Content() {

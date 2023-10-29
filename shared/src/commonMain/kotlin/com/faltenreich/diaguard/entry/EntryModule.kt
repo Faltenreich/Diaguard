@@ -17,7 +17,7 @@ fun entryModule() = module {
     singleOf(::EntryListViewModel)
 
     singleOf(::SearchEntriesUseCase)
-    factory { (query: String?) -> EntrySearchViewModel(query) }
+    factory { (query: String) -> EntrySearchViewModel(query) }
 
     singleOf(::GetMeasurementsInputDataUseCase)
     singleOf(::SubmitEntryUseCase)

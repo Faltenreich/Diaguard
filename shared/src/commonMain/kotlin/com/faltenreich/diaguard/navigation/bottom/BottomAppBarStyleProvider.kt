@@ -84,13 +84,12 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             actions = {
                 val navigator = LocalNavigator.currentOrThrow
                 val viewModel = getViewModel<EntrySearchViewModel> { parametersOf(query) }
-                val state = viewModel.viewState.collectAsState().value
                 SearchField(
-                    query = state.query,
+                    query = viewModel.query,
                     placeholder = getString(MR.strings.entry_search_prompt),
                     onQueryChange = { query ->
                         if (query.isBlank()) navigator.pop()
-                        else viewModel.onQueryChange(query)
+                        else viewModel.query = query
                     },
                     modifier = Modifier
                         .fillMaxWidth()

@@ -22,6 +22,9 @@ fun Screen.topAppBarStyle(): TopAppBarStyle {
         is Screen.FoodList -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.food))
         }
+        is Screen.FoodDetail -> TopAppBarStyle.CenterAligned {
+            Text(food.name)
+        }
         is Screen.ExportForm -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.export))
         }

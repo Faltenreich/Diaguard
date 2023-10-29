@@ -24,6 +24,11 @@
     <string name="carbohydrate_units_abbreviation">CU</string>
     <string name="clear_input">Clear input</string>
     <string name="close">Close</string>
+    <string name="color_scheme">Color scheme</string>
+    <string name="color_scheme_light">Light</string>
+    <string name="color_scheme_dark">Dark</string>
+    <string name="color_scheme_system">System default</string>
+    <string name="color_scheme_time_of_day">Based on time of day</string>
     <string name="correction">Correction</string>
     <string name="create">Create</string>
     <string name="csv">CSV</string>

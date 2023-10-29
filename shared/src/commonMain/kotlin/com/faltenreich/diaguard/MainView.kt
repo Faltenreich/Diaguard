@@ -42,6 +42,7 @@ fun MainView(
                         val screen = navigator.lastItem as? Screen
                         val style = screen?.topAppBarStyle() ?: TopAppBarStyle.Hidden
                         AnimatedVisibility(style != TopAppBarStyle.Hidden) {
+                            // TODO: Extract to prevent jumping during transition
                             TopAppBar(
                                 style = style,
                                 navigator = navigator,

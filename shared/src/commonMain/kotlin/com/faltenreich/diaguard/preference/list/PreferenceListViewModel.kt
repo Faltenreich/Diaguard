@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.preference.list
 
 import com.faltenreich.diaguard.preference.list.usecase.GetAboutPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetAppVersionPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetColorSchemePreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetMeasurementPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 class PreferenceListViewModel(
     preferences: List<Preference>?,
     dispatcher: CoroutineDispatcher = inject(),
+    getColorSchemePreference: GetColorSchemePreferenceUseCase = inject(),
     getStartScreenPreference: GetStartScreenPreferenceUseCase = inject(),
     getMeasurementPreference: GetMeasurementPreferenceUseCase = inject(),
     getAboutPreference: GetAboutPreferenceUseCase = inject(),
@@ -25,12 +27,14 @@ class PreferenceListViewModel(
 ) : ViewModel() {
 
     private val default: Flow<List<Preference>> = combine(
+        getColorSchemePreference(),
         getStartScreenPreference(),
         getMeasurementPreference(),
         getAboutPreference(),
         getAppVersionPreference(),
-    ) { getStartScreenPreference, getMeasurementPreference, getAboutPreference, appVersionPreference ->
+    ) { getColorSchemePreference, getStartScreenPreference, getMeasurementPreference, getAboutPreference, appVersionPreference ->
         listOf(
+            getColorSchemePreference,
             getStartScreenPreference,
             getMeasurementPreference,
             getAboutPreference,

@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.food.detail.nutrient.FoodNutrientList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun FoodDetail(
@@ -43,7 +44,10 @@ fun FoodDetail(
         ) { page ->
             when (FoodDetailTab.entries[page]) {
                 FoodDetailTab.INFO -> FoodInfo(viewModel.food, modifier = Modifier.fillMaxSize())
-                FoodDetailTab.NUTRIENT_LIST -> FoodNutrientList(viewModel.food, modifier = Modifier.fillMaxSize())
+                FoodDetailTab.NUTRIENT_LIST -> FoodNutrientList(
+                    modifier = Modifier.fillMaxSize(),
+                    viewModel = inject { parametersOf(viewModel.food) },
+                )
                 FoodDetailTab.EATEN_LIST -> FoodEatenList(viewModel.food, modifier = Modifier.fillMaxSize())
             }
         }

@@ -7,7 +7,7 @@ class MeasurementValueFormatter(
     private val numberFormatter: NumberFormatter = inject(),
 ) {
 
-    fun formatValue(value: Double, factor: Double): String {
+    fun formatValue(value: Double, factor: Double = 1.0): String {
         return numberFormatter.format(value * factor)
     }
 

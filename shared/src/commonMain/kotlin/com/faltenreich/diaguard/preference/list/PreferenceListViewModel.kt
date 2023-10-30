@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.preference.list
 import com.faltenreich.diaguard.preference.list.usecase.GetAboutPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetAppVersionPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetColorSchemePreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetDataPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetMeasurementPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -21,6 +22,7 @@ class PreferenceListViewModel(
     dispatcher: CoroutineDispatcher = inject(),
     getColorSchemePreference: GetColorSchemePreferenceUseCase = inject(),
     getStartScreenPreference: GetStartScreenPreferenceUseCase = inject(),
+    getDataPreference: GetDataPreferenceUseCase = inject(),
     getMeasurementPreference: GetMeasurementPreferenceUseCase = inject(),
     getAboutPreference: GetAboutPreferenceUseCase = inject(),
     getAppVersionPreference: GetAppVersionPreferenceUseCase = inject(),
@@ -29,18 +31,11 @@ class PreferenceListViewModel(
     private val default: Flow<List<Preference>> = combine(
         getColorSchemePreference(),
         getStartScreenPreference(),
+        getDataPreference(),
         getMeasurementPreference(),
         getAboutPreference(),
         getAppVersionPreference(),
-    ) { getColorSchemePreference, getStartScreenPreference, getMeasurementPreference, getAboutPreference, appVersionPreference ->
-        listOf(
-            getColorSchemePreference,
-            getStartScreenPreference,
-            getMeasurementPreference,
-            getAboutPreference,
-            appVersionPreference,
-        )
-    }
+    ) { flows -> flows.map { it } }
 
     private val state = (preferences?.let(::flowOf) ?: default)
         .map(PreferenceListViewState::Loaded)

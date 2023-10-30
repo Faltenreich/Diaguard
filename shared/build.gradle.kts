@@ -19,6 +19,8 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material3)
+                // FIXME: https://github.com/JetBrains/compose-multiplatform/issues/2914
+                // implementation(compose.preview)
                 implementation(compose.runtime)
                 implementation(Dependencies.Koin.core)
                 implementation(Dependencies.Kotlinx.coroutines)

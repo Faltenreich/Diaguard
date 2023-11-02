@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.MonthOfYear
@@ -23,7 +22,7 @@ fun LogMonth(
     Box(
         modifier = modifier
             .aspectRatio(32f / 9f)
-            .background(Color.LightGray)
+            .background(AppTheme.colors.scheme.surfaceVariant)
             .padding(all = AppTheme.dimensions.padding.P_3),
         contentAlignment = Alignment.BottomStart,
     ) {

@@ -12,24 +12,20 @@ enum class ColorScheme(
         stableId = 0,
         labelResource = MR.strings.color_scheme_system,
     ),
-    TIME_OF_DAY(
-        stableId = 1,
-        labelResource = MR.strings.color_scheme_time_of_day,
-    ),
     LIGHT(
-        stableId = 2,
+        stableId = 1,
         labelResource = MR.strings.color_scheme_light,
     ),
     DARK(
-        stableId = 3,
+        stableId = 2,
         labelResource = MR.strings.color_scheme_dark,
     ),
     ;
 
     companion object {
 
-        fun valueOf(stableId: Int): ColorScheme {
-            return ColorScheme.values().first { it.stableId == stableId }
+        fun valueOf(stableId: Int): ColorScheme? {
+            return ColorScheme.values().firstOrNull { it.stableId == stableId }
         }
     }
 }

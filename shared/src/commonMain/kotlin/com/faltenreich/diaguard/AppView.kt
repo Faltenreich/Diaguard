@@ -21,8 +21,11 @@ fun AppView(
     onboardingViewModel: OnboardingViewModel = inject(),
     themeViewModel: ThemeViewModel = inject(),
 ) {
-    val colorScheme = themeViewModel.viewState.collectAsState().value
-    val isDarkColorScheme = colorScheme?.let { it == ColorScheme.DARK } ?: isSystemInDarkTheme()
+    val isDarkColorScheme = when (themeViewModel.viewState.collectAsState().value) {
+        ColorScheme.SYSTEM, null -> isSystemInDarkTheme()
+        ColorScheme.LIGHT -> false
+        ColorScheme.DARK -> true
+    }
     AppTheme(isDarkColorScheme = isDarkColorScheme) {
         Surface (
             modifier = modifier.fillMaxSize().keyboardPadding(),

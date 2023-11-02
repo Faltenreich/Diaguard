@@ -24,8 +24,8 @@ enum class StartScreen(
 
     companion object {
 
-        fun valueOf(stableId: Int): StartScreen {
-            return values().first { it.stableId == stableId }
+        fun valueOf(stableId: Int): StartScreen? {
+            return values().firstOrNull { it.stableId == stableId }
         }
     }
 }

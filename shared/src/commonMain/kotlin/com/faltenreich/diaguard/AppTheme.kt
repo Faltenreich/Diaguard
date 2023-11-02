@@ -17,11 +17,11 @@ import com.faltenreich.diaguard.shared.theme.color.LocalColors
 
 @Composable
 fun AppTheme(
-    darkTheme: Boolean = false, // isSystemInDarkTheme(),
+    isDarkColorScheme: Boolean,
     content: @Composable () -> Unit,
 ) {
     MaterialTheme(
-        colorScheme = if (darkTheme) ColorSchemes.dark else ColorSchemes.light,
+        colorScheme = if (isDarkColorScheme) ColorSchemes.dark else ColorSchemes.light,
         typography = Typography(
             headlineSmall = TextStyle(
                 fontWeight = FontWeight.SemiBold,

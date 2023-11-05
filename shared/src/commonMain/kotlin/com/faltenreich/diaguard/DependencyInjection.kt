@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.shared.datetime.dateTimeModule
 import com.faltenreich.diaguard.shared.file.fileModule
 import com.faltenreich.diaguard.shared.keyvalue.keyValueStoreModule
 import com.faltenreich.diaguard.shared.localization.localizationModule
+import com.faltenreich.diaguard.shared.networking.networkingModule
 import com.faltenreich.diaguard.shared.primitive.primitiveModule
 import com.faltenreich.diaguard.shared.serialization.serializationModule
 import com.faltenreich.diaguard.shared.theme.themeModule
@@ -48,6 +49,7 @@ private fun mainModules() = listOf(
     keyValueStoreModule(),
     sqlDelightModule(),
     databaseModule(),
+    networkingModule(),
     dateTimeModule(),
     // Feature
     themeModule(),

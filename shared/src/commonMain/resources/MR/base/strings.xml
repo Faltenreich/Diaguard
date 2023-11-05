@@ -128,6 +128,8 @@
     <string name="table">Table</string>
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
+    <string name="terms_and_conditions">Terms and conditions</string>
+    <string name="terms_and_conditions_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>
     <string name="timeline">Timeline</string>
     <string name="time_select">Select time</string>
     <string name="today">Today</string>

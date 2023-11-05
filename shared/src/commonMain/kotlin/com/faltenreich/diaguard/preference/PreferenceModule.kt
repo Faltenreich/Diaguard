@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.preference.list.usecase.GetDataPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetMeasurementPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetTermsAndConditionsPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.SetColorSchemeUseCase
 import com.faltenreich.diaguard.preference.list.usecase.SetStartScreenUseCase
 import org.koin.core.module.dsl.singleOf
@@ -27,6 +28,7 @@ fun preferenceModule() = module {
     singleOf(::GetDataPreferenceUseCase)
     singleOf(::GetMeasurementPreferenceUseCase)
     singleOf(::GetAboutPreferenceUseCase)
+    singleOf(::GetTermsAndConditionsPreferenceUseCase)
     singleOf(::GetAppVersionPreferenceUseCase)
 
     factory { (preferences: List<Preference>?) ->

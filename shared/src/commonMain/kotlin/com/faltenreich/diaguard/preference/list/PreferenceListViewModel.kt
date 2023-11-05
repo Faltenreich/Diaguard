@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.preference.list.usecase.GetColorSchemePreference
 import com.faltenreich.diaguard.preference.list.usecase.GetDataPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetMeasurementPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetTermsAndConditionsPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -25,6 +26,7 @@ class PreferenceListViewModel(
     getDataPreference: GetDataPreferenceUseCase = inject(),
     getMeasurementPreference: GetMeasurementPreferenceUseCase = inject(),
     getAboutPreference: GetAboutPreferenceUseCase = inject(),
+    getTermsAndConditionsPreference: GetTermsAndConditionsPreferenceUseCase = inject(),
     getAppVersionPreference: GetAppVersionPreferenceUseCase = inject(),
 ) : ViewModel() {
 
@@ -34,6 +36,7 @@ class PreferenceListViewModel(
         getDataPreference(),
         getMeasurementPreference(),
         getAboutPreference(),
+        getTermsAndConditionsPreference(),
         getAppVersionPreference(),
     ) { flows -> flows.map { it } }
 

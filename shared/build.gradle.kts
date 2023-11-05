@@ -11,10 +11,12 @@ plugins {
 kotlin {
     androidTarget()
 
-    ios()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(compose.ui)
                 implementation(compose.foundation)
@@ -39,7 +41,7 @@ kotlin {
                 implementation(Dependencies.Voyager.transitions)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(Dependencies.Koin.test)
@@ -49,7 +51,7 @@ kotlin {
                 implementation(Dependencies.Ktor.mock)
             }
         }
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation(Dependencies.Androidx.composeMaterial3)
                 implementation(Dependencies.Androidx.dataStore)
@@ -62,7 +64,7 @@ kotlin {
                 implementation(Dependencies.Voyager.android)
             }
         }
-        val iosMain by getting
+        iosMain
     }
 
     sourceSets {

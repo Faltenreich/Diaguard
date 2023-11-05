@@ -9,13 +9,13 @@ object Versions {
     const val composeMaterial3 = "1.2.0-alpha10"
     const val coroutines = "1.6.4"
     const val dataStore = "1.0.0"
-    const val dateTime = "0.4.0"
+    const val dateTime = "0.4.1"
     const val emojiPicker = "1.4.0"
     const val io = "0.3.0"
-    const val koin = "3.4.3"
+    const val koin = "3.5.0"
     const val kotlin = "1.9.20"
     const val ksp = "1.9.20-1.0.14"
-    const val ktor = "2.2.4"
+    const val ktor = "2.3.5"
     const val mockative = "2.0.1"
     const val moko = "0.23.0"
     const val paging = "3.3.0-alpha02-0.4.0"
@@ -25,8 +25,8 @@ object Versions {
     const val serializationYaml = "0.13.0"
     const val shimmer = "1.2.0"
     const val sqlDelight = "2.0.0"
-    const val turbine = "0.12.3"
-    const val voyager = "1.0.0-rc07"
+    const val turbine = "1.0.0"
+    const val voyager = "1.0.0-rc08"
 }
 
 object Configuration {

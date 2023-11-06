@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.shared.networking
 
-class UrlOpener {
+expect class UrlOpener {
 
-    fun open(url: String) {
-        TODO()
-    }
+    fun open(url: String)
 }

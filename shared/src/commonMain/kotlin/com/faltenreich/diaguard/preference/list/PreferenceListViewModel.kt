@@ -3,8 +3,15 @@ package com.faltenreich.diaguard.preference.list
 import com.faltenreich.diaguard.preference.list.usecase.GetAboutPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetAppVersionPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetColorSchemePreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetContactPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetDataPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetFacebookPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetHomepagePreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetLicensesPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetMailPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetMeasurementPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetPrivacyPolicyPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.usecase.GetSourceCodePreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.usecase.GetTermsAndConditionsPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -25,7 +32,14 @@ class PreferenceListViewModel(
     getStartScreenPreference: GetStartScreenPreferenceUseCase = inject(),
     getDataPreference: GetDataPreferenceUseCase = inject(),
     getMeasurementPreference: GetMeasurementPreferenceUseCase = inject(),
+    getContactPreference: GetContactPreferenceUseCase = inject(),
+    getHomepagePreference: GetHomepagePreferenceUseCase = inject(),
+    getMailPreference: GetMailPreferenceUseCase = inject(),
+    getFacebookPreference: GetFacebookPreferenceUseCase = inject(),
     getAboutPreference: GetAboutPreferenceUseCase = inject(),
+    getSourceCodePreference: GetSourceCodePreferenceUseCase = inject(),
+    getLicensesPreference: GetLicensesPreferenceUseCase = inject(),
+    getPrivacyPolicyPreference: GetPrivacyPolicyPreferenceUseCase = inject(),
     getTermsAndConditionsPreference: GetTermsAndConditionsPreferenceUseCase = inject(),
     getAppVersionPreference: GetAppVersionPreferenceUseCase = inject(),
 ) : ViewModel() {
@@ -35,7 +49,14 @@ class PreferenceListViewModel(
         getStartScreenPreference(),
         getDataPreference(),
         getMeasurementPreference(),
+        getContactPreference(),
+        getHomepagePreference(),
+        getMailPreference(),
+        getFacebookPreference(),
         getAboutPreference(),
+        getSourceCodePreference(),
+        getLicensesPreference(),
+        getPrivacyPolicyPreference(),
         getTermsAndConditionsPreference(),
         getAppVersionPreference(),
     ) { flows -> flows.map { it } }

@@ -29,6 +29,7 @@
     <string name="color_scheme_dark">Dark</string>
     <string name="color_scheme_system">System default</string>
     <string name="color_scheme_time_of_day">Based on time of day</string>
+    <string name="contact">Contact</string>
     <string name="correction">Correction</string>
     <string name="create">Create</string>
     <string name="csv">CSV</string>
@@ -49,6 +50,9 @@
     <string name="entry_search_placeholder">Enter query to start search</string>
     <string name="entry_search_prompt">Search for entries&#8230;</string>
     <string name="export">Export</string>
+    <string name="facebook">Facebook</string>
+    <string name="facebook_url">http://www.facebook.com/diaguard.de</string>
+    <string name="facebook_url_short">facebook.com/diaguard.de</string>
     <string name="fat">Fat</string>
     <string name="fat_saturated">Saturated fatty acids</string>
     <string name="fiber">Fiber</string>
@@ -60,6 +64,9 @@
     <string name="food_nutrient_list">Nutrients</string>
     <string name="food_search_prompt">Search for food&#8230;</string>
     <string name="hba1c">HbA1c</string>
+    <string name="homepage">Homepage</string>
+    <string name="homepage_url">http://www.diaguard.wordpress.com</string>
+    <string name="homepage_url_short">diaguard.wordpress.com</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
     <string name="icon">Icon</string>
@@ -69,7 +76,11 @@
     <string name="kilograms">Kilograms</string>
     <string name="kilograms_abbreviation">kg</string>
     <string name="layout">Layout</string>
+    <string name="licenses">Open-source licenses</string>
     <string name="log">Log</string>
+    <string name="mail">E-mail</string>
+    <string name="mail_url">mailto:diaguard.de@gmail.com</string>
+    <string name="mail_url_short">diaguard.de@gmail.com</string>
     <string name="meal">Meal</string>
     <string name="measurement_properties">Categories</string>
     <string name="measurement_property">Category</string>
@@ -116,11 +127,16 @@
     <string name="pounds_abbreviation">lbs</string>
     <string name="preferences">Preferences</string>
     <string name="proteins">Proteins</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="privacy_policy_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_EN.md</string>
     <string name="pulse">Pulse</string>
     <string name="salt">Salt</string>
     <string name="save">Save</string>
     <string name="search_open">Open search</string>
     <string name="sodium">Sodium</string>
+    <string name="source_code" translatable="false">Source code</string>
+    <string name="source_code_url" translatable="false">https://github.com/Faltenreich/Diaguard</string>
+    <string name="source_code_url_short" translatable="false">github.com/Faltenreich/Diaguard</string>
     <string name="start_screen">Start screen</string>
     <string name="sugar">Sugar</string>
     <string name="navigate_back">Go back</string>

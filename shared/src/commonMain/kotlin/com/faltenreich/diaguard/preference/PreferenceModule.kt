@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
 import com.faltenreich.diaguard.preference.list.item.about.GetAboutPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.item.about.GetAppVersionPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.about.GetAppVersionUseCase
 import com.faltenreich.diaguard.preference.list.item.about.GetLicensesPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.item.about.GetPrivacyPolicyPreferenceUseCase
 import com.faltenreich.diaguard.preference.list.item.about.GetSourceCodePreferenceUseCase
@@ -44,6 +45,7 @@ fun preferenceModule() = module {
     singleOf(::GetLicensesPreferenceUseCase)
     singleOf(::GetPrivacyPolicyPreferenceUseCase)
     singleOf(::GetTermsAndConditionsPreferenceUseCase)
+    singleOf(::GetAppVersionUseCase)
     singleOf(::GetAppVersionPreferenceUseCase)
 
     singleOf(::GetDefaultPreferencesUseCase)

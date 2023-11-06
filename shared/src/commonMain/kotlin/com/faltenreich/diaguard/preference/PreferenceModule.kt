@@ -1,25 +1,26 @@
 package com.faltenreich.diaguard.preference
 
+import com.faltenreich.diaguard.preference.list.GetDefaultPreferencesUseCase
 import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
-import com.faltenreich.diaguard.preference.list.usecase.GetAboutPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetAppVersionPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetColorSchemePreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetColorSchemeUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetContactPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetDataPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetFacebookPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetHomepagePreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetLicensesPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetMailPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetMeasurementPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetPrivacyPolicyPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetSourceCodePreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetStartScreenUseCase
-import com.faltenreich.diaguard.preference.list.usecase.GetTermsAndConditionsPreferenceUseCase
-import com.faltenreich.diaguard.preference.list.usecase.SetColorSchemeUseCase
-import com.faltenreich.diaguard.preference.list.usecase.SetStartScreenUseCase
+import com.faltenreich.diaguard.preference.list.item.about.GetAboutPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.about.GetAppVersionPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.about.GetLicensesPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.about.GetPrivacyPolicyPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.about.GetSourceCodePreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.about.GetTermsAndConditionsPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.color.GetColorSchemePreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.color.GetColorSchemeUseCase
+import com.faltenreich.diaguard.preference.list.item.color.SetColorSchemeUseCase
+import com.faltenreich.diaguard.preference.list.item.contact.GetContactPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.contact.GetFacebookPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.contact.GetHomepagePreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.contact.GetMailPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.data.GetDataPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.data.GetMeasurementPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.screen.GetStartScreenPreferenceUseCase
+import com.faltenreich.diaguard.preference.list.item.screen.GetStartScreenUseCase
+import com.faltenreich.diaguard.preference.list.item.screen.SetStartScreenUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -44,6 +45,8 @@ fun preferenceModule() = module {
     singleOf(::GetPrivacyPolicyPreferenceUseCase)
     singleOf(::GetTermsAndConditionsPreferenceUseCase)
     singleOf(::GetAppVersionPreferenceUseCase)
+
+    singleOf(::GetDefaultPreferencesUseCase)
 
     factory { (preferences: List<Preference>?) ->
         PreferenceListViewModel(preferences)

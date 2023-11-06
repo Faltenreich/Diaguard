@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list.usecase
+package com.faltenreich.diaguard.preference.list.item.data
 
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.Screen
@@ -9,11 +9,12 @@ import kotlinx.coroutines.flow.flowOf
 class GetMeasurementPreferenceUseCase {
 
     operator fun invoke(): Flow<Preference> {
-        val preference = Preference.Plain(
-            title = MR.strings.measurement_properties,
-            subtitle = null,
-            onClick = { navigator -> navigator.push(Screen.MeasurementPropertyList) },
+        return flowOf(
+            Preference.Plain(
+                title = MR.strings.measurement_properties,
+                subtitle = null,
+                onClick = { navigator -> navigator.push(Screen.MeasurementPropertyList) },
+            )
         )
-        return flowOf(preference)
     }
 }

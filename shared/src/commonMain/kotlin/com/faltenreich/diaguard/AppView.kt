@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.onboarding.FirstStart
 import com.faltenreich.diaguard.onboarding.OnboardingViewModel
 import com.faltenreich.diaguard.onboarding.OnboardingViewState
-import com.faltenreich.diaguard.preference.list.usecase.ColorScheme
+import com.faltenreich.diaguard.preference.list.item.color.ColorScheme
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.theme.ThemeViewModel
 import com.faltenreich.diaguard.shared.view.LoadingIndicator

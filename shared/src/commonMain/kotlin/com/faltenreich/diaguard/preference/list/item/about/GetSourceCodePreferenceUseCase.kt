@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list.usecase
+package com.faltenreich.diaguard.preference.list.item.about
 
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.preference.list.Preference
@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.shared.networking.UrlOpener
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class GetMailPreferenceUseCase(
+class GetSourceCodePreferenceUseCase(
     private val urlOpener: UrlOpener,
     private val localization: Localization,
 ) {
@@ -15,9 +15,9 @@ class GetMailPreferenceUseCase(
     operator fun invoke(): Flow<Preference> {
         return flowOf(
             Preference.Plain(
-                title = MR.strings.mail,
-                subtitle = localization.getString(MR.strings.mail_url_short),
-                onClick = { urlOpener.open(localization.getString(MR.strings.mail_url)) },
+                title = MR.strings.source_code,
+                subtitle = localization.getString(MR.strings.source_code_url_short),
+                onClick = { urlOpener.open(localization.getString(MR.strings.source_code_url)) },
             )
         )
     }

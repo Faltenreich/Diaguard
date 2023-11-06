@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list.usecase
+package com.faltenreich.diaguard.preference.list.item.color
 
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.preference.list.Preference

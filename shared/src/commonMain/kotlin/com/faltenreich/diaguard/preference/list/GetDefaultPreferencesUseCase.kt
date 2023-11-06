@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.preference.list
 
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.preference.list.item.SelectablePreferenceOption
 import com.faltenreich.diaguard.preference.list.item.about.GetAppVersionUseCase
 import com.faltenreich.diaguard.preference.list.item.color.ColorScheme
@@ -58,7 +59,7 @@ class GetDefaultPreferencesUseCase(
                 }
                 plain {
                     title = MR.strings.measurement_properties
-                    onClick = { TODO() }
+                    onClick = { it.push(Screen.MeasurementPropertyList) }
                 }
                 category {
                     title = MR.strings.contact

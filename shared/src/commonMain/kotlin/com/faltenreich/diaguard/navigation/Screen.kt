@@ -124,7 +124,6 @@ sealed class Screen : VoyagerScreen {
 
         @Composable
         override fun Content() {
-            // FIXME: Reuses same instance for different parameters
             val viewModel = getViewModel<PreferenceListViewModel> { parametersOf(preferences) }
             PreferenceList(viewModel = viewModel)
         }

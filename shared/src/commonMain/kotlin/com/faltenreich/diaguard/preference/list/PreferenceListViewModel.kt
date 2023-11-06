@@ -27,15 +27,20 @@ import kotlinx.coroutines.flow.stateIn
 
 class PreferenceListViewModel(
     preferences: List<Preference>?,
+
     dispatcher: CoroutineDispatcher = inject(),
+
     getColorSchemePreference: GetColorSchemePreferenceUseCase = inject(),
     getStartScreenPreference: GetStartScreenPreferenceUseCase = inject(),
+
     getDataPreference: GetDataPreferenceUseCase = inject(),
     getMeasurementPreference: GetMeasurementPreferenceUseCase = inject(),
+
     getContactPreference: GetContactPreferenceUseCase = inject(),
     getHomepagePreference: GetHomepagePreferenceUseCase = inject(),
     getMailPreference: GetMailPreferenceUseCase = inject(),
     getFacebookPreference: GetFacebookPreferenceUseCase = inject(),
+
     getAboutPreference: GetAboutPreferenceUseCase = inject(),
     getSourceCodePreference: GetSourceCodePreferenceUseCase = inject(),
     getLicensesPreference: GetLicensesPreferenceUseCase = inject(),

@@ -57,7 +57,7 @@ class GetDefaultPreferencesUseCase(
                     title = MR.strings.data
                     icon = MR.images.ic_data
                 }
-                plain {
+                action {
                     title = MR.strings.measurement_properties
                     onClick = { it.push(Screen.MeasurementPropertyList) }
                 }
@@ -65,17 +65,17 @@ class GetDefaultPreferencesUseCase(
                     title = MR.strings.contact
                     icon = MR.images.ic_contact
                 }
-                plain {
+                action {
                     title = MR.strings.homepage
                     subtitle = getString(MR.strings.homepage_url_short)
                     onClick = { urlOpener.open(getString(MR.strings.homepage_url)) }
                 }
-                plain {
+                action {
                     title = MR.strings.mail
                     subtitle = getString(MR.strings.mail_url_short)
                     onClick = { urlOpener.open(getString(MR.strings.mail_url)) }
                 }
-                plain {
+                action {
                     title = MR.strings.facebook
                     subtitle = getString(MR.strings.facebook_url_short)
                     onClick = { urlOpener.open(getString(MR.strings.facebook_url)) }
@@ -84,24 +84,24 @@ class GetDefaultPreferencesUseCase(
                     title = MR.strings.about
                     icon = MR.images.ic_about
                 }
-                plain {
+                action {
                     title = MR.strings.source_code
                     subtitle = getString(MR.strings.source_code_url_short)
                     onClick = { urlOpener.open(getString(MR.strings.source_code_url)) }
                 }
-                plain {
+                action {
                     title = MR.strings.licenses
                     onClick = { TODO() }
                 }
-                plain {
+                action {
                     title = MR.strings.privacy_policy
                     onClick = { urlOpener.open(getString(MR.strings.privacy_policy_url)) }
                 }
-                plain {
+                action {
                     title = MR.strings.terms_and_conditions
                     onClick = { urlOpener.open(getString(MR.strings.terms_and_conditions_url)) }
                 }
-                plain {
+                action {
                     title = MR.strings.version
                     subtitle = appVersion
                     onClick = {}

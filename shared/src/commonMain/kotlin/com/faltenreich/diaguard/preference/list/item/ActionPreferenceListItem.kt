@@ -8,13 +8,13 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.preference.list.Preference
 
 @Composable
-fun PlainPreferenceItem(
-    preference: Preference.Plain,
+fun ActionPreferenceItem(
+    preference: Preference.Action,
     modifier: Modifier = Modifier,
 ) {
     val navigator = LocalNavigator.currentOrThrow
     PreferenceListItemLayout(
         preference = preference,
-        modifier = modifier.clickable { preference.onClick(navigator) },
+        modifier = modifier.clickable { preference.action(navigator) },
     )
 }

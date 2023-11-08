@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.preference.list.item.color
 
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.preference.list.item.ListPreference
 import dev.icerock.moko.resources.StringResource
 
 enum class ColorScheme(
-    override val stableId: Int,
-    override val labelResource: StringResource,
-) : ListPreference {
+    val stableId: Int,
+    val labelResource: StringResource,
+) {
     SYSTEM(
         stableId = 0,
         labelResource = MR.strings.color_scheme_system,

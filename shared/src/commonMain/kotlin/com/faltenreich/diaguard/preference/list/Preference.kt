@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.preference.list
 
 import cafe.adriel.voyager.navigator.Navigator
-import com.faltenreich.diaguard.preference.list.item.SelectablePreferenceOption
+import com.faltenreich.diaguard.preference.list.item.ListPreferenceOption
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
 import kotlin.jvm.JvmInline
@@ -14,7 +14,7 @@ sealed class Preference(
 
     class Folder(
         title: StringResource,
-        val preferences: List<Preference>,
+        val preferences: kotlin.collections.List<Preference>,
     ) : Preference(title, null)
 
     class Category(
@@ -52,20 +52,20 @@ sealed class Preference(
         }
     }
 
-    class Selection(
+    class List(
         title: StringResource,
         subtitle: String?,
-        val options: List<SelectablePreferenceOption>,
+        val options: kotlin.collections.List<ListPreferenceOption>,
     ) : Preference(title, subtitle) {
 
         class Builder {
 
             lateinit var title: StringResource
             var subtitle: String? = null
-            lateinit var options: List<SelectablePreferenceOption>
+            lateinit var options: kotlin.collections.List<ListPreferenceOption>
 
-            fun build(): Selection {
-                return Selection(title, subtitle, options)
+            fun build(): List {
+                return List(title, subtitle, options)
             }
         }
     }
@@ -82,8 +82,8 @@ value class Preferences(val value: List<Preference>) {
             preferences += Preference.Plain.Builder().apply(init).build()
         }
 
-        fun selection(init: Preference.Selection.Builder.() -> Unit) {
-            preferences += Preference.Selection.Builder().apply(init).build()
+        fun list(init: Preference.List.Builder.() -> Unit) {
+            preferences += Preference.List.Builder().apply(init).build()
         }
 
         fun category(init: Preference.Category.Builder.() -> Unit) {

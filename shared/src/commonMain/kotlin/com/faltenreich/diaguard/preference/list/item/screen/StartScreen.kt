@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.preference.list.item.screen
 
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.preference.list.item.SelectablePreference
+import com.faltenreich.diaguard.preference.list.item.ListPreference
 import dev.icerock.moko.resources.StringResource
 
 enum class StartScreen(
     override val stableId: Int,
     override val labelResource: StringResource,
-) : SelectablePreference {
+) : ListPreference {
     DASHBOARD(
         stableId = 0,
         labelResource = MR.strings.dashboard,

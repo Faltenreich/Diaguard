@@ -2,14 +2,13 @@ package com.faltenreich.diaguard.preference.list
 
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.Screen
-import com.faltenreich.diaguard.preference.list.item.ListPreferenceOption
-import com.faltenreich.diaguard.preference.list.item.about.GetAppVersionUseCase
-import com.faltenreich.diaguard.preference.list.item.color.ColorScheme
-import com.faltenreich.diaguard.preference.list.item.color.GetColorSchemeUseCase
-import com.faltenreich.diaguard.preference.list.item.color.SetColorSchemeUseCase
-import com.faltenreich.diaguard.preference.list.item.screen.GetStartScreenUseCase
-import com.faltenreich.diaguard.preference.list.item.screen.SetStartScreenUseCase
-import com.faltenreich.diaguard.preference.list.item.screen.StartScreen
+import com.faltenreich.diaguard.preference.list.about.GetAppVersionUseCase
+import com.faltenreich.diaguard.preference.list.color.ColorScheme
+import com.faltenreich.diaguard.preference.list.color.GetColorSchemeUseCase
+import com.faltenreich.diaguard.preference.list.color.SetColorSchemeUseCase
+import com.faltenreich.diaguard.preference.list.screen.GetStartScreenUseCase
+import com.faltenreich.diaguard.preference.list.screen.SetStartScreenUseCase
+import com.faltenreich.diaguard.preference.list.screen.StartScreen
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.networking.UrlOpener
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +34,7 @@ class GetDefaultPreferencesUseCase(
                     title = MR.strings.color_scheme
                     subtitle = getString(colorScheme.labelResource)
                     options = ColorScheme.entries.map { value ->
-                        ListPreferenceOption(
+                        Preference.List.Option(
                             label = { getString(value.labelResource) },
                             isSelected = value == colorScheme,
                             onSelected = { setColorScheme(value) },
@@ -46,7 +45,7 @@ class GetDefaultPreferencesUseCase(
                     title = MR.strings.start_screen
                     subtitle = getString(startScreen.labelResource)
                     options = StartScreen.entries.map { value ->
-                        ListPreferenceOption(
+                        Preference.List.Option(
                             label = { getString(value.labelResource) },
                             isSelected = value == startScreen,
                             onSelected = { setStartScreen(value) },

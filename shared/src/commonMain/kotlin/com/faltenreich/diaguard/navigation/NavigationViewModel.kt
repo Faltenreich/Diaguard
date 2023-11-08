@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.navigation
 
-import com.faltenreich.diaguard.preference.list.item.screen.GetStartScreenUseCase
-import com.faltenreich.diaguard.preference.list.item.screen.StartScreen
+import com.faltenreich.diaguard.preference.list.screen.GetStartScreenUseCase
+import com.faltenreich.diaguard.preference.list.screen.StartScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher

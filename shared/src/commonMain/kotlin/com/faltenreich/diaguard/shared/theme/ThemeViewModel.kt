@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.shared.theme
 
-import com.faltenreich.diaguard.preference.list.item.color.ColorScheme
-import com.faltenreich.diaguard.preference.list.item.color.GetColorSchemeUseCase
+import com.faltenreich.diaguard.preference.list.color.ColorScheme
+import com.faltenreich.diaguard.preference.list.color.GetColorSchemeUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted

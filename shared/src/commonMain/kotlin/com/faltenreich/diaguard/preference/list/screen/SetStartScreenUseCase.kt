@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list.item.screen
+package com.faltenreich.diaguard.preference.list.screen
 
 import com.faltenreich.diaguard.preference.PreferenceStore
 import com.faltenreich.diaguard.shared.di.inject

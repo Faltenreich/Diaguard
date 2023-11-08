@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list.item
+package com.faltenreich.diaguard.preference.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable

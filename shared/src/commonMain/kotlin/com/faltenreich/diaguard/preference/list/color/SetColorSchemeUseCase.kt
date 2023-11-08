@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list.item.color
+package com.faltenreich.diaguard.preference.list.color
 
 import com.faltenreich.diaguard.preference.PreferenceStore
 import com.faltenreich.diaguard.shared.di.inject

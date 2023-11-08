@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.preference
 
-import com.faltenreich.diaguard.preference.list.item.color.ColorScheme
-import com.faltenreich.diaguard.preference.list.item.screen.StartScreen
+import com.faltenreich.diaguard.preference.list.color.ColorScheme
+import com.faltenreich.diaguard.preference.list.screen.StartScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
 import kotlinx.coroutines.flow.Flow

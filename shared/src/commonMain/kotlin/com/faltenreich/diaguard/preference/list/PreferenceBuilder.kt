@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.preference.list
 
 import cafe.adriel.voyager.navigator.Navigator
-import com.faltenreich.diaguard.preference.list.item.ListPreferenceOption
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
 
@@ -57,7 +56,7 @@ object PreferenceBuilder {
 
         lateinit var title: StringResource
         var subtitle: String? = null
-        lateinit var options: kotlin.collections.List<ListPreferenceOption>
+        lateinit var options: kotlin.collections.List<Preference.List.Option>
 
         fun build(): Preference.List {
             return Preference.List(title, subtitle, options)

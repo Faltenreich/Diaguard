@@ -3,11 +3,11 @@ package com.faltenreich.diaguard.preference
 import com.faltenreich.diaguard.preference.list.GetDefaultPreferencesUseCase
 import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
-import com.faltenreich.diaguard.preference.list.item.about.GetAppVersionUseCase
-import com.faltenreich.diaguard.preference.list.item.color.GetColorSchemeUseCase
-import com.faltenreich.diaguard.preference.list.item.color.SetColorSchemeUseCase
-import com.faltenreich.diaguard.preference.list.item.screen.GetStartScreenUseCase
-import com.faltenreich.diaguard.preference.list.item.screen.SetStartScreenUseCase
+import com.faltenreich.diaguard.preference.list.about.GetAppVersionUseCase
+import com.faltenreich.diaguard.preference.list.color.GetColorSchemeUseCase
+import com.faltenreich.diaguard.preference.list.color.SetColorSchemeUseCase
+import com.faltenreich.diaguard.preference.list.screen.GetStartScreenUseCase
+import com.faltenreich.diaguard.preference.list.screen.SetStartScreenUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 

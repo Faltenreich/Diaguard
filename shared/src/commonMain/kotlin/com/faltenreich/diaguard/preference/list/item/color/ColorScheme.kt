@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list.color
+package com.faltenreich.diaguard.preference.list.item.color
 
 import com.faltenreich.diaguard.MR
 import dev.icerock.moko.resources.StringResource

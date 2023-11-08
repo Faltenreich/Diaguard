@@ -14,9 +14,9 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyForm
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeForm
-import com.faltenreich.diaguard.preference.list.Preference
 import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
+import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.timeline.Timeline
@@ -120,7 +120,7 @@ sealed class Screen : VoyagerScreen {
     }
 
     // FIXME: Supports no state restoration until parameter implements Serializable
-    data class PreferenceList(val preferences: List<Preference>? = null) : Screen() {
+    data class PreferenceList(val preferences: List<PreferenceListItem>? = null) : Screen() {
 
         @Composable
         override fun Content() {

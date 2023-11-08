@@ -1,14 +1,14 @@
-package com.faltenreich.diaguard.preference.list.screen
+package com.faltenreich.diaguard.preference.list.item.color
 
 import com.faltenreich.diaguard.preference.PreferenceStore
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
-class GetStartScreenUseCase(
+class GetColorSchemeUseCase(
     private val preferenceStore: PreferenceStore = inject(),
 ) {
 
-    operator fun invoke(): Flow<StartScreen> {
-        return preferenceStore.startScreen
+    operator fun invoke(): Flow<ColorScheme> {
+        return preferenceStore.colorScheme
     }
 }

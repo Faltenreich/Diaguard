@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list.screen
+package com.faltenreich.diaguard.preference.list.item.screen
 
 import com.faltenreich.diaguard.MR
 import dev.icerock.moko.resources.StringResource

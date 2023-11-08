@@ -1,10 +1,14 @@
 package com.faltenreich.diaguard.preference.list
 
 import cafe.adriel.voyager.navigator.Navigator
+import com.faltenreich.diaguard.preference.list.item.PreferenceActionListItem
+import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
+import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
+import com.faltenreich.diaguard.preference.list.item.PreferenceListListItem
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
 
-fun preferences(init: PreferenceBuilder.Preferences.() -> Unit): List<Preference> {
+fun preferences(init: PreferenceBuilder.Preferences.() -> Unit): List<PreferenceListItem> {
     return PreferenceBuilder.Preferences().apply(init).build()
 }
 
@@ -12,7 +16,7 @@ object PreferenceBuilder {
 
     class Preferences {
 
-        private val preferences = mutableListOf<Preference>()
+        private val preferences = mutableListOf<PreferenceListItem>()
 
         fun category(init: Category.() -> Unit) {
             preferences += Category().apply(init).build()
@@ -26,7 +30,7 @@ object PreferenceBuilder {
             preferences += List().apply(init).build()
         }
 
-        fun build(): kotlin.collections.List<Preference> {
+        fun build(): kotlin.collections.List<PreferenceListItem> {
             return preferences.toList()
         }
     }
@@ -36,8 +40,8 @@ object PreferenceBuilder {
         lateinit var title: StringResource
         lateinit var icon: ImageResource
 
-        fun build(): Preference.Category {
-            return Preference.Category(title, icon)
+        fun build(): PreferenceCategoryListItem {
+            return PreferenceCategoryListItem(title, icon)
         }
     }
 
@@ -47,8 +51,8 @@ object PreferenceBuilder {
         var subtitle: String? = null
         lateinit var onClick: (Navigator) -> Unit
 
-        fun build(): Preference.Action {
-            return Preference.Action(title, subtitle, onClick)
+        fun build(): PreferenceActionListItem {
+            return PreferenceActionListItem(title, subtitle, onClick)
         }
     }
 
@@ -56,10 +60,10 @@ object PreferenceBuilder {
 
         lateinit var title: StringResource
         var subtitle: String? = null
-        lateinit var options: kotlin.collections.List<Preference.List.Option>
+        lateinit var options: kotlin.collections.List<PreferenceListListItem.Option>
 
-        fun build(): Preference.List {
-            return Preference.List(title, subtitle, options)
+        fun build(): PreferenceListListItem {
+            return PreferenceListListItem(title, subtitle, options)
         }
     }
 }

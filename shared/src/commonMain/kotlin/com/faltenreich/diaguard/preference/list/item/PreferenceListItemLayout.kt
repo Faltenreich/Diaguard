@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list
+package com.faltenreich.diaguard.preference.list.item
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun PreferenceListItemLayout(
-    preference: Preference,
+    preference: PreferenceListItem,
     modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)? = null,
 ) {

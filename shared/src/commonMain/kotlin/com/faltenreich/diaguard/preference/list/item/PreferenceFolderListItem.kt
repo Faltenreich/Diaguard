@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.PreferenceListScreen
 import dev.icerock.moko.resources.StringResource
 
 class PreferenceFolderListItem(
@@ -19,7 +19,7 @@ class PreferenceFolderListItem(
         PreferenceListItemLayout(
             preference = this,
             modifier = modifier.clickable {
-                navigator.push(Screen.PreferenceList(preferences))
+                navigator.push(PreferenceListScreen(preferences))
             },
         )
     }

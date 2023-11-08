@@ -9,7 +9,13 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.DashboardScreen
+import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
+import com.faltenreich.diaguard.navigation.screen.FoodListScreen
+import com.faltenreich.diaguard.navigation.screen.LogScreen
+import com.faltenreich.diaguard.navigation.screen.PreferenceListScreen
+import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.screen.TimelineScreen
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.BottomSheetState
 import kotlinx.coroutines.launch
@@ -43,39 +49,39 @@ fun BottomSheetNavigation(
             BottomSheetNavigationItem(
                 label = MR.strings.dashboard,
                 icon = MR.images.ic_dashboard,
-                isActive = navigator.lastItem is Screen.Dashboard,
-                onClick = { navigateTo(Screen.Dashboard, true) },
+                isActive = navigator.lastItem is DashboardScreen,
+                onClick = { navigateTo(DashboardScreen, true) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.timeline,
                 icon = MR.images.ic_timeline,
-                isActive = navigator.lastItem is Screen.Timeline,
-                onClick = { navigateTo(Screen.Timeline(), true) },
+                isActive = navigator.lastItem is TimelineScreen,
+                onClick = { navigateTo(TimelineScreen(), true) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.log,
                 icon = MR.images.ic_log,
-                isActive = navigator.lastItem is Screen.Log,
-                onClick = { navigateTo(Screen.Log(), true) },
+                isActive = navigator.lastItem is LogScreen,
+                onClick = { navigateTo(LogScreen(), true) },
             )
             Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
             BottomSheetNavigationItem(
                 label = MR.strings.food,
                 icon = null,
-                isActive = navigator.lastItem is Screen.FoodList,
-                onClick = { navigateTo(Screen.FoodList, false) },
+                isActive = navigator.lastItem is FoodListScreen,
+                onClick = { navigateTo(FoodListScreen, false) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.export,
                 icon = null,
-                isActive = navigator.lastItem is Screen.ExportForm,
-                onClick = { navigateTo(Screen.ExportForm, false) },
+                isActive = navigator.lastItem is ExportFormScreen,
+                onClick = { navigateTo(ExportFormScreen, false) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.preferences,
                 icon = null,
-                isActive = navigator.lastItem is Screen.PreferenceList,
-                onClick = { navigateTo(Screen.PreferenceList(), false) },
+                isActive = navigator.lastItem is PreferenceListScreen,
+                onClick = { navigateTo(PreferenceListScreen(), false) },
             )
         }
     }

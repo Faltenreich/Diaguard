@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormDialog
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 
@@ -36,7 +36,7 @@ fun MeasurementPropertyList(
                     showArrowDown = index < listItems.size - 1,
                     modifier = Modifier
                         .animateItemPlacement()
-                        .clickable { navigator.push(Screen.MeasurementPropertyForm(item)) },
+                        .clickable { navigator.push(MeasurementPropertyFormScreen(item)) },
                 )
             }
         }

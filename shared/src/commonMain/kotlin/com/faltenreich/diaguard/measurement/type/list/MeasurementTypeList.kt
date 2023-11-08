@@ -8,7 +8,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.type.MeasurementType
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.MeasurementTypeFormScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextDivider
@@ -34,7 +34,7 @@ fun LazyListScope.MeasurementTypeList(
             showArrowDown = index < types.size - 1,
             modifier = Modifier
                 .animateItemPlacement()
-                .clickable { navigator.push(Screen.MeasurementTypeForm(type.id)) },
+                .clickable { navigator.push(MeasurementTypeFormScreen(type.id)) },
         )
     }
 }

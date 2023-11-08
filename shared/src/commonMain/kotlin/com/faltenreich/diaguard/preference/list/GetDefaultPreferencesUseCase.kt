@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.preference.list
 
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceListListItem
 import com.faltenreich.diaguard.preference.list.item.preferences
@@ -61,7 +61,7 @@ class GetDefaultPreferencesUseCase(
                 }
                 action {
                     title = MR.strings.measurement_properties
-                    onClick = { it.push(Screen.MeasurementPropertyList) }
+                    onClick = { it.push(MeasurementPropertyListScreen) }
                 }
                 category {
                     title = MR.strings.contact

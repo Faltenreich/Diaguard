@@ -15,7 +15,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
@@ -25,7 +25,7 @@ fun LatestDashboardItem(
 ) {
     val navigator = LocalNavigator.currentOrThrow
     Card(
-        onClick = { navigator.push(Screen.EntryForm(entry = data?.entry)) },
+        onClick = { navigator.push(EntryFormScreen(entry = data?.entry)) },
         modifier = modifier,
     ) {
         Column(

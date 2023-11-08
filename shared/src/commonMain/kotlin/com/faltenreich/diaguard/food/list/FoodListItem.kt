@@ -16,7 +16,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.FoodDetailScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 
@@ -29,7 +29,7 @@ fun FoodListItem(
     val navigator = LocalNavigator.currentOrThrow
     Row(
         modifier = modifier
-            .clickable { food?.let { navigator.push(Screen.FoodDetail(food)) } }
+            .clickable { food?.let { navigator.push(FoodDetailScreen(food)) } }
             .height(IntrinsicSize.Min)
             .defaultMinSize(minHeight = AppTheme.dimensions.size.TouchSizeLarge)
             .padding(AppTheme.dimensions.padding.P_3),

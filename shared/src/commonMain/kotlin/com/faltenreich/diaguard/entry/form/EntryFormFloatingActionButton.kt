@@ -9,7 +9,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 
@@ -20,7 +20,7 @@ fun EntryFormFloatingActionButton(
 ) {
     val navigator = LocalNavigator.currentOrThrow
     FloatingActionButton(
-        onClick = { navigator.push(Screen.EntryForm(entry)) },
+        onClick = { navigator.push(EntryFormScreen(entry)) },
         modifier = modifier,
     ) {
         Icon(Icons.Filled.Add, getString(MR.strings.entry_new_description))

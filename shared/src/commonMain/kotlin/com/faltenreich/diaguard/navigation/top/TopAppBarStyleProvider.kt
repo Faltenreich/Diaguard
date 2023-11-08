@@ -2,33 +2,41 @@ package com.faltenreich.diaguard.navigation.top
 
 import androidx.compose.material3.Text
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
+import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
+import com.faltenreich.diaguard.navigation.screen.FoodDetailScreen
+import com.faltenreich.diaguard.navigation.screen.FoodListScreen
+import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyFormScreen
+import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyListScreen
+import com.faltenreich.diaguard.navigation.screen.MeasurementTypeFormScreen
+import com.faltenreich.diaguard.navigation.screen.PreferenceListScreen
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.localization.getString
 
 fun Screen.topAppBarStyle(): TopAppBarStyle {
     return when (this) {
-        is Screen.EntryForm -> TopAppBarStyle.CenterAligned {
+        is EntryFormScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.entry))
         }
-        is Screen.MeasurementPropertyList -> TopAppBarStyle.CenterAligned {
+        is MeasurementPropertyListScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.measurement_properties))
         }
-        is Screen.MeasurementPropertyForm -> TopAppBarStyle.CenterAligned {
+        is MeasurementPropertyFormScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.measurement_property))
         }
-        is Screen.MeasurementTypeForm -> TopAppBarStyle.CenterAligned {
+        is MeasurementTypeFormScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.measurement_type))
         }
-        is Screen.FoodList -> TopAppBarStyle.CenterAligned {
+        is FoodListScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.food))
         }
-        is Screen.FoodDetail -> TopAppBarStyle.CenterAligned {
+        is FoodDetailScreen -> TopAppBarStyle.CenterAligned {
             Text(food.name)
         }
-        is Screen.ExportForm -> TopAppBarStyle.CenterAligned {
+        is ExportFormScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.export))
         }
-        is Screen.PreferenceList -> TopAppBarStyle.CenterAligned {
+        is PreferenceListScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.preferences))
         }
         else -> TopAppBarStyle.Hidden

@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
+import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 
 @Composable
 fun EntrySearchBottomAppBarItem() {
@@ -15,6 +15,6 @@ fun EntrySearchBottomAppBarItem() {
     BottomAppBarItem(
         image = Icons.Filled.Search,
         contentDescription = MR.strings.search_open,
-        onClick = { navigator.push(Screen.EntrySearch()) },
+        onClick = { navigator.push(EntrySearchScreen()) },
     )
 }

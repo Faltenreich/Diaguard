@@ -23,7 +23,17 @@ import com.faltenreich.diaguard.log.LogViewModel
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewModel
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.DashboardScreen
+import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
+import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
+import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
+import com.faltenreich.diaguard.navigation.screen.FoodListScreen
+import com.faltenreich.diaguard.navigation.screen.LogScreen
+import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyFormScreen
+import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyListScreen
+import com.faltenreich.diaguard.navigation.screen.MeasurementTypeFormScreen
+import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.screen.TimelineScreen
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DatePickerBottomAppBarItem
@@ -34,11 +44,11 @@ import org.koin.core.parameter.parametersOf
 
 fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
     return when (this) {
-        is Screen.Dashboard -> BottomAppBarStyle.Visible(
+        is DashboardScreen -> BottomAppBarStyle.Visible(
             actions = { EntrySearchBottomAppBarItem() },
             floatingActionButton = { EntryFormFloatingActionButton() },
         )
-        is Screen.Log -> BottomAppBarStyle.Visible(
+        is LogScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<LogViewModel> { parametersOf(date) }
                 val currentDate = viewModel.currentDate.collectAsState().value
@@ -50,7 +60,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             },
             floatingActionButton = { EntryFormFloatingActionButton() },
         )
-        is Screen.Timeline -> BottomAppBarStyle.Visible(
+        is TimelineScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<TimelineViewModel> { parametersOf(date) }
                 val viewState = viewModel.viewState.collectAsState().value
@@ -62,7 +72,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             },
             floatingActionButton = { EntryFormFloatingActionButton() },
         )
-        is Screen.EntryForm -> BottomAppBarStyle.Visible(
+        is EntryFormScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
                 val navigator = LocalNavigator.currentOrThrow
@@ -80,7 +90,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 }
             }
         )
-        is Screen.EntrySearch -> BottomAppBarStyle.Visible(
+        is EntrySearchScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val navigator = LocalNavigator.currentOrThrow
                 val viewModel = getViewModel<EntrySearchViewModel> { parametersOf(query) }
@@ -97,7 +107,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 )
             }
         )
-        is Screen.FoodList -> BottomAppBarStyle.Visible(
+        is FoodListScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<FoodListViewModel>()
                 SearchField(
@@ -115,7 +125,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 }
             }
         )
-        is Screen.ExportForm -> BottomAppBarStyle.Visible(
+        is ExportFormScreen -> BottomAppBarStyle.Visible(
             floatingActionButton = {
                 val viewModel = getViewModel<ExportFormViewModel>()
                 FloatingActionButton(onClick = { viewModel.submit() }) {
@@ -123,7 +133,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 }
             }
         )
-        is Screen.MeasurementPropertyList -> BottomAppBarStyle.Visible(
+        is MeasurementPropertyListScreen -> BottomAppBarStyle.Visible(
             floatingActionButton = {
                 val viewModel = getViewModel<MeasurementPropertyListViewModel>()
                 FloatingActionButton(onClick = viewModel::showFormDialog) {
@@ -131,7 +141,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 }
             }
         )
-        is Screen.MeasurementPropertyForm -> BottomAppBarStyle.Visible(
+        is MeasurementPropertyFormScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<MeasurementPropertyFormViewModel> { parametersOf(property) }
                 BottomAppBarItem(
@@ -147,7 +157,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 }
             }
         )
-        is Screen.MeasurementTypeForm -> BottomAppBarStyle.Visible(
+        is MeasurementTypeFormScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<MeasurementTypeFormViewModel> { parametersOf(measurementTypeId) }
                 BottomAppBarItem(

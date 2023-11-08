@@ -14,11 +14,11 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
 import com.faltenreich.diaguard.navigation.NavigationViewModel
-import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.bottom.bottomAppBarStyle
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.top.topAppBarStyle

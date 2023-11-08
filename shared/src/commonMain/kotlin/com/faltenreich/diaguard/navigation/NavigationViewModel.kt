@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.navigation
 
+import com.faltenreich.diaguard.navigation.screen.DashboardScreen
+import com.faltenreich.diaguard.navigation.screen.LogScreen
+import com.faltenreich.diaguard.navigation.screen.TimelineScreen
 import com.faltenreich.diaguard.preference.store.screen.GetStartScreenUseCase
 import com.faltenreich.diaguard.preference.store.screen.StartScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -18,9 +21,9 @@ class NavigationViewModel(
     private val state = getStartScreen().map { startScreen ->
         NavigationViewState(
             startScreen = when (startScreen) {
-                StartScreen.DASHBOARD -> Screen.Dashboard
-                StartScreen.TIMELINE -> Screen.Timeline()
-                StartScreen.LOG -> Screen.Log()
+                StartScreen.DASHBOARD -> DashboardScreen
+                StartScreen.TIMELINE -> TimelineScreen()
+                StartScreen.LOG -> LogScreen()
             },
         )
     }.flowOn(dispatcher)

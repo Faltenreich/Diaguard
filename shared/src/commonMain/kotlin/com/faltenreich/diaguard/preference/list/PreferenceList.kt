@@ -26,7 +26,7 @@ fun PreferenceList(
                     is Preference.Folder -> FolderPreferenceListItem(preference)
                     is Preference.Category -> CategoryPreferenceListItem(preference)
                     is Preference.Plain -> PlainPreferenceItem(preference)
-                    is Preference.Selection<*> -> SelectablePreferenceItem(preference)
+                    is Preference.Selection -> SelectablePreferenceItem(preference)
                 }
             }
         }

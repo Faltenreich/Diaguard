@@ -15,8 +15,8 @@ import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
 import kotlinx.coroutines.launch
 
 @Composable
-fun <T : SelectablePreference> SelectablePreferenceItem(
-    preference: Preference.Selection<T>,
+fun SelectablePreferenceItem(
+    preference: Preference.Selection,
     modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()

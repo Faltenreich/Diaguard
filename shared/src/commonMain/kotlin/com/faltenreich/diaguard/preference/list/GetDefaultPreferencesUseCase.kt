@@ -31,7 +31,7 @@ class GetDefaultPreferencesUseCase(
             getAppVersion(),
         ) { colorScheme, startScreen, appVersion ->
             preferences {
-                selection<ColorScheme> {
+                selection {
                     title = MR.strings.color_scheme
                     subtitle = getString(colorScheme.labelResource)
                     options = ColorScheme.entries.map { value ->
@@ -42,7 +42,7 @@ class GetDefaultPreferencesUseCase(
                         )
                     }
                 }
-                selection<StartScreen> {
+                selection {
                     title = MR.strings.start_screen
                     subtitle = getString(startScreen.labelResource)
                     options = StartScreen.entries.map { value ->

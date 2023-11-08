@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.preference.list
 
 import cafe.adriel.voyager.navigator.Navigator
-import com.faltenreich.diaguard.preference.list.item.SelectablePreference
 import com.faltenreich.diaguard.preference.list.item.SelectablePreferenceOption
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
@@ -53,19 +52,19 @@ sealed class Preference(
         }
     }
 
-    class Selection<T : SelectablePreference>(
+    class Selection(
         title: StringResource,
         subtitle: String?,
-        val options: List<SelectablePreferenceOption<T>>,
+        val options: List<SelectablePreferenceOption>,
     ) : Preference(title, subtitle) {
 
-        class Builder<T : SelectablePreference> {
+        class Builder {
 
             lateinit var title: StringResource
             var subtitle: String? = null
-            lateinit var options: List<SelectablePreferenceOption<T>>
+            lateinit var options: List<SelectablePreferenceOption>
 
-            fun build(): Selection<T> {
+            fun build(): Selection {
                 return Selection(title, subtitle, options)
             }
         }
@@ -83,8 +82,8 @@ value class Preferences(val value: List<Preference>) {
             preferences += Preference.Plain.Builder().apply(init).build()
         }
 
-        fun <T : SelectablePreference> selection(init: Preference.Selection.Builder<T>.() -> Unit) {
-            preferences += Preference.Selection.Builder<T>().apply(init).build()
+        fun selection(init: Preference.Selection.Builder.() -> Unit) {
+            preferences += Preference.Selection.Builder().apply(init).build()
         }
 
         fun category(init: Preference.Category.Builder.() -> Unit) {

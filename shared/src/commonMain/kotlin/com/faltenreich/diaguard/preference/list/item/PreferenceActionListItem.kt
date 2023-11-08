@@ -23,4 +23,15 @@ class PreferenceActionListItem(
             modifier = modifier.clickable { action(navigator) },
         )
     }
+
+    class Builder {
+
+        lateinit var title: StringResource
+        var subtitle: String? = null
+        lateinit var onClick: (Navigator) -> Unit
+
+        fun build(): PreferenceActionListItem {
+            return PreferenceActionListItem(title, subtitle, onClick)
+        }
+    }
 }

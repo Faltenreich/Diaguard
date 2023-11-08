@@ -12,4 +12,29 @@ sealed class PreferenceListItem(
 
     @Composable
     abstract fun Content(modifier: Modifier)
+
+    class Builder {
+
+        private val preferences = mutableListOf<PreferenceListItem>()
+
+        fun category(init: PreferenceCategoryListItem.Builder.() -> Unit) {
+            preferences += PreferenceCategoryListItem.Builder().apply(init).build()
+        }
+
+        fun action(init: PreferenceActionListItem.Builder.() -> Unit) {
+            preferences += PreferenceActionListItem.Builder().apply(init).build()
+        }
+
+        fun list(init: PreferenceListListItem.Builder.() -> Unit) {
+            preferences += PreferenceListListItem.Builder().apply(init).build()
+        }
+
+        fun build(): List<PreferenceListItem> {
+            return preferences.toList()
+        }
+    }
+}
+
+fun preferences(init: PreferenceListItem.Builder.() -> Unit): List<PreferenceListItem> {
+    return PreferenceListItem.Builder().apply(init).build()
 }

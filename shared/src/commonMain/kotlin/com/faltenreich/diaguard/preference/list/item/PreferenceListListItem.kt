@@ -48,4 +48,15 @@ class PreferenceListListItem(
         val isSelected: Boolean,
         val onSelected: suspend () -> Unit,
     )
+
+    class Builder {
+
+        lateinit var title: StringResource
+        var subtitle: String? = null
+        lateinit var options: kotlin.collections.List<PreferenceListListItem.Option>
+
+        fun build(): PreferenceListListItem {
+            return PreferenceListListItem(title, subtitle, options)
+        }
+    }
 }

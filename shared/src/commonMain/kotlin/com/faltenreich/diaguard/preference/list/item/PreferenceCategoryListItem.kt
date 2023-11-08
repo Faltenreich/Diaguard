@@ -52,4 +52,14 @@ class PreferenceCategoryListItem(
             )
         }
     }
+
+    class Builder {
+
+        lateinit var title: StringResource
+        lateinit var icon: ImageResource
+
+        fun build(): PreferenceCategoryListItem {
+            return PreferenceCategoryListItem(title, icon)
+        }
+    }
 }

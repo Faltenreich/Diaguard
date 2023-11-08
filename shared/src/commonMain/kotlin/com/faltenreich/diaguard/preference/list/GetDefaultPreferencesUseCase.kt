@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.preference.list.item.about.GetAppVersionUseCase
 import com.faltenreich.diaguard.preference.list.item.color.ColorScheme
 import com.faltenreich.diaguard.preference.list.item.color.GetColorSchemeUseCase
 import com.faltenreich.diaguard.preference.list.item.color.SetColorSchemeUseCase
+import com.faltenreich.diaguard.preference.list.item.preferences
 import com.faltenreich.diaguard.preference.list.item.screen.GetStartScreenUseCase
 import com.faltenreich.diaguard.preference.list.item.screen.SetStartScreenUseCase
 import com.faltenreich.diaguard.preference.list.item.screen.StartScreen

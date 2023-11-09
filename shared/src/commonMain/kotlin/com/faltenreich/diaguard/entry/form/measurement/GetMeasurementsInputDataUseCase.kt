@@ -17,15 +17,18 @@ class GetMeasurementsInputDataUseCase(
     suspend operator fun invoke(entry: Entry?): List<MeasurementPropertyInputData> = withContext(dispatcher) {
         val entryId = entry?.id
         val values = entryId?.let(measurementValueRepository::getByEntryId)
-        measurementPropertyRepository.getAll().map { property ->
+        val properties = measurementPropertyRepository.getAll()
+        properties.mapIndexed { propertyIndex, property ->
             val types = measurementTypeRepository.getByPropertyId(property.id)
             MeasurementPropertyInputData(
                 property = property,
-                typeInputDataList = types.map { type ->
+                typeInputDataList = types.mapIndexed { typeIndex, type ->
                     val value = values?.firstOrNull { it.typeId == type.id }
+                    val isLast = propertyIndex == properties.size - 1 && typeIndex == types.size - 1
                     MeasurementTypeInputData(
                         type = type,
                         input = value?.value?.toString() ?: "",
+                        isLast = isLast,
                     )
                 }
             )

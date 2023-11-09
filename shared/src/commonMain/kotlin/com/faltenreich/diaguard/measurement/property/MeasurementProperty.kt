@@ -23,4 +23,7 @@ data class MeasurementProperty(
 
     val isBloodSugar: Boolean
         get() = key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR
+
+    val isMeal: Boolean
+        get() = key == DatabaseKey.MeasurementProperty.MEAL
 }

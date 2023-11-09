@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.entry.form
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
@@ -16,11 +15,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.alarm.AlarmPicker
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DatePicker
@@ -86,29 +83,11 @@ fun EntryForm(
         TextDivider(getString(MR.strings.measurement_properties))
 
         val properties = viewModel.measurements
-        properties.forEachIndexed { propertyIndex, property ->
-            FormRow(icon = { MeasurementPropertyIcon(property.property) }) {
-                Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1)) {
-                    val types = property.typeInputDataList
-                    types.forEachIndexed { typeIndex, type ->
-                        val isLast = propertyIndex == properties.size - 1 && typeIndex == types.size - 1
-                        TextInput(
-                            input = type.input,
-                            onInputChange = { input ->
-                                viewModel.updateMeasurementValue(type.copy(input = input))
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            label = type.type.name,
-                            suffix = { Text(type.type.selectedUnit?.abbreviation ?: "") },
-                            maxLines = 1,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Decimal,
-                                imeAction = if (isLast) ImeAction.Done else ImeAction.Next,
-                            ),
-                        )
-                    }
-                }
-            }
+        properties.forEach { property ->
+            MeasurementPropertyInput(
+                data = property,
+                onChange = viewModel::updateMeasurementValue,
+            )
             Divider()
         }
     }

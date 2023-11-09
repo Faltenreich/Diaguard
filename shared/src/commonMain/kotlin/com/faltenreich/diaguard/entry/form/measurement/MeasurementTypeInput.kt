@@ -1,0 +1,29 @@
+package com.faltenreich.diaguard.entry.form.measurement
+
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import com.faltenreich.diaguard.shared.view.TextInput
+
+@Composable
+fun MeasurementTypeInput(
+    data: MeasurementTypeInputData,
+    onChange: (MeasurementTypeInputData) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TextInput(
+        input = data.input,
+        onInputChange = { input -> onChange(data.copy(input = input)) },
+        modifier = modifier,
+        label = data.type.name,
+        suffix = { Text(data.type.selectedUnit?.abbreviation ?: "") },
+        maxLines = 1,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Decimal,
+            imeAction = if (data.isLast) ImeAction.Done else ImeAction.Next,
+        ),
+    )
+}

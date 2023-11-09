@@ -86,7 +86,7 @@ fun EntryForm(
         properties.forEach { property ->
             MeasurementPropertyInput(
                 data = property,
-                onChange = viewModel::updateMeasurementValue,
+                onIntent = viewModel::handleIntent,
             )
             Divider()
         }

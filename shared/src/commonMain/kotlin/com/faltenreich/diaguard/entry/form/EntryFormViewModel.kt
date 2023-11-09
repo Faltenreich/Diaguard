@@ -75,7 +75,14 @@ class EntryFormViewModel(
         }
     }
 
-    fun updateMeasurementValue(update: MeasurementTypeInputData) = viewModelScope.launch(dispatcher) {
+    fun handleIntent(intent: EntryFormIntent) {
+        when (intent) {
+            is EntryFormIntent.ChangeTypeInput -> updateMeasurementValue(intent.data)
+            is EntryFormIntent.AddFood -> TODO()
+        }
+    }
+
+    private fun updateMeasurementValue(update: MeasurementTypeInputData) = viewModelScope.launch(dispatcher) {
         measurements = measurements.map { property ->
             property.copy(typeInputDataList = property.typeInputDataList.map { value ->
                 when (value.type) {

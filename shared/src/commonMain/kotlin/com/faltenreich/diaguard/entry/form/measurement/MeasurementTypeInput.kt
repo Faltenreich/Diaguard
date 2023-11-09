@@ -19,7 +19,7 @@ fun MeasurementTypeInput(
     TextInput(
         input = data.input,
         onInputChange = { input ->
-            onIntent(EntryFormIntent.ChangeTypeInput(data.copy(input = input)))
+            onIntent(EntryFormIntent.Edit(data.copy(input = input)))
         },
         modifier = modifier.fillMaxWidth(),
         label = data.type.name,

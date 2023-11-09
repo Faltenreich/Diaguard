@@ -75,14 +75,16 @@ class EntryFormViewModel(
         }
     }
 
-    fun handleIntent(intent: EntryFormIntent) {
+    fun handleIntent(intent: EntryFormIntent) = viewModelScope.launch(dispatcher){
         when (intent) {
-            is EntryFormIntent.ChangeTypeInput -> updateMeasurementValue(intent.data)
+            is EntryFormIntent.Edit -> updateMeasurementValue(intent.data)
+            is EntryFormIntent.Submit -> submit()
+            is EntryFormIntent.Delete -> deleteIfNeeded()
             is EntryFormIntent.AddFood -> TODO()
         }
     }
 
-    private fun updateMeasurementValue(update: MeasurementTypeInputData) = viewModelScope.launch(dispatcher) {
+    private fun updateMeasurementValue(update: MeasurementTypeInputData) {
         measurements = measurements.map { property ->
             property.copy(typeInputDataList = property.typeInputDataList.map { value ->
                 when (value.type) {
@@ -93,7 +95,7 @@ class EntryFormViewModel(
         }
     }
 
-    fun submit() = viewModelScope.launch(dispatcher) {
+    private fun submit() {
         submitEntry(
             id = id,
             dateTime = dateTime,
@@ -102,9 +104,9 @@ class EntryFormViewModel(
         )
     }
 
-    fun deleteIfNeeded() = viewModelScope.launch(dispatcher) {
+    private fun deleteIfNeeded() {
         // TODO: Intercept with confirmation dialog if something has changed
-        val id = id ?: return@launch
+        val id = id ?: return
         deleteEntry(id)
     }
 }

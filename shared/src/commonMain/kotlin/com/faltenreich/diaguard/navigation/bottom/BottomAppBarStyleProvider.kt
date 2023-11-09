@@ -14,6 +14,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
+import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
@@ -79,13 +80,13 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 BottomAppBarItem(
                     image = Icons.Filled.Delete,
                     contentDescription = MR.strings.entry_delete,
-                    onClick = { viewModel.deleteIfNeeded(); navigator.pop() },
+                    onClick = { viewModel.handleIntent(EntryFormIntent.Delete); navigator.pop() },
                 )
             },
             floatingActionButton = {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
                 val navigator = LocalNavigator.currentOrThrow
-                FloatingActionButton(onClick = { viewModel.submit(); navigator.pop() }) {
+                FloatingActionButton(onClick = { viewModel.handleIntent(EntryFormIntent.Submit); navigator.pop() }) {
                     Icon(Icons.Filled.Check, getString(MR.strings.entry_save))
                 }
             }

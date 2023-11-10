@@ -25,6 +25,8 @@ class MeasurementTypeRepository(
             key = key,
             name = name,
             sortIndex = sortIndex,
+            // We set this temporary id because the corresponding unit will be created afterwards
+            selectedUnitId = MeasurementType.SELECTED_UNIT_ID_INVALID,
             propertyId = propertyId,
         )
         return checkNotNull(dao.getLastId())
@@ -62,7 +64,7 @@ class MeasurementTypeRepository(
         id: Long,
         name: String,
         sortIndex: Long,
-        selectedUnitId: Long?,
+        selectedUnitId: Long,
     ) {
         dao.update(
             id = id,
@@ -99,7 +101,7 @@ fun MeasurementType.deep(
     propertyRepository: MeasurementPropertyRepository = inject(),
 ): MeasurementType {
     return apply {
-        this.property = propertyRepository.getById(propertyId) ?: throw IllegalStateException()
+        this.property = checkNotNull(propertyRepository.getById(propertyId))
         // TODO: Selected unit
     }
 }

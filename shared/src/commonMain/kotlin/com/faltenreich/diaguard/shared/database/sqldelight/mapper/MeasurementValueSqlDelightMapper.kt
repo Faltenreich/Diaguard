@@ -44,7 +44,7 @@ class MeasurementValueSqlDelightMapper(
         typeKey: String?,
         typeName: String,
         typeSortIndex: Long,
-        typeSelectedUnitId: Long?,
+        typeSelectedUnitId: Long,
         typePropertyId: Long,
         unitId: Long,
         unitCreatedAt: String,

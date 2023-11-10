@@ -1,7 +1,8 @@
 complexity:
   LongParameterList:
-    active: true
-    functionThreshold: 10
+    active: false
+  TooManyFunctions:
+    active: false
 
 naming:
   active: true

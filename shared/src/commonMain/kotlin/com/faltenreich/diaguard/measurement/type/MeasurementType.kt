@@ -19,12 +19,21 @@ data class MeasurementType(
     override val key: DatabaseKey.MeasurementType?,
     val name: String,
     val sortIndex: Long,
-    val selectedUnitId: Long?,
+    val selectedUnitId: Long,
     val propertyId: Long,
 ) : DatabaseEntity, Seedable {
 
     lateinit var property: MeasurementProperty
     lateinit var units: List<MeasurementUnit>
 
-    var selectedUnit: MeasurementUnit? = null
+    lateinit var selectedUnit: MeasurementUnit
+
+    companion object {
+
+        /**
+         * Invalid id that acts as a temporary placeholder,
+         * e.g. until the corresponding [MeasurementUnit] has been created
+         */
+        const val SELECTED_UNIT_ID_INVALID: Long = -1
+    }
 }

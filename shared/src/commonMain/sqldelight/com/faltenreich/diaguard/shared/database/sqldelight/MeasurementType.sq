@@ -5,7 +5,7 @@ CREATE TABLE measurementType (
     key TEXT,
     name TEXT NOT NULL,
     sort_index INTEGER NOT NULL,
-    selected_unit_id INTEGER,
+    selected_unit_id INTEGER NOT NULL,
     property_id INTEGER NOT NULL
 );
 

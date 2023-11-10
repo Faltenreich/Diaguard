@@ -1,4 +1,12 @@
 [versions]
+app-version-code = "61"
+app-version-name = "4.0.0"
+
+app-android-namespace = "com.faltenreich.diaguard"
+app-android-sdk-compile = "34"
+app-android-sdk-min = "21"
+app-android-sdk-target = "34"
+
 android-compose = "1.8.0"
 android-gradle = "8.1.3"
 android-test-runner = "1.5.2"

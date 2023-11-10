@@ -6,16 +6,16 @@ plugins {
 }
 
 android {
-    namespace = Configuration.Project.nameSpace
-    compileSdk = Configuration.Android.compileSdk
+    namespace = libs.versions.app.android.namespace.get()
+    compileSdk = libs.versions.app.android.sdk.compile.get().toInt()
 
     defaultConfig {
         // TODO: Introduce flavors
-        applicationId = "${Configuration.Project.nameSpace}.beta"
-        minSdk = Configuration.Android.minSdk
-        targetSdk = Configuration.Android.targetSdk
-        versionCode = Configuration.Project.versionCode
-        versionName = Configuration.Project.versionName
+        applicationId = "${libs.versions.app.android.namespace.get()}.beta"
+        minSdk = libs.versions.app.android.sdk.min.get().toInt()
+        targetSdk = libs.versions.app.android.sdk.target.get().toInt()
+        versionCode = libs.versions.app.version.code.get().toInt()
+        versionName = libs.versions.app.version.name.get()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

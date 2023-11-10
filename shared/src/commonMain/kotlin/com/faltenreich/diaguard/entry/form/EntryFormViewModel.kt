@@ -84,6 +84,7 @@ class EntryFormViewModel(
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> deleteIfNeeded()
             is EntryFormIntent.AddFood -> addFood(intent.food)
+            is EntryFormIntent.RemoveFood -> removeFood(intent.food)
         }
     }
 
@@ -115,5 +116,9 @@ class EntryFormViewModel(
 
     private fun addFood(food: Food) {
         foodEaten += FoodInputData(food)
+    }
+
+    private fun removeFood(food: FoodInputData) {
+        foodEaten -= food
     }
 }

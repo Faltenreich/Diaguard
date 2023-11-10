@@ -52,11 +52,16 @@ fun MeasurementPropertyInput(
                         onIntent = onIntent,
                     )
                 }
-                if (data.property.isMeal) {
-                    foodEaten.forEach { data ->
-                        FoodInputListItem(data = data)
-                    }
-                }
+            }
+        }
+        if (data.property.isMeal) {
+            foodEaten.forEach { data ->
+                Divider()
+                FoodInputListItem(
+                    data = data,
+                    // TODO: modifier = Modifier.background(AppTheme.colors.scheme.background),
+                    onIntent = onIntent,
+                )
             }
         }
         Divider()

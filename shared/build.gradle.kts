@@ -1,11 +1,11 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose")
-    kotlin("plugin.serialization")
-    id("dev.icerock.mobile.multiplatform-resources")
-    id("com.google.devtools.ksp")
-    id("app.cash.sqldelight")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.moko.resources)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {

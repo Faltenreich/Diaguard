@@ -17,6 +17,7 @@ compose-material3 = "1.2.0-alpha10"
 coroutines = "1.7.3"
 datastore = "1.0.0"
 datetime = "0.4.1"
+detekt = "1.23.3"
 emojipicker = "1.4.0"
 io = "0.3.0"
 junit = "4.13.2"
@@ -83,8 +84,10 @@ voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", vers
 android-application = { id = "com.android.application", version.ref = "android-gradle" }
 android-library = { id = "com.android.library", version.ref = "android-gradle" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

@@ -1,0 +1,9 @@
+naming:
+  active: true
+  FunctionNaming:
+    active: true
+    functionPattern: '[a-zA-Z][a-zA-Z0-9]*'
+
+style:
+  NewLineAtEndOfFile:
+    active: false

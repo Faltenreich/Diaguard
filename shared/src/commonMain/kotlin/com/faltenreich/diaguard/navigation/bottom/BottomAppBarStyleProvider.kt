@@ -2,10 +2,6 @@ package com.faltenreich.diaguard.navigation.bottom
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -41,6 +37,7 @@ import com.faltenreich.diaguard.shared.view.DatePickerBottomAppBarItem
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.shared.view.SearchField
 import com.faltenreich.diaguard.timeline.TimelineViewModel
+import dev.icerock.moko.resources.compose.painterResource
 import org.koin.core.parameter.parametersOf
 
 fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
@@ -78,7 +75,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
                 val navigator = LocalNavigator.currentOrThrow
                 BottomAppBarItem(
-                    image = Icons.Filled.Delete,
+                    painter = painterResource(MR.images.ic_delete),
                     contentDescription = MR.strings.entry_delete,
                     onClick = { viewModel.handleIntent(EntryFormIntent.Delete); navigator.pop() },
                 )
@@ -87,7 +84,10 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
                 val navigator = LocalNavigator.currentOrThrow
                 FloatingActionButton(onClick = { viewModel.handleIntent(EntryFormIntent.Submit); navigator.pop() }) {
-                    Icon(Icons.Filled.Check, getString(MR.strings.entry_save))
+                    Icon(
+                        painter = painterResource(MR.images.ic_check),
+                        contentDescription = getString(MR.strings.entry_save),
+                    )
                 }
             }
         )
@@ -122,7 +122,10 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             },
             floatingActionButton = {
                 FloatingActionButton(onClick = { TODO() }) {
-                    Icon(Icons.Filled.Add, getString(MR.strings.food_new))
+                    Icon(
+                        painter = painterResource(MR.images.ic_add),
+                        contentDescription = getString(MR.strings.food_new),
+                    )
                 }
             }
         )
@@ -130,7 +133,10 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             floatingActionButton = {
                 val viewModel = getViewModel<ExportFormViewModel>()
                 FloatingActionButton(onClick = { viewModel.submit() }) {
-                    Icon(Icons.Filled.Check, getString(MR.strings.export))
+                    Icon(
+                        painter = painterResource(MR.images.ic_check),
+                        contentDescription = getString(MR.strings.export),
+                    )
                 }
             }
         )
@@ -138,7 +144,10 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             floatingActionButton = {
                 val viewModel = getViewModel<MeasurementPropertyListViewModel>()
                 FloatingActionButton(onClick = viewModel::showFormDialog) {
-                    Icon(Icons.Filled.Add, getString(MR.strings.measurement_property_new))
+                    Icon(
+                        painter = painterResource(MR.images.ic_add),
+                        contentDescription = getString(MR.strings.measurement_property_new),
+                    )
                 }
             }
         )
@@ -146,7 +155,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             actions = {
                 val viewModel = getViewModel<MeasurementPropertyFormViewModel> { parametersOf(property) }
                 BottomAppBarItem(
-                    image = Icons.Filled.Delete,
+                    painter = painterResource(MR.images.ic_delete),
                     contentDescription = MR.strings.measurement_property_delete,
                     onClick = viewModel::deletePropertyIfConfirmed,
                 )
@@ -154,7 +163,10 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             floatingActionButton = {
                 val viewModel = getViewModel<MeasurementPropertyFormViewModel> { parametersOf(property) }
                 FloatingActionButton(onClick = viewModel::showFormDialog) {
-                    Icon(Icons.Filled.Add, getString(MR.strings.measurement_type_new))
+                    Icon(
+                        painter = painterResource(MR.images.ic_add),
+                        contentDescription = getString(MR.strings.measurement_type_new),
+                    )
                 }
             }
         )
@@ -162,7 +174,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
             actions = {
                 val viewModel = getViewModel<MeasurementTypeFormViewModel> { parametersOf(measurementTypeId) }
                 BottomAppBarItem(
-                    image = Icons.Filled.Delete,
+                    painter = painterResource(MR.images.ic_delete),
                     contentDescription = MR.strings.measurement_type_delete,
                     onClick = viewModel::deleteTypeIfConfirmed,
                 )

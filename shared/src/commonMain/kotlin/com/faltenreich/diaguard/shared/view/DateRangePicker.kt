@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,6 +22,7 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import dev.icerock.moko.resources.compose.painterResource
 import androidx.compose.material3.DateRangePicker as MaterialDateRangePicker
 
 @Composable
@@ -53,7 +52,7 @@ fun DateRangePicker(
         ) {
             IconButton(onClick = { onPick(dateRange) }) {
                 Icon(
-                    Icons.Filled.Close,
+                    painter = painterResource(MR.images.ic_clear),
                     contentDescription = getString(MR.strings.close),
                 )
             }

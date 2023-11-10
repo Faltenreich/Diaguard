@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.entry.form
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,6 +10,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
+import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun EntryFormFloatingActionButton(
@@ -23,6 +22,9 @@ fun EntryFormFloatingActionButton(
         onClick = { navigator.push(EntryFormScreen(entry)) },
         modifier = modifier,
     ) {
-        Icon(Icons.Filled.Add, getString(MR.strings.entry_new_description))
+        Icon(
+            painter = painterResource(MR.images.ic_add),
+            contentDescription = getString(MR.strings.entry_new_description),
+        )
     }
 }

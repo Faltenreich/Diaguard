@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.shared.view
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +8,7 @@ import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.shared.datetime.Date
+import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun DatePickerBottomAppBarItem(
@@ -18,7 +17,7 @@ fun DatePickerBottomAppBarItem(
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     BottomAppBarItem(
-        image = Icons.Filled.DateRange,
+        painter = painterResource(MR.images.ic_date_range),
         contentDescription = MR.strings.date_pick,
         onClick = { showDatePicker = true },
     )

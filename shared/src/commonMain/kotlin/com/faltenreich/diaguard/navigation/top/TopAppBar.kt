@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.navigation.top
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -11,6 +9,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.localization.getString
+import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun TopAppBar(
@@ -25,7 +24,7 @@ fun TopAppBar(
                 if (navigator.canPop) {
                     IconButton(onClick = navigator::pop) {
                         Icon(
-                            Icons.Filled.ArrowBack,
+                            painter = painterResource(MR.images.ic_arrow_back),
                             contentDescription = getString(MR.strings.navigate_back),
                         )
                     }

@@ -3,8 +3,6 @@ package com.faltenreich.diaguard.measurement.unit.list
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -16,6 +14,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FormRow
+import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun MeasurementUnitListItem(
@@ -40,7 +39,7 @@ fun MeasurementUnitListItem(
                 }
                 if (unit.isSelected) {
                     Icon(
-                        imageVector = Icons.Filled.Check,
+                        painter = painterResource(MR.images.ic_check),
                         contentDescription = getString(MR.strings.measurement_unit_selected_description),
                         modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
                         tint = AppTheme.colors.scheme.primary,

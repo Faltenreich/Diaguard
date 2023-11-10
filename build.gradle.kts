@@ -26,6 +26,9 @@ allprojects {
     }
 
     tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+        exclude {
+            it.file.relativeTo(projectDir).startsWith(project.buildDir.relativeTo(projectDir))
+        }
         reports {
             html.required.set(true)
             xml.required.set(true)

@@ -31,7 +31,7 @@ class MeasurementValueRepository(
             typeId = typeId,
             entryId = entryId,
         )
-        return dao.getLastId() ?: throw IllegalStateException("No entry found")
+        return checkNotNull(dao.getLastId())
     }
 
     fun create(
@@ -135,7 +135,8 @@ fun List<MeasurementValue>.deep(
 ): List<MeasurementValue> {
     return map { value ->
         value.apply {
-            this.type = typeRepository.getById(value.typeId)?.deep() ?: throw IllegalStateException()
+            val type = checkNotNull(typeRepository.getById(value.typeId))
+            this.type = type.deep()
             this.entry = entry
         }
     }

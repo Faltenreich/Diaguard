@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.shared.theme.dimension
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+@Suppress("ConstructorParameterNaming", "PropertyName")
 data class Padding(
     val P_0: Dp = 0.dp,
     val P_0_5: Dp = 2.dp,

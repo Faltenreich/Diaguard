@@ -1,3 +1,8 @@
+complexity:
+  LongParameterList:
+    active: true
+    functionThreshold: 10
+
 naming:
   active: true
   FunctionNaming:

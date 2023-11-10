@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.architecture
 
 import kotlinx.coroutines.flow.Flow
 
+@Suppress("MagicNumber")
 fun <T1, T2, T3, T4, T5, T6, R> combine(
     flow: Flow<T1>,
     flow2: Flow<T2>,

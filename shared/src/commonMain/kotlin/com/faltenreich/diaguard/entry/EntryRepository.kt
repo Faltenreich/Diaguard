@@ -27,7 +27,7 @@ class EntryRepository(
             dateTime = dateTime,
             note = note,
         )
-        return dao.getLastId() ?: throw IllegalStateException("No entry found")
+        return checkNotNull(dao.getLastId())
     }
 
     fun create(dateTime: DateTime): Long {

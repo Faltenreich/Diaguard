@@ -41,7 +41,7 @@ class FoodRepository(
             sodium = sodium,
             sugar = sugar,
         )
-        return dao.getLastId() ?: throw IllegalStateException("Missing previously created entity")
+        return checkNotNull(dao.getLastId())
     }
 
     fun observeAll(): Flow<List<Food>> {

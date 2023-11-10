@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.export.pdf
 
 class PdfFooter {
 
-    class Builder() {
+    class Builder {
 
         fun build(): PdfFooter {
             return PdfFooter()

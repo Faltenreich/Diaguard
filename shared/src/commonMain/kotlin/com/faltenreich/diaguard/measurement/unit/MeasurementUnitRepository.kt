@@ -23,7 +23,7 @@ class MeasurementUnitRepository(
             factor = factor,
             typeId = typeId,
         )
-        return dao.getLastId() ?: throw IllegalStateException("Missing previously created entity")
+        return checkNotNull(dao.getLastId())
     }
 
     fun observeById(id: Long): Flow<MeasurementUnit?> {
@@ -31,7 +31,7 @@ class MeasurementUnitRepository(
     }
 
     fun getByKey(key: String): MeasurementUnit {
-        return dao.getByKey(key) ?: throw IllegalStateException("Missing entity for key: $key")
+        return checkNotNull(dao.getByKey(key))
     }
 
     fun observeByTypeId(typeId: Long): Flow<List<MeasurementUnit>> {

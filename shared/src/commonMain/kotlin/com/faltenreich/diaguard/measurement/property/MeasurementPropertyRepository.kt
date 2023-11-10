@@ -23,7 +23,7 @@ class MeasurementPropertyRepository(
             icon = icon,
             sortIndex = sortIndex,
         )
-        return dao.getLastId() ?: throw IllegalStateException("Missing previously created entity")
+        return checkNotNull(dao.getLastId())
     }
 
     fun getById(id: Long): MeasurementProperty? {
@@ -35,7 +35,7 @@ class MeasurementPropertyRepository(
     }
 
     fun getByKey(key: DatabaseKey.MeasurementProperty): MeasurementProperty {
-        return dao.getByKey(key.key) ?: throw IllegalStateException("Missing entity for key: $key")
+        return checkNotNull(dao.getByKey(key.key))
     }
 
     fun getBloodSugar(): MeasurementProperty {

@@ -27,7 +27,7 @@ class MeasurementTypeRepository(
             sortIndex = sortIndex,
             propertyId = propertyId,
         )
-        return dao.getLastId() ?: throw IllegalStateException("Missing previously created entity")
+        return checkNotNull(dao.getLastId())
     }
 
     fun getById(id: Long): MeasurementType? {
@@ -39,7 +39,7 @@ class MeasurementTypeRepository(
     }
 
     fun getByKey(key: String): MeasurementType {
-        return dao.getByKey(key) ?: throw IllegalStateException("Missing entity for key: $key")
+        return checkNotNull(dao.getByKey(key))
     }
 
     fun getByPropertyId(propertyId: Long): List<MeasurementType> {

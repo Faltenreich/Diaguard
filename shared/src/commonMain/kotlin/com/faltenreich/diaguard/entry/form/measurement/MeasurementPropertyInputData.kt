@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
+import com.faltenreich.diaguard.food.input.FoodInputData
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 
 data class MeasurementPropertyInputData(

@@ -2,17 +2,20 @@ package com.faltenreich.diaguard.entry.form.measurement
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.food.input.FoodInput
+import com.faltenreich.diaguard.food.input.FoodInputData
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.shared.view.FormRow
 
 @Composable
 fun MeasurementPropertyInput(
     data: MeasurementPropertyInputData,
+    foodEaten: List<FoodInputData>,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -30,8 +33,11 @@ fun MeasurementPropertyInput(
             }
             if (data.property.isMeal) {
                 FoodInput(
-                    onAdd = { onIntent(EntryFormIntent.AddFood) },
+                    onAdd = { food -> onIntent(EntryFormIntent.AddFood(food)) },
                 )
+                foodEaten.forEach { food ->
+                    Text(food.food.name)
+                }
             }
         }
     }

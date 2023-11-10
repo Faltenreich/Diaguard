@@ -9,6 +9,8 @@ import com.faltenreich.diaguard.entry.form.alarm.AlarmDelay
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
+import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.input.FoodInputData
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -65,6 +67,7 @@ class EntryFormViewModel(
         } ?: localization.getString(MR.strings.alarm_none)
 
     var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
+    var foodEaten by mutableStateOf(emptyList<FoodInputData>())
 
     init {
         // Attention: Switching Dispatcher fixes
@@ -80,7 +83,7 @@ class EntryFormViewModel(
             is EntryFormIntent.Edit -> updateMeasurementValue(intent.data)
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> deleteIfNeeded()
-            is EntryFormIntent.AddFood -> TODO()
+            is EntryFormIntent.AddFood -> addFood(intent.food)
         }
     }
 
@@ -108,5 +111,9 @@ class EntryFormViewModel(
         // TODO: Intercept with confirmation dialog if something has changed
         val id = id ?: return
         deleteEntry(id)
+    }
+
+    private fun addFood(food: Food) {
+        foodEaten += FoodInputData(food)
     }
 }

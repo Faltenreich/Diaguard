@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
+import com.faltenreich.diaguard.food.Food
 
 sealed interface EntryFormIntent {
 
@@ -10,5 +11,5 @@ sealed interface EntryFormIntent {
 
     data object Delete : EntryFormIntent
 
-    data object AddFood : EntryFormIntent
+    data class AddFood(val food: Food) : EntryFormIntent
 }

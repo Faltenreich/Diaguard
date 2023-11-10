@@ -69,7 +69,7 @@ fun BottomSheetNavigation(
                 label = MR.strings.food,
                 icon = null,
                 isActive = navigator.lastItem is FoodListScreen,
-                onClick = { navigateTo(FoodListScreen, false) },
+                onClick = { navigateTo(FoodListScreen(), false) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.export,

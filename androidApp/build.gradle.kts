@@ -31,7 +31,7 @@ android {
     }
 
     buildFeatures.compose = true
-    composeOptions.kotlinCompilerExtensionVersion = Versions.composeCompiler
+    composeOptions.kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     packagingOptions.resources.excludes += "META-INF/versions/9/previous-compilation-data.bin"
 }
 
@@ -43,7 +43,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
 
-    implementation(Dependencies.Androidx.activityCompose)
-    implementation(Dependencies.Koin.core)
-    implementation(Dependencies.Koin.android)
+    implementation(libs.androidx.compose)
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
 }

@@ -75,7 +75,7 @@ class EntryFormViewModel(
         }
     }
 
-    fun handleIntent(intent: EntryFormIntent) = viewModelScope.launch(dispatcher){
+    fun handleIntent(intent: EntryFormIntent) = viewModelScope.launch(dispatcher) {
         when (intent) {
             is EntryFormIntent.Edit -> updateMeasurementValue(intent.data)
             is EntryFormIntent.Submit -> submit()

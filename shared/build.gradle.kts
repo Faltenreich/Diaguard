@@ -24,44 +24,44 @@ kotlin {
                 // FIXME: https://github.com/JetBrains/compose-multiplatform/issues/2914
                 // implementation(compose.preview)
                 implementation(compose.runtime)
-                implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Kotlinx.coroutines)
-                implementation(Dependencies.Kotlinx.dateTime)
-                implementation(Dependencies.Kotlinx.io)
-                implementation(Dependencies.Kotlinx.serialization)
-                implementation(Dependencies.Kotlinx.serializationCsv)
-                implementation(Dependencies.Kotlinx.serializationYaml)
-                implementation(Dependencies.Ktor.core)
-                implementation(Dependencies.Ktor.contentNegotiation)
-                implementation(Dependencies.Ktor.serialization)
-                implementation(Dependencies.Paging.common)
-                implementation(Dependencies.Shimmer.core)
-                implementation(Dependencies.SqlDelight.coroutines)
-                implementation(Dependencies.Voyager.navigator)
-                implementation(Dependencies.Voyager.transitions)
+                implementation(libs.koin.core)
+                implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.dateTime)
+                implementation(libs.kotlinx.io)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.serialization.csv)
+                implementation(libs.kotlinx.serialization.yaml)
+                implementation(libs.ktor.core)
+                implementation(libs.ktor.contentnegotiation)
+                implementation(libs.ktor.serialization)
+                implementation(libs.paging.common)
+                implementation(libs.shimmer)
+                implementation(libs.sqldelight.coroutines)
+                implementation(libs.voyager.navigator)
+                implementation(libs.voyager.transitions)
             }
         }
         commonTest {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(Dependencies.Koin.test)
-                implementation(Dependencies.Kotlinx.coroutinesTest)
-                implementation(Dependencies.Mockative.core)
-                implementation(Dependencies.Turbine.core)
-                implementation(Dependencies.Ktor.mock)
+                implementation(libs.koin.test)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.mockative)
+                implementation(libs.turbine)
+                implementation(libs.ktor.mock)
             }
         }
         androidMain {
             dependencies {
-                implementation(Dependencies.Androidx.composeMaterial3)
-                implementation(Dependencies.Androidx.dataStore)
-                implementation(Dependencies.Androidx.emojiPicker)
-                implementation(Dependencies.Koin.android)
-                implementation(Dependencies.Ktor.android)
-                implementation(Dependencies.Paging.android)
-                implementation(Dependencies.Paging.androidCompose)
-                implementation(Dependencies.SqlDelight.android)
-                implementation(Dependencies.Voyager.android)
+                implementation(libs.androidx.compose.material3)
+                implementation(libs.androidx.datastore)
+                implementation(libs.androidx.emojipicker)
+                implementation(libs.koin.android)
+                implementation(libs.ktor.android)
+                implementation(libs.paging.android)
+                implementation(libs.paging.android.compose)
+                implementation(libs.sqldelight.android)
+                implementation(libs.voyager.android)
             }
         }
         iosMain
@@ -103,12 +103,12 @@ android {
 }
 
 dependencies {
-    commonMainApi(Dependencies.Moko.resources)
-    commonMainApi(Dependencies.Moko.resourcesCompose)
-    commonTestImplementation(Dependencies.Moko.resourcesTest)
+    commonMainApi(libs.moko.resources)
+    commonMainApi(libs.moko.resources.compose)
+    commonTestImplementation(libs.moko.resources.test)
     configurations
         .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
-        .forEach { add(it.name, Dependencies.Mockative.processor) }
+        .forEach { add(it.name, libs.mockative.processor) }
 }
 
 multiplatformResources {

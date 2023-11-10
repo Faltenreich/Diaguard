@@ -1,17 +1,17 @@
 plugins {
-    kotlin("multiplatform") version Versions.kotlin apply false
-    kotlin("plugin.serialization") version Versions.kotlin apply false
-    kotlin("android") version Versions.kotlin apply false
-    id("com.android.application") version Versions.androidGradle apply false
-    id("com.android.library") version Versions.androidGradle apply false
-    id("org.jetbrains.compose") version Versions.compose apply false
-    id("com.google.devtools.ksp") version Versions.ksp apply false
-    id("app.cash.sqldelight") version Versions.sqlDelight apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.compose.multiplatform) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.sqldelight) apply false
 }
 
 buildscript {
     dependencies {
-        classpath(Dependencies.Moko.resourcesPlugin)
+        classpath(libs.moko.resources.plugin)
     }
 }
 

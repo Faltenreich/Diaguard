@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.shared.view.TextInput
 @Composable
 fun MeasurementTypeInput(
     data: MeasurementTypeInputData,
+    action: @Composable (() -> Unit)? = null,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -23,6 +24,7 @@ fun MeasurementTypeInput(
         },
         modifier = modifier.fillMaxWidth(),
         label = data.type.name,
+        trailingIcon = action,
         suffix = { Text(data.type.selectedUnit?.abbreviation ?: "") },
         maxLines = 1,
         keyboardOptions = KeyboardOptions(

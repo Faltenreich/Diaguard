@@ -3,9 +3,11 @@ package com.faltenreich.diaguard.shared.view
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun TextInput(
@@ -40,5 +42,11 @@ fun TextInput(
         singleLine = maxLines == 1,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = Color.Transparent,
+            unfocusedBorderColor = Color.Transparent,
+            disabledBorderColor = Color.Transparent,
+            errorBorderColor = Color.Transparent,
+        ),
     )
 }

@@ -1,6 +1,8 @@
 [versions]
 android-compose = "1.8.0"
 android-gradle = "8.1.3"
+android-test-runner = "1.5.2"
+android-test-junit = "1.1.5"
 compose = "1.5.10"
 compose-compiler = "1.5.4"
 compose-material3 = "1.2.0-alpha10"
@@ -9,6 +11,7 @@ datastore = "1.0.0"
 datetime = "0.4.1"
 emojipicker = "1.4.0"
 io = "0.3.0"
+junit = "4.13.2"
 koin = "3.5.0"
 kotlin = "1.9.20"
 ksp = "1.9.20-1.0.14"
@@ -30,13 +33,15 @@ androidx-compose = { module = "androidx.activity:activity-compose", version.ref 
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 androidx-emojipicker = { module = "androidx.emoji2:emoji2-emojipicker", version.ref = "emojipicker" }
-
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "android-test-runner" }
+androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "android-test-junit" }
+androidx-test-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "android-test-junit" }
+junit = { module = "junit:junit", version.ref = "junit" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
-
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
@@ -44,32 +49,24 @@ kotlinx-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
 kotlinx-serialization-csv = { module = "app.softwork:kotlinx-serialization-csv", version.ref = "serialization-csv" }
 kotlinx-serialization-yaml = { module = "net.mamoe.yamlkt:yamlkt", version.ref = "serialization-yaml" }
-
 ktor-android = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-
 mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 mockative-processor = { module = "io.mockative:mockative-processor", version.ref = "mockative" }
-
 moko-resources-plugin = { module = "dev.icerock.moko:resources-generator", version.ref = "moko" }
 moko-resources = { module = "dev.icerock.moko:resources", version.ref = "moko" }
 moko-resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko" }
 moko-resources-test = { module = "dev.icerock.moko:resources-test", version.ref = "moko" }
-
 paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging" }
 paging-android = { module = "androidx.paging:paging-runtime", version.ref = "paging-android" }
 paging-android-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-android" }
-
 shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }
-
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
-
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-
 voyager-android = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }

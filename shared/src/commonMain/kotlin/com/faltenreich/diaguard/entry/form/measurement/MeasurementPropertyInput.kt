@@ -11,8 +11,8 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
-import com.faltenreich.diaguard.food.input.FoodInputData
-import com.faltenreich.diaguard.food.input.FoodInputListItem
+import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
+import com.faltenreich.diaguard.food.eaten.FoodEatenInput
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -21,7 +21,7 @@ import com.faltenreich.diaguard.shared.view.ResourceIcon
 @Composable
 fun MeasurementPropertyInput(
     data: MeasurementPropertyInputData,
-    foodEaten: List<FoodInputData>,
+    foodEaten: List<FoodEatenInputData>,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -57,7 +57,7 @@ fun MeasurementPropertyInput(
         if (data.property.isMeal) {
             foodEaten.forEach { data ->
                 Divider()
-                FoodInputListItem(
+                FoodEatenInput(
                     data = data,
                     // TODO: modifier = Modifier.background(AppTheme.colors.scheme.background),
                     onIntent = onIntent,

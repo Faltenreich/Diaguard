@@ -13,8 +13,8 @@ import androidx.compose.ui.graphics.Color
 fun TextInput(
     input: String,
     onInputChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
     label: String,
+    modifier: Modifier = Modifier,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,

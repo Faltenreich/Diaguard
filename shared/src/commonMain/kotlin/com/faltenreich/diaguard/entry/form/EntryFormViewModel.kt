@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataU
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.input.FoodInputData
+import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -67,7 +67,7 @@ class EntryFormViewModel(
         } ?: localization.getString(MR.strings.alarm_none)
 
     var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
-    var foodEaten by mutableStateOf(emptyList<FoodInputData>())
+    var foodEaten by mutableStateOf(emptyList<FoodEatenInputData>())
 
     init {
         // Attention: Switching Dispatcher fixes
@@ -84,6 +84,7 @@ class EntryFormViewModel(
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> deleteIfNeeded()
             is EntryFormIntent.AddFood -> addFood(intent.food)
+            is EntryFormIntent.EditFood -> editFood(intent.food)
             is EntryFormIntent.RemoveFood -> removeFood(intent.food)
         }
     }
@@ -115,10 +116,20 @@ class EntryFormViewModel(
     }
 
     private fun addFood(food: Food) {
-        foodEaten += FoodInputData(food)
+        foodEaten += FoodEatenInputData(food)
     }
 
-    private fun removeFood(food: FoodInputData) {
+    private fun editFood(food: FoodEatenInputData) {
+        val swapIndex = foodEaten.indexOf(food)
+        foodEaten = foodEaten.mapIndexed { index, legacy ->
+            when (index) {
+                swapIndex -> food
+                else -> legacy
+            }
+        }
+    }
+
+    private fun removeFood(food: FoodEatenInputData) {
         foodEaten -= food
     }
 }

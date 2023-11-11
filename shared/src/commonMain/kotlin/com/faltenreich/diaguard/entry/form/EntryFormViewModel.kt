@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.alarm.AlarmDelay
+import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
@@ -22,6 +23,7 @@ import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class EntryFormViewModel(
@@ -32,6 +34,7 @@ class EntryFormViewModel(
     private val submitEntry: SubmitEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
+    private val getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
     private val localization: Localization = inject(),
 ) : ViewModel() {
@@ -71,10 +74,16 @@ class EntryFormViewModel(
 
     init {
         // Attention: Switching Dispatcher fixes
-        // IllegalStateException: Reading a state that was created after the snapshot was taken or in a snapshot that has not yet been applied
+        // IllegalStateException: Reading a state that was created after the
+        // snapshot was taken or in a snapshot that has not yet been applied
         // TODO: Fix underlying problem by switching to StateFlow
         viewModelScope.launch(Dispatchers.IO) {
             measurements = getMeasurementInputData(entry)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            getFoodEatenInputData(entry).collectLatest {
+                foodEaten = it
+            }
         }
     }
 

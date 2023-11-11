@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.stateIn
 
 class FoodEatenListViewModel(
     food: Food,
-    getFoodEatenList: GetFoodEatenListUseCase = inject(),
+    getFoodEaten: GetFoodEatenForFoodUseCase = inject(),
 ) :ViewModel() {
 
-    val viewState = getFoodEatenList(food).stateIn(
+    val viewState = getFoodEaten(food).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = emptyList(),

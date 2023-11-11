@@ -52,7 +52,10 @@ fun FoodDetail(
                     modifier = Modifier.fillMaxSize(),
                     viewModel = inject { parametersOf(viewModel.food) },
                 )
-                FoodDetailTab.EATEN_LIST -> FoodEatenList(viewModel.food, modifier = Modifier.fillMaxSize())
+                FoodDetailTab.EATEN_LIST -> FoodEatenList(
+                    modifier = Modifier.fillMaxSize(),
+                    viewModel = inject { parametersOf(viewModel.food) },
+                )
             }
         }
     }

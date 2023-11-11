@@ -64,6 +64,7 @@
     <string name="food_new">New food</string>
     <string name="food_nutrient_list">Nutrients</string>
     <string name="food_search_prompt">Search for food&#8230;</string>
+    <string name="grams_abbreviation">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="homepage">Homepage</string>
     <string name="homepage_url">http://www.diaguard.wordpress.com</string>

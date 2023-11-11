@@ -91,10 +91,10 @@ class EntryFormViewModel(
 
     private fun updateMeasurementValue(update: MeasurementTypeInputData) {
         measurements = measurements.map { property ->
-            property.copy(typeInputDataList = property.typeInputDataList.map { value ->
-                when (value.type) {
+            property.copy(typeInputDataList = property.typeInputDataList.map { legacy ->
+                when (legacy.type) {
                     update.type -> update
-                    else -> value
+                    else -> legacy
                 }
             })
         }
@@ -121,10 +121,9 @@ class EntryFormViewModel(
     }
 
     private fun editFood(food: FoodEatenInputData) {
-        val swapIndex = foodEaten.indexOf(food)
-        foodEaten = foodEaten.mapIndexed { index, legacy ->
-            when (index) {
-                swapIndex -> food
+        foodEaten = foodEaten.map { legacy ->
+            when (legacy.food) {
+                food.food -> food
                 else -> legacy
             }
         }

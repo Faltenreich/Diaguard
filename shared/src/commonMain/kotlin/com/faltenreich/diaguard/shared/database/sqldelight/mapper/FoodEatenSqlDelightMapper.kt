@@ -5,23 +5,72 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 
 class FoodEatenSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
+    private val foodMapper: FoodSqlDelightMapper,
+    private val entryMapper: EntrySqlDelightMapper,
 ) {
 
     fun map(
-        id: Long,
-        createdAt: String,
-        updatedAt: String,
-        amountInGrams: Long,
+        foodEatenId: Long,
+        foodEatenCreatedAt: String,
+        foodEatenUpdatedAt: String,
+        foodEatenAmountInGrams: Long,
+        foodEatenFoodId: Long,
+        foodEatenEntryId: Long,
         foodId: Long,
+        foodCreatedAt: String,
+        foodUpdatedAt: String,
+        foodName: String,
+        foodBrand: String?,
+        foodIngredients: String?,
+        foodLabels: String?,
+        foodCarbohydrates: Double,
+        foodEnergy: Double?,
+        foodFat: Double?,
+        foodFatSaturated: Double?,
+        foodFiber: Double?,
+        foodProteins: Double?,
+        foodSalt: Double?,
+        foodSodium: Double?,
+        foodSugar: Double?,
         entryId: Long,
+        entryCreatedAt: String,
+        entryUpdatedAt: String,
+        entryDateTime: String,
+        entryNote: String?,
     ): FoodEaten {
         return FoodEaten(
-            id = id,
-            createdAt = dateTimeFactory.dateTime(isoString = createdAt),
-            updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
-            amountInGrams = amountInGrams,
-            foodId = foodId,
-            entryId = entryId,
-        )
+            id = foodEatenId,
+            createdAt = dateTimeFactory.dateTime(isoString = foodEatenCreatedAt),
+            updatedAt = dateTimeFactory.dateTime(isoString = foodEatenUpdatedAt),
+            amountInGrams = foodEatenAmountInGrams,
+            foodId = foodEatenFoodId,
+            entryId = foodEatenEntryId,
+        ).apply {
+            food = foodMapper.map(
+                id = foodId,
+                createdAt = foodCreatedAt,
+                updatedAt = foodUpdatedAt,
+                name = foodName,
+                brand = foodBrand,
+                ingredients = foodIngredients,
+                labels = foodLabels,
+                carbohydrates = foodCarbohydrates,
+                energy = foodEnergy,
+                fat = foodFat,
+                fatSaturated = foodFatSaturated,
+                fiber = foodFiber,
+                proteins = foodProteins,
+                salt = foodSalt,
+                sodium = foodSodium,
+                sugar = foodSugar,
+            )
+            entry = entryMapper.map(
+                id = entryId,
+                createdAt = entryCreatedAt,
+                updatedAt = entryUpdatedAt,
+                dateTime = entryDateTime,
+                note = entryNote,
+            )
+        }
     }
 }

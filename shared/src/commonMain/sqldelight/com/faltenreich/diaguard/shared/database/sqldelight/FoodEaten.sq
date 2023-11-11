@@ -16,13 +16,17 @@ SELECT last_insert_rowid();
 
 getByFood:
 SELECT * FROM foodEaten
-WHERE food_id = ?
-ORDER BY updated_at DESC;
+INNER JOIN food ON food.id == foodEaten.food_id
+INNER JOIN entry ON entry.id == foodEaten.entry_id
+WHERE foodEaten.food_id = ?
+ORDER BY foodEaten.updated_at DESC;
 
 getByEntry:
 SELECT * FROM foodEaten
-WHERE entry_id = ?
-ORDER BY updated_at DESC;
+INNER JOIN food ON food.id == foodEaten.food_id
+INNER JOIN entry ON entry.id == foodEaten.entry_id
+WHERE foodEaten.entry_id = ?
+ORDER BY foodEaten.updated_at DESC;
 
 update:
 UPDATE foodEaten

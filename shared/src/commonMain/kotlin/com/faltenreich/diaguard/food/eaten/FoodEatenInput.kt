@@ -1,11 +1,14 @@
 package com.faltenreich.diaguard.food.eaten
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.shared.localization.getString
@@ -21,6 +24,7 @@ fun FoodEatenInput(
     modifier: Modifier = Modifier,
 ) {
     FormRow(modifier = modifier) {
+        Spacer(modifier = Modifier.size(AppTheme.dimensions.size.ImageMedium))
         TextInput(
             // FIXME: Input is broken
             input = data.amountInGrams?.toString() ?: "",

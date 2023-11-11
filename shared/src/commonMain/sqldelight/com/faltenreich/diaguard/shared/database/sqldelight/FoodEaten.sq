@@ -1,0 +1,33 @@
+CREATE TABLE foodEaten (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    amount_in_grams REAL NOT NULL,
+    food_id INTEGER NOT NULL,
+    entry_id INTEGER NOT NULL
+);
+
+create:
+INSERT INTO foodEaten(created_at, updated_at, amount_in_grams, food_id, entry_id)
+VALUES (?, ?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getByFood:
+SELECT * FROM foodEaten
+WHERE food_id = ?
+ORDER BY updated_at DESC;
+
+getByEntry:
+SELECT * FROM foodEaten
+WHERE entry_id = ?
+ORDER BY updated_at DESC;
+
+update:
+UPDATE foodEaten
+SET updated_at = ?, amount_in_grams = ?
+WHERE id = ?;
+
+deleteById:
+DELETE FROM foodEaten WHERE id = ?;

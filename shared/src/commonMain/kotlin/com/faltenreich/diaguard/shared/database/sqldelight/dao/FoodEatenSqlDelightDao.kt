@@ -24,7 +24,7 @@ class FoodEatenSqlDelightDao(
     override fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
-        amountInGrams: Double,
+        amountInGrams: Long,
         foodId: Long,
         entryId: Long,
     ) {
@@ -52,7 +52,7 @@ class FoodEatenSqlDelightDao(
     override fun update(
         id: Long,
         updatedAt: DateTime,
-        amountInGrams: Double,
+        amountInGrams: Long,
     ) {
         queries.update(
             updated_at = updatedAt.isoString,

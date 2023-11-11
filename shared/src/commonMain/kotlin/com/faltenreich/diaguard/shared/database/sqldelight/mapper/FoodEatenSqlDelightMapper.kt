@@ -11,7 +11,7 @@ class FoodEatenSqlDelightMapper(
         id: Long,
         createdAt: String,
         updatedAt: String,
-        amountInGrams: Double,
+        amountInGrams: Long,
         foodId: Long,
         entryId: Long,
     ): FoodEaten {

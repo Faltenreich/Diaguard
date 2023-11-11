@@ -4,5 +4,5 @@ import com.faltenreich.diaguard.food.Food
 
 data class FoodEatenInputData(
     val food: Food,
-    val amountInGrams: Int? = null,
+    val amountInGrams: Long? = null,
 )

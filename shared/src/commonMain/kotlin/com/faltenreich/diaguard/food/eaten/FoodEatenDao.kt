@@ -8,7 +8,7 @@ interface FoodEatenDao {
     fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
-        amountInGrams: Double,
+        amountInGrams: Long,
         foodId: Long,
         entryId: Long,
     )
@@ -22,7 +22,7 @@ interface FoodEatenDao {
     fun update(
         id: Long,
         updatedAt: DateTime,
-        amountInGrams: Double,
+        amountInGrams: Long,
     )
 
     fun deleteById(id: Long)

@@ -2,7 +2,7 @@ CREATE TABLE foodEaten (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
-    amount_in_grams REAL NOT NULL,
+    amount_in_grams INTEGER NOT NULL,
     food_id INTEGER NOT NULL,
     entry_id INTEGER NOT NULL
 );

@@ -29,7 +29,7 @@ fun FoodEatenInput(
             // FIXME: Input is broken
             input = data.amountInGrams?.toString() ?: "",
             onInputChange = { input ->
-                onIntent(EntryFormIntent.EditFood(data.copy(amountInGrams = input.toIntOrNull())))
+                onIntent(EntryFormIntent.EditFood(data.copy(amountInGrams = input.toLongOrNull())))
             },
             label = data.food.name,
             modifier = Modifier.weight(1f),

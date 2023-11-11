@@ -2,13 +2,15 @@ package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
+import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
+import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.datetime.DateTime
-import com.faltenreich.diaguard.shared.di.inject
 
 class SubmitEntryUseCase(
-    private val entryRepository: EntryRepository = inject(),
-    private val measurementValueRepository: MeasurementValueRepository = inject(),
+    private val entryRepository: EntryRepository,
+    private val measurementValueRepository: MeasurementValueRepository,
+    private val foodEatenRepository: FoodEatenRepository,
 ) {
 
     operator fun invoke(
@@ -16,6 +18,7 @@ class SubmitEntryUseCase(
         dateTime: DateTime,
         note: String?,
         measurements: List<MeasurementTypeInputData>,
+        foodEaten: List<FoodEatenInputData>,
     ) {
         val entryId = id ?: entryRepository.create(dateTime)
         entryRepository.update(
@@ -35,6 +38,14 @@ class SubmitEntryUseCase(
                     entryId = entryId,
                 ),
                 value = normalized,
+            )
+        }
+        foodEaten.forEach { data ->
+            val amountInGrams = data.amountInGrams ?: return@forEach
+            foodEatenRepository.create(
+                amountInGrams = amountInGrams,
+                foodId = data.food.id,
+                entryId = entryId,
             )
         }
     }

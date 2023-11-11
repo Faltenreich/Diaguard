@@ -25,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EntryFormViewModel(
     entry: Entry?,
@@ -73,16 +74,17 @@ class EntryFormViewModel(
     var foodEaten by mutableStateOf(emptyList<FoodEatenInputData>())
 
     init {
-        // Attention: Switching Dispatcher fixes
-        // IllegalStateException: Reading a state that was created after the
-        // snapshot was taken or in a snapshot that has not yet been applied
-        // TODO: Fix underlying problem by switching to StateFlow
         viewModelScope.launch(Dispatchers.IO) {
-            measurements = getMeasurementInputData(entry)
+            val measurements = getMeasurementInputData(entry)
+            withContext(Dispatchers.Main) {
+                this@EntryFormViewModel.measurements = measurements
+            }
         }
         viewModelScope.launch(Dispatchers.IO) {
-            getFoodEatenInputData(entry).collectLatest {
-                foodEaten = it
+            getFoodEatenInputData(entry).collectLatest { foodEaten ->
+                withContext(Dispatchers.Main) {
+                    this@EntryFormViewModel.foodEaten = foodEaten
+                }
             }
         }
     }

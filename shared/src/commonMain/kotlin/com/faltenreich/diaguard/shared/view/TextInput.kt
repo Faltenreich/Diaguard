@@ -44,6 +44,8 @@ fun TextInput(
         singleLine = maxLines == 1,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
+        // Workaround: Removes borders but leaves additional bottom padding
+        // TODO: Remove additional padding, e.g. via TextFieldDecorationBox
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,

@@ -12,6 +12,7 @@ data class Padding(
     val P_2: Dp = 8.dp,
     val P_2_5: Dp = 12.dp,
     val P_3: Dp = 16.dp,
+    val P_3_25: Dp = 20.dp,
     val P_3_5: Dp = 24.dp,
     val P_4: Dp = 32.dp,
     val P_4_5: Dp = 48.dp,

@@ -90,6 +90,7 @@ fun EntryForm(
                 foodEaten = foodEaten,
                 onIntent = viewModel::handleIntent,
             )
+            Divider()
         }
     }
 

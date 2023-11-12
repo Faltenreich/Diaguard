@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,10 +21,10 @@ fun MeasurementTypeInput(
         onInputChange = { input ->
             onIntent(EntryFormIntent.Edit(data.copy(input = input)))
         },
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         label = data.type.name,
         trailingIcon = action,
-        suffix = { Text(data.type.selectedUnit?.abbreviation ?: "") },
+        suffix = { Text(data.type.selectedUnit.abbreviation) },
         maxLines = 1,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal,

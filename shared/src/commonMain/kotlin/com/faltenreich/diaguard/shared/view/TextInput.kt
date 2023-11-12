@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.view
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -9,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.faltenreich.diaguard.AppTheme
 
 @Composable
 fun TextInput(
@@ -31,7 +29,7 @@ fun TextInput(
     OutlinedTextField(
         value = input,
         onValueChange = onInputChange,
-        modifier = modifier.padding(bottom = AppTheme.dimensions.padding.P_1),
+        modifier = modifier,
         label = { Text(label) },
         placeholder = placeholder,
         leadingIcon = leadingIcon,

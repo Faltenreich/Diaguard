@@ -4,7 +4,7 @@
     <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="alarm_placeholder">In %s minutes</string>
-    <string name="alarm_none">No alarm set</string>
+    <string name="alarm">Alarm</string>
     <string name="app_name">Diaguard</string>
     <string name="average">Average</string>
     <string name="basal">Basal</string>
@@ -109,6 +109,7 @@
     <string name="millimoles_per_mole_abbreviation">mmol/mol</string>
     <string name="minutes">Minutes</string>
     <string name="minutes_abbreviation">min</string>
+    <string name="minutes_until">Minutes until</string>
     <string name="millimeters_of_mercury">Millimeters of mercury</string>
     <string name="millimeters_of_mercury_abbreviation">mmHg</string>
     <string name="month">Month</string>
@@ -199,12 +200,4 @@
     <string name="month_november_short">Nov</string>
     <string name="month_december">December</string>
     <string name="month_december_short">Dec</string>
-
-    <string name="alarm_none">No alarm</string>
-    <string name="alarm_in_5_minutes">In 5 minutes</string>
-    <string name="alarm_in_15_minutes">In 15 minutes</string>
-    <string name="alarm_in_30_minutes">In 30 minutes</string>
-    <string name="alarm_in_1_hour">In 1 hour</string>
-    <string name="alarm_in_2_hours">In 2 hour</string>
-    <string name="alarm_custom">Custom</string>
 </resources>

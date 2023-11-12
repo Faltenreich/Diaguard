@@ -15,8 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.entry.form.alarm.AlarmPicker
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -34,7 +34,6 @@ fun EntryForm(
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
-    var showAlarmPicker by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -75,9 +74,17 @@ fun EntryForm(
         Divider()
 
         FormRow(icon = { ResourceIcon(MR.images.ic_alarm) }) {
-            TextButton(onClick = { showAlarmPicker = true }) {
-                Text(viewModel.alarmDelayFormatted)
-            }
+            TextInput(
+                input = viewModel.alarmDelayInMinutes?.toString() ?: "",
+                onInputChange = { viewModel.alarmDelayInMinutes = it.toIntOrNull() },
+                label = getString(MR.strings.alarm),
+                suffix = { Text(getString(MR.strings.minutes_until)) },
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next,
+                ),
+            )
         }
 
         TextDivider(getString(MR.strings.measurement_properties))
@@ -113,11 +120,4 @@ fun EntryForm(
             },
         )
     }
-
-    AlarmPicker(
-        expanded = showAlarmPicker,
-        onDismissRequest = { showAlarmPicker = false },
-        delay = viewModel.alarmDelay,
-        onPick = { viewModel.alarmDelay = it },
-    )
 }

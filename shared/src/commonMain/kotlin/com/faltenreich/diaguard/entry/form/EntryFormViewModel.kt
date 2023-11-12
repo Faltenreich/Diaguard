@@ -3,9 +3,7 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.form.alarm.AlarmDelay
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
@@ -19,7 +17,6 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -37,7 +34,6 @@ class EntryFormViewModel(
     private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
     private val getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
-    private val localization: Localization = inject(),
 ) : ViewModel() {
 
     private val id: Long? = entry?.id
@@ -64,11 +60,7 @@ class EntryFormViewModel(
 
     var note: String by mutableStateOf(entry?.note ?: "")
 
-    var alarmDelay: AlarmDelay by mutableStateOf(AlarmDelay.None)
-    val alarmDelayFormatted: String
-        get() = alarmDelay.minutes?.let { minutes ->
-            localization.getString(MR.strings.alarm_placeholder, minutes)
-        } ?: localization.getString(MR.strings.alarm_none)
+    var alarmDelayInMinutes: Int? by mutableStateOf(null)
 
     var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
     var foodEaten by mutableStateOf(emptyList<FoodEatenInputData>())

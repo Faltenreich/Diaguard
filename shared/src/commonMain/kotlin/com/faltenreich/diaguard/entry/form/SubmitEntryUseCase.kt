@@ -40,6 +40,7 @@ class SubmitEntryUseCase(
                 value = normalized,
             )
         }
+        // TODO: Override legacy to prevent duplicates
         foodEaten.forEach { data ->
             val amountInGrams = data.amountInGrams ?: return@forEach
             foodEatenRepository.create(

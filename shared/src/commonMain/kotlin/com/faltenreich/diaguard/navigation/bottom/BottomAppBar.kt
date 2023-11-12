@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.navigation.bottom
 
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import dev.icerock.moko.resources.compose.painterResource
 import androidx.compose.material3.BottomAppBar as Material3BottomBar
@@ -23,6 +24,8 @@ fun BottomAppBar(
                     style.actions()
                 },
                 floatingActionButton = { style.floatingActionButton() },
+                containerColor = AppTheme.colors.scheme.primary,
+                contentColor = AppTheme.colors.scheme.onPrimary,
             )
         }
     }

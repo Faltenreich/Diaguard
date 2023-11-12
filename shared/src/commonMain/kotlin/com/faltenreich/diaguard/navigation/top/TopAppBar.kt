@@ -31,7 +31,10 @@ fun TopAppBar(
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = AppTheme.colors.scheme.surfaceVariant,
+                containerColor = AppTheme.colors.scheme.primary,
+                navigationIconContentColor = AppTheme.colors.scheme.onPrimary,
+                titleContentColor = AppTheme.colors.scheme.onPrimary,
+                actionIconContentColor = AppTheme.colors.scheme.onPrimary,
             ),
         )
     }

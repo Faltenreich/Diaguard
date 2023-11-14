@@ -21,16 +21,12 @@ class SubmitEntryUseCase(
         measurements: List<MeasurementPropertyInputData>,
         foodEaten: List<FoodEatenInputData>,
     ) {
-        val entryId = createOrUpdateEntry(id, dateTime, note)
-
-        createOrUpdateMeasurements(measurements, entryId)
-
-        val foodEatenBefore = foodEatenRepository.getByEntryId(entryId)
-        createOrUpdateFoodEaten(foodEaten, foodEatenBefore, entryId)
-        deleteFoodEatenIfObsolete(foodEaten, foodEatenBefore)
+        val entryId = submitEntry(id, dateTime, note)
+        submitMeasurements(measurements, entryId)
+        submitFoodEaten(foodEaten, entryId)
     }
 
-    private fun createOrUpdateEntry(
+    private fun submitEntry(
         id: Long?,
         dateTime: DateTime,
         note: String?,
@@ -44,7 +40,7 @@ class SubmitEntryUseCase(
         return entryId
     }
 
-    private fun createOrUpdateMeasurements(
+    private fun submitMeasurements(
         measurements: List<MeasurementPropertyInputData>,
         entryId: Long,
     ) {
@@ -71,6 +67,15 @@ class SubmitEntryUseCase(
                 }
             }
         }
+    }
+
+    private fun submitFoodEaten(
+        foodEaten: List<FoodEatenInputData>,
+        entryId: Long,
+    ) {
+        val foodEatenBefore = foodEatenRepository.getByEntryId(entryId)
+        createOrUpdateFoodEaten(foodEaten, foodEatenBefore, entryId)
+        deleteFoodEatenIfObsolete(foodEaten, foodEatenBefore)
     }
 
     private fun createOrUpdateFoodEaten(

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -37,7 +38,10 @@ fun EntryListItem(
         ) {
             Text(dateTimeFormatter.formatTime(entry.dateTime.time))
             entry.values.forEach { value ->
-                Row {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     MeasurementPropertyIcon(value.type.property)
                     Text(value.value.toString())
                 }

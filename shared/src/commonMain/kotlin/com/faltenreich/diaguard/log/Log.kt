@@ -4,14 +4,25 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
@@ -45,45 +56,70 @@ fun Log(
             }
     }
 
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        state = listState,
-    ) {
-        for (index in 0 until items.itemCount) {
-            when (val peek = items.peek(index)) {
-                is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
-                    val item = items.get(index) ?: throw IllegalStateException()
-                    LogMonth(item.date.monthOfYear)
-                }
-                is LogItem.DayHeader -> item(key = peek.key) {
-                    val item = items.get(index) ?: throw IllegalStateException()
-                    LogDay(item.date,)
-                }
-                is LogItem.EntryContent -> item(key = peek.key) {
-                    val item = items.get(index) as? LogItem.EntryContent ?: throw IllegalStateException()
-                    // TODO: Animate item replacement
-                    val swipeToDismissState = rememberDismissState(
-                        confirmValueChange = {
-                            viewModel.remove(item)
-                            true
-                        }
-                    )
-                    SwipeToDismiss(
-                        state = swipeToDismissState,
-                        background = { Box(modifier = Modifier.fillMaxSize()) },
-                        dismissContent = { LogEntry(entry = item.entry) },
-                    )
-                }
-                is LogItem.EmptyContent -> item(key = peek.key) {
-                    val item = items.get(index) ?: throw IllegalStateException()
-                    LogEmpty(item.date)
-                }
-                null -> item {
-                    Skeleton(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(AppTheme.dimensions.size.TouchSizeMedium),
-                    )
+    var monthHeaderSize by remember { mutableStateOf(Size.Zero) }
+    // FIXME: Is too wide
+    var dayHeaderSize by remember { mutableStateOf(Size.Zero) }
+
+    Box {
+        LogDay(
+            date = viewModel.currentDate.value,
+            modifier = Modifier
+                // TODO: Move out of the way, e.g. via -listState.firstVisibleItemScrollOffset
+                .offset { IntOffset(0, monthHeaderSize.height.toInt()) }
+                .onGloballyPositioned { dayHeaderSize = it.size.toSize() },
+        )
+        LazyColumn(
+            modifier = modifier.fillMaxSize(),
+            state = listState,
+        ) {
+            for (index in 0 until items.itemCount) {
+                when (val peek = items.peek(index)) {
+                    is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
+                        val item = items.get(index) ?: throw IllegalStateException()
+                        LogMonth(
+                            monthOfYear = item.date.monthOfYear,
+                            modifier = Modifier.onGloballyPositioned { monthHeaderSize = it.size.toSize() },
+                        )
+                    }
+                    is LogItem.DayHeader -> item(key = peek.key) {
+                        val item = items.get(index) ?: throw IllegalStateException()
+                        LogDay(item.date)
+                    }
+                    is LogItem.EntryContent -> item(key = peek.key) {
+                        val item = items.get(index) as? LogItem.EntryContent ?: throw IllegalStateException()
+                        // TODO: Animate item replacement
+                        val swipeToDismissState = rememberDismissState(
+                            confirmValueChange = {
+                                viewModel.remove(item)
+                                true
+                            }
+                        )
+                        SwipeToDismiss(
+                            state = swipeToDismissState,
+                            background = { Box(modifier = Modifier.fillMaxSize()) },
+                            dismissContent = {
+                                LogEntry(
+                                    entry = item.entry,
+                                    modifier = Modifier.padding(start = dayHeaderSize.width.toInt().dp),
+                                )
+                            },
+                        )
+                    }
+                    is LogItem.EmptyContent -> item(key = peek.key) {
+                        val item = items.get(index) ?: throw IllegalStateException()
+                        LogEmpty(
+                            date = item.date,
+                            modifier = Modifier.padding(start = dayHeaderSize.width.toInt().dp),
+                        )
+                    }
+                    null -> item {
+                        Skeleton(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(AppTheme.dimensions.size.TouchSizeMedium)
+                                .padding(start = dayHeaderSize.width.toInt().dp),
+                        )
+                    }
                 }
             }
         }

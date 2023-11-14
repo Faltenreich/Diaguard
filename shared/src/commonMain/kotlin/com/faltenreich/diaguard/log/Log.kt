@@ -20,6 +20,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogDay
@@ -55,17 +56,10 @@ fun Log(
             }
     }
 
-    var monthHeaderHeight by remember { mutableStateOf(0.dp) }
-    var dayHeaderWidth by remember { mutableStateOf(0.dp) }
+    var monthHeaderHeightPx by remember { mutableStateOf(0) }
+    var dayHeaderWidthDp by remember { mutableStateOf(0.dp) }
 
     Box {
-        LogDay(
-            date = viewModel.currentDate.value,
-            modifier = Modifier
-                // TODO: Move out of the way, e.g. via -listState.firstVisibleItemScrollOffset
-                .offset(y = monthHeaderHeight)
-                .onGloballyPositioned { dayHeaderWidth = with(density) { it.size.width.toDp() } },
-        )
         LazyColumn(
             modifier = modifier.fillMaxSize(),
             state = listState,
@@ -76,9 +70,7 @@ fun Log(
                         val item = items.get(index) ?: throw IllegalStateException()
                         LogMonth(
                             monthOfYear = item.date.monthOfYear,
-                            modifier = Modifier.onGloballyPositioned {
-                                monthHeaderHeight = with(density) { it.size.height.toDp() }
-                            },
+                            modifier = Modifier.onGloballyPositioned { monthHeaderHeightPx = it.size.height },
                         )
                     }
                     is LogItem.DayHeader -> item(key = peek.key) {
@@ -100,7 +92,7 @@ fun Log(
                             dismissContent = {
                                 LogEntry(
                                     entry = item.entry,
-                                    modifier = Modifier.padding(start = dayHeaderWidth),
+                                    modifier = Modifier.padding(start = dayHeaderWidthDp),
                                 )
                             },
                         )
@@ -109,7 +101,7 @@ fun Log(
                         val item = items.get(index) ?: throw IllegalStateException()
                         LogEmpty(
                             date = item.date,
-                            modifier = Modifier.padding(start = dayHeaderWidth),
+                            modifier = Modifier.padding(start = dayHeaderWidthDp),
                         )
                     }
                     null -> item {
@@ -117,11 +109,24 @@ fun Log(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(AppTheme.dimensions.size.TouchSizeMedium)
-                                .padding(start = dayHeaderWidth),
+                                .padding(start = dayHeaderWidthDp),
                         )
                     }
                 }
             }
         }
+        // TODO: Move behind LazyColumn if complete
+        LogDay(
+            date = viewModel.currentDate.value,
+            modifier = Modifier
+                .offset {
+                    // FIXME: Calculate correct offset
+                    val firstVisibleDay = listState.layoutInfo.visibleItemsInfo.firstOrNull { (it.key as? String)?.startsWith("Day") == true }
+                    val firstVisibleDayOffset = firstVisibleDay?.offset ?: 0
+                    val offsetY = monthHeaderHeightPx - firstVisibleDayOffset
+                    IntOffset(0, offsetY)
+                }
+                .onGloballyPositioned { dayHeaderWidthDp = with(density) { it.size.width.toDp() } },
+        )
     }
 }

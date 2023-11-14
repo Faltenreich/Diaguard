@@ -29,7 +29,7 @@ class EntryFormViewModel(
     date: Date?,
     dateTimeFactory: DateTimeFactory = inject(),
     private val dispatcher: CoroutineDispatcher = inject(),
-    private val submitEntry: SubmitEntryUseCase = inject(),
+    private val createEntry: CreateEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
     private val getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
@@ -104,7 +104,7 @@ class EntryFormViewModel(
     }
 
     private fun submit() {
-        submitEntry(
+        createEntry(
             id = id,
             dateTime = dateTime,
             note = note,

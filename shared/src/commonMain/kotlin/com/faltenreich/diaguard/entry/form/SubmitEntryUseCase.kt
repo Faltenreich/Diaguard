@@ -26,13 +26,16 @@ class SubmitEntryUseCase(
             dateTime = dateTime,
             note = note,
         )
-        val values = measurementValueRepository.getByEntryId(entryId)
+
+        // TODO: Delete newly removed values and food eaten
+
+        val valuesFromBefore = measurementValueRepository.getByEntryId(entryId)
         measurements.forEach { (type, input) ->
             // TODO: Validate and normalize by unit
-            val value = values.firstOrNull { it.typeId == type.id }
+            val legacyId = valuesFromBefore.firstOrNull { it.typeId == type.id }?.id
             val normalized = input.toDoubleOrNull() ?: return@forEach
             measurementValueRepository.update(
-                id = value?.id ?: measurementValueRepository.create(
+                id = legacyId ?: measurementValueRepository.create(
                     value = normalized,
                     typeId = type.id,
                     entryId = entryId,
@@ -40,13 +43,17 @@ class SubmitEntryUseCase(
                 value = normalized,
             )
         }
-        // TODO: Override legacy to prevent duplicates
+        val foodEatenBefore = foodEatenRepository.getByEntryId(entryId)
         foodEaten.forEach { data ->
             val amountInGrams = data.amountInGrams ?: return@forEach
-            foodEatenRepository.create(
+            val legacyId = foodEatenBefore.firstOrNull { it.food.id == data.food.id }?.id
+            foodEatenRepository.update(
+                id = legacyId ?: foodEatenRepository.create(
+                    amountInGrams = amountInGrams,
+                    foodId = data.food.id,
+                    entryId = entryId,
+                ),
                 amountInGrams = amountInGrams,
-                foodId = data.food.id,
-                entryId = entryId,
             )
         }
     }

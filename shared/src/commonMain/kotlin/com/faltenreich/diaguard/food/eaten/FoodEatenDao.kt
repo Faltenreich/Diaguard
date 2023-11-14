@@ -19,6 +19,8 @@ interface FoodEatenDao {
 
     fun observeByEntryId(entryId: Long): Flow<List<FoodEaten>>
 
+    fun getByEntryId(entryId: Long): List<FoodEaten>
+
     fun update(
         id: Long,
         updatedAt: DateTime,

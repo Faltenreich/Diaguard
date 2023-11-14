@@ -49,6 +49,10 @@ class FoodEatenSqlDelightDao(
         return queries.getByEntry(entryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
+    override fun getByEntryId(entryId: Long): List<FoodEaten> {
+        return queries.getByEntry(entryId, mapper::map).executeAsList()
+    }
+
     override fun update(
         id: Long,
         updatedAt: DateTime,

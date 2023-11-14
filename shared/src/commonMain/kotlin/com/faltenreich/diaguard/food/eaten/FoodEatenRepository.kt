@@ -32,6 +32,10 @@ class FoodEatenRepository(
         return dao.observeByEntryId(entryId)
     }
 
+    fun getByEntryId(entryId: Long): List<FoodEaten> {
+        return dao.getByEntryId(entryId)
+    }
+
     fun update(
         id: Long,
         amountInGrams: Long,

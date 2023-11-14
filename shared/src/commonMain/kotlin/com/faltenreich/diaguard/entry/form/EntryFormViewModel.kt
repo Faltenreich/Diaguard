@@ -108,7 +108,7 @@ class EntryFormViewModel(
             id = id,
             dateTime = dateTime,
             note = note,
-            measurements = measurements.flatMap(MeasurementPropertyInputData::typeInputDataList),
+            measurements = measurements,
             foodEaten = foodEaten,
         )
     }

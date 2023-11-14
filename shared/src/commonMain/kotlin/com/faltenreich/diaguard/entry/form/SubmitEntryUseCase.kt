@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.EntryRepository
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
+import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
@@ -17,20 +18,40 @@ class SubmitEntryUseCase(
         id: Long?,
         dateTime: DateTime,
         note: String?,
-        measurements: List<MeasurementTypeInputData>,
+        measurements: List<MeasurementPropertyInputData>,
         foodEaten: List<FoodEatenInputData>,
     ) {
+        val entryId = createOrUpdateEntry(id, dateTime, note)
+
+        createOrUpdateMeasurements(measurements, entryId)
+
+        val foodEatenBefore = foodEatenRepository.getByEntryId(entryId)
+        createOrUpdateFoodEaten(foodEaten, foodEatenBefore, entryId)
+        deleteFoodEatenIfObsolete(foodEaten, foodEatenBefore)
+    }
+
+    private fun createOrUpdateEntry(
+        id: Long?,
+        dateTime: DateTime,
+        note: String?,
+    ): Long {
         val entryId = id ?: entryRepository.create(dateTime)
         entryRepository.update(
             id = entryId,
             dateTime = dateTime,
             note = note,
         )
+        return entryId
+    }
 
-        // TODO: Delete newly removed values and food eaten
-
+    private fun createOrUpdateMeasurements(
+        measurements: List<MeasurementPropertyInputData>,
+        entryId: Long,
+    ) {
+        // TODO: Delete newly removed values
+        val values = measurements.flatMap(MeasurementPropertyInputData::typeInputDataList)
         val valuesFromBefore = measurementValueRepository.getByEntryId(entryId)
-        measurements.forEach { (type, input) ->
+        values.forEach { (type, input) ->
             // TODO: Validate and normalize by unit
             val legacyId = valuesFromBefore.firstOrNull { it.typeId == type.id }?.id
             val normalized = input.toDoubleOrNull() ?: return@forEach
@@ -43,7 +64,13 @@ class SubmitEntryUseCase(
                 value = normalized,
             )
         }
-        val foodEatenBefore = foodEatenRepository.getByEntryId(entryId)
+    }
+
+    private fun createOrUpdateFoodEaten(
+        foodEaten: List<FoodEatenInputData>,
+        foodEatenBefore: List<FoodEaten>,
+        entryId: Long,
+    ) {
         foodEaten.forEach { now ->
             val amountInGrams = now.amountInGrams ?: return@forEach
             val legacyId = foodEatenBefore.firstOrNull { before -> before.food.id == now.food.id }?.id
@@ -56,6 +83,12 @@ class SubmitEntryUseCase(
                 amountInGrams = amountInGrams,
             )
         }
+    }
+
+    private fun deleteFoodEatenIfObsolete(
+        foodEaten: List<FoodEatenInputData>,
+        foodEatenBefore: List<FoodEaten>,
+    ) {
         foodEatenBefore
             .filterNot { before -> foodEaten.any { now -> now.food.id == before.food.id } }
             .forEach { notAnymore -> foodEatenRepository.deleteById(notAnymore.id) }

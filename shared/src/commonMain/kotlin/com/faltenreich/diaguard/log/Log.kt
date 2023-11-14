@@ -18,11 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
@@ -39,6 +37,7 @@ fun Log(
     modifier: Modifier = Modifier,
     viewModel: LogViewModel = inject(),
 ) {
+    val density = LocalDensity.current
     // FIXME: Gets not updated on entry change
     val items = viewModel.items.collectAsPaginationItems()
     val listState = rememberLazyListState()
@@ -56,17 +55,16 @@ fun Log(
             }
     }
 
-    var monthHeaderSize by remember { mutableStateOf(Size.Zero) }
-    // FIXME: Is too wide
-    var dayHeaderSize by remember { mutableStateOf(Size.Zero) }
+    var monthHeaderHeight by remember { mutableStateOf(0.dp) }
+    var dayHeaderWidth by remember { mutableStateOf(0.dp) }
 
     Box {
         LogDay(
             date = viewModel.currentDate.value,
             modifier = Modifier
                 // TODO: Move out of the way, e.g. via -listState.firstVisibleItemScrollOffset
-                .offset { IntOffset(0, monthHeaderSize.height.toInt()) }
-                .onGloballyPositioned { dayHeaderSize = it.size.toSize() },
+                .offset(y = monthHeaderHeight)
+                .onGloballyPositioned { dayHeaderWidth = with(density) { it.size.width.toDp() } },
         )
         LazyColumn(
             modifier = modifier.fillMaxSize(),
@@ -78,7 +76,9 @@ fun Log(
                         val item = items.get(index) ?: throw IllegalStateException()
                         LogMonth(
                             monthOfYear = item.date.monthOfYear,
-                            modifier = Modifier.onGloballyPositioned { monthHeaderSize = it.size.toSize() },
+                            modifier = Modifier.onGloballyPositioned {
+                                monthHeaderHeight = with(density) { it.size.height.toDp() }
+                            },
                         )
                     }
                     is LogItem.DayHeader -> item(key = peek.key) {
@@ -100,7 +100,7 @@ fun Log(
                             dismissContent = {
                                 LogEntry(
                                     entry = item.entry,
-                                    modifier = Modifier.padding(start = dayHeaderSize.width.toInt().dp),
+                                    modifier = Modifier.padding(start = dayHeaderWidth),
                                 )
                             },
                         )
@@ -109,7 +109,7 @@ fun Log(
                         val item = items.get(index) ?: throw IllegalStateException()
                         LogEmpty(
                             date = item.date,
-                            modifier = Modifier.padding(start = dayHeaderSize.width.toInt().dp),
+                            modifier = Modifier.padding(start = dayHeaderWidth),
                         )
                     }
                     null -> item {
@@ -117,7 +117,7 @@ fun Log(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(AppTheme.dimensions.size.TouchSizeMedium)
-                                .padding(start = dayHeaderSize.width.toInt().dp),
+                                .padding(start = dayHeaderWidth),
                         )
                     }
                 }

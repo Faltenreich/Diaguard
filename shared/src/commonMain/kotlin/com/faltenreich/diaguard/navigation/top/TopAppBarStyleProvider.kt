@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.navigation.top
 
 import androidx.compose.material3.Text
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
 import com.faltenreich.diaguard.navigation.screen.FoodDetailScreen
@@ -15,6 +16,9 @@ import com.faltenreich.diaguard.shared.localization.getString
 
 fun Screen.topAppBarStyle(): TopAppBarStyle {
     return when (this) {
+        is DashboardScreen -> TopAppBarStyle.CenterAligned {
+            Text(getString(MR.strings.app_name))
+        }
         is EntryFormScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.entry))
         }

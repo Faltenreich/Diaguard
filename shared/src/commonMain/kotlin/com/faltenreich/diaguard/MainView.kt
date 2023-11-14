@@ -52,7 +52,10 @@ fun MainView(
                     content = { padding ->
                         FadeTransition(
                             navigator = navigator,
-                            modifier = Modifier.padding(padding),
+                            modifier = Modifier
+                                // TODO: Support fullscreen content via
+                                //  .consumeWindowInsets(padding)
+                                .padding(padding),
                         )
                     },
                     bottomBar = {

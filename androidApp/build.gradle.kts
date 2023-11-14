@@ -41,7 +41,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.junit.ktx)
 
-    implementation(libs.androidx.compose)
+    implementation(libs.activity.compose)
     implementation(libs.koin.core)
     implementation(libs.koin.android)
 }

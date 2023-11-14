@@ -53,6 +53,7 @@ kotlin {
         }
         androidMain {
             dependencies {
+                implementation(libs.activity.compose)
                 implementation(libs.androidx.compose.material3)
                 implementation(libs.androidx.datastore)
                 implementation(libs.androidx.emojipicker)

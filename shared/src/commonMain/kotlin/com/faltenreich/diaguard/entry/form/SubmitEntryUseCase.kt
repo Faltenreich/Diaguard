@@ -44,17 +44,20 @@ class SubmitEntryUseCase(
             )
         }
         val foodEatenBefore = foodEatenRepository.getByEntryId(entryId)
-        foodEaten.forEach { data ->
-            val amountInGrams = data.amountInGrams ?: return@forEach
-            val legacyId = foodEatenBefore.firstOrNull { it.food.id == data.food.id }?.id
+        foodEaten.forEach { now ->
+            val amountInGrams = now.amountInGrams ?: return@forEach
+            val legacyId = foodEatenBefore.firstOrNull { before -> before.food.id == now.food.id }?.id
             foodEatenRepository.update(
                 id = legacyId ?: foodEatenRepository.create(
                     amountInGrams = amountInGrams,
-                    foodId = data.food.id,
+                    foodId = now.food.id,
                     entryId = entryId,
                 ),
                 amountInGrams = amountInGrams,
             )
         }
+        foodEatenBefore
+            .filterNot { before -> foodEaten.any { now -> now.food.id == before.food.id } }
+            .forEach { notAnymore -> foodEatenRepository.deleteById(notAnymore.id) }
     }
 }

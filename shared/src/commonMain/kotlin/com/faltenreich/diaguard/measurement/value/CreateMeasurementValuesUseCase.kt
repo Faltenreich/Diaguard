@@ -10,7 +10,6 @@ class CreateMeasurementValuesUseCase(
         measurements: List<MeasurementPropertyInputData>,
         entryId: Long,
     ) {
-        // TODO: Delete newly removed values
         val values = measurements.flatMap(MeasurementPropertyInputData::typeInputDataList)
         val valuesFromBefore = measurementValueRepository.getByEntryId(entryId)
         values.forEach { (type, input) ->

@@ -54,15 +54,22 @@ class SubmitEntryUseCase(
         values.forEach { (type, input) ->
             // TODO: Validate and normalize by unit
             val legacyId = valuesFromBefore.firstOrNull { it.typeId == type.id }?.id
-            val normalized = input.toDoubleOrNull() ?: return@forEach
-            measurementValueRepository.update(
-                id = legacyId ?: measurementValueRepository.create(
+            val normalized = input.toDoubleOrNull()
+            if (normalized != null) {
+                measurementValueRepository.update(
+                    id = legacyId ?: measurementValueRepository.create(
+                        value = normalized,
+                        typeId = type.id,
+                        entryId = entryId,
+                    ),
                     value = normalized,
-                    typeId = type.id,
-                    entryId = entryId,
-                ),
-                value = normalized,
-            )
+                )
+            } else {
+                val obsolete = valuesFromBefore.firstOrNull { it.typeId == type.id }
+                if (obsolete != null) {
+                    measurementValueRepository.deleteById(obsolete.id)
+                }
+            }
         }
     }
 

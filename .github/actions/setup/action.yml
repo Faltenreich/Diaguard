@@ -1,0 +1,33 @@
+name: Setup
+description: Prepares workspace
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+        cache: 'gradle'
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Validate Gradle wrapper
+      uses: gradle/wrapper-validation-action@v1
+
+    - name: Grant execute permission for Gradle wrapper
+      shell: bash
+      run: chmod +x gradlew
+
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+          !~/.gradle/wrapper/dists/**/gradle*.zip
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', 'gradle/libs.versions.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-

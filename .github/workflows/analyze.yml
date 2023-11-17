@@ -4,13 +4,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  android:
+  build:
     runs-on: macos-latest
-    timeout-minutes: 60
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -35,12 +33,18 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
             !~/.gradle/wrapper/dists/**/gradle*.zip
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', 'gradle/libs.versions.toml') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
       - name: Build
-        run: ./gradlew build --no-daemon
+        run: ./gradlew build
+
+  detekt:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Detekt
         run: ./gradlew detektMetadataMain

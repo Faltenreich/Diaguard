@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.backup.seed
 
+import com.faltenreich.diaguard.food.FoodDao
+import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeDao
@@ -21,15 +23,18 @@ class SeedImportTest {
     @Mock private val propertyDao = mock(classOf<MeasurementPropertyDao>())
     @Mock private val typeDao = mock(classOf<MeasurementTypeDao>())
     @Mock private val unitDao = mock(classOf<MeasurementUnitDao>())
+    @Mock private val foodDao = mock(classOf<FoodDao>())
     private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
 
     private val seedImport = SeedImport(
-        // FIXME: Replace with stub or mock
+        // FIXME: Replace with stub or mock-
         localization = Localization(),
+        dateTimeFactory = dateTimeFactory,
         seedRepository = SeedRepository(),
         propertyRepository = MeasurementPropertyRepository(dao = propertyDao, dateTimeFactory = dateTimeFactory),
         typeRepository = MeasurementTypeRepository(dao = typeDao, dateTimeFactory = dateTimeFactory),
         unitRepository = MeasurementUnitRepository(dao = unitDao, dateTimeFactory = dateTimeFactory),
+        foodRepository = FoodRepository(dao = foodDao)
     )
 
     init {

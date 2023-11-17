@@ -23,6 +23,7 @@ io = "0.3.0"
 junit = "4.13.2"
 koin = "3.5.0"
 kotlin = "1.9.20"
+kover = "0.7.4"
 ksp = "1.9.20-1.0.14"
 ktor = "2.3.5"
 mockative = "2.0.1"
@@ -88,6 +89,7 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

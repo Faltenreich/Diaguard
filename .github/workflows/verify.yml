@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -16,6 +16,9 @@ jobs:
 
       - name: Build
         run: ./gradlew build
+
+      - name: Test
+        run: ./gradlew test
 
   detekt:
     runs-on: macos-latest

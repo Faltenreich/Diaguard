@@ -10,8 +10,8 @@ class KotlinxSerializationTest {
     private val csvData = CsvDto(firstName = "John", lastName = "Doe")
     private val data = Dto(one = "a", many = listOf("a", "b"))
     private val csv = """
-       firstName,lastName
-       John,Doe
+       firstName;lastName
+       John;Doe
     """.trimIndent()
     private val json = """
         {

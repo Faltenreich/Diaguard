@@ -12,6 +12,8 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTimeFactory
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.test.returns
+import dev.icerock.moko.resources.FileResource
+import dev.icerock.moko.resources.StringResource
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.every
@@ -20,6 +22,10 @@ import kotlin.test.Test
 
 class SeedImportTest {
 
+    private val localization = object : Localization {
+        override fun getString(resource: FileResource): String = ""
+        override fun getString(resource: StringResource, vararg args: Any): String = ""
+    }
     @Mock private val propertyDao = mock(classOf<MeasurementPropertyDao>())
     @Mock private val typeDao = mock(classOf<MeasurementTypeDao>())
     @Mock private val unitDao = mock(classOf<MeasurementUnitDao>())
@@ -27,8 +33,7 @@ class SeedImportTest {
     private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
 
     private val seedImport = SeedImport(
-        // FIXME: Replace with stub or mock-
-        localization = Localization(),
+        localization = localization,
         dateTimeFactory = dateTimeFactory,
         seedRepository = SeedRepository(),
         propertyRepository = MeasurementPropertyRepository(dao = propertyDao, dateTimeFactory = dateTimeFactory),

@@ -32,9 +32,8 @@ class LogItemSource(
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
         println("LogViewModel: getRefreshKey for: $state")
         val anchorPosition = state.anchorPosition ?: return null
-        val anchorPage = state.closestPageToPosition(anchorPosition) ?: return null
         // FIXME: Determine refresh key to fix pagination invalidation on invalidation, e.g. when deleting item
-        return anchorPage.prevKey
+        return state.closestPageToPosition(anchorPosition)?.prevKey
     }
 
     override suspend fun load(params: PagingSourceLoadParams<Date>): PagingSourceLoadResult<Date, LogItem> {

@@ -47,8 +47,12 @@ fun Log(
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
             .collect { firstVisibleItemIndex ->
-                val firstVisibleDate = items.get(firstVisibleItemIndex)?.date
-                viewModel.currentDate.value = checkNotNull(firstVisibleDate)
+                // FIXME: Called when empty
+                if (items.itemCount > 0) {
+                    items.get(firstVisibleItemIndex)?.date?.let { firstVisibleDate ->
+                        viewModel.currentDate.value = firstVisibleDate
+                    }
+                }
             }
     }
 

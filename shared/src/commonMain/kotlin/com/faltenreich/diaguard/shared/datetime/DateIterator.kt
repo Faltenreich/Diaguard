@@ -13,6 +13,9 @@ class DateIterator(
     }
 
     override fun next(): Date {
+        if (current > endInclusive) {
+            throw NoSuchElementException()
+        }
         val next = current
         current = current.plus(stepInDays, DateUnit.DAY)
         return next

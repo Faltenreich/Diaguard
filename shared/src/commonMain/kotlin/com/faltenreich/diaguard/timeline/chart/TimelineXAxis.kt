@@ -14,6 +14,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 private const val GRADIENT_WIDTH = 40f
+// FIXME: Fix magic offset
+private const val X_BEFORE_INDICATOR_OFFSET = 60
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
@@ -55,11 +57,9 @@ fun DrawScope.TimelineXAxis(
             else -> xOffsetInHoursOfDay
         }
         val x = xOfLabel.toFloat()
-        if (hour == xAxis.first) {
-            // Hide date indicator initially
-            if (offset.x != 0f) {
-                drawDateIndicator(config, x)
-            }
+        // Hide date indicator initially
+        if (hour == xAxis.first && offset.x != 0f) {
+            drawDateIndicator(config, x)
         }
         drawHour(origin, size, timeOrigin, timeSize, dateSize, config, hour, x)
     }
@@ -98,7 +98,7 @@ private fun DrawScope.drawDates(
     val secondDateTextWidth = textMeasurer.measure(secondDateAsText).size.width
 
     val xStart = padding
-    val xBeforeIndicator = xOfFirstHour - firstDateTextWidth - padding - 60 // FIXME: Fix magic offset
+    val xBeforeIndicator = xOfFirstHour - firstDateTextWidth - padding - X_BEFORE_INDICATOR_OFFSET
     val xCenterOfFirstDate = xOfFirstHour - size.width / 2 - firstDateTextWidth / 2
     drawText(
         text = firstDateAsText,
@@ -110,7 +110,7 @@ private fun DrawScope.drawDates(
 
     val xAfterIndicator = xOfFirstHour + padding
     val xCenterOfSecondDate = xOfFirstHour + size.width / 2 - secondDateTextWidth / 2
-    val xEnd = size.width - secondDateTextWidth - padding * 4 // FIXME: Fix magic offset
+    val xEnd = size.width - secondDateTextWidth - padding * 2 * 2 // FIXME: Fix magic offset
     drawText(
         text = secondDateAsText,
         x = max(min(xCenterOfSecondDate, xEnd), xAfterIndicator),

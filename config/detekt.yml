@@ -1,4 +1,6 @@
 complexity:
+  LongMethod:
+    active: false
   LongParameterList:
     active: false
   TooManyFunctions:
@@ -11,7 +13,7 @@ naming:
     functionPattern: '[a-zA-Z][a-zA-Z0-9]*'
   TopLevelPropertyNaming:
     active: true
-    constantPattern: '[A-Z][A-Za-z0-9]*'
+    constantPattern: '[A-Z][_A-Za-z0-9]*'
 
 style:
   ForbiddenComment:

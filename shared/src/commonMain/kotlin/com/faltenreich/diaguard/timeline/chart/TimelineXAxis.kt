@@ -61,7 +61,7 @@ fun DrawScope.TimelineXAxis(
                 drawDateIndicator(config, x)
             }
         }
-        drawHour(origin, size, timeOrigin, timeSize, dateOrigin, dateSize, offset, config, hour, x)
+        drawHour(origin, size, timeOrigin, timeSize, dateSize, config, hour, x)
     }
     drawDates(dateOrigin, dateSize, offset, config)
 }
@@ -144,9 +144,7 @@ private fun DrawScope.drawHour(
     size: Size,
     timeOrigin: Offset,
     timeSize: Size,
-    dateOrigin: Offset,
     dateSize: Size,
-    offset: Offset,
     config: TimelineConfig,
     hour: Int,
     x: Float,

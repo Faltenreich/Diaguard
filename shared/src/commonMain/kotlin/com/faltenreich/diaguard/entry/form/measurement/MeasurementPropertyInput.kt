@@ -53,8 +53,7 @@ fun MeasurementPropertyInput(
                     MeasurementTypeInput(
                         data = type,
                         modifier = Modifier.weight(1f),
-                        action =
-                        if (data.property.isMeal) {
+                        action = if (data.property.isMeal) {
                             {
                                 IconButton(
                                     onClick = {
@@ -79,9 +78,7 @@ fun MeasurementPropertyInput(
                 Divider()
                 FormRow(
                     modifier = modifier.background(AppTheme.colors.scheme.surfaceVariant),
-                    icon = {
-                        Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ImageMedium))
-                    }
+                    icon = { Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ImageMedium)) }
                 ) {
                     FoodEatenInput(
                         data = data,

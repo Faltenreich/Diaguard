@@ -16,6 +16,7 @@ fun TrendDashboardItem(
     data: DashboardViewState.Revisit.Trend?,
     modifier: Modifier = Modifier,
 ) {
+    println(data)
     Card(modifier = modifier) {
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Text(

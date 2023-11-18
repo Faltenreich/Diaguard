@@ -41,9 +41,7 @@ fun BottomSheetNavigation(
                     navigator.push(screen)
                 }
                 bottomSheetState.hide()
-            }.invokeOnCompletion {
-                onDismissRequest()
-            }
+            }.invokeOnCompletion { onDismissRequest() }
         }
         Column {
             BottomSheetNavigationItem(

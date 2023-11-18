@@ -72,6 +72,7 @@ class MeasurementTypeFormViewModel(
                 val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
                 val unit = type.selectedUnit
+                println(unit)
                 // FIXME: Wrangles units
                 //  updateMeasurementUnit(unit.copy(name = name))
             }

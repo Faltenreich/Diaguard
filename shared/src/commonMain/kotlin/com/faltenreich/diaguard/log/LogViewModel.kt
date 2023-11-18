@@ -32,6 +32,7 @@ class LogViewModel(
     ).flow.cachedIn(viewModelScope)
 
     fun setDate(date: Date) = viewModelScope.launch(dispatcher) {
+        println(date)
         // TODO
         /*
         val indexOfDate = items.first().indexOfFirst { it.date == date }

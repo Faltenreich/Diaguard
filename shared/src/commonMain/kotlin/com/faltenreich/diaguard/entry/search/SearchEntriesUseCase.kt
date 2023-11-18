@@ -19,9 +19,10 @@ class SearchEntriesUseCase(
         return entryRepository.search(query).map { entries ->
             entries.map { entry ->
                 entry.values = valueRepository.getByEntryId(entry.id).map { value ->
-                    value.type = typeRepository.getById(value.typeId)?.apply {
-                        property = propertyRepository.getById(propertyId) ?: throw IllegalStateException()
-                    } ?: throw IllegalStateException()
+                    val type = typeRepository.getById(value.typeId)?.apply {
+                        property = checkNotNull(propertyRepository.getById(propertyId))
+                    }
+                    value.type = checkNotNull(type)
                     value
                 }
                 entry

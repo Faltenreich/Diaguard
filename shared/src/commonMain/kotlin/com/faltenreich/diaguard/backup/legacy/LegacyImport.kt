@@ -31,7 +31,8 @@ class LegacyImport(
             val valuesOfEntry = values.filter { value -> value.entryId == entryLegacyId }
             valuesOfEntry.forEach { value ->
                 val typeKey = value.typeKey
-                val typeId = typeIdsByKey[typeKey] ?: throw IllegalStateException("Missing id for type with key: $typeKey")
+                val typeId = typeIdsByKey[typeKey]
+                checkNotNull(typeId)
                 valueRepository.create(
                     createdAt = value.createdAt,
                     updatedAt = value.updatedAt,

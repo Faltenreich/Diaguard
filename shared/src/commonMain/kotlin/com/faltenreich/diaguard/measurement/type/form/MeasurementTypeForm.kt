@@ -75,7 +75,14 @@ fun MeasurementTypeForm(
                         }
                     },
                     title = { Text(getString(MR.strings.measurement_type_delete)) },
-                    text = { Text(getString(MR.strings.measurement_type_delete_description, viewState.measurementCount)) },
+                    text = {
+                        Text(
+                            getString(
+                                MR.strings.measurement_type_delete_description,
+                                viewState.measurementCount,
+                            )
+                        )
+                    },
                 )
             }
         }

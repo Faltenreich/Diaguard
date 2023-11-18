@@ -83,7 +83,8 @@ class LogItemSource(
             // itemsBefore = 1,
             itemsAfter = PAGE_SIZE_IN_DAYS,
         )
-        println("LogViewModel: Fetched data for $startDate - $endDate, previous: ${page.prevKey}, next: ${page.nextKey}")
+        println("LogViewModel: Fetched data for $startDate - $endDate, " +
+            "previous: ${page.prevKey}, next: ${page.nextKey}")
         return page
     }
 

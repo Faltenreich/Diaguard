@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.faltenreich.diaguard.shared.datetime
 
 import androidx.compose.ui.input.key.Key.Companion.T

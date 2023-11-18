@@ -20,14 +20,11 @@ class GetMeasurementTypeUseCase(
             measurementUnitRepository.observeByTypeId(measurementTypeId),
         ) { type, units ->
             type?.apply {
-                this.property = measurementPropertyRepository.getById(propertyId)
-                    ?: throw IllegalStateException("Missing property for id $propertyId")
+                this.property = checkNotNull(measurementPropertyRepository.getById(propertyId))
                 this.units = units.onEach { unit ->
                     unit.type = type
                 }
-                selectedUnitId?.let { selectedUnitId ->
-                    this.selectedUnit = units.first { unit -> unit.id == selectedUnitId }
-                }
+                this.selectedUnit = units.first { unit -> unit.id == selectedUnitId }
             }
         }
     }

@@ -47,12 +47,8 @@ fun Log(
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
             .collect { firstVisibleItemIndex ->
-                val firstVisibleDate = try {
-                    items.get(firstVisibleItemIndex)?.date
-                } catch (exception: Exception) {
-                    null
-                } ?: return@collect
-                viewModel.currentDate.value = firstVisibleDate
+                val firstVisibleDate = items.get(firstVisibleItemIndex)?.date
+                viewModel.currentDate.value = checkNotNull(firstVisibleDate)
             }
     }
 
@@ -67,18 +63,21 @@ fun Log(
             for (index in 0 until items.itemCount) {
                 when (val peek = items.peek(index)) {
                     is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
-                        val item = items.get(index) ?: throw IllegalStateException()
+                        val item = items.get(index)
+                        checkNotNull(item)
                         LogMonth(
                             monthOfYear = item.date.monthOfYear,
                             modifier = Modifier.onGloballyPositioned { monthHeaderHeightPx = it.size.height },
                         )
                     }
                     is LogItem.DayHeader -> item(key = peek.key) {
-                        val item = items.get(index) ?: throw IllegalStateException()
+                        val item = items.get(index)
+                        checkNotNull(item)
                         LogDay(item.date)
                     }
                     is LogItem.EntryContent -> item(key = peek.key) {
-                        val item = items.get(index) as? LogItem.EntryContent ?: throw IllegalStateException()
+                        val item = items.get(index) as? LogItem.EntryContent
+                        checkNotNull(item)
                         // TODO: Animate item replacement
                         val swipeToDismissState = rememberDismissState(
                             confirmValueChange = {
@@ -98,7 +97,8 @@ fun Log(
                         )
                     }
                     is LogItem.EmptyContent -> item(key = peek.key) {
-                        val item = items.get(index) ?: throw IllegalStateException()
+                        val item = items.get(index)
+                        checkNotNull(item)
                         LogEmpty(
                             date = item.date,
                             modifier = Modifier.padding(start = dayHeaderWidthDp),
@@ -121,7 +121,9 @@ fun Log(
             modifier = Modifier
                 .offset {
                     // FIXME: Calculate correct offset
-                    val firstVisibleDay = listState.layoutInfo.visibleItemsInfo.firstOrNull { (it.key as? String)?.startsWith("Day") == true }
+                    val firstVisibleDay = listState.layoutInfo.visibleItemsInfo.firstOrNull {
+                        (it.key as? String)?.startsWith("Day") == true
+                    }
                     val firstVisibleDayOffset = firstVisibleDay?.offset ?: 0
                     val offsetY = monthHeaderHeightPx - firstVisibleDayOffset
                     IntOffset(0, offsetY)

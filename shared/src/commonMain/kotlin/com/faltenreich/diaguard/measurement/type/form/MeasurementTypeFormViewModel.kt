@@ -56,20 +56,22 @@ class MeasurementTypeFormViewModel(
         viewModelScope.launch(dispatcher) {
             type.filterNotNull().distinctUntilChangedBy(MeasurementType::id).collectLatest { type ->
                 typeName.value = type.name
-                unitName.value = type.selectedUnit?.name ?: ""
+                unitName.value = type.selectedUnit.name
             }
         }
         // FIXME: Setting other flow at the same time cancels the first collector
         viewModelScope.launch(dispatcher) {
             typeName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
-                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: throw IllegalStateException("Type must not be null at this point")
+                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
+                checkNotNull(type)
                 updateMeasurementType(type.copy(name = name))
             }
         }
         viewModelScope.launch(dispatcher) {
             unitName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
-                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type ?: throw IllegalStateException("Type must not be null at this point")
-                val unit = type.selectedUnit ?: throw IllegalStateException("selectedUnitId of $type must not be null at this point")
+                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
+                checkNotNull(type)
+                val unit = type.selectedUnit
                 // FIXME: Wrangles units
                 //  updateMeasurementUnit(unit.copy(name = name))
             }

@@ -13,6 +13,8 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 import kotlin.math.max
 import kotlin.math.min
 
+private const val GRADIENT_WIDTH = 40f
+
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
     origin: Offset,
@@ -122,19 +124,18 @@ private fun DrawScope.drawDateIndicator(
     config: TimelineConfig,
     x: Float,
 ) = with(config) {
-    val gradientWidth = 40f
     val gradient = Brush.horizontalGradient(
         colorStops = arrayOf(
             .0f to Color.Transparent,
             1f to gridShadowColor,
         ),
-        startX = x - gradientWidth,
+        startX = x - GRADIENT_WIDTH,
         endX = x,
     )
     drawRect(
         brush = gradient,
-        topLeft = Offset(x = x - gradientWidth, y = 0f),
-        size = Size(width = gradientWidth, height = size.height),
+        topLeft = Offset(x = x - GRADIENT_WIDTH, y = 0f),
+        size = Size(width = GRADIENT_WIDTH, height = size.height),
     )
 }
 

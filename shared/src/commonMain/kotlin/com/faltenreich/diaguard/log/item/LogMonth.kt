@@ -13,6 +13,8 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.MonthOfYear
 import com.faltenreich.diaguard.shared.di.inject
 
+private const val ASPECT_RATIO = 32f / 9f
+
 @Composable
 fun LogMonth(
     monthOfYear: MonthOfYear,
@@ -21,7 +23,7 @@ fun LogMonth(
 ) {
     Box(
         modifier = modifier
-            .aspectRatio(32f / 9f)
+            .aspectRatio(ASPECT_RATIO)
             .background(AppTheme.colors.scheme.primary)
             .padding(all = AppTheme.dimensions.padding.P_3),
         contentAlignment = Alignment.BottomStart,

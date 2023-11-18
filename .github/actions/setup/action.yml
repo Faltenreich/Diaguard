@@ -22,7 +22,7 @@ runs:
       run: chmod +x gradlew
 
     - name: Cache Gradle dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           ~/.gradle/caches

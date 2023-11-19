@@ -41,6 +41,7 @@
     <string name="data">Data</string>
     <string name="day">Day</string>
     <string name="diastolic">Diastolic</string>
+    <string name="distribution">Distribution</string>
     <string name="energy">Energy</string>
     <string name="entry_delete">Delete entry</string>
     <string name="entry">Entry</string>

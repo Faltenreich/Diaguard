@@ -34,7 +34,7 @@ fun FoodList(
     Column {
         Row(
             modifier = Modifier
-                .background(AppTheme.colors.scheme.surfaceVariant)
+                .background(AppTheme.colors.scheme.primary)
                 .padding(
                     start = AppTheme.dimensions.padding.P_3,
                     end = AppTheme.dimensions.padding.P_3,
@@ -46,10 +46,12 @@ fun FoodList(
             Text(
                 text = getString(MR.strings.food),
                 modifier = Modifier.weight(1f),
+                color = AppTheme.colors.scheme.onPrimary,
                 style = AppTheme.typography.bodyMedium,
             )
             Text(
                 text = getString(MR.strings.carbohydrates_per_100g),
+                color = AppTheme.colors.scheme.onPrimary,
                 style = AppTheme.typography.bodyMedium,
             )
         }

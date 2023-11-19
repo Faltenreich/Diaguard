@@ -1,8 +1,16 @@
 package com.faltenreich.diaguard.measurement.value
 
+import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.type.deep
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 
 class MeasurementValueRepository(
     private val dao: MeasurementValueDao,
@@ -97,5 +105,39 @@ class MeasurementValueRepository(
 
     fun deleteById(id: Long) {
         dao.deleteById(id)
+    }
+}
+
+fun Flow<List<MeasurementValue>>.deep(
+    entry: Entry,
+    typeRepository: MeasurementTypeRepository = inject(),
+): Flow<List<MeasurementValue>> {
+    return flatMapLatest { values ->
+        val flows = values.map { value ->
+            typeRepository.observeById(value.typeId)
+                .filterNotNull()
+                .deep()
+                .map { type -> value to type }
+        }
+        combine(flows) { valuesWithTypes ->
+            valuesWithTypes.map { (value, type) ->
+                value.entry = entry
+                value.type = type
+                value
+            }
+        }
+    }
+}
+
+fun List<MeasurementValue>.deep(
+    entry: Entry,
+    typeRepository: MeasurementTypeRepository = inject(),
+): List<MeasurementValue> {
+    return map { value ->
+        value.apply {
+            val type = checkNotNull(typeRepository.getById(value.typeId))
+            this.type = type.deep()
+            this.entry = entry
+        }
     }
 }

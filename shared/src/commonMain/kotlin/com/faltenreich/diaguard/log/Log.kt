@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.log
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,14 +12,12 @@ import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
@@ -35,7 +32,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlin.math.max
 
 @Composable
 fun Log(
@@ -45,7 +41,6 @@ fun Log(
     val density = LocalDensity.current
     // FIXME: Gets not updated on entry change
     val items = viewModel.items.collectAsPaginationItems()
-    val currentDate = viewModel.currentDate.collectAsState().value
     val listState = rememberLazyListState()
 
     LaunchedEffect(listState) {
@@ -126,7 +121,7 @@ fun Log(
         }
         // TODO: Move behind LazyColumn if complete
         LogDay(
-            date = currentDate,
+            date = viewModel.currentDate.value,
             modifier = Modifier
                 .offset {
                     // FIXME: Calculate correct offset
@@ -134,10 +129,9 @@ fun Log(
                         (it.key as? String)?.startsWith("Day") == true
                     }
                     val firstVisibleDayOffset = firstVisibleDay?.offset ?: 0
-                    val offsetY = max(monthHeaderHeightPx, monthHeaderHeightPx + firstVisibleDayOffset)
+                    val offsetY = monthHeaderHeightPx - firstVisibleDayOffset
                     IntOffset(0, offsetY)
                 }
-                .background(Color.Red)
                 .onGloballyPositioned { dayHeaderWidthDp = with(density) { it.size.width.toDp() } },
         )
     }

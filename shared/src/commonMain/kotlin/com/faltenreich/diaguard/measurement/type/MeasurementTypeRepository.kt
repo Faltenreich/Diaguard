@@ -1,7 +1,13 @@
 package com.faltenreich.diaguard.measurement.type
 
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 
 class MeasurementTypeRepository(
     private val dao: MeasurementTypeDao,
@@ -71,5 +77,31 @@ class MeasurementTypeRepository(
 
     fun deleteById(id: Long) {
         dao.deleteById(id)
+    }
+}
+
+fun Flow<MeasurementType>.deep(
+    propertyRepository: MeasurementPropertyRepository = inject(),
+): Flow<MeasurementType> {
+    return flatMapLatest { type ->
+        val flows = propertyRepository.observeById(type.propertyId)
+            .filterNotNull()
+            .map { property -> type to property }
+        combine(flows) { typeWithProperty ->
+            typeWithProperty.map { (type, property) ->
+                // TODO: Set selected unit
+                type.property = property
+                type
+            }.first()
+        }
+    }
+}
+
+fun MeasurementType.deep(
+    propertyRepository: MeasurementPropertyRepository = inject(),
+): MeasurementType {
+    return apply {
+        this.property = checkNotNull(propertyRepository.getById(propertyId))
+        // TODO: Selected unit
     }
 }

@@ -29,7 +29,7 @@ fun backupModule() = module {
     singleOf(::PulseSeed)
     singleOf(::BloodPressureSeed)
     singleOf(::OxygenSaturationSeed)
-    single { FoodSeed(fileReader = ResourceFileReader(MR.files.food_common)) }
+    single { FoodSeed(fileReader = ResourceFileReader(MR.files.food_common), serialization = get()) }
     singleOf(::SeedRepository)
     singleOf(::SeedImport)
 

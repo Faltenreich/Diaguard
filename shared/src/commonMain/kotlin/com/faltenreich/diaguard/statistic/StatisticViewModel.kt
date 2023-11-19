@@ -27,6 +27,10 @@ class StatisticViewModel(
     var dateRange by mutableStateOf(initialDateRange)
     val dateRangeLocalized: String
         get() = dateTimeFormatter.formatDateRange(dateRange)
+    private val average = StatisticViewState.Loaded.Average(
+        value = "100 mg/dL",
+        countPerDay = "10",
+    )
 
     private val state = combine(
         getMeasurementProperties(),
@@ -37,6 +41,7 @@ class StatisticViewModel(
             selectedProperty = selectedProperty ?: properties.first(),
             dateRange = dateRange,
             dateRangeLocalized = dateRangeLocalized,
+            average = average,
         )
     }
     val viewState = state.stateIn(

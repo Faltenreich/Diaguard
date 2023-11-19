@@ -43,6 +43,7 @@
     <string name="diastolic">Diastolic</string>
     <string name="distribution">Distribution</string>
     <string name="energy">Energy</string>
+    <string name="entries_per_day">Entries per day</string>
     <string name="entry_delete">Delete entry</string>
     <string name="entry">Entry</string>
     <string name="entry_first_description">Enter first entry</string>
@@ -99,6 +100,7 @@
     <string name="measurement_unit_factor_description">equals %s %s</string>
     <string name="measurement_unit_selected_description">Selected unit</string>
     <string name="measurement_units">Units</string>
+    <string name="measurement_value">Value</string>
     <string name="measurements">Measurements</string>
     <string name="menu_open">Open menu</string>
     <string name="merge_values">Merge values</string>

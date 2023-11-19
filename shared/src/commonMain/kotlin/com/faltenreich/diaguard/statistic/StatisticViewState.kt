@@ -12,5 +12,12 @@ sealed interface StatisticViewState {
         val selectedProperty: MeasurementProperty,
         val dateRange: ClosedRange<Date>,
         val dateRangeLocalized: String,
-    ) : StatisticViewState
+        val average: Average,
+    ) : StatisticViewState {
+
+        data class Average(
+            val value: String,
+            val countPerDay: String,
+        )
+    }
 }

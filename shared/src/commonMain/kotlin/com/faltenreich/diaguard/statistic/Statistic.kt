@@ -63,6 +63,15 @@ fun Statistic(
             }
 
             TextDivider(getString(MR.strings.average))
+            FormRow {
+                Text(getString(MR.strings.measurement_value), modifier = Modifier.weight(1f))
+                Text(viewState.average.value)
+            }
+            Divider()
+            FormRow {
+                Text(getString(MR.strings.entries_per_day), modifier = Modifier.weight(1f))
+                Text(viewState.average.countPerDay)
+            }
 
             TextDivider(getString(MR.strings.trend))
 

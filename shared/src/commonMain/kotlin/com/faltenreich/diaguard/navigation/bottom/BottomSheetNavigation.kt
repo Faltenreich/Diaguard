@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.navigation.screen.LogScreen
 import com.faltenreich.diaguard.navigation.screen.PreferenceListScreen
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.screen.StatisticScreen
 import com.faltenreich.diaguard.navigation.screen.TimelineScreen
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.BottomSheetState
@@ -68,6 +69,12 @@ fun BottomSheetNavigation(
                 icon = null,
                 isActive = navigator.lastItem is FoodListScreen,
                 onClick = { navigateTo(FoodListScreen(), false) },
+            )
+            BottomSheetNavigationItem(
+                label = MR.strings.statistic,
+                icon = null,
+                isActive = navigator.lastItem is StatisticScreen,
+                onClick = { navigateTo(StatisticScreen, false) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.export,

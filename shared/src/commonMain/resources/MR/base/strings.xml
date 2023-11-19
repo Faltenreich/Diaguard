@@ -141,6 +141,7 @@
     <string name="source_code_url" translatable="false">https://github.com/Faltenreich/Diaguard</string>
     <string name="source_code_url_short" translatable="false">github.com/Faltenreich/Diaguard</string>
     <string name="start_screen">Start screen</string>
+    <string name="statistic">Statistic</string>
     <string name="sugar">Sugar</string>
     <string name="navigate_back">Go back</string>
     <string name="systolic">Systolic</string>

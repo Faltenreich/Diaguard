@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyListScreen
 import com.faltenreich.diaguard.navigation.screen.MeasurementTypeFormScreen
 import com.faltenreich.diaguard.navigation.screen.PreferenceListScreen
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.screen.StatisticScreen
 import com.faltenreich.diaguard.shared.localization.getString
 
 fun Screen.topAppBarStyle(): TopAppBarStyle {
@@ -36,6 +37,9 @@ fun Screen.topAppBarStyle(): TopAppBarStyle {
         }
         is FoodDetailScreen -> TopAppBarStyle.CenterAligned {
             Text(food.name)
+        }
+        is StatisticScreen -> TopAppBarStyle.CenterAligned {
+            Text(getString(MR.strings.statistic))
         }
         is ExportFormScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.export))

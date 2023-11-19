@@ -73,21 +73,36 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToList(dispatcher)
     }
 
-
     override fun observeAverageByPropertyId(
         propertyId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<Double?> {
-        return queries.getAverageByDateTime(
+        return queries.getAverageByProperty(
             propertyId,
             minDateTime.isoString,
             maxDateTime.isoString,
         ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
     }
 
+    override fun getAverageByTypeId(
+        typeId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime
+    ): Double? {
+        return queries.getAverageByProperty(
+            typeId,
+            minDateTime.isoString,
+            maxDateTime.isoString,
+        ).executeAsOneOrNull()?.AVG
+    }
+
     override fun observeCountByTypeId(typeId: Long): Flow<Long> {
         return queries.countByType(typeId).asFlow().mapToOne(dispatcher)
+    }
+
+    override fun countByPropertyId(propertyId: Long): Long {
+        return queries.countByProperty(propertyId).executeAsOne()
     }
 
     override fun update(

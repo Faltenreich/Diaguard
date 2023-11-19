@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.stateIn
 
 class StatisticViewModel(
     getMeasurementProperties: GetMeasurementPropertiesUseCase,
+    private val getAverage: GetAverageUseCase,
     dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel() {
@@ -27,21 +28,18 @@ class StatisticViewModel(
     var dateRange by mutableStateOf(initialDateRange)
     val dateRangeLocalized: String
         get() = dateTimeFormatter.formatDateRange(dateRange)
-    private val average = StatisticViewState.Loaded.Average(
-        value = "100 mg/dL",
-        countPerDay = "10",
-    )
 
     private val state = combine(
         getMeasurementProperties(),
         selectedProperty,
     ) { properties, selectedProperty ->
+        val property = selectedProperty ?: properties.first()
         StatisticViewState.Loaded(
             properties = properties,
-            selectedProperty = selectedProperty ?: properties.first(),
+            selectedProperty = property,
             dateRange = dateRange,
             dateRangeLocalized = dateRangeLocalized,
-            average = average,
+            average = getAverage(property, dateRange),
         )
     }
     val viewState = state.stateIn(

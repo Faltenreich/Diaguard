@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.statistic
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.datetime.Date
 
 sealed interface StatisticViewState {
@@ -16,7 +17,7 @@ sealed interface StatisticViewState {
     ) : StatisticViewState {
 
         data class Average(
-            val value: String,
+            val values: List<Pair<MeasurementType, String?>>,
             val countPerDay: String,
         )
     }

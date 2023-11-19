@@ -11,23 +11,34 @@ import com.faltenreich.diaguard.backup.seed.data.OxygenSaturationSeed
 import com.faltenreich.diaguard.backup.seed.data.PulseSeed
 import com.faltenreich.diaguard.backup.seed.data.WeightSeed
 
-class SeedRepository {
+class SeedRepository(
+    private val bloodSugarSeed: BloodSugarSeed,
+    private val insulinSeed: InsulinSeed,
+    private val mealSeed: MealSeed,
+    private val activitySeed: ActivitySeed,
+    private val hbA1cSeed: HbA1cSeed,
+    private val weightSeed: WeightSeed,
+    private val pulseSeed: PulseSeed,
+    private val bloodPressureSeed: BloodPressureSeed,
+    private val oxygenSaturationSeed: OxygenSaturationSeed,
+    private val foodSeed: FoodSeed,
+) {
 
-    fun seedMeasurementProperties(): List<Seed<SeedMeasurementProperty>> {
+    fun getMeasurementProperties(): List<SeedMeasurementProperty> {
         return listOf(
-            BloodSugarSeed(),
-            InsulinSeed(),
-            MealSeed(),
-            ActivitySeed(),
-            HbA1cSeed(),
-            WeightSeed(),
-            PulseSeed(),
-            BloodPressureSeed(),
-            OxygenSaturationSeed(),
+            bloodSugarSeed(),
+            insulinSeed(),
+            mealSeed(),
+            activitySeed(),
+            hbA1cSeed(),
+            weightSeed(),
+            pulseSeed(),
+            bloodPressureSeed(),
+            oxygenSaturationSeed(),
         )
     }
 
-    fun seedFood(): Seed<List<SeedFood>> {
-        return FoodSeed()
+    fun getFood(): List<SeedFood> {
+        return foodSeed()
     }
 }

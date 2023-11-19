@@ -1,5 +1,15 @@
 package com.faltenreich.diaguard.backup.seed
 
+import com.faltenreich.diaguard.backup.seed.data.ActivitySeed
+import com.faltenreich.diaguard.backup.seed.data.BloodPressureSeed
+import com.faltenreich.diaguard.backup.seed.data.BloodSugarSeed
+import com.faltenreich.diaguard.backup.seed.data.FoodSeed
+import com.faltenreich.diaguard.backup.seed.data.HbA1cSeed
+import com.faltenreich.diaguard.backup.seed.data.InsulinSeed
+import com.faltenreich.diaguard.backup.seed.data.MealSeed
+import com.faltenreich.diaguard.backup.seed.data.OxygenSaturationSeed
+import com.faltenreich.diaguard.backup.seed.data.PulseSeed
+import com.faltenreich.diaguard.backup.seed.data.WeightSeed
 import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
@@ -10,7 +20,9 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTimeFactory
+import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.shared.test.returns
 import dev.icerock.moko.resources.FileResource
 import dev.icerock.moko.resources.StringResource
@@ -26,6 +38,22 @@ class SeedImportTest {
         override fun getString(resource: FileResource): String = ""
         override fun getString(resource: StringResource, vararg args: Any): String = ""
     }
+
+    private val seedRepository = SeedRepository(
+        bloodSugarSeed = BloodSugarSeed(),
+        insulinSeed = InsulinSeed(),
+        mealSeed = MealSeed(),
+        activitySeed = ActivitySeed(),
+        hbA1cSeed = HbA1cSeed(),
+        weightSeed = WeightSeed(),
+        pulseSeed = PulseSeed(),
+        bloodPressureSeed = BloodPressureSeed(),
+        oxygenSaturationSeed = OxygenSaturationSeed(),
+        foodSeed = FoodSeed(
+            fileReader = SystemFileReader("src/commonTest/resources/food.csv"),
+            serialization = Serialization(),
+        ),
+    )
     @Mock private val propertyDao = mock(classOf<MeasurementPropertyDao>())
     @Mock private val typeDao = mock(classOf<MeasurementTypeDao>())
     @Mock private val unitDao = mock(classOf<MeasurementUnitDao>())
@@ -35,7 +63,7 @@ class SeedImportTest {
     private val seedImport = SeedImport(
         localization = localization,
         dateTimeFactory = dateTimeFactory,
-        seedRepository = SeedRepository(),
+        seedRepository = seedRepository,
         propertyRepository = MeasurementPropertyRepository(dao = propertyDao, dateTimeFactory = dateTimeFactory),
         typeRepository = MeasurementTypeRepository(dao = typeDao, dateTimeFactory = dateTimeFactory),
         unitRepository = MeasurementUnitRepository(dao = unitDao, dateTimeFactory = dateTimeFactory),
@@ -46,6 +74,7 @@ class SeedImportTest {
         every { propertyDao.getLastId() } returns 0L
         every { typeDao.getLastId() } returns 0L
         every { unitDao.getLastId() } returns 0L
+        every { foodDao.getLastId() } returns 0L
     }
 
     @Test

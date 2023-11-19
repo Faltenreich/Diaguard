@@ -14,7 +14,6 @@ class FoodSeedTest {
 
     @Test
     fun testSeed() {
-        val seed = seed.harvest()
-        assertTrue(seed.isNotEmpty())
+        assertTrue(seed().isNotEmpty())
     }
 }

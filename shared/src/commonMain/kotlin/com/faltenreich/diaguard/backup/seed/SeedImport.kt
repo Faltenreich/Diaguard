@@ -22,9 +22,8 @@ class SeedImport(
     override fun import() {
         val now = dateTimeFactory.now()
 
-        val propertySeeds = seedRepository.seedMeasurementProperties()
-        propertySeeds.forEachIndexed { propertySortIndex, seed ->
-            val property = seed.harvest()
+        val propertySeeds = seedRepository.getMeasurementProperties()
+        propertySeeds.forEachIndexed { propertySortIndex, property ->
             val propertyId = propertyRepository.create(
                 key = property.key.key,
                 name = localization.getString(property.name),
@@ -59,22 +58,21 @@ class SeedImport(
             }
         }
 
-        val foodSeed = seedRepository.seedFood()
-        val foodSeedList = foodSeed.harvest()
-        foodSeedList.forEach { seed ->
+        val foodSeed = seedRepository.getFood()
+        foodSeed.forEach { food ->
             foodRepository.create(
                 createdAt = now,
                 updatedAt = now,
-                name = seed.en, // TODO: Localize
-                carbohydrates = seed.carbohydrates.toDouble(),
-                energy = seed.energy.toDoubleOrNull(),
-                fat = seed.fat.toDoubleOrNull(),
-                fatSaturated = seed.fatSaturated.toDoubleOrNull(),
-                fiber = seed.fiber.toDoubleOrNull(),
-                proteins = seed.proteins.toDoubleOrNull(),
-                salt = seed.salt.toDoubleOrNull(),
-                sodium = seed.sodium.toDoubleOrNull(),
-                sugar = seed.sugar.toDoubleOrNull(),
+                name = food.en, // TODO: Localize
+                carbohydrates = food.carbohydrates.toDouble(),
+                energy = food.energy.toDoubleOrNull(),
+                fat = food.fat.toDoubleOrNull(),
+                fatSaturated = food.fatSaturated.toDoubleOrNull(),
+                fiber = food.fiber.toDoubleOrNull(),
+                proteins = food.proteins.toDoubleOrNull(),
+                salt = food.salt.toDoubleOrNull(),
+                sodium = food.sodium.toDoubleOrNull(),
+                sugar = food.sugar.toDoubleOrNull(),
             )
         }
     }

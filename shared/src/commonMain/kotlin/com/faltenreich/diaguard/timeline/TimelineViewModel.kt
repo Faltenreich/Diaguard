@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.timeline
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
-import com.faltenreich.diaguard.entry.deep
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
@@ -40,7 +39,7 @@ class TimelineViewModel(
         entryRepository.observeByDateRange(
             startDateTime = date.minus(1, DateUnit.DAY).atStartOfDay(),
             endDateTime = date.plus(1, DateUnit.DAY).atEndOfDay(),
-        ).deep()
+        ) // TODO: Fetch deep
     }
     private val values: Flow<Pair<List<MeasurementValue>, List<MeasurementValue>>> = entries.map { entries ->
         entries

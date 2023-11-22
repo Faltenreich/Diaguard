@@ -27,6 +27,7 @@ import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
 import com.faltenreich.diaguard.navigation.screen.FoodDetailScreen
+import com.faltenreich.diaguard.navigation.screen.FoodEatenListScreen
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.navigation.screen.LogScreen
@@ -144,6 +145,18 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 )
             },
         )
+        is FoodEatenListScreen -> BottomAppBarStyle.Visible(
+            floatingActionButton = {
+                val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
+                val navigator = LocalNavigator.currentOrThrow
+                FloatingActionButton(onClick = { navigator.push(EntryFormScreen(food = food)) }) {
+                    Icon(
+                        painter = painterResource(MR.images.ic_add),
+                        contentDescription = getString(MR.strings.entry_new_description),
+                    )
+                }
+            },
+        )
         is FoodFormScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
@@ -153,6 +166,13 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                     contentDescription = MR.strings.food_delete,
                     onClick = { viewModel.handleIntent(FoodFormIntent.Delete); navigator.pop() },
                 )
+                food?.let {
+                    BottomAppBarItem(
+                        painter = painterResource(MR.images.ic_history),
+                        contentDescription = MR.strings.food_eaten_list,
+                        onClick = { navigator.push(FoodEatenListScreen(food)) },
+                    )
+                }
             },
             floatingActionButton = {
                 val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }

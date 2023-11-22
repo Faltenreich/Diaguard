@@ -18,7 +18,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.navigation.screen.FoodDetailScreen
+import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.itemsElse
@@ -66,7 +66,7 @@ fun FoodList(
                                     onSelection?.let {
                                         onSelection(food)
                                         navigator.pop()
-                                    } ?: navigator.push(FoodDetailScreen(food))
+                                    } ?: navigator.push(FoodFormScreen(food))
                                 }
                             }
                     )

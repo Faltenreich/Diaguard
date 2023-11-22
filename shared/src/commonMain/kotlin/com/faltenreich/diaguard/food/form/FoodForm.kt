@@ -44,5 +44,7 @@ fun FoodForm(
                 label = getString(MR.strings.ingredients),
             )
         }
+        Divider()
+        // TODO: Nutrient list
     }
 }

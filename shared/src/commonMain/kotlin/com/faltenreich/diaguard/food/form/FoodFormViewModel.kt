@@ -45,23 +45,23 @@ class FoodFormViewModel(
         FoodNutrient.SODIUM,
     )
 
-    // FIXME: Does not update ui when nutrient changes
-    val nutrientData = nutrients.map { nutrient ->
-        FoodNutrientData(
-            nutrient = nutrient,
-            per100g = when (nutrient) {
-                FoodNutrient.CARBOHYDRATES -> carbohydrates
-                FoodNutrient.SUGAR -> sugar
-                FoodNutrient.ENERGY -> energy
-                FoodNutrient.FAT -> fat
-                FoodNutrient.FAT_SATURATED -> fatSaturated
-                FoodNutrient.FIBER -> fiber
-                FoodNutrient.PROTEINS -> proteins
-                FoodNutrient.SALT -> salt
-                FoodNutrient.SODIUM -> sodium
-            }
-        )
-    }
+    val nutrientData: List<FoodNutrientData>
+        get() = nutrients.map { nutrient ->
+            FoodNutrientData(
+                nutrient = nutrient,
+                per100g = when (nutrient) {
+                    FoodNutrient.CARBOHYDRATES -> carbohydrates
+                    FoodNutrient.SUGAR -> sugar
+                    FoodNutrient.ENERGY -> energy
+                    FoodNutrient.FAT -> fat
+                    FoodNutrient.FAT_SATURATED -> fatSaturated
+                    FoodNutrient.FIBER -> fiber
+                    FoodNutrient.PROTEINS -> proteins
+                    FoodNutrient.SALT -> salt
+                    FoodNutrient.SODIUM -> sodium
+                }
+            )
+        }
 
     fun handleIntent(intent: FoodFormIntent) = viewModelScope.launch(dispatcher) {
         when (intent) {

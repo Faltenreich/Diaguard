@@ -1,25 +1,25 @@
 package com.faltenreich.diaguard.food.nutrient
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.food.form.FoodFormIntent
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.shared.view.TextInput
 
 @Composable
 fun FoodNutrientListItem(
     data: FoodNutrientData,
+    onIntent: (FoodFormIntent) -> Unit,
     modifier: Modifier = Modifier,
-    valueFormatter: MeasurementValueFormatter = inject(),
 ) {
     FormRow(modifier = modifier) {
-        Text(
-            text = getString(data.nutrient.label),
-            modifier = Modifier.weight(1f),
+        TextInput(
+            input = data.per100g?.toString() ?: "",
+            onInputChange = { input ->
+                onIntent(FoodFormIntent.EditNutrient(data.copy(per100g = input.toDoubleOrNull())))
+            },
+            label = getString(data.nutrient.label),
         )
-        Text(data.per100g?.let(valueFormatter::formatValue) ?: getString(MR.strings.placeholder))
     }
 }

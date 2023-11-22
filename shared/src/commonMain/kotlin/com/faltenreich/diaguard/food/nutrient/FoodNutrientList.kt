@@ -12,11 +12,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.food.form.FoodFormIntent
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun FoodNutrientList(
     data: List<FoodNutrientData>,
+    onIntent: (FoodFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -40,7 +42,10 @@ fun FoodNutrientList(
             )
         }
         data.forEach { data ->
-            FoodNutrientListItem(data)
+            FoodNutrientListItem(
+                data = data,
+                onIntent = onIntent,
+            )
             Divider()
         }
     }

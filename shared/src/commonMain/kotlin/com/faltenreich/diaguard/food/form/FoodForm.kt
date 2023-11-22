@@ -45,6 +45,9 @@ fun FoodForm(
                 label = getString(MR.strings.ingredients),
             )
         }
-        FoodNutrientList(data = viewModel.nutrientData)
+        FoodNutrientList(
+            data = viewModel.nutrientData,
+            onIntent = viewModel::handleIntent,
+        )
     }
 }

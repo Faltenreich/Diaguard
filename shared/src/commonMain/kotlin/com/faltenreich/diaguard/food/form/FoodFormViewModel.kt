@@ -45,6 +45,7 @@ class FoodFormViewModel(
         FoodNutrient.SODIUM,
     )
 
+    // FIXME: Does not update ui when nutrient changes
     val nutrientData = nutrients.map { nutrient ->
         FoodNutrientData(
             nutrient = nutrient,
@@ -64,8 +65,23 @@ class FoodFormViewModel(
 
     fun handleIntent(intent: FoodFormIntent) = viewModelScope.launch(dispatcher) {
         when (intent) {
+            is FoodFormIntent.EditNutrient -> editNutrient(intent.data)
             is FoodFormIntent.Submit -> submit()
             is FoodFormIntent.Delete -> delete()
+        }
+    }
+
+    private fun editNutrient(data: FoodNutrientData) {
+        when (data.nutrient) {
+            FoodNutrient.CARBOHYDRATES -> carbohydrates = data.per100g
+            FoodNutrient.SUGAR -> sugar = data.per100g
+            FoodNutrient.ENERGY -> energy = data.per100g
+            FoodNutrient.FAT -> fat = data.per100g
+            FoodNutrient.FAT_SATURATED -> fatSaturated = data.per100g
+            FoodNutrient.FIBER -> fiber = data.per100g
+            FoodNutrient.PROTEINS -> proteins = data.per100g
+            FoodNutrient.SALT -> salt = data.per100g
+            FoodNutrient.SODIUM -> sodium = data.per100g
         }
     }
 

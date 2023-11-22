@@ -46,7 +46,7 @@ class FoodFormViewModel(
     )
 
     val nutrientData: List<FoodNutrientData>
-        get() = nutrients.map { nutrient ->
+        get() = nutrients.mapIndexed { index, nutrient ->
             FoodNutrientData(
                 nutrient = nutrient,
                 per100g = when (nutrient) {
@@ -59,7 +59,8 @@ class FoodFormViewModel(
                     FoodNutrient.PROTEINS -> proteins
                     FoodNutrient.SALT -> salt
                     FoodNutrient.SODIUM -> sodium
-                }
+                },
+                isLast = index == nutrients.size - 1,
             )
         }
 

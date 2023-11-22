@@ -1,6 +1,9 @@
 package com.faltenreich.diaguard.navigation.top
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
@@ -40,7 +43,13 @@ fun Screen.topAppBarStyle(): TopAppBarStyle {
             Text(getString(MR.strings.food))
         }
         is FoodEatenListScreen -> TopAppBarStyle.CenterAligned {
-            Text(food.name)
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(getString(MR.strings.food_eaten))
+                Text(
+                    text = food.name,
+                    style = AppTheme.typography.bodySmall,
+                )
+            }
         }
         is StatisticScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.statistic))

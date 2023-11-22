@@ -157,7 +157,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 food?.let {
                     BottomAppBarItem(
                         painter = painterResource(MR.images.ic_history),
-                        contentDescription = MR.strings.food_eaten_list,
+                        contentDescription = MR.strings.food_eaten,
                         onClick = { navigator.push(FoodEatenListScreen(food)) },
                     )
                 }

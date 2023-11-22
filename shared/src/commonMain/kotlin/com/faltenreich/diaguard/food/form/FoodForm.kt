@@ -2,10 +2,13 @@ package com.faltenreich.diaguard.food.form
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientList
 import com.faltenreich.diaguard.shared.di.inject
@@ -27,6 +30,10 @@ fun FoodForm(
                 input = viewModel.name,
                 onInputChange = { viewModel.name = it },
                 label = getString(MR.strings.name),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
+                ),
             )
         }
         Divider()
@@ -35,6 +42,10 @@ fun FoodForm(
                 input = viewModel.brand,
                 onInputChange = { viewModel.brand = it },
                 label = getString(MR.strings.brand),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
+                ),
             )
         }
         Divider()
@@ -43,6 +54,10 @@ fun FoodForm(
                 input = viewModel.ingredients,
                 onInputChange = { viewModel.ingredients = it },
                 label = getString(MR.strings.ingredients),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
+                ),
             )
         }
         FoodNutrientList(

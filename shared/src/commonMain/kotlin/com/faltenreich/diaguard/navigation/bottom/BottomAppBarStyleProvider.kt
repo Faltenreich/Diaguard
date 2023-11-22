@@ -24,6 +24,7 @@ import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
+import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.navigation.screen.LogScreen
 import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyFormScreen
@@ -121,7 +122,8 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { TODO() }) {
+                val navigator = LocalNavigator.currentOrThrow
+                FloatingActionButton(onClick = { navigator.push(FoodFormScreen()) }) {
                     Icon(
                         painter = painterResource(MR.images.ic_add),
                         contentDescription = getString(MR.strings.food_new),

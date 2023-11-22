@@ -62,10 +62,13 @@
     <string name="food">Food</string>
     <string name="food_add">Add food</string>
     <string name="food_carbohydrates_info">%s %s per 100g</string>
+    <string name="food_delete">Delete food</string>
     <string name="food_eaten_list">Entries</string>
+    <string name="food_edit">Edit food</string>
     <string name="food_info">Info</string>
     <string name="food_new">New food</string>
     <string name="food_nutrient_list">Nutrients</string>
+    <string name="food_save">Save food</string>
     <string name="food_search_prompt">Search for food&#8230;</string>
     <string name="grams_abbreviation">g</string>
     <string name="hba1c">HbA1c</string>

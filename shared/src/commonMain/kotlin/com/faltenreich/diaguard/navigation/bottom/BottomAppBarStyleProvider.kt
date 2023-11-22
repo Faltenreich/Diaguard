@@ -15,6 +15,8 @@ import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.export.ExportFormViewModel
+import com.faltenreich.diaguard.food.form.FoodFormIntent
+import com.faltenreich.diaguard.food.form.FoodFormViewModel
 import com.faltenreich.diaguard.food.list.FoodListViewModel
 import com.faltenreich.diaguard.log.LogViewModel
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
@@ -24,6 +26,7 @@ import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
+import com.faltenreich.diaguard.navigation.screen.FoodDetailScreen
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.navigation.screen.LogScreen
@@ -127,6 +130,37 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                     Icon(
                         painter = painterResource(MR.images.ic_add),
                         contentDescription = getString(MR.strings.food_new),
+                    )
+                }
+            }
+        )
+        is FoodDetailScreen -> BottomAppBarStyle.Visible(
+            actions = {
+                val navigator = LocalNavigator.currentOrThrow
+                BottomAppBarItem(
+                    painter = painterResource(MR.images.ic_edit),
+                    contentDescription = MR.strings.food_edit,
+                    onClick = { navigator.push(FoodFormScreen(food)) },
+                )
+            },
+        )
+        is FoodFormScreen -> BottomAppBarStyle.Visible(
+            actions = {
+                val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
+                val navigator = LocalNavigator.currentOrThrow
+                BottomAppBarItem(
+                    painter = painterResource(MR.images.ic_delete),
+                    contentDescription = MR.strings.food_delete,
+                    onClick = { viewModel.handleIntent(FoodFormIntent.Delete); navigator.pop() },
+                )
+            },
+            floatingActionButton = {
+                val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
+                val navigator = LocalNavigator.currentOrThrow
+                FloatingActionButton(onClick = { viewModel.handleIntent(FoodFormIntent.Submit); navigator.pop() }) {
+                    Icon(
+                        painter = painterResource(MR.images.ic_check),
+                        contentDescription = getString(MR.strings.food_save),
                     )
                 }
             }

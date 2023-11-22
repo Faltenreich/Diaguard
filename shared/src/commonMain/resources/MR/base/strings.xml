@@ -8,11 +8,12 @@
     <string name="app_name">Diaguard</string>
     <string name="average">Average</string>
     <string name="basal">Basal</string>
+    <string name="beats_per_minute">Beats per minute</string>
+    <string name="beats_per_minute_abbreviation">Bpm</string>
     <string name="blood_pressure">Blood pressure</string>
     <string name="blood_sugar">Blood sugar</string>
     <string name="bolus">Bolus</string>
-    <string name="beats_per_minute">Beats per minute</string>
-    <string name="beats_per_minute_abbreviation">Bpm</string>
+    <string name="brand">Brand</string>
     <string name="bread_units">Bread units</string>
     <string name="bread_units_abbreviation">BU</string>
     <string name="calendar_week">Calendar week</string>
@@ -74,6 +75,7 @@
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
     <string name="icon">Icon</string>
+    <string name="ingredients">Ingredients</string>
     <string name="insulin">Insulin</string>
     <string name="insulin_units">Insulin units</string>
     <string name="insulin_units_abbreviation">IU</string>

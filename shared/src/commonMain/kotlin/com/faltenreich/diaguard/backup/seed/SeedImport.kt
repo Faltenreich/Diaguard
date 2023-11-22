@@ -64,6 +64,9 @@ class SeedImport(
                 createdAt = now,
                 updatedAt = now,
                 name = food.en, // TODO: Localize
+                brand = null,
+                ingredients = null,
+                labels = null, // TODO: Mark seed
                 carbohydrates = food.carbohydrates.toDouble(),
                 energy = food.energy.toDoubleOrNull(),
                 fat = food.fat.toDoubleOrNull(),

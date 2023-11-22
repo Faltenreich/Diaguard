@@ -20,12 +20,13 @@ class CreateEntryUseCase(
         measurements: List<MeasurementPropertyInputData>,
         foodEaten: List<FoodEatenInputData>,
     ) {
-        val entryId = id ?: entryRepository.create(dateTime)
-        entryRepository.update(
-            id = entryId,
-            dateTime = dateTime,
-            note = note,
-        )
+        val entryId = id?.also {
+            entryRepository.update(
+                id = id,
+                dateTime = dateTime,
+                note = note,
+            )
+        } ?: entryRepository.create(dateTime)
         createMeasurementValues(measurements, entryId)
         createFoodEaten(foodEaten, entryId)
     }

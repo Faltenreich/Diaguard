@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.nutrient.FoodNutrient
+import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -30,6 +32,35 @@ class FoodFormViewModel(
     var salt: Double? by mutableStateOf(food?.salt)
     var sodium: Double? by mutableStateOf(food?.sodium)
     var sugar: Double? by mutableStateOf(food?.sugar)
+
+    private val nutrients = listOf(
+        FoodNutrient.CARBOHYDRATES,
+        FoodNutrient.SUGAR,
+        FoodNutrient.ENERGY,
+        FoodNutrient.FAT,
+        FoodNutrient.FAT_SATURATED,
+        FoodNutrient.FIBER,
+        FoodNutrient.PROTEINS,
+        FoodNutrient.SALT,
+        FoodNutrient.SODIUM,
+    )
+
+    val nutrientData = nutrients.map { nutrient ->
+        FoodNutrientData(
+            nutrient = nutrient,
+            per100g = when (nutrient) {
+                FoodNutrient.CARBOHYDRATES -> carbohydrates
+                FoodNutrient.SUGAR -> sugar
+                FoodNutrient.ENERGY -> energy
+                FoodNutrient.FAT -> fat
+                FoodNutrient.FAT_SATURATED -> fatSaturated
+                FoodNutrient.FIBER -> fiber
+                FoodNutrient.PROTEINS -> proteins
+                FoodNutrient.SALT -> salt
+                FoodNutrient.SODIUM -> sodium
+            }
+        )
+    }
 
     fun handleIntent(intent: FoodFormIntent) = viewModelScope.launch(dispatcher) {
         when (intent) {

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.food.detail.nutrient
+package com.faltenreich.diaguard.food.nutrient
 
 data class FoodNutrientData(
     val nutrient: FoodNutrient,

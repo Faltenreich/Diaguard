@@ -7,6 +7,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.food.nutrient.FoodNutrientList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -44,7 +45,6 @@ fun FoodForm(
                 label = getString(MR.strings.ingredients),
             )
         }
-        Divider()
-        // TODO: Nutrient list
+        FoodNutrientList(data = viewModel.nutrientData)
     }
 }

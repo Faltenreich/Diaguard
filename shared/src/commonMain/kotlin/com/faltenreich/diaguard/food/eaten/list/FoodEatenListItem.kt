@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.food.detail.eaten
+package com.faltenreich.diaguard.food.eaten.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.Text

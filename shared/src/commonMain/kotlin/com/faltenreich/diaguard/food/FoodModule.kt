@@ -1,12 +1,10 @@
 package com.faltenreich.diaguard.food
 
-import com.faltenreich.diaguard.food.detail.FoodDetailViewModel
-import com.faltenreich.diaguard.food.detail.eaten.FoodEatenListViewModel
-import com.faltenreich.diaguard.food.detail.eaten.GetFoodEatenForEntryUseCase
-import com.faltenreich.diaguard.food.detail.eaten.GetFoodEatenForFoodUseCase
-import com.faltenreich.diaguard.food.detail.nutrient.FoodNutrientListViewModel
 import com.faltenreich.diaguard.food.eaten.CreateFoodEatenUseCase
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
+import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
+import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase
+import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForFoodUseCase
 import com.faltenreich.diaguard.food.form.CreateFoodUseCase
 import com.faltenreich.diaguard.food.form.FoodFormViewModel
 import com.faltenreich.diaguard.food.list.FoodListViewModel
@@ -25,8 +23,6 @@ fun foodModule() = module {
     singleOf(::CreateFoodEatenUseCase)
 
     singleOf(::FoodListViewModel)
-    factory { (food: Food) -> FoodDetailViewModel(food = food) }
-    factory { (food: Food) -> FoodNutrientListViewModel(food = food) }
     factory { (food: Food) -> FoodEatenListViewModel(food = food) }
     factory { (food: Food) -> FoodFormViewModel(food = food) }
 }

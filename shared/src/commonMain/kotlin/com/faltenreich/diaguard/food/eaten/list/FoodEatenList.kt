@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.food.detail.eaten
+package com.faltenreich.diaguard.food.eaten.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState

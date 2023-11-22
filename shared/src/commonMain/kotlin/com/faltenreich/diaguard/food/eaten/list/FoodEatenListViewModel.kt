@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.food.detail.eaten
+package com.faltenreich.diaguard.food.eaten.list
 
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.architecture.ViewModel

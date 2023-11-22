@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.food.detail.nutrient
+package com.faltenreich.diaguard.food.nutrient
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

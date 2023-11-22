@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
-import com.faltenreich.diaguard.navigation.screen.FoodDetailScreen
 import com.faltenreich.diaguard.navigation.screen.FoodEatenListScreen
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
@@ -36,9 +35,6 @@ fun Screen.topAppBarStyle(): TopAppBarStyle {
         }
         is FoodListScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.food))
-        }
-        is FoodDetailScreen -> TopAppBarStyle.CenterAligned {
-            Text(food.name)
         }
         is FoodFormScreen -> TopAppBarStyle.CenterAligned {
             Text(getString(MR.strings.food))

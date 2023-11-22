@@ -26,7 +26,6 @@ import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
-import com.faltenreich.diaguard.navigation.screen.FoodDetailScreen
 import com.faltenreich.diaguard.navigation.screen.FoodEatenListScreen
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
@@ -135,19 +134,8 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 }
             }
         )
-        is FoodDetailScreen -> BottomAppBarStyle.Visible(
-            actions = {
-                val navigator = LocalNavigator.currentOrThrow
-                BottomAppBarItem(
-                    painter = painterResource(MR.images.ic_edit),
-                    contentDescription = MR.strings.food_edit,
-                    onClick = { navigator.push(FoodFormScreen(food)) },
-                )
-            },
-        )
         is FoodEatenListScreen -> BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
                 val navigator = LocalNavigator.currentOrThrow
                 FloatingActionButton(onClick = { navigator.push(EntryFormScreen(food = food)) }) {
                     Icon(

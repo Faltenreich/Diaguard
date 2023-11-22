@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry.form.food
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.food.detail.eaten.GetFoodEatenForEntryUseCase
+import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

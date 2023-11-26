@@ -1,10 +1,9 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.EntryRepository
-import com.faltenreich.diaguard.shared.di.inject
 
 class DeleteEntryUseCase(
-    private val entryRepository: EntryRepository = inject(),
+    private val entryRepository: EntryRepository,
 ) {
 
     operator fun invoke(id: Long) {

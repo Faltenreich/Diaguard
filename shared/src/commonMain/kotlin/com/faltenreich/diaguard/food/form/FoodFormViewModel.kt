@@ -16,6 +16,7 @@ class FoodFormViewModel(
     food: Food?,
     private val dispatcher: CoroutineDispatcher = inject(),
     private val createFood: CreateFoodUseCase = inject(),
+    private val deleteFood: DeleteFoodUseCase = inject(),
     private val numberFormatter: NumberFormatter = inject(),
 ) : ViewModel() {
 
@@ -107,5 +108,8 @@ class FoodFormViewModel(
         )
     }
 
-    private fun delete() = Unit
+    private fun delete() {
+        val id = id ?: return
+        deleteFood(id)
+    }
 }

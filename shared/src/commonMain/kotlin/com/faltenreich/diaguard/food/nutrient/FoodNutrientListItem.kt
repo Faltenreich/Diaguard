@@ -18,15 +18,16 @@ fun FoodNutrientListItem(
 ) {
     FormRow(modifier = modifier) {
         TextInput(
-            input = data.per100g?.toString() ?: "",
+            input = data.per100g,
             onInputChange = { input ->
-                onIntent(FoodFormIntent.EditNutrient(data.copy(per100g = input.toDoubleOrNull())))
+                onIntent(FoodFormIntent.EditNutrient(data.copy(per100g = input)))
             },
             label = getString(data.nutrient.label),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = if (data.isLast) ImeAction.Done else ImeAction.Next,
             ),
+            modifier = Modifier.weight(1f),
         )
     }
 }

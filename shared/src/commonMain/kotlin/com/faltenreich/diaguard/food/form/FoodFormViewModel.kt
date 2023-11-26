@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
@@ -15,6 +16,7 @@ class FoodFormViewModel(
     food: Food?,
     private val dispatcher: CoroutineDispatcher = inject(),
     private val createFood: CreateFoodUseCase = inject(),
+    private val numberFormatter: NumberFormatter = inject(),
 ) : ViewModel() {
 
     private val id: Long? = food?.id
@@ -23,15 +25,15 @@ class FoodFormViewModel(
     var brand: String by mutableStateOf(food?.brand ?: "")
     var ingredients: String by mutableStateOf(food?.ingredients ?: "")
     var labels: String by mutableStateOf(food?.labels ?: "")
-    var carbohydrates: Double? by mutableStateOf(food?.carbohydrates)
-    var energy: Double? by mutableStateOf(food?.energy)
-    var fat: Double? by mutableStateOf(food?.fat)
-    var fatSaturated: Double? by mutableStateOf(food?.fatSaturated)
-    var fiber: Double? by mutableStateOf(food?.fiber)
-    var proteins: Double? by mutableStateOf(food?.proteins)
-    var salt: Double? by mutableStateOf(food?.salt)
-    var sodium: Double? by mutableStateOf(food?.sodium)
-    var sugar: Double? by mutableStateOf(food?.sugar)
+    var carbohydrates: String by mutableStateOf(food?.carbohydrates?.let(numberFormatter::format) ?: "")
+    var energy: String by mutableStateOf(food?.energy?.let(numberFormatter::format) ?: "")
+    var fat: String by mutableStateOf(food?.fat?.let(numberFormatter::format) ?: "")
+    var fatSaturated: String by mutableStateOf(food?.fatSaturated?.let(numberFormatter::format) ?: "")
+    var fiber: String by mutableStateOf(food?.fiber?.let(numberFormatter::format) ?: "")
+    var proteins: String by mutableStateOf(food?.proteins?.let(numberFormatter::format) ?: "")
+    var salt: String by mutableStateOf(food?.salt?.let(numberFormatter::format) ?: "")
+    var sodium: String by mutableStateOf(food?.sodium?.let(numberFormatter::format) ?: "")
+    var sugar: String by mutableStateOf(food?.sugar?.let(numberFormatter::format) ?: "")
 
     private val nutrients = listOf(
         FoodNutrient.CARBOHYDRATES,
@@ -87,22 +89,21 @@ class FoodFormViewModel(
     }
 
     private fun submit() {
-        val carbohydrates = carbohydrates ?: return
         createFood(
             id = id,
             name = name,
             brand = brand,
             ingredients = ingredients,
             labels = labels,
-            carbohydrates = carbohydrates,
-            energy = energy,
-            fat = fat,
-            fatSaturated = fatSaturated,
-            fiber = fiber,
-            proteins = proteins,
-            salt = salt,
-            sodium = sodium,
-            sugar = sugar,
+            carbohydrates = carbohydrates.toDoubleOrNull() ?: 0.0,
+            energy = energy.toDoubleOrNull()?.takeIf { it > 0 },
+            fat = fat.toDoubleOrNull()?.takeIf { it > 0 },
+            fatSaturated = fatSaturated.toDoubleOrNull()?.takeIf { it > 0 },
+            fiber = fiber.toDoubleOrNull()?.takeIf { it > 0 },
+            proteins = proteins.toDoubleOrNull()?.takeIf { it > 0 },
+            salt = salt.toDoubleOrNull()?.takeIf { it > 0 },
+            sodium = sodium.toDoubleOrNull()?.takeIf { it > 0 },
+            sugar = sugar.toDoubleOrNull()?.takeIf { it > 0 },
         )
     }
 

@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.shared.logging.Logger
 
 class LegacyImport(
     private val legacyRepository: LegacyRepository,
@@ -18,7 +19,7 @@ class LegacyImport(
         val values = legacyRepository.getMeasurementValues()
         val tags = legacyRepository.getTags()
 
-        println("Imported ${entries.size} entries, ${values.size} values and ${tags.size} tags")
+        Logger.info("Imported ${entries.size} entries, ${values.size} values and ${tags.size} tags")
 
         entries.forEach { entry ->
             val entryLegacyId = entry.id

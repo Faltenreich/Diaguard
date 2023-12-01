@@ -16,7 +16,6 @@ fun HbA1cDashboardItem(
     data: DashboardViewState.Revisit.HbA1c?,
     modifier: Modifier = Modifier,
 ) {
-    println(data)
     Card(modifier = modifier) {
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Text(

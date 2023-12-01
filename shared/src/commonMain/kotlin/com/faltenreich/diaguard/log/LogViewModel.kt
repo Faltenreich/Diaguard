@@ -32,7 +32,6 @@ class LogViewModel(
     ).flow.cachedIn(viewModelScope)
 
     fun setDate(date: Date) = viewModelScope.launch(dispatcher) {
-        println(date)
         // TODO
         /*
         val indexOfDate = items.first().indexOfFirst { it.date == date }
@@ -41,7 +40,7 @@ class LogViewModel(
         } else {
             val startDate = date.minusMonths(1)
             val endDate = date.plusMonths(1)
-            println("LogViewModel: Start date is $startDate, end date is $endDate")
+            Logger.debug("LogViewModel: Start date is $startDate, end date is $endDate")
             pagination.value = pagination.value.copy(
                 minimumDate = startDate,
                 maximumDate = endDate,

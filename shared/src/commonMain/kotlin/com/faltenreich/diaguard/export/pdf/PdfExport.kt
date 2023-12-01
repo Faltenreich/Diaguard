@@ -7,7 +7,6 @@ class PdfExport(
 ) {
 
     fun export(data: ExportData.Pdf) {
-        println(data)
         pdfRepository.export(
             document {
                 page {

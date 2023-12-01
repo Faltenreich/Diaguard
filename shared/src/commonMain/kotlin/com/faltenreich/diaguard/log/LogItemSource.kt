@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateProgression
 import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
 import com.faltenreich.diaguard.shared.view.isRefreshing
@@ -30,7 +31,7 @@ class LogItemSource(
     private lateinit var cache: Cache
 
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
-        println("LogViewModel: getRefreshKey for: $state")
+        Logger.debug("LogViewModel: getRefreshKey for: $state")
         val anchorPosition = state.anchorPosition ?: return null
         // FIXME: Determine refresh key to fix pagination invalidation on invalidation, e.g. when deleting item
         return state.closestPageToPosition(anchorPosition)?.prevKey
@@ -59,7 +60,7 @@ class LogItemSource(
             }
             else -> throw IllegalArgumentException("Unhandled parameters: $params")
         }
-        println("LogViewModel: Fetching data for: $startDate - $endDate")
+        Logger.debug("LogViewModel: Fetching data for: $startDate - $endDate")
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atStartOfDay(),
             endDateTime = endDate.atEndOfDay(),
@@ -82,7 +83,7 @@ class LogItemSource(
             // itemsBefore = 1,
             itemsAfter = PAGE_SIZE_IN_DAYS,
         )
-        println("LogViewModel: Fetched data for $startDate - $endDate, " +
+        Logger.debug("LogViewModel: Fetched data for $startDate - $endDate, " +
             "previous: ${page.prevKey}, next: ${page.nextKey}")
         return page
     }

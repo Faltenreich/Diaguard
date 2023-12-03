@@ -34,6 +34,7 @@ import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyListScreen
 import com.faltenreich.diaguard.navigation.screen.MeasurementTypeFormScreen
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.screen.TagListScreen
 import com.faltenreich.diaguard.navigation.screen.TimelineScreen
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
@@ -169,6 +170,16 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                     Icon(
                         painter = painterResource(MR.images.ic_check),
                         contentDescription = getString(MR.strings.food_save),
+                    )
+                }
+            }
+        )
+        is TagListScreen -> BottomAppBarStyle.Visible(
+            floatingActionButton = {
+                FloatingActionButton(onClick = { TODO() }) {
+                    Icon(
+                        painter = painterResource(MR.images.ic_add),
+                        contentDescription = getString(MR.strings.tag_new),
                     )
                 }
             }

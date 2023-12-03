@@ -24,6 +24,7 @@ import com.faltenreich.diaguard.shared.primitive.primitiveModule
 import com.faltenreich.diaguard.shared.serialization.serializationModule
 import com.faltenreich.diaguard.shared.theme.themeModule
 import com.faltenreich.diaguard.statistic.statisticModule
+import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -64,6 +65,7 @@ private fun mainModules() = listOf(
     entryModule(),
     measurementModule(),
     foodModule(),
+    tagModule(),
     statisticModule(),
     preferenceModule(),
 )

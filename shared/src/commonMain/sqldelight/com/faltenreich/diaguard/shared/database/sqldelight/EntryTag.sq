@@ -1,0 +1,31 @@
+CREATE TABLE entryTag (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    entry_id INTEGER NOT NULL,
+    tag_id INTEGER NOT NULL
+);
+
+create:
+INSERT INTO entryTag(created_at, updated_at, entry_id, tag_id)
+VALUES (?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getByEntry:
+SELECT * FROM entryTag
+INNER JOIN entry ON entry.id == entryTag.entry_id
+INNER JOIN tag ON tag.id == entryTag.tag_id
+WHERE entryTag.entry_id = ?
+ORDER BY entryTag.updated_at DESC;
+
+getByTag:
+SELECT * FROM entryTag
+INNER JOIN entry ON entry.id == entryTag.entry_id
+INNER JOIN tag ON tag.id == entryTag.tag_id
+WHERE entryTag.tag_id = ?
+ORDER BY entryTag.updated_at DESC;
+
+deleteById:
+DELETE FROM entryTag WHERE id = ?;

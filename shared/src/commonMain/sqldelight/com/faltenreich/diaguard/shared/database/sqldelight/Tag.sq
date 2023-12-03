@@ -1,0 +1,22 @@
+CREATE TABLE tag (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    name TEXT NOT NULL
+);
+
+create:
+INSERT INTO tag(created_at, updated_at, name)
+VALUES (?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getAll:
+SELECT * FROM tag ORDER BY name COLLATE NOCASE ASC;
+
+update:
+UPDATE tag SET updated_at = ?, name = ? WHERE id = ?;
+
+deleteById:
+DELETE FROM tag WHERE id = ?;

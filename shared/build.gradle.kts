@@ -37,8 +37,7 @@ kotlin {
                 implementation(libs.paging.common)
                 implementation(libs.shimmer)
                 implementation(libs.sqldelight.coroutines)
-                implementation(libs.voyager.navigator)
-                implementation(libs.voyager.transitions)
+                implementation(libs.bundles.voyager)
             }
         }
         commonTest {
@@ -62,7 +61,6 @@ kotlin {
                 implementation(libs.paging.android)
                 implementation(libs.paging.android.compose)
                 implementation(libs.sqldelight.android)
-                implementation(libs.voyager.android)
             }
         }
         iosMain

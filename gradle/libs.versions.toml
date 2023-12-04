@@ -35,7 +35,7 @@ serialization-yaml = "0.13.0"
 shimmer = "1.2.0"
 sqldelight = "2.0.0"
 turbine = "1.0.0"
-voyager = "1.0.0-rc08"
+voyager = "1.0.0-rc10"
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -76,9 +76,13 @@ shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "s
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-voyager-android = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-navigator-bottom-sheet = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+
+[bundles]
+voyager = ["voyager-koin", "voyager-navigator", "voyager-navigator-bottom-sheet", "voyager-transitions"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }

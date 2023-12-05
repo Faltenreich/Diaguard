@@ -78,11 +78,10 @@ sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", 
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
-voyager-navigator-bottom-sheet = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 
 [bundles]
-voyager = ["voyager-koin", "voyager-navigator", "voyager-navigator-bottom-sheet", "voyager-transitions"]
+voyager = ["voyager-koin", "voyager-navigator", "voyager-transitions"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }

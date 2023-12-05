@@ -11,6 +11,7 @@ sealed class MeasurementPropertyFormViewState(val property: MeasurementProperty)
 
     class Loaded(
         property: MeasurementProperty,
+        val showIconPicker: Boolean,
         val showFormDialog: Boolean,
         val showDeletionDialog: Boolean,
         val types: List<MeasurementType>,

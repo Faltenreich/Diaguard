@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.bottom
+package com.faltenreich.diaguard.navigation.menu
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -20,7 +20,7 @@ import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
-fun BottomSheetNavigationItem(
+fun MainMenuItem(
     label: StringResource,
     icon: ImageResource?,
     isActive: Boolean,

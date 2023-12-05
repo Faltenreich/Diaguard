@@ -20,6 +20,8 @@ kotlin {
             dependencies {
                 implementation(compose.ui)
                 implementation(compose.foundation)
+                // Workaround for https://github.com/adrielcafe/voyager/issues/185
+                implementation(compose.material)
                 implementation(compose.material3)
                 // FIXME: https://github.com/JetBrains/compose-multiplatform/issues/2914
                 // implementation(compose.preview)
@@ -71,6 +73,7 @@ kotlin {
             languageSettings {
                 optIn("androidx.compose.foundation.ExperimentalFoundationApi")
                 optIn("androidx.compose.foundation.layout.ExperimentalLayoutApi")
+                optIn("androidx.compose.material.ExperimentalMaterialApi")
                 optIn("androidx.compose.material3.ExperimentalMaterial3Api")
                 optIn("androidx.compose.animation.ExperimentalAnimationApi")
                 optIn("androidx.compose.ui.text.ExperimentalTextApi")

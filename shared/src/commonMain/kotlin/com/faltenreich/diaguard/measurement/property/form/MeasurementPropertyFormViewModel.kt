@@ -3,13 +3,13 @@ package com.faltenreich.diaguard.measurement.property.form
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.architecture.combine
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
@@ -29,13 +29,11 @@ class MeasurementPropertyFormViewModel(
     var name = MutableStateFlow(property.name)
     var icon = MutableStateFlow(property.icon ?: "")
 
-    private val showIconPicker = MutableStateFlow(false)
     private val showFormDialog = MutableStateFlow(false)
     private val showDeletionDialog = MutableStateFlow(false)
 
     private val state = combine(
         flowOf(property),
-        showIconPicker,
         showFormDialog,
         showDeletionDialog,
         getMeasurementTypesUseCase(property),
@@ -48,9 +46,6 @@ class MeasurementPropertyFormViewModel(
         initialValue = MeasurementPropertyFormViewState.Loading(property),
     )
 
-    private val types: List<MeasurementType>?
-        get() = (viewState.value as? MeasurementPropertyFormViewState.Loaded)?.types
-
     init {
         // FIXME: Setting both at the same time cancels the first collector
         viewModelScope.launch(dispatcher) {
@@ -61,14 +56,6 @@ class MeasurementPropertyFormViewModel(
             icon.debounce(DateTimeConstants.INPUT_DEBOUNCE)
                 .collectLatest { icon -> updateMeasurementProperty(property.copy(icon = icon)) }
         }
-    }
-
-    fun showIconPicker() = viewModelScope.launch(dispatcher) {
-        showIconPicker.value = true
-    }
-
-    fun hideIconPicker() = viewModelScope.launch(dispatcher) {
-        showIconPicker.value = false
     }
 
     fun showFormDialog() = viewModelScope.launch(dispatcher) {

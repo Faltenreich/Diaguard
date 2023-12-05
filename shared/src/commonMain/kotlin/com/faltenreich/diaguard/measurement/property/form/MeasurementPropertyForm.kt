@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
@@ -18,13 +19,11 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
+import com.faltenreich.diaguard.navigation.screen.EmojiPickerScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.BottomSheet
-import com.faltenreich.diaguard.shared.view.EmojiPicker
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextInput
-import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 
 @Composable
 fun MeasurementPropertyForm(
@@ -32,6 +31,7 @@ fun MeasurementPropertyForm(
     viewModel: MeasurementPropertyFormViewModel = inject(),
 ) {
     val navigator = LocalNavigator.currentOrThrow
+    val bottomSheetNavigator = LocalBottomSheetNavigator.current
 
     when (val viewState = viewModel.viewState.collectAsState().value) {
         is MeasurementPropertyFormViewState.Loading -> LoadingIndicator(modifier = modifier)
@@ -44,7 +44,18 @@ fun MeasurementPropertyForm(
                         onInputChange = { input -> viewModel.name.value = input },
                         label = getString(MR.strings.name),
                         leadingIcon = {
-                            IconButton(onClick = viewModel::showIconPicker) {
+                            IconButton(
+                                onClick = {
+                                    bottomSheetNavigator.show(
+                                        EmojiPickerScreen(
+                                            onEmojiPicked = { emoji ->
+                                                viewModel.icon.value = emoji
+                                                bottomSheetNavigator.hide()
+                                            },
+                                        ),
+                                    )
+                                },
+                            ) {
                                 MeasurementPropertyIcon(text = viewModel.icon.collectAsState().value)
                             }
                         },
@@ -58,15 +69,6 @@ fun MeasurementPropertyForm(
                     MeasurementUnitList(units = viewState.types.first().units)
                 } else {
                     MeasurementTypeList(types = viewState.types)
-                }
-            }
-
-            if (viewState.showIconPicker) {
-                BottomSheet(
-                    onDismissRequest = viewModel::hideIconPicker,
-                    sheetState = rememberBottomSheetState(),
-                ) {
-                    EmojiPicker(onEmojiPicked = { emoji -> viewModel.icon.value = emoji })
                 }
             }
 

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.tag
 
+import com.faltenreich.diaguard.tag.form.CreateTagUseCase
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
 import com.faltenreich.diaguard.tag.list.TagListViewModel
 import org.koin.core.module.dsl.singleOf
@@ -9,6 +10,7 @@ fun tagModule() = module {
     singleOf(::TagRepository)
 
     singleOf(::GetTagsUseCase)
+    singleOf(::CreateTagUseCase)
 
     singleOf(::TagListViewModel)
 }

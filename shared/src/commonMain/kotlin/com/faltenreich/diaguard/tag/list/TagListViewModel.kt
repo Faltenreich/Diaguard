@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.tag.list
 
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.tag.form.CreateTagUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.stateIn
 
 class TagListViewModel(
     getTags: GetTagsUseCase = inject(),
+    private val createTag: CreateTagUseCase = inject(),
 ) : ViewModel() {
 
     private val tags = getTags()
@@ -24,15 +26,11 @@ class TagListViewModel(
         initialValue = TagListViewState.Loading,
     )
 
-    fun showFormDialog() {
-        showFormDialog.value = true
-    }
-
-    fun hideFormDialog() {
-        showFormDialog.value = false
-    }
-
-    fun createTag(name: String) {
-
+    fun handleIntent(intent: TagListIntent) {
+        when (intent) {
+            is TagListIntent.OpenForm -> showFormDialog.value = true
+            is TagListIntent.CloseForm -> showFormDialog.value = false
+            is TagListIntent.Submit -> createTag(intent.name)
+        }
     }
 }

@@ -25,10 +25,10 @@ fun TagList(
             }
             if (viewState.showFormDialog) {
                 TagFormDialog(
-                    onDismissRequest = viewModel::hideFormDialog,
+                    onDismissRequest = { viewModel.handleIntent(TagListIntent.CloseForm) },
                     onConfirmRequest = { name ->
-                        viewModel.createTag(name)
-                        viewModel.hideFormDialog()
+                        viewModel.handleIntent(TagListIntent.Submit(name))
+                        viewModel.handleIntent(TagListIntent.CloseForm)
                     }
                 )
             }

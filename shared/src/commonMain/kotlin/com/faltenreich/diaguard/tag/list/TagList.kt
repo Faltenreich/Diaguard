@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.tag.list
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -21,15 +22,13 @@ fun TagList(
             LazyColumn(modifier) {
                 items(viewState.tags, key = Tag::id) { tag ->
                     TagListItem(tag)
+                    Divider()
                 }
             }
             if (viewState.showFormDialog) {
                 TagFormDialog(
                     onDismissRequest = { viewModel.handleIntent(TagListIntent.CloseForm) },
-                    onConfirmRequest = { name ->
-                        viewModel.handleIntent(TagListIntent.Submit(name))
-                        viewModel.handleIntent(TagListIntent.CloseForm)
-                    }
+                    onConfirmRequest = { name -> viewModel.handleIntent(TagListIntent.Submit(name)) }
                 )
             }
         }

@@ -15,6 +15,9 @@ SELECT last_insert_rowid();
 getAll:
 SELECT * FROM tag ORDER BY name COLLATE NOCASE ASC;
 
+getByName:
+SELECT * FROM tag WHERE name = ? LIMIT 1;
+
 update:
 UPDATE tag SET updated_at = ?, name = ? WHERE id = ?;
 

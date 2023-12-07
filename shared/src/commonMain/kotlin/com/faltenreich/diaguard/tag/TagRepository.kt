@@ -24,6 +24,10 @@ class TagRepository(
         return dao.observeAll()
     }
 
+    fun getByName(name: String): Tag? {
+        return dao.getByName(name)
+    }
+
     fun update(
         id: Long,
         updatedAt: DateTime,

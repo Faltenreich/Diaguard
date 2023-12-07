@@ -41,6 +41,10 @@ class TagSqlDelightDao(
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
+    override fun getByName(name: String): Tag? {
+        return queries.getByName(name, mapper::map).executeAsOneOrNull()
+    }
+
     override fun update(
         id: Long,
         updatedAt: DateTime,

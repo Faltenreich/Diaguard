@@ -156,6 +156,7 @@
     <string name="table">Table</string>
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
+    <string name="tag_already_taken">Tag is already taken</string>
     <string name="tag_new">Create new tag</string>
     <string name="terms_and_conditions">Terms and conditions</string>
     <string name="terms_and_conditions_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>

@@ -41,6 +41,7 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DatePickerBottomAppBarItem
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.shared.view.SearchField
+import com.faltenreich.diaguard.tag.list.TagListViewModel
 import com.faltenreich.diaguard.timeline.TimelineViewModel
 import dev.icerock.moko.resources.compose.painterResource
 import org.koin.core.parameter.parametersOf
@@ -176,7 +177,8 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         )
         is TagListScreen -> BottomAppBarStyle.Visible(
             floatingActionButton = {
-                FloatingActionButton(onClick = { TODO() }) {
+                val viewModel = getViewModel<TagListViewModel>()
+                FloatingActionButton(onClick = { viewModel.showFormDialog() }) {
                     Icon(
                         painter = painterResource(MR.images.ic_add),
                         contentDescription = getString(MR.strings.tag_new),

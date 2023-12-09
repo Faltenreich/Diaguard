@@ -21,6 +21,7 @@ import com.faltenreich.diaguard.shared.view.TextInput
 fun TagFormDialog(
     onDismissRequest: () -> Unit,
     onConfirmRequest: (name: String) -> Unit,
+    error: String?,
     modifier: Modifier = Modifier,
 ) {
     var name by mutableStateOf("")
@@ -50,6 +51,8 @@ fun TagFormDialog(
                 onInputChange = { name = it },
                 label = getString(MR.strings.name),
                 modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+                supportingText = { Text(error ?: "") },
+                isError = error != null,
             )
         }
     )

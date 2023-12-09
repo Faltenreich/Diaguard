@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.tag.list
 
+import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.tag.form.CreateTagUseCase
 import com.faltenreich.diaguard.tag.form.HasTagUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,9 +19,11 @@ class TagListViewModel(
 
     private val tags = getTags()
     private val showFormDialog = MutableStateFlow(false)
+    private val inputError = MutableStateFlow<String?>(null)
     private val state = combine(
         tags,
         showFormDialog,
+        inputError,
         TagListViewState::Loaded,
     )
     val viewState = state.stateIn(
@@ -45,7 +49,7 @@ class TagListViewModel(
     }
 
     private fun showError() {
-        // TODO: getString(MR.strings.tag_already_taken)
+        inputError.value = getString(MR.strings.tag_already_taken)
     }
 
     private fun createTagIfValid(name: String) {

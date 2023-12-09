@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
@@ -22,6 +20,7 @@ import com.faltenreich.diaguard.log.LogViewModel
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewModel
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
@@ -37,6 +36,7 @@ import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.screen.TagListScreen
 import com.faltenreich.diaguard.navigation.screen.TimelineScreen
 import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DatePickerBottomAppBarItem
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
@@ -47,7 +47,9 @@ import com.faltenreich.diaguard.timeline.TimelineViewModel
 import dev.icerock.moko.resources.compose.painterResource
 import org.koin.core.parameter.parametersOf
 
-fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
+fun Screen.bottomAppBarStyle(
+    navigation: Navigation = inject(),
+): BottomAppBarStyle {
     return when (this) {
         is DashboardScreen -> BottomAppBarStyle.Visible(
             actions = { EntrySearchBottomAppBarItem() },
@@ -80,17 +82,15 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         is EntryFormScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
-                val navigator = LocalNavigator.currentOrThrow
                 BottomAppBarItem(
                     painter = painterResource(MR.images.ic_delete),
                     contentDescription = MR.strings.entry_delete,
-                    onClick = { viewModel.handleIntent(EntryFormIntent.Delete); navigator.pop() },
+                    onClick = { viewModel.handleIntent(EntryFormIntent.Delete); navigation.pop() },
                 )
             },
             floatingActionButton = {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
-                val navigator = LocalNavigator.currentOrThrow
-                FloatingActionButton(onClick = { viewModel.handleIntent(EntryFormIntent.Submit); navigator.pop() }) {
+                FloatingActionButton(onClick = { viewModel.handleIntent(EntryFormIntent.Submit); navigation.pop() }) {
                     Icon(
                         painter = painterResource(MR.images.ic_check),
                         contentDescription = getString(MR.strings.entry_save),
@@ -100,13 +100,12 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         )
         is EntrySearchScreen -> BottomAppBarStyle.Visible(
             actions = {
-                val navigator = LocalNavigator.currentOrThrow
                 val viewModel = getViewModel<EntrySearchViewModel> { parametersOf(query) }
                 SearchField(
                     query = viewModel.query,
                     placeholder = getString(MR.strings.entry_search_prompt),
                     onQueryChange = { query ->
-                        if (query.isBlank()) navigator.pop()
+                        if (query.isBlank()) navigation.pop()
                         else viewModel.query = query
                     },
                     modifier = Modifier
@@ -128,8 +127,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
                 )
             },
             floatingActionButton = {
-                val navigator = LocalNavigator.currentOrThrow
-                FloatingActionButton(onClick = { navigator.push(FoodFormScreen()) }) {
+                FloatingActionButton(onClick = { navigation.push(FoodFormScreen()) }) {
                     Icon(
                         painter = painterResource(MR.images.ic_add),
                         contentDescription = getString(MR.strings.food_new),
@@ -139,8 +137,7 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         )
         is FoodEatenListScreen -> BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val navigator = LocalNavigator.currentOrThrow
-                FloatingActionButton(onClick = { navigator.push(EntryFormScreen(food = food)) }) {
+                FloatingActionButton(onClick = { navigation.push(EntryFormScreen(food = food)) }) {
                     Icon(
                         painter = painterResource(MR.images.ic_add),
                         contentDescription = getString(MR.strings.entry_new_description),
@@ -151,24 +148,22 @@ fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
         is FoodFormScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
-                val navigator = LocalNavigator.currentOrThrow
                 BottomAppBarItem(
                     painter = painterResource(MR.images.ic_delete),
                     contentDescription = MR.strings.food_delete,
-                    onClick = { viewModel.handleIntent(FoodFormIntent.Delete); navigator.pop() },
+                    onClick = { viewModel.handleIntent(FoodFormIntent.Delete); navigation.pop() },
                 )
                 food?.let {
                     BottomAppBarItem(
                         painter = painterResource(MR.images.ic_history),
                         contentDescription = MR.strings.food_eaten,
-                        onClick = { navigator.push(FoodEatenListScreen(food)) },
+                        onClick = { navigation.push(FoodEatenListScreen(food)) },
                     )
                 }
             },
             floatingActionButton = {
                 val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
-                val navigator = LocalNavigator.currentOrThrow
-                FloatingActionButton(onClick = { viewModel.handleIntent(FoodFormIntent.Submit); navigator.pop() }) {
+                FloatingActionButton(onClick = { viewModel.handleIntent(FoodFormIntent.Submit); navigation.pop() }) {
                     Icon(
                         painter = painterResource(MR.images.ic_check),
                         contentDescription = getString(MR.strings.food_save),

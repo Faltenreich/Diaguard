@@ -9,11 +9,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
@@ -23,9 +22,8 @@ import com.faltenreich.diaguard.shared.view.TextInput
 fun MeasurementTypeForm(
     modifier: Modifier = Modifier,
     viewModel: MeasurementTypeFormViewModel = inject(),
+    navigation: Navigation = inject(),
 ) {
-    val navigator = LocalNavigator.currentOrThrow
-
     when (val viewState = viewModel.viewState.collectAsState().value) {
         is MeasurementTypeFormViewState.Loading -> LoadingIndicator()
 
@@ -64,7 +62,7 @@ fun MeasurementTypeForm(
                         TextButton(onClick = {
                             viewModel.deleteType(viewState.type)
                             viewModel.hideDeletionDialog()
-                            navigator.pop()
+                            navigation.pop()
                         }) {
                             Text(getString( MR.strings.delete))
                         }

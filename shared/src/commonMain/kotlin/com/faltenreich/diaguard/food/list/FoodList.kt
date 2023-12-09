@@ -13,11 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -28,8 +27,8 @@ fun FoodList(
     onSelection: ((Food) -> Unit)? = null,
     modifier: Modifier = Modifier,
     viewModel: FoodListViewModel = inject(),
+    navigation: Navigation = inject(),
 ) {
-    val navigator = LocalNavigator.currentOrThrow
     val viewState = viewModel.viewState.collectAsState().value
     Column {
         Row(
@@ -65,8 +64,8 @@ fun FoodList(
                                 food?.let {
                                     onSelection?.let {
                                         onSelection(food)
-                                        navigator.pop()
-                                    } ?: navigator.push(FoodFormScreen(food))
+                                        navigation.pop()
+                                    } ?: navigation.push(FoodFormScreen(food))
                                 }
                             }
                     )

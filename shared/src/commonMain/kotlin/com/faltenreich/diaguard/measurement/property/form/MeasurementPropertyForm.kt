@@ -10,14 +10,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.BottomSheet
@@ -30,9 +29,8 @@ import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 fun MeasurementPropertyForm(
     modifier: Modifier = Modifier,
     viewModel: MeasurementPropertyFormViewModel = inject(),
+    navigation: Navigation = inject(),
 ) {
-    val navigator = LocalNavigator.currentOrThrow
-
     when (val viewState = viewModel.viewState.collectAsState().value) {
         is MeasurementPropertyFormViewState.Loading -> LoadingIndicator(modifier = modifier)
 
@@ -91,7 +89,7 @@ fun MeasurementPropertyForm(
                         TextButton(onClick = {
                             viewModel.deleteProperty(viewState.property)
                             viewModel.hideDeletionDialog()
-                            navigator.pop()
+                            navigation.pop()
                         }) {
                             Text(getString(MR.strings.delete))
                         }

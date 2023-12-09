@@ -3,11 +3,11 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import dev.icerock.moko.resources.compose.painterResource
@@ -16,10 +16,10 @@ import dev.icerock.moko.resources.compose.painterResource
 fun EntryFormFloatingActionButton(
     entry: Entry? = null,
     modifier: Modifier = Modifier,
+    navigation: Navigation = inject(),
 ) {
-    val navigator = LocalNavigator.currentOrThrow
     FloatingActionButton(
-        onClick = { navigator.push(EntryFormScreen(entry)) },
+        onClick = { navigation.push(EntryFormScreen(entry)) },
         modifier = modifier,
     ) {
         Icon(

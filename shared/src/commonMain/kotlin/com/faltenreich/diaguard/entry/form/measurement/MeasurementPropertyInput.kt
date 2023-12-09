@@ -15,15 +15,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.food.eaten.FoodEatenInput
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 
@@ -33,8 +33,8 @@ fun MeasurementPropertyInput(
     foodEaten: List<FoodEatenInputData>,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
+    navigation: Navigation = inject(),
 ) {
-    val navigator = LocalNavigator.currentOrThrow
     Column {
         Row(
             modifier = modifier
@@ -57,7 +57,7 @@ fun MeasurementPropertyInput(
                             {
                                 IconButton(
                                     onClick = {
-                                        navigator.push(FoodListScreen(onSelection = { food ->
+                                        navigation.push(FoodListScreen(onSelection = { food ->
                                             onIntent(EntryFormIntent.AddFood(food))
                                         }))
                                     })

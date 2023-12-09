@@ -5,24 +5,25 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.navigator.Navigator
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun TopAppBar(
     style: TopAppBarStyle,
-    navigator: Navigator,
+    navigation: Navigation = inject(),
 ) {
     when (style) {
         is TopAppBarStyle.Hidden -> Unit
         is TopAppBarStyle.CenterAligned -> CenterAlignedTopAppBar(
             title = { style.content() },
             navigationIcon = {
-                if (navigator.canPop) {
-                    IconButton(onClick = navigator::pop) {
+                if (navigation.canPop()) {
+                    IconButton(onClick = navigation::pop) {
                         Icon(
                             painter = painterResource(MR.images.ic_arrow_back),
                             contentDescription = getString(MR.strings.navigate_back),

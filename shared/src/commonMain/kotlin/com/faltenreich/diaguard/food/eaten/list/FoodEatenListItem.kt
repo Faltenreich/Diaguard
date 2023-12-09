@@ -4,10 +4,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.food.eaten.FoodEaten
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
@@ -20,9 +19,9 @@ fun FoodEatenListItem(
     foodEaten: FoodEaten,
     modifier: Modifier = Modifier,
     dateTimeFormatter: DateTimeFormatter = inject(),
+    navigation: Navigation = inject(),
 ) {
-    val navigator = LocalNavigator.currentOrThrow
-    FormRow(modifier = modifier.clickable { navigator.push(EntryFormScreen(foodEaten.entry)) }) {
+    FormRow(modifier = modifier.clickable { navigation.push(EntryFormScreen(foodEaten.entry)) }) {
         Text(
             text = dateTimeFormatter.formatDateTime(foodEaten.entry.dateTime),
             modifier = Modifier.weight(1f),

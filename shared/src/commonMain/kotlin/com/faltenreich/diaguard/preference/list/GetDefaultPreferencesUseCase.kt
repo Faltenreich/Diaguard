@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.preference.list
 
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyListScreen
 import com.faltenreich.diaguard.navigation.screen.TagListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
@@ -25,6 +26,7 @@ class GetDefaultPreferencesUseCase(
     private val getStartScreen: GetStartScreenUseCase,
     private val setStartScreen: SetStartScreenUseCase,
     private val getAppVersion: GetAppVersionUseCase,
+    private val navigation: Navigation,
 ) {
 
     operator fun invoke(): Flow<List<PreferenceListItem>> {
@@ -62,11 +64,11 @@ class GetDefaultPreferencesUseCase(
                 }
                 action {
                     title = MR.strings.measurement_properties
-                    onClick = { it.push(MeasurementPropertyListScreen) }
+                    onClick = { navigation.push(MeasurementPropertyListScreen) }
                 }
                 action {
                     title = MR.strings.tags
-                    onClick = { it.push(TagListScreen) }
+                    onClick = { navigation.push(TagListScreen) }
                 }
                 category {
                     title = MR.strings.contact

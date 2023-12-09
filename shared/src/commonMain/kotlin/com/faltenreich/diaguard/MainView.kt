@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
@@ -29,11 +30,13 @@ import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 fun MainView(
     modifier: Modifier = Modifier,
     navigationViewModel: NavigationViewModel = inject(),
+    navigation: Navigation = inject(),
 ) {
     val viewState = navigationViewModel.viewState.collectAsState().value
     val startScreen = viewState.startScreen ?: return
     Box(modifier = modifier) {
         Navigator(screen = startScreen) { navigator ->
+            navigation.navigator = navigator
             Box {
                 var openBottomSheet by rememberSaveable { mutableStateOf(false) }
                 val bottomSheetState = rememberBottomSheetState()
@@ -43,10 +46,7 @@ fun MainView(
                         val style = screen?.topAppBarStyle() ?: TopAppBarStyle.Hidden
                         AnimatedVisibility(style != TopAppBarStyle.Hidden) {
                             // TODO: Extract to prevent jumping during transition
-                            TopAppBar(
-                                style = style,
-                                navigator = navigator,
-                            )
+                            TopAppBar(style)
                         }
                     },
                     content = { padding ->
@@ -72,7 +72,6 @@ fun MainView(
                 if (openBottomSheet) {
                     BottomSheetNavigation(
                         bottomSheetState = bottomSheetState,
-                        navigator = navigator,
                         onDismissRequest = { openBottomSheet = false },
                     )
                 }

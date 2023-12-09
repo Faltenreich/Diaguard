@@ -10,22 +10,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun LatestDashboardItem(
     data: DashboardViewState.Revisit.LatestBloodSugar?,
     modifier: Modifier = Modifier,
+    navigation: Navigation = inject(),
 ) {
-    val navigator = LocalNavigator.currentOrThrow
     Card(
-        onClick = { navigator.push(EntryFormScreen(entry = data?.entry)) },
+        onClick = { navigation.push(EntryFormScreen(entry = data?.entry)) },
         modifier = modifier,
     ) {
         Column(

@@ -11,11 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
@@ -25,10 +24,10 @@ fun EntryListItem(
     entry: Entry,
     modifier: Modifier = Modifier,
     dateTimeFormatter: DateTimeFormatter = inject(),
+    navigation: Navigation = inject(),
 ) {
-    val navigator = LocalNavigator.currentOrThrow
     Card(
-        modifier = modifier.clickable(onClick = { navigator.push(EntryFormScreen(entry)) }),
+        modifier = modifier.clickable(onClick = { navigation.push(EntryFormScreen(entry)) }),
     ) {
         Column(
             modifier = Modifier

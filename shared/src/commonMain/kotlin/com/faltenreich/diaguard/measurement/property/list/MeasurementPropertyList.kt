@@ -6,9 +6,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormDialog
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
@@ -17,8 +16,8 @@ import com.faltenreich.diaguard.shared.view.LoadingIndicator
 fun MeasurementPropertyList(
     modifier: Modifier = Modifier,
     viewModel: MeasurementPropertyListViewModel = inject(),
+    navigation: Navigation = inject(),
 ) {
-    val navigator = LocalNavigator.currentOrThrow
     val state = viewModel.viewState.collectAsState().value
     when (state) {
         is MeasurementPropertyListViewState.Loading -> LoadingIndicator()
@@ -36,7 +35,7 @@ fun MeasurementPropertyList(
                     showArrowDown = index < listItems.size - 1,
                     modifier = Modifier
                         .animateItemPlacement()
-                        .clickable { navigator.push(MeasurementPropertyFormScreen(item)) },
+                        .clickable { navigation.push(MeasurementPropertyFormScreen(item)) },
                 )
             }
         }

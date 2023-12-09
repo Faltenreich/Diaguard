@@ -1,19 +1,20 @@
 package com.faltenreich.diaguard.entry.search
 
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
+import com.faltenreich.diaguard.shared.di.inject
 import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
-fun EntrySearchBottomAppBarItem() {
-    val navigator = LocalNavigator.currentOrThrow
+fun EntrySearchBottomAppBarItem(
+    navigation: Navigation = inject(),
+) {
     BottomAppBarItem(
         painter = painterResource(MR.images.ic_search),
         contentDescription = MR.strings.search_open,
-        onClick = { navigator.push(EntrySearchScreen()) },
+        onClick = { navigation.push(EntrySearchScreen()) },
     )
 }

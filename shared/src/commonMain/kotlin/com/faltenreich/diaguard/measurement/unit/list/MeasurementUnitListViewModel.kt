@@ -10,9 +10,9 @@ import kotlinx.coroutines.launch
 class MeasurementUnitListViewModel(
     private val dispatcher: CoroutineDispatcher = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
-    fun setSelectedUnit(unit: MeasurementUnit) = viewModelScope.launch(dispatcher) {
+    fun setSelectedUnit(unit: MeasurementUnit) = scope.launch(dispatcher) {
         updateMeasurementType(unit.type.copy(selectedUnitId = unit.id))
     }
 }

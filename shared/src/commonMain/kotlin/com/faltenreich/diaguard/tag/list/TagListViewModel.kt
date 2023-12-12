@@ -15,7 +15,7 @@ class TagListViewModel(
     getTags: GetTagsUseCase = inject(),
     private val hasTag: HasTagUseCase = inject(),
     private val createTag: CreateTagUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val tags = getTags()
     private val showFormDialog = MutableStateFlow(false)
@@ -27,7 +27,7 @@ class TagListViewModel(
         TagListViewState::Loaded,
     )
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = TagListViewState.Loading,
     )

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.stateIn
 class FoodEatenListViewModel(
     food: Food,
     getFoodEaten: GetFoodEatenForFoodUseCase = inject(),
-) :ViewModel() {
+) : ViewModel {
 
     private val state = getFoodEaten(food).map { results ->
         when {
@@ -19,7 +19,7 @@ class FoodEatenListViewModel(
         }
     }
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = FoodEatenListViewState.Loading,
     )

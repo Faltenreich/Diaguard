@@ -13,7 +13,7 @@ class OnboardingViewModel(
     dispatcher: CoroutineDispatcher = inject(),
     hasData: HasDataUseCase = inject(),
     private val import: ImportUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val state = hasData().map { hasData ->
         when (hasData) {
@@ -22,7 +22,7 @@ class OnboardingViewModel(
         }
     }.flowOn(dispatcher)
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = OnboardingViewState.Loading,
     )

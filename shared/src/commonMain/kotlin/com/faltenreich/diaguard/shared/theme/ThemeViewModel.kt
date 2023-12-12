@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.stateIn
 
 class ThemeViewModel(
     getColorScheme: GetColorSchemeUseCase,
-) : ViewModel() {
+) : ViewModel {
 
     private val colorScheme: Flow<ColorScheme?> = getColorScheme()
     val viewState = colorScheme.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = null,
     )

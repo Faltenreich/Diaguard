@@ -17,7 +17,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class FoodListViewModel(
     private val searchFood: SearchFoodUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val state = MutableStateFlow<FoodListViewState>(FoodListViewState.Loading)
     val viewState = state.asStateFlow()
@@ -31,6 +31,6 @@ class FoodListViewModel(
             .onEach { state.value = FoodListViewState.Loading }
             .flatMapLatest { searchFood(it) }
             .onEach { state.value = FoodListViewState.Result(it) }
-            .launchIn(viewModelScope)
+            .launchIn(scope)
     }
 }

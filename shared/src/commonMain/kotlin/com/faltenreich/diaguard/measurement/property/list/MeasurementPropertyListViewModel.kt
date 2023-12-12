@@ -17,7 +17,7 @@ class MeasurementPropertyListViewModel(
     getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
     private val updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementProperty: CreateMeasurementPropertyUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val showFormDialog = MutableStateFlow(false)
 
@@ -27,7 +27,7 @@ class MeasurementPropertyListViewModel(
         MeasurementPropertyListViewState::Loaded,
     ).flowOn(dispatcher)
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = MeasurementPropertyListViewState.Loading(showFormDialog = false),
     )
@@ -35,12 +35,12 @@ class MeasurementPropertyListViewModel(
     private val properties: List<MeasurementProperty>?
         get() = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems
 
-    fun decrementSortIndex(property: MeasurementProperty) = viewModelScope.launch(dispatcher) {
+    fun decrementSortIndex(property: MeasurementProperty) = scope.launch(dispatcher) {
         val properties = properties ?: return@launch
         swapSortIndexes(first = property, second = properties.last { it.sortIndex < property.sortIndex })
     }
 
-    fun incrementSortIndex(property: MeasurementProperty) = viewModelScope.launch(dispatcher) {
+    fun incrementSortIndex(property: MeasurementProperty) = scope.launch(dispatcher) {
         val properties = properties ?: return@launch
         swapSortIndexes(first = property, second = properties.first { it.sortIndex > property.sortIndex })
     }
@@ -48,20 +48,20 @@ class MeasurementPropertyListViewModel(
     private fun swapSortIndexes(
         first: MeasurementProperty,
         second: MeasurementProperty,
-    ) = viewModelScope.launch(dispatcher) {
+    ) = scope.launch(dispatcher) {
         updateMeasurementProperty(first.copy(sortIndex = second.sortIndex))
         updateMeasurementProperty(second.copy(sortIndex = first.sortIndex))
     }
 
-    fun showFormDialog() = viewModelScope.launch(dispatcher) {
+    fun showFormDialog() = scope.launch(dispatcher) {
         showFormDialog.value = true
     }
 
-    fun hideFormDialog() = viewModelScope.launch(dispatcher) {
+    fun hideFormDialog() = scope.launch(dispatcher) {
         showFormDialog.value = false
     }
 
-    fun createProperty(name: String) = viewModelScope.launch(dispatcher) {
+    fun createProperty(name: String) = scope.launch(dispatcher) {
         val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return@launch
         createMeasurementProperty(
             name = name,

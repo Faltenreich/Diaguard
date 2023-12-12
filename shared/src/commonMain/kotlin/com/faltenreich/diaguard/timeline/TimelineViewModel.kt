@@ -32,7 +32,7 @@ class TimelineViewModel(
     dateTimeFactory: DateTimeFactory = inject(),
     entryRepository: EntryRepository = inject(),
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val initialDate = date ?: dateTimeFactory.today()
     private val currentDate = MutableStateFlow(initialDate)
@@ -75,7 +75,7 @@ class TimelineViewModel(
         ),
     )
 
-    fun setDate(date: Date) = viewModelScope.launch(dispatcher) {
+    fun setDate(date: Date) = scope.launch(dispatcher) {
         currentDate.value = date
     }
 }

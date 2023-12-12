@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.stateIn
 class NavigationViewModel(
     dispatcher: CoroutineDispatcher = inject(),
     getStartScreen: GetStartScreenUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val state = getStartScreen().map { startScreen ->
         NavigationViewState(
@@ -28,7 +28,7 @@ class NavigationViewModel(
         )
     }.flowOn(dispatcher)
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = NavigationViewState(
             startScreen = null,

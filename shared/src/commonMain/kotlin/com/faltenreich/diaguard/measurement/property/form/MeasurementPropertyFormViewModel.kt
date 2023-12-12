@@ -24,7 +24,7 @@ class MeasurementPropertyFormViewModel(
     updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementType: CreateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementProperty: DeleteMeasurementPropertyUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     var name = MutableStateFlow(property.name)
     var icon = MutableStateFlow(property.icon ?: "")
@@ -43,39 +43,36 @@ class MeasurementPropertyFormViewModel(
         MeasurementPropertyFormViewState::Loaded,
     ).flowOn(dispatcher)
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = MeasurementPropertyFormViewState.Loading(property),
     )
 
-    private val types: List<MeasurementType>?
-        get() = (viewState.value as? MeasurementPropertyFormViewState.Loaded)?.types
-
     init {
         // FIXME: Setting both at the same time cancels the first collector
-        viewModelScope.launch(dispatcher) {
+        scope.launch(dispatcher) {
             name.debounce(DateTimeConstants.INPUT_DEBOUNCE)
                 .collectLatest { name -> updateMeasurementProperty(property.copy(name = name)) }
         }
-        viewModelScope.launch(dispatcher) {
+        scope.launch(dispatcher) {
             icon.debounce(DateTimeConstants.INPUT_DEBOUNCE)
                 .collectLatest { icon -> updateMeasurementProperty(property.copy(icon = icon)) }
         }
     }
 
-    fun showIconPicker() = viewModelScope.launch(dispatcher) {
+    fun showIconPicker() = scope.launch(dispatcher) {
         showIconPicker.value = true
     }
 
-    fun hideIconPicker() = viewModelScope.launch(dispatcher) {
+    fun hideIconPicker() = scope.launch(dispatcher) {
         showIconPicker.value = false
     }
 
-    fun showFormDialog() = viewModelScope.launch(dispatcher) {
+    fun showFormDialog() = scope.launch(dispatcher) {
         showFormDialog.value = true
     }
 
-    fun hideFormDialog() = viewModelScope.launch (dispatcher) {
+    fun hideFormDialog() = scope.launch (dispatcher) {
         showFormDialog.value = false
     }
 
@@ -83,7 +80,7 @@ class MeasurementPropertyFormViewModel(
         typeName: String,
         unitName: String,
         types: List<MeasurementType>,
-    ) = viewModelScope.launch(dispatcher) {
+    ) = scope.launch(dispatcher) {
         createMeasurementType(
             typeKey = null,
             typeName = typeName,
@@ -94,15 +91,15 @@ class MeasurementPropertyFormViewModel(
         )
     }
 
-    fun deletePropertyIfConfirmed() = viewModelScope.launch(dispatcher) {
+    fun deletePropertyIfConfirmed() = scope.launch(dispatcher) {
         showDeletionDialog.value = true
     }
 
-    fun hideDeletionDialog() = viewModelScope.launch(dispatcher) {
+    fun hideDeletionDialog() = scope.launch(dispatcher) {
         showDeletionDialog.value = false
     }
 
-    fun deleteProperty(property: MeasurementProperty) = viewModelScope.launch(dispatcher) {
+    fun deleteProperty(property: MeasurementProperty) = scope.launch(dispatcher) {
         deleteMeasurementProperty(property)
     }
 }

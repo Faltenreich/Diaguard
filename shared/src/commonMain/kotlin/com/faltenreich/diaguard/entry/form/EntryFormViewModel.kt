@@ -34,7 +34,7 @@ class EntryFormViewModel(
     private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
     private val getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val id: Long? = entry?.id
 
@@ -66,13 +66,13 @@ class EntryFormViewModel(
     var foodEaten by mutableStateOf(emptyList<FoodEatenInputData>())
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        scope.launch(Dispatchers.IO) {
             val measurements = getMeasurementInputData(entry)
             withContext(Dispatchers.Main) {
                 this@EntryFormViewModel.measurements = measurements
             }
         }
-        viewModelScope.launch(Dispatchers.IO) {
+        scope.launch(Dispatchers.IO) {
             getFoodEatenInputData(entry).collectLatest { foodEaten ->
                 withContext(Dispatchers.Main) {
                     this@EntryFormViewModel.foodEaten = foodEaten
@@ -81,7 +81,7 @@ class EntryFormViewModel(
         }
     }
 
-    fun handleIntent(intent: EntryFormIntent) = viewModelScope.launch(dispatcher) {
+    fun handleIntent(intent: EntryFormIntent) = scope.launch(dispatcher) {
         when (intent) {
             is EntryFormIntent.Edit -> updateMeasurementValue(intent.data)
             is EntryFormIntent.Submit -> submit()

@@ -17,7 +17,7 @@ class DashboardViewModel(
     getLatestBloodSugar: GetLatestBloodSugarUseCase = inject(),
     getToday: GetTodayUseCase = inject(),
     getAverage: GetAverageUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val state: Flow<DashboardViewState> = combine(
         getLatestBloodSugar(),
@@ -26,7 +26,7 @@ class DashboardViewModel(
         DashboardViewState::Revisit,
     ).flowOn(dispatcher)
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = DashboardViewState.Loading,
     )

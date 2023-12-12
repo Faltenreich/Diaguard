@@ -10,9 +10,9 @@ import kotlinx.coroutines.launch
 class EntryListViewModel(
     private val dispatcher: CoroutineDispatcher = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
-    fun delete(entry: Entry) = viewModelScope.launch(dispatcher) {
+    fun delete(entry: Entry) = scope.launch(dispatcher) {
         deleteEntry(entry.id)
     }
 }

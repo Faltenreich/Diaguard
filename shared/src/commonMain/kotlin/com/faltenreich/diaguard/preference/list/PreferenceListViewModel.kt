@@ -14,13 +14,13 @@ class PreferenceListViewModel(
     preferences: List<PreferenceListItem>?,
     getDefaultPreferences: GetDefaultPreferencesUseCase = inject(),
     dispatcher: CoroutineDispatcher = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val state = (preferences?.let(::flowOf) ?: getDefaultPreferences())
         .map(PreferenceListViewState::Loaded)
         .flowOn(dispatcher)
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = PreferenceListViewState.Loading,
     )

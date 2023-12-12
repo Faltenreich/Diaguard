@@ -19,7 +19,7 @@ class StatisticViewModel(
     private val getAverage: GetAverageUseCase,
     dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
-) : ViewModel() {
+) : ViewModel {
 
     private val selectedProperty = MutableStateFlow<MeasurementProperty?>(null)
     private val initialDateRange = dateTimeFactory.today().let { today ->
@@ -43,7 +43,7 @@ class StatisticViewModel(
         )
     }
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = StatisticViewState.Loading,
     )

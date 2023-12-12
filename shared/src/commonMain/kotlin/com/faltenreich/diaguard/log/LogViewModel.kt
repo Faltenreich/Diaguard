@@ -20,7 +20,7 @@ class LogViewModel(
     dateTimeFactory: DateTimeFactory = inject(),
     private val dispatcher: CoroutineDispatcher = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val initialDate: Date = date ?: dateTimeFactory.today()
     private lateinit var dataSource: PagingSource<Date, LogItem>
@@ -29,9 +29,9 @@ class LogViewModel(
         config = LogItemSource.newConfig(),
         initialKey = initialDate,
         pagingSourceFactory = { LogItemSource().also { dataSource = it } },
-    ).flow.cachedIn(viewModelScope)
+    ).flow.cachedIn(scope)
 
-    fun setDate(date: Date) = viewModelScope.launch(dispatcher) {
+    fun setDate(date: Date) = scope.launch(dispatcher) {
         // TODO
         /*
         val indexOfDate = items.first().indexOfFirst { it.date == date }
@@ -50,7 +50,7 @@ class LogViewModel(
         */
     }
 
-    fun remove(item: LogItem.EntryContent) = viewModelScope.launch(dispatcher) {
+    fun remove(item: LogItem.EntryContent) = scope.launch(dispatcher) {
         deleteEntry(item.entry.id)
         dataSource.invalidate()
     }

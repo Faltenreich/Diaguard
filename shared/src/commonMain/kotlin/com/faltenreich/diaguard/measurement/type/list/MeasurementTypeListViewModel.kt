@@ -10,26 +10,26 @@ import kotlinx.coroutines.launch
 class MeasurementTypeListViewModel(
     private val dispatcher: CoroutineDispatcher = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     fun decrementSortIndex(
         type: MeasurementType,
         inTypes: List<MeasurementType>,
-    ) = viewModelScope.launch(dispatcher) {
+    ) = scope.launch(dispatcher) {
         swapSortIndexes(first = type, second = inTypes.last { it.sortIndex < type.sortIndex })
     }
 
     fun incrementSortIndex(
         type: MeasurementType,
         inTypes: List<MeasurementType>,
-    ) = viewModelScope.launch(dispatcher) {
+    ) = scope.launch(dispatcher) {
         swapSortIndexes(first = type, second = inTypes.first { it.sortIndex > type.sortIndex })
     }
 
     private fun swapSortIndexes(
         first: MeasurementType,
         second: MeasurementType,
-    ) = viewModelScope.launch(dispatcher) {
+    ) = scope.launch(dispatcher) {
         updateMeasurementType(first.copy(sortIndex = second.sortIndex))
         updateMeasurementType(second.copy(sortIndex = first.sortIndex))
     }

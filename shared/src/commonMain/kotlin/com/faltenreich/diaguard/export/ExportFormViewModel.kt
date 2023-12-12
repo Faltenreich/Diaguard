@@ -23,7 +23,7 @@ class ExportFormViewModel(
     dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val localization: Localization,
-) : ViewModel() {
+) : ViewModel {
 
     private val initialDateRange = dateTimeFactory.today().let { today ->
         today.minus(1, DateUnit.WEEK) .. today
@@ -54,7 +54,7 @@ class ExportFormViewModel(
     var properties by mutableStateOf(emptyList<ExportFormMeasurementProperty>())
 
     init {
-        viewModelScope.launch(dispatcher) {
+        scope.launch(dispatcher) {
             getMeasurementProperties().collect { properties ->
                 val exportProperties = properties.map { property ->
                     ExportFormMeasurementProperty(

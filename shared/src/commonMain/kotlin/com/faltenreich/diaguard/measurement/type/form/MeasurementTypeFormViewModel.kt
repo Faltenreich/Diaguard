@@ -23,7 +23,7 @@ class MeasurementTypeFormViewModel(
     countMeasurementValuesOfType: CountMeasurementValuesOfTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     var typeName = MutableStateFlow("")
     var unitName = MutableStateFlow("")
@@ -47,27 +47,27 @@ class MeasurementTypeFormViewModel(
         }
     }.flowOn(dispatcher)
     val viewState = state.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = MeasurementTypeFormViewState.Loading
     )
 
     init {
-        viewModelScope.launch(dispatcher) {
+        scope.launch(dispatcher) {
             type.filterNotNull().distinctUntilChangedBy(MeasurementType::id).collectLatest { type ->
                 typeName.value = type.name
                 unitName.value = type.selectedUnit.name
             }
         }
         // FIXME: Setting other flow at the same time cancels the first collector
-        viewModelScope.launch(dispatcher) {
+        scope.launch(dispatcher) {
             typeName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
                 val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
                 updateMeasurementType(type.copy(name = name))
             }
         }
-        viewModelScope.launch(dispatcher) {
+        scope.launch(dispatcher) {
             unitName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
                 val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
@@ -78,15 +78,15 @@ class MeasurementTypeFormViewModel(
         }
     }
 
-    fun deleteTypeIfConfirmed() = viewModelScope.launch(dispatcher) {
+    fun deleteTypeIfConfirmed() = scope.launch(dispatcher) {
         showDeletionDialog.value = true
     }
 
-    fun hideDeletionDialog() = viewModelScope.launch(dispatcher) {
+    fun hideDeletionDialog() = scope.launch(dispatcher) {
         showDeletionDialog.value = false
     }
 
-    fun deleteType(type: MeasurementType) = viewModelScope.launch(dispatcher) {
+    fun deleteType(type: MeasurementType) = scope.launch(dispatcher) {
         deleteMeasurementType(type.id)
     }
 }

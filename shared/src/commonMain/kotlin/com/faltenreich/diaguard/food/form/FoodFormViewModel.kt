@@ -18,7 +18,7 @@ class FoodFormViewModel(
     private val createFood: CreateFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
     private val numberFormatter: NumberFormatter = inject(),
-) : ViewModel() {
+) : ViewModel {
 
     private val id: Long? = food?.id
 
@@ -67,7 +67,7 @@ class FoodFormViewModel(
             )
         }
 
-    fun handleIntent(intent: FoodFormIntent) = viewModelScope.launch(dispatcher) {
+    fun handleIntent(intent: FoodFormIntent) = scope.launch(dispatcher) {
         when (intent) {
             is FoodFormIntent.EditNutrient -> editNutrient(intent.data)
             is FoodFormIntent.Submit -> submit()

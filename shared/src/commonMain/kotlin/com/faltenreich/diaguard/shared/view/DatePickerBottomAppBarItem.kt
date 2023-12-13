@@ -12,7 +12,7 @@ import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun DatePickerBottomAppBarItem(
-    date: Date,
+    date: Date?,
     onDatePick: (Date) -> Unit,
 ) {
     var showDatePicker by remember { mutableStateOf(false) }

@@ -10,16 +10,14 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DateUnit
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
 
 class StatisticViewModel(
     getMeasurementProperties: GetMeasurementPropertiesUseCase,
     private val getAverage: GetAverageUseCase,
     dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
-) : ViewModel {
+) : ViewModel<StatisticViewState>() {
 
     private val selectedProperty = MutableStateFlow<MeasurementProperty?>(null)
     private val initialDateRange = dateTimeFactory.today().let { today ->
@@ -29,7 +27,7 @@ class StatisticViewModel(
     val dateRangeLocalized: String
         get() = dateTimeFormatter.formatDateRange(dateRange)
 
-    private val state = combine(
+    override val state = combine(
         getMeasurementProperties(),
         selectedProperty,
     ) { properties, selectedProperty ->
@@ -42,11 +40,6 @@ class StatisticViewModel(
             average = getAverage(property, dateRange),
         )
     }
-    val viewState = state.stateIn(
-        scope = scope,
-        started = SharingStarted.Lazily,
-        initialValue = StatisticViewState.Loading,
-    )
 
     fun selectProperty(property: MeasurementProperty) {
         selectedProperty.value = property

@@ -24,8 +24,8 @@ fun MeasurementTypeForm(
     viewModel: MeasurementTypeFormViewModel = inject(),
     navigation: Navigation = inject(),
 ) {
-    when (val viewState = viewModel.viewState.collectAsState().value) {
-        is MeasurementTypeFormViewState.Loading -> LoadingIndicator()
+    when (val viewState = viewModel.collectState()) {
+        null -> LoadingIndicator(modifier = modifier)
 
         is MeasurementTypeFormViewState.Loaded -> {
             LazyColumn(modifier = modifier) {
@@ -85,6 +85,6 @@ fun MeasurementTypeForm(
             }
         }
 
-        is MeasurementTypeFormViewState.Error -> Unit
+        is MeasurementTypeFormViewState.Error -> TODO()
     }
 }

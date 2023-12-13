@@ -8,12 +8,10 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MeasurementPropertyFormViewModel(
@@ -24,7 +22,7 @@ class MeasurementPropertyFormViewModel(
     updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementType: CreateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementProperty: DeleteMeasurementPropertyUseCase = inject(),
-) : ViewModel {
+) : ViewModel<MeasurementPropertyFormViewState>() {
 
     var name = MutableStateFlow(property.name)
     var icon = MutableStateFlow(property.icon ?: "")
@@ -33,7 +31,7 @@ class MeasurementPropertyFormViewModel(
     private val showFormDialog = MutableStateFlow(false)
     private val showDeletionDialog = MutableStateFlow(false)
 
-    private val state = combine(
+    override val state = combine(
         flowOf(property),
         showIconPicker,
         showFormDialog,
@@ -42,11 +40,6 @@ class MeasurementPropertyFormViewModel(
         countMeasurementValuesOfProperty(property),
         MeasurementPropertyFormViewState::Loaded,
     ).flowOn(dispatcher)
-    val viewState = state.stateIn(
-        scope = scope,
-        started = SharingStarted.Lazily,
-        initialValue = MeasurementPropertyFormViewState.Loading(property),
-    )
 
     init {
         // FIXME: Setting both at the same time cancels the first collector
@@ -80,12 +73,13 @@ class MeasurementPropertyFormViewModel(
         typeName: String,
         unitName: String,
         types: List<MeasurementType>,
+        propertyId: Long,
     ) = scope.launch(dispatcher) {
         createMeasurementType(
             typeKey = null,
             typeName = typeName,
             typeSortIndex = types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
-            propertyId = viewState.value.property.id,
+            propertyId = propertyId,
             unitKey = null,
             unitName = unitName,
         )

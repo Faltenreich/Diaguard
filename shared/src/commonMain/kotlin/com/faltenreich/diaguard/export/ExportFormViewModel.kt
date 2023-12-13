@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.property.list.GetMeasurementPropertiesUseCase
-import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.shared.architecture.FormViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DateUnit
@@ -23,7 +23,7 @@ class ExportFormViewModel(
     dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val localization: Localization,
-) : ViewModel {
+) : FormViewModel() {
 
     private val initialDateRange = dateTimeFactory.today().let { today ->
         today.minus(1, DateUnit.WEEK) .. today

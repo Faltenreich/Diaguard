@@ -4,7 +4,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.onboarding.FirstStart
 import com.faltenreich.diaguard.onboarding.OnboardingViewModel
@@ -21,7 +20,7 @@ fun AppView(
     onboardingViewModel: OnboardingViewModel = inject(),
     themeViewModel: ThemeViewModel = inject(),
 ) {
-    val isDarkColorScheme = when (themeViewModel.viewState.collectAsState().value) {
+    val isDarkColorScheme = when (themeViewModel.collectState()) {
         ColorScheme.SYSTEM, null -> isSystemInDarkTheme()
         ColorScheme.LIGHT -> false
         ColorScheme.DARK -> true
@@ -31,8 +30,8 @@ fun AppView(
             modifier = modifier.fillMaxSize().keyboardPadding(),
             color = AppTheme.colors.scheme.surface,
         ) {
-            when (onboardingViewModel.viewState.collectAsState().value) {
-                is OnboardingViewState.Loading -> LoadingIndicator()
+            when (onboardingViewModel.collectState()) {
+                null -> LoadingIndicator()
                 is OnboardingViewState.FirstStart -> FirstStart(modifier = modifier)
                 is OnboardingViewState.SubsequentStart -> MainView(modifier = modifier)
             }

@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
@@ -29,7 +28,7 @@ fun FoodList(
     viewModel: FoodListViewModel = inject(),
     navigation: Navigation = inject(),
 ) {
-    val viewState = viewModel.viewState.collectAsState().value
+    val items = viewModel.collectState()
     Column {
         Row(
             modifier = Modifier
@@ -55,7 +54,7 @@ fun FoodList(
             )
         }
         LazyColumn(modifier = modifier) {
-            itemsElse(viewState.items, key = Food::id) { food ->
+            itemsElse(items, key = Food::id) { food ->
                 Column {
                     FoodListItem(
                         food = food,

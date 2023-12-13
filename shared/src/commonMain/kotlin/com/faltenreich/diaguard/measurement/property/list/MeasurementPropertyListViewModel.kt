@@ -6,10 +6,8 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MeasurementPropertyListViewModel(
@@ -17,23 +15,18 @@ class MeasurementPropertyListViewModel(
     getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
     private val updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementProperty: CreateMeasurementPropertyUseCase = inject(),
-) : ViewModel {
+) : ViewModel<MeasurementPropertyListViewState>() {
 
     private val showFormDialog = MutableStateFlow(false)
 
-    private val state = combine(
+    override val state = combine(
         showFormDialog,
         getMeasurementProperties(),
         MeasurementPropertyListViewState::Loaded,
     ).flowOn(dispatcher)
-    val viewState = state.stateIn(
-        scope = scope,
-        started = SharingStarted.Lazily,
-        initialValue = MeasurementPropertyListViewState.Loading(showFormDialog = false),
-    )
 
     private val properties: List<MeasurementProperty>?
-        get() = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems
+        get() = (stateInScope.value as? MeasurementPropertyListViewState.Loaded)?.listItems
 
     fun decrementSortIndex(property: MeasurementProperty) = scope.launch(dispatcher) {
         val properties = properties ?: return@launch
@@ -61,13 +54,15 @@ class MeasurementPropertyListViewModel(
         showFormDialog.value = false
     }
 
-    fun createProperty(name: String) = scope.launch(dispatcher) {
-        val properties = (viewState.value as? MeasurementPropertyListViewState.Loaded)?.listItems ?: return@launch
+    fun createProperty(
+        name: String,
+        other: List<MeasurementProperty>,
+    ) = scope.launch(dispatcher) {
         createMeasurementProperty(
             name = name,
             key = null,
             icon = null,
-            sortIndex = properties.maxOf(MeasurementProperty::sortIndex) + 1,
+            sortIndex = other.maxOf(MeasurementProperty::sortIndex) + 1,
         )
     }
 }

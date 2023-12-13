@@ -12,18 +12,13 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class TimelineViewModel(
@@ -32,7 +27,7 @@ class TimelineViewModel(
     dateTimeFactory: DateTimeFactory = inject(),
     entryRepository: EntryRepository = inject(),
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
-) : ViewModel {
+) : ViewModel<TimelineViewState>() {
 
     private val initialDate = date ?: dateTimeFactory.today()
     private val currentDate = MutableStateFlow(initialDate)
@@ -54,7 +49,7 @@ class TimelineViewModel(
         properties.filterNot(MeasurementProperty::isBloodSugar)
     }
 
-    private val state = combine(
+    override val state = combine(
         flowOf(initialDate),
         currentDate,
         valuesForChart,
@@ -62,18 +57,6 @@ class TimelineViewModel(
         propertiesForList,
         ::TimelineViewState,
     ).flowOn(dispatcher)
-
-    val viewState = state.stateIn(
-        scope = CoroutineScope(Dispatchers.IO),
-        started = SharingStarted.Lazily,
-        initialValue = TimelineViewState(
-            initialDate = initialDate,
-            currentDate = initialDate,
-            valuesForChart = emptyList(),
-            valuesForList = emptyList(),
-            propertiesForList = emptyList(),
-        ),
-    )
 
     fun setDate(date: Date) = scope.launch(dispatcher) {
         currentDate.value = date

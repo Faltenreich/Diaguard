@@ -7,29 +7,22 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.tag.form.CreateTagUseCase
 import com.faltenreich.diaguard.tag.form.HasTagUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
 
 class TagListViewModel(
     getTags: GetTagsUseCase = inject(),
     private val hasTag: HasTagUseCase = inject(),
     private val createTag: CreateTagUseCase = inject(),
-) : ViewModel {
+) : ViewModel<TagListViewState>() {
 
     private val tags = getTags()
     private val showFormDialog = MutableStateFlow(false)
     private val inputError = MutableStateFlow<String?>(null)
-    private val state = combine(
+    override val state = combine(
         tags,
         showFormDialog,
         inputError,
         TagListViewState::Loaded,
-    )
-    val viewState = state.stateIn(
-        scope = scope,
-        started = SharingStarted.Lazily,
-        initialValue = TagListViewState.Loading,
     )
 
     fun handleIntent(intent: TagListIntent) {

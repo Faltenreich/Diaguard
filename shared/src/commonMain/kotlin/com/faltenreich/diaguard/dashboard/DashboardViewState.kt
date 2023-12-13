@@ -5,8 +5,6 @@ import com.faltenreich.diaguard.shared.datetime.Date
 
 sealed interface DashboardViewState {
 
-    data object Loading: DashboardViewState
-
     data class Revisit(
         val latestBloodSugar: LatestBloodSugar? = null,
         val today: Today? = null,

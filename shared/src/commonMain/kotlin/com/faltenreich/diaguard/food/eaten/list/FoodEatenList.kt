@@ -8,7 +8,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
@@ -19,8 +18,8 @@ fun FoodEatenList(
     modifier: Modifier = Modifier,
     viewModel: FoodEatenListViewModel,
 ) {
-    when (val viewState = viewModel.viewState.collectAsState().value) {
-        is FoodEatenListViewState.Loading -> Unit
+    when (val viewState = viewModel.collectState()) {
+        null -> Unit
         is FoodEatenListViewState.Empty -> Box(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,

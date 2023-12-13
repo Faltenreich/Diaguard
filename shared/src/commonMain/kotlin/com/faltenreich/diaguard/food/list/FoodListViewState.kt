@@ -2,9 +2,7 @@ package com.faltenreich.diaguard.food.list
 
 import com.faltenreich.diaguard.food.Food
 
-sealed class FoodListViewState(val items: List<Food>?) {
+sealed interface FoodListViewState {
 
-    data object Loading: FoodListViewState(null)
-
-    class Result(items: List<Food>): FoodListViewState(items)
+    class Result(val items: List<Food>?): FoodListViewState
 }

@@ -70,10 +70,10 @@ fun Screen.bottomAppBarStyle(
         is TimelineScreen -> BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<TimelineViewModel> { parametersOf(date) }
-                val viewState = viewModel.viewState.collectAsState().value
+                val viewState = viewModel.collectState()
                 EntrySearchBottomAppBarItem()
                 DatePickerBottomAppBarItem(
-                    date = viewState.currentDate,
+                    date = viewState?.currentDate,
                     onDatePick = viewModel::setDate,
                 )
             },

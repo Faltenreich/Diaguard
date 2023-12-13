@@ -7,7 +7,6 @@ import androidx.compose.runtime.snapshotFlow
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -18,10 +17,9 @@ import kotlin.time.Duration.Companion.seconds
 class EntrySearchViewModel(
     query: String = "",
     searchEntries: SearchEntriesUseCase = inject(),
-) : ViewModel {
+) : ViewModel<EntrySearchViewState>() {
 
-    private val state = MutableStateFlow<EntrySearchViewState>(EntrySearchViewState.Idle)
-    val viewState = state.asStateFlow()
+    override val state = MutableStateFlow<EntrySearchViewState>(EntrySearchViewState.Idle)
 
     var query: String by mutableStateOf("")
 

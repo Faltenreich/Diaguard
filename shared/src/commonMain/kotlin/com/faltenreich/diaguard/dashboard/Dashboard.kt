@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.card.AverageDashboardItem
@@ -22,8 +21,8 @@ fun Dashboard(
     modifier: Modifier = Modifier,
     viewModel: DashboardViewModel = inject(),
 ) {
-    when (val state = viewModel.viewState.collectAsState().value) {
-        is DashboardViewState.Loading -> LoadingIndicator()
+    when (val state = viewModel.collectState()) {
+        null -> LoadingIndicator()
         is DashboardViewState.Revisit -> Column(
             modifier = modifier.padding(
                 horizontal = AppTheme.dimensions.padding.P_3,

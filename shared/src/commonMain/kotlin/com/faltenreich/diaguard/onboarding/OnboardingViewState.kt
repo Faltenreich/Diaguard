@@ -1,10 +1,8 @@
 package com.faltenreich.diaguard.onboarding
 
-sealed class OnboardingViewState {
+sealed interface OnboardingViewState {
 
-    object Loading
+    data object FirstStart : OnboardingViewState
 
-    object FirstStart
-
-    object SubsequentStart
+    data object SubsequentStart : OnboardingViewState
 }

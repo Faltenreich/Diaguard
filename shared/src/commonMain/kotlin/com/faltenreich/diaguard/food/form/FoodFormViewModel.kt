@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
-import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.shared.architecture.FormViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,7 +18,7 @@ class FoodFormViewModel(
     private val createFood: CreateFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
     private val numberFormatter: NumberFormatter = inject(),
-) : ViewModel {
+) : FormViewModel() {
 
     private val id: Long? = food?.id
 

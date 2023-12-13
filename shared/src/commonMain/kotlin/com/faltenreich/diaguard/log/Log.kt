@@ -40,7 +40,7 @@ fun Log(
 ) {
     val density = LocalDensity.current
     // FIXME: Gets not updated on entry change
-    val items = viewModel.items.collectAsPaginationItems()
+    val items = viewModel.state.collectAsPaginationItems()
     val listState = rememberLazyListState()
 
     LaunchedEffect(listState) {

@@ -6,14 +6,12 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MeasurementTypeFormViewModel(
@@ -23,7 +21,7 @@ class MeasurementTypeFormViewModel(
     countMeasurementValuesOfType: CountMeasurementValuesOfTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
-) : ViewModel {
+) : ViewModel<MeasurementTypeFormViewState>() {
 
     var typeName = MutableStateFlow("")
     var unitName = MutableStateFlow("")
@@ -32,7 +30,7 @@ class MeasurementTypeFormViewModel(
 
     private val type = getMeasurementTypeUseCase(measurementTypeId)
 
-    private val state = combine(
+    override val state = combine(
         getMeasurementTypeUseCase(measurementTypeId),
         showDeletionDialog,
         countMeasurementValuesOfType(measurementTypeId),
@@ -46,11 +44,6 @@ class MeasurementTypeFormViewModel(
             )
         }
     }.flowOn(dispatcher)
-    val viewState = state.stateIn(
-        scope = scope,
-        started = SharingStarted.Lazily,
-        initialValue = MeasurementTypeFormViewState.Loading
-    )
 
     init {
         scope.launch(dispatcher) {
@@ -62,14 +55,14 @@ class MeasurementTypeFormViewModel(
         // FIXME: Setting other flow at the same time cancels the first collector
         scope.launch(dispatcher) {
             typeName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
-                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
+                val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
                 updateMeasurementType(type.copy(name = name))
             }
         }
         scope.launch(dispatcher) {
             unitName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
-                val type = (viewState.value as? MeasurementTypeFormViewState.Loaded)?.type
+                val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
                 val unit = type.selectedUnit
                 // FIXME: Wrangles units

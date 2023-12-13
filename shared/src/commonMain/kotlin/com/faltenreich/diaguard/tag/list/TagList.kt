@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.Tag
@@ -16,8 +15,8 @@ fun TagList(
     modifier: Modifier = Modifier,
     viewModel: TagListViewModel = inject(),
 ) {
-    when (val viewState = viewModel.viewState.collectAsState().value) {
-        is TagListViewState.Loading -> Unit
+    when (val viewState = viewModel.collectState()) {
+        null -> Unit
         is TagListViewState.Loaded -> Box {
             LazyColumn(modifier) {
                 items(viewState.tags, key = Tag::id) { tag ->

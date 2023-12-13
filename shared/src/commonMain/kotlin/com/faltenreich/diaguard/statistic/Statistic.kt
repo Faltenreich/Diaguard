@@ -11,7 +11,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,8 +34,8 @@ fun Statistic(
 ) {
     var showDateRangePicker by remember { mutableStateOf(false) }
 
-    when (val viewState = viewModel.viewState.collectAsState().value) {
-        is StatisticViewState.Loading -> Unit
+    when (val viewState = viewModel.collectState()) {
+        null -> Unit
         is StatisticViewState.Loaded -> Column(
             modifier = modifier.verticalScroll(rememberScrollState()),
         ) {

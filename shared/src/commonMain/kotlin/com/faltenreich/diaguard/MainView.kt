@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -24,6 +23,7 @@ import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.top.topAppBarStyle
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 
 @Composable
@@ -32,48 +32,50 @@ fun MainView(
     navigationViewModel: NavigationViewModel = inject(),
     navigation: Navigation = inject(),
 ) {
-    val viewState = navigationViewModel.viewState.collectAsState().value
-    val startScreen = viewState.startScreen ?: return
-    Box(modifier = modifier) {
-        Navigator(screen = startScreen) { navigator ->
-            navigation.navigator = navigator
-            Box {
-                var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-                val bottomSheetState = rememberBottomSheetState()
-                Scaffold(
-                    topBar = {
-                        val screen = navigator.lastItem as? Screen
-                        val style = screen?.topAppBarStyle() ?: TopAppBarStyle.Hidden
-                        AnimatedVisibility(style != TopAppBarStyle.Hidden) {
-                            // TODO: Extract to prevent jumping during transition
-                            TopAppBar(style)
-                        }
-                    },
-                    content = { padding ->
-                        FadeTransition(
-                            navigator = navigator,
-                            modifier = Modifier
-                                // TODO: Support fullscreen content via
-                                //  .consumeWindowInsets(padding)
-                                .padding(padding),
-                        )
-                    },
-                    bottomBar = {
-                        val screen = navigator.lastItem as? Screen
-                        val style = screen?.bottomAppBarStyle() ?: BottomAppBarStyle.Hidden
-                        AnimatedVisibility(style != BottomAppBarStyle.Hidden) {
-                            BottomAppBar(
-                                style = style,
-                                onMenuClick = { openBottomSheet = true },
+
+    when (val viewState = navigationViewModel.collectState()) {
+        null -> LoadingIndicator(modifier = modifier)
+        else -> Box(modifier = modifier) {
+            Navigator(screen = viewState.startScreen) { navigator ->
+                navigation.navigator = navigator
+                Box {
+                    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+                    val bottomSheetState = rememberBottomSheetState()
+                    Scaffold(
+                        topBar = {
+                            val screen = navigator.lastItem as? Screen
+                            val style = screen?.topAppBarStyle() ?: TopAppBarStyle.Hidden
+                            AnimatedVisibility(style != TopAppBarStyle.Hidden) {
+                                // TODO: Extract to prevent jumping during transition
+                                TopAppBar(style)
+                            }
+                        },
+                        content = { padding ->
+                            FadeTransition(
+                                navigator = navigator,
+                                modifier = Modifier
+                                    // TODO: Support fullscreen content via
+                                    //  .consumeWindowInsets(padding)
+                                    .padding(padding),
                             )
-                        }
-                    },
-                )
-                if (openBottomSheet) {
-                    BottomSheetNavigation(
-                        bottomSheetState = bottomSheetState,
-                        onDismissRequest = { openBottomSheet = false },
+                        },
+                        bottomBar = {
+                            val screen = navigator.lastItem as? Screen
+                            val style = screen?.bottomAppBarStyle() ?: BottomAppBarStyle.Hidden
+                            AnimatedVisibility(style != BottomAppBarStyle.Hidden) {
+                                BottomAppBar(
+                                    style = style,
+                                    onMenuClick = { openBottomSheet = true },
+                                )
+                            }
+                        },
                     )
+                    if (openBottomSheet) {
+                        BottomSheetNavigation(
+                            bottomSheetState = bottomSheetState,
+                            onDismissRequest = { openBottomSheet = false },
+                        )
+                    }
                 }
             }
         }

@@ -20,12 +20,13 @@ class LogViewModel(
     dateTimeFactory: DateTimeFactory = inject(),
     private val dispatcher: CoroutineDispatcher = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-) : ViewModel {
+) : ViewModel<PagingData<LogItem>>() {
 
     private val initialDate: Date = date ?: dateTimeFactory.today()
     private lateinit var dataSource: PagingSource<Date, LogItem>
     val currentDate = MutableStateFlow(initialDate)
-    val items: Flow<PagingData<LogItem>> = Pager(
+    
+    override val state: Flow<PagingData<LogItem>> = Pager(
         config = LogItemSource.newConfig(),
         initialKey = initialDate,
         pagingSourceFactory = { LogItemSource().also { dataSource = it } },

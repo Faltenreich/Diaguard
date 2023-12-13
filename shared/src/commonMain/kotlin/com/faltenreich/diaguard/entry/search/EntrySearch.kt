@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
@@ -22,7 +21,8 @@ fun EntrySearch(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        when (val viewState = viewModel.viewState.collectAsState().value) {
+        when (val viewState = viewModel.collectState()) {
+            null -> Unit
             is EntrySearchViewState.Idle ->  Text(getString(MR.strings.entry_search_placeholder))
             is EntrySearchViewState.Loading -> LoadingIndicator()
             is EntrySearchViewState.Result -> EntryList(viewState.items ?: emptyList())

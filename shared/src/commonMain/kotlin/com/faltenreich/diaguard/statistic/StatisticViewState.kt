@@ -6,8 +6,6 @@ import com.faltenreich.diaguard.shared.datetime.Date
 
 sealed interface StatisticViewState {
 
-    data object Loading : StatisticViewState
-
     data class Loaded(
         val properties: List<MeasurementProperty>,
         val selectedProperty: MeasurementProperty,

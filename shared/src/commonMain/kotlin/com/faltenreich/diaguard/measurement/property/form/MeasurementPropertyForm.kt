@@ -31,8 +31,8 @@ fun MeasurementPropertyForm(
     viewModel: MeasurementPropertyFormViewModel = inject(),
     navigation: Navigation = inject(),
 ) {
-    when (val viewState = viewModel.viewState.collectAsState().value) {
-        is MeasurementPropertyFormViewState.Loading -> LoadingIndicator(modifier = modifier)
+    when (val viewState = viewModel.collectState()) {
+        null -> LoadingIndicator(modifier = modifier)
 
         is MeasurementPropertyFormViewState.Loaded -> {
             LazyColumn(modifier = modifier) {
@@ -76,6 +76,7 @@ fun MeasurementPropertyForm(
                             typeName = typeName,
                             unitName = unitName,
                             types = viewState.types,
+                            propertyId = viewState.property.id,
                         )
                         viewModel.hideFormDialog()
                     }

@@ -15,7 +15,7 @@ class DashboardViewModel(
     getLatestBloodSugar: GetLatestBloodSugarUseCase = inject(),
     getToday: GetTodayUseCase = inject(),
     getAverage: GetAverageUseCase = inject(),
-) : ViewModel<DashboardViewState>() {
+) : ViewModel<DashboardViewState, Unit>() {
 
     override val state: Flow<DashboardViewState> = combine(
         getLatestBloodSugar(),
@@ -23,4 +23,6 @@ class DashboardViewModel(
         getAverage(),
         DashboardViewState::Revisit,
     ).flowOn(dispatcher)
+
+    override fun onIntent(intent: Unit) = Unit
 }

@@ -9,16 +9,13 @@ import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.shared.architecture.FormViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.launch
 
 class FoodFormViewModel(
     food: Food?,
-    private val dispatcher: CoroutineDispatcher = inject(),
     private val createFood: CreateFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
     private val numberFormatter: NumberFormatter = inject(),
-) : FormViewModel() {
+) : FormViewModel<FoodFormIntent>() {
 
     private val id: Long? = food?.id
 
@@ -67,7 +64,7 @@ class FoodFormViewModel(
             )
         }
 
-    fun handleIntent(intent: FoodFormIntent) = scope.launch(dispatcher) {
+    override fun onIntent(intent: FoodFormIntent) {
         when (intent) {
             is FoodFormIntent.EditNutrient -> editNutrient(intent.data)
             is FoodFormIntent.Submit -> submit()

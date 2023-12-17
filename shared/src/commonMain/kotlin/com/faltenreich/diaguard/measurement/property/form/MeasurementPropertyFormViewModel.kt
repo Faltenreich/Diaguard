@@ -16,13 +16,13 @@ import kotlinx.coroutines.launch
 
 class MeasurementPropertyFormViewModel(
     property: MeasurementProperty,
-    private val dispatcher: CoroutineDispatcher = inject(),
+    dispatcher: CoroutineDispatcher = inject(),
     getMeasurementTypesUseCase: GetMeasurementTypesUseCase = inject(),
     countMeasurementValuesOfProperty: CountMeasurementValuesOfPropertyUseCase = inject(),
     updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementType: CreateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementProperty: DeleteMeasurementPropertyUseCase = inject(),
-) : ViewModel<MeasurementPropertyFormViewState>() {
+) : ViewModel<MeasurementPropertyFormViewState, MeasurementPropertyFormIntent>() {
 
     var name = MutableStateFlow(property.name)
     var icon = MutableStateFlow(property.icon ?: "")
@@ -53,47 +53,23 @@ class MeasurementPropertyFormViewModel(
         }
     }
 
-    fun showIconPicker() = scope.launch(dispatcher) {
-        showIconPicker.value = true
-    }
-
-    fun hideIconPicker() = scope.launch(dispatcher) {
-        showIconPicker.value = false
-    }
-
-    fun showFormDialog() = scope.launch(dispatcher) {
-        showFormDialog.value = true
-    }
-
-    fun hideFormDialog() = scope.launch (dispatcher) {
-        showFormDialog.value = false
-    }
-
-    fun createType(
-        typeName: String,
-        unitName: String,
-        types: List<MeasurementType>,
-        propertyId: Long,
-    ) = scope.launch(dispatcher) {
-        createMeasurementType(
-            typeKey = null,
-            typeName = typeName,
-            typeSortIndex = types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
-            propertyId = propertyId,
-            unitKey = null,
-            unitName = unitName,
-        )
-    }
-
-    fun deletePropertyIfConfirmed() = scope.launch(dispatcher) {
-        showDeletionDialog.value = true
-    }
-
-    fun hideDeletionDialog() = scope.launch(dispatcher) {
-        showDeletionDialog.value = false
-    }
-
-    fun deleteProperty(property: MeasurementProperty) = scope.launch(dispatcher) {
-        deleteMeasurementProperty(property)
+    override fun onIntent(intent: MeasurementPropertyFormIntent) {
+        when (intent) {
+            is MeasurementPropertyFormIntent.ShowIconPicker -> showIconPicker.value = true
+            is MeasurementPropertyFormIntent.HideIconPicker -> showIconPicker.value = false
+            is MeasurementPropertyFormIntent.ShowFormDialog -> showFormDialog.value  = true
+            is MeasurementPropertyFormIntent.HideFormDialog -> showFormDialog.value = false
+            is MeasurementPropertyFormIntent.CreateType -> createMeasurementType(
+                typeKey = null,
+                typeName = intent.typeName,
+                typeSortIndex = intent.types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
+                propertyId = intent.propertyId,
+                unitKey = null,
+                unitName = intent.unitName,
+            )
+            is MeasurementPropertyFormIntent.ShowDeletionDialog -> showDeletionDialog.value = true
+            is MeasurementPropertyFormIntent.HideDeletionDialog -> showDeletionDialog.value = false
+            is MeasurementPropertyFormIntent.DeleteProperty -> deleteMeasurementProperty(intent.property)
+        }
     }
 }

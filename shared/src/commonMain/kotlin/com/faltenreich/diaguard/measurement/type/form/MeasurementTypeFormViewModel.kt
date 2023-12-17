@@ -16,12 +16,12 @@ import kotlinx.coroutines.launch
 
 class MeasurementTypeFormViewModel(
     measurementTypeId: Long,
-    private val dispatcher: CoroutineDispatcher = inject(),
+    dispatcher: CoroutineDispatcher = inject(),
     getMeasurementTypeUseCase: GetMeasurementTypeUseCase = inject(),
     countMeasurementValuesOfType: CountMeasurementValuesOfTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
-) : ViewModel<MeasurementTypeFormViewState>() {
+) : ViewModel<MeasurementTypeFormViewState, MeasurementTypeFormIntent>() {
 
     var typeName = MutableStateFlow("")
     var unitName = MutableStateFlow("")
@@ -71,15 +71,11 @@ class MeasurementTypeFormViewModel(
         }
     }
 
-    fun deleteTypeIfConfirmed() = scope.launch(dispatcher) {
-        showDeletionDialog.value = true
-    }
-
-    fun hideDeletionDialog() = scope.launch(dispatcher) {
-        showDeletionDialog.value = false
-    }
-
-    fun deleteType(type: MeasurementType) = scope.launch(dispatcher) {
-        deleteMeasurementType(type.id)
+    override fun onIntent(intent: MeasurementTypeFormIntent) {
+        when (intent) {
+            is MeasurementTypeFormIntent.ShowDeletionDialog -> showDeletionDialog.value = true
+            is MeasurementTypeFormIntent.HideDeletionDialog -> showDeletionDialog.value = false
+            is MeasurementTypeFormIntent.DeleteType -> deleteMeasurementType(intent.type.id)
+        }
     }
 }

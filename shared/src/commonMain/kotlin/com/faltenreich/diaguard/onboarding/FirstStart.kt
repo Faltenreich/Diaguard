@@ -14,9 +14,7 @@ fun FirstStart(
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = inject(),
 ) {
-    LaunchedEffect(Unit) {
-        viewModel.prepareData()
-    }
+    LaunchedEffect(Unit) { viewModel.dispatchIntent(OnboardingIntent.ImportSeedData) }
 
     Box(
         modifier = modifier.fillMaxSize(),

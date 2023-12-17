@@ -29,9 +29,13 @@ fun MeasurementPropertyList(
                 ) { index, item ->
                     MeasurementPropertyListItem(
                         property = item,
-                        onArrowUp = viewModel::decrementSortIndex,
+                        onArrowUp = {
+                            viewModel.dispatchIntent(MeasurementPropertyListIntent.DecrementSortIndex(it))
+                        },
                         showArrowUp = index > 0,
-                        onArrowDown = viewModel::incrementSortIndex,
+                        onArrowDown = {
+                            viewModel.dispatchIntent(MeasurementPropertyListIntent.IncrementSortIndex(it))
+                        },
                         showArrowDown = index < listItems.size - 1,
                         modifier = Modifier
                             .animateItemPlacement()
@@ -41,10 +45,10 @@ fun MeasurementPropertyList(
             }
             if (state.showFormDialog) {
                 MeasurementPropertyFormDialog(
-                    onDismissRequest = viewModel::hideFormDialog,
+                    onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyListIntent.HideFormDialog) },
                     onConfirmRequest = { name ->
-                        viewModel.createProperty(name, other = state.listItems)
-                        viewModel.hideFormDialog()
+                        viewModel.dispatchIntent(MeasurementPropertyListIntent.CreateProperty(name, state.listItems))
+                        viewModel.dispatchIntent(MeasurementPropertyListIntent.HideFormDialog)
                     }
                 )
             }

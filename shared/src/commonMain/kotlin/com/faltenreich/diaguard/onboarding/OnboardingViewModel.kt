@@ -11,7 +11,7 @@ class OnboardingViewModel(
     dispatcher: CoroutineDispatcher = inject(),
     hasData: HasDataUseCase = inject(),
     private val import: ImportUseCase = inject(),
-) : ViewModel<OnboardingViewState>() {
+) : ViewModel<OnboardingViewState, OnboardingIntent>() {
 
     override val state = hasData().map { hasData ->
         when (hasData) {
@@ -20,7 +20,9 @@ class OnboardingViewModel(
         }
     }.flowOn(dispatcher)
 
-    fun prepareData() {
-        import()
+    override fun onIntent(intent: OnboardingIntent) {
+        when (intent) {
+            is OnboardingIntent.ImportSeedData -> import()
+        }
     }
 }

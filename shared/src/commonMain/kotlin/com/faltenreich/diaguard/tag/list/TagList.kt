@@ -26,8 +26,8 @@ fun TagList(
             }
             if (viewState.showFormDialog) {
                 TagFormDialog(
-                    onDismissRequest = { viewModel.handleIntent(TagListIntent.CloseForm) },
-                    onConfirmRequest = { name -> viewModel.handleIntent(TagListIntent.Submit(name)) },
+                    onDismissRequest = { viewModel.dispatchIntent(TagListIntent.CloseForm) },
+                    onConfirmRequest = { name -> viewModel.dispatchIntent(TagListIntent.Submit(name)) },
                     error = viewState.inputError,
                 )
             }

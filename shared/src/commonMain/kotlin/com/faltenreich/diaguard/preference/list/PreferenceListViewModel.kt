@@ -12,9 +12,11 @@ class PreferenceListViewModel(
     preferences: List<PreferenceListItem>?,
     getDefaultPreferences: GetDefaultPreferencesUseCase = inject(),
     dispatcher: CoroutineDispatcher = inject(),
-) : ViewModel<PreferenceListViewState>() {
+) : ViewModel<PreferenceListViewState, Unit>() {
 
     override val state = (preferences?.let(::flowOf) ?: getDefaultPreferences())
         .map(PreferenceListViewState::Loaded)
         .flowOn(dispatcher)
+
+    override fun onIntent(intent: Unit) = Unit
 }

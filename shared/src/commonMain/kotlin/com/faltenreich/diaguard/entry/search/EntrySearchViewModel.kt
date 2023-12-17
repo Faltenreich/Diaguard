@@ -17,7 +17,7 @@ import kotlin.time.Duration.Companion.seconds
 class EntrySearchViewModel(
     query: String = "",
     searchEntries: SearchEntriesUseCase = inject(),
-) : ViewModel<EntrySearchViewState>() {
+) : ViewModel<EntrySearchViewState, Unit>() {
 
     override val state = MutableStateFlow<EntrySearchViewState>(EntrySearchViewState.Idle)
 
@@ -40,4 +40,6 @@ class EntrySearchViewModel(
             this.query = query
         }
     }
+
+    override fun onIntent(intent: Unit) = Unit
 }

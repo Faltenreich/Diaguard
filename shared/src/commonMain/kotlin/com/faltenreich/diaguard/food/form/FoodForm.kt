@@ -62,7 +62,7 @@ fun FoodForm(
         }
         FoodNutrientList(
             data = viewModel.nutrientData,
-            onIntent = viewModel::handleIntent,
+            onIntent = viewModel::dispatchIntent,
         )
     }
 }

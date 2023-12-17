@@ -16,7 +16,7 @@ fun Timeline(
             initialDate = viewState.initialDate,
             valuesForChart = viewState.valuesForChart,
             propertiesForList = viewState.propertiesForList,
-            onDateChange = viewModel::setDate,
+            onDateChange = { viewModel.dispatchIntent(TimelineIntent.SetDate(it)) },
             modifier = modifier.fillMaxSize(),
         )
     }

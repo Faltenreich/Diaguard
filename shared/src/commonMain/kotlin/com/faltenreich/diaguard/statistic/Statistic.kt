@@ -45,7 +45,7 @@ fun Statistic(
                     items = viewState.properties.map { property ->
                         DropdownTextMenuItem(
                             label = property.name,
-                            onClick = { viewModel.selectProperty(property) },
+                            onClick = { viewModel.dispatchIntent(StatisticIntent.Select(property)) },
                             isSelected = { viewState.selectedProperty == property },
                         )
                     }

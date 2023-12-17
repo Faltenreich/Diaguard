@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.map
 class NavigationViewModel(
     dispatcher: CoroutineDispatcher = inject(),
     getStartScreen: GetStartScreenUseCase = inject(),
-) : ViewModel<NavigationViewState>() {
+) : ViewModel<NavigationViewState, Unit>() {
 
     override val state = getStartScreen().map { startScreen ->
         NavigationViewState(
@@ -25,4 +25,6 @@ class NavigationViewModel(
             },
         )
     }.flowOn(dispatcher)
+
+    override fun onIntent(intent: Unit) = Unit
 }

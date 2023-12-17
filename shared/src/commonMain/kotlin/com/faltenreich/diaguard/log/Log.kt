@@ -85,7 +85,7 @@ fun Log(
                         // TODO: Animate item replacement
                         val swipeToDismissState = rememberDismissState(
                             confirmValueChange = {
-                                viewModel.remove(item)
+                                viewModel.dispatchIntent(LogIntent.Remove(item))
                                 true
                             }
                         )

@@ -7,7 +7,7 @@ import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier
 
 @Composable
-expect inline fun <reified T : ViewModel<*>> Screen.getViewModel(
+expect inline fun <reified T : ViewModel<*, *>> Screen.getViewModel(
     qualifier: Qualifier? = null,
     noinline parameters: ParametersDefinition? = null,
 ): T

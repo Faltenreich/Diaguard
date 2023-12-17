@@ -42,7 +42,9 @@ fun MeasurementPropertyForm(
                         onInputChange = { input -> viewModel.name.value = input },
                         label = getString(MR.strings.name),
                         leadingIcon = {
-                            IconButton(onClick = viewModel::showIconPicker) {
+                            IconButton(onClick = {
+                                viewModel.dispatchIntent(MeasurementPropertyFormIntent.ShowIconPicker)
+                            }) {
                                 MeasurementPropertyIcon(text = viewModel.icon.collectAsState().value)
                             }
                         },
@@ -61,7 +63,7 @@ fun MeasurementPropertyForm(
 
             if (viewState.showIconPicker) {
                 BottomSheet(
-                    onDismissRequest = viewModel::hideIconPicker,
+                    onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideIconPicker) },
                     sheetState = rememberBottomSheetState(),
                 ) {
                     EmojiPicker(onEmojiPicked = { emoji -> viewModel.icon.value = emoji })
@@ -70,33 +72,37 @@ fun MeasurementPropertyForm(
 
             if (viewState.showFormDialog) {
                 MeasurementTypeFormDialog(
-                    onDismissRequest = viewModel::hideFormDialog,
+                    onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideFormDialog) },
                     onConfirmRequest = { typeName, unitName ->
-                        viewModel.createType(
-                            typeName = typeName,
-                            unitName = unitName,
-                            types = viewState.types,
-                            propertyId = viewState.property.id,
+                        viewModel.dispatchIntent(
+                            MeasurementPropertyFormIntent.CreateType(
+                                typeName = typeName,
+                                unitName = unitName,
+                                types = viewState.types,
+                                propertyId = viewState.property.id,
+                            )
                         )
-                        viewModel.hideFormDialog()
+                        viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideFormDialog)
                     }
                 )
             }
 
             if (viewState.showDeletionDialog) {
                 AlertDialog(
-                    onDismissRequest = viewModel::hideDeletionDialog,
+                    onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideDeletionDialog) },
                     confirmButton = {
                         TextButton(onClick = {
-                            viewModel.deleteProperty(viewState.property)
-                            viewModel.hideDeletionDialog()
+                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.DeleteProperty(viewState.property))
+                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideDeletionDialog)
                             navigation.pop()
                         }) {
                             Text(getString(MR.strings.delete))
                         }
                     },
                     dismissButton = {
-                        TextButton(onClick = viewModel::hideDeletionDialog) {
+                        TextButton(onClick = {
+                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideDeletionDialog)
+                        }) {
                             Text(getString(MR.strings.cancel))
                         }
                     },

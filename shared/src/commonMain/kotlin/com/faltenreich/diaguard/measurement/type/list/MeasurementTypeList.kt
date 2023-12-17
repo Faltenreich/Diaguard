@@ -27,9 +27,9 @@ fun LazyListScope.MeasurementTypeList(
     ) { index, type ->
         MeasurementTypeListItem(
             type = type,
-            onArrowUp = { viewModel.decrementSortIndex(type, types) },
+            onArrowUp = { viewModel.dispatchIntent(MeasurementTypeListIntent.DecrementSortIndex(type, types)) },
             showArrowUp = index > 0,
-            onArrowDown = { viewModel.incrementSortIndex(type, types) },
+            onArrowDown = { viewModel.dispatchIntent(MeasurementTypeListIntent.IncrementSortIndex(type, types)) },
             showArrowDown = index < types.size - 1,
             modifier = Modifier
                 .animateItemPlacement()

@@ -95,7 +95,7 @@ fun EntryForm(
             MeasurementPropertyInput(
                 data = property,
                 foodEaten = foodEaten,
-                onIntent = viewModel::handleIntent,
+                onIntent = viewModel::dispatchIntent,
             )
             Divider()
         }

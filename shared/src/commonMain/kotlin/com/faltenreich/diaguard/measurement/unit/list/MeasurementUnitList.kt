@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.measurement.type.list.MeasurementUnitListIntent
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -26,7 +27,7 @@ fun LazyListScope.MeasurementUnitList(
             unit = unit,
             modifier = Modifier
                 .animateItemPlacement()
-                .clickable { viewModel.setSelectedUnit(unit) },
+                .clickable { viewModel.dispatchIntent(MeasurementUnitListIntent.Select(unit)) },
         )
     }
 }

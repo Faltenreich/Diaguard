@@ -10,17 +10,14 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.cachedIn
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 
 class LogViewModel(
     date: Date?,
     dateTimeFactory: DateTimeFactory = inject(),
-    private val dispatcher: CoroutineDispatcher = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-) : ViewModel<PagingData<LogItem>>() {
+) : ViewModel<PagingData<LogItem>, LogIntent>() {
 
     private val initialDate: Date = date ?: dateTimeFactory.today()
     private lateinit var dataSource: PagingSource<Date, LogItem>
@@ -32,7 +29,17 @@ class LogViewModel(
         pagingSourceFactory = { LogItemSource().also { dataSource = it } },
     ).flow.cachedIn(scope)
 
-    fun setDate(date: Date) = scope.launch(dispatcher) {
+    override fun onIntent(intent: LogIntent) {
+        when (intent) {
+            is LogIntent.SetDate -> setDate(intent.date)
+            is LogIntent.Remove -> {
+                deleteEntry(intent.item.entry.id)
+                dataSource.invalidate()
+            }
+        }
+    }
+
+    fun setDate(date: Date) {
         // TODO
         /*
         val indexOfDate = items.first().indexOfFirst { it.date == date }
@@ -49,10 +56,5 @@ class LogViewModel(
             )
         }
         */
-    }
-
-    fun remove(item: LogItem.EntryContent) = scope.launch(dispatcher) {
-        deleteEntry(item.entry.id)
-        dataSource.invalidate()
     }
 }

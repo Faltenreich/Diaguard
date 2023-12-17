@@ -13,7 +13,7 @@ class TagListViewModel(
     getTags: GetTagsUseCase = inject(),
     private val hasTag: HasTagUseCase = inject(),
     private val createTag: CreateTagUseCase = inject(),
-) : ViewModel<TagListViewState>() {
+) : ViewModel<TagListViewState, TagListIntent>() {
 
     private val tags = getTags()
     private val showFormDialog = MutableStateFlow(false)
@@ -25,7 +25,7 @@ class TagListViewModel(
         TagListViewState::Loaded,
     )
 
-    fun handleIntent(intent: TagListIntent) {
+    override fun onIntent(intent: TagListIntent) {
         when (intent) {
             is TagListIntent.OpenForm -> showFormDialog()
             is TagListIntent.CloseForm -> hideFormDialog()

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 class FoodEatenListViewModel(
     food: Food,
     getFoodEaten: GetFoodEatenForFoodUseCase = inject(),
-) : ViewModel<FoodEatenListViewState>() {
+) : ViewModel<FoodEatenListViewState, Unit>() {
 
     override val state = getFoodEaten(food).map { results ->
         when {
@@ -16,4 +16,6 @@ class FoodEatenListViewModel(
             else -> FoodEatenListViewState.Loaded(results)
         }
     }
+
+    override fun onIntent(intent: Unit) = Unit
 }

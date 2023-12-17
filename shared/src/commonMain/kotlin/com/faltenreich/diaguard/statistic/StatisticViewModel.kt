@@ -17,7 +17,7 @@ class StatisticViewModel(
     private val getAverage: GetAverageUseCase,
     dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
-) : ViewModel<StatisticViewState>() {
+) : ViewModel<StatisticViewState, StatisticIntent>() {
 
     private val selectedProperty = MutableStateFlow<MeasurementProperty?>(null)
     private val initialDateRange = dateTimeFactory.today().let { today ->
@@ -41,7 +41,9 @@ class StatisticViewModel(
         )
     }
 
-    fun selectProperty(property: MeasurementProperty) {
-        selectedProperty.value = property
+    override fun onIntent(intent: StatisticIntent) {
+        when (intent) {
+            is StatisticIntent.Select -> selectedProperty.value = intent.property
+        }
     }
 }

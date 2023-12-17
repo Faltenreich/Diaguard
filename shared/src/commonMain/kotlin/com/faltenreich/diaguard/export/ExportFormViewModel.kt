@@ -23,7 +23,7 @@ class ExportFormViewModel(
     dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val localization: Localization,
-) : FormViewModel() {
+) : FormViewModel<ExportFormIntent>() {
 
     private val initialDateRange = dateTimeFactory.today().let { today ->
         today.minus(1, DateUnit.WEEK) .. today
@@ -67,6 +67,13 @@ class ExportFormViewModel(
                     this@ExportFormViewModel.properties = exportProperties
                 }
             }
+        }
+    }
+
+    override fun onIntent(intent: ExportFormIntent) {
+        when (intent) {
+            is ExportFormIntent.SetProperty -> setProperty(intent.property)
+            is ExportFormIntent.Submit -> submit()
         }
     }
 

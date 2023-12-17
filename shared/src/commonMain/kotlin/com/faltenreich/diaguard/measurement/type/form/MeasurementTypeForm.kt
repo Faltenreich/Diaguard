@@ -57,18 +57,20 @@ fun MeasurementTypeForm(
 
             if (viewState.showDeletionDialog) {
                 AlertDialog(
-                    onDismissRequest = viewModel::hideDeletionDialog,
+                    onDismissRequest = { viewModel.dispatchIntent(MeasurementTypeFormIntent.HideDeletionDialog) },
                     confirmButton = {
                         TextButton(onClick = {
-                            viewModel.deleteType(viewState.type)
-                            viewModel.hideDeletionDialog()
+                            viewModel.dispatchIntent(MeasurementTypeFormIntent.DeleteType(viewState.type))
+                            viewModel.dispatchIntent(MeasurementTypeFormIntent.HideDeletionDialog)
                             navigation.pop()
                         }) {
                             Text(getString( MR.strings.delete))
                         }
                     },
                     dismissButton = {
-                        TextButton(onClick = viewModel::hideDeletionDialog) {
+                        TextButton(onClick = {
+                            viewModel.dispatchIntent(MeasurementTypeFormIntent.HideDeletionDialog)
+                        }) {
                             Text(getString( MR.strings.cancel))
                         }
                     },

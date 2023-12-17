@@ -17,7 +17,6 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.collectLatest
@@ -28,13 +27,12 @@ class EntryFormViewModel(
     entry: Entry?,
     date: Date?,
     dateTimeFactory: DateTimeFactory = inject(),
-    private val dispatcher: CoroutineDispatcher = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
     private val getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
-) : FormViewModel() {
+) : FormViewModel<EntryFormIntent>() {
 
     private val id: Long? = entry?.id
 
@@ -81,7 +79,7 @@ class EntryFormViewModel(
         }
     }
 
-    fun handleIntent(intent: EntryFormIntent) = scope.launch(dispatcher) {
+    override fun onIntent(intent: EntryFormIntent) {
         when (intent) {
             is EntryFormIntent.Edit -> updateMeasurementValue(intent.data)
             is EntryFormIntent.Submit -> submit()

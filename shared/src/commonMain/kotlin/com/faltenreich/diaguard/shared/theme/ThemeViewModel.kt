@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.Flow
 
 class ThemeViewModel(
     getColorScheme: GetColorSchemeUseCase,
-) : ViewModel<ColorScheme?>() {
+) : ViewModel<ColorScheme, Unit>() {
 
-    override val state: Flow<ColorScheme?> = getColorScheme()
+    override val state: Flow<ColorScheme> = getColorScheme()
+
+    override fun onIntent(intent: Unit) = Unit
 }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flowOf
  * Forms use MutableState instead of (State-)Flow,
  * since the latter is not compatible with Composables like [androidx.compose.material3.TextField]
  */
-abstract class FormViewModel : ViewModel<Unit>() {
+abstract class FormViewModel<Intent> : ViewModel<Unit, Intent>() {
 
     override val state: Flow<Unit>
         get() = flowOf(Unit)

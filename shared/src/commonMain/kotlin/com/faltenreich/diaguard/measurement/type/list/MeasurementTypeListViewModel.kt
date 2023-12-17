@@ -12,19 +12,26 @@ import kotlinx.coroutines.launch
 class MeasurementTypeListViewModel(
     private val dispatcher: CoroutineDispatcher = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
-) : ViewModel<Unit>() {
+) : ViewModel<Unit, MeasurementTypeListIntent>() {
 
     override val state: Flow<Unit>
         get() = flowOf(Unit)
 
-    fun decrementSortIndex(
+    override fun onIntent(intent: MeasurementTypeListIntent) {
+        when (intent) {
+            is MeasurementTypeListIntent.DecrementSortIndex -> decrementSortIndex(intent.type, intent.inTypes)
+            is MeasurementTypeListIntent.IncrementSortIndex -> incrementSortIndex(intent.type, intent.inTypes)
+        }
+    }
+
+    private fun decrementSortIndex(
         type: MeasurementType,
         inTypes: List<MeasurementType>,
     ) = scope.launch(dispatcher) {
         swapSortIndexes(first = type, second = inTypes.last { it.sortIndex < type.sortIndex })
     }
 
-    fun incrementSortIndex(
+    private fun incrementSortIndex(
         type: MeasurementType,
         inTypes: List<MeasurementType>,
     ) = scope.launch(dispatcher) {

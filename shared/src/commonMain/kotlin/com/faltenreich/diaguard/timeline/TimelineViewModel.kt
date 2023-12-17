@@ -19,15 +19,14 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 class TimelineViewModel(
     date: Date?,
-    private val dispatcher: CoroutineDispatcher = inject(),
+    dispatcher: CoroutineDispatcher = inject(),
     dateTimeFactory: DateTimeFactory = inject(),
     entryRepository: EntryRepository = inject(),
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
-) : ViewModel<TimelineViewState>() {
+) : ViewModel<TimelineViewState, TimelineIntent>() {
 
     private val initialDate = date ?: dateTimeFactory.today()
     private val currentDate = MutableStateFlow(initialDate)
@@ -58,7 +57,9 @@ class TimelineViewModel(
         ::TimelineViewState,
     ).flowOn(dispatcher)
 
-    fun setDate(date: Date) = scope.launch(dispatcher) {
-        currentDate.value = date
+    override fun onIntent(intent: TimelineIntent) {
+        when (intent) {
+            is TimelineIntent.SetDate -> currentDate.value = intent.date
+        }
     }
 }

@@ -17,7 +17,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class FoodListViewModel(
     private val searchFood: SearchFoodUseCase = inject(),
-) : ViewModel<List<Food>?>() {
+) : ViewModel<List<Food>?, Unit>() {
 
     override val state = MutableStateFlow<List<Food>?>(null)
 
@@ -32,4 +32,6 @@ class FoodListViewModel(
             .onEach { state.value = it }
             .launchIn(scope)
     }
+
+    override fun onIntent(intent: Unit) = Unit
 }

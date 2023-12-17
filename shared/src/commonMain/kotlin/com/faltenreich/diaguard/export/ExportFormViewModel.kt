@@ -9,15 +9,12 @@ import com.faltenreich.diaguard.shared.architecture.FormViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DateUnit
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ExportFormViewModel(
-    dispatcher: CoroutineDispatcher = inject(),
     getMeasurementProperties: GetMeasurementPropertiesUseCase,
     private val export: ExportUseCase,
     dateTimeFactory: DateTimeFactory,
@@ -54,7 +51,7 @@ class ExportFormViewModel(
     var properties by mutableStateOf(emptyList<ExportFormMeasurementProperty>())
 
     init {
-        scope.launch(dispatcher) {
+        scope.launch {
             getMeasurementProperties().collect { properties ->
                 val exportProperties = properties.map { property ->
                     ExportFormMeasurementProperty(

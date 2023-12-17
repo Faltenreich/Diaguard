@@ -6,17 +6,14 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.architecture.combine
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class MeasurementPropertyFormViewModel(
     property: MeasurementProperty,
-    dispatcher: CoroutineDispatcher = inject(),
     getMeasurementTypesUseCase: GetMeasurementTypesUseCase = inject(),
     countMeasurementValuesOfProperty: CountMeasurementValuesOfPropertyUseCase = inject(),
     updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
@@ -39,15 +36,15 @@ class MeasurementPropertyFormViewModel(
         getMeasurementTypesUseCase(property),
         countMeasurementValuesOfProperty(property),
         MeasurementPropertyFormViewState::Loaded,
-    ).flowOn(dispatcher)
+    )
 
     init {
         // FIXME: Setting both at the same time cancels the first collector
-        scope.launch(dispatcher) {
+        scope.launch {
             name.debounce(DateTimeConstants.INPUT_DEBOUNCE)
                 .collectLatest { name -> updateMeasurementProperty(property.copy(name = name)) }
         }
-        scope.launch(dispatcher) {
+        scope.launch {
             icon.debounce(DateTimeConstants.INPUT_DEBOUNCE)
                 .collectLatest { icon -> updateMeasurementProperty(property.copy(icon = icon)) }
         }

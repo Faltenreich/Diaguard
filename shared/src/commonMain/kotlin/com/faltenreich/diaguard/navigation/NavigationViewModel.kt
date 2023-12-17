@@ -7,12 +7,9 @@ import com.faltenreich.diaguard.preference.store.screen.GetStartScreenUseCase
 import com.faltenreich.diaguard.preference.store.screen.StartScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class NavigationViewModel(
-    dispatcher: CoroutineDispatcher = inject(),
     getStartScreen: GetStartScreenUseCase = inject(),
 ) : ViewModel<NavigationViewState, Unit>() {
 
@@ -24,7 +21,7 @@ class NavigationViewModel(
                 StartScreen.LOG -> LogScreen()
             },
         )
-    }.flowOn(dispatcher)
+    }
 
     override fun onIntent(intent: Unit) = Unit
 }

@@ -11,18 +11,15 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class TimelineViewModel(
     date: Date?,
-    dispatcher: CoroutineDispatcher = inject(),
     dateTimeFactory: DateTimeFactory = inject(),
     entryRepository: EntryRepository = inject(),
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
@@ -55,7 +52,7 @@ class TimelineViewModel(
         valuesForList,
         propertiesForList,
         ::TimelineViewState,
-    ).flowOn(dispatcher)
+    )
 
     override fun onIntent(intent: TimelineIntent) {
         when (intent) {

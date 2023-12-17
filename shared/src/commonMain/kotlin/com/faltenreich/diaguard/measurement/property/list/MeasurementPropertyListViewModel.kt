@@ -4,13 +4,10 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
 
 class MeasurementPropertyListViewModel(
-    dispatcher: CoroutineDispatcher = inject(),
     getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
     private val updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementProperty: CreateMeasurementPropertyUseCase = inject(),
@@ -22,7 +19,7 @@ class MeasurementPropertyListViewModel(
         showFormDialog,
         getMeasurementProperties(),
         MeasurementPropertyListViewState::Loaded,
-    ).flowOn(dispatcher)
+    )
 
     private val properties: List<MeasurementProperty>?
         get() = (stateInScope.value as? MeasurementPropertyListViewState.Loaded)?.listItems

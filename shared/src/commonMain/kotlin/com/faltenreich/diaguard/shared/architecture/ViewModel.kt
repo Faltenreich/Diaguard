@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -23,7 +24,7 @@ abstract class ViewModel<State, Intent>(
     abstract val state: Flow<State>
 
     val stateInScope: StateFlow<State?> by lazy {
-        state.stateIn(
+        state.flowOn(dispatcher).stateIn(
             scope = scope,
             started = SharingStarted.Lazily,
             initialValue = null,

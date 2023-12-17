@@ -5,13 +5,10 @@ import com.faltenreich.diaguard.dashboard.usecase.GetLatestBloodSugarUseCase
 import com.faltenreich.diaguard.dashboard.usecase.GetTodayUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
 
 class DashboardViewModel(
-    dispatcher: CoroutineDispatcher = inject(),
     getLatestBloodSugar: GetLatestBloodSugarUseCase = inject(),
     getToday: GetTodayUseCase = inject(),
     getAverage: GetAverageUseCase = inject(),
@@ -22,7 +19,7 @@ class DashboardViewModel(
         getToday(),
         getAverage(),
         DashboardViewState::Revisit,
-    ).flowOn(dispatcher)
+    )
 
     override fun onIntent(intent: Unit) = Unit
 }

@@ -13,19 +13,17 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun LatestDashboardItem(
     data: DashboardViewState.Revisit.LatestBloodSugar?,
+    onClick: (Entry?) -> Unit,
     modifier: Modifier = Modifier,
-    navigation: Navigation = inject(),
 ) {
     Card(
-        onClick = { navigation.push(EntryFormScreen(entry = data?.entry)) },
+        onClick = { onClick(data?.entry) },
         modifier = modifier,
     ) {
         Column(

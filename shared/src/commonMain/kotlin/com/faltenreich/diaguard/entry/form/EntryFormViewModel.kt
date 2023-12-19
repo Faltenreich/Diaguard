@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputD
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
+import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.shared.architecture.FormViewModel
@@ -29,6 +30,7 @@ class EntryFormViewModel(
     entry: Entry?,
     date: Date?,
     dateTimeFactory: DateTimeFactory = inject(),
+    private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateTo: NavigateToUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
@@ -115,12 +117,14 @@ class EntryFormViewModel(
             measurements = measurements,
             foodEaten = foodEaten,
         )
+        navigateBack()
     }
 
     private fun deleteIfNeeded() {
         // TODO: Intercept with confirmation dialog if something has changed
         val id = id ?: return
         deleteEntry(id)
+        navigateBack()
     }
 
     private fun addFood(food: Food) {

@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.navigation.NavigateToUseCase
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
+import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
@@ -35,6 +36,7 @@ class LogViewModel(
     override fun onIntent(intent: LogIntent) {
         when (intent) {
             is LogIntent.CreateEntry -> navigateTo(EntryFormScreen(date = intent.date))
+            is LogIntent.SearchEntries -> navigateTo(EntrySearchScreen())
             is LogIntent.SetDate -> setDate(intent.date)
             is LogIntent.Remove -> {
                 deleteEntry(intent.item.entry.id)

@@ -16,7 +16,6 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
-import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.BottomSheet
@@ -29,7 +28,6 @@ import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 fun MeasurementPropertyForm(
     modifier: Modifier = Modifier,
     viewModel: MeasurementPropertyFormViewModel = inject(),
-    navigation: Navigation = inject(),
 ) {
     when (val viewState = viewModel.collectState()) {
         null -> LoadingIndicator(modifier = modifier)
@@ -63,7 +61,9 @@ fun MeasurementPropertyForm(
 
             if (viewState.showIconPicker) {
                 BottomSheet(
-                    onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideIconPicker) },
+                    onDismissRequest = {
+                        viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideIconPicker)
+                    },
                     sheetState = rememberBottomSheetState(),
                 ) {
                     EmojiPicker(onEmojiPicked = { emoji -> viewModel.icon.value = emoji })
@@ -72,7 +72,9 @@ fun MeasurementPropertyForm(
 
             if (viewState.showFormDialog) {
                 MeasurementTypeFormDialog(
-                    onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideFormDialog) },
+                    onDismissRequest = {
+                        viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideFormDialog)
+                    },
                     onConfirmRequest = { typeName, unitName ->
                         viewModel.dispatchIntent(
                             MeasurementPropertyFormIntent.CreateType(
@@ -89,12 +91,12 @@ fun MeasurementPropertyForm(
 
             if (viewState.showDeletionDialog) {
                 AlertDialog(
-                    onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideDeletionDialog) },
+                    onDismissRequest = {
+                        viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideDeletionDialog)
+                    },
                     confirmButton = {
                         TextButton(onClick = {
                             viewModel.dispatchIntent(MeasurementPropertyFormIntent.DeleteProperty(viewState.property))
-                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideDeletionDialog)
-                            navigation.pop()
                         }) {
                             Text(getString(MR.strings.delete))
                         }

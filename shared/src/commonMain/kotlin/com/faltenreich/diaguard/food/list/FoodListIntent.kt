@@ -6,5 +6,7 @@ sealed interface FoodListIntent {
 
     data object Close : FoodListIntent
 
+    data object CreateFood : FoodListIntent
+
     data class EditFood(val food: Food) : FoodListIntent
 }

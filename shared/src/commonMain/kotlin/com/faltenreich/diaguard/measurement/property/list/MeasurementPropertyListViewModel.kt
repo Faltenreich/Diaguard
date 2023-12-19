@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.measurement.property.list
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,6 +13,7 @@ class MeasurementPropertyListViewModel(
     getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
     private val updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementProperty: CreateMeasurementPropertyUseCase = inject(),
+    private val navigateTo: NavigateToUseCase = inject(),
 ) : ViewModel<MeasurementPropertyListViewState, MeasurementPropertyListIntent>() {
 
     private val showFormDialog = MutableStateFlow(false)
@@ -35,6 +38,9 @@ class MeasurementPropertyListViewModel(
                 key = null,
                 icon = null,
                 sortIndex = intent.other.maxOf(MeasurementProperty::sortIndex) + 1,
+            )
+            is MeasurementPropertyListIntent.EditProperty -> navigateTo(
+                MeasurementPropertyFormScreen(intent.property)
             )
         }
     }

@@ -6,5 +6,7 @@ sealed interface TimelineIntent {
 
     data object CreateEntry : TimelineIntent
 
+    data object SearchEntries : TimelineIntent
+
     data class SetDate(val date: Date) : TimelineIntent
 }

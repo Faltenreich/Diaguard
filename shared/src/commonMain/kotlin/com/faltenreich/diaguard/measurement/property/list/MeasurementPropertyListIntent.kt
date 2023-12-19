@@ -16,4 +16,6 @@ sealed interface MeasurementPropertyListIntent {
         val name: String,
         val other: List<MeasurementProperty>,
     ) : MeasurementPropertyListIntent
+
+    data class EditProperty(val property: MeasurementProperty) : MeasurementPropertyListIntent
 }

@@ -11,11 +11,13 @@ import com.faltenreich.diaguard.dashboard.DashboardIntent
 import com.faltenreich.diaguard.dashboard.DashboardViewModel
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
-import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.export.ExportFormViewModel
+import com.faltenreich.diaguard.food.eaten.list.FoodEatenListIntent
+import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
 import com.faltenreich.diaguard.food.form.FoodFormIntent
 import com.faltenreich.diaguard.food.form.FoodFormViewModel
+import com.faltenreich.diaguard.food.list.FoodListIntent
 import com.faltenreich.diaguard.food.list.FoodListViewModel
 import com.faltenreich.diaguard.log.LogIntent
 import com.faltenreich.diaguard.log.LogViewModel
@@ -25,7 +27,6 @@ import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyLis
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormIntent
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewModel
-import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
@@ -41,7 +42,6 @@ import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.screen.TagListScreen
 import com.faltenreich.diaguard.navigation.screen.TimelineScreen
 import com.faltenreich.diaguard.shared.di.getViewModel
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DatePickerBottomAppBarItem
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
@@ -53,12 +53,17 @@ import com.faltenreich.diaguard.timeline.TimelineViewModel
 import dev.icerock.moko.resources.compose.painterResource
 import org.koin.core.parameter.parametersOf
 
-fun Screen.bottomAppBarStyle(
-    navigation: Navigation = inject(),
-): BottomAppBarStyle {
+fun Screen.bottomAppBarStyle(): BottomAppBarStyle {
     return when (this) {
         is DashboardScreen -> BottomAppBarStyle.Visible(
-            actions = { EntrySearchBottomAppBarItem() },
+            actions = {
+                val viewModel = getViewModel<DashboardViewModel>()
+                BottomAppBarItem(
+                    painter = painterResource(MR.images.ic_search),
+                    contentDescription = MR.strings.search_open,
+                    onClick = { viewModel.dispatchIntent(DashboardIntent.SearchEntries) },
+                )
+            },
             floatingActionButton = {
                 val viewModel = getViewModel<DashboardViewModel>()
                 FloatingActionButton(
@@ -75,7 +80,11 @@ fun Screen.bottomAppBarStyle(
             actions = {
                 val viewModel = getViewModel<LogViewModel> { parametersOf(date) }
                 val currentDate = viewModel.currentDate.collectAsState().value
-                EntrySearchBottomAppBarItem()
+                BottomAppBarItem(
+                    painter = painterResource(MR.images.ic_search),
+                    contentDescription = MR.strings.search_open,
+                    onClick = { viewModel.dispatchIntent(LogIntent.SearchEntries) },
+                )
                 DatePickerBottomAppBarItem(
                     date = currentDate,
                     onDatePick = viewModel::setDate,
@@ -97,7 +106,11 @@ fun Screen.bottomAppBarStyle(
             actions = {
                 val viewModel = getViewModel<TimelineViewModel> { parametersOf(date) }
                 val viewState = viewModel.collectState()
-                EntrySearchBottomAppBarItem()
+                BottomAppBarItem(
+                    painter = painterResource(MR.images.ic_search),
+                    contentDescription = MR.strings.search_open,
+                    onClick = { viewModel.dispatchIntent(TimelineIntent.SearchEntries) },
+                )
                 DatePickerBottomAppBarItem(
                     date = viewState?.currentDate,
                     onDatePick = { viewModel.dispatchIntent(TimelineIntent.SetDate(it)) },
@@ -121,12 +134,12 @@ fun Screen.bottomAppBarStyle(
                 BottomAppBarItem(
                     painter = painterResource(MR.images.ic_delete),
                     contentDescription = MR.strings.entry_delete,
-                    onClick = { viewModel.dispatchIntent(EntryFormIntent.Delete); navigation.pop() },
+                    onClick = { viewModel.dispatchIntent(EntryFormIntent.Delete) },
                 )
             },
             floatingActionButton = {
                 val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
-                FloatingActionButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit); navigation.pop() }) {
+                FloatingActionButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(MR.images.ic_check),
                         contentDescription = getString(MR.strings.entry_save),
@@ -140,10 +153,7 @@ fun Screen.bottomAppBarStyle(
                 SearchField(
                     query = viewModel.query,
                     placeholder = getString(MR.strings.entry_search_prompt),
-                    onQueryChange = { query ->
-                        if (query.isBlank()) navigation.pop()
-                        else viewModel.query = query
-                    },
+                    onQueryChange = { query -> viewModel.query = query },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(end = AppTheme.dimensions.padding.P_3),
@@ -163,7 +173,8 @@ fun Screen.bottomAppBarStyle(
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { navigation.push(FoodFormScreen()) }) {
+                val viewModel = getViewModel<FoodListViewModel>()
+                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodListIntent.CreateFood) }) {
                     Icon(
                         painter = painterResource(MR.images.ic_add),
                         contentDescription = getString(MR.strings.food_new),
@@ -173,7 +184,8 @@ fun Screen.bottomAppBarStyle(
         )
         is FoodEatenListScreen -> BottomAppBarStyle.Visible(
             floatingActionButton = {
-                FloatingActionButton(onClick = { navigation.push(EntryFormScreen(food = food)) }) {
+                val viewModel = getViewModel<FoodEatenListViewModel>()
+                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodEatenListIntent.CreateEntry(food)) }) {
                     Icon(
                         painter = painterResource(MR.images.ic_add),
                         contentDescription = getString(MR.strings.entry_new_description),
@@ -187,19 +199,19 @@ fun Screen.bottomAppBarStyle(
                 BottomAppBarItem(
                     painter = painterResource(MR.images.ic_delete),
                     contentDescription = MR.strings.food_delete,
-                    onClick = { viewModel.dispatchIntent(FoodFormIntent.Delete); navigation.pop() },
+                    onClick = { viewModel.dispatchIntent(FoodFormIntent.Delete) },
                 )
                 food?.let {
                     BottomAppBarItem(
                         painter = painterResource(MR.images.ic_history),
                         contentDescription = MR.strings.food_eaten,
-                        onClick = { navigation.push(FoodEatenListScreen(food)) },
+                        onClick = { viewModel.dispatchIntent(FoodFormIntent.OpenFoodEaten(food)) },
                     )
                 }
             },
             floatingActionButton = {
                 val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
-                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit); navigation.pop() }) {
+                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(MR.images.ic_check),
                         contentDescription = getString(MR.strings.food_save),

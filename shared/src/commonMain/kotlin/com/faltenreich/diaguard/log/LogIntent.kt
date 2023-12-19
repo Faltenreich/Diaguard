@@ -7,6 +7,8 @@ sealed interface LogIntent {
 
     data class CreateEntry(val date: Date? = null) : LogIntent
 
+    data object SearchEntries : LogIntent
+
     data class SetDate(val date: Date) : LogIntent
 
     data class Remove(val item: LogItem.EntryContent) : LogIntent

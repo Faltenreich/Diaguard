@@ -41,6 +41,7 @@ class FoodListViewModel(
     override fun onIntent(intent: FoodListIntent) {
         when (intent) {
             is FoodListIntent.Close -> navigateBack()
+            is FoodListIntent.CreateFood -> navigateTo(FoodFormScreen())
             is FoodListIntent.EditFood -> navigateTo(FoodFormScreen(intent.food))
         }
     }

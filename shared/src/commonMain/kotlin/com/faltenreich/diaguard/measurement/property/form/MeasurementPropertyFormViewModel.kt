@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.architecture.combine
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
@@ -19,6 +20,7 @@ class MeasurementPropertyFormViewModel(
     updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementType: CreateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementProperty: DeleteMeasurementPropertyUseCase = inject(),
+    private val navigateBack: NavigateBackUseCase = inject(),
 ) : ViewModel<MeasurementPropertyFormViewState, MeasurementPropertyFormIntent>() {
 
     var name = MutableStateFlow(property.name)
@@ -66,7 +68,11 @@ class MeasurementPropertyFormViewModel(
             )
             is MeasurementPropertyFormIntent.ShowDeletionDialog -> showDeletionDialog.value = true
             is MeasurementPropertyFormIntent.HideDeletionDialog -> showDeletionDialog.value = false
-            is MeasurementPropertyFormIntent.DeleteProperty -> deleteMeasurementProperty(intent.property)
+            is MeasurementPropertyFormIntent.DeleteProperty -> {
+                deleteMeasurementProperty(intent.property)
+                showDeletionDialog.value = false
+                navigateBack()
+            }
         }
     }
 }

@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
-import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
@@ -22,7 +21,6 @@ import com.faltenreich.diaguard.shared.view.TextInput
 fun MeasurementTypeForm(
     modifier: Modifier = Modifier,
     viewModel: MeasurementTypeFormViewModel = inject(),
-    navigation: Navigation = inject(),
 ) {
     when (val viewState = viewModel.collectState()) {
         null -> LoadingIndicator(modifier = modifier)
@@ -61,8 +59,6 @@ fun MeasurementTypeForm(
                     confirmButton = {
                         TextButton(onClick = {
                             viewModel.dispatchIntent(MeasurementTypeFormIntent.DeleteType(viewState.type))
-                            viewModel.dispatchIntent(MeasurementTypeFormIntent.HideDeletionDialog)
-                            navigation.pop()
                         }) {
                             Text(getString( MR.strings.delete))
                         }

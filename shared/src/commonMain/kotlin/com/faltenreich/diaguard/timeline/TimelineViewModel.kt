@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.navigation.NavigateToUseCase
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
+import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
@@ -60,6 +61,7 @@ class TimelineViewModel(
     override fun onIntent(intent: TimelineIntent) {
         when (intent) {
             is TimelineIntent.CreateEntry -> navigateTo(EntryFormScreen())
+            is TimelineIntent.SearchEntries -> navigateTo(EntrySearchScreen())
             is TimelineIntent.SetDate -> currentDate.value = intent.date
         }
     }

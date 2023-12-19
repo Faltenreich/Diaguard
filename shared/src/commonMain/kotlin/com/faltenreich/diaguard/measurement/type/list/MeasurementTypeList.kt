@@ -6,8 +6,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.type.MeasurementType
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.screen.MeasurementTypeFormScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextDivider
@@ -16,7 +14,6 @@ import com.faltenreich.diaguard.shared.view.TextDivider
 fun LazyListScope.MeasurementTypeList(
     types: List<MeasurementType>,
     viewModel: MeasurementTypeListViewModel = inject(),
-    navigation: Navigation = inject(),
 ) {
     item {
         TextDivider(getString(MR.strings.measurement_types))
@@ -33,7 +30,7 @@ fun LazyListScope.MeasurementTypeList(
             showArrowDown = index < types.size - 1,
             modifier = Modifier
                 .animateItemPlacement()
-                .clickable { navigation.push(MeasurementTypeFormScreen(type.id)) },
+                .clickable { viewModel.dispatchIntent(MeasurementTypeListIntent.EditType(type)) },
         )
     }
 }

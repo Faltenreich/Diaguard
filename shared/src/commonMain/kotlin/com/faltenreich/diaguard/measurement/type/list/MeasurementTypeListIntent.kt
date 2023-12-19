@@ -13,4 +13,6 @@ sealed interface MeasurementTypeListIntent {
         val type: MeasurementType,
         val inTypes: List<MeasurementType>,
     ) : MeasurementTypeListIntent
+
+    data class EditType(val type: MeasurementType) : MeasurementTypeListIntent
 }

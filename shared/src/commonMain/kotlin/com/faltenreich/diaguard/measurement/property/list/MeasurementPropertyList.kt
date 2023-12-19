@@ -7,8 +7,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormDialog
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 
@@ -16,7 +14,6 @@ import com.faltenreich.diaguard.shared.view.LoadingIndicator
 fun MeasurementPropertyList(
     modifier: Modifier = Modifier,
     viewModel: MeasurementPropertyListViewModel = inject(),
-    navigation: Navigation = inject(),
 ) {
     when (val state = viewModel.collectState()) {
         null -> LoadingIndicator(modifier = modifier)
@@ -30,16 +27,18 @@ fun MeasurementPropertyList(
                     MeasurementPropertyListItem(
                         property = item,
                         onArrowUp = {
-                            viewModel.dispatchIntent(MeasurementPropertyListIntent.DecrementSortIndex(it))
+                            viewModel.dispatchIntent(MeasurementPropertyListIntent.DecrementSortIndex(item))
                         },
                         showArrowUp = index > 0,
                         onArrowDown = {
-                            viewModel.dispatchIntent(MeasurementPropertyListIntent.IncrementSortIndex(it))
+                            viewModel.dispatchIntent(MeasurementPropertyListIntent.IncrementSortIndex(item))
                         },
                         showArrowDown = index < listItems.size - 1,
                         modifier = Modifier
                             .animateItemPlacement()
-                            .clickable { navigation.push(MeasurementPropertyFormScreen(item)) },
+                            .clickable {
+                                viewModel.dispatchIntent(MeasurementPropertyListIntent.EditProperty(item))
+                            },
                     )
                 }
             }

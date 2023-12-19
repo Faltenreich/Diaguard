@@ -36,6 +36,7 @@ class LogViewModel(
     override fun onIntent(intent: LogIntent) {
         when (intent) {
             is LogIntent.CreateEntry -> navigateTo(EntryFormScreen(date = intent.date))
+            is LogIntent.OpenEntry -> navigateTo(EntryFormScreen(entry = intent.entry))
             is LogIntent.SearchEntries -> navigateTo(EntrySearchScreen())
             is LogIntent.SetDate -> setDate(intent.date)
             is LogIntent.Remove -> {

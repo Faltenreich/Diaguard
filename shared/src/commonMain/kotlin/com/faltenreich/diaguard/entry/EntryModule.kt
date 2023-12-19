@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.entry
 
+import com.faltenreich.diaguard.entry.form.CreateEntryUseCase
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
-import com.faltenreich.diaguard.entry.form.CreateEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
 import com.faltenreich.diaguard.entry.list.EntryListViewModel
@@ -15,10 +15,9 @@ import org.koin.dsl.module
 fun entryModule() = module {
     singleOf(::EntryRepository)
 
-    singleOf(::EntryListViewModel)
-
     singleOf(::SearchEntriesUseCase)
     factory { (query: String) -> EntrySearchViewModel(query) }
+    singleOf(::EntryListViewModel)
 
     singleOf(::GetMeasurementsInputDataUseCase)
     singleOf(::GetFoodEatenInputDataUseCase)

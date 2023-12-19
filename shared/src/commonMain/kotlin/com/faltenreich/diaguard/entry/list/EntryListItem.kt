@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.entry.list
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,8 +13,6 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 
@@ -24,11 +21,8 @@ fun EntryListItem(
     entry: Entry,
     modifier: Modifier = Modifier,
     dateTimeFormatter: DateTimeFormatter = inject(),
-    navigation: Navigation = inject(),
 ) {
-    Card(
-        modifier = modifier.clickable(onClick = { navigation.push(EntryFormScreen(entry)) }),
-    ) {
+    Card(modifier = modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

@@ -95,6 +95,7 @@ fun Log(
                             dismissContent = {
                                 LogEntry(
                                     entry = item.entry,
+                                    onIntent = viewModel::dispatchIntent,
                                     modifier = Modifier.padding(start = dayHeaderWidthDp),
                                 )
                             },

@@ -46,44 +46,44 @@ fun BottomSheetNavigation(
             BottomSheetNavigationItem(
                 label = MR.strings.dashboard,
                 icon = MR.images.ic_dashboard,
-                isActive = viewModel.activeScreen is DashboardScreen,
+                isActive = viewModel.getActiveScreen() is DashboardScreen,
                 onClick = { navigateTo(DashboardScreen, true) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.timeline,
                 icon = MR.images.ic_timeline,
-                isActive = viewModel.activeScreen is TimelineScreen,
+                isActive = viewModel.getActiveScreen() is TimelineScreen,
                 onClick = { navigateTo(TimelineScreen(), true) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.log,
                 icon = MR.images.ic_log,
-                isActive = viewModel.activeScreen is LogScreen,
+                isActive = viewModel.getActiveScreen() is LogScreen,
                 onClick = { navigateTo(LogScreen(), true) },
             )
             Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
             BottomSheetNavigationItem(
                 label = MR.strings.food,
                 icon = null,
-                isActive = viewModel.activeScreen is FoodListScreen,
+                isActive = viewModel.getActiveScreen() is FoodListScreen,
                 onClick = { navigateTo(FoodListScreen(), false) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.statistic,
                 icon = null,
-                isActive = viewModel.activeScreen is StatisticScreen,
+                isActive = viewModel.getActiveScreen() is StatisticScreen,
                 onClick = { navigateTo(StatisticScreen, false) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.export,
                 icon = null,
-                isActive = viewModel.activeScreen is ExportFormScreen,
+                isActive = viewModel.getActiveScreen() is ExportFormScreen,
                 onClick = { navigateTo(ExportFormScreen, false) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.preferences,
                 icon = null,
-                isActive = viewModel.activeScreen is PreferenceListScreen,
+                isActive = viewModel.getActiveScreen() is PreferenceListScreen,
                 onClick = { navigateTo(PreferenceListScreen(), false) },
             )
         }

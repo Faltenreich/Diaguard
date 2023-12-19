@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.navigation
 
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.LogScreen
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.screen.TimelineScreen
 import com.faltenreich.diaguard.preference.store.screen.GetStartScreenUseCase
 import com.faltenreich.diaguard.preference.store.screen.StartScreen
@@ -13,11 +12,10 @@ import kotlinx.coroutines.flow.map
 class NavigationViewModel(
     getStartScreen: GetStartScreenUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-    private val getActiveScreen: GetActiveScreenUseCase = inject(),
+    val getActiveScreen: GetActiveScreenUseCase = inject(),
+    private val navigateBack: NavigateBackUseCase = inject(),
+    val canNavigateBack: CanNavigateBackUseCase = inject(),
 ) : ViewModel<NavigationViewState, NavigationIntent>() {
-
-    val activeScreen: Screen?
-        get() = getActiveScreen()
 
     override val state = getStartScreen().map { startScreen ->
         NavigationViewState(
@@ -32,6 +30,7 @@ class NavigationViewModel(
     override fun onIntent(intent: NavigationIntent) {
         when (intent) {
             is NavigationIntent.NavigateTo -> navigateToScreen(intent.screen)
+            is NavigationIntent.NavigateBack -> navigateBack()
         }
     }
 }

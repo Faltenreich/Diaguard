@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -21,7 +21,7 @@ import kotlin.time.Duration.Companion.seconds
 class FoodListViewModel(
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
-    private val navigateTo: NavigateToUseCase = inject(),
+    private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<List<Food>?, FoodListIntent>() {
 
     override val state = MutableStateFlow<List<Food>?>(null)
@@ -41,8 +41,8 @@ class FoodListViewModel(
     override fun onIntent(intent: FoodListIntent) {
         when (intent) {
             is FoodListIntent.Close -> navigateBack()
-            is FoodListIntent.CreateFood -> navigateTo(FoodFormScreen())
-            is FoodListIntent.EditFood -> navigateTo(FoodFormScreen(intent.food))
+            is FoodListIntent.CreateFood -> navigateToScreen(FoodFormScreen())
+            is FoodListIntent.EditFood -> navigateToScreen(FoodFormScreen(intent.food))
         }
     }
 }

@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.measurement.type.list
 
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.form.UpdateMeasurementTypeUseCase
-import com.faltenreich.diaguard.navigation.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.MeasurementTypeFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flowOf
 
 class MeasurementTypeListViewModel(
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
-    private val navigateTo: NavigateToUseCase = inject(),
+    private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<Unit, MeasurementTypeListIntent>() {
 
     override val state: Flow<Unit>
@@ -21,7 +21,7 @@ class MeasurementTypeListViewModel(
         when (intent) {
             is MeasurementTypeListIntent.DecrementSortIndex -> decrementSortIndex(intent.type, intent.inTypes)
             is MeasurementTypeListIntent.IncrementSortIndex -> incrementSortIndex(intent.type, intent.inTypes)
-            is MeasurementTypeListIntent.EditType -> navigateTo(MeasurementTypeFormScreen(intent.type.id))
+            is MeasurementTypeListIntent.EditType -> navigateToScreen(MeasurementTypeFormScreen(intent.type.id))
         }
     }
 

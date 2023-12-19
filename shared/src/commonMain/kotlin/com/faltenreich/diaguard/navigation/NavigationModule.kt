@@ -6,7 +6,7 @@ import org.koin.dsl.module
 fun navigationModule() = module {
     singleOf(::Navigation)
     singleOf(::NavigateBackUseCase)
-    singleOf(::NavigateToUseCase)
+    singleOf(::NavigateToScreenUseCase)
     singleOf(::GetActiveScreenUseCase)
     singleOf(::NavigationViewModel)
 }

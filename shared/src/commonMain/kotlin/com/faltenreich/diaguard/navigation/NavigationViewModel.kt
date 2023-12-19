@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 
 class NavigationViewModel(
     getStartScreen: GetStartScreenUseCase = inject(),
-    private val navigateTo: NavigateToUseCase = inject(),
+    private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val getActiveScreen: GetActiveScreenUseCase = inject(),
 ) : ViewModel<NavigationViewState, NavigationIntent>() {
 
@@ -31,7 +31,7 @@ class NavigationViewModel(
 
     override fun onIntent(intent: NavigationIntent) {
         when (intent) {
-            is NavigationIntent.NavigateTo -> navigateTo(intent.screen)
+            is NavigationIntent.NavigateTo -> navigateToScreen(intent.screen)
         }
     }
 }

@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodEatenListScreen
 import com.faltenreich.diaguard.shared.architecture.FormViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -18,7 +18,7 @@ class FoodFormViewModel(
     private val createFood: CreateFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
-    private val navigateTo: NavigateToUseCase = inject(),
+    private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val numberFormatter: NumberFormatter = inject(),
 ) : FormViewModel<FoodFormIntent>() {
 
@@ -72,7 +72,7 @@ class FoodFormViewModel(
     override fun onIntent(intent: FoodFormIntent) {
         when (intent) {
             is FoodFormIntent.EditNutrient -> editNutrient(intent.data)
-            is FoodFormIntent.OpenFoodEaten -> navigateTo(FoodEatenListScreen(intent.food))
+            is FoodFormIntent.OpenFoodEaten -> navigateToScreen(FoodEatenListScreen(intent.food))
             is FoodFormIntent.Submit -> submit()
             is FoodFormIntent.Delete -> delete()
         }

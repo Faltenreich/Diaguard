@@ -8,7 +8,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
@@ -17,17 +17,18 @@ import com.faltenreich.diaguard.navigation.screen.PreferenceListScreen
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.screen.StatisticScreen
 import com.faltenreich.diaguard.navigation.screen.TimelineScreen
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.BottomSheetState
 import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
 
 @Composable
 fun BottomSheetNavigation(
     bottomSheetState: BottomSheetState,
     onDismissRequest: () -> Unit,
+    onIntent: (NavigationIntent) -> Unit,
+    isActive: (KClass<out Screen>) -> Boolean,
     modifier: Modifier = Modifier,
-    navigation: Navigation = inject(),
 ) {
     BottomSheet(
         onDismissRequest = onDismissRequest,
@@ -35,13 +36,9 @@ fun BottomSheetNavigation(
         sheetState = bottomSheetState,
     ) {
         val scope = rememberCoroutineScope()
-        val navigateTo = { screen: Screen, replace: Boolean ->
+        val navigateTo = { screen: Screen, clearBackStack: Boolean ->
             scope.launch {
-                if (replace) {
-                    navigation.replaceAll(screen)
-                } else {
-                    navigation.push(screen)
-                }
+                onIntent(NavigationIntent.NavigateTo(screen, clearBackStack))
                 bottomSheetState.hide()
             }.invokeOnCompletion { onDismissRequest() }
         }
@@ -49,44 +46,44 @@ fun BottomSheetNavigation(
             BottomSheetNavigationItem(
                 label = MR.strings.dashboard,
                 icon = MR.images.ic_dashboard,
-                isActive = navigation.lastItem is DashboardScreen,
+                isActive = isActive(DashboardScreen::class),
                 onClick = { navigateTo(DashboardScreen, true) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.timeline,
                 icon = MR.images.ic_timeline,
-                isActive = navigation.lastItem is TimelineScreen,
+                isActive = isActive(TimelineScreen::class),
                 onClick = { navigateTo(TimelineScreen(), true) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.log,
                 icon = MR.images.ic_log,
-                isActive = navigation.lastItem is LogScreen,
+                isActive = isActive(LogScreen::class),
                 onClick = { navigateTo(LogScreen(), true) },
             )
             Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
             BottomSheetNavigationItem(
                 label = MR.strings.food,
                 icon = null,
-                isActive = navigation.lastItem is FoodListScreen,
+                isActive = isActive(FoodListScreen::class),
                 onClick = { navigateTo(FoodListScreen(), false) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.statistic,
                 icon = null,
-                isActive = navigation.lastItem is StatisticScreen,
+                isActive = isActive(StatisticScreen::class),
                 onClick = { navigateTo(StatisticScreen, false) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.export,
                 icon = null,
-                isActive = navigation.lastItem is ExportFormScreen,
+                isActive = isActive(ExportFormScreen::class),
                 onClick = { navigateTo(ExportFormScreen, false) },
             )
             BottomSheetNavigationItem(
                 label = MR.strings.preferences,
                 icon = null,
-                isActive = navigation.lastItem is PreferenceListScreen,
+                isActive = isActive(PreferenceListScreen::class),
                 onClick = { navigateTo(PreferenceListScreen(), false) },
             )
         }

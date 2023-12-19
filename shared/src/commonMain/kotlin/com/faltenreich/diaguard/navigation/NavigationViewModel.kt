@@ -9,13 +9,15 @@ import com.faltenreich.diaguard.preference.store.screen.StartScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.map
-import kotlin.reflect.KClass
 
 class NavigationViewModel(
     getStartScreen: GetStartScreenUseCase = inject(),
     private val navigateTo: NavigateToUseCase = inject(),
-    private val isNavigatedTo: IsNavigatedToUseCase = inject(),
+    private val getActiveScreen: GetActiveScreenUseCase = inject(),
 ) : ViewModel<NavigationViewState, NavigationIntent>() {
+
+    val activeScreen: Screen?
+        get() = getActiveScreen()
 
     override val state = getStartScreen().map { startScreen ->
         NavigationViewState(
@@ -31,9 +33,5 @@ class NavigationViewModel(
         when (intent) {
             is NavigationIntent.NavigateTo -> navigateTo(intent.screen)
         }
-    }
-
-    fun isNavigatedTo(clazz: KClass<out Screen>): Boolean {
-        return isNavigatedTo.invoke(clazz)
     }
 }

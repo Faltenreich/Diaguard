@@ -74,8 +74,6 @@ fun MainView(
                         BottomSheetNavigation(
                             bottomSheetState = bottomSheetState,
                             onDismissRequest = { openBottomSheet = false },
-                            onIntent = navigationViewModel::dispatchIntent,
-                            isActive = navigationViewModel::isNavigatedTo,
                         )
                     }
                 }

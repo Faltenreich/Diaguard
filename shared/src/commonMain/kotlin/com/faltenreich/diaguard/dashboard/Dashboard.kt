@@ -33,7 +33,7 @@ fun Dashboard(
             LatestDashboardItem(
                 data = state.latestBloodSugar,
                 onClick = { entry ->
-                    val intent = entry?.let(DashboardIntent::EditBloodSugar) ?: DashboardIntent.CreateBloodSugar
+                    val intent = entry?.let(DashboardIntent::EditEntry) ?: DashboardIntent.CreateEntry
                     viewModel.dispatchIntent(intent)
                 },
                 modifier = modifier.fillMaxWidth(),

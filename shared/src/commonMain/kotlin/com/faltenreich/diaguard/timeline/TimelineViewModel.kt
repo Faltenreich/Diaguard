@@ -6,6 +6,8 @@ import com.faltenreich.diaguard.entry.deep
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
@@ -23,6 +25,7 @@ class TimelineViewModel(
     dateTimeFactory: DateTimeFactory = inject(),
     entryRepository: EntryRepository = inject(),
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
+    private val navigateTo: NavigateToUseCase = inject(),
 ) : ViewModel<TimelineViewState, TimelineIntent>() {
 
     private val initialDate = date ?: dateTimeFactory.today()
@@ -56,6 +59,7 @@ class TimelineViewModel(
 
     override fun onIntent(intent: TimelineIntent) {
         when (intent) {
+            is TimelineIntent.CreateEntry -> navigateTo(EntryFormScreen())
             is TimelineIntent.SetDate -> currentDate.value = intent.date
         }
     }

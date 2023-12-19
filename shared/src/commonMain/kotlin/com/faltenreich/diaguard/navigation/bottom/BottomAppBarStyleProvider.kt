@@ -7,7 +7,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.entry.form.EntryFormFloatingActionButton
+import com.faltenreich.diaguard.dashboard.DashboardIntent
+import com.faltenreich.diaguard.dashboard.DashboardViewModel
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.search.EntrySearchBottomAppBarItem
@@ -16,6 +17,7 @@ import com.faltenreich.diaguard.export.ExportFormViewModel
 import com.faltenreich.diaguard.food.form.FoodFormIntent
 import com.faltenreich.diaguard.food.form.FoodFormViewModel
 import com.faltenreich.diaguard.food.list.FoodListViewModel
+import com.faltenreich.diaguard.log.LogIntent
 import com.faltenreich.diaguard.log.LogViewModel
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormIntent
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
@@ -57,7 +59,17 @@ fun Screen.bottomAppBarStyle(
     return when (this) {
         is DashboardScreen -> BottomAppBarStyle.Visible(
             actions = { EntrySearchBottomAppBarItem() },
-            floatingActionButton = { EntryFormFloatingActionButton() },
+            floatingActionButton = {
+                val viewModel = getViewModel<DashboardViewModel>()
+                FloatingActionButton(
+                    onClick = { viewModel.dispatchIntent(DashboardIntent.CreateEntry) },
+                ) {
+                    Icon(
+                        painter = painterResource(MR.images.ic_add),
+                        contentDescription = getString(MR.strings.entry_new_description),
+                    )
+                }
+            },
         )
         is LogScreen -> BottomAppBarStyle.Visible(
             actions = {
@@ -69,7 +81,17 @@ fun Screen.bottomAppBarStyle(
                     onDatePick = viewModel::setDate,
                 )
             },
-            floatingActionButton = { EntryFormFloatingActionButton() },
+            floatingActionButton = {
+                val viewModel = getViewModel<LogViewModel> { parametersOf(date) }
+                FloatingActionButton(
+                    onClick = { viewModel.dispatchIntent(LogIntent.CreateEntry) },
+                ) {
+                    Icon(
+                        painter = painterResource(MR.images.ic_add),
+                        contentDescription = getString(MR.strings.entry_new_description),
+                    )
+                }
+            },
         )
         is TimelineScreen -> BottomAppBarStyle.Visible(
             actions = {
@@ -81,7 +103,17 @@ fun Screen.bottomAppBarStyle(
                     onDatePick = { viewModel.dispatchIntent(TimelineIntent.SetDate(it)) },
                 )
             },
-            floatingActionButton = { EntryFormFloatingActionButton() },
+            floatingActionButton = {
+                val viewModel = getViewModel<TimelineViewModel> { parametersOf(date) }
+                FloatingActionButton(
+                    onClick = { viewModel.dispatchIntent(TimelineIntent.CreateEntry) },
+                ) {
+                    Icon(
+                        painter = painterResource(MR.images.ic_add),
+                        contentDescription = getString(MR.strings.entry_new_description),
+                    )
+                }
+            },
         )
         is EntryFormScreen -> BottomAppBarStyle.Visible(
             actions = {

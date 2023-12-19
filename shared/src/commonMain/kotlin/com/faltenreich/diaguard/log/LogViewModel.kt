@@ -5,6 +5,8 @@ import app.cash.paging.PagingData
 import app.cash.paging.PagingSource
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class LogViewModel(
     date: Date?,
     dateTimeFactory: DateTimeFactory = inject(),
+    private val navigateTo: NavigateToUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel<PagingData<LogItem>, LogIntent>() {
 
@@ -31,6 +34,7 @@ class LogViewModel(
 
     override fun onIntent(intent: LogIntent) {
         when (intent) {
+            is LogIntent.CreateEntry -> navigateTo(EntryFormScreen())
             is LogIntent.SetDate -> setDate(intent.date)
             is LogIntent.Remove -> {
                 deleteEntry(intent.item.entry.id)

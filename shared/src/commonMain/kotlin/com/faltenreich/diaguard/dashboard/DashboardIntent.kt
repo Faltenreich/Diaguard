@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.entry.Entry
 
 sealed interface DashboardIntent {
 
-    data object CreateBloodSugar : DashboardIntent
+    data object CreateEntry : DashboardIntent
 
-    data class EditBloodSugar(val entry: Entry) : DashboardIntent
+    data class EditEntry(val entry: Entry) : DashboardIntent
 }

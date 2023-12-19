@@ -84,7 +84,7 @@ fun Screen.bottomAppBarStyle(
             floatingActionButton = {
                 val viewModel = getViewModel<LogViewModel> { parametersOf(date) }
                 FloatingActionButton(
-                    onClick = { viewModel.dispatchIntent(LogIntent.CreateEntry) },
+                    onClick = { viewModel.dispatchIntent(LogIntent.CreateEntry()) },
                 ) {
                     Icon(
                         painter = painterResource(MR.images.ic_add),

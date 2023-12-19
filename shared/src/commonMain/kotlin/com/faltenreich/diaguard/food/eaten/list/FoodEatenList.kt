@@ -30,7 +30,10 @@ fun FoodEatenList(
             modifier = modifier.verticalScroll(rememberScrollState()),
         ) {
             viewState.results.forEach { foodEaten ->
-                FoodEatenListItem(foodEaten)
+                FoodEatenListItem(
+                    foodEaten = foodEaten,
+                    onIntent = viewModel::dispatchIntent,
+                )
                 Divider()
             }
         }

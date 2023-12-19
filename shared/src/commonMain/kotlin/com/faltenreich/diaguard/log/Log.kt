@@ -105,6 +105,7 @@ fun Log(
                         checkNotNull(item)
                         LogEmpty(
                             date = item.date,
+                            onIntent = viewModel::dispatchIntent,
                             modifier = Modifier.padding(start = dayHeaderWidthDp),
                         )
                     }

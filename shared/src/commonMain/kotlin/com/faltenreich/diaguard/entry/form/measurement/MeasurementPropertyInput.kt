@@ -21,9 +21,6 @@ import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.food.eaten.FoodEatenInput
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.screen.FoodListScreen
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 
@@ -33,7 +30,6 @@ fun MeasurementPropertyInput(
     foodEaten: List<FoodEatenInputData>,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
-    navigation: Navigation = inject(),
 ) {
     Column {
         Row(
@@ -55,13 +51,7 @@ fun MeasurementPropertyInput(
                         modifier = Modifier.weight(1f),
                         action = if (data.property.isMeal) {
                             {
-                                IconButton(
-                                    onClick = {
-                                        navigation.push(FoodListScreen(onSelection = { food ->
-                                            onIntent(EntryFormIntent.AddFood(food))
-                                        }))
-                                    })
-                                {
+                                IconButton(onClick = { onIntent(EntryFormIntent.SelectFood) }) {
                                     ResourceIcon(MR.images.ic_search)
                                 }
                             }

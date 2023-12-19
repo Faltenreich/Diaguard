@@ -12,6 +12,8 @@ sealed interface EntryFormIntent {
 
     data object Delete : EntryFormIntent
 
+    data object SelectFood : EntryFormIntent
+
     data class AddFood(val food: Food) : EntryFormIntent
 
     data class EditFood(val food: FoodEatenInputData) : EntryFormIntent

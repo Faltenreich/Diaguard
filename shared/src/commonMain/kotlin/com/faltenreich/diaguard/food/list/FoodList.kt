@@ -15,8 +15,6 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.itemsElse
@@ -26,7 +24,6 @@ fun FoodList(
     onSelection: ((Food) -> Unit)? = null,
     modifier: Modifier = Modifier,
     viewModel: FoodListViewModel = inject(),
-    navigation: Navigation = inject(),
 ) {
     val items = viewModel.collectState()
     Column {
@@ -60,12 +57,11 @@ fun FoodList(
                         food = food,
                         modifier = Modifier
                             .clickable {
-                                food?.let {
-                                    onSelection?.let {
-                                        onSelection(food)
-                                        navigation.pop()
-                                    } ?: navigation.push(FoodFormScreen(food))
-                                }
+                                food ?: return@clickable
+                                onSelection?.let {
+                                    onSelection(food)
+                                    viewModel.dispatchIntent(FoodListIntent.Close)
+                                } ?: viewModel.dispatchIntent(FoodListIntent.EditFood(food))
                             }
                     )
                     Divider()

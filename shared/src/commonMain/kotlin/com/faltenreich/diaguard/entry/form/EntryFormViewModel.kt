@@ -10,6 +10,8 @@ import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputD
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.shared.architecture.FormViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
@@ -27,6 +29,7 @@ class EntryFormViewModel(
     entry: Entry?,
     date: Date?,
     dateTimeFactory: DateTimeFactory = inject(),
+    private val navigateTo: NavigateToUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
@@ -84,6 +87,9 @@ class EntryFormViewModel(
             is EntryFormIntent.Edit -> updateMeasurementValue(intent.data)
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> deleteIfNeeded()
+            is EntryFormIntent.SelectFood -> navigateTo(FoodListScreen(
+                onSelection = { food -> dispatchIntent(EntryFormIntent.AddFood(food)) }),
+            )
             is EntryFormIntent.AddFood -> addFood(intent.food)
             is EntryFormIntent.EditFood -> editFood(intent.food)
             is EntryFormIntent.RemoveFood -> removeFood(intent.food)

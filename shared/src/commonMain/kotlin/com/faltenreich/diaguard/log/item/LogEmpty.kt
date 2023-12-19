@@ -9,22 +9,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
+import com.faltenreich.diaguard.log.LogIntent
 import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun LogEmpty(
     date: Date,
+    onIntent: (LogIntent) -> Unit,
     modifier: Modifier = Modifier,
-    navigation: Navigation = inject(),
 ) {
     Text(
         text = getString(MR.strings.no_entries),
         modifier = modifier
-            .clickable { navigation.push(EntryFormScreen(date = date)) }
+            .clickable { onIntent(LogIntent.CreateEntry(date)) }
             .fillMaxWidth()
             .height(AppTheme.dimensions.size.TouchSizeMedium)
             .padding(all = AppTheme.dimensions.padding.P_3),

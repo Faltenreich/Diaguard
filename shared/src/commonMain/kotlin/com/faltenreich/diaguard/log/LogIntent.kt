@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.shared.datetime.Date
 
 sealed interface LogIntent {
 
-    data object CreateEntry : LogIntent
+    data class CreateEntry(val date: Date? = null) : LogIntent
 
     data class SetDate(val date: Date) : LogIntent
 

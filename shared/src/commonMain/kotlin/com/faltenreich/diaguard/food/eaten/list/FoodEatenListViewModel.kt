@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.food.eaten.list
 
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.map
@@ -8,7 +10,8 @@ import kotlinx.coroutines.flow.map
 class FoodEatenListViewModel(
     food: Food,
     getFoodEaten: GetFoodEatenForFoodUseCase = inject(),
-) : ViewModel<FoodEatenListViewState, Unit>() {
+    private val navigateTo: NavigateToUseCase = inject(),
+) : ViewModel<FoodEatenListViewState, FoodEatenListIntent>() {
 
     override val state = getFoodEaten(food).map { results ->
         when {
@@ -17,5 +20,9 @@ class FoodEatenListViewModel(
         }
     }
 
-    override fun onIntent(intent: Unit) = Unit
+    override fun onIntent(intent: FoodEatenListIntent) {
+        when (intent) {
+            is FoodEatenListIntent.OpenEntry -> navigateTo(EntryFormScreen(intent.entry))
+        }
+    }
 }

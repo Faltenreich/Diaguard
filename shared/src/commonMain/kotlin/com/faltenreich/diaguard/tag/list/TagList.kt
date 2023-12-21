@@ -20,7 +20,12 @@ fun TagList(
         is TagListViewState.Loaded -> Box {
             LazyColumn(modifier) {
                 items(viewState.tags, key = Tag::id) { tag ->
-                    TagListItem(tag)
+                    TagListItem(
+                        tag = tag,
+                        // TODO: Verify before deletion
+                        onDelete = { viewModel.dispatchIntent(TagListIntent.Delete(tag)) },
+                        modifier = Modifier.animateItemPlacement(),
+                    )
                     Divider()
                 }
             }

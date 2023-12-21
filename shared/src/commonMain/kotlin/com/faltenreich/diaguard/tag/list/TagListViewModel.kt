@@ -13,6 +13,7 @@ class TagListViewModel(
     getTags: GetTagsUseCase = inject(),
     private val hasTag: HasTagUseCase = inject(),
     private val createTag: CreateTagUseCase = inject(),
+    private val deleteTag: DeleteTagUseCase = inject(),
 ) : ViewModel<TagListViewState, TagListIntent>() {
 
     private val tags = getTags()
@@ -30,6 +31,7 @@ class TagListViewModel(
             is TagListIntent.OpenForm -> showFormDialog()
             is TagListIntent.CloseForm -> hideFormDialog()
             is TagListIntent.Submit -> createTagIfValid(intent.name)
+            is TagListIntent.Delete -> deleteTag(intent.tag)
         }
     }
 

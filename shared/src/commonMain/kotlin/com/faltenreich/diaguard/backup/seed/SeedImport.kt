@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.tag.TagRepository
 
 class SeedImport(
     private val localization: Localization,
@@ -17,6 +18,7 @@ class SeedImport(
     private val typeRepository: MeasurementTypeRepository,
     private val unitRepository: MeasurementUnitRepository,
     private val foodRepository: FoodRepository,
+    private val tagRepository: TagRepository,
 ) : Import {
 
     override fun import() {
@@ -76,6 +78,15 @@ class SeedImport(
                 salt = food.salt.toDoubleOrNull(),
                 sodium = food.sodium.toDoubleOrNull(),
                 sugar = food.sugar.toDoubleOrNull(),
+            )
+        }
+
+        val tagSeed = seedRepository.getTags()
+        tagSeed.forEach { tag ->
+            tagRepository.create(
+                createdAt = now,
+                updatedAt = now,
+                name = tag.en, // TODO: Localize
             )
         }
     }

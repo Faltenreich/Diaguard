@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.backup.seed.data.InsulinSeed
 import com.faltenreich.diaguard.backup.seed.data.MealSeed
 import com.faltenreich.diaguard.backup.seed.data.OxygenSaturationSeed
 import com.faltenreich.diaguard.backup.seed.data.PulseSeed
+import com.faltenreich.diaguard.backup.seed.data.TagSeed
 import com.faltenreich.diaguard.backup.seed.data.WeightSeed
 import com.faltenreich.diaguard.shared.file.ResourceFileReader
 import org.koin.core.module.dsl.singleOf
@@ -30,6 +31,7 @@ fun backupModule() = module {
     singleOf(::BloodPressureSeed)
     singleOf(::OxygenSaturationSeed)
     single { FoodSeed(fileReader = ResourceFileReader(MR.files.food_common), serialization = get()) }
+    single { TagSeed(fileReader = ResourceFileReader(MR.files.tags), serialization = get()) }
     singleOf(::SeedRepository)
     singleOf(::SeedImport)
 

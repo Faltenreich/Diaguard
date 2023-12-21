@@ -17,11 +17,9 @@ import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigation
-import com.faltenreich.diaguard.navigation.bottom.bottomAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.top.topAppBarStyle
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
@@ -44,7 +42,7 @@ fun MainView(
                     Scaffold(
                         topBar = {
                             val screen = navigator.lastItem as? Screen
-                            val style = screen?.topAppBarStyle() ?: TopAppBarStyle.Hidden
+                            val style = screen?.topAppBarStyle ?: TopAppBarStyle.Hidden
                             AnimatedVisibility(style != TopAppBarStyle.Hidden) {
                                 // TODO: Extract to prevent jumping during transition
                                 TopAppBar(style)
@@ -61,7 +59,7 @@ fun MainView(
                         },
                         bottomBar = {
                             val screen = navigator.lastItem as? Screen
-                            val style = screen?.bottomAppBarStyle() ?: BottomAppBarStyle.Hidden
+                            val style = screen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
                             AnimatedVisibility(style != BottomAppBarStyle.Hidden) {
                                 BottomAppBar(
                                     style = style,

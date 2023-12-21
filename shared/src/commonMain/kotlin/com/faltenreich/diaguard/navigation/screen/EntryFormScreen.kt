@@ -12,7 +12,7 @@ data class EntryFormScreen(
     val entry: Entry? = null,
     val date: Date? = null,
     val food: Food? = null,
-) : Screen() {
+) : Screen {
 
     @Composable
     override fun Content() {

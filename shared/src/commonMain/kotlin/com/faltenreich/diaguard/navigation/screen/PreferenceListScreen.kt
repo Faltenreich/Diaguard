@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.shared.di.getViewModel
 import org.koin.core.parameter.parametersOf
 
 // FIXME: Supports no state restoration until parameter implements Serializable
-data class PreferenceListScreen(val preferences: List<PreferenceListItem>? = null) : Screen() {
+data class PreferenceListScreen(val preferences: List<PreferenceListItem>? = null) : Screen {
 
     @Composable
     override fun Content() {

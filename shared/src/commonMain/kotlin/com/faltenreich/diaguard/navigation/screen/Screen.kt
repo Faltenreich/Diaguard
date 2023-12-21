@@ -8,4 +8,4 @@ import cafe.adriel.voyager.core.screen.Screen as VoyagerScreen
  * State restoration requires every parameter to implement
  * [com.faltenreich.diaguard.shared.serialization.Serializable]
  */
-sealed class Screen : VoyagerScreen
+sealed interface Screen : VoyagerScreen

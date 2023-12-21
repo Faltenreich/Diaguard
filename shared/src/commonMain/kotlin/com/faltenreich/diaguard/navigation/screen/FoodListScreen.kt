@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.list.FoodList
 import com.faltenreich.diaguard.shared.di.getViewModel
 
-data class FoodListScreen(private val onSelection: ((Food) -> Unit)? = null) : Screen() {
+data class FoodListScreen(private val onSelection: ((Food) -> Unit)? = null) : Screen {
 
     @Composable
     override fun Content() {

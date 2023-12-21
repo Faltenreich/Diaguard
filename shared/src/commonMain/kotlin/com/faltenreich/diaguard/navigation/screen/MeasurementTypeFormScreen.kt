@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeForm
 import com.faltenreich.diaguard.shared.di.getViewModel
 import org.koin.core.parameter.parametersOf
 
-data class MeasurementTypeFormScreen(val measurementTypeId: Long) : Screen() {
+data class MeasurementTypeFormScreen(val measurementTypeId: Long) : Screen {
 
     @Composable
     override fun Content() {

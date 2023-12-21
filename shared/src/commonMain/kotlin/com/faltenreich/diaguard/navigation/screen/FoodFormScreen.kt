@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.food.form.FoodForm
 import com.faltenreich.diaguard.shared.di.getViewModel
 import org.koin.core.parameter.parametersOf
 
-data class FoodFormScreen(val food: Food? = null) : Screen() {
+data class FoodFormScreen(val food: Food? = null) : Screen {
 
     @Composable
     override fun Content() {

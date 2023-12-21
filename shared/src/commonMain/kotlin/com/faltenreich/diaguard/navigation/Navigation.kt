@@ -10,12 +10,12 @@ class Navigation {
     val lastItem: Screen?
         get() = navigator.lastItem as? Screen
 
-    fun push(screen: Screen) {
-        navigator.push(screen)
-    }
-
-    fun replaceAll(screen: Screen) {
-        navigator.replaceAll(screen)
+    fun push(screen: Screen, popHistory: Boolean = false) {
+        if (popHistory) {
+            navigator.replaceAll(screen)
+        } else {
+            navigator.push(screen)
+        }
     }
 
     fun pop(): Boolean {

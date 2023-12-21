@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.getViewModel
 import org.koin.core.parameter.parametersOf
 
-data class LogScreen(val date: Date? = null) : Screen() {
+data class LogScreen(val date: Date? = null) : Screen {
 
     @Composable
     override fun Content() {

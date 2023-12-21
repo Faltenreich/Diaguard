@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.timeline.Timeline
 import org.koin.core.parameter.parametersOf
 
-data class TimelineScreen(val date: Date? = null) : Screen() {
+data class TimelineScreen(val date: Date? = null) : Screen {
 
     @Composable
     override fun Content() {

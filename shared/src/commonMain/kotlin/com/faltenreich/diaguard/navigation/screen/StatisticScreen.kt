@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.statistic.Statistic
 
-data object StatisticScreen : Screen() {
+data object StatisticScreen : Screen {
 
     @Composable
     override fun Content() {

@@ -2,9 +2,9 @@ package com.faltenreich.diaguard.navigation.top
 
 import androidx.compose.runtime.Composable
 
-sealed class TopAppBarStyle {
+sealed interface TopAppBarStyle {
 
-    data object Hidden : TopAppBarStyle()
+    data object Hidden : TopAppBarStyle
 
-    data class CenterAligned(val content: @Composable () -> Unit) : TopAppBarStyle()
+    data class CenterAligned(val content: @Composable () -> Unit) : TopAppBarStyle
 }

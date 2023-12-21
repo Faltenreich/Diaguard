@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.export.ExportForm
 import com.faltenreich.diaguard.shared.di.getViewModel
 
-data object ExportFormScreen : Screen() {
+data object ExportFormScreen : Screen {
 
     @Composable
     override fun Content() {

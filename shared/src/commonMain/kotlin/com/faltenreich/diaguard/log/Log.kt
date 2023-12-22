@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SwipeToDismiss
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.rememberSwipeToDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -83,7 +83,7 @@ fun Log(
                         val item = items.get(index) as? LogItem.EntryContent
                         checkNotNull(item)
                         // TODO: Animate item replacement
-                        val swipeToDismissState = rememberDismissState(
+                        val swipeToDismissState = rememberSwipeToDismissState(
                             confirmValueChange = {
                                 viewModel.dispatchIntent(LogIntent.Remove(item))
                                 true

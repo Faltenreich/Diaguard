@@ -9,5 +9,7 @@ fun navigationModule() = module {
     singleOf(::CanNavigateBackUseCase)
     singleOf(::NavigateToScreenUseCase)
     singleOf(::GetActiveScreenUseCase)
+    singleOf(::OpenModalUseCase)
+    singleOf(::CloseModalUseCase)
     singleOf(::NavigationViewModel)
 }

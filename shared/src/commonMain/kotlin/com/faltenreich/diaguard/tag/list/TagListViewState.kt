@@ -6,7 +6,6 @@ sealed interface TagListViewState {
 
     data class Loaded(
         val tags: List<Tag>,
-        val showFormDialog: Boolean,
         val inputError: String?,
     ) : TagListViewState
 }

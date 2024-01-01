@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.shared.networking.networkingModule
 import com.faltenreich.diaguard.shared.primitive.primitiveModule
 import com.faltenreich.diaguard.shared.serialization.serializationModule
 import com.faltenreich.diaguard.shared.theme.themeModule
+import com.faltenreich.diaguard.shared.validation.validationModule
 import com.faltenreich.diaguard.statistic.statisticModule
 import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
@@ -44,6 +45,7 @@ private fun mainModules() = listOf(
     primitiveModule(),
     coroutineModule(),
     configModule(),
+    validationModule(),
     localizationModule(),
     clipboardModule(),
     serializationModule(),

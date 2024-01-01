@@ -4,11 +4,12 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.validation.ValidateUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class TagFormViewModel(
-    private val hasTag: HasTagUseCase,
+    private val validate: ValidateUseCase,
     private val createTag: CreateTagUseCase,
     private val closeModal: CloseModalUseCase,
 ) : ViewModel<TagFormViewState, TagFormIntent>() {
@@ -23,16 +24,14 @@ class TagFormViewModel(
         }
     }
 
-    private fun showError() {
-        inputError.value = getString(MR.strings.tag_already_taken)
-    }
-
     private fun createTagIfValid(name: String) {
-        if (hasTag(name)) {
-            showError()
-        } else {
+        if (validate(name, UniqueTagRule()).isSuccess) {
             createTag(name)
             closeModal()
+        } else {
+            // FIXME: Avoid clearing text field
+            // TODO: Handle concrete failure
+            inputError.value = getString(MR.strings.tag_already_taken)
         }
     }
 }

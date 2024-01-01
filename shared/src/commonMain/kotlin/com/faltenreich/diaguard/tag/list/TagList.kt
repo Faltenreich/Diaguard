@@ -15,7 +15,7 @@ fun TagList(
 ) {
     when (val viewState = viewModel.collectState()) {
         null -> Unit
-        is TagListViewState.Loaded ->
+        else ->
             LazyColumn(modifier) {
                 items(viewState.tags, key = Tag::id) { tag ->
                     TagListItem(

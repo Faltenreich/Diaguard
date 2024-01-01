@@ -14,16 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 
 @Composable
 fun TagFormDialog(
-    onDismissRequest: () -> Unit,
-    onConfirmRequest: (name: String) -> Unit,
-    error: String?,
     modifier: Modifier = Modifier,
+    viewModel: TagFormViewModel = inject(),
 ) {
+    val state = viewModel.collectState()
     var name by mutableStateOf("")
 
     val focusRequester = remember { FocusRequester() }
@@ -32,15 +32,15 @@ fun TagFormDialog(
     }
 
     AlertDialog(
-        onDismissRequest = onDismissRequest,
+        onDismissRequest = { viewModel.dispatchIntent(TagFormIntent.Close) },
         confirmButton = {
-            TextButton(onClick = { onConfirmRequest(name) }) {
+            TextButton(onClick = { viewModel.dispatchIntent(TagFormIntent.Submit(name)) }) {
                 Text(getString(MR.strings.create))
             }
         },
         modifier = modifier,
         dismissButton = {
-            TextButton(onClick = onDismissRequest) {
+            TextButton(onClick = { viewModel.dispatchIntent(TagFormIntent.Close) }) {
                 Text(getString(MR.strings.cancel))
             }
         },
@@ -51,8 +51,8 @@ fun TagFormDialog(
                 onInputChange = { name = it },
                 label = getString(MR.strings.name),
                 modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
-                supportingText = { Text(error ?: "") },
-                isError = error != null,
+                supportingText = { Text(state?.inputError ?: "") },
+                isError = state?.inputError != null,
             )
         }
     )

@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.tag
 
+import com.faltenreich.diaguard.tag.delete.CountEntriesByTagUseCase
+import com.faltenreich.diaguard.tag.delete.TagDeleteViewModel
 import com.faltenreich.diaguard.tag.form.CreateTagUseCase
 import com.faltenreich.diaguard.tag.form.HasTagUseCase
 import com.faltenreich.diaguard.tag.form.TagFormViewModel
@@ -11,12 +13,15 @@ import org.koin.dsl.module
 
 fun tagModule() = module {
     singleOf(::TagRepository)
+    singleOf(::EntryTagRepository)
 
     singleOf(::GetTagsUseCase)
     singleOf(::HasTagUseCase)
     singleOf(::CreateTagUseCase)
+    singleOf(::CountEntriesByTagUseCase)
     singleOf(::DeleteTagUseCase)
 
     singleOf(::TagListViewModel)
     singleOf(::TagFormViewModel)
+    factory { (tag: Tag) -> TagDeleteViewModel(tag = tag) }
 }

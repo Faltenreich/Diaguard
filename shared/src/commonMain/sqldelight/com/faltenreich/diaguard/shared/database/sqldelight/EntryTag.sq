@@ -27,5 +27,8 @@ INNER JOIN tag ON tag.id == entryTag.tag_id
 WHERE entryTag.tag_id = ?
 ORDER BY entryTag.updated_at DESC;
 
+countByTag:
+SELECT COUNT(*) FROM entryTag WHERE id = ?;
+
 deleteById:
 DELETE FROM entryTag WHERE id = ?;

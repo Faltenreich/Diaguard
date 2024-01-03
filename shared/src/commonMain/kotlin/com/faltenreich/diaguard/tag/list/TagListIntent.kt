@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.tag.Tag
 
 sealed interface TagListIntent {
 
-    data class Delete(val tag: Tag) : TagListIntent
+    data object Create : TagListIntent
 
-    data object OpenForm : TagListIntent
+    data class Delete(val tag: Tag) : TagListIntent
 }

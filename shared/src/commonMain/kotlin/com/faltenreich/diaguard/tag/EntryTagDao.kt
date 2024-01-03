@@ -18,5 +18,7 @@ interface EntryTagDao {
 
     fun observeByTagId(tagId: Long): Flow<List<EntryTag>>
 
+    fun countByTagId(tagId: Long): Flow<Long>
+
     fun deleteById(id: Long)
 }

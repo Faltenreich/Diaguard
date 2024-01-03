@@ -20,7 +20,6 @@ fun TagList(
                 items(viewState.tags, key = Tag::id) { tag ->
                     TagListItem(
                         tag = tag,
-                        // TODO: Verify before deletion
                         onDelete = { viewModel.dispatchIntent(TagListIntent.Delete(tag)) },
                         modifier = Modifier.animateItemPlacement(),
                     )

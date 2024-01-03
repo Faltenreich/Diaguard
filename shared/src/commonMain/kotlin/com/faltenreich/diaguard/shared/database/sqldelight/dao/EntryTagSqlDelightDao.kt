@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOne
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryTagQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntryTagSqlDelightMapper
@@ -45,6 +46,10 @@ class EntryTagSqlDelightDao(
 
     override fun observeByTagId(tagId: Long): Flow<List<EntryTag>> {
         return queries.getByTag(tagId, mapper::map).asFlow().mapToList(dispatcher)
+    }
+
+    override fun countByTagId(tagId: Long): Flow<Long> {
+        return queries.countByTag(tagId).asFlow().mapToOne(dispatcher)
     }
 
     override fun deleteById(id: Long) {

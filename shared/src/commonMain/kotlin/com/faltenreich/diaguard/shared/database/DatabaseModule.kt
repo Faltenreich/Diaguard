@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementUnitSq
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementValueSqlDelightDao
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.TagSqlDelightDao
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntrySqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntryTagSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodEatenSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertySqlDelightMapper
@@ -57,6 +58,6 @@ fun databaseModule() = module {
     singleOf(::TagSqlDelightMapper)
     single<TagDao> { TagSqlDelightDao() }
 
-    singleOf(::TagSqlDelightDao)
+    singleOf(::EntryTagSqlDelightMapper)
     single<EntryTagDao> { EntryTagSqlDelightDao() }
 }

@@ -14,8 +14,9 @@ class TagFormViewModel(
     private val closeModal: CloseModalUseCase,
 ) : ViewModel<TagFormViewState, TagFormIntent>() {
 
-    private val inputError = MutableStateFlow<String?>(null)
-    override val state = inputError.map(::TagFormViewState)
+    private val error = MutableStateFlow<String?>(null)
+
+    override val state = error.map(::TagFormViewState)
 
     override fun onIntent(intent: TagFormIntent) {
         when (intent) {
@@ -25,13 +26,16 @@ class TagFormViewModel(
     }
 
     private fun createTagIfValid(name: String) {
-        if (validate(name, UniqueTagRule()).isSuccess) {
+        val result = validate(name, UniqueTagRule())
+        if (result.isSuccess) {
             createTag(name)
             closeModal()
+            error.value = null
         } else {
-            // FIXME: Avoid clearing text field
-            // TODO: Handle concrete failure
-            inputError.value = getString(MR.strings.tag_already_taken)
+            error.value = when (result.exceptionOrNull()) {
+                is RedundantTagException -> getString(MR.strings.tag_already_taken)
+                else -> getString(MR.strings.error_unknown)
+            }
         }
     }
 }

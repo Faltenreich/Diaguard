@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -24,7 +25,7 @@ fun TagFormDialog(
     viewModel: TagFormViewModel = inject(),
 ) {
     val state = viewModel.collectState()
-    var name by mutableStateOf("")
+    var name by rememberSaveable { mutableStateOf("") }
 
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {

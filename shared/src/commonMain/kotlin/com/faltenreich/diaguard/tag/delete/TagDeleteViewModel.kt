@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class TagDeleteViewModel(
-    // FIXME: Stays the same when reopening dialog due to single-instance instead of factory
     private val tag: Tag,
     countEntriesForTag: CountEntriesByTagUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),

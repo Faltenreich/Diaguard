@@ -1,13 +1,14 @@
 package com.faltenreich.diaguard.navigation
 
 import cafe.adriel.voyager.navigator.Navigator
+import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.navigation.screen.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class Navigation {
 
     lateinit var navigator: Navigator
-    var modal = MutableStateFlow<Screen?>(null)
+    var modal = MutableStateFlow<Modal?>(null)
 
     val lastItem: Screen?
         get() = navigator.lastItem as? Screen
@@ -28,7 +29,7 @@ class Navigation {
         return navigator.canPop
     }
 
-    fun pushModal(modal: Screen) {
+    fun pushModal(modal: Modal) {
         this.modal.value = modal
     }
 

@@ -28,11 +28,18 @@ fun TagDeleteDialog(
                 Text(getString(MR.strings.cancel))
             }
         },
+
         title = { Text(getString(MR.strings.tag_delete)) },
         text = {
             when (state) {
                 null -> Unit
-                else -> Text(getString(MR.strings.tag_delete_description, state.entryCount))
+                else -> Text(
+                    getString(
+                        MR.strings.tag_delete_description,
+                        state.entryCount,
+                        state.tag.name,
+                    )
+                )
             }
         }
     )

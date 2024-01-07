@@ -23,6 +23,7 @@ fun tagModule() = module {
     singleOf(::CountEntriesByTagUseCase)
     singleOf(::GetEntriesOfTagUseCase)
     singleOf(::DeleteTagUseCase)
+    singleOf(::UpdateTagUseCase)
 
     singleOf(::TagListViewModel)
     singleOf(::TagFormViewModel)

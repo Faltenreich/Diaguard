@@ -40,6 +40,14 @@ class TagRepository(
         )
     }
 
+    fun update(tag: Tag) = with(tag) {
+        update(
+            id = id,
+            updatedAt = updatedAt,
+            name = name,
+        )
+    }
+
     fun deleteById(id: Long) {
         dao.deleteById(id)
     }

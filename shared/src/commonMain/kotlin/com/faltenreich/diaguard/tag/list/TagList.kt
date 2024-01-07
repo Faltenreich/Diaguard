@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.tag.list
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
@@ -20,8 +22,10 @@ fun TagList(
                 items(viewState.tags, key = Tag::id) { tag ->
                     TagListItem(
                         tag = tag,
-                        onDelete = { viewModel.dispatchIntent(TagListIntent.Delete(tag)) },
-                        modifier = Modifier.animateItemPlacement(),
+                        modifier = Modifier
+                            .animateItemPlacement()
+                            .fillMaxWidth()
+                            .clickable { viewModel.dispatchIntent(TagListIntent.OpenTag(tag)) },
                     )
                     Divider()
                 }

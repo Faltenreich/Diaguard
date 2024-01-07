@@ -12,11 +12,11 @@ class TagFormViewModel(
     private val validate: ValidateUseCase,
     private val createTag: CreateTagUseCase,
     private val closeModal: CloseModalUseCase,
-) : ViewModel<TagFormViewState, TagFormIntent>() {
+) : ViewModel<TagFormState, TagFormIntent>() {
 
     private val error = MutableStateFlow<String?>(null)
 
-    override val state = error.map(::TagFormViewState)
+    override val state = error.map(::TagFormState)
 
     override fun onIntent(intent: TagFormIntent) {
         when (intent) {

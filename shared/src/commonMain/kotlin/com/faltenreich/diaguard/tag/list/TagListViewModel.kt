@@ -1,14 +1,16 @@
 package com.faltenreich.diaguard.tag.list
 
+import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
-import com.faltenreich.diaguard.navigation.modal.TagDeleteModal
 import com.faltenreich.diaguard.navigation.modal.TagFormModal
+import com.faltenreich.diaguard.navigation.screen.TagDetailScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.map
 
 class TagListViewModel(
     getTags: GetTagsUseCase,
     private val openModal: OpenModalUseCase,
+    private val navigateToScreen: NavigateToScreenUseCase,
 ) : ViewModel<TagListViewState, TagListIntent>() {
 
     private val tags = getTags()
@@ -16,8 +18,8 @@ class TagListViewModel(
 
     override fun onIntent(intent: TagListIntent) {
         when (intent) {
-            is TagListIntent.Create -> openModal(TagFormModal)
-            is TagListIntent.Delete -> openModal(TagDeleteModal(intent.tag))
+            is TagListIntent.CreateTag -> openModal(TagFormModal)
+            is TagListIntent.OpenTag -> navigateToScreen(TagDetailScreen(intent.tag))
         }
     }
 }

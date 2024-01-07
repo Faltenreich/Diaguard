@@ -4,5 +4,7 @@ import com.faltenreich.diaguard.tag.Tag
 
 sealed interface TagListIntent {
 
-    data object Create : TagListIntent
+    data object CreateTag : TagListIntent
+
+    data class OpenTag(val tag: Tag) : TagListIntent
 }

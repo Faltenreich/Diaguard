@@ -6,4 +6,5 @@ import com.faltenreich.diaguard.tag.Tag
 data class TagDetailState(
     val tag: Tag,
     val entryTags: List<EntryTag>,
+    val inputError: String?,
 )

@@ -28,6 +28,7 @@ class TagDeleteViewModel(
     override fun onIntent(intent: TagDeleteIntent) {
         when (intent) {
             is TagDeleteIntent.Close -> closeModal()
+            is TagDeleteIntent.Preview -> navigateToScreen(EntrySearchScreen(query = tag.name))
             is TagDeleteIntent.Confirm -> {
                 deleteTag(tag)
                 closeModal()

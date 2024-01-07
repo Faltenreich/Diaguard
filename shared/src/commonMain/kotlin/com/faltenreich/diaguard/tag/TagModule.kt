@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.tag
 
 import com.faltenreich.diaguard.tag.delete.CountEntriesByTagUseCase
 import com.faltenreich.diaguard.tag.delete.TagDeleteViewModel
+import com.faltenreich.diaguard.tag.detail.GetEntriesOfTagUseCase
+import com.faltenreich.diaguard.tag.detail.TagDetailViewModel
 import com.faltenreich.diaguard.tag.form.CreateTagUseCase
 import com.faltenreich.diaguard.tag.form.HasTagUseCase
 import com.faltenreich.diaguard.tag.form.TagFormViewModel
@@ -19,9 +21,11 @@ fun tagModule() = module {
     singleOf(::HasTagUseCase)
     singleOf(::CreateTagUseCase)
     singleOf(::CountEntriesByTagUseCase)
+    singleOf(::GetEntriesOfTagUseCase)
     singleOf(::DeleteTagUseCase)
 
     singleOf(::TagListViewModel)
     singleOf(::TagFormViewModel)
     factory { (tag: Tag) -> TagDeleteViewModel(tag = tag) }
+    factory { (tag: Tag) -> TagDetailViewModel(tag = tag) }
 }

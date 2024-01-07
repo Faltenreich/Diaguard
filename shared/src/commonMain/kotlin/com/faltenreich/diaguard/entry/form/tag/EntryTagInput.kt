@@ -23,6 +23,7 @@ fun EntryTagInput(
     input: String,
     onInputChange: (String) -> Unit,
     suggestions: List<Tag>,
+    onSuggestionSelected: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -45,7 +46,10 @@ fun EntryTagInput(
             suggestions.forEach { suggestion ->
                 DropdownMenuItem(
                     text = { Text(suggestion.name) },
-                    onClick = { onInputChange(suggestion.name) },
+                    onClick = {
+                        onSuggestionSelected(suggestion)
+                        isExpanded = false
+                    },
                 )
             }
         }

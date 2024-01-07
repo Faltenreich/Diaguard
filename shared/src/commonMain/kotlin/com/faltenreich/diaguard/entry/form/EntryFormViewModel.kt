@@ -22,6 +22,7 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
@@ -75,6 +76,7 @@ class EntryFormViewModel(
 
     var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
     var foodEaten by mutableStateOf(emptyList<FoodEatenInputData>())
+    var tags by mutableStateOf(emptyList<Tag>())
 
     override val state: Flow<EntryFormState> = tagInput
         .debounce(DateTimeConstants.INPUT_DEBOUNCE)
@@ -107,6 +109,8 @@ class EntryFormViewModel(
             is EntryFormIntent.AddFood -> addFood(intent.food)
             is EntryFormIntent.EditFood -> editFood(intent.food)
             is EntryFormIntent.RemoveFood -> removeFood(intent.food)
+            is EntryFormIntent.AddTag -> tags += intent.tag
+            is EntryFormIntent.RemoveTag -> tags -= intent.tag
         }
     }
 

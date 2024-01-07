@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
+import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DatePicker
@@ -53,11 +54,21 @@ fun EntryForm(
         Divider()
 
         FormRow(icon = { ResourceIcon(MR.images.ic_tag) }) {
-            EntryTagInput(
-                input = viewModel.tagInput.collectAsState().value,
-                onInputChange = { viewModel.tagInput.value = it },
-                suggestions = state?.tags ?: emptyList(),
-            )
+            Column {
+                EntryTagInput(
+                    input = viewModel.tagInput.collectAsState().value,
+                    onInputChange = { viewModel.tagInput.value = it },
+                    suggestions = state?.tags ?: emptyList(),
+                    onSuggestionSelected = { tag ->
+                        viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
+                        viewModel.tagInput.value = ""
+                    }
+                )
+                EntryTagList(
+                    tags = viewModel.tags,
+                    onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
+                )
+            }
         }
 
         Divider()

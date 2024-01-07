@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
+import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListViewModel
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
@@ -21,6 +22,7 @@ fun entryModule() = module {
 
     singleOf(::GetMeasurementsInputDataUseCase)
     singleOf(::GetFoodEatenInputDataUseCase)
+    singleOf(::GetTagsByQueryUseCase)
     singleOf(::CreateEntryUseCase)
     singleOf(::DeleteEntryUseCase)
     factory { (entry: Entry?, date: Date?) -> EntryFormViewModel(entry = entry, date = date) }

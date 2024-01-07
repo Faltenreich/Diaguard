@@ -9,6 +9,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
+import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DatePicker
@@ -32,6 +34,7 @@ fun EntryForm(
     modifier: Modifier = Modifier,
     viewModel: EntryFormViewModel = inject(),
 ) {
+    val state = viewModel.collectState()
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
 
@@ -50,12 +53,10 @@ fun EntryForm(
         Divider()
 
         FormRow(icon = { ResourceIcon(MR.images.ic_tag) }) {
-            TextInput(
-                input = viewModel.tag,
-                onInputChange = { viewModel.tag = it },
-                label = getString(MR.strings.tag),
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
+            EntryTagInput(
+                input = viewModel.tagInput.collectAsState().value,
+                onInputChange = { viewModel.tagInput.value = it },
+                suggestions = state?.tags ?: emptyList(),
             )
         }
 

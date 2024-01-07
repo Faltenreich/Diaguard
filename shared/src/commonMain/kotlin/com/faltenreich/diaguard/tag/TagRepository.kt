@@ -24,6 +24,10 @@ class TagRepository(
         return dao.observeAll()
     }
 
+    fun observeByQuery(query: String): Flow<List<Tag>> {
+        return dao.observeByQuery(query)
+    }
+
     fun getByName(name: String): Tag? {
         return dao.getByName(name)
     }

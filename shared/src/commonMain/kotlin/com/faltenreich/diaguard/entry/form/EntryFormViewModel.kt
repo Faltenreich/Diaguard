@@ -8,21 +8,28 @@ import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
+import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
-import com.faltenreich.diaguard.shared.architecture.FormViewModel
+import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -30,6 +37,7 @@ class EntryFormViewModel(
     entry: Entry?,
     date: Date?,
     dateTimeFactory: DateTimeFactory = inject(),
+    getTagsByQuery: GetTagsByQueryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
@@ -37,7 +45,7 @@ class EntryFormViewModel(
     private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
     private val getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
-) : FormViewModel<EntryFormIntent>() {
+) : ViewModel<EntryFormState, EntryFormIntent>() {
 
     private val id: Long? = entry?.id
 
@@ -59,7 +67,7 @@ class EntryFormViewModel(
     val timeFormatted: String
         get() = formatDateTime(time)
 
-    var tag: String by mutableStateOf("")
+    var tagInput = MutableStateFlow("")
 
     var note: String by mutableStateOf(entry?.note ?: "")
 
@@ -67,6 +75,10 @@ class EntryFormViewModel(
 
     var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
     var foodEaten by mutableStateOf(emptyList<FoodEatenInputData>())
+
+    override val state: Flow<EntryFormState> = tagInput
+        .debounce(DateTimeConstants.INPUT_DEBOUNCE)
+        .flatMapLatest { getTagsByQuery(it).map(::EntryFormState) }
 
     init {
         scope.launch(Dispatchers.IO) {

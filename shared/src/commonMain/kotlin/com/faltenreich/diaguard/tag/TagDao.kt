@@ -15,6 +15,8 @@ interface TagDao {
 
     fun observeAll(): Flow<List<Tag>>
 
+    fun observeByQuery(query: String): Flow<List<Tag>>
+
     fun getByName(name: String): Tag?
 
     fun update(

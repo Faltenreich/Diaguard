@@ -56,12 +56,12 @@ fun EntryForm(
         FormRow(icon = { ResourceIcon(MR.images.ic_tag) }) {
             Column {
                 EntryTagInput(
-                    input = viewModel.tagInput.collectAsState().value,
-                    onInputChange = { viewModel.tagInput.value = it },
+                    input = viewModel.tag.collectAsState().value,
+                    onInputChange = { viewModel.tag.value = it },
                     suggestions = state?.tags ?: emptyList(),
                     onSuggestionSelected = { tag ->
                         viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
-                        viewModel.tagInput.value = ""
+                        viewModel.tag.value = ""
                     }
                 )
                 EntryTagList(

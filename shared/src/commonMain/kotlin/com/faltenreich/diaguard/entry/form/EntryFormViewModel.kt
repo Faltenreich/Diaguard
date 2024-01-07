@@ -68,7 +68,7 @@ class EntryFormViewModel(
     val timeFormatted: String
         get() = formatDateTime(time)
 
-    var tagInput = MutableStateFlow("")
+    var tag = MutableStateFlow("")
 
     var note: String by mutableStateOf(entry?.note ?: "")
 
@@ -78,9 +78,9 @@ class EntryFormViewModel(
     var foodEaten by mutableStateOf(emptyList<FoodEatenInputData>())
     var tags by mutableStateOf(emptyList<Tag>())
 
-    override val state: Flow<EntryFormState> = tagInput
+    override val state: Flow<EntryFormState> = tag
         .debounce(DateTimeConstants.INPUT_DEBOUNCE)
-        .flatMapLatest { getTagsByQuery(it).map(::EntryFormState) }
+        .flatMapLatest { query -> getTagsByQuery(query, tags).map(::EntryFormState) }
 
     init {
         scope.launch(Dispatchers.IO) {
@@ -109,7 +109,7 @@ class EntryFormViewModel(
             is EntryFormIntent.AddFood -> addFood(intent.food)
             is EntryFormIntent.EditFood -> editFood(intent.food)
             is EntryFormIntent.RemoveFood -> removeFood(intent.food)
-            is EntryFormIntent.AddTag -> tags += intent.tag
+            is EntryFormIntent.AddTag -> tags += intent.tag // TODO: Refresh suggestions via getTagsByQuery()
             is EntryFormIntent.RemoveTag -> tags -= intent.tag
         }
     }
@@ -132,6 +132,7 @@ class EntryFormViewModel(
             note = note,
             measurements = measurements,
             foodEaten = foodEaten,
+            tags = tags,
         )
         navigateBack()
     }

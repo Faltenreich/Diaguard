@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
+import com.faltenreich.diaguard.entry.form.tag.GetEntryTagsUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
@@ -22,6 +23,7 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.tag.EntryTag
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -45,6 +47,7 @@ class EntryFormViewModel(
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
     private val getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
+    private val getEntryTags: GetEntryTagsUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent>() {
 
@@ -93,6 +96,13 @@ class EntryFormViewModel(
             getFoodEatenInputData(entry).collectLatest { foodEaten ->
                 withContext(Dispatchers.Main) {
                     this@EntryFormViewModel.foodEaten = foodEaten
+                }
+            }
+        }
+        scope.launch(Dispatchers.IO) {
+            getEntryTags(entry).collectLatest { tags ->
+                withContext(Dispatchers.Main) {
+                    this@EntryFormViewModel.tags = tags.map(EntryTag::tag)
                 }
             }
         }

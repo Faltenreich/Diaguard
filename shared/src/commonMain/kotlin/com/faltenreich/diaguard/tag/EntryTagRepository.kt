@@ -1,21 +1,21 @@
 package com.faltenreich.diaguard.tag
 
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
 class EntryTagRepository(
     private val dao: EntryTagDao,
+    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(
-        createdAt: DateTime,
-        updatedAt: DateTime,
         entryId: Long,
         tagId: Long,
     ): Long {
+        val now = dateTimeFactory.now()
         dao.create(
-            createdAt = createdAt,
-            updatedAt = updatedAt,
+            createdAt = now,
+            updatedAt = now,
             entryId = entryId,
             tagId = tagId,
         )
@@ -24,6 +24,10 @@ class EntryTagRepository(
 
     fun getLastId(): Long? {
         return dao.getLastId()
+    }
+
+    fun getByEntryId(entryId: Long): List<EntryTag> {
+        return dao.getByEntryId(entryId)
     }
 
     fun observeByEntryId(entryId: Long): Flow<List<EntryTag>> {

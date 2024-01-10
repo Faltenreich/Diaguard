@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
@@ -19,7 +20,6 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
@@ -37,24 +37,21 @@ import kotlinx.coroutines.withContext
 class EntryFormViewModel(
     entry: Entry?,
     date: Date?,
-    dateTimeFactory: DateTimeFactory = inject(),
+    getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
+    getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
+    getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
+    getTagsOfEntry: GetTagsOfEntry = inject(),
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-    getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
-    getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
-    getTagsOfEntry: GetTagsOfEntry = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent>() {
 
     private val id: Long? = entry?.id
 
-    var dateTime: DateTime by mutableStateOf(entry?.dateTime
-        ?: date?.atTime(dateTimeFactory.now().time)
-        ?: dateTimeFactory.now()
-    )
+    var dateTime: DateTime by mutableStateOf(getDateTimeForEntry(entry, date))
         private set
 
     var date: Date

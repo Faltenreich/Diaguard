@@ -8,8 +8,8 @@ import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
-import com.faltenreich.diaguard.entry.form.tag.GetEntryTagsUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
+import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
@@ -23,13 +23,11 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.tag.EntryTag
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -45,9 +43,9 @@ class EntryFormViewModel(
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-    private val getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
-    private val getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
-    private val getEntryTags: GetEntryTagsUseCase = inject(),
+    getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
+    getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
+    getTagsOfEntry: GetTagsOfEntry = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent>() {
 
@@ -93,17 +91,15 @@ class EntryFormViewModel(
             }
         }
         scope.launch(Dispatchers.IO) {
-            getFoodEatenInputData(entry).collectLatest { foodEaten ->
-                withContext(Dispatchers.Main) {
-                    this@EntryFormViewModel.foodEaten = foodEaten
-                }
+            val foodEaten = getFoodEatenInputData(entry)
+            withContext(Dispatchers.Main) {
+                this@EntryFormViewModel.foodEaten = foodEaten
             }
         }
         scope.launch(Dispatchers.IO) {
-            getEntryTags(entry).collectLatest { tags ->
-                withContext(Dispatchers.Main) {
-                    this@EntryFormViewModel.tags = tags.map(EntryTag::tag)
-                }
+            val tags = getTagsOfEntry(entry)
+            withContext(Dispatchers.Main) {
+                this@EntryFormViewModel.tags = tags
             }
         }
     }

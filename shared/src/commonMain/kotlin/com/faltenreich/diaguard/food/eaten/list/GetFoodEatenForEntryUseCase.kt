@@ -3,13 +3,15 @@ package com.faltenreich.diaguard.food.eaten.list
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 
 class GetFoodEatenForEntryUseCase(
+    private val dispatcher: CoroutineDispatcher,
     private val foodEatenRepository: FoodEatenRepository,
 ) {
 
-    operator fun invoke(entry: Entry): Flow<List<FoodEaten>> {
-        return foodEatenRepository.observeByEntryId(entry.id)
+    suspend operator fun invoke(entry: Entry): List<FoodEaten> = withContext(dispatcher) {
+        foodEatenRepository.getByEntryId(entry.id)
     }
 }

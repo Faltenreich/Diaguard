@@ -101,19 +101,27 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                         Helper.getDateFormat().print(entry.getDate()),
                         Helper.getTimeFormat().print(entry.getDate())
                     ).toLowerCase();
+                    writer.writeNext(new String[] { dateTime});
 
-                    List<String> noteAndTags = new ArrayList<>();
                     if (!StringUtils.isBlank(entry.getNote())) {
-                        noteAndTags.add(entry.getNote());
+                        writer.writeNext(new String[] {
+                            config.getContext().getString(R.string.note),
+                            entry.getNote()
+                        });
                     }
+                    List<String> tags = new ArrayList<>();
                     for (EntryTag entryTag : EntryTagDao.getInstance().getAll(entry)) {
                         Tag tag = entryTag.getTag();
                         if (tag != null) {
-                            noteAndTags.addAll(Arrays.asList(entryTag.getValuesForExport(config.getContext())));
+                            tags.addAll(Arrays.asList(entryTag.getValuesForExport(config.getContext())));
                         }
                     }
-                    String noteWithTags = StringUtils.join(noteAndTags, ", ");
-                    writer.writeNext(new String[]{ dateTime, noteWithTags });
+                    if (!tags.isEmpty()) {
+                        writer.writeNext(new String[]{
+                            config.getContext().getString(R.string.tags),
+                            StringUtils.join(tags, ", ")
+                        });
+                    }
                 }
 
                 List<Measurement> measurements = categories != null ?

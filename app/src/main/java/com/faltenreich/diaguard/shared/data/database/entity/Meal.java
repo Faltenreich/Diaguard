@@ -99,6 +99,6 @@ public class Meal extends Measurement {
         }
         float valueFormatted = PreferenceStore.getInstance().formatDefaultToCustomUnit(getCategory(), value);
         String valueForUi = FloatUtils.parseFloat(valueFormatted);
-        return ArrayUtils.addAll(new String[]{getCategory().name().toLowerCase()}, valueForUi);
+        return ArrayUtils.addAll(new String[]{context.getString(getCategory().getStringResId())}, valueForUi);
     }
 }

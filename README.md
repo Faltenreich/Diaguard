@@ -135,7 +135,7 @@ Additionally to the permissions, conditions and limitations of the GPLv3, the pe
 
 #### License
 
-    Copyright (C) 2013-2023 Philipp Fahlteich
+    Copyright (C) 2013-2024 Philipp Fahlteich
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

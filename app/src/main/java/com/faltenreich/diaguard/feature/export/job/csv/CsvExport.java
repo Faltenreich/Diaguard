@@ -109,7 +109,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                     for (EntryTag entryTag : EntryTagDao.getInstance().getAll(entry)) {
                         Tag tag = entryTag.getTag();
                         if (tag != null) {
-                            noteAndTags.addAll(Arrays.asList(entryTag.getValuesForExport()));
+                            noteAndTags.addAll(Arrays.asList(entryTag.getValuesForExport(config.getContext())));
                         }
                     }
                     String noteWithTags = StringUtils.join(noteAndTags, ", ");
@@ -122,7 +122,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 for (Measurement measurement : measurements) {
                     writer.writeNext(isBackup
                         ? ArrayUtils.add(measurement.getValuesForBackup(), 0, measurement.getKeyForBackup())
-                        : measurement.getValuesForExport()
+                        : measurement.getValuesForExport(config.getContext())
                     );
 
                     if (isBackup && measurement instanceof Meal) {

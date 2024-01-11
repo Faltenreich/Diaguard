@@ -76,8 +76,8 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
     }
 
     @Override
-    public String[] getValuesForExport() {
-        return ArrayUtils.addAll(new String[]{getCategory().name().toLowerCase()}, getValuesForUI());
+    public String[] getValuesForExport(Context context) {
+        return ArrayUtils.addAll(new String[]{context.getString(getCategory().getStringResId())}, getValuesForUI());
     }
 
     public String print(Context context) {

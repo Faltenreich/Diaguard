@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
+import android.content.Context;
+
 import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.feature.export.Exportable;
 import com.j256.ormlite.field.DatabaseField;
@@ -49,7 +51,7 @@ public class EntryTag extends BaseEntity implements Backupable, Exportable {
     }
 
     @Override
-    public String[] getValuesForExport() {
+    public String[] getValuesForExport(Context context) {
         return new String[]{tag.getName()};
     }
 }

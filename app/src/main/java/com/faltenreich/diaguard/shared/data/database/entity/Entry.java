@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
+import android.content.Context;
+
 import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.feature.export.Exportable;
 import com.faltenreich.diaguard.feature.export.job.Export;
@@ -100,7 +102,7 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
 
     @Override
     @Deprecated(message = "Avoid this method as it omits tags")
-    public String[] getValuesForExport() {
+    public String[] getValuesForExport(Context context) {
         return new String[] {
             String.format("%s %s",
                 Helper.getDateFormat().print(date),

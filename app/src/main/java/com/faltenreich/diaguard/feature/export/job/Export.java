@@ -38,43 +38,15 @@ public class Export {
 
     public static void exportPdf(PdfExportConfig config) {
         PdfExport pdfExport = new PdfExport(config);
+        config.persistInSharedPreferences();
         pdfExport.execute();
     }
 
-    public static void exportCsv(Context context, ExportCallback callback) {
-        exportCsv(context, callback, null, null, null, true);
-    }
-
-    public static void exportCsv(
-        Context context,
-        ExportCallback callback,
-        DateTime dateStart,
-        DateTime dateEnd,
-        Category[] categories
-    ) {
-        exportCsv(context, callback, dateStart, dateEnd, categories, false);
-    }
-
-    private static void exportCsv(
-        Context context,
-        ExportCallback callback,
-        DateTime dateStart,
-        DateTime dateEnd,
-        Category[] categories,
-        boolean isBackup
-    ) {
-        CsvExportConfig config = new CsvExportConfig(
-            context,
-            callback,
-            dateStart,
-            dateEnd,
-            categories,
-            isBackup
-        );
-        if (!isBackup) {
+    public static void exportCsv(CsvExportConfig config) {
+        CsvExport csvExport = new CsvExport(config);
+        if (!config.isBackup()) {
             config.persistInSharedPreferences();
         }
-        CsvExport csvExport = new CsvExport(config);
         csvExport.execute();
     }
 

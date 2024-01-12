@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.feature.export.history.ExportHistoryFragment;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
+import com.faltenreich.diaguard.feature.export.job.csv.CsvExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.feature.navigation.FabDescribing;
@@ -235,32 +236,46 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
         DateTime dateEnd = this.dateEnd != null ? this.dateEnd.withTimeAtStartOfDay() : null;
         Category[] categories = categoryListAdapter.getSelectedCategories();
 
-        PdfExportConfig config = new PdfExportConfig(
-            getContext(),
-            this,
-            dateStart,
-            dateEnd,
-            categories,
-            getStyle(),
-            getBinding().includeCalendarWeekCheckbox.isChecked(),
-            getBinding().includeGeneratedDateCheckbox.isChecked(),
-            getBinding().includePageNumberCheckbox.isChecked(),
-            getBinding().noteCheckbox.isChecked(),
-            getBinding().tagsCheckbox.isChecked(),
-            getBinding().emptyDaysCheckbox.isChecked(),
-            categoryListAdapter.exportFood(),
-            categoryListAdapter.splitInsulin(),
-            categoryListAdapter.highlightLimits()
-        );
-        config.persistInSharedPreferences();
-
         FileType type = getFormat();
         switch (type) {
             case PDF:
-                Export.exportPdf(config);
+                Export.exportPdf(
+                    new PdfExportConfig(
+                        getContext(),
+                        this,
+                        dateStart,
+                        dateEnd,
+                        categories,
+                        getStyle(),
+                        getBinding().includeCalendarWeekCheckbox.isChecked(),
+                        getBinding().includeGeneratedDateCheckbox.isChecked(),
+                        getBinding().includePageNumberCheckbox.isChecked(),
+                        getBinding().noteCheckbox.isChecked(),
+                        getBinding().tagsCheckbox.isChecked(),
+                        getBinding().emptyDaysCheckbox.isChecked(),
+                        categoryListAdapter.exportFood(),
+                        categoryListAdapter.splitInsulin(),
+                        categoryListAdapter.highlightLimits()
+                    )
+                );
                 break;
             case CSV:
-                Export.exportCsv(getContext(), this, dateStart, dateEnd, categories);
+                Export.exportCsv(
+                    new CsvExportConfig(
+                        getContext(),
+                        this,
+                        dateStart,
+                        dateEnd,
+                        categories,
+                        false,
+                        getBinding().noteCheckbox.isChecked(),
+                        getBinding().tagsCheckbox.isChecked(),
+                        getBinding().emptyDaysCheckbox.isChecked(),
+                        categoryListAdapter.exportFood(),
+                        categoryListAdapter.splitInsulin(),
+                        categoryListAdapter.highlightLimits()
+                    )
+                );
                 break;
         }
     }

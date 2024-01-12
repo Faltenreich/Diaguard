@@ -103,24 +103,26 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                     ).toLowerCase();
                     writer.writeNext(new String[] { dateTime});
 
-                    if (!StringUtils.isBlank(entry.getNote())) {
+                    if (config.exportNotes() && !StringUtils.isBlank(entry.getNote())) {
                         writer.writeNext(new String[] {
                             config.getContext().getString(R.string.note),
                             entry.getNote()
                         });
                     }
-                    List<String> tags = new ArrayList<>();
-                    for (EntryTag entryTag : EntryTagDao.getInstance().getAll(entry)) {
-                        Tag tag = entryTag.getTag();
-                        if (tag != null) {
-                            tags.addAll(Arrays.asList(entryTag.getValuesForExport(config.getContext())));
+                    if (config.exportTags()) {
+                        List<String> tags = new ArrayList<>();
+                        for (EntryTag entryTag : EntryTagDao.getInstance().getAll(entry)) {
+                            Tag tag = entryTag.getTag();
+                            if (tag != null) {
+                                tags.addAll(Arrays.asList(entryTag.getValuesForExport(config.getContext())));
+                            }
                         }
-                    }
-                    if (!tags.isEmpty()) {
-                        writer.writeNext(new String[]{
-                            config.getContext().getString(R.string.tags),
-                            StringUtils.join(tags, ", ")
-                        });
+                        if (!tags.isEmpty()) {
+                            writer.writeNext(new String[]{
+                                config.getContext().getString(R.string.tags),
+                                StringUtils.join(tags, ", ")
+                            });
+                        }
                     }
                 }
 

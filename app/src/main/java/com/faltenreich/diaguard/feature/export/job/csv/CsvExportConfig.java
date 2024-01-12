@@ -15,10 +15,6 @@ public class CsvExportConfig extends ExportConfig {
     private final boolean isBackup;
     private final boolean exportNotes;
     private final boolean exportTags;
-    private final boolean skipEmptyDays;
-    private final boolean exportFood;
-    private final boolean splitInsulin;
-    private final boolean highlightLimits;
 
     public CsvExportConfig(
         Context context,
@@ -28,20 +24,12 @@ public class CsvExportConfig extends ExportConfig {
         Category[] categories,
         boolean isBackup,
         boolean exportNotes,
-        boolean exportTags,
-        boolean skipEmptyDays,
-        boolean exportFood,
-        boolean splitInsulin,
-        boolean highlightLimits
+        boolean exportTags
     ) {
         super(context, callback, dateStart, dateEnd, categories, FileType.CSV);
         this.isBackup = isBackup;
         this.exportNotes = exportNotes;
         this.exportTags = exportTags;
-        this.skipEmptyDays = skipEmptyDays;
-        this.exportFood = exportFood;
-        this.splitInsulin = splitInsulin;
-        this.highlightLimits = highlightLimits;
     }
 
     public CsvExportConfig(
@@ -54,10 +42,6 @@ public class CsvExportConfig extends ExportConfig {
             null,
             null,
             null,
-            true,
-            true,
-            true,
-            true,
             true,
             true,
             true
@@ -76,31 +60,10 @@ public class CsvExportConfig extends ExportConfig {
         return exportTags;
     }
 
-    // TODO: Is this required?
-    public boolean skipEmptyDays() {
-        return skipEmptyDays;
-    }
-
-    public boolean exportFood() {
-        return exportFood;
-    }
-
-    public boolean splitInsulin() {
-        return splitInsulin;
-    }
-
-    public boolean highlightLimits() {
-        return highlightLimits;
-    }
-
     @Override
     public void persistInSharedPreferences() {
         super.persistInSharedPreferences();
         PreferenceStore.getInstance().setExportNotes(exportNotes);
         PreferenceStore.getInstance().setExportTags(exportTags);
-        PreferenceStore.getInstance().setSkipEmptyDays(skipEmptyDays);
-        PreferenceStore.getInstance().setExportFood(exportFood);
-        PreferenceStore.getInstance().setExportInsulinSplit(splitInsulin);
-        PreferenceStore.getInstance().setLimitsAreHighlighted(highlightLimits);
     }
 }

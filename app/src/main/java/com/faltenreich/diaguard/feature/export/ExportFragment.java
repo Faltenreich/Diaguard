@@ -196,6 +196,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private void setFormat(FileType format) {
+        // TODO: Deactivate extras for CSV
         getBinding().layoutGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
     }
 
@@ -269,11 +270,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
                         categories,
                         false,
                         getBinding().noteCheckbox.isChecked(),
-                        getBinding().tagsCheckbox.isChecked(),
-                        getBinding().emptyDaysCheckbox.isChecked(),
-                        categoryListAdapter.exportFood(),
-                        categoryListAdapter.splitInsulin(),
-                        categoryListAdapter.highlightLimits()
+                        getBinding().tagsCheckbox.isChecked()
                     )
                 );
                 break;

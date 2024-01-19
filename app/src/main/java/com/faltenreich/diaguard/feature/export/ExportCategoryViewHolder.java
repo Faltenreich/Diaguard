@@ -74,6 +74,6 @@ class ExportCategoryViewHolder extends BaseViewHolder<ListItemExportCategoryBind
         checkbox.setText(extraTitle);
         checkbox.setEnabled(getItem().isCategorySelected());
         checkbox.setChecked(getItem().isExtraSelected());
-        checkbox.setVisibility(extraTitle != null ? View.VISIBLE : View.GONE);
+        checkbox.setVisibility(getItem().isExtraVisible() && extraTitle != null ? View.VISIBLE : View.GONE);
     }
 }

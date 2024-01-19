@@ -86,11 +86,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        boolean isRecreated = categoryListAdapter.getItemCount() > 0;
         initLayout();
-        if (!isRecreated) {
-            initCategories();
-        }
     }
 
     @Override
@@ -158,34 +154,6 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
         });
     }
 
-    private void initCategories() {
-        List<ExportCategoryListItem> items = new ArrayList<>();
-        Category[] activeCategories = PreferenceStore.getInstance().getActiveCategories();
-        List<Category> selectedCategories = Arrays.asList(PreferenceStore.getInstance().getExportCategories());
-
-        for (Category category : activeCategories) {
-            boolean isCategorySelected = selectedCategories.contains(category);
-            boolean isExtraSelected;
-            switch (category) {
-                case BLOODSUGAR:
-                    isExtraSelected = PreferenceStore.getInstance().limitsAreHighlighted();
-                    break;
-                case INSULIN:
-                    isExtraSelected = PreferenceStore.getInstance().exportInsulinSplit();
-                    break;
-                case MEAL:
-                    isExtraSelected = PreferenceStore.getInstance().exportFood();
-                    break;
-                default:
-                    isExtraSelected = false;
-            }
-            items.add(new ExportCategoryListItem(category, isCategorySelected, isExtraSelected));
-        }
-
-        categoryListAdapter.addItems(items);
-        categoryListAdapter.notifyDataSetChanged();
-    }
-
     private FileType getFormat() {
         int position = getBinding().formatSpinner.getSelectedItemPosition();
         switch (position) {
@@ -196,9 +164,43 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private void setFormat(FileType format) {
-        // TODO: Deactivate extras for CSV
         getBinding().emptyDaysGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
         getBinding().layoutGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        setCategories(format);
+    }
+
+    private void setCategories(FileType format) {
+        List<ExportCategoryListItem> items = new ArrayList<>();
+        Category[] activeCategories = PreferenceStore.getInstance().getActiveCategories();
+        List<Category> selectedCategories = Arrays.asList(PreferenceStore.getInstance().getExportCategories());
+
+        for (Category category : activeCategories) {
+            boolean isCategorySelected = selectedCategories.contains(category);
+            boolean isExtraSelected;
+            boolean isExtraVisible;
+            switch (category) {
+                case BLOODSUGAR:
+                    isExtraSelected = PreferenceStore.getInstance().limitsAreHighlighted();
+                    isExtraVisible = format == FileType.PDF;
+                    break;
+                case INSULIN:
+                    isExtraSelected = PreferenceStore.getInstance().exportInsulinSplit();
+                    isExtraVisible = format == FileType.PDF;
+                    break;
+                case MEAL:
+                    isExtraSelected = PreferenceStore.getInstance().exportFood();
+                    isExtraVisible = format == FileType.PDF;
+                    break;
+                default:
+                    isExtraSelected = false;
+                    isExtraVisible = true;
+            }
+            items.add(new ExportCategoryListItem(category, isCategorySelected, isExtraSelected, isExtraVisible));
+        }
+
+        categoryListAdapter.clear();
+        categoryListAdapter.addItems(items);
+        categoryListAdapter.notifyDataSetChanged();
     }
 
     private PdfExportStyle getStyle() {

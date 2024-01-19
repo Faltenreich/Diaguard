@@ -197,6 +197,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
 
     private void setFormat(FileType format) {
         // TODO: Deactivate extras for CSV
+        getBinding().emptyDaysGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
         getBinding().layoutGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
     }
 

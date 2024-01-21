@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -90,13 +92,13 @@ public class Meal extends Measurement {
     }
 
     @Override
-    public String[] getValuesForExport() {
+    public String[] getValuesForExport(Context context) {
         float value = carbohydrates;
         for (FoodEaten foodEaten : getFoodEaten()) {
             value += foodEaten.getCarbohydrates();
         }
         float valueFormatted = PreferenceStore.getInstance().formatDefaultToCustomUnit(getCategory(), value);
         String valueForUi = FloatUtils.parseFloat(valueFormatted);
-        return ArrayUtils.addAll(new String[]{getCategory().name().toLowerCase()}, valueForUi);
+        return ArrayUtils.addAll(new String[]{context.getString(getCategory().getStringResId())}, valueForUi);
     }
 }

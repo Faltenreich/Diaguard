@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.DatabaseHelper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
@@ -24,11 +25,14 @@ import com.opencsv.CSVWriterBuilder;
 import com.opencsv.ICSVWriter;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -90,10 +94,37 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                     entries.size())
                 );
 
-                writer.writeNext(isBackup
-                    ? ArrayUtils.add(entry.getValuesForBackup(), 0, entry.getKeyForBackup())
-                    : entry.getValuesForExport()
-                );
+                if (isBackup) {
+                    writer.writeNext(ArrayUtils.add(entry.getValuesForBackup(), 0, entry.getKeyForBackup()));
+                } else {
+                    String dateTime = String.format("%s %s",
+                        Helper.getDateFormat().print(entry.getDate()),
+                        Helper.getTimeFormat().print(entry.getDate())
+                    ).toLowerCase();
+                    writer.writeNext(new String[] { dateTime});
+
+                    if (config.exportNotes() && !StringUtils.isBlank(entry.getNote())) {
+                        writer.writeNext(new String[] {
+                            config.getContext().getString(R.string.note),
+                            entry.getNote()
+                        });
+                    }
+                    if (config.exportTags()) {
+                        List<String> tags = new ArrayList<>();
+                        for (EntryTag entryTag : EntryTagDao.getInstance().getAll(entry)) {
+                            Tag tag = entryTag.getTag();
+                            if (tag != null) {
+                                tags.addAll(Arrays.asList(entryTag.getValuesForExport(config.getContext())));
+                            }
+                        }
+                        if (!tags.isEmpty()) {
+                            writer.writeNext(new String[]{
+                                config.getContext().getString(R.string.tags),
+                                StringUtils.join(tags, ", ")
+                            });
+                        }
+                    }
+                }
 
                 List<Measurement> measurements = categories != null ?
                     EntryDao.getInstance().getMeasurements(entry, categories) :
@@ -101,7 +132,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 for (Measurement measurement : measurements) {
                     writer.writeNext(isBackup
                         ? ArrayUtils.add(measurement.getValuesForBackup(), 0, measurement.getKeyForBackup())
-                        : measurement.getValuesForExport()
+                        : measurement.getValuesForExport(config.getContext())
                     );
 
                     if (isBackup && measurement instanceof Meal) {

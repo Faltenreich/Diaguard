@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.feature.export.history.ExportHistoryFragment;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
+import com.faltenreich.diaguard.feature.export.job.csv.CsvExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.feature.navigation.FabDescribing;
@@ -85,11 +86,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        boolean isRecreated = categoryListAdapter.getItemCount() > 0;
         initLayout();
-        if (!isRecreated) {
-            initCategories();
-        }
     }
 
     @Override
@@ -157,34 +154,6 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
         });
     }
 
-    private void initCategories() {
-        List<ExportCategoryListItem> items = new ArrayList<>();
-        Category[] activeCategories = PreferenceStore.getInstance().getActiveCategories();
-        List<Category> selectedCategories = Arrays.asList(PreferenceStore.getInstance().getExportCategories());
-
-        for (Category category : activeCategories) {
-            boolean isCategorySelected = selectedCategories.contains(category);
-            boolean isExtraSelected;
-            switch (category) {
-                case BLOODSUGAR:
-                    isExtraSelected = PreferenceStore.getInstance().limitsAreHighlighted();
-                    break;
-                case INSULIN:
-                    isExtraSelected = PreferenceStore.getInstance().exportInsulinSplit();
-                    break;
-                case MEAL:
-                    isExtraSelected = PreferenceStore.getInstance().exportFood();
-                    break;
-                default:
-                    isExtraSelected = false;
-            }
-            items.add(new ExportCategoryListItem(category, isCategorySelected, isExtraSelected));
-        }
-
-        categoryListAdapter.addItems(items);
-        categoryListAdapter.notifyDataSetChanged();
-    }
-
     private FileType getFormat() {
         int position = getBinding().formatSpinner.getSelectedItemPosition();
         switch (position) {
@@ -195,7 +164,43 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private void setFormat(FileType format) {
+        getBinding().emptyDaysGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
         getBinding().layoutGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        setCategories(format);
+    }
+
+    private void setCategories(FileType format) {
+        List<ExportCategoryListItem> items = new ArrayList<>();
+        Category[] activeCategories = PreferenceStore.getInstance().getActiveCategories();
+        List<Category> selectedCategories = Arrays.asList(PreferenceStore.getInstance().getExportCategories());
+
+        for (Category category : activeCategories) {
+            boolean isCategorySelected = selectedCategories.contains(category);
+            boolean isExtraSelected;
+            boolean isExtraVisible;
+            switch (category) {
+                case BLOODSUGAR:
+                    isExtraSelected = PreferenceStore.getInstance().limitsAreHighlighted();
+                    isExtraVisible = format == FileType.PDF;
+                    break;
+                case INSULIN:
+                    isExtraSelected = PreferenceStore.getInstance().exportInsulinSplit();
+                    isExtraVisible = format == FileType.PDF;
+                    break;
+                case MEAL:
+                    isExtraSelected = PreferenceStore.getInstance().exportFood();
+                    isExtraVisible = format == FileType.PDF;
+                    break;
+                default:
+                    isExtraSelected = false;
+                    isExtraVisible = true;
+            }
+            items.add(new ExportCategoryListItem(category, isCategorySelected, isExtraSelected, isExtraVisible));
+        }
+
+        categoryListAdapter.clear();
+        categoryListAdapter.addItems(items);
+        categoryListAdapter.notifyDataSetChanged();
     }
 
     private PdfExportStyle getStyle() {
@@ -235,32 +240,42 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
         DateTime dateEnd = this.dateEnd != null ? this.dateEnd.withTimeAtStartOfDay() : null;
         Category[] categories = categoryListAdapter.getSelectedCategories();
 
-        PdfExportConfig config = new PdfExportConfig(
-            getContext(),
-            this,
-            dateStart,
-            dateEnd,
-            categories,
-            getStyle(),
-            getBinding().includeCalendarWeekCheckbox.isChecked(),
-            getBinding().includeGeneratedDateCheckbox.isChecked(),
-            getBinding().includePageNumberCheckbox.isChecked(),
-            getBinding().noteCheckbox.isChecked(),
-            getBinding().tagsCheckbox.isChecked(),
-            getBinding().emptyDaysCheckbox.isChecked(),
-            categoryListAdapter.exportFood(),
-            categoryListAdapter.splitInsulin(),
-            categoryListAdapter.highlightLimits()
-        );
-        config.persistInSharedPreferences();
-
         FileType type = getFormat();
         switch (type) {
             case PDF:
-                Export.exportPdf(config);
+                Export.exportPdf(
+                    new PdfExportConfig(
+                        getContext(),
+                        this,
+                        dateStart,
+                        dateEnd,
+                        categories,
+                        getStyle(),
+                        getBinding().includeCalendarWeekCheckbox.isChecked(),
+                        getBinding().includeGeneratedDateCheckbox.isChecked(),
+                        getBinding().includePageNumberCheckbox.isChecked(),
+                        getBinding().noteCheckbox.isChecked(),
+                        getBinding().tagsCheckbox.isChecked(),
+                        getBinding().emptyDaysCheckbox.isChecked(),
+                        categoryListAdapter.exportFood(),
+                        categoryListAdapter.splitInsulin(),
+                        categoryListAdapter.highlightLimits()
+                    )
+                );
                 break;
             case CSV:
-                Export.exportCsv(getContext(), this, dateStart, dateEnd, categories);
+                Export.exportCsv(
+                    new CsvExportConfig(
+                        getContext(),
+                        this,
+                        dateStart,
+                        dateEnd,
+                        categories,
+                        false,
+                        getBinding().noteCheckbox.isChecked(),
+                        getBinding().tagsCheckbox.isChecked()
+                    )
+                );
                 break;
         }
     }

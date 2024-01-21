@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.ImportCallback;
+import com.faltenreich.diaguard.feature.export.job.csv.CsvExportConfig;
 import com.faltenreich.diaguard.shared.data.file.FileUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.BackupImportedEvent;
@@ -45,7 +46,7 @@ public class Backup {
                 ViewUtils.showToast(contextReference.get(), message);
             }
         };
-        Export.exportCsv(context, callback);
+        Export.exportCsv(new CsvExportConfig(context, callback));
     }
 
     public void searchBackups(Activity activity) {

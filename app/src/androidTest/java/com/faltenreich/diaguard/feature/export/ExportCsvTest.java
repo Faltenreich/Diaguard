@@ -27,44 +27,44 @@ public class ExportCsvTest {
     }
 
     @Test
-    public void selectingPDF_shouldHideStyleSpinner() {
+    public void selectingCSV_shouldHideStyleSpinner() {
         Espresso.onView(ViewMatchers.withId(R.id.style_spinner))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 
     @Test
-    public void selectingPDF_shouldHideCalendarWeekCheckBox() {
+    public void selectingCSV_shouldHideCalendarWeekCheckBox() {
         Espresso.onView(ViewMatchers.withId(R.id.include_calendar_week_checkbox))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 
     @Test
-    public void selectingPDF_shouldHideGeneratedDateCheckBox() {
+    public void selectingCSV_shouldHideGeneratedDateCheckBox() {
         Espresso.onView(ViewMatchers.withId(R.id.include_generated_date_checkbox))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 
     @Test
-    public void selectingPDF_shouldHidePageNumberCheckBox() {
+    public void selectingCSV_shouldHidePageNumberCheckBox() {
         Espresso.onView(ViewMatchers.withId(R.id.include_page_number_checkbox))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 
     @Test
-    public void selectingPDF_shouldShowNoteCheckbox() {
+    public void selectingCSV_shouldShowNoteCheckbox() {
         Espresso.onView(ViewMatchers.withId(R.id.note_checkbox))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     @Test
-    public void selectingPDF_shouldShowTagsCheckbox() {
+    public void selectingCSV_shouldShowTagsCheckbox() {
         Espresso.onView(ViewMatchers.withId(R.id.tags_checkbox))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     @Test
-    public void selectingPDF_shouldShowEmptyDaysCheckbox() {
+    public void selectingCSV_shouldHideEmptyDaysCheckbox() {
         Espresso.onView(ViewMatchers.withId(R.id.empty_days_checkbox))
-            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 }

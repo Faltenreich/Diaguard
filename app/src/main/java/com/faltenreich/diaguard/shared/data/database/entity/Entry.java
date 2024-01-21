@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
+import android.content.Context;
+
 import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.feature.export.Exportable;
 import com.faltenreich.diaguard.feature.export.job.Export;
@@ -14,6 +16,8 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kotlin.Deprecated;
 
 @DatabaseTable
 public class Entry extends BaseEntity implements Backupable, Exportable {
@@ -90,11 +94,15 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
 
     @Override
     public String[] getValuesForBackup() {
-        return new String[]{DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).print(date), note};
+        return new String[]{
+            DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).print(date),
+            note
+        };
     }
 
     @Override
-    public String[] getValuesForExport() {
+    @Deprecated(message = "Avoid this method as it omits tags")
+    public String[] getValuesForExport(Context context) {
         return new String[] {
             String.format("%s %s",
                 Helper.getDateFormat().print(date),

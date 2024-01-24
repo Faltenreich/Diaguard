@@ -54,7 +54,7 @@ public class EntryDao extends BaseDao<Entry> {
     @Override
     public int delete(Entry entry) {
         for (Measurement measurement : getMeasurements(entry)) {
-            entry.getMeasurementCache().add(measurement);
+            //noinspection unchecked
             MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
         }
         EntryTagDao.getInstance().delete(EntryTagDao.getInstance().getAll(entry));

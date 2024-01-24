@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFoodNutrientListBinding;
+import com.faltenreich.diaguard.feature.food.FoodUtils;
 import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
-import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
@@ -84,6 +84,9 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
     }
 
     private void invalidateLayout() {
+        if (getContext() == null) {
+            return;
+        }
         listAdapter.clear();
 
         for (Food.Nutrient nutrient : Food.Nutrient.values()) {
@@ -97,7 +100,7 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
                     getContext().getString(nutrient.getUnitResId()));
                 if (nutrient == Food.Nutrient.ENERGY) {
                     value = String.format("%s %s (%s)",
-                        FloatUtils.parseFloat(Helper.parseKcalToKj(number)),
+                        FloatUtils.parseFloat(FoodUtils.parseKcalToKj(number)),
                         getContext().getString(R.string.energy_acronym_2),
                         value);
                 }

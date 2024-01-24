@@ -7,8 +7,11 @@ public class NutrientsDto {
     @SerializedName("carbohydrates_100g")
     public Float carbohydrates;
 
-    @SerializedName("energy_100g")
-    public Float energy;
+    @SerializedName("energy-kcal_100g")
+    public Float energyInKcal;
+
+    @SerializedName("energy-kj_100g")
+    public Float energyInKj;
 
     @SerializedName("fat_100g")
     public Float fat;

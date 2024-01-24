@@ -117,7 +117,7 @@ public class Food extends BaseServerEntity implements Backupable {
     private Float carbohydrates;
 
     @DatabaseField(columnName = Column.ENERGY, defaultValue = "-1")
-    private Float energy;
+    private Float energy; // in kcal
 
     @DatabaseField(columnName = Column.FAT, defaultValue = "-1")
     private Float fat;
@@ -276,16 +276,6 @@ public class Food extends BaseServerEntity implements Backupable {
 
     public boolean isBrandedFood() {
         return getServerId() != null;
-    }
-
-    public FoodType getFoodType(Context context) {
-        if (isBrandedFood()) {
-            return FoodType.BRANDED;
-        } else if (isCommonFood(context)) {
-            return FoodType.COMMON;
-        } else {
-            return FoodType.CUSTOM;
-        }
     }
 
     public String getValueForUi() {

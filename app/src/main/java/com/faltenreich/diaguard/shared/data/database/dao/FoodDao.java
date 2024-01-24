@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
+import com.faltenreich.diaguard.feature.food.FoodUtils;
 import com.faltenreich.diaguard.feature.food.networking.dto.ProductDto;
 import com.faltenreich.diaguard.feature.food.networking.dto.SearchResponseDto;
 import com.faltenreich.diaguard.shared.Helper;
@@ -213,6 +214,15 @@ public class FoodDao extends BaseServerDao<Food> {
             food = new Food();
         }
 
+        Float energy;
+        if (dto.nutrients.energyInKcal != null) {
+            energy = dto.nutrients.energyInKcal;
+        } else if (dto.nutrients.energyInKj != null) {
+            energy = FoodUtils.parseKjToKcal(dto.nutrients.energyInKj);
+        } else {
+            energy = null;
+        }
+
         if (isNew || needsUpdate(food, dto)) {
             food.setServerId(serverId);
             food.setName(dto.name);
@@ -220,7 +230,7 @@ public class FoodDao extends BaseServerDao<Food> {
             food.setIngredients(dto.ingredients != null ? dto.ingredients.replaceAll("_", "") : null);
             food.setLabels(dto.labels);
             food.setCarbohydrates(dto.nutrients.carbohydrates);
-            food.setEnergy(dto.nutrients.energy);
+            food.setEnergy(energy);
             food.setFat(dto.nutrients.fat);
             food.setFatSaturated(dto.nutrients.fatSaturated);
             food.setFiber(dto.nutrients.fiber);

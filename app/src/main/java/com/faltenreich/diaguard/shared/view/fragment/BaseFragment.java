@@ -27,6 +27,7 @@ import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
+import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
@@ -158,6 +159,11 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
             EntryDao.getInstance().createOrUpdate(entry);
             for (Measurement measurement : entry.getMeasurementCache()) {
                 measurement.setEntry(entry);
+                if (measurement instanceof Meal) {
+                    Meal meal = (Meal) measurement;
+                    meal.getFoodEatenCache().clear();
+                    meal.getFoodEatenCache().addAll(event.foodEatenList);
+                }
                 //noinspection unchecked
                 MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
             }

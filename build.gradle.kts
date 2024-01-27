@@ -27,7 +27,7 @@ allprojects {
 
     tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
         exclude {
-            it.file.relativeTo(projectDir).startsWith(project.buildDir.relativeTo(projectDir))
+            it.file.relativeTo(projectDir).startsWith(project.layout.buildDirectory.asFile.get().relativeTo(projectDir))
         }
         reports {
             html.required.set(true)
@@ -37,5 +37,5 @@ allprojects {
 }
 
 tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+    delete(rootProject.layout.buildDirectory)
 }

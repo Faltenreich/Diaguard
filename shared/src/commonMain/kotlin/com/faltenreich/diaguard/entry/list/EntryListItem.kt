@@ -21,10 +21,14 @@ import com.faltenreich.diaguard.tag.EntryTag
 @Composable
 fun EntryListItem(
     entry: Entry,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
-    Card(modifier = modifier) {
+    Card(
+        onClick = onClick,
+        modifier = modifier,
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

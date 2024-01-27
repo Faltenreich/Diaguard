@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.MR.strings.entry
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
@@ -94,7 +95,7 @@ fun Log(
                         ) {
                             LogEntry(
                                 entry = item.entry,
-                                onIntent = viewModel::dispatchIntent,
+                                onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
                                 modifier = Modifier.padding(start = dayHeaderWidthDp),
                             )
                         }

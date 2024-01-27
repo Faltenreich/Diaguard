@@ -41,7 +41,10 @@ fun TagDetail(
             items = state?.entryTags ?: emptyList(),
             key = EntryTag::id,
         ) { entryTag ->
-            EntryListItem(entry = entryTag.entry)
+            EntryListItem(
+                entry = entryTag.entry,
+                onClick = { viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entryTag.entry)) },
+            )
             Divider()
         }
     }

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.entry.form
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
@@ -75,7 +77,8 @@ fun EntryForm(
                             contentDescription = getString(MR.strings.tag_remove_description, tag.name),
                             modifier = Modifier.size(InputChipDefaults.AvatarSize),
                         )
-                    }
+                    },
+                    modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_3),
                 )
             }
         }

@@ -19,7 +19,7 @@ public class DateTimeUtils {
         Espresso.onView(ViewMatchers.withTagValue((Matchers.is("TOGGLE_BUTTON_TAG"))))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.mtrl_picker_text_input_date))
-            .perform(TextInputLayoutActions.replaceText(DateTimeFormat.forPattern("M/d/yy").print(date)));
+            .perform(TextInputLayoutActions.replaceText(DateTimeFormat.shortDate().print(date)));
         Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.confirm_button))
             .perform(ViewActions.click());
     }
@@ -28,9 +28,9 @@ public class DateTimeUtils {
         Espresso.onView(ViewMatchers.withTagValue((Matchers.is("TOGGLE_BUTTON_TAG"))))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.mtrl_picker_text_input_range_start))
-            .perform(TextInputLayoutActions.replaceText(DateTimeFormat.forPattern("M/d/yy").print(start)));
+            .perform(TextInputLayoutActions.replaceText(DateTimeFormat.shortDate().print(start)));
         Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.mtrl_picker_text_input_range_end))
-            .perform(TextInputLayoutActions.replaceText(DateTimeFormat.forPattern("M/d/yy").print(end)));
+            .perform(TextInputLayoutActions.replaceText(DateTimeFormat.shortDate().print(end)));
         Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.confirm_button))
             .perform(ViewActions.click());
     }

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.shared;
 
 import android.content.Context;
-import android.graphics.Color;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -61,13 +60,6 @@ public class Helper {
         return textAgo.replace("[value]", Integer.toString(differenceInMinutes));
     }
 
-    public static int colorBrighten(int color, float percent) {
-        int r = Color.red(color);
-        int g = Color.green(color);
-        int b = Color.blue(color);
-        return Color.rgb((int) (r * percent), (int) (g * percent), (int) (b * percent));
-    }
-
     public static <T extends Enum<?>> T valueOf(Class<T> enumeration, String search) {
         if (enumeration != null && enumeration.getEnumConstants() != null) {
             for (T each : enumeration.getEnumConstants()) {
@@ -81,9 +73,5 @@ public class Helper {
 
     public static float calculateHbA1c(float avgMgDl) {
         return 0.031f * avgMgDl + 2.393f;
-    }
-
-    public static float parseKcalToKj(float kcal) {
-        return kcal * 4.184f;
     }
 }

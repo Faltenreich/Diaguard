@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +19,8 @@ import kotlin.time.Duration.Companion.seconds
 class EntrySearchViewModel(
     query: String = "",
     searchEntries: SearchEntriesUseCase = inject(),
-) : ViewModel<EntrySearchViewState, Unit>() {
+    private val navigateToScreen: NavigateToScreenUseCase = inject(),
+) : ViewModel<EntrySearchViewState, EntrySearchIntent>() {
 
     override val state = MutableStateFlow<EntrySearchViewState>(EntrySearchViewState.Idle)
 
@@ -41,5 +44,9 @@ class EntrySearchViewModel(
         }
     }
 
-    override fun onIntent(intent: Unit) = Unit
+    override fun onIntent(intent: EntrySearchIntent) {
+        when (intent) {
+            is EntrySearchIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))
+        }
+    }
 }

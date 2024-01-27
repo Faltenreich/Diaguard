@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -83,22 +83,21 @@ fun Log(
                         val item = items.get(index) as? LogItem.EntryContent
                         checkNotNull(item)
                         // TODO: Animate item replacement
-                        SwipeToDismiss(
+                        SwipeToDismissBox(
                             state = rememberSwipeToDismissBoxState(
                                 confirmValueChange = {
                                     viewModel.dispatchIntent(LogIntent.Remove(item))
                                     true
                                 }
                             ),
-                            background = { Box(modifier = Modifier.fillMaxSize()) },
-                            dismissContent = {
-                                LogEntry(
-                                    entry = item.entry,
-                                    onIntent = viewModel::dispatchIntent,
-                                    modifier = Modifier.padding(start = dayHeaderWidthDp),
-                                )
-                            },
-                        )
+                            backgroundContent = { Box(modifier = Modifier.fillMaxSize()) },
+                        ) {
+                            LogEntry(
+                                entry = item.entry,
+                                onIntent = viewModel::dispatchIntent,
+                                modifier = Modifier.padding(start = dayHeaderWidthDp),
+                            )
+                        }
                     }
                     is LogItem.EmptyContent -> item(key = peek.key) {
                         val item = items.get(index)

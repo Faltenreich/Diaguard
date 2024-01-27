@@ -13,6 +13,8 @@ interface TagDao {
 
     fun getLastId(): Long?
 
+    fun getById(id: Long): Tag?
+
     fun observeAll(): Flow<List<Tag>>
 
     fun observeByQuery(query: String): Flow<List<Tag>>

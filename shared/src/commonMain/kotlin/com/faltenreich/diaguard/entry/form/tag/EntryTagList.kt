@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.tag.Tag
 fun EntryTagList(
     tags: List<Tag>,
     onTagClick: (Tag) -> Unit,
+    trailingIcon: @Composable (Tag) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     FlowRow(
@@ -22,6 +23,7 @@ fun EntryTagList(
             EntryTagItem(
                 tag = tag,
                 onClick = onTagClick,
+                trailingIcon = trailingIcon,
             )
         }
     }

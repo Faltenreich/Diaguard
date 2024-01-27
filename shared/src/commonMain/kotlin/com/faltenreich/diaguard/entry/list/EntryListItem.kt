@@ -12,9 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.tag.EntryTag
 
 @Composable
 fun EntryListItem(
@@ -39,6 +41,10 @@ fun EntryListItem(
                     Text(value.value.toString())
                 }
             }
+            EntryTagList(
+                tags = entry.entryTags.map(EntryTag::tag),
+                onTagClick = { tag -> },
+            )
         }
     }
 }

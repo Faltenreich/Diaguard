@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.tag
 
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
 class EntryTagRepository(
@@ -44,5 +46,16 @@ class EntryTagRepository(
 
     fun deleteById(id: Long) {
         dao.deleteById(id)
+    }
+}
+
+fun List<EntryTag>.deep(
+    entry: Entry,
+    tagRepository: TagRepository = inject(),
+): List<EntryTag> {
+    return map { entryTag ->
+        entryTag.entry = entry
+        entryTag.tag = checkNotNull(tagRepository.getById(entryTag.tagId))
+        entryTag
     }
 }

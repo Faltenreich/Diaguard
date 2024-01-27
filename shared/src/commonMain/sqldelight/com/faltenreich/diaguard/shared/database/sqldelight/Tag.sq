@@ -12,6 +12,9 @@ VALUES (?, ?, ?);
 getLastId:
 SELECT last_insert_rowid();
 
+getById:
+SELECT * FROM tag WHERE id = ?;
+
 getAll:
 SELECT * FROM tag ORDER BY name COLLATE NOCASE ASC;
 

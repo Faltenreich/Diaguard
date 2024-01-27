@@ -5,6 +5,8 @@ import com.faltenreich.diaguard.measurement.value.deep
 import com.faltenreich.diaguard.shared.datetime.DateTime
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.tag.EntryTagRepository
+import com.faltenreich.diaguard.tag.deep
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -103,16 +105,19 @@ fun Flow<List<Entry>>.deep(
                 entry.values = values
                 entry
             }
+            // TODO: Append entryTags
         }
     }
 }
 
 fun List<Entry>.deep(
     valueRepository: MeasurementValueRepository = inject(),
+    entryTagRepository: EntryTagRepository = inject(),
 ): List<Entry> {
     return map { entry ->
         entry.apply {
             values = valueRepository.getByEntryId(entry.id).deep(entry = entry)
+            entryTags = entryTagRepository.getByEntryId(entry.id).deep(entry = entry)
         }
     }
 }

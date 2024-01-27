@@ -2,10 +2,12 @@ package com.faltenreich.diaguard.entry.form
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
+import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -67,6 +69,13 @@ fun EntryForm(
                 EntryTagList(
                     tags = viewModel.tags,
                     onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
+                    trailingIcon = { tag ->
+                        ResourceIcon(
+                            imageResource = MR.images.ic_clear,
+                            contentDescription = getString(MR.strings.tag_remove_description, tag.name),
+                            modifier = Modifier.size(InputChipDefaults.AvatarSize),
+                        )
+                    }
                 )
             }
         }

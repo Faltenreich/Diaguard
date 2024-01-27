@@ -37,6 +37,10 @@ class TagSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
+    override fun getById(id: Long): Tag? {
+        return queries.getById(id, mapper::map).executeAsOneOrNull()
+    }
+
     override fun observeAll(): Flow<List<Tag>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }

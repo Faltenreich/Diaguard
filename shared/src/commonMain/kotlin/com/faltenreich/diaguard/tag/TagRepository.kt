@@ -20,6 +20,10 @@ class TagRepository(
         return checkNotNull(dao.getLastId())
     }
 
+    fun getById(id: Long): Tag? {
+        return dao.getById(id)
+    }
+
     fun observeAll(): Flow<List<Tag>> {
         return dao.observeAll()
     }

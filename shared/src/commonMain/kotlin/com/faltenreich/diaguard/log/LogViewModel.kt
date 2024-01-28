@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.shared.datetime.GetTodayUseCase
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.cachedIn
 import kotlinx.coroutines.flow.Flow
@@ -18,12 +18,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class LogViewModel(
     date: Date?,
-    dateTimeFactory: DateTimeFactory = inject(),
+    getToday: GetTodayUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel<PagingData<LogItem>, LogIntent>() {
 
-    private val initialDate: Date = date ?: dateTimeFactory.today()
+    private val initialDate: Date = date ?: getToday()
     private lateinit var dataSource: PagingSource<Date, LogItem>
     val currentDate = MutableStateFlow(initialDate)
     

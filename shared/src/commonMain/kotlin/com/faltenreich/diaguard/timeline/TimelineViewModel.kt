@@ -11,8 +11,8 @@ import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.DateUnit
+import com.faltenreich.diaguard.shared.datetime.GetTodayUseCase
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,13 +23,13 @@ import kotlinx.coroutines.flow.map
 
 class TimelineViewModel(
     date: Date?,
-    dateTimeFactory: DateTimeFactory = inject(),
     entryRepository: EntryRepository = inject(),
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
+    getToday: GetTodayUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<TimelineViewState, TimelineIntent>() {
 
-    private val initialDate = date ?: dateTimeFactory.today()
+    private val initialDate = date ?: getToday()
     private val currentDate = MutableStateFlow(initialDate)
     private val entries: Flow<List<Entry>> = currentDate.flatMapLatest { date ->
         entryRepository.observeByDateRange(

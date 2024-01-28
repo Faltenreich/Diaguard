@@ -6,23 +6,24 @@ import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.property.list.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.shared.architecture.FormViewModel
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DateUnit
+import com.faltenreich.diaguard.shared.datetime.GetTodayUseCase
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ExportFormViewModel(
+    getToday: GetTodayUseCase = inject(),
     getMeasurementProperties: GetMeasurementPropertiesUseCase,
     private val export: ExportUseCase,
-    dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val localization: Localization,
 ) : FormViewModel<ExportFormIntent>() {
 
-    private val initialDateRange = dateTimeFactory.today().let { today ->
+    private val initialDateRange = getToday().let { today ->
         today.minus(1, DateUnit.WEEK) .. today
     }
     var dateRange by mutableStateOf(initialDateRange)

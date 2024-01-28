@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR.strings.entry
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
@@ -50,6 +49,7 @@ fun Log(
             .collect { firstVisibleItemIndex ->
                 // FIXME: Called when empty
                 if (items.itemCount > 0) {
+                    // FIXME: Returns item hidden by the month header
                     items.get(firstVisibleItemIndex)?.date?.let { firstVisibleDate ->
                         viewModel.currentDate.value = firstVisibleDate
                     }
@@ -121,6 +121,7 @@ fun Log(
             }
         }
         return
+
         // TODO: Move behind LazyColumn if complete
         LogDay(
             date = viewModel.currentDate.value,

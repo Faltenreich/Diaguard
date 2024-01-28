@@ -12,6 +12,7 @@ fun dateTimeModule() = module {
     single<DateTimeFactory> { KotlinxDateTimeFactory() }
     singleOf(::DateTimeFormatter)
     singleOf(::FormatDateTimeUseCase)
+    singleOf(::GetTodayUseCase)
 }
 
 inline operator fun <reified T> ParametersHolder.component6(): T = elementAt(5, T::class)

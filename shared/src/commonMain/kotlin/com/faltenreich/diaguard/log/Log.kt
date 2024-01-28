@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -70,27 +68,16 @@ fun Log(
                     is LogItem.EntryContent -> item(key = peek.key) {
                         val item = items.get(index) as? LogItem.EntryContent
                         checkNotNull(item)
-                        // TODO: Animate item replacement
-                        SwipeToDismissBox(
-                            state = rememberSwipeToDismissBoxState(
-                                confirmValueChange = {
-                                    viewModel.dispatchIntent(LogIntent.Remove(item))
-                                    true
-                                }
-                            ),
-                            backgroundContent = { Box(modifier = Modifier.fillMaxSize()) },
-                        ) {
-                            LogEntry(
-                                item = item,
-                                onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        horizontal = AppTheme.dimensions.padding.P_3,
-                                        vertical = AppTheme.dimensions.padding.P_2,
-                                    ),
-                            )
-                        }
+                        LogEntry(
+                            item = item,
+                            onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    horizontal = AppTheme.dimensions.padding.P_3,
+                                    vertical = AppTheme.dimensions.padding.P_2,
+                                ),
+                        )
                     }
                     is LogItem.EmptyContent -> item(key = peek.key) {
                         val item = items.get(index) as? LogItem.EmptyContent

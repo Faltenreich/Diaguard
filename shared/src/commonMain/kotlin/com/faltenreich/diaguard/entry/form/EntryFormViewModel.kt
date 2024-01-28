@@ -132,7 +132,7 @@ class EntryFormViewModel(
         createEntry(
             id = id,
             dateTime = dateTime,
-            note = note,
+            note = note.takeIf(String::isNotBlank),
             measurements = measurements,
             foodEaten = foodEaten,
             tags = tags,

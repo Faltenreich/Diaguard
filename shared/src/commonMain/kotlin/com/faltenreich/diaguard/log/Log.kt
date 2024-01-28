@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -20,11 +19,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.log.item.LogDay
-import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItem
@@ -39,10 +34,10 @@ fun Log(
     modifier: Modifier = Modifier,
     viewModel: LogViewModel = inject(),
 ) {
-    val density = LocalDensity.current
     // FIXME: Gets not updated on entry change
     val items = viewModel.state.collectAsPaginationItems()
     val listState = rememberLazyListState()
+    var monthHeaderHeightPx by remember { mutableStateOf(0) }
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
@@ -50,15 +45,13 @@ fun Log(
             .collect { firstVisibleItemIndex ->
                 // FIXME: Called when empty
                 if (items.itemCount > 0) {
-                    // FIXME: Returns item hidden by the month header
+                    // FIXME: Use monthHeaderHeightPx to return first item that is not hidden by the month header
                     items.get(firstVisibleItemIndex)?.date?.let { firstVisibleDate ->
                         viewModel.currentDate.value = firstVisibleDate
                     }
                 }
             }
     }
-
-    var monthHeaderHeightPx by remember { mutableStateOf(0) }
 
     Box {
         LazyColumn(
@@ -118,22 +111,5 @@ fun Log(
                 }
             }
         }
-        return
-
-        // TODO: Move behind LazyColumn if complete
-        LogDay(
-            date = viewModel.currentDate.value,
-            style = LogDayStyle.NORMAL,
-            modifier = Modifier
-                .offset {
-                    // FIXME: Calculate correct offset
-                    val firstVisibleDay = listState.layoutInfo.visibleItemsInfo.firstOrNull {
-                        (it.key as? String)?.startsWith("Day") == true
-                    }
-                    val firstVisibleDayOffset = firstVisibleDay?.offset ?: 0
-                    val offsetY = monthHeaderHeightPx - firstVisibleDayOffset
-                    IntOffset(0, offsetY)
-                }
-        )
     }
 }

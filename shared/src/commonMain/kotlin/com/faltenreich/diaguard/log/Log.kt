@@ -43,13 +43,11 @@ fun Log(
     }
 
     LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemIndex }
+        snapshotFlow { listState.layoutInfo.visibleItemsInfo.firstOrNull { it.offset >= monthHeaderHeightPx } }
             .distinctUntilChanged()
-            .collect { firstVisibleItemIndex ->
-                // FIXME: Called when empty
-                if (items.itemCount > 0) {
-                    // FIXME: Use monthHeaderHeightPx to return first item that is not hidden by the month header
-                    items.get(firstVisibleItemIndex)?.date?.let { firstVisibleDate ->
+            .collect { firstVisibleItem ->
+                if (firstVisibleItem != null) {
+                    items.get(firstVisibleItem.index)?.date?.let { firstVisibleDate ->
                         viewModel.currentDate.value = firstVisibleDate
                     }
                 }

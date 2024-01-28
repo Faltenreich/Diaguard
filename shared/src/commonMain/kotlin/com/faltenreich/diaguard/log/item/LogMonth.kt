@@ -10,14 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
-import com.faltenreich.diaguard.shared.datetime.MonthOfYear
 import com.faltenreich.diaguard.shared.di.inject
 
 private const val ASPECT_RATIO = 32f / 9f
 
 @Composable
 fun LogMonth(
-    monthOfYear: MonthOfYear,
+    item: LogItem.MonthHeader,
     modifier: Modifier = Modifier,
     formatter: DateTimeFormatter = inject(),
 ) {
@@ -29,7 +28,7 @@ fun LogMonth(
         contentAlignment = Alignment.BottomStart,
     ) {
         Text(
-            text = formatter.formatMonthOfYear(monthOfYear, abbreviated = false),
+            text = formatter.formatMonthOfYear(item.date.monthOfYear, abbreviated = false),
             color = AppTheme.colors.scheme.onPrimary,
             style = AppTheme.typography.headlineSmall,
         )

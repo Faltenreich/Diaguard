@@ -9,10 +9,12 @@ import app.cash.paging.PagingState
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.deep
+import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateProgression
 import com.faltenreich.diaguard.shared.datetime.DateUnit
+import com.faltenreich.diaguard.shared.datetime.GetTodayUseCase
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.view.isAppending
@@ -21,6 +23,7 @@ import com.faltenreich.diaguard.shared.view.isRefreshing
 
 class LogItemSource(
     private val entryRepository: EntryRepository = inject(),
+    private val getTodayUseCase: GetTodayUseCase = inject(),
 ) : PagingSource<Date, LogItem>() {
 
     private data class Cache(
@@ -29,6 +32,7 @@ class LogItemSource(
     )
 
     private lateinit var cache: Cache
+    private val today = getTodayUseCase()
 
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
         Logger.debug("LogViewModel: getRefreshKey for: $state")
@@ -68,12 +72,18 @@ class LogItemSource(
         ).deep()
 
         val items = DateProgression(startDate, endDate).map { date ->
-            val headers = listOfNotNull(
-                LogItem.MonthHeader(date).takeIf { date.dayOfMonth == 1 },
-                LogItem.DayHeader(date),
-            )
+            val headers = listOfNotNull(LogItem.MonthHeader(date).takeIf { date.dayOfMonth == 1 })
             val entriesOfDate = entries.filter { it.dateTime.date == date }
-            val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { LogItem.EntryContent(it) }
+            val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
+                LogItem.EntryContent(
+                    entry = entry,
+                    style = when {
+                        entry != entries.first() -> LogDayStyle.HIDDEN
+                        entry.dateTime.date == today -> LogDayStyle.HIGHLIGHTED
+                        else -> LogDayStyle.NORMAL
+                    },
+                )
+            }
             val content = entryContent ?: listOf(LogItem.EmptyContent(date))
             headers + content
         }.flatten()

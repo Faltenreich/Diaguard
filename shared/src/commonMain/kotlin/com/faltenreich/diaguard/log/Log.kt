@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogDay
+import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItem
@@ -58,7 +59,6 @@ fun Log(
     }
 
     var monthHeaderHeightPx by remember { mutableStateOf(0) }
-    var dayHeaderWidthDp by remember { mutableStateOf(0.dp) }
 
     Box {
         LazyColumn(
@@ -68,17 +68,12 @@ fun Log(
             for (index in 0 until items.itemCount) {
                 when (val peek = items.peek(index)) {
                     is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
-                        val item = items.get(index)
+                        val item = items.get(index) as? LogItem.MonthHeader
                         checkNotNull(item)
                         LogMonth(
-                            monthOfYear = item.date.monthOfYear,
+                            item = item,
                             modifier = Modifier.onGloballyPositioned { monthHeaderHeightPx = it.size.height },
                         )
-                    }
-                    is LogItem.DayHeader -> item(key = peek.key) {
-                        val item = items.get(index)
-                        checkNotNull(item)
-                        LogDay(item.date)
                     }
                     is LogItem.EntryContent -> item(key = peek.key) {
                         val item = items.get(index) as? LogItem.EntryContent
@@ -94,27 +89,30 @@ fun Log(
                             backgroundContent = { Box(modifier = Modifier.fillMaxSize()) },
                         ) {
                             LogEntry(
-                                entry = item.entry,
+                                item = item,
                                 onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
-                                modifier = Modifier.padding(start = dayHeaderWidthDp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(all = AppTheme.dimensions.padding.P_3),
                             )
                         }
                     }
                     is LogItem.EmptyContent -> item(key = peek.key) {
-                        val item = items.get(index)
+                        val item = items.get(index) as? LogItem.EmptyContent
                         checkNotNull(item)
                         LogEmpty(
-                            date = item.date,
+                            item = item,
                             onIntent = viewModel::dispatchIntent,
-                            modifier = Modifier.padding(start = dayHeaderWidthDp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = AppTheme.dimensions.padding.P_3),
                         )
                     }
                     null -> item {
                         Skeleton(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(AppTheme.dimensions.size.TouchSizeMedium)
-                                .padding(start = dayHeaderWidthDp),
+                                .height(AppTheme.dimensions.size.TouchSizeMedium),
                         )
                     }
                 }
@@ -125,6 +123,7 @@ fun Log(
         // TODO: Move behind LazyColumn if complete
         LogDay(
             date = viewModel.currentDate.value,
+            style = LogDayStyle.NORMAL,
             modifier = Modifier
                 .offset {
                     // FIXME: Calculate correct offset
@@ -135,7 +134,6 @@ fun Log(
                     val offsetY = monthHeaderHeightPx - firstVisibleDayOffset
                     IntOffset(0, offsetY)
                 }
-                .onGloballyPositioned { dayHeaderWidthDp = with(density) { it.size.width.toDp() } },
         )
     }
 }

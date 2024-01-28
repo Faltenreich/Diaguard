@@ -14,6 +14,7 @@ object Colors {
     val Red = Color(0xffdd6050)
     val Yellow = Color(0xffFBC02D)
     val Blue = Color(0xff5771cd)
+    val Transparent = Color.Transparent
 
     val scheme: ColorScheme
         @Composable

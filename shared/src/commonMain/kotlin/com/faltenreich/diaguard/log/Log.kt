@@ -18,7 +18,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
@@ -86,7 +85,10 @@ fun Log(
                                 onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(all = AppTheme.dimensions.padding.P_3),
+                                    .padding(
+                                        horizontal = AppTheme.dimensions.padding.P_3,
+                                        vertical = AppTheme.dimensions.padding.P_2,
+                                    ),
                             )
                         }
                     }

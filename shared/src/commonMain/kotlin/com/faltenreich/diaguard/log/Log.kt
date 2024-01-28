@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.log
 
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +36,11 @@ fun Log(
     val items = viewModel.state.collectAsPaginationItems()
     val listState = rememberLazyListState()
     var monthHeaderHeightPx by remember { mutableStateOf(0) }
+
+    // Compensate initial scroll offset for month header
+    LaunchedEffect(monthHeaderHeightPx) {
+        listState.scrollBy(-monthHeaderHeightPx.toFloat())
+    }
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }

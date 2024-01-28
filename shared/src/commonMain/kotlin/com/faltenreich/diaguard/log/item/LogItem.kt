@@ -24,6 +24,7 @@ sealed class LogItem(val date: Date, val key: Any) {
 
     class EmptyContent(
         date: Date,
+        val style: LogDayStyle,
     ) : LogItem(date = date, key = "Empty$date") {
         override fun toString(): String {
             return "Empty: $date"

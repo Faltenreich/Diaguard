@@ -84,7 +84,12 @@ class LogItemSource(
                     },
                 )
             }
-            val content = entryContent ?: listOf(LogItem.EmptyContent(date))
+            val content = entryContent ?: listOf(
+                LogItem.EmptyContent(
+                    date = date,
+                    style = if (date == today) LogDayStyle.HIGHLIGHTED else LogDayStyle.NORMAL,
+                ),
+            )
             headers + content
         }.flatten()
 

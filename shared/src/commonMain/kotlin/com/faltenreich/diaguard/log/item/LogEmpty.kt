@@ -23,7 +23,7 @@ fun LogEmpty(
     Row(modifier = modifier) {
         LogDay(
             date = item.date,
-            style = LogDayStyle.NORMAL,
+            style = item.style,
             modifier = Modifier.width(AppTheme.dimensions.size.LogDayWidth),
         )
         Card(

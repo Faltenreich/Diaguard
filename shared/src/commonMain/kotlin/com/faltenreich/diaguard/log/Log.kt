@@ -120,6 +120,7 @@ fun Log(
                 }
             }
         }
+        return
         // TODO: Move behind LazyColumn if complete
         LogDay(
             date = viewModel.currentDate.value,

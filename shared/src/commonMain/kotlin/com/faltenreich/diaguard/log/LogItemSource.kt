@@ -61,10 +61,12 @@ class LogItemSource(
             else -> throw IllegalArgumentException("Unhandled parameters: $params")
         }
         Logger.debug("LogViewModel: Fetching data for: $startDate - $endDate")
+
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atStartOfDay(),
             endDateTime = endDate.atEndOfDay(),
         ).deep()
+
         val items = DateProgression(startDate, endDate).map { date ->
             val headers = listOfNotNull(
                 LogItem.MonthHeader(date).takeIf { date.dayOfMonth == 1 },
@@ -75,6 +77,7 @@ class LogItemSource(
             val content = entryContent ?: listOf(LogItem.EmptyContent(date))
             headers + content
         }.flatten()
+
         val page = PagingSourceLoadResultPage(
             data = items,
             prevKey = cache.startDate.minus(1, DateUnit.DAY),
@@ -90,8 +93,8 @@ class LogItemSource(
 
     companion object {
 
-        // FIXME: Leads to delayed sticky headers as start of month will potentially not be included on pagination
-        private const val PAGE_SIZE_IN_DAYS = 20
+        // Must be at least the maximum day count per month to ensure a prepending header
+        private const val PAGE_SIZE_IN_DAYS = 31
 
         fun newConfig(): PagingConfig {
             return PagingConfig(

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.log.item
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
@@ -20,7 +21,10 @@ fun LogDay(
     if (style == LogDayStyle.HIDDEN) {
         Box(modifier = modifier)
     } else {
-        Column(modifier = modifier) {
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
+        ) {
             Text(
                 text = formatter.formatDayOfMonth(date),
                 color =

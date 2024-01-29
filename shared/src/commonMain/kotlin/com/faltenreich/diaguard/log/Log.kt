@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import com.faltenreich.diaguard.AppTheme
@@ -113,6 +112,7 @@ fun Log(
             }
         }
 
+        // TODO: Draw behind month headers
         val stickyDate = viewModel.currentDate.collectAsState().value
         var dayHeight by remember { mutableStateOf(0) }
         LogDay(
@@ -130,7 +130,7 @@ fun Log(
                     val yOffset = min(monthHeight, dateAfterStickyDate.offset - dayHeight)
                     IntOffset(0, yOffset)
                 }
-                .background(Color.Red)
+                .background(AppTheme.colors.scheme.surface)
                 .padding(all = AppTheme.dimensions.padding.P_3)
         )
     }

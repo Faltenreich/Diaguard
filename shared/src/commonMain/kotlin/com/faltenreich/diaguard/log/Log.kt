@@ -52,7 +52,11 @@ fun Log(
     }
 
     LaunchedEffect(listState) {
-        snapshotFlow { listState.layoutInfo.visibleItemsInfo.firstOrNull { it.offset >= monthHeaderHeightPx } }
+        snapshotFlow {
+            listState.layoutInfo.visibleItemsInfo.firstOrNull { info ->
+                info.offset >= monthHeaderHeightPx
+            }
+        }
             .distinctUntilChanged()
             .collect { firstVisibleItem ->
                 if (firstVisibleItem != null) {
@@ -114,18 +118,21 @@ fun Log(
             }
         }
 
-        val currentDate = viewModel.currentDate.collectAsState().value
+        val stickyDate = viewModel.currentDate.collectAsState().value.minus(1, DateUnit.DAY)
         var dayItemHeightPx by remember { mutableStateOf(0) }
         LogDay(
-            date = currentDate.minus(1, DateUnit.DAY),
+            date = stickyDate,
             style = LogDayStyle.NORMAL,
             modifier = Modifier
                 .onGloballyPositioned { dayItemHeightPx = it.size.height }
                 .offset {
                     if (listState.layoutInfo.totalItemsCount < 2) return@offset IntOffset.Zero
-                    val firstVisibleItem = listState.layoutInfo.visibleItemsInfo
-                        .first { it.offset >= monthHeaderHeightPx }
-                    val yOffset = min(monthHeaderHeightPx, firstVisibleItem.offset - dayItemHeightPx)
+                    val dateAfterStickyDate = listState.layoutInfo.visibleItemsInfo
+                        .first { info ->
+                            val item = info.key as? LogKey.Item ?: return@first false
+                            info.offset >= monthHeaderHeightPx && item.isFirstOfDay && item.date.isAfter(stickyDate)
+                        }
+                    val yOffset = min(monthHeaderHeightPx, dateAfterStickyDate.offset - dayItemHeightPx)
                     IntOffset(0, yOffset)
                 }
                 .background(Color.Red)

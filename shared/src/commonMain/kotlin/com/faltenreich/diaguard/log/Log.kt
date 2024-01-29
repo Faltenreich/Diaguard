@@ -54,6 +54,7 @@ fun Log(
     LaunchedEffect(listState) {
         snapshotFlow {
             listState.layoutInfo.visibleItemsInfo.firstOrNull { info ->
+                // FIXME: Returns next day when scrolling through subsequent entries of day
                 info.offset >= monthHeaderHeightPx
             }
         }

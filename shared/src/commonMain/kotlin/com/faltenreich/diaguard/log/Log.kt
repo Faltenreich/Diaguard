@@ -29,7 +29,6 @@ import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.log.item.LogMonth
-import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
@@ -44,24 +43,19 @@ fun Log(
     // FIXME: Gets not updated on entry change
     val items = viewModel.state.collectAsPaginationItems()
     val listState = rememberLazyListState()
-    var monthHeaderHeightPx by remember { mutableStateOf(0) }
+    var monthHeight by remember { mutableStateOf(0) }
 
     // Compensate initial scroll offset for month header
-    LaunchedEffect(monthHeaderHeightPx) {
-        listState.scrollBy(-monthHeaderHeightPx.toFloat())
+    LaunchedEffect(monthHeight) {
+        listState.scrollBy(-monthHeight.toFloat())
     }
 
     LaunchedEffect(listState) {
-        snapshotFlow {
-            listState.layoutInfo.visibleItemsInfo.firstOrNull { info ->
-                // FIXME: Returns next day when scrolling through subsequent entries of day
-                info.offset >= monthHeaderHeightPx
-            }
-        }
+        snapshotFlow { listState.layoutInfo.visibleItemsInfo.firstOrNull { it.offset > monthHeight } }
             .distinctUntilChanged()
             .collect { firstVisibleItem ->
                 if (firstVisibleItem != null) {
-                    items.get(firstVisibleItem.index)?.date?.let { firstVisibleDate ->
+                    items.get(firstVisibleItem.index - 1)?.date?.let { firstVisibleDate ->
                         viewModel.currentDate.value = firstVisibleDate
                     }
                 }
@@ -80,7 +74,7 @@ fun Log(
                         checkNotNull(item)
                         LogMonth(
                             item = item,
-                            modifier = Modifier.onGloballyPositioned { monthHeaderHeightPx = it.size.height },
+                            modifier = Modifier.onGloballyPositioned { monthHeight = it.size.height },
                         )
                     }
                     is LogItem.EntryContent -> item(key = peek.key) {
@@ -119,21 +113,21 @@ fun Log(
             }
         }
 
-        val stickyDate = viewModel.currentDate.collectAsState().value.minus(1, DateUnit.DAY)
-        var dayItemHeightPx by remember { mutableStateOf(0) }
+        val stickyDate = viewModel.currentDate.collectAsState().value
+        var dayHeight by remember { mutableStateOf(0) }
         LogDay(
             date = stickyDate,
             style = LogDayStyle.NORMAL,
             modifier = Modifier
-                .onGloballyPositioned { dayItemHeightPx = it.size.height }
+                .onGloballyPositioned { dayHeight = it.size.height }
                 .offset {
                     if (listState.layoutInfo.totalItemsCount < 2) return@offset IntOffset.Zero
                     val dateAfterStickyDate = listState.layoutInfo.visibleItemsInfo
                         .first { info ->
                             val item = info.key as? LogKey.Item ?: return@first false
-                            info.offset >= monthHeaderHeightPx && item.isFirstOfDay && item.date.isAfter(stickyDate)
+                            info.offset >= monthHeight && item.isFirstOfDay && item.date.isAfter(stickyDate)
                         }
-                    val yOffset = min(monthHeaderHeightPx, dateAfterStickyDate.offset - dayItemHeightPx)
+                    val yOffset = min(monthHeight, dateAfterStickyDate.offset - dayHeight)
                     IntOffset(0, yOffset)
                 }
                 .background(Color.Red)

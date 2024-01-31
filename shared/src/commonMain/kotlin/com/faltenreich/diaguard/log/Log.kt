@@ -1,11 +1,9 @@
 package com.faltenreich.diaguard.log
 
-import androidx.compose.runtime.getValue
 import ListDetailPaneScaffold
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +14,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,7 +37,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
 import kotlinx.coroutines.flow.distinctUntilChanged
-import org.koin.core.parameter.parametersOf
 import kotlin.math.min
 
 @Composable

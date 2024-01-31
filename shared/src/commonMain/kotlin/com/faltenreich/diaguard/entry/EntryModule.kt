@@ -28,4 +28,5 @@ fun entryModule() = module {
     singleOf(::CreateEntryUseCase)
     singleOf(::DeleteEntryUseCase)
     factory { (entry: Entry?, date: Date?) -> EntryFormViewModel(entry = entry, date = date) }
+    factory { EntryFormViewModel(entry = null, date = null) }
 }

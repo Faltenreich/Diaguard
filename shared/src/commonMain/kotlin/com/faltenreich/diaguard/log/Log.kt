@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.log
 
+import ListDetailPaneScaffold
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogEmpty
@@ -61,77 +63,85 @@ fun Log(
             }
     }
 
-    Box {
-        LazyColumn(
-            modifier = modifier.fillMaxSize(),
-            state = listState,
-        ) {
-            for (index in 0 until items.itemCount) {
-                when (val peek = items.peek(index)) {
-                    is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
-                        val item = items.get(index) as? LogItem.MonthHeader
-                        checkNotNull(item)
-                        LogMonth(
-                            item = item,
-                            modifier = Modifier.onGloballyPositioned { monthHeight = it.size.height },
-                        )
-                    }
-                    is LogItem.EntryContent -> item(key = peek.key) {
-                        val item = items.get(index) as? LogItem.EntryContent
-                        checkNotNull(item)
-                        LogEntry(
-                            item = item,
-                            onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    horizontal = AppTheme.dimensions.padding.P_3,
-                                    vertical = AppTheme.dimensions.padding.P_2,
-                                ),
-                        )
-                    }
-                    is LogItem.EmptyContent -> item(key = peek.key) {
-                        val item = items.get(index) as? LogItem.EmptyContent
-                        checkNotNull(item)
-                        LogEmpty(
-                            item = item,
-                            onIntent = viewModel::dispatchIntent,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(all = AppTheme.dimensions.padding.P_3),
-                        )
-                    }
-                    null -> item {
-                        Skeleton(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(AppTheme.dimensions.size.TouchSizeMedium),
-                        )
-                    }
-                }
-            }
-        }
-
-        // TODO: Draw behind month headers
-        val stickyDate = viewModel.currentDate.collectAsState().value
-        var dayHeight by remember { mutableStateOf(0) }
-        LogDay(
-            date = stickyDate,
-            style = LogDayStyle.NORMAL,
-            modifier = Modifier
-                .onGloballyPositioned { dayHeight = it.size.height }
-                .offset {
-                    if (listState.layoutInfo.totalItemsCount < 2) return@offset IntOffset.Zero
-                    val dateAfterStickyDate = listState.layoutInfo.visibleItemsInfo
-                        .first { info ->
-                            val item = info.key as? LogKey.Item ?: return@first false
-                            info.offset >= monthHeight && item.isFirstOfDay && item.date.isAfter(stickyDate)
+    ListDetailPaneScaffold(
+        listPane = {
+            Box {
+                LazyColumn(
+                    modifier = modifier.fillMaxSize(),
+                    state = listState,
+                ) {
+                    for (index in 0 until items.itemCount) {
+                        when (val peek = items.peek(index)) {
+                            is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
+                                val item = items.get(index) as? LogItem.MonthHeader
+                                checkNotNull(item)
+                                LogMonth(
+                                    item = item,
+                                    modifier = Modifier.onGloballyPositioned { monthHeight = it.size.height },
+                                )
+                            }
+                            is LogItem.EntryContent -> item(key = peek.key) {
+                                val item = items.get(index) as? LogItem.EntryContent
+                                checkNotNull(item)
+                                LogEntry(
+                                    item = item,
+                                    onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(
+                                            horizontal = AppTheme.dimensions.padding.P_3,
+                                            vertical = AppTheme.dimensions.padding.P_2,
+                                        ),
+                                )
+                            }
+                            is LogItem.EmptyContent -> item(key = peek.key) {
+                                val item = items.get(index) as? LogItem.EmptyContent
+                                checkNotNull(item)
+                                LogEmpty(
+                                    item = item,
+                                    onIntent = viewModel::dispatchIntent,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(all = AppTheme.dimensions.padding.P_3),
+                                )
+                            }
+                            null -> item {
+                                Skeleton(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(AppTheme.dimensions.size.TouchSizeMedium),
+                                )
+                            }
                         }
-                    val yOffset = min(monthHeight, dateAfterStickyDate.offset - dayHeight)
-                    IntOffset(0, yOffset)
+                    }
                 }
-                .background(AppTheme.colors.scheme.surface)
-                .padding(all = AppTheme.dimensions.padding.P_3)
-        )
-    }
+
+                // TODO: Draw behind month headers
+                val stickyDate = viewModel.currentDate.collectAsState().value
+                var dayHeight by remember { mutableStateOf(0) }
+                LogDay(
+                    date = stickyDate,
+                    style = LogDayStyle.NORMAL,
+                    modifier = Modifier
+                        .onGloballyPositioned { dayHeight = it.size.height }
+                        .offset {
+                            if (listState.layoutInfo.totalItemsCount < 2) return@offset IntOffset.Zero
+                            val dateAfterStickyDate = listState.layoutInfo.visibleItemsInfo
+                                .first { info ->
+                                    val item = info.key as? LogKey.Item ?: return@first false
+                                    info.offset >= monthHeight && item.isFirstOfDay && item.date.isAfter(stickyDate)
+                                }
+                            val yOffset = min(monthHeight, dateAfterStickyDate.offset - dayHeight)
+                            IntOffset(0, yOffset)
+                        }
+                        .background(AppTheme.colors.scheme.surface)
+                        .padding(all = AppTheme.dimensions.padding.P_3)
+                )
+            }
+        },
+        detailPane = {
+            EntryForm()
+        },
+        modifier.fillMaxSize(),
+    )
 }

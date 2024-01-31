@@ -54,6 +54,7 @@ kotlin {
             dependencies {
                 implementation(libs.activity.compose)
                 implementation(libs.androidx.compose.material3)
+                implementation(libs.androidx.compose.material3.adaptive)
                 implementation(libs.androidx.datastore)
                 implementation(libs.androidx.emojipicker)
                 implementation(libs.koin.android)
@@ -77,6 +78,7 @@ kotlin {
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 optIn("kotlinx.coroutines.FlowPreview")
                 optIn("kotlinx.serialization.ExperimentalSerializationApi")
+                optIn("androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi")
             }
         }
     }

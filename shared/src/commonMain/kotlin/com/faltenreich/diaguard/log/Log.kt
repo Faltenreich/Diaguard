@@ -22,7 +22,9 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogDayStyle
@@ -40,6 +42,27 @@ import kotlin.math.min
 fun Log(
     modifier: Modifier = Modifier,
     viewModel: LogViewModel = inject(),
+) {
+    ListDetailPaneScaffold(
+        listPane = {
+            List(
+                onItemSelected = { TODO() },
+                modifier = modifier,
+                viewModel = viewModel,
+            )
+        },
+        detailPane = { EntryForm() },
+        modifier = modifier
+            .fillMaxSize()
+            .padding(all = 0.dp),
+    )
+}
+
+@Composable
+private fun List(
+    onItemSelected: (LogItem) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: LogViewModel,
 ) {
     // FIXME: Gets not updated on entry change
     val items = viewModel.state.collectAsPaginationItems()
@@ -63,85 +86,80 @@ fun Log(
             }
     }
 
-    ListDetailPaneScaffold(
-        listPane = {
-            Box {
-                LazyColumn(
-                    modifier = modifier.fillMaxSize(),
-                    state = listState,
-                ) {
-                    for (index in 0 until items.itemCount) {
-                        when (val peek = items.peek(index)) {
-                            is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
-                                val item = items.get(index) as? LogItem.MonthHeader
-                                checkNotNull(item)
-                                LogMonth(
-                                    item = item,
-                                    modifier = Modifier.onGloballyPositioned { monthHeight = it.size.height },
-                                )
-                            }
-                            is LogItem.EntryContent -> item(key = peek.key) {
-                                val item = items.get(index) as? LogItem.EntryContent
-                                checkNotNull(item)
-                                LogEntry(
-                                    item = item,
-                                    onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(
-                                            horizontal = AppTheme.dimensions.padding.P_3,
-                                            vertical = AppTheme.dimensions.padding.P_2,
-                                        ),
-                                )
-                            }
-                            is LogItem.EmptyContent -> item(key = peek.key) {
-                                val item = items.get(index) as? LogItem.EmptyContent
-                                checkNotNull(item)
-                                LogEmpty(
-                                    item = item,
-                                    onIntent = viewModel::dispatchIntent,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(all = AppTheme.dimensions.padding.P_3),
-                                )
-                            }
-                            null -> item {
-                                Skeleton(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(AppTheme.dimensions.size.TouchSizeMedium),
-                                )
-                            }
-                        }
+    Box {
+        LazyColumn(
+            modifier = modifier.fillMaxSize(),
+            state = listState,
+        ) {
+            for (index in 0 until items.itemCount) {
+                when (val peek = items.peek(index)) {
+                    is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
+                        val item = items.get(index) as? LogItem.MonthHeader
+                        checkNotNull(item)
+                        LogMonth(
+                            item = item,
+                            modifier = Modifier.onGloballyPositioned { monthHeight = it.size.height },
+                        )
+                    }
+                    is LogItem.EntryContent -> item(key = peek.key) {
+                        val item = items.get(index) as? LogItem.EntryContent
+                        checkNotNull(item)
+                        LogEntry(
+                            item = item,
+                            onClick = { onItemSelected(item) },
+                            // onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    horizontal = AppTheme.dimensions.padding.P_3,
+                                    vertical = AppTheme.dimensions.padding.P_2,
+                                ),
+                        )
+                    }
+                    is LogItem.EmptyContent -> item(key = peek.key) {
+                        val item = items.get(index) as? LogItem.EmptyContent
+                        checkNotNull(item)
+                        LogEmpty(
+                            item = item,
+                            onClick = { onItemSelected(item) },
+                            // onClick = { viewModel.dispatchIntent(LogIntent.CreateEntry(item.date)) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = AppTheme.dimensions.padding.P_3),
+                        )
+                    }
+                    null -> item {
+                        Skeleton(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(AppTheme.dimensions.size.TouchSizeMedium),
+                        )
                     }
                 }
-
-                // TODO: Draw behind month headers
-                val stickyDate = viewModel.currentDate.collectAsState().value
-                var dayHeight by remember { mutableStateOf(0) }
-                LogDay(
-                    date = stickyDate,
-                    style = LogDayStyle.NORMAL,
-                    modifier = Modifier
-                        .onGloballyPositioned { dayHeight = it.size.height }
-                        .offset {
-                            if (listState.layoutInfo.totalItemsCount < 2) return@offset IntOffset.Zero
-                            val dateAfterStickyDate = listState.layoutInfo.visibleItemsInfo
-                                .first { info ->
-                                    val item = info.key as? LogKey.Item ?: return@first false
-                                    info.offset >= monthHeight && item.isFirstOfDay && item.date.isAfter(stickyDate)
-                                }
-                            val yOffset = min(monthHeight, dateAfterStickyDate.offset - dayHeight)
-                            IntOffset(0, yOffset)
-                        }
-                        .background(AppTheme.colors.scheme.surface)
-                        .padding(all = AppTheme.dimensions.padding.P_3)
-                )
             }
-        },
-        detailPane = {
-            EntryForm()
-        },
-        modifier.fillMaxSize(),
-    )
+        }
+
+        return
+        // TODO: Draw behind month headers
+        val stickyDate = viewModel.currentDate.collectAsState().value
+        var dayHeight by remember { mutableStateOf(0) }
+        LogDay(
+            date = stickyDate,
+            style = LogDayStyle.NORMAL,
+            modifier = Modifier
+                .onGloballyPositioned { dayHeight = it.size.height }
+                .offset {
+                    if (listState.layoutInfo.totalItemsCount < 2) return@offset IntOffset.Zero
+                    val dateAfterStickyDate = listState.layoutInfo.visibleItemsInfo
+                        .first { info ->
+                            val item = info.key as? LogKey.Item ?: return@first false
+                            info.offset >= monthHeight && item.isFirstOfDay && item.date.isAfter(stickyDate)
+                        }
+                    val yOffset = min(monthHeight, dateAfterStickyDate.offset - dayHeight)
+                    IntOffset(0, yOffset)
+                }
+                .background(AppTheme.colors.scheme.surface)
+                .padding(all = AppTheme.dimensions.padding.P_3)
+        )
+    }
 }

@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.shared.localization.getString
 @Composable
 fun LogEmpty(
     item: LogItem.EmptyContent,
-    onIntent: (LogIntent) -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier) {
@@ -27,7 +27,7 @@ fun LogEmpty(
             modifier = Modifier.width(AppTheme.dimensions.size.LogDayWidth),
         )
         Card(
-            onClick = { onIntent(LogIntent.CreateEntry(item.date)) },
+            onClick = onClick,
             modifier = Modifier.fillMaxSize(),
             colors = CardDefaults.cardColors(containerColor = AppTheme.colors.Transparent),
         ) {

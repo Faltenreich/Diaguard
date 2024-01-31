@@ -19,6 +19,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import com.faltenreich.diaguard.AppTheme
@@ -41,8 +44,13 @@ fun Log(
 ) {
     // FIXME: Gets not updated on entry change
     val items = viewModel.state.collectAsPaginationItems()
+    val stickyDate = viewModel.currentDate.collectAsState().value
     val listState = rememberLazyListState()
+
     var monthHeight by remember { mutableStateOf(0) }
+    var dayHeight by remember { mutableStateOf(0) }
+    var stickyDayOffset by remember { mutableStateOf(IntOffset.Zero) }
+    var stickyDayTopClip by remember { mutableStateOf(0f) }
 
     // Compensate initial scroll offset for month header
     LaunchedEffect(monthHeight) {
@@ -56,6 +64,27 @@ fun Log(
                 if (firstVisibleItem != null) {
                     items.get(firstVisibleItem.index - 1)?.date?.let { firstVisibleDate ->
                         viewModel.currentDate.value = firstVisibleDate
+
+                        if (listState.layoutInfo.totalItemsCount < 2) return@collect
+                        val nextItem = listState.layoutInfo.visibleItemsInfo
+                            .filter { it.offset > monthHeight }
+                            .firstOrNull { info ->
+                                when (val key = info.key) {
+                                    is LogKey.Header -> true
+                                    is LogKey.Item -> key.isFirstOfDay && key.date.isAfter(firstVisibleDate)
+                                    else -> true
+                                }
+                            }
+                        // TODO: Hide when current item is header
+                        val yOffset = when (nextItem?.key) {
+                            is LogKey.Header -> -dayHeight
+                            is LogKey.Item -> min(monthHeight, nextItem.offset - dayHeight)
+                            else -> -dayHeight
+                        }
+                        stickyDayOffset = IntOffset(0, yOffset)
+
+                        val overlap = -(yOffset - monthHeight)
+                        stickyDayTopClip = if (overlap > 0) overlap.toFloat() else 0f
                     }
                 }
             }
@@ -112,25 +141,15 @@ fun Log(
             }
         }
 
-        // TODO: Draw behind month headers
-        val stickyDate = viewModel.currentDate.collectAsState().value
-        var dayHeight by remember { mutableStateOf(0) }
         LogDay(
             date = stickyDate,
-            style = LogDayStyle.NORMAL,
+            style = LogDayStyle.NORMAL, // TODO
             modifier = Modifier
                 .onGloballyPositioned { dayHeight = it.size.height }
-                .offset {
-                    if (listState.layoutInfo.totalItemsCount < 2) return@offset IntOffset.Zero
-                    val dateAfterStickyDate = listState.layoutInfo.visibleItemsInfo
-                        .first { info ->
-                            val item = info.key as? LogKey.Item ?: return@first false
-                            info.offset >= monthHeight && item.isFirstOfDay && item.date.isAfter(stickyDate)
-                        }
-                    val yOffset = min(monthHeight, dateAfterStickyDate.offset - dayHeight)
-                    IntOffset(0, yOffset)
-                }
-                .background(AppTheme.colors.scheme.surface)
+                .offset { stickyDayOffset }
+                .drawWithContent { clipRect(top = stickyDayTopClip) { this@drawWithContent.drawContent() } }
+                .background(Color.Red)
+                //.background(AppTheme.colors.scheme.surface)
                 .padding(all = AppTheme.dimensions.padding.P_3)
         )
     }

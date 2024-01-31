@@ -1,9 +1,11 @@
 package com.faltenreich.diaguard.log
 
+import androidx.compose.runtime.getValue
 import ListDetailPaneScaffold
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,9 +16,9 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -24,8 +26,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.EntryForm
+import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogEmpty
@@ -36,6 +38,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
 import kotlinx.coroutines.flow.distinctUntilChanged
+import org.koin.core.parameter.parametersOf
 import kotlin.math.min
 
 @Composable
@@ -43,15 +46,22 @@ fun Log(
     modifier: Modifier = Modifier,
     viewModel: LogViewModel = inject(),
 ) {
+    var selectedItem: LogItem? by rememberSaveable { mutableStateOf(null) }
     ListDetailPaneScaffold(
         listPane = {
             List(
-                onItemSelected = { TODO() },
+                onItemSelected = { selectedItem = it },
                 modifier = modifier,
                 viewModel = viewModel,
             )
         },
-        detailPane = { EntryForm() },
+        detailPane = {
+            when (val item = selectedItem) {
+                is LogItem.EmptyContent -> EntryForm(viewModel = EntryFormViewModel(entry = null, date = item.date))
+                is LogItem.EntryContent -> EntryForm(viewModel = EntryFormViewModel(entry = item.entry, date = null))
+                else -> Box(modifier = Modifier.fillMaxSize())
+            }
+        },
         modifier = modifier
             .fillMaxSize()
             .padding(all = 0.dp),

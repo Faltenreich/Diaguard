@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +24,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogDay
+import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
@@ -32,13 +32,11 @@ import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
-import com.faltenreich.diaguard.shared.view.StickyHeaderInfo
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlin.math.min
 
-// TODO: Improve performance including not initial jump for scroll offset
 @Composable
 fun Log(
     modifier: Modifier = Modifier,
@@ -46,14 +44,14 @@ fun Log(
 ) {
     // FIXME: Gets not updated on entry change
     val items = viewModel.state.collectAsPaginationItems()
-    val stickyDate = viewModel.currentDate.collectAsState().value
     val listState = rememberLazyListState()
 
     var monthHeight by remember { mutableStateOf(0) }
     var dayHeight by remember { mutableStateOf(0) }
-    var stickyDayInfo by remember { mutableStateOf(StickyHeaderInfo()) }
+    var stickyDayInfo by remember { mutableStateOf(LogDayStickyHeaderInfo()) }
 
     // Compensate initial scroll offset for month header
+    // TODO: Find way to avoid initial jumps
     LaunchedEffect(monthHeight) {
         listState.scrollBy(-monthHeight.toFloat())
     }
@@ -87,9 +85,17 @@ fun Log(
                 else -> -dayHeight
             }
 
+            val date = firstItem.date
+            val style = (firstItem as? LogItem.EntryContent)?.style ?: LogDayStyle.NORMAL
             val overlap = -(offset - monthHeight)
             val clip = if (overlap > 0) overlap.toFloat() else 0f
-            stickyDayInfo = stickyDayInfo.copy(offset = IntOffset(x = 0, y = offset), clip = clip)
+
+            stickyDayInfo = stickyDayInfo.copy(
+                date = date,
+                style = style,
+                offset = IntOffset(x = 0, y = offset),
+                clip = clip,
+            )
         }
     }
 
@@ -149,16 +155,17 @@ fun Log(
             }
         }
 
-        // Sticky header
-        LogDay(
-            date = stickyDate,
-            style = LogDayStyle.NORMAL, // TODO
-            modifier = Modifier
-                .onGloballyPositioned { dayHeight = it.size.height }
-                .offset { stickyDayInfo.offset }
-                .drawWithContent { clipRect(top = stickyDayInfo.clip) { this@drawWithContent.drawContent() } }
-                .background(AppTheme.colors.scheme.surface)
-                .padding(all = AppTheme.dimensions.padding.P_3)
-        )
+        stickyDayInfo.date?.let { date ->
+            LogDay(
+                date = date,
+                style = stickyDayInfo.style,
+                modifier = Modifier
+                    .onGloballyPositioned { dayHeight = it.size.height }
+                    .offset { stickyDayInfo.offset }
+                    .drawWithContent { clipRect(top = stickyDayInfo.clip) { this@drawWithContent.drawContent() } }
+                    .background(AppTheme.colors.scheme.surface)
+                    .padding(all = AppTheme.dimensions.padding.P_3)
+            )
+        }
     }
 }

@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.drawscope.clipRect
@@ -32,6 +33,8 @@ import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlin.math.min
 
 // TODO: Improve performance including not initial jump for scroll offset
@@ -55,37 +58,39 @@ fun Log(
         listState.scrollBy(-monthHeight.toFloat())
     }
 
-    LaunchedEffect(listState.firstVisibleItemScrollOffset) {
-        val nextItems = listState.layoutInfo.visibleItemsInfo
-            .filter { it.offset > monthHeight }
-            .takeIf(List<*>::isNotEmpty)
-            ?: return@LaunchedEffect
-        val firstItem = items.get(nextItems.first().index - 1)
-            ?: return@LaunchedEffect
+    LaunchedEffect(listState) {
+        snapshotFlow {
+            listState.layoutInfo.visibleItemsInfo
+                .filter { it.offset > monthHeight }
+                .takeIf(List<*>::isNotEmpty)
+        }.distinctUntilChanged().filterNotNull().collect { nextItems ->
+            val firstItem = items.get(nextItems.first().index - 1)
+                ?: return@collect
 
-        viewModel.currentDate.value = firstItem.date
+            viewModel.currentDate.value = firstItem.date
 
-        if (firstItem is LogItem.MonthHeader) {
-            stickyDayOffset = IntOffset(0, -dayHeight)
-            return@LaunchedEffect
-        }
-
-        val nextItem = nextItems.firstOrNull { item ->
-            when (val key = item.key) {
-                is LogKey.Header -> true
-                is LogKey.Item -> key.isFirstOfDay && key.date > firstItem.date
-                else -> true
+            if (firstItem is LogItem.MonthHeader) {
+                stickyDayOffset = IntOffset(0, -dayHeight)
+                return@collect
             }
-        }
-        val yOffset = when (nextItem?.key) {
-            is LogKey.Header -> -dayHeight
-            is LogKey.Item -> min(monthHeight, nextItem.offset - dayHeight)
-            else -> -dayHeight
-        }
-        stickyDayOffset = IntOffset(0, yOffset)
 
-        val overlap = -(yOffset - monthHeight)
-        stickyDayTopClip = if (overlap > 0) overlap.toFloat() else 0f
+            val nextItem = nextItems.firstOrNull { item ->
+                when (val key = item.key) {
+                    is LogKey.Header -> true
+                    is LogKey.Item -> key.isFirstOfDay && key.date > firstItem.date
+                    else -> true
+                }
+            }
+            val yOffset = when (nextItem?.key) {
+                is LogKey.Header -> -dayHeight
+                is LogKey.Item -> min(monthHeight, nextItem.offset - dayHeight)
+                else -> -dayHeight
+            }
+            stickyDayOffset = IntOffset(0, yOffset)
+
+            val overlap = -(yOffset - monthHeight)
+            stickyDayTopClip = if (overlap > 0) overlap.toFloat() else 0f
+        }
     }
 
     Box {

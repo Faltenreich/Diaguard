@@ -48,30 +48,6 @@ interface Date : Serializable, Comparable<Date> {
 
     fun plus(value: Int, unit: DateUnit): Date
 
-    fun isBefore(other: Date): Boolean {
-        return when {
-            year < other.year -> true
-            year > other.year -> false
-            monthNumber < other.monthNumber -> true
-            monthNumber > other.monthNumber -> false
-            dayOfMonth < other.dayOfMonth -> true
-            dayOfMonth > other.dayOfMonth -> false
-            else -> false
-        }
-    }
-
-    fun isAfter(other: Date): Boolean {
-        return when {
-            year < other.year -> false
-            year > other.year -> true
-            monthNumber < other.monthNumber -> false
-            monthNumber > other.monthNumber -> true
-            dayOfMonth < other.dayOfMonth -> false
-            dayOfMonth > other.dayOfMonth -> true
-            else -> false
-        }
-    }
-
     //region Any
 
     fun copy(

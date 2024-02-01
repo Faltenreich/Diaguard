@@ -34,6 +34,7 @@ import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
 import kotlin.math.min
 
+// TODO: Improve performance including not initial jump for scroll offset
 @Composable
 fun Log(
     modifier: Modifier = Modifier,
@@ -55,39 +56,36 @@ fun Log(
     }
 
     LaunchedEffect(listState.firstVisibleItemScrollOffset) {
-        val firstVisibleItem = listState.layoutInfo.visibleItemsInfo.firstOrNull { it.offset > monthHeight }
-        if (firstVisibleItem != null) {
-            val previousItem = items.get(firstVisibleItem.index - 1)
-            previousItem?.date?.let { firstVisibleDate ->
-                viewModel.currentDate.value = firstVisibleDate
+        val nextItems = listState.layoutInfo.visibleItemsInfo
+            .filter { it.offset > monthHeight }
+            .takeIf(List<*>::isNotEmpty)
+            ?: return@LaunchedEffect
+        val firstItem = items.get(nextItems.first().index - 1)
+            ?: return@LaunchedEffect
 
-                if (previousItem.key is LogKey.Header) {
-                    stickyDayOffset = IntOffset(0, -dayHeight)
-                    return@LaunchedEffect
-                }
+        viewModel.currentDate.value = firstItem.date
 
-                if (listState.layoutInfo.totalItemsCount < 2) return@LaunchedEffect
-                val nextItem = listState.layoutInfo.visibleItemsInfo
-                    .filter { it.offset > monthHeight }
-                    .firstOrNull { info ->
-                        when (val key = info.key) {
-                            is LogKey.Header -> true
-                            is LogKey.Item -> key.isFirstOfDay && key.date.isAfter(firstVisibleDate)
-                            else -> true
-                        }
-                    }
-                // TODO: Hide when current item is header
-                val yOffset = when (nextItem?.key) {
-                    is LogKey.Header -> -dayHeight
-                    is LogKey.Item -> min(monthHeight, nextItem.offset - dayHeight)
-                    else -> -dayHeight
-                }
-                stickyDayOffset = IntOffset(0, yOffset)
+        if (firstItem is LogItem.MonthHeader) {
+            stickyDayOffset = IntOffset(0, -dayHeight)
+            return@LaunchedEffect
+        }
 
-                val overlap = -(yOffset - monthHeight)
-                stickyDayTopClip = if (overlap > 0) overlap.toFloat() else 0f
+        val nextItem = nextItems.firstOrNull { item ->
+            when (val key = item.key) {
+                is LogKey.Header -> true
+                is LogKey.Item -> key.isFirstOfDay && key.date > firstItem.date
+                else -> true
             }
         }
+        val yOffset = when (nextItem?.key) {
+            is LogKey.Header -> -dayHeight
+            is LogKey.Item -> min(monthHeight, nextItem.offset - dayHeight)
+            else -> -dayHeight
+        }
+        stickyDayOffset = IntOffset(0, yOffset)
+
+        val overlap = -(yOffset - monthHeight)
+        stickyDayTopClip = if (overlap > 0) overlap.toFloat() else 0f
     }
 
     Box {
@@ -146,6 +144,7 @@ fun Log(
             }
         }
 
+        // Sticky header
         LogDay(
             date = stickyDate,
             style = LogDayStyle.NORMAL, // TODO

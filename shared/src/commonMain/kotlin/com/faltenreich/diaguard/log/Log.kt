@@ -32,6 +32,7 @@ import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
+import com.faltenreich.diaguard.shared.view.StickyHeaderInfo
 import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
@@ -50,8 +51,7 @@ fun Log(
 
     var monthHeight by remember { mutableStateOf(0) }
     var dayHeight by remember { mutableStateOf(0) }
-    var stickyDayOffset by remember { mutableStateOf(IntOffset.Zero) }
-    var stickyDayTopClip by remember { mutableStateOf(0f) }
+    var stickyDayInfo by remember { mutableStateOf(StickyHeaderInfo()) }
 
     // Compensate initial scroll offset for month header
     LaunchedEffect(monthHeight) {
@@ -70,7 +70,7 @@ fun Log(
             viewModel.currentDate.value = firstItem.date
 
             if (firstItem is LogItem.MonthHeader) {
-                stickyDayOffset = IntOffset(0, -dayHeight)
+                stickyDayInfo = stickyDayInfo.copy(offset = IntOffset(x = 0, y = -dayHeight))
                 return@collect
             }
 
@@ -81,15 +81,15 @@ fun Log(
                     else -> true
                 }
             }
-            val yOffset = when (nextItem?.key) {
+            val offset = when (nextItem?.key) {
                 is LogKey.Header -> -dayHeight
                 is LogKey.Item -> min(monthHeight, nextItem.offset - dayHeight)
                 else -> -dayHeight
             }
-            stickyDayOffset = IntOffset(0, yOffset)
 
-            val overlap = -(yOffset - monthHeight)
-            stickyDayTopClip = if (overlap > 0) overlap.toFloat() else 0f
+            val overlap = -(offset - monthHeight)
+            val clip = if (overlap > 0) overlap.toFloat() else 0f
+            stickyDayInfo = stickyDayInfo.copy(offset = IntOffset(x = 0, y = offset), clip = clip)
         }
     }
 
@@ -155,8 +155,8 @@ fun Log(
             style = LogDayStyle.NORMAL, // TODO
             modifier = Modifier
                 .onGloballyPositioned { dayHeight = it.size.height }
-                .offset { stickyDayOffset }
-                .drawWithContent { clipRect(top = stickyDayTopClip) { this@drawWithContent.drawContent() } }
+                .offset { stickyDayInfo.offset }
+                .drawWithContent { clipRect(top = stickyDayInfo.clip) { this@drawWithContent.drawContent() } }
                 .background(AppTheme.colors.scheme.surface)
                 .padding(all = AppTheme.dimensions.padding.P_3)
         )

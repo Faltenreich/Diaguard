@@ -86,7 +86,8 @@ fun Log(
             }
 
             val date = firstItem.date
-            val style = (firstItem as? LogItem.EntryContent)?.style ?: LogDayStyle.NORMAL
+            val style = (firstItem as? LogItem.EntryContent)?.style?.takeIf { it != LogDayStyle.HIDDEN }
+                ?: LogDayStyle.NORMAL
             val overlap = -(offset - monthHeight)
             val clip = if (overlap > 0) overlap.toFloat() else 0f
 

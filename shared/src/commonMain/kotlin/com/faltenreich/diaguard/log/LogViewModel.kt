@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.log
 
 import app.cash.paging.Pager
-import app.cash.paging.PagingData
 import app.cash.paging.PagingSource
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
+import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
 import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.combine
 class LogViewModel(
     date: Date?,
     getToday: GetTodayUseCase = inject(),
+    private val invalidateStickyHeaderInfo: InvalidateLogDayStickyHeaderInfoUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel<LogState, LogIntent>() {
@@ -29,7 +30,7 @@ class LogViewModel(
     private lateinit var dataSource: PagingSource<Date, LogItem>
     val currentDate = MutableStateFlow(initialDate)
 
-    val pagingData: Flow<PagingData<LogItem>> = Pager(
+    val pagingData = Pager(
         config = LogItemSource.newConfig(),
         initialKey = initialDate,
         pagingSourceFactory = { LogItemSource().also { dataSource = it } },
@@ -50,7 +51,13 @@ class LogViewModel(
         when (intent) {
             is LogIntent.SetMonthHeaderHeight -> monthHeaderHeight.value = intent.monthHeaderHeight
             is LogIntent.SetDayHeaderHeight -> dayHeaderHeight.value = intent.dayHeaderHeight
-            is LogIntent.SetStickyHeaderInfo -> stickyDayInfo.value = intent.stickyHeaderInfo
+            is LogIntent.InvalidateStickyHeaderInfo -> stickyDayInfo.value = invalidateStickyHeaderInfo(
+                stickyHeaderInfo = stickyDayInfo.value,
+                monthHeaderHeight = monthHeaderHeight.value,
+                dayHeaderHeight = dayHeaderHeight.value,
+                firstItem = intent.firstItem,
+                nextItems = intent.nextItems,
+            )
             is LogIntent.CreateEntry -> navigateToScreen(EntryFormScreen(date = intent.date))
             is LogIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))
             is LogIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())

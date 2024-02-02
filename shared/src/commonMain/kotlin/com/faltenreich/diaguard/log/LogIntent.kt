@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.log
 
+import androidx.compose.foundation.lazy.LazyListItemInfo
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.shared.datetime.Date
 
@@ -11,7 +11,10 @@ sealed interface LogIntent {
 
     data class SetDayHeaderHeight(val dayHeaderHeight: Int) : LogIntent
 
-    data class SetStickyHeaderInfo(val stickyHeaderInfo: LogDayStickyHeaderInfo) : LogIntent
+    data class InvalidateStickyHeaderInfo(
+        val firstItem: LogItem,
+        val nextItems: List<LazyListItemInfo>,
+    ) : LogIntent
 
     data class CreateEntry(val date: Date? = null) : LogIntent
 

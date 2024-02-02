@@ -4,6 +4,7 @@ import app.cash.paging.Pager
 import app.cash.paging.PagingData
 import app.cash.paging.PagingSource
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
+import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
@@ -15,26 +16,41 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.cachedIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 
 class LogViewModel(
     date: Date?,
     getToday: GetTodayUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
-) : ViewModel<PagingData<LogItem>, LogIntent>() {
+) : ViewModel<LogState, LogIntent>() {
 
     private val initialDate: Date = date ?: getToday()
     private lateinit var dataSource: PagingSource<Date, LogItem>
     val currentDate = MutableStateFlow(initialDate)
-    
-    override val state: Flow<PagingData<LogItem>> = Pager(
+
+    val pagingData: Flow<PagingData<LogItem>> = Pager(
         config = LogItemSource.newConfig(),
         initialKey = initialDate,
         pagingSourceFactory = { LogItemSource().also { dataSource = it } },
     ).flow.cachedIn(scope)
 
+    private val monthHeaderHeight = MutableStateFlow(0)
+    private val dayHeaderHeight = MutableStateFlow(0)
+    private val stickyDayInfo = MutableStateFlow(LogDayStickyHeaderInfo())
+
+    override val state: Flow<LogState> = combine(
+        monthHeaderHeight,
+        dayHeaderHeight,
+        stickyDayInfo,
+        ::LogState,
+    )
+
     override fun onIntent(intent: LogIntent) {
         when (intent) {
+            is LogIntent.SetMonthHeaderHeight -> monthHeaderHeight.value = intent.monthHeaderHeight
+            is LogIntent.SetDayHeaderHeight -> dayHeaderHeight.value = intent.dayHeaderHeight
+            is LogIntent.SetStickyHeaderInfo -> stickyDayInfo.value = intent.stickyHeaderInfo
             is LogIntent.CreateEntry -> navigateToScreen(EntryFormScreen(date = intent.date))
             is LogIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))
             is LogIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())

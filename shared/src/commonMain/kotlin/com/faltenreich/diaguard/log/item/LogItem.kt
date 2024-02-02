@@ -4,11 +4,15 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.log.LogKey
 import com.faltenreich.diaguard.shared.datetime.Date
 
-sealed class LogItem(val date: Date, val key: LogKey) {
+sealed class LogItem(val date: Date, val style: LogDayStyle, val key: LogKey) {
 
     class MonthHeader(
         date: Date,
-    ) : LogItem(date = date, key = LogKey.Header(date)) {
+    ) : LogItem(
+        date = date,
+        style = LogDayStyle.HIDDEN,
+        key = LogKey.Header(date),
+    ) {
 
         override fun toString(): String {
             return "Month: $date"
@@ -17,9 +21,10 @@ sealed class LogItem(val date: Date, val key: LogKey) {
 
     class EntryContent(
         val entry: Entry,
-        val style: LogDayStyle,
+        style: LogDayStyle,
     ) : LogItem(
         date = entry.dateTime.date,
+        style = style,
         key = LogKey.Item(entry.dateTime.date, isFirstOfDay = style != LogDayStyle.HIDDEN),
     ) {
 
@@ -30,9 +35,10 @@ sealed class LogItem(val date: Date, val key: LogKey) {
 
     class EmptyContent(
         date: Date,
-        val style: LogDayStyle,
+        style: LogDayStyle,
     ) : LogItem(
         date = date,
+        style = style,
         key = LogKey.Item(date, isFirstOfDay = true),
     ) {
 

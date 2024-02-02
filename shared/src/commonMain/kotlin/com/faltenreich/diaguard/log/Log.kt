@@ -40,20 +40,18 @@ fun Log(
     val listState = rememberLazyListState()
 
     // Compensate initial scroll offset for month header
-    LaunchedEffect(state.monthHeaderHeight) {
-        listState.scrollBy(-state.monthHeaderHeight.toFloat())
+    LaunchedEffect(state.monthHeaderSize.height) {
+        listState.scrollBy(-state.monthHeaderSize.height.toFloat())
     }
 
     LaunchedEffect(state) {
         snapshotFlow {
             listState.layoutInfo.visibleItemsInfo
-                .filter { it.offset > state.monthHeaderHeight }
+                .filter { it.offset > state.monthHeaderSize.height }
                 .takeIf(List<*>::isNotEmpty)
         }.distinctUntilChanged().filterNotNull().collect { nextItems ->
-            val firstItem = paginationItems.get(nextItems.first().index - 1)
-                ?: return@collect
-            viewModel.currentDate.value = firstItem.date
-            viewModel.dispatchIntent(LogIntent.InvalidateStickyHeaderInfo(firstItem, nextItems))
+            val firstItem = paginationItems.get(nextItems.first().index - 1) ?: return@collect
+            viewModel.dispatchIntent(LogIntent.OnScroll(firstItem, nextItems))
         }
     }
 
@@ -70,7 +68,7 @@ fun Log(
                         LogMonth(
                             item = item,
                             modifier = Modifier.onGloballyPositioned {
-                                viewModel.dispatchIntent(LogIntent.SetMonthHeaderHeight(it.size.height))
+                                viewModel.dispatchIntent(LogIntent.CacheMonthHeaderSize(it.size))
                             },
                         )
                     }
@@ -113,17 +111,17 @@ fun Log(
             }
         }
 
-        state.stickyDayInfo.date?.let { date ->
+        state.stickyHeaderInfo.date?.let { date ->
             LogDay(
                 date = date,
-                style = state.stickyDayInfo.style,
+                style = state.stickyHeaderInfo.style,
                 modifier = Modifier
                     .onGloballyPositioned {
-                        viewModel.dispatchIntent(LogIntent.SetDayHeaderHeight(it.size.height))
+                        viewModel.dispatchIntent(LogIntent.CacheDayHeaderSize(it.size))
                     }
-                    .offset { state.stickyDayInfo.offset }
+                    .offset { state.stickyHeaderInfo.offset }
                     .drawWithContent {
-                        clipRect(top = state.stickyDayInfo.clip) {
+                        clipRect(top = state.stickyHeaderInfo.clip) {
                             this@drawWithContent.drawContent()
                         }
                     }

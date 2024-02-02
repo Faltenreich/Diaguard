@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.log
 
+import androidx.compose.ui.unit.IntSize
 import app.cash.paging.Pager
 import app.cash.paging.PagingSource
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
@@ -36,28 +37,31 @@ class LogViewModel(
         pagingSourceFactory = { LogItemSource().also { dataSource = it } },
     ).flow.cachedIn(scope)
 
-    private val monthHeaderHeight = MutableStateFlow(0)
-    private val dayHeaderHeight = MutableStateFlow(0)
-    private val stickyDayInfo = MutableStateFlow(LogDayStickyHeaderInfo())
+    private val monthHeaderSize = MutableStateFlow(IntSize.Zero)
+    private val dayHeaderSize = MutableStateFlow(IntSize.Zero)
+    private val stickyHeaderInfo = MutableStateFlow(LogDayStickyHeaderInfo())
 
     override val state: Flow<LogState> = combine(
-        monthHeaderHeight,
-        dayHeaderHeight,
-        stickyDayInfo,
+        monthHeaderSize,
+        dayHeaderSize,
+        stickyHeaderInfo,
         ::LogState,
     )
 
     override fun onIntent(intent: LogIntent) {
         when (intent) {
-            is LogIntent.SetMonthHeaderHeight -> monthHeaderHeight.value = intent.monthHeaderHeight
-            is LogIntent.SetDayHeaderHeight -> dayHeaderHeight.value = intent.dayHeaderHeight
-            is LogIntent.InvalidateStickyHeaderInfo -> stickyDayInfo.value = invalidateStickyHeaderInfo(
-                stickyHeaderInfo = stickyDayInfo.value,
-                monthHeaderHeight = monthHeaderHeight.value,
-                dayHeaderHeight = dayHeaderHeight.value,
-                firstItem = intent.firstItem,
-                nextItems = intent.nextItems,
-            )
+            is LogIntent.CacheMonthHeaderSize -> monthHeaderSize.value = intent.size
+            is LogIntent.CacheDayHeaderSize -> dayHeaderSize.value = intent.size
+            is LogIntent.OnScroll -> {
+                currentDate.value = intent.firstItem.date
+                stickyHeaderInfo.value = invalidateStickyHeaderInfo(
+                    stickyHeaderInfo = stickyHeaderInfo.value,
+                    monthHeaderSize = monthHeaderSize.value,
+                    dayHeaderSize = dayHeaderSize.value,
+                    firstItem = intent.firstItem,
+                    nextItems = intent.nextItems,
+                )
+            }
             is LogIntent.CreateEntry -> navigateToScreen(EntryFormScreen(date = intent.date))
             is LogIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))
             is LogIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())

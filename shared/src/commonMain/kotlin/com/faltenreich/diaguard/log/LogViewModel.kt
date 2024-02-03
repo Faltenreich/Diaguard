@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.log
 
 import androidx.compose.ui.unit.IntSize
+import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import app.cash.paging.PagingSource
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
@@ -14,7 +15,6 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.GetTodayUseCase
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.cachedIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine

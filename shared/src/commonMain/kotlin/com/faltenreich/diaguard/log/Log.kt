@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.IntSize
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
@@ -25,7 +27,6 @@ import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Skeleton
-import com.faltenreich.diaguard.shared.view.collectAsPaginationItems
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 
@@ -36,7 +37,7 @@ fun Log(
 ) {
     // FIXME: Gets not updated on entry change
     val state = viewModel.collectState() ?: return
-    val paginationItems = viewModel.pagingData.collectAsPaginationItems()
+    val paginationItems = viewModel.pagingData.collectAsLazyPagingItems()
     val listState = rememberLazyListState()
 
     // Compensate initial scroll offset for month header
@@ -111,9 +112,10 @@ fun Log(
             }
         }
 
-        state.stickyHeaderInfo.date?.let { date ->
+        val stickyDate = state.stickyHeaderInfo.date
+        if (state.monthHeaderSize != IntSize.Zero && stickyDate != null) {
             LogDay(
-                date = date,
+                date = stickyDate,
                 style = state.stickyHeaderInfo.style,
                 modifier = Modifier
                     .onGloballyPositioned {

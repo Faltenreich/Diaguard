@@ -35,6 +35,7 @@ kotlin {
                 implementation(libs.ktor.contentnegotiation)
                 implementation(libs.ktor.serialization)
                 implementation(libs.paging.common)
+                implementation(libs.paging.common.compose)
                 implementation(libs.shimmer)
                 implementation(libs.sqldelight.coroutines)
                 implementation(libs.bundles.voyager)

@@ -70,6 +70,7 @@ moko-resources = { module = "dev.icerock.moko:resources", version.ref = "moko" }
 moko-resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko" }
 moko-resources-test = { module = "dev.icerock.moko:resources-test", version.ref = "moko" }
 paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging" }
+paging-common-compose = { module = "app.cash.paging:paging-compose-common", version.ref = "paging" }
 paging-android = { module = "androidx.paging:paging-runtime", version.ref = "paging-android" }
 paging-android-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-android" }
 shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }

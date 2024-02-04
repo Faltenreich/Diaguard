@@ -26,7 +26,9 @@ import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.LifecycleState
 import com.faltenreich.diaguard.shared.view.Skeleton
+import com.faltenreich.diaguard.shared.view.rememberLifecycleState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 
@@ -35,7 +37,6 @@ fun Log(
     modifier: Modifier = Modifier,
     viewModel: LogViewModel = inject(),
 ) {
-    // FIXME: Gets not updated on entry change
     val state = viewModel.collectState() ?: return
     val paginationItems = viewModel.pagingData.collectAsLazyPagingItems()
     val listState = rememberLazyListState()
@@ -43,6 +44,14 @@ fun Log(
     // Compensate initial scroll offset for month header
     LaunchedEffect(state.monthHeaderSize.height) {
         listState.scrollBy(-state.monthHeaderSize.height.toFloat())
+    }
+
+    val lifecycleState = rememberLifecycleState()
+    LaunchedEffect(lifecycleState) {
+        if (lifecycleState == LifecycleState.RESUMED) {
+            // FIXME: Scrolls down, maybe due to wrong refreshKey
+            paginationItems.refresh()
+        }
     }
 
     LaunchedEffect(state) {

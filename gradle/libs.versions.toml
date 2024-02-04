@@ -9,6 +9,7 @@ app-android-sdk-target = "34"
 
 activity-compose = "1.8.2"
 android-gradle = "8.2.2"
+android-lifecycle-compose = "2.7.0"
 android-test-runner = "1.5.2"
 android-test-junit = "1.1.5"
 compose = "1.6.0-beta01"
@@ -42,6 +43,7 @@ activity-compose = { module = "androidx.activity:activity-compose", version.ref 
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 androidx-emojipicker = { module = "androidx.emoji2:emoji2-emojipicker", version.ref = "emojipicker" }
+androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "android-lifecycle-compose" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "android-test-runner" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "android-test-junit" }
 androidx-test-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "android-test-junit" }

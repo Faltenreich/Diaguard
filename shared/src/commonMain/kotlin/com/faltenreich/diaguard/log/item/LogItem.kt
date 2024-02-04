@@ -10,7 +10,7 @@ sealed class LogItem(val date: Date, val style: LogDayStyle, val key: LogKey) {
         date: Date,
     ) : LogItem(
         date = date,
-        style = LogDayStyle.HIDDEN,
+        style = LogDayStyle(isVisible = false, isHighlighted = false),
         key = LogKey.Header(date),
     ) {
 
@@ -25,7 +25,7 @@ sealed class LogItem(val date: Date, val style: LogDayStyle, val key: LogKey) {
     ) : LogItem(
         date = entry.dateTime.date,
         style = style,
-        key = LogKey.Item(entry.dateTime.date, isFirstOfDay = style != LogDayStyle.HIDDEN),
+        key = LogKey.Item(entry.dateTime.date, isFirstOfDay = style.isVisible),
     ) {
 
         override fun toString(): String {

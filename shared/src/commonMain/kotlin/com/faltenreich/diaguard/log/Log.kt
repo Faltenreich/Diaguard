@@ -49,7 +49,6 @@ fun Log(
     val lifecycleState = rememberLifecycleState()
     LaunchedEffect(lifecycleState) {
         if (lifecycleState == LifecycleState.RESUMED) {
-            // FIXME: Scrolls down, maybe due to wrong refreshKey
             paginationItems.refresh()
         }
     }

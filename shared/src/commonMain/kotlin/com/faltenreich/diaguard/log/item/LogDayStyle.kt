@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.log.item
 
-enum class LogDayStyle {
-    HIDDEN,
-    NORMAL,
-    HIGHLIGHTED,
-}
+data class LogDayStyle(
+    val isVisible: Boolean,
+    val isHighlighted: Boolean,
+)

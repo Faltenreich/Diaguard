@@ -77,17 +77,19 @@ class LogItemSource(
             val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
                 LogItem.EntryContent(
                     entry = entry,
-                    style = when {
-                        entry != entriesOfDate.first() -> LogDayStyle.HIDDEN
-                        entry.dateTime.date == today -> LogDayStyle.HIGHLIGHTED
-                        else -> LogDayStyle.NORMAL
-                    },
+                    style = LogDayStyle(
+                        isVisible = entry == entriesOfDate.first(),
+                        isHighlighted = entry.dateTime.date == today,
+                    ),
                 )
             }
             val content = entryContent ?: listOf(
                 LogItem.EmptyContent(
                     date = date,
-                    style = if (date == today) LogDayStyle.HIGHLIGHTED else LogDayStyle.NORMAL,
+                    style =LogDayStyle(
+                        isVisible = true,
+                        isHighlighted = date == today,
+                    ),
                 ),
             )
             headers + content

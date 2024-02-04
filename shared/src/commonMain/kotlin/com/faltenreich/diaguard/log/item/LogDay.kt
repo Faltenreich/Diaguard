@@ -18,9 +18,7 @@ fun LogDay(
     modifier: Modifier = Modifier,
     formatter: DateTimeFormatter = inject(),
 ) {
-    if (style == LogDayStyle.HIDDEN) {
-        Box(modifier = modifier)
-    } else {
+    if (style.isVisible) {
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
@@ -28,7 +26,7 @@ fun LogDay(
             Text(
                 text = formatter.formatDayOfMonth(date),
                 color =
-                if (style == LogDayStyle.HIGHLIGHTED) AppTheme.colors.scheme.primary
+                if (style.isHighlighted) AppTheme.colors.scheme.primary
                 else AppTheme.colors.scheme.onBackground,
                 style = AppTheme.typography.headlineSmall,
             )
@@ -37,5 +35,7 @@ fun LogDay(
                 style = AppTheme.typography.labelMedium,
             )
         }
+    } else {
+        Box(modifier = modifier)
     }
 }

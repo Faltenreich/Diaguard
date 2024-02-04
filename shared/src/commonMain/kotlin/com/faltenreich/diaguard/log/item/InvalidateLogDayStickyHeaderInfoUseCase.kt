@@ -32,15 +32,12 @@ class InvalidateLogDayStickyHeaderInfoUseCase {
             else -> -dayHeaderSize.height
         }
 
-        val date = firstItem.date
-        val style = firstItem.style.takeIf { it != LogDayStyle.HIDDEN } ?: LogDayStyle.NORMAL
         val overlap = -(offset - monthHeaderSize.height)
         val clip = if (overlap > 0) overlap.toFloat() else 0f
 
         return stickyHeaderInfo.copy(
-            date = date,
-            // FIXME: Highlights only first entry of current day
-            style = style,
+            date = firstItem.date,
+            style = firstItem.style.copy(isVisible = true),
             offset = IntOffset(x = 0, y = offset),
             clip = clip,
         )

@@ -78,7 +78,7 @@ class LogItemSource(
                 LogItem.EntryContent(
                     entry = entry,
                     style = when {
-                        entry != entries.first() -> LogDayStyle.HIDDEN
+                        entry != entriesOfDate.first() -> LogDayStyle.HIDDEN
                         entry.dateTime.date == today -> LogDayStyle.HIGHLIGHTED
                         else -> LogDayStyle.NORMAL
                     },

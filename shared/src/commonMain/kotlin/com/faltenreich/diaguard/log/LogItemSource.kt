@@ -22,8 +22,8 @@ import com.faltenreich.diaguard.shared.view.isPrepending
 import com.faltenreich.diaguard.shared.view.isRefreshing
 
 class LogItemSource(
+    getTodayUseCase: GetTodayUseCase = inject(),
     private val entryRepository: EntryRepository = inject(),
-    private val getTodayUseCase: GetTodayUseCase = inject(),
 ) : PagingSource<Date, LogItem>() {
 
     private data class Cache(
@@ -36,9 +36,9 @@ class LogItemSource(
 
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
         Logger.debug("LogViewModel: getRefreshKey for: $state")
+        // FIXME: Calculate correct refresh key to avoid jumps after having scrolled down
         val anchorPosition = state.anchorPosition ?: return null
-        // FIXME: Determine refresh key to fix pagination invalidation on invalidation, e.g. when deleting item
-        return state.closestPageToPosition(anchorPosition)?.prevKey
+        return state.closestItemToPosition(1)?.date
     }
 
     override suspend fun load(params: PagingSourceLoadParams<Date>): PagingSourceLoadResult<Date, LogItem> {

@@ -60,7 +60,7 @@ fun Log(
                 .filter { it.offset > state.monthHeaderSize.height }
                 .takeIf(List<*>::isNotEmpty)
         }.distinctUntilChanged().filterNotNull().collect { nextItems ->
-            val firstItem = paginationItems.get(nextItems.first().index - 1) ?: return@collect
+            val firstItem = paginationItems[nextItems.first().index - 1] ?: return@collect
             viewModel.dispatchIntent(LogIntent.OnScroll(firstItem, nextItems))
         }
     }
@@ -73,7 +73,7 @@ fun Log(
             for (index in 0 until paginationItems.itemCount) {
                 when (val peek = paginationItems.peek(index)) {
                     is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
-                        val item = paginationItems.get(index) as? LogItem.MonthHeader
+                        val item = paginationItems[index] as? LogItem.MonthHeader
                         checkNotNull(item)
                         LogMonth(
                             item = item,

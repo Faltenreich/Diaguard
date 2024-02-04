@@ -39,6 +39,7 @@ class InvalidateLogDayStickyHeaderInfoUseCase {
 
         return stickyHeaderInfo.copy(
             date = date,
+            // FIXME: Highlights only first entry of current day
             style = style,
             offset = IntOffset(x = 0, y = offset),
             clip = clip,

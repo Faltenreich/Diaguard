@@ -16,6 +16,8 @@ class MealSeed {
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.MEAL,
                 name = MR.strings.meal,
+                minimumValue = 0.0,
+                maximumValue = 1000.0,
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.MEAL_CARBOHYDRATES,

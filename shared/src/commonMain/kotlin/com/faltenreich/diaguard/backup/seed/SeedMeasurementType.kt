@@ -7,12 +7,16 @@ data class SeedMeasurementType(
     // TODO: Test uniqueness
     val key: DatabaseKey.MeasurementType,
     val name: StringResource,
+    val minimumValue: Double,
+    val maximumValue: Double,
     val units: List<SeedMeasurementUnit>,
 ) {
 
     constructor(
         key: DatabaseKey.MeasurementType,
         name: StringResource,
+        minimumValue: Double,
+        maximumValue: Double,
         unit: SeedMeasurementUnit,
-    ) : this(key, name, listOf(unit))
+    ) : this(key, name, minimumValue, maximumValue, listOf(unit))
 }

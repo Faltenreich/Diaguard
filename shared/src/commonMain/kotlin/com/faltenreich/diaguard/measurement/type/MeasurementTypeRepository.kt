@@ -17,6 +17,8 @@ class MeasurementTypeRepository(
     fun create(
         key: String?,
         name: String,
+        minimumValue: Double,
+        maximumValue: Double,
         sortIndex: Long,
         propertyId: Long,
     ): Long {
@@ -24,6 +26,8 @@ class MeasurementTypeRepository(
             createdAt = dateTimeFactory.now(),
             key = key,
             name = name,
+            minimumValue = minimumValue,
+            maximumValue = maximumValue,
             sortIndex = sortIndex,
             // We set this temporary id because the corresponding unit will be created afterwards
             selectedUnitId = MeasurementType.SELECTED_UNIT_ID_INVALID,
@@ -63,6 +67,8 @@ class MeasurementTypeRepository(
     fun update(
         id: Long,
         name: String,
+        minimumValue: Double,
+        maximumValue: Double,
         sortIndex: Long,
         selectedUnitId: Long,
     ) {
@@ -70,6 +76,8 @@ class MeasurementTypeRepository(
             id = id,
             updatedAt = dateTimeFactory.now(),
             name = name,
+            minimumValue = minimumValue,
+            maximumValue = maximumValue,
             sortIndex = sortIndex,
             selectedUnitId = selectedUnitId,
         )

@@ -16,6 +16,8 @@ class HbA1cSeed {
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.HBA1C,
                 name = MR.strings.hba1c,
+                minimumValue = 1.0,
+                maximumValue = 25.0,
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.HBA1C_PERCENT,

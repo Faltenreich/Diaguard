@@ -8,12 +8,14 @@ class UpdateMeasurementTypeUseCase(
     private val measurementTypeRepository: MeasurementTypeRepository = inject(),
 ) {
 
-    operator fun invoke(type: MeasurementType) {
+    operator fun invoke(type: MeasurementType) = with (type) {
         measurementTypeRepository.update(
-            id = type.id,
-            name = type.name,
-            sortIndex = type.sortIndex,
-            selectedUnitId = type.selectedUnitId,
+            id = id,
+            name = name,
+            minimumValue = minimumValue,
+            maximumValue = maximumValue,
+            sortIndex = sortIndex,
+            selectedUnitId = selectedUnitId,
         )
     }
 }

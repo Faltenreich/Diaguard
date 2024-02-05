@@ -13,14 +13,18 @@ class CreateMeasurementTypeUseCase(
     operator fun invoke(
         typeKey: String?,
         typeName: String,
+        typeMinimumValue: Double,
+        typeMaximumValue: Double,
         typeSortIndex: Long,
         propertyId: Long,
         unitKey: String?,
         unitName: String,
     ) {
         val typeId = measurementTypeRepository.create(
-            name = typeName,
             key = typeKey,
+            name = typeName,
+            minimumValue = typeMinimumValue,
+            maximumValue = typeMaximumValue,
             sortIndex = typeSortIndex,
             propertyId = propertyId,
         )
@@ -34,6 +38,8 @@ class CreateMeasurementTypeUseCase(
         measurementTypeRepository.update(
             id = typeId,
             name = typeName,
+            minimumValue = typeMinimumValue,
+            maximumValue = typeMaximumValue,
             sortIndex = typeSortIndex,
             selectedUnitId = unitId,
         )

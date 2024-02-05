@@ -36,6 +36,8 @@ class SeedImport(
                 val typeId = typeRepository.create(
                     key = type.key.key,
                     name = localization.getString(type.name),
+                    minimumValue = type.minimumValue,
+                    maximumValue = type.maximumValue,
                     sortIndex = typeSortIndex.toLong(),
                     propertyId = propertyId,
                 )
@@ -52,6 +54,8 @@ class SeedImport(
                         typeRepository.update(
                             id = typeId,
                             name = localization.getString(type.name),
+                            minimumValue = type.minimumValue,
+                            maximumValue = type.maximumValue,
                             sortIndex = typeSortIndex.toLong(),
                             selectedUnitId = unitId,
                         )

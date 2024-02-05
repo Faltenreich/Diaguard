@@ -16,6 +16,8 @@ class BloodSugarSeed {
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.BLOOD_SUGAR,
                 name = MR.strings.blood_sugar,
+                minimumValue = 1.0,
+                maximumValue = 1000.0,
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.BLOOD_SUGAR_MILLIGRAMS_PER_DECILITER,

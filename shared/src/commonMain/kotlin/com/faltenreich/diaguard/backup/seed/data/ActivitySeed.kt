@@ -16,6 +16,8 @@ class ActivitySeed {
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.ACTIVITY,
                 name = MR.strings.activity,
+                minimumValue = 1.0,
+                maximumValue = 1000.0,
                 unit = SeedMeasurementUnit(
                     key = DatabaseKey.MeasurementUnit.ACTIVITY,
                     name = MR.strings.minutes,

@@ -61,6 +61,9 @@ class MeasurementPropertyFormViewModel(
             is MeasurementPropertyFormIntent.CreateType -> createMeasurementType(
                 typeKey = null,
                 typeName = intent.typeName,
+                // TODO: Make user-customizable
+                typeMinimumValue = 0.0,
+                typeMaximumValue = Double.MAX_VALUE,
                 typeSortIndex = intent.types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
                 propertyId = intent.propertyId,
                 unitKey = null,

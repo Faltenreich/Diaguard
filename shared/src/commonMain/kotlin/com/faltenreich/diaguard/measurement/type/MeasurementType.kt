@@ -9,8 +9,6 @@ import com.faltenreich.diaguard.shared.datetime.DateTime
 
 /**
  * Entity representing one type of [MeasurementProperty]
- *
- * TODO: Possible and target ranges
  */
 data class MeasurementType(
     override val id: Long,
@@ -18,6 +16,8 @@ data class MeasurementType(
     override val updatedAt: DateTime,
     override val key: DatabaseKey.MeasurementType?,
     val name: String,
+    val minimumValue: Double,
+    val maximumValue: Double,
     val sortIndex: Long,
     val selectedUnitId: Long,
     val propertyId: Long,

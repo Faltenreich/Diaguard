@@ -9,6 +9,8 @@ interface MeasurementTypeDao {
         createdAt: DateTime,
         key: String?,
         name: String,
+        minimumValue: Double,
+        maximumValue: Double,
         sortIndex: Long,
         selectedUnitId: Long,
         propertyId: Long,
@@ -34,6 +36,8 @@ interface MeasurementTypeDao {
         id: Long,
         updatedAt: DateTime,
         name: String,
+        minimumValue: Double,
+        maximumValue: Double,
         sortIndex: Long,
         selectedUnitId: Long,
     )

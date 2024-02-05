@@ -18,12 +18,14 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
+import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.log.item.LogLoadingIndicator
 import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.LifecycleState
@@ -69,6 +71,12 @@ fun Log(
             modifier = modifier.fillMaxSize(),
             state = listState,
         ) {
+            if (paginationItems.loadState.prepend == LoadState.Loading) {
+                item {
+                    LogLoadingIndicator(modifier = Modifier.fillMaxWidth())
+                }
+            }
+
             for (index in 0 until paginationItems.itemCount) {
                 when (val peek = paginationItems.peek(index)) {
                     is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
@@ -116,6 +124,12 @@ fun Log(
                                 .height(AppTheme.dimensions.size.TouchSizeMedium),
                         )
                     }
+                }
+            }
+
+            if (paginationItems.loadState.append == LoadState.Loading) {
+                item {
+                    LogLoadingIndicator(modifier = Modifier.fillMaxWidth())
                 }
             }
         }

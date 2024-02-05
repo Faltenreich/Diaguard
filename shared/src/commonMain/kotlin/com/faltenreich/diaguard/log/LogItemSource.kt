@@ -86,7 +86,7 @@ class LogItemSource(
             val content = entryContent ?: listOf(
                 LogItem.EmptyContent(
                     date = date,
-                    style =LogDayStyle(
+                    style = LogDayStyle(
                         isVisible = true,
                         isHighlighted = date == today,
                     ),
@@ -99,9 +99,6 @@ class LogItemSource(
             data = items,
             prevKey = cache.startDate.minus(1, DateUnit.DAY),
             nextKey = cache.endDate.plus(1, DateUnit.DAY),
-            // FIXME: Prepending placeholders lead to endless pagination due to stuck scroll position
-            // itemsBefore = 1,
-            itemsAfter = PAGE_SIZE_IN_DAYS,
         )
         Logger.debug("LogViewModel: Fetched data for $startDate - $endDate, " +
             "previous: ${page.prevKey}, next: ${page.nextKey}")
@@ -114,10 +111,7 @@ class LogItemSource(
         private const val PAGE_SIZE_IN_DAYS = 31
 
         fun newConfig(): PagingConfig {
-            return PagingConfig(
-                pageSize = PAGE_SIZE_IN_DAYS,
-                // prefetchDistance = 1,
-            )
+            return PagingConfig(pageSize = PAGE_SIZE_IN_DAYS)
         }
     }
 }

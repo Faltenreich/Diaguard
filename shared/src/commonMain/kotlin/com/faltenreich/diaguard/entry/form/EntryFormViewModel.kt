@@ -11,6 +11,11 @@ import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputD
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
 import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
+import com.faltenreich.diaguard.entry.form.validation.EntryFormHasInputRule
+import com.faltenreich.diaguard.entry.form.validation.EntryFormIsMissingInputException
+import com.faltenreich.diaguard.entry.form.validation.MeasurementValueIsTooHighException
+import com.faltenreich.diaguard.entry.form.validation.MeasurementValueIsTooLowException
+import com.faltenreich.diaguard.entry.form.validation.MeasurementValueIsWithinRangeRule
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
@@ -23,6 +28,7 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.validation.ValidateUseCase
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -44,6 +50,7 @@ class EntryFormViewModel(
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val validate: ValidateUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
@@ -129,15 +136,30 @@ class EntryFormViewModel(
     }
 
     private fun submit() {
-        createEntry(
+        val input = EntryFormInput(
             id = id,
             dateTime = dateTime,
-            note = note.takeIf(String::isNotBlank),
             measurements = measurements,
-            foodEaten = foodEaten,
             tags = tags,
+            note = note.takeIf(String::isNotBlank),
+            foodEaten = foodEaten,
         )
-        navigateBack()
+        val result = validate(
+            input,
+            EntryFormHasInputRule(),
+            MeasurementValueIsWithinRangeRule(),
+        )
+        if (result.isSuccess) {
+            createEntry(input)
+            navigateBack()
+        } else {
+            when (result.exceptionOrNull()) {
+                is EntryFormIsMissingInputException -> Unit // TODO: Display error for whole form
+                is MeasurementValueIsTooLowException -> Unit // TODO: Display error in list item for measurement
+                is MeasurementValueIsTooHighException -> Unit
+                else -> Unit // TODO: Display generic error
+            }
+        }
     }
 
     private fun deleteIfNeeded() {

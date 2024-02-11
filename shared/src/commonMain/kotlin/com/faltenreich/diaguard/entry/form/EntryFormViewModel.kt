@@ -11,11 +11,9 @@ import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputD
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
 import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
-import com.faltenreich.diaguard.entry.form.validation.EntryFormHasInputRule
-import com.faltenreich.diaguard.entry.form.validation.EntryFormIsMissingInputException
-import com.faltenreich.diaguard.entry.form.validation.MeasurementValueIsTooHighException
-import com.faltenreich.diaguard.entry.form.validation.MeasurementValueIsTooLowException
-import com.faltenreich.diaguard.entry.form.validation.MeasurementValueIsWithinRangeRule
+import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueException
+import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueRule
+import com.faltenreich.diaguard.entry.form.validation.ExhaustiveMeasurementValuesRule
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
@@ -146,17 +144,15 @@ class EntryFormViewModel(
         )
         val result = validate(
             input,
-            EntryFormHasInputRule(),
-            MeasurementValueIsWithinRangeRule(),
+            RealisticMeasurementValueRule(),
+            ExhaustiveMeasurementValuesRule(),
         )
         if (result.isSuccess) {
             createEntry(input)
             navigateBack()
         } else {
             when (result.exceptionOrNull()) {
-                is EntryFormIsMissingInputException -> Unit // TODO: Display error for whole form
-                is MeasurementValueIsTooLowException -> Unit // TODO: Display error in list item for measurement
-                is MeasurementValueIsTooHighException -> Unit
+                is RealisticMeasurementValueException -> Unit
                 else -> Unit // TODO: Display generic error
             }
         }

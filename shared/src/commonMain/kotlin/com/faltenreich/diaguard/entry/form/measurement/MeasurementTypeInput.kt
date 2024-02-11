@@ -25,6 +25,8 @@ fun MeasurementTypeInput(
         label = data.type.name,
         trailingIcon = action,
         suffix = { Text(data.type.selectedUnit.abbreviation) },
+        supportingText = data.error?.let { error -> { Text(error) } },
+        isError = data.error != null,
         maxLines = 1,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal,

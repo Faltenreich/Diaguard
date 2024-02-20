@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.shared.view.TextInput
 
 @Composable
 fun FoodEatenInput(
-    data: FoodEatenInputData,
+    data: FoodEatenInputState,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {

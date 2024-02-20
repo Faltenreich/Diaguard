@@ -5,7 +5,7 @@ class CreateFoodEatenUseCase(
 ) {
 
     operator fun invoke(
-        foodEaten: List<FoodEatenInputData>,
+        foodEaten: List<FoodEatenInputState>,
         entryId: Long,
     ) {
         val foodEatenBefore = foodEatenRepository.getByEntryId(entryId)
@@ -14,7 +14,7 @@ class CreateFoodEatenUseCase(
     }
 
     private fun createOrUpdateFoodEaten(
-        foodEaten: List<FoodEatenInputData>,
+        foodEaten: List<FoodEatenInputState>,
         foodEatenBefore: List<FoodEaten>,
         entryId: Long,
     ) {
@@ -33,7 +33,7 @@ class CreateFoodEatenUseCase(
     }
 
     private fun deleteFoodEatenIfObsolete(
-        foodEaten: List<FoodEatenInputData>,
+        foodEaten: List<FoodEatenInputState>,
         foodEatenBefore: List<FoodEaten>,
     ) {
         foodEatenBefore

@@ -19,15 +19,15 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.food.eaten.FoodEatenInput
-import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
+import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 
 @Composable
 fun MeasurementPropertyInput(
-    data: MeasurementPropertyInputData,
-    foodEaten: List<FoodEatenInputData>,
+    state: MeasurementPropertyInputState,
+    foodState: List<FoodEatenInputState>,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -40,16 +40,16 @@ fun MeasurementPropertyInput(
             verticalAlignment = Alignment.Top,
         ) {
             MeasurementPropertyIcon(
-                property = data.property,
+                property = state.property,
                 modifier = Modifier.padding(top = AppTheme.dimensions.padding.P_3_25),
             )
             FlowRow(modifier = modifier) {
-                val types = data.typeInputDataList
+                val types = state.typeInputDataList
                 types.forEach { type ->
                     MeasurementTypeInput(
                         data = type,
                         modifier = Modifier.weight(1f),
-                        action = if (data.property.isMeal) {
+                        action = if (state.property.isMeal) {
                             {
                                 IconButton(onClick = { onIntent(EntryFormIntent.SelectFood) }) {
                                     ResourceIcon(MR.images.ic_search)
@@ -63,8 +63,8 @@ fun MeasurementPropertyInput(
                 }
             }
         }
-        if (data.property.isMeal) {
-            foodEaten.forEach { data ->
+        if (state.property.isMeal) {
+            foodState.forEach { data ->
                 Divider()
                 FormRow(
                     modifier = modifier.background(AppTheme.colors.scheme.surfaceVariant),

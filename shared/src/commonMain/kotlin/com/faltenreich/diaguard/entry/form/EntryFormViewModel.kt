@@ -5,17 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
-import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputDataUseCase
-import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementsInputDataUseCase
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputData
+import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
+import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementPropertyInputStateUseCase
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputState
 import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
+import com.faltenreich.diaguard.entry.form.validation.ExhaustiveMeasurementValuesRule
 import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueException
 import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueRule
-import com.faltenreich.diaguard.entry.form.validation.ExhaustiveMeasurementValuesRule
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.eaten.FoodEatenInputData
+import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
@@ -42,8 +42,8 @@ class EntryFormViewModel(
     entry: Entry?,
     date: Date?,
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
-    getMeasurementInputData: GetMeasurementsInputDataUseCase = inject(),
-    getFoodEatenInputData: GetFoodEatenInputDataUseCase = inject(),
+    getMeasurementPropertyInputState: GetMeasurementPropertyInputStateUseCase = inject(),
+    getFoodEatenInputState: GetFoodEatenInputStateUseCase = inject(),
     getTagsOfEntry: GetTagsOfEntry = inject(),
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
@@ -77,8 +77,8 @@ class EntryFormViewModel(
 
     var alarmDelayInMinutes: Int? by mutableStateOf(null)
 
-    var measurements by mutableStateOf(emptyList<MeasurementPropertyInputData>())
-    var foodEaten by mutableStateOf(emptyList<FoodEatenInputData>())
+    var measurements by mutableStateOf(emptyList<MeasurementPropertyInputState>())
+    var foodEaten by mutableStateOf(emptyList<FoodEatenInputState>())
     var tags by mutableStateOf(emptyList<Tag>())
 
     override val state: Flow<EntryFormState> = tag
@@ -87,13 +87,13 @@ class EntryFormViewModel(
 
     init {
         scope.launch(Dispatchers.IO) {
-            val measurements = getMeasurementInputData(entry)
+            val measurements = getMeasurementPropertyInputState(entry)
             withContext(Dispatchers.Main) {
                 this@EntryFormViewModel.measurements = measurements
             }
         }
         scope.launch(Dispatchers.IO) {
-            val foodEaten = getFoodEatenInputData(entry)
+            val foodEaten = getFoodEatenInputState(entry)
             withContext(Dispatchers.Main) {
                 this@EntryFormViewModel.foodEaten = foodEaten
             }
@@ -122,7 +122,7 @@ class EntryFormViewModel(
         }
     }
 
-    private fun updateMeasurementValue(update: MeasurementTypeInputData) {
+    private fun updateMeasurementValue(update: MeasurementTypeInputState) {
         measurements = measurements.map { property ->
             property.copy(typeInputDataList = property.typeInputDataList.map { legacy ->
                 when (legacy.type) {
@@ -166,10 +166,10 @@ class EntryFormViewModel(
     }
 
     private fun addFood(food: Food) {
-        foodEaten += FoodEatenInputData(food)
+        foodEaten += FoodEatenInputState(food)
     }
 
-    private fun editFood(food: FoodEatenInputData) {
+    private fun editFood(food: FoodEatenInputState) {
         foodEaten = foodEaten.map { legacy ->
             when (legacy.food) {
                 food.food -> food
@@ -178,7 +178,7 @@ class EntryFormViewModel(
         }
     }
 
-    private fun removeFood(food: FoodEatenInputData) {
+    private fun removeFood(food: FoodEatenInputState) {
         foodEaten -= food
     }
 }

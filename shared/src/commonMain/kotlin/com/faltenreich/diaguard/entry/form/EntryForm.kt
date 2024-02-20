@@ -113,12 +113,10 @@ fun EntryForm(
 
         TextDivider(getString(MR.strings.measurement_properties))
 
-        val properties = viewModel.measurements
-        val foodEaten = viewModel.foodEaten
-        properties.forEach { property ->
+        viewModel.measurements.forEach { measurement ->
             MeasurementPropertyInput(
-                data = property,
-                foodEaten = foodEaten,
+                state = measurement,
+                foodState = viewModel.foodEaten,
                 onIntent = viewModel::dispatchIntent,
             )
             Divider()

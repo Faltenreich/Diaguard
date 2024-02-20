@@ -1,16 +1,16 @@
 package com.faltenreich.diaguard.measurement.value
 
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputData
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 
 class CreateMeasurementValuesUseCase(
     private val measurementValueRepository: MeasurementValueRepository,
 ) {
 
     operator fun invoke(
-        measurements: List<MeasurementPropertyInputData>,
+        measurements: List<MeasurementPropertyInputState>,
         entryId: Long,
     ) {
-        val values = measurements.flatMap(MeasurementPropertyInputData::typeInputDataList)
+        val values = measurements.flatMap(MeasurementPropertyInputState::typeInputDataList)
         val valuesFromBefore = measurementValueRepository.getByEntryId(entryId)
         values.forEach { (type, input) ->
             // TODO: Validate and normalize by unit

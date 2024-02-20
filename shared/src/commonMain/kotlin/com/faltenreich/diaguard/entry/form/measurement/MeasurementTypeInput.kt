@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.shared.view.TextInput
 
 @Composable
 fun MeasurementTypeInput(
-    data: MeasurementTypeInputData,
+    data: MeasurementTypeInputState,
     action: @Composable (() -> Unit)? = null,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,

@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.value.IntermediateValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueConverter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.datetime.DateUnit
@@ -47,25 +48,16 @@ class GetAverageUseCase(
                 maxDateTime = todayAtEndOfDay,
             ),
         ) { types: List<MeasurementType>, averageOfDay: Double?, averageOfWeek: Double?, averageOfMonth: Double? ->
-            val factor = types.first().selectedUnit.factor
+            val unit = types.first().selectedUnit
             DashboardViewState.Revisit.Average(
                 day = averageOfDay?.let {
-                    measurementValueConverter.convertToCustom(
-                        value = averageOfDay,
-                        factor = factor,
-                    )
+                    measurementValueConverter.convertToCustom(IntermediateValue(averageOfDay, unit))
                 }?.let(numberFormatter::invoke),
                 week = averageOfWeek?.let {
-                    measurementValueConverter.convertToCustom(
-                        value = averageOfWeek,
-                        factor = factor,
-                    )
+                    measurementValueConverter.convertToCustom(IntermediateValue(averageOfWeek, unit))
                 }?.let(numberFormatter::invoke),
                 month = averageOfMonth?.let {
-                    measurementValueConverter.convertToCustom(
-                        value = averageOfMonth,
-                        factor = factor,
-                    )
+                    measurementValueConverter.convertToCustom(IntermediateValue(averageOfMonth, unit))
                 }?.let(numberFormatter::invoke),
             )
         }

@@ -1,13 +1,14 @@
 package com.faltenreich.diaguard.entry.form.validation
 
-import com.faltenreich.diaguard.entry.form.EntryFormInput
-import com.faltenreich.diaguard.shared.validation.Rule
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
+import com.faltenreich.diaguard.shared.validation.ValidationResult
+import com.faltenreich.diaguard.shared.validation.ValidationRule
 
-class ExhaustiveMeasurementValuesRule : Rule<EntryFormInput> {
+class ExhaustiveMeasurementValuesRule : ValidationRule<MeasurementPropertyInputState> {
 
-    override fun check(input: EntryFormInput): Result<Unit> {
+    override fun check(input: MeasurementPropertyInputState): ValidationResult<MeasurementPropertyInputState> {
         // TODO: Check whether one value for every type is given
         // TODO: Add this info to data class of MeasurementType (isMandatory?)
-        return Result.success(Unit)
+        return ValidationResult.Success(input)
     }
 }

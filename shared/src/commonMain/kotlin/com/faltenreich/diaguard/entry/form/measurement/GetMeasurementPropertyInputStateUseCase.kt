@@ -29,8 +29,10 @@ class GetMeasurementPropertyInputStateUseCase(
                         type = type,
                         input = value?.value?.toString() ?: "",
                         isLast = isLast,
+                        error = null,
                     )
-                }
+                },
+                error = null,
             )
         }
     }

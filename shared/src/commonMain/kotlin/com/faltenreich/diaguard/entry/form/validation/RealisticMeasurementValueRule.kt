@@ -1,26 +1,17 @@
 package com.faltenreich.diaguard.entry.form.validation
 
-import com.faltenreich.diaguard.entry.form.EntryFormInput
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputState
 import com.faltenreich.diaguard.measurement.value.MeasurementValueFormatter
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.validation.Rule
+import com.faltenreich.diaguard.shared.validation.ValidationResult
+import com.faltenreich.diaguard.shared.validation.ValidationRule
 
 class RealisticMeasurementValueRule(
     private val measurementValueFormatter: MeasurementValueFormatter = inject(),
-) : Rule<EntryFormInput> {
+) : ValidationRule<MeasurementTypeInputState> {
 
-    override fun check(input: EntryFormInput): Result<Unit> {
+    override fun check(input: MeasurementTypeInputState): ValidationResult<MeasurementTypeInputState> {
         // TODO: Check whether values are within MeasurementType.minimumValue and .maximumValue
-        val violations = input.measurements.flatMap {
-            it.typeInputStates.filter {
-                it.input
-                false
-            }
-        }
-        return if (violations.isEmpty()) {
-            Result.success(Unit)
-        } else {
-            return Result.failure(RealisticMeasurementValueException(violations))
-        }
+        return ValidationResult.Success(input)
     }
 }

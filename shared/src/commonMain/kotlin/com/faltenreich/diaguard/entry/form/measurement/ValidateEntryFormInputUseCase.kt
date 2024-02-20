@@ -18,12 +18,13 @@ class ValidateEntryFormInputUseCase(
         input.copy(
             measurements = input.measurements.map { property ->
                 val resultForProperty = validateProperty(property)
-                val property = resultForProperty.data
                 property.copy(
+                    error = (resultForProperty as? ValidationResult.Failure)?.error,
                     typeInputStates = property.typeInputStates.map { type ->
                         val resultForType = validateType(type)
-                        val type = resultForType.data
-                        type
+                        type.copy(
+                            error = (resultForType as? ValidationResult.Failure)?.error,
+                        )
                     }
                 )
             }

@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
+import com.faltenreich.diaguard.entry.form.EntryFormInput
+import com.faltenreich.diaguard.shared.validation.ValidationResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -8,9 +10,9 @@ class ValidateEntryFormInputUseCase(
 ) {
 
     suspend operator fun invoke(
-        input: List<MeasurementPropertyInputState>,
-    ): Result<List<MeasurementPropertyInputState>> = withContext(dispatcher) {
+        input: EntryFormInput,
+    ): ValidationResult<EntryFormInput> = withContext(dispatcher) {
         // TODO: Call validation chain and update input
-        Result.success(input)
+        ValidationResult.Success(input)
     }
 }

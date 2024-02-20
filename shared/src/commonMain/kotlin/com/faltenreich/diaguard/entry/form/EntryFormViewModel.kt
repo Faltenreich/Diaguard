@@ -12,7 +12,6 @@ import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputState
 import com.faltenreich.diaguard.entry.form.measurement.ValidateEntryFormInputUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
-import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueException
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
@@ -25,6 +24,7 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -140,14 +140,13 @@ class EntryFormViewModel(
             note = note.takeIf(String::isNotBlank),
             foodEaten = foodEaten,
         )
-        val result = validate(measurements)
-        if (result.isSuccess) {
-            createEntry(input)
-            navigateBack()
-        } else {
-            when (result.exceptionOrNull()) {
-                is RealisticMeasurementValueException -> Unit
-                else -> Unit // TODO: Display generic error
+        when (val result = validate(input)) {
+            is ValidationResult.Success -> {
+                createEntry(input)
+                navigateBack()
+            }
+            is ValidationResult.Failure -> {
+                measurements = result.data.measurements
             }
         }
     }

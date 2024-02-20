@@ -7,6 +7,8 @@ import com.faltenreich.diaguard.tag.detail.TagDetailViewModel
 import com.faltenreich.diaguard.tag.form.CreateTagUseCase
 import com.faltenreich.diaguard.tag.form.HasTagUseCase
 import com.faltenreich.diaguard.tag.form.TagFormViewModel
+import com.faltenreich.diaguard.tag.form.UniqueTagRule
+import com.faltenreich.diaguard.tag.form.ValidateTagUseCase
 import com.faltenreich.diaguard.tag.list.DeleteTagUseCase
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
 import com.faltenreich.diaguard.tag.list.TagListViewModel
@@ -20,6 +22,7 @@ fun tagModule() = module {
     singleOf(::GetTagsUseCase)
     singleOf(::HasTagUseCase)
     singleOf(::CreateTagUseCase)
+    single { ValidateTagUseCase(listOf(UniqueTagRule())) }
     singleOf(::CountEntriesByTagUseCase)
     singleOf(::GetEntriesOfTagUseCase)
     singleOf(::DeleteTagUseCase)

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.tag.detail
 
-import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.modal.TagDeleteModal
@@ -8,12 +7,10 @@ import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.validation.ValidateUseCase
+import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.UpdateTagUseCase
-import com.faltenreich.diaguard.tag.form.RedundantTagException
-import com.faltenreich.diaguard.tag.form.UniqueTagRule
+import com.faltenreich.diaguard.tag.form.ValidateTagUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -25,8 +22,8 @@ import kotlinx.coroutines.launch
 class TagDetailViewModel(
     tag: Tag,
     getEntriesOfTag: GetEntriesOfTagUseCase = inject(),
+    private val validateTag: ValidateTagUseCase = inject(),
     private val updateTag: UpdateTagUseCase = inject(),
-    private val validate: ValidateUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<TagDetailState, TagDetailIntent>() {
@@ -57,14 +54,14 @@ class TagDetailViewModel(
     }
 
     private fun editTagIfValid(tag: Tag, name: String) {
-        val result = validate(name, UniqueTagRule())
-        if (result.isSuccess) {
-            // TODO
-            error.value = null
-        } else {
-            error.value = when (result.exceptionOrNull()) {
-                is RedundantTagException -> getString(MR.strings.tag_already_taken)
-                else -> getString(MR.strings.error_unknown)
+        when (val result = validateTag(name)) {
+            is ValidationResult.Success -> {
+                // TODO: Persist tag with new name
+                tag.copy(name = name)
+                error.value = null
+            }
+            is ValidationResult.Failure -> {
+                error.value = result.error
             }
         }
     }

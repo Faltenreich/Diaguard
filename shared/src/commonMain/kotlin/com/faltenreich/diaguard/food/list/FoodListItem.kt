@@ -39,7 +39,7 @@ fun FoodListItem(
         }
         Skeleton(item = food) { food ->
             Text(
-                text = numberFormatter.format(food.carbohydrates),
+                text = numberFormatter.invoke(food.carbohydrates),
                 style = AppTheme.typography.bodyMedium,
             )
         }

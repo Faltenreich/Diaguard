@@ -54,19 +54,19 @@ class GetAverageUseCase(
                         value = averageOfDay,
                         factor = factor,
                     )
-                }?.let(numberFormatter::format),
+                }?.let(numberFormatter::invoke),
                 week = averageOfWeek?.let {
                     measurementValueConverter.convertToCustom(
                         value = averageOfWeek,
                         factor = factor,
                     )
-                }?.let(numberFormatter::format),
+                }?.let(numberFormatter::invoke),
                 month = averageOfMonth?.let {
                     measurementValueConverter.convertToCustom(
                         value = averageOfMonth,
                         factor = factor,
                     )
-                }?.let(numberFormatter::format),
+                }?.let(numberFormatter::invoke),
             )
         }
     }

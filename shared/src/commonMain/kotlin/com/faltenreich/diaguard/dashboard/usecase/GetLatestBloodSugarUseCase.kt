@@ -27,7 +27,7 @@ class GetLatestBloodSugarUseCase(
                 null -> null
                 else -> DashboardViewState.Revisit.LatestBloodSugar(
                     entry = value.entry,
-                    value = measurementValueConverter.convertToCustom(value).let(numberFormatter::format),
+                    value = measurementValueConverter.convertToCustom(value).let(numberFormatter::invoke),
                     timePassed = dateTimeFormatter.formatTimePassed(
                         start = value.entry.dateTime,
                         end = dateTimeFactory.now(),

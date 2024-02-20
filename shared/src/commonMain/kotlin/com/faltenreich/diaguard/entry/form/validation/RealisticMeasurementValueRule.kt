@@ -27,8 +27,8 @@ class RealisticMeasurementValueRule(
                 input,
                 error = localization.getString(
                     MR.strings.entry_form_error_unrealistic_value,
-                    numberFormatter.format(minimumValue),
-                    numberFormatter.format(maximumValue),
+                    numberFormatter.invoke(minimumValue),
+                    numberFormatter.invoke(maximumValue),
                 ),
             )
         }

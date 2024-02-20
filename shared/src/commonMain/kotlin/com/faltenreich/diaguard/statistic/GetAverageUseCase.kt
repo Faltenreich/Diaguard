@@ -25,7 +25,7 @@ class GetAverageUseCase(
                     dateRange.endInclusive.atEndOfDay(),
                 )?.let { average ->
                     "%s %s".format(
-                        numberFormatter.format(average),
+                        numberFormatter.invoke(average),
                         type.selectedUnit.abbreviation,
                     )
                 }

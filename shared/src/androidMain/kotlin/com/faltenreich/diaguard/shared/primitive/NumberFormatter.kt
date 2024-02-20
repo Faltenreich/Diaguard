@@ -4,7 +4,7 @@ import java.text.NumberFormat
 
 actual class NumberFormatter {
 
-    actual fun format(number: Double): String {
+    actual operator fun invoke(number: Double): String {
         return NumberFormat.getInstance().format(number)
     }
 }

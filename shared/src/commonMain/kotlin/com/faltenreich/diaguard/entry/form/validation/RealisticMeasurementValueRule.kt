@@ -14,8 +14,9 @@ class RealisticMeasurementValueRule(
 ) : ValidationRule<MeasurementTypeInputState> {
 
     override fun check(input: MeasurementTypeInputState): ValidationResult<MeasurementTypeInputState> {
-        // TODO: Format according to selected unit
-        val value = input.input.toDoubleOrNull()
+        val value = input.input.toDoubleOrNull()?.let { value ->
+            measurementValueFormatter.convertToDefault(value, input.type)
+        }
         val (minimumValue, maximumValue) = input.type.minimumValue to input.type.maximumValue
         return when (value) {
             null -> ValidationResult.Success(input)

@@ -22,7 +22,7 @@ class GetMeasurementPropertyInputStateUseCase(
             val types = measurementTypeRepository.getByPropertyId(property.id)
             MeasurementPropertyInputState(
                 property = property,
-                typeInputDataList = types.mapIndexed { typeIndex, type ->
+                typeInputStates = types.mapIndexed { typeIndex, type ->
                     val value = values?.firstOrNull { it.typeId == type.id }
                     val isLast = propertyIndex == properties.size - 1 && typeIndex == types.size - 1
                     MeasurementTypeInputState(

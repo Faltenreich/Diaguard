@@ -24,7 +24,6 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -122,7 +121,7 @@ class EntryFormViewModel(
 
     private fun updateMeasurementValue(update: MeasurementTypeInputState) {
         measurements = measurements.map { property ->
-            property.copy(typeInputDataList = property.typeInputDataList.map { legacy ->
+            property.copy(typeInputStates = property.typeInputStates.map { legacy ->
                 when (legacy.type) {
                     update.type -> update
                     else -> legacy
@@ -140,14 +139,12 @@ class EntryFormViewModel(
             note = note.takeIf(String::isNotBlank),
             foodEaten = foodEaten,
         )
-        when (val result = validate(input)) {
-            is ValidationResult.Success -> {
-                createEntry(input)
-                navigateBack()
-            }
-            is ValidationResult.Failure -> {
-                measurements = result.data.measurements
-            }
+        val result = validate(input)
+        if (result == input) {
+            createEntry(input)
+            navigateBack()
+        } else {
+            measurements = result.measurements
         }
     }
 

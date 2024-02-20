@@ -26,7 +26,13 @@ fun entryModule() = module {
     singleOf(::GetFoodEatenInputStateUseCase)
     singleOf(::GetTagsByQueryUseCase)
     singleOf(::GetTagsOfEntry)
-    singleOf(::ValidateEntryFormInputUseCase)
+    single {
+        ValidateEntryFormInputUseCase(
+            dispatcher = get(),
+            rulesForProperties = emptyList(),
+            rulesForTypes = emptyList(),
+        )
+    }
     singleOf(::CreateEntryUseCase)
     singleOf(::DeleteEntryUseCase)
     factory { (entry: Entry?, date: Date?) -> EntryFormViewModel(entry = entry, date = date) }

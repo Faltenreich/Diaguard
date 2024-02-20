@@ -12,7 +12,7 @@ class RealisticMeasurementValueRule(
     override fun check(input: EntryFormInput): Result<Unit> {
         // TODO: Check whether values are within MeasurementType.minimumValue and .maximumValue
         val violations = input.measurements.flatMap {
-            it.typeInputDataList.filter {
+            it.typeInputStates.filter {
                 it.input
                 false
             }

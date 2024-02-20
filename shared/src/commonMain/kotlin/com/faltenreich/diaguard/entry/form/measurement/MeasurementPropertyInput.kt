@@ -44,7 +44,7 @@ fun MeasurementPropertyInput(
                 modifier = Modifier.padding(top = AppTheme.dimensions.padding.P_3_25),
             )
             FlowRow(modifier = modifier) {
-                val types = state.typeInputDataList
+                val types = state.typeInputStates
                 types.forEach { type ->
                     MeasurementTypeInput(
                         data = type,

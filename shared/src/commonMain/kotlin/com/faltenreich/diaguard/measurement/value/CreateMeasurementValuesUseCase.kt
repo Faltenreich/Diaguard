@@ -10,7 +10,7 @@ class CreateMeasurementValuesUseCase(
         measurements: List<MeasurementPropertyInputState>,
         entryId: Long,
     ) {
-        val values = measurements.flatMap(MeasurementPropertyInputState::typeInputDataList)
+        val values = measurements.flatMap(MeasurementPropertyInputState::typeInputStates)
         val valuesFromBefore = measurementValueRepository.getByEntryId(entryId)
         values.forEach { (type, input) ->
             // TODO: Validate and normalize by unit

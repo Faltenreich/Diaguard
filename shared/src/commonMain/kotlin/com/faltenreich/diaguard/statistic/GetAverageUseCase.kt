@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.shared.primitive.format
 class GetAverageUseCase(
     private val typeRepository: MeasurementTypeRepository,
     private val valueRepository: MeasurementValueRepository,
-    private val numberFormatter: NumberFormatter,
+    private val formatNumber: NumberFormatter,
 ) {
 
     operator fun invoke(
@@ -25,7 +25,7 @@ class GetAverageUseCase(
                     dateRange.endInclusive.atEndOfDay(),
                 )?.let { average ->
                     "%s %s".format(
-                        numberFormatter.invoke(average),
+                        formatNumber(average),
                         type.selectedUnit.abbreviation,
                     )
                 }

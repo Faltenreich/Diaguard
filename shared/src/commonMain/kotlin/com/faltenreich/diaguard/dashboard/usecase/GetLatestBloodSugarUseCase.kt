@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.dashboard.usecase
 
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.value.MeasurementValueConverter
+import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 class GetLatestBloodSugarUseCase(
     private val measurementPropertyRepository: MeasurementPropertyRepository = inject(),
     private val measurementValueRepository: MeasurementValueRepository,
-    private val measurementValueConverter: MeasurementValueConverter,
+    private val measurementValueMapper: MeasurementValueMapper,
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
 ) {
@@ -25,7 +25,7 @@ class GetLatestBloodSugarUseCase(
                 null -> null
                 else -> DashboardViewState.Revisit.LatestBloodSugar(
                     entry = value.entry,
-                    value = measurementValueConverter.convertToCustom(value).value,
+                    value = measurementValueMapper(value).value,
                     timePassed = dateTimeFormatter.formatTimePassed(
                         start = value.entry.dateTime,
                         end = dateTimeFactory.now(),

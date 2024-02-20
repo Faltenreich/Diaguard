@@ -21,7 +21,7 @@ fun FoodListItem(
     food: Food?,
     modifier: Modifier = Modifier,
     // TODO: Extract into use case
-    numberFormatter: NumberFormatter = inject(),
+    formatNumber: NumberFormatter = inject(),
 ) {
     Row(
         modifier = modifier
@@ -39,7 +39,7 @@ fun FoodListItem(
         }
         Skeleton(item = food) { food ->
             Text(
-                text = numberFormatter.invoke(food.carbohydrates),
+                text = formatNumber(food.carbohydrates),
                 style = AppTheme.typography.bodyMedium,
             )
         }

@@ -20,13 +20,13 @@ import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeListViewMod
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListViewModel
 import com.faltenreich.diaguard.measurement.value.CreateMeasurementValuesUseCase
-import com.faltenreich.diaguard.measurement.value.MeasurementValueConverter
+import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 fun measurementModule() = module {
-    singleOf(::MeasurementValueConverter)
+    singleOf(::MeasurementValueMapper)
 
     singleOf(::MeasurementPropertyRepository)
     singleOf(::MeasurementTypeRepository)

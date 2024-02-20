@@ -4,8 +4,8 @@ import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
-import com.faltenreich.diaguard.measurement.value.MeasurementValueConverter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueForDatabase
+import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.datetime.GetTodayUseCase
@@ -17,7 +17,7 @@ class GetAverageUseCase(
     private val measurementPropertyRepository: MeasurementPropertyRepository = inject(),
     private val measurementTypeRepository: MeasurementTypeRepository = inject(),
     private val measurementValueRepository: MeasurementValueRepository = inject(),
-    private val measurementValueConverter: MeasurementValueConverter = inject(),
+    private val mapMeasurementValue: MeasurementValueMapper = inject(),
     private val getToday: GetTodayUseCase = inject(),
 ) {
 
@@ -49,13 +49,13 @@ class GetAverageUseCase(
             val unit = types.first().selectedUnit
             DashboardViewState.Revisit.Average(
                 day = averageOfDay?.let {
-                    measurementValueConverter.convertToCustom(MeasurementValueForDatabase(averageOfDay, unit))
+                    mapMeasurementValue(MeasurementValueForDatabase(averageOfDay, unit))
                 }?.value,
                 week = averageOfWeek?.let {
-                    measurementValueConverter.convertToCustom(MeasurementValueForDatabase(averageOfWeek, unit))
+                    mapMeasurementValue(MeasurementValueForDatabase(averageOfWeek, unit))
                 }?.value,
                 month = averageOfMonth?.let {
-                    measurementValueConverter.convertToCustom(MeasurementValueForDatabase(averageOfMonth, unit))
+                    mapMeasurementValue(MeasurementValueForDatabase(averageOfMonth, unit))
                 }?.value,
             )
         }

@@ -3,9 +3,9 @@ package com.faltenreich.diaguard.measurement.value
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 
 /**
- * Entity representing a custom [MeasurementValue] that has been entered by the user
+ * Entity representing a [MeasurementValue] in the localized and user-selected [MeasurementUnit]
  */
-data class InputValue(
+data class MeasurementValueForUser(
     val value: String,
     val unit: MeasurementUnit,
 )

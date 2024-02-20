@@ -1,25 +1,30 @@
 package com.faltenreich.diaguard.measurement.value
 
-class MeasurementValueConverter {
+import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 
-    private fun convertToCustom(value: Double, factor: Double): Double {
-        return value * factor
+class MeasurementValueConverter(
+    private val numberFormatter: NumberFormatter,
+) {
+
+    fun convertToCustom(value: MeasurementValue): MeasurementValueForUser {
+        val unit = value.type.selectedUnit
+        return MeasurementValueForUser(
+            value = numberFormatter(value.value * unit.factor),
+            unit = unit,
+        )
     }
 
-    fun convertToCustom(value: IntermediateValue): Double {
-        return convertToCustom(value = value.value, factor = value.unit.factor)
+    fun convertToCustom(value: MeasurementValueForDatabase): MeasurementValueForUser {
+        val unit = value.unit
+        return MeasurementValueForUser(
+            value = numberFormatter(value.value * unit.factor),
+            unit = unit,
+        )
     }
 
-    fun convertToCustom(value: MeasurementValue): Double {
-        return convertToCustom(value = value.value, factor = value.type.selectedUnit.factor)
-    }
-
-    private fun convertToDefault(value: Double, factor: Double): Double {
-        return value / factor
-    }
-
-    fun convertToDefault(value: InputValue): Double? {
+    fun convertToDefault(value: MeasurementValueForUser): MeasurementValueForDatabase? {
         val number = value.value.toDoubleOrNull() ?: return null
-        return convertToDefault(value = number, factor = value.unit.factor)
+        val unit = value.unit
+        return MeasurementValueForDatabase(value = number / unit.factor, unit = unit)
     }
 }

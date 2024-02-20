@@ -9,11 +9,10 @@ import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementPropertyInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputState
+import com.faltenreich.diaguard.entry.form.measurement.ValidateEntryFormInputUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
-import com.faltenreich.diaguard.entry.form.validation.ExhaustiveMeasurementValuesRule
 import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueException
-import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueRule
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
@@ -26,7 +25,6 @@ import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.validation.ValidateUseCase
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -48,7 +46,7 @@ class EntryFormViewModel(
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-    private val validate: ValidateUseCase = inject(),
+    private val validate: ValidateEntryFormInputUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
@@ -133,7 +131,7 @@ class EntryFormViewModel(
         }
     }
 
-    private fun submit() {
+    private fun submit() = scope.launch {
         val input = EntryFormInput(
             id = id,
             dateTime = dateTime,
@@ -142,11 +140,7 @@ class EntryFormViewModel(
             note = note.takeIf(String::isNotBlank),
             foodEaten = foodEaten,
         )
-        val result = validate(
-            input,
-            RealisticMeasurementValueRule(),
-            ExhaustiveMeasurementValuesRule(),
-        )
+        val result = validate(measurements)
         if (result.isSuccess) {
             createEntry(input)
             navigateBack()

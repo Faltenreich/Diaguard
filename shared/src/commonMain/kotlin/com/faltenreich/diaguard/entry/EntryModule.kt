@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.entry.form.validation.ExhaustiveMeasurementValuesRule
 import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueRule
+import com.faltenreich.diaguard.entry.form.validation.ValidEntryFormInputRule
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
 import com.faltenreich.diaguard.shared.datetime.Date
@@ -31,6 +32,7 @@ fun entryModule() = module {
     single {
         ValidateEntryFormInputUseCase(
             dispatcher = get(),
+            ruleForEntryFormInput = ValidEntryFormInputRule(),
             rulesForProperties = listOf(ExhaustiveMeasurementValuesRule()),
             rulesForTypes = listOf(RealisticMeasurementValueRule()),
         )

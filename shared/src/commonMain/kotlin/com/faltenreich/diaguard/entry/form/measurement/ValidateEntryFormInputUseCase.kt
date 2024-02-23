@@ -8,14 +8,15 @@ import kotlinx.coroutines.withContext
 
 class ValidateEntryFormInputUseCase(
     private val dispatcher: CoroutineDispatcher,
+    private val ruleForEntryFormInput: ValidationRule<EntryFormInput>,
     private val rulesForProperties: List<ValidationRule<MeasurementPropertyInputState>>,
     private val rulesForTypes: List<ValidationRule<MeasurementTypeInputState>>,
 ) {
 
     suspend operator fun invoke(
         input: EntryFormInput,
-    ): EntryFormInput = withContext(dispatcher) {
-        input.copy(
+    ): ValidationResult<EntryFormInput> = withContext(dispatcher) {
+        val result = input.copy(
             measurements = input.measurements.map { property ->
                 val resultForProperty = validateProperty(property)
                 property.copy(
@@ -29,6 +30,7 @@ class ValidateEntryFormInputUseCase(
                 )
             }
         )
+        ruleForEntryFormInput.check(result)
     }
 
     private fun validateProperty(

@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
@@ -46,6 +47,7 @@ class EntryFormViewModel(
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val showSnackbar: ShowSnackbarUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
@@ -146,6 +148,8 @@ class EntryFormViewModel(
                 navigateBack()
             }
             is ValidationResult.Failure -> {
+                // FIXME: Leads to delayed state update (not shown until Snackbar has hidden)
+                showSnackbar(message = result.error)
                 measurements = result.data.measurements
             }
         }

@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.navigation
 
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import cafe.adriel.voyager.navigator.Navigator
 import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.navigation.screen.Screen
@@ -9,6 +11,7 @@ class Navigation {
 
     lateinit var navigator: Navigator
     var modal = MutableStateFlow<Modal?>(null)
+    lateinit var snackbarState: SnackbarHostState
 
     val lastItem: Screen?
         get() = navigator.lastItem as? Screen
@@ -35,5 +38,14 @@ class Navigation {
 
     fun popModal() {
         this.modal.value = null
+    }
+
+    suspend fun showSnackbar(
+        message: String,
+        actionLabel: String? = null,
+        withDismissAction: Boolean = false,
+        duration: SnackbarDuration = if (actionLabel == null) SnackbarDuration.Short else SnackbarDuration.Indefinite,
+    ) {
+        snackbarState.showSnackbar(message, actionLabel, withDismissAction, duration)
     }
 }

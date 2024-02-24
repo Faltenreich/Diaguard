@@ -16,7 +16,9 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.ShowSnackbarUseCase
+import com.faltenreich.diaguard.navigation.modal.EntryDeleteModal
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
@@ -47,13 +49,14 @@ class EntryFormViewModel(
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val showModal: OpenModalUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
-    private val deleteEntry: DeleteEntryUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent>() {
 
+    private val editing: Entry? = entry
     private val id: Long? = entry?.id
 
     var dateTime: DateTime by mutableStateOf(getDateTimeForEntry(entry, date))
@@ -155,10 +158,9 @@ class EntryFormViewModel(
     }
 
     private fun deleteIfNeeded() {
-        // TODO: Intercept with confirmation dialog if something has changed
-        val id = id ?: return
-        deleteEntry(id)
-        navigateBack()
+        val entry = editing ?: return
+        showModal(EntryDeleteModal(entry = entry))
+        // TODO: navigateBack()
     }
 
     private fun addFood(food: Food) {

@@ -4,7 +4,6 @@ import androidx.compose.ui.unit.IntSize
 import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import app.cash.paging.PagingSource
-import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
 import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItem
@@ -24,7 +23,6 @@ class LogViewModel(
     getToday: GetTodayUseCase = inject(),
     private val invalidateStickyHeaderInfo: InvalidateLogDayStickyHeaderInfoUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-    private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel<LogState, LogIntent>() {
 
     private val initialDate: Date = date ?: getToday()
@@ -66,10 +64,6 @@ class LogViewModel(
             is LogIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))
             is LogIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())
             is LogIntent.SetDate -> setDate(intent.date)
-            is LogIntent.Remove -> {
-                deleteEntry(intent.item.entry.id)
-                dataSource.invalidate()
-            }
         }
     }
 

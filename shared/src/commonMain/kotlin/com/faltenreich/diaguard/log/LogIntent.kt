@@ -21,6 +21,4 @@ sealed interface LogIntent {
     data object SearchEntries : LogIntent
 
     data class SetDate(val date: Date) : LogIntent
-
-    data class Remove(val item: LogItem.EntryContent) : LogIntent
 }

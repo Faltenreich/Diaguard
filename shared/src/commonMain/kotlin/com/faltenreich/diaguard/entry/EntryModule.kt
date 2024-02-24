@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.entry
 
+import com.faltenreich.diaguard.entry.delete.DeleteEntryUseCase
+import com.faltenreich.diaguard.entry.delete.EntryDeleteViewModel
 import com.faltenreich.diaguard.entry.form.CreateEntryUseCase
-import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
@@ -40,4 +41,5 @@ fun entryModule() = module {
     singleOf(::CreateEntryUseCase)
     singleOf(::DeleteEntryUseCase)
     factory { (entry: Entry?, date: Date?) -> EntryFormViewModel(entry = entry, date = date) }
+    factory { (entry: Entry) -> EntryDeleteViewModel(entry) }
 }

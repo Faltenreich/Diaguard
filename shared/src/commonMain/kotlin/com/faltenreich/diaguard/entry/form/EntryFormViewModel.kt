@@ -148,9 +148,8 @@ class EntryFormViewModel(
                 navigateBack()
             }
             is ValidationResult.Failure -> {
-                // FIXME: Leads to delayed state update (not shown until Snackbar has hidden)
-                showSnackbar(message = result.error)
                 measurements = result.data.measurements
+                showSnackbar(message = result.error)
             }
         }
     }

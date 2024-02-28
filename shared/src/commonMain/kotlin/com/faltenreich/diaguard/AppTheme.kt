@@ -14,14 +14,16 @@ import com.faltenreich.diaguard.shared.theme.LocalDimensions
 import com.faltenreich.diaguard.shared.theme.color.ColorSchemes
 import com.faltenreich.diaguard.shared.theme.color.Colors
 import com.faltenreich.diaguard.shared.theme.color.LocalColors
+import com.faltenreich.diaguard.shared.theme.color.animated
 
 @Composable
 fun AppTheme(
     isDarkColorScheme: Boolean,
     content: @Composable () -> Unit,
 ) {
+    val colorScheme = if (isDarkColorScheme) ColorSchemes.dark else ColorSchemes.light
     MaterialTheme(
-        colorScheme = if (isDarkColorScheme) ColorSchemes.dark else ColorSchemes.light,
+        colorScheme = colorScheme.animated(),
         typography = Typography(
             headlineSmall = TextStyle(
                 fontWeight = FontWeight.SemiBold,

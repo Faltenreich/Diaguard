@@ -53,7 +53,6 @@ data class EntryFormScreen(
 
     @Composable
     override fun Content() {
-        // TODO: Pass food
         EntryForm(viewModel = getViewModel { parametersOf(entry, date) })
     }
 }

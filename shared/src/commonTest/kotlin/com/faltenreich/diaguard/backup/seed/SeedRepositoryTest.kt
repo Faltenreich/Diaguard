@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.backup.seed.data.InsulinSeed
 import com.faltenreich.diaguard.backup.seed.data.MealSeed
 import com.faltenreich.diaguard.backup.seed.data.OxygenSaturationSeed
 import com.faltenreich.diaguard.backup.seed.data.PulseSeed
+import com.faltenreich.diaguard.backup.seed.data.TagSeed
 import com.faltenreich.diaguard.backup.seed.data.WeightSeed
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
@@ -29,6 +30,10 @@ class SeedRepositoryTest {
         oxygenSaturationSeed = OxygenSaturationSeed(),
         foodSeed = FoodSeed(
             fileReader = SystemFileReader("src/commonTest/resources/food.csv"),
+            serialization = Serialization(),
+        ),
+        tagSeed = TagSeed(
+            fileReader = SystemFileReader("src/commonTest/resources/tags.csv"),
             serialization = Serialization(),
         ),
     )

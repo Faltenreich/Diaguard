@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.backup.seed.data.InsulinSeed
 import com.faltenreich.diaguard.backup.seed.data.MealSeed
 import com.faltenreich.diaguard.backup.seed.data.OxygenSaturationSeed
 import com.faltenreich.diaguard.backup.seed.data.PulseSeed
+import com.faltenreich.diaguard.backup.seed.data.TagSeed
 import com.faltenreich.diaguard.backup.seed.data.WeightSeed
 import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.food.FoodRepository
@@ -24,6 +25,8 @@ import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.shared.test.returns
+import com.faltenreich.diaguard.tag.TagDao
+import com.faltenreich.diaguard.tag.TagRepository
 import dev.icerock.moko.resources.FileResource
 import dev.icerock.moko.resources.StringResource
 import io.mockative.Mock
@@ -53,11 +56,16 @@ class SeedImportTest {
             fileReader = SystemFileReader("src/commonTest/resources/food.csv"),
             serialization = Serialization(),
         ),
+        tagSeed = TagSeed(
+            fileReader = SystemFileReader("src/commonTest/resources/tags.csv"),
+            serialization = Serialization(),
+        ),
     )
     @Mock private val propertyDao = mock(classOf<MeasurementPropertyDao>())
     @Mock private val typeDao = mock(classOf<MeasurementTypeDao>())
     @Mock private val unitDao = mock(classOf<MeasurementUnitDao>())
     @Mock private val foodDao = mock(classOf<FoodDao>())
+    @Mock private val tagDao = mock(classOf<TagDao>())
     private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
 
     private val seedImport = SeedImport(
@@ -67,7 +75,8 @@ class SeedImportTest {
         propertyRepository = MeasurementPropertyRepository(dao = propertyDao, dateTimeFactory = dateTimeFactory),
         typeRepository = MeasurementTypeRepository(dao = typeDao, dateTimeFactory = dateTimeFactory),
         unitRepository = MeasurementUnitRepository(dao = unitDao, dateTimeFactory = dateTimeFactory),
-        foodRepository = FoodRepository(dao = foodDao)
+        foodRepository = FoodRepository(dao = foodDao),
+        tagRepository = TagRepository(dao = tagDao),
     )
 
     init {
@@ -75,6 +84,7 @@ class SeedImportTest {
         every { typeDao.getLastId() } returns 0L
         every { unitDao.getLastId() } returns 0L
         every { foodDao.getLastId() } returns 0L
+        every { tagDao.getLastId() } returns 0L
     }
 
     @Test

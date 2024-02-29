@@ -35,7 +35,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: reports-${{ matrix.os }}
+          name: lint-reports
           path: "**/build/reports/lint-results-debug.*"
         if: always()
 
@@ -54,6 +54,6 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: reports-${{ matrix.os }}
+          name: detekt-reports
           path: "**/build/reports/detekt"
         if: always()

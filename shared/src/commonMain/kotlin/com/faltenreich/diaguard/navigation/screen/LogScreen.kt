@@ -31,7 +31,7 @@ data class LogScreen(val date: Date? = null) : Screen {
                 )
                 DatePickerBottomAppBarItem(
                     date = currentDate,
-                    onDatePick = viewModel::setDate,
+                    onDatePick = { date -> viewModel.dispatchIntent(LogIntent.SetDate(date)) },
                 )
             },
             floatingActionButton = {

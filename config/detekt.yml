@@ -23,3 +23,5 @@ style:
     ignorePropertyDeclaration: true
   NewLineAtEndOfFile:
     active: false
+  SerialVersionUIDInSerializableClass:
+    active: false

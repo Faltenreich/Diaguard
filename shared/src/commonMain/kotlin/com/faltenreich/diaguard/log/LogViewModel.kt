@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.GetTodayUseCase
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -67,7 +68,8 @@ class LogViewModel(
         }
     }
 
-    fun setDate(date: Date) {
+    private fun setDate(date: Date) {
+        Logger.debug("Set date: $date")
         // TODO
         /*
         val indexOfDate = items.first().indexOfFirst { it.date == date }

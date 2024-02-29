@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.dashboard.card
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -17,11 +17,13 @@ fun HbA1cDashboardItem(
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {
-        Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
+        Column(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Text(
                 text = getString(MR.strings.hba1c),
                 style = AppTheme.typography.labelMedium,
             )
+            // TODO
+            Text(data.toString())
         }
     }
 }

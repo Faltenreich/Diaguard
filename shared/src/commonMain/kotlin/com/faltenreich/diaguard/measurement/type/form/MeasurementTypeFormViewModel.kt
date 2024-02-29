@@ -63,7 +63,6 @@ class MeasurementTypeFormViewModel(
             unitName.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { name ->
                 val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
-                val unit = type.selectedUnit
                 // FIXME: Wrangles units
                 //  updateMeasurementUnit(unit.copy(name = name))
             }

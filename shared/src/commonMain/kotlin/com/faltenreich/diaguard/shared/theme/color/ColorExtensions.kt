@@ -7,9 +7,11 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
+private const val ANIMATION_DURATION_MILLIS_DEFAULT = 500
+
 @Composable
 fun Color.animated(
-    spec: AnimationSpec<Color> = tween(durationMillis = 2000),
+    spec: AnimationSpec<Color> = tween(durationMillis = ANIMATION_DURATION_MILLIS_DEFAULT),
 ): Color {
     return animateColorAsState(
         targetValue = this,

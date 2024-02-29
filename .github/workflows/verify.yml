@@ -33,7 +33,7 @@ jobs:
         run: ./gradlew lintDebug
 
       - name: Upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: "**/build/reports/lint-results-debug.*"
@@ -52,7 +52,7 @@ jobs:
         run: ./gradlew detektMetadataMain
 
       - name: Upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: "**/build/reports/detekt"

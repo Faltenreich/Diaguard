@@ -48,7 +48,8 @@ tasks.register("applyVersionToReadme") {
     val regex = "$string([0-9.]+)".toRegex()
     val versionName = libs.versions.app.version.name.get()
     val with = "$string$versionName"
-    // TODO: ant.replaceregexp(file: "${rootProject.projectDir}/README.md", match: regex, flags: 'g', replace: with)
+    val file = file("README.md")
+    file.writeText(file.readText().replace(regex, with))
     println("Updating version badge in README.md: $with")
 }
 
@@ -58,6 +59,7 @@ tasks.register("applyDateToReadme") {
     val regex = "$string([0-9.]+)".toRegex()
     val year = Calendar.getInstance().get(Calendar.YEAR)
     val with = "$string$year"
-    // TODO: ant.replaceregexp(file: "${rootProject.projectDir}/README.md", match: regex, flags: 'g', replace: with)
+    val file = file("README.md")
+    file.writeText(file.readText().replace(regex, with))
     println("Updating copyright timeframe in README.md: $with")
 }

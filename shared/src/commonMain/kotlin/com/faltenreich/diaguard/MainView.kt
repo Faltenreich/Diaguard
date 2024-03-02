@@ -35,6 +35,7 @@ fun MainView(
     navigation: Navigation = inject(),
 ) {
     val snackbarHostState = remember { SnackbarHostState().also { navigation.snackbarState = it } }
+    val modal = navigation.modal.collectAsState().value
     when (val viewState = navigationViewModel.collectState()) {
         null -> LoadingIndicator(modifier = modifier)
         else -> Box(modifier = modifier) {
@@ -79,7 +80,7 @@ fun MainView(
                             onDismissRequest = { openBottomSheet = false },
                         )
                     }
-                    navigation.modal.collectAsState().value?.Content()
+                    modal?.Content()
                 }
             }
         }

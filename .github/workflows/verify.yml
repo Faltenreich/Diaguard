@@ -20,6 +20,16 @@ jobs:
       - name: Test
         run: ./gradlew test
 
+      - name: Code Coverage
+        run: ./gradlew koverXmlReport
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: kover-reports
+          path: "**/build/reports/kover"
+        if: always()
+
   lint:
     runs-on: ubuntu-latest
     steps:

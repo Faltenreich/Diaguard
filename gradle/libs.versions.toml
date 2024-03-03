@@ -8,6 +8,7 @@ app-android-sdk-min = "21"
 app-android-sdk-target = "34"
 
 activity-compose = "1.8.2"
+# FIXME: 8.3.0 leads to NoSuchFieldError (see https://github.com/icerockdev/moko-resources/issues/652)
 android-gradle = "8.2.2"
 android-lifecycle-compose = "2.7.0"
 android-test-runner = "1.5.2"
@@ -24,6 +25,7 @@ io = "0.3.1"
 junit = "4.13.2"
 koin = "3.5.3"
 kotlin = "1.9.22"
+kover = "0.7.6"
 ksp = "1.9.22-1.0.17"
 ktor = "2.3.8"
 mockative = "2.0.1"
@@ -94,6 +96,7 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

@@ -7,9 +7,9 @@ runs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        distribution: 'zulu'
-        java-version: '17'
-        cache: 'gradle'
+        distribution: "zulu"
+        java-version: "17"
+        cache: "gradle"
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3

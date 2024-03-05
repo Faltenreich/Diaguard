@@ -17,7 +17,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Diaguard"
+rootProject.name = "diaguard"
 
 include(":androidApp")
 include(":shared")

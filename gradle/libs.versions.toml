@@ -38,7 +38,7 @@ serialization-yaml = "0.13.0"
 shimmer = "1.2.0"
 sqldelight = "2.0.1"
 turbine = "1.0.0"
-voyager = "1.0.0"
+voyager = "1.1.0-alpha03"
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }

@@ -14,8 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.transitions.FadeTransition
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
@@ -54,13 +54,9 @@ fun MainView(
                             }
                         },
                         content = { padding ->
-                            FadeTransition(
-                                navigator = navigator,
-                                modifier = Modifier
-                                    // TODO: Support fullscreen content via
-                                    //  .consumeWindowInsets(padding)
-                                    .padding(padding),
-                            )
+                            Box(modifier = modifier.padding(padding)) {
+                                CurrentScreen()
+                            }
                         },
                         bottomBar = {
                             val screen = navigator.lastItem as? Screen

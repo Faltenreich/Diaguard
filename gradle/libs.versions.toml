@@ -1,12 +1,4 @@
 [versions]
-app-version-code = "62"
-app-version-name = "4.0.0"
-
-app-android-namespace = "com.faltenreich.diaguard"
-app-android-sdk-compile = "34"
-app-android-sdk-min = "21"
-app-android-sdk-target = "34"
-
 activity-compose = "1.8.2"
 # FIXME: 8.3.0 leads to NoSuchFieldError (see https://github.com/icerockdev/moko-resources/issues/652)
 android-gradle = "8.2.2"

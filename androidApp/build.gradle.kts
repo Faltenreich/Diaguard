@@ -4,16 +4,16 @@ plugins {
 }
 
 android {
-    namespace = libs.versions.app.android.namespace.get()
-    compileSdk = libs.versions.app.android.sdk.compile.get().toInt()
+    namespace = Constants.NameSpace
+    compileSdk = Constants.CompileSdk
 
     defaultConfig {
         // TODO: Introduce flavors
-        applicationId = "${libs.versions.app.android.namespace.get()}.beta"
-        minSdk = libs.versions.app.android.sdk.min.get().toInt()
-        targetSdk = libs.versions.app.android.sdk.target.get().toInt()
-        versionCode = libs.versions.app.version.code.get().toInt()
-        versionName = libs.versions.app.version.name.get()
+        applicationId = "${Constants.NameSpace}.beta"
+        minSdk = Constants.MinSdk
+        targetSdk = Constants.TargetSdk
+        versionCode = Constants.VersionCode
+        versionName = Constants.VersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -24,8 +24,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Constants.JavaVersion
+        targetCompatibility = Constants.JavaVersion
     }
 
     buildFeatures.compose = true

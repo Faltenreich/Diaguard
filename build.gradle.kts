@@ -1,5 +1,3 @@
-import java.util.Calendar
-
 plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.kotlin.serialization) apply false
@@ -48,7 +46,7 @@ tasks.register("applyVersionToReadme") {
     dependsOn("assemble")
     val string = "img.shields.io/badge/Release-"
     val regex = "$string([0-9.]+)".toRegex()
-    val versionName = libs.versions.app.version.name.get()
+    val versionName = Constants.VersionName
     val with = "$string$versionName"
     val file = file("README.md")
     file.writeText(file.readText().replace(regex, with))
@@ -59,7 +57,7 @@ tasks.register("applyDateToReadme") {
     dependsOn("assemble")
     val string = "2013-"
     val regex = "$string([0-9.]+)".toRegex()
-    val year = Calendar.getInstance().get(Calendar.YEAR)
+    val year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR)
     val with = "$string$year"
     val file = file("README.md")
     file.writeText(file.readText().replace(regex, with))

@@ -85,15 +85,15 @@ kotlin {
 }
 
 android {
-    namespace = libs.versions.app.android.namespace.get()
-    compileSdk = libs.versions.app.android.sdk.compile.get().toInt()
+    namespace = Constants.NameSpace
+    compileSdk = Constants.CompileSdk
     defaultConfig {
-        minSdk = libs.versions.app.android.sdk.min.get().toInt()
+        minSdk = Constants.MinSdk
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = Constants.JavaVersion
+        targetCompatibility = Constants.JavaVersion
     }
 
     // FIXME
@@ -114,13 +114,13 @@ dependencies {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = libs.versions.app.android.namespace.get()
+    multiplatformResourcesPackage = Constants.NameSpace
 }
 
 sqldelight {
     databases {
         create("SqlDelightApi") {
-            packageName.set("${libs.versions.app.android.namespace.get()}.shared.database.sqldelight")
+            packageName.set("${Constants.NameSpace}.shared.database.sqldelight")
         }
     }
 }

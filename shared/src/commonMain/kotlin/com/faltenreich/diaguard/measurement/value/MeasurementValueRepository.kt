@@ -53,6 +53,13 @@ class MeasurementValueRepository(
         return dao.observeByEntryId(entryId)
     }
 
+    fun observeByDateRange(
+        startDateTime: DateTime,
+        endDateTime: DateTime,
+    ): Flow<List<MeasurementValue>> {
+        return dao.observeByDateRange(startDateTime, endDateTime)
+    }
+
     fun observeLatestByPropertyId(propertyId: Long): Flow<MeasurementValue?> {
         return dao.observeLatestByPropertyId(propertyId)
     }

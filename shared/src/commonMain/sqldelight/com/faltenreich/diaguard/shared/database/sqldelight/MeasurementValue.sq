@@ -17,6 +17,14 @@ SELECT last_insert_rowid();
 getByEntry:
 SELECT * FROM measurementValue WHERE entry_id = ?;
 
+getByDateRange:
+SELECT * FROM measurementValue
+INNER JOIN measurementType ON measurementType.id == measurementValue.type_id
+INNER JOIN measurementUnit ON measurementUnit.id == measurementType.selected_unit_id
+INNER JOIN measurementProperty ON measurementProperty.id == measurementType.property_id
+INNER JOIN entry ON entry.id == measurementValue.entry_id
+WHERE entry.date_time >= :startDateTime AND entry.date_time <= :endDateTime ORDER BY entry.date_time;
+
 getLatestByProperty:
 SELECT * FROM measurementValue
 INNER JOIN measurementType ON measurementType.id == measurementValue.type_id

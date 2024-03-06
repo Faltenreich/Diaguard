@@ -48,6 +48,17 @@ class MeasurementValueSqlDelightDao(
         return queries.getByEntry(entryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
+    override fun observeByDateRange(
+        startDateTime: DateTime,
+        endDateTime: DateTime
+    ): Flow<List<MeasurementValue>> {
+        return queries.getByDateRange(
+            startDateTime = startDateTime.isoString,
+            endDateTime = endDateTime.isoString,
+            mapper::map,
+        ).asFlow().mapToList(dispatcher)
+    }
+
     override fun observeLatestByPropertyId(propertyId: Long): Flow<MeasurementValue?> {
         return queries.getLatestByProperty(propertyId, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }

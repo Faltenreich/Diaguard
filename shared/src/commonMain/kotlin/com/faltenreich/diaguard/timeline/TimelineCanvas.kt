@@ -43,7 +43,7 @@ fun TimelineCanvas(
     var offset by remember { mutableStateOf(Offset.Zero) }
     val config = TimelineConfig(
         initialDate = initialDate,
-        daysOfWeek = DayOfWeek.values().associateWith { getString(it.abbreviation) },
+        daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) },
         textMeasurer = rememberTextMeasurer(),
         dateTimeFormatter = dateTimeFormatter,
         padding = LocalDensity.current.run { AppTheme.dimensions.padding.P_2.toPx() },
@@ -59,7 +59,7 @@ fun TimelineCanvas(
     Canvas(
         modifier = modifier
             .fillMaxSize()
-            .pointerInput(key1 = Unit) {
+            .pointerInput(Unit) {
                 detectDragGestures(
                     onDrag = { _, dragAmount ->
                         offset += dragAmount * 1.5f

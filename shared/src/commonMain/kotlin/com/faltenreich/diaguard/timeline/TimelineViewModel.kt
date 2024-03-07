@@ -23,7 +23,7 @@ class TimelineViewModel(
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
     getToday: GetTodayUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<TimelineViewState, TimelineIntent>() {
+) : ViewModel<TimelineState, TimelineIntent>() {
 
     private val initialDate = date ?: getToday()
     private val currentDate = MutableStateFlow(initialDate)
@@ -45,7 +45,7 @@ class TimelineViewModel(
         valuesForChart,
         valuesForList,
         propertiesForList,
-        ::TimelineViewState,
+        ::TimelineState,
     )
 
     override fun onIntent(intent: TimelineIntent) {

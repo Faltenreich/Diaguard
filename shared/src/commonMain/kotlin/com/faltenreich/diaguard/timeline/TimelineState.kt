@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.datetime.Date
 
-data class TimelineViewState(
+data class TimelineState(
     val initialDate: Date,
     val currentDate: Date,
     val valuesForChart: List<MeasurementValue>,

@@ -35,32 +35,37 @@ fun Timeline(
     viewModel: TimelineViewModel = inject(),
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
+    val density = LocalDensity.current
+    val colors = LocalColors.current
+    val colorScheme = colors.scheme
+    val dimensions = LocalDimensions.current
+    val typography = AppTheme.typography
+    val textMeasurer = rememberTextMeasurer()
+
     when (val state = viewModel.collectState()) {
         null -> Unit
         else -> {
             // TODO: Reset remember when initialDate changes
             var offset by remember { mutableStateOf(Offset.Zero) }
+            val config by remember {
+                val config = TimelineConfig(
+                    initialDate = state.initialDate,
+                    daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) },
+                    textMeasurer = textMeasurer,
+                    dateTimeFormatter = dateTimeFormatter,
+                    padding = density.run { dimensions.padding.P_2.toPx() },
+                    fontPaint = Paint().apply { color = colorScheme.onBackground },
+                    fontSize = density.run { typography.bodyMedium.fontSize.toPx() },
+                    backgroundColor = colorScheme.background,
+                    gridStrokeColor = colorScheme.onSurfaceVariant,
+                    gridShadowColor = colorScheme.surfaceVariant,
+                    valueColorNormal = colors.ValueNormal,
+                    valueColorLow = colors.ValueLow,
+                    valueColorHigh = colors.ValueHigh,
+                )
+                mutableStateOf(config)
+            }
 
-            val density = LocalDensity.current
-            val colors = LocalColors.current
-            val dimensions = LocalDimensions.current
-            val typography = AppTheme.typography
-
-            val config = TimelineConfig(
-                initialDate = state.initialDate,
-                daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) },
-                textMeasurer = rememberTextMeasurer(),
-                dateTimeFormatter = dateTimeFormatter,
-                padding = density.run { dimensions.padding.P_2.toPx() },
-                fontPaint = Paint().apply { color = colors.scheme.onBackground },
-                fontSize = density.run { typography.bodyMedium.fontSize.toPx() },
-                backgroundColor = colors.scheme.background,
-                gridStrokeColor = colors.scheme.onSurfaceVariant,
-                gridShadowColor = colors.scheme.surfaceVariant,
-                valueColorNormal = colors.ValueNormal,
-                valueColorLow = colors.ValueLow,
-                valueColorHigh = colors.ValueHigh,
-            )
             Canvas(
                 modifier = modifier
                     .fillMaxSize()

@@ -16,6 +16,10 @@ object Colors {
     val Blue = Color(0xff5771cd)
     val Transparent = Color.Transparent
 
+    val ValueLow = Blue
+    val ValueNormal = Green
+    val ValueHigh = Red
+
     val scheme: ColorScheme
         @Composable
         get() = MaterialTheme.colorScheme

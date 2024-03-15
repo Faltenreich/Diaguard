@@ -28,8 +28,9 @@ class TimelineViewModel(
     private val initialDate = date ?: getToday()
     private val currentDate = MutableStateFlow(initialDate)
     private val values = currentDate.flatMapLatest { date ->
+        // FIXME: Does not update chart
         valueRepository.observeByDateRange(
-            startDateTime = date.minus(2, DateUnit.MONTH).atStartOfDay(),
+            startDateTime = date.minus(2, DateUnit.DAY).atStartOfDay(),
             endDateTime = date.plus(2, DateUnit.DAY).atEndOfDay(),
         )
     }

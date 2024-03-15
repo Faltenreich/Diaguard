@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
+import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.datetime.DayOfWeek
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -33,6 +34,7 @@ import com.faltenreich.diaguard.timeline.chart.TimelineList
 import com.faltenreich.diaguard.timeline.chart.TimelineXAxis
 import com.faltenreich.diaguard.timeline.chart.TimelineYAxis
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
 
 @Composable
 fun Timeline(
@@ -108,6 +110,11 @@ fun Timeline(
                                         animationSpec = animationSpec,
                                     )
                                     velocityTracker.resetTracking()
+
+                                    val widthPerDay = size.width
+                                    val offsetInDays = ceil(targetValueX * -1) / widthPerDay
+                                    val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
+                                    viewModel.dispatchIntent(TimelineIntent.SetDate(date))
                                 }
                             }
                         )

@@ -1,5 +1,10 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FloatSpringSpec
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.calculateTargetValue
+import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,17 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
-import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.datetime.DayOfWeek
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -27,7 +32,7 @@ import com.faltenreich.diaguard.timeline.chart.TimelineChart
 import com.faltenreich.diaguard.timeline.chart.TimelineList
 import com.faltenreich.diaguard.timeline.chart.TimelineXAxis
 import com.faltenreich.diaguard.timeline.chart.TimelineYAxis
-import kotlin.math.ceil
+import kotlinx.coroutines.launch
 
 @Composable
 fun Timeline(
@@ -35,6 +40,7 @@ fun Timeline(
     viewModel: TimelineViewModel = inject(),
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
+    val scope = rememberCoroutineScope()
     val density = LocalDensity.current
     val colors = LocalColors.current
     val colorScheme = colors.scheme
@@ -46,7 +52,8 @@ fun Timeline(
         null -> Unit
         else -> {
             // TODO: Reset remember when initialDate changes
-            var offset by remember { mutableStateOf(Offset.Zero) }
+            val offsetX = remember { Animatable(0f) }
+            val offsetY = remember { Animatable(0f) }
             val config by remember {
                 val config = TimelineConfig(
                     initialDate = state.initialDate,
@@ -70,15 +77,39 @@ fun Timeline(
                 modifier = modifier
                     .fillMaxSize()
                     .pointerInput(Unit) {
+                        val decay = splineBasedDecay<Float>(this)
+                        val animationSpec = FloatSpringSpec(
+                            dampingRatio = Spring.DampingRatioNoBouncy,
+                            stiffness = Spring.StiffnessVeryLow,
+                        )
+                        val velocityTracker = VelocityTracker()
                         detectDragGestures(
-                            onDrag = { _, dragAmount ->
-                                offset += dragAmount * 1.5f
-
-                                val widthPerDay = size.width
-                                val offsetInDays = ceil(offset.x * -1) / widthPerDay
-                                val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
-                                viewModel.dispatchIntent(TimelineIntent.SetDate(date))
+                            onDrag = { change, dragAmount ->
+                                scope.launch {
+                                    offsetX.snapTo(offsetX.value + dragAmount.x)
+                                    offsetY.snapTo(offsetY.value + dragAmount.y)
+                                    velocityTracker.addPosition(change.uptimeMillis, change.position)
+                                    change.consume()
+                                }
                             },
+                            onDragEnd = {
+                                scope.launch {
+                                    val velocity = velocityTracker.calculateVelocity()
+                                    val targetValueX = decay.calculateTargetValue(offsetX.value, velocity.x)
+                                    val targetValueY = decay.calculateTargetValue(offsetY.value, velocity.y)
+                                    offsetX.animateTo(
+                                        targetValue = targetValueX,
+                                        initialVelocity = velocity.x,
+                                        animationSpec = animationSpec,
+                                    )
+                                    offsetY.animateTo(
+                                        targetValue = targetValueY,
+                                        initialVelocity = velocity.y,
+                                        animationSpec = animationSpec,
+                                    )
+                                    velocityTracker.resetTracking()
+                                }
+                            }
                         )
                     },
             ) {
@@ -118,6 +149,7 @@ fun Timeline(
                 )
 
                 // TODO: Draw values above grid but below axis
+                val offset = Offset(x = offsetX.value, y = offsetY.value)
                 TimelineXAxis(
                     origin = origin,
                     size = size,

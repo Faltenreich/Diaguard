@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.datetime.GetTodayUseCase
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -28,7 +29,8 @@ class TimelineViewModel(
     private val initialDate = date ?: getToday()
     private val currentDate = MutableStateFlow(initialDate)
     private val values = currentDate.flatMapLatest { date ->
-        // FIXME: Does not update chart
+        // FIXME: Called twice on every date change
+        Logger.debug("flatMapLatest: Changing date to: $date")
         valueRepository.observeByDateRange(
             startDateTime = date.minus(2, DateUnit.DAY).atStartOfDay(),
             endDateTime = date.plus(2, DateUnit.DAY).atEndOfDay(),

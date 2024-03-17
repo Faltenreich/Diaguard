@@ -91,6 +91,12 @@ fun Timeline(
                                     offsetX.snapTo(offsetX.value + dragAmount.x)
                                     offsetY.snapTo(offsetY.value + dragAmount.y)
                                     velocityTracker.addPosition(change.uptimeMillis, change.position)
+
+                                    val widthPerDay = size.width
+                                    val offsetInDays = ceil(offsetX.value * -1) / widthPerDay
+                                    val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
+                                    viewModel.dispatchIntent(TimelineIntent.SetDate(date))
+
                                     change.consume()
                                 }
                             },
@@ -110,11 +116,6 @@ fun Timeline(
                                         animationSpec = animationSpec,
                                     )
                                     velocityTracker.resetTracking()
-
-                                    val widthPerDay = size.width
-                                    val offsetInDays = ceil(targetValueX * -1) / widthPerDay
-                                    val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
-                                    viewModel.dispatchIntent(TimelineIntent.SetDate(date))
                                 }
                             }
                         )

@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DayOfWeek
 
@@ -35,7 +36,7 @@ data class TimelineConfig(
     val valueDotRadius: Float = 16f,
 
     private val xMin: Int = 0,
-    private val xMax: Int = 24,
+    private val xMax: Int = DateTimeConstants.HOURS_PER_DAY,
     private val xStep: Int = 2,
 
     // TODO: Pass values

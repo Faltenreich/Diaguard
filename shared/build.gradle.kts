@@ -114,7 +114,7 @@ dependencies {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = Constants.NameSpace
+    resourcesPackage.set(Constants.NameSpace)
 }
 
 sqldelight {

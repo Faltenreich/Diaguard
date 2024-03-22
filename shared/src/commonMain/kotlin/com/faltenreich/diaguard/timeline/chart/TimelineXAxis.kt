@@ -22,45 +22,22 @@ fun DrawScope.TimelineXAxis(
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
 ) {
-    TimelineXAxis(
-        origin = coordinates.canvas.topLeft,
-        size = coordinates.canvas.size,
-        timeOrigin = coordinates.time.topLeft,
-        timeSize = coordinates.time.size,
-        dateOrigin = coordinates.date.topLeft,
-        dateSize = coordinates.date.size,
-        offset = coordinates.scroll,
-        config = config,
-    )
-}
-
-@Suppress("FunctionName")
-private fun DrawScope.TimelineXAxis(
-    origin: Offset,
-    size: Size,
-    timeOrigin: Offset,
-    timeSize: Size,
-    dateOrigin: Offset,
-    dateSize: Size,
-    offset: Offset,
-    config: TimelineConfig,
-) = with(config) {
     drawRect(
-        color = gridShadowColor,
-        topLeft = timeOrigin,
+        color = config.gridShadowColor,
+        topLeft = coordinates.time.topLeft,
         size = Size(
-            width = timeSize.width,
-            height = timeSize.height + dateSize.height,
+            width = coordinates.time.size.width,
+            height = coordinates.time.size.height + coordinates.date.size.height,
         ),
         style = Fill,
     )
 
-    val widthPerDay = size.width
-    val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
+    val widthPerDay = coordinates.canvas.size.width
+    val widthPerHour = (widthPerDay / config.xAxisLabelCount).toInt()
 
-    val xOffset = offset.x.toInt()
+    val xOffset = coordinates.scroll.x.toInt()
     val xOfFirstHour = xOffset % widthPerHour
-    val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
+    val xOfLastHour = xOfFirstHour + (config.xAxisLabelCount * widthPerHour)
     // Paint one additional hour per side to support cut-off labels
     val (xStart, xEnd) = xOfFirstHour - widthPerHour to xOfLastHour + widthPerHour
     val xOfHours = xStart .. xEnd step widthPerHour
@@ -68,83 +45,81 @@ private fun DrawScope.TimelineXAxis(
     xOfHours.forEach { xOfLabel ->
         val xAbsolute = -(xOffset - xOfLabel)
         val xOffsetInHours = xAbsolute / widthPerHour
-        val xOffsetInHoursOfDay = ((xOffsetInHours % xAxis.last) * xAxis.step) % xAxis.last
+        val xOffsetInHoursOfDay = ((xOffsetInHours % config.xAxis.last) * config.xAxis.step) % config.xAxis.last
         val hour = when {
-            xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + xAxis.last
+            xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + config.xAxis.last
             else -> xOffsetInHoursOfDay
         }
         val x = xOfLabel.toFloat()
         // Hide date indicator initially
-        if (hour == xAxis.first && offset.x != 0f) {
-            drawDateIndicator(config, x)
+        if (hour == config.xAxis.first && coordinates.scroll.x != 0f) {
+            drawDateIndicator(x, config)
         }
-        drawHour(origin, size, timeOrigin, timeSize, dateSize, config, hour, x)
+        drawHour(x, hour, coordinates, config)
     }
-    drawDates(dateOrigin, dateSize, offset, config)
+    drawDates(coordinates, config)
 }
 
 private fun DrawScope.drawDates(
-    origin: Offset,
-    size: Size,
-    offset: Offset,
+    coordinates: TimelineCoordinates,
     config: TimelineConfig,
-) = with(config) {
-    val isScrollingToRight = offset.x < 0
-    val widthPerDay = size.width
+) {
+    val isScrollingToRight = coordinates.scroll.x < 0
+    val widthPerDay = coordinates.date.size.width
 
     val xOfFirstHour =
-        if (isScrollingToRight) widthPerDay + offset.x % widthPerDay
-        else offset.x % widthPerDay
-    val xOffsetInDays = -(offset.x / widthPerDay).toInt()
+        if (isScrollingToRight) widthPerDay + coordinates.scroll.x % widthPerDay
+        else coordinates.scroll.x % widthPerDay
+    val xOffsetInDays = -(coordinates.scroll.x / widthPerDay).toInt()
 
     val secondDate =
-        if (isScrollingToRight) initialDate.plus(xOffsetInDays + 1, DateUnit.DAY)
-        else initialDate.plus(xOffsetInDays, DateUnit.DAY)
+        if (isScrollingToRight) config.initialDate.plus(xOffsetInDays + 1, DateUnit.DAY)
+        else config.initialDate.plus(xOffsetInDays, DateUnit.DAY)
     val firstDate = secondDate.minus(1, DateUnit.DAY)
 
     val firstDateAsText = "%s, %s".format(
-        daysOfWeek[firstDate.dayOfWeek],
-        dateTimeFormatter.formatDate(firstDate),
+        config.daysOfWeek[firstDate.dayOfWeek],
+        config.dateTimeFormatter.formatDate(firstDate),
     )
     val secondDateAsText = "%s, %s".format(
-        daysOfWeek[secondDate.dayOfWeek],
-        dateTimeFormatter.formatDate(secondDate),
+        config.daysOfWeek[secondDate.dayOfWeek],
+        config.dateTimeFormatter.formatDate(secondDate),
     )
 
-    val firstDateTextWidth = textMeasurer.measure(firstDateAsText).size.width
-    val secondDateTextWidth = textMeasurer.measure(secondDateAsText).size.width
+    val firstDateTextWidth = config.textMeasurer.measure(firstDateAsText).size.width
+    val secondDateTextWidth = config.textMeasurer.measure(secondDateAsText).size.width
 
-    val xStart = padding
-    val xBeforeIndicator = xOfFirstHour - firstDateTextWidth - padding - X_BEFORE_INDICATOR_OFFSET
-    val xCenterOfFirstDate = xOfFirstHour - size.width / 2 - firstDateTextWidth / 2
+    val xStart = config.padding
+    val xBeforeIndicator = xOfFirstHour - firstDateTextWidth - config.padding - X_BEFORE_INDICATOR_OFFSET
+    val xCenterOfFirstDate = xOfFirstHour - coordinates.date.size.width / 2 - firstDateTextWidth / 2
     drawText(
         text = firstDateAsText,
         x = max(min(xStart, xBeforeIndicator), xCenterOfFirstDate),
-        y = origin.y + size.height / 2 + fontSize / 2,
-        size = fontSize,
-        paint = fontPaint,
+        y = coordinates.date.topLeft.y + coordinates.date.size.height / 2 + config.fontSize / 2,
+        size = config.fontSize,
+        paint = config.fontPaint,
     )
 
-    val xAfterIndicator = xOfFirstHour + padding
-    val xCenterOfSecondDate = xOfFirstHour + size.width / 2 - secondDateTextWidth / 2
-    val xEnd = size.width - secondDateTextWidth - padding * 2 * 2 // FIXME: Fix magic offset
+    val xAfterIndicator = xOfFirstHour + config.padding
+    val xCenterOfSecondDate = xOfFirstHour + coordinates.date.size.width / 2 - secondDateTextWidth / 2
+    val xEnd = coordinates.date.size.width - secondDateTextWidth - config.padding * 2 * 2 // FIXME: Fix magic offset
     drawText(
         text = secondDateAsText,
         x = max(min(xCenterOfSecondDate, xEnd), xAfterIndicator),
-        y = origin.y + size.height / 2 + fontSize / 2,
-        size = fontSize,
-        paint = fontPaint,
+        y = coordinates.date.topLeft.y + coordinates.date.size.height / 2 + config.fontSize / 2,
+        size = config.fontSize,
+        paint = config.fontPaint,
     )
 }
 
 private fun DrawScope.drawDateIndicator(
-    config: TimelineConfig,
     x: Float,
-) = with(config) {
+    config: TimelineConfig,
+) {
     val gradient = Brush.horizontalGradient(
         colorStops = arrayOf(
             .0f to Color.Transparent,
-            1f to gridShadowColor,
+            1f to config.gridShadowColor,
         ),
         startX = x - GRADIENT_WIDTH,
         endX = x,
@@ -157,30 +132,30 @@ private fun DrawScope.drawDateIndicator(
 }
 
 private fun DrawScope.drawHour(
-    origin: Offset,
-    size: Size,
-    timeOrigin: Offset,
-    timeSize: Size,
-    dateSize: Size,
-    config: TimelineConfig,
-    hour: Int,
     x: Float,
-) = with(config) {
+    hour: Int,
+    coordinates: TimelineCoordinates,
+    config: TimelineConfig,
+) {
     val lineEndY = when (hour) {
-        0 -> origin.y + size.height
-        else -> origin.y + size.height - timeSize.height - dateSize.height + padding
+        0 -> coordinates.canvas.topLeft.y + coordinates.canvas.size.height
+        else -> coordinates.canvas.topLeft.y +
+                coordinates.canvas.size.height -
+                coordinates.time.size.height -
+                coordinates.date.size.height +
+                config.padding
     }
     drawLine(
-        color = gridStrokeColor,
+        color = config.gridStrokeColor,
         start = Offset(x = x, y = 0f),
         end = Offset(x = x, y = lineEndY),
-        strokeWidth = gridStrokeWidth,
+        strokeWidth = config.gridStrokeWidth,
     )
     drawText(
         text = hour.toString(),
-        x = x + padding,
-        y = timeOrigin.y + padding + fontSize,
-        size = fontSize,
-        paint = fontPaint,
+        x = x + config.padding,
+        y = coordinates.time.topLeft.y + config.padding + config.fontSize,
+        size = config.fontSize,
+        paint = config.fontPaint,
     )
 }

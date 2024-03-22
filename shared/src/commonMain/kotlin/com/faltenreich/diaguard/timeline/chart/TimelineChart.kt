@@ -5,12 +5,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.view.bezierBetween
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChart(
+    initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     values: List<MeasurementValue>,
@@ -18,7 +20,7 @@ fun DrawScope.TimelineChart(
     if (values.isEmpty()) {
         return
     }
-    val dateTimeBase = config.initialDate.atStartOfDay()
+    val dateTimeBase = initialDate.atStartOfDay()
     val coordinateList = values.map { value ->
         val dateTime = value.entry.dateTime
         val widthPerDay = coordinates.chart.size.width

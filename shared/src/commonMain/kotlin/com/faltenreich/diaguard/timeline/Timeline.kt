@@ -62,7 +62,6 @@ fun Timeline(
             var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
             val config by remember {
                 val config = TimelineConfig(
-                    initialDate = state.initialDate,
                     daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) },
                     padding = density.run { dimensions.padding.P_2.toPx() },
                     fontPaint = Paint().apply { color = colorScheme.onBackground },
@@ -126,8 +125,8 @@ fun Timeline(
                     },
             ) {
                 coordinates?.let { coordinates ->
-                    TimelineXAxis(coordinates, config, textMeasurer)
-                    TimelineChart(coordinates, config, state.valuesForChart)
+                    TimelineXAxis(state.initialDate, coordinates, config, textMeasurer)
+                    TimelineChart(state.initialDate, coordinates, config, state.valuesForChart)
                     TimelineYAxis(coordinates, config, textMeasurer)
                     TimelineList(coordinates, config, state.propertiesForList, state.valuesForList, textMeasurer)
                 }

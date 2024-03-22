@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.text.TextMeasurer
+import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.di.inject
@@ -22,6 +23,7 @@ private const val X_BEFORE_INDICATOR_OFFSET = 60
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
+    initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
@@ -61,10 +63,11 @@ fun DrawScope.TimelineXAxis(
         }
         drawHour(x, hour, coordinates, config)
     }
-    drawDates(coordinates, config, textMeasurer)
+    drawDates(initialDate, coordinates, config, textMeasurer)
 }
 
 private fun DrawScope.drawDates(
+    initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
@@ -79,8 +82,8 @@ private fun DrawScope.drawDates(
     val xOffsetInDays = -(coordinates.scroll.x / widthPerDay).toInt()
 
     val secondDate =
-        if (isScrollingToRight) config.initialDate.plus(xOffsetInDays + 1, DateUnit.DAY)
-        else config.initialDate.plus(xOffsetInDays, DateUnit.DAY)
+        if (isScrollingToRight) initialDate.plus(xOffsetInDays + 1, DateUnit.DAY)
+        else initialDate.plus(xOffsetInDays, DateUnit.DAY)
     val firstDate = secondDate.minus(1, DateUnit.DAY)
 
     val firstDateAsText = "%s, %s".format(

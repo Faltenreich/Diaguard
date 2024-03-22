@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.timeline.chart
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 data class TimelineCoordinates(
@@ -18,13 +17,12 @@ data class TimelineCoordinates(
     companion object {
 
         fun from(
-            drawScope: DrawScope,
+            size: Size,
             scrollOffset: Offset,
             listItemCount: Int,
             config: TimelineConfig,
         ): TimelineCoordinates {
             val origin = Offset.Zero
-            val size = drawScope.size
 
             val timeSize = Size(
                 width = size.width,

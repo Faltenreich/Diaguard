@@ -17,12 +17,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DateUnit
@@ -58,13 +60,8 @@ fun Timeline(
         else -> {
             // TODO: Reset remember when initialDate changes
             val offsetX = remember { Animatable(0f) }
-            var canvasWidth by remember { mutableStateOf(0) }
-            LaunchedEffect(offsetX.value) {
-                val widthPerDay = canvasWidth
-                val offsetInDays = ceil(offsetX.value * -1) / widthPerDay
-                val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
-                viewModel.dispatchIntent(TimelineIntent.SetDate(date))
-            }
+            var canvasSize by remember { mutableStateOf(Size.Unspecified) }
+            var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
             val config by remember {
                 val config = TimelineConfig(
                     initialDate = state.initialDate,
@@ -84,10 +81,24 @@ fun Timeline(
                 mutableStateOf(config)
             }
 
+            LaunchedEffect(offsetX.value) {
+                val widthPerDay = canvasSize.width
+                val offsetInDays = ceil(offsetX.value * -1) / widthPerDay
+                val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
+                viewModel.dispatchIntent(TimelineIntent.SetDate(date))
+
+                coordinates = TimelineCoordinates.from(
+                    size = canvasSize,
+                    scrollOffset = Offset(x = offsetX.value, y = 0f),
+                    listItemCount = state.propertiesForList.size,
+                    config = config,
+                )
+            }
+
             Canvas(
                 modifier = modifier
                     .fillMaxSize()
-                    .onGloballyPositioned { coordinates -> canvasWidth = coordinates.size.width }
+                    .onGloballyPositioned { canvasSize = it.size.toSize() }
                     .pointerInput(Unit) {
                         val decay = splineBasedDecay<Float>(this)
                         val animationSpec = FloatSpringSpec(
@@ -118,16 +129,12 @@ fun Timeline(
                         )
                     },
             ) {
-                val coordinates = TimelineCoordinates.from(
-                    drawScope = this,
-                    scrollOffset = Offset(x = offsetX.value, y = 0f),
-                    listItemCount = state.propertiesForList.size,
-                    config = config,
-                )
-                TimelineXAxis(coordinates, config)
-                TimelineChart(coordinates, config, state.valuesForChart)
-                TimelineYAxis(coordinates, config)
-                TimelineList(coordinates, config, state.propertiesForList, state.valuesForList)
+                coordinates?.let { coordinates ->
+                    TimelineXAxis(coordinates, config)
+                    TimelineChart(coordinates, config, state.valuesForChart)
+                    TimelineYAxis(coordinates, config)
+                    TimelineList(coordinates, config, state.propertiesForList, state.valuesForList)
+                }
             }
         }
     }

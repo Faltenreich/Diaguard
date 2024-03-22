@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.di.inject
@@ -23,6 +24,7 @@ private const val X_BEFORE_INDICATOR_OFFSET = 60
 fun DrawScope.TimelineXAxis(
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
+    textMeasurer: TextMeasurer,
 ) {
     drawRect(
         color = config.gridShadowColor,
@@ -59,12 +61,13 @@ fun DrawScope.TimelineXAxis(
         }
         drawHour(x, hour, coordinates, config)
     }
-    drawDates(coordinates, config)
+    drawDates(coordinates, config, textMeasurer)
 }
 
 private fun DrawScope.drawDates(
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
+    textMeasurer: TextMeasurer,
 ) {
     val dateTimeFormatter = inject<DateTimeFormatter>()
     val isScrollingToRight = coordinates.scroll.x < 0
@@ -89,8 +92,8 @@ private fun DrawScope.drawDates(
         dateTimeFormatter.formatDate(secondDate),
     )
 
-    val firstDateTextWidth = config.textMeasurer.measure(firstDateAsText).size.width
-    val secondDateTextWidth = config.textMeasurer.measure(secondDateAsText).size.width
+    val firstDateTextWidth = textMeasurer.measure(firstDateAsText).size.width
+    val secondDateTextWidth = textMeasurer.measure(secondDateAsText).size.width
 
     val xStart = config.padding
     val xBeforeIndicator = xOfFirstHour - firstDateTextWidth - config.padding - X_BEFORE_INDICATOR_OFFSET

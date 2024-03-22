@@ -5,6 +5,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
@@ -12,6 +13,7 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 fun DrawScope.TimelineYAxis(
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
+    textMeasurer: TextMeasurer,
 ) {
     val heightPerSection = coordinates.chart.size.height / (config.yAxis.last / config.yAxis.step)
     config.yAxis
@@ -30,7 +32,7 @@ fun DrawScope.TimelineYAxis(
             )
 
             val text = value.toString()
-            val textSize = config.textMeasurer.measure(text)
+            val textSize = textMeasurer.measure(text)
 
             val path = Path()
             val rect = RoundRect(

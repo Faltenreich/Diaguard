@@ -64,7 +64,6 @@ fun Timeline(
                 val config = TimelineConfig(
                     initialDate = state.initialDate,
                     daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) },
-                    textMeasurer = textMeasurer,
                     padding = density.run { dimensions.padding.P_2.toPx() },
                     fontPaint = Paint().apply { color = colorScheme.onBackground },
                     fontSize = density.run { typography.bodyMedium.fontSize.toPx() },
@@ -127,10 +126,10 @@ fun Timeline(
                     },
             ) {
                 coordinates?.let { coordinates ->
-                    TimelineXAxis(coordinates, config)
+                    TimelineXAxis(coordinates, config, textMeasurer)
                     TimelineChart(coordinates, config, state.valuesForChart)
-                    TimelineYAxis(coordinates, config)
-                    TimelineList(coordinates, config, state.propertiesForList, state.valuesForList)
+                    TimelineYAxis(coordinates, config, textMeasurer)
+                    TimelineList(coordinates, config, state.propertiesForList, state.valuesForList, textMeasurer)
                 }
             }
         }

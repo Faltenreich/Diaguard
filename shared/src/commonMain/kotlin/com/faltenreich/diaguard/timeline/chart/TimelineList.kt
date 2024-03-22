@@ -5,6 +5,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.view.drawText
@@ -16,6 +17,7 @@ fun DrawScope.TimelineList(
     config: TimelineConfig,
     properties: List<MeasurementProperty>,
     values: List<MeasurementValue>,
+    textMeasurer: TextMeasurer,
 ) {
     properties.forEachIndexed { index, property ->
         val iconSize = config.fontSize
@@ -32,7 +34,7 @@ fun DrawScope.TimelineList(
         )
 
         val text = property.icon ?: ""
-        val textSize = config.textMeasurer.measure(text)
+        val textSize = textMeasurer.measure(text)
 
         val path = Path()
         val rect = RoundRect(

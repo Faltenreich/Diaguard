@@ -59,7 +59,7 @@ fun Timeline(
         null -> Unit
         else -> {
             // TODO: Reset remember when initialDate changes
-            val offsetX = remember { Animatable(0f) }
+            val scrollOffset = remember { Animatable(0f) }
             var canvasSize by remember { mutableStateOf(Size.Unspecified) }
             var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
             val config by remember {
@@ -81,15 +81,15 @@ fun Timeline(
                 mutableStateOf(config)
             }
 
-            LaunchedEffect(offsetX.value) {
+            LaunchedEffect(scrollOffset.value) {
                 val widthPerDay = canvasSize.width
-                val offsetInDays = ceil(offsetX.value * -1) / widthPerDay
+                val offsetInDays = ceil(scrollOffset.value * -1) / widthPerDay
                 val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
                 viewModel.dispatchIntent(TimelineIntent.SetDate(date))
 
                 coordinates = TimelineCoordinates.from(
                     size = canvasSize,
-                    scrollOffset = Offset(x = offsetX.value, y = 0f),
+                    scrollOffset = Offset(x = scrollOffset.value, y = 0f),
                     listItemCount = state.propertiesForList.size,
                     config = config,
                 )
@@ -109,7 +109,7 @@ fun Timeline(
                         detectDragGestures(
                             onDrag = { change, dragAmount ->
                                 scope.launch {
-                                    offsetX.snapTo(offsetX.value + dragAmount.x)
+                                    scrollOffset.snapTo(scrollOffset.value + dragAmount.x)
                                     velocityTracker.addPosition(change.uptimeMillis, change.position)
                                     change.consume()
                                 }
@@ -117,8 +117,8 @@ fun Timeline(
                             onDragEnd = {
                                 scope.launch {
                                     val velocity = velocityTracker.calculateVelocity()
-                                    val targetValueX = decay.calculateTargetValue(offsetX.value, velocity.x)
-                                    offsetX.animateTo(
+                                    val targetValueX = decay.calculateTargetValue(scrollOffset.value, velocity.x)
+                                    scrollOffset.animateTo(
                                         targetValue = targetValueX,
                                         initialVelocity = velocity.x,
                                         animationSpec = animationSpec,

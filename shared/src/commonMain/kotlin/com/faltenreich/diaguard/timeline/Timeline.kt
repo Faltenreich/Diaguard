@@ -17,8 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
@@ -120,51 +118,12 @@ fun Timeline(
                         )
                     },
             ) {
-                val origin = Offset.Zero
-                val size = size
-
-                val timeSize = Size(
-                    width = size.width,
-                    height = config.fontSize + config.padding * 2,
+                val coordinates = TimelineCoordinates.from(
+                    drawScope = this,
+                    scrollOffset = Offset(x = offsetX.value, y = 0f),
+                    listItemCount = state.propertiesForList.size,
+                    config = config,
                 )
-                val dateSize = Size(
-                    width = size.width,
-                    height = config.fontSize * 3 + config.padding * 2,
-                )
-                val listItemHeight = config.fontSize + config.padding * 2
-                val listSize = Size(
-                    width = size.width,
-                    height = listItemHeight * state.propertiesForList.size,
-                )
-                val chartSize = Size(
-                    width = size.width,
-                    height = size.height - listSize.height - timeSize.height - dateSize.height,
-                )
-
-                val listOrigin = Offset(
-                    x = origin.x,
-                    y =  origin.y + chartSize.height,
-                )
-                val timeOrigin = Offset(
-                    x = origin.x,
-                    y = origin.y + chartSize.height + listSize.height,
-                )
-                val dateOrigin = Offset(
-                    x = origin.x,
-                    y = timeOrigin.y + timeSize.height,
-                )
-
-                val offset = Offset(x = offsetX.value, y = 0f)
-
-                val coordinates = TimelineCoordinates(
-                    canvas = Rect(offset = origin, size = size),
-                    chart = Rect(offset = origin, size = chartSize),
-                    list = Rect(offset = listOrigin, size = listSize),
-                    time = Rect(offset = timeOrigin, size = timeSize),
-                    date = Rect(offset = dateOrigin, size = dateSize),
-                    scroll = offset,
-                )
-
                 TimelineXAxis(coordinates, config)
                 TimelineChart(coordinates, config, state.valuesForChart)
                 TimelineYAxis(coordinates, config)

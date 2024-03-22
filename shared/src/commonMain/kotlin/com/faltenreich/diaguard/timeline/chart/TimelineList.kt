@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.timeline.chart
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
@@ -18,62 +17,45 @@ fun DrawScope.TimelineList(
     properties: List<MeasurementProperty>,
     values: List<MeasurementValue>,
 ) {
-    TimelineList(
-        origin = coordinates.list.topLeft,
-        size = coordinates.list.size,
-        config = config,
-        properties = properties,
-        values = values,
-    )
-}
-
-@Suppress("FunctionName")
-private fun DrawScope.TimelineList(
-    origin: Offset,
-    size: Size,
-    config: TimelineConfig,
-    properties: List<MeasurementProperty>,
-    values: List<MeasurementValue>,
-) = with(config) {
     properties.forEachIndexed { index, property ->
-        val iconSize = fontSize
-        val heightPerProperty = iconSize + padding * 2
+        val iconSize = config.fontSize
+        val heightPerProperty = iconSize + config.padding * 2
 
-        val x = origin.x
-        val y = origin.y + index * heightPerProperty
+        val x = coordinates.list.topLeft.x
+        val y = coordinates.list.topLeft.y + index * heightPerProperty
 
         drawLine(
-            color = gridStrokeColor,
-            start = Offset(x = origin.x, y = y),
-            end = Offset(x = origin.x + size.width, y = y),
-            strokeWidth = gridStrokeWidth,
+            color = config.gridStrokeColor,
+            start = Offset(x = coordinates.list.topLeft.x, y = y),
+            end = Offset(x = coordinates.list.topLeft.x + coordinates.list.size.width, y = y),
+            strokeWidth = config.gridStrokeWidth,
         )
 
         val text = property.icon ?: ""
-        val textSize = textMeasurer.measure(text)
+        val textSize = config.textMeasurer.measure(text)
 
         val path = Path()
         val rect = RoundRect(
             rect = Rect(
-                left = x + padding / 2,
-                top = y + iconSize - textSize.size.height + padding / 2,
-                right = x + textSize.size.width + padding * 2,
-                bottom = y + iconSize + padding + padding / 2,
+                left = x + config.padding / 2,
+                top = y + iconSize - textSize.size.height + config.padding / 2,
+                right = x + textSize.size.width + config.padding * 2,
+                bottom = y + iconSize + config.padding + config.padding / 2,
             ),
-            cornerRadius = cornerRadius,
+            cornerRadius = config.cornerRadius,
         )
         path.addRoundRect(rect)
         drawPath(
             path = path,
-            color = backgroundColor,
+            color = config.backgroundColor,
         )
 
         drawText(
             text = text,
-            x = x + padding,
-            y = y + iconSize + padding / 1.5f,
-            size = fontSize,
-            paint = fontPaint,
+            x = x + config.padding,
+            y = y + iconSize + config.padding / 1.5f,
+            size = config.fontSize,
+            paint = config.fontPaint,
         )
     }
 }

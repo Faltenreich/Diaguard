@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
-import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DayOfWeek
 
 data class TimelineConfig(
@@ -16,7 +15,6 @@ data class TimelineConfig(
     val daysOfWeek: Map<DayOfWeek, String>,
 
     val textMeasurer: TextMeasurer,
-    val dateTimeFormatter: DateTimeFormatter,
 
     val padding: Float,
     val fontPaint: Paint,

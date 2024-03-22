@@ -26,7 +26,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
 import com.faltenreich.diaguard.shared.datetime.DateUnit
 import com.faltenreich.diaguard.shared.datetime.DayOfWeek
 import com.faltenreich.diaguard.shared.di.inject
@@ -45,7 +44,6 @@ import kotlin.math.ceil
 fun Timeline(
     modifier: Modifier = Modifier,
     viewModel: TimelineViewModel = inject(),
-    dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
     val scope = rememberCoroutineScope()
     val density = LocalDensity.current
@@ -67,7 +65,6 @@ fun Timeline(
                     initialDate = state.initialDate,
                     daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) },
                     textMeasurer = textMeasurer,
-                    dateTimeFormatter = dateTimeFormatter,
                     padding = density.run { dimensions.padding.P_2.toPx() },
                     fontPaint = Paint().apply { color = colorScheme.onBackground },
                     fontSize = density.run { typography.bodyMedium.fontSize.toPx() },

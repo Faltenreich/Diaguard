@@ -12,6 +12,21 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChart(
+    coordinates: TimelineCoordinates,
+    config: TimelineConfig,
+    values: List<MeasurementValue>,
+) {
+    TimelineChart(
+        origin = coordinates.chart.topLeft,
+        size = coordinates.chart.size,
+        offset = coordinates.scroll,
+        config = config,
+        values = values,
+    )
+}
+
+@Suppress("FunctionName")
+private fun DrawScope.TimelineChart(
     origin: Offset,
     size: Size,
     offset: Offset,

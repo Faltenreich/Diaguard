@@ -11,6 +11,18 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineYAxis(
+    coordinates: TimelineCoordinates,
+    config: TimelineConfig,
+) {
+    TimelineYAxis(
+        origin = coordinates.canvas.topLeft,
+        size = coordinates.chart.size,
+        config = config,
+    )
+}
+
+@Suppress("FunctionName")
+private fun DrawScope.TimelineYAxis(
     origin: Offset,
     size: Size,
     config: TimelineConfig,

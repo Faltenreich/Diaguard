@@ -19,6 +19,23 @@ private const val X_BEFORE_INDICATOR_OFFSET = 60
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
+    coordinates: TimelineCoordinates,
+    config: TimelineConfig,
+) {
+    TimelineXAxis(
+        origin = coordinates.canvas.topLeft,
+        size = coordinates.canvas.size,
+        timeOrigin = coordinates.time.topLeft,
+        timeSize = coordinates.time.size,
+        dateOrigin = coordinates.date.topLeft,
+        dateSize = coordinates.date.size,
+        offset = coordinates.scroll,
+        config = config,
+    )
+}
+
+@Suppress("FunctionName")
+private fun DrawScope.TimelineXAxis(
     origin: Offset,
     size: Size,
     timeOrigin: Offset,

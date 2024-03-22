@@ -7,15 +7,33 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineList(
+    coordinates: TimelineCoordinates,
+    config: TimelineConfig,
+    properties: List<MeasurementProperty>,
+    values: List<MeasurementValue>,
+) {
+    TimelineList(
+        origin = coordinates.list.topLeft,
+        size = coordinates.list.size,
+        config = config,
+        properties = properties,
+        values = values,
+    )
+}
+
+@Suppress("FunctionName")
+private fun DrawScope.TimelineList(
     origin: Offset,
     size: Size,
     config: TimelineConfig,
     properties: List<MeasurementProperty>,
+    values: List<MeasurementValue>,
 ) = with(config) {
     properties.forEachIndexed { index, property ->
         val iconSize = fontSize

@@ -17,6 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
@@ -33,6 +34,7 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.theme.LocalDimensions
 import com.faltenreich.diaguard.shared.theme.color.LocalColors
 import com.faltenreich.diaguard.timeline.chart.TimelineChart
+import com.faltenreich.diaguard.timeline.chart.TimelineCoordinates
 import com.faltenreich.diaguard.timeline.chart.TimelineList
 import com.faltenreich.diaguard.timeline.chart.TimelineXAxis
 import com.faltenreich.diaguard.timeline.chart.TimelineYAxis
@@ -153,34 +155,20 @@ fun Timeline(
                 )
 
                 val offset = Offset(x = offsetX.value, y = 0f)
-                TimelineXAxis(
-                    origin = origin,
-                    size = size,
-                    timeOrigin = timeOrigin,
-                    timeSize = timeSize,
-                    dateOrigin = dateOrigin,
-                    dateSize = dateSize,
-                    offset = offset,
-                    config = config,
+
+                val coordinates = TimelineCoordinates(
+                    canvas = Rect(offset = origin, size = size),
+                    chart = Rect(offset = origin, size = chartSize),
+                    list = Rect(offset = listOrigin, size = listSize),
+                    time = Rect(offset = timeOrigin, size = timeSize),
+                    date = Rect(offset = dateOrigin, size = dateSize),
+                    scroll = offset,
                 )
-                TimelineChart(
-                    origin = origin,
-                    size = chartSize,
-                    offset = offset,
-                    config = config,
-                    values = state.valuesForChart,
-                )
-                TimelineYAxis(
-                    origin = origin,
-                    size = chartSize,
-                    config = config,
-                )
-                TimelineList(
-                    origin = listOrigin,
-                    size = listSize,
-                    config = config,
-                    properties = state.propertiesForList,
-                )
+
+                TimelineXAxis(coordinates, config)
+                TimelineChart(coordinates, config, state.valuesForChart)
+                TimelineYAxis(coordinates, config)
+                TimelineList(coordinates, config, state.propertiesForList, state.valuesForList)
             }
         }
     }

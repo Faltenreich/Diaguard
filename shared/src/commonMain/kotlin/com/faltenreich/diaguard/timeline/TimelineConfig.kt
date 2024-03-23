@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline
 
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
@@ -52,19 +51,4 @@ data class TimelineConfig(
     val yHighFraction: Float = (yHigh - yMin).toFloat() / (yMax - yMin).toFloat()
     val valueStroke: Stroke = Stroke(width = valueStrokeWidth)
     val valuePath: Path = Path()
-}
-
-val LocalTimelineConfig = compositionLocalOf {
-    TimelineConfig(
-        daysOfWeek = mapOf(),
-        padding = 0f,
-        fontPaint = Paint(),
-        fontSize = 0f,
-        backgroundColor = Color.Transparent,
-        gridStrokeColor = Color.Transparent,
-        gridShadowColor = Color.Transparent,
-        valueColorNormal = Color.Transparent,
-        valueColorLow = Color.Transparent,
-        valueColorHigh = Color.Transparent,
-    )
 }

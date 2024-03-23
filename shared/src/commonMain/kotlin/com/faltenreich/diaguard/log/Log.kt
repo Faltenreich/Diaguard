@@ -91,7 +91,7 @@ fun Log(
                     }
 
                     is LogItem.EntryContent -> item(key = peek.key) {
-                        val item = paginationItems.get(index) as? LogItem.EntryContent
+                        val item = paginationItems[index] as? LogItem.EntryContent
                         checkNotNull(item)
                         LogEntry(
                             item = item,
@@ -106,7 +106,7 @@ fun Log(
                     }
 
                     is LogItem.EmptyContent -> item(key = peek.key) {
-                        val item = paginationItems.get(index) as? LogItem.EmptyContent
+                        val item = paginationItems[index] as? LogItem.EmptyContent
                         checkNotNull(item)
                         LogEmpty(
                             item = item,

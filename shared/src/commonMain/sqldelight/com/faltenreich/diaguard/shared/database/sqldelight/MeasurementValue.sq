@@ -55,16 +55,6 @@ WHERE measurementType.property_id == :propertyId
 AND entry.date_time >= :minDateTime
 AND entry.date_time <= :maxDateTime;
 
-getAverageByType:
-SELECT AVG(measurementValue.value) FROM measurementValue
-INNER JOIN measurementType ON measurementType.id == measurementValue.type_id
-INNER JOIN measurementUnit ON measurementUnit.id == measurementType.selected_unit_id
-INNER JOIN measurementProperty ON measurementProperty.id == measurementType.property_id
-INNER JOIN entry ON entry.id == measurementValue.entry_id
-WHERE measurementValue.type_id == :typeId
-AND entry.date_time >= :minDateTime
-AND entry.date_time <= :maxDateTime;
-
 countByProperty:
 SELECT COUNT(*) FROM measurementValue
 INNER JOIN measurementType ON measurementType.id == measurementValue.type_id

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.type.list
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Divider
+import com.faltenreich.diaguard.shared.view.Divider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

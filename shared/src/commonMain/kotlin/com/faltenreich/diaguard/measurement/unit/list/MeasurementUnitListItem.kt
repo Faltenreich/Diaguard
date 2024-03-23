@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.measurement.unit.list
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Divider
+import com.faltenreich.diaguard.shared.view.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

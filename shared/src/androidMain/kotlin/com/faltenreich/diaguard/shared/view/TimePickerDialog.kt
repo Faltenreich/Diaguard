@@ -25,11 +25,11 @@ import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 @Deprecated("Replace with official solution when available")
-fun TimePickerDialog(
+actual fun TimePickerDialog(
     onDismissRequest: () -> Unit,
     confirmButton: @Composable () -> Unit,
-    modifier: Modifier = Modifier,
-    dismissButton: @Composable (() -> Unit)? = null,
+    modifier: Modifier,
+    dismissButton: @Composable (() -> Unit)?,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Dialog(

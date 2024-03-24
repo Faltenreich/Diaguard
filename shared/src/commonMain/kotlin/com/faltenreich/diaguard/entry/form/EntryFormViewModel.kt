@@ -115,23 +115,21 @@ class EntryFormViewModel(
 
     override fun onIntent(intent: EntryFormIntent) {
         when (intent) {
-            is EntryFormIntent.Edit -> updateMeasurementValue(intent.data)
+            is EntryFormIntent.Edit -> edit(intent.data)
             is EntryFormIntent.SelectDate -> selectDate()
             is EntryFormIntent.SelectTime -> selectTime()
             is EntryFormIntent.Submit -> submit()
-            is EntryFormIntent.Delete -> deleteIfNeeded()
-            is EntryFormIntent.SelectFood -> navigateToScreen(FoodListScreen(
-                onSelection = { food -> dispatchIntent(EntryFormIntent.AddFood(food)) }),
-            )
+            is EntryFormIntent.Delete -> delete()
+            is EntryFormIntent.SelectFood -> selectFood()
             is EntryFormIntent.AddFood -> addFood(intent.food)
             is EntryFormIntent.EditFood -> editFood(intent.food)
             is EntryFormIntent.RemoveFood -> removeFood(intent.food)
-            is EntryFormIntent.AddTag -> tags += intent.tag // TODO: Refresh suggestions via getTagsByQuery()
-            is EntryFormIntent.RemoveTag -> tags -= intent.tag
+            is EntryFormIntent.AddTag -> addTag(intent.tag)
+            is EntryFormIntent.RemoveTag -> removeTag(intent.tag)
         }
     }
 
-    private fun updateMeasurementValue(update: MeasurementTypeInputState) {
+    private fun edit(update: MeasurementTypeInputState) {
         measurements = measurements.map { property ->
             property.copy(typeInputStates = property.typeInputStates.map { legacy ->
                 when (legacy.type) {
@@ -187,12 +185,20 @@ class EntryFormViewModel(
         }
     }
 
-    private fun deleteIfNeeded() {
+    private fun delete() {
         showModal(
             EntryDeleteModal(
                 entry = editing,
                 onConfirm = navigateBack::invoke,
             )
+        )
+    }
+
+    private fun selectFood() {
+        navigateToScreen(
+            FoodListScreen(
+                onSelection = { dispatchIntent(EntryFormIntent.AddFood(it)) },
+            ),
         )
     }
 
@@ -211,5 +217,14 @@ class EntryFormViewModel(
 
     private fun removeFood(food: FoodEatenInputState) {
         foodEaten -= food
+    }
+
+    private fun addTag(tag: Tag) {
+        // TODO: Refresh suggestions via getTagsByQuery()
+        tags += tag
+    }
+
+    private fun removeTag(tag: Tag) {
+        tags -= tag
     }
 }

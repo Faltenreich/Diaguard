@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.view
+package com.faltenreich.diaguard.datetime
 
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.datetime.Time
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.TimePickerDialog
 
 @Composable
 fun TimePicker(

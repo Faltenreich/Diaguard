@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.view
+package com.faltenreich.diaguard.datetime
 
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Text

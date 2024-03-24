@@ -13,13 +13,19 @@ import com.faltenreich.diaguard.shared.view.ResourceIcon
 
 @Composable
 fun EntryDeleteDialog(
+    onConfirm: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: EntryDeleteViewModel = inject(),
 ) {
     AlertDialog(
         onDismissRequest = { viewModel.dispatchIntent(EntryDeleteIntent.Close) },
         confirmButton = {
-            TextButton(onClick = { viewModel.dispatchIntent(EntryDeleteIntent.Confirm) }) {
+            TextButton(
+                onClick = {
+                    viewModel.dispatchIntent(EntryDeleteIntent.Confirm)
+                    onConfirm()
+                },
+            ) {
                 Text(
                     text = getString(MR.strings.delete),
                     color = AppTheme.colors.scheme.error,

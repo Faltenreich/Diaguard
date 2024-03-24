@@ -6,10 +6,16 @@ import com.faltenreich.diaguard.entry.delete.EntryDeleteDialog
 import com.faltenreich.diaguard.shared.di.inject
 import org.koin.core.parameter.parametersOf
 
-data class EntryDeleteModal(private val entry: Entry?) : Modal {
+data class EntryDeleteModal(
+    private val entry: Entry?,
+    private val onConfirm: () -> Unit,
+) : Modal {
 
     @Composable
     override fun Content() {
-        EntryDeleteDialog(viewModel = inject { parametersOf(entry) })
+        EntryDeleteDialog(
+            onConfirm = onConfirm,
+            viewModel = inject { parametersOf(entry) },
+        )
     }
 }

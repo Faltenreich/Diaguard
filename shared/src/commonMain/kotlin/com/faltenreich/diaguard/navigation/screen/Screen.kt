@@ -16,5 +16,5 @@ sealed interface Screen : VoyagerScreen {
         get() = TopAppBarStyle.Hidden
 
     val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Hidden
+        get() = BottomAppBarStyle.Visible()
 }

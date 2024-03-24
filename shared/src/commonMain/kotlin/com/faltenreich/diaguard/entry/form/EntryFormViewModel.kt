@@ -36,6 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -78,19 +79,26 @@ class EntryFormViewModel(
     val timeFormatted: String
         get() = formatDateTime(time)
 
-    var tag = MutableStateFlow("")
 
     var note: String by mutableStateOf(entry?.note ?: "")
 
     var alarmDelayInMinutes: Int? by mutableStateOf(null)
 
     var measurements by mutableStateOf(emptyList<MeasurementPropertyInputState>())
-    var foodEaten by mutableStateOf(emptyList<FoodEatenInputState>())
-    var tags by mutableStateOf(emptyList<Tag>())
 
-    override val state: Flow<EntryFormState> = tag
-        .debounce(DateTimeConstants.INPUT_DEBOUNCE)
-        .flatMapLatest { query -> getTagsByQuery(query, tags).map(::EntryFormState) }
+    var foodEaten by mutableStateOf(emptyList<FoodEatenInputState>())
+
+    var tagQuery = MutableStateFlow("")
+    var tagSelection = MutableStateFlow(emptyList<Tag>())
+    private val tagSuggestions = combine(
+        tagQuery.debounce(DateTimeConstants.INPUT_DEBOUNCE),
+        tagSelection,
+    ) { tagQuery, tagsSelected -> tagQuery to tagsSelected }
+        .flatMapLatest { (tagQuery, tagsSelected) ->
+            getTagsByQuery(tagQuery, tagsSelected)
+        }
+
+    override val state: Flow<EntryFormState> = tagSuggestions.map(::EntryFormState)
 
     init {
         scope.launch(Dispatchers.IO) {
@@ -106,9 +114,9 @@ class EntryFormViewModel(
             }
         }
         scope.launch(Dispatchers.IO) {
-            val tags = getTagsOfEntry(entry)
+            val tagsOfEntry = getTagsOfEntry(entry)
             withContext(Dispatchers.Main) {
-                this@EntryFormViewModel.tags = tags
+                this@EntryFormViewModel.tagSelection.value = tagsOfEntry
             }
         }
     }
@@ -169,7 +177,7 @@ class EntryFormViewModel(
             id = id,
             dateTime = dateTime,
             measurements = measurements,
-            tags = tags,
+            tags = tagSelection.value,
             note = note.takeIf(String::isNotBlank),
             foodEaten = foodEaten,
         )
@@ -220,11 +228,10 @@ class EntryFormViewModel(
     }
 
     private fun addTag(tag: Tag) {
-        // TODO: Refresh suggestions via getTagsByQuery()
-        tags += tag
+        tagSelection.value = tagSelection.value.plus(tag)
     }
 
     private fun removeTag(tag: Tag) {
-        tags -= tag
+        tagSelection.value = tagSelection.value.minus(tag)
     }
 }

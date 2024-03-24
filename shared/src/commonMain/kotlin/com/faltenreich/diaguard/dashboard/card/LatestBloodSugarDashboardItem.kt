@@ -3,8 +3,6 @@ package com.faltenreich.diaguard.dashboard.card
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,8 +27,7 @@ fun LatestDashboardItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = AppTheme.dimensions.padding.P_3)
-                .verticalScroll(rememberScrollState()),
+                .padding(all = AppTheme.dimensions.padding.P_3),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {

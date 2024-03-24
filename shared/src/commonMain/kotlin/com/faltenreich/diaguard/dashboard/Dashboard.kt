@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
@@ -24,10 +26,9 @@ fun Dashboard(
     when (val state = viewModel.collectState()) {
         null -> LoadingIndicator()
         is DashboardViewState.Revisit -> Column(
-            modifier = modifier.padding(
-                horizontal = AppTheme.dimensions.padding.P_3,
-                vertical = AppTheme.dimensions.padding.P_2,
-            ),
+            modifier = modifier
+                .padding(all = AppTheme.dimensions.padding.P_3)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         ) {
             LatestDashboardItem(

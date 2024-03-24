@@ -19,10 +19,7 @@ fun DatePicker(
     dateTimeFactory: DateTimeFactory = inject(),
 ) {
     val dateTime = date.atStartOfDay()
-    val state = rememberDatePickerState(
-        // FIXME: Off by one day due to missing conversion to UTC
-        initialSelectedDateMillis = dateTime.millisSince1970,
-    )
+    val state = rememberDatePickerState(initialSelectedDateMillis = dateTime.epochMilliseconds)
     DatePickerDialog(
         onDismissRequest = { onPick(date) },
         confirmButton = {

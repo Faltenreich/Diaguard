@@ -17,9 +17,14 @@ interface DateTime : Serializable, Comparable<DateTime> {
     val time: Time
 
     /**
-     * Milliseconds since 01/01/1970
+     * Localized milliseconds since 01/01/1970
      */
     val millisSince1970: Long
+
+    /**
+     * UTC milliseconds since 01/01/1970
+     */
+    val epochMilliseconds: Long
 
     /**
      * Date and time in ISO 8601 format

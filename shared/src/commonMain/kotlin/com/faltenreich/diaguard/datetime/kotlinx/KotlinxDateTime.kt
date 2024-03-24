@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.datetime.kotlinx
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
@@ -55,6 +55,9 @@ class KotlinxDateTime(
 
     override val millisSince1970: Long
         get() = localDateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+
+    override val epochMilliseconds: Long
+        get() = localDateTime.toInstant(TimeZone.UTC).toEpochMilliseconds()
 
     override val isoString: String
         get() = localDateTime.toString()

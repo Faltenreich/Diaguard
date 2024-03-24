@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.tag.form
 
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.tag.TagRepository
 
 class CreateTagUseCase(

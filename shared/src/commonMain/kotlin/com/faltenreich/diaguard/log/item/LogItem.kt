@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.log.item
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.log.LogKey
-import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.datetime.Date
 
 sealed class LogItem(val date: Date, val style: LogDayStyle, val key: LogKey) {
 

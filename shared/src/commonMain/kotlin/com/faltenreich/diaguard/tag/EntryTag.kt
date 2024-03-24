@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.tag
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateTime
 
 /**
  * Entity linking a [Tag] to an [Entry]

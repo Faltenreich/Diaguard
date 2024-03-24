@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.entry.form.datetime
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateTime
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 
 class GetDateTimeForEntryUseCase(

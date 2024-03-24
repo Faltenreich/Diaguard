@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.datetime
+package com.faltenreich.diaguard.datetime
 
 import com.faltenreich.diaguard.MR
 import dev.icerock.moko.resources.StringResource

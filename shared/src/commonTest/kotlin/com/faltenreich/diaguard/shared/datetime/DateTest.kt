@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.datetime
 
-import com.faltenreich.diaguard.shared.datetime.kotlinx.KotlinxDateTimeFactory
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

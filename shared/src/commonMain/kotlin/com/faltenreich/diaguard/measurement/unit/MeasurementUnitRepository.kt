@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.unit
 
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementUnitRepository(

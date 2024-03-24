@@ -14,8 +14,8 @@ import com.faltenreich.diaguard.navigation.modal.DatePickerModal
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.GetTodayUseCase
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.Flow

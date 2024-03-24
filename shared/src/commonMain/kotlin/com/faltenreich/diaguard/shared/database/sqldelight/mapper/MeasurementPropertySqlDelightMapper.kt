@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
 class MeasurementPropertySqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,

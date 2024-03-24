@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.statistic
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import com.faltenreich.diaguard.shared.primitive.format
 

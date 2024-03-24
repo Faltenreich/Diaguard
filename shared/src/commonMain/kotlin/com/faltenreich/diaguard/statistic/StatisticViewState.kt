@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.statistic
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
-import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.datetime.Date
 
 sealed interface StatisticViewState {
 

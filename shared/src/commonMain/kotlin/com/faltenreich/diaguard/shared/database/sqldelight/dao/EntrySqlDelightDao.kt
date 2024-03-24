@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntrySqlDelightMapper
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.shared.datetime.kotlinx
+package com.faltenreich.diaguard.datetime.kotlinx
 
-import com.faltenreich.diaguard.shared.datetime.DateUnit
-import com.faltenreich.diaguard.shared.datetime.DayOfWeek
+import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.DayOfWeek
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek as KotlinxDayOfWeek
 

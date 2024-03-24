@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.datetime.Date
 
 sealed interface DashboardViewState {
 

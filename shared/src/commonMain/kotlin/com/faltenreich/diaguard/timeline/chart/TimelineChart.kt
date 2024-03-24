@@ -5,8 +5,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.shared.view.bezierBetween
 import com.faltenreich.diaguard.timeline.TimelineConfig
 

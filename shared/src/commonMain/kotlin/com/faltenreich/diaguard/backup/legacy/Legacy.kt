@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.backup.legacy
 
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateTime
 
 interface Legacy {
 

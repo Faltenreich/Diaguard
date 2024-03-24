@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.modal.TagDeleteModal
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
+import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag

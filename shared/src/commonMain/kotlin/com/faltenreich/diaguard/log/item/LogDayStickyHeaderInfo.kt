@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.log.item
 
 import androidx.compose.ui.unit.IntOffset
-import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.datetime.Date
 
 data class LogDayStickyHeaderInfo(
     val date: Date? = null,

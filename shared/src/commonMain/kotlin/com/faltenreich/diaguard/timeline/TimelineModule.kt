@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
-import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.datetime.Date
 import org.koin.dsl.module
 
 fun timelineModule() = module {

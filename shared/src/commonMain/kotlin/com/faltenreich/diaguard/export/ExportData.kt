@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.export
 
 import com.faltenreich.diaguard.export.pdf.PdfLayout
-import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.datetime.Date
 
 sealed interface ExportData {
 

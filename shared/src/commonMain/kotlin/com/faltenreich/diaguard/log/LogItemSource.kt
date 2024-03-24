@@ -11,10 +11,10 @@ import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.deep
 import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogItem
-import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateProgression
-import com.faltenreich.diaguard.shared.datetime.DateUnit
-import com.faltenreich.diaguard.shared.datetime.GetTodayUseCase
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.DateProgression
+import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.view.isAppending

@@ -6,7 +6,7 @@ import app.cash.sqldelight.coroutines.mapToOne
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryTagQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntryTagSqlDelightMapper
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.EntryTag
 import com.faltenreich.diaguard.tag.EntryTagDao

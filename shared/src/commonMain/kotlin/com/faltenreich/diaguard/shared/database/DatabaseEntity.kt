@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.database
 
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.serialization.Serializable
 
 interface DatabaseEntity : Serializable {

@@ -24,11 +24,11 @@ import com.faltenreich.diaguard.navigation.modal.EntryDeleteModal
 import com.faltenreich.diaguard.navigation.modal.TimePickerModal
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateTime
-import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
-import com.faltenreich.diaguard.shared.datetime.FormatDateTimeUseCase
-import com.faltenreich.diaguard.shared.datetime.Time
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
+import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
+import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag

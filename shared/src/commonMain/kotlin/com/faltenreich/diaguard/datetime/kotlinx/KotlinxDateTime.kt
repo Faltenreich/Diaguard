@@ -1,9 +1,9 @@
-package com.faltenreich.diaguard.shared.datetime.kotlinx
+package com.faltenreich.diaguard.datetime.kotlinx
 
-import com.faltenreich.diaguard.shared.datetime.Date
-import com.faltenreich.diaguard.shared.datetime.DateTime
-import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
-import com.faltenreich.diaguard.shared.datetime.Time
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
+import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream

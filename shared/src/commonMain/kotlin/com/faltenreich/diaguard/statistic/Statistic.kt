@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.datetime.DateRangePicker
+import com.faltenreich.diaguard.datetime.picker.DateRangePicker
 import com.faltenreich.diaguard.shared.view.DropdownButton
 import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
 import com.faltenreich.diaguard.shared.view.FormRow

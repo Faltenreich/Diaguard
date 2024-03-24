@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.food.eaten
 
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
 interface FoodEatenDao {

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.food.form
 
 import com.faltenreich.diaguard.food.FoodRepository
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
 class CreateFoodUseCase(
     private val foodRepository: FoodRepository,

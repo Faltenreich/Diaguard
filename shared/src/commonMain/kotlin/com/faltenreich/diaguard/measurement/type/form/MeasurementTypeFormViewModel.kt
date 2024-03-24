@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.measurement.type.form
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.datetime.DateTimeConstants
+import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.datetime
+package com.faltenreich.diaguard.datetime
 
 class DateIterator(
     start: Date,

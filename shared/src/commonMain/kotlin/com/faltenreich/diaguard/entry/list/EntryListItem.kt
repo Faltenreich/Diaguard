@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
-import com.faltenreich.diaguard.shared.datetime.DateTimeFormatter
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.EntryTag
 

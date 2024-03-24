@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.datetime
+package com.faltenreich.diaguard.datetime
 
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.datetime
+package com.faltenreich.diaguard.datetime
 
 data class MonthOfYear(
     val month: Month,

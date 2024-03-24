@@ -1,4 +1,8 @@
-package com.faltenreich.diaguard.shared.datetime
+package com.faltenreich.diaguard.datetime.factory
+
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.Time
 
 interface DateTimeFactory {
 

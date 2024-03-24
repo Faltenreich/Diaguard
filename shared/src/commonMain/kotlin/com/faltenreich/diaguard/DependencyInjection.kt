@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.shared.clipboard.clipboardModule
 import com.faltenreich.diaguard.shared.config.configModule
 import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
-import com.faltenreich.diaguard.shared.datetime.dateTimeModule
+import com.faltenreich.diaguard.datetime.dateTimeModule
 import com.faltenreich.diaguard.shared.file.fileModule
 import com.faltenreich.diaguard.shared.keyvalue.keyValueStoreModule
 import com.faltenreich.diaguard.shared.localization.localizationModule

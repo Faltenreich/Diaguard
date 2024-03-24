@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueR
 import com.faltenreich.diaguard.entry.form.validation.ValidEntryFormInputRule
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
-import com.faltenreich.diaguard.shared.datetime.Date
+import com.faltenreich.diaguard.datetime.Date
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 

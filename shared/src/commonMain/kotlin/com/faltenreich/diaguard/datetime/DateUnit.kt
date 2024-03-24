@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.datetime
+package com.faltenreich.diaguard.datetime
 
 enum class DateUnit {
     DAY,

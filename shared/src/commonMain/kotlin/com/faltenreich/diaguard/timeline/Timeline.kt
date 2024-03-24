@@ -26,8 +26,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.datetime.DateUnit
-import com.faltenreich.diaguard.shared.datetime.DayOfWeek
+import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.theme.LocalDimensions

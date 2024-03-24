@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.tag
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 

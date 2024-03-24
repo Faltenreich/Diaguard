@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.food.eaten
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateTime
 
 /**
  * Entity representing food that has been eaten at one point in time

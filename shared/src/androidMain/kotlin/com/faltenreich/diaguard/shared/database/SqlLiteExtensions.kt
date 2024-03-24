@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.shared.database
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import com.faltenreich.diaguard.shared.datetime.DateTime
-import com.faltenreich.diaguard.shared.datetime.DateTimeFactory
+import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 

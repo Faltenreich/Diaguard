@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.backup.seed.Seedable
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateTime
 
 /**
  * Entity representing the unit of a [MeasurementType]

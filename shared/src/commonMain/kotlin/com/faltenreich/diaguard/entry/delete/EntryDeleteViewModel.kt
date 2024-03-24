@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
 class EntryDeleteViewModel(
-    private val entry: Entry,
+    private val entry: Entry?,
     private val closeModal: CloseModalUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
 ) : ViewModel<EntryDeleteState, EntryDeleteIntent>() {
@@ -19,7 +19,7 @@ class EntryDeleteViewModel(
         when (intent) {
             is EntryDeleteIntent.Close -> closeModal()
             is EntryDeleteIntent.Confirm -> {
-                deleteEntry(entry)
+                entry?.let(deleteEntry::invoke)
                 closeModal()
             }
         }

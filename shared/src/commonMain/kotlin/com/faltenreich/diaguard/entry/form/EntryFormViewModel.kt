@@ -188,8 +188,7 @@ class EntryFormViewModel(
     }
 
     private fun deleteIfNeeded() {
-        val entry = editing ?: return
-        showModal(EntryDeleteModal(entry = entry))
+        showModal(EntryDeleteModal(entry = editing))
         // TODO: navigateBack()
     }
 

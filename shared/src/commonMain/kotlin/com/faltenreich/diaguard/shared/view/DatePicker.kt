@@ -20,8 +20,10 @@ fun DatePicker(
 ) {
     // TODO: Fix naming
     val date = date ?: dateTimeFactory.today()
+    val dateTime = date.atStartOfDay()
     val state = rememberDatePickerState(
-        initialSelectedDateMillis = date.atStartOfDay().millisSince1970,
+        // FIXME: Off by one day due to missing conversion to UTC
+        initialSelectedDateMillis = dateTime.millisSince1970,
     )
     DatePickerDialog(
         onDismissRequest = { onPick(date) },

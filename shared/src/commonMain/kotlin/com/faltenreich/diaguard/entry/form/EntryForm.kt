@@ -7,16 +7,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import com.faltenreich.diaguard.shared.view.Divider
 import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -27,12 +22,11 @@ import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.DatePicker
+import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
-import com.faltenreich.diaguard.shared.view.TimePicker
 
 @Composable
 fun EntryForm(
@@ -40,17 +34,15 @@ fun EntryForm(
     viewModel: EntryFormViewModel = inject(),
 ) {
     val state = viewModel.collectState()
-    var showDatePicker by remember { mutableStateOf(false) }
-    var showTimePicker by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
         FormRow(icon = { ResourceIcon(MR.images.ic_time) }) {
-            TextButton(onClick = { showDatePicker = true }) {
+            TextButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectDate) }) {
                 Text(viewModel.dateFormatted)
             }
-            TextButton(onClick = { showTimePicker = true }) {
+            TextButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectTime) }) {
                 Text(viewModel.timeFormatted)
             }
         }
@@ -121,25 +113,5 @@ fun EntryForm(
             )
             Divider()
         }
-    }
-
-    if (showDatePicker) {
-        DatePicker(
-            date = viewModel.dateTime.date,
-            onPick = { date ->
-                showDatePicker = false
-                viewModel.date = date
-            },
-        )
-    }
-
-    if (showTimePicker) {
-        TimePicker(
-            time = viewModel.dateTime.time,
-            onPick = { time ->
-                showTimePicker = false
-                viewModel.time = time
-            },
-        )
     }
 }

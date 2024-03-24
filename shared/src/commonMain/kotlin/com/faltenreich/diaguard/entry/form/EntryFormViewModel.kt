@@ -14,11 +14,14 @@ import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
+import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.ShowSnackbarUseCase
+import com.faltenreich.diaguard.navigation.modal.DatePickerModal
 import com.faltenreich.diaguard.navigation.modal.EntryDeleteModal
+import com.faltenreich.diaguard.navigation.modal.TimePickerModal
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.datetime.Date
@@ -50,6 +53,7 @@ class EntryFormViewModel(
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
+    private val closeModal: CloseModalUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
@@ -112,6 +116,8 @@ class EntryFormViewModel(
     override fun onIntent(intent: EntryFormIntent) {
         when (intent) {
             is EntryFormIntent.Edit -> updateMeasurementValue(intent.data)
+            is EntryFormIntent.SelectDate -> selectDate()
+            is EntryFormIntent.SelectTime -> selectTime()
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> deleteIfNeeded()
             is EntryFormIntent.SelectFood -> navigateToScreen(FoodListScreen(
@@ -134,6 +140,30 @@ class EntryFormViewModel(
                 }
             })
         }
+    }
+
+    private fun selectDate() {
+        showModal(
+            DatePickerModal(
+                date = date,
+                onPick = {
+                    date = it
+                    closeModal()
+                },
+            )
+        )
+    }
+
+    private fun selectTime() {
+        showModal(
+            TimePickerModal(
+                time = time,
+                onPick = {
+                    time = it
+                    closeModal()
+                },
+            )
+        )
     }
 
     private fun submit() = scope.launch {

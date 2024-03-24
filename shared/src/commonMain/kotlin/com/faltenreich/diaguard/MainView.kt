@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -36,11 +35,14 @@ fun MainView(
 ) {
     val snackbarHostState = remember { SnackbarHostState().also { navigation.snackbarState = it } }
     val modal = navigation.modal.collectAsState().value
+
     when (val viewState = navigationViewModel.collectState()) {
         null -> LoadingIndicator(modifier = modifier)
+
         else -> Box(modifier = modifier) {
             Navigator(screen = viewState.startScreen) { navigator ->
                 navigation.navigator = navigator
+
                 Box {
                     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
                     val bottomSheetState = rememberBottomSheetState()
@@ -48,8 +50,7 @@ fun MainView(
                         topBar = {
                             val screen = navigator.lastItem as? Screen
                             val style = screen?.topAppBarStyle ?: TopAppBarStyle.Hidden
-                            AnimatedVisibility(style != TopAppBarStyle.Hidden) {
-                                // TODO: Extract to prevent jumping during transition
+                            if (style != TopAppBarStyle.Hidden) {
                                 TopAppBar(style)
                             }
                         },
@@ -61,21 +62,17 @@ fun MainView(
                         bottomBar = {
                             val screen = navigator.lastItem as? Screen
                             val style = screen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
-                            AnimatedVisibility(style != BottomAppBarStyle.Hidden) {
-                                BottomAppBar(
-                                    style = style,
-                                    onMenuClick = { openBottomSheet = true },
-                                )
+                            if (style != BottomAppBarStyle.Hidden) {
+                                BottomAppBar(style, onMenuClick = { openBottomSheet = true })
                             }
                         },
                         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                     )
+
                     if (openBottomSheet) {
-                        BottomSheetNavigation(
-                            bottomSheetState = bottomSheetState,
-                            onDismissRequest = { openBottomSheet = false },
-                        )
+                        BottomSheetNavigation(bottomSheetState, onDismissRequest = { openBottomSheet = false })
                     }
+
                     modal?.Content()
                 }
             }

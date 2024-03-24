@@ -14,12 +14,10 @@ import androidx.compose.material3.DatePicker as MaterialDatePicker
 
 @Composable
 fun DatePicker(
-    date: Date?,
+    date: Date,
     onPick: (Date) -> Unit,
     dateTimeFactory: DateTimeFactory = inject(),
 ) {
-    // TODO: Fix naming
-    val date = date ?: dateTimeFactory.today()
     val dateTime = date.atStartOfDay()
     val state = rememberDatePickerState(
         // FIXME: Off by one day due to missing conversion to UTC

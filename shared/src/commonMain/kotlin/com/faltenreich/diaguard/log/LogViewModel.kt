@@ -7,7 +7,10 @@ import app.cash.paging.PagingSource
 import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
 import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.DatePickerModal
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -24,6 +27,8 @@ class LogViewModel(
     getToday: GetTodayUseCase = inject(),
     private val invalidateStickyHeaderInfo: InvalidateLogDayStickyHeaderInfoUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val showModal: OpenModalUseCase = inject(),
+    private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<LogState, LogIntent>() {
 
     private val initialDate: Date = date ?: getToday()
@@ -64,8 +69,21 @@ class LogViewModel(
             is LogIntent.CreateEntry -> navigateToScreen(EntryFormScreen(date = intent.date))
             is LogIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))
             is LogIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())
+            is LogIntent.SelectDate -> selectDate()
             is LogIntent.SetDate -> setDate(intent.date)
         }
+    }
+
+    private fun selectDate() {
+        showModal(
+            DatePickerModal(
+                date = currentDate.value,
+                onPick = {
+                    dispatchIntent(LogIntent.SetDate(it))
+                    closeModal()
+                },
+            )
+        )
     }
 
     private fun setDate(date: Date) {

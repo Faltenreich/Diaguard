@@ -11,9 +11,6 @@ data class TimePickerModal(
 
     @Composable
     override fun Content() {
-        TimePicker(
-            time = time,
-            onPick = onPick,
-        )
+        TimePicker(time, onPick)
     }
 }

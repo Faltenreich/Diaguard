@@ -3,7 +3,10 @@ package com.faltenreich.diaguard.timeline
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.DatePickerModal
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -24,6 +27,8 @@ class TimelineViewModel(
     measurementPropertyRepository: MeasurementPropertyRepository = inject(),
     getToday: GetTodayUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val showModal: OpenModalUseCase = inject(),
+    private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<TimelineState, TimelineIntent>() {
 
     private val initialDate = date ?: getToday()
@@ -55,7 +60,20 @@ class TimelineViewModel(
         when (intent) {
             is TimelineIntent.CreateEntry -> navigateToScreen(EntryFormScreen())
             is TimelineIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())
+            is TimelineIntent.SelectDate -> selectDate()
             is TimelineIntent.SetDate -> currentDate.value = intent.date
         }
+    }
+
+    private fun selectDate() {
+        showModal(
+            DatePickerModal(
+                date = currentDate.value,
+                onPick = {
+                    dispatchIntent(TimelineIntent.SetDate(it))
+                    closeModal()
+                },
+            )
+        )
     }
 }

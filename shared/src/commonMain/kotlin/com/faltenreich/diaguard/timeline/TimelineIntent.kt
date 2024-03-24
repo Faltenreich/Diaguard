@@ -8,5 +8,7 @@ sealed interface TimelineIntent {
 
     data object SearchEntries : TimelineIntent
 
+    data object SelectDate : TimelineIntent
+
     data class SetDate(val date: Date) : TimelineIntent
 }

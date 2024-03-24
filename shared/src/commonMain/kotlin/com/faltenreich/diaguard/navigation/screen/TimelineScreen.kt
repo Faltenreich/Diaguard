@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.shared.datetime.Date
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.DatePickerBottomAppBarItem
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.timeline.Timeline
 import com.faltenreich.diaguard.timeline.TimelineIntent
@@ -22,15 +21,15 @@ data class TimelineScreen(val date: Date? = null) : Screen {
         get() = BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = getViewModel<TimelineViewModel> { parametersOf(date) }
-                val viewState = viewModel.collectState()
                 BottomAppBarItem(
                     painter = painterResource(MR.images.ic_search),
                     contentDescription = MR.strings.search_open,
                     onClick = { viewModel.dispatchIntent(TimelineIntent.SearchEntries) },
                 )
-                DatePickerBottomAppBarItem(
-                    date = viewState?.currentDate,
-                    onDatePick = { viewModel.dispatchIntent(TimelineIntent.SetDate(it)) },
+                BottomAppBarItem(
+                    painter = painterResource(MR.images.ic_date_range),
+                    contentDescription = MR.strings.date_pick,
+                    onClick = { viewModel.dispatchIntent(TimelineIntent.SelectDate) },
                 )
             },
             floatingActionButton = {

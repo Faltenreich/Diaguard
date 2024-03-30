@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.shared.localization
 import dev.icerock.moko.resources.FileResource
 import dev.icerock.moko.resources.StringResource
 
-interface Localization {
+expect class Localization constructor() {
 
     fun getString(resource: StringResource, vararg args: Any): String
 

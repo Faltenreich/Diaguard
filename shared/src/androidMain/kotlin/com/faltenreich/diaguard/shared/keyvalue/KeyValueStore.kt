@@ -17,10 +17,10 @@ import kotlinx.coroutines.flow.map
 
 actual class KeyValueStore(
     private val context: Context,
-    storeName: String = STORE_NAME_DEFAULT,
+    name: String = STORE_NAME_DEFAULT,
 ) {
 
-    private val Context.dataStore by preferencesDataStore(name = storeName)
+    private val Context.dataStore by preferencesDataStore(name = name)
 
     @PublishedApi internal fun <T> read(transform: (Preferences) -> T): Flow<T> {
         return context.dataStore.data.map(transform)

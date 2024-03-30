@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.preference.store.screen
 
+import com.faltenreich.diaguard.preference.Preference
 import com.faltenreich.diaguard.preference.store.PreferenceStore
 import com.faltenreich.diaguard.shared.di.inject
 
@@ -8,6 +9,6 @@ class SetStartScreenUseCase(
 ) {
 
     suspend operator fun invoke(startScreen: StartScreen) {
-        preferenceStore.setStartScreen(startScreen)
+        preferenceStore.write(Preference.StartScreen, startScreen.stableId)
     }
 }

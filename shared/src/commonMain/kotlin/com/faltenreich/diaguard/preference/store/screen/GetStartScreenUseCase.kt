@@ -9,6 +9,6 @@ class GetStartScreenUseCase(
 ) {
 
     operator fun invoke(): Flow<StartScreen> {
-        return preferenceStore.startScreen
+        return preferenceStore.getStartScreen()
     }
 }

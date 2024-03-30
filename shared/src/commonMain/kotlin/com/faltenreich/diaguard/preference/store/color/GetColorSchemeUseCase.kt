@@ -9,6 +9,6 @@ class GetColorSchemeUseCase(
 ) {
 
     operator fun invoke(): Flow<ColorScheme> {
-        return preferenceStore.colorScheme
+        return preferenceStore.getColorScheme()
     }
 }

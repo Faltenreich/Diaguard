@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry
 
+import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.delete.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.delete.EntryDeleteViewModel
 import com.faltenreich.diaguard.entry.form.CreateEntryUseCase
@@ -10,12 +11,10 @@ import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementPropertyInp
 import com.faltenreich.diaguard.entry.form.measurement.ValidateEntryFormInputUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
-import com.faltenreich.diaguard.entry.form.validation.ExhaustiveMeasurementValuesRule
 import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueRule
 import com.faltenreich.diaguard.entry.form.validation.ValidEntryFormInputRule
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
-import com.faltenreich.diaguard.datetime.Date
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -34,7 +33,7 @@ fun entryModule() = module {
         ValidateEntryFormInputUseCase(
             dispatcher = get(),
             ruleForEntryFormInput = ValidEntryFormInputRule(),
-            rulesForProperties = listOf(ExhaustiveMeasurementValuesRule()),
+            rulesForProperties = listOf(),
             rulesForTypes = listOf(RealisticMeasurementValueRule()),
         )
     }

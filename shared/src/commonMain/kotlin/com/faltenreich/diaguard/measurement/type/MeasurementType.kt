@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.measurement.type
 
 import com.faltenreich.diaguard.backup.seed.Seedable
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.datetime.DateTime
 
 /**
  * Entity representing one type of [MeasurementProperty]

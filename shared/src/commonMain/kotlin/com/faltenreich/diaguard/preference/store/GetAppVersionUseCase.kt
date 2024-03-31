@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.store.about
+package com.faltenreich.diaguard.preference.store
 
 import com.faltenreich.diaguard.shared.config.BuildConfig
 import com.faltenreich.diaguard.shared.di.inject

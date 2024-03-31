@@ -4,16 +4,16 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyListScreen
 import com.faltenreich.diaguard.navigation.screen.TagListScreen
+import com.faltenreich.diaguard.preference.ColorSchemePreference
+import com.faltenreich.diaguard.preference.StartScreenPreference
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceListListItem
 import com.faltenreich.diaguard.preference.list.item.preferences
-import com.faltenreich.diaguard.preference.store.about.GetAppVersionUseCase
-import com.faltenreich.diaguard.preference.store.color.ColorScheme
-import com.faltenreich.diaguard.preference.store.color.GetColorSchemeUseCase
-import com.faltenreich.diaguard.preference.store.color.SetColorSchemeUseCase
-import com.faltenreich.diaguard.preference.store.screen.GetStartScreenUseCase
-import com.faltenreich.diaguard.preference.store.screen.SetStartScreenUseCase
-import com.faltenreich.diaguard.preference.store.screen.StartScreen
+import com.faltenreich.diaguard.preference.store.ColorScheme
+import com.faltenreich.diaguard.preference.store.GetAppVersionUseCase
+import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
+import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
+import com.faltenreich.diaguard.preference.store.StartScreen
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.networking.UrlOpener
 import kotlinx.coroutines.flow.Flow
@@ -21,18 +21,16 @@ import kotlinx.coroutines.flow.combine
 
 class GetDefaultPreferencesUseCase(
     private val urlOpener: UrlOpener,
-    private val getColorScheme: GetColorSchemeUseCase,
-    private val setColorScheme: SetColorSchemeUseCase,
-    private val getStartScreen: GetStartScreenUseCase,
-    private val setStartScreen: SetStartScreenUseCase,
+    private val getPreference: GetPreferenceUseCase,
+    private val setPreference: SetPreferenceUseCase,
     private val getAppVersion: GetAppVersionUseCase,
     private val navigateToScreen: NavigateToScreenUseCase,
 ) {
 
     operator fun invoke(): Flow<List<PreferenceListItem>> {
         return combine(
-            getColorScheme(),
-            getStartScreen(),
+            getPreference(ColorSchemePreference, default = ColorScheme.SYSTEM),
+            getPreference(StartScreenPreference, default = StartScreen.DASHBOARD),
             getAppVersion(),
         ) { colorScheme, startScreen, appVersion ->
             preferences {
@@ -43,7 +41,7 @@ class GetDefaultPreferencesUseCase(
                         PreferenceListListItem.Option(
                             label = { getString(value.labelResource) },
                             isSelected = value == colorScheme,
-                            onSelected = { setColorScheme(value) },
+                            onSelected = { setPreference(ColorSchemePreference, value) },
                         )
                     }
                 }
@@ -54,7 +52,7 @@ class GetDefaultPreferencesUseCase(
                         PreferenceListListItem.Option(
                             label = { getString(value.labelResource) },
                             isSelected = value == startScreen,
-                            onSelected = { setStartScreen(value) },
+                            onSelected = { setPreference(StartScreenPreference, value) },
                         )
                     }
                 }

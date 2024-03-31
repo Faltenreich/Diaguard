@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.store.screen
+package com.faltenreich.diaguard.preference.store
 
 import com.faltenreich.diaguard.MR
 import dev.icerock.moko.resources.StringResource
@@ -7,6 +7,7 @@ enum class StartScreen(
     val stableId: Int,
     val labelResource: StringResource,
 ) {
+
     DASHBOARD(
         stableId = 0,
         labelResource = MR.strings.dashboard,
@@ -24,7 +25,7 @@ enum class StartScreen(
     companion object {
 
         fun valueOf(stableId: Int): StartScreen? {
-            return values().firstOrNull { it.stableId == stableId }
+            return entries.firstOrNull { it.stableId == stableId }
         }
     }
 }

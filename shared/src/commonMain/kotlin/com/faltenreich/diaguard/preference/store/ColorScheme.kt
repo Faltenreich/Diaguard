@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.store.color
+package com.faltenreich.diaguard.preference.store
 
 import com.faltenreich.diaguard.MR
 import dev.icerock.moko.resources.StringResource
@@ -24,7 +24,7 @@ enum class ColorScheme(
     companion object {
 
         fun valueOf(stableId: Int): ColorScheme? {
-            return ColorScheme.values().firstOrNull { it.stableId == stableId }
+            return entries.firstOrNull { it.stableId == stableId }
         }
     }
 }

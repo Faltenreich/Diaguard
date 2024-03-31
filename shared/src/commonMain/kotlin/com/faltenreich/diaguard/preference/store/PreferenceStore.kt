@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.preference.store
 import com.faltenreich.diaguard.preference.Preference
 import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.shared.localization.Localization
-import dev.icerock.moko.resources.StringResource
 import kotlinx.coroutines.flow.Flow
 
 // TODO: Migrate preferences
@@ -12,17 +11,17 @@ class PreferenceStore(
     private val localization: Localization,
 ) {
 
-    @PublishedApi internal fun getKey(resource: StringResource, vararg arguments: Any): String {
-        val key = localization.getString(resource, arguments).takeIf(String::isNotBlank)
+    @PublishedApi internal fun <Store, Domain> getKey(preference: Preference<Store, Domain>): String {
+        val key = localization.getString(preference.key).takeIf(String::isNotBlank)
         requireNotNull(key)
         return key
     }
 
-    inline fun <reified T> read(preference: Preference<T>): Flow<T?> {
-        return keyValueStore.read<T>(getKey(preference.key))
+    inline fun <reified Store, Domain> read(preference: Preference<Store, Domain>): Flow<Store?> {
+        return keyValueStore.read(getKey(preference))
     }
 
-    suspend inline fun <reified T> write(preference: Preference<T>, value: T) {
-        keyValueStore.write(getKey(preference.key), value)
+    suspend inline fun <reified Store, Domain> write(preference: Preference<Store, Domain>, value: Store) {
+        keyValueStore.write(getKey(preference), value)
     }
 }

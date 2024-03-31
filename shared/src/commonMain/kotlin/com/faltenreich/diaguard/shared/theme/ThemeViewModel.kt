@@ -11,7 +11,7 @@ class ThemeViewModel(
     getPreference: GetPreferenceUseCase = inject(),
 ) : ViewModel<ColorScheme, Unit>() {
 
-    override val state: Flow<ColorScheme> = getPreference(ColorSchemePreference, default = ColorScheme.SYSTEM)
+    override val state: Flow<ColorScheme> = getPreference(ColorSchemePreference)
 
     override fun onIntent(intent: Unit) = Unit
 }

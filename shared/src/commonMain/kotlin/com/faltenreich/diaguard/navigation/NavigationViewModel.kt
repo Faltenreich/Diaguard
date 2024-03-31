@@ -18,7 +18,7 @@ class NavigationViewModel(
     val canNavigateBack: CanNavigateBackUseCase = inject(),
 ) : ViewModel<NavigationViewState, NavigationIntent>() {
 
-    override val state = getPreference(StartScreenPreference, default = StartScreen.DASHBOARD).map { startScreen ->
+    override val state = getPreference(StartScreenPreference).map { startScreen ->
         NavigationViewState(
             startScreen = when (startScreen) {
                 StartScreen.DASHBOARD -> DashboardScreen

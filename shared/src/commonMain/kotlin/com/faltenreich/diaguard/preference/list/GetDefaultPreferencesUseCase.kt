@@ -29,8 +29,8 @@ class GetDefaultPreferencesUseCase(
 
     operator fun invoke(): Flow<List<PreferenceListItem>> {
         return combine(
-            getPreference(ColorSchemePreference, default = ColorScheme.SYSTEM),
-            getPreference(StartScreenPreference, default = StartScreen.DASHBOARD),
+            getPreference(ColorSchemePreference),
+            getPreference(StartScreenPreference),
             getAppVersion(),
         ) { colorScheme, startScreen, appVersion ->
             preferences {

@@ -4,16 +4,14 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyListScreen
 import com.faltenreich.diaguard.navigation.screen.TagListScreen
-import com.faltenreich.diaguard.preference.ColorSchemePreference
-import com.faltenreich.diaguard.preference.StartScreenPreference
+import com.faltenreich.diaguard.preference.ColorScheme
+import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceListListItem
 import com.faltenreich.diaguard.preference.list.item.preferences
-import com.faltenreich.diaguard.preference.store.ColorScheme
-import com.faltenreich.diaguard.preference.store.GetAppVersionUseCase
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
-import com.faltenreich.diaguard.preference.store.StartScreen
+import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.networking.UrlOpener
 import kotlinx.coroutines.flow.Flow
@@ -29,8 +27,8 @@ class GetDefaultPreferencesUseCase(
 
     operator fun invoke(): Flow<List<PreferenceListItem>> {
         return combine(
-            getPreference(ColorSchemePreference),
-            getPreference(StartScreenPreference),
+            getPreference(ColorScheme.Preference),
+            getPreference(StartScreen.Preference),
             getAppVersion(),
         ) { colorScheme, startScreen, appVersion ->
             preferences {
@@ -41,7 +39,7 @@ class GetDefaultPreferencesUseCase(
                         PreferenceListListItem.Option(
                             label = { getString(value.labelResource) },
                             isSelected = value == colorScheme,
-                            onSelected = { setPreference(ColorSchemePreference, value) },
+                            onSelected = { setPreference(ColorScheme.Preference, value) },
                         )
                     }
                 }
@@ -52,7 +50,7 @@ class GetDefaultPreferencesUseCase(
                         PreferenceListListItem.Option(
                             label = { getString(value.labelResource) },
                             isSelected = value == startScreen,
-                            onSelected = { setPreference(StartScreenPreference, value) },
+                            onSelected = { setPreference(StartScreen.Preference, value) },
                         )
                     }
                 }

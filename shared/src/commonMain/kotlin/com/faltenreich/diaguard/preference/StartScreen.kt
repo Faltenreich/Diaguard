@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.store
+package com.faltenreich.diaguard.preference
 
 import com.faltenreich.diaguard.MR
 import dev.icerock.moko.resources.StringResource
@@ -22,10 +22,10 @@ enum class StartScreen(
     ),
     ;
 
-    companion object {
-
-        fun valueOf(stableId: Int): StartScreen? {
-            return entries.firstOrNull { it.stableId == stableId }
-        }
-    }
+    data object Preference : com.faltenreich.diaguard.preference.Preference<Int, StartScreen>(
+        key = MR.strings.preference_start_screen,
+        default = DASHBOARD,
+        onRead = { stableId -> entries.firstOrNull { it.stableId == stableId } },
+        onWrite = StartScreen::stableId,
+    )
 }

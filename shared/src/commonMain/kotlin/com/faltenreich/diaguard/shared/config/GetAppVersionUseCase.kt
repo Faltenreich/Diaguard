@@ -1,6 +1,5 @@
-package com.faltenreich.diaguard.preference.store
+package com.faltenreich.diaguard.shared.config
 
-import com.faltenreich.diaguard.shared.config.BuildConfig
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.primitive.format
 import kotlinx.coroutines.flow.Flow

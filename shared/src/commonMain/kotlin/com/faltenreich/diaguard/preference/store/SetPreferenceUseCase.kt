@@ -10,6 +10,6 @@ class SetPreferenceUseCase(
         preference: Preference<Store, Domain>,
         value: Domain,
     ) {
-        preferenceStore.write(preference, preference.toStore(value))
+        preferenceStore.write(preference, preference.onWrite(value))
     }
 }

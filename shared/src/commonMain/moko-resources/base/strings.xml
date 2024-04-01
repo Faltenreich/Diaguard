@@ -176,6 +176,12 @@
     <string name="date_time_ago_minutes">%d minutes ago</string>
     <string name="date_time_ago_hours">%d hours ago</string>
     <string name="date_time_ago_days">%d days ago</string>
+    <string name="values">Values</string>
+    <string name="value_minimum">Minimum</string>
+    <string name="value_low">Lower bound</string>
+    <string name="value_target">Target</string>
+    <string name="value_high">Upper bound</string>
+    <string name="value_maximum">Maximum</string>
     <string name="version">Version</string>
     <string name="week">Week</string>
     <string name="weight">Weight</string>

@@ -13,6 +13,7 @@ class UpdateMeasurementTypeUseCase(
             name = name,
             minimumValue = minimumValue,
             lowValue = lowValue,
+            targetValue = targetValue,
             highValue = highValue,
             maximumValue = maximumValue,
             sortIndex = sortIndex,

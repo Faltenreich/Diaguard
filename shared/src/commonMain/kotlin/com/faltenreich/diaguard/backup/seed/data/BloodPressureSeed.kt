@@ -18,28 +18,34 @@ class BloodPressureSeed {
                     key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_SYSTOLIC,
                     name = MR.strings.systolic,
                     minimumValue = 1.0,
-                    lowValue = 1.0,
-                    highValue = 129.0,
+                    lowValue = 100.0,
+                    targetValue = 120.0,
+                    highValue = 140.0,
                     maximumValue = 300.0,
-                    unit = SeedMeasurementUnit(
-                        key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_SYSTOLIC,
-                        name = MR.strings.millimeters_of_mercury,
-                        abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
-                        factor = 1.0,
+                    units = listOf(
+                        SeedMeasurementUnit(
+                            key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_SYSTOLIC,
+                            name = MR.strings.millimeters_of_mercury,
+                            abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
+                            factor = 1.0,
+                        )
                     ),
                 ),
                 SeedMeasurementType(
                     key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_DIASTOLIC,
                     name = MR.strings.diastolic,
                     minimumValue = 1.0,
-                    lowValue = 1.0,
-                    highValue = 84.0,
+                    lowValue = 60.0,
+                    targetValue = 80.0,
+                    highValue = 90.0,
                     maximumValue = 300.0,
-                    unit = SeedMeasurementUnit(
-                        key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_DIASTOLIC,
-                        name = MR.strings.millimeters_of_mercury,
-                        abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
-                        factor = 1.0,
+                    units = listOf(
+                        SeedMeasurementUnit(
+                            key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_DIASTOLIC,
+                            name = MR.strings.millimeters_of_mercury,
+                            abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
+                            factor = 1.0,
+                        )
                     ),
                 ),
             ),

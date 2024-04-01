@@ -18,6 +18,7 @@ class WeightSeed {
                 name = MR.strings.weight,
                 minimumValue = 1.0,
                 lowValue = null,
+                targetValue = null,
                 highValue = null,
                 maximumValue = 1400.0,
                 units = listOf(

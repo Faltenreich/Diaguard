@@ -19,13 +19,16 @@ class InsulinSeed {
                     name = MR.strings.bolus,
                     minimumValue = 0.0,
                     lowValue = null,
+                    targetValue = null,
                     highValue = null,
                     maximumValue = 100.0,
-                    unit = SeedMeasurementUnit(
-                        key = DatabaseKey.MeasurementUnit.INSULIN_BOLUS,
-                        name = MR.strings.insulin_units,
-                        abbreviation = MR.strings.insulin_units_abbreviation,
-                        factor = 1.0,
+                    units = listOf(
+                        SeedMeasurementUnit(
+                            key = DatabaseKey.MeasurementUnit.INSULIN_BOLUS,
+                            name = MR.strings.insulin_units,
+                            abbreviation = MR.strings.insulin_units_abbreviation,
+                            factor = 1.0,
+                        )
                     ),
                 ),
                 SeedMeasurementType(
@@ -33,13 +36,16 @@ class InsulinSeed {
                     name = MR.strings.correction,
                     minimumValue = 0.0,
                     lowValue = null,
+                    targetValue = null,
                     highValue = null,
                     maximumValue = 100.0,
-                    unit = SeedMeasurementUnit(
-                        key = DatabaseKey.MeasurementUnit.INSULIN_CORRECTION,
-                        name = MR.strings.insulin_units,
-                        abbreviation = MR.strings.insulin_units_abbreviation,
-                        factor = 1.0,
+                    units = listOf(
+                        SeedMeasurementUnit(
+                            key = DatabaseKey.MeasurementUnit.INSULIN_CORRECTION,
+                            name = MR.strings.insulin_units,
+                            abbreviation = MR.strings.insulin_units_abbreviation,
+                            factor = 1.0,
+                        )
                     ),
                 ),
                 SeedMeasurementType(
@@ -47,13 +53,16 @@ class InsulinSeed {
                     name = MR.strings.basal,
                     minimumValue = 0.0,
                     lowValue = null,
+                    targetValue = null,
                     highValue = null,
                     maximumValue = 100.0,
-                    unit = SeedMeasurementUnit(
-                        key = DatabaseKey.MeasurementUnit.INSULIN_BASAL,
-                        name = MR.strings.insulin_units,
-                        abbreviation = MR.strings.insulin_units_abbreviation,
-                        factor = 1.0,
+                    units = listOf(
+                        SeedMeasurementUnit(
+                            key = DatabaseKey.MeasurementUnit.INSULIN_BASAL,
+                            name = MR.strings.insulin_units,
+                            abbreviation = MR.strings.insulin_units_abbreviation,
+                            factor = 1.0,
+                        )
                     ),
                 ),
             ),

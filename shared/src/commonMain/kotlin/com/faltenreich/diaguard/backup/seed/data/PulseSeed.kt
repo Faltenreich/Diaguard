@@ -18,13 +18,16 @@ class PulseSeed {
                 name = MR.strings.pulse,
                 minimumValue = 1.0,
                 lowValue = 60.0,
+                targetValue = 70.0,
                 highValue = 80.0,
                 maximumValue = 200.0,
-                unit = SeedMeasurementUnit(
-                    key = DatabaseKey.MeasurementUnit.PULSE,
-                    name = MR.strings.beats_per_minute,
-                    abbreviation = MR.strings.beats_per_minute_abbreviation,
-                    factor = 1.0,
+                units = listOf(
+                    SeedMeasurementUnit(
+                        key = DatabaseKey.MeasurementUnit.PULSE,
+                        name = MR.strings.beats_per_minute,
+                        abbreviation = MR.strings.beats_per_minute_abbreviation,
+                        factor = 1.0,
+                    )
                 ),
             ),
         )

@@ -6,6 +6,7 @@ CREATE TABLE measurementType (
     name TEXT NOT NULL,
     minimum_value REAL NOT NULL,
     low_value REAL,
+    target_value REAL,
     high_value REAL,
     maximum_value REAL NOT NULL,
     sort_index INTEGER NOT NULL,
@@ -14,8 +15,8 @@ CREATE TABLE measurementType (
 );
 
 create:
-INSERT INTO measurementType(created_at, updated_at, key, name, minimum_value, low_value, high_value, maximum_value, sort_index, selected_unit_id, property_id)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO measurementType(created_at, updated_at, key, name, minimum_value, low_value, target_value, high_value, maximum_value, sort_index, selected_unit_id, property_id)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
@@ -43,7 +44,7 @@ ORDER BY measurementType.sort_index ASC;
 
 update:
 UPDATE measurementType
-SET updated_at = ?, name = ?, minimum_value = ?, low_value = ?, high_value = ?, maximum_value = ?, sort_index = ?, selected_unit_id = ?
+SET updated_at = ?, name = ?, minimum_value = ?, low_value = ?, target_value = ?, high_value = ?, maximum_value = ?, sort_index = ?, selected_unit_id = ?
 WHERE id = ?;
 
 deleteById:

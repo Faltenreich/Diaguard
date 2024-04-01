@@ -17,14 +17,17 @@ class OxygenSaturationSeed {
                 key = DatabaseKey.MeasurementType.OXYGEN_SATURATION,
                 name = MR.strings.oxygen_saturation,
                 minimumValue = 50.0,
-                lowValue = 97.0,
+                lowValue = 90.0,
+                targetValue = 97.0,
                 highValue = 100.0,
                 maximumValue = 100.0,
-                unit = SeedMeasurementUnit(
-                    key = DatabaseKey.MeasurementUnit.OXYGEN_SATURATION,
-                    name = MR.strings.percent,
-                    abbreviation = MR.strings.percent_abbreviation,
-                    factor = 1.0,
+                units = listOf(
+                    SeedMeasurementUnit(
+                        key = DatabaseKey.MeasurementUnit.OXYGEN_SATURATION,
+                        name = MR.strings.percent,
+                        abbreviation = MR.strings.percent_abbreviation,
+                        factor = 1.0,
+                    )
                 ),
             ),
         )

@@ -18,6 +18,7 @@ class HbA1cSeed {
                 name = MR.strings.hba1c,
                 minimumValue = 1.0,
                 lowValue = 6.5,
+                targetValue = 7.0,
                 highValue = 7.5,
                 maximumValue = 25.0,
                 units = listOf(

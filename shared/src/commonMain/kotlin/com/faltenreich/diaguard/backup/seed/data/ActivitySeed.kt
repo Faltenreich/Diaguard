@@ -18,13 +18,16 @@ class ActivitySeed {
                 name = MR.strings.activity,
                 minimumValue = 1.0,
                 lowValue = null,
+                targetValue = null,
                 highValue = null,
                 maximumValue = 1000.0,
-                unit = SeedMeasurementUnit(
-                    key = DatabaseKey.MeasurementUnit.ACTIVITY,
-                    name = MR.strings.minutes,
-                    abbreviation = MR.strings.minutes_abbreviation,
-                    factor = 1.0,
+                units = listOf(
+                    SeedMeasurementUnit(
+                        key = DatabaseKey.MeasurementUnit.ACTIVITY,
+                        name = MR.strings.minutes,
+                        abbreviation = MR.strings.minutes_abbreviation,
+                        factor = 1.0,
+                    )
                 ),
             ),
         )

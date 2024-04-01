@@ -18,6 +18,7 @@ data class MeasurementType(
     val name: String,
     val minimumValue: Double,
     val lowValue: Double?,
+    val targetValue: Double?,
     val highValue: Double?,
     val maximumValue: Double,
     val sortIndex: Long,

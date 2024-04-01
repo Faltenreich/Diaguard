@@ -14,10 +14,10 @@ class GetMeasurementTypeUseCase(
     private val measurementUnitRepository: MeasurementUnitRepository = inject(),
 ) {
 
-    operator fun invoke(measurementTypeId: Long): Flow<MeasurementType?> {
+    operator fun invoke(measurementType: MeasurementType): Flow<MeasurementType?> {
         return combine(
-            measurementTypeRepository.observeById(measurementTypeId),
-            measurementUnitRepository.observeByTypeId(measurementTypeId),
+            measurementTypeRepository.observeById(measurementType.id),
+            measurementUnitRepository.observeByTypeId(measurementType.id),
         ) { type, units ->
             type?.apply {
                 this.property = checkNotNull(measurementPropertyRepository.getById(propertyId))

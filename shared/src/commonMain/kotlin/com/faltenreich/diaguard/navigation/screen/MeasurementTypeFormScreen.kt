@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.navigation.screen
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
+import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeForm
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormIntent
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewModel
@@ -14,7 +15,7 @@ import com.faltenreich.diaguard.shared.localization.getString
 import dev.icerock.moko.resources.compose.painterResource
 import org.koin.core.parameter.parametersOf
 
-data class MeasurementTypeFormScreen(val measurementTypeId: Long) : Screen {
+data class MeasurementTypeFormScreen(val measurementType: MeasurementType) : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
@@ -24,7 +25,7 @@ data class MeasurementTypeFormScreen(val measurementTypeId: Long) : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<MeasurementTypeFormViewModel> { parametersOf(measurementTypeId) }
+                val viewModel = getViewModel<MeasurementTypeFormViewModel> { parametersOf(measurementType) }
                 BottomAppBarItem(
                     painter = painterResource(MR.images.ic_delete),
                     contentDescription = MR.strings.measurement_type_delete,
@@ -35,6 +36,6 @@ data class MeasurementTypeFormScreen(val measurementTypeId: Long) : Screen {
 
     @Composable
     override fun Content() {
-        MeasurementTypeForm(viewModel = getViewModel { parametersOf(measurementTypeId) })
+        MeasurementTypeForm(viewModel = getViewModel { parametersOf(measurementType) })
     }
 }

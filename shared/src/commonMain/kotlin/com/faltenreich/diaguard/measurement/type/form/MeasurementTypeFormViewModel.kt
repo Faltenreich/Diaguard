@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class MeasurementTypeFormViewModel(
-    measurementTypeId: Long,
+    measurementType: MeasurementType,
     getMeasurementTypeUseCase: GetMeasurementTypeUseCase = inject(),
     countMeasurementValuesOfType: CountMeasurementValuesOfTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
@@ -32,12 +32,12 @@ class MeasurementTypeFormViewModel(
 
     private val showDeletionDialog = MutableStateFlow(false)
 
-    private val type = getMeasurementTypeUseCase(measurementTypeId)
+    private val type = getMeasurementTypeUseCase(measurementType)
 
     override val state = combine(
-        getMeasurementTypeUseCase(measurementTypeId),
+        getMeasurementTypeUseCase(measurementType),
         showDeletionDialog,
-        countMeasurementValuesOfType(measurementTypeId),
+        countMeasurementValuesOfType(measurementType),
     ) { type, showDeletionDialog, measurementCount ->
         when (type) {
             null -> MeasurementTypeFormViewState.Error

@@ -21,7 +21,7 @@ class MeasurementTypeListViewModel(
         when (intent) {
             is MeasurementTypeListIntent.DecrementSortIndex -> decrementSortIndex(intent.type, intent.inTypes)
             is MeasurementTypeListIntent.IncrementSortIndex -> incrementSortIndex(intent.type, intent.inTypes)
-            is MeasurementTypeListIntent.EditType -> navigateToScreen(MeasurementTypeFormScreen(intent.type.id))
+            is MeasurementTypeListIntent.EditType -> navigateToScreen(MeasurementTypeFormScreen(intent.type))
         }
     }
 

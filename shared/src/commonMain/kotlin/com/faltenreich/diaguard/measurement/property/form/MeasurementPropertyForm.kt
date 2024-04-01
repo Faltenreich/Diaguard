@@ -15,7 +15,6 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
-import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.BottomSheet
@@ -51,12 +50,7 @@ fun MeasurementPropertyForm(
                             .fillMaxWidth(),
                     )
                 }
-
-                if (viewState.property.isSeed && viewState.types.size == 1) {
-                    MeasurementUnitList(units = viewState.types.first().units)
-                } else {
-                    MeasurementTypeList(types = viewState.types)
-                }
+                MeasurementTypeList(types = viewState.types)
             }
 
             if (viewState.showIconPicker) {

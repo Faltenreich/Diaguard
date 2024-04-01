@@ -3,17 +3,18 @@ package com.faltenreich.diaguard.measurement.property.form
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
-import com.faltenreich.diaguard.shared.di.inject
 
 class CreateMeasurementTypeUseCase(
-    private val measurementTypeRepository: MeasurementTypeRepository = inject(),
-    private val measurementUnitRepository: MeasurementUnitRepository = inject(),
+    private val measurementTypeRepository: MeasurementTypeRepository,
+    private val measurementUnitRepository: MeasurementUnitRepository,
 ) {
 
     operator fun invoke(
         typeKey: String?,
         typeName: String,
         typeMinimumValue: Double,
+        typeLowValue: Double?,
+        typeHighValue: Double?,
         typeMaximumValue: Double,
         typeSortIndex: Long,
         propertyId: Long,
@@ -24,6 +25,8 @@ class CreateMeasurementTypeUseCase(
             key = typeKey,
             name = typeName,
             minimumValue = typeMinimumValue,
+            lowValue = typeLowValue,
+            highValue = typeHighValue,
             maximumValue = typeMaximumValue,
             sortIndex = typeSortIndex,
             propertyId = propertyId,
@@ -39,6 +42,8 @@ class CreateMeasurementTypeUseCase(
             id = typeId,
             name = typeName,
             minimumValue = typeMinimumValue,
+            lowValue = typeLowValue,
+            highValue = typeHighValue,
             maximumValue = typeMaximumValue,
             sortIndex = typeSortIndex,
             selectedUnitId = unitId,

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.type
 
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -18,6 +18,8 @@ class MeasurementTypeRepository(
         key: String?,
         name: String,
         minimumValue: Double,
+        lowValue: Double?,
+        highValue: Double?,
         maximumValue: Double,
         sortIndex: Long,
         propertyId: Long,
@@ -27,6 +29,8 @@ class MeasurementTypeRepository(
             key = key,
             name = name,
             minimumValue = minimumValue,
+            lowValue = lowValue,
+            highValue = highValue,
             maximumValue = maximumValue,
             sortIndex = sortIndex,
             // We set this temporary id because the corresponding unit will be created afterwards
@@ -68,6 +72,8 @@ class MeasurementTypeRepository(
         id: Long,
         name: String,
         minimumValue: Double,
+        lowValue: Double?,
+        highValue: Double?,
         maximumValue: Double,
         sortIndex: Long,
         selectedUnitId: Long,
@@ -77,6 +83,8 @@ class MeasurementTypeRepository(
             updatedAt = dateTimeFactory.now(),
             name = name,
             minimumValue = minimumValue,
+            lowValue = lowValue,
+            highValue = highValue,
             maximumValue = maximumValue,
             sortIndex = sortIndex,
             selectedUnitId = selectedUnitId,

@@ -17,6 +17,8 @@ class PulseSeed {
                 key = DatabaseKey.MeasurementType.PULSE,
                 name = MR.strings.pulse,
                 minimumValue = 1.0,
+                lowValue = 60.0,
+                highValue = 80.0,
                 maximumValue = 200.0,
                 unit = SeedMeasurementUnit(
                     key = DatabaseKey.MeasurementUnit.PULSE,

@@ -17,6 +17,8 @@ class WeightSeed {
                 key = DatabaseKey.MeasurementType.WEIGHT,
                 name = MR.strings.weight,
                 minimumValue = 1.0,
+                lowValue = null,
+                highValue = null,
                 maximumValue = 1400.0,
                 units = listOf(
                     SeedMeasurementUnit(

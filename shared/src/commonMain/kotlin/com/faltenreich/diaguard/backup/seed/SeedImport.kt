@@ -1,12 +1,12 @@
 package com.faltenreich.diaguard.backup.seed
 
 import com.faltenreich.diaguard.backup.Import
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.tag.TagRepository
 
@@ -37,6 +37,8 @@ class SeedImport(
                     key = type.key.key,
                     name = localization.getString(type.name),
                     minimumValue = type.minimumValue,
+                    lowValue = type.lowValue,
+                    highValue = type.highValue,
                     maximumValue = type.maximumValue,
                     sortIndex = typeSortIndex.toLong(),
                     propertyId = propertyId,
@@ -55,6 +57,8 @@ class SeedImport(
                             id = typeId,
                             name = localization.getString(type.name),
                             minimumValue = type.minimumValue,
+                            lowValue = type.lowValue,
+                            highValue = type.highValue,
                             maximumValue = type.maximumValue,
                             sortIndex = typeSortIndex.toLong(),
                             selectedUnitId = unitId,

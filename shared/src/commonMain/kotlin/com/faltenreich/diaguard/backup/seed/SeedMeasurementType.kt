@@ -8,6 +8,8 @@ data class SeedMeasurementType(
     val key: DatabaseKey.MeasurementType,
     val name: StringResource,
     val minimumValue: Double,
+    val lowValue: Double?,
+    val highValue: Double?,
     val maximumValue: Double,
     val units: List<SeedMeasurementUnit>,
 ) {
@@ -16,7 +18,9 @@ data class SeedMeasurementType(
         key: DatabaseKey.MeasurementType,
         name: StringResource,
         minimumValue: Double,
+        lowValue: Double?,
+        highValue: Double?,
         maximumValue: Double,
         unit: SeedMeasurementUnit,
-    ) : this(key, name, minimumValue, maximumValue, listOf(unit))
+    ) : this(key, name, minimumValue, lowValue, highValue, maximumValue, listOf(unit))
 }

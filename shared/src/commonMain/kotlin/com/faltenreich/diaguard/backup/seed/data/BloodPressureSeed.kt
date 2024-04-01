@@ -18,6 +18,8 @@ class BloodPressureSeed {
                     key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_SYSTOLIC,
                     name = MR.strings.systolic,
                     minimumValue = 1.0,
+                    lowValue = 1.0,
+                    highValue = 129.0,
                     maximumValue = 300.0,
                     unit = SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_SYSTOLIC,
@@ -30,6 +32,8 @@ class BloodPressureSeed {
                     key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_DIASTOLIC,
                     name = MR.strings.diastolic,
                     minimumValue = 1.0,
+                    lowValue = 1.0,
+                    highValue = 84.0,
                     maximumValue = 300.0,
                     unit = SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_DIASTOLIC,

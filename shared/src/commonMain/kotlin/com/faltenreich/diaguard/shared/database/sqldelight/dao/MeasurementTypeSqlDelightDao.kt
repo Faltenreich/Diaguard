@@ -3,12 +3,12 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeDao
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementTypeQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementTypeSqlDelightMapper
-import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -27,6 +27,8 @@ class MeasurementTypeSqlDelightDao(
         key: String?,
         name: String,
         minimumValue: Double,
+        lowValue: Double?,
+        highValue: Double?,
         maximumValue: Double,
         sortIndex: Long,
         selectedUnitId: Long,
@@ -38,6 +40,8 @@ class MeasurementTypeSqlDelightDao(
             key = key,
             name = name,
             minimum_value = minimumValue,
+            low_value = lowValue,
+            high_value = highValue,
             maximum_value = maximumValue,
             sort_index = sortIndex,
             selected_unit_id = selectedUnitId,
@@ -82,6 +86,8 @@ class MeasurementTypeSqlDelightDao(
         updatedAt: DateTime,
         name: String,
         minimumValue: Double,
+        lowValue: Double?,
+        highValue: Double?,
         maximumValue: Double,
         sortIndex: Long,
         selectedUnitId: Long,
@@ -90,6 +96,8 @@ class MeasurementTypeSqlDelightDao(
             updated_at = updatedAt.isoString,
             name = name,
             minimum_value = minimumValue,
+            low_value = lowValue,
+            high_value = highValue,
             maximum_value = maximumValue,
             sort_index = sortIndex,
             selected_unit_id = selectedUnitId,

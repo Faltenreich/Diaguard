@@ -17,6 +17,8 @@ data class MeasurementType(
     override val key: DatabaseKey.MeasurementType?,
     val name: String,
     val minimumValue: Double,
+    val lowValue: Double?,
+    val highValue: Double?,
     val maximumValue: Double,
     val sortIndex: Long,
     val selectedUnitId: Long,

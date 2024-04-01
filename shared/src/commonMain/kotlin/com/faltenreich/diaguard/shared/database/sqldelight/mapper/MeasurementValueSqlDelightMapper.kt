@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.di.inject
 
 class MeasurementValueSqlDelightMapper(
@@ -37,16 +37,20 @@ class MeasurementValueSqlDelightMapper(
         valueValue: Double,
         valueTypeId: Long,
         valueEntryId: Long,
+
         typeId: Long,
         typeCreatedAt: String,
         typeUpdatedAt: String,
         typeKey: String?,
         typeName: String,
         typeMinimumValue: Double,
+        typeLowValue: Double?,
+        typeHighValue: Double?,
         typeMaximumValue: Double,
         typeSortIndex: Long,
         typeSelectedUnitId: Long,
         typePropertyId: Long,
+
         unitId: Long,
         unitCreatedAt: String,
         unitUpdatedAt: String,
@@ -55,6 +59,7 @@ class MeasurementValueSqlDelightMapper(
         unitAbbreviation: String,
         unitFactor: Double,
         unitTypeId: Long,
+
         propertyId: Long,
         propertyCreatedAt: String,
         propertyUpdatedAt: String,
@@ -62,6 +67,7 @@ class MeasurementValueSqlDelightMapper(
         propertyName: String,
         propertyIcon: String?,
         propertySortIndex: Long,
+
         entryId: Long,
         entryCreatedAt: String,
         entryUpdatedAt: String,
@@ -83,6 +89,8 @@ class MeasurementValueSqlDelightMapper(
                 key = typeKey,
                 name = typeName,
                 minimumValue = typeMinimumValue,
+                lowValue = typeLowValue,
+                highValue = typeHighValue,
                 maximumValue = typeMaximumValue,
                 sortIndex = typeSortIndex,
                 selectedUnitId = typeSelectedUnitId,

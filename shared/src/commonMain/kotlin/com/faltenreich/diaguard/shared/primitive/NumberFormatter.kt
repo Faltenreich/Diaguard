@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.primitive
 
-expect class NumberFormatter {
+expect class NumberFormatter constructor() {
 
     operator fun invoke(number: Double): String
 }

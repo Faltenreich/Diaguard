@@ -2,10 +2,9 @@ package com.faltenreich.diaguard.measurement.type.form
 
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
-import com.faltenreich.diaguard.shared.di.inject
 
 class UpdateMeasurementTypeUseCase(
-    private val measurementTypeRepository: MeasurementTypeRepository = inject(),
+    private val measurementTypeRepository: MeasurementTypeRepository,
 ) {
 
     operator fun invoke(type: MeasurementType) = with (type) {
@@ -13,6 +12,8 @@ class UpdateMeasurementTypeUseCase(
             id = id,
             name = name,
             minimumValue = minimumValue,
+            lowValue = lowValue,
+            highValue = highValue,
             maximumValue = maximumValue,
             sortIndex = sortIndex,
             selectedUnitId = selectedUnitId,

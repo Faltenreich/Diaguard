@@ -18,6 +18,8 @@ class InsulinSeed {
                     key = DatabaseKey.MeasurementType.INSULIN_BOLUS,
                     name = MR.strings.bolus,
                     minimumValue = 0.0,
+                    lowValue = null,
+                    highValue = null,
                     maximumValue = 100.0,
                     unit = SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.INSULIN_BOLUS,
@@ -30,6 +32,8 @@ class InsulinSeed {
                     key = DatabaseKey.MeasurementType.INSULIN_CORRECTION,
                     name = MR.strings.correction,
                     minimumValue = 0.0,
+                    lowValue = null,
+                    highValue = null,
                     maximumValue = 100.0,
                     unit = SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.INSULIN_CORRECTION,
@@ -42,6 +46,8 @@ class InsulinSeed {
                     key = DatabaseKey.MeasurementType.INSULIN_BASAL,
                     name = MR.strings.basal,
                     minimumValue = 0.0,
+                    lowValue = null,
+                    highValue = null,
                     maximumValue = 100.0,
                     unit = SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.INSULIN_BASAL,

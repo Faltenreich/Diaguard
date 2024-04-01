@@ -22,6 +22,7 @@ import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeListViewMod
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListViewModel
 import com.faltenreich.diaguard.measurement.value.CreateMeasurementValuesUseCase
+import com.faltenreich.diaguard.measurement.value.GetMeasurementValueColorUseCase
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import org.koin.core.module.dsl.singleOf
@@ -36,6 +37,7 @@ fun measurementModule() = module {
     singleOf(::MeasurementValueRepository)
 
     singleOf(::CreateMeasurementPropertyUseCase)
+    singleOf(::GetMeasurementValueColorUseCase)
     singleOf(::GetMeasurementPropertiesUseCase)
     singleOf(::UpdateMeasurementPropertyUseCase)
     singleOf(::DeleteMeasurementPropertyUseCase)

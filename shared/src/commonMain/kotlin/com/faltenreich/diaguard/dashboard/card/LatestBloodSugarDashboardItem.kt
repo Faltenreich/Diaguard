@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.value.MeasurementValueColor
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
@@ -34,6 +35,12 @@ fun LatestDashboardItem(
                 Text(
                     text = data?.value ?: getString(MR.strings.placeholder),
                     style = AppTheme.typography.displayLarge,
+                    color = when (data?.color) {
+                        MeasurementValueColor.LOW -> AppTheme.colors.ValueLow
+                        MeasurementValueColor.NORMAL -> AppTheme.colors.ValueNormal
+                        MeasurementValueColor.HIGH -> AppTheme.colors.ValueHigh
+                        else -> AppTheme.colors.scheme.onPrimary
+                    }
                 )
                 Text(
                     text = data?.timePassed ?: getString(MR.strings.entry_first_description),

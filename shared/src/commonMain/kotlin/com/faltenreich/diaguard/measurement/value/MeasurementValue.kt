@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.measurement.value
 
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
-import com.faltenreich.diaguard.datetime.DateTime
 
 /**
  * Entity representing a default value of an [Entry]
@@ -19,4 +19,10 @@ data class MeasurementValue(
 
     lateinit var type: MeasurementType
     lateinit var entry: Entry
+
+    val isTooLow: Boolean
+        get() = type.lowValue?.let { value < it } ?: false
+
+    val isTooHigh: Boolean
+        get() = type.highValue?.let { value > it } ?: false
 }

@@ -21,8 +21,8 @@ sealed interface DashboardViewState {
 
         data class Today(
             val totalCount: Int,
-            val hyperCount: Int,
             val hypoCount: Int,
+            val hyperCount: Int,
         )
 
         data class Average(

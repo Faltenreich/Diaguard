@@ -35,17 +35,17 @@ fun TodayDashboardItem(
                 }
                 Row {
                     Text(
-                        text = getString(MR.strings.hyper),
-                        modifier = Modifier.weight(1f),
-                    )
-                    Text(data?.hyperCount?.toString() ?: getString(MR.strings.placeholder))
-                }
-                Row {
-                    Text(
                         text = getString(MR.strings.hypo),
                         modifier = Modifier.weight(1f),
                     )
                     Text(data?.hypoCount?.toString() ?: getString(MR.strings.placeholder))
+                }
+                Row {
+                    Text(
+                        text = getString(MR.strings.hyper),
+                        modifier = Modifier.weight(1f),
+                    )
+                    Text(data?.hyperCount?.toString() ?: getString(MR.strings.placeholder))
                 }
             }
         }

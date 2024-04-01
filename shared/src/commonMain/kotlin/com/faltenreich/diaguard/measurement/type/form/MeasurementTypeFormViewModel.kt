@@ -9,8 +9,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class MeasurementTypeFormViewModel(
@@ -22,17 +20,13 @@ class MeasurementTypeFormViewModel(
     private val navigateBack: NavigateBackUseCase = inject(),
 ) : ViewModel<MeasurementTypeFormViewState, MeasurementTypeFormIntent>() {
 
-    var typeName = MutableStateFlow("")
-    var unitName = MutableStateFlow("")
-    var minimumValue = MutableStateFlow("")
-    var lowValue = MutableStateFlow("")
-    var targetValue = MutableStateFlow("")
-    var highValue = MutableStateFlow("")
-    var maximumValue = MutableStateFlow("")
+    var typeName = MutableStateFlow(measurementType.name)
+    var unitName = MutableStateFlow(measurementType.selectedUnit.name)
+    var lowValue = MutableStateFlow(measurementType.lowValue?.toString() ?: "")
+    var targetValue = MutableStateFlow(measurementType.targetValue?.toString() ?: "")
+    var highValue = MutableStateFlow(measurementType.highValue?.toString() ?: "")
 
     private val showDeletionDialog = MutableStateFlow(false)
-
-    private val type = getMeasurementTypeUseCase(measurementType)
 
     override val state = combine(
         getMeasurementTypeUseCase(measurementType),
@@ -50,17 +44,6 @@ class MeasurementTypeFormViewModel(
     }
 
     init {
-        scope.launch {
-            type.filterNotNull().distinctUntilChangedBy(MeasurementType::id).collectLatest { type ->
-                typeName.value = type.name
-                unitName.value = type.selectedUnit.name
-                minimumValue.value = type.minimumValue.toString()
-                lowValue.value = type.lowValue?.toString() ?: ""
-                targetValue.value = type.targetValue?.toString() ?: ""
-                highValue.value = type.highValue?.toString() ?: ""
-                maximumValue.value = type.maximumValue.toString()
-            }
-        }
         // FIXME: Setting other flow at the same time cancels the first collector
         // TODO: Format values accordingly, using MeasurementValueForDatabase/-User
         // TODO: Validate input
@@ -77,13 +60,6 @@ class MeasurementTypeFormViewModel(
                 checkNotNull(type)
                 // FIXME: Wrangles units
                 //  updateMeasurementUnit(unit.copy(name = name))
-            }
-        }
-        scope.launch {
-            minimumValue.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
-                val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
-                checkNotNull(type)
-                updateMeasurementType(type.copy(minimumValue = input.toDoubleOrNull() ?: 0.0))
             }
         }
         scope.launch {
@@ -105,13 +81,6 @@ class MeasurementTypeFormViewModel(
                 val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
                 updateMeasurementType(type.copy(highValue = input.toDoubleOrNull()))
-            }
-        }
-        scope.launch {
-            maximumValue.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
-                val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
-                checkNotNull(type)
-                updateMeasurementType(type.copy(maximumValue = input.toDoubleOrNull() ?: 0.0))
             }
         }
     }

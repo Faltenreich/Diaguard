@@ -62,20 +62,7 @@ fun MeasurementTypeForm(
                 item {
                     Column {
                         TextDivider(getString(MR.strings.values))
-                        TextInput(
-                            input = viewModel.minimumValue.collectAsState().value,
-                            onInputChange = { input -> viewModel.minimumValue.value = input },
-                            label = getString(MR.strings.value_minimum),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(all = AppTheme.dimensions.padding.P_3),
-                            maxLines = 1,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Decimal,
-                                imeAction = ImeAction.Next,
-                            ),
-                        )
-                        Divider()
+
                         TextInput(
                             input = viewModel.lowValue.collectAsState().value,
                             onInputChange = { input -> viewModel.lowValue.value = input },
@@ -89,7 +76,9 @@ fun MeasurementTypeForm(
                                 imeAction = ImeAction.Next,
                             ),
                         )
+
                         Divider()
+
                         TextInput(
                             input = viewModel.targetValue.collectAsState().value,
                             onInputChange = { input -> viewModel.targetValue.value = input },
@@ -103,7 +92,9 @@ fun MeasurementTypeForm(
                                 imeAction = ImeAction.Next,
                             ),
                         )
+
                         Divider()
+
                         TextInput(
                             input = viewModel.highValue.collectAsState().value,
                             onInputChange = { input -> viewModel.highValue.value = input },
@@ -115,20 +106,6 @@ fun MeasurementTypeForm(
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal,
                                 imeAction = ImeAction.Next,
-                            ),
-                        )
-                        Divider()
-                        TextInput(
-                            input = viewModel.maximumValue.collectAsState().value,
-                            onInputChange = { input -> viewModel.maximumValue.value = input },
-                            label = getString(MR.strings.value_maximum),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(all = AppTheme.dimensions.padding.P_3),
-                            maxLines = 1,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Decimal,
-                                imeAction = ImeAction.Done,
                             ),
                         )
                     }

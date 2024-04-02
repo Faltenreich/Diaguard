@@ -6,7 +6,7 @@ class GetMeasurementValueTintUseCase {
 
     operator fun invoke(measurementValue: MeasurementValue): MeasurementValueTint {
         return when {
-            // TODO: Return MeasurementValueColor.DEFAULT if user setting is disabled
+            measurementValue.isNotHighlighted -> MeasurementValueTint.NONE
             measurementValue.isTooLow -> MeasurementValueTint.LOW
             measurementValue.isTooHigh -> MeasurementValueTint.HIGH
             else -> MeasurementValueTint.NORMAL

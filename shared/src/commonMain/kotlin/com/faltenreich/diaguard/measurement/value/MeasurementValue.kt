@@ -20,6 +20,9 @@ data class MeasurementValue(
     lateinit var type: MeasurementType
     lateinit var entry: Entry
 
+    val isNotHighlighted: Boolean
+        get() = type.range.isHighlighted.not()
+
     val isTooLow: Boolean
         get() = type.range.low?.let { value < it } ?: false
 

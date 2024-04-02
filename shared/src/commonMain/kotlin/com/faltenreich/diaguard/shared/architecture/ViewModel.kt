@@ -36,8 +36,16 @@ abstract class ViewModel<State, Intent>(
         return stateInScope.collectAsState().value
     }
 
+    /**
+     * Handles [intent] synchronously
+     */
     abstract fun handleIntent(intent: Intent)
 
+    /**
+     * Handles [intent] asynchronously via [dispatcher] within [scope]
+     *
+     * Caution: Causes race conditions for text inputs, use [handleIntent] instead
+     */
     fun dispatchIntent(intent: Intent) {
         scope.launch(dispatcher) { handleIntent(intent) }
     }

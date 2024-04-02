@@ -36,8 +36,8 @@ class SeedImport(
                 val typeId = typeRepository.create(
                     key = type.key.key,
                     name = localization.getString(type.name),
-                    range = type.range,
                     sortIndex = typeSortIndex.toLong(),
+                    range = type.range,
                     propertyId = propertyId,
                 )
                 type.units.forEach { unit ->

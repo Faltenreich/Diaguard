@@ -22,8 +22,8 @@ class CreateMeasurementTypeUseCase(
         val typeId = measurementTypeRepository.create(
             key = typeKey,
             name = typeName,
-            range = typeRange,
             sortIndex = typeSortIndex,
+            range = typeRange,
             propertyId = propertyId,
         )
         val unitId = measurementUnitRepository.create(

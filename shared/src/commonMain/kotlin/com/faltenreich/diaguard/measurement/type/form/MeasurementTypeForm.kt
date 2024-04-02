@@ -20,8 +20,10 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
+import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
+import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun MeasurementTypeForm(
@@ -36,7 +38,7 @@ fun MeasurementTypeForm(
                 item {
                     TextInput(
                         input = viewModel.typeName.collectAsState().value,
-                        onInputChange = { input -> viewModel.typeName.value = input },
+                        onInputChange = { viewModel.typeName.value = it },
                         label = getString(MR.strings.name),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -48,7 +50,7 @@ fun MeasurementTypeForm(
                     item {
                         TextInput(
                             input = viewModel.unitName.collectAsState().value,
-                            onInputChange = { input -> viewModel.unitName.value = input },
+                            onInputChange = { viewModel.unitName.value = it },
                             label = getString(MR.strings.measurement_unit),
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -63,10 +65,21 @@ fun MeasurementTypeForm(
                     Column {
                         TextDivider(getString(MR.strings.values))
 
+                        TextCheckbox(
+                            text = stringResource(MR.strings.value_range_highlighted),
+                            checked = viewModel.isValueRangeHighlighted.collectAsState().value,
+                            onCheckedChange = { viewModel.isValueRangeHighlighted.value = it },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = AppTheme.dimensions.padding.P_3),
+                        )
+
+                        Divider()
+
                         TextInput(
-                            input = viewModel.lowValue.collectAsState().value,
-                            onInputChange = { input -> viewModel.lowValue.value = input },
-                            label = getString(MR.strings.value_low),
+                            input = viewModel.valueRangeMinimum.collectAsState().value,
+                            onInputChange = { viewModel.valueRangeMinimum.value = it },
+                            label = getString(MR.strings.value_range_minimum),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = AppTheme.dimensions.padding.P_3),
@@ -80,9 +93,9 @@ fun MeasurementTypeForm(
                         Divider()
 
                         TextInput(
-                            input = viewModel.targetValue.collectAsState().value,
-                            onInputChange = { input -> viewModel.targetValue.value = input },
-                            label = getString(MR.strings.value_target),
+                            input = viewModel.valueRangeLow.collectAsState().value,
+                            onInputChange = { viewModel.valueRangeLow.value = it },
+                            label = getString(MR.strings.value_range_low),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = AppTheme.dimensions.padding.P_3),
@@ -96,9 +109,9 @@ fun MeasurementTypeForm(
                         Divider()
 
                         TextInput(
-                            input = viewModel.highValue.collectAsState().value,
-                            onInputChange = { input -> viewModel.highValue.value = input },
-                            label = getString(MR.strings.value_high),
+                            input = viewModel.valueRangeTarget.collectAsState().value,
+                            onInputChange = { viewModel.valueRangeTarget.value = it },
+                            label = getString(MR.strings.value_range_target),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = AppTheme.dimensions.padding.P_3),
@@ -106,6 +119,38 @@ fun MeasurementTypeForm(
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal,
                                 imeAction = ImeAction.Next,
+                            ),
+                        )
+
+                        Divider()
+
+                        TextInput(
+                            input = viewModel.valueRangeHigh.collectAsState().value,
+                            onInputChange = { viewModel.valueRangeHigh.value = it },
+                            label = getString(MR.strings.value_range_high),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = AppTheme.dimensions.padding.P_3),
+                            maxLines = 1,
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Decimal,
+                                imeAction = ImeAction.Next,
+                            ),
+                        )
+
+                        Divider()
+
+                        TextInput(
+                            input = viewModel.valueRangeMaximum.collectAsState().value,
+                            onInputChange = { viewModel.valueRangeMaximum.value = it },
+                            label = getString(MR.strings.value_range_maximum),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = AppTheme.dimensions.padding.P_3),
+                            maxLines = 1,
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Decimal,
+                                imeAction = ImeAction.Done,
                             ),
                         )
                     }

@@ -22,9 +22,12 @@ class MeasurementTypeFormViewModel(
 
     var typeName = MutableStateFlow(measurementType.name)
     var unitName = MutableStateFlow(measurementType.selectedUnit.name)
-    var lowValue = MutableStateFlow(measurementType.range.low?.toString() ?: "")
-    var targetValue = MutableStateFlow(measurementType.range.target?.toString() ?: "")
-    var highValue = MutableStateFlow(measurementType.range.high?.toString() ?: "")
+    var valueRangeMinimum = MutableStateFlow(measurementType.range.minimum.toString())
+    var valueRangeLow = MutableStateFlow(measurementType.range.low?.toString() ?: "")
+    var valueRangeTarget = MutableStateFlow(measurementType.range.target?.toString() ?: "")
+    var valueRangeHigh = MutableStateFlow(measurementType.range.high?.toString() ?: "")
+    var valueRangeMaximum = MutableStateFlow(measurementType.range.maximum.toString())
+    var isValueRangeHighlighted = MutableStateFlow(measurementType.range.isHighlighted)
 
     private val showDeletionDialog = MutableStateFlow(false)
 
@@ -63,24 +66,45 @@ class MeasurementTypeFormViewModel(
             }
         }
         scope.launch {
-            lowValue.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+            valueRangeMinimum.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+                val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
+                checkNotNull(type)
+                updateMeasurementType(type.copy(range = type.range.copy(minimum = input.toDoubleOrNull() ?: 0.0)))
+            }
+        }
+        scope.launch {
+            valueRangeLow.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
                 updateMeasurementType(type.copy(range = type.range.copy(low = input.toDoubleOrNull())))
             }
         }
         scope.launch {
-            targetValue.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+            valueRangeTarget.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
                 updateMeasurementType(type.copy(range = type.range.copy(target = input.toDoubleOrNull())))
             }
         }
         scope.launch {
-            highValue.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+            valueRangeHigh.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
                 updateMeasurementType(type.copy(range = type.range.copy(high = input.toDoubleOrNull())))
+            }
+        }
+        scope.launch {
+            valueRangeMaximum.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+                val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
+                checkNotNull(type)
+                updateMeasurementType(type.copy(range = type.range.copy(maximum = input.toDoubleOrNull() ?: 0.0)))
+            }
+        }
+        scope.launch {
+            isValueRangeHighlighted.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+                val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
+                checkNotNull(type)
+                updateMeasurementType(type.copy(range = type.range.copy(isHighlighted = input)))
             }
         }
     }

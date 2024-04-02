@@ -6,6 +6,7 @@ sealed interface MeasurementTypeFormViewState {
 
     data class Loaded(
         val type: MeasurementType,
+        val unitName: String,
         val showDeletionDialog: Boolean,
         val measurementCount: Long,
     ) : MeasurementTypeFormViewState

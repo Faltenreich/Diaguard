@@ -66,7 +66,8 @@ fun MeasurementTypeForm(
                         TextDivider(getString(MR.strings.values))
 
                         TextCheckbox(
-                            text = stringResource(MR.strings.value_range_highlighted),
+                            title = stringResource(MR.strings.value_range_highlighted),
+                            subtitle = stringResource(MR.strings.value_range_highlighted_description),
                             checked = viewModel.isValueRangeHighlighted.collectAsState().value,
                             onCheckedChange = { viewModel.isValueRangeHighlighted.value = it },
                             modifier = Modifier
@@ -83,6 +84,8 @@ fun MeasurementTypeForm(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = AppTheme.dimensions.padding.P_3),
+                            suffix = { Text(viewState.unitName) },
+                            supportingText = { Text(stringResource(MR.strings.value_range_minimum_description)) },
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal,
@@ -99,6 +102,8 @@ fun MeasurementTypeForm(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = AppTheme.dimensions.padding.P_3),
+                            suffix = { Text(viewState.unitName) },
+                            supportingText = { Text(stringResource(MR.strings.value_range_low_description)) },
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal,
@@ -115,6 +120,8 @@ fun MeasurementTypeForm(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = AppTheme.dimensions.padding.P_3),
+                            suffix = { Text(viewState.unitName) },
+                            supportingText = { Text(stringResource(MR.strings.value_range_target_description)) },
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal,
@@ -131,6 +138,8 @@ fun MeasurementTypeForm(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = AppTheme.dimensions.padding.P_3),
+                            suffix = { Text(viewState.unitName) },
+                            supportingText = { Text(stringResource(MR.strings.value_range_high_description)) },
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal,
@@ -147,6 +156,8 @@ fun MeasurementTypeForm(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = AppTheme.dimensions.padding.P_3),
+                            suffix = { Text(viewState.unitName) },
+                            supportingText = { Text(stringResource(MR.strings.value_range_maximum_description)) },
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal,

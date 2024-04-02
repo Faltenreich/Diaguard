@@ -76,7 +76,7 @@ fun ExportForm(
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_position_top_left) }) {
             TextCheckbox(
-                text = getString(MR.strings.calendar_week),
+                title = getString(MR.strings.calendar_week),
                 checked = viewModel.includeCalendarWeek,
                 onCheckedChange = { viewModel.includeCalendarWeek = it },
                 modifier = Modifier.fillMaxWidth(),
@@ -85,7 +85,7 @@ fun ExportForm(
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_position_bottom_left) }) {
             TextCheckbox(
-                text = getString(MR.strings.date_of_export),
+                title = getString(MR.strings.date_of_export),
                 checked = viewModel.includeDateOfExport,
                 onCheckedChange = { viewModel.includeDateOfExport = it },
                 modifier = Modifier.fillMaxWidth(),
@@ -94,7 +94,7 @@ fun ExportForm(
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_position_bottom_right) }) {
             TextCheckbox(
-                text = getString(MR.strings.page_number),
+                title = getString(MR.strings.page_number),
                 checked = viewModel.includePageNumber,
                 onCheckedChange = { viewModel.includePageNumber = it },
                 modifier = Modifier.fillMaxWidth(),
@@ -104,7 +104,7 @@ fun ExportForm(
         TextDivider(getString(MR.strings.data))
         FormRow(icon = { ResourceIcon(MR.images.ic_note) }) {
             TextCheckbox(
-                text = getString(MR.strings.notes),
+                title = getString(MR.strings.notes),
                 checked = viewModel.includeNotes,
                 onCheckedChange = { viewModel.includeNotes = it },
                 modifier = Modifier.fillMaxWidth(),
@@ -113,7 +113,7 @@ fun ExportForm(
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_tag) }) {
             TextCheckbox(
-                text = getString(MR.strings.tags),
+                title = getString(MR.strings.tags),
                 checked = viewModel.includeTags,
                 onCheckedChange = { viewModel.includeTags = it },
                 modifier = Modifier.fillMaxWidth(),
@@ -122,7 +122,7 @@ fun ExportForm(
         Divider()
         FormRow(icon = { ResourceIcon(MR.images.ic_skip) }) {
             TextCheckbox(
-                text = getString(MR.strings.days_without_entries),
+                title = getString(MR.strings.days_without_entries),
                 checked = viewModel.includeDaysWithoutEntries,
                 onCheckedChange = { viewModel.includeDaysWithoutEntries = it },
                 modifier = Modifier.fillMaxWidth(),
@@ -133,14 +133,14 @@ fun ExportForm(
         viewModel.properties.forEach { property ->
             FormRow(icon = { MeasurementPropertyIcon(property.property) }) {
                 TextCheckbox(
-                    text = property.property.name,
+                    title = property.property.name,
                     checked = property.isExported,
                     onCheckedChange = { viewModel.setProperty(property.copy(isExported = !property.isExported)) },
                     modifier = Modifier.weight(1f),
                 )
                 if (true) { // TODO: property.property.types.size > 1) {
                     TextCheckbox(
-                        text = getString(MR.strings.merge_values),
+                        title = getString(MR.strings.merge_values),
                         checked = property.isMerged,
                         onCheckedChange = { viewModel.setProperty(property.copy(isMerged = !property.isMerged)) },
                         modifier = Modifier.weight(1f),

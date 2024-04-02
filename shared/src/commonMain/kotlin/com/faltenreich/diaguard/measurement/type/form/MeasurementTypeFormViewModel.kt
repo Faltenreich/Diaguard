@@ -29,17 +29,21 @@ class MeasurementTypeFormViewModel(
     var valueRangeMaximum = MutableStateFlow(measurementType.range.maximum.toString())
     var isValueRangeHighlighted = MutableStateFlow(measurementType.range.isHighlighted)
 
+    private val type = getMeasurementTypeUseCase(measurementType)
     private val showDeletionDialog = MutableStateFlow(false)
+    private val measurementCount = countMeasurementValuesOfType(measurementType)
 
     override val state = combine(
-        getMeasurementTypeUseCase(measurementType),
+        type,
+        unitName,
         showDeletionDialog,
-        countMeasurementValuesOfType(measurementType),
-    ) { type, showDeletionDialog, measurementCount ->
+        measurementCount,
+    ) { type, unitName, showDeletionDialog, measurementCount ->
         when (type) {
             null -> MeasurementTypeFormViewState.Error
             else ->  MeasurementTypeFormViewState.Loaded(
                 type = type,
+                unitName = if (type.isUserGenerated) unitName else type.selectedUnit.abbreviation,
                 showDeletionDialog = showDeletionDialog,
                 measurementCount = measurementCount,
             )

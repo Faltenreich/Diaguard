@@ -38,7 +38,9 @@ fun MeasurementTypeForm(
                 item {
                     TextInput(
                         input = viewModel.typeName.collectAsState().value,
-                        onInputChange = { viewModel.typeName.value = it },
+                        onInputChange = {
+                            viewModel.onIntent(MeasurementTypeFormIntent.EditTypeName(it))
+                        },
                         label = getString(MR.strings.name),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -50,7 +52,9 @@ fun MeasurementTypeForm(
                     item {
                         TextInput(
                             input = viewModel.unitName.collectAsState().value,
-                            onInputChange = { viewModel.unitName.value = it },
+                            onInputChange = {
+                                viewModel.onIntent(MeasurementTypeFormIntent.EditUnitName(it))
+                            },
                             label = getString(MR.strings.measurement_unit),
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -69,7 +73,9 @@ fun MeasurementTypeForm(
                             title = stringResource(MR.strings.value_range_highlighted),
                             subtitle = stringResource(MR.strings.value_range_highlighted_description),
                             checked = viewModel.isValueRangeHighlighted.collectAsState().value,
-                            onCheckedChange = { viewModel.isValueRangeHighlighted.value = it },
+                            onCheckedChange = {
+                                viewModel.dispatchIntent(MeasurementTypeFormIntent.EditIsValueRangeHighlighted(it))
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = AppTheme.dimensions.padding.P_3),
@@ -79,7 +85,9 @@ fun MeasurementTypeForm(
 
                         TextInput(
                             input = viewModel.valueRangeMinimum.collectAsState().value,
-                            onInputChange = { viewModel.valueRangeMinimum.value = it },
+                            onInputChange = {
+                                viewModel.onIntent(MeasurementTypeFormIntent.EditValueRangeMinimum(it))
+                            },
                             label = getString(MR.strings.value_range_minimum),
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -97,7 +105,9 @@ fun MeasurementTypeForm(
 
                         TextInput(
                             input = viewModel.valueRangeLow.collectAsState().value,
-                            onInputChange = { viewModel.valueRangeLow.value = it },
+                            onInputChange = {
+                                viewModel.onIntent(MeasurementTypeFormIntent.EditValueRangeLow(it))
+                            },
                             label = getString(MR.strings.value_range_low),
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -115,7 +125,9 @@ fun MeasurementTypeForm(
 
                         TextInput(
                             input = viewModel.valueRangeTarget.collectAsState().value,
-                            onInputChange = { viewModel.valueRangeTarget.value = it },
+                            onInputChange = {
+                                viewModel.onIntent(MeasurementTypeFormIntent.EditValueRangeTarget(it))
+                            },
                             label = getString(MR.strings.value_range_target),
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -133,7 +145,9 @@ fun MeasurementTypeForm(
 
                         TextInput(
                             input = viewModel.valueRangeHigh.collectAsState().value,
-                            onInputChange = { viewModel.valueRangeHigh.value = it },
+                            onInputChange = {
+                                viewModel.onIntent(MeasurementTypeFormIntent.EditValueRangeHigh(it))
+                            },
                             label = getString(MR.strings.value_range_high),
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -151,7 +165,9 @@ fun MeasurementTypeForm(
 
                         TextInput(
                             input = viewModel.valueRangeMaximum.collectAsState().value,
-                            onInputChange = { viewModel.valueRangeMaximum.value = it },
+                            onInputChange = {
+                                viewModel.onIntent(MeasurementTypeFormIntent.EditValueRangeMaximum(it))
+                            },
                             label = getString(MR.strings.value_range_maximum),
                             modifier = Modifier
                                 .fillMaxWidth()

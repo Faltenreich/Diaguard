@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
@@ -20,14 +21,29 @@ class MeasurementTypeFormViewModel(
     private val navigateBack: NavigateBackUseCase = inject(),
 ) : ViewModel<MeasurementTypeFormViewState, MeasurementTypeFormIntent>() {
 
-    var typeName = MutableStateFlow(type.name)
-    var unitName = MutableStateFlow(type.selectedUnit.name)
-    var valueRangeMinimum = MutableStateFlow(type.range.minimum.toString())
-    var valueRangeLow = MutableStateFlow(type.range.low?.toString() ?: "")
-    var valueRangeTarget = MutableStateFlow(type.range.target?.toString() ?: "")
-    var valueRangeHigh = MutableStateFlow(type.range.high?.toString() ?: "")
-    var valueRangeMaximum = MutableStateFlow(type.range.maximum.toString())
-    var isValueRangeHighlighted = MutableStateFlow(type.range.isHighlighted)
+    private var _typeName = MutableStateFlow(type.name)
+    val typeName = _typeName.asStateFlow()
+
+    private var _unitName = MutableStateFlow(type.selectedUnit.name)
+    val unitName = _unitName.asStateFlow()
+
+    private var _valueRangeMinimum = MutableStateFlow(type.range.minimum.toString())
+    val valueRangeMinimum = _valueRangeMinimum.asStateFlow()
+
+    private var _valueRangeLow = MutableStateFlow(type.range.low?.toString() ?: "")
+    val valueRangeLow = _valueRangeLow.asStateFlow()
+
+    private var _valueRangeTarget = MutableStateFlow(type.range.target?.toString() ?: "")
+    val valueRangeTarget = _valueRangeTarget.asStateFlow()
+
+    private var _valueRangeHigh = MutableStateFlow(type.range.high?.toString() ?: "")
+    val valueRangeHigh = _valueRangeHigh.asStateFlow()
+
+    private var _valueRangeMaximum = MutableStateFlow(type.range.maximum.toString())
+    val valueRangeMaximum = _valueRangeMaximum.asStateFlow()
+
+    private var _isValueRangeHighlighted = MutableStateFlow(type.range.isHighlighted)
+    val isValueRangeHighlighted = _isValueRangeHighlighted.asStateFlow()
 
     private val showDeletionDialog = MutableStateFlow(false)
 
@@ -64,27 +80,27 @@ class MeasurementTypeFormViewModel(
             }
         }
         scope.launch {
-            valueRangeMinimum.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+            _valueRangeMinimum.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 updateMeasurementType(type.copy(range = type.range.copy(minimum = input.toDoubleOrNull() ?: 0.0)))
             }
         }
         scope.launch {
-            valueRangeLow.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+            _valueRangeLow.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 updateMeasurementType(type.copy(range = type.range.copy(low = input.toDoubleOrNull())))
             }
         }
         scope.launch {
-            valueRangeTarget.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+            _valueRangeTarget.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 updateMeasurementType(type.copy(range = type.range.copy(target = input.toDoubleOrNull())))
             }
         }
         scope.launch {
-            valueRangeHigh.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+            _valueRangeHigh.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 updateMeasurementType(type.copy(range = type.range.copy(high = input.toDoubleOrNull())))
             }
         }
         scope.launch {
-            valueRangeMaximum.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
+            _valueRangeMaximum.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 updateMeasurementType(type.copy(range = type.range.copy(maximum = input.toDoubleOrNull() ?: 0.0)))
             }
         }
@@ -97,6 +113,14 @@ class MeasurementTypeFormViewModel(
 
     override fun onIntent(intent: MeasurementTypeFormIntent) {
         when (intent) {
+            is MeasurementTypeFormIntent.EditTypeName -> _typeName.value = intent.input
+            is MeasurementTypeFormIntent.EditUnitName -> _unitName.value = intent.input
+            is MeasurementTypeFormIntent.EditValueRangeMinimum -> _valueRangeMinimum.value = intent.input
+            is MeasurementTypeFormIntent.EditValueRangeLow -> _valueRangeLow.value = intent.input
+            is MeasurementTypeFormIntent.EditValueRangeTarget -> _valueRangeTarget.value = intent.input
+            is MeasurementTypeFormIntent.EditValueRangeHigh -> _valueRangeHigh.value = intent.input
+            is MeasurementTypeFormIntent.EditValueRangeMaximum -> _valueRangeMaximum.value = intent.input
+            is MeasurementTypeFormIntent.EditIsValueRangeHighlighted -> _isValueRangeHighlighted.value = intent.input
             // TODO: Replace with Modal
             is MeasurementTypeFormIntent.ShowDeletionDialog -> showDeletionDialog.value = true
             is MeasurementTypeFormIntent.HideDeletionDialog -> showDeletionDialog.value = false

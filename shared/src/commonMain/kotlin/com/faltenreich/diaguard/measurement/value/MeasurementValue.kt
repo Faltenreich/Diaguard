@@ -21,8 +21,8 @@ data class MeasurementValue(
     lateinit var entry: Entry
 
     val isTooLow: Boolean
-        get() = type.lowValue?.let { value < it } ?: false
+        get() = type.range.low?.let { value < it } ?: false
 
     val isTooHigh: Boolean
-        get() = type.highValue?.let { value > it } ?: false
+        get() = type.range.high?.let { value > it } ?: false
 }

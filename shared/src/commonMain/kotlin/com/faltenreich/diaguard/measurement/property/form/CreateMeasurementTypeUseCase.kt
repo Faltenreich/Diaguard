@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.measurement.property.form
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 
 class CreateMeasurementTypeUseCase(
     private val measurementTypeRepository: MeasurementTypeRepository,
@@ -12,11 +13,7 @@ class CreateMeasurementTypeUseCase(
     operator fun invoke(
         typeKey: String?,
         typeName: String,
-        typeMinimumValue: Double,
-        typeLowValue: Double?,
-        typeTargetValue: Double?,
-        typeHighValue: Double?,
-        typeMaximumValue: Double,
+        typeRange: MeasurementValueRange,
         typeSortIndex: Long,
         propertyId: Long,
         unitKey: String?,
@@ -25,29 +22,21 @@ class CreateMeasurementTypeUseCase(
         val typeId = measurementTypeRepository.create(
             key = typeKey,
             name = typeName,
-            minimumValue = typeMinimumValue,
-            lowValue = typeLowValue,
-            targetValue = typeTargetValue,
-            highValue = typeHighValue,
-            maximumValue = typeMaximumValue,
+            range = typeRange,
             sortIndex = typeSortIndex,
             propertyId = propertyId,
         )
         val unitId = measurementUnitRepository.create(
             key = unitKey,
             name = unitName,
-            abbreviation = unitName, // TODO: Make it customizable?
+            abbreviation = unitName, // TODO: Make customizable?
             factor = MeasurementUnit.FACTOR_DEFAULT,
             typeId = typeId,
         )
         measurementTypeRepository.update(
             id = typeId,
             name = typeName,
-            minimumValue = typeMinimumValue,
-            lowValue = typeLowValue,
-            targetValue = typeTargetValue,
-            highValue = typeHighValue,
-            maximumValue = typeMaximumValue,
+            range = typeRange,
             sortIndex = typeSortIndex,
             selectedUnitId = unitId,
         )

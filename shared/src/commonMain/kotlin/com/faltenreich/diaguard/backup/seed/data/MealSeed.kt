@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class MealSeed {
@@ -16,11 +17,14 @@ class MealSeed {
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.MEAL,
                 name = MR.strings.meal,
-                minimumValue = 0.0,
-                lowValue = null,
-                targetValue = null,
-                highValue = null,
-                maximumValue = 1000.0,
+                range = MeasurementValueRange(
+                    minimum = 0.0,
+                    low = null,
+                    target = null,
+                    high = null,
+                    maximum = 1000.0,
+                    isHighlighted = false,
+                ),
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.MEAL_CARBOHYDRATES,

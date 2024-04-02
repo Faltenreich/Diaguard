@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.type
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -17,11 +18,7 @@ class MeasurementTypeRepository(
     fun create(
         key: String?,
         name: String,
-        minimumValue: Double,
-        lowValue: Double?,
-        targetValue: Double?,
-        highValue: Double?,
-        maximumValue: Double,
+        range: MeasurementValueRange,
         sortIndex: Long,
         propertyId: Long,
     ): Long {
@@ -29,11 +26,7 @@ class MeasurementTypeRepository(
             createdAt = dateTimeFactory.now(),
             key = key,
             name = name,
-            minimumValue = minimumValue,
-            lowValue = lowValue,
-            targetValue = targetValue,
-            highValue = highValue,
-            maximumValue = maximumValue,
+            range = range,
             sortIndex = sortIndex,
             // We set this temporary id because the corresponding unit will be created afterwards
             selectedUnitId = MeasurementType.SELECTED_UNIT_ID_INVALID,
@@ -73,11 +66,7 @@ class MeasurementTypeRepository(
     fun update(
         id: Long,
         name: String,
-        minimumValue: Double,
-        lowValue: Double?,
-        targetValue: Double?,
-        highValue: Double?,
-        maximumValue: Double,
+        range: MeasurementValueRange,
         sortIndex: Long,
         selectedUnitId: Long,
     ) {
@@ -85,11 +74,7 @@ class MeasurementTypeRepository(
             id = id,
             updatedAt = dateTimeFactory.now(),
             name = name,
-            minimumValue = minimumValue,
-            lowValue = lowValue,
-            targetValue = targetValue,
-            highValue = highValue,
-            maximumValue = maximumValue,
+            range = range,
             sortIndex = sortIndex,
             selectedUnitId = selectedUnitId,
         )

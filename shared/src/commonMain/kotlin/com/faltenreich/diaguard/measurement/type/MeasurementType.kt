@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.backup.seed.Seedable
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
@@ -16,11 +17,7 @@ data class MeasurementType(
     override val updatedAt: DateTime,
     override val key: DatabaseKey.MeasurementType?,
     val name: String,
-    val minimumValue: Double,
-    val lowValue: Double?,
-    val targetValue: Double?,
-    val highValue: Double?,
-    val maximumValue: Double,
+    val range: MeasurementValueRange,
     val sortIndex: Long,
     val selectedUnitId: Long,
     val propertyId: Long,

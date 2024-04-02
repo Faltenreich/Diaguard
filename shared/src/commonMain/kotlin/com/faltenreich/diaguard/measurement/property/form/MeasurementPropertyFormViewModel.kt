@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.measurement.property.form
 import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.architecture.combine
@@ -62,11 +63,14 @@ class MeasurementPropertyFormViewModel(
                 typeKey = null,
                 typeName = intent.typeName,
                 // TODO: Make user-customizable
-                typeMinimumValue = 0.0,
-                typeLowValue = null,
-                typeTargetValue = null,
-                typeHighValue = null,
-                typeMaximumValue = Double.MAX_VALUE,
+                typeRange = MeasurementValueRange(
+                    minimum = 0.0,
+                    low = null,
+                    target = null,
+                    high = null,
+                    maximum = Double.MAX_VALUE,
+                    isHighlighted = false,
+                ),
                 typeSortIndex = intent.types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
                 propertyId = intent.propertyId,
                 unitKey = null,

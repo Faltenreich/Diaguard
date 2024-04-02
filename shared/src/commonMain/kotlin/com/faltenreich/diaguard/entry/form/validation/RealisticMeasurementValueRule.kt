@@ -19,7 +19,7 @@ class RealisticMeasurementValueRule(
     override fun check(input: MeasurementTypeInputState): ValidationResult<MeasurementTypeInputState> {
         val valueForUser = MeasurementValueForUser(input.input, input.type.selectedUnit)
         val valueForDatabase = mapValue(valueForUser)
-        val (minimumValue, maximumValue) = input.type.minimumValue to input.type.maximumValue
+        val (minimumValue, maximumValue) = input.type.range.minimum to input.type.range.maximum
         return when (valueForDatabase?.value) {
             null -> ValidationResult.Success(input)
             in minimumValue ..< maximumValue -> ValidationResult.Success(input)

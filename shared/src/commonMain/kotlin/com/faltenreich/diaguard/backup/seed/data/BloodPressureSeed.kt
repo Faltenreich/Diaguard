@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class BloodPressureSeed {
@@ -17,11 +18,14 @@ class BloodPressureSeed {
                 SeedMeasurementType(
                     key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_SYSTOLIC,
                     name = MR.strings.systolic,
-                    minimumValue = 1.0,
-                    lowValue = 100.0,
-                    targetValue = 120.0,
-                    highValue = 140.0,
-                    maximumValue = 300.0,
+                    range = MeasurementValueRange(
+                        minimum = 1.0,
+                        low = 100.0,
+                        target = 120.0,
+                        high = 140.0,
+                        maximum = 300.0,
+                        isHighlighted = true,
+                    ),
                     units = listOf(
                         SeedMeasurementUnit(
                             key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_SYSTOLIC,
@@ -34,11 +38,14 @@ class BloodPressureSeed {
                 SeedMeasurementType(
                     key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_DIASTOLIC,
                     name = MR.strings.diastolic,
-                    minimumValue = 1.0,
-                    lowValue = 60.0,
-                    targetValue = 80.0,
-                    highValue = 90.0,
-                    maximumValue = 300.0,
+                    range = MeasurementValueRange(
+                        minimum = 1.0,
+                        low = 60.0,
+                        target = 80.0,
+                        high = 90.0,
+                        maximum = 300.0,
+                        isHighlighted = true,
+                    ),
                     units = listOf(
                         SeedMeasurementUnit(
                             key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_DIASTOLIC,

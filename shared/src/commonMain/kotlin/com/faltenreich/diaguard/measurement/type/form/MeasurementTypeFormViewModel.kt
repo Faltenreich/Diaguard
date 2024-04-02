@@ -22,9 +22,9 @@ class MeasurementTypeFormViewModel(
 
     var typeName = MutableStateFlow(measurementType.name)
     var unitName = MutableStateFlow(measurementType.selectedUnit.name)
-    var lowValue = MutableStateFlow(measurementType.lowValue?.toString() ?: "")
-    var targetValue = MutableStateFlow(measurementType.targetValue?.toString() ?: "")
-    var highValue = MutableStateFlow(measurementType.highValue?.toString() ?: "")
+    var lowValue = MutableStateFlow(measurementType.range.low?.toString() ?: "")
+    var targetValue = MutableStateFlow(measurementType.range.target?.toString() ?: "")
+    var highValue = MutableStateFlow(measurementType.range.high?.toString() ?: "")
 
     private val showDeletionDialog = MutableStateFlow(false)
 
@@ -66,27 +66,28 @@ class MeasurementTypeFormViewModel(
             lowValue.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
-                updateMeasurementType(type.copy(lowValue = input.toDoubleOrNull()))
+                updateMeasurementType(type.copy(range = type.range.copy(low = input.toDoubleOrNull())))
             }
         }
         scope.launch {
             targetValue.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
-                updateMeasurementType(type.copy(targetValue = input.toDoubleOrNull()))
+                updateMeasurementType(type.copy(range = type.range.copy(target = input.toDoubleOrNull())))
             }
         }
         scope.launch {
             highValue.debounce(DateTimeConstants.INPUT_DEBOUNCE).collectLatest { input ->
                 val type = (stateInScope.value as? MeasurementTypeFormViewState.Loaded)?.type
                 checkNotNull(type)
-                updateMeasurementType(type.copy(highValue = input.toDoubleOrNull()))
+                updateMeasurementType(type.copy(range = type.range.copy(high = input.toDoubleOrNull())))
             }
         }
     }
 
     override fun onIntent(intent: MeasurementTypeFormIntent) {
         when (intent) {
+            // TODO: Replace with Modal
             is MeasurementTypeFormIntent.ShowDeletionDialog -> showDeletionDialog.value = true
             is MeasurementTypeFormIntent.HideDeletionDialog -> showDeletionDialog.value = false
             is MeasurementTypeFormIntent.DeleteType -> {

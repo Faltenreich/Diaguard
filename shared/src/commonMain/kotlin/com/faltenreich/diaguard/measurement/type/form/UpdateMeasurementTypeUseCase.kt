@@ -11,11 +11,7 @@ class UpdateMeasurementTypeUseCase(
         measurementTypeRepository.update(
             id = id,
             name = name,
-            minimumValue = minimumValue,
-            lowValue = lowValue,
-            targetValue = targetValue,
-            highValue = highValue,
-            maximumValue = maximumValue,
+            range = range,
             sortIndex = sortIndex,
             selectedUnitId = selectedUnitId,
         )

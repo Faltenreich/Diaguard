@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class PulseSeed {
@@ -16,11 +17,14 @@ class PulseSeed {
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.PULSE,
                 name = MR.strings.pulse,
-                minimumValue = 1.0,
-                lowValue = 60.0,
-                targetValue = 70.0,
-                highValue = 80.0,
-                maximumValue = 200.0,
+                range = MeasurementValueRange(
+                    minimum = 1.0,
+                    low = 60.0,
+                    target = 70.0,
+                    high = 80.0,
+                    maximum = 200.0,
+                    isHighlighted = true,
+                ),
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.PULSE,

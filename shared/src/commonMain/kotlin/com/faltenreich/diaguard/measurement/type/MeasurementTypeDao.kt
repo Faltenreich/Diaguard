@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.type
 
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import kotlinx.coroutines.flow.Flow
 
 interface MeasurementTypeDao {
@@ -9,11 +10,7 @@ interface MeasurementTypeDao {
         createdAt: DateTime,
         key: String?,
         name: String,
-        minimumValue: Double,
-        lowValue: Double?,
-        targetValue: Double?,
-        highValue: Double?,
-        maximumValue: Double,
+        range: MeasurementValueRange,
         sortIndex: Long,
         selectedUnitId: Long,
         propertyId: Long,
@@ -39,11 +36,7 @@ interface MeasurementTypeDao {
         id: Long,
         updatedAt: DateTime,
         name: String,
-        minimumValue: Double,
-        lowValue: Double?,
-        targetValue: Double?,
-        highValue: Double?,
-        maximumValue: Double,
+        range: MeasurementValueRange,
         sortIndex: Long,
         selectedUnitId: Long,
     )

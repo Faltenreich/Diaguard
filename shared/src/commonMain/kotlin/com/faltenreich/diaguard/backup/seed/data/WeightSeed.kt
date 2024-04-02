@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class WeightSeed {
@@ -16,11 +17,14 @@ class WeightSeed {
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.WEIGHT,
                 name = MR.strings.weight,
-                minimumValue = 1.0,
-                lowValue = null,
-                targetValue = null,
-                highValue = null,
-                maximumValue = 1400.0,
+                range = MeasurementValueRange(
+                    minimum = 1.0,
+                    low = null,
+                    target = null,
+                    high = null,
+                    maximum = 1400.0,
+                    isHighlighted = false,
+                ),
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.WEIGHT_KILOGRAMS,

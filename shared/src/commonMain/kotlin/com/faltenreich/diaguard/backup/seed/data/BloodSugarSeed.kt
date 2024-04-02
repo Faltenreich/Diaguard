@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class BloodSugarSeed {
@@ -16,11 +17,14 @@ class BloodSugarSeed {
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.BLOOD_SUGAR,
                 name = MR.strings.blood_sugar,
-                minimumValue = 1.0,
-                lowValue = 60.0,
-                targetValue = 120.0,
-                highValue = 180.0,
-                maximumValue = 1000.0,
+                range = MeasurementValueRange(
+                    minimum = 1.0,
+                    low = 60.0,
+                    target = 120.0,
+                    high = 180.0,
+                    maximum = 1000.0,
+                    isHighlighted = true,
+                ),
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.BLOOD_SUGAR_MILLIGRAMS_PER_DECILITER,

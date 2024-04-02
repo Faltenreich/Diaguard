@@ -4,19 +4,20 @@ CREATE TABLE measurementType (
     updated_at TEXT NOT NULL,
     key TEXT,
     name TEXT NOT NULL,
-    minimum_value REAL NOT NULL,
-    low_value REAL,
-    target_value REAL,
-    high_value REAL,
-    maximum_value REAL NOT NULL,
+    minimum_range_value REAL NOT NULL,
+    low_range_value REAL,
+    target_range_value REAL,
+    high_range_value REAL,
+    maximum_range_value REAL NOT NULL,
+    is_range_highlighted INTEGER NOT NULL,
     sort_index INTEGER NOT NULL,
     selected_unit_id INTEGER NOT NULL,
     property_id INTEGER NOT NULL
 );
 
 create:
-INSERT INTO measurementType(created_at, updated_at, key, name, minimum_value, low_value, target_value, high_value, maximum_value, sort_index, selected_unit_id, property_id)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO measurementType(created_at, updated_at, key, name, minimum_range_value, low_range_value, target_range_value, high_range_value, maximum_range_value, is_range_highlighted, sort_index, selected_unit_id, property_id)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
@@ -44,7 +45,7 @@ ORDER BY measurementType.sort_index ASC;
 
 update:
 UPDATE measurementType
-SET updated_at = ?, name = ?, minimum_value = ?, low_value = ?, target_value = ?, high_value = ?, maximum_value = ?, sort_index = ?, selected_unit_id = ?
+SET updated_at = ?, name = ?, minimum_range_value = ?, low_range_value = ?, target_range_value = ?, high_range_value = ?, maximum_range_value = ?, is_range_highlighted = ?, sort_index = ?, selected_unit_id = ?
 WHERE id = ?;
 
 deleteById:

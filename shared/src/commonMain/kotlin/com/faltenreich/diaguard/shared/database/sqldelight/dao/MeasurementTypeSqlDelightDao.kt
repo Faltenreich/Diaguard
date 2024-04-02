@@ -6,8 +6,10 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeDao
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementTypeQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
+import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementTypeSqlDelightMapper
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,11 +28,7 @@ class MeasurementTypeSqlDelightDao(
         createdAt: DateTime,
         key: String?,
         name: String,
-        minimumValue: Double,
-        lowValue: Double?,
-        targetValue: Double?,
-        highValue: Double?,
-        maximumValue: Double,
+        range: MeasurementValueRange,
         sortIndex: Long,
         selectedUnitId: Long,
         propertyId: Long,
@@ -40,11 +38,12 @@ class MeasurementTypeSqlDelightDao(
             updated_at = createdAt.isoString,
             key = key,
             name = name,
-            minimum_value = minimumValue,
-            low_value = lowValue,
-            target_value = targetValue,
-            high_value = highValue,
-            maximum_value = maximumValue,
+            minimum_range_value = range.minimum,
+            low_range_value = range.low,
+            target_range_value = range.target,
+            high_range_value = range.high,
+            maximum_range_value = range.maximum,
+            is_range_highlighted = range.isHighlighted.toSqlLiteLong(),
             sort_index = sortIndex,
             selected_unit_id = selectedUnitId,
             property_id = propertyId,
@@ -87,22 +86,19 @@ class MeasurementTypeSqlDelightDao(
         id: Long,
         updatedAt: DateTime,
         name: String,
-        minimumValue: Double,
-        lowValue: Double?,
-        targetValue: Double?,
-        highValue: Double?,
-        maximumValue: Double,
+        range: MeasurementValueRange,
         sortIndex: Long,
         selectedUnitId: Long,
     ) {
         queries.update(
             updated_at = updatedAt.isoString,
             name = name,
-            minimum_value = minimumValue,
-            low_value = lowValue,
-            target_value = targetValue,
-            high_value = highValue,
-            maximum_value = maximumValue,
+            minimum_range_value = range.minimum,
+            low_range_value = range.low,
+            target_range_value = range.target,
+            high_range_value = range.high,
+            maximum_range_value = range.maximum,
+            is_range_highlighted = range.isHighlighted.toSqlLiteLong(),
             sort_index = sortIndex,
             selected_unit_id = selectedUnitId,
             id = id,

@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class InsulinSeed {
@@ -17,11 +18,14 @@ class InsulinSeed {
                 SeedMeasurementType(
                     key = DatabaseKey.MeasurementType.INSULIN_BOLUS,
                     name = MR.strings.bolus,
-                    minimumValue = 0.0,
-                    lowValue = null,
-                    targetValue = null,
-                    highValue = null,
-                    maximumValue = 100.0,
+                    range = MeasurementValueRange(
+                        minimum = 0.0,
+                        low = null,
+                        target = null,
+                        high = null,
+                        maximum = 100.0,
+                        isHighlighted = false,
+                    ),
                     units = listOf(
                         SeedMeasurementUnit(
                             key = DatabaseKey.MeasurementUnit.INSULIN_BOLUS,
@@ -34,11 +38,14 @@ class InsulinSeed {
                 SeedMeasurementType(
                     key = DatabaseKey.MeasurementType.INSULIN_CORRECTION,
                     name = MR.strings.correction,
-                    minimumValue = 0.0,
-                    lowValue = null,
-                    targetValue = null,
-                    highValue = null,
-                    maximumValue = 100.0,
+                    range = MeasurementValueRange(
+                        minimum = 0.0,
+                        low = null,
+                        target = null,
+                        high = null,
+                        maximum = 100.0,
+                        isHighlighted = false,
+                    ),
                     units = listOf(
                         SeedMeasurementUnit(
                             key = DatabaseKey.MeasurementUnit.INSULIN_CORRECTION,
@@ -51,11 +58,14 @@ class InsulinSeed {
                 SeedMeasurementType(
                     key = DatabaseKey.MeasurementType.INSULIN_BASAL,
                     name = MR.strings.basal,
-                    minimumValue = 0.0,
-                    lowValue = null,
-                    targetValue = null,
-                    highValue = null,
-                    maximumValue = 100.0,
+                    range = MeasurementValueRange(
+                        minimum = 0.0,
+                        low = null,
+                        target = null,
+                        high = null,
+                        maximum = 100.0,
+                        isHighlighted = false,
+                    ),
                     units = listOf(
                         SeedMeasurementUnit(
                             key = DatabaseKey.MeasurementUnit.INSULIN_BASAL,

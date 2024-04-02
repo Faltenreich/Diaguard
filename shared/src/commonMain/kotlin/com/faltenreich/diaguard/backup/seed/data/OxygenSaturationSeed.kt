@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class OxygenSaturationSeed {
@@ -16,11 +17,14 @@ class OxygenSaturationSeed {
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.OXYGEN_SATURATION,
                 name = MR.strings.oxygen_saturation,
-                minimumValue = 50.0,
-                lowValue = 90.0,
-                targetValue = 97.0,
-                highValue = 100.0,
-                maximumValue = 100.0,
+                range = MeasurementValueRange(
+                    minimum = 50.0,
+                    low = 90.0,
+                    target = 97.0,
+                    high = 100.0,
+                    maximum = 100.0,
+                    isHighlighted = true,
+                ),
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.OXYGEN_SATURATION,

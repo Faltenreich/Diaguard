@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class HbA1cSeed {
@@ -16,11 +17,14 @@ class HbA1cSeed {
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.HBA1C,
                 name = MR.strings.hba1c,
-                minimumValue = 1.0,
-                lowValue = 6.5,
-                targetValue = 7.0,
-                highValue = 7.5,
-                maximumValue = 25.0,
+                range = MeasurementValueRange(
+                    minimum = 1.0,
+                    low = 6.5,
+                    target = 7.0,
+                    high = 7.5,
+                    maximum = 25.0,
+                    isHighlighted = true,
+                ),
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.HBA1C_PERCENT,

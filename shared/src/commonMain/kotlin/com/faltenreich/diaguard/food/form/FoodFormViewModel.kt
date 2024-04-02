@@ -69,7 +69,7 @@ class FoodFormViewModel(
             )
         }
 
-    override fun onIntent(intent: FoodFormIntent) {
+    override fun handleIntent(intent: FoodFormIntent) {
         when (intent) {
             is FoodFormIntent.EditNutrient -> editNutrient(intent.data)
             is FoodFormIntent.OpenFoodEaten -> navigateToScreen(FoodEatenListScreen(intent.food))

@@ -52,7 +52,7 @@ class LogViewModel(
         ::LogState,
     )
 
-    override fun onIntent(intent: LogIntent) {
+    override fun handleIntent(intent: LogIntent) {
         when (intent) {
             is LogIntent.CacheMonthHeaderSize -> monthHeaderSize.value = intent.size
             is LogIntent.CacheDayHeaderSize -> dayHeaderSize.value = intent.size

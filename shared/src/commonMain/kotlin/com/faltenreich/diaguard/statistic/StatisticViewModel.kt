@@ -42,7 +42,7 @@ class StatisticViewModel(
         )
     }
 
-    override fun onIntent(intent: StatisticIntent) {
+    override fun handleIntent(intent: StatisticIntent) {
         when (intent) {
             is StatisticIntent.Select -> selectedProperty.value = intent.property
         }

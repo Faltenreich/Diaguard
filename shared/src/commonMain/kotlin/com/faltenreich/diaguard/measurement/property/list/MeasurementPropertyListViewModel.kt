@@ -27,7 +27,7 @@ class MeasurementPropertyListViewModel(
     private val properties: List<MeasurementProperty>?
         get() = (stateInScope.value as? MeasurementPropertyListViewState.Loaded)?.listItems
 
-    override fun onIntent(intent: MeasurementPropertyListIntent) {
+    override fun handleIntent(intent: MeasurementPropertyListIntent) {
         when (intent) {
             is MeasurementPropertyListIntent.ShowFormDialog -> showFormDialog.value = true
             is MeasurementPropertyListIntent.HideFormDialog -> showFormDialog.value = false

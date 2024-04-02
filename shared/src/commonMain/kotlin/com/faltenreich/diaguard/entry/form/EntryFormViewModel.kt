@@ -121,7 +121,7 @@ class EntryFormViewModel(
         }
     }
 
-    override fun onIntent(intent: EntryFormIntent) {
+    override fun handleIntent(intent: EntryFormIntent) {
         when (intent) {
             is EntryFormIntent.Edit -> edit(intent.data)
             is EntryFormIntent.SelectDate -> selectDate()

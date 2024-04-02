@@ -16,7 +16,7 @@ class TagListViewModel(
     private val tags = getTags()
     override val state = tags.map(::TagListViewState)
 
-    override fun onIntent(intent: TagListIntent) {
+    override fun handleIntent(intent: TagListIntent) {
         when (intent) {
             is TagListIntent.CreateTag -> openModal(TagFormModal)
             is TagListIntent.OpenTag -> navigateToScreen(TagDetailScreen(intent.tag))

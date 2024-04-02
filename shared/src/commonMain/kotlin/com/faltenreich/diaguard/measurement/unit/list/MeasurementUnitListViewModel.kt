@@ -14,7 +14,7 @@ class MeasurementUnitListViewModel(
     override val state: Flow<Unit>
         get() = flowOf(Unit)
 
-    override fun onIntent(intent: MeasurementUnitListIntent) {
+    override fun handleIntent(intent: MeasurementUnitListIntent) {
         when (intent) {
             is MeasurementUnitListIntent.Select -> {
                 val unit = intent.unit

@@ -68,7 +68,7 @@ class ExportFormViewModel(
         }
     }
 
-    override fun onIntent(intent: ExportFormIntent) {
+    override fun handleIntent(intent: ExportFormIntent) {
         when (intent) {
             is ExportFormIntent.SetProperty -> setProperty(intent.property)
             is ExportFormIntent.Submit -> submit()

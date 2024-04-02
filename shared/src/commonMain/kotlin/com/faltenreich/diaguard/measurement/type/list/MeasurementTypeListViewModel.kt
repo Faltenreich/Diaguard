@@ -17,7 +17,7 @@ class MeasurementTypeListViewModel(
     override val state: Flow<Unit>
         get() = flowOf(Unit)
 
-    override fun onIntent(intent: MeasurementTypeListIntent) {
+    override fun handleIntent(intent: MeasurementTypeListIntent) {
         when (intent) {
             is MeasurementTypeListIntent.DecrementSortIndex -> decrementSortIndex(intent.type, intent.inTypes)
             is MeasurementTypeListIntent.IncrementSortIndex -> incrementSortIndex(intent.type, intent.inTypes)

@@ -15,7 +15,7 @@ class EntryDeleteViewModel(
 
     override val state: Flow<EntryDeleteState> = flowOf(EntryDeleteState(entry))
 
-    override fun onIntent(intent: EntryDeleteIntent) {
+    override fun handleIntent(intent: EntryDeleteIntent) {
         when (intent) {
             is EntryDeleteIntent.Close -> closeModal()
             is EntryDeleteIntent.Confirm -> {

@@ -17,7 +17,7 @@ class OnboardingViewModel(
         }
     }
 
-    override fun onIntent(intent: OnboardingIntent) {
+    override fun handleIntent(intent: OnboardingIntent) {
         when (intent) {
             is OnboardingIntent.ImportSeedData -> import()
         }

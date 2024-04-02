@@ -53,7 +53,7 @@ class MeasurementPropertyFormViewModel(
         }
     }
 
-    override fun onIntent(intent: MeasurementPropertyFormIntent) {
+    override fun handleIntent(intent: MeasurementPropertyFormIntent) {
         when (intent) {
             is MeasurementPropertyFormIntent.ShowIconPicker -> showIconPicker.value = true
             is MeasurementPropertyFormIntent.HideIconPicker -> showIconPicker.value = false

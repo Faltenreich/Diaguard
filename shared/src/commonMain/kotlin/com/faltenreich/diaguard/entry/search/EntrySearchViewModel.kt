@@ -44,7 +44,7 @@ class EntrySearchViewModel(
         }
     }
 
-    override fun onIntent(intent: EntrySearchIntent) {
+    override fun handleIntent(intent: EntrySearchIntent) {
         when (intent) {
             is EntrySearchIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))
         }

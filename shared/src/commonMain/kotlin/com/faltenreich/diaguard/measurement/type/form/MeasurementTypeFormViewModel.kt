@@ -111,7 +111,7 @@ class MeasurementTypeFormViewModel(
         }
     }
 
-    override fun onIntent(intent: MeasurementTypeFormIntent) {
+    override fun handleIntent(intent: MeasurementTypeFormIntent) {
         when (intent) {
             is MeasurementTypeFormIntent.EditTypeName -> _typeName.value = intent.input
             is MeasurementTypeFormIntent.EditUnitName -> _unitName.value = intent.input

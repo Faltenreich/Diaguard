@@ -39,7 +39,7 @@ fun MeasurementTypeForm(
                     TextInput(
                         input = viewModel.typeName.collectAsState().value,
                         onInputChange = {
-                            viewModel.onIntent(MeasurementTypeFormIntent.EditTypeName(it))
+                            viewModel.handleIntent(MeasurementTypeFormIntent.EditTypeName(it))
                         },
                         label = getString(MR.strings.name),
                         modifier = Modifier
@@ -53,7 +53,7 @@ fun MeasurementTypeForm(
                         TextInput(
                             input = viewModel.unitName.collectAsState().value,
                             onInputChange = {
-                                viewModel.onIntent(MeasurementTypeFormIntent.EditUnitName(it))
+                                viewModel.handleIntent(MeasurementTypeFormIntent.EditUnitName(it))
                             },
                             label = getString(MR.strings.measurement_unit),
                             modifier = Modifier
@@ -86,7 +86,7 @@ fun MeasurementTypeForm(
                         TextInput(
                             input = viewModel.valueRangeMinimum.collectAsState().value,
                             onInputChange = {
-                                viewModel.onIntent(MeasurementTypeFormIntent.EditValueRangeMinimum(it))
+                                viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeMinimum(it))
                             },
                             label = getString(MR.strings.value_range_minimum),
                             modifier = Modifier
@@ -106,7 +106,7 @@ fun MeasurementTypeForm(
                         TextInput(
                             input = viewModel.valueRangeLow.collectAsState().value,
                             onInputChange = {
-                                viewModel.onIntent(MeasurementTypeFormIntent.EditValueRangeLow(it))
+                                viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeLow(it))
                             },
                             label = getString(MR.strings.value_range_low),
                             modifier = Modifier
@@ -126,7 +126,7 @@ fun MeasurementTypeForm(
                         TextInput(
                             input = viewModel.valueRangeTarget.collectAsState().value,
                             onInputChange = {
-                                viewModel.onIntent(MeasurementTypeFormIntent.EditValueRangeTarget(it))
+                                viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeTarget(it))
                             },
                             label = getString(MR.strings.value_range_target),
                             modifier = Modifier
@@ -146,7 +146,7 @@ fun MeasurementTypeForm(
                         TextInput(
                             input = viewModel.valueRangeHigh.collectAsState().value,
                             onInputChange = {
-                                viewModel.onIntent(MeasurementTypeFormIntent.EditValueRangeHigh(it))
+                                viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeHigh(it))
                             },
                             label = getString(MR.strings.value_range_high),
                             modifier = Modifier
@@ -166,7 +166,7 @@ fun MeasurementTypeForm(
                         TextInput(
                             input = viewModel.valueRangeMaximum.collectAsState().value,
                             onInputChange = {
-                                viewModel.onIntent(MeasurementTypeFormIntent.EditValueRangeMaximum(it))
+                                viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeMaximum(it))
                             },
                             label = getString(MR.strings.value_range_maximum),
                             modifier = Modifier

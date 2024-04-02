@@ -27,7 +27,7 @@ class NavigationViewModel(
         )
     }
 
-    override fun onIntent(intent: NavigationIntent) {
+    override fun handleIntent(intent: NavigationIntent) {
         when (intent) {
             is NavigationIntent.NavigateTo -> navigateToScreen(intent.screen)
             is NavigationIntent.NavigateBack -> navigateBack()

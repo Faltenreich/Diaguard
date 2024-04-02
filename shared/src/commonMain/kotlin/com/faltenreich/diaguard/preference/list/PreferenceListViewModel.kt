@@ -14,5 +14,5 @@ class PreferenceListViewModel(
     override val state = (preferences?.let(::flowOf) ?: getDefaultPreferences())
         .map(PreferenceListViewState::Loaded)
 
-    override fun onIntent(intent: Unit) = Unit
+    override fun handleIntent(intent: Unit) = Unit
 }

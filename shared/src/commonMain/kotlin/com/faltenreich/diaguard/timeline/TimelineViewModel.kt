@@ -56,7 +56,7 @@ class TimelineViewModel(
         ::TimelineState,
     )
 
-    override fun onIntent(intent: TimelineIntent) {
+    override fun handleIntent(intent: TimelineIntent) {
         when (intent) {
             is TimelineIntent.CreateEntry -> navigateToScreen(EntryFormScreen())
             is TimelineIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())

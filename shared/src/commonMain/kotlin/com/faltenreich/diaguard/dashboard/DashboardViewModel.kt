@@ -25,7 +25,7 @@ class DashboardViewModel(
         DashboardViewState::Revisit,
     )
 
-    override fun onIntent(intent: DashboardIntent) {
+    override fun handleIntent(intent: DashboardIntent) {
         when (intent) {
             is DashboardIntent.CreateEntry -> navigateToScreen(EntryFormScreen())
             is DashboardIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())

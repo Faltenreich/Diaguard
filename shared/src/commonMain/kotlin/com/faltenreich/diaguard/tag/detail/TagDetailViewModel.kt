@@ -45,7 +45,7 @@ class TagDetailViewModel(
         }
     }
 
-    override fun onIntent(intent: TagDetailIntent) {
+    override fun handleIntent(intent: TagDetailIntent) {
         when (intent) {
             is TagDetailIntent.EditTag -> editTagIfValid(intent.tag, intent.name)
             is TagDetailIntent.DeleteTag -> openModal(TagDeleteModal(intent.tag))

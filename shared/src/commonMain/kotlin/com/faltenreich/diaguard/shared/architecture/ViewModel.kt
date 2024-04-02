@@ -36,9 +36,9 @@ abstract class ViewModel<State, Intent>(
         return stateInScope.collectAsState().value
     }
 
-    fun dispatchIntent(intent: Intent) {
-        scope.launch(dispatcher) { onIntent(intent) }
-    }
+    abstract fun handleIntent(intent: Intent)
 
-    abstract fun onIntent(intent: Intent)
+    fun dispatchIntent(intent: Intent) {
+        scope.launch(dispatcher) { handleIntent(intent) }
+    }
 }

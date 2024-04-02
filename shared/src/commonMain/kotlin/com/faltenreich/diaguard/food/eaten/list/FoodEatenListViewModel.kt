@@ -20,7 +20,7 @@ class FoodEatenListViewModel(
         }
     }
 
-    override fun onIntent(intent: FoodEatenListIntent) {
+    override fun handleIntent(intent: FoodEatenListIntent) {
         when (intent) {
             is FoodEatenListIntent.CreateEntry -> navigateToScreen(EntryFormScreen(food = intent.food))
             is FoodEatenListIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))

@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.measurement.property.form
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -32,24 +34,22 @@ fun MeasurementPropertyForm(
         null -> LoadingIndicator(modifier = modifier)
 
         is MeasurementPropertyFormViewState.Loaded -> {
-            LazyColumn(modifier = modifier) {
-                item {
-                    TextInput(
-                        input = viewModel.name.collectAsState().value,
-                        onInputChange = { input -> viewModel.name.value = input },
-                        label = getString(MR.strings.name),
-                        leadingIcon = {
-                            IconButton(onClick = {
-                                viewModel.dispatchIntent(MeasurementPropertyFormIntent.ShowIconPicker)
-                            }) {
-                                MeasurementPropertyIcon(text = viewModel.icon.collectAsState().value)
-                            }
-                        },
-                        modifier = Modifier
-                            .padding(all = AppTheme.dimensions.padding.P_3)
-                            .fillMaxWidth(),
-                    )
-                }
+            Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+                TextInput(
+                    input = viewModel.name.collectAsState().value,
+                    onInputChange = { input -> viewModel.name.value = input },
+                    label = getString(MR.strings.name),
+                    leadingIcon = {
+                        IconButton(onClick = {
+                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.ShowIconPicker)
+                        }) {
+                            MeasurementPropertyIcon(text = viewModel.icon.collectAsState().value)
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(all = AppTheme.dimensions.padding.P_3)
+                        .fillMaxWidth(),
+                )
                 MeasurementTypeList(types = viewState.types)
             }
 

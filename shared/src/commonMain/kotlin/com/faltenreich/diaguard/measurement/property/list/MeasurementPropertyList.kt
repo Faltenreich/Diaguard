@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.measurement.property.list
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormDialog
@@ -17,13 +17,11 @@ fun MeasurementPropertyList(
 ) {
     when (val state = viewModel.collectState()) {
         null -> LoadingIndicator(modifier = modifier)
-        is MeasurementPropertyListViewState.Loaded -> Box(modifier = modifier) {
-            LazyColumn {
-                val listItems = state.listItems
-                itemsIndexed(
-                    items = listItems,
-                    key = { _, item -> item.id },
-                ) { index, item ->
+
+        is MeasurementPropertyListViewState.Loaded -> {
+            Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+                val items = state.listItems
+                items.forEachIndexed { index, item ->
                     MeasurementPropertyListItem(
                         property = item,
                         onArrowUp = {
@@ -33,15 +31,14 @@ fun MeasurementPropertyList(
                         onArrowDown = {
                             viewModel.dispatchIntent(MeasurementPropertyListIntent.IncrementSortIndex(item))
                         },
-                        showArrowDown = index < listItems.size - 1,
-                        modifier = Modifier
-                            .animateItemPlacement()
-                            .clickable {
-                                viewModel.dispatchIntent(MeasurementPropertyListIntent.EditProperty(item))
-                            },
+                        showArrowDown = index < items.size - 1,
+                        modifier = Modifier.clickable {
+                            viewModel.dispatchIntent(MeasurementPropertyListIntent.EditProperty(item))
+                        },
                     )
                 }
             }
+
             if (state.showFormDialog) {
                 MeasurementPropertyFormDialog(
                     onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyListIntent.HideFormDialog) },

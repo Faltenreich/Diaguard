@@ -15,9 +15,8 @@ fun LazyListScope.MeasurementTypeList(
     types: List<MeasurementType>,
     viewModel: MeasurementTypeListViewModel = inject(),
 ) {
-    item {
-        TextDivider(getString(MR.strings.measurement_types))
-    }
+    stickyHeader { TextDivider(getString(MR.strings.measurement_types)) }
+
     itemsIndexed(
         items = types,
         key = { _, item -> item.id },

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.unit.list
 
 import com.faltenreich.diaguard.measurement.type.form.UpdateMeasurementTypeUseCase
-import com.faltenreich.diaguard.measurement.type.list.MeasurementUnitListIntent
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow

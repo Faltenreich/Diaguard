@@ -65,9 +65,10 @@ fun MeasurementTypeForm(
                     MeasurementUnitList(units = viewState.type.units)
                 }
 
+                stickyHeader { TextDivider(getString(MR.strings.values)) }
+
                 item {
                     Column {
-                        TextDivider(getString(MR.strings.values))
 
                         TextCheckbox(
                             title = stringResource(MR.strings.value_range_highlighted),

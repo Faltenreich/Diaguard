@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.type.list
+package com.faltenreich.diaguard.measurement.unit.list
 
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 

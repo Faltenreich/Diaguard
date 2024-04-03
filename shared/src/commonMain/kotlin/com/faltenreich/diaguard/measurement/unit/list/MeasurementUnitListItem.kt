@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.measurement.unit.list
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
-import com.faltenreich.diaguard.shared.view.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +12,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import dev.icerock.moko.resources.compose.painterResource
 
@@ -22,7 +22,7 @@ fun MeasurementUnitListItem(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        FormRow(icon = { /* TODO */ }) {
+        FormRow {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(unit.name)

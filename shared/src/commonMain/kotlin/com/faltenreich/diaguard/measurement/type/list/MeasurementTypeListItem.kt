@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.measurement.type.list
 
-import androidx.compose.foundation.layout.Column
-import com.faltenreich.diaguard.shared.view.Divider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,25 +19,22 @@ fun MeasurementTypeListItem(
     showArrowDown: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
-        FormRow {
-            Text(
-                text = type.name,
-                modifier = Modifier.weight(1f),
-            )
-            IconButton(
-                onClick = { onArrowUp(type) },
-                modifier = Modifier.alpha(if (showArrowUp) 1f else 0f),
-            ) {
-                ResourceIcon(MR.images.ic_arrow_up)
-            }
-            IconButton(
-                onClick = { onArrowDown(type) },
-                modifier = Modifier.alpha(if (showArrowDown) 1f else 0f),
-            ) {
-                ResourceIcon(MR.images.ic_arrow_down)
-            }
+    FormRow(modifier = modifier) {
+        Text(
+            text = type.name,
+            modifier = Modifier.weight(1f),
+        )
+        IconButton(
+            onClick = { onArrowUp(type) },
+            modifier = Modifier.alpha(if (showArrowUp) 1f else 0f),
+        ) {
+            ResourceIcon(MR.images.ic_arrow_up)
         }
-        Divider()
+        IconButton(
+            onClick = { onArrowDown(type) },
+            modifier = Modifier.alpha(if (showArrowDown) 1f else 0f),
+        ) {
+            ResourceIcon(MR.images.ic_arrow_down)
+        }
     }
 }

@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.measurement.type.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.MR
@@ -12,6 +12,8 @@ import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextDivider
 import dev.icerock.moko.resources.compose.stringResource
@@ -33,16 +35,32 @@ fun MeasurementTypeList(
                 types.forEachIndexed { index, type ->
                     MeasurementTypeListItem(
                         type = type,
-                        onArrowUp = { viewModel.dispatchIntent(MeasurementTypeListIntent.DecrementSortIndex(type, types)) },
+                        onArrowUp = {
+                            viewModel.dispatchIntent(
+                                MeasurementTypeListIntent.DecrementSortIndex(type, types)
+                            )
+                        },
                         showArrowUp = index > 0,
-                        onArrowDown = { viewModel.dispatchIntent(MeasurementTypeListIntent.IncrementSortIndex(type, types)) },
+                        onArrowDown = {
+                            viewModel.dispatchIntent(
+                                MeasurementTypeListIntent.IncrementSortIndex(type, types)
+                            )
+                        },
                         showArrowDown = index < types.size - 1,
-                        modifier = Modifier.clickable { viewModel.dispatchIntent(MeasurementTypeListIntent.EditType(type)) },
+                        modifier = Modifier.clickable {
+                            viewModel.dispatchIntent(
+                                MeasurementTypeListIntent.EditType(type)
+                            )
+                        },
                     )
+                    Divider()
                 }
 
-                TextButton(onClick = { viewModel.dispatchIntent(MeasurementTypeListIntent.ShowFormDialog) }) {
-                    Text(stringResource(MR.strings.measurement_type_add))
+                FormRow {
+                    SuggestionChip(
+                        onClick = { viewModel.dispatchIntent(MeasurementTypeListIntent.ShowFormDialog) },
+                        label = { Text(stringResource(MR.strings.measurement_type_add)) },
+                    )
                 }
             }
 

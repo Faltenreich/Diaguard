@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.navigation.screen
 
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.MR
@@ -8,6 +9,7 @@ import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.detail.TagDetail
 import com.faltenreich.diaguard.tag.detail.TagDetailIntent
@@ -32,6 +34,15 @@ data class TagDetailScreen(private val tag: Tag) : Screen {
                     onClick = { viewModel.dispatchIntent(TagDetailIntent.DeleteTag) },
                 )
             },
+            floatingActionButton = {
+                val viewModel = getViewModel<TagDetailViewModel> { parametersOf(tag) }
+                FloatingActionButton(onClick = { viewModel.dispatchIntent(TagDetailIntent.UpdateTag) }) {
+                    Icon(
+                        painter = painterResource(MR.images.ic_check),
+                        contentDescription = getString(MR.strings.save),
+                    )
+                }
+            }
         )
 
     @Composable

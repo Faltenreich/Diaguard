@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.tag.detail
 
-import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
@@ -16,10 +15,7 @@ import com.faltenreich.diaguard.tag.form.DeleteTagUseCase
 import com.faltenreich.diaguard.tag.form.ValidateTagUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.launch
 
 class TagDetailViewModel(
     private val tag: Tag,
@@ -42,13 +38,6 @@ class TagDetailViewModel(
         ::TagDetailState,
     )
 
-    init {
-        scope.launch {
-            name.debounce(DateTimeConstants.INPUT_DEBOUNCE)
-                .collectLatest { name -> updateTag(tag.copy(name = name)) }
-        }
-    }
-
     override fun handleIntent(intent: TagDetailIntent) {
         when (intent) {
             is TagDetailIntent.UpdateTag -> updateTag()
@@ -61,9 +50,8 @@ class TagDetailViewModel(
         val name = name.value
         when (val result = validateTag(name)) {
             is ValidationResult.Success -> {
-                // TODO: Persist tag with new name
-                tag.copy(name = name)
-                error.value = null
+                updateTag(tag.copy(name = name))
+                navigateBack()
             }
             is ValidationResult.Failure -> {
                 error.value = result.error

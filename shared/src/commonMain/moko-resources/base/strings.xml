@@ -38,6 +38,8 @@
     <string name="date_of_export">Date of export</string>
     <string name="days_without_entries">Days without entries</string>
     <string name="delete">Delete</string>
+    <string name="delete_title">Delete data</string>
+    <string name="delete_description">This will irrevocably remove this and related data from the app</string>
     <string name="date_pick">Change date</string>
     <string name="data">Data</string>
     <string name="day">Day</string>

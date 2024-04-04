@@ -4,8 +4,8 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.DeleteModal
 import com.faltenreich.diaguard.navigation.modal.EmojiModal
-import com.faltenreich.diaguard.navigation.modal.MeasurementPropertyDeleteModal
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,7 +51,7 @@ class MeasurementPropertyFormViewModel(
 
     private fun deleteProperty() {
         openModal(
-            MeasurementPropertyDeleteModal(
+            DeleteModal(
                 onDismissRequest = closeModal::invoke,
                 onConfirm = {
                     deleteProperty(property)

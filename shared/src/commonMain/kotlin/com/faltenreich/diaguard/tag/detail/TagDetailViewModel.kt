@@ -12,14 +12,13 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.UpdateTagUseCase
-import com.faltenreich.diaguard.tag.form.ValidateTagUseCase
 import com.faltenreich.diaguard.tag.form.DeleteTagUseCase
+import com.faltenreich.diaguard.tag.form.ValidateTagUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
 class TagDetailViewModel(
@@ -38,7 +37,6 @@ class TagDetailViewModel(
     private val error = MutableStateFlow<String?>(null)
 
     override val state: Flow<TagDetailState> = combine(
-        flowOf(tag),
         getEntriesOfTag(tag),
         error,
         ::TagDetailState,
@@ -53,13 +51,14 @@ class TagDetailViewModel(
 
     override fun handleIntent(intent: TagDetailIntent) {
         when (intent) {
-            is TagDetailIntent.EditTag -> updateTag(intent.tag, intent.name)
+            is TagDetailIntent.UpdateTag -> updateTag()
             is TagDetailIntent.DeleteTag -> deleteTag()
             is TagDetailIntent.OpenEntry -> navigateToScreen(EntryFormScreen(intent.entry))
         }
     }
 
-    private fun updateTag(tag: Tag, name: String) {
+    private fun updateTag() {
+        val name = name.value
         when (val result = validateTag(name)) {
             is ValidationResult.Success -> {
                 // TODO: Persist tag with new name

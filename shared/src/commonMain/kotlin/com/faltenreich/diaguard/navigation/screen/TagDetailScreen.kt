@@ -29,7 +29,7 @@ data class TagDetailScreen(private val tag: Tag) : Screen {
                 BottomAppBarItem(
                     painter = painterResource(MR.images.ic_delete),
                     contentDescription = MR.strings.tag_delete,
-                    onClick = { viewModel.dispatchIntent(TagDetailIntent.DeleteTag(tag)) },
+                    onClick = { viewModel.dispatchIntent(TagDetailIntent.DeleteTag) },
                 )
             },
         )

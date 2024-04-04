@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.tag.detail
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.tag.Tag
 
 sealed interface TagDetailIntent {
 
-    data class EditTag(val tag: Tag, val name: String) : TagDetailIntent
+    data object UpdateTag : TagDetailIntent
 
-    data class DeleteTag(val tag: Tag) : TagDetailIntent
+    data object DeleteTag : TagDetailIntent
 
     data class OpenEntry(val entry: Entry) : TagDetailIntent
 }

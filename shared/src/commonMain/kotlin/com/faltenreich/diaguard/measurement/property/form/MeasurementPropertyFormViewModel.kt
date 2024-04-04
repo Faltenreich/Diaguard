@@ -6,10 +6,9 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
 
 class MeasurementPropertyFormViewModel(
-    private val property: MeasurementProperty,
+    val property: MeasurementProperty,
     getMeasurementTypesUseCase: GetMeasurementTypesUseCase = inject(),
     countMeasurementValuesOfProperty: CountMeasurementValuesOfPropertyUseCase = inject(),
     private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
@@ -24,7 +23,6 @@ class MeasurementPropertyFormViewModel(
     private val showDeletionDialog = MutableStateFlow(false)
 
     override val state = combine(
-        flowOf(property),
         showIconPicker,
         showDeletionDialog,
         getMeasurementTypesUseCase(property),

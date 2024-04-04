@@ -50,7 +50,7 @@ fun MeasurementPropertyForm(
                         .fillMaxWidth(),
                 )
                 MeasurementTypeList(
-                    property = viewState.property,
+                    property = viewModel.property,
                     types = viewState.types,
                 )
             }

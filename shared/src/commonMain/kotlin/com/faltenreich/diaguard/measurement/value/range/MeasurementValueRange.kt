@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.value
+package com.faltenreich.diaguard.measurement.value.range
 
 data class MeasurementValueRange(
     val minimum: Double,

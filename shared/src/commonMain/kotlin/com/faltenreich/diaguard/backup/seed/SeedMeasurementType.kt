@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.backup.seed
 
-import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
+import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import dev.icerock.moko.resources.StringResource
 

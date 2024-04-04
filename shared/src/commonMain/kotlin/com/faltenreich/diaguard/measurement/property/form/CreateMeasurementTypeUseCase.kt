@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.measurement.property.form
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
-import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
+import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 
 class CreateMeasurementTypeUseCase(
     private val measurementTypeRepository: MeasurementTypeRepository,

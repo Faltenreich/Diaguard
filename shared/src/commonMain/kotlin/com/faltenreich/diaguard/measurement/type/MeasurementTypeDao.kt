@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.type
 
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.measurement.value.MeasurementValueRange
+import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import kotlinx.coroutines.flow.Flow
 
 interface MeasurementTypeDao {

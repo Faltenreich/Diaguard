@@ -10,6 +10,7 @@ class GetEntriesOfTagUseCase(
 ) {
 
     operator fun invoke(tag: Tag): Flow<List<EntryTag>> {
+        // FIXME: Misses MeasurementValues of Entry
         return repository.observeByTagId(tag.id)
     }
 }

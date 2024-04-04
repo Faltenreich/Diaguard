@@ -20,6 +20,7 @@ class EntryTagSqlDelightMapper(
         entryUpdatedAt: String,
         entryDateTime: String,
         entryNote: String?,
+
         tagId: Long,
         tagCreatedAt: String,
         tagUpdatedAt: String,

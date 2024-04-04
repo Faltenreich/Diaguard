@@ -79,7 +79,7 @@ class EntryFormViewModel(
     val timeFormatted: String
         get() = formatDateTime(time)
 
-
+    // TODO: Reconsider rememberSaveable to avoid persisting state after returning to Composable
     var note: String by mutableStateOf(entry?.note ?: "")
 
     var alarmDelayInMinutes: Int? by mutableStateOf(null)

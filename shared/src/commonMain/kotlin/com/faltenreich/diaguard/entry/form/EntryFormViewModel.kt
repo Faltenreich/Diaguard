@@ -25,7 +25,7 @@ import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.DatePickerModal
-import com.faltenreich.diaguard.navigation.modal.EntryDeleteModal
+import com.faltenreich.diaguard.navigation.modal.DeleteModal
 import com.faltenreich.diaguard.navigation.modal.TimePickerModal
 import com.faltenreich.diaguard.navigation.screen.FoodListScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -58,6 +58,7 @@ class EntryFormViewModel(
     private val showSnackbar: ShowSnackbarUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
     private val createEntry: CreateEntryUseCase = inject(),
+    private val deleteEntry: DeleteEntryUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent>() {
 
@@ -194,12 +195,21 @@ class EntryFormViewModel(
     }
 
     private fun delete() {
-        showModal(
-            EntryDeleteModal(
-                entry = editing,
-                onConfirm = navigateBack::invoke,
+        val entry = editing
+        if (entry != null) {
+            showModal(
+                DeleteModal(
+                    onDismissRequest = closeModal::invoke,
+                    onConfirm = {
+                        deleteEntry(entry)
+                        closeModal()
+                        navigateBack()
+                    },
+                )
             )
-        )
+        } else {
+            navigateBack()
+        }
     }
 
     private fun selectFood() {

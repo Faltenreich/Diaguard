@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.delete.TagDeleteDialog
 import org.koin.core.parameter.parametersOf
 
+// TODO: Replace with DeleteModal
 data class TagDeleteModal(private val tag: Tag) : Modal {
 
     @Composable

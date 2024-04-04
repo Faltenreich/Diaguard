@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.entry.delete
+package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository

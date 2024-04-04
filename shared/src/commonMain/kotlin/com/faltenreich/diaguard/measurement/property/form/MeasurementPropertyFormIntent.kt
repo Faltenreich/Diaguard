@@ -6,9 +6,5 @@ sealed interface MeasurementPropertyFormIntent {
 
     data object UpdateProperty : MeasurementPropertyFormIntent
 
-    data object ShowDeletionDialog : MeasurementPropertyFormIntent
-
-    data object HideDeletionDialog : MeasurementPropertyFormIntent
-
     data object DeleteProperty : MeasurementPropertyFormIntent
 }

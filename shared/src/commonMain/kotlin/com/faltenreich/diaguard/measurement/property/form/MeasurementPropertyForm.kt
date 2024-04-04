@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -49,37 +46,6 @@ fun MeasurementPropertyForm(
                 MeasurementTypeList(
                     property = viewModel.property,
                     types = viewState.types,
-                )
-            }
-
-            if (viewState.showDeletionDialog) {
-                AlertDialog(
-                    onDismissRequest = {
-                        viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideDeletionDialog)
-                    },
-                    confirmButton = {
-                        TextButton(onClick = {
-                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.DeleteProperty)
-                        }) {
-                            Text(getString(MR.strings.delete))
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = {
-                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideDeletionDialog)
-                        }) {
-                            Text(getString(MR.strings.cancel))
-                        }
-                    },
-                    title = { Text(getString(MR.strings.measurement_property_delete)) },
-                    text = {
-                        Text(
-                            getString(
-                                MR.strings.measurement_property_delete_description,
-                                viewState.measurementCount
-                            )
-                        )
-                    },
                 )
             }
         }

@@ -5,15 +5,15 @@ import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.modal.EmojiModal
+import com.faltenreich.diaguard.navigation.modal.MeasurementPropertyDeleteModal
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 
 class MeasurementPropertyFormViewModel(
     val property: MeasurementProperty,
     getMeasurementTypesUseCase: GetMeasurementTypesUseCase = inject(),
-    countMeasurementValuesOfProperty: CountMeasurementValuesOfPropertyUseCase = inject(),
     private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
@@ -24,21 +24,13 @@ class MeasurementPropertyFormViewModel(
     var name = MutableStateFlow(property.name)
     var icon = MutableStateFlow(property.icon ?: "")
 
-    private val showDeletionDialog = MutableStateFlow(false)
-
-    override val state = combine(
-        showDeletionDialog,
-        getMeasurementTypesUseCase(property),
-        countMeasurementValuesOfProperty(property),
-        MeasurementPropertyFormViewState::Loaded,
-    )
+    override val state = getMeasurementTypesUseCase(property)
+        .map(MeasurementPropertyFormViewState::Loaded)
 
     override fun handleIntent(intent: MeasurementPropertyFormIntent) {
         when (intent) {
             is MeasurementPropertyFormIntent.OpenIconPicker -> openIconPicker()
             is MeasurementPropertyFormIntent.UpdateProperty -> updateProperty()
-            is MeasurementPropertyFormIntent.ShowDeletionDialog -> showDeletionDialog.value = true
-            is MeasurementPropertyFormIntent.HideDeletionDialog -> showDeletionDialog.value = false
             is MeasurementPropertyFormIntent.DeleteProperty -> deleteProperty()
         }
     }
@@ -58,8 +50,15 @@ class MeasurementPropertyFormViewModel(
     }
 
     private fun deleteProperty() {
-        deleteProperty(property)
-        showDeletionDialog.value = false
-        navigateBack()
+        openModal(
+            MeasurementPropertyDeleteModal(
+                onDismissRequest = closeModal::invoke,
+                onConfirm = {
+                    deleteProperty(property)
+                    closeModal()
+                    navigateBack()
+                }
+            )
+        )
     }
 }

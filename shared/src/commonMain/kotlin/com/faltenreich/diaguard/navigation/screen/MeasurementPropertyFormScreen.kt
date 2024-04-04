@@ -31,7 +31,7 @@ data class MeasurementPropertyFormScreen(val property: MeasurementProperty) : Sc
                 BottomAppBarItem(
                     painter = painterResource(MR.images.ic_delete),
                     contentDescription = MR.strings.measurement_property_delete,
-                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.ShowDeletionDialog) },
+                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.DeleteProperty) },
                 )
             },
             floatingActionButton = {

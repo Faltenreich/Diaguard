@@ -97,7 +97,7 @@
     <string name="measurement_properties">Categories</string>
     <string name="measurement_property">Category</string>
     <string name="measurement_property_delete">Delete category</string>
-    <string name="measurement_property_delete_description">This will irrevocably delete this category and all of its %d associated measurements</string>
+    <string name="measurement_property_delete_description">This will irrevocably delete this category and all of its associated measurements</string>
     <string name="measurement_property_new">New category</string>
     <string name="measurement_type">Type</string>
     <string name="measurement_type_delete">Delete type</string>

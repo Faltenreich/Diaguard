@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.measurement.type.MeasurementType
 sealed interface MeasurementPropertyFormViewState {
 
     class Loaded(
-        val showIconPicker: Boolean,
         val showDeletionDialog: Boolean,
         val types: List<MeasurementType>,
         val measurementCount: Long,

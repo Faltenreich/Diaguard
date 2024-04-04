@@ -18,11 +18,8 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.BottomSheet
-import com.faltenreich.diaguard.shared.view.EmojiPicker
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextInput
-import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 
 @Composable
 fun MeasurementPropertyForm(
@@ -40,7 +37,7 @@ fun MeasurementPropertyForm(
                     label = getString(MR.strings.name),
                     leadingIcon = {
                         IconButton(onClick = {
-                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.ShowIconPicker)
+                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.OpenIconPicker)
                         }) {
                             MeasurementPropertyIcon(text = viewModel.icon.collectAsState().value)
                         }
@@ -53,17 +50,6 @@ fun MeasurementPropertyForm(
                     property = viewModel.property,
                     types = viewState.types,
                 )
-            }
-
-            if (viewState.showIconPicker) {
-                BottomSheet(
-                    onDismissRequest = {
-                        viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideIconPicker)
-                    },
-                    sheetState = rememberBottomSheetState(),
-                ) {
-                    EmojiPicker(onEmojiPicked = { emoji -> viewModel.icon.value = emoji })
-                }
             }
 
             if (viewState.showDeletionDialog) {

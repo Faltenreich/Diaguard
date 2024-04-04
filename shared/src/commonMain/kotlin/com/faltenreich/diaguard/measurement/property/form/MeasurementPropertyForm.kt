@@ -73,7 +73,7 @@ fun MeasurementPropertyForm(
                     },
                     confirmButton = {
                         TextButton(onClick = {
-                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.DeleteProperty(viewState.property))
+                            viewModel.dispatchIntent(MeasurementPropertyFormIntent.DeleteProperty)
                         }) {
                             Text(getString(MR.strings.delete))
                         }

@@ -37,7 +37,7 @@ data class MeasurementPropertyFormScreen(val property: MeasurementProperty) : Sc
             floatingActionButton = {
                 val viewModel = getViewModel<MeasurementPropertyFormViewModel> { parametersOf(property) }
                 FloatingActionButton(
-                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.Submit) },
+                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateProperty) },
                 ) {
                     Icon(
                         painter = painterResource(MR.images.ic_check),

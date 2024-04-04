@@ -232,4 +232,86 @@
     <string name="month_november_short">Nov</string>
     <string name="month_december">December</string>
     <string name="month_december_short">Dec</string>
+
+    <!-- PREFERENCES -->
+
+    <!-- General -->
+    <string name="preference_theme">theme</string>
+    <string name="preference_start_screen">"startscreen"</string>
+
+    <!-- Timeline -->
+    <string name="preference_timeline">timeline</string>
+    <string name="preference_timeline_show_dots">timelineShowDots</string>
+    <string name="preference_timeline_show_lines">timelineShowLines</string>
+
+    <!-- Reminder -->
+    <string name="preference_alarm_start">alarmStartInMillis</string>
+    <string name="preference_alarm_sound">sound</string>
+    <string name="preference_alarm_vibration">vibration</string>
+
+    <!-- Data -->
+    <string name="preference_backup">backup</string>
+    <string name="preference_import">import</string>
+
+    <string name="preference_categories">categories</string>
+    <string name="preference_categories_active">%s_active</string>
+    <string name="preference_categories_sort_index">%s_sortIndex</string>
+
+    <string name="preference_tags">tags</string>
+    <string name="preference_tags_imported">didImportTagsForLanguage</string>
+
+    <string name="preference_food">food</string>
+    <string name="preference_food_imported">didImportCommonFoodForLanguage</string>
+    <string name="preference_food_show_custom">showCustomFood</string>
+    <string name="preference_food_show_common">showCommonFood</string>
+    <string name="preference_food_show_branded">showBrandedFood</string>
+
+    <string name="preference_input_queries">inputQueries</string>
+
+    <string name="preference_cgm">cgm</string>
+    <string name="preference_cgm_xdrip">cgmXDrip</string>
+    <string name="preference_cgm_notification">cgmNotification</string>
+
+    <!-- Export -->
+    <string name="preference_export_pdf_style">exportPdfStyle</string>
+    <string name="preference_include_calendar_week">exportHeader</string>
+    <string name="preference_include_generated_date">exportFooter</string>
+    <string name="preference_include_page_number">includePageNumber</string>
+    <string name="preference_export_notes">export_notes</string>
+    <string name="preference_export_tags">export_tags</string>
+    <string name="preference_export_food">export_food</string>
+    <string name="preference_export_skip_empty_days">skipEmptyDays</string>
+    <string name="preference_export_categories">exportCategories</string>
+    <string name="preference_export_insulin_split">exportInsulinSplit</string>
+
+    <!-- Therapy -->
+    <string name="preference_extrema">extrema</string>
+    <string name="preference_extrema_highlight">targets_highlight</string>
+    <string name="preference_extrema_target">target</string>
+    <string name="preference_extrema_hyperclycemia">hyperclycemia</string>
+    <string name="preference_extrema_hypoclycemia">hypoclycemia</string>
+
+    <string name="preference_uni">unit</string>
+    <string name="preference_unit_bloodsugar">unit_bloodsugar</string>
+    <string name="preference_unit_meal">unit_meal</string>
+    <string name="preference_unit_meal_factor">unit_meal_factor</string>
+    <string name="preference_unit_hba1c">unit_hba1c</string>
+    <string name="preference_unit_weight">unit_weight</string>
+
+
+    <string name="preference_decimal_places">Decimal places</string>
+
+    <string name="preference_factor">factor</string>
+
+    <string name="preference_factor_meal">unit_meal_factor</string>
+    <string name="preference_factor_meal_interval">intervalFactor</string>
+    <string name="preference_factor_meal_interval_for_hour">intervalFactor%d</string>
+
+    <string name="preference_factor_correction">correction</string>
+    <string name="preference_factor_correction_interval">intervalCorrection</string>
+    <string name="preference_factor_correction_interval_for_hour">intervalCorrection%d</string>
+
+    <string name="preference_factor_basal_rate">basalRate</string>
+    <string name="preference_factor_basal_rate_interval">intervalBasalRate</string>
+    <string name="preference_factor_basal_rate_interval_for_hour">intervalBasalRate%d</string>
 </resources>

@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.moko.resources)
     alias(libs.plugins.sqldelight)
 }
 
@@ -19,6 +18,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(compose.ui)
+                implementation(compose.components.resources)
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.preview)
@@ -78,6 +78,7 @@ kotlin {
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 optIn("kotlinx.coroutines.FlowPreview")
                 optIn("kotlinx.serialization.ExperimentalSerializationApi")
+                optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
             }
         }
     }
@@ -106,26 +107,12 @@ android {
         sourceCompatibility = Constants.JavaVersion
         targetCompatibility = Constants.JavaVersion
     }
-
-    // FIXME
-    //  Fixes missing resources on JVM (should be fixed with moko-resources:0.23.1)
-    //  https://github.com/icerockdev/moko-resources/issues/510
-    sourceSets {
-        getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
-    }
 }
 
 dependencies {
-    commonMainApi(libs.moko.resources)
-    commonMainApi(libs.moko.resources.compose)
-    commonTestImplementation(libs.moko.resources.test)
     configurations
         .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
         .forEach { add(it.name, libs.mockative.processor) }
-}
-
-multiplatformResources {
-    resourcesPackage.set(Constants.NameSpace)
 }
 
 sqldelight {

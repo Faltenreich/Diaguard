@@ -37,11 +37,11 @@ data class MeasurementPropertyFormScreen(val property: MeasurementProperty) : Sc
             floatingActionButton = {
                 val viewModel = getViewModel<MeasurementPropertyFormViewModel> { parametersOf(property) }
                 FloatingActionButton(
-                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.ShowFormDialog) },
+                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.Submit) },
                 ) {
                     Icon(
-                        painter = painterResource(MR.images.ic_add),
-                        contentDescription = getString(MR.strings.measurement_type_new),
+                        painter = painterResource(MR.images.ic_check),
+                        contentDescription = getString(MR.strings.save),
                     )
                 }
             }

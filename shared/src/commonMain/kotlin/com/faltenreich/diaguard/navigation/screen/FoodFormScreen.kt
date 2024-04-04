@@ -46,7 +46,7 @@ data class FoodFormScreen(val food: Food? = null) : Screen {
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(MR.images.ic_check),
-                        contentDescription = getString(MR.strings.food_save),
+                        contentDescription = getString(MR.strings.save),
                     )
                 }
             }

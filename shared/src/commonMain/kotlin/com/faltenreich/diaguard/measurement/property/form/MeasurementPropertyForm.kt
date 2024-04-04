@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
-import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -50,7 +49,10 @@ fun MeasurementPropertyForm(
                         .padding(all = AppTheme.dimensions.padding.P_3)
                         .fillMaxWidth(),
                 )
-                MeasurementTypeList(types = viewState.types)
+                MeasurementTypeList(
+                    property = viewState.property,
+                    types = viewState.types,
+                )
             }
 
             if (viewState.showIconPicker) {
@@ -62,25 +64,6 @@ fun MeasurementPropertyForm(
                 ) {
                     EmojiPicker(onEmojiPicked = { emoji -> viewModel.icon.value = emoji })
                 }
-            }
-
-            if (viewState.showFormDialog) {
-                MeasurementTypeFormDialog(
-                    onDismissRequest = {
-                        viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideFormDialog)
-                    },
-                    onConfirmRequest = { typeName, unitName ->
-                        viewModel.dispatchIntent(
-                            MeasurementPropertyFormIntent.CreateType(
-                                typeName = typeName,
-                                unitName = unitName,
-                                types = viewState.types,
-                                propertyId = viewState.property.id,
-                            )
-                        )
-                        viewModel.dispatchIntent(MeasurementPropertyFormIntent.HideFormDialog)
-                    }
-                )
             }
 
             if (viewState.showDeletionDialog) {

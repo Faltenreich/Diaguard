@@ -8,7 +8,6 @@ sealed interface MeasurementPropertyFormViewState {
     class Loaded(
         val property: MeasurementProperty,
         val showIconPicker: Boolean,
-        val showFormDialog: Boolean,
         val showDeletionDialog: Boolean,
         val types: List<MeasurementType>,
         val measurementCount: Long,

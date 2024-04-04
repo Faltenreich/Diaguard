@@ -15,4 +15,15 @@ sealed interface MeasurementTypeListIntent {
     ) : MeasurementTypeListIntent
 
     data class EditType(val type: MeasurementType) : MeasurementTypeListIntent
+
+    data object ShowFormDialog : MeasurementTypeListIntent
+
+    data object HideFormDialog : MeasurementTypeListIntent
+
+    data class CreateType(
+        val typeName: String,
+        val unitName: String,
+        val types: List<MeasurementType>,
+        val propertyId: Long,
+    ) : MeasurementTypeListIntent
 }

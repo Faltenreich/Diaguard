@@ -41,7 +41,7 @@ fun MeasurementTypeFormDialog(
                 Text(getString(MR.strings.cancel))
             }
         },
-        title = { Text(getString(MR.strings.measurement_type_new)) },
+        title = { Text(getString(MR.strings.measurement_type_add)) },
         text = {
             Column {
                 TextInput(

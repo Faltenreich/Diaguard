@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.type.MeasurementType
 
 sealed interface MeasurementPropertyFormIntent {
 
@@ -9,16 +8,7 @@ sealed interface MeasurementPropertyFormIntent {
 
     data object HideIconPicker : MeasurementPropertyFormIntent
 
-    data object ShowFormDialog : MeasurementPropertyFormIntent
-
-    data object HideFormDialog : MeasurementPropertyFormIntent
-
-    data class CreateType(
-        val typeName: String,
-        val unitName: String,
-        val types: List<MeasurementType>,
-        val propertyId: Long,
-    ) : MeasurementPropertyFormIntent
+    data object Submit : MeasurementPropertyFormIntent
 
     data object ShowDeletionDialog : MeasurementPropertyFormIntent
 

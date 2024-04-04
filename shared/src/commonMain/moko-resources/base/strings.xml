@@ -53,7 +53,6 @@
     <string name="entry_form_error_missing_input">Entry does not contain any information</string>
     <string name="entry_form_error_unrealistic_value">Value must be within %s and %s</string>
     <string name="entry_new_description">Create new entry</string>
-    <string name="entry_save">Save entry</string>
     <string name="entry_search_placeholder">Enter query to start search</string>
     <string name="entry_search_prompt">Search for entries&#8230;</string>
     <string name="error_unknown">Something went wrong, please try again</string>
@@ -73,7 +72,6 @@
     <string name="food_info">Info</string>
     <string name="food_new">New food</string>
     <string name="food_nutrient_list">Nutrients</string>
-    <string name="food_save">Save food</string>
     <string name="food_search_prompt">Search for food&#8230;</string>
     <string name="grams_abbreviation">g</string>
     <string name="hba1c">HbA1c</string>
@@ -104,7 +102,7 @@
     <string name="measurement_type">Type</string>
     <string name="measurement_type_delete">Delete type</string>
     <string name="measurement_type_delete_description">This will irrevocably delete this type and all of its %d associated measurements</string>
-    <string name="measurement_type_new">New type</string>
+    <string name="measurement_type_add">Add type</string>
     <string name="measurement_types">Types</string>
     <string name="measurement_unit">Unit</string>
     <string name="measurement_unit_factor_description">equals %s %s</string>

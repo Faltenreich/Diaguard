@@ -44,7 +44,7 @@ data class MeasurementPropertyFormScreen(val property: MeasurementProperty) : Sc
                         contentDescription = getString(Res.string.save),
                     )
                 }
-            }
+            },
         )
 
     @Composable

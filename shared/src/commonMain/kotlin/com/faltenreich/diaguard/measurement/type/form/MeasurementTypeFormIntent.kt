@@ -18,5 +18,7 @@ sealed interface MeasurementTypeFormIntent {
 
     data class EditIsValueRangeHighlighted(val input: Boolean) : MeasurementTypeFormIntent
 
+    data object UpdateType : MeasurementTypeFormIntent
+
     data object DeleteType : MeasurementTypeFormIntent
 }

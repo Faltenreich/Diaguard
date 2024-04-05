@@ -1,6 +1,6 @@
 [versions]
 activity-compose = "1.8.2"
-android-gradle = "8.2.2"
+android-gradle = "8.3.1"
 android-lifecycle-compose = "2.7.0"
 android-test-runner = "1.5.2"
 android-test-junit = "1.1.5"

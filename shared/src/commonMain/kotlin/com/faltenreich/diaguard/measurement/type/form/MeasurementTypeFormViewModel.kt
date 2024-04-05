@@ -48,14 +48,6 @@ class MeasurementTypeFormViewModel(
 
     override fun handleIntent(intent: MeasurementTypeFormIntent) {
         when (intent) {
-            is MeasurementTypeFormIntent.EditTypeName -> typeName.value = intent.input
-            is MeasurementTypeFormIntent.EditUnitName -> unitName.value = intent.input
-            is MeasurementTypeFormIntent.EditValueRangeMinimum -> valueRangeMinimum.value = intent.input
-            is MeasurementTypeFormIntent.EditValueRangeLow -> valueRangeLow.value = intent.input
-            is MeasurementTypeFormIntent.EditValueRangeTarget -> valueRangeTarget.value = intent.input
-            is MeasurementTypeFormIntent.EditValueRangeHigh -> valueRangeHigh.value = intent.input
-            is MeasurementTypeFormIntent.EditValueRangeMaximum -> valueRangeMaximum.value = intent.input
-            is MeasurementTypeFormIntent.EditIsValueRangeHighlighted -> isValueRangeHighlighted.value = intent.input
             is MeasurementTypeFormIntent.UpdateType -> updateType()
             is MeasurementTypeFormIntent.DeleteType -> deleteType()
         }

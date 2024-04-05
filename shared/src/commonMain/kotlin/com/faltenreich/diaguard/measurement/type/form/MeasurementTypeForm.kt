@@ -5,14 +5,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.shared.di.inject
@@ -20,6 +16,10 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.measurement_unit
+import diaguard.shared.generated.resources.name
+import diaguard.shared.generated.resources.values
 
 @Composable
 fun MeasurementTypeForm(
@@ -33,9 +33,7 @@ fun MeasurementTypeForm(
             Column(modifier = modifier.verticalScroll(rememberScrollState())) {
                 TextInput(
                     input = viewModel.typeName.collectAsState().value,
-                    onInputChange = {
-                        viewModel.handleIntent(MeasurementTypeFormIntent.EditTypeName(it))
-                    },
+                    onInputChange = { viewModel.typeName.value = it },
                     label = getString(Res.string.name),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -45,9 +43,7 @@ fun MeasurementTypeForm(
                 if (viewState.type.property.isUserGenerated) {
                     TextInput(
                         input = viewModel.unitName.collectAsState().value,
-                        onInputChange = {
-                            viewModel.handleIntent(MeasurementTypeFormIntent.EditUnitName(it))
-                        },
+                        onInputChange = { viewModel.unitName.value = it },
                         label = getString(Res.string.measurement_unit),
                         modifier = Modifier
                             .fillMaxWidth()

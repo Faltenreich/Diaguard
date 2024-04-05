@@ -11,8 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
-import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormIntent
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewModel
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewState
 import com.faltenreich.diaguard.shared.di.inject
@@ -20,6 +18,19 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextInput
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.value_range_high
+import diaguard.shared.generated.resources.value_range_high_description
+import diaguard.shared.generated.resources.value_range_highlighted
+import diaguard.shared.generated.resources.value_range_highlighted_description
+import diaguard.shared.generated.resources.value_range_low
+import diaguard.shared.generated.resources.value_range_low_description
+import diaguard.shared.generated.resources.value_range_maximum
+import diaguard.shared.generated.resources.value_range_maximum_description
+import diaguard.shared.generated.resources.value_range_minimum
+import diaguard.shared.generated.resources.value_range_minimum_description
+import diaguard.shared.generated.resources.value_range_target
+import diaguard.shared.generated.resources.value_range_target_description
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -33,9 +44,7 @@ fun MeasurementValueRangeForm(
             title = stringResource(Res.string.value_range_highlighted),
             subtitle = stringResource(Res.string.value_range_highlighted_description),
             checked = viewModel.isValueRangeHighlighted.collectAsState().value,
-            onCheckedChange = {
-                viewModel.dispatchIntent(MeasurementTypeFormIntent.EditIsValueRangeHighlighted(it))
-            },
+            onCheckedChange = { viewModel.isValueRangeHighlighted.value = it },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
@@ -45,9 +54,7 @@ fun MeasurementValueRangeForm(
 
         TextInput(
             input = viewModel.valueRangeMinimum.collectAsState().value,
-            onInputChange = {
-                viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeMinimum(it))
-            },
+            onInputChange = { viewModel.valueRangeMinimum.value = it },
             label = getString(Res.string.value_range_minimum),
             modifier = Modifier
                 .fillMaxWidth()
@@ -65,9 +72,7 @@ fun MeasurementValueRangeForm(
 
         TextInput(
             input = viewModel.valueRangeLow.collectAsState().value,
-            onInputChange = {
-                viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeLow(it))
-            },
+            onInputChange = { viewModel.valueRangeLow.value = it },
             label = getString(Res.string.value_range_low),
             modifier = Modifier
                 .fillMaxWidth()
@@ -85,9 +90,7 @@ fun MeasurementValueRangeForm(
 
         TextInput(
             input = viewModel.valueRangeTarget.collectAsState().value,
-            onInputChange = {
-                viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeTarget(it))
-            },
+            onInputChange = { viewModel.valueRangeTarget.value = it },
             label = getString(Res.string.value_range_target),
             modifier = Modifier
                 .fillMaxWidth()
@@ -105,9 +108,7 @@ fun MeasurementValueRangeForm(
 
         TextInput(
             input = viewModel.valueRangeHigh.collectAsState().value,
-            onInputChange = {
-                viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeHigh(it))
-            },
+            onInputChange = { viewModel.valueRangeHigh.value = it },
             label = getString(Res.string.value_range_high),
             modifier = Modifier
                 .fillMaxWidth()
@@ -125,9 +126,7 @@ fun MeasurementValueRangeForm(
 
         TextInput(
             input = viewModel.valueRangeMaximum.collectAsState().value,
-            onInputChange = {
-                viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeMaximum(it))
-            },
+            onInputChange = { viewModel.valueRangeMaximum.value = it },
             label = getString(Res.string.value_range_maximum),
             modifier = Modifier
                 .fillMaxWidth()

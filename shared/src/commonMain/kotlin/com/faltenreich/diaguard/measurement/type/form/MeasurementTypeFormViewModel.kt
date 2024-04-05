@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.type.form
 
 import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
@@ -14,8 +15,9 @@ import kotlinx.coroutines.flow.combine
 class MeasurementTypeFormViewModel(
     private val type: MeasurementType,
     getMeasurementTypeUseCase: GetMeasurementTypeUseCase = inject(),
-    private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
-    private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
+    private val updateUnit: UpdateMeasurementUnitUseCase = inject(),
+    private val updateType: UpdateMeasurementTypeUseCase = inject(),
+    private val deleteType: DeleteMeasurementTypeUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
@@ -60,8 +62,9 @@ class MeasurementTypeFormViewModel(
     }
 
     private fun updateType() {
-        // TODO: Update unit name
-        updateMeasurementType(
+        updateUnit(type.selectedUnit.copy(name = unitName.value))
+
+        updateType(
             type.copy(
                 name = typeName.value,
                 range = MeasurementValueRange(
@@ -82,7 +85,7 @@ class MeasurementTypeFormViewModel(
             DeleteModal(
                 onDismissRequest = closeModal::invoke,
                 onConfirm = {
-                    deleteMeasurementType(type)
+                    deleteType(type)
                     closeModal()
                     navigateBack()
                 }

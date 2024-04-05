@@ -15,14 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
-import dev.icerock.moko.resources.ImageResource
-import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun BottomSheetNavigationItem(
     label: StringResource,
-    icon: ImageResource?,
+    icon: DrawableResource?,
     isActive: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,

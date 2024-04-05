@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference
 
-import dev.icerock.moko.resources.StringResource
+import org.jetbrains.compose.resources.StringResource
 
 sealed class Preference<Store, Domain>(
     val key: StringResource,

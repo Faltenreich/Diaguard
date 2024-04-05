@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.backup.seed.data
 
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
@@ -12,11 +12,11 @@ class OxygenSaturationSeed {
     operator fun invoke(): SeedMeasurementProperty {
         return SeedMeasurementProperty(
             key = DatabaseKey.MeasurementProperty.OXYGEN_SATURATION,
-            name = MR.strings.oxygen_saturation,
+            name = Res.string.oxygen_saturation,
             icon = "O²",
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.OXYGEN_SATURATION,
-                name = MR.strings.oxygen_saturation,
+                name = Res.string.oxygen_saturation,
                 range = MeasurementValueRange(
                     minimum = 50.0,
                     low = 90.0,
@@ -28,8 +28,8 @@ class OxygenSaturationSeed {
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.OXYGEN_SATURATION,
-                        name = MR.strings.percent,
-                        abbreviation = MR.strings.percent_abbreviation,
+                        name = Res.string.percent,
+                        abbreviation = Res.string.percent_abbreviation,
                         factor = 1.0,
                     )
                 ),

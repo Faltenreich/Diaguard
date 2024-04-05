@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.backup.seed
 
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import dev.icerock.moko.resources.StringResource
+import org.jetbrains.compose.resources.StringResource
 
 data class SeedMeasurementType(
     // TODO: Test uniqueness

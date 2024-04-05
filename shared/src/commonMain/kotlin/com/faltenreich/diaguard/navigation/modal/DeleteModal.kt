@@ -5,10 +5,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
-import com.faltenreich.diaguard.MR.strings.delete_description
-import com.faltenreich.diaguard.MR.strings.delete_title
-import dev.icerock.moko.resources.compose.stringResource
+import diaguard.shared.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 class DeleteModal(
     private val onDismissRequest: () -> Unit,
@@ -22,7 +20,7 @@ class DeleteModal(
             confirmButton = {
                 TextButton(onClick = onConfirm) {
                     Text(
-                        text = stringResource(MR.strings.delete),
+                        text = stringResource(Res.string.delete),
                         color = AppTheme.colors.Red,
                     )
                 }
@@ -30,13 +28,13 @@ class DeleteModal(
             dismissButton = {
                 TextButton(onClick = onDismissRequest) {
                     Text(
-                        text = stringResource(MR.strings.cancel),
+                        text = stringResource(Res.string.cancel),
                         color = AppTheme.colors.scheme.onPrimary,
                     )
                 }
             },
-            title = { Text(stringResource(delete_title)) },
-            text = { Text(stringResource(delete_description)) },
+            title = { Text(stringResource(Res.string.delete_title)) },
+            text = { Text(stringResource(Res.string.delete_description)) },
         )
     }
 }

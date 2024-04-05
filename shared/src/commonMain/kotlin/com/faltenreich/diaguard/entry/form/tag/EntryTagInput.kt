@@ -13,7 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.tag.Tag
@@ -34,7 +34,7 @@ fun EntryTagInput(
         TextInput(
             input = input,
             onInputChange = onInputChange,
-            label = getString(MR.strings.tag),
+            label = getString(Res.string.tag),
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
             modifier = modifier.fillMaxWidth().menuAnchor(),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),

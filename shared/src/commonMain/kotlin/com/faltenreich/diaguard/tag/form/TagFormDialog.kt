@@ -11,7 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
@@ -31,21 +31,21 @@ fun TagFormDialog(
         onDismissRequest = { viewModel.dispatchIntent(TagFormIntent.Close) },
         confirmButton = {
             TextButton(onClick = { viewModel.dispatchIntent(TagFormIntent.Submit(name)) }) {
-                Text(getString(MR.strings.create))
+                Text(getString(Res.string.create))
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = { viewModel.dispatchIntent(TagFormIntent.Close) }) {
-                Text(getString(MR.strings.cancel))
+                Text(getString(Res.string.cancel))
             }
         },
-        title = { Text(getString(MR.strings.tag)) },
+        title = { Text(getString(Res.string.tag)) },
         text = {
             TextInput(
                 input = name,
                 onInputChange = { name = it },
-                label = getString(MR.strings.name),
+                label = getString(Res.string.name),
                 modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
                 supportingText = { Text(state?.inputError ?: "") },
                 isError = state?.inputError != null,

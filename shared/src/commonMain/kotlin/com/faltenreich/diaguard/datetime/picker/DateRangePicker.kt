@@ -17,12 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.material3.DateRangePicker as MaterialDateRangePicker
 
 @Composable
@@ -52,8 +52,8 @@ fun DateRangePicker(
         ) {
             IconButton(onClick = { onPick(dateRange) }) {
                 Icon(
-                    painter = painterResource(MR.images.ic_clear),
-                    contentDescription = getString(MR.strings.close),
+                    painter = painterResource(Res.drawable.ic_clear),
+                    contentDescription = getString(Res.string.close),
                 )
             }
             TextButton(
@@ -68,7 +68,7 @@ fun DateRangePicker(
                 },
                 enabled = state.selectedEndDateMillis != null,
             ) {
-                Text(getString(MR.strings.save))
+                Text(getString(Res.string.save))
             }
         }
         MaterialDateRangePicker(

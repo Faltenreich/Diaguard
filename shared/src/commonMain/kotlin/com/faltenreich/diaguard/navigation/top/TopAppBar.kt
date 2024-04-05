@@ -6,12 +6,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun TopAppBar(
@@ -26,8 +26,8 @@ fun TopAppBar(
                 if (viewModel.canNavigateBack()) {
                     IconButton(onClick = { viewModel.dispatchIntent(NavigationIntent.NavigateBack) }) {
                         Icon(
-                            painter = painterResource(MR.images.ic_arrow_back),
-                            contentDescription = getString(MR.strings.navigate_back),
+                            painter = painterResource(Res.drawable.ic_arrow_back),
+                            contentDescription = getString(Res.string.navigate_back),
                         )
                     }
                 }

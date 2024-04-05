@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.shared.di.inject
@@ -31,7 +31,7 @@ fun MeasurementPropertyForm(
                 TextInput(
                     input = viewModel.name.collectAsState().value,
                     onInputChange = { input -> viewModel.name.value = input },
-                    label = getString(MR.strings.name),
+                    label = getString(Res.string.name),
                     leadingIcon = {
                         IconButton(onClick = {
                             viewModel.dispatchIntent(MeasurementPropertyFormIntent.OpenIconPicker)

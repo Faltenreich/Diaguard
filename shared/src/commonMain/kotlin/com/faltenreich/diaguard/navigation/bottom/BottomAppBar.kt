@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.navigation.bottom
 
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
-import dev.icerock.moko.resources.compose.painterResource
+import diaguard.shared.generated.resources.*
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.material3.BottomAppBar as Material3BottomBar
 
 @Composable
@@ -17,8 +17,8 @@ fun BottomAppBar(
             Material3BottomBar(
                 actions = {
                     BottomAppBarItem(
-                        painter = painterResource(MR.images.ic_menu),
-                        contentDescription = MR.strings.menu_open,
+                        painter = painterResource(Res.drawable.ic_menu),
+                        contentDescription = Res.string.menu_open,
                         onClick = onMenuClick,
                     )
                     style.actions()

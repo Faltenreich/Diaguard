@@ -7,7 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.list.FoodList
 import com.faltenreich.diaguard.food.list.FoodListIntent
@@ -18,13 +18,13 @@ import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.shared.view.SearchField
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.painterResource
 
 data class FoodListScreen(private val onSelection: ((Food) -> Unit)? = null) : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
-            Text(getString(MR.strings.food))
+            Text(getString(Res.string.food))
         }
 
     override val bottomAppBarStyle: BottomAppBarStyle
@@ -33,7 +33,7 @@ data class FoodListScreen(private val onSelection: ((Food) -> Unit)? = null) : S
                 val viewModel = getViewModel<FoodListViewModel>()
                 SearchField(
                     query = viewModel.query,
-                    placeholder = getString(MR.strings.food_search_prompt),
+                    placeholder = getString(Res.string.food_search_prompt),
                     onQueryChange = { viewModel.query = it },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -44,8 +44,8 @@ data class FoodListScreen(private val onSelection: ((Food) -> Unit)? = null) : S
                 val viewModel = getViewModel<FoodListViewModel>()
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodListIntent.CreateFood) }) {
                     Icon(
-                        painter = painterResource(MR.images.ic_add),
-                        contentDescription = getString(MR.strings.food_new),
+                        painter = painterResource(Res.drawable.ic_add),
+                        contentDescription = getString(Res.string.food_new),
                     )
                 }
             }

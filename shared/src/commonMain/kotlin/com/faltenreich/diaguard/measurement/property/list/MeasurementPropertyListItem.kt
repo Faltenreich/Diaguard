@@ -7,7 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -32,13 +32,13 @@ fun MeasurementPropertyListItem(
                 onClick = { onArrowUp() },
                 modifier = Modifier.alpha(if (showArrowUp) 1f else 0f),
             ) {
-                ResourceIcon(MR.images.ic_arrow_up)
+                ResourceIcon(Res.drawable.ic_arrow_up)
             }
             IconButton(
                 onClick = { onArrowDown() },
                 modifier = Modifier.alpha(if (showArrowDown) 1f else 0f),
             ) {
-                ResourceIcon(MR.images.ic_arrow_down)
+                ResourceIcon(Res.drawable.ic_arrow_down)
             }
         }
         Divider()

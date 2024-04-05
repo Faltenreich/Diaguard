@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.entry.form.validation
 
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputState
 import com.faltenreich.diaguard.measurement.value.MeasurementValueForUser
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
@@ -26,7 +26,7 @@ class RealisticMeasurementValueRule(
             else -> ValidationResult.Failure(
                 input,
                 error = localization.getString(
-                    MR.strings.entry_form_error_unrealistic_value,
+                    Res.string.entry_form_error_unrealistic_value,
                     formatNumber(minimumValue),
                     formatNumber(maximumValue),
                 ),

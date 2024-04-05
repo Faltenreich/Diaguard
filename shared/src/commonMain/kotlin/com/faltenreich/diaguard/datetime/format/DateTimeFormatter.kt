@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.datetime.format
 
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
@@ -73,17 +73,17 @@ class DateTimeFormatter {
     fun formatTimePassed(start: DateTime, end: DateTime): String {
         val minutesPassed = start.minutesUntil(end)
         return when {
-            minutesPassed < 2 -> getString(MR.strings.date_time_ago_moments)
+            minutesPassed < 2 -> getString(Res.string.date_time_ago_moments)
             minutesPassed < DateTimeConstants.MINUTES_PER_HOUR * 2 -> getString(
-                MR.strings.date_time_ago_minutes,
+                Res.string.date_time_ago_minutes,
                 minutesPassed,
             )
             minutesPassed < DateTimeConstants.MINUTES_PER_DAY * 2 -> getString(
-                MR.strings.date_time_ago_hours,
+                Res.string.date_time_ago_hours,
                 minutesPassed / DateTimeConstants.MINUTES_PER_HOUR,
             )
             else -> getString(
-                MR.strings.date_time_ago_days,
+                Res.string.date_time_ago_days,
                 minutesPassed / DateTimeConstants.MINUTES_PER_DAY,
             )
         }

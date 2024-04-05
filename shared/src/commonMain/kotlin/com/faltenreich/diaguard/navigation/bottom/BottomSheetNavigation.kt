@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
@@ -44,44 +44,44 @@ fun BottomSheetNavigation(
         }
         Column {
             BottomSheetNavigationItem(
-                label = MR.strings.dashboard,
-                icon = MR.images.ic_dashboard,
+                label = Res.string.dashboard,
+                icon = Res.drawable.ic_dashboard,
                 isActive = viewModel.getActiveScreen() is DashboardScreen,
                 onClick = { navigateTo(DashboardScreen, true) },
             )
             BottomSheetNavigationItem(
-                label = MR.strings.timeline,
-                icon = MR.images.ic_timeline,
+                label = Res.string.timeline,
+                icon = Res.drawable.ic_timeline,
                 isActive = viewModel.getActiveScreen() is TimelineScreen,
                 onClick = { navigateTo(TimelineScreen(), true) },
             )
             BottomSheetNavigationItem(
-                label = MR.strings.log,
-                icon = MR.images.ic_log,
+                label = Res.string.log,
+                icon = Res.drawable.ic_log,
                 isActive = viewModel.getActiveScreen() is LogScreen,
                 onClick = { navigateTo(LogScreen(), true) },
             )
             Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
             BottomSheetNavigationItem(
-                label = MR.strings.food,
+                label = Res.string.food,
                 icon = null,
                 isActive = viewModel.getActiveScreen() is FoodListScreen,
                 onClick = { navigateTo(FoodListScreen(), false) },
             )
             BottomSheetNavigationItem(
-                label = MR.strings.statistic,
+                label = Res.string.statistic,
                 icon = null,
                 isActive = viewModel.getActiveScreen() is StatisticScreen,
                 onClick = { navigateTo(StatisticScreen, false) },
             )
             BottomSheetNavigationItem(
-                label = MR.strings.export,
+                label = Res.string.export,
                 icon = null,
                 isActive = viewModel.getActiveScreen() is ExportFormScreen,
                 onClick = { navigateTo(ExportFormScreen, false) },
             )
             BottomSheetNavigationItem(
-                label = MR.strings.preferences,
+                label = Res.string.preferences,
                 icon = null,
                 isActive = viewModel.getActiveScreen() is PreferenceListScreen,
                 onClick = { navigateTo(PreferenceListScreen(), false) },

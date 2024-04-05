@@ -11,7 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
@@ -30,21 +30,21 @@ fun MeasurementPropertyFormDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = { onConfirmRequest(propertyName) }) {
-                Text(getString(MR.strings.create))
+                Text(getString(Res.string.create))
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(getString(MR.strings.cancel))
+                Text(getString(Res.string.cancel))
             }
         },
-        title = { Text(getString(MR.strings.measurement_property_new)) },
+        title = { Text(getString(Res.string.measurement_property_new)) },
         text = {
             TextInput(
                 input = propertyName,
                 onInputChange = { propertyName = it },
-                label = getString(MR.strings.name),
+                label = getString(Res.string.name),
                 modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
             )
         }

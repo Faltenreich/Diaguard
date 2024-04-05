@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.navigation.screen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
@@ -12,13 +12,13 @@ import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.tag.list.TagList
 import com.faltenreich.diaguard.tag.list.TagListIntent
 import com.faltenreich.diaguard.tag.list.TagListViewModel
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.painterResource
 
 data object TagListScreen : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
-            Text(getString(MR.strings.tags))
+            Text(getString(Res.string.tags))
         }
 
     override val bottomAppBarStyle: BottomAppBarStyle
@@ -27,8 +27,8 @@ data object TagListScreen : Screen {
                 val viewModel = getViewModel<TagListViewModel>()
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(TagListIntent.CreateTag) }) {
                     Icon(
-                        painter = painterResource(MR.images.ic_add),
-                        contentDescription = getString(MR.strings.tag_new),
+                        painter = painterResource(Res.drawable.ic_add),
+                        contentDescription = getString(Res.string.tag_new),
                     )
                 }
             }

@@ -11,7 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
 import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
-import dev.icerock.moko.resources.StringResource
+import org.jetbrains.compose.resources.StringResource
 import kotlinx.coroutines.launch
 
 class PreferenceListListItem(
@@ -53,7 +53,7 @@ class PreferenceListListItem(
 
         lateinit var title: StringResource
         var subtitle: String? = null
-        lateinit var options: kotlin.collections.List<PreferenceListListItem.Option>
+        lateinit var options: List<Option>
 
         fun build(): PreferenceListListItem {
             return PreferenceListListItem(title, subtitle, options)

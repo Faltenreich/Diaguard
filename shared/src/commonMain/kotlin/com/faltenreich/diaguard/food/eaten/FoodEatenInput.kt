@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.primitive.format
@@ -33,7 +33,7 @@ fun FoodEatenInput(
                     // TODO: Convert into selected unit
                     // valueFormatter.formatValue(data.food.carbohydrates, factor)
                     data.food.carbohydrates,
-                    getString(MR.strings.carbohydrates_per_100g)
+                    getString(Res.string.carbohydrates_per_100g)
                 ),
             )
         },

@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
@@ -28,12 +28,12 @@ fun DatePicker(
                     onPick(state.selectedDateMillis?.let(dateTimeFactory::dateTime)?.date ?: date)
                 },
             ) {
-                Text(getString(MR.strings.ok))
+                Text(getString(Res.string.ok))
             }
         },
         dismissButton = {
             TextButton(onClick = { onPick(date) }) {
-                Text(getString(MR.strings.cancel))
+                Text(getString(Res.string.cancel))
             }
         },
     ) {

@@ -4,7 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
@@ -27,7 +27,7 @@ fun FoodEatenListItem(
         Text(
             text = "%d %s".format(
                 foodEaten.amountInGrams,
-                getString(MR.strings.grams_abbreviation),
+                getString(Res.string.grams_abbreviation),
             )
         )
     }

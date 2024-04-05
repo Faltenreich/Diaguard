@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormIntent
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewModel
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormViewState
@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextInput
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeasurementValueRangeForm(
@@ -30,8 +30,8 @@ fun MeasurementValueRangeForm(
 ) {
     Column(modifier = modifier) {
         TextCheckbox(
-            title = stringResource(MR.strings.value_range_highlighted),
-            subtitle = stringResource(MR.strings.value_range_highlighted_description),
+            title = stringResource(Res.string.value_range_highlighted),
+            subtitle = stringResource(Res.string.value_range_highlighted_description),
             checked = viewModel.isValueRangeHighlighted.collectAsState().value,
             onCheckedChange = {
                 viewModel.dispatchIntent(MeasurementTypeFormIntent.EditIsValueRangeHighlighted(it))
@@ -48,12 +48,12 @@ fun MeasurementValueRangeForm(
             onInputChange = {
                 viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeMinimum(it))
             },
-            label = getString(MR.strings.value_range_minimum),
+            label = getString(Res.string.value_range_minimum),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
             suffix = { Text(viewState.unitName) },
-            supportingText = { Text(stringResource(MR.strings.value_range_minimum_description)) },
+            supportingText = { Text(stringResource(Res.string.value_range_minimum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -68,12 +68,12 @@ fun MeasurementValueRangeForm(
             onInputChange = {
                 viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeLow(it))
             },
-            label = getString(MR.strings.value_range_low),
+            label = getString(Res.string.value_range_low),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
             suffix = { Text(viewState.unitName) },
-            supportingText = { Text(stringResource(MR.strings.value_range_low_description)) },
+            supportingText = { Text(stringResource(Res.string.value_range_low_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -88,12 +88,12 @@ fun MeasurementValueRangeForm(
             onInputChange = {
                 viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeTarget(it))
             },
-            label = getString(MR.strings.value_range_target),
+            label = getString(Res.string.value_range_target),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
             suffix = { Text(viewState.unitName) },
-            supportingText = { Text(stringResource(MR.strings.value_range_target_description)) },
+            supportingText = { Text(stringResource(Res.string.value_range_target_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -108,12 +108,12 @@ fun MeasurementValueRangeForm(
             onInputChange = {
                 viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeHigh(it))
             },
-            label = getString(MR.strings.value_range_high),
+            label = getString(Res.string.value_range_high),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
             suffix = { Text(viewState.unitName) },
-            supportingText = { Text(stringResource(MR.strings.value_range_high_description)) },
+            supportingText = { Text(stringResource(Res.string.value_range_high_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -128,12 +128,12 @@ fun MeasurementValueRangeForm(
             onInputChange = {
                 viewModel.handleIntent(MeasurementTypeFormIntent.EditValueRangeMaximum(it))
             },
-            label = getString(MR.strings.value_range_maximum),
+            label = getString(Res.string.value_range_maximum),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
             suffix = { Text(viewState.unitName) },
-            supportingText = { Text(stringResource(MR.strings.value_range_maximum_description)) },
+            supportingText = { Text(stringResource(Res.string.value_range_maximum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,

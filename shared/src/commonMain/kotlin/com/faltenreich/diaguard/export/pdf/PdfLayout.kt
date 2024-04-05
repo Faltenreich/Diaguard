@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.export.pdf
 
-import com.faltenreich.diaguard.MR
-import dev.icerock.moko.resources.StringResource
+import diaguard.shared.generated.resources.*
+import org.jetbrains.compose.resources.StringResource
 
 enum class PdfLayout(
     val title: StringResource,
 ) {
 
-    LOG(MR.strings.log),
-    TABLE(MR.strings.table),
-    TIMELINE(MR.strings.timeline),
+    LOG(Res.string.log),
+    TABLE(Res.string.table),
+    TIMELINE(Res.string.timeline),
 }

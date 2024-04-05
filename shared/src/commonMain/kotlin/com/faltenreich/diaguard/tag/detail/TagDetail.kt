@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.list.EntryListItem
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -30,7 +30,7 @@ fun TagDetail(
                 TextInput(
                     input = viewModel.name.collectAsState().value,
                     onInputChange = { input -> viewModel.name.value = input },
-                    label = getString(MR.strings.name),
+                    label = getString(Res.string.name),
                     modifier = Modifier.fillMaxWidth(),
                     supportingText = { Text(state?.inputError ?: "") },
                     isError = state?.inputError != null,

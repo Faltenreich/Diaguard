@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.log.LogIntent
 import com.faltenreich.diaguard.shared.localization.getString
 
@@ -32,7 +32,7 @@ fun LogEmpty(
             colors = CardDefaults.cardColors(containerColor = AppTheme.colors.Transparent),
         ) {
             Text(
-                text = getString(MR.strings.no_entries),
+                text = getString(Res.string.no_entries),
                 color = AppTheme.colors.scheme.outline,
                 modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3),
             )

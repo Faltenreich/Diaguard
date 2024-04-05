@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference.list
 
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyListScreen
 import com.faltenreich.diaguard.navigation.screen.TagListScreen
@@ -33,7 +33,7 @@ class GetDefaultPreferencesUseCase(
         ) { colorScheme, startScreen, appVersion ->
             preferences {
                 list {
-                    title = MR.strings.color_scheme
+                    title = Res.string.color_scheme
                     subtitle = getString(colorScheme.labelResource)
                     options = ColorScheme.entries.map { value ->
                         PreferenceListListItem.Option(
@@ -44,7 +44,7 @@ class GetDefaultPreferencesUseCase(
                     }
                 }
                 list {
-                    title = MR.strings.start_screen
+                    title = Res.string.start_screen
                     subtitle = getString(startScreen.labelResource)
                     options = StartScreen.entries.map { value ->
                         PreferenceListListItem.Option(
@@ -55,59 +55,59 @@ class GetDefaultPreferencesUseCase(
                     }
                 }
                 category {
-                    title = MR.strings.data
-                    icon = MR.images.ic_data
+                    title = Res.string.data
+                    icon = Res.drawable.ic_data
                 }
                 action {
-                    title = MR.strings.measurement_properties
+                    title = Res.string.measurement_properties
                     onClick = { navigateToScreen(MeasurementPropertyListScreen) }
                 }
                 action {
-                    title = MR.strings.tags
+                    title = Res.string.tags
                     onClick = { navigateToScreen(TagListScreen) }
                 }
                 category {
-                    title = MR.strings.contact
-                    icon = MR.images.ic_contact
+                    title = Res.string.contact
+                    icon = Res.drawable.ic_contact
                 }
                 action {
-                    title = MR.strings.homepage
-                    subtitle = getString(MR.strings.homepage_url_short)
-                    onClick = { urlOpener.open(getString(MR.strings.homepage_url)) }
+                    title = Res.string.homepage
+                    subtitle = getString(Res.string.homepage_url_short)
+                    onClick = { urlOpener.open(getString(Res.string.homepage_url)) }
                 }
                 action {
-                    title = MR.strings.mail
-                    subtitle = getString(MR.strings.mail_url_short)
-                    onClick = { urlOpener.open(getString(MR.strings.mail_url)) }
+                    title = Res.string.mail
+                    subtitle = getString(Res.string.mail_url_short)
+                    onClick = { urlOpener.open(getString(Res.string.mail_url)) }
                 }
                 action {
-                    title = MR.strings.facebook
-                    subtitle = getString(MR.strings.facebook_url_short)
-                    onClick = { urlOpener.open(getString(MR.strings.facebook_url)) }
+                    title = Res.string.facebook
+                    subtitle = getString(Res.string.facebook_url_short)
+                    onClick = { urlOpener.open(getString(Res.string.facebook_url)) }
                 }
                 category {
-                    title = MR.strings.about
-                    icon = MR.images.ic_about
+                    title = Res.string.about
+                    icon = Res.drawable.ic_about
                 }
                 action {
-                    title = MR.strings.source_code
-                    subtitle = getString(MR.strings.source_code_url_short)
-                    onClick = { urlOpener.open(getString(MR.strings.source_code_url)) }
+                    title = Res.string.source_code
+                    subtitle = getString(Res.string.source_code_url_short)
+                    onClick = { urlOpener.open(getString(Res.string.source_code_url)) }
                 }
                 action {
-                    title = MR.strings.licenses
+                    title = Res.string.licenses
                     onClick = { TODO() }
                 }
                 action {
-                    title = MR.strings.privacy_policy
-                    onClick = { urlOpener.open(getString(MR.strings.privacy_policy_url)) }
+                    title = Res.string.privacy_policy
+                    onClick = { urlOpener.open(getString(Res.string.privacy_policy_url)) }
                 }
                 action {
-                    title = MR.strings.terms_and_conditions
-                    onClick = { urlOpener.open(getString(MR.strings.terms_and_conditions_url)) }
+                    title = Res.string.terms_and_conditions
+                    onClick = { urlOpener.open(getString(Res.string.terms_and_conditions_url)) }
                 }
                 action {
-                    title = MR.strings.version
+                    title = Res.string.version
                     subtitle = appVersion
                     onClick = {}
                 }

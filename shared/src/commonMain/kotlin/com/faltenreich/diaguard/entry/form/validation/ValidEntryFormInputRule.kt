@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.entry.form.validation
 
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.form.EntryFormInput
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -13,10 +13,10 @@ class ValidEntryFormInputRule(
 
     override fun check(input: EntryFormInput): ValidationResult<EntryFormInput> {
         return if (hasNoInput(input)) {
-            val error = localization.getString(MR.strings.entry_form_error_missing_input)
+            val error = localization.getString(Res.string.entry_form_error_missing_input)
             ValidationResult.Failure(input, error)
         } else if (hasError(input)) {
-            val error = localization.getString(MR.strings.entry_form_error)
+            val error = localization.getString(Res.string.entry_form_error)
             ValidationResult.Failure(input, error)
         } else {
             ValidationResult.Success(input)

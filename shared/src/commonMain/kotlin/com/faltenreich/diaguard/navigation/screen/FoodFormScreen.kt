@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.navigation.screen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.form.FoodForm
 import com.faltenreich.diaguard.food.form.FoodFormIntent
@@ -14,14 +14,14 @@ import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
 data class FoodFormScreen(val food: Food? = null) : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
-            Text(getString(MR.strings.food))
+            Text(getString(Res.string.food))
         }
 
     override val bottomAppBarStyle: BottomAppBarStyle
@@ -29,14 +29,14 @@ data class FoodFormScreen(val food: Food? = null) : Screen {
             actions = {
                 val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
                 BottomAppBarItem(
-                    painter = painterResource(MR.images.ic_delete),
-                    contentDescription = MR.strings.food_delete,
+                    painter = painterResource(Res.drawable.ic_delete),
+                    contentDescription = Res.string.food_delete,
                     onClick = { viewModel.dispatchIntent(FoodFormIntent.Delete) },
                 )
                 food?.let {
                     BottomAppBarItem(
-                        painter = painterResource(MR.images.ic_history),
-                        contentDescription = MR.strings.food_eaten,
+                        painter = painterResource(Res.drawable.ic_history),
+                        contentDescription = Res.string.food_eaten,
                         onClick = { viewModel.dispatchIntent(FoodFormIntent.OpenFoodEaten(food)) },
                     )
                 }
@@ -45,8 +45,8 @@ data class FoodFormScreen(val food: Food? = null) : Screen {
                 val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit) }) {
                     Icon(
-                        painter = painterResource(MR.images.ic_check),
-                        contentDescription = getString(MR.strings.save),
+                        painter = painterResource(Res.drawable.ic_check),
+                        contentDescription = getString(Res.string.save),
                     )
                 }
             }

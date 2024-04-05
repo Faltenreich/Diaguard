@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.navigation.screen
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.datetime.Date
@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.timeline.Timeline
 import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineViewModel
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
 data class TimelineScreen(val date: Date? = null) : Screen {
@@ -22,13 +22,13 @@ data class TimelineScreen(val date: Date? = null) : Screen {
             actions = {
                 val viewModel = getViewModel<TimelineViewModel> { parametersOf(date) }
                 BottomAppBarItem(
-                    painter = painterResource(MR.images.ic_search),
-                    contentDescription = MR.strings.search_open,
+                    painter = painterResource(Res.drawable.ic_search),
+                    contentDescription = Res.string.search_open,
                     onClick = { viewModel.dispatchIntent(TimelineIntent.SearchEntries) },
                 )
                 BottomAppBarItem(
-                    painter = painterResource(MR.images.ic_date_range),
-                    contentDescription = MR.strings.date_pick,
+                    painter = painterResource(Res.drawable.ic_date_range),
+                    contentDescription = Res.string.date_pick,
                     onClick = { viewModel.dispatchIntent(TimelineIntent.SelectDate) },
                 )
             },
@@ -38,8 +38,8 @@ data class TimelineScreen(val date: Date? = null) : Screen {
                     onClick = { viewModel.dispatchIntent(TimelineIntent.CreateEntry) },
                 ) {
                     Icon(
-                        painter = painterResource(MR.images.ic_add),
-                        contentDescription = getString(MR.strings.entry_new_description),
+                        painter = painterResource(Res.drawable.ic_add),
+                        contentDescription = getString(Res.string.entry_new_description),
                     )
                 }
             },

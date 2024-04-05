@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.food.eaten.FoodEatenInput
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
@@ -52,7 +52,7 @@ fun MeasurementPropertyInput(
                         action = if (state.property.isMeal) {
                             {
                                 IconButton(onClick = { onIntent(EntryFormIntent.SelectFood) }) {
-                                    ResourceIcon(MR.images.ic_search)
+                                    ResourceIcon(Res.drawable.ic_search)
                                 }
                             }
                         } else {

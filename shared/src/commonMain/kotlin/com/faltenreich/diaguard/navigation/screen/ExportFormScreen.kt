@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.navigation.screen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.export.ExportForm
 import com.faltenreich.diaguard.export.ExportFormViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
@@ -11,13 +11,13 @@ import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.painterResource
 
 data object ExportFormScreen : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
-            Text(getString(MR.strings.export))
+            Text(getString(Res.string.export))
         }
 
     override val bottomAppBarStyle: BottomAppBarStyle
@@ -26,8 +26,8 @@ data object ExportFormScreen : Screen {
                 val viewModel = getViewModel<ExportFormViewModel>()
                 FloatingActionButton(onClick = { viewModel.submit() }) {
                     Icon(
-                        painter = painterResource(MR.images.ic_check),
-                        contentDescription = getString(MR.strings.export),
+                        painter = painterResource(Res.drawable.ic_check),
+                        contentDescription = getString(Res.string.export),
                     )
                 }
             }

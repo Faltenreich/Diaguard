@@ -27,8 +27,7 @@ import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.shared.test.returns
 import com.faltenreich.diaguard.tag.TagDao
 import com.faltenreich.diaguard.tag.TagRepository
-import dev.icerock.moko.resources.FileResource
-import dev.icerock.moko.resources.StringResource
+import org.jetbrains.compose.resources.StringResource
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.every
@@ -38,8 +37,8 @@ import kotlin.test.Test
 class SeedImportTest {
 
     private val localization = object : Localization {
-        override fun getString(resource: FileResource): String = ""
         override fun getString(resource: StringResource, vararg args: Any): String = ""
+        override fun getFile(path: String): String = ""
     }
 
     private val seedRepository = SeedRepository(

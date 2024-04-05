@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.tag.form
 
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.validation.ValidationResult
@@ -15,7 +15,7 @@ class UniqueTagRule(
     override fun check(input: String): ValidationResult<String> {
         return when (repository.getByName(input)) {
             null -> ValidationResult.Success(input)
-            else -> ValidationResult.Failure(input, error = localization.getString(MR.strings.tag_already_taken))
+            else -> ValidationResult.Failure(input, error = localization.getString(Res.string.tag_already_taken))
         }
     }
 }

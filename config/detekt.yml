@@ -25,3 +25,5 @@ style:
     active: false
   SerialVersionUIDInSerializableClass:
     active: false
+  WildcardImport:
+    active: false

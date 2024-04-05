@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.backup.seed.data
 
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
@@ -12,12 +12,12 @@ class BloodPressureSeed {
     operator fun invoke(): SeedMeasurementProperty {
         return SeedMeasurementProperty(
             key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE,
-            name = MR.strings.blood_pressure,
+            name = Res.string.blood_pressure,
             icon = "⛽",
             types = listOf(
                 SeedMeasurementType(
                     key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_SYSTOLIC,
-                    name = MR.strings.systolic,
+                    name = Res.string.systolic,
                     range = MeasurementValueRange(
                         minimum = 1.0,
                         low = 100.0,
@@ -29,15 +29,15 @@ class BloodPressureSeed {
                     units = listOf(
                         SeedMeasurementUnit(
                             key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_SYSTOLIC,
-                            name = MR.strings.millimeters_of_mercury,
-                            abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
+                            name = Res.string.millimeters_of_mercury,
+                            abbreviation = Res.string.millimeters_of_mercury_abbreviation,
                             factor = 1.0,
                         )
                     ),
                 ),
                 SeedMeasurementType(
                     key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_DIASTOLIC,
-                    name = MR.strings.diastolic,
+                    name = Res.string.diastolic,
                     range = MeasurementValueRange(
                         minimum = 1.0,
                         low = 60.0,
@@ -49,8 +49,8 @@ class BloodPressureSeed {
                     units = listOf(
                         SeedMeasurementUnit(
                             key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_DIASTOLIC,
-                            name = MR.strings.millimeters_of_mercury,
-                            abbreviation = MR.strings.millimeters_of_mercury_abbreviation,
+                            name = Res.string.millimeters_of_mercury,
+                            abbreviation = Res.string.millimeters_of_mercury_abbreviation,
                             factor = 1.0,
                         )
                     ),

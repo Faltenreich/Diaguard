@@ -12,7 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
@@ -32,28 +32,28 @@ fun MeasurementTypeFormDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = { onConfirmRequest(typeName, unitName) }) {
-                Text(getString(MR.strings.create))
+                Text(getString(Res.string.create))
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(getString(MR.strings.cancel))
+                Text(getString(Res.string.cancel))
             }
         },
-        title = { Text(getString(MR.strings.measurement_type_add)) },
+        title = { Text(getString(Res.string.measurement_type_add)) },
         text = {
             Column {
                 TextInput(
                     input = typeName,
                     onInputChange = { typeName = it },
-                    label = getString(MR.strings.name),
+                    label = getString(Res.string.name),
                     modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
                 )
                 TextInput(
                     input = unitName,
                     onInputChange = { unitName = it },
-                    label = getString(MR.strings.measurement_unit),
+                    label = getString(Res.string.measurement_unit),
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

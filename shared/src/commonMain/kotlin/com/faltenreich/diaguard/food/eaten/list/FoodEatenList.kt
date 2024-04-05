@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
@@ -24,7 +24,7 @@ fun FoodEatenList(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-            Text(getString(MR.strings.no_entries))
+            Text(getString(Res.string.no_entries))
         }
         is FoodEatenListViewState.Loaded -> Column(
             modifier = modifier.verticalScroll(rememberScrollState()),

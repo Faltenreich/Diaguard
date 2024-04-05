@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.food.form.FoodFormIntent
 import com.faltenreich.diaguard.shared.localization.getString
 
@@ -30,13 +30,13 @@ fun FoodNutrientList(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = getString(MR.strings.nutrient),
+                text = getString(Res.string.nutrient),
                 modifier = Modifier.weight(1f),
                 color = AppTheme.colors.scheme.onSurfaceVariant,
                 style = AppTheme.typography.bodyMedium,
             )
             Text(
-                text = getString(MR.strings.per_100g),
+                text = getString(Res.string.per_100g),
                 color = AppTheme.colors.scheme.onSurfaceVariant,
                 style = AppTheme.typography.bodyMedium,
             )

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.shared.localization
 
-import dev.icerock.moko.resources.FileResource
-import dev.icerock.moko.resources.StringResource
+import org.jetbrains.compose.resources.StringResource
 
 actual class Localization {
 
@@ -9,7 +8,7 @@ actual class Localization {
         TODO("Not yet implemented")
     }
 
-    actual fun getString(resource: FileResource): String {
+    actual fun getFile(path: String): String {
         TODO("Not yet implemented")
     }
 }

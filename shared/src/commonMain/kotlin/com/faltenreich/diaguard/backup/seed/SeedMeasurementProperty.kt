@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.backup.seed
 
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import dev.icerock.moko.resources.StringResource
+import org.jetbrains.compose.resources.StringResource
 
 data class SeedMeasurementProperty(
     val key: DatabaseKey.MeasurementProperty,

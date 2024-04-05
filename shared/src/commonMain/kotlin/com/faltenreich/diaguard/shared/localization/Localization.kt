@@ -1,11 +1,10 @@
 package com.faltenreich.diaguard.shared.localization
 
-import dev.icerock.moko.resources.FileResource
-import dev.icerock.moko.resources.StringResource
+import org.jetbrains.compose.resources.StringResource
 
 expect class Localization constructor() {
 
     fun getString(resource: StringResource, vararg args: Any): String
 
-    fun getString(resource: FileResource): String
+    fun getFile(path: String): String
 }

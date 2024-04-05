@@ -16,13 +16,13 @@ import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
-import dev.icerock.moko.resources.ImageResource
-import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
 
 class PreferenceCategoryListItem(
     title: StringResource,
-    private val icon: ImageResource,
+    private val icon: DrawableResource,
 ) : PreferenceListItem(title, null) {
 
     @Composable
@@ -59,7 +59,7 @@ class PreferenceCategoryListItem(
     class Builder {
 
         lateinit var title: StringResource
-        lateinit var icon: ImageResource
+        lateinit var icon: DrawableResource
 
         fun build(): PreferenceCategoryListItem {
             return PreferenceCategoryListItem(title, icon)

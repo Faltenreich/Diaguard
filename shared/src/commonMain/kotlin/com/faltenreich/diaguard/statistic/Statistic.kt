@@ -16,7 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -52,7 +52,7 @@ fun Statistic(
                 )
             }
             Divider()
-            FormRow(icon = { ResourceIcon(MR.images.ic_time) }) {
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
                 TextButton(onClick = { showDateRangePicker = true }) {
                     Text(
                         text = viewModel.dateRangeLocalized,
@@ -61,22 +61,22 @@ fun Statistic(
                 }
             }
 
-            TextDivider(getString(MR.strings.average))
+            TextDivider(getString(Res.string.average))
             viewState.average.values.forEach { value ->
                 FormRow {
                     Text(value.first.name, modifier = Modifier.weight(1f))
-                    Text(value.second ?: getString(MR.strings.placeholder))
+                    Text(value.second ?: getString(Res.string.placeholder))
                 }
                 Divider()
             }
             FormRow {
-                Text(getString(MR.strings.entries_per_day), modifier = Modifier.weight(1f))
+                Text(getString(Res.string.entries_per_day), modifier = Modifier.weight(1f))
                 Text(viewState.average.countPerDay)
             }
 
-            TextDivider(getString(MR.strings.trend))
+            TextDivider(getString(Res.string.trend))
 
-            TextDivider(getString(MR.strings.distribution))
+            TextDivider(getString(Res.string.distribution))
         }
     }
 

@@ -6,7 +6,7 @@ import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextDivider
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeasurementTypeList(
@@ -30,7 +30,7 @@ fun MeasurementTypeList(
 
         else -> {
             Column(modifier = modifier) {
-                TextDivider(getString(MR.strings.measurement_types))
+                TextDivider(getString(Res.string.measurement_types))
 
                 types.forEachIndexed { index, type ->
                     MeasurementTypeListItem(
@@ -59,7 +59,7 @@ fun MeasurementTypeList(
                 FormRow {
                     SuggestionChip(
                         onClick = { viewModel.dispatchIntent(MeasurementTypeListIntent.ShowFormDialog) },
-                        label = { Text(stringResource(MR.strings.measurement_type_add)) },
+                        label = { Text(stringResource(Res.string.measurement_type_add)) },
                     )
                 }
             }

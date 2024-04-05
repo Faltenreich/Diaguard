@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
@@ -38,7 +38,7 @@ fun EntryForm(
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         Column(modifier = modifier.background(AppTheme.colors.scheme.surfaceVariant)) {
-            FormRow(icon = { ResourceIcon(MR.images.ic_time) }) {
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
                 TextButton(
                     onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectDate) },
                     colors = ButtonDefaults.textButtonColors(contentColor = AppTheme.colors.scheme.onSurfaceVariant),
@@ -55,7 +55,7 @@ fun EntryForm(
 
             Divider(modifier = Modifier.background(AppTheme.colors.scheme.onSurfaceVariant))
 
-            FormRow(icon = { ResourceIcon(MR.images.ic_tag) }) {
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_tag) }) {
                 Column {
                     EntryTagInput(
                         input = viewModel.tagQuery.collectAsState().value,
@@ -71,8 +71,8 @@ fun EntryForm(
                         onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
                         trailingIcon = { tag ->
                             ResourceIcon(
-                                imageResource = MR.images.ic_clear,
-                                contentDescription = getString(MR.strings.tag_remove_description, tag.name),
+                                icon = Res.drawable.ic_clear,
+                                contentDescription = getString(Res.string.tag_remove_description, tag.name),
                                 modifier = Modifier.size(InputChipDefaults.AvatarSize),
                             )
                         },
@@ -83,11 +83,11 @@ fun EntryForm(
 
             Divider(modifier = Modifier.background(AppTheme.colors.scheme.onSurfaceVariant))
 
-            FormRow(icon = { ResourceIcon(MR.images.ic_note) }) {
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
                 TextInput(
                     input = viewModel.note,
                     onInputChange = { viewModel.note = it },
-                    label = getString(MR.strings.note),
+                    label = getString(Res.string.note),
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
                 )
@@ -95,12 +95,12 @@ fun EntryForm(
 
             Divider(modifier = Modifier.background(AppTheme.colors.scheme.onSurfaceVariant))
 
-            FormRow(icon = { ResourceIcon(MR.images.ic_alarm) }) {
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_alarm) }) {
                 TextInput(
                     input = viewModel.alarmDelayInMinutes?.toString() ?: "",
                     onInputChange = { viewModel.alarmDelayInMinutes = it.toIntOrNull() },
-                    label = getString(MR.strings.alarm),
-                    suffix = { Text(getString(MR.strings.minutes_until)) },
+                    label = getString(Res.string.alarm),
+                    suffix = { Text(getString(Res.string.minutes_until)) },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,

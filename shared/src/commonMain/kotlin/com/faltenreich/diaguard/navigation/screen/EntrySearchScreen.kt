@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.search.EntrySearch
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
@@ -22,7 +22,7 @@ data class EntrySearchScreen(val query: String = "") : Screen {
                 val viewModel = getViewModel<EntrySearchViewModel> { parametersOf(query) }
                 SearchField(
                     query = viewModel.query,
-                    placeholder = getString(MR.strings.entry_search_prompt),
+                    placeholder = getString(Res.string.entry_search_prompt),
                     onQueryChange = { query -> viewModel.query = query },
                     modifier = Modifier
                         .fillMaxWidth()

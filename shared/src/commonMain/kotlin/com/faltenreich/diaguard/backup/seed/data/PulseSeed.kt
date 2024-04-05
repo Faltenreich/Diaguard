@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.backup.seed.data
 
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
@@ -12,11 +12,11 @@ class PulseSeed {
     operator fun invoke(): SeedMeasurementProperty {
         return SeedMeasurementProperty(
             key = DatabaseKey.MeasurementProperty.PULSE,
-            name = MR.strings.pulse,
+            name = Res.string.pulse,
             icon = "\uD83D\uDC9A",
             type = SeedMeasurementType(
                 key = DatabaseKey.MeasurementType.PULSE,
-                name = MR.strings.pulse,
+                name = Res.string.pulse,
                 range = MeasurementValueRange(
                     minimum = 1.0,
                     low = 60.0,
@@ -28,8 +28,8 @@ class PulseSeed {
                 units = listOf(
                     SeedMeasurementUnit(
                         key = DatabaseKey.MeasurementUnit.PULSE,
-                        name = MR.strings.beats_per_minute,
-                        abbreviation = MR.strings.beats_per_minute_abbreviation,
+                        name = Res.string.beats_per_minute,
+                        abbreviation = Res.string.beats_per_minute_abbreviation,
                         factor = 1.0,
                     )
                 ),

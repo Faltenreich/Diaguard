@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.navigation.screen
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
@@ -16,7 +16,7 @@ data class PreferenceListScreen(val preferences: List<PreferenceListItem>? = nul
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
-            Text(getString(MR.strings.preferences))
+            Text(getString(Res.string.preferences))
         }
 
     @Composable

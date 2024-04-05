@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.preference.list.item
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.icerock.moko.resources.StringResource
+import org.jetbrains.compose.resources.StringResource
 
 // TODO: Implement Serializable
 sealed class PreferenceListItem(

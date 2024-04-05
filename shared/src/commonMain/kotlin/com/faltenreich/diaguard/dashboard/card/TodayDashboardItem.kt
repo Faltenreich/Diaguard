@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.shared.localization.getString
 
@@ -23,29 +23,29 @@ fun TodayDashboardItem(
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(
-                    text = getString(MR.strings.today),
+                    text = getString(Res.string.today),
                     style = AppTheme.typography.labelMedium,
                 )
                 Row {
                     Text(
-                        text = getString(MR.strings.measurements),
+                        text = getString(Res.string.measurements),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.totalCount?.toString() ?: getString(MR.strings.placeholder))
+                    Text(data?.totalCount?.toString() ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
-                        text = getString(MR.strings.hypo),
+                        text = getString(Res.string.hypo),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.hypoCount?.toString() ?: getString(MR.strings.placeholder))
+                    Text(data?.hypoCount?.toString() ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
-                        text = getString(MR.strings.hyper),
+                        text = getString(Res.string.hyper),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.hyperCount?.toString() ?: getString(MR.strings.placeholder))
+                    Text(data?.hyperCount?.toString() ?: getString(Res.string.placeholder))
                 }
             }
         }

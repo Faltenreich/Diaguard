@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -25,11 +25,11 @@ fun FoodForm(
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
-        FormRow(icon = { ResourceIcon(MR.images.ic_food) }) {
+        FormRow(icon = { ResourceIcon(Res.drawable.ic_food) }) {
             TextInput(
                 input = viewModel.name,
                 onInputChange = { viewModel.name = it },
-                label = getString(MR.strings.name),
+                label = getString(Res.string.name),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next,
@@ -37,11 +37,11 @@ fun FoodForm(
             )
         }
         Divider()
-        FormRow(icon = { ResourceIcon(MR.images.ic_brand) }) {
+        FormRow(icon = { ResourceIcon(Res.drawable.ic_brand) }) {
             TextInput(
                 input = viewModel.brand,
                 onInputChange = { viewModel.brand = it },
-                label = getString(MR.strings.brand),
+                label = getString(Res.string.brand),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next,
@@ -49,11 +49,11 @@ fun FoodForm(
             )
         }
         Divider()
-        FormRow(icon = { ResourceIcon(MR.images.ic_note) }) {
+        FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
             TextInput(
                 input = viewModel.ingredients,
                 onInputChange = { viewModel.ingredients = it },
-                label = getString(MR.strings.ingredients),
+                label = getString(Res.string.ingredients),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next,

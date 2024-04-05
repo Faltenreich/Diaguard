@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.shared.di.inject
@@ -36,7 +36,7 @@ fun MeasurementTypeForm(
                     onInputChange = {
                         viewModel.handleIntent(MeasurementTypeFormIntent.EditTypeName(it))
                     },
-                    label = getString(MR.strings.name),
+                    label = getString(Res.string.name),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(all = AppTheme.dimensions.padding.P_3),
@@ -48,7 +48,7 @@ fun MeasurementTypeForm(
                         onInputChange = {
                             viewModel.handleIntent(MeasurementTypeFormIntent.EditUnitName(it))
                         },
-                        label = getString(MR.strings.measurement_unit),
+                        label = getString(Res.string.measurement_unit),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = AppTheme.dimensions.padding.P_3),
@@ -57,7 +57,7 @@ fun MeasurementTypeForm(
                     MeasurementUnitList(units = viewState.type.units)
                 }
 
-                TextDivider(getString(MR.strings.values))
+                TextDivider(getString(Res.string.values))
 
                 MeasurementValueRangeForm(
                     viewState = viewState,
@@ -72,21 +72,21 @@ fun MeasurementTypeForm(
                         TextButton(onClick = {
                             viewModel.dispatchIntent(MeasurementTypeFormIntent.DeleteType(viewState.type))
                         }) {
-                            Text(getString(MR.strings.delete))
+                            Text(getString(Res.string.delete))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = {
                             viewModel.dispatchIntent(MeasurementTypeFormIntent.HideDeletionDialog)
                         }) {
-                            Text(getString(MR.strings.cancel))
+                            Text(getString(Res.string.cancel))
                         }
                     },
-                    title = { Text(getString(MR.strings.measurement_type_delete)) },
+                    title = { Text(getString(Res.string.measurement_type_delete)) },
                     text = {
                         Text(
                             getString(
-                                MR.strings.measurement_type_delete_description,
+                                Res.string.measurement_type_delete_description,
                                 viewState.measurementCount,
                             )
                         )

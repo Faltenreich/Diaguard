@@ -9,12 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun MeasurementUnitListItem(
@@ -29,7 +29,7 @@ fun MeasurementUnitListItem(
                     if (!unit.isDefault) {
                         Text(
                             text = getString(
-                                MR.strings.measurement_unit_factor_description,
+                                Res.string.measurement_unit_factor_description,
                                 unit.factor.toString(), // TODO: Format
                                 unit.type.units.first(MeasurementUnit::isDefault).name,
                             ),
@@ -39,8 +39,8 @@ fun MeasurementUnitListItem(
                 }
                 if (unit.isSelected) {
                     Icon(
-                        painter = painterResource(MR.images.ic_check),
-                        contentDescription = getString(MR.strings.measurement_unit_selected_description),
+                        painter = painterResource(Res.drawable.ic_check),
+                        contentDescription = getString(Res.string.measurement_unit_selected_description),
                         modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
                         tint = AppTheme.colors.scheme.primary,
                     )

@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -39,13 +39,13 @@ fun FoodList(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = getString(MR.strings.food),
+                text = getString(Res.string.food),
                 modifier = Modifier.weight(1f),
                 color = AppTheme.colors.scheme.onPrimary,
                 style = AppTheme.typography.bodyMedium,
             )
             Text(
-                text = getString(MR.strings.carbohydrates_per_100g),
+                text = getString(Res.string.carbohydrates_per_100g),
                 color = AppTheme.colors.scheme.onPrimary,
                 style = AppTheme.typography.bodyMedium,
             )

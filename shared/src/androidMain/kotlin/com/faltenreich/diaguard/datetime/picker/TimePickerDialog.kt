@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.shared.localization.getString
+import diaguard.shared.generated.resources.*
 
 @Composable
 @Deprecated("Replace with official solution when available")
@@ -57,7 +57,7 @@ actual fun TimePickerDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 20.dp),
-                    text = getString(MR.strings.time_select),
+                    text = getString(Res.string.time_select),
                     style = MaterialTheme.typography.labelMedium
                 )
                 content()

@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
-import dev.icerock.moko.resources.compose.painterResource
+import diaguard.shared.generated.resources.*
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun SearchField(
@@ -25,7 +25,7 @@ fun SearchField(
         placeholder = placeholder?.let { { Text(placeholder) } },
         leadingIcon = {
             Icon(
-                painter = painterResource(MR.images.ic_search),
+                painter = painterResource(Res.drawable.ic_search),
                 contentDescription = null,
             )
         },

@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.list.EntryListItem
 import com.faltenreich.diaguard.shared.di.inject
@@ -28,7 +28,7 @@ fun EntrySearch(
     ) {
         when (val viewState = viewModel.collectState()) {
             null -> Unit
-            is EntrySearchViewState.Idle ->  Text(getString(MR.strings.entry_search_placeholder))
+            is EntrySearchViewState.Idle ->  Text(getString(Res.string.entry_search_placeholder))
             is EntrySearchViewState.Loading -> LoadingIndicator()
             is EntrySearchViewState.Result -> LazyColumn(modifier = modifier) {
                 items(items = viewState.items ?: emptyList(), key = Entry::id) { entry ->

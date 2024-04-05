@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.MR
+import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.shared.localization.getString
 
@@ -23,29 +23,29 @@ fun AverageDashboardItem(
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(
-                    text = getString(MR.strings.average),
+                    text = getString(Res.string.average),
                     style = AppTheme.typography.labelMedium,
                 )
                 Row {
                     Text(
-                        text = getString(MR.strings.day),
+                        text = getString(Res.string.day),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.day ?: getString(MR.strings.placeholder))
+                    Text(data?.day ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
-                        text = getString(MR.strings.week),
+                        text = getString(Res.string.week),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.week ?: getString(MR.strings.placeholder))
+                    Text(data?.week ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
-                        text = getString(MR.strings.month),
+                        text = getString(Res.string.month),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.month ?: getString(MR.strings.placeholder))
+                    Text(data?.month ?: getString(Res.string.placeholder))
                 }
             }
         }

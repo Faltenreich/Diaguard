@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.preference
 
-import com.faltenreich.diaguard.MR
-import dev.icerock.moko.resources.StringResource
+import diaguard.shared.generated.resources.*
+import org.jetbrains.compose.resources.StringResource
 
 enum class StartScreen(
     val stableId: Int,
@@ -10,20 +10,20 @@ enum class StartScreen(
 
     DASHBOARD(
         stableId = 0,
-        labelResource = MR.strings.dashboard,
+        labelResource = Res.string.dashboard,
     ),
     TIMELINE(
         stableId = 1,
-        labelResource = MR.strings.timeline,
+        labelResource = Res.string.timeline,
     ),
     LOG(
         stableId = 2,
-        labelResource = MR.strings.log,
+        labelResource = Res.string.log,
     ),
     ;
 
     data object Preference : com.faltenreich.diaguard.preference.Preference<Int, StartScreen>(
-        key = MR.strings.preference_start_screen,
+        key = Res.string.preference_start_screen,
         default = DASHBOARD,
         onRead = { stableId -> entries.firstOrNull { it.stableId == stableId } },
         onWrite = StartScreen::stableId,

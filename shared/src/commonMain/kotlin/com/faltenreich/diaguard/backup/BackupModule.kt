@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.backup
 
-import com.faltenreich.diaguard.MR
 import com.faltenreich.diaguard.backup.legacy.LegacyImport
 import com.faltenreich.diaguard.backup.legacy.LegacyRepository
 import com.faltenreich.diaguard.backup.seed.SeedImport
@@ -30,8 +29,8 @@ fun backupModule() = module {
     singleOf(::PulseSeed)
     singleOf(::BloodPressureSeed)
     singleOf(::OxygenSaturationSeed)
-    single { FoodSeed(fileReader = ResourceFileReader(MR.files.food_common), serialization = get()) }
-    single { TagSeed(fileReader = ResourceFileReader(MR.files.tags), serialization = get()) }
+    single { FoodSeed(fileReader = ResourceFileReader("files/food_common"), serialization = get()) }
+    single { TagSeed(fileReader = ResourceFileReader("files/tags"), serialization = get()) }
     singleOf(::SeedRepository)
     singleOf(::SeedImport)
 

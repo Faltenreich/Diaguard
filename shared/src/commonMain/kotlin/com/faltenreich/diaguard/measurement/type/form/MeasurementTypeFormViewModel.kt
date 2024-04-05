@@ -2,7 +2,10 @@ package com.faltenreich.diaguard.measurement.type.form
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.DeleteModal
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,10 +18,11 @@ import kotlinx.coroutines.launch
 class MeasurementTypeFormViewModel(
     private val type: MeasurementType,
     getMeasurementTypeUseCase: GetMeasurementTypeUseCase = inject(),
-    countMeasurementValuesOfType: CountMeasurementValuesOfTypeUseCase = inject(),
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val deleteMeasurementType: DeleteMeasurementTypeUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
+    private val openModal: OpenModalUseCase = inject(),
+    private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<MeasurementTypeFormViewState, MeasurementTypeFormIntent>() {
 
     private var _typeName = MutableStateFlow(type.name)
@@ -45,21 +49,15 @@ class MeasurementTypeFormViewModel(
     private var _isValueRangeHighlighted = MutableStateFlow(type.range.isHighlighted)
     val isValueRangeHighlighted = _isValueRangeHighlighted.asStateFlow()
 
-    private val showDeletionDialog = MutableStateFlow(false)
-
     override val state = combine(
         getMeasurementTypeUseCase(type),
         unitName,
-        showDeletionDialog,
-        countMeasurementValuesOfType(type),
-    ) { type, unitName, showDeletionDialog, measurementCount ->
+    ) { type, unitName ->
         when (type) {
             null -> MeasurementTypeFormViewState.Error
             else ->  MeasurementTypeFormViewState.Loaded(
                 type = type,
                 unitName = if (type.isUserGenerated) unitName else type.selectedUnit.abbreviation,
-                showDeletionDialog = showDeletionDialog,
-                measurementCount = measurementCount,
             )
         }
     }
@@ -121,14 +119,20 @@ class MeasurementTypeFormViewModel(
             is MeasurementTypeFormIntent.EditValueRangeHigh -> _valueRangeHigh.value = intent.input
             is MeasurementTypeFormIntent.EditValueRangeMaximum -> _valueRangeMaximum.value = intent.input
             is MeasurementTypeFormIntent.EditIsValueRangeHighlighted -> _isValueRangeHighlighted.value = intent.input
-            // TODO: Replace with Modal
-            is MeasurementTypeFormIntent.ShowDeletionDialog -> showDeletionDialog.value = true
-            is MeasurementTypeFormIntent.HideDeletionDialog -> showDeletionDialog.value = false
-            is MeasurementTypeFormIntent.DeleteType -> {
-                deleteMeasurementType(intent.type.id)
-                showDeletionDialog.value = false
-                navigateBack()
-            }
+            is MeasurementTypeFormIntent.DeleteType -> deleteType()
         }
+    }
+
+    private fun deleteType() {
+        openModal(
+            DeleteModal(
+                onDismissRequest = closeModal::invoke,
+                onConfirm = {
+                    deleteMeasurementType(type)
+                    closeModal()
+                    navigateBack()
+                }
+            )
+        )
     }
 }

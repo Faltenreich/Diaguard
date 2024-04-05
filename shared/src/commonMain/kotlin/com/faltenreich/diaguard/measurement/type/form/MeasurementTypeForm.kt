@@ -64,35 +64,6 @@ fun MeasurementTypeForm(
                     viewModel = viewModel,
                 )
             }
-
-            if (viewState.showDeletionDialog) {
-                AlertDialog(
-                    onDismissRequest = { viewModel.dispatchIntent(MeasurementTypeFormIntent.HideDeletionDialog) },
-                    confirmButton = {
-                        TextButton(onClick = {
-                            viewModel.dispatchIntent(MeasurementTypeFormIntent.DeleteType(viewState.type))
-                        }) {
-                            Text(getString(Res.string.delete))
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = {
-                            viewModel.dispatchIntent(MeasurementTypeFormIntent.HideDeletionDialog)
-                        }) {
-                            Text(getString(Res.string.cancel))
-                        }
-                    },
-                    title = { Text(getString(Res.string.measurement_type_delete)) },
-                    text = {
-                        Text(
-                            getString(
-                                Res.string.measurement_type_delete_description,
-                                viewState.measurementCount,
-                            )
-                        )
-                    },
-                )
-            }
         }
 
         is MeasurementTypeFormViewState.Error -> TODO()

@@ -29,7 +29,7 @@ data class MeasurementTypeFormScreen(val measurementType: MeasurementType) : Scr
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.measurement_type_delete,
-                    onClick = { viewModel.dispatchIntent(MeasurementTypeFormIntent.ShowDeletionDialog) },
+                    onClick = { viewModel.dispatchIntent(MeasurementTypeFormIntent.DeleteType) },
                 )
             },
         )

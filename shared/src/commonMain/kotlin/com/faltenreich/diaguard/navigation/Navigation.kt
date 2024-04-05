@@ -32,6 +32,7 @@ class Navigation {
         return navigator.canPop
     }
 
+    // FIXME: Fails on second type of Modal
     fun pushModal(modal: Modal) {
         this.modal.value = modal
     }

@@ -39,6 +39,7 @@ fun MeasurementPropertyList(
                 }
             }
 
+            // TODO: Replace with Modal
             if (state.showFormDialog) {
                 MeasurementPropertyFormDialog(
                     onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyListIntent.HideFormDialog) },

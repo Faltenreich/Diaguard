@@ -6,7 +6,6 @@ import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
@@ -16,6 +15,9 @@ import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextDivider
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.measurement_type_add
+import diaguard.shared.generated.resources.measurement_types
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -64,6 +66,7 @@ fun MeasurementTypeList(
                 }
             }
 
+            // TODO: Replace with Modal
             if (viewState.showFormDialog) {
                 MeasurementTypeFormDialog(
                     onDismissRequest = {

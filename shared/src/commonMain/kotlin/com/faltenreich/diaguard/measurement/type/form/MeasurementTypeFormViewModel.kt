@@ -37,13 +37,10 @@ class MeasurementTypeFormViewModel(
         getMeasurementTypeUseCase(type),
         unitName,
     ) { type, unitName ->
-        when (type) {
-            null -> MeasurementTypeFormViewState.Error
-            else ->  MeasurementTypeFormViewState.Loaded(
-                type = type,
-                unitName = if (type.isUserGenerated) unitName else type.selectedUnit.abbreviation,
-            )
-        }
+        MeasurementTypeFormViewState(
+            type = type,
+            unitName = if (type.isUserGenerated) unitName else type.selectedUnit.abbreviation,
+        )
     }
 
     override fun handleIntent(intent: MeasurementTypeFormIntent) {

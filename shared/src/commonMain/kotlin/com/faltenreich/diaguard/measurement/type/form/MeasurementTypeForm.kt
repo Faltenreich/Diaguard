@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.measurement.type.form
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +15,6 @@ import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
@@ -26,43 +27,43 @@ fun MeasurementTypeForm(
     modifier: Modifier = Modifier,
     viewModel: MeasurementTypeFormViewModel = inject(),
 ) {
-    // TODO: Simplify state handling
-    when (val viewState = viewModel.collectState()) {
-        null -> LoadingIndicator(modifier = modifier)
+    val state = viewModel.collectState()
 
-        is MeasurementTypeFormViewState.Loaded -> {
-            Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+    AnimatedVisibility(
+        visible = state != null,
+        enter = fadeIn(),
+    ) {
+        state ?: return@AnimatedVisibility
+
+        Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+            TextInput(
+                input = viewModel.typeName.collectAsState().value,
+                onInputChange = { viewModel.typeName.value = it },
+                label = getString(Res.string.name),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(all = AppTheme.dimensions.padding.P_3),
+            )
+
+            if (state.type.property.isUserGenerated) {
                 TextInput(
-                    input = viewModel.typeName.collectAsState().value,
-                    onInputChange = { viewModel.typeName.value = it },
-                    label = getString(Res.string.name),
+                    input = viewModel.unitName.collectAsState().value,
+                    onInputChange = { viewModel.unitName.value = it },
+                    label = getString(Res.string.measurement_unit),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(all = AppTheme.dimensions.padding.P_3),
+                        .padding(horizontal = AppTheme.dimensions.padding.P_3),
                 )
-
-                if (viewState.type.property.isUserGenerated) {
-                    TextInput(
-                        input = viewModel.unitName.collectAsState().value,
-                        onInputChange = { viewModel.unitName.value = it },
-                        label = getString(Res.string.measurement_unit),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = AppTheme.dimensions.padding.P_3),
-                    )
-                } else {
-                    MeasurementUnitList(units = viewState.type.units)
-                }
-
-                TextDivider(getString(Res.string.values))
-
-                MeasurementValueRangeForm(
-                    viewState = viewState,
-                    viewModel = viewModel,
-                )
+            } else {
+                MeasurementUnitList(units = state.type.units)
             }
-        }
 
-        is MeasurementTypeFormViewState.Error -> TODO()
+            TextDivider(getString(Res.string.values))
+
+            MeasurementValueRangeForm(
+                unitName = state.unitName,
+                viewModel = viewModel,
+            )
+        }
     }
 }

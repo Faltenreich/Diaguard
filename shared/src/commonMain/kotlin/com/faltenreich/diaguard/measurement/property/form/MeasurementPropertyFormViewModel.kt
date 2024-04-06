@@ -53,7 +53,7 @@ class MeasurementPropertyFormViewModel(
         openModal(
             DeleteModal(
                 onDismissRequest = closeModal::invoke,
-                onConfirm = {
+                onConfirmRequest = {
                     deleteProperty(property)
                     closeModal()
                     navigateBack()

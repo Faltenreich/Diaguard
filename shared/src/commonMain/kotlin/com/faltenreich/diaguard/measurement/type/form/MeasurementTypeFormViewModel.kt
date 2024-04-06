@@ -76,7 +76,7 @@ class MeasurementTypeFormViewModel(
         openModal(
             DeleteModal(
                 onDismissRequest = closeModal::invoke,
-                onConfirm = {
+                onConfirmRequest = {
                     deleteType(type)
                     closeModal()
                     navigateBack()

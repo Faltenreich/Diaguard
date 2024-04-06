@@ -63,7 +63,7 @@ class TagDetailViewModel(
         openModal(
             DeleteModal(
                 onDismissRequest = closeModal::invoke,
-                onConfirm = {
+                onConfirmRequest = {
                     deleteTag(tag)
                     closeModal()
                     navigateBack()

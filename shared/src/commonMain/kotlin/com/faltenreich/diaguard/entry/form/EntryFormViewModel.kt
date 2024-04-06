@@ -200,7 +200,7 @@ class EntryFormViewModel(
             showModal(
                 DeleteModal(
                     onDismissRequest = closeModal::invoke,
-                    onConfirm = {
+                    onConfirmRequest = {
                         deleteEntry(entry)
                         closeModal()
                         navigateBack()

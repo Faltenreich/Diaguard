@@ -5,12 +5,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.cancel
+import diaguard.shared.generated.resources.delete
+import diaguard.shared.generated.resources.delete_description
+import diaguard.shared.generated.resources.delete_title
 import org.jetbrains.compose.resources.stringResource
 
 class DeleteModal(
     private val onDismissRequest: () -> Unit,
-    private val onConfirm: () -> Unit,
+    private val onConfirmRequest: () -> Unit,
 ) : Modal {
 
     @Composable
@@ -18,7 +22,7 @@ class DeleteModal(
         AlertDialog(
             onDismissRequest = onDismissRequest,
             confirmButton = {
-                TextButton(onClick = onConfirm) {
+                TextButton(onClick = onConfirmRequest) {
                     Text(
                         text = stringResource(Res.string.delete),
                         color = AppTheme.colors.Red,

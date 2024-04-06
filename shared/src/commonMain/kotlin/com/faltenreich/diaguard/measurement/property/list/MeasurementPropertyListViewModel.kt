@@ -2,46 +2,35 @@ package com.faltenreich.diaguard.measurement.property.list
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
+import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.MeasurementPropertyFormModal
 import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 
 class MeasurementPropertyListViewModel(
     getMeasurementProperties: GetMeasurementPropertiesUseCase = inject(),
     private val updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val createMeasurementProperty: CreateMeasurementPropertyUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val openModal: OpenModalUseCase = inject(),
+    private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<MeasurementPropertyListViewState, MeasurementPropertyListIntent>() {
 
-    private val showFormDialog = MutableStateFlow(false)
-
-    override val state = combine(
-        showFormDialog,
-        getMeasurementProperties(),
-        MeasurementPropertyListViewState::Loaded,
-    )
+    override val state = getMeasurementProperties().map(MeasurementPropertyListViewState::Loaded)
 
     private val properties: List<MeasurementProperty>?
         get() = (stateInScope.value as? MeasurementPropertyListViewState.Loaded)?.items
 
     override fun handleIntent(intent: MeasurementPropertyListIntent) {
         when (intent) {
-            is MeasurementPropertyListIntent.ShowFormDialog -> showFormDialog.value = true
-            is MeasurementPropertyListIntent.HideFormDialog -> showFormDialog.value = false
             is MeasurementPropertyListIntent.DecrementSortIndex -> decrementSortIndex(intent.property)
             is MeasurementPropertyListIntent.IncrementSortIndex -> incrementSortIndex(intent.property)
-            is MeasurementPropertyListIntent.CreateProperty -> createMeasurementProperty(
-                name = intent.name,
-                key = null,
-                icon = null,
-                sortIndex = intent.other.maxOf(MeasurementProperty::sortIndex) + 1,
-            )
-            is MeasurementPropertyListIntent.EditProperty -> navigateToScreen(
-                MeasurementPropertyFormScreen(intent.property)
-            )
+            is MeasurementPropertyListIntent.Edit -> editProperty(intent.property)
+            is MeasurementPropertyListIntent.Create -> createProperty()
         }
     }
 
@@ -61,5 +50,27 @@ class MeasurementPropertyListViewModel(
     ) {
         updateMeasurementProperty(first.copy(sortIndex = second.sortIndex))
         updateMeasurementProperty(second.copy(sortIndex = first.sortIndex))
+    }
+
+    private fun editProperty(property: MeasurementProperty) {
+        navigateToScreen(MeasurementPropertyFormScreen(property))
+    }
+
+    private fun createProperty() {
+        val properties = properties ?: return
+        openModal(
+            MeasurementPropertyFormModal(
+                onDismissRequest = closeModal::invoke,
+                onConfirmRequest = { name ->
+                    createMeasurementProperty(
+                        name = name,
+                        key = null,
+                        icon = null,
+                        sortIndex = properties.maxOf(MeasurementProperty::sortIndex) + 1,
+                    )
+                    closeModal()
+                }
+            )
+        )
     }
 }

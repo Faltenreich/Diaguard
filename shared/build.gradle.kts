@@ -21,7 +21,8 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.foundation)
                 implementation(compose.material3)
-                implementation(compose.preview)
+                // FIXME: Not yet compatible with iOS
+                // implementation(compose.preview)
                 implementation(compose.runtime)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines)

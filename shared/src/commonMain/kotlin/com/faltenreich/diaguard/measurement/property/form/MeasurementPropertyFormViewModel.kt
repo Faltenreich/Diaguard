@@ -24,8 +24,7 @@ class MeasurementPropertyFormViewModel(
     var name = MutableStateFlow(property.name)
     var icon = MutableStateFlow(property.icon ?: "")
 
-    override val state = getMeasurementTypesUseCase(property)
-        .map(MeasurementPropertyFormViewState::Loaded)
+    override val state = getMeasurementTypesUseCase(property).map(::MeasurementPropertyFormViewState)
 
     override fun handleIntent(intent: MeasurementPropertyFormIntent) {
         when (intent) {

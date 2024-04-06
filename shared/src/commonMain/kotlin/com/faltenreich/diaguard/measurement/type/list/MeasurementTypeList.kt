@@ -27,45 +27,44 @@ fun MeasurementTypeList(
     modifier: Modifier = Modifier,
     viewModel: MeasurementTypeListViewModel = inject(),
 ) {
+    Column(modifier = modifier) {
+        TextDivider(getString(Res.string.measurement_types))
+
+        types.forEachIndexed { index, type ->
+            MeasurementTypeListItem(
+                type = type,
+                onArrowUp = {
+                    viewModel.dispatchIntent(
+                        MeasurementTypeListIntent.DecrementSortIndex(type, types)
+                    )
+                },
+                showArrowUp = index > 0,
+                onArrowDown = {
+                    viewModel.dispatchIntent(
+                        MeasurementTypeListIntent.IncrementSortIndex(type, types)
+                    )
+                },
+                showArrowDown = index < types.size - 1,
+                modifier = Modifier.clickable {
+                    viewModel.dispatchIntent(
+                        MeasurementTypeListIntent.EditType(type)
+                    )
+                },
+            )
+            Divider()
+        }
+
+        FormRow {
+            SuggestionChip(
+                onClick = { viewModel.dispatchIntent(MeasurementTypeListIntent.ShowFormDialog) },
+                label = { Text(stringResource(Res.string.measurement_type_add)) },
+            )
+        }
+    }
+
     when (val viewState = viewModel.collectState()) {
         null -> LoadingIndicator(modifier = modifier)
-
         else -> {
-            Column(modifier = modifier) {
-                TextDivider(getString(Res.string.measurement_types))
-
-                types.forEachIndexed { index, type ->
-                    MeasurementTypeListItem(
-                        type = type,
-                        onArrowUp = {
-                            viewModel.dispatchIntent(
-                                MeasurementTypeListIntent.DecrementSortIndex(type, types)
-                            )
-                        },
-                        showArrowUp = index > 0,
-                        onArrowDown = {
-                            viewModel.dispatchIntent(
-                                MeasurementTypeListIntent.IncrementSortIndex(type, types)
-                            )
-                        },
-                        showArrowDown = index < types.size - 1,
-                        modifier = Modifier.clickable {
-                            viewModel.dispatchIntent(
-                                MeasurementTypeListIntent.EditType(type)
-                            )
-                        },
-                    )
-                    Divider()
-                }
-
-                FormRow {
-                    SuggestionChip(
-                        onClick = { viewModel.dispatchIntent(MeasurementTypeListIntent.ShowFormDialog) },
-                        label = { Text(stringResource(Res.string.measurement_type_add)) },
-                    )
-                }
-            }
-
             // TODO: Replace with Modal
             if (viewState.showFormDialog) {
                 MeasurementTypeFormDialog(

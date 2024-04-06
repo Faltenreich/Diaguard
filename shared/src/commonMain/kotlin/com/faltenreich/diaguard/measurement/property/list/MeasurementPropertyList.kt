@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.measurement.property.list
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
@@ -8,47 +10,59 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormDialog
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.LoadingIndicator
 
 @Composable
 fun MeasurementPropertyList(
     modifier: Modifier = Modifier,
     viewModel: MeasurementPropertyListViewModel = inject(),
 ) {
-    when (val state = viewModel.collectState()) {
-        null -> LoadingIndicator(modifier = modifier)
+    val state = viewModel.collectState()
+    val items = (state as? MeasurementPropertyListViewState.Loaded)?.items ?: emptyList()
 
-        is MeasurementPropertyListViewState.Loaded -> {
-            Column(modifier = modifier.verticalScroll(rememberScrollState())) {
-                val items = state.listItems
-                items.forEachIndexed { index, item ->
-                    MeasurementPropertyListItem(
-                        property = item,
-                        onArrowUp = {
-                            viewModel.dispatchIntent(MeasurementPropertyListIntent.DecrementSortIndex(item))
-                        },
-                        showArrowUp = index > 0,
-                        onArrowDown = {
-                            viewModel.dispatchIntent(MeasurementPropertyListIntent.IncrementSortIndex(item))
-                        },
-                        showArrowDown = index < items.size - 1,
-                        modifier = Modifier.clickable {
-                            viewModel.dispatchIntent(MeasurementPropertyListIntent.EditProperty(item))
-                        },
-                    )
-                }
-            }
-
-            // TODO: Replace with Modal
-            if (state.showFormDialog) {
-                MeasurementPropertyFormDialog(
-                    onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyListIntent.HideFormDialog) },
-                    onConfirmRequest = { name ->
-                        viewModel.dispatchIntent(MeasurementPropertyListIntent.CreateProperty(name, state.listItems))
-                        viewModel.dispatchIntent(MeasurementPropertyListIntent.HideFormDialog)
-                    }
+    AnimatedVisibility(
+        visible = items.isNotEmpty(),
+        enter = fadeIn(),
+    ) {
+        Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+            items.forEachIndexed { index, item ->
+                MeasurementPropertyListItem(
+                    property = item,
+                    onArrowUp = {
+                        viewModel.dispatchIntent(
+                            MeasurementPropertyListIntent.DecrementSortIndex(
+                                item
+                            )
+                        )
+                    },
+                    showArrowUp = index > 0,
+                    onArrowDown = {
+                        viewModel.dispatchIntent(
+                            MeasurementPropertyListIntent.IncrementSortIndex(
+                                item
+                            )
+                        )
+                    },
+                    showArrowDown = index < items.size - 1,
+                    modifier = Modifier.clickable {
+                        viewModel.dispatchIntent(
+                            MeasurementPropertyListIntent.EditProperty(
+                                item
+                            )
+                        )
+                    },
                 )
             }
         }
+    }
+
+    // TODO: Replace with Modal
+    if (false) {
+        MeasurementPropertyFormDialog(
+            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyListIntent.HideFormDialog) },
+            onConfirmRequest = { name ->
+                viewModel.dispatchIntent(MeasurementPropertyListIntent.CreateProperty(name, items))
+                viewModel.dispatchIntent(MeasurementPropertyListIntent.HideFormDialog)
+            }
+        )
     }
 }

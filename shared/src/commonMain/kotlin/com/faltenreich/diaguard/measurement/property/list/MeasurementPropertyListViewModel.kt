@@ -25,7 +25,7 @@ class MeasurementPropertyListViewModel(
     )
 
     private val properties: List<MeasurementProperty>?
-        get() = (stateInScope.value as? MeasurementPropertyListViewState.Loaded)?.listItems
+        get() = (stateInScope.value as? MeasurementPropertyListViewState.Loaded)?.items
 
     override fun handleIntent(intent: MeasurementPropertyListIntent) {
         when (intent) {

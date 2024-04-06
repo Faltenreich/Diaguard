@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
@@ -28,6 +29,16 @@ import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextInput
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.alarm
+import diaguard.shared.generated.resources.ic_alarm
+import diaguard.shared.generated.resources.ic_clear
+import diaguard.shared.generated.resources.ic_note
+import diaguard.shared.generated.resources.ic_tag
+import diaguard.shared.generated.resources.ic_time
+import diaguard.shared.generated.resources.minutes_until
+import diaguard.shared.generated.resources.note
+import diaguard.shared.generated.resources.tag_remove_description
 
 @Composable
 fun EntryForm(
@@ -110,13 +121,20 @@ fun EntryForm(
             }
         }
 
-        viewModel.measurements.forEach { measurement ->
-            MeasurementPropertyInput(
-                state = measurement,
-                foodState = viewModel.foodEaten,
-                onIntent = viewModel::dispatchIntent,
-            )
-            Divider()
+        AnimatedVisibility(
+            visible = viewModel.measurements.isNotEmpty(),
+            enter = fadeIn(),
+        ) {
+            Column {
+                viewModel.measurements.forEach { measurement ->
+                    MeasurementPropertyInput(
+                        state = measurement,
+                        foodState = viewModel.foodEaten,
+                        onIntent = viewModel::dispatchIntent,
+                    )
+                    Divider()
+                }
+            }
         }
     }
 }

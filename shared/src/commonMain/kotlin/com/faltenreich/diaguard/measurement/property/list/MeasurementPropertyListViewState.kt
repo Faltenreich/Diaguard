@@ -6,6 +6,6 @@ sealed interface MeasurementPropertyListViewState {
 
     class Loaded(
         val showFormDialog: Boolean,
-        val listItems: List<MeasurementProperty>,
+        val items: List<MeasurementProperty>,
     ) : MeasurementPropertyListViewState
 }

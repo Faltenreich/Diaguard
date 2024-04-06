@@ -26,6 +26,7 @@ fun MeasurementTypeForm(
     modifier: Modifier = Modifier,
     viewModel: MeasurementTypeFormViewModel = inject(),
 ) {
+    // TODO: Simplify state handling
     when (val viewState = viewModel.collectState()) {
         null -> LoadingIndicator(modifier = modifier)
 

@@ -16,12 +16,12 @@ fun MeasurementPropertyList(
     viewModel: MeasurementPropertyListViewModel = inject(),
 ) {
     val state = viewModel.collectState()
-    val properties = state?.properties ?: emptyList()
 
     AnimatedVisibility(
-        visible = properties.isNotEmpty(),
+        visible = state != null,
         enter = fadeIn(),
     ) {
+        val properties = state?.properties ?: emptyList()
         Column(modifier = modifier.verticalScroll(rememberScrollState())) {
             properties.forEachIndexed { index, property ->
                 MeasurementPropertyListItem(

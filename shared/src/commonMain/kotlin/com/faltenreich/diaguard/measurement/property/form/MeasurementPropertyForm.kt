@@ -27,7 +27,6 @@ fun MeasurementPropertyForm(
     viewModel: MeasurementPropertyFormViewModel = inject(),
 ) {
     val state = viewModel.collectState()
-    val types = state?.types
 
     Column(
         modifier = modifier
@@ -51,12 +50,13 @@ fun MeasurementPropertyForm(
         )
 
         AnimatedVisibility(
-            visible = types != null,
+            visible = state != null,
             enter = fadeIn(),
         ) {
+            val types = state?.types ?: emptyList()
             MeasurementTypeList(
                 property = viewModel.property,
-                types = types ?: emptyList(),
+                types = types,
             )
         }
     }

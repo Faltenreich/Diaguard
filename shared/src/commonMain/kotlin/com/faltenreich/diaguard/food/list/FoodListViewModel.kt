@@ -19,11 +19,14 @@ import kotlinx.coroutines.flow.onEach
 import kotlin.time.Duration.Companion.seconds
 
 class FoodListViewModel(
+    private val mode: FoodListMode,
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<List<Food>?, FoodListIntent>() {
 
+    // TODO: Introduce state
+    // FIXME: Is empty after clean install
     override val state = MutableStateFlow<List<Food>?>(null)
 
     var query: String by mutableStateOf("")
@@ -40,9 +43,18 @@ class FoodListViewModel(
 
     override fun handleIntent(intent: FoodListIntent) {
         when (intent) {
-            is FoodListIntent.Close -> navigateBack()
-            is FoodListIntent.CreateFood -> navigateToScreen(FoodFormScreen())
-            is FoodListIntent.EditFood -> navigateToScreen(FoodFormScreen(intent.food))
+            is FoodListIntent.Create -> navigateToScreen(FoodFormScreen())
+            is FoodListIntent.Select -> selectFood(intent.food)
+        }
+    }
+
+    private fun selectFood(food: Food) {
+        when (mode) {
+            FoodListMode.STROLL -> navigateToScreen(FoodFormScreen(food))
+            FoodListMode.FIND -> {
+                // TODO: Remember for calling screen
+                navigateBack()
+            }
         }
     }
 }

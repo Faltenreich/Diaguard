@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForFoodUseCase
 import com.faltenreich.diaguard.food.form.CreateFoodUseCase
 import com.faltenreich.diaguard.food.form.DeleteFoodUseCase
 import com.faltenreich.diaguard.food.form.FoodFormViewModel
+import com.faltenreich.diaguard.food.list.FoodListMode
 import com.faltenreich.diaguard.food.list.FoodListViewModel
 import com.faltenreich.diaguard.food.list.SearchFoodUseCase
 import org.koin.core.module.dsl.singleOf
@@ -24,7 +25,7 @@ fun foodModule() = module {
     singleOf(::GetFoodEatenForEntryUseCase)
     singleOf(::CreateFoodEatenUseCase)
 
-    singleOf(::FoodListViewModel)
-    factory { (food: Food) -> FoodEatenListViewModel(food = food) }
-    factory { (food: Food) -> FoodFormViewModel(food = food) }
+    factory { (mode: FoodListMode) -> FoodListViewModel(mode) }
+    factory { (food: Food) -> FoodEatenListViewModel(food) }
+    factory { (food: Food) -> FoodFormViewModel(food) }
 }

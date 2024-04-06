@@ -2,12 +2,11 @@ package com.faltenreich.diaguard.navigation.bottom
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import com.faltenreich.diaguard.shared.view.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
+import com.faltenreich.diaguard.food.list.FoodListMode
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
@@ -21,6 +20,18 @@ import com.faltenreich.diaguard.navigation.screen.TimelineScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.BottomSheet
 import com.faltenreich.diaguard.shared.view.BottomSheetState
+import com.faltenreich.diaguard.shared.view.Divider
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.dashboard
+import diaguard.shared.generated.resources.export
+import diaguard.shared.generated.resources.food
+import diaguard.shared.generated.resources.ic_dashboard
+import diaguard.shared.generated.resources.ic_log
+import diaguard.shared.generated.resources.ic_timeline
+import diaguard.shared.generated.resources.log
+import diaguard.shared.generated.resources.preferences
+import diaguard.shared.generated.resources.statistic
+import diaguard.shared.generated.resources.timeline
 import kotlinx.coroutines.launch
 
 @Composable
@@ -66,7 +77,7 @@ fun BottomSheetNavigation(
                 label = Res.string.food,
                 icon = null,
                 isActive = viewModel.getActiveScreen() is FoodListScreen,
-                onClick = { navigateTo(FoodListScreen(), false) },
+                onClick = { navigateTo(FoodListScreen(mode = FoodListMode.STROLL), false) },
             )
             BottomSheetNavigationItem(
                 label = Res.string.statistic,

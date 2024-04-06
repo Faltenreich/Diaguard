@@ -12,16 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.itemsElse
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.carbohydrates_per_100g
+import diaguard.shared.generated.resources.food
 
 @Composable
 fun FoodList(
-    onSelection: ((Food) -> Unit)? = null,
     modifier: Modifier = Modifier,
     viewModel: FoodListViewModel = inject(),
 ) {
@@ -58,10 +59,7 @@ fun FoodList(
                         modifier = Modifier
                             .clickable {
                                 food ?: return@clickable
-                                onSelection?.let {
-                                    onSelection(food)
-                                    viewModel.dispatchIntent(FoodListIntent.Close)
-                                } ?: viewModel.dispatchIntent(FoodListIntent.EditFood(food))
+                                viewModel.dispatchIntent(FoodListIntent.Select(food))
                             }
                     )
                     Divider()

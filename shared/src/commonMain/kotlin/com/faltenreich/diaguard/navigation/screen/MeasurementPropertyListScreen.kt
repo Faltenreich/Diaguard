@@ -29,7 +29,9 @@ data object MeasurementPropertyListScreen : Screen {
             floatingActionButton = {
                 val viewModel = getViewModel<MeasurementPropertyListViewModel>()
                 FloatingActionButton(
-                    onClick = { viewModel.dispatchIntent(MeasurementPropertyListIntent.Create) },
+                    onClick = {
+                        viewModel.dispatchIntent(MeasurementPropertyListIntent.Create)
+                    },
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),

@@ -20,28 +20,28 @@ class MeasurementPropertyListViewModel(
     private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<MeasurementPropertyListViewState, MeasurementPropertyListIntent>() {
 
-    override val state = getMeasurementProperties().map(MeasurementPropertyListViewState::Loaded)
+    override val state = getMeasurementProperties().map(::MeasurementPropertyListViewState)
 
     private val properties: List<MeasurementProperty>?
-        get() = (stateInScope.value as? MeasurementPropertyListViewState.Loaded)?.items
+        get() = stateInScope.value?.properties
 
-    override fun handleIntent(intent: MeasurementPropertyListIntent) {
-        when (intent) {
-            is MeasurementPropertyListIntent.DecrementSortIndex -> decrementSortIndex(intent.property)
-            is MeasurementPropertyListIntent.IncrementSortIndex -> incrementSortIndex(intent.property)
-            is MeasurementPropertyListIntent.Edit -> editProperty(intent.property)
+    override fun handleIntent(intent: MeasurementPropertyListIntent) = with(intent) {
+        when (this) {
+            is MeasurementPropertyListIntent.DecrementSortIndex -> decrementSortIndex(property)
+            is MeasurementPropertyListIntent.IncrementSortIndex -> incrementSortIndex(property)
+            is MeasurementPropertyListIntent.Edit -> editProperty(property)
             is MeasurementPropertyListIntent.Create -> createProperty()
         }
     }
 
     private fun decrementSortIndex(property: MeasurementProperty) {
-        val properties = properties ?: return
-        swapSortIndexes(first = property, second = properties.last { it.sortIndex < property.sortIndex })
+        val within = properties ?: return
+        swapSortIndexes(first = property, second = within.last { it.sortIndex < property.sortIndex })
     }
 
     private fun incrementSortIndex(property: MeasurementProperty) {
-        val properties = properties ?: return
-        swapSortIndexes(first = property, second = properties.first { it.sortIndex > property.sortIndex })
+        val within = properties ?: return
+        swapSortIndexes(first = property, second = within.first { it.sortIndex > property.sortIndex })
     }
 
     private fun swapSortIndexes(
@@ -57,7 +57,7 @@ class MeasurementPropertyListViewModel(
     }
 
     private fun createProperty() {
-        val properties = properties ?: return
+        val within = properties ?: return
         openModal(
             MeasurementPropertyFormModal(
                 onDismissRequest = closeModal::invoke,
@@ -66,7 +66,7 @@ class MeasurementPropertyListViewModel(
                         name = name,
                         key = null,
                         icon = null,
-                        sortIndex = properties.maxOf(MeasurementProperty::sortIndex) + 1,
+                        sortIndex = within.maxOf(MeasurementProperty::sortIndex) + 1,
                     )
                     closeModal()
                 }

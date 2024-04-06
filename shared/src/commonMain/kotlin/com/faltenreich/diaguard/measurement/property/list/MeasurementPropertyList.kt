@@ -16,26 +16,30 @@ fun MeasurementPropertyList(
     viewModel: MeasurementPropertyListViewModel = inject(),
 ) {
     val state = viewModel.collectState()
-    val items = (state as? MeasurementPropertyListViewState.Loaded)?.items ?: emptyList()
+    val properties = state?.properties ?: emptyList()
 
     AnimatedVisibility(
-        visible = items.isNotEmpty(),
+        visible = properties.isNotEmpty(),
         enter = fadeIn(),
     ) {
         Column(modifier = modifier.verticalScroll(rememberScrollState())) {
-            items.forEachIndexed { index, item ->
+            properties.forEachIndexed { index, property ->
                 MeasurementPropertyListItem(
-                    property = item,
+                    property = property,
                     onArrowUp = {
-                        viewModel.dispatchIntent(MeasurementPropertyListIntent.DecrementSortIndex(item))
+                        viewModel.dispatchIntent(
+                            MeasurementPropertyListIntent.DecrementSortIndex(property)
+                        )
                     },
                     showArrowUp = index > 0,
                     onArrowDown = {
-                        viewModel.dispatchIntent(MeasurementPropertyListIntent.IncrementSortIndex(item))
+                        viewModel.dispatchIntent(
+                            MeasurementPropertyListIntent.IncrementSortIndex(property)
+                        )
                     },
-                    showArrowDown = index < items.size - 1,
+                    showArrowDown = index < properties.size - 1,
                     modifier = Modifier.clickable {
-                        viewModel.dispatchIntent(MeasurementPropertyListIntent.Edit(item))
+                        viewModel.dispatchIntent(MeasurementPropertyListIntent.Edit(property))
                     },
                 )
             }

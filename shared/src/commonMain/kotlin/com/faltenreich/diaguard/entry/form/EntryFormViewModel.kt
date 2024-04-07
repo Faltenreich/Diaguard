@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
-import com.faltenreich.diaguard.food.list.FoodListMode
+import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
@@ -214,7 +214,7 @@ class EntryFormViewModel(
     }
 
     private fun selectFood() {
-        navigateToScreen(FoodListScreen(mode = FoodListMode.FIND))
+        navigateToScreen(FoodListScreen(mode = FoodSearchMode.FIND))
     }
 
     private fun addFood(food: Food) {

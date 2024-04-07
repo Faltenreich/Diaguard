@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.food.list
+package com.faltenreich.diaguard.food.search
 
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodRepository

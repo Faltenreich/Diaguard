@@ -7,10 +7,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.food.list.FoodList
-import com.faltenreich.diaguard.food.list.FoodListIntent
-import com.faltenreich.diaguard.food.list.FoodListMode
-import com.faltenreich.diaguard.food.list.FoodListViewModel
+import com.faltenreich.diaguard.food.search.FoodSearch
+import com.faltenreich.diaguard.food.search.FoodSearchIntent
+import com.faltenreich.diaguard.food.search.FoodSearchMode
+import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
@@ -25,7 +25,7 @@ import diaguard.shared.generated.resources.ic_add
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
-data class FoodListScreen(private val mode: FoodListMode) : Screen {
+data class FoodListScreen(private val mode: FoodSearchMode) : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
@@ -35,7 +35,7 @@ data class FoodListScreen(private val mode: FoodListMode) : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<FoodListViewModel> { parametersOf(mode) }
+                val viewModel = getViewModel<FoodSearchViewModel> { parametersOf(mode) }
                 SearchField(
                     query = viewModel.query,
                     placeholder = getString(Res.string.food_search_prompt),
@@ -46,8 +46,8 @@ data class FoodListScreen(private val mode: FoodListMode) : Screen {
                 )
             },
             floatingActionButton = {
-                val viewModel = getViewModel<FoodListViewModel> { parametersOf(mode) }
-                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodListIntent.Create) }) {
+                val viewModel = getViewModel<FoodSearchViewModel> { parametersOf(mode) }
+                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
                         contentDescription = getString(Res.string.food_new),
@@ -58,6 +58,6 @@ data class FoodListScreen(private val mode: FoodListMode) : Screen {
 
     @Composable
     override fun Content() {
-        FoodList(viewModel = getViewModel { parametersOf(mode) })
+        FoodSearch(viewModel = getViewModel { parametersOf(mode) })
     }
 }

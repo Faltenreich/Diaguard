@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.food.list.FoodListMode
+import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
@@ -77,7 +77,7 @@ fun BottomSheetNavigation(
                 label = Res.string.food,
                 icon = null,
                 isActive = viewModel.getActiveScreen() is FoodListScreen,
-                onClick = { navigateTo(FoodListScreen(mode = FoodListMode.STROLL), false) },
+                onClick = { navigateTo(FoodListScreen(mode = FoodSearchMode.STROLL), false) },
             )
             BottomSheetNavigationItem(
                 label = Res.string.statistic,

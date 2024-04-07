@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.food.list
+package com.faltenreich.diaguard.food.search
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,14 +18,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlin.time.Duration.Companion.seconds
 
-class FoodListViewModel(
-    private val mode: FoodListMode,
+class FoodSearchViewModel(
+    private val mode: FoodSearchMode,
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<FoodListState, FoodListIntent>() {
+) : ViewModel<FoodSearchState, FoodSearchIntent>() {
 
-    override val state = MutableStateFlow<FoodListState>(FoodListState.Loading)
+    override val state = MutableStateFlow<FoodSearchState>(FoodSearchState.Loading)
 
     var query: String by mutableStateOf("")
 
@@ -33,23 +33,23 @@ class FoodListViewModel(
         snapshotFlow { query }
             .debounce(1.seconds)
             .distinctUntilChanged()
-            .onEach { state.value = FoodListState.Loading }
+            .onEach { state.value = FoodSearchState.Loading }
             .flatMapLatest(searchFood::invoke)
-            .onEach { state.value = FoodListState.Loaded(it) }
+            .onEach { state.value = FoodSearchState.Loaded(it) }
             .launchIn(scope)
     }
 
-    override fun handleIntent(intent: FoodListIntent) {
+    override fun handleIntent(intent: FoodSearchIntent) {
         when (intent) {
-            is FoodListIntent.Create -> navigateToScreen(FoodFormScreen())
-            is FoodListIntent.Select -> selectFood(intent.food)
+            is FoodSearchIntent.Create -> navigateToScreen(FoodFormScreen())
+            is FoodSearchIntent.Select -> selectFood(intent.food)
         }
     }
 
     private fun selectFood(food: Food) {
         when (mode) {
-            FoodListMode.STROLL -> navigateToScreen(FoodFormScreen(food))
-            FoodListMode.FIND -> {
+            FoodSearchMode.STROLL -> navigateToScreen(FoodFormScreen(food))
+            FoodSearchMode.FIND -> {
                 // TODO: Remember for calling screen
                 navigateBack()
             }

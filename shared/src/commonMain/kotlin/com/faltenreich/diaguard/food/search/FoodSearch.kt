@@ -1,97 +1,37 @@
 package com.faltenreich.diaguard.food.search
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.list.FoodList
 import com.faltenreich.diaguard.food.list.FoodListSkeleton
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.ClearButton
-import com.faltenreich.diaguard.shared.view.SearchField
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.carbohydrates_per_100g
-import diaguard.shared.generated.resources.food
-import diaguard.shared.generated.resources.food_search_prompt
-import diaguard.shared.generated.resources.ic_arrow_back
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun FoodSearch(
     modifier: Modifier = Modifier,
     viewModel: FoodSearchViewModel = inject(),
 ) {
-    val focusManager = LocalFocusManager.current
     val state = viewModel.collectState()
 
     Column(modifier = modifier) {
         Column(modifier = Modifier.background(AppTheme.colors.scheme.primary)) {
-            SearchField(
+            FoodSearchField(
                 query = viewModel.query,
-                placeholder = getString(Res.string.food_search_prompt),
                 onQueryChange = { viewModel.query = it },
-                leadingIcon = {
-                    IconButton(onClick = { viewModel.dispatchIntent(FoodSearchIntent.Close) }) {
-                        Icon(
-                            painter = painterResource(Res.drawable.ic_arrow_back),
-                            contentDescription = null,
-                        )
-                    }
-                },
-                trailingIcon = {
-                    AnimatedVisibility(
-                        visible = viewModel.query.isNotEmpty(),
-                        enter = fadeIn(),
-                        exit = fadeOut(),
-                    ) {
-                        ClearButton(
-                            onClick = {
-                                viewModel.query = ""
-                                focusManager.clearFocus()
-                            },
-                        )
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = AppTheme.dimensions.padding.P_2),
+                onNavigateBack = { viewModel.dispatchIntent(FoodSearchIntent.Close) },
             )
-            Row(
+            FoodSearchHeader(
                 modifier = Modifier
                     .padding(
                         start = AppTheme.dimensions.padding.P_3,
                         end = AppTheme.dimensions.padding.P_3,
                         bottom = AppTheme.dimensions.padding.P_2,
                     ),
-                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = getString(Res.string.food),
-                    modifier = Modifier.weight(1f),
-                    color = AppTheme.colors.scheme.onPrimary,
-                    style = AppTheme.typography.bodyMedium,
-                )
-                Text(
-                    text = getString(Res.string.carbohydrates_per_100g),
-                    color = AppTheme.colors.scheme.onPrimary,
-                    style = AppTheme.typography.bodyMedium,
-                )
-            }
+            )
         }
         when (state) {
             is FoodSearchState.Loading, null -> FoodListSkeleton()

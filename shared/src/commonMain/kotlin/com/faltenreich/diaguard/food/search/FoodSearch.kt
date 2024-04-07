@@ -35,6 +35,7 @@ fun FoodSearch(
         }
         when (state) {
             is FoodSearchState.Loading, null -> FoodListSkeleton()
+            is FoodSearchState.Empty -> FoodSearchEmpty()
             is FoodSearchState.Loaded -> FoodList(
                 items = state.items,
                 onSelect = { viewModel.dispatchIntent(FoodSearchIntent.Select(it)) },

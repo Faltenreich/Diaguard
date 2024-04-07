@@ -35,7 +35,11 @@ class FoodSearchViewModel(
             .distinctUntilChanged()
             .onEach { state.value = FoodSearchState.Loading }
             .flatMapLatest(searchFood::invoke)
-            .onEach { state.value = FoodSearchState.Loaded(it) }
+            .onEach { results ->
+                state.value =
+                    if (results.isNotEmpty()) FoodSearchState.Loaded(results)
+                    else FoodSearchState.Empty
+            }
             .launchIn(scope)
     }
 

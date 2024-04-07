@@ -26,6 +26,8 @@ fun SearchField(
         trailingIcon = trailingIcon,
         shape = AppTheme.shapes.small,
         colors = TextFieldDefaults.colors(
+            focusedContainerColor = AppTheme.colors.scheme.surfaceContainer,
+            unfocusedContainerColor = AppTheme.colors.scheme.surfaceContainer,
             // Removing bottom border
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,

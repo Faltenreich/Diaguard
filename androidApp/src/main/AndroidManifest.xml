@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- TODO: Support predictive navigation via enableOnBackInvokedCallback -->
     <application
         android:name="com.faltenreich.diaguard.MainApplication"
         android:allowBackup="false"

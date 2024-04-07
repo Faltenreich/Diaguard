@@ -26,7 +26,6 @@ class FoodListViewModel(
 ) : ViewModel<List<Food>?, FoodListIntent>() {
 
     // TODO: Introduce state
-    // FIXME: Is empty after clean install
     override val state = MutableStateFlow<List<Food>?>(null)
 
     var query: String by mutableStateOf("")

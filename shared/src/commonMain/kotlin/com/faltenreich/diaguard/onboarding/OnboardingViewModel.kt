@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 class OnboardingViewModel(
     hasData: HasDataUseCase = inject(),
     private val import: ImportUseCase = inject(),
-) : ViewModel<OnboardingViewState, OnboardingIntent>() {
+) : ViewModel<OnboardingViewState, OnboardingIntent, Unit>() {
 
     override val state = hasData().map { hasData ->
         when (hasData) {

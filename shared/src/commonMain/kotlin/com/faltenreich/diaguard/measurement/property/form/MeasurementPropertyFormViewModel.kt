@@ -19,7 +19,7 @@ class MeasurementPropertyFormViewModel(
     private val navigateBack: NavigateBackUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
-) : ViewModel<MeasurementPropertyFormViewState, MeasurementPropertyFormIntent>() {
+) : ViewModel<MeasurementPropertyFormViewState, MeasurementPropertyFormIntent, Unit>() {
 
     var name = MutableStateFlow(property.name)
     var icon = MutableStateFlow(property.icon ?: "")

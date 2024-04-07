@@ -19,7 +19,8 @@ import org.koin.core.parameter.parametersOf
 
 data class FoodSearchScreen(private val mode: FoodSearchMode) : Screen {
 
-    override val topAppBarStyle = TopAppBarStyle.Hidden
+    override val topAppBarStyle: TopAppBarStyle
+        get() = TopAppBarStyle.Hidden
 
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(

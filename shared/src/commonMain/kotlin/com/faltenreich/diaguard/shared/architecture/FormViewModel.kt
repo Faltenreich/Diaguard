@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
  * Forms use MutableState instead of (State-)Flow,
  * since the latter is not compatible with Composables like [androidx.compose.material3.TextField]
  */
-abstract class FormViewModel<Intent> : ViewModel<Nothing, Intent>() {
+abstract class FormViewModel<Intent> : ViewModel<Nothing, Intent, Unit>() {
 
     override val state: Flow<Nothing>
         get() = throw UnsupportedOperationException()

@@ -52,12 +52,10 @@ fun EntryForm(
     val state = viewModel.collectState()
 
     LaunchedEffect(Unit) {
-        foodSearchViewModel.events.collect { event ->
+        foodSearchViewModel.collectEvents { event ->
             when (event) {
                 is FoodSearchEvent.Select -> viewModel.dispatchIntent(EntryFormIntent.AddFood(event.food))
             }
-            // TODO: How to avoid manually resetting replay cache?
-            foodSearchViewModel._events.resetReplayCache()
         }
     }
 

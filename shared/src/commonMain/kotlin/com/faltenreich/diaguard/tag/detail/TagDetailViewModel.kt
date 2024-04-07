@@ -27,7 +27,7 @@ class TagDetailViewModel(
     private val closeModal: CloseModalUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
-) : ViewModel<TagDetailState, TagDetailIntent>() {
+) : ViewModel<TagDetailState, TagDetailIntent, Unit>() {
 
     var name = MutableStateFlow(tag.name)
     private val error = MutableStateFlow<String?>(null)

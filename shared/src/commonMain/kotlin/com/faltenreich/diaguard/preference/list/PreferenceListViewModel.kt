@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 class PreferenceListViewModel(
     preferences: List<PreferenceListItem>?,
     getDefaultPreferences: GetDefaultPreferencesUseCase = inject(),
-) : ViewModel<PreferenceListViewState, Unit>() {
+) : ViewModel<PreferenceListViewState, Unit, Unit>() {
 
     override val state = (preferences?.let(::flowOf) ?: getDefaultPreferences())
         .map(PreferenceListViewState::Loaded)

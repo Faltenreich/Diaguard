@@ -11,7 +11,7 @@ import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier
 
 @Composable
-inline fun <reified T : ViewModel<*, *>> Screen.getViewModel(
+inline fun <reified T : ViewModel<*, *, *>> Screen.getViewModel(
     qualifier: Qualifier? = null,
     noinline parameters: ParametersDefinition? = null,
 ): T {
@@ -20,7 +20,7 @@ inline fun <reified T : ViewModel<*, *>> Screen.getViewModel(
 
 @Suppress("UnusedReceiverParameter")
 @Composable
-inline fun <reified T : ViewModel<*, *>> Screen.getSharedViewModel(
+inline fun <reified T : ViewModel<*, *, *>> Screen.getSharedViewModel(
     qualifier: Qualifier? = null,
     noinline parameters: ParametersDefinition? = null,
 ): T {

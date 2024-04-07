@@ -61,7 +61,7 @@ class EntryFormViewModel(
     private val createEntry: CreateEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
-) : ViewModel<EntryFormState, EntryFormIntent>() {
+) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
     private val editing: Entry? = entry
     private val id: Long? = entry?.id

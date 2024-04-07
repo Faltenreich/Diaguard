@@ -18,7 +18,7 @@ class MeasurementPropertyListViewModel(
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
-) : ViewModel<MeasurementPropertyListViewState, MeasurementPropertyListIntent>() {
+) : ViewModel<MeasurementPropertyListViewState, MeasurementPropertyListIntent, Unit>() {
 
     override val state = getMeasurementProperties().map(::MeasurementPropertyListViewState)
 

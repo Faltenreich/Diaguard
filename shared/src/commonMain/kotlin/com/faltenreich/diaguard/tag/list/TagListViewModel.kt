@@ -11,7 +11,7 @@ class TagListViewModel(
     getTags: GetTagsUseCase,
     private val openModal: OpenModalUseCase,
     private val navigateToScreen: NavigateToScreenUseCase,
-) : ViewModel<TagListViewState, TagListIntent>() {
+) : ViewModel<TagListViewState, TagListIntent, Unit>() {
 
     private val tags = getTags()
     override val state = tags.map(::TagListViewState)

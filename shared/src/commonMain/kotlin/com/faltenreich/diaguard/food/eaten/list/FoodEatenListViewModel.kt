@@ -11,7 +11,7 @@ class FoodEatenListViewModel(
     food: Food,
     getFoodEaten: GetFoodEatenForFoodUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<FoodEatenListViewState, FoodEatenListIntent>() {
+) : ViewModel<FoodEatenListViewState, FoodEatenListIntent, Unit>() {
 
     override val state = getFoodEaten(food).map { results ->
         when {

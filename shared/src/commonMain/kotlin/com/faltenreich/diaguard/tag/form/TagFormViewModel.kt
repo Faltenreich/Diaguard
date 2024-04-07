@@ -10,7 +10,7 @@ class TagFormViewModel(
     private val validateTag: ValidateTagUseCase,
     private val createTag: CreateTagUseCase,
     private val closeModal: CloseModalUseCase,
-) : ViewModel<TagFormState, TagFormIntent>() {
+) : ViewModel<TagFormState, TagFormIntent, Unit>() {
 
     private val error = MutableStateFlow<String?>(null)
 

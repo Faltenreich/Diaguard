@@ -15,7 +15,7 @@ class NavigationViewModel(
     val getActiveScreen: GetActiveScreenUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     val canNavigateBack: CanNavigateBackUseCase = inject(),
-) : ViewModel<NavigationViewState, NavigationIntent>() {
+) : ViewModel<NavigationViewState, NavigationIntent, Unit>() {
 
     override val state = getPreference(StartScreen.Preference).map { startScreen ->
         NavigationViewState(

@@ -15,7 +15,7 @@ class MeasurementTypeListViewModel(
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val createMeasurementType: CreateMeasurementTypeUseCase = inject(),
-) : ViewModel<MeasurementTypeListViewState, MeasurementTypeListIntent>() {
+) : ViewModel<MeasurementTypeListViewState, MeasurementTypeListIntent, Unit>() {
 
     private val showFormDialog = MutableStateFlow(false)
 

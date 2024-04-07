@@ -9,6 +9,9 @@ import cafe.adriel.voyager.core.screen.Screen as VoyagerScreen
  *
  * State restoration requires every parameter to implement
  * [com.faltenreich.diaguard.shared.serialization.Serializable]
+ *
+ * Both [topAppBarStyle] and [bottomAppBarStyle] must be computed
+ * in order to avoid a BadParcelableException on resume
  */
 sealed interface Screen : VoyagerScreen {
 

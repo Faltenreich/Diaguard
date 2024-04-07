@@ -21,7 +21,7 @@ class MeasurementTypeFormViewModel(
     private val navigateBack: NavigateBackUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
-) : ViewModel<MeasurementTypeFormViewState, MeasurementTypeFormIntent>() {
+) : ViewModel<MeasurementTypeFormViewState, MeasurementTypeFormIntent, Unit>() {
 
     var typeName = MutableStateFlow(type.name)
     var unitName = MutableStateFlow(type.selectedUnit.name)

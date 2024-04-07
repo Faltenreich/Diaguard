@@ -20,7 +20,7 @@ class EntrySearchViewModel(
     query: String = "",
     searchEntries: SearchEntriesUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<EntrySearchViewState, EntrySearchIntent>() {
+) : ViewModel<EntrySearchViewState, EntrySearchIntent, Unit>() {
 
     override val state = MutableStateFlow<EntrySearchViewState>(EntrySearchViewState.Idle)
 

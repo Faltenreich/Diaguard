@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 class ThemeViewModel(
     getPreference: GetPreferenceUseCase = inject(),
-) : ViewModel<ColorScheme, Unit>() {
+) : ViewModel<ColorScheme, Unit, Unit>() {
 
     override val state: Flow<ColorScheme> = getPreference(ColorScheme.Preference)
 

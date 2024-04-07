@@ -10,9 +10,7 @@ import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -26,11 +24,9 @@ class FoodSearchViewModel(
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<FoodSearchState, FoodSearchIntent>() {
+) : ViewModel<FoodSearchState, FoodSearchIntent, FoodSearchEvent>() {
 
     override val state = MutableStateFlow<FoodSearchState>(FoodSearchState.Loading)
-    val _events = MutableSharedFlow<FoodSearchEvent>(replay = 1)
-    val events = _events.asSharedFlow()
 
     var query: String by mutableStateOf("")
 
@@ -60,7 +56,7 @@ class FoodSearchViewModel(
         when (mode) {
             FoodSearchMode.STROLL -> navigateToScreen(FoodFormScreen(food))
             FoodSearchMode.FIND -> {
-                _events.emit(FoodSearchEvent.Select(food))
+                postEvent(FoodSearchEvent.Select(food))
                 navigateBack()
             }
         }

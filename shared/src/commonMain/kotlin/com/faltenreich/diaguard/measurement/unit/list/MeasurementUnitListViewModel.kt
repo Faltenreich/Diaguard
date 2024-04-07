@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flowOf
 
 class MeasurementUnitListViewModel(
     private val updateMeasurementType: UpdateMeasurementTypeUseCase = inject(),
-) : ViewModel<Unit, MeasurementUnitListIntent>() {
+) : ViewModel<Unit, MeasurementUnitListIntent, Unit>() {
 
     override val state: Flow<Unit>
         get() = flowOf(Unit)

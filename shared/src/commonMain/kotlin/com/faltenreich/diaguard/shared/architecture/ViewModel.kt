@@ -8,13 +8,19 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-abstract class ViewModel<State, Intent>(
+/**
+ * @param State represents a view state for the related Composable
+ * @param Intent represents one-shot actions directed to the ViewModel
+ * @param Event represents one-shot actions directed from the ViewModel
+ */
+abstract class ViewModel<State, Intent, Event>(
     private val dispatcher: CoroutineDispatcher = inject(),
 ) : ScreenModel {
 
@@ -30,6 +36,8 @@ abstract class ViewModel<State, Intent>(
             initialValue = null,
         )
     }
+
+    private val events = MutableSharedFlow<Event>(replay = 1)
 
     @Composable
     fun collectState(): State? {
@@ -48,5 +56,23 @@ abstract class ViewModel<State, Intent>(
      */
     fun dispatchIntent(intent: Intent) {
         scope.launch(dispatcher) { handleIntent(intent) }
+    }
+
+    /**
+     * Posts [event] asynchronously via [dispatcher] within [scope]
+     */
+    fun postEvent(event: Event) = scope.launch(dispatcher) {
+        events.emit(event)
+    }
+
+    /**
+     * Collects one-shot [events]
+     */
+    suspend fun collectEvents(onEvent: (Event) -> Unit) {
+        events.collect { event ->
+            onEvent(event)
+            // TODO: How to avoid manually resetting replay cache?
+            events.resetReplayCache()
+        }
     }
 }

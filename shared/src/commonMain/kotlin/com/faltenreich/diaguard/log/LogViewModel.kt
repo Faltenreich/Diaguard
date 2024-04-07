@@ -4,6 +4,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import app.cash.paging.PagingSource
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
 import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItem
@@ -14,8 +16,6 @@ import com.faltenreich.diaguard.navigation.modal.DatePickerModal
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +29,7 @@ class LogViewModel(
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
-) : ViewModel<LogState, LogIntent>() {
+) : ViewModel<LogState, LogIntent, Unit>() {
 
     private val initialDate: Date = date ?: getToday()
     private lateinit var dataSource: PagingSource<Date, LogItem>

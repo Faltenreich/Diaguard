@@ -14,11 +14,10 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
-import com.faltenreich.diaguard.shared.view.Skeleton
 
 @Composable
 fun FoodListItem(
-    food: Food?,
+    food: Food,
     modifier: Modifier = Modifier,
     // TODO: Extract into use case
     formatNumber: NumberFormatter = inject(),
@@ -31,17 +30,13 @@ fun FoodListItem(
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Skeleton(
-            item = food,
+        Text(
+            text = food.name,
             modifier = Modifier.weight(1f),
-        ) { food ->
-            Text(food.name)
-        }
-        Skeleton(item = food) { food ->
-            Text(
-                text = formatNumber(food.carbohydrates),
-                style = AppTheme.typography.bodyMedium,
-            )
-        }
+        )
+        Text(
+            text = formatNumber(food.carbohydrates),
+            style = AppTheme.typography.bodyMedium,
+        )
     }
 }

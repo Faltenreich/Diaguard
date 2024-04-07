@@ -23,10 +23,9 @@ class FoodListViewModel(
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<List<Food>?, FoodListIntent>() {
+) : ViewModel<FoodListState, FoodListIntent>() {
 
-    // TODO: Introduce state
-    override val state = MutableStateFlow<List<Food>?>(null)
+    override val state = MutableStateFlow<FoodListState>(FoodListState.Loading)
 
     var query: String by mutableStateOf("")
 
@@ -34,9 +33,9 @@ class FoodListViewModel(
         snapshotFlow { query }
             .debounce(1.seconds)
             .distinctUntilChanged()
-            .onEach { state.value = null }
-            .flatMapLatest { searchFood(it) }
-            .onEach { state.value = it }
+            .onEach { state.value = FoodListState.Loading }
+            .flatMapLatest(searchFood::invoke)
+            .onEach { state.value = FoodListState.Loaded(it) }
             .launchIn(scope)
     }
 

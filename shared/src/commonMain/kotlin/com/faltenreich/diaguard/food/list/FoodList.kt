@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,7 +17,6 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.shared.view.itemsElse
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.carbohydrates_per_100g
 import diaguard.shared.generated.resources.food
@@ -26,7 +26,7 @@ fun FoodList(
     modifier: Modifier = Modifier,
     viewModel: FoodListViewModel = inject(),
 ) {
-    val items = viewModel.collectState()
+    val state = viewModel.collectState()
     Column {
         Row(
             modifier = Modifier
@@ -51,18 +51,19 @@ fun FoodList(
                 style = AppTheme.typography.bodyMedium,
             )
         }
-        LazyColumn(modifier = modifier) {
-            itemsElse(items, key = Food::id) { food ->
-                Column {
-                    FoodListItem(
-                        food = food,
-                        modifier = Modifier
-                            .clickable {
-                                food ?: return@clickable
+        when (state) {
+            is FoodListState.Loading, null -> Unit
+            is FoodListState.Loaded -> LazyColumn(modifier = modifier) {
+                items(state.foodList, key = Food::id) { food ->
+                    Column {
+                        FoodListItem(
+                            food = food,
+                            modifier = Modifier.clickable {
                                 viewModel.dispatchIntent(FoodListIntent.Select(food))
                             }
-                    )
-                    Divider()
+                        )
+                        Divider()
+                    }
                 }
             }
         }

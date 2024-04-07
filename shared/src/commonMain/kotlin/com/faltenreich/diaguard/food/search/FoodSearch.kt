@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.food.search
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,11 +15,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.list.FoodList
 import com.faltenreich.diaguard.food.list.FoodListSkeleton
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.ClearButton
 import com.faltenreich.diaguard.shared.view.SearchField
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.carbohydrates_per_100g
@@ -30,7 +35,9 @@ fun FoodSearch(
     modifier: Modifier = Modifier,
     viewModel: FoodSearchViewModel = inject(),
 ) {
+    val focusManager = LocalFocusManager.current
     val state = viewModel.collectState()
+
     Column(modifier = modifier) {
         Column(modifier = Modifier.background(AppTheme.colors.scheme.primary)) {
             SearchField(
@@ -42,6 +49,20 @@ fun FoodSearch(
                         Icon(
                             painter = painterResource(Res.drawable.ic_arrow_back),
                             contentDescription = null,
+                        )
+                    }
+                },
+                trailingIcon = {
+                    AnimatedVisibility(
+                        visible = viewModel.query.isNotEmpty(),
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                    ) {
+                        ClearButton(
+                            onClick = {
+                                viewModel.query = ""
+                                focusManager.clearFocus()
+                            },
                         )
                     }
                 },

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard
+package com.faltenreich.diaguard.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigation
@@ -30,17 +29,19 @@ import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 @Composable
 fun MainView(
     modifier: Modifier = Modifier,
-    navigationViewModel: NavigationViewModel = inject(),
+    viewModel: MainViewModel = inject(),
+    // TODO: Move into MainViewModel
     navigation: Navigation = inject(),
 ) {
     val snackbarHostState = remember { SnackbarHostState().also { navigation.snackbarState = it } }
     val modal = navigation.modal.collectAsState().value
 
-    when (val viewState = navigationViewModel.collectState()) {
-        null -> LoadingIndicator(modifier = modifier)
+    when (val state = viewModel.collectState()) {
+        // TODO: Make more beautiful
+        is MainState.Loading, null -> LoadingIndicator(modifier = modifier)
 
-        else -> Box(modifier = modifier) {
-            Navigator(screen = viewState.startScreen) { navigator ->
+        is MainState.Loaded -> Box(modifier = modifier) {
+            Navigator(screen = state.startScreen) { navigator ->
                 navigation.navigator = navigator
 
                 Box {

@@ -6,25 +6,27 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
-import com.faltenreich.diaguard.navigation.NavigationIntent
-import com.faltenreich.diaguard.navigation.NavigationViewModel
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_arrow_back
+import diaguard.shared.generated.resources.navigate_back
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun TopAppBar(
     style: TopAppBarStyle,
-    viewModel: NavigationViewModel = inject(),
+    // TODO: Extract into some sort of ViewModel
+    navigation: Navigation = inject(),
 ) {
     when (style) {
         is TopAppBarStyle.Hidden -> Unit
         is TopAppBarStyle.CenterAligned -> CenterAlignedTopAppBar(
             title = { style.content() },
             navigationIcon = {
-                if (viewModel.canNavigateBack()) {
-                    IconButton(onClick = { viewModel.dispatchIntent(NavigationIntent.NavigateBack) }) {
+                if (navigation.canPop()) {
+                    IconButton(onClick = navigation::pop) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_arrow_back),
                             contentDescription = getString(Res.string.navigate_back),

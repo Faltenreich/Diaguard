@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.navigation
 
+import com.faltenreich.diaguard.main.MainViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -12,5 +13,5 @@ fun navigationModule() = module {
     singleOf(::GetActiveScreenUseCase)
     singleOf(::OpenModalUseCase)
     singleOf(::CloseModalUseCase)
-    singleOf(::NavigationViewModel)
+    singleOf(::MainViewModel)
 }

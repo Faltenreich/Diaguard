@@ -5,19 +5,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.onboarding.FirstStart
-import com.faltenreich.diaguard.onboarding.OnboardingViewModel
-import com.faltenreich.diaguard.onboarding.OnboardingViewState
+import com.faltenreich.diaguard.main.MainView
 import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.theme.ThemeViewModel
-import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.keyboardPadding
 
 @Composable
 fun AppView(
     modifier: Modifier = Modifier,
-    onboardingViewModel: OnboardingViewModel = inject(),
     themeViewModel: ThemeViewModel = inject(),
 ) {
     val isDarkColorScheme = when (themeViewModel.collectState()) {
@@ -30,11 +26,7 @@ fun AppView(
             modifier = modifier.fillMaxSize().keyboardPadding(),
             color = AppTheme.colors.scheme.surface,
         ) {
-            when (onboardingViewModel.collectState()) {
-                null -> LoadingIndicator()
-                is OnboardingViewState.FirstStart -> FirstStart(modifier = modifier)
-                is OnboardingViewState.SubsequentStart -> MainView(modifier = modifier)
-            }
+            MainView(modifier = modifier)
         }
     }
 }

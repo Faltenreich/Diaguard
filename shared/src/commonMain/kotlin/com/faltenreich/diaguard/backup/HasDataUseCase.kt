@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.onboarding
+package com.faltenreich.diaguard.backup
 
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.shared.di.inject

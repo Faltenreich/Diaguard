@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.navigation.NavigationIntent
-import com.faltenreich.diaguard.navigation.NavigationViewModel
+import com.faltenreich.diaguard.main.MainViewModel
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
 import com.faltenreich.diaguard.navigation.screen.FoodSearchScreen
@@ -39,7 +39,7 @@ fun BottomSheetNavigation(
     bottomSheetState: BottomSheetState,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: NavigationViewModel = inject(),
+    viewModel: MainViewModel = inject(),
 ) {
     BottomSheet(
         onDismissRequest = onDismissRequest,

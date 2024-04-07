@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.navigation.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.DatePickerModal
 import com.faltenreich.diaguard.navigation.modal.DeleteModal
 import com.faltenreich.diaguard.navigation.modal.TimePickerModal
-import com.faltenreich.diaguard.navigation.screen.FoodListScreen
+import com.faltenreich.diaguard.navigation.screen.FoodSearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
@@ -214,7 +214,7 @@ class EntryFormViewModel(
     }
 
     private fun selectFood() {
-        navigateToScreen(FoodListScreen(mode = FoodSearchMode.FIND))
+        navigateToScreen(FoodSearchScreen(mode = FoodSearchMode.FIND))
     }
 
     private fun addFood(food: Food) {

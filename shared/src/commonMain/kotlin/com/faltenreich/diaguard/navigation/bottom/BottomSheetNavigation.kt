@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.screen.DashboardScreen
 import com.faltenreich.diaguard.navigation.screen.ExportFormScreen
-import com.faltenreich.diaguard.navigation.screen.FoodListScreen
+import com.faltenreich.diaguard.navigation.screen.FoodSearchScreen
 import com.faltenreich.diaguard.navigation.screen.LogScreen
 import com.faltenreich.diaguard.navigation.screen.PreferenceListScreen
 import com.faltenreich.diaguard.navigation.screen.Screen
@@ -76,8 +76,8 @@ fun BottomSheetNavigation(
             BottomSheetNavigationItem(
                 label = Res.string.food,
                 icon = null,
-                isActive = viewModel.getActiveScreen() is FoodListScreen,
-                onClick = { navigateTo(FoodListScreen(mode = FoodSearchMode.STROLL), false) },
+                isActive = viewModel.getActiveScreen() is FoodSearchScreen,
+                onClick = { navigateTo(FoodSearchScreen(mode = FoodSearchMode.STROLL), false) },
             )
             BottomSheetNavigationItem(
                 label = Res.string.statistic,

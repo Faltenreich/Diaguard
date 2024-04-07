@@ -6,5 +6,5 @@ sealed interface FoodSearchState {
 
     data object Loading : FoodSearchState
 
-    data class Loaded(val foodList: List<Food>) : FoodSearchState
+    data class Loaded(val items: List<Food>) : FoodSearchState
 }

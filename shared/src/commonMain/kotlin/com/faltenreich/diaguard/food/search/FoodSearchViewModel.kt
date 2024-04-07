@@ -41,6 +41,7 @@ class FoodSearchViewModel(
 
     override fun handleIntent(intent: FoodSearchIntent) {
         when (intent) {
+            is FoodSearchIntent.Close -> navigateBack()
             is FoodSearchIntent.Create -> navigateToScreen(FoodFormScreen())
             is FoodSearchIntent.Select -> selectFood(intent.food)
         }

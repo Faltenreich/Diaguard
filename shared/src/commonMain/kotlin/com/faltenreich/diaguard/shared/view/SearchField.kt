@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.view
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -8,13 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun SearchField(
     query: String = "",
     placeholder: String?,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -23,14 +22,9 @@ fun SearchField(
         onValueChange = onQueryChange,
         modifier = modifier,
         placeholder = placeholder?.let { { Text(placeholder) } },
-        leadingIcon = {
-            Icon(
-                painter = painterResource(Res.drawable.ic_search),
-                contentDescription = null,
-            )
-        },
-        trailingIcon = { ClearButton(onClick = { onQueryChange("") }) },
-        shape = AppTheme.shapes.extraLarge,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        shape = AppTheme.shapes.small,
         colors = TextFieldDefaults.colors(
             // Removing bottom border
             focusedIndicatorColor = Color.Transparent,

@@ -47,7 +47,7 @@ abstract class ViewModel<State, Intent, Event>(
     /**
      * Handles [intent] synchronously
      */
-    abstract fun handleIntent(intent: Intent)
+    open fun handleIntent(intent: Intent) = Unit
 
     /**
      * Handles [intent] asynchronously via [dispatcher] within [scope]

@@ -11,7 +11,7 @@ class GetAppVersionUseCase(
 
     operator fun invoke(): Flow<String> {
         return flowOf(
-            "%s-%d".format(
+            "%s (%d)".format(
                 buildConfig.getVersionName(),
                 buildConfig.getBuildNumber(),
             )

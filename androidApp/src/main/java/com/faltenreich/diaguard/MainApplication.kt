@@ -11,7 +11,7 @@ class MainApplication : Application() {
         super.onCreate()
         DependencyInjection.setup {
             // TODO: Set to none for release
-            androidLogger(Level.DEBUG)
+            androidLogger(Level.INFO)
             androidContext(this@MainApplication)
         }
     }

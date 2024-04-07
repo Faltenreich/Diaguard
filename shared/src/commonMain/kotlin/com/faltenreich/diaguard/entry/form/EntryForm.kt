@@ -15,6 +15,7 @@ import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
@@ -23,6 +24,8 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
+import com.faltenreich.diaguard.food.search.FoodSearchEvent
+import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
@@ -44,8 +47,19 @@ import diaguard.shared.generated.resources.tag_remove_description
 fun EntryForm(
     modifier: Modifier = Modifier,
     viewModel: EntryFormViewModel = inject(),
+    foodSearchViewModel: FoodSearchViewModel = inject(),
 ) {
     val state = viewModel.collectState()
+
+    LaunchedEffect(Unit) {
+        foodSearchViewModel.events.collect { event ->
+            when (event) {
+                is FoodSearchEvent.Select -> viewModel.dispatchIntent(EntryFormIntent.AddFood(event.food))
+            }
+            // TODO: How to avoid manually resetting replay cache?
+            foodSearchViewModel._events.resetReplayCache()
+        }
+    }
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         Column(modifier = modifier.background(AppTheme.colors.scheme.surfaceVariant)) {

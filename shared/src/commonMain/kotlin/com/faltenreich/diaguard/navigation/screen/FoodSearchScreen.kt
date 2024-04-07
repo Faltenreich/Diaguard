@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
-import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.shared.di.getSharedViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -24,7 +24,7 @@ data class FoodSearchScreen(private val mode: FoodSearchMode) : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = getViewModel<FoodSearchViewModel> { parametersOf(mode) }
+                val viewModel = getSharedViewModel<FoodSearchViewModel> { parametersOf(mode) }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
@@ -36,6 +36,6 @@ data class FoodSearchScreen(private val mode: FoodSearchMode) : Screen {
 
     @Composable
     override fun Content() {
-        FoodSearch(viewModel = getViewModel { parametersOf(mode) })
+        FoodSearch(viewModel = getSharedViewModel { parametersOf(mode) })
     }
 }

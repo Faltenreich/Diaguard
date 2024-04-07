@@ -10,12 +10,15 @@ import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
@@ -26,6 +29,8 @@ class FoodSearchViewModel(
 ) : ViewModel<FoodSearchState, FoodSearchIntent>() {
 
     override val state = MutableStateFlow<FoodSearchState>(FoodSearchState.Loading)
+    val _events = MutableSharedFlow<FoodSearchEvent>(replay = 1)
+    val events = _events.asSharedFlow()
 
     var query: String by mutableStateOf("")
 
@@ -51,11 +56,11 @@ class FoodSearchViewModel(
         }
     }
 
-    private fun selectFood(food: Food) {
+    private fun selectFood(food: Food) = scope.launch {
         when (mode) {
             FoodSearchMode.STROLL -> navigateToScreen(FoodFormScreen(food))
             FoodSearchMode.FIND -> {
-                // TODO: Remember for calling screen
+                _events.emit(FoodSearchEvent.Select(food))
                 navigateBack()
             }
         }

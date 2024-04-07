@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 
 /**
  * @param State represents a view state for the related Composable
- * @param Intent represents one-shot actions directed to the ViewModel
- * @param Event represents one-shot actions directed from the ViewModel
+ * @param Intent represents one-shot actions directed from the Composable to the ViewModel
+ * @param Event represents one-shot actions directed from the ViewModel to the Composable
  */
 abstract class ViewModel<State, Intent, Event>(
     private val dispatcher: CoroutineDispatcher = inject(),
@@ -71,7 +71,6 @@ abstract class ViewModel<State, Intent, Event>(
     suspend fun collectEvents(onEvent: (Event) -> Unit) {
         events.collect { event ->
             onEvent(event)
-            // TODO: How to avoid manually resetting replay cache?
             events.resetReplayCache()
         }
     }

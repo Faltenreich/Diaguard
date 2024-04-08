@@ -72,9 +72,9 @@ class EntrySqlDelightDao(
         note: String?,
     ) {
         queries.create(
-            created_at = createdAt.isoString,
-            updated_at = updatedAt.isoString,
-            date_time = dateTime.isoString,
+            createdAt = createdAt.isoString,
+            updatedAt = updatedAt.isoString,
+            dateTime = dateTime.isoString,
             note = note,
         )
     }
@@ -86,8 +86,8 @@ class EntrySqlDelightDao(
         note: String?,
     ) {
         queries.update(
-            updated_at = updatedAt.isoString,
-            date_time = dateTime.isoString,
+            updatedAt = updatedAt.isoString,
+            dateTime = dateTime.isoString,
             note = note,
             id = id,
         )

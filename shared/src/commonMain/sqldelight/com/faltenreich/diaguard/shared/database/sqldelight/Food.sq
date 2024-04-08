@@ -1,7 +1,7 @@
-CREATE TABLE food (
+CREATE TABLE Food (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
     name TEXT NOT NULL,
     brand TEXT,
     ingredients TEXT,
@@ -18,23 +18,23 @@ CREATE TABLE food (
 );
 
 create:
-INSERT INTO food(created_at, updated_at, name, brand, ingredients, labels, carbohydrates, energy, fat, fatSaturated, fiber, proteins, salt, sodium, sugar)
+INSERT INTO Food(createdAt, updatedAt, name, brand, ingredients, labels, carbohydrates, energy, fat, fatSaturated, fiber, proteins, salt, sodium, sugar)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
 
 getAll:
-SELECT * FROM food ORDER BY name COLLATE NOCASE ASC;
+SELECT * FROM Food ORDER BY name COLLATE NOCASE ASC;
 
 getByQuery:
-SELECT * FROM food
+SELECT * FROM Food
 WHERE name LIKE ('%' || :query || '%') ORDER BY name COLLATE NOCASE ASC;
 
 update:
-UPDATE food
-SET updated_at = ?, name = ?, brand = ?, ingredients = ?, labels = ?, carbohydrates = ?, energy = ?, fat = ?, fatSaturated = ?, fiber = ?, proteins = ?, salt = ?, sodium = ?, sugar = ?
+UPDATE Food
+SET updatedAt = ?, name = ?, brand = ?, ingredients = ?, labels = ?, carbohydrates = ?, energy = ?, fat = ?, fatSaturated = ?, fiber = ?, proteins = ?, salt = ?, sodium = ?, sugar = ?
 WHERE id = ?;
 
 deleteById:
-DELETE FROM food WHERE id = ?;
+DELETE FROM Food WHERE id = ?;

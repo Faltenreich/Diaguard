@@ -39,8 +39,8 @@ class FoodSqlDelightDao(
         sugar: Double?
     ) {
         queries.create(
-            created_at = createdAt.isoString,
-            updated_at = updatedAt.isoString,
+            createdAt = createdAt.isoString,
+            updatedAt = updatedAt.isoString,
             name = name,
             brand = brand,
             ingredients = ingredients,
@@ -87,7 +87,7 @@ class FoodSqlDelightDao(
         sugar: Double?
     ) {
         queries.update(
-            updated_at = updatedAt.isoString,
+            updatedAt = updatedAt.isoString,
             name = name,
             brand = brand,
             ingredients = ingredients,

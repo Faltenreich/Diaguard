@@ -1,35 +1,35 @@
-CREATE TABLE measurementType (
+CREATE TABLE MeasurementType (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
     key TEXT,
     name TEXT NOT NULL,
-    sort_index INTEGER NOT NULL,
-    value_range_minimum REAL NOT NULL,
-    value_range_low REAL,
-    value_range_target REAL,
-    value_range_high REAL,
-    value_range_maximum REAL NOT NULL,
-    is_value_range_highlighted INTEGER NOT NULL,
-    selected_unit_id INTEGER NOT NULL,
-    property_id INTEGER NOT NULL
+    sortIndex INTEGER NOT NULL,
+    valueRangeMinimum REAL NOT NULL,
+    valueRangeLow REAL,
+    valueRangeTarget REAL,
+    valueRangeHigh REAL,
+    valueRangeMaximum REAL NOT NULL,
+    isValueRangeHighlighted INTEGER NOT NULL,
+    selectedUnitId INTEGER NOT NULL,
+    propertyId INTEGER NOT NULL
 );
 
 create:
-INSERT INTO measurementType(
-    created_at,
-    updated_at,
+INSERT INTO MeasurementType(
+    createdAt,
+    updatedAt,
     key,
     name,
-    sort_index,
-    value_range_minimum,
-    value_range_low,
-    value_range_target,
-    value_range_high,
-    value_range_maximum,
-    is_value_range_highlighted,
-    selected_unit_id,
-    property_id
+    sortIndex,
+    valueRangeMinimum,
+    valueRangeLow,
+    valueRangeTarget,
+    valueRangeHigh,
+    valueRangeMaximum,
+    isValueRangeHighlighted,
+    selectedUnitId,
+    propertyId
 )
 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
@@ -37,39 +37,39 @@ getLastId:
 SELECT last_insert_rowid();
 
 getById:
-SELECT * FROM measurementType
-INNER JOIN measurementUnit ON measurementUnit.id = measurementType.selected_unit_id
-WHERE measurementType.id = ?;
+SELECT * FROM MeasurementType
+INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementType.selectedUnitId
+WHERE MeasurementType.id = ?;
 
 getByKey:
-SELECT * FROM measurementType
-INNER JOIN measurementUnit ON measurementUnit.id = measurementType.selected_unit_id
-WHERE measurementType.key = ?;
+SELECT * FROM MeasurementType
+INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementType.selectedUnitId
+WHERE MeasurementType.key = ?;
 
 getByProperty:
-SELECT * FROM measurementType
-INNER JOIN measurementUnit ON measurementUnit.id = measurementType.selected_unit_id
-WHERE measurementType.property_id = ?
-ORDER BY measurementType.sort_index ASC;
+SELECT * FROM MeasurementType
+INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementType.selectedUnitId
+WHERE MeasurementType.propertyId = ?
+ORDER BY MeasurementType.sortIndex ASC;
 
 getAll:
-SELECT * FROM measurementType
-INNER JOIN measurementUnit ON measurementUnit.id = measurementType.selected_unit_id
-ORDER BY measurementType.sort_index ASC;
+SELECT * FROM MeasurementType
+INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementType.selectedUnitId
+ORDER BY MeasurementType.sortIndex ASC;
 
 update:
-UPDATE measurementType
-SET updated_at = ?,
+UPDATE MeasurementType
+SET updatedAt = ?,
     name = ?,
-    sort_index = ?,
-    value_range_minimum = ?,
-    value_range_low = ?,
-    value_range_target = ?,
-    value_range_high = ?,
-    value_range_maximum = ?,
-    is_value_range_highlighted = ?,
-    selected_unit_id = ?
+    sortIndex = ?,
+    valueRangeMinimum = ?,
+    valueRangeLow = ?,
+    valueRangeTarget = ?,
+    valueRangeHigh = ?,
+    valueRangeMaximum = ?,
+    isValueRangeHighlighted = ?,
+    selectedUnitId = ?
 WHERE id = ?;
 
 deleteById:
-DELETE FROM measurementType WHERE id = ?;
+DELETE FROM MeasurementType WHERE id = ?;

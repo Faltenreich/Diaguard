@@ -4,12 +4,12 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import app.cash.sqldelight.coroutines.mapToOneOrNull
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
-import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementPropertyQueries
+import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementCategoryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertySqlDelightMapper
-import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -17,10 +17,10 @@ import kotlinx.coroutines.flow.Flow
 class MeasurementPropertySqlDelightDao(
     private val dispatcher: CoroutineDispatcher = inject(),
     private val mapper: MeasurementPropertySqlDelightMapper = inject(),
-) : MeasurementPropertyDao, SqlDelightDao<MeasurementPropertyQueries> {
+) : MeasurementPropertyDao, SqlDelightDao<MeasurementCategoryQueries> {
 
-    override fun getQueries(api: SqlDelightApi): MeasurementPropertyQueries {
-        return api.measurementPropertyQueries
+    override fun getQueries(api: SqlDelightApi): MeasurementCategoryQueries {
+        return api.measurementCategoryQueries
     }
 
     override fun getLastId(): Long? {
@@ -59,12 +59,12 @@ class MeasurementPropertySqlDelightDao(
         sortIndex: Long,
     ) {
         queries.create(
-            created_at = createdAt.isoString,
-            updated_at = createdAt.isoString,
+            createdAt = createdAt.isoString,
+            updatedAt = createdAt.isoString,
             key = key,
             name = name,
             icon = icon,
-            sort_index = sortIndex,
+            sortIndex = sortIndex,
         )
     }
 
@@ -76,10 +76,10 @@ class MeasurementPropertySqlDelightDao(
         sortIndex: Long,
     ) {
         queries.update(
-            updated_at = updatedAt.isoString,
+            updatedAt = updatedAt.isoString,
             name = name,
             icon = icon,
-            sort_index = sortIndex,
+            sortIndex = sortIndex,
             id = id,
         )
     }

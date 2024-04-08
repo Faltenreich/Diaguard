@@ -1,34 +1,34 @@
-CREATE TABLE entryTag (
+CREATE TABLE EntryTag (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL,
-    entry_id INTEGER NOT NULL,
-    tag_id INTEGER NOT NULL
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    entryId INTEGER NOT NULL,
+    tagId INTEGER NOT NULL
 );
 
 create:
-INSERT INTO entryTag(created_at, updated_at, entry_id, tag_id)
+INSERT INTO EntryTag(createdAt, updatedAt, entryId, tagId)
 VALUES (?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
 
 getByEntry:
-SELECT * FROM entryTag
-INNER JOIN entry ON entry.id == entryTag.entry_id
-INNER JOIN tag ON tag.id == entryTag.tag_id
-WHERE entryTag.entry_id = ?
-ORDER BY entryTag.updated_at DESC;
+SELECT * FROM EntryTag
+INNER JOIN Entry ON Entry.id == EntryTag.entryId
+INNER JOIN Tag ON Tag.id == EntryTag.tagId
+WHERE EntryTag.entryId = ?
+ORDER BY EntryTag.updatedAt DESC;
 
 getByTag:
-SELECT * FROM entryTag
-INNER JOIN entry ON entry.id == entryTag.entry_id
-INNER JOIN tag ON tag.id == entryTag.tag_id
-WHERE entryTag.tag_id = ?
-ORDER BY entryTag.updated_at DESC;
+SELECT * FROM EntryTag
+INNER JOIN Entry ON Entry.id == EntryTag.entryId
+INNER JOIN Tag ON Tag.id == EntryTag.tagId
+WHERE EntryTag.tagId = ?
+ORDER BY EntryTag.updatedAt DESC;
 
 countByTag:
-SELECT COUNT(*) FROM entryTag WHERE id = ?;
+SELECT COUNT(*) FROM EntryTag WHERE id = ?;
 
 deleteById:
-DELETE FROM entryTag WHERE id = ?;
+DELETE FROM EntryTag WHERE id = ?;

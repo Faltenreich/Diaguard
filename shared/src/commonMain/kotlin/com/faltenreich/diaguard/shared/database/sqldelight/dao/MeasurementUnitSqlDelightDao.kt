@@ -3,12 +3,12 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementUnitQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSqlDelightMapper
-import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -31,13 +31,13 @@ class MeasurementUnitSqlDelightDao(
         typeId: Long,
     ) {
         queries.create(
-            created_at = createdAt.isoString,
-            updated_at = createdAt.isoString,
+            createdAt = createdAt.isoString,
+            updatedAt = createdAt.isoString,
             key = key,
             name = name,
             abbreviation = abbreviation,
             factor = factor,
-            type_id = typeId,
+            typeId = typeId,
         )
     }
 
@@ -72,7 +72,7 @@ class MeasurementUnitSqlDelightDao(
         abbreviation: String,
     ) {
         queries.update(
-            updated_at = updatedAt.isoString,
+            updatedAt = updatedAt.isoString,
             name = name,
             abbreviation = abbreviation,
             id = id,

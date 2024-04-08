@@ -1,41 +1,41 @@
-CREATE TABLE measurementUnit (
+CREATE TABLE MeasurementUnit (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
     key TEXT,
     name TEXT NOT NULL,
     abbreviation TEXT NOT NULL,
     factor REAL NOT NULL,
-    type_id INTEGER NOT NULL
+    typeId INTEGER NOT NULL
 );
 
 create:
-INSERT INTO measurementUnit(created_at, updated_at, key, name, abbreviation, factor, type_id)
+INSERT INTO MeasurementUnit(createdAt, updatedAt, key, name, abbreviation, factor, typeId)
 VALUES (?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
 
 getById:
-SELECT * FROM measurementUnit WHERE id = ?;
+SELECT * FROM MeasurementUnit WHERE id = ?;
 
 getByKey:
-SELECT * FROM measurementUnit WHERE key = ?;
+SELECT * FROM MeasurementUnit WHERE key = ?;
 
 getByType:
-SELECT * FROM measurementUnit WHERE type_id = ? ORDER BY created_at ASC;
+SELECT * FROM MeasurementUnit WHERE typeId = ? ORDER BY createdAt ASC;
 
 getByPropertyId:
-SELECT measurementUnit.* FROM measurementUnit
-INNER JOIN measurementType ON measurementType.id = measurementUnit.type_id
-WHERE measurementType.property_id = ?
-ORDER BY measurementUnit.created_at ASC;
+SELECT MeasurementUnit.* FROM MeasurementUnit
+INNER JOIN MeasurementType ON MeasurementType.id = MeasurementUnit.typeId
+WHERE MeasurementType.propertyId = ?
+ORDER BY MeasurementUnit.createdAt ASC;
 
 getAll:
-SELECT * FROM measurementUnit ORDER BY created_at ASC;
+SELECT * FROM MeasurementUnit ORDER BY createdAt ASC;
 
 update:
-UPDATE measurementUnit SET updated_at = ?, name = ?, abbreviation = ? WHERE id = ?;
+UPDATE MeasurementUnit SET updatedAt = ?, name = ?, abbreviation = ? WHERE id = ?;
 
 deleteById:
-DELETE FROM measurementUnit WHERE id = ?;
+DELETE FROM MeasurementUnit WHERE id = ?;

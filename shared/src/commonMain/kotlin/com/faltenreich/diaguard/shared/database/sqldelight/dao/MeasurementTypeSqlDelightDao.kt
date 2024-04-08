@@ -34,19 +34,19 @@ class MeasurementTypeSqlDelightDao(
         propertyId: Long,
     ) {
         queries.create(
-            created_at = createdAt.isoString,
-            updated_at = createdAt.isoString,
+            createdAt = createdAt.isoString,
+            updatedAt = createdAt.isoString,
             key = key,
             name = name,
-            value_range_minimum = range.minimum,
-            value_range_low = range.low,
-            value_range_target = range.target,
-            value_range_high = range.high,
-            value_range_maximum = range.maximum,
-            is_value_range_highlighted = range.isHighlighted.toSqlLiteLong(),
-            sort_index = sortIndex,
-            selected_unit_id = selectedUnitId,
-            property_id = propertyId,
+            valueRangeMinimum = range.minimum,
+            valueRangeLow = range.low,
+            valueRangeTarget = range.target,
+            valueRangeHigh = range.high,
+            valueRangeMaximum = range.maximum,
+            isValueRangeHighlighted = range.isHighlighted.toSqlLiteLong(),
+            sortIndex = sortIndex,
+            selectedUnitId = selectedUnitId,
+            propertyId = propertyId,
         )
     }
 
@@ -91,16 +91,16 @@ class MeasurementTypeSqlDelightDao(
         selectedUnitId: Long,
     ) {
         queries.update(
-            updated_at = updatedAt.isoString,
+            updatedAt = updatedAt.isoString,
             name = name,
-            value_range_minimum = range.minimum,
-            value_range_low = range.low,
-            value_range_target = range.target,
-            value_range_high = range.high,
-            value_range_maximum = range.maximum,
-            is_value_range_highlighted = range.isHighlighted.toSqlLiteLong(),
-            sort_index = sortIndex,
-            selected_unit_id = selectedUnitId,
+            valueRangeMinimum = range.minimum,
+            valueRangeLow = range.low,
+            valueRangeTarget = range.target,
+            valueRangeHigh = range.high,
+            valueRangeMaximum = range.maximum,
+            isValueRangeHighlighted = range.isHighlighted.toSqlLiteLong(),
+            sortIndex = sortIndex,
+            selectedUnitId = selectedUnitId,
             id = id,
         )
     }

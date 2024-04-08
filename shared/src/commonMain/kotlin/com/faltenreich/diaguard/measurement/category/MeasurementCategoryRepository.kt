@@ -1,12 +1,12 @@
-package com.faltenreich.diaguard.measurement.property
+package com.faltenreich.diaguard.measurement.category
 
-import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
-class MeasurementPropertyRepository(
-    private val dao: MeasurementPropertyDao,
+class MeasurementCategoryRepository(
+    private val dao: MeasurementCategoryDao,
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
@@ -26,27 +26,23 @@ class MeasurementPropertyRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun getById(id: Long): MeasurementProperty? {
+    fun getById(id: Long): MeasurementCategory? {
         return dao.getById(id)
     }
 
-    fun observeById(id: Long): Flow<MeasurementProperty?> {
-        return dao.observeById(id)
-    }
-
-    fun getByKey(key: DatabaseKey.MeasurementProperty): MeasurementProperty {
+    fun getByKey(key: DatabaseKey.MeasurementCategory): MeasurementCategory {
         return checkNotNull(dao.getByKey(key.key))
     }
 
-    fun getBloodSugar(): MeasurementProperty {
-        return getByKey(DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+    fun getBloodSugar(): MeasurementCategory {
+        return getByKey(DatabaseKey.MeasurementCategory.BLOOD_SUGAR)
     }
 
-    fun getAll(): List<MeasurementProperty> {
+    fun getAll(): List<MeasurementCategory> {
         return dao.getAll()
     }
 
-    fun observeAll(): Flow<List<MeasurementProperty>> {
+    fun observeAll(): Flow<List<MeasurementCategory>> {
         return dao.observeAll()
     }
 
@@ -70,7 +66,7 @@ class MeasurementPropertyRepository(
         )
     }
 
-    fun update(property: MeasurementProperty) = with(property) {
+    fun update(category: MeasurementCategory) = with(category) {
         update(
             id = id,
             updatedAt = updatedAt,

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.datetime.Date
 
@@ -9,5 +9,5 @@ data class TimelineState(
     val currentDate: Date,
     val valuesForChart: List<MeasurementValue>,
     val valuesForList: List<MeasurementValue>,
-    val propertiesForList: List<MeasurementProperty>,
+    val categoriesForList: List<MeasurementCategory>,
 )

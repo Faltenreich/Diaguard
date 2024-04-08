@@ -1,9 +1,9 @@
-package com.faltenreich.diaguard.measurement.property
+package com.faltenreich.diaguard.measurement.category
 
 import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
-interface MeasurementPropertyDao {
+interface MeasurementCategoryDao {
 
     fun create(
         createdAt: DateTime,
@@ -15,15 +15,15 @@ interface MeasurementPropertyDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): MeasurementProperty?
+    fun getById(id: Long): MeasurementCategory?
 
-    fun observeById(id: Long): Flow<MeasurementProperty?>
+    fun observeById(id: Long): Flow<MeasurementCategory?>
 
-    fun getByKey(key: String): MeasurementProperty?
+    fun getByKey(key: String): MeasurementCategory?
 
-    fun getAll(): List<MeasurementProperty>
+    fun getAll(): List<MeasurementCategory>
 
-    fun observeAll(): Flow<List<MeasurementProperty>>
+    fun observeAll(): Flow<List<MeasurementCategory>>
 
     fun countAll(): Flow<Long>
 

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.type.list
 
-import com.faltenreich.diaguard.measurement.property.form.CreateMeasurementTypeUseCase
+import com.faltenreich.diaguard.measurement.category.form.CreateMeasurementTypeUseCase
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.form.UpdateMeasurementTypeUseCase
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
@@ -41,7 +41,7 @@ class MeasurementTypeListViewModel(
                     isHighlighted = false,
                 ),
                 typeSortIndex = intent.types.maxOfOrNull(MeasurementType::sortIndex)?.plus(1) ?: 0,
-                propertyId = intent.propertyId,
+                categoryId = intent.categoryId,
                 unitKey = null,
                 unitName = intent.unitName,
             )

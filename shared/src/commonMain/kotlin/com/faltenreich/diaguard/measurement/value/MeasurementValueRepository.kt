@@ -1,16 +1,12 @@
 package com.faltenreich.diaguard.measurement.value
 
+import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.type.deep
-import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 
 class MeasurementValueRepository(
     private val dao: MeasurementValueDao,
@@ -49,10 +45,6 @@ class MeasurementValueRepository(
         )
     }
 
-    fun observeByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
-        return dao.observeByEntryId(entryId)
-    }
-
     fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
@@ -60,32 +52,32 @@ class MeasurementValueRepository(
         return dao.observeByDateRange(startDateTime, endDateTime)
     }
 
-    fun observeLatestByPropertyId(propertyId: Long): Flow<MeasurementValue?> {
-        return dao.observeLatestByPropertyId(propertyId)
+    fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue?> {
+        return dao.observeLatestByCategoryId(categoryId)
     }
 
     fun getByEntryId(entryId: Long): List<MeasurementValue> {
         return dao.getByEntryId(entryId)
     }
 
-    fun observeByPropertyId(propertyId: Long): Flow<Long> {
-        return dao.observeByPropertyId(propertyId)
+    fun observeByCategoryId(categoryId: Long): Flow<Long> {
+        return dao.observeByCategoryId(categoryId)
     }
 
-    fun observeByPropertyId(
-        propertyId: Long,
+    fun observeByCategoryId(
+        categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<List<MeasurementValue>> {
-        return dao.observeByPropertyId(propertyId, minDateTime, maxDateTime)
+        return dao.observeByCategoryId(categoryId, minDateTime, maxDateTime)
     }
 
-    fun observeAverageByPropertyId(
-        propertyId: Long,
+    fun observeAverageByCategoryId(
+        categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<Double?> {
-        return dao.observeAverageByPropertyId(propertyId, minDateTime, maxDateTime)
+        return dao.observeAverageByCategoryId(categoryId, minDateTime, maxDateTime)
     }
 
     fun getAverageByTypeId(
@@ -100,8 +92,8 @@ class MeasurementValueRepository(
         return dao.observeCountByTypeId(typeId)
     }
 
-    fun countByPropertyId(propertyId: Long): Long {
-        return dao.countByPropertyId(propertyId)
+    fun countByCategoryId(categoryId: Long): Long {
+        return dao.countByCategoryId(categoryId)
     }
 
     fun update(
@@ -124,27 +116,6 @@ class MeasurementValueRepository(
 
     fun deleteById(id: Long) {
         dao.deleteById(id)
-    }
-}
-
-fun Flow<List<MeasurementValue>>.deep(
-    entry: Entry,
-    typeRepository: MeasurementTypeRepository = inject(),
-): Flow<List<MeasurementValue>> {
-    return flatMapLatest { values ->
-        val flows = values.map { value ->
-            typeRepository.observeById(value.typeId)
-                .filterNotNull()
-                .deep()
-                .map { type -> value to type }
-        }
-        combine(flows) { valuesWithTypes ->
-            valuesWithTypes.map { (value, type) ->
-                value.entry = entry
-                value.type = type
-                value
-            }
-        }
     }
 }
 

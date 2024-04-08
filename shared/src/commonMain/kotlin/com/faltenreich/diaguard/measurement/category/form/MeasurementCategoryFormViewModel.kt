@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.measurement.property.form
+package com.faltenreich.diaguard.measurement.category.form
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
@@ -11,26 +11,26 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
-class MeasurementPropertyFormViewModel(
-    val property: MeasurementProperty,
+class MeasurementCategoryFormViewModel(
+    val category: MeasurementCategory,
     getMeasurementTypesUseCase: GetMeasurementTypesUseCase = inject(),
-    private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
-    private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
+    private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
+    private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
-) : ViewModel<MeasurementPropertyFormViewState, MeasurementPropertyFormIntent, Unit>() {
+) : ViewModel<MeasurementCategoryFormViewState, MeasurementCategoryFormIntent, Unit>() {
 
-    var name = MutableStateFlow(property.name)
-    var icon = MutableStateFlow(property.icon ?: "")
+    var name = MutableStateFlow(category.name)
+    var icon = MutableStateFlow(category.icon ?: "")
 
-    override val state = getMeasurementTypesUseCase(property).map(::MeasurementPropertyFormViewState)
+    override val state = getMeasurementTypesUseCase(category).map(::MeasurementCategoryFormViewState)
 
-    override fun handleIntent(intent: MeasurementPropertyFormIntent) {
+    override fun handleIntent(intent: MeasurementCategoryFormIntent) {
         when (intent) {
-            is MeasurementPropertyFormIntent.OpenIconPicker -> openIconPicker()
-            is MeasurementPropertyFormIntent.UpdateProperty -> updateProperty()
-            is MeasurementPropertyFormIntent.DeleteProperty -> deleteProperty()
+            is MeasurementCategoryFormIntent.OpenIconPicker -> openIconPicker()
+            is MeasurementCategoryFormIntent.UpdateCategory -> updateCategory()
+            is MeasurementCategoryFormIntent.DeleteCategory -> deleteCategory()
         }
     }
 
@@ -43,17 +43,17 @@ class MeasurementPropertyFormViewModel(
         )
     }
 
-    private fun updateProperty() {
-        updateProperty(property.copy(name = name.value, icon = icon.value))
+    private fun updateCategory() {
+        updateCategory(category.copy(name = name.value, icon = icon.value))
         navigateBack()
     }
 
-    private fun deleteProperty() {
+    private fun deleteCategory() {
         openModal(
             DeleteModal(
                 onDismissRequest = closeModal::invoke,
                 onConfirmRequest = {
-                    deleteProperty(property)
+                    deleteCategory(category)
                     closeModal()
                     navigateBack()
                 }

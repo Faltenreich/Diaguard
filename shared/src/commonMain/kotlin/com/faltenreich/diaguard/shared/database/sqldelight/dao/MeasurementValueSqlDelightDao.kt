@@ -59,38 +59,38 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeLatestByPropertyId(propertyId: Long): Flow<MeasurementValue?> {
-        return queries.getLatestByProperty(propertyId, mapper::map).asFlow().mapToOneOrNull(dispatcher)
+    override fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue?> {
+        return queries.getLatestByCategory(categoryId, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
     override fun getByEntryId(entryId: Long): List<MeasurementValue> {
         return queries.getByEntry(entryId, mapper::map).executeAsList()
     }
 
-    override fun observeByPropertyId(propertyId: Long): Flow<Long> {
-        return queries.countByProperty(propertyId).asFlow().mapToOne(dispatcher)
+    override fun observeByCategoryId(categoryId: Long): Flow<Long> {
+        return queries.countByCategory(categoryId).asFlow().mapToOne(dispatcher)
     }
 
-    override fun observeByPropertyId(
-        propertyId: Long,
+    override fun observeByCategoryId(
+        categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<List<MeasurementValue>> {
-        return queries.getPropertyAndDateTime(
-            propertyId,
+        return queries.getCategoryAndDateTime(
+            categoryId,
             minDateTime.isoString,
             maxDateTime.isoString,
             mapper::map,
         ).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeAverageByPropertyId(
-        propertyId: Long,
+    override fun observeAverageByCategoryId(
+        categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<Double?> {
-        return queries.getAverageByProperty(
-            propertyId,
+        return queries.getAverageByCategory(
+            categoryId,
             minDateTime.isoString,
             maxDateTime.isoString,
         ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
@@ -101,7 +101,7 @@ class MeasurementValueSqlDelightDao(
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Double? {
-        return queries.getAverageByProperty(
+        return queries.getAverageByCategory(
             typeId,
             minDateTime.isoString,
             maxDateTime.isoString,
@@ -112,8 +112,8 @@ class MeasurementValueSqlDelightDao(
         return queries.countByType(typeId).asFlow().mapToOne(dispatcher)
     }
 
-    override fun countByPropertyId(propertyId: Long): Long {
-        return queries.countByProperty(propertyId).executeAsOne()
+    override fun countByCategoryId(categoryId: Long): Long {
+        return queries.countByCategory(categoryId).executeAsOne()
     }
 
     override fun update(

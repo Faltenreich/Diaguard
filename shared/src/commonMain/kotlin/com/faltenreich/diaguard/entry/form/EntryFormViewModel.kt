@@ -11,8 +11,8 @@ import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
-import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementPropertyInputStateUseCase
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
+import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInputStateUseCase
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputState
 import com.faltenreich.diaguard.entry.form.measurement.ValidateEntryFormInputUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
@@ -48,7 +48,7 @@ class EntryFormViewModel(
     entry: Entry?,
     date: Date?,
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
-    getMeasurementPropertyInputState: GetMeasurementPropertyInputStateUseCase = inject(),
+    getMeasurementCategoryInputState: GetMeasurementCategoryInputStateUseCase = inject(),
     getFoodEatenInputState: GetFoodEatenInputStateUseCase = inject(),
     getTagsOfEntry: GetTagsOfEntry = inject(),
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
@@ -86,7 +86,7 @@ class EntryFormViewModel(
 
     var alarmDelayInMinutes: Int? by mutableStateOf(null)
 
-    var measurements by mutableStateOf(emptyList<MeasurementPropertyInputState>())
+    var measurements by mutableStateOf(emptyList<MeasurementCategoryInputState>())
 
     var foodEaten by mutableStateOf(emptyList<FoodEatenInputState>())
 
@@ -104,7 +104,7 @@ class EntryFormViewModel(
 
     init {
         scope.launch(Dispatchers.IO) {
-            val measurements = getMeasurementPropertyInputState(entry)
+            val measurements = getMeasurementCategoryInputState(entry)
             withContext(Dispatchers.Main) {
                 this@EntryFormViewModel.measurements = measurements
             }
@@ -140,8 +140,8 @@ class EntryFormViewModel(
     }
 
     private fun edit(update: MeasurementTypeInputState) {
-        measurements = measurements.map { property ->
-            property.copy(typeInputStates = property.typeInputStates.map { legacy ->
+        measurements = measurements.map { category ->
+            category.copy(typeInputStates = category.typeInputStates.map { legacy ->
                 when (legacy.type) {
                     update.type -> update
                     else -> legacy

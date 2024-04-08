@@ -22,20 +22,20 @@ interface MeasurementValueDao {
         endDateTime: DateTime,
     ): Flow<List<MeasurementValue>>
 
-    fun observeLatestByPropertyId(propertyId: Long): Flow<MeasurementValue?>
+    fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue?>
 
     fun getByEntryId(entryId: Long): List<MeasurementValue>
 
-    fun observeByPropertyId(propertyId: Long): Flow<Long>
+    fun observeByCategoryId(categoryId: Long): Flow<Long>
 
-    fun observeByPropertyId(
-        propertyId: Long,
+    fun observeByCategoryId(
+        categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime,
     ) : Flow<List<MeasurementValue>>
 
-    fun observeAverageByPropertyId(
-        propertyId: Long,
+    fun observeAverageByCategoryId(
+        categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<Double?>
@@ -48,7 +48,7 @@ interface MeasurementValueDao {
 
     fun observeCountByTypeId(typeId: Long): Flow<Long>
 
-    fun countByPropertyId(propertyId: Long): Long
+    fun countByCategoryId(categoryId: Long): Long
 
     fun update(
         id: Long,

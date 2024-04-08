@@ -13,8 +13,8 @@ import com.faltenreich.diaguard.backup.seed.data.TagSeed
 import com.faltenreich.diaguard.backup.seed.data.WeightSeed
 import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.food.FoodRepository
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeDao
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
@@ -60,7 +60,7 @@ class SeedImportTest {
             serialization = Serialization(),
         ),
     )
-    @Mock private val propertyDao = mock(classOf<MeasurementPropertyDao>())
+    @Mock private val categoryDao = mock(classOf<MeasurementCategoryDao>())
     @Mock private val typeDao = mock(classOf<MeasurementTypeDao>())
     @Mock private val unitDao = mock(classOf<MeasurementUnitDao>())
     @Mock private val foodDao = mock(classOf<FoodDao>())
@@ -71,7 +71,7 @@ class SeedImportTest {
         localization = localization,
         dateTimeFactory = dateTimeFactory,
         seedRepository = seedRepository,
-        propertyRepository = MeasurementPropertyRepository(dao = propertyDao, dateTimeFactory = dateTimeFactory),
+        categoryRepository = MeasurementCategoryRepository(dao = categoryDao, dateTimeFactory = dateTimeFactory),
         typeRepository = MeasurementTypeRepository(dao = typeDao, dateTimeFactory = dateTimeFactory),
         unitRepository = MeasurementUnitRepository(dao = unitDao, dateTimeFactory = dateTimeFactory),
         foodRepository = FoodRepository(dao = foodDao),
@@ -79,7 +79,7 @@ class SeedImportTest {
     )
 
     init {
-        every { propertyDao.getLastId() } returns 0L
+        every { categoryDao.getLastId() } returns 0L
         every { typeDao.getLastId() } returns 0L
         every { unitDao.getLastId() } returns 0L
         every { foodDao.getLastId() } returns 0L

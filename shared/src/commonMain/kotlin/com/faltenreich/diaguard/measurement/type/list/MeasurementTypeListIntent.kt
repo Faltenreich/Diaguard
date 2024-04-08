@@ -24,6 +24,6 @@ sealed interface MeasurementTypeListIntent {
         val typeName: String,
         val unitName: String,
         val types: List<MeasurementType>,
-        val propertyId: Long,
+        val categoryId: Long,
     ) : MeasurementTypeListIntent
 }

@@ -5,19 +5,19 @@ import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementCategoryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertySqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementCategorySqlDelightMapper
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
-class MeasurementPropertySqlDelightDao(
+class MeasurementCategorySqlDelightDao(
     private val dispatcher: CoroutineDispatcher = inject(),
-    private val mapper: MeasurementPropertySqlDelightMapper = inject(),
-) : MeasurementPropertyDao, SqlDelightDao<MeasurementCategoryQueries> {
+    private val mapper: MeasurementCategorySqlDelightMapper = inject(),
+) : MeasurementCategoryDao, SqlDelightDao<MeasurementCategoryQueries> {
 
     override fun getQueries(api: SqlDelightApi): MeasurementCategoryQueries {
         return api.measurementCategoryQueries
@@ -27,23 +27,23 @@ class MeasurementPropertySqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getById(id: Long): MeasurementProperty? {
+    override fun getById(id: Long): MeasurementCategory? {
         return queries.getById(id, mapper::map).executeAsOneOrNull()
     }
 
-    override fun observeById(id: Long): Flow<MeasurementProperty?> {
+    override fun observeById(id: Long): Flow<MeasurementCategory?> {
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
-    override fun getByKey(key: String): MeasurementProperty? {
+    override fun getByKey(key: String): MeasurementCategory? {
         return queries.getByKey(key, mapper::map).executeAsOneOrNull()
     }
 
-    override fun getAll(): List<MeasurementProperty> {
+    override fun getAll(): List<MeasurementCategory> {
         return queries.getAll(mapper::map).executeAsList()
     }
 
-    override fun observeAll(): Flow<List<MeasurementProperty>> {
+    override fun observeAll(): Flow<List<MeasurementCategory>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 

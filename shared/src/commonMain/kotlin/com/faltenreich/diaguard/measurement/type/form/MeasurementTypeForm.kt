@@ -45,7 +45,7 @@ fun MeasurementTypeForm(
                     .padding(all = AppTheme.dimensions.padding.P_3),
             )
 
-            if (state.type.property.isUserGenerated) {
+            if (state.type.category.isUserGenerated) {
                 TextInput(
                     input = viewModel.unitName.collectAsState().value,
                     onInputChange = { viewModel.unitName.value = it },

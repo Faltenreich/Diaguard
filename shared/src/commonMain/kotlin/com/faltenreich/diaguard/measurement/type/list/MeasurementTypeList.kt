@@ -6,7 +6,7 @@ import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
 import com.faltenreich.diaguard.shared.di.inject
@@ -22,7 +22,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeasurementTypeList(
-    property: MeasurementProperty,
+    category: MeasurementCategory,
     types: List<MeasurementType>,
     modifier: Modifier = Modifier,
     viewModel: MeasurementTypeListViewModel = inject(),
@@ -77,7 +77,7 @@ fun MeasurementTypeList(
                                 typeName = typeName,
                                 unitName = unitName,
                                 types = types,
-                                propertyId = property.id,
+                                categoryId = category.id,
                             )
                         )
                         viewModel.dispatchIntent(MeasurementTypeListIntent.HideFormDialog)

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.property.form
+package com.faltenreich.diaguard.measurement.category.form
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryIcon
 import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -22,9 +22,9 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.name
 
 @Composable
-fun MeasurementPropertyForm(
+fun MeasurementCategoryForm(
     modifier: Modifier = Modifier,
-    viewModel: MeasurementPropertyFormViewModel = inject(),
+    viewModel: MeasurementCategoryFormViewModel = inject(),
 ) {
     val state = viewModel.collectState()
 
@@ -39,9 +39,9 @@ fun MeasurementPropertyForm(
             label = getString(Res.string.name),
             leadingIcon = {
                 IconButton(onClick = {
-                    viewModel.dispatchIntent(MeasurementPropertyFormIntent.OpenIconPicker)
+                    viewModel.dispatchIntent(MeasurementCategoryFormIntent.OpenIconPicker)
                 }) {
-                    MeasurementPropertyIcon(text = viewModel.icon.collectAsState().value)
+                    MeasurementCategoryIcon(text = viewModel.icon.collectAsState().value)
                 }
             },
             modifier = Modifier
@@ -55,7 +55,7 @@ fun MeasurementPropertyForm(
         ) {
             val types = state?.types ?: emptyList()
             MeasurementTypeList(
-                property = viewModel.property,
+                category = viewModel.category,
                 types = types,
             )
         }

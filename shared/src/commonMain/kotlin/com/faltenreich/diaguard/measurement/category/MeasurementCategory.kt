@@ -1,19 +1,19 @@
-package com.faltenreich.diaguard.measurement.property
+package com.faltenreich.diaguard.measurement.category
 
 import com.faltenreich.diaguard.backup.seed.Seedable
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.datetime.DateTime
 
 /**
- * Entity representing one medical property of the human body
+ * Entity representing one measurable category
  */
-data class MeasurementProperty(
+data class MeasurementCategory(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
-    override val key: DatabaseKey.MeasurementProperty?,
+    override val key: DatabaseKey.MeasurementCategory?,
     val name: String,
     val icon: String?,
     val sortIndex: Long,
@@ -22,8 +22,8 @@ data class MeasurementProperty(
     lateinit var types: List<MeasurementType>
 
     val isBloodSugar: Boolean
-        get() = key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR
+        get() = key == DatabaseKey.MeasurementCategory.BLOOD_SUGAR
 
     val isMeal: Boolean
-        get() = key == DatabaseKey.MeasurementProperty.MEAL
+        get() = key == DatabaseKey.MeasurementCategory.MEAL
 }

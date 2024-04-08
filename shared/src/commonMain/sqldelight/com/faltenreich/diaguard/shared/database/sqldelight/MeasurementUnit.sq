@@ -25,10 +25,10 @@ SELECT * FROM MeasurementUnit WHERE key = ?;
 getByType:
 SELECT * FROM MeasurementUnit WHERE typeId = ? ORDER BY createdAt ASC;
 
-getByPropertyId:
+getByCategoryId:
 SELECT MeasurementUnit.* FROM MeasurementUnit
 INNER JOIN MeasurementType ON MeasurementType.id = MeasurementUnit.typeId
-WHERE MeasurementType.propertyId = ?
+WHERE MeasurementType.categoryId = ?
 ORDER BY MeasurementUnit.createdAt ASC;
 
 getAll:

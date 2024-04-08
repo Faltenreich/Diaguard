@@ -8,7 +8,7 @@ class MeasurementValueSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
     private val typeMapper: MeasurementTypeSqlDelightMapper = inject(),
     private val unitMapper: MeasurementUnitSqlDelightMapper = inject(),
-    private val propertyMapper: MeasurementPropertySqlDelightMapper = inject(),
+    private val categoryMapper: MeasurementCategorySqlDelightMapper = inject(),
     private val entryMapper: EntrySqlDelightMapper = inject(),
 ) {
 
@@ -51,7 +51,7 @@ class MeasurementValueSqlDelightMapper(
         typeValueRangeMaximum: Double,
         typeIsValueRangeHighlighted: Long,
         typeSelectedUnitId: Long,
-        typePropertyId: Long,
+        typeCategoryId: Long,
 
         unitId: Long,
         unitCreatedAt: String,
@@ -62,13 +62,13 @@ class MeasurementValueSqlDelightMapper(
         unitFactor: Double,
         unitTypeId: Long,
 
-        propertyId: Long,
-        propertyCreatedAt: String,
-        propertyUpdatedAt: String,
-        propertyKey: String?,
-        propertyName: String,
-        propertyIcon: String?,
-        propertySortIndex: Long,
+        categoryId: Long,
+        categoryCreatedAt: String,
+        categoryUpdatedAt: String,
+        categoryKey: String?,
+        categoryName: String,
+        categoryIcon: String?,
+        categorySortIndex: Long,
 
         entryId: Long,
         entryCreatedAt: String,
@@ -98,16 +98,16 @@ class MeasurementValueSqlDelightMapper(
                 valueRangeMaximum = typeValueRangeMaximum,
                 isValueRangeHighlighted = typeIsValueRangeHighlighted,
                 selectedUnitId = typeSelectedUnitId,
-                propertyId = typePropertyId,
+                categoryId = typeCategoryId,
             ).apply {
-                property = propertyMapper.map(
-                    id = propertyId,
-                    createdAt = propertyCreatedAt,
-                    updatedAt = propertyUpdatedAt,
-                    key = propertyKey,
-                    name = propertyName,
-                    icon = propertyIcon,
-                    sortIndex = propertySortIndex,
+                category = categoryMapper.map(
+                    id = categoryId,
+                    createdAt = categoryCreatedAt,
+                    updatedAt = categoryUpdatedAt,
+                    key = categoryKey,
+                    name = categoryName,
+                    icon = categoryIcon,
+                    sortIndex = categorySortIndex,
                 )
                 selectedUnit = unitMapper.map(
                     id = unitId,

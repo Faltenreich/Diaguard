@@ -26,10 +26,6 @@ class MeasurementUnitRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun observeById(id: Long): Flow<MeasurementUnit?> {
-        return dao.observeById(id)
-    }
-
     fun getByKey(key: String): MeasurementUnit {
         return checkNotNull(dao.getByKey(key))
     }
@@ -38,8 +34,8 @@ class MeasurementUnitRepository(
         return dao.observeByTypeId(typeId)
     }
 
-    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit>> {
-        return dao.observeByPropertyId(propertyId)
+    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit>> {
+        return dao.observeByCategoryId(categoryId)
     }
 
     fun observeAll(): Flow<List<MeasurementUnit>> {

@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.statistic
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 
 sealed interface StatisticIntent {
 
-    data class Select(val property: MeasurementProperty) : StatisticIntent
+    data class Select(val category: MeasurementCategory) : StatisticIntent
 }

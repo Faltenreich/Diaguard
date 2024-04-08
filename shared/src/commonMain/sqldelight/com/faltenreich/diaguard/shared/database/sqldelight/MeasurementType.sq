@@ -12,7 +12,7 @@ CREATE TABLE MeasurementType (
     valueRangeMaximum REAL NOT NULL,
     isValueRangeHighlighted INTEGER NOT NULL,
     selectedUnitId INTEGER NOT NULL,
-    propertyId INTEGER NOT NULL
+    categoryId INTEGER NOT NULL
 );
 
 create:
@@ -29,7 +29,7 @@ INSERT INTO MeasurementType(
     valueRangeMaximum,
     isValueRangeHighlighted,
     selectedUnitId,
-    propertyId
+    categoryId
 )
 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
@@ -46,10 +46,10 @@ SELECT * FROM MeasurementType
 INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementType.selectedUnitId
 WHERE MeasurementType.key = ?;
 
-getByProperty:
+getByCategory:
 SELECT * FROM MeasurementType
 INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementType.selectedUnitId
-WHERE MeasurementType.propertyId = ?
+WHERE MeasurementType.categoryId = ?
 ORDER BY MeasurementType.sortIndex ASC;
 
 getAll:

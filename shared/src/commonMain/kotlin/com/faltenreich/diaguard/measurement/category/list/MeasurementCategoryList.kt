@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.property.list
+package com.faltenreich.diaguard.measurement.category.list
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
-fun MeasurementPropertyList(
+fun MeasurementCategoryList(
     modifier: Modifier = Modifier,
-    viewModel: MeasurementPropertyListViewModel = inject(),
+    viewModel: MeasurementCategoryListViewModel = inject(),
 ) {
     val state = viewModel.collectState()
 
@@ -21,25 +21,25 @@ fun MeasurementPropertyList(
         visible = state != null,
         enter = fadeIn(),
     ) {
-        val properties = state?.properties ?: emptyList()
+        val categories = state?.categories ?: emptyList()
         Column(modifier = modifier.verticalScroll(rememberScrollState())) {
-            properties.forEachIndexed { index, property ->
-                MeasurementPropertyListItem(
-                    property = property,
+            categories.forEachIndexed { index, category ->
+                MeasurementCategoryListItem(
+                    category = category,
                     onArrowUp = {
                         viewModel.dispatchIntent(
-                            MeasurementPropertyListIntent.DecrementSortIndex(property)
+                            MeasurementCategoryListIntent.DecrementSortIndex(category)
                         )
                     },
                     showArrowUp = index > 0,
                     onArrowDown = {
                         viewModel.dispatchIntent(
-                            MeasurementPropertyListIntent.IncrementSortIndex(property)
+                            MeasurementCategoryListIntent.IncrementSortIndex(category)
                         )
                     },
-                    showArrowDown = index < properties.size - 1,
+                    showArrowDown = index < categories.size - 1,
                     modifier = Modifier.clickable {
-                        viewModel.dispatchIntent(MeasurementPropertyListIntent.Edit(property))
+                        viewModel.dispatchIntent(MeasurementCategoryListIntent.Edit(category))
                     },
                 )
             }

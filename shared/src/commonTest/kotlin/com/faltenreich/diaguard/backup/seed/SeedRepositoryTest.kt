@@ -39,11 +39,11 @@ class SeedRepositoryTest {
     )
 
     @Test
-    fun `Seeded properties have unique keys`() {
-        val properties = seedRepository.getMeasurementProperties()
+    fun `Seeded categories have unique keys`() {
+        val categories = seedRepository.getMeasurementCategories()
         assertEquals(
-            expected = properties,
-            actual = properties.distinctBy(SeedMeasurementProperty::key),
+            expected = categories,
+            actual = categories.distinctBy(SeedMeasurementCategory::key),
         )
     }
 }

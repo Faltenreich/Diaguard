@@ -1,14 +1,10 @@
 package com.faltenreich.diaguard.measurement.type
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 
 class MeasurementTypeRepository(
     private val dao: MeasurementTypeDao,
@@ -20,7 +16,7 @@ class MeasurementTypeRepository(
         name: String,
         sortIndex: Long,
         range: MeasurementValueRange,
-        propertyId: Long,
+        categoryId: Long,
     ): Long {
         dao.create(
             createdAt = dateTimeFactory.now(),
@@ -30,7 +26,7 @@ class MeasurementTypeRepository(
             sortIndex = sortIndex,
             // We set this temporary id because the corresponding unit will be created afterwards
             selectedUnitId = MeasurementType.SELECTED_UNIT_ID_INVALID,
-            propertyId = propertyId,
+            categoryId = categoryId,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -39,20 +35,16 @@ class MeasurementTypeRepository(
         return dao.getById(id)
     }
 
-    fun observeById(id: Long): Flow<MeasurementType?> {
-        return dao.observeById(id)
-    }
-
     fun getByKey(key: String): MeasurementType {
         return checkNotNull(dao.getByKey(key))
     }
 
-    fun getByPropertyId(propertyId: Long): List<MeasurementType> {
-        return dao.getByPropertyId(propertyId)
+    fun getByCategoryId(categoryId: Long): List<MeasurementType> {
+        return dao.getByCategoryId(categoryId)
     }
 
-    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementType>> {
-        return dao.observeByPropertyId(propertyId)
+    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementType>> {
+        return dao.observeByCategoryId(categoryId)
     }
 
     fun getAll(): List<MeasurementType> {
@@ -85,28 +77,11 @@ class MeasurementTypeRepository(
     }
 }
 
-fun Flow<MeasurementType>.deep(
-    propertyRepository: MeasurementPropertyRepository = inject(),
-): Flow<MeasurementType> {
-    return flatMapLatest { type ->
-        val flows = propertyRepository.observeById(type.propertyId)
-            .filterNotNull()
-            .map { property -> type to property }
-        combine(flows) { typeWithProperty ->
-            typeWithProperty.map { (type, property) ->
-                // TODO: Set selected unit
-                type.property = property
-                type
-            }.first()
-        }
-    }
-}
-
 fun MeasurementType.deep(
-    propertyRepository: MeasurementPropertyRepository = inject(),
+    categoryRepository: MeasurementCategoryRepository = inject(),
 ): MeasurementType {
     return apply {
-        this.property = checkNotNull(propertyRepository.getById(propertyId))
+        this.category = checkNotNull(categoryRepository.getById(categoryId))
         // TODO: Selected unit
     }
 }

@@ -1,16 +1,16 @@
 package com.faltenreich.diaguard.measurement
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.property.form.CountMeasurementValuesOfPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.form.CreateMeasurementTypeUseCase
-import com.faltenreich.diaguard.measurement.property.form.DeleteMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.form.GetMeasurementTypesUseCase
-import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
-import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.list.CreateMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.list.GetMeasurementPropertiesUseCase
-import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.measurement.category.form.CountMeasurementValuesOfCategoryUseCase
+import com.faltenreich.diaguard.measurement.category.form.CreateMeasurementTypeUseCase
+import com.faltenreich.diaguard.measurement.category.form.DeleteMeasurementCategoryUseCase
+import com.faltenreich.diaguard.measurement.category.form.GetMeasurementTypesUseCase
+import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormViewModel
+import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
+import com.faltenreich.diaguard.measurement.category.list.CreateMeasurementCategoryUseCase
+import com.faltenreich.diaguard.measurement.category.list.GetMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListViewModel
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.type.form.CountMeasurementValuesOfTypeUseCase
@@ -23,37 +23,37 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListViewModel
 import com.faltenreich.diaguard.measurement.value.CreateMeasurementValuesUseCase
-import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 fun measurementModule() = module {
     singleOf(::MeasurementValueMapper)
 
-    singleOf(::MeasurementPropertyRepository)
+    singleOf(::MeasurementCategoryRepository)
     singleOf(::MeasurementTypeRepository)
     singleOf(::MeasurementUnitRepository)
     singleOf(::MeasurementValueRepository)
 
-    singleOf(::CreateMeasurementPropertyUseCase)
+    singleOf(::CreateMeasurementCategoryUseCase)
     singleOf(::GetMeasurementValueTintUseCase)
-    singleOf(::GetMeasurementPropertiesUseCase)
-    singleOf(::UpdateMeasurementPropertyUseCase)
-    singleOf(::DeleteMeasurementPropertyUseCase)
+    singleOf(::GetMeasurementCategoriesUseCase)
+    singleOf(::UpdateMeasurementCategoryUseCase)
+    singleOf(::DeleteMeasurementCategoryUseCase)
     singleOf(::CreateMeasurementTypeUseCase)
     singleOf(::GetMeasurementTypesUseCase)
     singleOf(::GetMeasurementTypeUseCase)
     singleOf(::CreateMeasurementValuesUseCase)
-    singleOf(::CountMeasurementValuesOfPropertyUseCase)
+    singleOf(::CountMeasurementValuesOfCategoryUseCase)
     singleOf(::CountMeasurementValuesOfTypeUseCase)
     singleOf(::UpdateMeasurementTypeUseCase)
     singleOf(::DeleteMeasurementTypeUseCase)
     singleOf(::UpdateMeasurementUnitUseCase)
 
-    singleOf(::MeasurementPropertyListViewModel)
-    factory { (property: MeasurementProperty) -> MeasurementPropertyFormViewModel(property) }
+    singleOf(::MeasurementCategoryListViewModel)
+    factory { (category: MeasurementCategory) -> MeasurementCategoryFormViewModel(category) }
     singleOf(::MeasurementTypeListViewModel)
     factory { (type: MeasurementType) -> MeasurementTypeFormViewModel(type) }
     singleOf(::MeasurementUnitListViewModel)

@@ -3,12 +3,12 @@ package com.faltenreich.diaguard.export
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.faltenreich.diaguard.export.pdf.PdfLayout
-import com.faltenreich.diaguard.measurement.property.list.GetMeasurementPropertiesUseCase
-import com.faltenreich.diaguard.shared.architecture.FormViewModel
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.export.pdf.PdfLayout
+import com.faltenreich.diaguard.measurement.category.list.GetMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.shared.architecture.FormViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 
 class ExportFormViewModel(
     getToday: GetTodayUseCase = inject(),
-    getMeasurementProperties: GetMeasurementPropertiesUseCase,
+    getMeasurementCategories: GetMeasurementCategoriesUseCase,
     private val export: ExportUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
     private val localization: Localization,
@@ -49,20 +49,20 @@ class ExportFormViewModel(
     var includeTags by mutableStateOf(true)
     var includeDaysWithoutEntries by mutableStateOf(true)
 
-    var properties by mutableStateOf(emptyList<ExportFormMeasurementProperty>())
+    var categories by mutableStateOf(emptyList<ExportFormMeasurementCategory>())
 
     init {
         scope.launch {
-            getMeasurementProperties().collect { properties ->
-                val exportProperties = properties.map { property ->
-                    ExportFormMeasurementProperty(
-                        property = property,
+            getMeasurementCategories().collect { categories ->
+                val exportCategories = categories.map { category ->
+                    ExportFormMeasurementCategory(
+                        category = category,
                         isExported = true,
                         isMerged = false,
                     )
-                }.sortedBy { it.property.sortIndex }
+                }.sortedBy { it.category.sortIndex }
                 withContext(Dispatchers.Main) {
-                    this@ExportFormViewModel.properties = exportProperties
+                    this@ExportFormViewModel.categories = exportCategories
                 }
             }
         }
@@ -70,16 +70,16 @@ class ExportFormViewModel(
 
     override fun handleIntent(intent: ExportFormIntent) {
         when (intent) {
-            is ExportFormIntent.SetProperty -> setProperty(intent.property)
+            is ExportFormIntent.SetCategory -> setCategory(intent.category)
             is ExportFormIntent.Submit -> submit()
         }
     }
 
-    fun setProperty(property: ExportFormMeasurementProperty) {
-        properties = properties
-            .filter { it.property != property.property }
-            .plus(property)
-            .sortedBy { it.property.sortIndex }
+    fun setCategory(category: ExportFormMeasurementCategory) {
+        categories = categories
+            .filter { it.category != category.category }
+            .plus(category)
+            .sortedBy { it.category.sortIndex }
     }
 
     fun submit() {

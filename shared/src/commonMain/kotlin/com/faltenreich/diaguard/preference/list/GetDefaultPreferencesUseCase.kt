@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.preference.list
 
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.MeasurementPropertyListScreen
+import com.faltenreich.diaguard.navigation.screen.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.screen.TagListScreen
 import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.preference.StartScreen
@@ -59,8 +59,8 @@ class GetDefaultPreferencesUseCase(
                     icon = Res.drawable.ic_data
                 }
                 action {
-                    title = Res.string.measurement_properties
-                    onClick = { navigateToScreen(MeasurementPropertyListScreen) }
+                    title = Res.string.measurement_categories
+                    onClick = { navigateToScreen(MeasurementCategoryListScreen) }
                 }
                 action {
                     title = Res.string.tags

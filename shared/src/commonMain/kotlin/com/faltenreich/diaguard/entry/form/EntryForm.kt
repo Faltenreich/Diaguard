@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInput
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.food.search.FoodSearchEvent
@@ -139,7 +139,7 @@ fun EntryForm(
         ) {
             Column {
                 viewModel.measurements.forEach { measurement ->
-                    MeasurementPropertyInput(
+                    MeasurementCategoryInput(
                         state = measurement,
                         foodState = viewModel.foodEaten,
                         onIntent = viewModel::dispatchIntent,

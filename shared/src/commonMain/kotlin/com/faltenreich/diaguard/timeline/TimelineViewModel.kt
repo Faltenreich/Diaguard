@@ -3,8 +3,8 @@ package com.faltenreich.diaguard.timeline
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.map
 class TimelineViewModel(
     date: Date?,
     valueRepository: MeasurementValueRepository = inject(),
-    measurementPropertyRepository: MeasurementPropertyRepository = inject(),
+    measurementCategoryRepository: MeasurementCategoryRepository = inject(),
     getToday: GetTodayUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
@@ -41,10 +41,10 @@ class TimelineViewModel(
             endDateTime = date.plus(2, DateUnit.DAY).atEndOfDay(),
         )
     }
-    private val valuesForChart = values.map { it.filter { value -> value.type.property.isBloodSugar } }
-    private val valuesForList = values.map { it.filterNot { value -> value.type.property.isBloodSugar } }
-    private val propertiesForList = measurementPropertyRepository.observeAll().map { properties ->
-        properties.filterNot(MeasurementProperty::isBloodSugar)
+    private val valuesForChart = values.map { it.filter { value -> value.type.category.isBloodSugar } }
+    private val valuesForList = values.map { it.filterNot { value -> value.type.category.isBloodSugar } }
+    private val categoriesForList = measurementCategoryRepository.observeAll().map { categories ->
+        categories.filterNot(MeasurementCategory::isBloodSugar)
     }
 
     override val state = combine(
@@ -52,7 +52,7 @@ class TimelineViewModel(
         currentDate,
         valuesForChart,
         valuesForList,
-        propertiesForList,
+        categoriesForList,
         ::TimelineState,
     )
 

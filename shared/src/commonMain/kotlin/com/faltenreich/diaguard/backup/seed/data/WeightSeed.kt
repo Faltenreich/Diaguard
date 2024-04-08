@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.backup.seed.data
 
 import diaguard.shared.generated.resources.*
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
+import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
@@ -9,9 +9,9 @@ import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class WeightSeed {
 
-    operator fun invoke(): SeedMeasurementProperty {
-        return SeedMeasurementProperty(
-            key = DatabaseKey.MeasurementProperty.WEIGHT,
+    operator fun invoke(): SeedMeasurementCategory {
+        return SeedMeasurementCategory(
+            key = DatabaseKey.MeasurementCategory.WEIGHT,
             name = Res.string.weight,
             icon = "\uD83C\uDFCB",
             type = SeedMeasurementType(

@@ -5,7 +5,7 @@ interface DatabaseKey {
     // Attention: Keys must not be altered as they will be engraved into the seed database
     val key: String
 
-    enum class MeasurementProperty(override val key: String) : DatabaseKey {
+    enum class MeasurementCategory(override val key: String) : DatabaseKey {
 
         BLOOD_SUGAR("blood_sugar"),
         INSULIN("insulin"),
@@ -20,29 +20,29 @@ interface DatabaseKey {
 
         companion object {
 
-            fun from(key: String): MeasurementProperty {
+            fun from(key: String): MeasurementCategory {
                 return entries.first { it.key == key }
             }
         }
     }
 
-    enum class MeasurementType(val id: String, property: MeasurementProperty) : DatabaseKey {
+    enum class MeasurementType(val id: String, category: MeasurementCategory) : DatabaseKey {
 
-        BLOOD_SUGAR("blood_sugar", MeasurementProperty.BLOOD_SUGAR),
-        INSULIN_BOLUS( "bolus", MeasurementProperty.INSULIN),
-        INSULIN_CORRECTION( "correction", MeasurementProperty.INSULIN),
-        INSULIN_BASAL("basal", MeasurementProperty.INSULIN),
-        MEAL("meal", MeasurementProperty.MEAL),
-        ACTIVITY("activity", MeasurementProperty.ACTIVITY),
-        HBA1C("hba1c", MeasurementProperty.HBA1C),
-        WEIGHT("weight", MeasurementProperty.WEIGHT),
-        PULSE("pulse", MeasurementProperty.PULSE),
-        BLOOD_PRESSURE_SYSTOLIC("systolic", MeasurementProperty.BLOOD_PRESSURE),
-        BLOOD_PRESSURE_DIASTOLIC("diastolic", MeasurementProperty.BLOOD_PRESSURE),
-        OXYGEN_SATURATION("oxygen_saturation", MeasurementProperty.OXYGEN_SATURATION),
+        BLOOD_SUGAR("blood_sugar", MeasurementCategory.BLOOD_SUGAR),
+        INSULIN_BOLUS( "bolus", MeasurementCategory.INSULIN),
+        INSULIN_CORRECTION( "correction", MeasurementCategory.INSULIN),
+        INSULIN_BASAL("basal", MeasurementCategory.INSULIN),
+        MEAL("meal", MeasurementCategory.MEAL),
+        ACTIVITY("activity", MeasurementCategory.ACTIVITY),
+        HBA1C("hba1c", MeasurementCategory.HBA1C),
+        WEIGHT("weight", MeasurementCategory.WEIGHT),
+        PULSE("pulse", MeasurementCategory.PULSE),
+        BLOOD_PRESSURE_SYSTOLIC("systolic", MeasurementCategory.BLOOD_PRESSURE),
+        BLOOD_PRESSURE_DIASTOLIC("diastolic", MeasurementCategory.BLOOD_PRESSURE),
+        OXYGEN_SATURATION("oxygen_saturation", MeasurementCategory.OXYGEN_SATURATION),
         ;
 
-        override val key: String = property.key + DELIMITER + id
+        override val key: String = category.key + DELIMITER + id
 
         companion object {
 

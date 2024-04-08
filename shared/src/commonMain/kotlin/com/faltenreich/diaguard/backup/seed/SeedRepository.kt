@@ -26,7 +26,7 @@ class SeedRepository(
     private val tagSeed: TagSeed,
 ) {
 
-    fun getMeasurementProperties(): List<SeedMeasurementProperty> {
+    fun getMeasurementCategories(): List<SeedMeasurementCategory> {
         return listOf(
             bloodSugarSeed(),
             insulinSeed(),

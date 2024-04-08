@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.measurement.property.form
+package com.faltenreich.diaguard.measurement.category.form
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.type.MeasurementType
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
@@ -13,10 +13,10 @@ class GetMeasurementTypesUseCase(
     private val measurementUnitRepository: MeasurementUnitRepository = inject(),
 ) {
 
-    operator fun invoke(property: MeasurementProperty): Flow<List<MeasurementType>> {
+    operator fun invoke(category: MeasurementCategory): Flow<List<MeasurementType>> {
         return combine(
-            measurementTypeRepository.observeByPropertyId(property.id),
-            measurementUnitRepository.observeByPropertyId(property.id),
+            measurementTypeRepository.observeByCategoryId(category.id),
+            measurementUnitRepository.observeByCategoryId(category.id),
         ) { types, units ->
             types.onEach { type ->
                 type.units = units

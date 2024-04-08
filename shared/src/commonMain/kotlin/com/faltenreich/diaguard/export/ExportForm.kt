@@ -15,11 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import diaguard.shared.generated.resources.*
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
+import com.faltenreich.diaguard.datetime.picker.DateRangePicker
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.datetime.picker.DateRangePicker
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.DropdownButton
 import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
@@ -27,6 +26,26 @@ import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextDivider
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.calendar_week
+import diaguard.shared.generated.resources.data
+import diaguard.shared.generated.resources.date_of_export
+import diaguard.shared.generated.resources.days_without_entries
+import diaguard.shared.generated.resources.ic_document
+import diaguard.shared.generated.resources.ic_layout
+import diaguard.shared.generated.resources.ic_note
+import diaguard.shared.generated.resources.ic_position_bottom_left
+import diaguard.shared.generated.resources.ic_position_bottom_right
+import diaguard.shared.generated.resources.ic_position_top_left
+import diaguard.shared.generated.resources.ic_skip
+import diaguard.shared.generated.resources.ic_tag
+import diaguard.shared.generated.resources.ic_time
+import diaguard.shared.generated.resources.layout
+import diaguard.shared.generated.resources.measurement_categories
+import diaguard.shared.generated.resources.merge_values
+import diaguard.shared.generated.resources.notes
+import diaguard.shared.generated.resources.page_number
+import diaguard.shared.generated.resources.tags
 
 @Composable
 fun ExportForm(
@@ -129,20 +148,20 @@ fun ExportForm(
             )
         }
 
-        TextDivider(getString(Res.string.measurement_properties))
-        viewModel.properties.forEach { property ->
-            FormRow(icon = { MeasurementPropertyIcon(property.property) }) {
+        TextDivider(getString(Res.string.measurement_categories))
+        viewModel.categories.forEach { category ->
+            FormRow(icon = { MeasurementCategoryIcon(category.category) }) {
                 TextCheckbox(
-                    title = property.property.name,
-                    checked = property.isExported,
-                    onCheckedChange = { viewModel.setProperty(property.copy(isExported = !property.isExported)) },
+                    title = category.category.name,
+                    checked = category.isExported,
+                    onCheckedChange = { viewModel.setCategory(category.copy(isExported = !category.isExported)) },
                     modifier = Modifier.weight(1f),
                 )
-                if (true) { // TODO: property.property.types.size > 1) {
+                if (true) { // TODO: category.category.types.size > 1) {
                     TextCheckbox(
                         title = getString(Res.string.merge_values),
-                        checked = property.isMerged,
-                        onCheckedChange = { viewModel.setProperty(property.copy(isMerged = !property.isMerged)) },
+                        checked = category.isMerged,
+                        onCheckedChange = { viewModel.setCategory(category.copy(isMerged = !category.isMerged)) },
                         modifier = Modifier.weight(1f),
                     )
                 }

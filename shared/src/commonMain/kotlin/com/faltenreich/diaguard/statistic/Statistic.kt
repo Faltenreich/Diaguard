@@ -17,7 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import diaguard.shared.generated.resources.*
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.datetime.picker.DateRangePicker
@@ -39,14 +39,14 @@ fun Statistic(
         is StatisticViewState.Loaded -> Column(
             modifier = modifier.verticalScroll(rememberScrollState()),
         ) {
-            FormRow(icon = { MeasurementPropertyIcon(viewState.selectedProperty) }) {
+            FormRow(icon = { MeasurementCategoryIcon(viewState.selectedCategory) }) {
                 DropdownButton(
-                    text = viewState.selectedProperty.name,
-                    items = viewState.properties.map { property ->
+                    text = viewState.selectedCategory.name,
+                    items = viewState.categories.map { category ->
                         DropdownTextMenuItem(
-                            label = property.name,
-                            onClick = { viewModel.dispatchIntent(StatisticIntent.Select(property)) },
-                            isSelected = { viewState.selectedProperty == property },
+                            label = category.name,
+                            onClick = { viewModel.dispatchIntent(StatisticIntent.Select(category)) },
+                            isSelected = { viewState.selectedCategory == category },
                         )
                     }
                 )

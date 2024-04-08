@@ -39,7 +39,7 @@ fun FoodEatenInput(
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
-            // FIXME: Might be ImeAction.Done if meal is last property
+            // FIXME: Might be ImeAction.Done if meal is last category
             imeAction = ImeAction.Next,
         ),
     )

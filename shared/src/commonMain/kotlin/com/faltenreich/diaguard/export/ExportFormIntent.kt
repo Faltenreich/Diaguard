@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.export
 
 sealed interface ExportFormIntent {
 
-    data class SetProperty(val property: ExportFormMeasurementProperty) : ExportFormIntent
+    data class SetCategory(val category: ExportFormMeasurementCategory) : ExportFormIntent
 
     data object Submit : ExportFormIntent
 }

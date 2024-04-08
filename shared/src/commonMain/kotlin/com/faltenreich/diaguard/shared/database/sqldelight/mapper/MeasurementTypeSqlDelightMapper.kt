@@ -26,7 +26,7 @@ class MeasurementTypeSqlDelightMapper(
         valueRangeMaximum: Double,
         isValueRangeHighlighted: Long,
         selectedUnitId: Long,
-        propertyId: Long,
+        categoryId: Long,
     ): MeasurementType {
         return MeasurementType(
             id = id,
@@ -44,7 +44,7 @@ class MeasurementTypeSqlDelightMapper(
             ),
             sortIndex = sortIndex,
             selectedUnitId = selectedUnitId,
-            propertyId = propertyId,
+            categoryId = categoryId,
         )
     }
 
@@ -62,7 +62,7 @@ class MeasurementTypeSqlDelightMapper(
         typeValueRangeMaximum: Double,
         typeIsValueRangeHighlighted: Long,
         typeSelectedUnitId: Long,
-        typePropertyId: Long,
+        typeCategoryId: Long,
 
         selectedUnitId: Long,
         selectedUnitCreatedAt: String,
@@ -87,7 +87,7 @@ class MeasurementTypeSqlDelightMapper(
             isValueRangeHighlighted = typeIsValueRangeHighlighted,
             sortIndex = typeSortIndex,
             selectedUnitId = typeSelectedUnitId,
-            propertyId = typePropertyId,
+            categoryId = typeCategoryId,
         ).apply {
             selectedUnit = unitMapper.map(
                 id = selectedUnitId,

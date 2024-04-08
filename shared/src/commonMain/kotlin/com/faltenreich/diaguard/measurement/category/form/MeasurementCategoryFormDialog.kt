@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.property.form
+package com.faltenreich.diaguard.measurement.category.form
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
@@ -17,13 +17,13 @@ import com.faltenreich.diaguard.shared.view.rememberFocusRequester
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.create
-import diaguard.shared.generated.resources.measurement_property_new
+import diaguard.shared.generated.resources.measurement_category_new
 import diaguard.shared.generated.resources.name
 
 @Composable
-fun MeasurementPropertyFormDialog(
+fun MeasurementCategoryFormDialog(
     onDismissRequest: () -> Unit,
-    onConfirmRequest: (propertyName: String) -> Unit,
+    onConfirmRequest: (name: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = rememberFocusRequester(requestFocus = true)
@@ -42,7 +42,7 @@ fun MeasurementPropertyFormDialog(
                 Text(getString(Res.string.cancel))
             }
         },
-        title = { Text(getString(Res.string.measurement_property_new)) },
+        title = { Text(getString(Res.string.measurement_category_new)) },
         text = {
             TextInput(
                 input = name,

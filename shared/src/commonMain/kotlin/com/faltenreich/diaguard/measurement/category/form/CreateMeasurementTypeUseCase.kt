@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.property.form
+package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
@@ -15,7 +15,7 @@ class CreateMeasurementTypeUseCase(
         typeName: String,
         typeRange: MeasurementValueRange,
         typeSortIndex: Long,
-        propertyId: Long,
+        categoryId: Long,
         unitKey: String?,
         unitName: String,
     ) {
@@ -24,7 +24,7 @@ class CreateMeasurementTypeUseCase(
             name = typeName,
             sortIndex = typeSortIndex,
             range = typeRange,
-            propertyId = propertyId,
+            categoryId = categoryId,
         )
         val unitId = measurementUnitRepository.create(
             key = unitKey,

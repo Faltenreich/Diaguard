@@ -10,23 +10,24 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import com.faltenreich.diaguard.shared.view.Divider
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.food.eaten.FoodEatenInput
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryIcon
+import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_search
 
 @Composable
-fun MeasurementPropertyInput(
-    state: MeasurementPropertyInputState,
+fun MeasurementCategoryInput(
+    state: MeasurementCategoryInputState,
     foodState: List<FoodEatenInputState>,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
@@ -39,8 +40,8 @@ fun MeasurementPropertyInput(
             horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
             verticalAlignment = Alignment.Top,
         ) {
-            MeasurementPropertyIcon(
-                property = state.property,
+            MeasurementCategoryIcon(
+                category = state.category,
                 modifier = Modifier.padding(top = AppTheme.dimensions.padding.P_3_25),
             )
             FlowRow(modifier = modifier) {
@@ -49,7 +50,7 @@ fun MeasurementPropertyInput(
                     MeasurementTypeInput(
                         data = type,
                         modifier = Modifier.weight(1f),
-                        action = if (state.property.isMeal) {
+                        action = if (state.category.isMeal) {
                             {
                                 IconButton(onClick = { onIntent(EntryFormIntent.SelectFood) }) {
                                     ResourceIcon(Res.drawable.ic_search)
@@ -63,7 +64,7 @@ fun MeasurementPropertyInput(
                 }
             }
         }
-        if (state.property.isMeal) {
+        if (state.category.isMeal) {
             foodState.forEach { data ->
                 Divider()
                 FormRow(

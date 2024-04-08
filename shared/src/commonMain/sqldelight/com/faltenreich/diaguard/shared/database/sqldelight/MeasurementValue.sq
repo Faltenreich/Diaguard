@@ -21,46 +21,46 @@ getByDateRange:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementType ON MeasurementType.id == MeasurementValue.typeId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementType.selectedUnitId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementType.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementType.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime ORDER BY Entry.dateTime;
 
-getLatestByProperty:
+getLatestByCategory:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementType ON MeasurementType.id == MeasurementValue.typeId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementType.selectedUnitId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementType.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementType.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE MeasurementType.propertyId == :propertyId
+WHERE MeasurementType.categoryId == :categoryId
 ORDER BY Entry.dateTime DESC
 LIMIT 1;
 
-getPropertyAndDateTime:
+getCategoryAndDateTime:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementType ON MeasurementType.id == MeasurementValue.typeId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementType.selectedUnitId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementType.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementType.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE MeasurementType.propertyId == :propertyId
+WHERE MeasurementType.categoryId == :categoryId
 AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;
 
-getAverageByProperty:
+getAverageByCategory:
 SELECT AVG(MeasurementValue.value) FROM MeasurementValue
 INNER JOIN MeasurementType ON MeasurementType.id == MeasurementValue.typeId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementType.selectedUnitId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementType.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementType.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE MeasurementType.propertyId == :propertyId
+WHERE MeasurementType.categoryId == :categoryId
 AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;
 
-countByProperty:
+countByCategory:
 SELECT COUNT(*) FROM MeasurementValue
 INNER JOIN MeasurementType ON MeasurementType.id == MeasurementValue.typeId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementType.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementType.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE MeasurementType.propertyId == :propertyId;
+WHERE MeasurementType.categoryId == :categoryId;
 
 countByType:
 SELECT COUNT(*) FROM MeasurementValue

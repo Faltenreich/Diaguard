@@ -13,7 +13,7 @@ interface MeasurementTypeDao {
         sortIndex: Long,
         range: MeasurementValueRange,
         selectedUnitId: Long,
-        propertyId: Long,
+        categoryId: Long,
     )
 
     fun getLastId(): Long?
@@ -24,9 +24,9 @@ interface MeasurementTypeDao {
 
     fun getByKey(key: String): MeasurementType?
 
-    fun getByPropertyId(propertyId: Long): List<MeasurementType>
+    fun getByCategoryId(categoryId: Long): List<MeasurementType>
 
-    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementType>>
+    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementType>>
 
     fun getAll(): List<MeasurementType>
 

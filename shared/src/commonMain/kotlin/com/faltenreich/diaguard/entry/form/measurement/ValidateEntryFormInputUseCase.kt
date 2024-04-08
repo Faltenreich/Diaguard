@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 class ValidateEntryFormInputUseCase(
     private val dispatcher: CoroutineDispatcher,
     private val ruleForEntryFormInput: ValidationRule<EntryFormInput>,
-    private val rulesForProperties: List<ValidationRule<MeasurementPropertyInputState>>,
+    private val rulesForCategories: List<ValidationRule<MeasurementCategoryInputState>>,
     private val rulesForTypes: List<ValidationRule<MeasurementTypeInputState>>,
 ) {
 
@@ -17,11 +17,11 @@ class ValidateEntryFormInputUseCase(
         input: EntryFormInput,
     ): ValidationResult<EntryFormInput> = withContext(dispatcher) {
         val result = input.copy(
-            measurements = input.measurements.map { property ->
-                val resultForProperty = validateProperty(property)
-                property.copy(
-                    error = (resultForProperty as? ValidationResult.Failure)?.error,
-                    typeInputStates = property.typeInputStates.map { type ->
+            measurements = input.measurements.map { category ->
+                val resultForCategory = validateCategory(category)
+                category.copy(
+                    error = (resultForCategory as? ValidationResult.Failure)?.error,
+                    typeInputStates = category.typeInputStates.map { type ->
                         val resultForType = validateType(type)
                         type.copy(
                             error = (resultForType as? ValidationResult.Failure)?.error,
@@ -33,10 +33,10 @@ class ValidateEntryFormInputUseCase(
         ruleForEntryFormInput.check(result)
     }
 
-    private fun validateProperty(
-        input: MeasurementPropertyInputState,
-    ): ValidationResult<MeasurementPropertyInputState> {
-        return rulesForProperties
+    private fun validateCategory(
+        input: MeasurementCategoryInputState,
+    ): ValidationResult<MeasurementCategoryInputState> {
+        return rulesForCategories
             .map { it.check(input) }
             .firstOrNull { it is ValidationResult.Failure }
             ?: ValidationResult.Success(input)

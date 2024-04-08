@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.backup.seed
 import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.FoodRepository
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
@@ -14,7 +14,7 @@ class SeedImport(
     private val localization: Localization,
     private val dateTimeFactory: DateTimeFactory,
     private val seedRepository: SeedRepository,
-    private val propertyRepository: MeasurementPropertyRepository,
+    private val categoryRepository: MeasurementCategoryRepository,
     private val typeRepository: MeasurementTypeRepository,
     private val unitRepository: MeasurementUnitRepository,
     private val foodRepository: FoodRepository,
@@ -24,21 +24,21 @@ class SeedImport(
     override fun import() {
         val now = dateTimeFactory.now()
 
-        val propertySeeds = seedRepository.getMeasurementProperties()
-        propertySeeds.forEachIndexed { propertySortIndex, property ->
-            val propertyId = propertyRepository.create(
-                key = property.key.key,
-                name = localization.getString(property.name),
-                icon = property.icon,
-                sortIndex = propertySortIndex.toLong(),
+        val categorySeeds = seedRepository.getMeasurementCategories()
+        categorySeeds.forEachIndexed { categorySortIndex, category ->
+            val categoryId = categoryRepository.create(
+                key = category.key.key,
+                name = localization.getString(category.name),
+                icon = category.icon,
+                sortIndex = categorySortIndex.toLong(),
             )
-            property.types.forEachIndexed { typeSortIndex, type ->
+            category.types.forEachIndexed { typeSortIndex, type ->
                 val typeId = typeRepository.create(
                     key = type.key.key,
                     name = localization.getString(type.name),
                     sortIndex = typeSortIndex.toLong(),
                     range = type.range,
-                    propertyId = propertyId,
+                    categoryId = categoryId,
                 )
                 type.units.forEach { unit ->
                     val unitId = unitRepository.create(

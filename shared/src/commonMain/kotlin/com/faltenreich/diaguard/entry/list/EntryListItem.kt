@@ -13,10 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyIcon
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.EntryTag
 
@@ -47,7 +47,7 @@ fun EntryListItem(
                     horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    MeasurementPropertyIcon(value.type.property)
+                    MeasurementCategoryIcon(value.type.category)
                     Text(
                         text = value.value.toString(),
                     )

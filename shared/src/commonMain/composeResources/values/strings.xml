@@ -103,11 +103,11 @@
     <string name="measurement_category_delete">Delete category</string>
     <string name="measurement_category_delete_description">This will irrevocably delete this category and all of its associated measurements</string>
     <string name="measurement_category_new">New category</string>
-    <string name="measurement_type">Type</string>
-    <string name="measurement_type_delete">Delete type</string>
-    <string name="measurement_type_delete_description">This will irrevocably delete this type and all of its %d associated measurements</string>
-    <string name="measurement_type_add">Add type</string>
-    <string name="measurement_types">Types</string>
+    <string name="measurement_property">Property</string>
+    <string name="measurement_property_delete">Delete property</string>
+    <string name="measurement_property_delete_description">This will irrevocably delete this property and all of its %d associated measurements</string>
+    <string name="measurement_property_add">Add property</string>
+    <string name="measurement_properties">Properties</string>
     <string name="measurement_unit">Unit</string>
     <string name="measurement_unit_factor_description">equals %s %s</string>
     <string name="measurement_unit_selected_description">Selected unit</string>

@@ -30,7 +30,7 @@ fun entryModule() = module {
             dispatcher = get(),
             ruleForEntryFormInput = ValidEntryFormInputRule(),
             rulesForCategories = listOf(),
-            rulesForTypes = listOf(RealisticMeasurementValueRule()),
+            rulesForProperties = listOf(RealisticMeasurementValueRule()),
         )
     }
     singleOf(::CreateEntryUseCase)

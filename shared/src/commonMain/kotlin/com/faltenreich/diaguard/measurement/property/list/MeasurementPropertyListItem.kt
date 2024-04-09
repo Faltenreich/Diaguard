@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.type.list
+package com.faltenreich.diaguard.measurement.property.list
 
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -6,32 +6,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import diaguard.shared.generated.resources.*
-import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 
 @Composable
-fun MeasurementTypeListItem(
-    type: MeasurementType,
-    onArrowUp: (MeasurementType) -> Unit,
+fun MeasurementPropertyListItem(
+    property: MeasurementProperty,
+    onArrowUp: (MeasurementProperty) -> Unit,
     showArrowUp: Boolean,
-    onArrowDown: (MeasurementType) -> Unit,
+    onArrowDown: (MeasurementProperty) -> Unit,
     showArrowDown: Boolean,
     modifier: Modifier = Modifier,
 ) {
     FormRow(modifier = modifier) {
         Text(
-            text = type.name,
+            text = property.name,
             modifier = Modifier.weight(1f),
         )
         IconButton(
-            onClick = { onArrowUp(type) },
+            onClick = { onArrowUp(property) },
             modifier = Modifier.alpha(if (showArrowUp) 1f else 0f),
         ) {
             ResourceIcon(Res.drawable.ic_arrow_up)
         }
         IconButton(
-            onClick = { onArrowDown(type) },
+            onClick = { onArrowDown(property) },
             modifier = Modifier.alpha(if (showArrowDown) 1f else 0f),
         ) {
             ResourceIcon(Res.drawable.ic_arrow_down)

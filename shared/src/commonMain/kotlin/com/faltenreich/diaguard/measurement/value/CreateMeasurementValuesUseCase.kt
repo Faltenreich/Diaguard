@@ -10,23 +10,23 @@ class CreateMeasurementValuesUseCase(
         measurements: List<MeasurementCategoryInputState>,
         entryId: Long,
     ) {
-        val values = measurements.flatMap(MeasurementCategoryInputState::typeInputStates)
+        val values = measurements.flatMap(MeasurementCategoryInputState::propertyInputStates)
         val valuesFromBefore = measurementValueRepository.getByEntryId(entryId)
-        values.forEach { (type, input) ->
+        values.forEach { (property, input) ->
             // TODO: Validate and normalize by unit
-            val legacyId = valuesFromBefore.firstOrNull { it.typeId == type.id }?.id
+            val legacyId = valuesFromBefore.firstOrNull { it.propertyId == property.id }?.id
             val normalized = input.toDoubleOrNull()
             if (normalized != null) {
                 measurementValueRepository.update(
                     id = legacyId ?: measurementValueRepository.create(
                         value = normalized,
-                        typeId = type.id,
+                        propertyId = property.id,
                         entryId = entryId,
                     ),
                     value = normalized,
                 )
             } else {
-                val obsolete = valuesFromBefore.firstOrNull { it.typeId == type.id }
+                val obsolete = valuesFromBefore.firstOrNull { it.propertyId == property.id }
                 if (obsolete != null) {
                     measurementValueRepository.deleteById(obsolete.id)
                 }

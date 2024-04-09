@@ -68,12 +68,12 @@ fun ExportForm(
         Divider()
         FormRow(icon = { ResourceIcon(Res.drawable.ic_document) }) {
             DropdownButton(
-                text = viewModel.exportTypeLocalized,
-                items = viewModel.exportTypes.map { type ->
+                text = viewModel.exportPropertyLocalized,
+                items = viewModel.exportProperties.map { property ->
                     DropdownTextMenuItem(
-                        label = getString(type.title),
-                        onClick = { viewModel.exportType = type },
-                        isSelected = { viewModel.exportType == type },
+                        label = getString(property.title),
+                        onClick = { viewModel.exportType = property },
+                        isSelected = { viewModel.exportType == property },
                     )
                 }
             )
@@ -157,7 +157,7 @@ fun ExportForm(
                     onCheckedChange = { viewModel.setCategory(category.copy(isExported = !category.isExported)) },
                     modifier = Modifier.weight(1f),
                 )
-                if (true) { // TODO: category.category.types.size > 1) {
+                if (true) { // TODO: category.category.properties.size > 1) {
                     TextCheckbox(
                         title = getString(Res.string.merge_values),
                         checked = category.isMerged,

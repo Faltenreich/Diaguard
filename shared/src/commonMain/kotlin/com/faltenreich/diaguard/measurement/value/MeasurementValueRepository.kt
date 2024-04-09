@@ -3,8 +3,8 @@ package com.faltenreich.diaguard.measurement.value
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
-import com.faltenreich.diaguard.measurement.type.deep
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.property.deep
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
@@ -17,14 +17,14 @@ class MeasurementValueRepository(
         createdAt: DateTime,
         updatedAt: DateTime,
         value: Double,
-        typeId: Long,
+        propertyId: Long,
         entryId: Long,
     ): Long {
         dao.create(
             createdAt = createdAt,
             updatedAt = updatedAt,
             value = value,
-            typeId = typeId,
+            propertyId = propertyId,
             entryId = entryId,
         )
         return checkNotNull(dao.getLastId())
@@ -32,7 +32,7 @@ class MeasurementValueRepository(
 
     fun create(
         value: Double,
-        typeId: Long,
+        propertyId: Long,
         entryId: Long,
     ): Long {
         val now = dateTimeFactory.now()
@@ -40,7 +40,7 @@ class MeasurementValueRepository(
             createdAt = now,
             updatedAt = now,
             value = value,
-            typeId = typeId,
+            propertyId = propertyId,
             entryId = entryId,
         )
     }
@@ -80,16 +80,16 @@ class MeasurementValueRepository(
         return dao.observeAverageByCategoryId(categoryId, minDateTime, maxDateTime)
     }
 
-    fun getAverageByTypeId(
-        typeId: Long,
+    fun getAverageByPropertyId(
+        propertyId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Double? {
-        return dao.getAverageByTypeId(typeId, minDateTime, maxDateTime)
+        return dao.getAverageByPropertyId(propertyId, minDateTime, maxDateTime)
     }
 
-    fun observeCountByTypeId(typeId: Long): Flow<Long> {
-        return dao.observeCountByTypeId(typeId)
+    fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
+        return dao.observeCountByPropertyId(propertyId)
     }
 
     fun countByCategoryId(categoryId: Long): Long {
@@ -121,12 +121,12 @@ class MeasurementValueRepository(
 
 fun List<MeasurementValue>.deep(
     entry: Entry,
-    typeRepository: MeasurementTypeRepository = inject(),
+    propertyRepository: MeasurementPropertyRepository = inject(),
 ): List<MeasurementValue> {
     return map { value ->
         value.apply {
-            val type = checkNotNull(typeRepository.getById(value.typeId))
-            this.type = type.deep()
+            val property = checkNotNull(propertyRepository.getById(value.propertyId))
+            this.property = property.deep()
             this.entry = entry
         }
     }

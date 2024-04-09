@@ -8,6 +8,6 @@ data class MeasurementValueLegacy(
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
     val value: Double,
-    val typeKey: DatabaseKey.MeasurementType,
+    val propertyKey: DatabaseKey.MeasurementProperty,
     val entryId: Long,
 ) : Legacy

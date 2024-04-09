@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.type
+package com.faltenreich.diaguard.measurement.property
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
-class MeasurementTypeRepository(
-    private val dao: MeasurementTypeDao,
+class MeasurementPropertyRepository(
+    private val dao: MeasurementPropertyDao,
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
@@ -25,33 +25,33 @@ class MeasurementTypeRepository(
             range = range,
             sortIndex = sortIndex,
             // We set this temporary id because the corresponding unit will be created afterwards
-            selectedUnitId = MeasurementType.SELECTED_UNIT_ID_INVALID,
+            selectedUnitId = MeasurementProperty.SELECTED_UNIT_ID_INVALID,
             categoryId = categoryId,
         )
         return checkNotNull(dao.getLastId())
     }
 
-    fun getById(id: Long): MeasurementType? {
+    fun getById(id: Long): MeasurementProperty? {
         return dao.getById(id)
     }
 
-    fun getByKey(key: String): MeasurementType {
+    fun getByKey(key: String): MeasurementProperty {
         return checkNotNull(dao.getByKey(key))
     }
 
-    fun getByCategoryId(categoryId: Long): List<MeasurementType> {
+    fun getByCategoryId(categoryId: Long): List<MeasurementProperty> {
         return dao.getByCategoryId(categoryId)
     }
 
-    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementType>> {
+    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty>> {
         return dao.observeByCategoryId(categoryId)
     }
 
-    fun getAll(): List<MeasurementType> {
+    fun getAll(): List<MeasurementProperty> {
         return dao.getAll()
     }
 
-    fun observeAll(): Flow<List<MeasurementType>> {
+    fun observeAll(): Flow<List<MeasurementProperty>> {
         return dao.observeAll()
     }
 
@@ -77,9 +77,9 @@ class MeasurementTypeRepository(
     }
 }
 
-fun MeasurementType.deep(
+fun MeasurementProperty.deep(
     categoryRepository: MeasurementCategoryRepository = inject(),
-): MeasurementType {
+): MeasurementProperty {
     return apply {
         this.category = checkNotNull(categoryRepository.getById(categoryId))
         // TODO: Selected unit

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.type.form
+package com.faltenreich.diaguard.measurement.property.form
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -23,9 +23,9 @@ import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.values
 
 @Composable
-fun MeasurementTypeForm(
+fun MeasurementPropertyForm(
     modifier: Modifier = Modifier,
-    viewModel: MeasurementTypeFormViewModel = inject(),
+    viewModel: MeasurementPropertyFormViewModel = inject(),
 ) {
     val state = viewModel.collectState()
 
@@ -37,15 +37,15 @@ fun MeasurementTypeForm(
 
         Column(modifier = modifier.verticalScroll(rememberScrollState())) {
             TextInput(
-                input = viewModel.typeName.collectAsState().value,
-                onInputChange = { viewModel.typeName.value = it },
+                input = viewModel.propertyName.collectAsState().value,
+                onInputChange = { viewModel.propertyName.value = it },
                 label = getString(Res.string.name),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(all = AppTheme.dimensions.padding.P_3),
             )
 
-            if (state.type.category.isUserGenerated) {
+            if (state.property.category.isUserGenerated) {
                 TextInput(
                     input = viewModel.unitName.collectAsState().value,
                     onInputChange = { viewModel.unitName.value = it },
@@ -55,7 +55,7 @@ fun MeasurementTypeForm(
                         .padding(horizontal = AppTheme.dimensions.padding.P_3),
                 )
             } else {
-                MeasurementUnitList(units = state.type.units)
+                MeasurementUnitList(units = state.property.units)
             }
 
             TextDivider(getString(Res.string.values))

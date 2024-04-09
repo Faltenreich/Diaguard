@@ -1,10 +1,10 @@
-package com.faltenreich.diaguard.measurement.type
+package com.faltenreich.diaguard.measurement.property
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import kotlinx.coroutines.flow.Flow
 
-interface MeasurementTypeDao {
+interface MeasurementPropertyDao {
 
     fun create(
         createdAt: DateTime,
@@ -18,19 +18,19 @@ interface MeasurementTypeDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): MeasurementType?
+    fun getById(id: Long): MeasurementProperty?
 
-    fun observeById(id: Long): Flow<MeasurementType?>
+    fun observeById(id: Long): Flow<MeasurementProperty?>
 
-    fun getByKey(key: String): MeasurementType?
+    fun getByKey(key: String): MeasurementProperty?
 
-    fun getByCategoryId(categoryId: Long): List<MeasurementType>
+    fun getByCategoryId(categoryId: Long): List<MeasurementProperty>
 
-    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementType>>
+    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty>>
 
-    fun getAll(): List<MeasurementType>
+    fun getAll(): List<MeasurementProperty>
 
-    fun observeAll(): Flow<List<MeasurementType>>
+    fun observeAll(): Flow<List<MeasurementProperty>>
 
     fun update(
         id: Long,

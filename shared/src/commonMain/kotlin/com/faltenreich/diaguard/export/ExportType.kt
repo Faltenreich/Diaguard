@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.export
 
-import diaguard.shared.generated.resources.*
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.csv
+import diaguard.shared.generated.resources.pdf
 import org.jetbrains.compose.resources.StringResource
 
 enum class ExportType(

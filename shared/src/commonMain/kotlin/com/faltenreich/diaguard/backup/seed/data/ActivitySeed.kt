@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.backup.seed.data
 
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
+import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -14,8 +14,8 @@ class ActivitySeed {
             key = DatabaseKey.MeasurementCategory.ACTIVITY,
             name = Res.string.activity,
             icon = "\uD83C\uDFC3",
-            type = SeedMeasurementType(
-                key = DatabaseKey.MeasurementType.ACTIVITY,
+            property = SeedMeasurementProperty(
+                key = DatabaseKey.MeasurementProperty.ACTIVITY,
                 name = Res.string.activity,
                 range = MeasurementValueRange(
                     minimum = 1.0,

@@ -2,13 +2,13 @@ package com.faltenreich.diaguard.statistic
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import com.faltenreich.diaguard.shared.primitive.format
 
 class GetAverageUseCase(
-    private val typeRepository: MeasurementTypeRepository,
+    private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
     private val formatNumber: NumberFormatter,
 ) {
@@ -18,15 +18,15 @@ class GetAverageUseCase(
         dateRange: ClosedRange<Date>,
     ): StatisticViewState.Loaded.Average {
         return StatisticViewState.Loaded.Average(
-            values = typeRepository.getByCategoryId(category.id).map { type ->
-                type to valueRepository.getAverageByTypeId(
-                    typeId = type.id,
+            values = propertyRepository.getByCategoryId(category.id).map { property ->
+                property to valueRepository.getAverageByPropertyId(
+                    propertyId = property.id,
                     minDateTime = dateRange.start.atStartOfDay(),
                     dateRange.endInclusive.atEndOfDay(),
                 )?.let { average ->
                     "%s %s".format(
                         formatNumber(average),
-                        type.selectedUnit.abbreviation,
+                        property.selectedUnit.abbreviation,
                     )
                 }
             },

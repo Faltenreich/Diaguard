@@ -11,7 +11,7 @@ interface MeasurementUnitDao {
         name: String,
         abbreviation: String,
         factor: Double,
-        typeId: Long,
+        propertyId: Long,
     )
 
     fun getLastId(): Long?
@@ -20,7 +20,7 @@ interface MeasurementUnitDao {
 
     fun getByKey(key: String): MeasurementUnit?
 
-    fun observeByTypeId(typeId: Long): Flow<List<MeasurementUnit>>
+    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit>>
 
     fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit>>
 

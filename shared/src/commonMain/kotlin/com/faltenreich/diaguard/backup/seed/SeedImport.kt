@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -15,7 +15,7 @@ class SeedImport(
     private val dateTimeFactory: DateTimeFactory,
     private val seedRepository: SeedRepository,
     private val categoryRepository: MeasurementCategoryRepository,
-    private val typeRepository: MeasurementTypeRepository,
+    private val propertyRepository: MeasurementPropertyRepository,
     private val unitRepository: MeasurementUnitRepository,
     private val foodRepository: FoodRepository,
     private val tagRepository: TagRepository,
@@ -32,29 +32,29 @@ class SeedImport(
                 icon = category.icon,
                 sortIndex = categorySortIndex.toLong(),
             )
-            category.types.forEachIndexed { typeSortIndex, type ->
-                val typeId = typeRepository.create(
-                    key = type.key.key,
-                    name = localization.getString(type.name),
-                    sortIndex = typeSortIndex.toLong(),
-                    range = type.range,
+            category.properties.forEachIndexed { propertySortIndex, property ->
+                val propertyId = propertyRepository.create(
+                    key = property.key.key,
+                    name = localization.getString(property.name),
+                    sortIndex = propertySortIndex.toLong(),
+                    range = property.range,
                     categoryId = categoryId,
                 )
-                type.units.forEach { unit ->
+                property.units.forEach { unit ->
                     val unitId = unitRepository.create(
                         key = unit.key.key,
                         name = localization.getString(unit.name),
                         abbreviation = localization.getString(unit.abbreviation),
                         factor = unit.factor,
-                        typeId = typeId,
+                        propertyId = propertyId,
                     )
                     val isSelectedUnit = unit.factor == MeasurementUnit.FACTOR_DEFAULT
                     if (isSelectedUnit) {
-                        typeRepository.update(
-                            id = typeId,
-                            name = localization.getString(type.name),
-                            range = type.range,
-                            sortIndex = typeSortIndex.toLong(),
+                        propertyRepository.update(
+                            id = propertyId,
+                            name = localization.getString(property.name),
+                            range = property.range,
+                            sortIndex = propertySortIndex.toLong(),
                             selectedUnitId = unitId,
                         )
                     }

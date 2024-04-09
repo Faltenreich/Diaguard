@@ -47,7 +47,7 @@ fun EntryListItem(
                     horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    MeasurementCategoryIcon(value.type.category)
+                    MeasurementCategoryIcon(value.property.category)
                     Text(
                         text = value.value.toString(),
                     )

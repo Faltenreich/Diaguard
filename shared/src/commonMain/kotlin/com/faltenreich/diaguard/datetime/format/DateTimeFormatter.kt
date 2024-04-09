@@ -1,14 +1,18 @@
 package com.faltenreich.diaguard.datetime.format
 
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.datetime.Month
 import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.primitive.format
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.date_time_ago_days
+import diaguard.shared.generated.resources.date_time_ago_hours
+import diaguard.shared.generated.resources.date_time_ago_minutes
+import diaguard.shared.generated.resources.date_time_ago_moments
 
 class DateTimeFormatter {
 
@@ -76,7 +80,7 @@ class DateTimeFormatter {
             minutesPassed < 2 -> getString(Res.string.date_time_ago_moments)
             minutesPassed < DateTimeConstants.MINUTES_PER_HOUR * 2 -> getString(
                 Res.string.date_time_ago_minutes,
-                minutesPassed,
+                minutesPassed.toString(),
             )
             minutesPassed < DateTimeConstants.MINUTES_PER_DAY * 2 -> getString(
                 Res.string.date_time_ago_hours,

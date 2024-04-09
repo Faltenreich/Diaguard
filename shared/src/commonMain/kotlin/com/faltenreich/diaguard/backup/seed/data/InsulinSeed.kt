@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.backup.seed.data
 
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
+import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -14,9 +14,9 @@ class InsulinSeed {
             key = DatabaseKey.MeasurementCategory.INSULIN,
             name = Res.string.insulin,
             icon = "\uD83D\uDC89",
-            types = listOf(
-                SeedMeasurementType(
-                    key = DatabaseKey.MeasurementType.INSULIN_BOLUS,
+            properties = listOf(
+                SeedMeasurementProperty(
+                    key = DatabaseKey.MeasurementProperty.INSULIN_BOLUS,
                     name = Res.string.bolus,
                     range = MeasurementValueRange(
                         minimum = 0.0,
@@ -35,8 +35,8 @@ class InsulinSeed {
                         )
                     ),
                 ),
-                SeedMeasurementType(
-                    key = DatabaseKey.MeasurementType.INSULIN_CORRECTION,
+                SeedMeasurementProperty(
+                    key = DatabaseKey.MeasurementProperty.INSULIN_CORRECTION,
                     name = Res.string.correction,
                     range = MeasurementValueRange(
                         minimum = 0.0,
@@ -55,8 +55,8 @@ class InsulinSeed {
                         )
                     ),
                 ),
-                SeedMeasurementType(
-                    key = DatabaseKey.MeasurementType.INSULIN_BASAL,
+                SeedMeasurementProperty(
+                    key = DatabaseKey.MeasurementProperty.INSULIN_BASAL,
                     name = Res.string.basal,
                     range = MeasurementValueRange(
                         minimum = 0.0,

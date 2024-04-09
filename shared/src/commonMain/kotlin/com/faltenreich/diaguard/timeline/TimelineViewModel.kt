@@ -41,8 +41,8 @@ class TimelineViewModel(
             endDateTime = date.plus(2, DateUnit.DAY).atEndOfDay(),
         )
     }
-    private val valuesForChart = values.map { it.filter { value -> value.type.category.isBloodSugar } }
-    private val valuesForList = values.map { it.filterNot { value -> value.type.category.isBloodSugar } }
+    private val valuesForChart = values.map { it.filter { value -> value.property.category.isBloodSugar } }
+    private val valuesForList = values.map { it.filterNot { value -> value.property.category.isBloodSugar } }
     private val categoriesForList = measurementCategoryRepository.observeAll().map { categories ->
         categories.filterNot(MeasurementCategory::isBloodSugar)
     }

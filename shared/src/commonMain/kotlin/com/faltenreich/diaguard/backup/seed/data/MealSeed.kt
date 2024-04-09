@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.backup.seed.data
 
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
+import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -14,8 +14,8 @@ class MealSeed {
             key = DatabaseKey.MeasurementCategory.MEAL,
             name = Res.string.meal,
             icon = "\uD83C\uDF5E",
-            type = SeedMeasurementType(
-                key = DatabaseKey.MeasurementType.MEAL,
+            property = SeedMeasurementProperty(
+                key = DatabaseKey.MeasurementProperty.MEAL,
                 name = Res.string.meal,
                 range = MeasurementValueRange(
                     minimum = 0.0,

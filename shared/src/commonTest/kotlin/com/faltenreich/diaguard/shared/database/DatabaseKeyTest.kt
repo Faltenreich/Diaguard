@@ -12,8 +12,8 @@ class DatabaseKeyTest {
             actual = DatabaseKey.MeasurementCategory.entries.distinctBy(DatabaseKey::key)
         )
         assertEquals(
-            expected = DatabaseKey.MeasurementType.entries,
-            actual = DatabaseKey.MeasurementType.entries.distinctBy(DatabaseKey::key)
+            expected = DatabaseKey.MeasurementProperty.entries,
+            actual = DatabaseKey.MeasurementProperty.entries.distinctBy(DatabaseKey::key)
         )
         assertEquals(
             expected = DatabaseKey.MeasurementUnit.entries,
@@ -23,7 +23,7 @@ class DatabaseKeyTest {
 
     @Test
     fun `Database keys are valid`() {
-        // MeasurementUnit covers MeasurementType and MeasurementCategory
+        // MeasurementUnit covers MeasurementProperty and MeasurementCategory
         assertEquals(
             expected = "blood_sugar.blood_sugar.milligrams_per_deciliter",
             actual = DatabaseKey.MeasurementUnit.BLOOD_SUGAR_MILLIGRAMS_PER_DECILITER.key,

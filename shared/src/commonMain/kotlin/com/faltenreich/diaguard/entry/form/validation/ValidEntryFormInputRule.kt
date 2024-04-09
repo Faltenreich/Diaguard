@@ -27,16 +27,16 @@ class ValidEntryFormInputRule(
         return input.tags.isEmpty() &&
             input.note.isNullOrBlank() &&
             input.measurements.none { category ->
-                category.typeInputStates.none { type ->
-                    type.input.isBlank()
+                category.propertyInputStates.none { property ->
+                    property.input.isBlank()
                 }
             }
     }
 
     private fun hasError(input: EntryFormInput): Boolean {
         return input.measurements.any { category ->
-            category.error != null || category.typeInputStates.any { type ->
-                type.error != null
+            category.error != null || category.propertyInputStates.any { property ->
+                property.error != null
             }
         }
     }

@@ -1,5 +1,5 @@
 package com.faltenreich.diaguard.measurement.category.form
 
-import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 
-data class MeasurementCategoryFormViewState(val types: List<MeasurementType>)
+data class MeasurementCategoryFormViewState(val properties: List<MeasurementProperty>)

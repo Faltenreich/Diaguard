@@ -16,7 +16,7 @@ class MeasurementUnitSqlDelightMapper(
         name: String,
         abbreviation: String,
         factor: Double,
-        typeId: Long,
+        propertyId: Long,
     ): MeasurementUnit {
         return MeasurementUnit(
             id = id,
@@ -26,7 +26,7 @@ class MeasurementUnitSqlDelightMapper(
             name = name,
             abbreviation = abbreviation,
             factor = factor,
-            typeId = typeId,
+            propertyId = propertyId,
         )
     }
 }

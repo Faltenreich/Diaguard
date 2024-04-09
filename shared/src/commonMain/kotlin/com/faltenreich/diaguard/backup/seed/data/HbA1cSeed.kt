@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.backup.seed.data
 
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
+import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -14,8 +14,8 @@ class HbA1cSeed {
             key = DatabaseKey.MeasurementCategory.HBA1C,
             name = Res.string.hba1c,
             icon = "%",
-            type = SeedMeasurementType(
-                key = DatabaseKey.MeasurementType.HBA1C,
+            property = SeedMeasurementProperty(
+                key = DatabaseKey.MeasurementProperty.HBA1C,
                 name = Res.string.hba1c,
                 range = MeasurementValueRange(
                     minimum = 1.0,

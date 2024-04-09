@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.entry.form
 
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputState
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.tag.Tag
 
 sealed interface EntryFormIntent {
 
-    data class Edit(val data: MeasurementTypeInputState) : EntryFormIntent
+    data class Edit(val data: MeasurementPropertyInputState) : EntryFormIntent
 
     data object SelectDate : EntryFormIntent
 

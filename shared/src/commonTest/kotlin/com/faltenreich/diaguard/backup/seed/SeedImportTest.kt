@@ -15,8 +15,8 @@ import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.measurement.type.MeasurementTypeDao
-import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
@@ -61,7 +61,7 @@ class SeedImportTest {
         ),
     )
     @Mock private val categoryDao = mock(classOf<MeasurementCategoryDao>())
-    @Mock private val typeDao = mock(classOf<MeasurementTypeDao>())
+    @Mock private val propertyDao = mock(classOf<MeasurementPropertyDao>())
     @Mock private val unitDao = mock(classOf<MeasurementUnitDao>())
     @Mock private val foodDao = mock(classOf<FoodDao>())
     @Mock private val tagDao = mock(classOf<TagDao>())
@@ -72,7 +72,7 @@ class SeedImportTest {
         dateTimeFactory = dateTimeFactory,
         seedRepository = seedRepository,
         categoryRepository = MeasurementCategoryRepository(dao = categoryDao, dateTimeFactory = dateTimeFactory),
-        typeRepository = MeasurementTypeRepository(dao = typeDao, dateTimeFactory = dateTimeFactory),
+        propertyRepository = MeasurementPropertyRepository(dao = propertyDao, dateTimeFactory = dateTimeFactory),
         unitRepository = MeasurementUnitRepository(dao = unitDao, dateTimeFactory = dateTimeFactory),
         foodRepository = FoodRepository(dao = foodDao),
         tagRepository = TagRepository(dao = tagDao),
@@ -80,7 +80,7 @@ class SeedImportTest {
 
     init {
         every { categoryDao.getLastId() } returns 0L
-        every { typeDao.getLastId() } returns 0L
+        every { propertyDao.getLastId() } returns 0L
         every { unitDao.getLastId() } returns 0L
         every { foodDao.getLastId() } returns 0L
         every { tagDao.getLastId() } returns 0L

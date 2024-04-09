@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.backup.seed.data
 
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
+import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -14,8 +14,8 @@ class BloodSugarSeed {
             key = DatabaseKey.MeasurementCategory.BLOOD_SUGAR,
             name = Res.string.blood_sugar,
             icon = "\uD83E\uDE78",
-            type = SeedMeasurementType(
-                key = DatabaseKey.MeasurementType.BLOOD_SUGAR,
+            property = SeedMeasurementProperty(
+                key = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
                 name = Res.string.blood_sugar,
                 range = MeasurementValueRange(
                     minimum = 1.0,

@@ -6,11 +6,11 @@ CREATE TABLE MeasurementUnit (
     name TEXT NOT NULL,
     abbreviation TEXT NOT NULL,
     factor REAL NOT NULL,
-    typeId INTEGER NOT NULL
+    propertyId INTEGER NOT NULL
 );
 
 create:
-INSERT INTO MeasurementUnit(createdAt, updatedAt, key, name, abbreviation, factor, typeId)
+INSERT INTO MeasurementUnit(createdAt, updatedAt, key, name, abbreviation, factor, propertyId)
 VALUES (?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
@@ -22,13 +22,13 @@ SELECT * FROM MeasurementUnit WHERE id = ?;
 getByKey:
 SELECT * FROM MeasurementUnit WHERE key = ?;
 
-getByType:
-SELECT * FROM MeasurementUnit WHERE typeId = ? ORDER BY createdAt ASC;
+getByProperty:
+SELECT * FROM MeasurementUnit WHERE propertyId = ? ORDER BY createdAt ASC;
 
 getByCategoryId:
 SELECT MeasurementUnit.* FROM MeasurementUnit
-INNER JOIN MeasurementType ON MeasurementType.id = MeasurementUnit.typeId
-WHERE MeasurementType.categoryId = ?
+INNER JOIN MeasurementProperty ON MeasurementProperty.id = MeasurementUnit.propertyId
+WHERE MeasurementProperty.categoryId = ?
 ORDER BY MeasurementUnit.createdAt ASC;
 
 getAll:

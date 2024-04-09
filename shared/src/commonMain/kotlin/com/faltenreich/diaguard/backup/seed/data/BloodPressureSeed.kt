@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.backup.seed.data
 
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
+import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -14,9 +14,9 @@ class BloodPressureSeed {
             key = DatabaseKey.MeasurementCategory.BLOOD_PRESSURE,
             name = Res.string.blood_pressure,
             icon = "⛽",
-            types = listOf(
-                SeedMeasurementType(
-                    key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_SYSTOLIC,
+            properties = listOf(
+                SeedMeasurementProperty(
+                    key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_SYSTOLIC,
                     name = Res.string.systolic,
                     range = MeasurementValueRange(
                         minimum = 1.0,
@@ -35,8 +35,8 @@ class BloodPressureSeed {
                         )
                     ),
                 ),
-                SeedMeasurementType(
-                    key = DatabaseKey.MeasurementType.BLOOD_PRESSURE_DIASTOLIC,
+                SeedMeasurementProperty(
+                    key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC,
                     name = Res.string.diastolic,
                     range = MeasurementValueRange(
                         minimum = 1.0,

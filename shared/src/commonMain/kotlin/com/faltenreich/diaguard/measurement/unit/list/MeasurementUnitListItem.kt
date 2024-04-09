@@ -31,7 +31,7 @@ fun MeasurementUnitListItem(
                             text = getString(
                                 Res.string.measurement_unit_factor_description,
                                 unit.factor.toString(), // TODO: Format
-                                unit.type.units.first(MeasurementUnit::isDefault).name,
+                                unit.property.units.first(MeasurementUnit::isDefault).name,
                             ),
                             style = AppTheme.typography.bodySmall,
                         )

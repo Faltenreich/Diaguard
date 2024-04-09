@@ -28,7 +28,7 @@ class MeasurementUnitSqlDelightDao(
         name: String,
         abbreviation: String,
         factor: Double,
-        typeId: Long,
+        propertyId: Long,
     ) {
         queries.create(
             createdAt = createdAt.isoString,
@@ -37,7 +37,7 @@ class MeasurementUnitSqlDelightDao(
             name = name,
             abbreviation = abbreviation,
             factor = factor,
-            typeId = typeId,
+            propertyId = propertyId,
         )
     }
 
@@ -53,8 +53,8 @@ class MeasurementUnitSqlDelightDao(
         return queries.getByKey(key, mapper::map).executeAsOneOrNull()
     }
 
-    override fun observeByTypeId(typeId: Long): Flow<List<MeasurementUnit>> {
-        return queries.getByType(typeId, mapper::map).asFlow().mapToList(dispatcher)
+    override fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit>> {
+        return queries.getByProperty(propertyId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit>> {

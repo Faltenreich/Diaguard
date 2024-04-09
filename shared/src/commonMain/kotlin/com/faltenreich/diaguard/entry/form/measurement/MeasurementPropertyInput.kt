@@ -10,8 +10,8 @@ import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.shared.view.TextInput
 
 @Composable
-fun MeasurementTypeInput(
-    data: MeasurementTypeInputState,
+fun MeasurementPropertyInput(
+    data: MeasurementPropertyInputState,
     action: @Composable (() -> Unit)? = null,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
@@ -22,9 +22,9 @@ fun MeasurementTypeInput(
             onIntent(EntryFormIntent.Edit(data.copy(input = input)))
         },
         modifier = modifier,
-        label = data.type.name,
+        label = data.property.name,
         trailingIcon = action,
-        suffix = { Text(data.type.selectedUnit.abbreviation) },
+        suffix = { Text(data.property.selectedUnit.abbreviation) },
         supportingText = data.error?.let { error -> { Text(error) } },
         isError = data.error != null,
         maxLines = 1,

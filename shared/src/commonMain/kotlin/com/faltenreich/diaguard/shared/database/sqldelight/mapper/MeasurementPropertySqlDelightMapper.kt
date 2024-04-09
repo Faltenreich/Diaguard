@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
 import com.faltenreich.diaguard.shared.di.inject
 
-class MeasurementTypeSqlDelightMapper(
+class MeasurementPropertySqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
     private val unitMapper: MeasurementUnitSqlDelightMapper = inject(),
 ) {
@@ -27,12 +27,12 @@ class MeasurementTypeSqlDelightMapper(
         isValueRangeHighlighted: Long,
         selectedUnitId: Long,
         categoryId: Long,
-    ): MeasurementType {
-        return MeasurementType(
+    ): MeasurementProperty {
+        return MeasurementProperty(
             id = id,
             createdAt = dateTimeFactory.dateTime(isoString = createdAt),
             updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
-            key = key?.let(DatabaseKey.MeasurementType::from),
+            key = key?.let(DatabaseKey.MeasurementProperty::from),
             name = name,
             range = MeasurementValueRange(
                 minimum = valueRangeMinimum,
@@ -49,20 +49,20 @@ class MeasurementTypeSqlDelightMapper(
     }
 
     fun map(
-        typeId: Long,
-        typeCreatedAt: String,
-        typeUpdatedAt: String,
-        typeKey: String?,
-        typeName: String,
-        typeSortIndex: Long,
-        typeValueRangeMinimum: Double,
-        typeValueRangeLow: Double?,
-        typeValueRangeTarget: Double?,
-        typeValueRangeHigh: Double?,
-        typeValueRangeMaximum: Double,
-        typeIsValueRangeHighlighted: Long,
-        typeSelectedUnitId: Long,
-        typeCategoryId: Long,
+        propertyId: Long,
+        propertyCreatedAt: String,
+        propertyUpdatedAt: String,
+        propertyKey: String?,
+        propertyName: String,
+        propertySortIndex: Long,
+        propertyValueRangeMinimum: Double,
+        propertyValueRangeLow: Double?,
+        propertyValueRangeTarget: Double?,
+        propertyValueRangeHigh: Double?,
+        propertyValueRangeMaximum: Double,
+        propertyIsValueRangeHighlighted: Long,
+        propertySelectedUnitId: Long,
+        propertyCategoryId: Long,
 
         selectedUnitId: Long,
         selectedUnitCreatedAt: String,
@@ -71,23 +71,23 @@ class MeasurementTypeSqlDelightMapper(
         selectedUnitName: String,
         selectedUnitAbbreviation: String,
         selectedUnitFactor: Double,
-        selectedUnitTypeId: Long,
-    ): MeasurementType {
+        selectedUnitPropertyId: Long,
+    ): MeasurementProperty {
         return map(
-            id = typeId,
-            createdAt = typeCreatedAt,
-            updatedAt = typeUpdatedAt,
-            key = typeKey,
-            name = typeName,
-            valueRangeMinimum = typeValueRangeMinimum,
-            valueRangeLow = typeValueRangeLow,
-            valueRangeTarget = typeValueRangeTarget,
-            valueRangeHigh = typeValueRangeHigh,
-            valueRangeMaximum = typeValueRangeMaximum,
-            isValueRangeHighlighted = typeIsValueRangeHighlighted,
-            sortIndex = typeSortIndex,
-            selectedUnitId = typeSelectedUnitId,
-            categoryId = typeCategoryId,
+            id = propertyId,
+            createdAt = propertyCreatedAt,
+            updatedAt = propertyUpdatedAt,
+            key = propertyKey,
+            name = propertyName,
+            valueRangeMinimum = propertyValueRangeMinimum,
+            valueRangeLow = propertyValueRangeLow,
+            valueRangeTarget = propertyValueRangeTarget,
+            valueRangeHigh = propertyValueRangeHigh,
+            valueRangeMaximum = propertyValueRangeMaximum,
+            isValueRangeHighlighted = propertyIsValueRangeHighlighted,
+            sortIndex = propertySortIndex,
+            selectedUnitId = propertySelectedUnitId,
+            categoryId = propertyCategoryId,
         ).apply {
             selectedUnit = unitMapper.map(
                 id = selectedUnitId,
@@ -97,7 +97,7 @@ class MeasurementTypeSqlDelightMapper(
                 name = selectedUnitName,
                 abbreviation = selectedUnitAbbreviation,
                 factor = selectedUnitFactor,
-                typeId = selectedUnitTypeId,
+                propertyId = selectedUnitPropertyId,
             )
         }
     }

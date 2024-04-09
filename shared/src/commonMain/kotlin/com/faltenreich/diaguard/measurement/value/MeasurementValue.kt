@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.measurement.value
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.type.MeasurementType
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 
 /**
@@ -13,19 +13,19 @@ data class MeasurementValue(
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
     val value: Double,
-    val typeId: Long,
+    val propertyId: Long,
     val entryId: Long,
 ) : DatabaseEntity {
 
-    lateinit var type: MeasurementType
+    lateinit var property: MeasurementProperty
     lateinit var entry: Entry
 
     val isNotHighlighted: Boolean
-        get() = type.range.isHighlighted.not()
+        get() = property.range.isHighlighted.not()
 
     val isTooLow: Boolean
-        get() = type.range.low?.let { value < it } ?: false
+        get() = property.range.low?.let { value < it } ?: false
 
     val isTooHigh: Boolean
-        get() = type.range.high?.let { value > it } ?: false
+        get() = property.range.high?.let { value > it } ?: false
 }

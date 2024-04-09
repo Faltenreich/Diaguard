@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.backup.seed.data
 
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
+import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -14,8 +14,8 @@ class PulseSeed {
             key = DatabaseKey.MeasurementCategory.PULSE,
             name = Res.string.pulse,
             icon = "\uD83D\uDC9A",
-            type = SeedMeasurementType(
-                key = DatabaseKey.MeasurementType.PULSE,
+            property = SeedMeasurementProperty(
+                key = DatabaseKey.MeasurementProperty.PULSE,
                 name = Res.string.pulse,
                 range = MeasurementValueRange(
                     minimum = 1.0,

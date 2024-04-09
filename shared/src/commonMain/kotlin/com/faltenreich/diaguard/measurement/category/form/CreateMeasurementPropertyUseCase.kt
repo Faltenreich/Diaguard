@@ -1,29 +1,29 @@
 package com.faltenreich.diaguard.measurement.category.form
 
-import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 
-class CreateMeasurementTypeUseCase(
-    private val measurementTypeRepository: MeasurementTypeRepository,
+class CreateMeasurementPropertyUseCase(
+    private val measurementPropertyRepository: MeasurementPropertyRepository,
     private val measurementUnitRepository: MeasurementUnitRepository,
 ) {
 
     operator fun invoke(
-        typeKey: String?,
-        typeName: String,
-        typeRange: MeasurementValueRange,
-        typeSortIndex: Long,
+        propertyKey: String?,
+        propertyName: String,
+        propertyRange: MeasurementValueRange,
+        propertySortIndex: Long,
         categoryId: Long,
         unitKey: String?,
         unitName: String,
     ) {
-        val typeId = measurementTypeRepository.create(
-            key = typeKey,
-            name = typeName,
-            sortIndex = typeSortIndex,
-            range = typeRange,
+        val propertyId = measurementPropertyRepository.create(
+            key = propertyKey,
+            name = propertyName,
+            sortIndex = propertySortIndex,
+            range = propertyRange,
             categoryId = categoryId,
         )
         val unitId = measurementUnitRepository.create(
@@ -31,13 +31,13 @@ class CreateMeasurementTypeUseCase(
             name = unitName,
             abbreviation = unitName, // TODO: Make customizable?
             factor = MeasurementUnit.FACTOR_DEFAULT,
-            typeId = typeId,
+            propertyId = propertyId,
         )
-        measurementTypeRepository.update(
-            id = typeId,
-            name = typeName,
-            range = typeRange,
-            sortIndex = typeSortIndex,
+        measurementPropertyRepository.update(
+            id = propertyId,
+            name = propertyName,
+            range = propertyRange,
+            sortIndex = propertySortIndex,
             selectedUnitId = unitId,
         )
     }

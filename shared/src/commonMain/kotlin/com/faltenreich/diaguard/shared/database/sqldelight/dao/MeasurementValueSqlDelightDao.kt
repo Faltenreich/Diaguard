@@ -28,14 +28,14 @@ class MeasurementValueSqlDelightDao(
         createdAt: DateTime,
         updatedAt: DateTime,
         value: Double,
-        typeId: Long,
+        propertyId: Long,
         entryId: Long,
     ) {
         queries.create(
             createdAt = createdAt.isoString,
             updatedAt = updatedAt.isoString,
             value_ = value,
-            typeId = typeId,
+            propertyId = propertyId,
             entryId = entryId,
         )
     }
@@ -96,20 +96,20 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
     }
 
-    override fun getAverageByTypeId(
-        typeId: Long,
+    override fun getAverageByPropertyId(
+        propertyId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Double? {
         return queries.getAverageByCategory(
-            typeId,
+            propertyId,
             minDateTime.isoString,
             maxDateTime.isoString,
         ).executeAsOneOrNull()?.AVG
     }
 
-    override fun observeCountByTypeId(typeId: Long): Flow<Long> {
-        return queries.countByType(typeId).asFlow().mapToOne(dispatcher)
+    override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
+        return queries.countByProperty(propertyId).asFlow().mapToOne(dispatcher)
     }
 
     override fun countByCategoryId(categoryId: Long): Long {

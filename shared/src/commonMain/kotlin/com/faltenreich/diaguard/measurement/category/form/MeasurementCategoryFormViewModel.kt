@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 
 class MeasurementCategoryFormViewModel(
     val category: MeasurementCategory,
-    getMeasurementTypesUseCase: GetMeasurementTypesUseCase = inject(),
+    getMeasurementPropertiesUseCase: GetMeasurementPropertiesUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
@@ -24,7 +24,7 @@ class MeasurementCategoryFormViewModel(
     var name = MutableStateFlow(category.name)
     var icon = MutableStateFlow(category.icon ?: "")
 
-    override val state = getMeasurementTypesUseCase(category).map(::MeasurementCategoryFormViewState)
+    override val state = getMeasurementPropertiesUseCase(category).map(::MeasurementCategoryFormViewState)
 
     override fun handleIntent(intent: MeasurementCategoryFormIntent) {
         when (intent) {

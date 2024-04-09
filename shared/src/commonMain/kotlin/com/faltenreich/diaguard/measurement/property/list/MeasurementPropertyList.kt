@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.type.list
+package com.faltenreich.diaguard.measurement.property.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -7,8 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.type.MeasurementType
-import com.faltenreich.diaguard.measurement.type.form.MeasurementTypeFormDialog
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormDialog
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
@@ -16,38 +16,38 @@ import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextDivider
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.measurement_type_add
-import diaguard.shared.generated.resources.measurement_types
+import diaguard.shared.generated.resources.measurement_property_add
+import diaguard.shared.generated.resources.measurement_properties
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun MeasurementTypeList(
+fun MeasurementPropertyList(
     category: MeasurementCategory,
-    types: List<MeasurementType>,
+    properties: List<MeasurementProperty>,
     modifier: Modifier = Modifier,
-    viewModel: MeasurementTypeListViewModel = inject(),
+    viewModel: MeasurementPropertyListViewModel = inject(),
 ) {
     Column(modifier = modifier) {
-        TextDivider(getString(Res.string.measurement_types))
+        TextDivider(getString(Res.string.measurement_properties))
 
-        types.forEachIndexed { index, type ->
-            MeasurementTypeListItem(
-                type = type,
+        properties.forEachIndexed { index, property ->
+            MeasurementPropertyListItem(
+                property = property,
                 onArrowUp = {
                     viewModel.dispatchIntent(
-                        MeasurementTypeListIntent.DecrementSortIndex(type, types)
+                        MeasurementPropertyListIntent.DecrementSortIndex(property, properties)
                     )
                 },
                 showArrowUp = index > 0,
                 onArrowDown = {
                     viewModel.dispatchIntent(
-                        MeasurementTypeListIntent.IncrementSortIndex(type, types)
+                        MeasurementPropertyListIntent.IncrementSortIndex(property, properties)
                     )
                 },
-                showArrowDown = index < types.size - 1,
+                showArrowDown = index < properties.size - 1,
                 modifier = Modifier.clickable {
                     viewModel.dispatchIntent(
-                        MeasurementTypeListIntent.EditType(type)
+                        MeasurementPropertyListIntent.EditProperty(property)
                     )
                 },
             )
@@ -56,8 +56,8 @@ fun MeasurementTypeList(
 
         FormRow {
             SuggestionChip(
-                onClick = { viewModel.dispatchIntent(MeasurementTypeListIntent.ShowFormDialog) },
-                label = { Text(stringResource(Res.string.measurement_type_add)) },
+                onClick = { viewModel.dispatchIntent(MeasurementPropertyListIntent.ShowFormDialog) },
+                label = { Text(stringResource(Res.string.measurement_property_add)) },
             )
         }
     }
@@ -67,20 +67,20 @@ fun MeasurementTypeList(
         else -> {
             // TODO: Replace with Modal
             if (viewState.showFormDialog) {
-                MeasurementTypeFormDialog(
+                MeasurementPropertyFormDialog(
                     onDismissRequest = {
-                        viewModel.dispatchIntent(MeasurementTypeListIntent.HideFormDialog)
+                        viewModel.dispatchIntent(MeasurementPropertyListIntent.HideFormDialog)
                     },
-                    onConfirmRequest = { typeName, unitName ->
+                    onConfirmRequest = { propertyName, unitName ->
                         viewModel.dispatchIntent(
-                            MeasurementTypeListIntent.CreateType(
-                                typeName = typeName,
+                            MeasurementPropertyListIntent.CreateProperty(
+                                propertyName = propertyName,
                                 unitName = unitName,
-                                types = types,
+                                properties = properties,
                                 categoryId = category.id,
                             )
                         )
-                        viewModel.dispatchIntent(MeasurementTypeListIntent.HideFormDialog)
+                        viewModel.dispatchIntent(MeasurementPropertyListIntent.HideFormDialog)
                     }
                 )
             }

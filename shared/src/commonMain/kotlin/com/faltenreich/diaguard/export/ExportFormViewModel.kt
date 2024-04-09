@@ -31,9 +31,9 @@ class ExportFormViewModel(
         get() = dateTimeFormatter.formatDateRange(dateRange)
 
     var exportType by mutableStateOf(ExportType.PDF)
-    val exportTypeLocalized: String
+    val exportPropertyLocalized: String
         get() = localization.getString(exportType.title)
-    val exportTypes = listOf(ExportType.PDF, ExportType.CSV)
+    val exportProperties = listOf(ExportType.PDF, ExportType.CSV)
 
     // TODO: Read initial values from preferences
 

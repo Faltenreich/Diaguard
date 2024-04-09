@@ -10,7 +10,7 @@ class ValidateEntryFormInputUseCase(
     private val dispatcher: CoroutineDispatcher,
     private val ruleForEntryFormInput: ValidationRule<EntryFormInput>,
     private val rulesForCategories: List<ValidationRule<MeasurementCategoryInputState>>,
-    private val rulesForTypes: List<ValidationRule<MeasurementTypeInputState>>,
+    private val rulesForProperties: List<ValidationRule<MeasurementPropertyInputState>>,
 ) {
 
     suspend operator fun invoke(
@@ -21,10 +21,10 @@ class ValidateEntryFormInputUseCase(
                 val resultForCategory = validateCategory(category)
                 category.copy(
                     error = (resultForCategory as? ValidationResult.Failure)?.error,
-                    typeInputStates = category.typeInputStates.map { type ->
-                        val resultForType = validateType(type)
-                        type.copy(
-                            error = (resultForType as? ValidationResult.Failure)?.error,
+                    propertyInputStates = category.propertyInputStates.map { property ->
+                        val resultForProperty = validateProperty(property)
+                        property.copy(
+                            error = (resultForProperty as? ValidationResult.Failure)?.error,
                         )
                     }
                 )
@@ -42,10 +42,10 @@ class ValidateEntryFormInputUseCase(
             ?: ValidationResult.Success(input)
     }
 
-    private fun validateType(
-        input: MeasurementTypeInputState,
-    ): ValidationResult<MeasurementTypeInputState> {
-        return rulesForTypes
+    private fun validateProperty(
+        input: MeasurementPropertyInputState,
+    ): ValidationResult<MeasurementPropertyInputState> {
+        return rulesForProperties
             .map { it.check(input) }
             .firstOrNull { it is ValidationResult.Failure }
             ?: ValidationResult.Success(input)

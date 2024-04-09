@@ -7,7 +7,7 @@ class MeasurementValueMapper(
 ) {
 
     operator fun invoke(value: MeasurementValue): MeasurementValueForUser {
-        val unit = value.type.selectedUnit
+        val unit = value.property.selectedUnit
         return MeasurementValueForUser(
             value = formatNumber(value.value * unit.factor),
             unit = unit,

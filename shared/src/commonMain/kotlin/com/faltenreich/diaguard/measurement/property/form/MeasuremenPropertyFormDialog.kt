@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.type.form
+package com.faltenreich.diaguard.measurement.property.form
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,20 +18,20 @@ import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
 
 @Composable
-fun MeasurementTypeFormDialog(
+fun MeasurementPropertyFormDialog(
     onDismissRequest: () -> Unit,
-    onConfirmRequest: (typeName: String, unitName: String) -> Unit,
+    onConfirmRequest: (propertyName: String, unitName: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = rememberFocusRequester(requestFocus = true)
 
-    var typeName by rememberSaveable { mutableStateOf("") }
+    var propertyName by rememberSaveable { mutableStateOf("") }
     var unitName by rememberSaveable { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = { onConfirmRequest(typeName, unitName) }) {
+            TextButton(onClick = { onConfirmRequest(propertyName, unitName) }) {
                 Text(getString(Res.string.create))
             }
         },
@@ -41,12 +41,12 @@ fun MeasurementTypeFormDialog(
                 Text(getString(Res.string.cancel))
             }
         },
-        title = { Text(getString(Res.string.measurement_type_add)) },
+        title = { Text(getString(Res.string.measurement_property_add)) },
         text = {
             Column {
                 TextInput(
-                    input = typeName,
-                    onInputChange = { typeName = it },
+                    input = propertyName,
+                    onInputChange = { propertyName = it },
                     label = getString(Res.string.name),
                     modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
                 )

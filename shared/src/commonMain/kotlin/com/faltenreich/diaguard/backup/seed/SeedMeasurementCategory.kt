@@ -7,13 +7,13 @@ data class SeedMeasurementCategory(
     val key: DatabaseKey.MeasurementCategory,
     val name: StringResource,
     val icon: String,
-    val types: List<SeedMeasurementType>,
+    val properties: List<SeedMeasurementProperty>,
 ) {
 
     constructor(
         key: DatabaseKey.MeasurementCategory,
         name: StringResource,
         icon: String,
-        type: SeedMeasurementType,
-    ) : this(key, name, icon, listOf(type))
+        property: SeedMeasurementProperty,
+    ) : this(key, name, icon, listOf(property))
 }

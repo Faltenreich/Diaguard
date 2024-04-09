@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.backup.seed.data
 
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementType
+import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -14,8 +14,8 @@ class OxygenSaturationSeed {
             key = DatabaseKey.MeasurementCategory.OXYGEN_SATURATION,
             name = Res.string.oxygen_saturation,
             icon = "O²",
-            type = SeedMeasurementType(
-                key = DatabaseKey.MeasurementType.OXYGEN_SATURATION,
+            property = SeedMeasurementProperty(
+                key = DatabaseKey.MeasurementProperty.OXYGEN_SATURATION,
                 name = Res.string.oxygen_saturation,
                 range = MeasurementValueRange(
                     minimum = 50.0,

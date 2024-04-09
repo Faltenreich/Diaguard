@@ -4,6 +4,6 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 
 data class MeasurementCategoryInputState(
     val category: MeasurementCategory,
-    val typeInputStates: List<MeasurementTypeInputState>,
+    val propertyInputStates: List<MeasurementPropertyInputState>,
     val error: String?,
 )

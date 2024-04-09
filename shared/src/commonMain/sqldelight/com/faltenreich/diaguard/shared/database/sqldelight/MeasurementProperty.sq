@@ -1,4 +1,4 @@
-CREATE TABLE MeasurementType (
+CREATE TABLE MeasurementProperty (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     createdAt TEXT NOT NULL,
     updatedAt TEXT NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE MeasurementType (
 );
 
 create:
-INSERT INTO MeasurementType(
+INSERT INTO MeasurementProperty(
     createdAt,
     updatedAt,
     key,
@@ -37,28 +37,28 @@ getLastId:
 SELECT last_insert_rowid();
 
 getById:
-SELECT * FROM MeasurementType
-INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementType.selectedUnitId
-WHERE MeasurementType.id = ?;
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementProperty.selectedUnitId
+WHERE MeasurementProperty.id = ?;
 
 getByKey:
-SELECT * FROM MeasurementType
-INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementType.selectedUnitId
-WHERE MeasurementType.key = ?;
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementProperty.selectedUnitId
+WHERE MeasurementProperty.key = ?;
 
 getByCategory:
-SELECT * FROM MeasurementType
-INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementType.selectedUnitId
-WHERE MeasurementType.categoryId = ?
-ORDER BY MeasurementType.sortIndex ASC;
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementProperty.selectedUnitId
+WHERE MeasurementProperty.categoryId = ?
+ORDER BY MeasurementProperty.sortIndex ASC;
 
 getAll:
-SELECT * FROM MeasurementType
-INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementType.selectedUnitId
-ORDER BY MeasurementType.sortIndex ASC;
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementProperty.selectedUnitId
+ORDER BY MeasurementProperty.sortIndex ASC;
 
 update:
-UPDATE MeasurementType
+UPDATE MeasurementProperty
 SET updatedAt = ?,
     name = ?,
     sortIndex = ?,
@@ -72,4 +72,4 @@ SET updatedAt = ?,
 WHERE id = ?;
 
 deleteById:
-DELETE FROM MeasurementType WHERE id = ?;
+DELETE FROM MeasurementProperty WHERE id = ?;

@@ -2,20 +2,20 @@ package com.faltenreich.diaguard.backup.legacy
 
 import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.entry.EntryRepository
-import com.faltenreich.diaguard.measurement.type.MeasurementTypeRepository
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.logging.Logger
 
 class LegacyImport(
     private val legacyRepository: LegacyRepository,
     private val entryRepository: EntryRepository,
-    private val typeRepository: MeasurementTypeRepository,
+    private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
 ) : Import {
 
     override fun import() {
         val entries = legacyRepository.getEntries()
-        val typeIdsByKey = typeRepository.getAll().associate { it.key to it.id }
+        val propertyIdsByKey = propertyRepository.getAll().associate { it.key to it.id }
         val values = legacyRepository.getMeasurementValues()
         val tags = legacyRepository.getTags()
 
@@ -31,14 +31,14 @@ class LegacyImport(
             )
             val valuesOfEntry = values.filter { value -> value.entryId == entryLegacyId }
             valuesOfEntry.forEach { value ->
-                val typeKey = value.typeKey
-                val typeId = typeIdsByKey[typeKey]
-                checkNotNull(typeId)
+                val propertyKey = value.propertyKey
+                val propertyId = propertyIdsByKey[propertyKey]
+                checkNotNull(propertyId)
                 valueRepository.create(
                     createdAt = value.createdAt,
                     updatedAt = value.updatedAt,
                     value = value.value,
-                    typeId = typeId,
+                    propertyId = propertyId,
                     entryId = entryId,
                 )
             }

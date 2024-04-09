@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.type
+package com.faltenreich.diaguard.measurement.property
 
 import com.faltenreich.diaguard.backup.seed.Seedable
 import com.faltenreich.diaguard.datetime.DateTime
@@ -9,13 +9,13 @@ import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 /**
- * Entity representing one type of [MeasurementCategory]
+ * Entity representing one property of [MeasurementCategory]
  */
-data class MeasurementType(
+data class MeasurementProperty(
     override val id: Long,
     override val createdAt: DateTime,
     override val updatedAt: DateTime,
-    override val key: DatabaseKey.MeasurementType?,
+    override val key: DatabaseKey.MeasurementProperty?,
     val name: String,
     val range: MeasurementValueRange,
     val sortIndex: Long,

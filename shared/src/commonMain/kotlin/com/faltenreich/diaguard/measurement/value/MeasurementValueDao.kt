@@ -9,7 +9,7 @@ interface MeasurementValueDao {
         createdAt: DateTime,
         updatedAt: DateTime,
         value: Double,
-        typeId: Long,
+        propertyId: Long,
         entryId: Long,
     )
 
@@ -40,13 +40,13 @@ interface MeasurementValueDao {
         maxDateTime: DateTime
     ): Flow<Double?>
 
-    fun getAverageByTypeId(
-        typeId: Long,
+    fun getAverageByPropertyId(
+        propertyId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Double?
 
-    fun observeCountByTypeId(typeId: Long): Flow<Long>
+    fun observeCountByPropertyId(propertyId: Long): Flow<Long>
 
     fun countByCategoryId(categoryId: Long): Long
 

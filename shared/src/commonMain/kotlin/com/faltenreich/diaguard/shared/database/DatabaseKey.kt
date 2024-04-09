@@ -26,7 +26,7 @@ interface DatabaseKey {
         }
     }
 
-    enum class MeasurementType(val id: String, category: MeasurementCategory) : DatabaseKey {
+    enum class MeasurementProperty(val id: String, category: MeasurementCategory) : DatabaseKey {
 
         BLOOD_SUGAR("blood_sugar", MeasurementCategory.BLOOD_SUGAR),
         INSULIN_BOLUS( "bolus", MeasurementCategory.INSULIN),
@@ -46,34 +46,34 @@ interface DatabaseKey {
 
         companion object {
 
-            fun from(key: String): MeasurementType {
+            fun from(key: String): MeasurementProperty {
                 return entries.first { it.key == key }
             }
         }
     }
 
-    enum class MeasurementUnit(val id: String, type: MeasurementType) : DatabaseKey {
+    enum class MeasurementUnit(val id: String, property: MeasurementProperty) : DatabaseKey {
 
-        BLOOD_SUGAR_MILLIGRAMS_PER_DECILITER("milligrams_per_deciliter", MeasurementType.BLOOD_SUGAR),
-        BLOOD_SUGAR_MILLIMOLES_PER_LITER("millimoles_per_liter", MeasurementType.BLOOD_SUGAR),
-        INSULIN_BOLUS("insulin_units", MeasurementType.INSULIN_BOLUS),
-        INSULIN_CORRECTION("insulin_units", MeasurementType.INSULIN_CORRECTION),
-        INSULIN_BASAL( "insulin_units", MeasurementType.INSULIN_BASAL),
-        MEAL_CARBOHYDRATES("carbohydrates", MeasurementType.MEAL),
-        MEAL_CARBOHYDRATE_UNITS("carbohydrate_units", MeasurementType.MEAL),
-        MEAL_BREAD_UNITS("bread_units", MeasurementType.MEAL),
-        ACTIVITY("minutes", MeasurementType.ACTIVITY),
-        HBA1C_PERCENT("percent", MeasurementType.HBA1C),
-        HBA1C_MILLIMOLES_PER_MOLES("millimoles_per_mole", MeasurementType.HBA1C),
-        WEIGHT_KILOGRAMS("kilograms", MeasurementType.WEIGHT),
-        WEIGHT_POUNDS("pounds", MeasurementType.WEIGHT),
-        PULSE("beats_per_minute", MeasurementType.PULSE),
-        BLOOD_PRESSURE_SYSTOLIC("millimeters_of_mercury", MeasurementType.BLOOD_PRESSURE_SYSTOLIC),
-        BLOOD_PRESSURE_DIASTOLIC("millimeters_of_mercury", MeasurementType.BLOOD_PRESSURE_DIASTOLIC),
-        OXYGEN_SATURATION("percent", MeasurementType.OXYGEN_SATURATION),
+        BLOOD_SUGAR_MILLIGRAMS_PER_DECILITER("milligrams_per_deciliter", MeasurementProperty.BLOOD_SUGAR),
+        BLOOD_SUGAR_MILLIMOLES_PER_LITER("millimoles_per_liter", MeasurementProperty.BLOOD_SUGAR),
+        INSULIN_BOLUS("insulin_units", MeasurementProperty.INSULIN_BOLUS),
+        INSULIN_CORRECTION("insulin_units", MeasurementProperty.INSULIN_CORRECTION),
+        INSULIN_BASAL( "insulin_units", MeasurementProperty.INSULIN_BASAL),
+        MEAL_CARBOHYDRATES("carbohydrates", MeasurementProperty.MEAL),
+        MEAL_CARBOHYDRATE_UNITS("carbohydrate_units", MeasurementProperty.MEAL),
+        MEAL_BREAD_UNITS("bread_units", MeasurementProperty.MEAL),
+        ACTIVITY("minutes", MeasurementProperty.ACTIVITY),
+        HBA1C_PERCENT("percent", MeasurementProperty.HBA1C),
+        HBA1C_MILLIMOLES_PER_MOLES("millimoles_per_mole", MeasurementProperty.HBA1C),
+        WEIGHT_KILOGRAMS("kilograms", MeasurementProperty.WEIGHT),
+        WEIGHT_POUNDS("pounds", MeasurementProperty.WEIGHT),
+        PULSE("beats_per_minute", MeasurementProperty.PULSE),
+        BLOOD_PRESSURE_SYSTOLIC("millimeters_of_mercury", MeasurementProperty.BLOOD_PRESSURE_SYSTOLIC),
+        BLOOD_PRESSURE_DIASTOLIC("millimeters_of_mercury", MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC),
+        OXYGEN_SATURATION("percent", MeasurementProperty.OXYGEN_SATURATION),
         ;
 
-        override val key: String = type.key + DELIMITER + id
+        override val key: String = property.key + DELIMITER + id
 
         companion object {
 

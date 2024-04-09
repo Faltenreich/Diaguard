@@ -14,7 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryIcon
-import com.faltenreich.diaguard.measurement.type.list.MeasurementTypeList
+import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
@@ -53,10 +53,10 @@ fun MeasurementCategoryForm(
             visible = state != null,
             enter = fadeIn(),
         ) {
-            val types = state?.types ?: emptyList()
-            MeasurementTypeList(
+            val properties = state?.properties ?: emptyList()
+            MeasurementPropertyList(
                 category = viewModel.category,
-                types = types,
+                properties = properties,
             )
         }
     }

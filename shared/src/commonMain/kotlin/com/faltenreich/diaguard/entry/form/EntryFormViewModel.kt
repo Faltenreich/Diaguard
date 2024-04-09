@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
-import com.faltenreich.diaguard.entry.form.measurement.MeasurementTypeInputState
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.entry.form.measurement.ValidateEntryFormInputUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
@@ -139,11 +139,11 @@ class EntryFormViewModel(
         }
     }
 
-    private fun edit(update: MeasurementTypeInputState) {
+    private fun edit(update: MeasurementPropertyInputState) {
         measurements = measurements.map { category ->
-            category.copy(typeInputStates = category.typeInputStates.map { legacy ->
-                when (legacy.type) {
-                    update.type -> update
+            category.copy(propertyInputStates = category.propertyInputStates.map { legacy ->
+                when (legacy.property) {
+                    update.property -> update
                     else -> legacy
                 }
             })

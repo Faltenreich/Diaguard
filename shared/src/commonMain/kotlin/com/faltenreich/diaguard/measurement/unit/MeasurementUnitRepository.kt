@@ -13,7 +13,7 @@ class MeasurementUnitRepository(
         abbreviation: String,
         key: String?,
         factor: Double,
-        typeId: Long,
+        propertyId: Long,
     ): Long {
         dao.create(
             createdAt = dateTimeFactory.now(),
@@ -21,7 +21,7 @@ class MeasurementUnitRepository(
             name = name,
             abbreviation = abbreviation,
             factor = factor,
-            typeId = typeId,
+            propertyId = propertyId,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -30,8 +30,8 @@ class MeasurementUnitRepository(
         return checkNotNull(dao.getByKey(key))
     }
 
-    fun observeByTypeId(typeId: Long): Flow<List<MeasurementUnit>> {
-        return dao.observeByTypeId(typeId)
+    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit>> {
+        return dao.observeByPropertyId(propertyId)
     }
 
     fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit>> {

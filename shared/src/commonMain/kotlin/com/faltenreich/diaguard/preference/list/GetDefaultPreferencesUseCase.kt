@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.preference.list
 
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.screen.TagListScreen
@@ -12,12 +11,43 @@ import com.faltenreich.diaguard.preference.list.item.preferences
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
+import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.networking.UrlOpener
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.about
+import diaguard.shared.generated.resources.color_scheme
+import diaguard.shared.generated.resources.contact
+import diaguard.shared.generated.resources.data
+import diaguard.shared.generated.resources.facebook
+import diaguard.shared.generated.resources.facebook_url
+import diaguard.shared.generated.resources.facebook_url_short
+import diaguard.shared.generated.resources.homepage
+import diaguard.shared.generated.resources.homepage_url
+import diaguard.shared.generated.resources.homepage_url_short
+import diaguard.shared.generated.resources.ic_about
+import diaguard.shared.generated.resources.ic_contact
+import diaguard.shared.generated.resources.ic_data
+import diaguard.shared.generated.resources.licenses
+import diaguard.shared.generated.resources.mail
+import diaguard.shared.generated.resources.mail_url
+import diaguard.shared.generated.resources.mail_url_short
+import diaguard.shared.generated.resources.measurement_categories
+import diaguard.shared.generated.resources.privacy_policy
+import diaguard.shared.generated.resources.privacy_policy_url
+import diaguard.shared.generated.resources.source_code
+import diaguard.shared.generated.resources.source_code_url
+import diaguard.shared.generated.resources.source_code_url_short
+import diaguard.shared.generated.resources.start_screen
+import diaguard.shared.generated.resources.tags
+import diaguard.shared.generated.resources.terms_and_conditions
+import diaguard.shared.generated.resources.terms_and_conditions_url
+import diaguard.shared.generated.resources.version
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 class GetDefaultPreferencesUseCase(
+    private val localization: Localization,
     private val urlOpener: UrlOpener,
     private val getPreference: GetPreferenceUseCase,
     private val setPreference: SetPreferenceUseCase,
@@ -34,7 +64,7 @@ class GetDefaultPreferencesUseCase(
             preferences {
                 list {
                     title = Res.string.color_scheme
-                    subtitle = getString(colorScheme.labelResource)
+                    subtitle = localization.getString(colorScheme.labelResource)
                     options = ColorScheme.entries.map { value ->
                         PreferenceListListItem.Option(
                             label = { getString(value.labelResource) },
@@ -45,7 +75,7 @@ class GetDefaultPreferencesUseCase(
                 }
                 list {
                     title = Res.string.start_screen
-                    subtitle = getString(startScreen.labelResource)
+                    subtitle = localization.getString(startScreen.labelResource)
                     options = StartScreen.entries.map { value ->
                         PreferenceListListItem.Option(
                             label = { getString(value.labelResource) },
@@ -72,18 +102,18 @@ class GetDefaultPreferencesUseCase(
                 }
                 action {
                     title = Res.string.homepage
-                    subtitle = getString(Res.string.homepage_url_short)
-                    onClick = { urlOpener.open(getString(Res.string.homepage_url)) }
+                    subtitle = localization.getString(Res.string.homepage_url_short)
+                    onClick = { urlOpener.open(localization.getString(Res.string.homepage_url)) }
                 }
                 action {
                     title = Res.string.mail
-                    subtitle = getString(Res.string.mail_url_short)
-                    onClick = { urlOpener.open(getString(Res.string.mail_url)) }
+                    subtitle = localization.getString(Res.string.mail_url_short)
+                    onClick = { urlOpener.open(localization.getString(Res.string.mail_url)) }
                 }
                 action {
                     title = Res.string.facebook
-                    subtitle = getString(Res.string.facebook_url_short)
-                    onClick = { urlOpener.open(getString(Res.string.facebook_url)) }
+                    subtitle = localization.getString(Res.string.facebook_url_short)
+                    onClick = { urlOpener.open(localization.getString(Res.string.facebook_url)) }
                 }
                 category {
                     title = Res.string.about
@@ -91,8 +121,8 @@ class GetDefaultPreferencesUseCase(
                 }
                 action {
                     title = Res.string.source_code
-                    subtitle = getString(Res.string.source_code_url_short)
-                    onClick = { urlOpener.open(getString(Res.string.source_code_url)) }
+                    subtitle = localization.getString(Res.string.source_code_url_short)
+                    onClick = { urlOpener.open(localization.getString(Res.string.source_code_url)) }
                 }
                 action {
                     title = Res.string.licenses
@@ -100,11 +130,11 @@ class GetDefaultPreferencesUseCase(
                 }
                 action {
                     title = Res.string.privacy_policy
-                    onClick = { urlOpener.open(getString(Res.string.privacy_policy_url)) }
+                    onClick = { urlOpener.open(localization.getString(Res.string.privacy_policy_url)) }
                 }
                 action {
                     title = Res.string.terms_and_conditions
-                    onClick = { urlOpener.open(getString(Res.string.terms_and_conditions_url)) }
+                    onClick = { urlOpener.open(localization.getString(Res.string.terms_and_conditions_url)) }
                 }
                 action {
                     title = Res.string.version

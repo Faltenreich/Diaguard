@@ -52,6 +52,7 @@ fun Timeline(
     val dimensions = LocalDimensions.current
     val typography = AppTheme.typography
     val textMeasurer = rememberTextMeasurer()
+    val daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) }
 
     when (val state = viewModel.collectState()) {
         null -> Unit
@@ -62,7 +63,7 @@ fun Timeline(
             var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
             val config by remember {
                 val config = TimelineConfig(
-                    daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) },
+                    daysOfWeek = daysOfWeek,
                     padding = density.run { dimensions.padding.P_2.toPx() },
                     fontPaint = Paint().apply { color = colorScheme.onBackground },
                     fontSize = density.run { typography.bodyMedium.fontSize.toPx() },

@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.shared.localization
 
-import com.faltenreich.diaguard.shared.di.inject
+import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
-// TODO: Replace with stringResource
+@Composable
 fun getString(resource: StringResource, vararg args: Any): String {
-    val localization = inject<Localization>()
-    return localization.getString(resource, *args)
+    return stringResource(resource, *args)
 }

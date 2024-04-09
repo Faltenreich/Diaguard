@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.dashboard.usecase
+package com.faltenreich.diaguard.dashboard.latest
 
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory

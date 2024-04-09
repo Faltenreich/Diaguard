@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.dashboard.card
+package com.faltenreich.diaguard.dashboard.average
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,37 +15,37 @@ import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
-fun TodayDashboardItem(
-    data: DashboardViewState.Revisit.Today?,
+fun AverageDashboardItem(
+    data: DashboardViewState.Revisit.Average?,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(
-                    text = getString(Res.string.today),
+                    text = getString(Res.string.average),
                     style = AppTheme.typography.labelMedium,
                 )
                 Row {
                     Text(
-                        text = getString(Res.string.measurements),
+                        text = getString(Res.string.day),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.totalCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(data?.day ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
-                        text = getString(Res.string.hypo),
+                        text = getString(Res.string.week),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.hypoCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(data?.week ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
-                        text = getString(Res.string.hyper),
+                        text = getString(Res.string.month),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.hyperCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(data?.month ?: getString(Res.string.placeholder))
                 }
             }
         }

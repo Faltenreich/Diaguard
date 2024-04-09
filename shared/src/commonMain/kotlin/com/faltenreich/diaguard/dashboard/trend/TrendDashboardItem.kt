@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.dashboard.card
+package com.faltenreich.diaguard.dashboard.trend
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -12,14 +12,14 @@ import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
-fun HbA1cDashboardItem(
-    data: DashboardViewState.Revisit.HbA1c?,
+fun TrendDashboardItem(
+    data: DashboardViewState.Revisit.Trend?,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {
         Column(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Text(
-                text = getString(Res.string.hba1c),
+                text = getString(Res.string.trend),
                 style = AppTheme.typography.labelMedium,
             )
             // TODO

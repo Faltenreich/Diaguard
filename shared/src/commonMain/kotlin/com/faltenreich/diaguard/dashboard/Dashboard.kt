@@ -10,11 +10,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.dashboard.card.AverageDashboardItem
-import com.faltenreich.diaguard.dashboard.card.HbA1cDashboardItem
-import com.faltenreich.diaguard.dashboard.card.LatestDashboardItem
-import com.faltenreich.diaguard.dashboard.card.TodayDashboardItem
-import com.faltenreich.diaguard.dashboard.card.TrendDashboardItem
+import com.faltenreich.diaguard.dashboard.average.AverageDashboardItem
+import com.faltenreich.diaguard.dashboard.hba1c.HbA1cDashboardItem
+import com.faltenreich.diaguard.dashboard.latest.LatestDashboardItem
+import com.faltenreich.diaguard.dashboard.today.TodayDashboardItem
+import com.faltenreich.diaguard.dashboard.trend.TrendDashboardItem
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 

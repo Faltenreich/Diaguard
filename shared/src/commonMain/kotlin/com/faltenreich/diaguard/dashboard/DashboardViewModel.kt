@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.dashboard
 
-import com.faltenreich.diaguard.dashboard.usecase.GetAverageUseCase
-import com.faltenreich.diaguard.dashboard.usecase.GetLatestBloodSugarUseCase
-import com.faltenreich.diaguard.dashboard.usecase.GetTodayUseCase
+import com.faltenreich.diaguard.dashboard.average.GetAverageUseCase
+import com.faltenreich.diaguard.dashboard.latest.GetLatestBloodSugarUseCase
+import com.faltenreich.diaguard.dashboard.today.GetTodayUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen

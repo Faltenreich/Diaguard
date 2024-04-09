@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.dashboard.card
+package com.faltenreich.diaguard.dashboard.latest
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,10 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.localization.getString
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.entry_first_description
+import diaguard.shared.generated.resources.placeholder
 
 @Composable
 fun LatestDashboardItem(

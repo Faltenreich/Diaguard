@@ -79,10 +79,12 @@ class DateTimeFormatter(
     fun formatTimePassed(start: DateTime, end: DateTime): String {
         val minutesPassed = start.minutesUntil(end)
         return when {
-            minutesPassed < 2 -> localization.getString(Res.string.date_time_ago_moments)
+            minutesPassed < 2 -> localization.getString(
+                Res.string.date_time_ago_moments,
+            )
             minutesPassed < DateTimeConstants.MINUTES_PER_HOUR * 2 -> localization.getString(
                 Res.string.date_time_ago_minutes,
-                minutesPassed.toString(),
+                minutesPassed,
             )
             minutesPassed < DateTimeConstants.MINUTES_PER_DAY * 2 -> localization.getString(
                 Res.string.date_time_ago_hours,

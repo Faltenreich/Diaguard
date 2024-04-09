@@ -3,7 +3,6 @@
 <resources>
     <string name="about">About</string>
     <string name="activity">Activity</string>
-    <string name="alarm_placeholder">In %s minutes</string>
     <string name="alarm">Alarm</string>
     <string name="app_name">Diaguard</string>
     <string name="average">Average</string>
@@ -53,7 +52,7 @@
     <string name="entry_first_description">Enter first entry</string>
     <string name="entry_form_error">Please check errors until input is valid</string>
     <string name="entry_form_error_missing_input">Entry does not contain any information</string>
-    <string name="entry_form_error_unrealistic_value">Value must be within %s and %s</string>
+    <string name="entry_form_error_unrealistic_value">Value must be within %1$s and %2$s</string>
     <string name="entry_new_description">Create new entry</string>
     <string name="entry_search_placeholder">Enter query to start search</string>
     <string name="entry_search_prompt">Search for entries&#8230;</string>
@@ -67,7 +66,6 @@
     <string name="fiber">Fiber</string>
     <string name="food">Food</string>
     <string name="food_add">Add food</string>
-    <string name="food_carbohydrates_info">%s %s per 100g</string>
     <string name="food_delete">Delete food</string>
     <string name="food_eaten">Food eaten</string>
     <string name="food_edit">Edit food</string>
@@ -105,11 +103,10 @@
     <string name="measurement_category_new">New category</string>
     <string name="measurement_property">Property</string>
     <string name="measurement_property_delete">Delete property</string>
-    <string name="measurement_property_delete_description">This will irrevocably delete this property and all of its %d associated measurements</string>
     <string name="measurement_property_add">Add property</string>
     <string name="measurement_properties">Properties</string>
     <string name="measurement_unit">Unit</string>
-    <string name="measurement_unit_factor_description">equals %s %s</string>
+    <string name="measurement_unit_factor_description">equals %1$s %2$s</string>
     <string name="measurement_unit_selected_description">Selected unit</string>
     <string name="measurement_units">Units</string>
     <string name="measurement_value">Value</string>
@@ -165,8 +162,7 @@
     <string name="tags">Tags</string>
     <string name="tag_already_taken">Tag is already taken</string>
     <string name="tag_delete">Delete tag</string>
-    <string name="tag_delete_description">%d entries will lose the tag "%s"</string>
-    <string name="tag_remove_description">Remove tag "%s"</string>
+    <string name="tag_remove_description">Remove tag "%1$s"</string>
     <string name="tag_new">Create new tag</string>
     <string name="terms_and_conditions">Terms and conditions</string>
     <string name="terms_and_conditions_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>
@@ -175,9 +171,9 @@
     <string name="today">Today</string>
     <string name="trend">Trend</string>
     <string name="date_time_ago_moments">Moments ago</string>
-    <string name="date_time_ago_minutes">%d minutes ago</string>
-    <string name="date_time_ago_hours">%d hours ago</string>
-    <string name="date_time_ago_days">%d days ago</string>
+    <string name="date_time_ago_minutes">%1$d minutes ago</string>
+    <string name="date_time_ago_hours">%1$d hours ago</string>
+    <string name="date_time_ago_days">%1$d days ago</string>
     <string name="values">Values</string>
     <string name="value_range_minimum">Minimum</string>
     <string name="value_range_minimum_description">Lowest possible value</string>
@@ -256,8 +252,6 @@
     <string name="preference_import">import</string>
 
     <string name="preference_categories">categories</string>
-    <string name="preference_categories_active">%s_active</string>
-    <string name="preference_categories_sort_index">%s_sortIndex</string>
 
     <string name="preference_tags">tags</string>
     <string name="preference_tags_imported">didImportTagsForLanguage</string>
@@ -307,13 +301,10 @@
 
     <string name="preference_factor_meal">unit_meal_factor</string>
     <string name="preference_factor_meal_interval">intervalFactor</string>
-    <string name="preference_factor_meal_interval_for_hour">intervalFactor%d</string>
 
     <string name="preference_factor_correction">correction</string>
     <string name="preference_factor_correction_interval">intervalCorrection</string>
-    <string name="preference_factor_correction_interval_for_hour">intervalCorrection%d</string>
 
     <string name="preference_factor_basal_rate">basalRate</string>
     <string name="preference_factor_basal_rate_interval">intervalBasalRate</string>
-    <string name="preference_factor_basal_rate_interval_for_hour">intervalBasalRate%d</string>
 </resources>

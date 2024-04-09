@@ -69,7 +69,7 @@ fun EntryForm(
                     Text(viewModel.dateFormatted)
                 }
                 TextButton(
-                    onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectDate) },
+                    onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectTime) },
                     colors = ButtonDefaults.textButtonColors(contentColor = AppTheme.colors.scheme.onSurfaceVariant),
                 ) {
                     Text(viewModel.timeFormatted)

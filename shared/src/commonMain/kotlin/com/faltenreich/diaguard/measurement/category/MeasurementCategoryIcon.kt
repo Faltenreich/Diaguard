@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.property
+package com.faltenreich.diaguard.measurement.category
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -9,21 +9,21 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 
 @Composable
-fun MeasurementPropertyIcon(
-    property: MeasurementProperty,
+fun MeasurementCategoryIcon(
+    category: MeasurementCategory,
     modifier: Modifier = Modifier,
 ) {
-    val text = property.icon?.takeIf(String::isNotBlank)
-        ?: property.name.firstOrNull()?.toString()
+    val text = category.icon?.takeIf(String::isNotBlank)
+        ?: category.name.firstOrNull()?.toString()
         ?: return
-    MeasurementPropertyIcon(
+    MeasurementCategoryIcon(
         text = text,
         modifier = modifier,
     )
 }
 
 @Composable
-fun MeasurementPropertyIcon(
+fun MeasurementCategoryIcon(
     text: String,
     modifier: Modifier = Modifier,
 ) {

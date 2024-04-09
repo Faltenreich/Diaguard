@@ -1,16 +1,16 @@
 package com.faltenreich.diaguard.navigation.modal
 
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormDialog
+import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormDialog
 
-class MeasurementPropertyFormModal(
+class MeasurementCategoryFormModal(
     private val onDismissRequest: () -> Unit,
     private val onConfirmRequest: (name: String) -> Unit,
 ) : Modal {
 
     @Composable
     override fun Content() {
-        MeasurementPropertyFormDialog(
+        MeasurementCategoryFormDialog(
             onDismissRequest = onDismissRequest,
             onConfirmRequest = onConfirmRequest,
         )

@@ -30,7 +30,6 @@ import diaguard.shared.generated.resources.value_range_minimum
 import diaguard.shared.generated.resources.value_range_minimum_description
 import diaguard.shared.generated.resources.value_range_target
 import diaguard.shared.generated.resources.value_range_target_description
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeasurementValueRangeForm(
@@ -40,8 +39,8 @@ fun MeasurementValueRangeForm(
 ) {
     Column(modifier = modifier) {
         TextCheckbox(
-            title = stringResource(Res.string.value_range_highlighted),
-            subtitle = stringResource(Res.string.value_range_highlighted_description),
+            title = getString(Res.string.value_range_highlighted),
+            subtitle = getString(Res.string.value_range_highlighted_description),
             checked = viewModel.isValueRangeHighlighted.collectAsState().value,
             onCheckedChange = { viewModel.isValueRangeHighlighted.value = it },
             modifier = Modifier
@@ -59,7 +58,7 @@ fun MeasurementValueRangeForm(
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
             suffix = { Text(unitName) },
-            supportingText = { Text(stringResource(Res.string.value_range_minimum_description)) },
+            supportingText = { Text(getString(Res.string.value_range_minimum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -77,7 +76,7 @@ fun MeasurementValueRangeForm(
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
             suffix = { Text(unitName) },
-            supportingText = { Text(stringResource(Res.string.value_range_low_description)) },
+            supportingText = { Text(getString(Res.string.value_range_low_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -95,7 +94,7 @@ fun MeasurementValueRangeForm(
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
             suffix = { Text(unitName) },
-            supportingText = { Text(stringResource(Res.string.value_range_target_description)) },
+            supportingText = { Text(getString(Res.string.value_range_target_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -113,7 +112,7 @@ fun MeasurementValueRangeForm(
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
             suffix = { Text(unitName) },
-            supportingText = { Text(stringResource(Res.string.value_range_high_description)) },
+            supportingText = { Text(getString(Res.string.value_range_high_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -131,7 +130,7 @@ fun MeasurementValueRangeForm(
                 .fillMaxWidth()
                 .padding(all = AppTheme.dimensions.padding.P_3),
             suffix = { Text(unitName) },
-            supportingText = { Text(stringResource(Res.string.value_range_maximum_description)) },
+            supportingText = { Text(getString(Res.string.value_range_maximum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,

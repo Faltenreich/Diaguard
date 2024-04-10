@@ -8,10 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_search_empty_description
 import diaguard.shared.generated.resources.food_search_empty_title
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FoodSearchEmpty(modifier: Modifier = Modifier) {
@@ -24,9 +24,9 @@ fun FoodSearchEmpty(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = stringResource(Res.string.food_search_empty_title),
+            text = getString(Res.string.food_search_empty_title),
             style = AppTheme.typography.titleLarge,
         )
-        Text(stringResource(Res.string.food_search_empty_description))
+        Text(getString(Res.string.food_search_empty_description))
     }
 }

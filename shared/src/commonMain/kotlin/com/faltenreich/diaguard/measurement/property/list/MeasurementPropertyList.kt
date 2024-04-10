@@ -16,9 +16,8 @@ import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.shared.view.TextDivider
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.measurement_property_add
 import diaguard.shared.generated.resources.measurement_properties
-import org.jetbrains.compose.resources.stringResource
+import diaguard.shared.generated.resources.measurement_property_add
 
 @Composable
 fun MeasurementPropertyList(
@@ -57,7 +56,7 @@ fun MeasurementPropertyList(
         FormRow {
             SuggestionChip(
                 onClick = { viewModel.dispatchIntent(MeasurementPropertyListIntent.ShowFormDialog) },
-                label = { Text(stringResource(Res.string.measurement_property_add)) },
+                label = { Text(getString(Res.string.measurement_property_add)) },
             )
         }
     }

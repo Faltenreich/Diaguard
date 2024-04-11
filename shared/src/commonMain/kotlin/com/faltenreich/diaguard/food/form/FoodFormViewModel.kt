@@ -9,9 +9,10 @@ import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodEatenListScreen
-import com.faltenreich.diaguard.shared.architecture.FormViewModel
+import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
+import kotlinx.coroutines.flow.Flow
 
 class FoodFormViewModel(
     food: Food?,
@@ -20,7 +21,10 @@ class FoodFormViewModel(
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val numberFormatter: NumberFormatter = inject(),
-) : FormViewModel<FoodFormIntent>() {
+) : ViewModel<Nothing, FoodFormIntent, Unit>() {
+
+    override val state: Flow<Nothing>
+        get() = throw UnsupportedOperationException()
 
     private val id: Long? = food?.id
 

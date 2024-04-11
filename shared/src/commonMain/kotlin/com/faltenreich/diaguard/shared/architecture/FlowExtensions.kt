@@ -1,6 +1,14 @@
+@file:JvmName("FlowExtensionsJvm")
+
 package com.faltenreich.diaguard.shared.architecture
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.jvm.JvmName
 
 @Suppress("MagicNumber")
 fun <T1, T2, T3, T4, T5, T6, R> combine(
@@ -22,3 +30,8 @@ fun <T1, T2, T3, T4, T5, T6, R> combine(
         args[5] as T6,
     )
 }
+
+@Composable
+expect fun <T> StateFlow<T>.collectAsStateWithLifecycle(
+    context: CoroutineContext = EmptyCoroutineContext,
+): State<T>

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.shared.architecture
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.faltenreich.diaguard.shared.di.inject
@@ -41,7 +40,7 @@ abstract class ViewModel<State, Intent, Event>(
 
     @Composable
     fun collectState(): State? {
-        return stateInScope.collectAsState().value
+        return stateInScope.collectAsStateWithLifecycle(dispatcher).value
     }
 
     /**

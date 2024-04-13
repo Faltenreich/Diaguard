@@ -2,6 +2,7 @@ CREATE TABLE Food (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     createdAt TEXT NOT NULL,
     updatedAt TEXT NOT NULL,
+    uuid TEXT,
     name TEXT NOT NULL,
     brand TEXT,
     ingredients TEXT,
@@ -18,8 +19,8 @@ CREATE TABLE Food (
 );
 
 create:
-INSERT INTO Food(createdAt, updatedAt, name, brand, ingredients, labels, carbohydrates, energy, fat, fatSaturated, fiber, proteins, salt, sodium, sugar)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO Food(createdAt, updatedAt, uuid, name, brand, ingredients, labels, carbohydrates, energy, fat, fatSaturated, fiber, proteins, salt, sodium, sugar)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();

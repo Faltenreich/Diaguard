@@ -12,6 +12,7 @@ class FoodRepository(
     fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
+        uuid: String?,
         name: String,
         brand: String?,
         ingredients: String?,
@@ -29,6 +30,7 @@ class FoodRepository(
         dao.create(
             createdAt = createdAt,
             updatedAt = updatedAt,
+            uuid = uuid,
             name = name,
             brand = brand,
             ingredients = ingredients,

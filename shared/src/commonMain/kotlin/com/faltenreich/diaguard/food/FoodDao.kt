@@ -8,6 +8,7 @@ interface FoodDao {
     fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
+        uuid: String?,
         name: String,
         brand: String?,
         ingredients: String?,

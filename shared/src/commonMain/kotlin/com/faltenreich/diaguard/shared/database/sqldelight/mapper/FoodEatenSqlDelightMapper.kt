@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
-import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.food.eaten.FoodEaten
 
 class FoodEatenSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
@@ -16,9 +16,11 @@ class FoodEatenSqlDelightMapper(
         foodEatenAmountInGrams: Long,
         foodEatenFoodId: Long,
         foodEatenEntryId: Long,
+
         foodId: Long,
         foodCreatedAt: String,
         foodUpdatedAt: String,
+        foodUuid: String?,
         foodName: String,
         foodBrand: String?,
         foodIngredients: String?,
@@ -32,6 +34,7 @@ class FoodEatenSqlDelightMapper(
         foodSalt: Double?,
         foodSodium: Double?,
         foodSugar: Double?,
+
         entryId: Long,
         entryCreatedAt: String,
         entryUpdatedAt: String,
@@ -50,6 +53,7 @@ class FoodEatenSqlDelightMapper(
                 id = foodId,
                 createdAt = foodCreatedAt,
                 updatedAt = foodUpdatedAt,
+                uuid = foodUuid,
                 name = foodName,
                 brand = foodBrand,
                 ingredients = foodIngredients,

@@ -67,6 +67,7 @@ class SeedImport(
             foodRepository.create(
                 createdAt = now,
                 updatedAt = now,
+                uuid = null,
                 name = food.en, // TODO: Localize
                 brand = null,
                 ingredients = null,

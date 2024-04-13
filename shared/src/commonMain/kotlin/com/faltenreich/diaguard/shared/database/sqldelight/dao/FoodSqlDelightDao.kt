@@ -2,12 +2,12 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.shared.database.sqldelight.FoodQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
-import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +24,7 @@ class FoodSqlDelightDao(
     override fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
+        uuid: String?,
         name: String,
         brand: String?,
         ingredients: String?,
@@ -41,6 +42,7 @@ class FoodSqlDelightDao(
         queries.create(
             createdAt = createdAt.isoString,
             updatedAt = updatedAt.isoString,
+            uuid = uuid,
             name = name,
             brand = brand,
             ingredients = ingredients,

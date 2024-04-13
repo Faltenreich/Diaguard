@@ -15,6 +15,7 @@ class KotlinxSerialization {
     @PublishedApi internal val json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true
+        explicitNulls = false
     }
 
     @PublishedApi internal val yaml = Yaml

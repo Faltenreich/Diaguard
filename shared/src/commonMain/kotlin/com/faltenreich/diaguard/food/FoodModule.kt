@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.food
 
+import com.faltenreich.diaguard.food.api.OpenFoodFactsApi
 import com.faltenreich.diaguard.food.eaten.CreateFoodEatenUseCase
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
@@ -15,6 +16,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 fun foodModule() = module {
+    singleOf(::OpenFoodFactsApi)
     singleOf(::FoodRepository)
     singleOf(::FoodEatenRepository)
 

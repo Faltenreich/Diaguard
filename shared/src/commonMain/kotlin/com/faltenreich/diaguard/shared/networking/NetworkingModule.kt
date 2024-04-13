@@ -5,4 +5,5 @@ import org.koin.dsl.module
 
 fun networkingModule() = module {
     singleOf(::UrlOpener)
+    single<NetworkingClient> { KtorClient() }
 }

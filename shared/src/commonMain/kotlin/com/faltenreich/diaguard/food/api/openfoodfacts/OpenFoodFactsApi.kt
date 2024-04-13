@@ -1,15 +1,20 @@
-package com.faltenreich.diaguard.food.api
+package com.faltenreich.diaguard.food.api.openfoodfacts
 
+import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.Serialization
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class OpenFoodFactsApi(
     private val client: NetworkingClient,
     private val serialization: Serialization,
-) {
+    private val mapper: OpenFoodFactsMapper,
+) : FoodApi {
 
-    suspend fun search(query: String?, page: Int): OpenFoodFactsResponse {
+    override fun search(query: String?, page: Int): Flow<List<Food>> = flow {
         // TODO: Get dynamically
         val countryCode = "DE"
         val languageCode = "DE"
@@ -25,7 +30,8 @@ class OpenFoodFactsApi(
         )
         val json = client.request(url)
         val response = serialization.decodeJson<OpenFoodFactsResponse>(json)
-        return response
+        val food = mapper(response)
+        emit(food)
     }
 
     companion object {

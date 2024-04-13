@@ -1,9 +1,8 @@
 package com.faltenreich.diaguard.food
 
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.food.api.OpenFoodFactsApi
+import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.runBlocking
 
 class FoodRepository(
     private val dao: FoodDao,
@@ -53,8 +52,8 @@ class FoodRepository(
 
     fun observeByQuery(query: String): Flow<List<Food>> {
         // TODO: Merge results with dao
-        runBlocking { api.search(query, page = 0) }
-        return dao.observeByQuery(query)
+        return api.search(query, page = 0)
+        // return dao.observeByQuery(query)
     }
 
     fun update(

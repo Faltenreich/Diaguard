@@ -6,6 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 import com.faltenreich.diaguard.AppTheme
 
+// FIXME: Aligns at the start instead of the touch area
+// TODO: Replace custom DropdownTextMenuItem with DropdownMenuItem
 @Composable
 fun DropdownTextMenu(
     expanded: Boolean,

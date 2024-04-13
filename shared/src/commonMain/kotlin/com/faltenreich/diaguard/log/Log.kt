@@ -43,7 +43,7 @@ fun Log(
     val paginationItems = viewModel.pagingData.collectAsLazyPagingItems()
     val listState = rememberLazyListState()
 
-    // Compensate initial scroll offset for month header
+    // TODO: Compensate initial scroll offset for month header without delay
     LaunchedEffect(state.monthHeaderSize.height) {
         listState.scrollBy(-state.monthHeaderSize.height.toFloat())
     }

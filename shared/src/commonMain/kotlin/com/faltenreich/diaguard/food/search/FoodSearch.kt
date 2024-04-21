@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.zIndex
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.list.FoodList
 import com.faltenreich.diaguard.food.list.FoodListSkeleton
@@ -38,7 +39,10 @@ fun FoodSearch(
             is FoodSearchState.Empty -> FoodSearchEmpty()
             is FoodSearchState.Loaded -> FoodList(
                 items = state.items,
+                onRefresh = { viewModel.dispatchIntent(FoodSearchIntent.Refresh) },
                 onSelect = { viewModel.dispatchIntent(FoodSearchIntent.Select(it)) },
+                // Workaround to place PullToRefreshContainer behind headers
+                modifier = Modifier.zIndex(-1f),
             )
         }
     }

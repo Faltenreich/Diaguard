@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
@@ -46,9 +47,18 @@ class FoodSearchViewModel(
 
     override fun handleIntent(intent: FoodSearchIntent) {
         when (intent) {
+            is FoodSearchIntent.Refresh -> refresh()
             is FoodSearchIntent.Close -> navigateBack()
             is FoodSearchIntent.Create -> navigateToScreen(FoodFormScreen())
             is FoodSearchIntent.Select -> selectFood(intent.food)
+        }
+    }
+
+    private fun refresh() = scope.launch {
+        searchFood(query).map { results ->
+            state.value =
+                if (results.isNotEmpty()) FoodSearchState.Loaded(results)
+                else FoodSearchState.Empty
         }
     }
 

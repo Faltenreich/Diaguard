@@ -54,8 +54,8 @@ class FoodRepository(
 
     fun observeByQuery(query: String): Flow<List<Food>> {
         // TODO: Merge results with dao
-        return api.search(query, page = 0)
-        // return dao.observeByQuery(query)
+        // return api.search(query, page = 0)
+        return dao.observeByQuery(query)
     }
 
     fun update(

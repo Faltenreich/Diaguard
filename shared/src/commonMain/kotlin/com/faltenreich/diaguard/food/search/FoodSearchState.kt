@@ -8,5 +8,7 @@ sealed interface FoodSearchState {
 
     data object Empty : FoodSearchState
 
-    data class Loaded(val items: List<Food>) : FoodSearchState
+    data class Loaded(
+        val items: List<Food>,
+    ) : FoodSearchState
 }

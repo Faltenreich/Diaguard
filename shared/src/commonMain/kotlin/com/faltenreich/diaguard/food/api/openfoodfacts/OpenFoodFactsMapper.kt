@@ -9,9 +9,9 @@ class OpenFoodFactsMapper(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    operator fun invoke(response: OpenFoodFactsResponse): List<Food> {
+    operator fun invoke(remote: List<OpenFoodFactsProduct>): List<Food> {
         val now = dateTimeFactory.now()
-        return response.products.mapIndexedNotNull { index, product ->
+        return remote.mapIndexedNotNull { index, product ->
             try {
                 val uuid = product.identifier?.jsonPrimitive?.content
                 Food(

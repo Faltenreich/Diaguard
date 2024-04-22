@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.food.api.openfoodfacts
 
-import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.api.FoodApi
+import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
@@ -17,7 +17,7 @@ class OpenFoodFactsApi(
     private val mapper: OpenFoodFactsMapper,
 ) : FoodApi {
 
-    override fun search(query: String?, page: Int): Flow<List<Food>> = flow {
+    override fun search(query: String?, page: Int): Flow<List<FoodFromApi>> = flow {
         val locale = localization.getLocale()
         val countryCode = locale.region
         val languageCode = locale.language
@@ -44,10 +44,11 @@ class OpenFoodFactsApi(
                         && product.nutrients?.carbohydrates != null
                         && product.languageCode == languageCode
                 }
-            val food = mapper(remote).sortedBy(Food::name)
+            val food = mapper(remote).sortedBy(FoodFromApi::name)
             emit(food)
         } catch (exception: Exception) {
             Logger.error("Failed to request food from api", exception)
+            // FIXME: java.util.concurrent.CancellationException: Child of the scoped flow was cancelled
             emit(emptyList())
         }
     }

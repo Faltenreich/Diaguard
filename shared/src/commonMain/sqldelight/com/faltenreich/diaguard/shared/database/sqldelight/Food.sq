@@ -28,6 +28,9 @@ SELECT last_insert_rowid();
 getAll:
 SELECT * FROM Food ORDER BY name COLLATE NOCASE ASC;
 
+getByUuid:
+SELECT * FROM Food WHERE uuid = ? LIMIT 1;
+
 getByQuery:
 SELECT * FROM Food
 WHERE name LIKE ('%' || :query || '%') ORDER BY name COLLATE NOCASE ASC;

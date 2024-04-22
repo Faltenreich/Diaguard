@@ -63,6 +63,10 @@ class FoodSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
+    override fun getByUuid(uuid: String): Food? {
+        return queries.getByUuid(uuid, mapper::map).executeAsOneOrNull()
+    }
+
     override fun observeAll(): Flow<List<Food>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }

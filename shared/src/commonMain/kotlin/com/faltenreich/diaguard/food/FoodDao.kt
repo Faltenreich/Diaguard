@@ -26,6 +26,8 @@ interface FoodDao {
 
     fun getLastId(): Long?
 
+    fun getByUuid(uuid: String): Food?
+
     fun observeAll(): Flow<List<Food>>
 
     fun observeByQuery(query: String): Flow<List<Food>>

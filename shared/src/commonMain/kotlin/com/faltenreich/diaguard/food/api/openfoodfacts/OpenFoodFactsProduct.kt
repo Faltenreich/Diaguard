@@ -15,13 +15,4 @@ data class OpenFoodFactsProduct(
     @SerialName("labels") val labels: String?,
     @SerialName("nutriments") val nutrients: OpenFoodFactsNutrients?,
     @SerialName("last_edit_dates_tags") val lastEditDates: List<String>,
-) {
-
-    val isValid: Boolean
-        get() = name?.isNotBlank() == true && nutrients?.carbohydrates != null
-
-    companion object {
-
-        const val DATE_FORMAT = "yyyy-MM-dd"
-    }
-}
+)

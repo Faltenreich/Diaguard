@@ -1,37 +1,33 @@
 package com.faltenreich.diaguard.food.api.openfoodfacts
 
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.serialization.json.jsonPrimitive
 
-class OpenFoodFactsMapper(
-    private val dateTimeFactory: DateTimeFactory,
-) {
+class OpenFoodFactsMapper {
 
-    operator fun invoke(remote: List<OpenFoodFactsProduct>): List<Food> {
-        val now = dateTimeFactory.now()
-        return remote.mapIndexedNotNull { index, product ->
+    operator fun invoke(remote: List<OpenFoodFactsProduct>): List<FoodFromApi> {
+        return remote.mapNotNull { product ->
             try {
-                val uuid = product.identifier?.jsonPrimitive?.content
-                Food(
-                    id = index.toLong(), // TODO
-                    createdAt = now,
-                    updatedAt = now,
+                val uuid = product.identifier?.jsonPrimitive?.content ?: return@mapNotNull null
+                val name = product.name ?: return@mapNotNull null
+                val nutrients = product.nutrients ?: return@mapNotNull null
+                val carbohydrates = nutrients.carbohydrates?.toDouble() ?: return@mapNotNull null
+                FoodFromApi(
                     uuid = uuid,
-                    name = product.name!!,
-                    brand = product.brand!!,
+                    name = name,
+                    brand = product.brand,
                     ingredients = product.ingredients,
                     labels = product.labels,
-                    carbohydrates = product.nutrients?.carbohydrates?.toDouble() ?: 0.0,
-                    energy = product.nutrients?.energy?.toDouble(),
-                    fat = product.nutrients?.fat?.toDouble(),
-                    fatSaturated = product.nutrients?.fatSaturated?.toDouble(),
-                    fiber = product.nutrients?.fiber?.toDouble(),
-                    proteins = product.nutrients?.proteins?.toDouble(),
-                    salt = product.nutrients?.salt?.toDouble(),
-                    sodium = product.nutrients?.sodium?.toDouble(),
-                    sugar = product.nutrients?.sugar?.toDouble(),
+                    carbohydrates = carbohydrates,
+                    energy = nutrients.energy?.toDouble(),
+                    fat = nutrients.fat?.toDouble(),
+                    fatSaturated = nutrients.fatSaturated?.toDouble(),
+                    fiber = nutrients.fiber?.toDouble(),
+                    proteins = nutrients.proteins?.toDouble(),
+                    salt = nutrients.salt?.toDouble(),
+                    sodium = nutrients.sodium?.toDouble(),
+                    sugar = nutrients.sugar?.toDouble(),
                 )
             } catch (exception: Exception) {
                 Logger.error("Failed to map remote food", exception)

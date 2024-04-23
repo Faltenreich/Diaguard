@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.food
 
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.food.api.FoodFromApi
 import kotlinx.coroutines.flow.Flow
 
 interface FoodDao {
@@ -22,6 +23,11 @@ interface FoodDao {
         salt: Double?,
         sodium: Double?,
         sugar: Double?,
+    )
+
+    fun createOrUpdate(
+        foodFromApi: List<FoodFromApi>,
+        at: DateTime,
     )
 
     fun getLastId(): Long?

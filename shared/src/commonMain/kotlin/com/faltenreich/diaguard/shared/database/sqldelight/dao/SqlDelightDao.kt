@@ -11,4 +11,8 @@ interface SqlDelightDao<SqlDelightQueries: Transacter> {
         get() = getQueries(inject<SqlDelightDatabase>().api)
 
     fun getQueries(api: SqlDelightApi): SqlDelightQueries
+
+    fun transaction(transact: () -> Unit) {
+        queries.transaction { transact() }
+    }
 }

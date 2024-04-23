@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.food
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -53,25 +52,15 @@ class FoodRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun createOrUpdate(foodFromApi: List<FoodFromApi>) {
-        dao.createOrUpdate(foodFromApi = foodFromApi, at = dateTimeFactory.now())
-    }
-
+    // TODO: Paginate
     fun observeByQuery(query: String): Flow<List<Food>> {
         return if (query.isBlank()) {
             dao.observeAll()
         } else {
-            observeByQueryRemotely(query)
-                .flatMapLatest { observeByQueryLocally(query) }
+            api.search(query, page = 0)
+                .onEach { dao.createOrUpdate(foodFromApi = it, at = dateTimeFactory.now()) }
+                .flatMapLatest { dao.observeByQuery(query) }
         }
-    }
-
-    private fun observeByQueryRemotely(query: String): Flow<List<FoodFromApi>> {
-        return api.search(query, page = 0).onEach(::createOrUpdate)
-    }
-
-    private fun observeByQueryLocally(query: String): Flow<List<Food>> {
-        return dao.observeByQuery(query)
     }
 
     fun update(

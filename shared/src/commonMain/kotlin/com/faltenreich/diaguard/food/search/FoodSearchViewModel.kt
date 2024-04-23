@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -30,17 +31,19 @@ class FoodSearchViewModel(
     override val state = MutableStateFlow<FoodSearchState>(FoodSearchState.Loading)
 
     var query: String by mutableStateOf("")
+    var page by mutableStateOf(PagingPage.Zero)
 
     init {
         snapshotFlow { query }
             .debounce(1.seconds)
             .distinctUntilChanged()
             .onEach { state.value = FoodSearchState.Loading }
-            .flatMapLatest(searchFood::invoke)
+            .flatMapLatest { query -> searchFood(query, page) }
             .onEach { results ->
                 state.value =
                     if (results.isNotEmpty()) FoodSearchState.Loaded(results)
                     else FoodSearchState.Empty
+                page = page.copy(page = page.page + 1)
             }
             .launchIn(scope)
     }
@@ -55,7 +58,8 @@ class FoodSearchViewModel(
     }
 
     private fun refresh() = scope.launch {
-        searchFood(query).map { results ->
+        page = PagingPage.Zero
+        searchFood(query, page).map { results ->
             state.value =
                 if (results.isNotEmpty()) FoodSearchState.Loaded(results)
                 else FoodSearchState.Empty

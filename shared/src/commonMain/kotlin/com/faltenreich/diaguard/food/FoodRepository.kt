@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.food
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
+import com.faltenreich.diaguard.shared.data.PagingPage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onEach
@@ -52,15 +53,10 @@ class FoodRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    // TODO: Paginate
-    fun observeByQuery(query: String): Flow<List<Food>> {
-        return if (query.isBlank()) {
-            dao.observeAll()
-        } else {
-            api.search(query, page = 0)
-                .onEach { dao.createOrUpdate(foodFromApi = it, at = dateTimeFactory.now()) }
-                .flatMapLatest { dao.observeByQuery(query) }
-        }
+    fun observeByQuery(query: String, page: PagingPage): Flow<List<Food>> {
+        return api.search(query, page)
+            .onEach { dao.createOrUpdate(foodFromApi = it, at = dateTimeFactory.now()) }
+            .flatMapLatest { dao.observeByQuery(query, page) }
     }
 
     fun update(

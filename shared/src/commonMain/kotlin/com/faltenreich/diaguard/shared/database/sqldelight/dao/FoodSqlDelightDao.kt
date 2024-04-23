@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.food.api.FoodFromApi
+import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.database.sqldelight.FoodQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
@@ -117,12 +118,22 @@ class FoodSqlDelightDao(
         return queries.getByUuid(uuid, mapper::map).executeAsOneOrNull()
     }
 
-    override fun observeAll(): Flow<List<Food>> {
-        return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
-    }
-
-    override fun observeByQuery(query: String): Flow<List<Food>> {
-        return queries.getByQuery(query, mapper::map).asFlow().mapToList(dispatcher)
+    override fun observeByQuery(query: String, page: PagingPage): Flow<List<Food>> {
+        val operation = if (query.isBlank()) {
+            queries.getAll(
+                offset = page.page * page.pageSize,
+                limit = page.pageSize,
+                mapper = mapper::map,
+            )
+        } else {
+            queries.getByQuery(
+                query = query,
+                offset = page.page * page.pageSize,
+                limit = page.pageSize,
+                mapper = mapper::map,
+            )
+        }
+        return operation.asFlow().mapToList(dispatcher)
     }
 
     override fun update(

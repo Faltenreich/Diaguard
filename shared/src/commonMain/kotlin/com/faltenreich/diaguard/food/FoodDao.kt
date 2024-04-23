@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.food
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.food.api.FoodFromApi
+import com.faltenreich.diaguard.shared.data.PagingPage
 import kotlinx.coroutines.flow.Flow
 
 interface FoodDao {
@@ -34,9 +35,7 @@ interface FoodDao {
 
     fun getByUuid(uuid: String): Food?
 
-    fun observeAll(): Flow<List<Food>>
-
-    fun observeByQuery(query: String): Flow<List<Food>>
+    fun observeByQuery(query: String, page: PagingPage): Flow<List<Food>>
 
     fun update(
         id: Long,

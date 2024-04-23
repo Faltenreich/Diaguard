@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.food.api.openfoodfacts
 
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
+import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
@@ -17,7 +18,7 @@ class OpenFoodFactsApi(
     private val mapper: OpenFoodFactsMapper,
 ) : FoodApi {
 
-    override fun search(query: String?, page: Int): Flow<List<FoodFromApi>> = flow {
+    override fun search(query: String?, page: PagingPage): Flow<List<FoodFromApi>> = flow {
         val locale = localization.getLocale()
         val countryCode = locale.region
         val languageCode = locale.language
@@ -26,8 +27,8 @@ class OpenFoodFactsApi(
         val url = "https://world.openfoodfacts.org/cgi/search.pl?$arguments".format(
             query ?: "",
             // Pagination starts at page 1
-            page + 1,
-            PAGE_SIZE,
+            page.page + 1,
+            page.pageSize,
             countryCode,
             languageCode,
             IS_JSON,
@@ -55,7 +56,6 @@ class OpenFoodFactsApi(
 
     companion object {
 
-        private const val PAGE_SIZE = 50
         private const val IS_JSON = 1
     }
 }

@@ -57,12 +57,13 @@ class FoodRepository(
         dao.createOrUpdate(foodFromApi = foodFromApi, at = dateTimeFactory.now())
     }
 
-    fun observeAll(): Flow<List<Food>> {
-        return dao.observeAll()
-    }
-
     fun observeByQuery(query: String): Flow<List<Food>> {
-        return observeByQueryRemotely(query).flatMapLatest { observeByQueryLocally(query) }
+        return if (query.isBlank()) {
+            dao.observeAll()
+        } else {
+            observeByQueryRemotely(query)
+                .flatMapLatest { observeByQueryLocally(query) }
+        }
     }
 
     private fun observeByQueryRemotely(query: String): Flow<List<FoodFromApi>> {

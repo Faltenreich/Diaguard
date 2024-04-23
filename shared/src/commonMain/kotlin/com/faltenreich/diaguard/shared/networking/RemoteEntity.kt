@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.shared.networking
 interface RemoteEntity {
 
     /**
-     * Unique identifier
+     * Universally unique identifier
      */
     val uuid: String?
 }

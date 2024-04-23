@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.shared.serialization.Serializable
 interface DatabaseEntity : Serializable {
 
     /**
-     * Unique identifier
+     * Locally unique identifier
      */
     val id: Long
 

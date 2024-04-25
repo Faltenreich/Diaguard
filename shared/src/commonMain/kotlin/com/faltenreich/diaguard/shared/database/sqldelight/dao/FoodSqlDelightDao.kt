@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
-import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToList
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodDao
@@ -11,11 +9,8 @@ import com.faltenreich.diaguard.shared.database.sqldelight.FoodQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
 
 class FoodSqlDelightDao(
-    private val dispatcher: CoroutineDispatcher = inject(),
     private val mapper: FoodSqlDelightMapper = inject(),
 ) : FoodDao, SqlDelightDao<FoodQueries> {
 
@@ -118,7 +113,7 @@ class FoodSqlDelightDao(
         return queries.getByUuid(uuid, mapper::map).executeAsOneOrNull()
     }
 
-    override fun observeByQuery(query: String, page: PagingPage): Flow<List<Food>> {
+    override fun getByQuery(query: String, page: PagingPage): List<Food> {
         val operation = if (query.isBlank()) {
             queries.getAll(
                 offset = page.page * page.pageSize,
@@ -133,7 +128,7 @@ class FoodSqlDelightDao(
                 mapper = mapper::map,
             )
         }
-        return operation.asFlow().mapToList(dispatcher)
+        return operation.executeAsList()
     }
 
     override fun update(

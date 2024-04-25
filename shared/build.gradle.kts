@@ -80,6 +80,7 @@ kotlin {
                 optIn("kotlinx.coroutines.FlowPreview")
                 optIn("kotlinx.serialization.ExperimentalSerializationApi")
                 optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+                optIn("androidx.paging.ExperimentalPagingApi")
             }
         }
     }

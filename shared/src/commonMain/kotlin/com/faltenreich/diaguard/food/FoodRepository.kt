@@ -4,9 +4,6 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.shared.data.PagingPage
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.onEach
 
 class FoodRepository(
     private val dao: FoodDao,
@@ -53,10 +50,10 @@ class FoodRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun observeByQuery(query: String, page: PagingPage): Flow<List<Food>> {
-        return api.search(query, page)
-            .onEach { dao.createOrUpdate(foodFromApi = it, at = dateTimeFactory.now()) }
-            .flatMapLatest { dao.observeByQuery(query, page) }
+    suspend fun getByQuery(query: String, page: PagingPage): List<Food> {
+        val foodFromApi = api.search(query, page)
+        dao.createOrUpdate(foodFromApi, at = dateTimeFactory.now())
+        return dao.getByQuery(query, page)
     }
 
     fun update(

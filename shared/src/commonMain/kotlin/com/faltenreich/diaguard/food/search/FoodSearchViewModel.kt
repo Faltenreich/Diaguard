@@ -14,9 +14,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
@@ -37,13 +35,13 @@ class FoodSearchViewModel(
         snapshotFlow { query }
             .debounce(1.seconds)
             .distinctUntilChanged()
-            .onEach { state.value = FoodSearchState.Loading }
-            .flatMapLatest { query -> searchFood(query, page) }
-            .onEach { results ->
+            .onEach { query ->
+                state.value = FoodSearchState.Loading
+                val results = searchFood(query, page)
                 state.value =
                     if (results.isNotEmpty()) FoodSearchState.Loaded(results)
                     else FoodSearchState.Empty
-                page = page.copy(page = page.page + 1)
+                page++
             }
             .launchIn(scope)
     }
@@ -59,11 +57,10 @@ class FoodSearchViewModel(
 
     private fun refresh() = scope.launch {
         page = PagingPage.Zero
-        searchFood(query, page).map { results ->
-            state.value =
-                if (results.isNotEmpty()) FoodSearchState.Loaded(results)
-                else FoodSearchState.Empty
-        }
+        val results = searchFood(query, page)
+        state.value =
+            if (results.isNotEmpty()) FoodSearchState.Loaded(results)
+            else FoodSearchState.Empty
     }
 
     private fun selectFood(food: Food) = scope.launch {

@@ -23,6 +23,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
     private val mode: FoodSearchMode,
+    private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<FoodSearchState, FoodSearchIntent, FoodSearchEvent>() {
@@ -35,9 +36,12 @@ class FoodSearchViewModel(
         .distinctUntilChanged()
         .flatMapLatest { query ->
             Pager(
-            config = FoodSearchSource.newConfig(),
-            pagingSourceFactory = { FoodSearchSource(query).also { dataSource = it } },
-        ).flow
+                config = FoodSearchSource.newConfig(),
+                pagingSourceFactory = {
+                    FoodSearchSource(query, searchFood)
+                        .also { dataSource = it }
+                },
+            ).flow
     }.cachedIn(scope)
 
     override val state = MutableStateFlow(FoodSearchState())

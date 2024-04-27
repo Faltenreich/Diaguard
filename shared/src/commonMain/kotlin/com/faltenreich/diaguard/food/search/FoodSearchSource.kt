@@ -4,14 +4,12 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import app.cash.paging.PagingConfig
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.shared.data.PagingPage
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 
 class FoodSearchSource(
     private val query: String,
-    private val repository: FoodRepository = inject(),
+    private val searchFood: SearchFoodUseCase,
 ) : PagingSource<PagingPage, Food>() {
 
     override fun getRefreshKey(state: PagingState<PagingPage, Food>): PagingPage? {
@@ -24,7 +22,7 @@ class FoodSearchSource(
     override suspend fun load(params: LoadParams<PagingPage>): LoadResult<PagingPage, Food> {
         val page = params.key ?: PagingPage(page = 0, pageSize = PAGE_SIZE)
         Logger.debug("Loading food for query \"$query\" at page $page")
-        val food = repository.getByQuery(query, page)
+        val food = searchFood(query, page)
         Logger.debug("Loaded ${food.size} food for query \"$query\" at page $page")
         return LoadResult.Page(
             data = food,

@@ -57,16 +57,16 @@ class FoodSqlDelightDao(
     }
 
     override fun createOrUpdate(
-        foodFromApi: List<FoodFromApi>,
-        at: DateTime,
+        foodList: List<FoodFromApi>,
+        updatedAt: DateTime,
     ) {
         transaction {
-            foodFromApi.forEach { food ->
+            foodList.forEach { food ->
                 val existing = getByUuid(food.uuid)
                 if (existing != null) {
                     update(
                         id = existing.id,
-                        updatedAt = at,
+                        updatedAt = updatedAt,
                         name = food.name,
                         brand = food.brand,
                         ingredients = food.ingredients,
@@ -83,8 +83,8 @@ class FoodSqlDelightDao(
                     )
                 } else {
                     create(
-                        createdAt = at,
-                        updatedAt = at,
+                        createdAt = updatedAt,
+                        updatedAt = updatedAt,
                         uuid = food.uuid,
                         name = food.name,
                         brand = food.brand,
@@ -113,22 +113,21 @@ class FoodSqlDelightDao(
         return queries.getByUuid(uuid, mapper::map).executeAsOneOrNull()
     }
 
+    override fun getAll(page: PagingPage): List<Food> {
+        return queries.getAll(
+            offset = page.page.toLong() * page.pageSize.toLong(),
+            limit = page.pageSize.toLong(),
+            mapper = mapper::map,
+        ).executeAsList()
+    }
+
     override fun getByQuery(query: String, page: PagingPage): List<Food> {
-        val operation = if (query.isBlank()) {
-            queries.getAll(
-                offset = page.page.toLong() * page.pageSize.toLong(),
-                limit = page.pageSize.toLong(),
-                mapper = mapper::map,
-            )
-        } else {
-            queries.getByQuery(
-                query = query,
-                offset = page.page.toLong() * page.pageSize.toLong(),
-                limit = page.pageSize.toLong(),
-                mapper = mapper::map,
-            )
-        }
-        return operation.executeAsList()
+        return queries.getByQuery(
+            query = query,
+            offset = page.page.toLong() * page.pageSize.toLong(),
+            limit = page.pageSize.toLong(),
+            mapper = mapper::map,
+        ).executeAsList()
     }
 
     override fun update(

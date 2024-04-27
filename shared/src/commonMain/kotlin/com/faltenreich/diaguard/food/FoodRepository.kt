@@ -51,9 +51,16 @@ class FoodRepository(
     }
 
     suspend fun getByQuery(query: String, page: PagingPage): List<Food> {
-        val foodFromApi = api.search(query, page)
-        dao.createOrUpdate(foodFromApi, at = dateTimeFactory.now())
-        return dao.getByQuery(query, page)
+        return if (query.isBlank()) {
+            dao.getAll(page)
+        } else {
+            val foodFromApi = api.search(query, page)
+            dao.createOrUpdate(
+                foodList = foodFromApi,
+                updatedAt = dateTimeFactory.now(),
+            )
+            return dao.getByQuery(query, page)
+        }
     }
 
     fun update(

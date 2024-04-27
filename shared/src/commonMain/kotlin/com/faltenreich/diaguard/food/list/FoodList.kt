@@ -27,7 +27,7 @@ fun FoodList(
     if (pullToRefreshState.isRefreshing) {
         LaunchedEffect(true) {
             onRefresh()
-            // TODO: pullToRefreshState.endRefresh()
+            pullToRefreshState.endRefresh()
         }
     }
     Box(modifier = modifier.nestedScroll(pullToRefreshState.nestedScrollConnection)) {

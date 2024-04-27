@@ -26,13 +26,15 @@ interface FoodDao {
     )
 
     fun createOrUpdate(
-        foodFromApi: List<FoodFromApi>,
-        at: DateTime,
+        foodList: List<FoodFromApi>,
+        updatedAt: DateTime,
     )
 
     fun getLastId(): Long?
 
     fun getByUuid(uuid: String): Food?
+
+    fun getAll(page: PagingPage): List<Food>
 
     fun getByQuery(query: String, page: PagingPage): List<Food>
 

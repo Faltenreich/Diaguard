@@ -5,6 +5,8 @@ import com.faltenreich.diaguard.shared.data.PagingPage
 
 interface FoodDao {
 
+    fun transaction(transact: () -> Unit)
+
     fun create(
         createdAt: DateTime,
         updatedAt: DateTime,

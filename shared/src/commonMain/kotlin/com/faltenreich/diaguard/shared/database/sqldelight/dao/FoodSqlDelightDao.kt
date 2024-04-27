@@ -17,6 +17,10 @@ class FoodSqlDelightDao(
         return api.foodQueries
     }
 
+    override fun transaction(transact: () -> Unit) {
+        queries.transaction { transact() }
+    }
+
     override fun create(
         createdAt: DateTime,
         updatedAt: DateTime,

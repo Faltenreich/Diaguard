@@ -30,6 +30,10 @@ SELECT * FROM Food
 WHERE uuid = ?
 LIMIT 1;
 
+getByUuids:
+SELECT uuid FROM Food
+WHERE uuid IN ?;
+
 getAll:
 SELECT * FROM Food
 ORDER BY name COLLATE NOCASE ASC

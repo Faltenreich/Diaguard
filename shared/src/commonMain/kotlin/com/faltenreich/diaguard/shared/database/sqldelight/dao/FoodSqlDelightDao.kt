@@ -63,6 +63,10 @@ class FoodSqlDelightDao(
         return queries.getByUuid(uuid, mapper::map).executeAsOneOrNull()
     }
 
+    override fun getByUuids(uuids: List<String>): List<String> {
+        return queries.getByUuids(uuids).executeAsList().mapNotNull { it.uuid }
+    }
+
     override fun getAll(page: PagingPage): List<Food> {
         return queries.getAll(
             offset = page.page.toLong() * page.pageSize.toLong(),

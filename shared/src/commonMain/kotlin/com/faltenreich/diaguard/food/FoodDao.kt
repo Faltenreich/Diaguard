@@ -28,6 +28,8 @@ interface FoodDao {
 
     fun getByUuid(uuid: String): Food?
 
+    fun getByUuids(uuids: List<String>): List<String>
+
     fun getAll(page: PagingPage): List<Food>
 
     fun getByQuery(query: String, page: PagingPage): List<Food>

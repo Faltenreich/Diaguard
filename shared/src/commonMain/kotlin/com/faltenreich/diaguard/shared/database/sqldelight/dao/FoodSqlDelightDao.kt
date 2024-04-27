@@ -116,15 +116,15 @@ class FoodSqlDelightDao(
     override fun getByQuery(query: String, page: PagingPage): List<Food> {
         val operation = if (query.isBlank()) {
             queries.getAll(
-                offset = page.page * page.pageSize,
-                limit = page.pageSize,
+                offset = page.page.toLong() * page.pageSize.toLong(),
+                limit = page.pageSize.toLong(),
                 mapper = mapper::map,
             )
         } else {
             queries.getByQuery(
                 query = query,
-                offset = page.page * page.pageSize,
-                limit = page.pageSize,
+                offset = page.page.toLong() * page.pageSize.toLong(),
+                limit = page.pageSize.toLong(),
                 mapper = mapper::map,
             )
         }

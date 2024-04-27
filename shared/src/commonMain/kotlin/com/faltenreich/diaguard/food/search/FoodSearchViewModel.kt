@@ -4,12 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.paging.Pager
+import androidx.paging.cachedIn
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -21,27 +22,25 @@ import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
     private val mode: FoodSearchMode,
-    private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<FoodSearchState, FoodSearchIntent, FoodSearchEvent>() {
 
-    override val state = MutableStateFlow<FoodSearchState>(FoodSearchState.Loading)
-
     var query: String by mutableStateOf("")
-    var page by mutableStateOf(PagingPage.Zero)
+
+    val pagingData = Pager(
+        config = FoodSearchSource.newConfig(),
+        pagingSourceFactory = { FoodSearchSource(query) },
+    ).flow.cachedIn(scope)
+
+    override val state = MutableStateFlow(FoodSearchState())
 
     init {
         snapshotFlow { query }
             .debounce(1.seconds)
             .distinctUntilChanged()
             .onEach { query ->
-                state.value = FoodSearchState.Loading
-                val results = searchFood(query, page)
-                state.value =
-                    if (results.isNotEmpty()) FoodSearchState.Loaded(results)
-                    else FoodSearchState.Empty
-                page++
+                // TODO
             }
             .launchIn(scope)
     }
@@ -56,11 +55,7 @@ class FoodSearchViewModel(
     }
 
     private fun refresh() = scope.launch {
-        page = PagingPage.Zero
-        val results = searchFood(query, page)
-        state.value =
-            if (results.isNotEmpty()) FoodSearchState.Loaded(results)
-            else FoodSearchState.Empty
+        // TODO
     }
 
     private fun selectFood(food: Food) = scope.launch {

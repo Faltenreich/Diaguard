@@ -1,13 +1,14 @@
-package com.faltenreich.diaguard.food.list
+package com.faltenreich.diaguard.food.search
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import app.cash.paging.PagingConfig
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.di.inject
 
-class FoodSource(
+class FoodSearchSource(
     private val query: String,
     private val repository: FoodRepository = inject(),
 ) : PagingSource<PagingPage, Food>() {
@@ -20,12 +21,21 @@ class FoodSource(
     }
 
     override suspend fun load(params: LoadParams<PagingPage>): LoadResult<PagingPage, Food> {
-        val page = params.key ?: PagingPage.Zero
+        val page = params.key ?: PagingPage(page = 0, pageSize = PAGE_SIZE)
         val food = repository.getByQuery(query, page)
         return LoadResult.Page(
             data = food,
             prevKey = null,
             nextKey = page + 1,
         )
+    }
+
+    companion object {
+
+        private const val PAGE_SIZE = 20
+
+        fun newConfig(): PagingConfig {
+            return PagingConfig(pageSize = PAGE_SIZE)
+        }
     }
 }

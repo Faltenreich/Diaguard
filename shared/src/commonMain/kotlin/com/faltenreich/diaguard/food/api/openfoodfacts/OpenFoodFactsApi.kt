@@ -21,6 +21,7 @@ class OpenFoodFactsApi(
         val countryCode = locale.region
         val languageCode = locale.language
 
+        // TODO: Improve performance of requests that currently take more than 5s
         val arguments = "search_terms=%s&page=%d&page_size=%d&cc=%s&lc=%s&json=1"
         val url = "https://world.openfoodfacts.org/cgi/search.pl?$arguments".format(
             query ?: "",

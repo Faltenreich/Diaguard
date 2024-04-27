@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.view.Divider
@@ -43,6 +44,12 @@ fun FoodList(
                             Divider()
                         }
                     }
+                }
+            }
+
+            if (items.loadState.append == LoadState.Loading) {
+                item {
+                    FoodListLoadingIndicator()
                 }
             }
         }

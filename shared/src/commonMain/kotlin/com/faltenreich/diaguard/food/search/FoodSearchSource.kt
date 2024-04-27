@@ -26,7 +26,7 @@ class FoodSearchSource(
         return LoadResult.Page(
             data = food,
             prevKey = null,
-            nextKey = page + 1,
+            nextKey = if (food.isNotEmpty()) page + 1 else null,
         )
     }
 

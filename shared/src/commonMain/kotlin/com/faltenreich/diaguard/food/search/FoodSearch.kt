@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
+import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.list.FoodList
+import com.faltenreich.diaguard.food.list.FoodListSkeleton
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
@@ -34,12 +36,23 @@ fun FoodSearch(
                     ),
             )
         }
-        FoodList(
-            items = items,
-            onRefresh = { viewModel.dispatchIntent(FoodSearchIntent.Refresh) },
-            onSelect = { viewModel.dispatchIntent(FoodSearchIntent.Select(it)) },
-            // Workaround to place PullToRefreshContainer behind headers
-            modifier = Modifier.zIndex(-1f),
-        )
+
+        val isAtTheEnd = items.loadState.refresh !is LoadState.Loading
+            && items.loadState.prepend !is LoadState.Loading
+            && items.loadState.append !is LoadState.Loading
+        
+        if (items.loadState.refresh == LoadState.Loading) {
+            FoodListSkeleton()
+        } else if (isAtTheEnd && items.itemCount == 0) {
+            FoodSearchEmpty()
+        } else {
+            FoodList(
+                items = items,
+                onRefresh = { viewModel.dispatchIntent(FoodSearchIntent.Refresh) },
+                onSelect = { viewModel.dispatchIntent(FoodSearchIntent.Select(it)) },
+                // Workaround to place PullToRefreshContainer behind headers
+                modifier = Modifier.zIndex(-1f),
+            )
+        }
     }
 }

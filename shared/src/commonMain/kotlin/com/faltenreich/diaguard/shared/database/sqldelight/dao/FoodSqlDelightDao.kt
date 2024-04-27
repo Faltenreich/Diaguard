@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodDao
-import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.database.sqldelight.FoodQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
@@ -54,55 +53,6 @@ class FoodSqlDelightDao(
             sodium = sodium,
             sugar = sugar,
         )
-    }
-
-    override fun createOrUpdate(
-        foodList: List<FoodFromApi>,
-        updatedAt: DateTime,
-    ) {
-        transaction {
-            foodList.forEach { food ->
-                val existing = getByUuid(food.uuid)
-                if (existing != null) {
-                    update(
-                        id = existing.id,
-                        updatedAt = updatedAt,
-                        name = food.name,
-                        brand = food.brand,
-                        ingredients = food.ingredients,
-                        labels = food.labels,
-                        carbohydrates = food.carbohydrates,
-                        energy = food.energy,
-                        fat = food.fat,
-                        fatSaturated = food.fatSaturated,
-                        fiber = food.fiber,
-                        proteins = food.proteins,
-                        salt = food.salt,
-                        sodium = food.sodium,
-                        sugar = food.sugar,
-                    )
-                } else {
-                    create(
-                        createdAt = updatedAt,
-                        updatedAt = updatedAt,
-                        uuid = food.uuid,
-                        name = food.name,
-                        brand = food.brand,
-                        ingredients = food.ingredients,
-                        labels = food.labels,
-                        carbohydrates = food.carbohydrates,
-                        energy = food.energy,
-                        fat = food.fat,
-                        fatSaturated = food.fatSaturated,
-                        fiber = food.fiber,
-                        proteins = food.proteins,
-                        salt = food.salt,
-                        sodium = food.sodium,
-                        sugar = food.sugar,
-                    )
-                }
-            }
-        }
     }
 
     override fun getLastId(): Long? {

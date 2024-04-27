@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.shared.data.PagingPage
+import com.faltenreich.diaguard.shared.logging.Logger
 
 class FoodRepository(
     private val dao: FoodDao,
@@ -55,10 +56,33 @@ class FoodRepository(
             dao.getAll(page)
         } else {
             val foodFromApi = api.search(query, page)
-            dao.createOrUpdate(
-                foodList = foodFromApi,
-                updatedAt = dateTimeFactory.now(),
-            )
+            // TODO: Execute within transaction
+            foodFromApi.forEach { food ->
+                val existing = dao.getByUuid(food.uuid)
+                // We do not update to avoid altering data edited by user
+                if (existing == null) {
+                    val now = dateTimeFactory.now()
+                    create(
+                        createdAt = now,
+                        updatedAt = now,
+                        uuid = food.uuid,
+                        name = food.name,
+                        brand = food.brand,
+                        ingredients = food.ingredients,
+                        labels = food.labels,
+                        carbohydrates = food.carbohydrates,
+                        energy = food.energy,
+                        fat = food.fat,
+                        fatSaturated = food.fatSaturated,
+                        fiber = food.fiber,
+                        proteins = food.proteins,
+                        salt = food.salt,
+                        sodium = food.sodium,
+                        sugar = food.sugar,
+                    )
+                    Logger.debug("Created: $food")
+                }
+            }
             return dao.getByQuery(query, page)
         }
     }

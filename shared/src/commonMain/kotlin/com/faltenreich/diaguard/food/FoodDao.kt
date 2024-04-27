@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.food
 
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.shared.data.PagingPage
 
 interface FoodDao {
@@ -23,11 +22,6 @@ interface FoodDao {
         salt: Double?,
         sodium: Double?,
         sugar: Double?,
-    )
-
-    fun createOrUpdate(
-        foodList: List<FoodFromApi>,
-        updatedAt: DateTime,
     )
 
     fun getLastId(): Long?

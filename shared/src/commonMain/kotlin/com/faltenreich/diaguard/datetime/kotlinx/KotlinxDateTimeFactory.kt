@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.datetime.kotlinx
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
 class KotlinxDateTimeFactory : DateTimeFactory {
 
@@ -63,6 +63,10 @@ class KotlinxDateTimeFactory : DateTimeFactory {
 
     override fun dateTime(isoString: String): DateTime {
         return KotlinxDateTime(isoString)
+    }
+
+    override fun date(isoString: String): Date {
+        return KotlinxDate(isoString)
     }
 
     override fun now(): KotlinxDateTime {

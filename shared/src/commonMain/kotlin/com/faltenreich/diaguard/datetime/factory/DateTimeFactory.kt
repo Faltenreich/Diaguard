@@ -35,6 +35,8 @@ interface DateTimeFactory {
 
     fun dateTime(isoString: String): DateTime
 
+    fun date(isoString: String): Date
+
     fun now(): DateTime
 
     fun today(): Date {

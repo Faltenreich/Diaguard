@@ -30,7 +30,6 @@ class OpenFoodFactsApi(
             page.pageSize,
             countryCode,
             languageCode,
-            IS_JSON,
         )
         return try {
             val json = client.request(url)
@@ -50,10 +49,5 @@ class OpenFoodFactsApi(
             // FIXME: java.util.concurrent.CancellationException: Child of the scoped flow was cancelled
             emptyList()
         }
-    }
-
-    companion object {
-
-        private const val IS_JSON = 1
     }
 }

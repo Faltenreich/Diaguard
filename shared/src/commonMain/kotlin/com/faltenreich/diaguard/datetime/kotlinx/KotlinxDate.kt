@@ -42,6 +42,10 @@ class KotlinxDate(
         dayOfMonth = localDate.dayOfMonth,
     )
 
+    constructor(isoString: String) : this(
+        localDate = LocalDate.parse(isoString),
+    )
+
     override fun atTime(time: Time): DateTime {
         return KotlinxDateTime(
             year = year,

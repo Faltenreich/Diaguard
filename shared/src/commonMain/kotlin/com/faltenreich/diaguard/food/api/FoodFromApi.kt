@@ -1,7 +1,10 @@
 package com.faltenreich.diaguard.food.api
 
+import com.faltenreich.diaguard.datetime.Date
+
 data class FoodFromApi(
     val uuid: String,
+    val updatedAt: Date,
     val name: String,
     val brand: String?,
     val ingredients: String?,

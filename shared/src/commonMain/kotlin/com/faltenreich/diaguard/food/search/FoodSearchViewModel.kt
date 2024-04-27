@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.paging.Pager
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
@@ -12,11 +13,11 @@ import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.FoodFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
@@ -28,22 +29,17 @@ class FoodSearchViewModel(
 
     var query: String by mutableStateOf("")
 
-    val pagingData = Pager(
-        config = FoodSearchSource.newConfig(),
-        pagingSourceFactory = { FoodSearchSource(query) },
-    ).flow.cachedIn(scope)
+    val pagingData: Flow<PagingData<Food>> = snapshotFlow { query }
+        .debounce(1.seconds)
+        .distinctUntilChanged()
+        .flatMapLatest { query ->
+            Pager(
+            config = FoodSearchSource.newConfig(),
+            pagingSourceFactory = { FoodSearchSource(query) },
+        ).flow.cachedIn(scope)
+    }
 
     override val state = MutableStateFlow(FoodSearchState())
-
-    init {
-        snapshotFlow { query }
-            .debounce(1.seconds)
-            .distinctUntilChanged()
-            .onEach { query ->
-                // TODO
-            }
-            .launchIn(scope)
-    }
 
     override fun handleIntent(intent: FoodSearchIntent) {
         when (intent) {

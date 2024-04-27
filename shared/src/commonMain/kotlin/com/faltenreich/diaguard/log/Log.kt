@@ -40,7 +40,7 @@ fun Log(
     viewModel: LogViewModel = inject(),
 ) {
     val state = viewModel.collectState() ?: return
-    val paginationItems = viewModel.pagingData.collectAsLazyPagingItems()
+    val items = viewModel.pagingData.collectAsLazyPagingItems()
     val listState = rememberLazyListState()
 
     // TODO: Compensate initial scroll offset for month header without delay
@@ -51,7 +51,7 @@ fun Log(
     val lifecycleState = rememberLifecycleState()
     LaunchedEffect(lifecycleState) {
         if (lifecycleState == LifecycleState.RESUMED) {
-            paginationItems.refresh()
+            items.refresh()
         }
     }
 
@@ -61,7 +61,7 @@ fun Log(
                 .filter { it.offset > state.monthHeaderSize.height }
                 .takeIf(List<*>::isNotEmpty)
         }.distinctUntilChanged().filterNotNull().collect { nextItems ->
-            val firstItem = paginationItems[nextItems.first().index - 1] ?: return@collect
+            val firstItem = items[nextItems.first().index - 1] ?: return@collect
             viewModel.dispatchIntent(LogIntent.OnScroll(firstItem, nextItems))
         }
     }
@@ -71,16 +71,16 @@ fun Log(
             modifier = modifier.fillMaxSize(),
             state = listState,
         ) {
-            if (paginationItems.loadState.prepend == LoadState.Loading) {
+            if (items.loadState.prepend == LoadState.Loading) {
                 item {
                     LogLoadingIndicator(modifier = Modifier.fillMaxWidth())
                 }
             }
 
-            for (index in 0 until paginationItems.itemCount) {
-                when (val peek = paginationItems.peek(index)) {
+            for (index in 0 until items.itemCount) {
+                when (val peek = items.peek(index)) {
                     is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
-                        val item = paginationItems[index] as? LogItem.MonthHeader
+                        val item = items[index] as? LogItem.MonthHeader
                         checkNotNull(item)
                         LogMonth(
                             item = item,
@@ -91,7 +91,7 @@ fun Log(
                     }
 
                     is LogItem.EntryContent -> item(key = peek.key) {
-                        val item = paginationItems[index] as? LogItem.EntryContent
+                        val item = items[index] as? LogItem.EntryContent
                         checkNotNull(item)
                         LogEntry(
                             item = item,
@@ -106,7 +106,7 @@ fun Log(
                     }
 
                     is LogItem.EmptyContent -> item(key = peek.key) {
-                        val item = paginationItems[index] as? LogItem.EmptyContent
+                        val item = items[index] as? LogItem.EmptyContent
                         checkNotNull(item)
                         LogEmpty(
                             item = item,
@@ -127,7 +127,7 @@ fun Log(
                 }
             }
 
-            if (paginationItems.loadState.append == LoadState.Loading) {
+            if (items.loadState.append == LoadState.Loading) {
                 item {
                     LogLoadingIndicator(modifier = Modifier.fillMaxWidth())
                 }

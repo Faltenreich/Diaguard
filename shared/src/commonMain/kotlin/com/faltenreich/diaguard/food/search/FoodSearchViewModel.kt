@@ -29,15 +29,16 @@ class FoodSearchViewModel(
 
     var query: String by mutableStateOf("")
 
+    private lateinit var dataSource: FoodSearchSource
     val pagingData: Flow<PagingData<Food>> = snapshotFlow { query }
         .debounce(1.seconds)
         .distinctUntilChanged()
         .flatMapLatest { query ->
             Pager(
             config = FoodSearchSource.newConfig(),
-            pagingSourceFactory = { FoodSearchSource(query) },
-        ).flow.cachedIn(scope)
-    }
+            pagingSourceFactory = { FoodSearchSource(query).also { dataSource = it } },
+        ).flow
+    }.cachedIn(scope)
 
     override val state = MutableStateFlow(FoodSearchState())
 
@@ -51,7 +52,7 @@ class FoodSearchViewModel(
     }
 
     private fun refresh() = scope.launch {
-        // TODO
+        dataSource.invalidate()
     }
 
     private fun selectFood(food: Food) = scope.launch {

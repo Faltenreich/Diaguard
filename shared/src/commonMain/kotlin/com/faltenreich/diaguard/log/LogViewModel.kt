@@ -33,7 +33,7 @@ class LogViewModel(
 
     private val initialDate: Date = date ?: getToday()
     private lateinit var dataSource: PagingSource<Date, LogItem>
-    val currentDate = MutableStateFlow(initialDate)
+    private val currentDate = MutableStateFlow(initialDate)
 
     val pagingData = Pager(
         config = LogItemSource.newConfig(),

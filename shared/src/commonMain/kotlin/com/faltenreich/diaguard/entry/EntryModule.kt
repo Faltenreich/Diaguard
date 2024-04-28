@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueR
 import com.faltenreich.diaguard.entry.form.validation.ValidEntryFormInputRule
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
+import com.faltenreich.diaguard.food.Food
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -37,6 +38,6 @@ fun entryModule() = module {
     singleOf(::DeleteEntryUseCase)
     singleOf(::SearchEntriesUseCase)
 
-    factory { (entry: Entry?, date: Date?) -> EntryFormViewModel(entry = entry, date = date) }
+    factory { (entry: Entry?, date: Date?, food: Food?) -> EntryFormViewModel(entry, date, food) }
     factory { (query: String) -> EntrySearchViewModel(query) }
 }

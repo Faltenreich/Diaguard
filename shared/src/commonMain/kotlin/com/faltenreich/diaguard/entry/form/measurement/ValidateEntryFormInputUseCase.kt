@@ -16,6 +16,7 @@ class ValidateEntryFormInputUseCase(
     suspend operator fun invoke(
         input: EntryFormInput,
     ): ValidationResult<EntryFormInput> = withContext(dispatcher) {
+        // FIXME: Returns failure if only food eaten is added
         val result = input.copy(
             measurements = input.measurements.map { category ->
                 val resultForCategory = validateCategory(category)

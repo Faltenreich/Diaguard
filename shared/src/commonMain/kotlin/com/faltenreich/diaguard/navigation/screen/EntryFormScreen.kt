@@ -40,7 +40,7 @@ data class EntryFormScreen(
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
+                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date, food) }
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.entry_delete,
@@ -48,7 +48,7 @@ data class EntryFormScreen(
                 )
             },
             floatingActionButton = {
-                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date) }
+                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date, food) }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
@@ -61,7 +61,7 @@ data class EntryFormScreen(
     @Composable
     override fun Content() {
         EntryForm(
-            viewModel = getViewModel { parametersOf(entry, date) },
+            viewModel = getViewModel { parametersOf(entry, date, food) },
             foodSearchViewModel = getSharedViewModel { parametersOf(FoodSearchMode.FIND) },
         )
     }

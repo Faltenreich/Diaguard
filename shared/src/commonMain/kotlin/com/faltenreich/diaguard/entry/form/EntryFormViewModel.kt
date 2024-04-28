@@ -47,6 +47,7 @@ import kotlinx.coroutines.withContext
 class EntryFormViewModel(
     entry: Entry?,
     date: Date?,
+    food: Food?,
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
     getMeasurementCategoryInputState: GetMeasurementCategoryInputStateUseCase = inject(),
     getFoodEatenInputState: GetFoodEatenInputStateUseCase = inject(),
@@ -88,7 +89,7 @@ class EntryFormViewModel(
 
     var measurements by mutableStateOf(emptyList<MeasurementCategoryInputState>())
 
-    var foodEaten by mutableStateOf(emptyList<FoodEatenInputState>())
+    var foodEaten by mutableStateOf(listOfNotNull(food?.let(::FoodEatenInputState)))
 
     var tagQuery = MutableStateFlow("")
     var tagSelection = MutableStateFlow(emptyList<Tag>())
@@ -106,19 +107,19 @@ class EntryFormViewModel(
         scope.launch(Dispatchers.IO) {
             val measurements = getMeasurementCategoryInputState(entry)
             withContext(Dispatchers.Main) {
-                this@EntryFormViewModel.measurements = measurements
+                this@EntryFormViewModel.measurements += measurements
             }
         }
         scope.launch(Dispatchers.IO) {
             val foodEaten = getFoodEatenInputState(entry)
             withContext(Dispatchers.Main) {
-                this@EntryFormViewModel.foodEaten = foodEaten
+                this@EntryFormViewModel.foodEaten += foodEaten
             }
         }
         scope.launch(Dispatchers.IO) {
             val tagsOfEntry = getTagsOfEntry(entry)
             withContext(Dispatchers.Main) {
-                this@EntryFormViewModel.tagSelection.value = tagsOfEntry
+                this@EntryFormViewModel.tagSelection.value += tagsOfEntry
             }
         }
     }

@@ -12,10 +12,13 @@ import com.faltenreich.diaguard.navigation.screen.FoodEatenListScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
+import com.faltenreich.diaguard.shared.validation.ValidationResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 class FoodFormViewModel(
     food: Food?,
+    private val validateInput: ValidateFoodInputUseCase = inject(),
     private val createFood: CreateFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
@@ -96,14 +99,13 @@ class FoodFormViewModel(
         }
     }
 
-    private fun submit() {
-        createFood(
-            id = id,
+    private fun submit() = scope.launch {
+        val foodInput = FoodInput(
             name = name,
             brand = brand,
             ingredients = ingredients,
             labels = labels,
-            carbohydrates = carbohydrates.toDoubleOrNull() ?: 0.0,
+            carbohydrates = carbohydrates.toDoubleOrNull()?.takeIf { it > 0 },
             energy = energy.toDoubleOrNull()?.takeIf { it > 0 },
             fat = fat.toDoubleOrNull()?.takeIf { it > 0 },
             fatSaturated = fatSaturated.toDoubleOrNull()?.takeIf { it > 0 },
@@ -113,7 +115,15 @@ class FoodFormViewModel(
             sodium = sodium.toDoubleOrNull()?.takeIf { it > 0 },
             sugar = sugar.toDoubleOrNull()?.takeIf { it > 0 },
         )
-        navigateBack()
+
+        when (val result = validateInput(foodInput)) {
+            is ValidationResult.Success -> {
+                createFood(id = id, input = result.data)
+                navigateBack()
+            }
+            is ValidationResult.Failure -> TODO()
+        }
+
     }
 
     private fun delete() {

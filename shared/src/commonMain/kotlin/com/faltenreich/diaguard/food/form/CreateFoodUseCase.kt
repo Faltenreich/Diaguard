@@ -8,23 +8,11 @@ class CreateFoodUseCase(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    operator fun invoke(
-        id: Long?,
-        name: String,
-        carbohydrates: Double,
-        brand: String?,
-        ingredients: String?,
-        labels: String?,
-        energy: Double?,
-        fat: Double?,
-        fatSaturated: Double?,
-        fiber: Double?,
-        proteins: Double?,
-        salt: Double?,
-        sodium: Double?,
-        sugar: Double?,
-    ) {
+    operator fun invoke(id: Long?, input: FoodInput) = with(input) {
         val now = dateTimeFactory.now()
+        // TODO: Avoid force unwraps
+        val name = name!!
+        val carbohydrates = carbohydrates!!
         when (id) {
             null -> foodRepository.create(
                 createdAt = now,

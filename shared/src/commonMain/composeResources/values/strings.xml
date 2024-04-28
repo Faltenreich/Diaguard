@@ -69,6 +69,7 @@
     <string name="food_delete">Delete food</string>
     <string name="food_eaten">Food eaten</string>
     <string name="food_edit">Edit food</string>
+    <string name="food_form_missing_input">Name and carbohydrates must not be empty</string>
     <string name="food_info">Info</string>
     <string name="food_new">New food</string>
     <string name="food_nutrient_list">Nutrients</string>

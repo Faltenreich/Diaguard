@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.navigation.screen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.form.FoodForm
 import com.faltenreich.diaguard.food.form.FoodFormIntent
@@ -14,10 +13,18 @@ import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.food
+import diaguard.shared.generated.resources.food_delete
+import diaguard.shared.generated.resources.food_eaten
+import diaguard.shared.generated.resources.ic_check
+import diaguard.shared.generated.resources.ic_delete
+import diaguard.shared.generated.resources.ic_history
+import diaguard.shared.generated.resources.save
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
-data class FoodFormScreen(val food: Food? = null) : Screen {
+data class FoodFormScreen(private val food: Food? = null) : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
@@ -33,7 +40,7 @@ data class FoodFormScreen(val food: Food? = null) : Screen {
                     contentDescription = Res.string.food_delete,
                     onClick = { viewModel.dispatchIntent(FoodFormIntent.Delete) },
                 )
-                food?.let {
+                food?.let { food ->
                     BottomAppBarItem(
                         painter = painterResource(Res.drawable.ic_history),
                         contentDescription = Res.string.food_eaten,

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,7 +25,6 @@ import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
-import com.faltenreich.diaguard.shared.view.rememberBottomSheetState
 
 @Composable
 fun MainView(
@@ -46,7 +46,7 @@ fun MainView(
 
                 Box {
                     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-                    val bottomSheetState = rememberBottomSheetState()
+                    val bottomSheetState = rememberModalBottomSheetState()
                     Scaffold(
                         topBar = {
                             val screen = navigator.lastItem as? Screen

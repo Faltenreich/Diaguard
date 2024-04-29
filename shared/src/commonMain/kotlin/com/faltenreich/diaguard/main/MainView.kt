@@ -43,7 +43,7 @@ fun MainView(
 
         Box(modifier = modifier) {
             var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-            val bottomSheetState = rememberModalBottomSheetState()
+            val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
             Scaffold(
                 topBar = {
                     val screen = navigator.lastItem as? Screen
@@ -69,8 +69,9 @@ fun MainView(
 
             if (openBottomSheet) {
                 BottomSheetNavigation(
-                    bottomSheetState,
-                    onDismissRequest = { openBottomSheet = false })
+                    state = bottomSheetState,
+                    onDismissRequest = { openBottomSheet = false },
+                )
             }
 
             state.modal?.Content()

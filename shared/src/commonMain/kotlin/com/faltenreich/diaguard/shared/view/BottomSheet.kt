@@ -14,6 +14,8 @@ fun BottomSheet(
     sheetState: SheetState = rememberModalBottomSheetState(),
     content: @Composable () -> Unit,
 ) {
+    // FIXME: Crashes sometimes after dismissing
+    //  see https://android-review.googlesource.com/c/platform/frameworks/support/+/3044893
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         modifier = modifier,

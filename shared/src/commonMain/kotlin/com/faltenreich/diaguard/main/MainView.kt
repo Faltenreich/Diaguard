@@ -24,7 +24,6 @@ import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.LoadingIndicator
 
 @Composable
 fun MainView(
@@ -36,47 +35,45 @@ fun MainView(
     val snackbarHostState = remember { SnackbarHostState().also { navigation.snackbarState = it } }
     val modal = navigation.modal.collectAsState().value
 
-    when (val state = viewModel.collectState()) {
-        // TODO: Make more beautiful
-        is MainState.Loading, null -> LoadingIndicator(modifier = modifier)
+    val state = viewModel.collectState()
+    if (state !is MainState.Loaded) return
 
-        is MainState.Loaded -> Box(modifier = modifier) {
-            Navigator(screen = state.startScreen) { navigator ->
-                navigation.navigator = navigator
+    Navigator(screen = state.startScreen) { navigator ->
+        navigation.navigator = navigator
 
-                Box {
-                    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-                    val bottomSheetState = rememberModalBottomSheetState()
-                    Scaffold(
-                        topBar = {
-                            val screen = navigator.lastItem as? Screen
-                            val style = screen?.topAppBarStyle ?: TopAppBarStyle.Hidden
-                            if (style != TopAppBarStyle.Hidden) {
-                                TopAppBar(style)
-                            }
-                        },
-                        content = { padding ->
-                            Box(modifier = modifier.padding(padding)) {
-                                CurrentScreen()
-                            }
-                        },
-                        bottomBar = {
-                            val screen = navigator.lastItem as? Screen
-                            val style = screen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
-                            if (style != BottomAppBarStyle.Hidden) {
-                                BottomAppBar(style, onMenuClick = { openBottomSheet = true })
-                            }
-                        },
-                        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-                    )
-
-                    if (openBottomSheet) {
-                        BottomSheetNavigation(bottomSheetState, onDismissRequest = { openBottomSheet = false })
+        Box(modifier = modifier) {
+            var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+            val bottomSheetState = rememberModalBottomSheetState()
+            Scaffold(
+                topBar = {
+                    val screen = navigator.lastItem as? Screen
+                    val style = screen?.topAppBarStyle ?: TopAppBarStyle.Hidden
+                    if (style != TopAppBarStyle.Hidden) {
+                        TopAppBar(style)
                     }
+                },
+                content = { padding ->
+                    Box(modifier = Modifier.padding(padding)) {
+                        CurrentScreen()
+                    }
+                },
+                bottomBar = {
+                    val screen = navigator.lastItem as? Screen
+                    val style = screen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
+                    if (style != BottomAppBarStyle.Hidden) {
+                        BottomAppBar(style, onMenuClick = { openBottomSheet = true })
+                    }
+                },
+                snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+            )
 
-                    modal?.Content()
-                }
+            if (openBottomSheet) {
+                BottomSheetNavigation(
+                    bottomSheetState,
+                    onDismissRequest = { openBottomSheet = false })
             }
+
+            modal?.Content()
         }
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,17 +30,18 @@ import com.faltenreich.diaguard.shared.di.inject
 fun MainView(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = inject(),
-    // TODO: Move into MainViewModel
     navigation: Navigation = inject(),
 ) {
-    val snackbarHostState = remember { SnackbarHostState().also { navigation.snackbarState = it } }
+    val snackbarHostState = remember { SnackbarHostState() }
     val modal = navigation.modal.collectAsState().value
 
     val state = viewModel.collectState()
     if (state !is MainState.Loaded) return
 
+    SideEffect { navigation.snackbarState = snackbarHostState }
+
     Navigator(screen = state.startScreen) { navigator ->
-        navigation.navigator = navigator
+        SideEffect { navigation.navigator = navigator }
 
         Box(modifier = modifier) {
             var openBottomSheet by rememberSaveable { mutableStateOf(false) }

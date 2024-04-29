@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.main
 import com.faltenreich.diaguard.backup.HasDataUseCase
 import com.faltenreich.diaguard.backup.ImportUseCase
 import com.faltenreich.diaguard.navigation.GetActiveScreenUseCase
+import com.faltenreich.diaguard.navigation.GetModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.NavigationIntent
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     getPreference: GetPreferenceUseCase = inject(),
+    getModal: GetModalUseCase = inject(),
     private val hasData: HasDataUseCase = inject(),
     private val importData: ImportUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
@@ -28,7 +30,8 @@ class MainViewModel(
     override val state = combine(
         hasData(),
         getPreference(StartScreen.Preference),
-    ) { hasData, startScreen ->
+        getModal(),
+    ) { hasData, startScreen, modal ->
         if (hasData) {
             MainState.Loaded(
                 startScreen = when (startScreen) {
@@ -36,6 +39,7 @@ class MainViewModel(
                     StartScreen.TIMELINE -> TimelineScreen()
                     StartScreen.LOG -> LogScreen()
                 },
+                modal = modal,
             )
         } else {
             MainState.Loading

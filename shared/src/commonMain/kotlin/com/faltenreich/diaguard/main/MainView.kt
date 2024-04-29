@@ -8,7 +8,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +32,6 @@ fun MainView(
     navigation: Navigation = inject(),
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val modal = navigation.modal.collectAsState().value
 
     val state = viewModel.collectState()
     if (state !is MainState.Loaded) return
@@ -75,7 +73,7 @@ fun MainView(
                     onDismissRequest = { openBottomSheet = false })
             }
 
-            modal?.Content()
+            state.modal?.Content()
         }
     }
 }

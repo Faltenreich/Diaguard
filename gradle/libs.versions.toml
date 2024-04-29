@@ -1,5 +1,5 @@
 [versions]
-activity-compose = "1.8.2"
+activity-compose = "1.9.0"
 android-gradle = "8.3.2"
 android-lifecycle-compose = "2.7.0"
 android-test-runner = "1.5.2"
@@ -8,11 +8,11 @@ compose = "1.6.2"
 compose-compiler = "1.5.12"
 compose-material3 = "1.3.0-alpha05"
 coroutines = "1.8.1-Beta"
-datastore = "1.0.0"
+datastore = "1.1.0"
 datetime = "0.5.0"
 detekt = "1.23.6"
 emojipicker = "1.4.0"
-io = "0.3.2"
+io = "0.3.3"
 junit = "4.13.2"
 koin = "3.5.6"
 kotlin = "1.9.23"
@@ -57,10 +57,10 @@ ktor-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 mockative-processor = { module = "io.mockative:mockative-processor", version.ref = "mockative" }
-paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging" }
-paging-common-compose = { module = "app.cash.paging:paging-compose-common", version.ref = "paging" }
 paging-android = { module = "androidx.paging:paging-runtime", version.ref = "paging-android" }
 paging-android-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-android" }
+paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging" }
+paging-common-compose = { module = "app.cash.paging:paging-compose-common", version.ref = "paging" }
 shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
@@ -75,11 +75,11 @@ voyager = ["voyager-koin", "voyager-navigator", "voyager-transitions"]
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }
 android-library = { id = "com.android.library", version.ref = "android-gradle" }
-compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

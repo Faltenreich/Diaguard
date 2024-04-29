@@ -24,6 +24,7 @@ kotlin {
                 // FIXME: Not yet compatible with iOS
                 // implementation(compose.preview)
                 implementation(compose.runtime)
+                implementation(libs.datastore)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.kotlinx.dateTime)
@@ -55,7 +56,6 @@ kotlin {
             dependencies {
                 implementation(libs.activity.compose)
                 implementation(libs.androidx.compose.material3)
-                implementation(libs.androidx.datastore)
                 implementation(libs.androidx.emojipicker)
                 implementation(libs.androidx.lifecycle.compose)
                 implementation(libs.koin.android)

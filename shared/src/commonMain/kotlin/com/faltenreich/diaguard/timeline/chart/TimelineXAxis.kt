@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.drawText
@@ -18,6 +18,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 private const val GRADIENT_WIDTH = 40f
+private const val GRADIENT_FADEOUT = .05f
 // FIXME: Fix magic offset
 private const val X_BEFORE_INDICATOR_OFFSET = 60
 
@@ -125,16 +126,16 @@ private fun DrawScope.drawDateIndicator(
     x: Float,
     config: TimelineConfig,
 ) {
-    val gradient = Brush.horizontalGradient(
-        colorStops = arrayOf(
-            .0f to Color.Transparent,
-            1f to config.gridShadowColor,
-        ),
-        startX = x - GRADIENT_WIDTH,
-        endX = x,
-    )
+    // TODO: Add vertical gradient, like in drawHour()
     drawRect(
-        brush = gradient,
+        brush = Brush.horizontalGradient(
+            colorStops = arrayOf(
+                .0f to Color.Transparent,
+                1f to config.gridShadowColor,
+            ),
+            startX = x - GRADIENT_WIDTH,
+            endX = x,
+        ),
         topLeft = Offset(x = x - GRADIENT_WIDTH, y = 0f),
         size = Size(width = GRADIENT_WIDTH, height = size.height),
     )
@@ -155,7 +156,10 @@ private fun DrawScope.drawHour(
                 config.padding
     }
     drawLine(
-        color = config.gridStrokeColor,
+        brush = Brush.verticalGradient(
+            0f to Color.Transparent,
+            GRADIENT_FADEOUT to config.gridStrokeColor,
+        ),
         start = Offset(x = x, y = 0f),
         end = Offset(x = x, y = lineEndY),
         strokeWidth = config.gridStrokeWidth,

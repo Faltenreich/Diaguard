@@ -127,7 +127,8 @@ private fun DrawScope.drawDateIndicator(
     config: TimelineConfig,
 ) {
     // TODO: Add vertical gradient, like in drawHour()
-    drawRect(
+    val xOffset = x - GRADIENT_WIDTH / 2
+    drawLine(
         brush = Brush.horizontalGradient(
             colorStops = arrayOf(
                 .0f to Color.Transparent,
@@ -136,8 +137,9 @@ private fun DrawScope.drawDateIndicator(
             startX = x - GRADIENT_WIDTH,
             endX = x,
         ),
-        topLeft = Offset(x = x - GRADIENT_WIDTH, y = 0f),
-        size = Size(width = GRADIENT_WIDTH, height = size.height),
+        start = Offset(x = xOffset, y = 0f),
+        end = Offset(x = xOffset, y = size.height),
+        strokeWidth = GRADIENT_WIDTH,
     )
 }
 

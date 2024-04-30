@@ -45,6 +45,8 @@ fun Timeline(
     modifier: Modifier = Modifier,
     viewModel: TimelineViewModel = inject(),
 ) {
+    val state = viewModel.collectState() ?: return
+
     val scope = rememberCoroutineScope()
     val density = LocalDensity.current
     val colors = LocalColors.current
@@ -54,84 +56,79 @@ fun Timeline(
     val textMeasurer = rememberTextMeasurer()
     val daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) }
 
-    when (val state = viewModel.collectState()) {
-        null -> Unit
-        else -> {
-            // TODO: Reset remember when initialDate changes
-            val scrollOffset = remember { Animatable(0f) }
-            var canvasSize by remember { mutableStateOf(Size.Unspecified) }
-            var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
-            val config by remember {
-                val config = TimelineConfig(
-                    daysOfWeek = daysOfWeek,
-                    padding = density.run { dimensions.padding.P_2.toPx() },
-                    fontPaint = Paint().apply { color = colorScheme.onBackground },
-                    fontSize = density.run { typography.bodyMedium.fontSize.toPx() },
-                    backgroundColor = colorScheme.background,
-                    gridStrokeColor = colorScheme.onSurfaceVariant,
-                    gridShadowColor = colorScheme.surfaceVariant,
-                    valueColorNormal = colors.ValueNormal,
-                    valueColorLow = colors.ValueLow,
-                    valueColorHigh = colors.ValueHigh,
+    // TODO: Reset remember when initialDate changes
+    val scrollOffset by remember { mutableStateOf(Animatable(0f)) }
+    var canvasSize by remember { mutableStateOf(Size.Unspecified) }
+    var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
+    val config by remember {
+        val config = TimelineConfig(
+            daysOfWeek = daysOfWeek,
+            padding = density.run { dimensions.padding.P_2.toPx() },
+            fontPaint = Paint().apply { color = colorScheme.onBackground },
+            fontSize = density.run { typography.bodyMedium.fontSize.toPx() },
+            backgroundColor = colorScheme.background,
+            gridStrokeColor = colorScheme.onSurfaceVariant,
+            gridShadowColor = colorScheme.surfaceVariant,
+            valueColorNormal = colors.ValueNormal,
+            valueColorLow = colors.ValueLow,
+            valueColorHigh = colors.ValueHigh,
+        )
+        mutableStateOf(config)
+    }
+
+    LaunchedEffect(scrollOffset.value) {
+        val widthPerDay = canvasSize.width
+        val offsetInDays = ceil(scrollOffset.value * -1) / widthPerDay
+        val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
+        viewModel.dispatchIntent(TimelineIntent.SetDate(date))
+
+        coordinates = TimelineCoordinates.from(
+            size = canvasSize,
+            scrollOffset = Offset(x = scrollOffset.value, y = 0f),
+            listItemCount = state.categoriesForList.size,
+            config = config,
+        )
+    }
+
+    Canvas(
+        modifier = modifier
+            .fillMaxSize()
+            .onGloballyPositioned { canvasSize = it.size.toSize() }
+            .pointerInput(Unit) {
+                val decay = splineBasedDecay<Float>(this)
+                val animationSpec = FloatSpringSpec(
+                    dampingRatio = Spring.DampingRatioNoBouncy,
+                    stiffness = Spring.StiffnessVeryLow,
                 )
-                mutableStateOf(config)
-            }
-
-            LaunchedEffect(scrollOffset.value) {
-                val widthPerDay = canvasSize.width
-                val offsetInDays = ceil(scrollOffset.value * -1) / widthPerDay
-                val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
-                viewModel.dispatchIntent(TimelineIntent.SetDate(date))
-
-                coordinates = TimelineCoordinates.from(
-                    size = canvasSize,
-                    scrollOffset = Offset(x = scrollOffset.value, y = 0f),
-                    listItemCount = state.categoriesForList.size,
-                    config = config,
-                )
-            }
-
-            Canvas(
-                modifier = modifier
-                    .fillMaxSize()
-                    .onGloballyPositioned { canvasSize = it.size.toSize() }
-                    .pointerInput(Unit) {
-                        val decay = splineBasedDecay<Float>(this)
-                        val animationSpec = FloatSpringSpec(
-                            dampingRatio = Spring.DampingRatioNoBouncy,
-                            stiffness = Spring.StiffnessVeryLow,
-                        )
-                        val velocityTracker = VelocityTracker()
-                        detectDragGestures(
-                            onDrag = { change, dragAmount ->
-                                scope.launch {
-                                    scrollOffset.snapTo(scrollOffset.value + dragAmount.x)
-                                    velocityTracker.addPosition(change.uptimeMillis, change.position)
-                                    change.consume()
-                                }
-                            },
-                            onDragEnd = {
-                                scope.launch {
-                                    val velocity = velocityTracker.calculateVelocity()
-                                    val targetValueX = decay.calculateTargetValue(scrollOffset.value, velocity.x)
-                                    scrollOffset.animateTo(
-                                        targetValue = targetValueX,
-                                        initialVelocity = velocity.x,
-                                        animationSpec = animationSpec,
-                                    )
-                                    velocityTracker.resetTracking()
-                                }
-                            }
-                        )
+                val velocityTracker = VelocityTracker()
+                detectDragGestures(
+                    onDrag = { change, dragAmount ->
+                        scope.launch {
+                            scrollOffset.snapTo(scrollOffset.value + dragAmount.x)
+                            velocityTracker.addPosition(change.uptimeMillis, change.position)
+                            change.consume()
+                        }
                     },
-            ) {
-                coordinates?.let { coordinates ->
-                    TimelineXAxis(state.initialDate, coordinates, config, textMeasurer)
-                    TimelineChart(state.initialDate, coordinates, config, state.valuesForChart)
-                    TimelineYAxis(coordinates, config, textMeasurer)
-                    TimelineList(coordinates, config, state.categoriesForList, state.valuesForList, textMeasurer)
-                }
-            }
+                    onDragEnd = {
+                        scope.launch {
+                            val velocity = velocityTracker.calculateVelocity()
+                            val targetValueX = decay.calculateTargetValue(scrollOffset.value, velocity.x)
+                            scrollOffset.animateTo(
+                                targetValue = targetValueX,
+                                initialVelocity = velocity.x,
+                                animationSpec = animationSpec,
+                            )
+                            velocityTracker.resetTracking()
+                        }
+                    }
+                )
+            },
+    ) {
+        coordinates?.let { coordinates ->
+            TimelineXAxis(state.initialDate, coordinates, config, textMeasurer)
+            TimelineChart(state.initialDate, coordinates, config, state.valuesForChart)
+            TimelineYAxis(coordinates, config, textMeasurer)
+            TimelineList(coordinates, config, state.categoriesForList, state.valuesForList, textMeasurer)
         }
     }
 }

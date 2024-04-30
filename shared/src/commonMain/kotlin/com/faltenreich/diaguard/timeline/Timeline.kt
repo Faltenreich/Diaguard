@@ -57,7 +57,8 @@ fun Timeline(
     val daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) }
 
     // TODO: Reset remember when initialDate changes
-    val scrollOffset by remember { mutableStateOf(Animatable(0f)) }
+    // FIXME: Reset after resuming Screen
+    val scrollOffset = remember { Animatable(0f) }
     var canvasSize by remember { mutableStateOf(Size.Unspecified) }
     var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
     val config by remember {

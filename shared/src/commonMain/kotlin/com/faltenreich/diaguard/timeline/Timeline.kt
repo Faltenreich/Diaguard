@@ -14,6 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -57,8 +59,13 @@ fun Timeline(
     val daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) }
 
     // TODO: Reset remember when initialDate changes
-    // FIXME: Reset after resuming Screen
-    val scrollOffset = remember { Animatable(0f) }
+    val scrollOffset = rememberSaveable(
+        saver = Saver(
+            save = { it.value },
+            restore = { Animatable(initialValue = it) },
+        ),
+    ) { Animatable(0f) }
+
     var canvasSize by remember { mutableStateOf(Size.Unspecified) }
     var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
     val config by remember {

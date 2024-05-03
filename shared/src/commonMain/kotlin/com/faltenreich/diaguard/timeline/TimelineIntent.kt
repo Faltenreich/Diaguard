@@ -8,11 +8,11 @@ sealed interface TimelineIntent {
 
     data object SearchEntries : TimelineIntent
 
-    data object SelectPreviousDay : TimelineIntent
+    data object ShowDatePicker : TimelineIntent
 
-    data object SelectDate : TimelineIntent
+    data object MoveDayBack : TimelineIntent
 
-    data object SelectNextDay : TimelineIntent
+    data object MoveDayForward : TimelineIntent
 
     data class SetDate(val date: Date) : TimelineIntent
 }

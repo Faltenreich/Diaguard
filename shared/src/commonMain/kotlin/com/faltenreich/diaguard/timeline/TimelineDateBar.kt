@@ -27,7 +27,7 @@ fun TimelineDateBar(
 ) {
     Row(modifier = modifier.background(AppTheme.colors.scheme.primaryContainer)) {
         IconButton(
-            onClick = { onIntent(TimelineIntent.SelectPreviousDay) },
+            onClick = { onIntent(TimelineIntent.MoveDayBack) },
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(all = AppTheme.dimensions.padding.P_2),
@@ -42,7 +42,7 @@ fun TimelineDateBar(
         Spacer(modifier = Modifier.weight(1f))
 
         TextButton(
-            onClick = { onIntent(TimelineIntent.SelectDate) },
+            onClick = { onIntent(TimelineIntent.ShowDatePicker) },
             modifier = Modifier.fillMaxHeight(),
         ) {
             Text(
@@ -54,7 +54,7 @@ fun TimelineDateBar(
         Spacer(modifier = Modifier.weight(1f))
 
         IconButton(
-            onClick = { onIntent(TimelineIntent.SelectNextDay) },
+            onClick = { onIntent(TimelineIntent.MoveDayForward) },
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(all = AppTheme.dimensions.padding.P_2),

@@ -57,9 +57,9 @@ class TimelineViewModel(
         when (intent) {
             is TimelineIntent.CreateEntry -> navigateToScreen(EntryFormScreen())
             is TimelineIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())
-            is TimelineIntent.SelectPreviousDay -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
-            is TimelineIntent.SelectDate -> showDatePicker()
-            is TimelineIntent.SelectNextDay -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
+            is TimelineIntent.ShowDatePicker -> showDatePicker()
+            is TimelineIntent.MoveDayBack -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
+            is TimelineIntent.MoveDayForward -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
             is TimelineIntent.SetDate -> currentDate.value = intent.date
         }
     }

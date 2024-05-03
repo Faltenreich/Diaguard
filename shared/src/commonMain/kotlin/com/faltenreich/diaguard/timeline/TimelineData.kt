@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.timeline
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
 
 data class TimelineData(
     val chart: Chart,
@@ -20,7 +19,18 @@ data class TimelineData(
     }
 
     data class Table(
-        val categories: List<MeasurementCategory>,
-        val values: List<MeasurementValue>,
-    )
+        val rows: List<Row>,
+    ) {
+
+        data class Row(
+            val category: MeasurementCategory,
+            val values: List<Value>,
+        ) {
+
+            data class Value(
+                val dateTime: DateTime,
+                val value: String,
+            )
+        }
+    }
 }

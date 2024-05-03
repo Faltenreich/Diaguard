@@ -22,8 +22,7 @@ fun DrawScope.TimelineTable(
 ) {
     val dateTimeBase = initialDate.atStartOfDay()
 
-    val (categories, values) = data
-    categories.forEachIndexed { index, category ->
+    data.rows.forEachIndexed { index, row ->
         val iconSize = config.fontSize
         val heightPerCategory = iconSize + config.padding * 2
 
@@ -40,7 +39,7 @@ fun DrawScope.TimelineTable(
             )
         }
 
-        val text = category.icon ?: ""
+        val text = row.category.icon ?: ""
         val textSize = textMeasurer.measure(text)
 
         // Icon background
@@ -69,10 +68,8 @@ fun DrawScope.TimelineTable(
             paint = config.fontPaint,
         )
 
-        // TODO: Calculate sum or average in time range in ViewModel
-        val valuesOfCategory = values.filter { it.property.category == category }
-        valuesOfCategory.firstOrNull()?.let { value ->
-            val dateTime = value.entry.dateTime
+        row.values.forEach { value ->
+            val dateTime = value.dateTime
             val hour = dateTime.time.hourOfDay
             val hourPerSteps = hour / config.xStep
             val widthPerDay = coordinates.canvas.size.width
@@ -85,7 +82,7 @@ fun DrawScope.TimelineTable(
             val valueXRasterized = x + config.padding + widthPerHour * hourPerSteps
             val valueY = y + heightPerCategory / 2 + config.fontSize / 2
             drawText(
-                text = value.value.toString(),
+                text = value.value,
                 x = valueX,
                 y = valueY,
                 size = config.fontSize,

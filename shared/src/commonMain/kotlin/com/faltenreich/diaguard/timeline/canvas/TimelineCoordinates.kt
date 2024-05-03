@@ -18,7 +18,7 @@ data class TimelineCoordinates(
         fun from(
             size: Size,
             scrollOffset: Offset,
-            listItemCount: Int,
+            tableRowCount: Int,
             config: TimelineConfig,
         ): TimelineCoordinates {
             val origin = Offset.Zero
@@ -30,7 +30,7 @@ data class TimelineCoordinates(
             val tableItemHeight = config.fontSize + config.padding * 2
             val tableSize = Size(
                 width = size.width,
-                height = tableItemHeight * listItemCount,
+                height = tableItemHeight * tableRowCount,
             )
             val chartSize = Size(
                 width = size.width,

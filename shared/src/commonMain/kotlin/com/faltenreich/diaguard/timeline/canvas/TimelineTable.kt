@@ -6,6 +6,8 @@ import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.TimelineData
@@ -13,10 +15,13 @@ import com.faltenreich.diaguard.timeline.TimelineData
 @Suppress("FunctionName")
 fun DrawScope.TimelineTable(
     data: TimelineData.Table,
+    initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
 ) {
+    val dateTimeBase = initialDate.atStartOfDay()
+
     val (categories, values) = data
     categories.forEachIndexed { index, category ->
         val iconSize = config.fontSize
@@ -67,11 +72,17 @@ fun DrawScope.TimelineTable(
         // TODO: Calculate sum or average in time range in ViewModel
         val valuesOfCategory = values.filter { it.property.category == category }
         valuesOfCategory.firstOrNull()?.let { value ->
-            val hour = value.entry.dateTime.time.hourOfDay
+            val dateTime = value.entry.dateTime
+            val hour = dateTime.time.hourOfDay
             val hourPerSteps = hour / config.xStep
             val widthPerDay = coordinates.canvas.size.width
             val widthPerHour = (widthPerDay / config.xAxisLabelCount).toInt()
-            val valueX = x + config.padding + widthPerHour * hourPerSteps
+            val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
+            val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
+            val offsetOfDateTime = (offsetInMinutes / config.xAxis.step) * widthPerMinute
+            val valueX = coordinates.chart.topLeft.x + coordinates.scroll.x + offsetOfDateTime
+
+            val valueXRasterized = x + config.padding + widthPerHour * hourPerSteps
             val valueY = y + heightPerCategory / 2 + config.fontSize / 2
             drawText(
                 text = value.value.toString(),

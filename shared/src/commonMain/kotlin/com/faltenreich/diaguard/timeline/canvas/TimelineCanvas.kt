@@ -143,7 +143,7 @@ fun TimelineCanvas(
             TimelineXAxis(coordinates, config)
             TimelineChart(state.data.chart, state.initialDate, coordinates, config)
             TimelineYAxis(coordinates, config, textMeasurer)
-            TimelineTable(state.data.table, coordinates, config, textMeasurer)
+            TimelineTable(state.data.table, state.initialDate, coordinates, config, textMeasurer)
         }
     }
 }

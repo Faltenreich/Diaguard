@@ -30,7 +30,7 @@ data class TimelineConfig(
 
     private val xMin: Int = 0,
     private val xMax: Int = DateTimeConstants.HOURS_PER_DAY,
-    val xStep: Int = 2,
+    val xStep: Int = STEP,
 
     // TODO: Pass values
     val yMin: Int = 0,
@@ -51,4 +51,10 @@ data class TimelineConfig(
     val yHighFraction: Float = (yHigh - yMin).toFloat() / (yMax - yMin).toFloat()
     val valueStroke: Stroke = Stroke(width = valueStrokeWidth)
     val valuePath: Path = Path()
+
+    companion object {
+
+        // TODO: Extract and make dynamic
+        const val STEP = 2
+    }
 }

@@ -77,6 +77,7 @@ fun DrawScope.TimelineTable(
             val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
             val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
             val offsetOfDateTime = (offsetInMinutes / config.xAxis.step) * widthPerMinute
+            // FIXME
             val valueX = coordinates.chart.topLeft.x + coordinates.scroll.x + offsetOfDateTime
 
             val valueXRasterized = x + config.padding + widthPerHour * hourPerSteps

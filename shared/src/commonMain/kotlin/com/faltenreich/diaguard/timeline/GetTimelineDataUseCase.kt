@@ -38,10 +38,23 @@ class GetTimelineDataUseCase(
                             category = category,
                             values = valuesForTable
                                 .filter { it.property.category == category }
-                                .map { value ->
+                                .groupBy { value ->
+                                    val hour = value.entry.dateTime.time.hourOfDay
+                                    val hourNormalized = hour - (hour % TimelineConfig.STEP)
+                                    value.entry.dateTime.copy(
+                                        hourOfDay = hourNormalized,
+                                        minuteOfHour = 0,
+                                        secondOfMinute = 0,
+                                        millisOfSecond = 0,
+                                        nanosOfMilli = 0,
+                                    )
+                                }
+                                .map { (dateTime, values) ->
+                                    // TODO: Determine whether it is sum or average
+                                    val sum = values.sumOf { it.value }
                                     TimelineData.Table.Row.Value(
-                                        dateTime = value.entry.dateTime,
-                                        value = numberFormatter(value.value), // TODO: Sum or average
+                                        dateTime = dateTime,
+                                        value = numberFormatter(sum),
                                     )
                                 },
                         )

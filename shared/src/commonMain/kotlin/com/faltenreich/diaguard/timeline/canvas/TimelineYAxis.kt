@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.timeline.chart
+package com.faltenreich.diaguard.timeline.canvas
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect

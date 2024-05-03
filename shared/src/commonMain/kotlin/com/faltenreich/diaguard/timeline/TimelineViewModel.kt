@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
+import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
@@ -55,22 +56,28 @@ class TimelineViewModel(
         when (intent) {
             is TimelineIntent.CreateEntry -> navigateToScreen(EntryFormScreen())
             is TimelineIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())
-            is TimelineIntent.SelectDate -> selectDate()
+            is TimelineIntent.SelectPreviousDay -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
+            is TimelineIntent.SelectDate -> showDatePicker()
+            is TimelineIntent.SelectNextDay -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
             is TimelineIntent.SetDate -> currentDate.value = intent.date
         }
     }
 
-    private fun selectDate() {
+    private fun showDatePicker() {
         showModal(
             DatePickerModal(
                 date = currentDate.value,
                 onPick = { date ->
-                    initialDate.value = date
-                    currentDate.value = date
-                    postEvent(TimelineEvent.SelectedDate)
+                    selectDate(date)
                     closeModal()
                 },
             )
         )
+    }
+
+    private fun selectDate(date: Date) {
+        initialDate.value = date
+        currentDate.value = date
+        postEvent(TimelineEvent.SelectedDate)
     }
 }

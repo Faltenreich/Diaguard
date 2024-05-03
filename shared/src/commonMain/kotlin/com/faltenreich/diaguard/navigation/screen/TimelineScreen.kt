@@ -11,10 +11,8 @@ import com.faltenreich.diaguard.timeline.Timeline
 import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineViewModel
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.date_pick
 import diaguard.shared.generated.resources.entry_new_description
 import diaguard.shared.generated.resources.ic_add
-import diaguard.shared.generated.resources.ic_date_range
 import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
 import org.jetbrains.compose.resources.painterResource
@@ -29,11 +27,6 @@ data object TimelineScreen : Screen {
                     painter = painterResource(Res.drawable.ic_search),
                     contentDescription = Res.string.search_open,
                     onClick = { viewModel.dispatchIntent(TimelineIntent.SearchEntries) },
-                )
-                BottomAppBarItem(
-                    painter = painterResource(Res.drawable.ic_date_range),
-                    contentDescription = Res.string.date_pick,
-                    onClick = { viewModel.dispatchIntent(TimelineIntent.SelectDate) },
                 )
             },
             floatingActionButton = {

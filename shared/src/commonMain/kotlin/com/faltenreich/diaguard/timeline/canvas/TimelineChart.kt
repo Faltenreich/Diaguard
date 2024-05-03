@@ -4,19 +4,20 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.shared.view.bezierBetween
 import com.faltenreich.diaguard.timeline.TimelineConfig
+import com.faltenreich.diaguard.timeline.TimelineData
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChart(
     initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
-    values: List<MeasurementValue>,
+    data: TimelineData.Chart,
 ) {
+    val values = data.values
     if (values.isEmpty()) {
         return
     }

@@ -6,19 +6,18 @@ import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
+import com.faltenreich.diaguard.timeline.TimelineData
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineList(
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
-    categories: List<MeasurementCategory>,
-    values: List<MeasurementValue>,
+    data: TimelineData.Table,
     textMeasurer: TextMeasurer,
 ) {
+    val (categories, values) = data
     categories.forEachIndexed { index, category ->
         val iconSize = config.fontSize
         val heightPerCategory = iconSize + config.padding * 2

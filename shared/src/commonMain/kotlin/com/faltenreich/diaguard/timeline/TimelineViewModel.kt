@@ -3,9 +3,6 @@ package com.faltenreich.diaguard.timeline
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
@@ -20,10 +17,9 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 class TimelineViewModel(
-    valueRepository: MeasurementValueRepository = inject(),
-    measurementCategoryRepository: MeasurementCategoryRepository = inject(),
     getToday: GetTodayUseCase = inject(),
     formatDate: FormatTimelineDateUseCase = inject(),
+    getData: GetTimelineDataUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
@@ -31,25 +27,12 @@ class TimelineViewModel(
 
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
-    private val values = currentDate.flatMapLatest { date ->
-        // FIXME: Called twice on every date change
-        valueRepository.observeByDateRange(
-            startDateTime = date.minus(2, DateUnit.DAY).atStartOfDay(),
-            endDateTime = date.plus(2, DateUnit.DAY).atEndOfDay(),
-        )
-    }
-    private val valuesForChart = values.map { it.filter { value -> value.property.category.isBloodSugar } }
-    private val valuesForList = values.map { it.filterNot { value -> value.property.category.isBloodSugar } }
-    private val categoriesForList = measurementCategoryRepository.observeAll().map { categories ->
-        categories.filterNot(MeasurementCategory::isBloodSugar)
-    }
+    private val data = currentDate.flatMapLatest(getData::invoke)
 
     override val state = combine(
         initialDate,
         currentDate.map(formatDate::invoke),
-        valuesForChart,
-        valuesForList,
-        categoriesForList,
+        data,
         ::TimelineState,
     )
 

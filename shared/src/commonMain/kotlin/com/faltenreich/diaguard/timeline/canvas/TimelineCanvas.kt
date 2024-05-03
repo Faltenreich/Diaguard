@@ -100,7 +100,7 @@ fun TimelineCanvas(
         coordinates = TimelineCoordinates.from(
             size = canvasSize,
             scrollOffset = Offset(x = scrollOffset.value, y = 0f),
-            listItemCount = state.categoriesForList.size,
+            listItemCount = state.data.table.categories.size,
             config = config,
         )
     }
@@ -141,9 +141,9 @@ fun TimelineCanvas(
     ) {
         coordinates?.let { coordinates ->
             TimelineXAxis(coordinates, config)
-            TimelineChart(state.initialDate, coordinates, config, state.valuesForChart)
+            TimelineChart(state.initialDate, coordinates, config, state.data.chart)
             TimelineYAxis(coordinates, config, textMeasurer)
-            TimelineList(coordinates, config, state.categoriesForList, state.valuesForList, textMeasurer)
+            TimelineList(coordinates, config, state.data.table, textMeasurer)
         }
     }
 }

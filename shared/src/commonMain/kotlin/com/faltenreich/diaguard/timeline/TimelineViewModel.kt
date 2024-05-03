@@ -23,6 +23,7 @@ class TimelineViewModel(
     valueRepository: MeasurementValueRepository = inject(),
     measurementCategoryRepository: MeasurementCategoryRepository = inject(),
     getToday: GetTodayUseCase = inject(),
+    formatDate: FormatTimelineDateUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
@@ -45,7 +46,7 @@ class TimelineViewModel(
 
     override val state = combine(
         initialDate,
-        currentDate,
+        currentDate.map(formatDate::invoke),
         valuesForChart,
         valuesForList,
         categoriesForList,

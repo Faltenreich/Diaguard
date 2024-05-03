@@ -19,7 +19,7 @@ fun Timeline(
             modifier = Modifier.weight(1f),
         )
         TimelineDateBar(
-            date = state.currentDate,
+            label = state.currentDateLabel,
             onIntent = { viewModel.dispatchIntent(it) },
         )
     }

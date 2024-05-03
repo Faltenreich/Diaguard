@@ -13,7 +13,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.Date
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_chevron_back
 import diaguard.shared.generated.resources.ic_chevron_forward
@@ -23,7 +22,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TimelineDateBar(
-    date: Date,
+    label: String,
     onIntent: (TimelineIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -49,7 +48,7 @@ fun TimelineDateBar(
             modifier = Modifier.fillMaxHeight(),
         ) {
             Text(
-                text = date.toString(), // TODO: Format
+                text = label,
                 color = AppTheme.colors.scheme.onPrimary,
             )
         }

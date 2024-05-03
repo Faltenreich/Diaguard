@@ -18,12 +18,13 @@ fun Timeline(
     Column(modifier = modifier) {
         TimelineCanvas(
             state = state,
+            onIntent = viewModel::dispatchIntent,
             viewModel = viewModel,
             modifier = Modifier.weight(1f),
         )
         TimelineDateBar(
             label = state.currentDateLabel,
-            onIntent = { viewModel.dispatchIntent(it) },
+            onIntent = viewModel::dispatchIntent,
             modifier = Modifier.height(AppTheme.dimensions.size.TouchSizeLarge),
         )
     }

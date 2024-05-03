@@ -44,6 +44,7 @@ import kotlin.math.ceil
 @Composable
 fun TimelineCanvas(
     state: TimelineState,
+    onIntent: (TimelineIntent) -> Unit,
     viewModel: TimelineViewModel,
     modifier: Modifier = Modifier,
 ) {
@@ -93,7 +94,7 @@ fun TimelineCanvas(
         val widthPerDay = canvasSize.width
         val offsetInDays = ceil(scrollOffset.value * -1) / widthPerDay
         val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
-        viewModel.dispatchIntent(TimelineIntent.SetDate(date))
+        onIntent(TimelineIntent.SetDate(date))
 
         coordinates = TimelineCoordinates.from(
             size = canvasSize,

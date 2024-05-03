@@ -14,5 +14,5 @@ sealed interface TimelineIntent {
 
     data object MoveDayForward : TimelineIntent
 
-    data class SetDate(val date: Date) : TimelineIntent
+    data class SetCurrentDate(val currentDate: Date) : TimelineIntent
 }

@@ -60,7 +60,7 @@ class TimelineViewModel(
             is TimelineIntent.ShowDatePicker -> showDatePicker()
             is TimelineIntent.MoveDayBack -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
             is TimelineIntent.MoveDayForward -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
-            is TimelineIntent.SetDate -> currentDate.value = intent.date
+            is TimelineIntent.SetCurrentDate -> currentDate.value = intent.currentDate
         }
     }
 

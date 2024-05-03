@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 data class TimelineCoordinates(
     val canvas: Rect,
     val chart: Rect,
-    val list: Rect,
+    val table: Rect,
     val time: Rect,
     val scroll: Offset,
 ) {
@@ -27,29 +27,29 @@ data class TimelineCoordinates(
                 width = size.width,
                 height = config.fontSize + config.padding * 2,
             )
-            val listItemHeight = config.fontSize + config.padding * 2
-            val listSize = Size(
+            val tableItemHeight = config.fontSize + config.padding * 2
+            val tableSize = Size(
                 width = size.width,
-                height = listItemHeight * listItemCount,
+                height = tableItemHeight * listItemCount,
             )
             val chartSize = Size(
                 width = size.width,
-                height = size.height - listSize.height - timeSize.height,
+                height = size.height - tableSize.height - timeSize.height,
             )
 
-            val listOrigin = Offset(
+            val tableOrigin = Offset(
                 x = origin.x,
                 y =  origin.y + chartSize.height,
             )
             val timeOrigin = Offset(
                 x = origin.x,
-                y = origin.y + chartSize.height + listSize.height,
+                y = origin.y + chartSize.height + tableSize.height,
             )
 
             return TimelineCoordinates(
                 canvas = Rect(offset = origin, size),
                 chart = Rect(offset = origin, size = chartSize),
-                list = Rect(offset = listOrigin, size = listSize),
+                table = Rect(offset = tableOrigin, size = tableSize),
                 time = Rect(offset = timeOrigin, size = timeSize),
                 scroll = scrollOffset,
             )

@@ -12,10 +12,10 @@ import com.faltenreich.diaguard.timeline.TimelineData
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChart(
+    data: TimelineData.Chart,
     initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
-    data: TimelineData.Chart,
 ) {
     val values = data.values
     if (values.isEmpty()) {

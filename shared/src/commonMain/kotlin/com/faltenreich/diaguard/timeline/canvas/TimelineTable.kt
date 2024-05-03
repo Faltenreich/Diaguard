@@ -11,10 +11,10 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.TimelineData
 
 @Suppress("FunctionName")
-fun DrawScope.TimelineList(
+fun DrawScope.TimelineTable(
+    data: TimelineData.Table,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
-    data: TimelineData.Table,
     textMeasurer: TextMeasurer,
 ) {
     val (categories, values) = data
@@ -22,15 +22,15 @@ fun DrawScope.TimelineList(
         val iconSize = config.fontSize
         val heightPerCategory = iconSize + config.padding * 2
 
-        val x = coordinates.list.topLeft.x
-        val y = coordinates.list.topLeft.y + index * heightPerCategory
+        val x = coordinates.table.topLeft.x
+        val y = coordinates.table.topLeft.y + index * heightPerCategory
 
         if (index > 0) {
             // Divider
             drawLine(
                 color = config.gridStrokeColor,
-                start = Offset(x = coordinates.list.topLeft.x, y = y),
-                end = Offset(x = coordinates.list.topLeft.x + coordinates.list.size.width, y = y),
+                start = Offset(x = coordinates.table.topLeft.x, y = y),
+                end = Offset(x = coordinates.table.topLeft.x + coordinates.table.size.width, y = y),
                 strokeWidth = config.gridStrokeWidth,
             )
         }

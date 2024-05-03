@@ -5,8 +5,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.datetime.DayOfWeek
+import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 
 data class TimelineConfig(
     val daysOfWeek: Map<DayOfWeek, String>,
@@ -30,7 +30,7 @@ data class TimelineConfig(
 
     private val xMin: Int = 0,
     private val xMax: Int = DateTimeConstants.HOURS_PER_DAY,
-    private val xStep: Int = 2,
+    val xStep: Int = 2,
 
     // TODO: Pass values
     val yMin: Int = 0,

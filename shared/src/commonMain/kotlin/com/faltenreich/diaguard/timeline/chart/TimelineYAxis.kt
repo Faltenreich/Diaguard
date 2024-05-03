@@ -24,6 +24,7 @@ fun DrawScope.TimelineYAxis(
             val x = coordinates.canvas.topLeft.x + config.padding
             val y = coordinates.canvas.topLeft.y + coordinates.chart.size.height - (index * heightPerSection)
 
+            // Line
             drawLine(
                 color = config.gridStrokeColor,
                 start = Offset(x = coordinates.canvas.topLeft.x, y = y),
@@ -34,6 +35,7 @@ fun DrawScope.TimelineYAxis(
             val text = value.toString()
             val textSize = textMeasurer.measure(text)
 
+            // Background
             val path = Path()
             val rect = RoundRect(
                 rect = Rect(
@@ -50,6 +52,7 @@ fun DrawScope.TimelineYAxis(
                 color = config.backgroundColor,
             )
 
+            // Label
             drawText(
                 text = text,
                 x = x,

@@ -26,16 +26,20 @@ fun DrawScope.TimelineList(
         val x = coordinates.list.topLeft.x
         val y = coordinates.list.topLeft.y + index * heightPerCategory
 
-        drawLine(
-            color = config.gridStrokeColor,
-            start = Offset(x = coordinates.list.topLeft.x, y = y),
-            end = Offset(x = coordinates.list.topLeft.x + coordinates.list.size.width, y = y),
-            strokeWidth = config.gridStrokeWidth,
-        )
+        if (index > 0) {
+            // Divider
+            drawLine(
+                color = config.gridStrokeColor,
+                start = Offset(x = coordinates.list.topLeft.x, y = y),
+                end = Offset(x = coordinates.list.topLeft.x + coordinates.list.size.width, y = y),
+                strokeWidth = config.gridStrokeWidth,
+            )
+        }
 
         val text = category.icon ?: ""
         val textSize = textMeasurer.measure(text)
 
+        // Icon background
         val path = Path()
         val rect = RoundRect(
             rect = Rect(
@@ -52,6 +56,7 @@ fun DrawScope.TimelineList(
             color = config.backgroundColor,
         )
 
+        // Icon
         drawText(
             text = text,
             x = x + config.padding,
@@ -59,5 +64,23 @@ fun DrawScope.TimelineList(
             size = config.fontSize,
             paint = config.fontPaint,
         )
+
+        // TODO: Calculate sum or average in time range in ViewModel
+        val valuesOfCategory = values.filter { it.property.category == category }
+        valuesOfCategory.firstOrNull()?.let { value ->
+            val hour = value.entry.dateTime.time.hourOfDay
+            val hourPerSteps = hour / config.xStep
+            val widthPerDay = coordinates.canvas.size.width
+            val widthPerHour = (widthPerDay / config.xAxisLabelCount).toInt()
+            val valueX = x + config.padding + widthPerHour * hourPerSteps
+            val valueY = y + heightPerCategory / 2 + config.fontSize / 2
+            drawText(
+                text = value.value.toString(),
+                x = valueX,
+                y = valueY,
+                size = config.fontSize,
+                paint = config.fontPaint,
+            )
+        }
     }
 }

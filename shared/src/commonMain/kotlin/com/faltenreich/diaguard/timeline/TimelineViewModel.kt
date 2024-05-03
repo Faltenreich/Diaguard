@@ -13,7 +13,6 @@ import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -32,7 +31,6 @@ class TimelineViewModel(
     private val currentDate = MutableStateFlow(initialDate.value)
     private val values = currentDate.flatMapLatest { date ->
         // FIXME: Called twice on every date change
-        Logger.debug("flatMapLatest: Changing date to: $date")
         valueRepository.observeByDateRange(
             startDateTime = date.minus(2, DateUnit.DAY).atStartOfDay(),
             endDateTime = date.plus(2, DateUnit.DAY).atEndOfDay(),

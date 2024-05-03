@@ -91,7 +91,7 @@ fun Timeline(
         mutableStateOf(config)
     }
 
-    LaunchedEffect(scrollOffset.value) {
+    LaunchedEffect(scrollOffset.value, canvasSize) {
         val widthPerDay = canvasSize.width
         val offsetInDays = ceil(scrollOffset.value * -1) / widthPerDay
         val date = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)

@@ -23,7 +23,8 @@ fun DrawScope.TimelineChart(
     }
     val dateTimeBase = initialDate.atStartOfDay()
     val coordinateList = values.map { value ->
-        val dateTime = value.entry.dateTime
+        val dateTime = value.dateTime
+
         val widthPerDay = coordinates.chart.size.width
         val widthPerHour = widthPerDay / (config.xAxis.last / config.xAxis.step)
         val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR

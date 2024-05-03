@@ -6,35 +6,23 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.text.TextMeasurer
-import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.datetime.DateUnit
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import kotlin.math.max
-import kotlin.math.min
 
 private const val GRADIENT_WIDTH = 40f
 private const val GRADIENT_FADEOUT = .05f
-// FIXME: Fix magic offset
-private const val X_BEFORE_INDICATOR_OFFSET = 60
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
-    initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
-    textMeasurer: TextMeasurer,
 ) {
     drawRect(
         color = config.gridShadowColor,
         topLeft = coordinates.time.topLeft,
         size = Size(
             width = coordinates.time.size.width,
-            height = coordinates.time.size.height + coordinates.date.size.height,
+            height = coordinates.time.size.height,
         ),
         style = Fill,
     )
@@ -64,62 +52,6 @@ fun DrawScope.TimelineXAxis(
         }
         drawHour(x, hour, coordinates, config)
     }
-    drawDates(initialDate, coordinates, config, textMeasurer)
-}
-
-private fun DrawScope.drawDates(
-    initialDate: Date,
-    coordinates: TimelineCoordinates,
-    config: TimelineConfig,
-    textMeasurer: TextMeasurer,
-) {
-    val dateTimeFormatter = inject<DateTimeFormatter>()
-    val isScrollingToRight = coordinates.scroll.x < 0
-    val widthPerDay = coordinates.date.size.width
-
-    val xOfFirstHour =
-        if (isScrollingToRight) widthPerDay + coordinates.scroll.x % widthPerDay
-        else coordinates.scroll.x % widthPerDay
-    val xOffsetInDays = -(coordinates.scroll.x / widthPerDay).toInt()
-
-    val secondDate =
-        if (isScrollingToRight) initialDate.plus(xOffsetInDays + 1, DateUnit.DAY)
-        else initialDate.plus(xOffsetInDays, DateUnit.DAY)
-    val firstDate = secondDate.minus(1, DateUnit.DAY)
-
-    val firstDateAsText = "%s, %s".format(
-        config.daysOfWeek[firstDate.dayOfWeek],
-        dateTimeFormatter.formatDate(firstDate),
-    )
-    val secondDateAsText = "%s, %s".format(
-        config.daysOfWeek[secondDate.dayOfWeek],
-        dateTimeFormatter.formatDate(secondDate),
-    )
-
-    val firstDateTextWidth = textMeasurer.measure(firstDateAsText).size.width
-    val secondDateTextWidth = textMeasurer.measure(secondDateAsText).size.width
-
-    val xStart = config.padding
-    val xBeforeIndicator = xOfFirstHour - firstDateTextWidth - config.padding - X_BEFORE_INDICATOR_OFFSET
-    val xCenterOfFirstDate = xOfFirstHour - coordinates.date.size.width / 2 - firstDateTextWidth / 2
-    drawText(
-        text = firstDateAsText,
-        x = max(min(xStart, xBeforeIndicator), xCenterOfFirstDate),
-        y = coordinates.date.topLeft.y + coordinates.date.size.height / 2 + config.fontSize / 2,
-        size = config.fontSize,
-        paint = config.fontPaint,
-    )
-
-    val xAfterIndicator = xOfFirstHour + config.padding
-    val xCenterOfSecondDate = xOfFirstHour + coordinates.date.size.width / 2 - secondDateTextWidth / 2
-    val xEnd = coordinates.date.size.width - secondDateTextWidth - config.padding * 2 * 2 // FIXME: Fix magic offset
-    drawText(
-        text = secondDateAsText,
-        x = max(min(xCenterOfSecondDate, xEnd), xAfterIndicator),
-        y = coordinates.date.topLeft.y + coordinates.date.size.height / 2 + config.fontSize / 2,
-        size = config.fontSize,
-        paint = config.fontPaint,
-    )
 }
 
 private fun DrawScope.drawDateIndicator(
@@ -149,21 +81,13 @@ private fun DrawScope.drawHour(
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
 ) {
-    val lineEndY = when (hour) {
-        0 -> coordinates.canvas.topLeft.y + coordinates.canvas.size.height
-        else -> coordinates.canvas.topLeft.y +
-                coordinates.canvas.size.height -
-                coordinates.time.size.height -
-                coordinates.date.size.height +
-                config.padding
-    }
     drawLine(
         brush = Brush.verticalGradient(
             0f to Color.Transparent,
             GRADIENT_FADEOUT to config.gridStrokeColor,
         ),
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = lineEndY),
+        end = Offset(x = x, y = coordinates.canvas.topLeft.y + coordinates.canvas.size.height),
         strokeWidth = config.gridStrokeWidth,
     )
     drawText(

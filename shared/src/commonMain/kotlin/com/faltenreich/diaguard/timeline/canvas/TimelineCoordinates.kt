@@ -10,7 +10,6 @@ data class TimelineCoordinates(
     val chart: Rect,
     val list: Rect,
     val time: Rect,
-    val date: Rect,
     val scroll: Offset,
 ) {
 
@@ -28,10 +27,6 @@ data class TimelineCoordinates(
                 width = size.width,
                 height = config.fontSize + config.padding * 2,
             )
-            val dateSize = Size(
-                width = size.width,
-                height = config.fontSize * 3 + config.padding * 2,
-            )
             val listItemHeight = config.fontSize + config.padding * 2
             val listSize = Size(
                 width = size.width,
@@ -39,7 +34,7 @@ data class TimelineCoordinates(
             )
             val chartSize = Size(
                 width = size.width,
-                height = size.height - listSize.height - timeSize.height - dateSize.height,
+                height = size.height - listSize.height - timeSize.height,
             )
 
             val listOrigin = Offset(
@@ -50,16 +45,11 @@ data class TimelineCoordinates(
                 x = origin.x,
                 y = origin.y + chartSize.height + listSize.height,
             )
-            val dateOrigin = Offset(
-                x = origin.x,
-                y = timeOrigin.y + timeSize.height,
-            )
 
             return TimelineCoordinates(
                 canvas = Rect(offset = origin, size),
                 chart = Rect(offset = origin, size = chartSize),
                 list = Rect(offset = listOrigin, size = listSize),
-                date = Rect(offset = dateOrigin, size = dateSize),
                 time = Rect(offset = timeOrigin, size = timeSize),
                 scroll = scrollOffset,
             )

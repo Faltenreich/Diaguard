@@ -64,13 +64,13 @@ fun BottomSheetNavigation(
                 label = Res.string.timeline,
                 icon = Res.drawable.ic_timeline,
                 isActive = viewModel.getActiveScreen() is TimelineScreen,
-                onClick = { navigateTo(TimelineScreen(), true) },
+                onClick = { navigateTo(TimelineScreen, true) },
             )
             BottomSheetNavigationItem(
                 label = Res.string.log,
                 icon = Res.drawable.ic_log,
                 isActive = viewModel.getActiveScreen() is LogScreen,
-                onClick = { navigateTo(LogScreen(), true) },
+                onClick = { navigateTo(LogScreen, true) },
             )
             Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
             BottomSheetNavigationItem(

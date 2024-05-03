@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
 class LogViewModel(
-    date: Date?,
     getToday: GetTodayUseCase = inject(),
     private val invalidateStickyHeaderInfo: InvalidateLogDayStickyHeaderInfoUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
@@ -31,7 +30,7 @@ class LogViewModel(
     private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<LogState, LogIntent, Unit>() {
 
-    private val initialDate: Date = date ?: getToday()
+    private val initialDate: Date = getToday()
     private lateinit var dataSource: PagingSource<Date, LogItem>
     private val currentDate = MutableStateFlow(initialDate)
 

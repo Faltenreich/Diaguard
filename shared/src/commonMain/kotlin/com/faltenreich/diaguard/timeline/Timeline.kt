@@ -58,7 +58,6 @@ fun Timeline(
     val textMeasurer = rememberTextMeasurer()
     val daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) }
 
-    // TODO: Reset remember when initialDate changes
     val scrollOffset = rememberSaveable(
         saver = Saver(
             save = { it.value },

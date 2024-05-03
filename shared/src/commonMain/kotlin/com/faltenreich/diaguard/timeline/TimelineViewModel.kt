@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline
 
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
@@ -18,11 +17,9 @@ import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class TimelineViewModel(
-    date: Date?,
     valueRepository: MeasurementValueRepository = inject(),
     measurementCategoryRepository: MeasurementCategoryRepository = inject(),
     getToday: GetTodayUseCase = inject(),
@@ -31,8 +28,8 @@ class TimelineViewModel(
     private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<TimelineState, TimelineIntent, Unit>() {
 
-    private val initialDate = date ?: getToday()
-    private val currentDate = MutableStateFlow(initialDate)
+    private val initialDate = MutableStateFlow(getToday())
+    private val currentDate = MutableStateFlow(initialDate.value)
     private val values = currentDate.flatMapLatest { date ->
         // FIXME: Called twice on every date change
         Logger.debug("flatMapLatest: Changing date to: $date")
@@ -48,7 +45,7 @@ class TimelineViewModel(
     }
 
     override val state = combine(
-        flowOf(initialDate),
+        initialDate,
         currentDate,
         valuesForChart,
         valuesForList,
@@ -61,6 +58,7 @@ class TimelineViewModel(
             is TimelineIntent.CreateEntry -> navigateToScreen(EntryFormScreen())
             is TimelineIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())
             is TimelineIntent.SelectDate -> selectDate()
+            // TODO: Propagate state change to Composable
             is TimelineIntent.SetDate -> currentDate.value = intent.date
         }
     }
@@ -69,8 +67,9 @@ class TimelineViewModel(
         showModal(
             DatePickerModal(
                 date = currentDate.value,
-                onPick = {
-                    dispatchIntent(TimelineIntent.SetDate(it))
+                onPick = { date ->
+                    initialDate.value = date
+                    currentDate.value = date
                     closeModal()
                 },
             )

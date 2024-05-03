@@ -36,8 +36,8 @@ class MainViewModel(
             MainState.Loaded(
                 startScreen = when (startScreen) {
                     StartScreen.DASHBOARD -> DashboardScreen
-                    StartScreen.TIMELINE -> TimelineScreen()
-                    StartScreen.LOG -> LogScreen()
+                    StartScreen.TIMELINE -> TimelineScreen
+                    StartScreen.LOG -> LogScreen
                 },
                 modal = modal,
             )

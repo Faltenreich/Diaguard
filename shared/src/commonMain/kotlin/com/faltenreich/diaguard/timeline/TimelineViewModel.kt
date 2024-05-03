@@ -26,7 +26,7 @@ class TimelineViewModel(
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
-) : ViewModel<TimelineState, TimelineIntent, Unit>() {
+) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
@@ -58,7 +58,6 @@ class TimelineViewModel(
             is TimelineIntent.CreateEntry -> navigateToScreen(EntryFormScreen())
             is TimelineIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())
             is TimelineIntent.SelectDate -> selectDate()
-            // TODO: Propagate state change to Composable
             is TimelineIntent.SetDate -> currentDate.value = intent.date
         }
     }
@@ -70,6 +69,7 @@ class TimelineViewModel(
                 onPick = { date ->
                     initialDate.value = date
                     currentDate.value = date
+                    postEvent(TimelineEvent.SelectedDate)
                     closeModal()
                 },
             )

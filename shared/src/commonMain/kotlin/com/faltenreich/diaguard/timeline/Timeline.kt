@@ -65,6 +65,14 @@ fun Timeline(
         ),
     ) { Animatable(0f) }
 
+    LaunchedEffect(Unit) {
+        viewModel.collectEvents { event ->
+            when (event) {
+                is TimelineEvent.SelectedDate -> scope.launch { scrollOffset.snapTo(0f) }
+            }
+        }
+    }
+
     var canvasSize by remember { mutableStateOf(Size.Unspecified) }
     var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
     val config by remember {

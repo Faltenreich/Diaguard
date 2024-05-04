@@ -46,8 +46,7 @@ fun DrawScope.TimelineXAxis(
             else -> xOffsetInHoursOfDay
         }
         val x = xOfLabel.toFloat()
-        // Hide date indicator initially
-        if (hour == config.xAxis.first && coordinates.scroll.x != 0f) {
+        if (hour == config.xAxis.first) {
             drawDateIndicator(x, config)
         }
         drawHour(x, hour, coordinates, config)

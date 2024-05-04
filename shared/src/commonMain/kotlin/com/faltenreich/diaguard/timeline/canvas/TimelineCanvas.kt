@@ -67,7 +67,7 @@ fun TimelineCanvas(
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
             when (event) {
-                is TimelineEvent.SelectedDate -> scope.launch { scrollOffset.snapTo(0f) }
+                is TimelineEvent.SelectedDate -> scope.launch { scrollOffset.animateTo(0f) }
             }
         }
     }

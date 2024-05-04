@@ -39,7 +39,7 @@ import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineState
 import com.faltenreich.diaguard.timeline.TimelineViewModel
 import kotlinx.coroutines.launch
-import kotlin.math.ceil
+import kotlin.math.floor
 
 @Composable
 fun TimelineCanvas(
@@ -92,7 +92,8 @@ fun TimelineCanvas(
 
     LaunchedEffect(scrollOffset.value, canvasSize) {
         val widthPerDay = canvasSize.width
-        val offsetInDays = ceil(scrollOffset.value * -1) / widthPerDay
+        val threshold = (scrollOffset.value * -1) + (widthPerDay / 2f)
+        val offsetInDays = floor( threshold / widthPerDay)
         val currentDate = state.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
 
         onIntent(TimelineIntent.SetCurrentDate(currentDate))

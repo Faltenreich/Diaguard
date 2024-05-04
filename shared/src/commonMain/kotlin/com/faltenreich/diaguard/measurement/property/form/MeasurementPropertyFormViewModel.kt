@@ -24,14 +24,15 @@ class MeasurementPropertyFormViewModel(
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
     var propertyName = MutableStateFlow(property.name)
-    var unitName = MutableStateFlow(property.selectedUnit.name)
-
+    var aggregationStyle = MutableStateFlow(property.aggregationStyle)
     var valueRangeMinimum = MutableStateFlow(property.range.minimum.toString())
     var valueRangeLow = MutableStateFlow(property.range.low?.toString() ?: "")
     var valueRangeTarget = MutableStateFlow(property.range.target?.toString() ?: "")
     var valueRangeHigh = MutableStateFlow(property.range.high?.toString() ?: "")
     var valueRangeMaximum = MutableStateFlow(property.range.maximum.toString())
     var isValueRangeHighlighted = MutableStateFlow(property.range.isHighlighted)
+
+    var unitName = MutableStateFlow(property.selectedUnit.name)
 
     override val state = combine(
         getMeasurementPropertyUseCase(property),
@@ -56,6 +57,7 @@ class MeasurementPropertyFormViewModel(
         updateProperty(
             property.copy(
                 name = propertyName.value,
+                aggregationStyle = aggregationStyle.value,
                 range = MeasurementValueRange(
                     minimum = valueRangeMinimum.value.toDouble(),
                     low = valueRangeLow.value.toDoubleOrNull(),

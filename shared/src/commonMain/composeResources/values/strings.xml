@@ -3,6 +3,9 @@
 <resources>
     <string name="about">About</string>
     <string name="activity">Activity</string>
+    <string name="aggregation_style">Aggregation</string>
+    <string name="aggregation_style_cumulative">Cumulative</string>
+    <string name="aggregation_style_average">Average</string>
     <string name="alarm">Alarm</string>
     <string name="app_name">Diaguard</string>
     <string name="average">Average</string>

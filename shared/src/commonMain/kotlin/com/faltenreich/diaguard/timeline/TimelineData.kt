@@ -24,19 +24,18 @@ data class TimelineData(
         val rowCount: Int = categories.sumOf { it.properties.size }
 
         data class Category(
-            val label: String,
-            val values: List<Value>, // Aggregation if multi-property
-            val properties: List<Property>, // Empty if single-property
-        )
+            val properties: List<Property>,
+        ) {
 
-        data class Property(
-            val label: String,
-            val values: List<Value>,
-        )
+            data class Property(
+                val label: String,
+                val values: List<Value>,
+            )
 
-        data class Value(
-            val dateTime: DateTime,
-            val value: String,
-        )
+            data class Value(
+                val dateTime: DateTime,
+                val value: String,
+            )
+        }
     }
 }

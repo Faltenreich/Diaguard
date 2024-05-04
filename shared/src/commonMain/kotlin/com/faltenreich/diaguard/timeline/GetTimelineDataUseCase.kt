@@ -44,11 +44,12 @@ class GetTimelineDataUseCase(
                 table = TimelineData.Table(
                     categories = categories.map { category ->
                         TimelineData.Table.Category(
-                            label = category.icon ?: category.name,
-                            values = listOf(),
                             properties = category.properties.map { property ->
-                                TimelineData.Table.Property(
-                                    label = property.name,
+                                TimelineData.Table.Category.Property(
+                                    label = listOfNotNull(
+                                        category.icon ?: category.name,
+                                        property.name.takeIf { category.properties.size > 1 },
+                                    ).joinToString(" "),
                                     values = valuesForTable
                                         .filter { it.property == property }
                                         .groupBy { value ->
@@ -68,7 +69,7 @@ class GetTimelineDataUseCase(
                                                 MeasurementAggregationStyle.CUMULATIVE -> sum
                                                 MeasurementAggregationStyle.AVERAGE -> sum / values.size
                                             }
-                                            TimelineData.Table.Value(
+                                            TimelineData.Table.Category.Value(
                                                 dateTime = dateTime,
                                                 value = numberFormatter(value),
                                             )

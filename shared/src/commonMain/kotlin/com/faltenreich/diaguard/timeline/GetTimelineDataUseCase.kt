@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import kotlinx.coroutines.flow.Flow
@@ -50,11 +51,16 @@ class GetTimelineDataUseCase(
                                     )
                                 }
                                 .map { (dateTime, values) ->
-                                    // TODO: Determine whether it is sum or average
+                                    // TODO: Return one row for every property
+                                    val property = values.first().property
                                     val sum = values.sumOf { it.value }
+                                    val value = when (property.aggregationStyle) {
+                                        MeasurementAggregationStyle.CUMULATIVE -> sum
+                                        MeasurementAggregationStyle.AVERAGE -> sum / values.size
+                                    }
                                     TimelineData.Table.Row.Value(
                                         dateTime = dateTime,
-                                        value = numberFormatter(sum),
+                                        value = numberFormatter(value),
                                     )
                                 },
                         )

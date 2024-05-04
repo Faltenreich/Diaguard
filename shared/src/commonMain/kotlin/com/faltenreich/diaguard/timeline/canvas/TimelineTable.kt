@@ -27,7 +27,6 @@ fun DrawScope.TimelineTable(
 
     data.categories.forEachIndexed { categoryIndex, category ->
         val rowHeight = config.fontSize + config.padding * 2
-        val hasMultipleProperties = category.properties.size > 1
 
         category.properties.forEachIndexed { propertyIndex, property ->
             val isFirstRow = categoryIndex == 0 && propertyIndex == 0
@@ -41,11 +40,7 @@ fun DrawScope.TimelineTable(
                 )
             }
 
-            // TODO: Extract into TimelineData
-            val label = listOfNotNull(
-                category.category.icon ?: category.category.name,
-                property.property.name.takeIf { hasMultipleProperties },
-            ).joinToString(" ")
+            val label = property.label
             val labelSize = textMeasurer.measure(label)
 
             // Label background

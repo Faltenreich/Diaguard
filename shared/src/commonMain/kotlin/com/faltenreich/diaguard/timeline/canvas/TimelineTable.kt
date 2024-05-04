@@ -72,13 +72,13 @@ fun DrawScope.TimelineTable(
             property.values.forEach { value ->
                 val dateTime = value.dateTime
 
-                val widthPerDay = coordinates.chart.size.width
+                val widthPerDay = coordinates.table.size.width
                 val widthPerHour = widthPerDay / (config.xAxis.last / config.xAxis.step)
                 val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
 
                 val offsetInMinutes = initialDateTime.minutesUntil(dateTime)
                 val offsetOfDateTime = (offsetInMinutes / config.xAxis.step) * widthPerMinute
-                val offsetOfHour = coordinates.chart.topLeft.x + coordinates.scroll.x + offsetOfDateTime
+                val offsetOfHour = coordinates.table.topLeft.x + coordinates.scroll.x + offsetOfDateTime
 
                 val text = value.value
                 val textSize = textMeasurer.measure(text)

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.sqldelight)
 }
@@ -87,8 +88,8 @@ kotlin {
 
     targets.all {
         compilations.all {
-            compilerOptions.configure {
-                freeCompilerArgs.add("-Xexpect-actual-classes")
+            compileTaskProvider.configure {
+                compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
             }
         }
     }

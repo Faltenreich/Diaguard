@@ -51,7 +51,10 @@ fun MeasurementPropertyForm(
                 label = getString(Res.string.name),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(all = AppTheme.dimensions.padding.P_3),
+                    .padding(
+                        horizontal = AppTheme.dimensions.padding.P_2,
+                        vertical = AppTheme.dimensions.padding.P_3,
+                    ),
             )
 
             if (state.property.category.isUserGenerated) {
@@ -61,7 +64,10 @@ fun MeasurementPropertyForm(
                     label = getString(Res.string.measurement_unit),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = AppTheme.dimensions.padding.P_3),
+                        .padding(
+                            horizontal = AppTheme.dimensions.padding.P_2,
+                            vertical = AppTheme.dimensions.padding.P_3,
+                        ),
                 )
             } else {
                 MeasurementUnitList(units = state.property.units)

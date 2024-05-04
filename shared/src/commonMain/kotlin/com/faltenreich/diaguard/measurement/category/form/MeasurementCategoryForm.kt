@@ -45,8 +45,11 @@ fun MeasurementCategoryForm(
                 }
             },
             modifier = Modifier
-                .padding(all = AppTheme.dimensions.padding.P_3)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(
+                    horizontal = AppTheme.dimensions.padding.P_2,
+                    vertical = AppTheme.dimensions.padding.P_3,
+                ),
         )
 
         AnimatedVisibility(

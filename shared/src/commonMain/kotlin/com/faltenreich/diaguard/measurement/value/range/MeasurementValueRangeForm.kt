@@ -44,8 +44,8 @@ fun MeasurementValueRangeForm(
             checked = viewModel.isValueRangeHighlighted.collectAsState().value,
             onCheckedChange = { viewModel.isValueRangeHighlighted.value = it },
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = AppTheme.dimensions.padding.P_3),
+                .padding(all = AppTheme.dimensions.padding.P_3)
+                .fillMaxWidth(),
         )
 
         Divider()
@@ -56,7 +56,10 @@ fun MeasurementValueRangeForm(
             label = getString(Res.string.value_range_minimum),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = AppTheme.dimensions.padding.P_3),
+                .padding(
+                    horizontal = AppTheme.dimensions.padding.P_2,
+                    vertical = AppTheme.dimensions.padding.P_3,
+                ),
             suffix = { Text(unitName) },
             supportingText = { Text(getString(Res.string.value_range_minimum_description)) },
             maxLines = 1,
@@ -74,7 +77,10 @@ fun MeasurementValueRangeForm(
             label = getString(Res.string.value_range_low),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = AppTheme.dimensions.padding.P_3),
+                .padding(
+                    horizontal = AppTheme.dimensions.padding.P_2,
+                    vertical = AppTheme.dimensions.padding.P_3,
+                ),
             suffix = { Text(unitName) },
             supportingText = { Text(getString(Res.string.value_range_low_description)) },
             maxLines = 1,
@@ -92,7 +98,10 @@ fun MeasurementValueRangeForm(
             label = getString(Res.string.value_range_target),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = AppTheme.dimensions.padding.P_3),
+                .padding(
+                    horizontal = AppTheme.dimensions.padding.P_2,
+                    vertical = AppTheme.dimensions.padding.P_3,
+                ),
             suffix = { Text(unitName) },
             supportingText = { Text(getString(Res.string.value_range_target_description)) },
             maxLines = 1,
@@ -110,7 +119,10 @@ fun MeasurementValueRangeForm(
             label = getString(Res.string.value_range_high),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = AppTheme.dimensions.padding.P_3),
+                .padding(
+                    horizontal = AppTheme.dimensions.padding.P_2,
+                    vertical = AppTheme.dimensions.padding.P_3,
+                ),
             suffix = { Text(unitName) },
             supportingText = { Text(getString(Res.string.value_range_high_description)) },
             maxLines = 1,
@@ -128,7 +140,10 @@ fun MeasurementValueRangeForm(
             label = getString(Res.string.value_range_maximum),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = AppTheme.dimensions.padding.P_3),
+                .padding(
+                    horizontal = AppTheme.dimensions.padding.P_2,
+                    vertical = AppTheme.dimensions.padding.P_3,
+                ),
             suffix = { Text(unitName) },
             supportingText = { Text(getString(Res.string.value_range_maximum_description)) },
             maxLines = 1,

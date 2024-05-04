@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
@@ -16,6 +17,7 @@ private const val GRADIENT_FADEOUT = .05f
 fun DrawScope.TimelineXAxis(
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
+    textMeasurer: TextMeasurer,
 ) {
     drawRect(
         color = config.gridShadowColor,
@@ -49,7 +51,7 @@ fun DrawScope.TimelineXAxis(
         if (hour == config.xAxis.first) {
             drawDateIndicator(x, config)
         }
-        drawHour(x, hour, coordinates, config)
+        drawHour(x, hour, widthPerHour, coordinates, config, textMeasurer)
     }
 }
 
@@ -77,22 +79,28 @@ private fun DrawScope.drawDateIndicator(
 private fun DrawScope.drawHour(
     x: Float,
     hour: Int,
+    width: Int,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
+    textMeasurer: TextMeasurer,
 ) {
+    val text = hour.toString()
+    val textSize = textMeasurer.measure(text)
+
     drawLine(
         brush = Brush.verticalGradient(
             0f to Color.Transparent,
             GRADIENT_FADEOUT to config.gridStrokeColor,
         ),
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = coordinates.canvas.topLeft.y + coordinates.canvas.size.height),
+        end = Offset(x = x, y = coordinates.canvas.bottom),
         strokeWidth = config.gridStrokeWidth,
     )
+
     drawText(
         text = hour.toString(),
-        x = x + config.padding,
-        y = coordinates.time.topLeft.y + config.padding + config.fontSize,
+        x = x + (width / 2) - (textSize.size.width / 2),
+        y = coordinates.time.top + coordinates.time.height / 2 + (textSize.size.height / 2) - (config.padding / 3),
         size = config.fontSize,
         paint = config.fontPaint,
     )

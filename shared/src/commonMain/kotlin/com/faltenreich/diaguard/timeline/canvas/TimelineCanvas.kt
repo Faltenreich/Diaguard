@@ -146,7 +146,7 @@ fun TimelineCanvas(
             },
     ) {
         coordinates?.let { coordinates ->
-            TimelineXAxis(coordinates, config)
+            TimelineXAxis(coordinates, config, textMeasurer)
             TimelineChart(state.data.chart, state.initialDate, coordinates, config)
             TimelineYAxis(coordinates, config, textMeasurer)
             TimelineTable(state.data.table, state.initialDate, coordinates, config, textMeasurer)

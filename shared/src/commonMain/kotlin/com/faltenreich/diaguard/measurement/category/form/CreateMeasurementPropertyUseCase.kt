@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.category.form
 
+import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
@@ -13,8 +14,9 @@ class CreateMeasurementPropertyUseCase(
     operator fun invoke(
         propertyKey: String?,
         propertyName: String,
-        propertyRange: MeasurementValueRange,
         propertySortIndex: Long,
+        propertyAggregationStyle: MeasurementAggregationStyle,
+        propertyRange: MeasurementValueRange,
         categoryId: Long,
         unitKey: String?,
         unitName: String,
@@ -23,6 +25,7 @@ class CreateMeasurementPropertyUseCase(
             key = propertyKey,
             name = propertyName,
             sortIndex = propertySortIndex,
+            aggregationStyle = propertyAggregationStyle,
             range = propertyRange,
             categoryId = categoryId,
         )
@@ -36,8 +39,9 @@ class CreateMeasurementPropertyUseCase(
         measurementPropertyRepository.update(
             id = propertyId,
             name = propertyName,
-            range = propertyRange,
             sortIndex = propertySortIndex,
+            aggregationStyle = propertyAggregationStyle,
+            range = propertyRange,
             selectedUnitId = unitId,
         )
     }

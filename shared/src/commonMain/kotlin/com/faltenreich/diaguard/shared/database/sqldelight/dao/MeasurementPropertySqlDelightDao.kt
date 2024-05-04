@@ -4,6 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
@@ -29,6 +30,7 @@ class MeasurementPropertySqlDelightDao(
         key: String?,
         name: String,
         sortIndex: Long,
+        aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
         selectedUnitId: Long,
         categoryId: Long,
@@ -38,13 +40,14 @@ class MeasurementPropertySqlDelightDao(
             updatedAt = createdAt.isoString,
             key = key,
             name = name,
+            sortIndex = sortIndex,
+            aggregationStyle = aggregationStyle.stableId.toLong(),
             valueRangeMinimum = range.minimum,
             valueRangeLow = range.low,
             valueRangeTarget = range.target,
             valueRangeHigh = range.high,
             valueRangeMaximum = range.maximum,
             isValueRangeHighlighted = range.isHighlighted.toSqlLiteLong(),
-            sortIndex = sortIndex,
             selectedUnitId = selectedUnitId,
             categoryId = categoryId,
         )
@@ -87,19 +90,21 @@ class MeasurementPropertySqlDelightDao(
         updatedAt: DateTime,
         name: String,
         sortIndex: Long,
+        aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
         selectedUnitId: Long,
     ) {
         queries.update(
             updatedAt = updatedAt.isoString,
             name = name,
+            sortIndex = sortIndex,
+            aggregationStyle = aggregationStyle.stableId.toLong(),
             valueRangeMinimum = range.minimum,
             valueRangeLow = range.low,
             valueRangeTarget = range.target,
             valueRangeHigh = range.high,
             valueRangeMaximum = range.maximum,
             isValueRangeHighlighted = range.isHighlighted.toSqlLiteLong(),
-            sortIndex = sortIndex,
             selectedUnitId = selectedUnitId,
             id = id,
         )

@@ -17,8 +17,9 @@ data class MeasurementProperty(
     override val updatedAt: DateTime,
     override val key: DatabaseKey.MeasurementProperty?,
     val name: String,
-    val range: MeasurementValueRange,
     val sortIndex: Long,
+    val aggregationStyle: MeasurementAggregationStyle,
+    val range: MeasurementValueRange,
     val selectedUnitId: Long,
     val categoryId: Long,
 ) : DatabaseEntity, Seedable {

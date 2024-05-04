@@ -11,6 +11,7 @@ interface MeasurementPropertyDao {
         key: String?,
         name: String,
         sortIndex: Long,
+        aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
         selectedUnitId: Long,
         categoryId: Long,
@@ -37,6 +38,7 @@ interface MeasurementPropertyDao {
         updatedAt: DateTime,
         name: String,
         sortIndex: Long,
+        aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
         selectedUnitId: Long,
     )

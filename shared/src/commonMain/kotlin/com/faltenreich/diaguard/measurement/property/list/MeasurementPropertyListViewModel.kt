@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.property.list
 
 import com.faltenreich.diaguard.measurement.category.form.CreateMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
@@ -31,6 +32,9 @@ class MeasurementPropertyListViewModel(
             is MeasurementPropertyListIntent.CreateProperty -> createMeasurementProperty(
                 propertyKey = null,
                 propertyName = propertyName,
+                propertySortIndex = properties.maxOfOrNull(MeasurementProperty::sortIndex)?.plus(1) ?: 0,
+                // TODO: Make user-customizable
+                propertyAggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
                 // TODO: Make user-customizable
                 propertyRange = MeasurementValueRange(
                     minimum = 0.0,
@@ -40,7 +44,6 @@ class MeasurementPropertyListViewModel(
                     maximum = Double.MAX_VALUE,
                     isHighlighted = false,
                 ),
-                propertySortIndex = properties.maxOfOrNull(MeasurementProperty::sortIndex)?.plus(1) ?: 0,
                 categoryId = categoryId,
                 unitKey = null,
                 unitName = unitName,

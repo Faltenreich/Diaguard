@@ -1,11 +1,17 @@
 package com.faltenreich.diaguard.backup.seed.data
 
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.kilograms
+import diaguard.shared.generated.resources.kilograms_abbreviation
+import diaguard.shared.generated.resources.pounds
+import diaguard.shared.generated.resources.pounds_abbreviation
+import diaguard.shared.generated.resources.weight
 
 class WeightSeed {
 
@@ -17,6 +23,7 @@ class WeightSeed {
             property = SeedMeasurementProperty(
                 key = DatabaseKey.MeasurementProperty.WEIGHT,
                 name = Res.string.weight,
+                aggregationStyle = MeasurementAggregationStyle.AVERAGE,
                 range = MeasurementValueRange(
                     minimum = 1.0,
                     low = null,

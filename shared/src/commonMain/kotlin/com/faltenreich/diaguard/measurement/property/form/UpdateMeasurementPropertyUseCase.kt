@@ -11,8 +11,9 @@ class UpdateMeasurementPropertyUseCase(
         measurementPropertyRepository.update(
             id = id,
             name = name,
-            range = range,
             sortIndex = sortIndex,
+            aggregationStyle = aggregationStyle,
+            range = range,
             selectedUnitId = selectedUnitId,
         )
     }

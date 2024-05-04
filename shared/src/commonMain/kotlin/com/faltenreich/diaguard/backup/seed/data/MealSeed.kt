@@ -1,11 +1,19 @@
 package com.faltenreich.diaguard.backup.seed.data
 
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.bread_units
+import diaguard.shared.generated.resources.bread_units_abbreviation
+import diaguard.shared.generated.resources.carbohydrate_units
+import diaguard.shared.generated.resources.carbohydrate_units_abbreviation
+import diaguard.shared.generated.resources.carbohydrates
+import diaguard.shared.generated.resources.carbohydrates_abbreviation
+import diaguard.shared.generated.resources.meal
 
 class MealSeed {
 
@@ -17,6 +25,7 @@ class MealSeed {
             property = SeedMeasurementProperty(
                 key = DatabaseKey.MeasurementProperty.MEAL,
                 name = Res.string.meal,
+                aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
                 range = MeasurementValueRange(
                     minimum = 0.0,
                     low = null,

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -19,6 +20,7 @@ class MeasurementPropertySqlDelightMapper(
         key: String?,
         name: String,
         sortIndex: Long,
+        aggregationStyle: Long,
         valueRangeMinimum: Double,
         valueRangeLow: Double?,
         valueRangeTarget: Double?,
@@ -34,6 +36,7 @@ class MeasurementPropertySqlDelightMapper(
             updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
             key = key?.let(DatabaseKey.MeasurementProperty::from),
             name = name,
+            aggregationStyle = MeasurementAggregationStyle.fromStableId(aggregationStyle.toInt()),
             range = MeasurementValueRange(
                 minimum = valueRangeMinimum,
                 low = valueRangeLow,
@@ -55,6 +58,7 @@ class MeasurementPropertySqlDelightMapper(
         propertyKey: String?,
         propertyName: String,
         propertySortIndex: Long,
+        propertyAggregationStyle: Long,
         propertyValueRangeMinimum: Double,
         propertyValueRangeLow: Double?,
         propertyValueRangeTarget: Double?,
@@ -79,13 +83,14 @@ class MeasurementPropertySqlDelightMapper(
             updatedAt = propertyUpdatedAt,
             key = propertyKey,
             name = propertyName,
+            sortIndex = propertySortIndex,
+            aggregationStyle = propertyAggregationStyle,
             valueRangeMinimum = propertyValueRangeMinimum,
             valueRangeLow = propertyValueRangeLow,
             valueRangeTarget = propertyValueRangeTarget,
             valueRangeHigh = propertyValueRangeHigh,
             valueRangeMaximum = propertyValueRangeMaximum,
             isValueRangeHighlighted = propertyIsValueRangeHighlighted,
-            sortIndex = propertySortIndex,
             selectedUnitId = propertySelectedUnitId,
             categoryId = propertyCategoryId,
         ).apply {

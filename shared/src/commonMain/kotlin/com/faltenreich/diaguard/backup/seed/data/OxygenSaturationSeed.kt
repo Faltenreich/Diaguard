@@ -1,11 +1,15 @@
 package com.faltenreich.diaguard.backup.seed.data
 
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.oxygen_saturation
+import diaguard.shared.generated.resources.percent
+import diaguard.shared.generated.resources.percent_abbreviation
 
 class OxygenSaturationSeed {
 
@@ -17,6 +21,7 @@ class OxygenSaturationSeed {
             property = SeedMeasurementProperty(
                 key = DatabaseKey.MeasurementProperty.OXYGEN_SATURATION,
                 name = Res.string.oxygen_saturation,
+                aggregationStyle = MeasurementAggregationStyle.AVERAGE,
                 range = MeasurementValueRange(
                     minimum = 50.0,
                     low = 90.0,

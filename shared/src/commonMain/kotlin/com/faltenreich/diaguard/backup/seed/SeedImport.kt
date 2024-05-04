@@ -37,6 +37,7 @@ class SeedImport(
                     key = property.key.key,
                     name = localization.getString(property.name),
                     sortIndex = propertySortIndex.toLong(),
+                    aggregationStyle = property.aggregationStyle,
                     range = property.range,
                     categoryId = categoryId,
                 )
@@ -53,8 +54,9 @@ class SeedImport(
                         propertyRepository.update(
                             id = propertyId,
                             name = localization.getString(property.name),
-                            range = property.range,
                             sortIndex = propertySortIndex.toLong(),
+                            aggregationStyle = property.aggregationStyle,
+                            range = property.range,
                             selectedUnitId = unitId,
                         )
                     }

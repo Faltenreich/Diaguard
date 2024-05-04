@@ -15,6 +15,7 @@ class MeasurementPropertyRepository(
         key: String?,
         name: String,
         sortIndex: Long,
+        aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
         categoryId: Long,
     ): Long {
@@ -24,6 +25,7 @@ class MeasurementPropertyRepository(
             name = name,
             range = range,
             sortIndex = sortIndex,
+            aggregationStyle = aggregationStyle,
             // We set this temporary id because the corresponding unit will be created afterwards
             selectedUnitId = MeasurementProperty.SELECTED_UNIT_ID_INVALID,
             categoryId = categoryId,
@@ -59,6 +61,7 @@ class MeasurementPropertyRepository(
         id: Long,
         name: String,
         sortIndex: Long,
+        aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
         selectedUnitId: Long,
     ) {
@@ -68,6 +71,7 @@ class MeasurementPropertyRepository(
             name = name,
             range = range,
             sortIndex = sortIndex,
+            aggregationStyle = aggregationStyle,
             selectedUnitId = selectedUnitId,
         )
     }

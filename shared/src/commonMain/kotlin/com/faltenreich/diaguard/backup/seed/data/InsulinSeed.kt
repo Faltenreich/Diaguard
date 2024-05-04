@@ -1,11 +1,18 @@
 package com.faltenreich.diaguard.backup.seed.data
 
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
 import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.basal
+import diaguard.shared.generated.resources.bolus
+import diaguard.shared.generated.resources.correction
+import diaguard.shared.generated.resources.insulin
+import diaguard.shared.generated.resources.insulin_units
+import diaguard.shared.generated.resources.insulin_units_abbreviation
 
 class InsulinSeed {
 
@@ -18,6 +25,7 @@ class InsulinSeed {
                 SeedMeasurementProperty(
                     key = DatabaseKey.MeasurementProperty.INSULIN_BOLUS,
                     name = Res.string.bolus,
+                    aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
                     range = MeasurementValueRange(
                         minimum = 0.0,
                         low = null,
@@ -38,6 +46,7 @@ class InsulinSeed {
                 SeedMeasurementProperty(
                     key = DatabaseKey.MeasurementProperty.INSULIN_CORRECTION,
                     name = Res.string.correction,
+                    aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
                     range = MeasurementValueRange(
                         minimum = 0.0,
                         low = null,
@@ -58,6 +67,7 @@ class InsulinSeed {
                 SeedMeasurementProperty(
                     key = DatabaseKey.MeasurementProperty.INSULIN_BASAL,
                     name = Res.string.basal,
+                    aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
                     range = MeasurementValueRange(
                         minimum = 0.0,
                         low = null,

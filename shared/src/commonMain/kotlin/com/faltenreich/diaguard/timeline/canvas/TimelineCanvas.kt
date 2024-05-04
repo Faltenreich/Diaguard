@@ -101,7 +101,7 @@ fun TimelineCanvas(
         coordinates = TimelineCoordinates.from(
             size = canvasSize,
             scrollOffset = Offset(x = scrollOffset.value, y = 0f),
-            tableRowCount = state.data.table.rows.size,
+            tableRowCount = state.data.table.rowCount,
             config = config,
         )
     }

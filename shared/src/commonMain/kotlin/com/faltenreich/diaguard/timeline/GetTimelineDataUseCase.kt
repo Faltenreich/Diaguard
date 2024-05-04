@@ -5,14 +5,16 @@ import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetTimelineDataUseCase(
-    private val valueRepository: MeasurementValueRepository,
     private val categoryRepository: MeasurementCategoryRepository,
+    private val propertyRepository: MeasurementPropertyRepository,
+    private val valueRepository: MeasurementValueRepository,
     private val numberFormatter: NumberFormatter,
 ) {
 
@@ -30,39 +32,48 @@ class GetTimelineDataUseCase(
                     )
                 }
             val valuesForTable = values.filterNot { value -> value.property.category.isBloodSugar }
-            val categories = categoryRepository.getAll().filterNot(MeasurementCategory::isBloodSugar)
+            // TODO: Filter by user selection
+            val categories = categoryRepository.getAll()
+                .filterNot(MeasurementCategory::isBloodSugar)
+                .onEach { category ->
+                    // TODO: Improve performance
+                    category.properties = propertyRepository.getByCategoryId(category.id)
+                }
             TimelineData(
                 chart = TimelineData.Chart(valuesForChart),
                 table = TimelineData.Table(
-                    rows = categories.map { category ->
-                        TimelineData.Table.Row(
+                    categories = categories.map { category ->
+                        TimelineData.Table.Category(
                             category = category,
-                            values = valuesForTable
-                                .filter { it.property.category == category }
-                                .groupBy { value ->
-                                    val hour = value.entry.dateTime.time.hourOfDay
-                                    val hourNormalized = hour - (hour % TimelineConfig.STEP)
-                                    value.entry.dateTime.copy(
-                                        hourOfDay = hourNormalized,
-                                        minuteOfHour = 0,
-                                        secondOfMinute = 0,
-                                        millisOfSecond = 0,
-                                        nanosOfMilli = 0,
-                                    )
-                                }
-                                .map { (dateTime, values) ->
-                                    // TODO: Return one row for every property
-                                    val property = values.first().property
-                                    val sum = values.sumOf { it.value }
-                                    val value = when (property.aggregationStyle) {
-                                        MeasurementAggregationStyle.CUMULATIVE -> sum
-                                        MeasurementAggregationStyle.AVERAGE -> sum / values.size
-                                    }
-                                    TimelineData.Table.Row.Value(
-                                        dateTime = dateTime,
-                                        value = numberFormatter(value),
-                                    )
-                                },
+                            properties = category.properties.map { property ->
+                                TimelineData.Table.Category.Property(
+                                    property = property,
+                                    values = valuesForTable
+                                        .filter { it.property == property }
+                                        .groupBy { value ->
+                                            val hour = value.entry.dateTime.time.hourOfDay
+                                            val hourNormalized = hour - (hour % TimelineConfig.STEP)
+                                            value.entry.dateTime.copy(
+                                                hourOfDay = hourNormalized,
+                                                minuteOfHour = 0,
+                                                secondOfMinute = 0,
+                                                millisOfSecond = 0,
+                                                nanosOfMilli = 0,
+                                            )
+                                        }
+                                        .map { (dateTime, values) ->
+                                            val sum = values.sumOf { it.value }
+                                            val value = when (property.aggregationStyle) {
+                                                MeasurementAggregationStyle.CUMULATIVE -> sum
+                                                MeasurementAggregationStyle.AVERAGE -> sum / values.size
+                                            }
+                                            TimelineData.Table.Category.Value(
+                                                dateTime = dateTime,
+                                                value = numberFormatter(value),
+                                            )
+                                        },
+                                )
+                            }
                         )
                     },
                 )

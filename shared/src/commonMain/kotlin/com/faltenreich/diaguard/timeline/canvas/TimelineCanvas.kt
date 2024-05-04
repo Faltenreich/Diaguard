@@ -57,6 +57,8 @@ fun TimelineCanvas(
     val textMeasurer = rememberTextMeasurer()
     val daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) }
 
+    var canvasSize by remember { mutableStateOf(Size.Unspecified) }
+
     val scrollOffset = rememberSaveable(
         saver = Saver(
             save = { it.value },
@@ -67,12 +69,15 @@ fun TimelineCanvas(
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
             when (event) {
-                is TimelineEvent.SelectedDate -> scope.launch { scrollOffset.animateTo(0f) }
+                is TimelineEvent.DateSelected -> scope.launch {
+                    val daysBetween = state.currentDate.daysBetween(event.date)
+                    val offset = canvasSize.width * -1 * daysBetween
+                    scrollOffset.animateTo(offset)
+                }
             }
         }
     }
 
-    var canvasSize by remember { mutableStateOf(Size.Unspecified) }
     var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
     val config by remember {
         val config = TimelineConfig(

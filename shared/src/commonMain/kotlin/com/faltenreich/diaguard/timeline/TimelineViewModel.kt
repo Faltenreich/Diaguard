@@ -31,6 +31,7 @@ class TimelineViewModel(
 
     override val state = combine(
         initialDate,
+        currentDate,
         currentDate.map(formatDate::invoke),
         data,
         ::TimelineState,
@@ -60,8 +61,6 @@ class TimelineViewModel(
     }
 
     private fun selectDate(date: Date) {
-        initialDate.value = date
-        currentDate.value = date
-        postEvent(TimelineEvent.SelectedDate)
+        postEvent(TimelineEvent.DateSelected(date))
     }
 }

@@ -48,6 +48,8 @@ interface Date : Serializable, Comparable<Date> {
 
     fun plus(value: Int, unit: DateUnit): Date
 
+    fun daysBetween(date: Date): Int
+
     //region Any
 
     fun copy(

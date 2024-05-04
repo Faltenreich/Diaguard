@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.daysUntil
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
@@ -91,6 +92,10 @@ class KotlinxDate(
 
     override fun plus(value: Int, unit: DateUnit): Date {
         return KotlinxDate(delegate.plus(value, unit.fromDomain()))
+    }
+
+    override fun daysBetween(date: Date): Int {
+        return delegate.daysUntil(LocalDate(year = date.year, monthNumber = date.monthNumber, date.dayOfMonth))
     }
 
     override fun copy(year: Int, monthNumber: Int, dayOfMonth: Int): Date {

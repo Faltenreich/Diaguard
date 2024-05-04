@@ -51,7 +51,7 @@ fun DrawScope.TimelineXAxis(
         if (hour == config.xAxis.first) {
             drawDateIndicator(x, config)
         }
-        drawHour(x, hour, widthPerHour, coordinates, config, textMeasurer)
+        drawHour(x, hour, coordinates, config, textMeasurer)
     }
 }
 
@@ -79,7 +79,6 @@ private fun DrawScope.drawDateIndicator(
 private fun DrawScope.drawHour(
     x: Float,
     hour: Int,
-    width: Int,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
@@ -93,13 +92,13 @@ private fun DrawScope.drawHour(
             GRADIENT_FADEOUT to config.gridStrokeColor,
         ),
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = coordinates.canvas.bottom),
+        end = Offset(x = x, y = coordinates.canvas.bottom - coordinates.time.height),
         strokeWidth = config.gridStrokeWidth,
     )
 
     drawText(
         text = hour.toString(),
-        x = x + (width / 2) - (textSize.size.width / 2),
+        x = x - (textSize.size.width / 2),
         y = coordinates.time.top + coordinates.time.height / 2 + (textSize.size.height / 2) - (config.padding / 3),
         size = config.fontSize,
         paint = config.fontPaint,

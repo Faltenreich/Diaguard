@@ -23,8 +23,8 @@ fun DrawScope.TimelineTable(
     val dateTimeBase = initialDate.atStartOfDay()
 
     data.rows.forEachIndexed { index, row ->
-        val iconSize = config.fontSize
-        val heightPerCategory = iconSize + config.padding * 2
+        val fontSize = config.fontSize
+        val heightPerCategory = fontSize + config.padding * 2
 
         val x = coordinates.table.topLeft.x
         val y = coordinates.table.topLeft.y + index * heightPerCategory
@@ -39,17 +39,17 @@ fun DrawScope.TimelineTable(
             )
         }
 
-        val text = row.category.icon ?: ""
-        val textSize = textMeasurer.measure(text)
+        val icon = row.category.icon ?: ""
+        val iconSize = textMeasurer.measure(icon)
 
         // Icon background
         val path = Path()
         val rect = RoundRect(
             rect = Rect(
                 left = x + config.padding / 2,
-                top = y + iconSize - textSize.size.height + config.padding / 2,
-                right = x + textSize.size.width + config.padding * 2,
-                bottom = y + iconSize + config.padding + config.padding / 2,
+                top = y + fontSize - iconSize.size.height + config.padding / 2,
+                right = x + iconSize.size.width + config.padding * 2,
+                bottom = y + fontSize + config.padding + config.padding / 2,
             ),
             cornerRadius = config.cornerRadius,
         )
@@ -61,29 +61,32 @@ fun DrawScope.TimelineTable(
 
         // Icon
         drawText(
-            text = text,
+            text = icon,
             x = x + config.padding,
-            y = y + iconSize + config.padding / 1.5f,
+            y = y + fontSize + config.padding / 1.5f,
             size = config.fontSize,
             paint = config.fontPaint,
         )
 
         row.values.forEach { value ->
             val dateTime = value.dateTime
-            val hour = dateTime.time.hourOfDay
-            val hourPerSteps = hour / config.xStep
-            val widthPerDay = coordinates.canvas.size.width
-            val widthPerHour = (widthPerDay / config.xAxisLabelCount).toInt()
+
+            val widthPerDay = coordinates.chart.size.width
+            val widthPerHour = widthPerDay / (config.xAxis.last / config.xAxis.step)
             val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
+
             val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
             val offsetOfDateTime = (offsetInMinutes / config.xAxis.step) * widthPerMinute
-            // FIXME
-            val valueX = coordinates.chart.topLeft.x + coordinates.scroll.x + offsetOfDateTime
+            val offsetOfHour = coordinates.chart.topLeft.x + coordinates.scroll.x + offsetOfDateTime
 
-            val valueXRasterized = x + config.padding + widthPerHour * hourPerSteps
+            val text = value.value
+            val textSize = textMeasurer.measure(text)
+
+            val valueX = offsetOfHour + widthPerHour / 2 - textSize.size.width / 2
             val valueY = y + heightPerCategory / 2 + config.fontSize / 2
+
             drawText(
-                text = value.value,
+                text = text,
                 x = valueX,
                 y = valueY,
                 size = config.fontSize,

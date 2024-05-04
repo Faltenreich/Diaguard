@@ -19,7 +19,7 @@ data class TimelineConfig(
     val cornerRadius: CornerRadius = CornerRadius(x = 20f, y = 20f),
 
     val gridStrokeColor: Color,
-    val gridStrokeWidth: Float = 0f,
+    val gridStrokeWidth: Float = 1f,
     val gridShadowColor: Color,
 
     val valueColorNormal: Color,

@@ -39,7 +39,7 @@ fun DrawScope.TimelineTable(
             )
         }
 
-        val icon = row.category.icon ?: ""
+        val icon = row.category.icon ?: row.category.name
         val iconSize = textMeasurer.measure(icon)
 
         // Icon background

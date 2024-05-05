@@ -18,19 +18,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
 class MeasurementPropertyFormViewModel(
-    private val property: MeasurementProperty,
+    property: MeasurementProperty,
     localization: Localization = inject(),
     getMeasurementPropertyUseCase: GetMeasurementPropertyUseCase = inject(),
     private val updateUnit: UpdateMeasurementUnitUseCase = inject(),
     private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
-    private val updateMeasurementProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
     var propertyName = MutableStateFlow(property.name)
+    var selectedUnit = MutableStateFlow(property.selectedUnit)
     var aggregationStyle = MutableStateFlow(property.aggregationStyle)
     var valueRangeMinimum = MutableStateFlow(property.range.minimum.toString())
     var valueRangeLow = MutableStateFlow(property.range.low?.toString() ?: "")
@@ -43,8 +43,9 @@ class MeasurementPropertyFormViewModel(
 
     override val state = combine(
         getMeasurementPropertyUseCase(property),
+        selectedUnit,
         unitName,
-    ) { property, unitName ->
+    ) { property, selectedUnit, unitName ->
         MeasurementPropertyFormState(
             property = property,
             unitName = if (property.isUserGenerated) unitName else property.selectedUnit.abbreviation,
@@ -59,7 +60,7 @@ class MeasurementPropertyFormViewModel(
                             unit.property.units.first(MeasurementUnit::isDefault).name,
                         )
                     },
-                    isSelected = unit.isSelected,
+                    isSelected = selectedUnit.id == unit.id,
                 )
             }
         )
@@ -74,6 +75,8 @@ class MeasurementPropertyFormViewModel(
     }
 
     private fun updateProperty() {
+        val property = stateInScope.value?.property ?: return
+
         updateUnit(property.selectedUnit.copy(name = unitName.value))
 
         updateProperty(
@@ -87,13 +90,15 @@ class MeasurementPropertyFormViewModel(
                     high = valueRangeHigh.value.toDoubleOrNull(),
                     maximum = valueRangeMaximum.value.toDouble(),
                     isHighlighted = isValueRangeHighlighted.value,
-                )
+                ),
+                selectedUnitId = selectedUnit.value.id,
             )
         )
         navigateBack()
     }
 
     private fun deleteProperty() {
+        val property = stateInScope.value?.property ?: return
         openModal(
             DeleteModal(
                 onDismissRequest = closeModal::invoke,
@@ -107,8 +112,6 @@ class MeasurementPropertyFormViewModel(
     }
 
     private fun selectUnit(unit: MeasurementUnit) {
-        // TODO: Change state and update later on in updateProperty()
-        val property = unit.property.copy(selectedUnitId = unit.id)
-        updateMeasurementProperty(property)
+        selectedUnit.value = unit
     }
 }

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.unit.list
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
@@ -34,7 +35,7 @@ fun MeasurementUnitListItem(
                         )
                     }
                 }
-                if (state.isSelected) {
+                AnimatedVisibility(visible = state.isSelected) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
                         contentDescription = getString(Res.string.measurement_unit_selected_description),

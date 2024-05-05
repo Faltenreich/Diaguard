@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
@@ -24,7 +26,9 @@ fun TextCheckbox(
     Row(
         modifier = modifier
             .clickable { onCheckedChange(!checked) }
-            .defaultMinSize(minHeight = ButtonDefaults.MinHeight),
+            .defaultMinSize(minHeight = ButtonDefaults.MinHeight)
+            .fillMaxWidth()
+            .padding(all = AppTheme.dimensions.padding.P_3),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(

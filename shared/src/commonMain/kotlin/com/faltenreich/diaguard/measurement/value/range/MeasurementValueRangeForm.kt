@@ -43,9 +43,6 @@ fun MeasurementValueRangeForm(
             subtitle = getString(Res.string.value_range_highlighted_description),
             checked = viewModel.isValueRangeHighlighted.collectAsState().value,
             onCheckedChange = { viewModel.isValueRangeHighlighted.value = it },
-            modifier = Modifier
-                .padding(all = AppTheme.dimensions.padding.P_3)
-                .fillMaxWidth(),
         )
 
         Divider()

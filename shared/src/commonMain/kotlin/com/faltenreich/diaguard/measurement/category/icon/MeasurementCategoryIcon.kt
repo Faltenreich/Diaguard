@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.shared.theme.color.asColor
 import com.faltenreich.diaguard.shared.view.drawText
 
 @Composable
@@ -38,15 +39,13 @@ fun MeasurementCategoryIcon(
     fallback: String,
     modifier: Modifier = Modifier,
 ) {
-    val text = icon
-        ?: fallback.firstOrNull()?.uppercase()
-        ?: "?"
+    val char = fallback.firstOrNull()?.uppercaseChar() ?: '?'
+    val text = icon ?: char.toString()
     Box(
         modifier = modifier
             .size(AppTheme.dimensions.size.ImageMedium)
             .background(
-                // TODO: Generate color from "fallback"
-                color = if (icon != null) Color.Transparent else AppTheme.colors.scheme.onSurface,
+                color = if (icon != null) Color.Transparent else char.asColor(),
                 shape = CircleShape,
             ),
         contentAlignment = Alignment.Center,
@@ -54,7 +53,7 @@ fun MeasurementCategoryIcon(
         Text(
             text = text,
             style = AppTheme.typography.headlineSmall,
-            color = AppTheme.colors.scheme.inverseOnSurface,
+            color = Color.White,
         )
     }
 }
@@ -65,21 +64,16 @@ fun DrawScope.MeasurementCategoryIcon(
     fallback: String,
     position: Offset,
     size: Size,
-    fontSize: Float,
-    fontPaint: Paint,
     textMeasurer: TextMeasurer,
 ) {
-    val text = icon
-        ?: fallback.firstOrNull()?.uppercase()
-        ?: "?"
-    val textSize = textMeasurer.measure(
-        text = text,
-        //style = TextStyle(fontSize = TextUnit(value = fontSize, type = TextUnitType.Em)),
-    )
+    val char = fallback.firstOrNull()?.uppercaseChar() ?: '?'
+    val text = icon ?: char.toString()
+    val textSize = textMeasurer.measure(text)
+    val padding = 12f
+
     val hasIcon = icon != null
 
     if (!hasIcon) {
-        val padding = 12f
         val path = Path()
         val rect = Rect(
             left = position.x + padding,
@@ -90,15 +84,16 @@ fun DrawScope.MeasurementCategoryIcon(
         path.addOval(rect)
         drawPath(
             path = path,
-            color = Color.DarkGray,
+            color = char.asColor(),
         )
     }
 
+    // TODO: Remove magic offsets
     drawText(
         text = text,
         x = position.x + size.width / 2 - textSize.size.width / 2,
-        y = position.y + size.height / 2 + textSize.size.height / 2 - 8, // TODO: Remove magic offset
-        size = fontSize,
-        paint = fontPaint,
+        y = position.y + size.height / 2 + textSize.size.height / 2 - 8,
+        size = textSize.size.height.toFloat() - padding / 2,
+        paint = Paint().apply { color = Color.White },
     )
 }

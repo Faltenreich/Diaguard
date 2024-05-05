@@ -51,3 +51,12 @@ fun ColorScheme.animated(): ColorScheme = copy(
     outlineVariant = outlineVariant.animated(),
     scrim = scrim.animated(),
 )
+
+fun Char.asColor(): Color {
+    // TODO: Make pastel-y
+    return Color.hsl(
+        hue = code.toFloat(),
+        saturation = .8f,
+        lightness = .4f,
+    )
+}

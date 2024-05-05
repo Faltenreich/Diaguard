@@ -80,8 +80,6 @@ fun DrawScope.TimelineTable(
                 fallback = property.name,
                 position = Offset(x, y),
                 size = Size(width = iconSize, height = iconSize),
-                fontSize = config.fontSize,
-                fontPaint = config.fontPaint,
                 textMeasurer = textMeasurer,
             )
 

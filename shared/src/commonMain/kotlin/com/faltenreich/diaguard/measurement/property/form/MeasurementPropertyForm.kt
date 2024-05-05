@@ -96,7 +96,7 @@ fun MeasurementPropertyForm(
             Divider()
 
             MeasurementValueRangeForm(
-                unitName = state.unitName,
+                unitName = viewModel.unitName.collectAsState().value,
                 viewModel = viewModel,
             )
         }

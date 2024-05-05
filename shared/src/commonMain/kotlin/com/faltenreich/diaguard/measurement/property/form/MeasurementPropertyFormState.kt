@@ -5,6 +5,5 @@ import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListItemSta
 
 data class MeasurementPropertyFormState(
     val property: MeasurementProperty,
-    val unitName: String,
     val units: List<MeasurementUnitListItemState>,
 )

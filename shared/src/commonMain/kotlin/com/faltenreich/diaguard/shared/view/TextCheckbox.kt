@@ -23,8 +23,8 @@ fun TextCheckbox(
 ) {
     Row(
         modifier = modifier
-            .defaultMinSize(minHeight = ButtonDefaults.MinHeight)
-            .clickable { onCheckedChange(!checked) },
+            .clickable { onCheckedChange(!checked) }
+            .defaultMinSize(minHeight = ButtonDefaults.MinHeight),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(

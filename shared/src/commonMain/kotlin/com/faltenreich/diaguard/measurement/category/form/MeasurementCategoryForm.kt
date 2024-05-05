@@ -50,7 +50,7 @@ fun MeasurementCategoryForm(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    horizontal = AppTheme.dimensions.padding.P_2,
+                    horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
         )

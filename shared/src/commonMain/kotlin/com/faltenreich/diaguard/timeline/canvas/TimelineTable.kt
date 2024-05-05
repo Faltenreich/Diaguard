@@ -68,8 +68,8 @@ fun DrawScope.TimelineTable(
                 // Label
                 drawText(
                     text = label,
-                    x = x + iconSize + config.padding,
-                    y = y + config.fontSize + config.padding / 1.5f,
+                    x = x + iconSize,
+                    y = y + config.fontSize + config.padding - 2, // TODO: Remove magic offset
                     size = config.fontSize,
                     paint = config.fontPaint,
                 )

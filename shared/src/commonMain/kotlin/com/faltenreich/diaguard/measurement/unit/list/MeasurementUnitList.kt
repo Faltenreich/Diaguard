@@ -4,25 +4,25 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import diaguard.shared.generated.resources.*
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormIntent
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextDivider
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.measurement_units
 
 @Composable
 fun MeasurementUnitList(
-    units: List<MeasurementUnit>,
+    items: List<MeasurementUnitListItemState>,
+    onIntent: (MeasurementPropertyFormIntent) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MeasurementUnitListViewModel = inject(),
 ) {
     Column(modifier = modifier) {
         TextDivider(getString(Res.string.measurement_units))
-        units.forEach { unit ->
+        items.forEach { item ->
             MeasurementUnitListItem(
-                unit = unit,
+                state = item,
                 modifier = Modifier.clickable {
-                    viewModel.dispatchIntent(MeasurementUnitListIntent.Select(unit))
+                    onIntent(MeasurementPropertyFormIntent.SelectUnit(item.unit))
                 },
             )
         }

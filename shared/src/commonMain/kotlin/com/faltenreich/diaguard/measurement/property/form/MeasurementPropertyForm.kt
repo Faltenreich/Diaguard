@@ -57,7 +57,12 @@ fun MeasurementPropertyForm(
                     ),
             )
 
-            if (state.property.category.isUserGenerated) {
+            if (state.units.isNotEmpty()) {
+                MeasurementUnitList(
+                    items = state.units,
+                    onIntent = { intent -> viewModel.dispatchIntent(intent) },
+                )
+            } else {
                 TextInput(
                     input = viewModel.unitName.collectAsState().value,
                     onInputChange = { viewModel.unitName.value = it },
@@ -69,8 +74,6 @@ fun MeasurementPropertyForm(
                             vertical = AppTheme.dimensions.padding.P_3,
                         ),
                 )
-            } else {
-                MeasurementUnitList(units = state.property.units)
             }
 
             TextDivider(getString(Res.string.values))

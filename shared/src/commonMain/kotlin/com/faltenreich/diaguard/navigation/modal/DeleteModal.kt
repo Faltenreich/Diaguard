@@ -21,11 +21,12 @@ class DeleteModal(
     override fun Content() {
         AlertDialog(
             onDismissRequest = onDismissRequest,
+            // TODO: Double-check confirmation if deletion is far-reaching, e.g. for MeasurementCategory
             confirmButton = {
                 TextButton(onClick = onConfirmRequest) {
                     Text(
                         text = getString(Res.string.delete),
-                        color = AppTheme.colors.Red,
+                        color = AppTheme.colors.scheme.onBackground,
                     )
                 }
             },
@@ -33,7 +34,7 @@ class DeleteModal(
                 TextButton(onClick = onDismissRequest) {
                     Text(
                         text = getString(Res.string.cancel),
-                        color = AppTheme.colors.scheme.onPrimary,
+                        color = AppTheme.colors.scheme.onBackground,
                     )
                 }
             },

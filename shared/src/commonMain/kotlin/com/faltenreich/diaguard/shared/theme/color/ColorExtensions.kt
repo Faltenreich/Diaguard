@@ -53,9 +53,9 @@ fun ColorScheme.animated(): ColorScheme = copy(
 )
 
 fun Char.asColor(): Color {
-    // TODO: Make pastel-y
+    val hue = ((hashCode() shl 5) - hashCode()) % 360
     return Color.hsl(
-        hue = code.toFloat(),
+        hue = hue.toFloat(),
         saturation = .8f,
         lightness = .4f,
     )

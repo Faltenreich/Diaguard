@@ -14,6 +14,7 @@ data class TimelineConfig(
     val padding: Float,
     val fontPaint: Paint,
     val fontSize: Float,
+    val tableRowHeight: Float,
 
     val backgroundColor: Color,
     val cornerRadius: CornerRadius = CornerRadius(x = 20f, y = 20f),

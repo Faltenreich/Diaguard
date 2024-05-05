@@ -46,10 +46,9 @@ class GetTimelineDataUseCase(
                         TimelineData.Table.Category(
                             properties = category.properties.map { property ->
                                 TimelineData.Table.Category.Property(
-                                    label = listOfNotNull(
-                                        category.icon?.takeIf(String::isNotBlank) ?: category.name,
-                                        property.name.takeIf { category.properties.size > 1 },
-                                    ).joinToString(" "),
+                                    icon = category.icon,
+                                    name = category.name,
+                                    unit = property.name.takeIf { category.properties.size > 1 },
                                     values = valuesForTable
                                         .filter { it.property == property }
                                         .groupBy { value ->

@@ -105,7 +105,6 @@
     <string name="measurement_category">Category</string>
     <string name="measurement_category_delete">Delete category</string>
     <string name="measurement_category_delete_description">This will irrevocably delete this category and all of its associated measurements</string>
-    <string name="measurement_category_icon_default">?</string>
     <string name="measurement_category_new">New category</string>
     <string name="measurement_property">Property</string>
     <string name="measurement_property_delete">Delete property</string>

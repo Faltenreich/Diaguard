@@ -28,7 +28,9 @@ data class TimelineData(
         ) {
 
             data class Property(
-                val label: String,
+                val icon: String?,
+                val name: String,
+                val unit: String?,
                 val values: List<Value>,
             )
 

@@ -85,6 +85,7 @@ fun TimelineCanvas(
             padding = density.run { dimensions.padding.P_2.toPx() },
             fontPaint = Paint().apply { color = colorScheme.onBackground },
             fontSize = density.run { typography.bodyMedium.fontSize.toPx() },
+            tableRowHeight = density.run { typography.bodyMedium.fontSize.toPx() + dimensions.padding.P_2.toPx() * 2 },
             backgroundColor = colorScheme.background,
             gridStrokeColor = colorScheme.onSurfaceVariant,
             gridShadowColor = colorScheme.surfaceVariant,

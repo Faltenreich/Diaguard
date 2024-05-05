@@ -25,9 +25,9 @@ data class TimelineCoordinates(
 
             val timeSize = Size(
                 width = size.width,
-                height = config.fontSize + config.padding * 2,
+                height = config.tableRowHeight,
             )
-            val tableItemHeight = config.fontSize + config.padding * 2
+            val tableItemHeight = config.tableRowHeight
             val tableSize = Size(
                 width = size.width,
                 height = tableItemHeight * tableRowCount,

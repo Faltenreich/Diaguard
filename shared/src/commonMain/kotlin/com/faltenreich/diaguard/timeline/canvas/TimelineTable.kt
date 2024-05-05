@@ -3,11 +3,13 @@ package com.faltenreich.diaguard.timeline.canvas
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
+import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.TimelineData
@@ -26,7 +28,7 @@ fun DrawScope.TimelineTable(
     var y = coordinates.table.topLeft.y
 
     data.categories.forEachIndexed { categoryIndex, category ->
-        val rowHeight = config.fontSize + config.padding * 2
+        val rowHeight = config.tableRowHeight
 
         category.properties.forEachIndexed { propertyIndex, property ->
             val isFirstRow = categoryIndex == 0 && propertyIndex == 0
@@ -40,33 +42,47 @@ fun DrawScope.TimelineTable(
                 )
             }
 
-            val label = property.label
-            val labelSize = textMeasurer.measure(label)
+            val iconSize = rowHeight
 
-            // Label background
-            val path = Path()
-            val rect = RoundRect(
-                rect = Rect(
-                    left = x + config.padding / 2,
-                    top = y + config.fontSize - labelSize.size.height + config.padding / 2,
-                    right = x + labelSize.size.width + config.padding * 2,
-                    bottom = y + config.fontSize + config.padding + config.padding / 2,
-                ),
-                cornerRadius = config.cornerRadius,
-            )
-            path.addRoundRect(rect)
-            drawPath(
-                path = path,
-                color = config.backgroundColor,
-            )
+            // TODO: Remove takeIf
+            property.unit?.let { label ->
+                val labelSize = textMeasurer.measure(label)
 
-            // Label
-            drawText(
-                text = label,
-                x = x + config.padding,
-                y = y + config.fontSize + config.padding / 1.5f,
-                size = config.fontSize,
-                paint = config.fontPaint,
+                // Label background
+                val path = Path()
+                val rect = RoundRect(
+                    rect = Rect(
+                        left = x + config.padding / 2,
+                        top = y + config.fontSize - labelSize.size.height + config.padding / 2,
+                        right = x + iconSize + labelSize.size.width + config.padding * 2,
+                        bottom = y + config.fontSize + config.padding + config.padding / 2,
+                    ),
+                    cornerRadius = config.cornerRadius,
+                )
+                path.addRoundRect(rect)
+                drawPath(
+                    path = path,
+                    color = config.backgroundColor,
+                )
+
+                // Label
+                drawText(
+                    text = label,
+                    x = x + iconSize + config.padding,
+                    y = y + config.fontSize + config.padding / 1.5f,
+                    size = config.fontSize,
+                    paint = config.fontPaint,
+                )
+            }
+
+            MeasurementCategoryIcon(
+                icon = property.icon,
+                fallback = property.name,
+                position = Offset(x, y),
+                size = Size(width = iconSize, height = iconSize),
+                fontSize = config.fontSize,
+                fontPaint = config.fontPaint,
+                textMeasurer = textMeasurer,
             )
 
             property.values.forEach { value ->

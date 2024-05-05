@@ -13,20 +13,20 @@ fun MeasurementCategoryIcon(
     category: MeasurementCategory,
     modifier: Modifier = Modifier,
 ) {
-    val text = category.icon?.takeIf(String::isNotBlank)
-        ?: category.name.firstOrNull()?.toString()
-        ?: return
     MeasurementCategoryIcon(
-        text = text,
+        icon = category.icon,
+        fallback = category.name,
         modifier = modifier,
     )
 }
 
 @Composable
 fun MeasurementCategoryIcon(
-    text: String,
+    icon: String?,
+    fallback: String,
     modifier: Modifier = Modifier,
 ) {
+    val text = icon ?: fallback.firstOrNull()?.toString() ?: return
     Box(
         modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
         contentAlignment = Alignment.Center,

@@ -41,7 +41,10 @@ fun MeasurementCategoryForm(
                 IconButton(onClick = {
                     viewModel.dispatchIntent(MeasurementCategoryFormIntent.OpenIconPicker)
                 }) {
-                    MeasurementCategoryIcon(text = viewModel.icon.collectAsState().value)
+                    MeasurementCategoryIcon(
+                        icon = viewModel.icon.collectAsState().value,
+                        fallback = viewModel.name.collectAsState().value,
+                    )
                 }
             },
             modifier = Modifier

@@ -41,7 +41,7 @@ class MeasurementPropertyFormViewModel(
     var valueRangeMaximum = MutableStateFlow(property.range.maximum.toString())
     var isValueRangeHighlighted = MutableStateFlow(property.range.isHighlighted)
 
-    var unitName = MutableStateFlow(property.selectedUnit.name)
+    var unitName = MutableStateFlow(property.selectedUnit.abbreviation)
 
     override val state = combine(getProperty(property), selectedUnit, mapState::invoke)
 

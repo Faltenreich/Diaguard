@@ -4,15 +4,21 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.AlertModal
 import com.faltenreich.diaguard.navigation.modal.DeleteModal
 import com.faltenreich.diaguard.navigation.modal.EmojiModal
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.Localization
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.delete_error_property
+import diaguard.shared.generated.resources.delete_title
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class MeasurementCategoryFormViewModel(
     val category: MeasurementCategory,
+    private val localization: Localization = inject(),
     getMeasurementPropertiesUseCase: GetMeasurementPropertiesUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
@@ -43,6 +49,7 @@ class MeasurementCategoryFormViewModel(
         )
     }
 
+    // TODO: Validate
     private fun updateCategory() {
         val category = category.copy(
             name = name.value,
@@ -53,15 +60,25 @@ class MeasurementCategoryFormViewModel(
     }
 
     private fun deleteCategory() {
-        openModal(
-            DeleteModal(
-                onDismissRequest = closeModal::invoke,
-                onConfirmRequest = {
-                    deleteCategory(category)
-                    closeModal()
-                    navigateBack()
-                }
+        if (category.isUserGenerated) {
+            openModal(
+                DeleteModal(
+                    onDismissRequest = closeModal::invoke,
+                    onConfirmRequest = {
+                        deleteCategory(category)
+                        closeModal()
+                        navigateBack()
+                    }
+                )
             )
-        )
+        } else {
+            openModal(
+                AlertModal(
+                    onDismissRequest = closeModal::invoke,
+                    title = localization.getString(Res.string.delete_title),
+                    text = localization.getString(Res.string.delete_error_property),
+                )
+            )
+        }
     }
 }

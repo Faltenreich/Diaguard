@@ -7,14 +7,20 @@ import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.AlertModal
 import com.faltenreich.diaguard.navigation.modal.DeleteModal
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.Localization
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.delete_error_property
+import diaguard.shared.generated.resources.delete_title
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
 class MeasurementPropertyFormViewModel(
-    property: MeasurementProperty,
+    private val property: MeasurementProperty,
+    private val localization: Localization = inject(),
     getProperty: GetMeasurementPropertyUseCase = inject(),
     mapState: MeasurementPropertyFormStateMapper = inject(),
     private val updateUnit: UpdateMeasurementUnitUseCase = inject(),
@@ -37,11 +43,7 @@ class MeasurementPropertyFormViewModel(
 
     var unitName = MutableStateFlow(property.selectedUnit.name)
 
-    override val state = combine(
-        getProperty(property),
-        selectedUnit,
-        mapState::invoke,
-    )
+    override val state = combine(getProperty(property), selectedUnit, mapState::invoke)
 
     override fun handleIntent(intent: MeasurementPropertyFormIntent) {
         when (intent) {
@@ -51,9 +53,8 @@ class MeasurementPropertyFormViewModel(
         }
     }
 
+    // TODO: Validate
     private fun updateProperty() {
-        val property = stateInScope.value?.property ?: return
-
         updateUnit(property.selectedUnit.copy(name = unitName.value))
 
         updateProperty(
@@ -75,17 +76,26 @@ class MeasurementPropertyFormViewModel(
     }
 
     private fun deleteProperty() {
-        val property = stateInScope.value?.property ?: return
-        openModal(
-            DeleteModal(
-                onDismissRequest = closeModal::invoke,
-                onConfirmRequest = {
-                    deleteProperty(property)
-                    closeModal()
-                    navigateBack()
-                }
+        if (property.isUserGenerated) {
+            openModal(
+                DeleteModal(
+                    onDismissRequest = closeModal::invoke,
+                    onConfirmRequest = {
+                        deleteProperty(property)
+                        closeModal()
+                        navigateBack()
+                    }
+                )
             )
-        )
+        } else {
+            openModal(
+                AlertModal(
+                    onDismissRequest = closeModal::invoke,
+                    title = localization.getString(Res.string.delete_title),
+                    text = localization.getString(Res.string.delete_error_property),
+                )
+            )
+        }
     }
 
     private fun selectUnit(unit: MeasurementUnit) {

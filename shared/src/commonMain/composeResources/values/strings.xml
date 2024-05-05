@@ -42,6 +42,7 @@
     <string name="delete">Delete</string>
     <string name="delete_title">Delete data</string>
     <string name="delete_description">This will irrevocably remove this and related data from the app</string>
+    <string name="delete_error_property">This pre-defined property cannot be deleted</string>
     <string name="date_pick">Change date</string>
     <string name="data">Data</string>
     <string name="day">Day</string>

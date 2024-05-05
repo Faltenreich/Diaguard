@@ -44,7 +44,11 @@ class MeasurementCategoryFormViewModel(
     }
 
     private fun updateCategory() {
-        updateCategory(category.copy(name = name.value, icon = icon.value))
+        val category = category.copy(
+            name = name.value,
+            icon = icon.value.takeIf(String::isNotBlank),
+        )
+        updateCategory(category)
         navigateBack()
     }
 

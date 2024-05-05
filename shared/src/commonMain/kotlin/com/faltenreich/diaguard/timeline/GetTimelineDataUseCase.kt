@@ -47,7 +47,7 @@ class GetTimelineDataUseCase(
                             properties = category.properties.map { property ->
                                 TimelineData.Table.Category.Property(
                                     label = listOfNotNull(
-                                        category.icon ?: category.name,
+                                        category.icon?.takeIf(String::isNotBlank) ?: category.name,
                                         property.name.takeIf { category.properties.size > 1 },
                                     ).joinToString(" "),
                                     values = valuesForTable

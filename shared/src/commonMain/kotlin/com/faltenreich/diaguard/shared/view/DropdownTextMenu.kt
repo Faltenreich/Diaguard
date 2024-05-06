@@ -1,17 +1,18 @@
 package com.faltenreich.diaguard.shared.view
 
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 import com.faltenreich.diaguard.AppTheme
 
-// TODO: Replace custom DropdownTextMenuItem with DropdownMenuItem
 @Composable
 fun DropdownTextMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    items: List<DropdownTextMenuItem>,
+    items: List<Pair<String, () -> Unit>>,
     modifier: Modifier = Modifier,
 ) {
     DropdownMenu(
@@ -23,14 +24,13 @@ fun DropdownTextMenu(
         ),
         modifier = modifier,
     ) {
-        items.forEach { item ->
-            DropdownTextMenuItem(
+        items.forEach { (label, onClick) ->
+            DropdownMenuItem(
+                text = { Text(label) },
                 onClick = {
-                    item.onClick()
+                    onClick()
                     onDismissRequest()
                 },
-                text = item.label,
-                isSelected = item.isSelected,
             )
         }
     }

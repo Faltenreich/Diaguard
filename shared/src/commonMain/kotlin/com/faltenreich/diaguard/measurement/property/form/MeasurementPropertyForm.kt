@@ -18,7 +18,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.DropdownButton
-import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
@@ -79,11 +78,9 @@ fun MeasurementPropertyForm(
                 text = stringResource(Res.string.aggregation_style),
                 subtitle = stringResource(viewModel.aggregationStyle.collectAsState().value.labelResource),
                 items = MeasurementAggregationStyle.entries.map { aggregationStyle ->
-                    DropdownTextMenuItem(
-                        label = stringResource(aggregationStyle.labelResource),
-                        onClick = { viewModel.aggregationStyle.value = aggregationStyle },
-                        isSelected = { viewModel.aggregationStyle.value == aggregationStyle },
-                    )
+                    stringResource(aggregationStyle.labelResource) to {
+                        viewModel.aggregationStyle.value = aggregationStyle
+                    }
                 },
             )
 

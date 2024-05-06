@@ -21,7 +21,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.DropdownButton
-import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextCheckbox
@@ -70,11 +69,7 @@ fun ExportForm(
             DropdownButton(
                 text = viewModel.exportPropertyLocalized,
                 items = viewModel.exportProperties.map { property ->
-                    DropdownTextMenuItem(
-                        label = getString(property.title),
-                        onClick = { viewModel.exportType = property },
-                        isSelected = { viewModel.exportType == property },
-                    )
+                    getString(property.title) to { viewModel.exportType = property }
                 }
             )
         }
@@ -84,11 +79,7 @@ fun ExportForm(
             DropdownButton(
                 text = viewModel.pdfLayoutLocalized,
                 items = viewModel.pdfLayouts.map { layout ->
-                    DropdownTextMenuItem(
-                        label = getString(layout.title),
-                        onClick = { viewModel.pdfLayout = layout },
-                        isSelected = { viewModel.pdfLayout == layout },
-                    )
+                    getString(layout.title) to { viewModel.pdfLayout = layout }
                 },
             )
         }

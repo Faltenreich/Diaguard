@@ -10,9 +10,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
-import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
-import org.jetbrains.compose.resources.StringResource
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.StringResource
 
 class PreferenceListListItem(
     title: StringResource,
@@ -33,11 +32,7 @@ class PreferenceListListItem(
                 expanded = isExpanded,
                 onDismissRequest = { isExpanded = false },
                 items = options.map { option ->
-                    DropdownTextMenuItem(
-                        label = option.label(),
-                        onClick = { scope.launch { option.onSelected() } },
-                        isSelected = { option.isSelected },
-                    )
+                    option.label() to { scope.launch { option.onSelected() } }
                 }
             )
         }

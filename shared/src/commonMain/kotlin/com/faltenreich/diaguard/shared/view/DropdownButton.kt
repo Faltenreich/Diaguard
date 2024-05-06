@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.AppTheme
 @Composable
 fun DropdownButton(
     text: String,
-    items: List<DropdownTextMenuItem>,
+    items: List<Pair<String, () -> Unit>>,
     subtitle: String? = null,
     modifier: Modifier = Modifier,
 ) {

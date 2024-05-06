@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import com.faltenreich.diaguard.shared.view.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -16,16 +15,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import diaguard.shared.generated.resources.*
+import com.faltenreich.diaguard.datetime.picker.DateRangePicker
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.datetime.picker.DateRangePicker
+import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.DropdownButton
-import com.faltenreich.diaguard.shared.view.DropdownTextMenuItem
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.average
+import diaguard.shared.generated.resources.distribution
+import diaguard.shared.generated.resources.entries_per_day
+import diaguard.shared.generated.resources.ic_time
+import diaguard.shared.generated.resources.placeholder
+import diaguard.shared.generated.resources.trend
 
 @Composable
 fun Statistic(
@@ -43,11 +48,7 @@ fun Statistic(
                 DropdownButton(
                     text = viewState.selectedCategory.name,
                     items = viewState.categories.map { category ->
-                        DropdownTextMenuItem(
-                            label = category.name,
-                            onClick = { viewModel.dispatchIntent(StatisticIntent.Select(category)) },
-                            isSelected = { viewState.selectedCategory == category },
-                        )
+                        category.name to { viewModel.dispatchIntent(StatisticIntent.Select(category)) }
                     }
                 )
             }

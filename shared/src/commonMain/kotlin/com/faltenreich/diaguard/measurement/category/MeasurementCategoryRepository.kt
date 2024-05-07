@@ -1,24 +1,23 @@
 package com.faltenreich.diaguard.measurement.category
 
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementCategoryRepository(
     private val dao: MeasurementCategoryDao,
+    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(
-        createdAt: DateTime,
-        updatedAt: DateTime,
         key: String?,
         name: String,
         icon: String?,
         sortIndex: Long,
     ): Long {
         dao.create(
-            createdAt = createdAt,
-            updatedAt = updatedAt,
+            createdAt = dateTimeFactory.now(),
             key = key,
             name = name,
             icon = icon,

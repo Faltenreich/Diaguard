@@ -2,19 +2,25 @@ package com.faltenreich.diaguard.measurement.category.list
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
+import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.MeasurementCategoryFormModal
 import com.faltenreich.diaguard.navigation.screen.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.map
 
 class MeasurementCategoryListViewModel(
-    getCategories: GetMeasurementCategoriesUseCase = inject(),
-    private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
+    getMeasurementCategories: GetMeasurementCategoriesUseCase = inject(),
+    private val updateMeasurementCategory: UpdateMeasurementCategoryUseCase = inject(),
+    private val createMeasurementCategory: CreateMeasurementCategoryUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val openModal: OpenModalUseCase = inject(),
+    private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<MeasurementCategoryListViewState, MeasurementCategoryListIntent, Unit>() {
 
-    override val state = getCategories().map(::MeasurementCategoryListViewState)
+    override val state = getMeasurementCategories().map(::MeasurementCategoryListViewState)
 
     private val categories: List<MeasurementCategory>?
         get() = stateInScope.value?.categories
@@ -42,8 +48,8 @@ class MeasurementCategoryListViewModel(
         first: MeasurementCategory,
         second: MeasurementCategory,
     ) {
-        updateCategory(first.copy(sortIndex = second.sortIndex))
-        updateCategory(second.copy(sortIndex = first.sortIndex))
+        updateMeasurementCategory(first.copy(sortIndex = second.sortIndex))
+        updateMeasurementCategory(second.copy(sortIndex = first.sortIndex))
     }
 
     private fun editCategory(category: MeasurementCategory) {
@@ -51,6 +57,20 @@ class MeasurementCategoryListViewModel(
     }
 
     private fun createCategory() {
-        navigateToScreen(MeasurementCategoryFormScreen())
+        val within = categories ?: return
+        openModal(
+            MeasurementCategoryFormModal(
+                onDismissRequest = closeModal::invoke,
+                onConfirmRequest = { name ->
+                    createMeasurementCategory(
+                        name = name,
+                        key = null,
+                        icon = null,
+                        sortIndex = within.maxOf(MeasurementCategory::sortIndex) + 1,
+                    )
+                    closeModal()
+                }
+            )
+        )
     }
 }

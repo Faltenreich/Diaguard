@@ -22,7 +22,7 @@ import diaguard.shared.generated.resources.save
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
-data class MeasurementCategoryFormScreen(val category: MeasurementCategory? = null) : Screen {
+data class MeasurementCategoryFormScreen(val category: MeasurementCategory) : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {

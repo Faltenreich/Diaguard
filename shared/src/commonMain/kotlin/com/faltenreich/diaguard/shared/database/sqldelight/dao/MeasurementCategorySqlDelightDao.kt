@@ -53,7 +53,6 @@ class MeasurementCategorySqlDelightDao(
 
     override fun create(
         createdAt: DateTime,
-        updatedAt: DateTime,
         key: String?,
         name: String,
         icon: String?,
@@ -61,7 +60,7 @@ class MeasurementCategorySqlDelightDao(
     ) {
         queries.create(
             createdAt = createdAt.isoString,
-            updatedAt = updatedAt.isoString,
+            updatedAt = createdAt.isoString,
             key = key,
             name = name,
             icon = icon,

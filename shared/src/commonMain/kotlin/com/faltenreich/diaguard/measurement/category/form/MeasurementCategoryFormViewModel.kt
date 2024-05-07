@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.category.list.CreateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
@@ -17,8 +18,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class MeasurementCategoryFormViewModel(
-    val category: MeasurementCategory,
+    category: MeasurementCategory?,
     private val localization: Localization = inject(),
+    createCategory: CreateMeasurementCategoryUseCase = inject(),
     getProperties: GetMeasurementPropertiesUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
@@ -27,10 +29,12 @@ class MeasurementCategoryFormViewModel(
     private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<MeasurementCategoryFormViewState, MeasurementCategoryFormIntent, Unit>() {
 
-    var icon = MutableStateFlow(category.icon)
-    var name = MutableStateFlow(category.name)
+    val category = category ?: createCategory()
 
-    private val properties = getProperties(category)
+    var icon = MutableStateFlow(this.category.icon)
+    var name = MutableStateFlow(this.category.name)
+
+    private val properties = getProperties(this.category)
 
     override val state = properties.map(::MeasurementCategoryFormViewState)
 

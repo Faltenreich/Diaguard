@@ -27,6 +27,8 @@ class SeedImport(
         val categorySeeds = seedRepository.getMeasurementCategories()
         categorySeeds.forEachIndexed { categorySortIndex, category ->
             val categoryId = categoryRepository.create(
+                createdAt = now,
+                updatedAt = now,
                 key = category.key.key,
                 name = localization.getString(category.name),
                 icon = category.icon,

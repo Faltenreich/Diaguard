@@ -5,7 +5,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.Divider
@@ -32,13 +31,13 @@ fun MeasurementCategoryListItem(
             )
             IconButton(
                 onClick = { onArrowUp() },
-                modifier = Modifier.alpha(if (showArrowUp) 1f else 0f),
+                enabled = showArrowUp,
             ) {
                 ResourceIcon(Res.drawable.ic_arrow_up)
             }
             IconButton(
                 onClick = { onArrowDown() },
-                modifier = Modifier.alpha(if (showArrowDown) 1f else 0f),
+                enabled = showArrowDown,
             ) {
                 ResourceIcon(Res.drawable.ic_arrow_down)
             }

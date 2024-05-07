@@ -15,14 +15,13 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.delete_error_property
 import diaguard.shared.generated.resources.delete_title
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 
 class MeasurementCategoryFormViewModel(
-    val category: MeasurementCategory?,
+    category: MeasurementCategory?,
     private val localization: Localization = inject(),
+    createCategory: CreateMeasurementCategoryUseCase = inject(),
     getProperties: GetMeasurementPropertiesUseCase = inject(),
-    private val createCategory: CreateMeasurementCategoryUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
@@ -30,17 +29,19 @@ class MeasurementCategoryFormViewModel(
     private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<MeasurementCategoryFormViewState, MeasurementCategoryFormIntent, Unit>() {
 
-    var name = MutableStateFlow(category?.name ?: "")
-    var icon = MutableStateFlow(category?.icon)
+    val category = category ?: createCategory()
 
-    private val properties = category?.let(getProperties::invoke) ?: emptyFlow()
+    var icon = MutableStateFlow(this.category.icon)
+    var name = MutableStateFlow(this.category.name)
+
+    private val properties = getProperties(this.category)
 
     override val state = properties.map(::MeasurementCategoryFormViewState)
 
     override fun handleIntent(intent: MeasurementCategoryFormIntent) {
         when (intent) {
             is MeasurementCategoryFormIntent.OpenIconPicker -> openIconPicker()
-            is MeasurementCategoryFormIntent.Confirm -> confirm()
+            is MeasurementCategoryFormIntent.UpdateCategory -> updateCategory()
             is MeasurementCategoryFormIntent.DeleteCategory -> deleteCategory()
         }
     }
@@ -55,20 +56,16 @@ class MeasurementCategoryFormViewModel(
     }
 
     // TODO: Validate
-    private fun confirm() {
-        val category = category
-        val name = name.value
-        val icon = icon.value?.takeIf(String::isNotBlank)
-        if (category != null) {
-            updateCategory(category.copy(name = name, icon = icon))
-        } else {
-            createCategory(name = name, icon = icon)
-        }
+    private fun updateCategory() {
+        val category = category.copy(
+            name = name.value,
+            icon = icon.value?.takeIf(String::isNotBlank),
+        )
+        updateCategory(category)
         navigateBack()
     }
 
     private fun deleteCategory() {
-        val category = category ?: return
         if (category.isUserGenerated) {
             openModal(
                 DeleteModal(

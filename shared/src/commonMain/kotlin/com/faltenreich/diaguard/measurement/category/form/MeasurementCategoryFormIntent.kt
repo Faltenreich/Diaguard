@@ -4,7 +4,7 @@ sealed interface MeasurementCategoryFormIntent {
 
     data object OpenIconPicker : MeasurementCategoryFormIntent
 
-    data object Confirm : MeasurementCategoryFormIntent
+    data object UpdateCategory : MeasurementCategoryFormIntent
 
     data object DeleteCategory : MeasurementCategoryFormIntent
 }

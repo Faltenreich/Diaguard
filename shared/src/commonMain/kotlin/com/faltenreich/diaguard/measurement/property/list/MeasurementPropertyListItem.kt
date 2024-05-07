@@ -1,14 +1,17 @@
 package com.faltenreich.diaguard.measurement.property.list
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import diaguard.shared.generated.resources.*
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_arrow_down
+import diaguard.shared.generated.resources.ic_arrow_up
 
 @Composable
 fun MeasurementPropertyListItem(
@@ -20,19 +23,22 @@ fun MeasurementPropertyListItem(
     modifier: Modifier = Modifier,
 ) {
     FormRow(modifier = modifier) {
-        Text(
-            text = property.name,
-            modifier = Modifier.weight(1f),
-        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(property.name)
+            Text(
+                text = property.selectedUnit.name,
+                style = AppTheme.typography.bodySmall,
+            )
+        }
         IconButton(
             onClick = { onArrowUp(property) },
-            modifier = Modifier.alpha(if (showArrowUp) 1f else 0f),
+            enabled = showArrowUp,
         ) {
             ResourceIcon(Res.drawable.ic_arrow_up)
         }
         IconButton(
             onClick = { onArrowDown(property) },
-            modifier = Modifier.alpha(if (showArrowDown) 1f else 0f),
+            enabled = showArrowDown,
         ) {
             ResourceIcon(Res.drawable.ic_arrow_down)
         }

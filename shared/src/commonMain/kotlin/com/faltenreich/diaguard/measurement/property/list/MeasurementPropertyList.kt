@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.property.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,11 +43,13 @@ fun MeasurementPropertyList(
                     )
                 },
                 showArrowDown = index < properties.size - 1,
-                modifier = Modifier.clickable {
-                    viewModel.dispatchIntent(
-                        MeasurementPropertyListIntent.EditProperty(property)
-                    )
-                },
+                modifier = Modifier
+                    .clickable {
+                        viewModel.dispatchIntent(
+                            MeasurementPropertyListIntent.EditProperty(property)
+                        )
+                    }
+                    .fillMaxWidth(),
             )
             Divider()
         }

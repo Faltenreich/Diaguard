@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.property
 
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.di.inject
@@ -8,10 +8,11 @@ import kotlinx.coroutines.flow.Flow
 
 class MeasurementPropertyRepository(
     private val dao: MeasurementPropertyDao,
-    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(
+        createdAt: DateTime,
+        updatedAt: DateTime,
         key: String?,
         name: String,
         sortIndex: Long,
@@ -20,7 +21,8 @@ class MeasurementPropertyRepository(
         categoryId: Long,
     ): Long {
         dao.create(
-            createdAt = dateTimeFactory.now(),
+            createdAt = createdAt,
+            updatedAt = updatedAt,
             key = key,
             name = name,
             range = range,
@@ -59,6 +61,7 @@ class MeasurementPropertyRepository(
 
     fun update(
         id: Long,
+        updatedAt: DateTime,
         name: String,
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
@@ -67,7 +70,7 @@ class MeasurementPropertyRepository(
     ) {
         dao.update(
             id = id,
-            updatedAt = dateTimeFactory.now(),
+            updatedAt = updatedAt,
             name = name,
             range = range,
             sortIndex = sortIndex,

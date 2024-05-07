@@ -22,13 +22,11 @@ class SeedImport(
 ) : Import {
 
     override fun import() {
-        val now = dateTimeFactory.now()
-
         val categorySeeds = seedRepository.getMeasurementCategories()
         categorySeeds.forEachIndexed { categorySortIndex, category ->
             val categoryId = categoryRepository.create(
-                createdAt = now,
-                updatedAt = now,
+                createdAt = dateTimeFactory.now(),
+                updatedAt = dateTimeFactory.now(),
                 key = category.key.key,
                 name = localization.getString(category.name),
                 icon = category.icon,
@@ -36,6 +34,8 @@ class SeedImport(
             )
             category.properties.forEachIndexed { propertySortIndex, property ->
                 val propertyId = propertyRepository.create(
+                    createdAt = dateTimeFactory.now(),
+                    updatedAt = dateTimeFactory.now(),
                     key = property.key.key,
                     name = localization.getString(property.name),
                     sortIndex = propertySortIndex.toLong(),
@@ -45,6 +45,8 @@ class SeedImport(
                 )
                 property.units.forEach { unit ->
                     val unitId = unitRepository.create(
+                        createdAt = dateTimeFactory.now(),
+                        updatedAt = dateTimeFactory.now(),
                         key = unit.key.key,
                         name = localization.getString(unit.name),
                         abbreviation = localization.getString(unit.abbreviation),
@@ -55,6 +57,7 @@ class SeedImport(
                     if (isSelectedUnit) {
                         propertyRepository.update(
                             id = propertyId,
+                            updatedAt = dateTimeFactory.now(),
                             name = localization.getString(property.name),
                             sortIndex = propertySortIndex.toLong(),
                             aggregationStyle = property.aggregationStyle,
@@ -69,8 +72,8 @@ class SeedImport(
         val foodSeed = seedRepository.getFood()
         foodSeed.forEach { food ->
             foodRepository.create(
-                createdAt = now,
-                updatedAt = now,
+                createdAt = dateTimeFactory.now(),
+                updatedAt = dateTimeFactory.now(),
                 uuid = null,
                 name = food.en, // TODO: Localize
                 brand = null,
@@ -91,8 +94,8 @@ class SeedImport(
         val tagSeed = seedRepository.getTags()
         tagSeed.forEach { tag ->
             tagRepository.create(
-                createdAt = now,
-                updatedAt = now,
+                createdAt = dateTimeFactory.now(),
+                updatedAt = dateTimeFactory.now(),
                 name = tag.en, // TODO: Localize
             )
         }

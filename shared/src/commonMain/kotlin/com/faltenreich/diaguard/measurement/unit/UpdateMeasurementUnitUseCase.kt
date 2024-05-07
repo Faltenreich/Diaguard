@@ -1,12 +1,16 @@
 package com.faltenreich.diaguard.measurement.unit
 
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+
 class UpdateMeasurementUnitUseCase(
-    private val measurementUnitRepository: MeasurementUnitRepository,
+    private val repository: MeasurementUnitRepository,
+    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     operator fun invoke(unit: MeasurementUnit) = with (unit) {
-        measurementUnitRepository.update(
+        repository.update(
             id = id,
+            updatedAt = dateTimeFactory.now(),
             name = name,
             abbreviation = abbreviation,
         )

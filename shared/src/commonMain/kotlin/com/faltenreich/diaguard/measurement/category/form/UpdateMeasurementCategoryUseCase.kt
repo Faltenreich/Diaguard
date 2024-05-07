@@ -5,10 +5,10 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategoryReposito
 import com.faltenreich.diaguard.shared.di.inject
 
 class UpdateMeasurementCategoryUseCase(
-    private val measurementCategoryRepository: MeasurementCategoryRepository = inject(),
+    private val repository: MeasurementCategoryRepository = inject(),
 ) {
 
     operator fun invoke(category: MeasurementCategory) {
-        measurementCategoryRepository.update(category)
+        repository.update(category)
     }
 }

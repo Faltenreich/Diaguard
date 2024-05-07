@@ -24,6 +24,7 @@ class MeasurementUnitSqlDelightDao(
 
     override fun create(
         createdAt: DateTime,
+        updatedAt: DateTime,
         key: String?,
         name: String,
         abbreviation: String,
@@ -32,7 +33,7 @@ class MeasurementUnitSqlDelightDao(
     ) {
         queries.create(
             createdAt = createdAt.isoString,
-            updatedAt = createdAt.isoString,
+            updatedAt = updatedAt.isoString,
             key = key,
             name = name,
             abbreviation = abbreviation,

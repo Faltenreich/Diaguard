@@ -7,6 +7,7 @@ interface MeasurementUnitDao {
 
     fun create(
         createdAt: DateTime,
+        updatedAt: DateTime,
         key: String?,
         name: String,
         abbreviation: String,

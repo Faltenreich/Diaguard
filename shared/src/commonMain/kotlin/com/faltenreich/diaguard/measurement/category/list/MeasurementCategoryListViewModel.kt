@@ -62,13 +62,13 @@ class MeasurementCategoryListViewModel(
             MeasurementCategoryFormModal(
                 onDismissRequest = closeModal::invoke,
                 onConfirmRequest = { name ->
-                    createMeasurementCategory(
+                    val category = createMeasurementCategory(
                         name = name,
-                        key = null,
                         icon = null,
                         sortIndex = within.maxOf(MeasurementCategory::sortIndex) + 1,
                     )
                     closeModal()
+                    navigateToScreen(MeasurementCategoryFormScreen(category))
                 }
             )
         )

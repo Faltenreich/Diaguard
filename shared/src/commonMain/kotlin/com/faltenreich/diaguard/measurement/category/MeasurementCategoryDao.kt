@@ -7,6 +7,7 @@ interface MeasurementCategoryDao {
 
     fun create(
         createdAt: DateTime,
+        updatedAt: DateTime,
         key: String?,
         name: String,
         icon: String?,

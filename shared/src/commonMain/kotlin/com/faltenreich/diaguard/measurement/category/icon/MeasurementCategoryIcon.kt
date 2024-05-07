@@ -39,8 +39,8 @@ fun MeasurementCategoryIcon(
     fallback: String,
     modifier: Modifier = Modifier,
 ) {
-    val char = fallback.firstOrNull()?.uppercaseChar() ?: '?'
-    val text = icon ?: char.toString()
+    val char = fallback.trim().firstOrNull()?.uppercaseChar() ?: '?'
+    val text = icon?.takeIf(String::isNotBlank) ?: char.toString()
     Box(
         modifier = modifier
             .size(AppTheme.dimensions.size.ImageMedium)

@@ -59,9 +59,10 @@ fun MeasurementCategoryForm(
             visible = state != null,
             enter = fadeIn(),
         ) {
+            val category = viewModel.category ?: return@AnimatedVisibility
             val properties = state?.properties ?: emptyList()
             MeasurementPropertyList(
-                category = viewModel.category,
+                category = category,
                 properties = properties,
             )
         }

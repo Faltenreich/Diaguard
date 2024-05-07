@@ -42,7 +42,7 @@ data class MeasurementCategoryFormScreen(val category: MeasurementCategory? = nu
             floatingActionButton = {
                 val viewModel = getViewModel<MeasurementCategoryFormViewModel> { parametersOf(category) }
                 FloatingActionButton(
-                    onClick = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.UpdateCategory) },
+                    onClick = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.Confirm) },
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),

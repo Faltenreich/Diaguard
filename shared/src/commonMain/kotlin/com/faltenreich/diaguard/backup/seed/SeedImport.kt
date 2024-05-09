@@ -31,6 +31,7 @@ class SeedImport(
                 name = localization.getString(category.name),
                 icon = category.icon,
                 sortIndex = categorySortIndex.toLong(),
+                isActive = true,
             )
             category.properties.forEachIndexed { propertySortIndex, property ->
                 val propertyId = propertyRepository.create(

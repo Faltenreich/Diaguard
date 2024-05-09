@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
 
 class MeasurementCategorySqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
@@ -16,6 +17,7 @@ class MeasurementCategorySqlDelightMapper(
         name: String,
         icon: String?,
         sortIndex: Long,
+        isActive: Long,
     ): MeasurementCategory {
         return MeasurementCategory(
             id = id,
@@ -25,6 +27,7 @@ class MeasurementCategorySqlDelightMapper(
             name = name,
             icon = icon,
             sortIndex = sortIndex,
+            isActive = isActive.toSqlLiteBoolean(),
         )
     }
 }

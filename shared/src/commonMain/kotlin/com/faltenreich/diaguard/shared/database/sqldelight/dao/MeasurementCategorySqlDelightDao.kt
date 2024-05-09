@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementCategoryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
+import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementCategorySqlDelightMapper
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -58,6 +59,7 @@ class MeasurementCategorySqlDelightDao(
         name: String,
         icon: String?,
         sortIndex: Long,
+        isActive: Boolean,
     ) {
         queries.create(
             createdAt = createdAt.isoString,
@@ -66,6 +68,7 @@ class MeasurementCategorySqlDelightDao(
             name = name,
             icon = icon,
             sortIndex = sortIndex,
+            isActive = isActive.toSqlLiteLong(),
         )
     }
 
@@ -75,6 +78,7 @@ class MeasurementCategorySqlDelightDao(
         name: String,
         icon: String?,
         sortIndex: Long,
+        isActive: Boolean,
     ) {
         queries.update(
             updatedAt = updatedAt.isoString,
@@ -82,6 +86,7 @@ class MeasurementCategorySqlDelightDao(
             icon = icon,
             sortIndex = sortIndex,
             id = id,
+            isActive = isActive.toSqlLiteLong(),
         )
     }
 

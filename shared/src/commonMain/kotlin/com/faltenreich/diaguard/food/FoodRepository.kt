@@ -2,14 +2,14 @@ package com.faltenreich.diaguard.food
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
-import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.logging.Logger
 
 class FoodRepository(
     private val dao: FoodDao,
-    private val api: OpenFoodFactsApi,
+    private val api: FoodApi,
     private val dateTimeFactory: DateTimeFactory,
 ) {
 

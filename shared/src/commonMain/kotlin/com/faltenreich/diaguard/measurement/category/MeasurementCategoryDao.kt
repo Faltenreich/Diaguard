@@ -12,6 +12,7 @@ interface MeasurementCategoryDao {
         name: String,
         icon: String?,
         sortIndex: Long,
+        isActive: Boolean,
     )
 
     fun getLastId(): Long?
@@ -34,6 +35,7 @@ interface MeasurementCategoryDao {
         name: String,
         icon: String?,
         sortIndex: Long,
+        isActive: Boolean,
     )
 
     fun deleteById(id: Long)

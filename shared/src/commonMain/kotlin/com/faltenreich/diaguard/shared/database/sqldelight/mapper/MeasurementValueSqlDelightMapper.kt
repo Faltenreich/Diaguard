@@ -70,6 +70,7 @@ class MeasurementValueSqlDelightMapper(
         categoryName: String,
         categoryIcon: String?,
         categorySortIndex: Long,
+        categoryIsActive: Long,
 
         entryId: Long,
         entryCreatedAt: String,
@@ -110,6 +111,7 @@ class MeasurementValueSqlDelightMapper(
                     name = categoryName,
                     icon = categoryIcon,
                     sortIndex = categorySortIndex,
+                    isActive = categoryIsActive,
                 )
                 selectedUnit = unitMapper.map(
                     id = unitId,

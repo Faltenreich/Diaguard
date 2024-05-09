@@ -17,6 +17,7 @@ data class MeasurementCategory(
     val name: String,
     val icon: String?,
     val sortIndex: Long,
+    val isActive: Boolean,
 ) : DatabaseEntity, Seedable {
 
     lateinit var properties: List<MeasurementProperty>

@@ -22,6 +22,7 @@ class CreateMeasurementCategoryUseCase(
             key = null,
             icon = icon,
             sortIndex = sortIndex,
+            isActive = true,
         )
         return MeasurementCategory(
             id = id,
@@ -31,6 +32,7 @@ class CreateMeasurementCategoryUseCase(
             key = null,
             icon = icon,
             sortIndex = sortIndex,
+            isActive = true,
         )
     }
 }

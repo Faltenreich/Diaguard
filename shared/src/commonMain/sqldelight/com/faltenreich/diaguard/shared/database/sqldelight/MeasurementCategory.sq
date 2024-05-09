@@ -5,12 +5,13 @@ CREATE TABLE MeasurementCategory (
     key TEXT,
     name TEXT NOT NULL,
     icon TEXT,
-    sortIndex INTEGER NOT NULL
+    sortIndex INTEGER NOT NULL,
+    isActive INTEGER NOT NULL
 );
 
 create:
-INSERT INTO MeasurementCategory(createdAt, updatedAt, key, name, icon, sortIndex)
-VALUES (?, ?, ?, ?, ?, ?);
+INSERT INTO MeasurementCategory(createdAt, updatedAt, key, name, icon, sortIndex, isActive)
+VALUES (?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
@@ -28,7 +29,9 @@ countAll:
 SELECT COUNT(*) FROM MeasurementCategory;
 
 update:
-UPDATE MeasurementCategory SET updatedAt = ?, name = ?, icon = ?, sortIndex = ? WHERE id = ?;
+UPDATE MeasurementCategory
+SET updatedAt = ?, name = ?, icon = ?, sortIndex = ?, isActive = ?
+WHERE id = ?;
 
 deleteById:
 DELETE FROM MeasurementCategory WHERE id = ?;

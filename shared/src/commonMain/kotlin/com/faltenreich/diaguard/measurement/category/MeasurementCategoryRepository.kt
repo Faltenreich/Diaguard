@@ -15,6 +15,7 @@ class MeasurementCategoryRepository(
         name: String,
         icon: String?,
         sortIndex: Long,
+        isActive: Boolean,
     ): Long {
         dao.create(
             createdAt = createdAt,
@@ -23,6 +24,7 @@ class MeasurementCategoryRepository(
             name = name,
             icon = icon,
             sortIndex = sortIndex,
+            isActive = isActive,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -57,6 +59,7 @@ class MeasurementCategoryRepository(
         name: String,
         icon: String?,
         sortIndex: Long,
+        isActive: Boolean,
     ) {
         dao.update(
             id = id,
@@ -64,16 +67,7 @@ class MeasurementCategoryRepository(
             name = name,
             icon = icon,
             sortIndex = sortIndex,
-        )
-    }
-
-    fun update(category: MeasurementCategory) = with(category) {
-        update(
-            id = id,
-            updatedAt = updatedAt,
-            name = name,
-            icon = icon,
-            sortIndex = sortIndex,
+            isActive = isActive,
         )
     }
 

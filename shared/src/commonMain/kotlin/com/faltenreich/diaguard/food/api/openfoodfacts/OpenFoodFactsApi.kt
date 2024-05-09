@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.food.api.openfoodfacts
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.shared.data.PagingPage
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
@@ -10,10 +11,10 @@ import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
 class OpenFoodFactsApi(
-    private val client: NetworkingClient,
-    private val localization: Localization,
-    private val serialization: Serialization,
-    private val mapper: OpenFoodFactsMapper,
+    private val client: NetworkingClient = inject(),
+    private val localization: Localization = inject(),
+    private val serialization: Serialization = inject(),
+    private val mapper: OpenFoodFactsMapper = inject(),
 ) : FoodApi {
 
     override suspend fun search(query: String?, page: PagingPage): List<FoodFromApi> {

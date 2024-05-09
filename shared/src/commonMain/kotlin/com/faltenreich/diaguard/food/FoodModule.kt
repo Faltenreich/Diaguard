@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.food
 
+import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsMapper
 import com.faltenreich.diaguard.food.eaten.CreateFoodEatenUseCase
@@ -20,7 +21,7 @@ import org.koin.dsl.module
 fun foodModule() = module {
     singleOf(::OpenFoodFactsMapper)
 
-    singleOf(::OpenFoodFactsApi)
+    single<FoodApi> { OpenFoodFactsApi() }
     singleOf(::FoodRepository)
     singleOf(::FoodEatenRepository)
 

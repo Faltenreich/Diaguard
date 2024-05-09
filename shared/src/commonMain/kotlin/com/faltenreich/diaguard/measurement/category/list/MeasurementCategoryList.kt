@@ -27,17 +27,8 @@ fun MeasurementCategoryList(
             itemsIndexed(categories, key = { _, category -> category.id }) { index, category ->
                 MeasurementCategoryListItem(
                     category = category,
-                    onArrowUp = {
-                        viewModel.dispatchIntent(
-                            MeasurementCategoryListIntent.DecrementSortIndex(category)
-                        )
-                    },
+                    onIntent = { intent -> viewModel.dispatchIntent(intent) },
                     showArrowUp = index > 1,
-                    onArrowDown = {
-                        viewModel.dispatchIntent(
-                            MeasurementCategoryListIntent.IncrementSortIndex(category)
-                        )
-                    },
                     showArrowDown = index > 0 && index < categories.size - 1,
                     modifier = Modifier
                         .animateItemPlacement()

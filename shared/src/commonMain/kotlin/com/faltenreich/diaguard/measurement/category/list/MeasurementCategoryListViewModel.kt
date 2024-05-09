@@ -22,11 +22,9 @@ class MeasurementCategoryListViewModel(
 
     override val state = getMeasurementCategories().map(::MeasurementCategoryListViewState)
 
-    private val categories: List<MeasurementCategory>?
-        get() = stateInScope.value?.categories
-
     override fun handleIntent(intent: MeasurementCategoryListIntent) = with(intent) {
         when (this) {
+            is MeasurementCategoryListIntent.ChangeIsActive -> changeIsActive(category)
             is MeasurementCategoryListIntent.DecrementSortIndex -> decrementSortIndex(category)
             is MeasurementCategoryListIntent.IncrementSortIndex -> incrementSortIndex(category)
             is MeasurementCategoryListIntent.Edit -> editCategory(category)
@@ -34,13 +32,17 @@ class MeasurementCategoryListViewModel(
         }
     }
 
+    private fun changeIsActive(category: MeasurementCategory) {
+        updateMeasurementCategory(category.copy(isActive = !category.isActive))
+    }
+
     private fun decrementSortIndex(category: MeasurementCategory) {
-        val within = categories ?: return
+        val within = stateInScope.value?.categories ?: return
         swapSortIndexes(first = category, second = within.last { it.sortIndex < category.sortIndex })
     }
 
     private fun incrementSortIndex(category: MeasurementCategory) {
-        val within = categories ?: return
+        val within = stateInScope.value?.categories ?: return
         swapSortIndexes(first = category, second = within.first { it.sortIndex > category.sortIndex })
     }
 
@@ -57,7 +59,7 @@ class MeasurementCategoryListViewModel(
     }
 
     private fun createCategory() {
-        val within = categories ?: return
+        val within = stateInScope.value?.categories ?: return
         openModal(
             MeasurementCategoryFormModal(
                 onDismissRequest = closeModal::invoke,

@@ -1,13 +1,14 @@
 package com.faltenreich.diaguard.navigation
 
+import com.faltenreich.diaguard.backup.HasDataUseCase
 import com.faltenreich.diaguard.main.MainViewModel
-import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 fun navigationModule() = module {
     singleOf(::Navigation)
 
+    singleOf(::HasDataUseCase)
     singleOf(::NavigateBackUseCase)
     singleOf(::CanNavigateBackUseCase)
     singleOf(::NavigateToScreenUseCase)
@@ -17,5 +18,5 @@ fun navigationModule() = module {
     singleOf(::OpenModalUseCase)
     singleOf(::CloseModalUseCase)
 
-    factoryOf(::MainViewModel)
+    singleOf(::MainViewModel)
 }

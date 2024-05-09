@@ -32,13 +32,13 @@ fun MeasurementCategoryList(
                             MeasurementCategoryListIntent.DecrementSortIndex(category)
                         )
                     },
-                    showArrowUp = index > 0,
+                    showArrowUp = index > 1,
                     onArrowDown = {
                         viewModel.dispatchIntent(
                             MeasurementCategoryListIntent.IncrementSortIndex(category)
                         )
                     },
-                    showArrowDown = index < categories.size - 1,
+                    showArrowDown = index > 0 && index < categories.size - 1,
                     modifier = Modifier
                         .animateItemPlacement()
                         .clickable { viewModel.dispatchIntent(MeasurementCategoryListIntent.Edit(category)) },

@@ -26,6 +26,7 @@ import com.faltenreich.diaguard.measurement.value.CreateMeasurementValuesUseCase
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -54,8 +55,8 @@ fun measurementModule() = module {
 
     singleOf(::MeasurementPropertyFormStateMapper)
 
-    singleOf(::MeasurementCategoryListViewModel)
+    factoryOf(::MeasurementCategoryListViewModel)
     factory { (category: MeasurementCategory) -> MeasurementCategoryFormViewModel(category) }
-    singleOf(::MeasurementPropertyListViewModel)
+    factoryOf(::MeasurementPropertyListViewModel)
     factory { (property: MeasurementProperty) -> MeasurementPropertyFormViewModel(property) }
 }

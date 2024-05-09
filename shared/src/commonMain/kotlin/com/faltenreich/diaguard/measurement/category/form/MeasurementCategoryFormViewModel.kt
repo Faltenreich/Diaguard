@@ -47,7 +47,10 @@ class MeasurementCategoryFormViewModel(
         openModal(
             EmojiModal(
                 onDismissRequest = closeModal::invoke,
-                onEmojiPicked = { icon.value = it },
+                onEmojiPicked = {
+                    icon.value = it
+                    closeModal()
+                },
             )
         )
     }

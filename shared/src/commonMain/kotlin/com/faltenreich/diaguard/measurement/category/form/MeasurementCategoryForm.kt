@@ -17,9 +17,15 @@ import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIco
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.measurement_category_active
+import diaguard.shared.generated.resources.measurement_category_active_description_disabled
+import diaguard.shared.generated.resources.measurement_category_active_description_enabled
 import diaguard.shared.generated.resources.name
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeasurementCategoryForm(
@@ -53,6 +59,18 @@ fun MeasurementCategoryForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
+        )
+        Divider()
+
+        val isActive = viewModel.isActive.collectAsState().value
+        TextCheckbox(
+            title = stringResource(Res.string.measurement_category_active),
+            subtitle = stringResource(
+                if (isActive) Res.string.measurement_category_active_description_enabled
+                else Res.string.measurement_category_active_description_disabled
+            ),
+            checked = viewModel.isActive.collectAsState().value,
+            onCheckedChange = { viewModel.isActive.value = it },
         )
 
         AnimatedVisibility(

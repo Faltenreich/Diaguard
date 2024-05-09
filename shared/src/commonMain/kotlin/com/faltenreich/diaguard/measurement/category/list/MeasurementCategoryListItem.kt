@@ -29,10 +29,6 @@ fun MeasurementCategoryListItem(
                 text = category.name,
                 modifier = Modifier.weight(1f),
             )
-            Checkbox(
-                checked = category.isActive,
-                onCheckedChange = { onIntent(MeasurementCategoryListIntent.ChangeIsActive(category)) },
-            )
             IconButton(
                 onClick = { onIntent(MeasurementCategoryListIntent.DecrementSortIndex(category)) },
                 enabled = showArrowUp,

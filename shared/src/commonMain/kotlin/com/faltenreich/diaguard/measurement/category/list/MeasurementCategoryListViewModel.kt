@@ -24,16 +24,11 @@ class MeasurementCategoryListViewModel(
 
     override fun handleIntent(intent: MeasurementCategoryListIntent) = with(intent) {
         when (this) {
-            is MeasurementCategoryListIntent.ChangeIsActive -> changeIsActive(category)
             is MeasurementCategoryListIntent.DecrementSortIndex -> decrementSortIndex(category)
             is MeasurementCategoryListIntent.IncrementSortIndex -> incrementSortIndex(category)
             is MeasurementCategoryListIntent.Edit -> editCategory(category)
             is MeasurementCategoryListIntent.Create -> createCategory()
         }
-    }
-
-    private fun changeIsActive(category: MeasurementCategory) {
-        updateMeasurementCategory(category.copy(isActive = !category.isActive))
     }
 
     private fun decrementSortIndex(category: MeasurementCategory) {

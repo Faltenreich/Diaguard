@@ -29,6 +29,7 @@ class MeasurementCategoryFormViewModel(
 
     var icon = MutableStateFlow(category.icon)
     var name = MutableStateFlow(category.name)
+    var isActive = MutableStateFlow(category.isActive)
 
     private val properties = getProperties(category)
 
@@ -56,6 +57,7 @@ class MeasurementCategoryFormViewModel(
         val category = category.copy(
             name = name.value,
             icon = icon.value?.takeIf(String::isNotBlank),
+            isActive = isActive.value,
         )
         updateCategory(category)
         navigateBack()

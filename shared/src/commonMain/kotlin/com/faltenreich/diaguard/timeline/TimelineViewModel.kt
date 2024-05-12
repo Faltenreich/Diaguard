@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.timeline
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
+import com.faltenreich.diaguard.measurement.category.list.GetMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
@@ -19,6 +20,8 @@ import kotlinx.coroutines.flow.map
 class TimelineViewModel(
     getToday: GetTodayUseCase = inject(),
     formatDate: FormatTimelineDateUseCase = inject(),
+    getCategories: GetMeasurementCategoriesUseCase = inject(),
+    getValues: GetMeasurementValuesAroundDateUseCase = inject(),
     getData: GetTimelineDataUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
@@ -27,7 +30,9 @@ class TimelineViewModel(
 
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
-    private val data = currentDate.flatMapLatest(getData::invoke)
+    private val values = currentDate.flatMapLatest(getValues::invoke)
+    private val categories = getCategories()
+    private val data = combine(categories, values, getData::invoke)
 
     override val state = combine(
         initialDate,

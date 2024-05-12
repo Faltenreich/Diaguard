@@ -26,6 +26,8 @@ interface MeasurementValueDao {
 
     fun getByEntryId(entryId: Long): List<MeasurementValue>
 
+    fun observeByByEntryId(entryId: Long): Flow<List<MeasurementValue>>
+
     fun observeByCategoryId(categoryId: Long): Flow<Long>
 
     fun observeByCategoryId(

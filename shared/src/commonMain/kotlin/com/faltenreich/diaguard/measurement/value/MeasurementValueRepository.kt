@@ -60,6 +60,10 @@ class MeasurementValueRepository(
         return dao.getByEntryId(entryId)
     }
 
+    fun observeByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
+        return dao.observeByByEntryId(entryId)
+    }
+
     fun observeByCategoryId(categoryId: Long): Flow<Long> {
         return dao.observeByCategoryId(categoryId)
     }

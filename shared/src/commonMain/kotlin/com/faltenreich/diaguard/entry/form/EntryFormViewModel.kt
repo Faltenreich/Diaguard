@@ -37,6 +37,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
@@ -104,9 +105,8 @@ class EntryFormViewModel(
     override val state: Flow<EntryFormState> = tagSuggestions.map(::EntryFormState)
 
     init {
-        scope.launch(Dispatchers.IO) {
-            val measurements = getMeasurementCategoryInputState(entry)
-            withContext(Dispatchers.Main) {
+        scope.launch {
+            getMeasurementCategoryInputState(entry).collectLatest { measurements ->
                 this@EntryFormViewModel.measurements += measurements
             }
         }

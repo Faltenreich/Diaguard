@@ -23,8 +23,6 @@ interface MeasurementCategoryDao {
 
     fun getByKey(key: String): MeasurementCategory?
 
-    fun getAll(): List<MeasurementCategory>
-
     fun observeAll(): Flow<List<MeasurementCategory>>
 
     fun countAll(): Flow<Long>

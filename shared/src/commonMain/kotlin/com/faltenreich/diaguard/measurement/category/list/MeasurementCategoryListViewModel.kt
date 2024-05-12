@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.category.list
 
+import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
@@ -11,7 +12,7 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.map
 
 class MeasurementCategoryListViewModel(
-    getCategories: GetMeasurementCategoriesUseCase,
+    getCategories: GetAllMeasurementCategoriesUseCase,
     private val updateCategory: UpdateMeasurementCategoryUseCase,
     private val createCategory: CreateMeasurementCategoryUseCase,
     private val navigateToScreen: NavigateToScreenUseCase,

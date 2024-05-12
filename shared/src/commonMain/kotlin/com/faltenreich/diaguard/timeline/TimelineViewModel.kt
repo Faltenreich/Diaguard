@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.timeline
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
-import com.faltenreich.diaguard.measurement.category.list.GetMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.map
 class TimelineViewModel(
     getToday: GetTodayUseCase,
     formatDate: FormatTimelineDateUseCase,
-    getCategories: GetMeasurementCategoriesUseCase,
+    getCategories: GetActiveMeasurementCategoriesUseCase,
     getValues: GetMeasurementValuesAroundDateUseCase,
     getData: GetTimelineDataUseCase,
     private val navigateToScreen: NavigateToScreenUseCase,

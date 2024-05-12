@@ -41,6 +41,10 @@ class MeasurementCategoryRepository(
         return getByKey(DatabaseKey.MeasurementCategory.BLOOD_SUGAR)
     }
 
+    fun observeActive(): Flow<List<MeasurementCategory>> {
+        return dao.observeActive()
+    }
+
     fun observeAll(): Flow<List<MeasurementCategory>> {
         return dao.observeAll()
     }

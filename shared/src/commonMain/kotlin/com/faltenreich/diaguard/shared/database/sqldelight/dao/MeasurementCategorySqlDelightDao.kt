@@ -40,6 +40,10 @@ class MeasurementCategorySqlDelightDao(
         return queries.getByKey(key, mapper::map).executeAsOneOrNull()
     }
 
+    override fun observeActive(): Flow<List<MeasurementCategory>> {
+        return queries.getActive(mapper::map).asFlow().mapToList(dispatcher)
+    }
+
     override fun observeAll(): Flow<List<MeasurementCategory>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }

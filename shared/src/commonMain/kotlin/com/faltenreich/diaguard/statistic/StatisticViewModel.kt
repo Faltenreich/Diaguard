@@ -6,15 +6,15 @@ import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.category.list.GetMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
 class StatisticViewModel(
     getToday: GetTodayUseCase,
-    getCategories: GetMeasurementCategoriesUseCase,
+    getCategories: GetActiveMeasurementCategoriesUseCase,
     private val getAverage: GetAverageUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<StatisticViewState, StatisticIntent, Unit>() {

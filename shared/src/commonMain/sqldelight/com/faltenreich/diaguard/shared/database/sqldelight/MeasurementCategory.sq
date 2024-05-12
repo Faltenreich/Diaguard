@@ -25,6 +25,9 @@ SELECT * FROM MeasurementCategory WHERE key = ?;
 getAll:
 SELECT * FROM MeasurementCategory ORDER BY sortIndex ASC;
 
+getActive:
+SELECT * FROM MeasurementCategory WHERE isActive = 1 ORDER BY sortIndex ASC;
+
 countAll:
 SELECT COUNT(*) FROM MeasurementCategory;
 

@@ -1,14 +1,14 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.category.list.GetMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetMeasurementCategoryInputStateUseCase(
-    private val getCategories: GetMeasurementCategoriesUseCase,
+    private val getCategories: GetActiveMeasurementCategoriesUseCase,
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
 ) {

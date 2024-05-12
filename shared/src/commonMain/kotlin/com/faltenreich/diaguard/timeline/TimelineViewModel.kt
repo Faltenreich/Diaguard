@@ -11,21 +11,20 @@ import com.faltenreich.diaguard.navigation.modal.DatePickerModal
 import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
 import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
 class TimelineViewModel(
-    getToday: GetTodayUseCase = inject(),
-    formatDate: FormatTimelineDateUseCase = inject(),
-    getCategories: GetMeasurementCategoriesUseCase = inject(),
-    getValues: GetMeasurementValuesAroundDateUseCase = inject(),
-    getData: GetTimelineDataUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
-    private val showModal: OpenModalUseCase = inject(),
-    private val closeModal: CloseModalUseCase = inject(),
+    getToday: GetTodayUseCase,
+    formatDate: FormatTimelineDateUseCase,
+    getCategories: GetMeasurementCategoriesUseCase,
+    getValues: GetMeasurementValuesAroundDateUseCase,
+    getData: GetTimelineDataUseCase,
+    private val navigateToScreen: NavigateToScreenUseCase,
+    private val showModal: OpenModalUseCase,
+    private val closeModal: CloseModalUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
     private val initialDate = MutableStateFlow(getToday())

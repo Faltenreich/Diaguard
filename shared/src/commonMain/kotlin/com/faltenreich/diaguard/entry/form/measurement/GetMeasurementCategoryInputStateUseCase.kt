@@ -1,20 +1,20 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.measurement.category.list.GetMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetMeasurementCategoryInputStateUseCase(
-    private val categoryRepository: MeasurementCategoryRepository,
+    private val getCategories: GetMeasurementCategoriesUseCase,
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
 ) {
 
     operator fun invoke(entry: Entry?): Flow<List<MeasurementCategoryInputState>> {
-        return categoryRepository.observeAll().map { categories ->
+        return getCategories().map { categories ->
             categories.mapIndexed { categoryIndex, category ->
                 // FIXME: Observe via Flow
                 val properties = propertyRepository.getByCategoryId(category.id)

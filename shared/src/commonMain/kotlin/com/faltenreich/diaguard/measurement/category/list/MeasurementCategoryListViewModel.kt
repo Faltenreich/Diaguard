@@ -8,19 +8,18 @@ import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.modal.MeasurementCategoryFormModal
 import com.faltenreich.diaguard.navigation.screen.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.map
 
 class MeasurementCategoryListViewModel(
-    getMeasurementCategories: GetMeasurementCategoriesUseCase = inject(),
-    private val updateMeasurementCategory: UpdateMeasurementCategoryUseCase = inject(),
-    private val createMeasurementCategory: CreateMeasurementCategoryUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
-    private val openModal: OpenModalUseCase = inject(),
-    private val closeModal: CloseModalUseCase = inject(),
+    getCategories: GetMeasurementCategoriesUseCase,
+    private val updateCategory: UpdateMeasurementCategoryUseCase,
+    private val createCategory: CreateMeasurementCategoryUseCase,
+    private val navigateToScreen: NavigateToScreenUseCase,
+    private val openModal: OpenModalUseCase,
+    private val closeModal: CloseModalUseCase,
 ) : ViewModel<MeasurementCategoryListViewState, MeasurementCategoryListIntent, Unit>() {
 
-    override val state = getMeasurementCategories().map(::MeasurementCategoryListViewState)
+    override val state = getCategories().map(::MeasurementCategoryListViewState)
 
     override fun handleIntent(intent: MeasurementCategoryListIntent) = with(intent) {
         when (this) {
@@ -45,8 +44,8 @@ class MeasurementCategoryListViewModel(
         first: MeasurementCategory,
         second: MeasurementCategory,
     ) {
-        updateMeasurementCategory(first.copy(sortIndex = second.sortIndex))
-        updateMeasurementCategory(second.copy(sortIndex = first.sortIndex))
+        updateCategory(first.copy(sortIndex = second.sortIndex))
+        updateCategory(second.copy(sortIndex = first.sortIndex))
     }
 
     private fun editCategory(category: MeasurementCategory) {
@@ -59,7 +58,7 @@ class MeasurementCategoryListViewModel(
             MeasurementCategoryFormModal(
                 onDismissRequest = closeModal::invoke,
                 onConfirmRequest = { name ->
-                    val category = createMeasurementCategory(
+                    val category = createCategory(
                         name = name,
                         icon = null,
                         sortIndex = within.maxOf(MeasurementCategory::sortIndex) + 1,

@@ -9,13 +9,12 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.list.GetMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
 class StatisticViewModel(
-    getToday: GetTodayUseCase = inject(),
-    getMeasurementCategories: GetMeasurementCategoriesUseCase,
+    getToday: GetTodayUseCase,
+    getCategories: GetMeasurementCategoriesUseCase,
     private val getAverage: GetAverageUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<StatisticViewState, StatisticIntent, Unit>() {
@@ -29,7 +28,7 @@ class StatisticViewModel(
         get() = dateTimeFormatter.formatDateRange(dateRange)
 
     override val state = combine(
-        getMeasurementCategories(),
+        getCategories(),
         selectedCategory,
     ) { categories, selectedCategory ->
         val category = selectedCategory ?: categories.first()

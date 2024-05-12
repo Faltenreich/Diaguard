@@ -9,7 +9,6 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.list.GetMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -17,8 +16,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ExportFormViewModel(
-    getToday: GetTodayUseCase = inject(),
-    getMeasurementCategories: GetMeasurementCategoriesUseCase,
+    getToday: GetTodayUseCase,
+    getCategories: GetMeasurementCategoriesUseCase,
     private val export: ExportUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
     private val localization: Localization,
@@ -57,7 +56,7 @@ class ExportFormViewModel(
 
     init {
         scope.launch {
-            getMeasurementCategories().collect { categories ->
+            getCategories().collect { categories ->
                 val exportCategories = categories.map { category ->
                     ExportFormMeasurementCategory(
                         category = category,

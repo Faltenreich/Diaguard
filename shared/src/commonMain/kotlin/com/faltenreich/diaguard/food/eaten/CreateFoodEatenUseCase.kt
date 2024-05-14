@@ -21,14 +21,18 @@ class CreateFoodEatenUseCase(
         foodEaten.forEach { now ->
             val amountInGrams = now.amountInGrams ?: return@forEach
             val legacyId = foodEatenBefore.firstOrNull { before -> before.food.id == now.food.id }?.id
-            foodEatenRepository.update(
-                id = legacyId ?: foodEatenRepository.create(
+            if (legacyId != null) {
+                foodEatenRepository.update(
+                    id = legacyId,
+                    amountInGrams = amountInGrams,
+                )
+            } else {
+                foodEatenRepository.create(
                     amountInGrams = amountInGrams,
                     foodId = now.food.id,
                     entryId = entryId,
-                ),
-                amountInGrams = amountInGrams,
-            )
+                )
+            }
         }
     }
 

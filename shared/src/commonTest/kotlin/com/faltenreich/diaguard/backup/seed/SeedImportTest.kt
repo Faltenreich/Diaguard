@@ -74,13 +74,12 @@ class SeedImportTest {
 
     private val seedImport = SeedImport(
         localization = localization,
-        dateTimeFactory = dateTimeFactory,
         seedRepository = seedRepository,
-        categoryRepository = MeasurementCategoryRepository(dao = categoryDao),
-        propertyRepository = MeasurementPropertyRepository(dao = propertyDao),
-        unitRepository = MeasurementUnitRepository(dao = unitDao),
+        categoryRepository = MeasurementCategoryRepository(dao = categoryDao, dateTimeFactory = dateTimeFactory),
+        propertyRepository = MeasurementPropertyRepository(dao = propertyDao, dateTimeFactory = dateTimeFactory),
+        unitRepository = MeasurementUnitRepository(dao = unitDao, dateTimeFactory = dateTimeFactory),
         foodRepository = FoodRepository(dao = foodDao, api = foodApi, dateTimeFactory = dateTimeFactory),
-        tagRepository = TagRepository(dao = tagDao),
+        tagRepository = TagRepository(dao = tagDao, dateTimeFactory = dateTimeFactory),
     )
 
     init {

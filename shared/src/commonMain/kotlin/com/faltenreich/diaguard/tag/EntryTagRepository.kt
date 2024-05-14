@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.tag
 
-import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
@@ -13,7 +13,7 @@ class EntryTagRepository(
     fun create(
         entryId: Long,
         tagId: Long,
-    ): Long {
+    ): EntryTag {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -21,7 +21,14 @@ class EntryTagRepository(
             entryId = entryId,
             tagId = tagId,
         )
-        return checkNotNull(dao.getLastId())
+        val id = checkNotNull(dao.getLastId())
+        return EntryTag(
+            id = id,
+            createdAt = now,
+            updatedAt = now,
+            entryId = entryId,
+            tagId = tagId,
+        )
     }
 
     fun getLastId(): Long? {
@@ -32,16 +39,8 @@ class EntryTagRepository(
         return dao.getByEntryId(entryId)
     }
 
-    fun observeByEntryId(entryId: Long): Flow<List<EntryTag>> {
-        return dao.observeByEntryId(entryId)
-    }
-
     fun observeByTagId(tagId: Long): Flow<List<EntryTag>> {
         return dao.observeByTagId(tagId)
-    }
-
-    fun countByTagId(tagId: Long): Flow<Long> {
-        return dao.countByTagId(tagId)
     }
 
     fun deleteById(id: Long) {

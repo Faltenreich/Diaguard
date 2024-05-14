@@ -6,7 +6,8 @@ CREATE TABLE MeasurementUnit (
     name TEXT NOT NULL,
     abbreviation TEXT NOT NULL,
     factor REAL NOT NULL,
-    propertyId INTEGER NOT NULL
+    propertyId INTEGER NOT NULL,
+    FOREIGN KEY(propertyId) REFERENCES MeasurementProperty(id) ON DELETE CASCADE
 );
 
 create:

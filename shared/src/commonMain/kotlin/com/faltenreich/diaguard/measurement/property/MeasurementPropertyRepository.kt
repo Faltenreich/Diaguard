@@ -21,8 +21,6 @@ class MeasurementPropertyRepository(
         categoryId: Long,
     ): MeasurementProperty {
         val now = dateTimeFactory.now()
-        // We set this temporary id because the corresponding unit will be created afterwards
-        val selectedUnitId = MeasurementProperty.SELECTED_UNIT_ID_INVALID
         dao.create(
             createdAt = now,
             updatedAt = now,
@@ -31,7 +29,7 @@ class MeasurementPropertyRepository(
             range = range,
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
-            selectedUnitId = selectedUnitId,
+            selectedUnitId = null,
             categoryId = categoryId,
         )
         val id = checkNotNull(dao.getLastId())
@@ -44,7 +42,7 @@ class MeasurementPropertyRepository(
             range = range,
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
-            selectedUnitId = selectedUnitId,
+            selectedUnitId = null,
             categoryId = categoryId,
         )
     }
@@ -79,7 +77,7 @@ class MeasurementPropertyRepository(
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
-        selectedUnitId: Long,
+        selectedUnitId: Long?,
     ) {
         dao.update(
             id = id,

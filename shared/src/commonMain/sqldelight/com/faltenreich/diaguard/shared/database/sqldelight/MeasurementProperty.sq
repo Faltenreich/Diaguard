@@ -12,8 +12,10 @@ CREATE TABLE MeasurementProperty (
     valueRangeHigh REAL,
     valueRangeMaximum REAL NOT NULL,
     isValueRangeHighlighted INTEGER NOT NULL,
-    selectedUnitId INTEGER NOT NULL,
-    categoryId INTEGER NOT NULL
+    selectedUnitId INTEGER,
+    categoryId INTEGER NOT NULL,
+    FOREIGN KEY(selectedUnitId) REFERENCES MeasurementUnit(id) ON DELETE SET NULL,
+    FOREIGN KEY(categoryId) REFERENCES MeasurementCategory(id) ON DELETE CASCADE
 );
 
 create:

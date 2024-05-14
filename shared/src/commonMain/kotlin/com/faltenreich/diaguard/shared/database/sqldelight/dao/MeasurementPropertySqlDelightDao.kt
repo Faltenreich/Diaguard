@@ -34,7 +34,7 @@ class MeasurementPropertySqlDelightDao(
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
-        selectedUnitId: Long,
+        selectedUnitId: Long?,
         categoryId: Long,
     ) {
         queries.create(
@@ -94,7 +94,7 @@ class MeasurementPropertySqlDelightDao(
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
-        selectedUnitId: Long,
+        selectedUnitId: Long?,
     ) {
         queries.update(
             updatedAt = updatedAt.isoString,

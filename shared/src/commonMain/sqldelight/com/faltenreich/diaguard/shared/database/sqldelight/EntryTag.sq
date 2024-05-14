@@ -3,7 +3,9 @@ CREATE TABLE EntryTag (
     createdAt TEXT NOT NULL,
     updatedAt TEXT NOT NULL,
     entryId INTEGER NOT NULL,
-    tagId INTEGER NOT NULL
+    tagId INTEGER NOT NULL,
+    FOREIGN KEY(entryId) REFERENCES Entry(id) ON DELETE CASCADE,
+    FOREIGN KEY(tagId) REFERENCES Tag(id) ON DELETE CASCADE
 );
 
 create:

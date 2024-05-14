@@ -4,7 +4,9 @@ CREATE TABLE foodEaten (
     updatedAt TEXT NOT NULL,
     amountInGrams INTEGER NOT NULL,
     foodId INTEGER NOT NULL,
-    entryId INTEGER NOT NULL
+    entryId INTEGER NOT NULL,
+    FOREIGN KEY(foodId) REFERENCES Food(id) ON DELETE CASCADE,
+    FOREIGN KEY(entryId) REFERENCES Entry(id) ON DELETE CASCADE
 );
 
 create:

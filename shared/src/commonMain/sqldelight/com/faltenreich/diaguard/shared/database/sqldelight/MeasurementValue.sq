@@ -4,7 +4,9 @@ CREATE TABLE MeasurementValue (
     updatedAt TEXT NOT NULL,
     value REAL NOT NULL,
     propertyId INTEGER NOT NULL,
-    entryId INTEGER NOT NULL
+    entryId INTEGER NOT NULL,
+    FOREIGN KEY(propertyId) REFERENCES MeasurementProperty(id) ON DELETE CASCADE,
+    FOREIGN KEY(entryId) REFERENCES Entry(id) ON DELETE CASCADE
 );
 
 create:

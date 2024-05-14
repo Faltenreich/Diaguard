@@ -27,7 +27,7 @@ class MeasurementPropertySqlDelightMapper(
         valueRangeHigh: Double?,
         valueRangeMaximum: Double,
         isValueRangeHighlighted: Long,
-        selectedUnitId: Long,
+        selectedUnitId: Long?,
         categoryId: Long,
     ): MeasurementProperty {
         return MeasurementProperty(
@@ -65,7 +65,7 @@ class MeasurementPropertySqlDelightMapper(
         propertyValueRangeHigh: Double?,
         propertyValueRangeMaximum: Double,
         propertyIsValueRangeHighlighted: Long,
-        propertySelectedUnitId: Long,
+        propertySelectedUnitId: Long?,
         propertyCategoryId: Long,
 
         selectedUnitId: Long,

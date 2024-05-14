@@ -20,21 +20,12 @@ data class MeasurementProperty(
     val sortIndex: Long,
     val aggregationStyle: MeasurementAggregationStyle,
     val range: MeasurementValueRange,
-    val selectedUnitId: Long,
+    val selectedUnitId: Long?,
     val categoryId: Long,
 ) : DatabaseEntity, Seedable {
 
     lateinit var category: MeasurementCategory
     lateinit var units: List<MeasurementUnit>
 
-    lateinit var selectedUnit: MeasurementUnit
-
-    companion object {
-
-        /**
-         * Invalid id that acts as a temporary placeholder,
-         * e.g. until the corresponding [MeasurementUnit] has been created
-         */
-        const val SELECTED_UNIT_ID_INVALID: Long = -1
-    }
+    lateinit var selectedUnit: MeasurementUnit // TODO: Make optional
 }

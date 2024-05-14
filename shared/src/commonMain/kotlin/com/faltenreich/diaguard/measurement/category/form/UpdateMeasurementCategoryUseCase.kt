@@ -2,20 +2,12 @@ package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.shared.di.inject
 
 class UpdateMeasurementCategoryUseCase(
-    private val repository: MeasurementCategoryRepository = inject(),
+    private val repository: MeasurementCategoryRepository,
 ) {
 
-    operator fun invoke(category: MeasurementCategory) = with(category) {
-        repository.update(
-            id = id,
-            updatedAt = updatedAt,
-            name = name,
-            icon = icon,
-            sortIndex = sortIndex,
-            isActive = isActive,
-        )
+    operator fun invoke(category: MeasurementCategory) {
+        repository.update(category)
     }
 }

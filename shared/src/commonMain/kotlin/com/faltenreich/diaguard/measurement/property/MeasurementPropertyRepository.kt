@@ -1,38 +1,51 @@
 package com.faltenreich.diaguard.measurement.property
 
-import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementPropertyRepository(
     private val dao: MeasurementPropertyDao,
+    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(
-        createdAt: DateTime,
-        updatedAt: DateTime,
-        key: String?,
+        key: DatabaseKey.MeasurementProperty?,
         name: String,
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
         categoryId: Long,
-    ): Long {
+    ): MeasurementProperty {
+        val now = dateTimeFactory.now()
+        // We set this temporary id because the corresponding unit will be created afterwards
+        val selectedUnitId = MeasurementProperty.SELECTED_UNIT_ID_INVALID
         dao.create(
-            createdAt = createdAt,
-            updatedAt = updatedAt,
+            createdAt = now,
+            updatedAt = now,
             key = key,
             name = name,
             range = range,
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
-            // We set this temporary id because the corresponding unit will be created afterwards
-            selectedUnitId = MeasurementProperty.SELECTED_UNIT_ID_INVALID,
+            selectedUnitId = selectedUnitId,
             categoryId = categoryId,
         )
-        return checkNotNull(dao.getLastId())
+        return MeasurementProperty(
+            id = checkNotNull(dao.getLastId()),
+            createdAt = now,
+            updatedAt = now,
+            key = key,
+            name = name,
+            range = range,
+            sortIndex = sortIndex,
+            aggregationStyle = aggregationStyle,
+            selectedUnitId = selectedUnitId,
+            categoryId = categoryId,
+        )
     }
 
     fun getById(id: Long): MeasurementProperty? {
@@ -61,7 +74,6 @@ class MeasurementPropertyRepository(
 
     fun update(
         id: Long,
-        updatedAt: DateTime,
         name: String,
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
@@ -70,7 +82,7 @@ class MeasurementPropertyRepository(
     ) {
         dao.update(
             id = id,
-            updatedAt = updatedAt,
+            updatedAt = dateTimeFactory.now(),
             name = name,
             range = range,
             sortIndex = sortIndex,

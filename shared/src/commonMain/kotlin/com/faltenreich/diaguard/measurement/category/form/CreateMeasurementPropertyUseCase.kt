@@ -28,9 +28,7 @@ class CreateMeasurementPropertyUseCase(
         // TODO: Make customizable?
         val unitAbbreviation = unitName
 
-        val propertyId = propertyRepository.create(
-            createdAt = createdAt,
-            updatedAt = createdAt,
+        val property = propertyRepository.create(
             key = null,
             name = propertyName,
             sortIndex = propertySortIndex,
@@ -46,12 +44,11 @@ class CreateMeasurementPropertyUseCase(
             name = unitName,
             abbreviation = unitAbbreviation,
             factor = unitFactor,
-            propertyId = propertyId,
+            propertyId = property.id,
         )
 
         propertyRepository.update(
-            id = propertyId,
-            updatedAt = createdAt,
+            id = property.id,
             name = propertyName,
             sortIndex = propertySortIndex,
             aggregationStyle = propertyAggregationStyle,
@@ -59,18 +56,7 @@ class CreateMeasurementPropertyUseCase(
             selectedUnitId = unitId,
         )
 
-        return MeasurementProperty(
-            id = propertyId,
-            createdAt = createdAt,
-            updatedAt = createdAt,
-            key = null,
-            name = propertyName,
-            sortIndex = propertySortIndex,
-            aggregationStyle = propertyAggregationStyle,
-            range = propertyRange,
-            selectedUnitId = unitId,
-            categoryId = categoryId,
-        ).apply {
+        return property.copy(selectedUnitId = unitId).apply {
             selectedUnit = MeasurementUnit(
                 id = unitId,
                 createdAt = createdAt,
@@ -79,7 +65,7 @@ class CreateMeasurementPropertyUseCase(
                 name = unitName,
                 abbreviation = unitAbbreviation,
                 factor = unitFactor,
-                propertyId = propertyId,
+                propertyId = property.id,
             )
         }
     }

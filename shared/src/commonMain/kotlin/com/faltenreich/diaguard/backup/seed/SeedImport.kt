@@ -32,10 +32,8 @@ class SeedImport(
                 isActive = true,
             )
             categorySeed.properties.forEachIndexed { propertySortIndex, propertySeed ->
-                val propertyId = propertyRepository.create(
-                    createdAt = dateTimeFactory.now(),
-                    updatedAt = dateTimeFactory.now(),
-                    key = propertySeed.key.key,
+                val property = propertyRepository.create(
+                    key = propertySeed.key,
                     name = localization.getString(propertySeed.name),
                     sortIndex = propertySortIndex.toLong(),
                     aggregationStyle = propertySeed.aggregationStyle,
@@ -50,13 +48,12 @@ class SeedImport(
                         name = localization.getString(unitSeed.name),
                         abbreviation = localization.getString(unitSeed.abbreviation),
                         factor = unitSeed.factor,
-                        propertyId = propertyId,
+                        propertyId = property.id,
                     )
                     val isSelectedUnit = unitSeed.factor == MeasurementUnit.FACTOR_DEFAULT
                     if (isSelectedUnit) {
                         propertyRepository.update(
-                            id = propertyId,
-                            updatedAt = dateTimeFactory.now(),
+                            id = property.id,
                             name = localization.getString(propertySeed.name),
                             sortIndex = propertySortIndex.toLong(),
                             aggregationStyle = propertySeed.aggregationStyle,

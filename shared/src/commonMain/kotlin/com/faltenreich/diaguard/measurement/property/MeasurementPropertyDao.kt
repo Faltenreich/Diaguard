@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.property
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 interface MeasurementPropertyDao {
@@ -9,7 +10,7 @@ interface MeasurementPropertyDao {
     fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
-        key: String?,
+        key: DatabaseKey.MeasurementProperty?,
         name: String,
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,

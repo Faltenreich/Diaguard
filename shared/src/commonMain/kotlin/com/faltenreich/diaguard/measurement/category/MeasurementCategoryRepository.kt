@@ -26,8 +26,9 @@ class MeasurementCategoryRepository(
             sortIndex = sortIndex,
             isActive = isActive,
         )
+        val id = checkNotNull(dao.getLastId())
         return MeasurementCategory(
-            id = checkNotNull(dao.getLastId()),
+            id = id,
             createdAt = now,
             updatedAt = now,
             key = key,

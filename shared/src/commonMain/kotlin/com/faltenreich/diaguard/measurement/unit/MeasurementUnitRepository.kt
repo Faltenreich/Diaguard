@@ -1,31 +1,42 @@
 package com.faltenreich.diaguard.measurement.unit
 
-import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementUnitRepository(
     private val dao: MeasurementUnitDao,
+    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(
-        createdAt: DateTime,
-        updatedAt: DateTime,
         name: String,
         abbreviation: String,
-        key: String?,
+        key: DatabaseKey.MeasurementUnit?,
         factor: Double,
         propertyId: Long,
-    ): Long {
+    ): MeasurementUnit {
+        val now = dateTimeFactory.now()
         dao.create(
-            createdAt = createdAt,
-            updatedAt = updatedAt,
+            createdAt = now,
+            updatedAt = now,
             key = key,
             name = name,
             abbreviation = abbreviation,
             factor = factor,
             propertyId = propertyId,
         )
-        return checkNotNull(dao.getLastId())
+        val id = checkNotNull(dao.getLastId())
+        return MeasurementUnit(
+            id = id,
+            createdAt = now,
+            updatedAt = now,
+            key = key,
+            name = name,
+            abbreviation = abbreviation,
+            factor = factor,
+            propertyId = propertyId,
+        )
     }
 
     fun getByKey(key: String): MeasurementUnit {
@@ -46,13 +57,12 @@ class MeasurementUnitRepository(
 
     fun update(
         id: Long,
-        updatedAt: DateTime,
         name: String,
         abbreviation: String,
     ) {
         dao.update(
             id = id,
-            updatedAt = updatedAt,
+            updatedAt = dateTimeFactory.now(),
             name = name,
             abbreviation = abbreviation,
         )

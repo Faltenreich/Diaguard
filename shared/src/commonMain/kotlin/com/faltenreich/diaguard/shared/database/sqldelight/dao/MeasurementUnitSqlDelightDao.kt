@@ -6,6 +6,7 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementUnitQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSqlDelightMapper
@@ -25,7 +26,7 @@ class MeasurementUnitSqlDelightDao(
     override fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
-        key: String?,
+        key: DatabaseKey.MeasurementUnit?,
         name: String,
         abbreviation: String,
         factor: Double,
@@ -34,7 +35,7 @@ class MeasurementUnitSqlDelightDao(
         queries.create(
             createdAt = createdAt.isoString,
             updatedAt = updatedAt.isoString,
-            key = key,
+            key = key?.key,
             name = name,
             abbreviation = abbreviation,
             factor = factor,

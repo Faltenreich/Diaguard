@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.unit
 
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 interface MeasurementUnitDao {
@@ -8,7 +9,7 @@ interface MeasurementUnitDao {
     fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
-        key: String?,
+        key: DatabaseKey.MeasurementUnit?,
         name: String,
         abbreviation: String,
         factor: Double,

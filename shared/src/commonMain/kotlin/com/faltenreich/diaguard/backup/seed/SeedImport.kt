@@ -41,10 +41,8 @@ class SeedImport(
                     categoryId = category.id,
                 )
                 propertySeed.units.forEach { unitSeed ->
-                    val unitId = unitRepository.create(
-                        createdAt = dateTimeFactory.now(),
-                        updatedAt = dateTimeFactory.now(),
-                        key = unitSeed.key.key,
+                    val unit = unitRepository.create(
+                        key = unitSeed.key,
                         name = localization.getString(unitSeed.name),
                         abbreviation = localization.getString(unitSeed.abbreviation),
                         factor = unitSeed.factor,
@@ -58,7 +56,7 @@ class SeedImport(
                             sortIndex = propertySortIndex.toLong(),
                             aggregationStyle = propertySeed.aggregationStyle,
                             range = propertySeed.range,
-                            selectedUnitId = unitId,
+                            selectedUnitId = unit.id,
                         )
                     }
                 }

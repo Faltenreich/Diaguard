@@ -34,8 +34,9 @@ class MeasurementPropertyRepository(
             selectedUnitId = selectedUnitId,
             categoryId = categoryId,
         )
+        val id = checkNotNull(dao.getLastId())
         return MeasurementProperty(
-            id = checkNotNull(dao.getLastId()),
+            id = id,
             createdAt = now,
             updatedAt = now,
             key = key,

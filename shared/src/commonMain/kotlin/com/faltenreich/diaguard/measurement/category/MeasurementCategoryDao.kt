@@ -21,7 +21,7 @@ interface MeasurementCategoryDao {
 
     fun observeById(id: Long): Flow<MeasurementCategory?>
 
-    fun getByKey(key: String): MeasurementCategory?
+    fun observeByKey(key: String): Flow<MeasurementCategory?>
 
     fun observeActive(): Flow<List<MeasurementCategory>>
 

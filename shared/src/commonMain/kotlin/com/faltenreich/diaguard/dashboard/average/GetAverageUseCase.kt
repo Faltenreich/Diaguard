@@ -11,6 +11,8 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 
 class GetAverageUseCase(
     private val measurementCategoryRepository: MeasurementCategoryRepository = inject(),
@@ -21,42 +23,42 @@ class GetAverageUseCase(
 ) {
 
     operator fun invoke(): Flow<DashboardViewState.Revisit.Average?> {
-        val category = measurementCategoryRepository.getBloodSugar()
-        val categoryId = category.id
-
         val today = getToday()
         val todayAtEndOfDay = today.atEndOfDay()
 
-        return combine(
-            measurementPropertyRepository.observeByCategoryId(categoryId),
-            measurementValueRepository.observeAverageByCategoryId(
-                categoryId = categoryId,
-                minDateTime = today.atStartOfDay(),
-                maxDateTime = todayAtEndOfDay,
-            ),
-            measurementValueRepository.observeAverageByCategoryId(
-                categoryId = categoryId,
-                minDateTime = today.minus(1, DateUnit.WEEK).atStartOfDay(),
-                maxDateTime = todayAtEndOfDay,
-            ),
-            measurementValueRepository.observeAverageByCategoryId(
-                categoryId = categoryId,
-                minDateTime = today.minus(1, DateUnit.MONTH).atStartOfDay(),
-                maxDateTime = todayAtEndOfDay,
-            ),
-        ) { properties, averageOfDay, averageOfWeek, averageOfMonth ->
-            val unit = properties.first().selectedUnit
-            DashboardViewState.Revisit.Average(
-                day = averageOfDay?.let {
-                    mapMeasurementValue(MeasurementValueForDatabase(averageOfDay, unit))
-                }?.value,
-                week = averageOfWeek?.let {
-                    mapMeasurementValue(MeasurementValueForDatabase(averageOfWeek, unit))
-                }?.value,
-                month = averageOfMonth?.let {
-                    mapMeasurementValue(MeasurementValueForDatabase(averageOfMonth, unit))
-                }?.value,
-            )
+        return measurementCategoryRepository.observeBloodSugar().flatMapLatest { category ->
+            val categoryId = category?.id ?: return@flatMapLatest flowOf(null)
+            combine(
+                measurementPropertyRepository.observeByCategoryId(categoryId),
+                measurementValueRepository.observeAverageByCategoryId(
+                    categoryId = categoryId,
+                    minDateTime = today.atStartOfDay(),
+                    maxDateTime = todayAtEndOfDay,
+                ),
+                measurementValueRepository.observeAverageByCategoryId(
+                    categoryId = categoryId,
+                    minDateTime = today.minus(1, DateUnit.WEEK).atStartOfDay(),
+                    maxDateTime = todayAtEndOfDay,
+                ),
+                measurementValueRepository.observeAverageByCategoryId(
+                    categoryId = categoryId,
+                    minDateTime = today.minus(1, DateUnit.MONTH).atStartOfDay(),
+                    maxDateTime = todayAtEndOfDay,
+                ),
+            ) { properties, averageOfDay, averageOfWeek, averageOfMonth ->
+                val unit = properties.first().selectedUnit
+                DashboardViewState.Revisit.Average(
+                    day = averageOfDay?.let {
+                        mapMeasurementValue(MeasurementValueForDatabase(averageOfDay, unit))
+                    }?.value,
+                    week = averageOfWeek?.let {
+                        mapMeasurementValue(MeasurementValueForDatabase(averageOfWeek, unit))
+                    }?.value,
+                    month = averageOfMonth?.let {
+                        mapMeasurementValue(MeasurementValueForDatabase(averageOfMonth, unit))
+                    }?.value,
+                )
+            }
         }
     }
 }

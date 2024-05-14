@@ -53,8 +53,22 @@ class MeasurementCategoryRepository(
         return dao.countAll()
     }
 
-    fun update(category: MeasurementCategory) {
-        dao.update(category)
+    fun update(
+        id: Long,
+        updatedAt: DateTime,
+        name: String,
+        icon: String?,
+        sortIndex: Long,
+        isActive: Boolean,
+    ) {
+        dao.update(
+            id = id,
+            updatedAt = updatedAt,
+            name = name,
+            icon = icon,
+            sortIndex = sortIndex,
+            isActive = isActive,
+        )
     }
 
     fun deleteById(id: Long) {

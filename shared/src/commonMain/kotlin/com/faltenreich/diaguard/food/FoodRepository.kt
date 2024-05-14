@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.food
 
-import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
@@ -14,8 +13,6 @@ class FoodRepository(
 ) {
 
     fun create(
-        createdAt: DateTime,
-        updatedAt: DateTime,
         uuid: String?,
         name: String,
         brand: String?,
@@ -30,10 +27,11 @@ class FoodRepository(
         salt: Double?,
         sodium: Double?,
         sugar: Double?,
-    ): Long {
+    ): Food {
+        val now = dateTimeFactory.now()
         dao.create(
-            createdAt = createdAt,
-            updatedAt = updatedAt,
+            createdAt = now,
+            updatedAt = now,
             uuid = uuid,
             name = name,
             brand = brand,
@@ -49,7 +47,26 @@ class FoodRepository(
             sodium = sodium,
             sugar = sugar,
         )
-        return checkNotNull(dao.getLastId())
+        val id = checkNotNull(dao.getLastId())
+        return Food(
+            id = id,
+            createdAt = now,
+            updatedAt = now,
+            uuid = uuid,
+            name = name,
+            brand = brand,
+            ingredients = ingredients,
+            labels = labels,
+            carbohydrates = carbohydrates,
+            energy = energy,
+            fat = fat,
+            fatSaturated = fatSaturated,
+            fiber = fiber,
+            proteins = proteins,
+            salt = salt,
+            sodium = sodium,
+            sugar = sugar,
+        )
     }
 
     suspend fun getByQuery(query: String, page: PagingPage): List<Food> {
@@ -65,10 +82,7 @@ class FoodRepository(
                 // We do not update to avoid altering data edited by user
                 val update = foodFromApi.filterNot { it.uuid in existing }
                 update.forEach { food ->
-                    val now = dateTimeFactory.now()
                     create(
-                        createdAt = now,
-                        updatedAt = now,
                         uuid = food.uuid,
                         name = food.name,
                         brand = food.brand,
@@ -93,7 +107,6 @@ class FoodRepository(
 
     fun update(
         id: Long,
-        updatedAt: DateTime,
         name: String,
         carbohydrates: Double,
         brand: String? = null,
@@ -110,7 +123,7 @@ class FoodRepository(
     ) {
         dao.update(
             id = id,
-            updatedAt = updatedAt,
+            updatedAt = dateTimeFactory.now(),
             name = name,
             brand = brand,
             ingredients = ingredients,

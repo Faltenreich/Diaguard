@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.backup.seed
 
 import com.faltenreich.diaguard.backup.Import
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
@@ -12,7 +11,6 @@ import com.faltenreich.diaguard.tag.TagRepository
 
 class SeedImport(
     private val localization: Localization,
-    private val dateTimeFactory: DateTimeFactory,
     private val seedRepository: SeedRepository,
     private val categoryRepository: MeasurementCategoryRepository,
     private val propertyRepository: MeasurementPropertyRepository,
@@ -66,8 +64,6 @@ class SeedImport(
         val foodSeeds = seedRepository.getFood()
         foodSeeds.forEach { foodSeed ->
             foodRepository.create(
-                createdAt = dateTimeFactory.now(),
-                updatedAt = dateTimeFactory.now(),
                 uuid = null,
                 name = foodSeed.en, // TODO: Localize
                 brand = null,
@@ -88,8 +84,6 @@ class SeedImport(
         val tagSeeds = seedRepository.getTags()
         tagSeeds.forEach { tagSeed ->
             tagRepository.create(
-                createdAt = dateTimeFactory.now(),
-                updatedAt = dateTimeFactory.now(),
                 name = tagSeed.en, // TODO: Localize
             )
         }

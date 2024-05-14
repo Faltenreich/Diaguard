@@ -1,12 +1,13 @@
 package com.faltenreich.diaguard.tag
 
-import com.faltenreich.diaguard.shared.di.inject
-
 class UpdateTagUseCase(
-    private val tagRepository: TagRepository = inject(),
+    private val tagRepository: TagRepository,
 ) {
 
-    operator fun invoke(tag: Tag) {
-        tagRepository.update(tag)
+    operator fun invoke(tag: Tag) = with(tag) {
+        tagRepository.update(
+            id = id,
+            name = name,
+        )
     }
 }

@@ -7,6 +7,8 @@ import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 actual class SqlDelightDriverFactory(private val context: Context) {
 
     actual fun createDriver(): SqlDriver {
+        // Ships driver for native SQLite database bundled with Android
+        // https://developer.android.com/reference/android/database/sqlite/package-summary.html
         return AndroidSqliteDriver(SqlDelightApi.Schema, context, DATABASE_FILE_NAME)
     }
 

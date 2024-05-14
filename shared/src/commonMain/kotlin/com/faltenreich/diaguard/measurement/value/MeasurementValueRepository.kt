@@ -14,12 +14,14 @@ class MeasurementValueRepository(
 ) {
 
     fun create(
-        createdAt: DateTime,
-        updatedAt: DateTime,
+        // Only set by legacy import
+        createdAt: DateTime = dateTimeFactory.now(),
+        updatedAt: DateTime = dateTimeFactory.now(),
+
         value: Double,
         propertyId: Long,
         entryId: Long,
-    ): Long {
+    ): MeasurementValue {
         dao.create(
             createdAt = createdAt,
             updatedAt = updatedAt,
@@ -27,18 +29,11 @@ class MeasurementValueRepository(
             propertyId = propertyId,
             entryId = entryId,
         )
-        return checkNotNull(dao.getLastId())
-    }
-
-    fun create(
-        value: Double,
-        propertyId: Long,
-        entryId: Long,
-    ): Long {
-        val now = dateTimeFactory.now()
-        return create(
-            createdAt = now,
-            updatedAt = now,
+        val id = checkNotNull(dao.getLastId())
+        return MeasurementValue(
+            id = id,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
             value = value,
             propertyId = propertyId,
             entryId = entryId,
@@ -58,10 +53,6 @@ class MeasurementValueRepository(
 
     fun getByEntryId(entryId: Long): List<MeasurementValue> {
         return dao.getByEntryId(entryId)
-    }
-
-    fun observeByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
-        return dao.observeByByEntryId(entryId)
     }
 
     fun observeByCategoryId(categoryId: Long): Flow<Long> {
@@ -108,13 +99,6 @@ class MeasurementValueRepository(
             id = id,
             updatedAt = dateTimeFactory.now(),
             value = value,
-        )
-    }
-
-    fun update(value: MeasurementValue) {
-        update(
-            id = value.id,
-            value = value.value,
         )
     }
 

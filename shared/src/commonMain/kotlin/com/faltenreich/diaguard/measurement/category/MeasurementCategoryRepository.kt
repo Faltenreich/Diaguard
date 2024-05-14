@@ -1,32 +1,41 @@
 package com.faltenreich.diaguard.measurement.category
 
-import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementCategoryRepository(
     private val dao: MeasurementCategoryDao,
+    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(
-        createdAt: DateTime,
-        updatedAt: DateTime,
-        key: String?,
+        key: DatabaseKey.MeasurementCategory?,
         name: String,
         icon: String?,
         sortIndex: Long,
         isActive: Boolean,
-    ): Long {
+    ): MeasurementCategory {
+        val now = dateTimeFactory.now()
         dao.create(
-            createdAt = createdAt,
-            updatedAt = updatedAt,
+            createdAt = now,
+            updatedAt = now,
             key = key,
             name = name,
             icon = icon,
             sortIndex = sortIndex,
             isActive = isActive,
         )
-        return checkNotNull(dao.getLastId())
+        return MeasurementCategory(
+            id = checkNotNull(dao.getLastId()),
+            createdAt = now,
+            updatedAt = now,
+            key = key,
+            name = name,
+            icon = icon,
+            sortIndex = sortIndex,
+            isActive = isActive,
+        )
     }
 
     fun getById(id: Long): MeasurementCategory? {
@@ -55,7 +64,6 @@ class MeasurementCategoryRepository(
 
     fun update(
         id: Long,
-        updatedAt: DateTime,
         name: String,
         icon: String?,
         sortIndex: Long,
@@ -63,7 +71,7 @@ class MeasurementCategoryRepository(
     ) {
         dao.update(
             id = id,
-            updatedAt = updatedAt,
+            updatedAt = dateTimeFactory.now(),
             name = name,
             icon = icon,
             sortIndex = sortIndex,

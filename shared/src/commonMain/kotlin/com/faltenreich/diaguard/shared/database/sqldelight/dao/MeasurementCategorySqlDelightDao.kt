@@ -7,6 +7,7 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementCategoryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
@@ -55,7 +56,7 @@ class MeasurementCategorySqlDelightDao(
     override fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
-        key: String?,
+        key: DatabaseKey.MeasurementCategory?,
         name: String,
         icon: String?,
         sortIndex: Long,
@@ -64,7 +65,7 @@ class MeasurementCategorySqlDelightDao(
         queries.create(
             createdAt = createdAt.isoString,
             updatedAt = updatedAt.isoString,
-            key = key,
+            key = key?.key,
             name = name,
             icon = icon,
             sortIndex = sortIndex,

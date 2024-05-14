@@ -23,46 +23,44 @@ class SeedImport(
 
     override fun import() {
         val categorySeeds = seedRepository.getMeasurementCategories()
-        categorySeeds.forEachIndexed { categorySortIndex, category ->
-            val categoryId = categoryRepository.create(
-                createdAt = dateTimeFactory.now(),
-                updatedAt = dateTimeFactory.now(),
-                key = category.key.key,
-                name = localization.getString(category.name),
-                icon = category.icon,
+        categorySeeds.forEachIndexed { categorySortIndex, categorySeed ->
+            val category = categoryRepository.create(
+                key = categorySeed.key,
+                name = localization.getString(categorySeed.name),
+                icon = categorySeed.icon,
                 sortIndex = categorySortIndex.toLong(),
                 isActive = true,
             )
-            category.properties.forEachIndexed { propertySortIndex, property ->
+            categorySeed.properties.forEachIndexed { propertySortIndex, propertySeed ->
                 val propertyId = propertyRepository.create(
                     createdAt = dateTimeFactory.now(),
                     updatedAt = dateTimeFactory.now(),
-                    key = property.key.key,
-                    name = localization.getString(property.name),
+                    key = propertySeed.key.key,
+                    name = localization.getString(propertySeed.name),
                     sortIndex = propertySortIndex.toLong(),
-                    aggregationStyle = property.aggregationStyle,
-                    range = property.range,
-                    categoryId = categoryId,
+                    aggregationStyle = propertySeed.aggregationStyle,
+                    range = propertySeed.range,
+                    categoryId = category.id,
                 )
-                property.units.forEach { unit ->
+                propertySeed.units.forEach { unitSeed ->
                     val unitId = unitRepository.create(
                         createdAt = dateTimeFactory.now(),
                         updatedAt = dateTimeFactory.now(),
-                        key = unit.key.key,
-                        name = localization.getString(unit.name),
-                        abbreviation = localization.getString(unit.abbreviation),
-                        factor = unit.factor,
+                        key = unitSeed.key.key,
+                        name = localization.getString(unitSeed.name),
+                        abbreviation = localization.getString(unitSeed.abbreviation),
+                        factor = unitSeed.factor,
                         propertyId = propertyId,
                     )
-                    val isSelectedUnit = unit.factor == MeasurementUnit.FACTOR_DEFAULT
+                    val isSelectedUnit = unitSeed.factor == MeasurementUnit.FACTOR_DEFAULT
                     if (isSelectedUnit) {
                         propertyRepository.update(
                             id = propertyId,
                             updatedAt = dateTimeFactory.now(),
-                            name = localization.getString(property.name),
+                            name = localization.getString(propertySeed.name),
                             sortIndex = propertySortIndex.toLong(),
-                            aggregationStyle = property.aggregationStyle,
-                            range = property.range,
+                            aggregationStyle = propertySeed.aggregationStyle,
+                            range = propertySeed.range,
                             selectedUnitId = unitId,
                         )
                     }
@@ -70,34 +68,34 @@ class SeedImport(
             }
         }
 
-        val foodSeed = seedRepository.getFood()
-        foodSeed.forEach { food ->
+        val foodSeeds = seedRepository.getFood()
+        foodSeeds.forEach { foodSeed ->
             foodRepository.create(
                 createdAt = dateTimeFactory.now(),
                 updatedAt = dateTimeFactory.now(),
                 uuid = null,
-                name = food.en, // TODO: Localize
+                name = foodSeed.en, // TODO: Localize
                 brand = null,
                 ingredients = null,
                 labels = null, // TODO: Mark seed
-                carbohydrates = food.carbohydrates.toDouble(),
-                energy = food.energy.toDoubleOrNull(),
-                fat = food.fat.toDoubleOrNull(),
-                fatSaturated = food.fatSaturated.toDoubleOrNull(),
-                fiber = food.fiber.toDoubleOrNull(),
-                proteins = food.proteins.toDoubleOrNull(),
-                salt = food.salt.toDoubleOrNull(),
-                sodium = food.sodium.toDoubleOrNull(),
-                sugar = food.sugar.toDoubleOrNull(),
+                carbohydrates = foodSeed.carbohydrates.toDouble(),
+                energy = foodSeed.energy.toDoubleOrNull(),
+                fat = foodSeed.fat.toDoubleOrNull(),
+                fatSaturated = foodSeed.fatSaturated.toDoubleOrNull(),
+                fiber = foodSeed.fiber.toDoubleOrNull(),
+                proteins = foodSeed.proteins.toDoubleOrNull(),
+                salt = foodSeed.salt.toDoubleOrNull(),
+                sodium = foodSeed.sodium.toDoubleOrNull(),
+                sugar = foodSeed.sugar.toDoubleOrNull(),
             )
         }
 
-        val tagSeed = seedRepository.getTags()
-        tagSeed.forEach { tag ->
+        val tagSeeds = seedRepository.getTags()
+        tagSeeds.forEach { tagSeed ->
             tagRepository.create(
                 createdAt = dateTimeFactory.now(),
                 updatedAt = dateTimeFactory.now(),
-                name = tag.en, // TODO: Localize
+                name = tagSeed.en, // TODO: Localize
             )
         }
     }

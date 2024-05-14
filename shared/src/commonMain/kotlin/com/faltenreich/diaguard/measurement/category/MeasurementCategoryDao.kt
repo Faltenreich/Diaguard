@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.category
 
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 interface MeasurementCategoryDao {
@@ -8,7 +9,7 @@ interface MeasurementCategoryDao {
     fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
-        key: String?,
+        key: DatabaseKey.MeasurementCategory?,
         name: String,
         icon: String?,
         sortIndex: Long,

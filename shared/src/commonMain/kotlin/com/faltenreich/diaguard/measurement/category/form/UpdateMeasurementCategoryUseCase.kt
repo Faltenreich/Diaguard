@@ -11,7 +11,6 @@ class UpdateMeasurementCategoryUseCase(
     operator fun invoke(category: MeasurementCategory) = with(category) {
         repository.update(
             id = id,
-            updatedAt = updatedAt,
             name = name,
             icon = icon,
             sortIndex = sortIndex,

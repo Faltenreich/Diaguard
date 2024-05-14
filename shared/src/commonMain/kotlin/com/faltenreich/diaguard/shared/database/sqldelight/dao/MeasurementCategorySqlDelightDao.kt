@@ -72,14 +72,7 @@ class MeasurementCategorySqlDelightDao(
         )
     }
 
-    override fun update(
-        id: Long,
-        updatedAt: DateTime,
-        name: String,
-        icon: String?,
-        sortIndex: Long,
-        isActive: Boolean,
-    ) {
+    override fun update(category: MeasurementCategory) = with(category) {
         queries.update(
             updatedAt = updatedAt.isoString,
             name = name,

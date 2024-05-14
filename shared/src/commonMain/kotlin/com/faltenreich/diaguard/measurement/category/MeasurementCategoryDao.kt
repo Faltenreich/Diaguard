@@ -29,14 +29,7 @@ interface MeasurementCategoryDao {
 
     fun countAll(): Flow<Long>
 
-    fun update(
-        id: Long,
-        updatedAt: DateTime,
-        name: String,
-        icon: String?,
-        sortIndex: Long,
-        isActive: Boolean,
-    )
+    fun update(category: MeasurementCategory)
 
     fun deleteById(id: Long)
 }

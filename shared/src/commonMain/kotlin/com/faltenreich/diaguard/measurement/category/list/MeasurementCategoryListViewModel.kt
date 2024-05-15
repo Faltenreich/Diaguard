@@ -65,7 +65,7 @@ class MeasurementCategoryListViewModel(
                         sortIndex = within.maxOf(MeasurementCategory::sortIndex) + 1,
                     )
                     closeModal()
-                    navigateToScreen(MeasurementCategoryFormScreen(category))
+                    editCategory(category)
                 }
             )
         )

@@ -13,7 +13,7 @@ class EntryTagRepository(
     fun create(
         entryId: Long,
         tagId: Long,
-    ): EntryTag {
+    ): Long {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -21,14 +21,7 @@ class EntryTagRepository(
             entryId = entryId,
             tagId = tagId,
         )
-        val id = checkNotNull(dao.getLastId())
-        return EntryTag(
-            id = id,
-            createdAt = now,
-            updatedAt = now,
-            entryId = entryId,
-            tagId = tagId,
-        )
+        return checkNotNull(dao.getLastId())
     }
 
     fun getLastId(): Long? {

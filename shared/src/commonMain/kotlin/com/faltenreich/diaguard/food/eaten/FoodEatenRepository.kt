@@ -12,7 +12,7 @@ class FoodEatenRepository(
         amountInGrams: Long,
         foodId: Long,
         entryId: Long,
-    ): FoodEaten {
+    ): Long {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -21,15 +21,7 @@ class FoodEatenRepository(
             foodId = foodId,
             entryId = entryId,
         )
-        val id = checkNotNull(dao.getLastId())
-        return FoodEaten(
-            id = id,
-            createdAt = now,
-            updatedAt = now,
-            amountInGrams = amountInGrams,
-            foodId = foodId,
-            entryId = entryId,
-        )
+        return checkNotNull(dao.getLastId())
     }
 
     fun observeByFoodId(foodId: Long): Flow<List<FoodEaten>> {

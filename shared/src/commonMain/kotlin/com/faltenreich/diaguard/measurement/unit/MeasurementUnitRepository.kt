@@ -15,7 +15,7 @@ class MeasurementUnitRepository(
         key: DatabaseKey.MeasurementUnit?,
         factor: Double,
         propertyId: Long,
-    ): MeasurementUnit {
+    ): Long {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -26,17 +26,7 @@ class MeasurementUnitRepository(
             factor = factor,
             propertyId = propertyId,
         )
-        val id = checkNotNull(dao.getLastId())
-        return MeasurementUnit(
-            id = id,
-            createdAt = now,
-            updatedAt = now,
-            key = key,
-            name = name,
-            abbreviation = abbreviation,
-            factor = factor,
-            propertyId = propertyId,
-        )
+        return checkNotNull(dao.getLastId())
     }
 
     fun getByKey(key: String): MeasurementUnit {

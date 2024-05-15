@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement
 
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.category.form.CountMeasurementValuesOfCategoryUseCase
@@ -10,7 +11,6 @@ import com.faltenreich.diaguard.measurement.category.form.GetMeasurementProperti
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormViewModel
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.list.CreateMeasurementCategoryUseCase
-import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListViewModel
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository

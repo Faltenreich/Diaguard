@@ -22,7 +22,7 @@ class SeedImport(
     override fun import() {
         val categorySeeds = seedRepository.getMeasurementCategories()
         categorySeeds.forEachIndexed { categorySortIndex, categorySeed ->
-            val category = categoryRepository.create(
+            val categoryId = categoryRepository.create(
                 key = categorySeed.key,
                 name = localization.getString(categorySeed.name),
                 icon = categorySeed.icon,
@@ -30,31 +30,31 @@ class SeedImport(
                 isActive = true,
             )
             categorySeed.properties.forEachIndexed { propertySortIndex, propertySeed ->
-                val property = propertyRepository.create(
+                val propertyId = propertyRepository.create(
                     key = propertySeed.key,
                     name = localization.getString(propertySeed.name),
                     sortIndex = propertySortIndex.toLong(),
                     aggregationStyle = propertySeed.aggregationStyle,
                     range = propertySeed.range,
-                    categoryId = category.id,
+                    categoryId = categoryId,
                 )
                 propertySeed.units.forEach { unitSeed ->
-                    val unit = unitRepository.create(
+                    val unitId = unitRepository.create(
                         key = unitSeed.key,
                         name = localization.getString(unitSeed.name),
                         abbreviation = localization.getString(unitSeed.abbreviation),
                         factor = unitSeed.factor,
-                        propertyId = property.id,
+                        propertyId = propertyId,
                     )
                     val isSelectedUnit = unitSeed.factor == MeasurementUnit.FACTOR_DEFAULT
                     if (isSelectedUnit) {
                         propertyRepository.update(
-                            id = property.id,
+                            id = propertyId,
                             name = localization.getString(propertySeed.name),
                             sortIndex = propertySortIndex.toLong(),
                             aggregationStyle = propertySeed.aggregationStyle,
                             range = propertySeed.range,
-                            selectedUnitId = unit.id,
+                            selectedUnitId = unitId,
                         )
                     }
                 }

@@ -10,20 +10,14 @@ class TagRepository(
 
     fun create(
         name: String,
-    ): Tag {
+    ): Long {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
             updatedAt = now,
             name = name,
         )
-        val id = checkNotNull(dao.getLastId())
-        return Tag(
-            id = id,
-            createdAt = now,
-            updatedAt = now,
-            name = name,
-        )
+        return checkNotNull(dao.getLastId())
     }
 
     fun getById(id: Long): Tag? {

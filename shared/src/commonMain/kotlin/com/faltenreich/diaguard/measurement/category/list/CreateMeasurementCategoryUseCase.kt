@@ -12,12 +12,13 @@ class CreateMeasurementCategoryUseCase(
         icon: String?,
         sortIndex: Long,
     ): MeasurementCategory {
-        return repository.create(
+        val id = repository.create(
             name = name,
             key = null,
             icon = icon,
             sortIndex = sortIndex,
             isActive = true,
         )
+        return checkNotNull(repository.getById(id))
     }
 }

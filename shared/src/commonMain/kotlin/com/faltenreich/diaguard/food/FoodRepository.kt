@@ -27,7 +27,7 @@ class FoodRepository(
         salt: Double?,
         sodium: Double?,
         sugar: Double?,
-    ): Food {
+    ): Long {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -47,26 +47,7 @@ class FoodRepository(
             sodium = sodium,
             sugar = sugar,
         )
-        val id = checkNotNull(dao.getLastId())
-        return Food(
-            id = id,
-            createdAt = now,
-            updatedAt = now,
-            uuid = uuid,
-            name = name,
-            brand = brand,
-            ingredients = ingredients,
-            labels = labels,
-            carbohydrates = carbohydrates,
-            energy = energy,
-            fat = fat,
-            fatSaturated = fatSaturated,
-            fiber = fiber,
-            proteins = proteins,
-            salt = salt,
-            sodium = sodium,
-            sugar = sugar,
-        )
+        return checkNotNull(dao.getLastId())
     }
 
     suspend fun getByQuery(query: String, page: PagingPage): List<Food> {

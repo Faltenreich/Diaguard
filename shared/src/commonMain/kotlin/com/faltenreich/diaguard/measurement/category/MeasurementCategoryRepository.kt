@@ -15,7 +15,7 @@ class MeasurementCategoryRepository(
         icon: String?,
         sortIndex: Long,
         isActive: Boolean,
-    ): MeasurementCategory {
+    ): Long {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -26,17 +26,7 @@ class MeasurementCategoryRepository(
             sortIndex = sortIndex,
             isActive = isActive,
         )
-        val id = checkNotNull(dao.getLastId())
-        return MeasurementCategory(
-            id = id,
-            createdAt = now,
-            updatedAt = now,
-            key = key,
-            name = name,
-            icon = icon,
-            sortIndex = sortIndex,
-            isActive = isActive,
-        )
+        return checkNotNull(dao.getLastId())
     }
 
     fun getById(id: Long): MeasurementCategory? {

@@ -19,7 +19,7 @@ class MeasurementPropertyRepository(
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
         categoryId: Long,
-    ): MeasurementProperty {
+    ): Long {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -32,19 +32,7 @@ class MeasurementPropertyRepository(
             selectedUnitId = null,
             categoryId = categoryId,
         )
-        val id = checkNotNull(dao.getLastId())
-        return MeasurementProperty(
-            id = id,
-            createdAt = now,
-            updatedAt = now,
-            key = key,
-            name = name,
-            range = range,
-            sortIndex = sortIndex,
-            aggregationStyle = aggregationStyle,
-            selectedUnitId = null,
-            categoryId = categoryId,
-        )
+        return checkNotNull(dao.getLastId())
     }
 
     fun getById(id: Long): MeasurementProperty? {

@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.TagRepository
 
 class SeedImport(
@@ -83,9 +84,8 @@ class SeedImport(
 
         val tagSeeds = seedRepository.getTags()
         tagSeeds.forEach { tagSeed ->
-            tagRepository.create(
-                name = tagSeed.en, // TODO: Localize
-            )
+            val tag = Tag.Transfer(name = tagSeed.en) // TODO: Localize
+            tagRepository.create(tag)
         }
     }
 }

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.tag.form
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.validation.ValidationResult
+import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
@@ -19,14 +20,14 @@ class TagFormViewModel(
     override fun handleIntent(intent: TagFormIntent) {
         when (intent) {
             is TagFormIntent.Close -> closeModal()
-            is TagFormIntent.Submit -> createTagIfValid(intent.name)
+            is TagFormIntent.Submit -> createTagIfValid(intent.tag)
         }
     }
 
-    private fun createTagIfValid(name: String) {
-        when (val result = validateTag(name)) {
+    private fun createTagIfValid(tag: Tag.Transfer) {
+        when (val result = validateTag(tag)) {
             is ValidationResult.Success -> {
-                createTag(name)
+                createTag(tag)
                 closeModal()
                 error.value = null
             }

@@ -11,11 +11,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
+import com.faltenreich.diaguard.tag.Tag
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.cancel
+import diaguard.shared.generated.resources.create
+import diaguard.shared.generated.resources.name
+import diaguard.shared.generated.resources.tag
 
 @Composable
 fun TagFormDialog(
@@ -30,7 +35,7 @@ fun TagFormDialog(
     AlertDialog(
         onDismissRequest = { viewModel.dispatchIntent(TagFormIntent.Close) },
         confirmButton = {
-            TextButton(onClick = { viewModel.dispatchIntent(TagFormIntent.Submit(name)) }) {
+            TextButton(onClick = { viewModel.dispatchIntent(TagFormIntent.Submit(Tag.Transfer(name))) }) {
                 Text(getString(Res.string.create))
             }
         },

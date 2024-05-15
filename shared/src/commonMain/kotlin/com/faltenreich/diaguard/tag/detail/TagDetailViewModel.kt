@@ -47,10 +47,10 @@ class TagDetailViewModel(
     }
 
     private fun updateTag() {
-        val name = name.value
-        when (val result = validateTag(name)) {
+        val tag = tag.copy(name = name.value)
+        when (val result = validateTag(tag)) {
             is ValidationResult.Success -> {
-                updateTag(tag.copy(name = name))
+                updateTag(tag)
                 navigateBack()
             }
             is ValidationResult.Failure -> {

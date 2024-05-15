@@ -20,7 +20,7 @@ fun TagList(
         null -> Unit
         else ->
             LazyColumn(modifier) {
-                items(viewState.tags, key = Tag::id) { tag ->
+                items(viewState.tags, key = Tag.Persistent::id) { tag ->
                     TagListItem(
                         tag = tag,
                         modifier = Modifier

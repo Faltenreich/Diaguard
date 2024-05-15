@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
 class TagDetailViewModel(
-    private val tag: Tag,
+    private val tag: Tag.Persistent,
     getEntriesOfTag: GetEntriesOfTagUseCase = inject(),
     private val validateTag: ValidateTagUseCase = inject(),
     private val updateTag: UpdateTagUseCase = inject(),

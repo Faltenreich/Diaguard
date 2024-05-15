@@ -37,19 +37,19 @@ class TagSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getById(id: Long): Tag? {
+    override fun getById(id: Long): Tag.Persistent? {
         return queries.getById(id, mapper::map).executeAsOneOrNull()
     }
 
-    override fun observeAll(): Flow<List<Tag>> {
+    override fun observeAll(): Flow<List<Tag.Persistent>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeByQuery(query: String): Flow<List<Tag>> {
+    override fun observeByQuery(query: String): Flow<List<Tag.Persistent>> {
         return queries.getByQuery(query, mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun getByName(name: String): Tag? {
+    override fun getByName(name: String): Tag.Persistent? {
         return queries.getByName(name, mapper::map).executeAsOneOrNull()
     }
 

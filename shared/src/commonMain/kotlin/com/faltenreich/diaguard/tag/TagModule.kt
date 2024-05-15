@@ -29,5 +29,5 @@ fun tagModule() = module {
 
     factoryOf(::TagListViewModel)
     factoryOf(::TagFormViewModel)
-    factory { (tag: Tag) -> TagDetailViewModel(tag = tag) }
+    factory { (tag: Tag.Persistent) -> TagDetailViewModel(tag = tag) }
 }

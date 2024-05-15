@@ -20,19 +20,19 @@ class TagRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun getById(id: Long): Tag? {
+    fun getById(id: Long): Tag.Persistent? {
         return dao.getById(id)
     }
 
-    fun observeAll(): Flow<List<Tag>> {
+    fun observeAll(): Flow<List<Tag.Persistent>> {
         return dao.observeAll()
     }
 
-    fun observeByQuery(query: String): Flow<List<Tag>> {
+    fun observeByQuery(query: String): Flow<List<Tag.Persistent>> {
         return dao.observeByQuery(query)
     }
 
-    fun getByName(name: String): Tag? {
+    fun getByName(name: String): Tag.Persistent? {
         return dao.getByName(name)
     }
 

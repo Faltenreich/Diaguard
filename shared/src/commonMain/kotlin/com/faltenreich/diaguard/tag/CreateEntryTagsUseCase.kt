@@ -18,7 +18,7 @@ class CreateEntryTagsUseCase(
         entryId: Long,
         entryTagsFromBefore: List<EntryTag>,
     ) {
-        val missingTags = tags.filter { tag ->
+        val missingTags = tags.filterIsInstance<Tag.Persistent>().filter { tag ->
             entryTagsFromBefore.none { entryTag ->
                 entryTag.tagId == tag.id
             }
@@ -36,7 +36,7 @@ class CreateEntryTagsUseCase(
         entryTagsFromBefore: List<EntryTag>,
     ) {
         val obsoleteEntryTags = entryTagsFromBefore.filter { entryTag ->
-            tags.none { tag ->
+            tags.filterIsInstance<Tag.Persistent>().none { tag ->
                 entryTag.tagId == tag.id
             }
         }

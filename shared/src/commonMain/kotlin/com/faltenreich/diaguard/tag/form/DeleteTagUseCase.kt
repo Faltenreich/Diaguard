@@ -7,7 +7,7 @@ class DeleteTagUseCase(
     private val repository: TagRepository,
 ) {
 
-    operator fun invoke(tag: Tag) {
+    operator fun invoke(tag: Tag.Persistent) {
         repository.deleteById(tag.id)
     }
 }

@@ -28,13 +28,13 @@ interface FoodDao {
 
     fun getLastId(): Long?
 
-    fun getByUuid(uuid: String): Food?
+    fun getByUuid(uuid: String): Food.Local?
 
     fun getByUuids(uuids: List<String>): List<String>
 
-    fun getAll(page: PagingPage): List<Food>
+    fun getAll(page: PagingPage): List<Food.Local>
 
-    fun getByQuery(query: String, page: PagingPage): List<Food>
+    fun getByQuery(query: String, page: PagingPage): List<Food.Local>
 
     fun update(
         id: Long,

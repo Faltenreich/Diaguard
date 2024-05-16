@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.map
 
 class FoodEatenListViewModel(
-    food: Food,
+    food: Food.Local,
     getFoodEaten: GetFoodEatenForFoodUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<FoodEatenListViewState, FoodEatenListIntent, Unit>() {

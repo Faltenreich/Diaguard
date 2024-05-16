@@ -25,8 +25,8 @@ class FoodSqlDelightMapper(
         salt: Double?,
         sodium: Double?,
         sugar: Double?
-    ): Food {
-        return Food(
+    ): Food.Local {
+        return Food.Local(
             id = id,
             createdAt = dateTimeFactory.dateTime(isoString = createdAt),
             updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),

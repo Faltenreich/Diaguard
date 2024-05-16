@@ -27,5 +27,5 @@ data class MeasurementProperty(
     lateinit var category: MeasurementCategory
     lateinit var units: List<MeasurementUnit>
 
-    lateinit var selectedUnit: MeasurementUnit // TODO: Make optional
+    lateinit var selectedUnit: MeasurementUnit // TODO: Replace with Boolean Flag in MeasurementUnit
 }

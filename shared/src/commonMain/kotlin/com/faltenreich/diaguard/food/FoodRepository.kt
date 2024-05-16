@@ -50,7 +50,7 @@ class FoodRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    suspend fun getByQuery(query: String, page: PagingPage): List<Food> {
+    suspend fun getByQuery(query: String, page: PagingPage): List<Food.Local> {
         return if (query.isBlank()) {
             dao.getAll(page)
         } else {

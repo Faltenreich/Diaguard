@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class FoodFormViewModel(
-    food: Food?,
+    food: Food.Local?,
     private val validateInput: ValidateFoodInputUseCase = inject(),
     private val createFood: CreateFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),

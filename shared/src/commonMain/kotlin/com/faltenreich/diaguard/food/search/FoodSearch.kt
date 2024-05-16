@@ -49,7 +49,7 @@ fun FoodSearch(
             FoodList(
                 items = items,
                 onRefresh = { viewModel.dispatchIntent(FoodSearchIntent.Refresh) },
-                onSelect = { viewModel.dispatchIntent(FoodSearchIntent.Select(it)) },
+                onSelect = { food -> viewModel.dispatchIntent(FoodSearchIntent.Select(food)) },
                 // Workaround to place PullToRefreshContainer behind headers
                 modifier = Modifier.zIndex(-1f),
             )

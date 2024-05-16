@@ -48,7 +48,7 @@ import kotlinx.coroutines.withContext
 class EntryFormViewModel(
     entry: Entry?,
     date: Date?,
-    food: Food?,
+    food: Food.Local?,
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
     getMeasurementCategoryInputState: GetMeasurementCategoryInputStateUseCase = inject(),
     getFoodEatenInputState: GetFoodEatenInputStateUseCase = inject(),
@@ -218,7 +218,7 @@ class EntryFormViewModel(
         navigateToScreen(FoodSearchScreen(mode = FoodSearchMode.FIND))
     }
 
-    private fun addFood(food: Food) {
+    private fun addFood(food: Food.Local) {
         foodEaten += FoodEatenInputState(food)
     }
 

@@ -19,7 +19,7 @@ sealed interface EntryFormIntent {
 
     data object SelectFood : EntryFormIntent
 
-    data class AddFood(val food: Food) : EntryFormIntent
+    data class AddFood(val food: Food.Local) : EntryFormIntent
 
     data class EditFood(val food: FoodEatenInputState) : EntryFormIntent
 

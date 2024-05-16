@@ -18,9 +18,9 @@ import com.faltenreich.diaguard.shared.view.Divider
 
 @Composable
 fun FoodList(
-    items: LazyPagingItems<Food>,
+    items: LazyPagingItems<Food.Local>,
     onRefresh: () -> Unit,
-    onSelect: (Food) -> Unit,
+    onSelect: (Food.Local) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val pullToRefreshState = rememberPullToRefreshState()

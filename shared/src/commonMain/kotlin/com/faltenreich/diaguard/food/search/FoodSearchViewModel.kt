@@ -31,7 +31,7 @@ class FoodSearchViewModel(
     var query: String by mutableStateOf("")
 
     private lateinit var dataSource: FoodSearchSource
-    val pagingData: Flow<PagingData<Food>> = snapshotFlow { query }
+    val pagingData: Flow<PagingData<Food.Local>> = snapshotFlow { query }
         .debounce(1.seconds)
         .distinctUntilChanged()
         .flatMapLatest { query ->
@@ -59,7 +59,7 @@ class FoodSearchViewModel(
         dataSource.invalidate()
     }
 
-    private fun selectFood(food: Food) = scope.launch {
+    private fun selectFood(food: Food.Local) = scope.launch {
         when (mode) {
             FoodSearchMode.STROLL -> navigateToScreen(FoodFormScreen(food))
             FoodSearchMode.FIND -> {

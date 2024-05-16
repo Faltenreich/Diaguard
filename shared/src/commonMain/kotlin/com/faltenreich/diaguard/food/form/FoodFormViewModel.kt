@@ -18,9 +18,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class FoodFormViewModel(
-    food: Food.Local?,
+    private val food: Food.Local?,
     private val validateInput: ValidateFoodInputUseCase = inject(),
     private val createFood: CreateFoodUseCase = inject(),
+    private val updateFood: UpdateFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
@@ -30,8 +31,6 @@ class FoodFormViewModel(
 
     override val state: Flow<Nothing>
         get() = throw UnsupportedOperationException()
-
-    private val id: Long? = food?.id
 
     var name: String by mutableStateOf(food?.name ?: "")
     var brand: String by mutableStateOf(food?.brand ?: "")
@@ -120,7 +119,45 @@ class FoodFormViewModel(
 
         when (val result = validateInput(foodInput)) {
             is ValidationResult.Success -> {
-                createFood(id = id, input = result.data)
+                // TODO: Remove force unwraps
+                when (val food = food) {
+                    null -> with(foodInput) {
+                        val new = Food.User(
+                            name = name!!,
+                            brand = brand,
+                            ingredients = ingredients,
+                            labels = labels,
+                            carbohydrates = carbohydrates!!,
+                            energy = energy,
+                            fat = fat,
+                            fatSaturated = fatSaturated,
+                            fiber = fiber,
+                            proteins = proteins,
+                            salt = salt,
+                            sodium = sodium,
+                            sugar = sugar,
+                        )
+                        createFood(new)
+                    }
+                    else -> with(foodInput) {
+                        val update = food.copy(
+                            name = name!!,
+                            brand = brand,
+                            ingredients = ingredients,
+                            labels = labels,
+                            carbohydrates = carbohydrates!!,
+                            energy = energy,
+                            fat = fat,
+                            fatSaturated = fatSaturated,
+                            fiber = fiber,
+                            proteins = proteins,
+                            salt = salt,
+                            sodium = sodium,
+                            sugar = sugar,
+                        )
+                        updateFood(update)
+                    }
+                }
                 navigateBack()
             }
             is ValidationResult.Failure -> showSnackbar(result.error)
@@ -128,7 +165,7 @@ class FoodFormViewModel(
     }
 
     private fun delete() {
-        val id = id ?: return
+        val id = food?.id ?: return
         deleteFood(id)
         navigateBack()
     }

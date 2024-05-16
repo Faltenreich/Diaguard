@@ -48,6 +48,7 @@ class OpenFoodFactsApi(
         } catch (exception: Exception) {
             Logger.error("Failed to request food from api", exception)
             // FIXME: java.util.concurrent.CancellationException: Child of the scoped flow was cancelled
+            // TODO: Propagate error to user
             emptyList()
         }
     }

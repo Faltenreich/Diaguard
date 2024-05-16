@@ -4,7 +4,6 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.shared.data.PagingPage
-import com.faltenreich.diaguard.shared.logging.Logger
 
 class FoodRepository(
     private val dao: FoodDao,
@@ -12,22 +11,30 @@ class FoodRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(
-        uuid: String?,
-        name: String,
-        brand: String?,
-        ingredients: String?,
-        labels: String?,
-        carbohydrates: Double,
-        energy: Double?,
-        fat: Double?,
-        fatSaturated: Double?,
-        fiber: Double?,
-        proteins: Double?,
-        salt: Double?,
-        sodium: Double?,
-        sugar: Double?,
-    ): Long {
+    fun create(food: Food.User): Long = with(food) {
+        val now = dateTimeFactory.now()
+        dao.create(
+            createdAt = now,
+            updatedAt = now,
+            uuid = null,
+            name = name,
+            brand = brand,
+            ingredients = ingredients,
+            labels = labels,
+            carbohydrates = carbohydrates,
+            energy = energy,
+            fat = fat,
+            fatSaturated = fatSaturated,
+            fiber = fiber,
+            proteins = proteins,
+            salt = salt,
+            sodium = sodium,
+            sugar = sugar,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
+    fun create(food: Food.Remote): Long = with(food) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -61,9 +68,9 @@ class FoodRepository(
                 val existing = dao.getByUuids(uuids)
 
                 // We do not update to avoid altering data edited by user
-                val update = foodFromApi.filterNot { it.uuid in existing }
-                update.forEach { food ->
-                    create(
+                val new = foodFromApi.filterNot { it.uuid in existing }
+                new.forEach { food ->
+                    val remote = Food.Remote(
                         uuid = food.uuid,
                         name = food.name,
                         brand = food.brand,
@@ -79,7 +86,7 @@ class FoodRepository(
                         sodium = food.sodium,
                         sugar = food.sugar,
                     )
-                    Logger.debug("Stored $food")
+                    create(remote)
                 }
             }
             return dao.getByQuery(query, page)

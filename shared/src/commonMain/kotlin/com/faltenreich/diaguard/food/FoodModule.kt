@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForFoodUseCase
 import com.faltenreich.diaguard.food.form.CreateFoodUseCase
 import com.faltenreich.diaguard.food.form.DeleteFoodUseCase
 import com.faltenreich.diaguard.food.form.FoodFormViewModel
+import com.faltenreich.diaguard.food.form.UpdateFoodUseCase
 import com.faltenreich.diaguard.food.form.ValidateFoodInputUseCase
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchViewModel
@@ -27,6 +28,7 @@ fun foodModule() = module {
 
     singleOf(::ValidateFoodInputUseCase)
     singleOf(::CreateFoodUseCase)
+    singleOf(::UpdateFoodUseCase)
     singleOf(::DeleteFoodUseCase)
     singleOf(::SearchFoodUseCase)
     singleOf(::GetFoodEatenForFoodUseCase)

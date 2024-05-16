@@ -11,11 +11,11 @@ sealed interface Tag {
 
     val name: String
 
-    data class Transfer(
+    data class User(
         override val name: String,
     ) : Tag
 
-    data class Persistent(
+    data class Local(
         override val id: Long,
         override val createdAt: DateTime,
         override val updatedAt: DateTime,

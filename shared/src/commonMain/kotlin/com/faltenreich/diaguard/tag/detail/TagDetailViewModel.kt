@@ -10,18 +10,18 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
-import com.faltenreich.diaguard.tag.UpdateTagUseCase
 import com.faltenreich.diaguard.tag.form.DeleteTagUseCase
+import com.faltenreich.diaguard.tag.form.StoreTagUseCase
 import com.faltenreich.diaguard.tag.form.ValidateTagUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
 class TagDetailViewModel(
-    private val tag: Tag.Persistent,
+    private val tag: Tag.Local,
     getEntriesOfTag: GetEntriesOfTagUseCase = inject(),
     private val validateTag: ValidateTagUseCase = inject(),
-    private val updateTag: UpdateTagUseCase = inject(),
+    private val storeTag: StoreTagUseCase = inject(),
     private val deleteTag: DeleteTagUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
@@ -50,7 +50,7 @@ class TagDetailViewModel(
         val tag = tag.copy(name = name.value)
         when (val result = validateTag(tag)) {
             is ValidationResult.Success -> {
-                updateTag(tag)
+                storeTag(tag)
                 navigateBack()
             }
             is ValidationResult.Failure -> {

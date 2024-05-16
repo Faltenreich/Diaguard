@@ -12,16 +12,16 @@ sealed interface EntryTag {
     val entry: Entry
     val tag: Tag
 
-    data class Transfer(
+    data class Intermediate(
         override val entry: Entry,
-        override val tag: Tag.Persistent,
+        override val tag: Tag.Local,
     ) : EntryTag
 
-    data class Persistent(
+    data class Local(
         override val id: Long,
         override val createdAt: DateTime,
         override val updatedAt: DateTime,
         override val entry: Entry,
-        override val tag: Tag.Persistent,
+        override val tag: Tag.Local,
     ) : EntryTag, DatabaseEntity
 }

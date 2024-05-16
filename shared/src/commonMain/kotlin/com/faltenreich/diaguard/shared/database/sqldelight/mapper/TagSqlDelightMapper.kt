@@ -12,8 +12,8 @@ class TagSqlDelightMapper(
         createdAt: String,
         updatedAt: String,
         name: String,
-    ): Tag.Persistent {
-        return Tag.Persistent(
+    ): Tag.Local {
+        return Tag.Local(
             id = id,
             createdAt = dateTimeFactory.dateTime(isoString = createdAt),
             updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),

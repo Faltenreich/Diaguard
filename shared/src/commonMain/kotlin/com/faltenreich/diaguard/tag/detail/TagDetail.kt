@@ -41,7 +41,7 @@ fun TagDetail(
         item { Divider(orientation = Orientation.Vertical) }
         items(
             items = state?.entryTags ?: emptyList(),
-            key = EntryTag.Persistent::id,
+            key = EntryTag.Local::id,
         ) { entryTag ->
             EntryListItem(
                 entry = entryTag.entry,

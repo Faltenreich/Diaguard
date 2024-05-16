@@ -25,8 +25,8 @@ class EntryTagSqlDelightMapper(
         tagCreatedAt: String,
         tagUpdatedAt: String,
         tagName: String,
-    ): EntryTag.Persistent {
-        return EntryTag.Persistent(
+    ): EntryTag.Local {
+        return EntryTag.Local(
             id = entryTagId,
             createdAt = dateTimeFactory.dateTime(isoString = entryTagCreatedAt),
             updatedAt = dateTimeFactory.dateTime(isoString = entryTagUpdatedAt),

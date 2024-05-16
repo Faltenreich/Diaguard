@@ -6,5 +6,5 @@ sealed interface TagFormIntent {
 
     data object Close : TagFormIntent
 
-    data class Submit(val tag: Tag.Transfer) : TagFormIntent
+    data class Submit(val tag: Tag.User) : TagFormIntent
 }

@@ -8,7 +8,7 @@ class TagRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(tag: Tag.Transfer): Long {
+    fun create(tag: Tag.User): Long {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -18,26 +18,23 @@ class TagRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun getById(id: Long): Tag.Persistent? {
+    fun getById(id: Long): Tag.Local? {
         return dao.getById(id)
     }
 
-    fun observeAll(): Flow<List<Tag.Persistent>> {
+    fun observeAll(): Flow<List<Tag.Local>> {
         return dao.observeAll()
     }
 
-    fun observeByQuery(query: String): Flow<List<Tag.Persistent>> {
+    fun observeByQuery(query: String): Flow<List<Tag.Local>> {
         return dao.observeByQuery(query)
     }
 
-    fun getByName(name: String): Tag.Persistent? {
+    fun getByName(name: String): Tag.Local? {
         return dao.getByName(name)
     }
 
-    fun update(
-        id: Long,
-        name: String,
-    ) {
+    fun update(tag: Tag.Local) = with(tag) {
         dao.update(
             id = id,
             updatedAt = dateTimeFactory.now(),

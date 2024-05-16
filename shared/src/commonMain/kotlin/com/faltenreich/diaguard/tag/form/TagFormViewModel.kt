@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 
 class TagFormViewModel(
     private val validateTag: ValidateTagUseCase,
-    private val createTag: CreateTagUseCase,
+    private val createTag: StoreTagUseCase,
     private val closeModal: CloseModalUseCase,
 ) : ViewModel<TagFormState, TagFormIntent, Unit>() {
 
@@ -24,7 +24,7 @@ class TagFormViewModel(
         }
     }
 
-    private fun createTagIfValid(tag: Tag.Transfer) {
+    private fun createTagIfValid(tag: Tag.User) {
         when (val result = validateTag(tag)) {
             is ValidationResult.Success -> {
                 createTag(tag)

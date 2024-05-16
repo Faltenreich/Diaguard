@@ -8,7 +8,7 @@ class EntryTagRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(entryTag: EntryTag.Transfer): Long {
+    fun create(entryTag: EntryTag.Intermediate): Long {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -23,11 +23,11 @@ class EntryTagRepository(
         return dao.getLastId()
     }
 
-    fun getByEntryId(entryId: Long): List<EntryTag.Persistent> {
+    fun getByEntryId(entryId: Long): List<EntryTag.Local> {
         return dao.getByEntryId(entryId)
     }
 
-    fun observeByTagId(tagId: Long): Flow<List<EntryTag.Persistent>> {
+    fun observeByTagId(tagId: Long): Flow<List<EntryTag.Local>> {
         return dao.observeByTagId(tagId)
     }
 

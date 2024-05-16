@@ -13,13 +13,13 @@ interface TagDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): Tag.Persistent?
+    fun getById(id: Long): Tag.Local?
 
-    fun observeAll(): Flow<List<Tag.Persistent>>
+    fun observeAll(): Flow<List<Tag.Local>>
 
-    fun observeByQuery(query: String): Flow<List<Tag.Persistent>>
+    fun observeByQuery(query: String): Flow<List<Tag.Local>>
 
-    fun getByName(name: String): Tag.Persistent?
+    fun getByName(name: String): Tag.Local?
 
     fun update(
         id: Long,

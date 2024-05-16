@@ -20,13 +20,13 @@ class CreateEntryTagsUseCase(
         entry: Entry,
         entryTagsFromBefore: List<EntryTag>,
     ) {
-        val missingTags = tags.filterIsInstance<Tag.Persistent>().filter { tag ->
-            entryTagsFromBefore.filterIsInstance<EntryTag.Persistent>().none { entryTag ->
+        val missingTags = tags.filterIsInstance<Tag.Local>().filter { tag ->
+            entryTagsFromBefore.filterIsInstance<EntryTag.Local>().none { entryTag ->
                 entryTag.tag.id == tag.id
             }
         }
         missingTags.forEach { tag ->
-            val entryTag = EntryTag.Transfer(entry, tag)
+            val entryTag = EntryTag.Intermediate(entry, tag)
             entryTagRepository.create(entryTag)
         }
     }
@@ -35,8 +35,8 @@ class CreateEntryTagsUseCase(
         tags: List<Tag>,
         entryTagsFromBefore: List<EntryTag>,
     ) {
-        val obsoleteEntryTags = entryTagsFromBefore.filterIsInstance<EntryTag.Persistent>().filter { entryTag ->
-            tags.filterIsInstance<Tag.Persistent>().none { tag ->
+        val obsoleteEntryTags = entryTagsFromBefore.filterIsInstance<EntryTag.Local>().filter { entryTag ->
+            tags.filterIsInstance<Tag.Local>().none { tag ->
                 entryTag.tag.id == tag.id
             }
         }

@@ -8,7 +8,7 @@ class GetTagsUseCase(
     private val repository: TagRepository,
 ) {
 
-    operator fun invoke(): Flow<List<Tag.Persistent>> {
+    operator fun invoke(): Flow<List<Tag.Local>> {
         return repository.observeAll()
     }
 }

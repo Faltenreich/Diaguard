@@ -35,7 +35,7 @@ fun TagFormDialog(
     AlertDialog(
         onDismissRequest = { viewModel.dispatchIntent(TagFormIntent.Close) },
         confirmButton = {
-            TextButton(onClick = { viewModel.dispatchIntent(TagFormIntent.Submit(Tag.Transfer(name))) }) {
+            TextButton(onClick = { viewModel.dispatchIntent(TagFormIntent.Submit(Tag.User(name))) }) {
                 Text(getString(Res.string.create))
             }
         },

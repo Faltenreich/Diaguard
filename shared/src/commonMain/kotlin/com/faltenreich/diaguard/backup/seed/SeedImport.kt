@@ -85,7 +85,7 @@ class SeedImport(
 
         val tagSeeds = seedRepository.getTags()
         tagSeeds.forEach { tagSeed ->
-            val tag = Tag.Transfer(name = tagSeed.en) // TODO: Localize
+            val tag = Tag.User(name = tagSeed.en) // TODO: Localize
             tagRepository.create(tag)
         }
     }

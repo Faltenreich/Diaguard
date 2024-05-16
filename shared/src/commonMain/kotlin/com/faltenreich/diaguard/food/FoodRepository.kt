@@ -93,22 +93,7 @@ class FoodRepository(
         }
     }
 
-    fun update(
-        id: Long,
-        name: String,
-        carbohydrates: Double,
-        brand: String? = null,
-        ingredients: String? = null,
-        labels: String? = null,
-        energy: Double? = null,
-        fat: Double? = null,
-        fatSaturated: Double? = null,
-        fiber: Double? = null,
-        proteins: Double? = null,
-        salt: Double? = null,
-        sodium: Double? = null,
-        sugar: Double? = null,
-    ) {
+    fun update(food: Food.Local) = with(food) {
         dao.update(
             id = id,
             updatedAt = dateTimeFactory.now(),

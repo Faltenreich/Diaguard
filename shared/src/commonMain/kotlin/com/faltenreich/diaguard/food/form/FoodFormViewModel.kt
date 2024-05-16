@@ -20,8 +20,7 @@ import kotlinx.coroutines.launch
 class FoodFormViewModel(
     private val food: Food.Local?,
     private val validateInput: ValidateFoodInputUseCase = inject(),
-    private val createFood: CreateFoodUseCase = inject(),
-    private val updateFood: UpdateFoodUseCase = inject(),
+    private val storeFood: StoreFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
@@ -137,7 +136,7 @@ class FoodFormViewModel(
                             sodium = sodium,
                             sugar = sugar,
                         )
-                        createFood(new)
+                        storeFood(new)
                     }
                     else -> with(foodInput) {
                         val update = food.copy(
@@ -155,7 +154,7 @@ class FoodFormViewModel(
                             sodium = sodium,
                             sugar = sugar,
                         )
-                        updateFood(update)
+                        storeFood(update)
                     }
                 }
                 navigateBack()

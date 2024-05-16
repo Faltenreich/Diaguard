@@ -14,17 +14,14 @@ interface EntryDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): Flow<Entry?>
+    fun getById(id: Long): Entry?
+
+    fun observeById(id: Long): Flow<Entry?>
 
     fun getByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
     ): List<Entry>
-
-    fun observeByDateRange(
-        startDateTime: DateTime,
-        endDateTime: DateTime,
-    ): Flow<List<Entry>>
 
     fun getByQuery(query: String): Flow<List<Entry>>
 

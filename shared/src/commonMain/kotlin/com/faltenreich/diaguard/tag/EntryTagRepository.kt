@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.tag
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
 class EntryTagRepository(
@@ -10,16 +8,13 @@ class EntryTagRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(
-        entryId: Long,
-        tagId: Long,
-    ): Long {
+    fun create(entryTag: EntryTag.Transfer): Long {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
             updatedAt = now,
-            entryId = entryId,
-            tagId = tagId,
+            entryId = entryTag.entry.id,
+            tagId = entryTag.tag.id,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -28,26 +23,15 @@ class EntryTagRepository(
         return dao.getLastId()
     }
 
-    fun getByEntryId(entryId: Long): List<EntryTag> {
+    fun getByEntryId(entryId: Long): List<EntryTag.Persistent> {
         return dao.getByEntryId(entryId)
     }
 
-    fun observeByTagId(tagId: Long): Flow<List<EntryTag>> {
+    fun observeByTagId(tagId: Long): Flow<List<EntryTag.Persistent>> {
         return dao.observeByTagId(tagId)
     }
 
     fun deleteById(id: Long) {
         dao.deleteById(id)
-    }
-}
-
-fun List<EntryTag>.deep(
-    entry: Entry,
-    tagRepository: TagRepository = inject(),
-): List<EntryTag> {
-    return map { entryTag ->
-        entryTag.entry = entry
-        entryTag.tag = checkNotNull(tagRepository.getById(entryTag.tagId))
-        entryTag
     }
 }

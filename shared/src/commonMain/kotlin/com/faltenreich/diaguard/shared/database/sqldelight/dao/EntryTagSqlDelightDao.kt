@@ -40,15 +40,11 @@ class EntryTagSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getByEntryId(entryId: Long): List<EntryTag> {
+    override fun getByEntryId(entryId: Long): List<EntryTag.Persistent> {
         return queries.getByEntry(entryId, mapper::map).executeAsList()
     }
 
-    override fun observeByEntryId(entryId: Long): Flow<List<EntryTag>> {
-        return queries.getByEntry(entryId, mapper::map).asFlow().mapToList(dispatcher)
-    }
-
-    override fun observeByTagId(tagId: Long): Flow<List<EntryTag>> {
+    override fun observeByTagId(tagId: Long): Flow<List<EntryTag.Persistent>> {
         return queries.getByTag(tagId, mapper::map).asFlow().mapToList(dispatcher)
     }
 

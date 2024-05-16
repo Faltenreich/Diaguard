@@ -4,12 +4,12 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import app.cash.sqldelight.coroutines.mapToOneOrNull
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntrySqlDelightMapper
-import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +27,11 @@ class EntrySqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getById(id: Long): Flow<Entry?> {
+    override fun getById(id: Long): Entry? {
+        return queries.getById(id, mapper::map).executeAsOneOrNull()
+    }
+
+    override fun observeById(id: Long): Flow<Entry?> {
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
@@ -40,17 +44,6 @@ class EntrySqlDelightDao(
             endDateTime = endDateTime.isoString,
             mapper::map,
         ).executeAsList()
-    }
-
-    override fun observeByDateRange(
-        startDateTime: DateTime,
-        endDateTime: DateTime
-    ): Flow<List<Entry>> {
-        return queries.getByDateRange(
-            startDateTime = startDateTime.isoString,
-            endDateTime = endDateTime.isoString,
-            mapper::map,
-        ).asFlow().mapToList(dispatcher)
     }
 
     override fun getByQuery(query: String): Flow<List<Entry>> {

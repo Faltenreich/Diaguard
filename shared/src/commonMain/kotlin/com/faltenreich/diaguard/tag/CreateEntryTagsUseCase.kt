@@ -1,33 +1,33 @@
 package com.faltenreich.diaguard.tag
 
+import com.faltenreich.diaguard.entry.Entry
+
 class CreateEntryTagsUseCase(
     private val entryTagRepository: EntryTagRepository,
 ) {
 
     operator fun invoke(
         tags: List<Tag>,
-        entryId: Long,
+        entry: Entry,
     ) {
-        val entryTagsFromBefore = entryTagRepository.getByEntryId(entryId)
-        createMissingEntryTags(tags, entryId, entryTagsFromBefore)
+        val entryTagsFromBefore = entryTagRepository.getByEntryId(entry.id)
+        createMissingEntryTags(tags, entry, entryTagsFromBefore)
         deleteObsoleteEntryTags(tags, entryTagsFromBefore)
     }
 
     private fun createMissingEntryTags(
         tags: List<Tag>,
-        entryId: Long,
+        entry: Entry,
         entryTagsFromBefore: List<EntryTag>,
     ) {
         val missingTags = tags.filterIsInstance<Tag.Persistent>().filter { tag ->
-            entryTagsFromBefore.none { entryTag ->
-                entryTag.tagId == tag.id
+            entryTagsFromBefore.filterIsInstance<EntryTag.Persistent>().none { entryTag ->
+                entryTag.tag.id == tag.id
             }
         }
         missingTags.forEach { tag ->
-            entryTagRepository.create(
-                entryId = entryId,
-                tagId = tag.id,
-            )
+            val entryTag = EntryTag.Transfer(entry, tag)
+            entryTagRepository.create(entryTag)
         }
     }
 
@@ -35,9 +35,9 @@ class CreateEntryTagsUseCase(
         tags: List<Tag>,
         entryTagsFromBefore: List<EntryTag>,
     ) {
-        val obsoleteEntryTags = entryTagsFromBefore.filter { entryTag ->
+        val obsoleteEntryTags = entryTagsFromBefore.filterIsInstance<EntryTag.Persistent>().filter { entryTag ->
             tags.filterIsInstance<Tag.Persistent>().none { tag ->
-                entryTag.tagId == tag.id
+                entryTag.tag.id == tag.id
             }
         }
         obsoleteEntryTags.forEach { entryTag ->

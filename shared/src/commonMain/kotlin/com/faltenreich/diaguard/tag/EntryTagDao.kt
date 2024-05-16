@@ -14,11 +14,9 @@ interface EntryTagDao {
 
     fun getLastId(): Long?
 
-    fun getByEntryId(entryId: Long): List<EntryTag>
+    fun getByEntryId(entryId: Long): List<EntryTag.Persistent>
 
-    fun observeByEntryId(entryId: Long): Flow<List<EntryTag>>
-
-    fun observeByTagId(tagId: Long): Flow<List<EntryTag>>
+    fun observeByTagId(tagId: Long): Flow<List<EntryTag.Persistent>>
 
     fun countByTagId(tagId: Long): Flow<Long>
 

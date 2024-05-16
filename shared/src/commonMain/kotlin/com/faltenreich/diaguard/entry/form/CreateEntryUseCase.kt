@@ -20,8 +20,9 @@ class CreateEntryUseCase(
                 note = note,
             )
         } ?: entryRepository.create(dateTime)
+        val entry = checkNotNull(entryRepository.getById(entryId))
         createMeasurementValues(measurements, entryId)
         createFoodEaten(foodEaten, entryId)
-        createEntryTags(tags, entryId)
+        createEntryTags(tags, entry)
     }
 }

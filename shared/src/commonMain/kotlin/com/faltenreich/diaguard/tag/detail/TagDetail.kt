@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.list.EntryListItem
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -16,6 +15,8 @@ import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.tag.EntryTag
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.name
 
 @Composable
 fun TagDetail(
@@ -40,7 +41,7 @@ fun TagDetail(
         item { Divider(orientation = Orientation.Vertical) }
         items(
             items = state?.entryTags ?: emptyList(),
-            key = EntryTag::id,
+            key = EntryTag.Persistent::id,
         ) { entryTag ->
             EntryListItem(
                 entry = entryTag.entry,

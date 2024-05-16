@@ -25,27 +25,24 @@ class EntryTagSqlDelightMapper(
         tagCreatedAt: String,
         tagUpdatedAt: String,
         tagName: String,
-    ): EntryTag {
-        return EntryTag(
+    ): EntryTag.Persistent {
+        return EntryTag.Persistent(
             id = entryTagId,
             createdAt = dateTimeFactory.dateTime(isoString = entryTagCreatedAt),
             updatedAt = dateTimeFactory.dateTime(isoString = entryTagUpdatedAt),
-            entryId = entryTagEntryId,
-            tagId = entryTagTagId,
-        ).apply {
             entry = entryMapper.map(
                 id = entryId,
                 createdAt = entryCreatedAt,
                 updatedAt = entryUpdatedAt,
                 dateTime = entryDateTime,
                 note = entryNote,
-            )
+            ),
             tag = tagMapper.map(
                 id = tagId,
                 createdAt = tagCreatedAt,
                 updatedAt = tagUpdatedAt,
                 name = tagName,
-            )
-        }
+            ),
+        )
     }
 }

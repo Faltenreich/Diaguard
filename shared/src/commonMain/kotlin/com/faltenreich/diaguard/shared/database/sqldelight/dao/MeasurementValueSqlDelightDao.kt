@@ -44,14 +44,14 @@ class MeasurementValueSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun observeByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
-        return queries.getByEntry(entryId, mapper::map).asFlow().mapToList(dispatcher)
+    override fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {
+        return queries.getByEntry(entryId, mapper::map).executeAsList()
     }
 
     override fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime
-    ): Flow<List<MeasurementValue>> {
+    ): Flow<List<MeasurementValue.Local>> {
         return queries.getByDateRange(
             startDateTime = startDateTime.isoString,
             endDateTime = endDateTime.isoString,
@@ -59,16 +59,8 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue?> {
+    override fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue.Local?> {
         return queries.getLatestByCategory(categoryId, mapper::map).asFlow().mapToOneOrNull(dispatcher)
-    }
-
-    override fun getByEntryId(entryId: Long): List<MeasurementValue> {
-        return queries.getByEntry(entryId, mapper::map).executeAsList()
-    }
-
-    override fun observeByByEntryId(entryId: Long): Flow<List<MeasurementValue>> {
-        return queries.getByEntry(entryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun observeByCategoryId(categoryId: Long): Flow<Long> {
@@ -79,7 +71,7 @@ class MeasurementValueSqlDelightDao(
         categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
-    ): Flow<List<MeasurementValue>> {
+    ): Flow<List<MeasurementValue.Local>> {
         return queries.getCategoryAndDateTime(
             categoryId,
             minDateTime.isoString,

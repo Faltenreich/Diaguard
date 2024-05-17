@@ -14,7 +14,7 @@ class CreateMeasurementValuesUseCase(
         val valuesFromBefore = repository.getByEntryId(entryId)
         values.forEach { (property, input) ->
             // TODO: Validate and normalize by unit
-            val legacyId = valuesFromBefore.firstOrNull { it.propertyId == property.id }?.id
+            val legacyId = valuesFromBefore.firstOrNull { it.property.id == property.id }?.id
             val normalized = input.toDoubleOrNull()
             if (normalized != null) {
                 if (legacyId != null) {
@@ -30,7 +30,7 @@ class CreateMeasurementValuesUseCase(
                     )
                 }
             } else {
-                val obsolete = valuesFromBefore.firstOrNull { it.propertyId == property.id }
+                val obsolete = valuesFromBefore.firstOrNull { it.property.id == property.id }
                 if (obsolete != null) {
                     repository.deleteById(obsolete.id)
                 }

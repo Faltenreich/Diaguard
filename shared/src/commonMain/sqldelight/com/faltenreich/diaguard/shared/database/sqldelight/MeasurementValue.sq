@@ -17,7 +17,12 @@ getLastId:
 SELECT last_insert_rowid();
 
 getByEntry:
-SELECT * FROM MeasurementValue WHERE entryId = ?;
+SELECT * FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.selectedUnitId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE entryId = ?;
 
 getByDateRange:
 SELECT * FROM MeasurementValue

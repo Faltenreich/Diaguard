@@ -8,17 +8,11 @@ import com.faltenreich.diaguard.shared.database.DatabaseEntity
 /**
  * Entity representing a default value of an [Entry]
  */
-data class MeasurementValue(
-    override val id: Long,
-    override val createdAt: DateTime,
-    override val updatedAt: DateTime,
-    val value: Double,
-    val propertyId: Long,
-    val entryId: Long,
-) : DatabaseEntity {
+sealed interface MeasurementValue {
 
-    lateinit var property: MeasurementProperty
-    lateinit var entry: Entry
+    val value: Double
+    val property: MeasurementProperty
+    val entry: Entry
 
     val isNotHighlighted: Boolean
         get() = property.range.isHighlighted.not()
@@ -28,4 +22,19 @@ data class MeasurementValue(
 
     val isTooHigh: Boolean
         get() = property.range.high?.let { value > it } ?: false
+
+    data class User(
+        override val value: Double,
+        override val property: MeasurementProperty,
+        override val entry: Entry,
+    ) : MeasurementValue
+
+    data class Local(
+        override val id: Long,
+        override val createdAt: DateTime,
+        override val updatedAt: DateTime,
+        override val value: Double,
+        override val property: MeasurementProperty,
+        override val entry: Entry,
+    ) : MeasurementValue, DatabaseEntity
 }

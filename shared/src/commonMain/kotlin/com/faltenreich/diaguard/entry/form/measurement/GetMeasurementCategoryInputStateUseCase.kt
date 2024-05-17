@@ -22,7 +22,7 @@ class GetMeasurementCategoryInputStateUseCase(
                 MeasurementCategoryInputState(
                     category = category,
                     propertyInputStates = properties.mapIndexed { propertyIndex, property ->
-                        val value = values?.firstOrNull { it.propertyId == property.id }
+                        val value = values?.firstOrNull { it.property.id == property.id }
                         val isLast = categoryIndex == categories.size - 1 && propertyIndex == properties.size - 1
                         MeasurementPropertyInputState(
                             property = property,

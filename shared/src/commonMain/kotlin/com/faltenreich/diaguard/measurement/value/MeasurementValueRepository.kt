@@ -2,10 +2,6 @@ package com.faltenreich.diaguard.measurement.value
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.property.deep
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementValueRepository(
@@ -21,7 +17,7 @@ class MeasurementValueRepository(
         value: Double,
         propertyId: Long,
         entryId: Long,
-    ): MeasurementValue {
+    ): Long {
         dao.create(
             createdAt = createdAt,
             updatedAt = updatedAt,
@@ -29,15 +25,7 @@ class MeasurementValueRepository(
             propertyId = propertyId,
             entryId = entryId,
         )
-        val id = checkNotNull(dao.getLastId())
-        return MeasurementValue(
-            id = id,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
-            value = value,
-            propertyId = propertyId,
-            entryId = entryId,
-        )
+        return checkNotNull(dao.getLastId())
     }
 
     fun observeByDateRange(
@@ -47,11 +35,11 @@ class MeasurementValueRepository(
         return dao.observeByDateRange(startDateTime, endDateTime)
     }
 
-    fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue?> {
+    fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue.Local?> {
         return dao.observeLatestByCategoryId(categoryId)
     }
 
-    fun getByEntryId(entryId: Long): List<MeasurementValue> {
+    fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {
         return dao.getByEntryId(entryId)
     }
 
@@ -63,7 +51,7 @@ class MeasurementValueRepository(
         categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
-    ): Flow<List<MeasurementValue>> {
+    ): Flow<List<MeasurementValue.Local>> {
         return dao.observeByCategoryId(categoryId, minDateTime, maxDateTime)
     }
 
@@ -104,18 +92,5 @@ class MeasurementValueRepository(
 
     fun deleteById(id: Long) {
         dao.deleteById(id)
-    }
-}
-
-fun List<MeasurementValue>.deep(
-    entry: Entry,
-    propertyRepository: MeasurementPropertyRepository = inject(),
-): List<MeasurementValue> {
-    return map { value ->
-        value.apply {
-            val property = checkNotNull(propertyRepository.getById(value.propertyId))
-            this.property = property.deep()
-            this.entry = entry
-        }
     }
 }

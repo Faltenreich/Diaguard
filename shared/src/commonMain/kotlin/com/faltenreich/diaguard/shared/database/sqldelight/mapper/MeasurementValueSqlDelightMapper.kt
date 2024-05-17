@@ -13,24 +13,6 @@ class MeasurementValueSqlDelightMapper(
 ) {
 
     fun map(
-        id: Long,
-        createdAt: String,
-        updatedAt: String,
-        value: Double,
-        propertyId: Long,
-        entryId: Long,
-    ): MeasurementValue {
-        return MeasurementValue(
-            id = id,
-            createdAt = dateTimeFactory.dateTime(isoString = createdAt),
-            updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
-            value = value,
-            propertyId = propertyId,
-            entryId = entryId,
-        )
-    }
-
-    fun map(
         valueId: Long,
         valueCreatedAt: String,
         valueUpdatedAt: String,
@@ -77,15 +59,12 @@ class MeasurementValueSqlDelightMapper(
         entryUpdatedAt: String,
         entryDateTime: String,
         entryNote: String?,
-    ): MeasurementValue {
-        return MeasurementValue(
+    ): MeasurementValue.Local {
+        return MeasurementValue.Local(
             id = valueId,
             createdAt = dateTimeFactory.dateTime(isoString = valueCreatedAt),
             updatedAt = dateTimeFactory.dateTime(isoString = valueUpdatedAt),
             value = valueValue,
-            propertyId = valuePropertyId,
-            entryId = valueEntryId,
-        ).apply {
             property = propertyMapper.map(
                 id = propertyId,
                 createdAt = propertyCreatedAt,
@@ -123,14 +102,14 @@ class MeasurementValueSqlDelightMapper(
                     factor = unitFactor,
                     propertyId = unitPropertyId,
                 )
-            }
+            },
             entry = entryMapper.map(
                 id = entryId,
                 createdAt = entryCreatedAt,
                 updatedAt = entryUpdatedAt,
                 dateTime = entryDateTime,
                 note = entryNote,
-            )
-        }
+            ),
+        )
     }
 }

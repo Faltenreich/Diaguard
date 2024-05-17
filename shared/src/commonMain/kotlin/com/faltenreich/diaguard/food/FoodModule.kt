@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.food
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsMapper
-import com.faltenreich.diaguard.food.eaten.CreateFoodEatenUseCase
+import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
 import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase
@@ -31,7 +31,7 @@ fun foodModule() = module {
     singleOf(::SearchFoodUseCase)
     singleOf(::GetFoodEatenForFoodUseCase)
     singleOf(::GetFoodEatenForEntryUseCase)
-    singleOf(::CreateFoodEatenUseCase)
+    singleOf(::StoreFoodEatenUseCase)
 
     factory { (mode: FoodSearchMode) -> FoodSearchViewModel(mode) }
     factory { (food: Food.Local?) -> FoodFormViewModel(food) }

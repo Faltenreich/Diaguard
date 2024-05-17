@@ -8,15 +8,24 @@ import com.faltenreich.diaguard.shared.database.DatabaseEntity
 /**
  * Entity representing food that has been eaten at one point in time
  */
-data class FoodEaten(
-    override val id: Long,
-    override val createdAt: DateTime,
-    override val updatedAt: DateTime,
-    val amountInGrams: Long,
-    val foodId: Long,
-    val entryId: Long,
-) : DatabaseEntity {
+sealed interface FoodEaten {
 
-    lateinit var food: Food.Local
-    lateinit var entry: Entry
+    val amountInGrams: Long
+    val food: Food.Local
+    val entry: Entry
+
+    data class Intermediate(
+        override val amountInGrams: Long,
+        override val food: Food.Local,
+        override val entry: Entry,
+    ) : FoodEaten
+
+    data class Local(
+        override val id: Long,
+        override val createdAt: DateTime,
+        override val updatedAt: DateTime,
+        override val amountInGrams: Long,
+        override val food: Food.Local,
+        override val entry: Entry,
+    ) : FoodEaten, DatabaseEntity
 }

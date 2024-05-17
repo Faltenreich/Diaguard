@@ -40,15 +40,12 @@ class FoodEatenSqlDelightMapper(
         entryUpdatedAt: String,
         entryDateTime: String,
         entryNote: String?,
-    ): FoodEaten {
-        return FoodEaten(
+    ): FoodEaten.Local {
+        return FoodEaten.Local(
             id = foodEatenId,
             createdAt = dateTimeFactory.dateTime(isoString = foodEatenCreatedAt),
             updatedAt = dateTimeFactory.dateTime(isoString = foodEatenUpdatedAt),
             amountInGrams = foodEatenAmountInGrams,
-            foodId = foodEatenFoodId,
-            entryId = foodEatenEntryId,
-        ).apply {
             food = foodMapper.map(
                 id = foodId,
                 createdAt = foodCreatedAt,
@@ -67,14 +64,14 @@ class FoodEatenSqlDelightMapper(
                 salt = foodSalt,
                 sodium = foodSodium,
                 sugar = foodSugar,
-            )
+            ),
             entry = entryMapper.map(
                 id = entryId,
                 createdAt = entryCreatedAt,
                 updatedAt = entryUpdatedAt,
                 dateTime = entryDateTime,
                 note = entryNote,
-            )
-        }
+            ),
+        )
     }
 }

@@ -15,11 +15,11 @@ interface FoodEatenDao {
 
     fun getLastId(): Long?
 
-    fun observeByFoodId(foodId: Long): Flow<List<FoodEaten>>
+    fun observeByFoodId(foodId: Long): Flow<List<FoodEaten.Local>>
 
-    fun observeByEntryId(entryId: Long): Flow<List<FoodEaten>>
+    fun observeByEntryId(entryId: Long): Flow<List<FoodEaten.Local>>
 
-    fun getByEntryId(entryId: Long): List<FoodEaten>
+    fun getByEntryId(entryId: Long): List<FoodEaten.Local>
 
     fun update(
         id: Long,

@@ -8,34 +8,27 @@ class FoodEatenRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(
-        amountInGrams: Long,
-        foodId: Long,
-        entryId: Long,
-    ): Long {
+    fun create(foodEaten: FoodEaten.Intermediate): Long = with(foodEaten) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
             updatedAt = now,
             amountInGrams = amountInGrams,
-            foodId = foodId,
-            entryId = entryId,
+            foodId = food.id,
+            entryId = entry.id,
         )
         return checkNotNull(dao.getLastId())
     }
 
-    fun observeByFoodId(foodId: Long): Flow<List<FoodEaten>> {
+    fun observeByFoodId(foodId: Long): Flow<List<FoodEaten.Local>> {
         return dao.observeByFoodId(foodId)
     }
 
-    fun getByEntryId(entryId: Long): List<FoodEaten> {
+    fun getByEntryId(entryId: Long): List<FoodEaten.Local> {
         return dao.getByEntryId(entryId)
     }
 
-    fun update(
-        id: Long,
-        amountInGrams: Long,
-    ) {
+    fun update(foodEaten: FoodEaten.Local) = with(foodEaten) {
         dao.update(
             id = id,
             updatedAt = dateTimeFactory.now(),

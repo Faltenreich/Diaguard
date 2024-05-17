@@ -1,14 +1,14 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.EntryRepository
-import com.faltenreich.diaguard.food.eaten.CreateFoodEatenUseCase
+import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.measurement.value.CreateMeasurementValuesUseCase
 import com.faltenreich.diaguard.tag.CreateEntryTagsUseCase
 
 class CreateEntryUseCase(
     private val entryRepository: EntryRepository,
     private val createMeasurementValues: CreateMeasurementValuesUseCase,
-    private val createFoodEaten: CreateFoodEatenUseCase,
+    private val storeFoodEaten: StoreFoodEatenUseCase,
     private val createEntryTags: CreateEntryTagsUseCase,
 ) {
 
@@ -22,7 +22,7 @@ class CreateEntryUseCase(
         } ?: entryRepository.create(dateTime)
         val entry = checkNotNull(entryRepository.getById(entryId))
         createMeasurementValues(measurements, entryId)
-        createFoodEaten(foodEaten, entryId)
+        storeFoodEaten(foodEaten, entry)
         createEntryTags(tags, entry)
     }
 }

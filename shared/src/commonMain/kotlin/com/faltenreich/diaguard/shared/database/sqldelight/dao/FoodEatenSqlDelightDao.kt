@@ -41,15 +41,15 @@ class FoodEatenSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun observeByFoodId(foodId: Long): Flow<List<FoodEaten>> {
+    override fun observeByFoodId(foodId: Long): Flow<List<FoodEaten.Local>> {
         return queries.getByFood(foodId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeByEntryId(entryId: Long): Flow<List<FoodEaten>> {
+    override fun observeByEntryId(entryId: Long): Flow<List<FoodEaten.Local>> {
         return queries.getByEntry(entryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun getByEntryId(entryId: Long): List<FoodEaten> {
+    override fun getByEntryId(entryId: Long): List<FoodEaten.Local> {
         return queries.getByEntry(entryId, mapper::map).executeAsList()
     }
 

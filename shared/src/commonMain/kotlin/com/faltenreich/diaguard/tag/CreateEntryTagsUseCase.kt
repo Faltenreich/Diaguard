@@ -2,15 +2,13 @@ package com.faltenreich.diaguard.tag
 
 import com.faltenreich.diaguard.entry.Entry
 
-class CreateEntryTagsUseCase(
-    private val entryTagRepository: EntryTagRepository,
-) {
+class CreateEntryTagsUseCase(private val repository: EntryTagRepository) {
 
     operator fun invoke(
         tags: List<Tag>,
         entry: Entry,
     ) {
-        val entryTagsFromBefore = entryTagRepository.getByEntryId(entry.id)
+        val entryTagsFromBefore = repository.getByEntryId(entry.id)
         createMissingEntryTags(tags, entry, entryTagsFromBefore)
         deleteObsoleteEntryTags(tags, entryTagsFromBefore)
     }
@@ -27,7 +25,7 @@ class CreateEntryTagsUseCase(
         }
         missingTags.forEach { tag ->
             val entryTag = EntryTag.Intermediate(entry, tag)
-            entryTagRepository.create(entryTag)
+            repository.create(entryTag)
         }
     }
 
@@ -41,7 +39,7 @@ class CreateEntryTagsUseCase(
             }
         }
         obsoleteEntryTags.forEach { entryTag ->
-            entryTagRepository.deleteById(entryTag.id)
+            repository.deleteById(entryTag.id)
         }
     }
 }

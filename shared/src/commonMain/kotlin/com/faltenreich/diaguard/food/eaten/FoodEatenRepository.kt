@@ -36,7 +36,7 @@ class FoodEatenRepository(
         )
     }
 
-    fun deleteById(id: Long) {
-        dao.deleteById(id)
+    fun delete(foodEaten: FoodEaten.Local) {
+        dao.deleteById(foodEaten.id)
     }
 }

@@ -42,7 +42,7 @@ class TagRepository(
         )
     }
 
-    fun deleteById(id: Long) {
-        dao.deleteById(id)
+    fun delete(tag: Tag.Local) {
+        dao.deleteById(tag.id)
     }
 }

@@ -164,8 +164,8 @@ class FoodFormViewModel(
     }
 
     private fun delete() {
-        val id = food?.id ?: return
-        deleteFood(id)
+        val food = food ?: return
+        deleteFood(food)
         navigateBack()
     }
 }

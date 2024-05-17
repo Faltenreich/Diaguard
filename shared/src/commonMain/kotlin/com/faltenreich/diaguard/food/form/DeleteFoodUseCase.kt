@@ -1,12 +1,11 @@
 package com.faltenreich.diaguard.food.form
 
+import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodRepository
 
-class DeleteFoodUseCase(
-    private val foodRepository: FoodRepository,
-) {
+class DeleteFoodUseCase(private val repository: FoodRepository) {
 
-    operator fun invoke(id: Long) {
-        foodRepository.deleteById(id)
+    operator fun invoke(food: Food.Local) {
+        repository.delete(food)
     }
 }

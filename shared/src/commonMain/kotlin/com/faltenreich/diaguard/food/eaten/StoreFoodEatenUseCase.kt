@@ -40,6 +40,6 @@ class StoreFoodEatenUseCase(private val repository: FoodEatenRepository) {
     ) {
         foodEatenBefore
             .filterNot { before -> foodEaten.any { now -> now.food.id == before.food.id } }
-            .forEach { notAnymore -> repository.deleteById(notAnymore.id) }
+            .forEach { notAnymore -> repository.delete(notAnymore) }
     }
 }

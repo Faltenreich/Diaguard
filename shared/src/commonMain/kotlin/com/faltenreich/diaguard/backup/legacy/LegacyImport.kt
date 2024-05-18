@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.legacy
 import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.logging.Logger
 
@@ -15,31 +16,32 @@ class LegacyImport(
 
     override fun import() {
         val entries = legacyRepository.getEntries()
-        val propertyIdsByKey = propertyRepository.getAll().associate { it.key to it.id }
+        val properties = propertyRepository.getAll()
         val values = legacyRepository.getMeasurementValues()
         val tags = legacyRepository.getTags()
 
         Logger.info("Imported ${entries.size} entries, ${values.size} values and ${tags.size} tags")
 
-        entries.forEach { entry ->
-            val entryLegacyId = entry.id
+        entries.forEach { entryLegacy ->
+            val entryLegacyId = entryLegacy.id
             val entryId = entryRepository.create(
-                createdAt = entry.createdAt,
-                updatedAt = entry.updatedAt,
-                dateTime = entry.dateTime,
-                note = entry.note,
+                createdAt = entryLegacy.createdAt,
+                updatedAt = entryLegacy.updatedAt,
+                dateTime = entryLegacy.dateTime,
+                note = entryLegacy.note,
             )
+            val entry = checkNotNull(entryRepository.getById(entryId))
             val valuesOfEntry = values.filter { value -> value.entryId == entryLegacyId }
             valuesOfEntry.forEach { value ->
-                val propertyKey = value.propertyKey
-                val propertyId = propertyIdsByKey[propertyKey]
-                checkNotNull(propertyId)
+                val property = properties.first { it.key == value.propertyKey }
                 valueRepository.create(
-                    createdAt = value.createdAt,
-                    updatedAt = value.updatedAt,
-                    value = value.value,
-                    propertyId = propertyId,
-                    entryId = entryId,
+                    MeasurementValue.Legacy(
+                        createdAt = value.createdAt,
+                        updatedAt = value.updatedAt,
+                        value = value.value,
+                        property = property,
+                        entry = entry,
+                    )
                 )
             }
         }

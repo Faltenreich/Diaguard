@@ -29,6 +29,14 @@ sealed interface MeasurementValue {
         override val entry: Entry,
     ) : MeasurementValue
 
+    data class Legacy(
+        val createdAt: DateTime,
+        val updatedAt: DateTime,
+        override val value: Double,
+        override val property: MeasurementProperty,
+        override val entry: Entry,
+    ) : MeasurementValue
+
     data class Local(
         override val id: Long,
         override val createdAt: DateTime,

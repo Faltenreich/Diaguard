@@ -9,21 +9,24 @@ class MeasurementValueRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(
-        // Only set by legacy import
-        createdAt: DateTime = dateTimeFactory.now(),
-        updatedAt: DateTime = dateTimeFactory.now(),
+    fun create(value: MeasurementValue.User): Long = with(value) {
+        dao.create(
+            createdAt = dateTimeFactory.now(),
+            updatedAt = dateTimeFactory.now(),
+            value = value.value,
+            propertyId = property.id,
+            entryId = entry.id,
+        )
+        return checkNotNull(dao.getLastId())
+    }
 
-        value: Double,
-        propertyId: Long,
-        entryId: Long,
-    ): Long {
+    fun create(value: MeasurementValue.Legacy): Long = with(value) {
         dao.create(
             createdAt = createdAt,
             updatedAt = updatedAt,
-            value = value,
-            propertyId = propertyId,
-            entryId = entryId,
+            value = value.value,
+            propertyId = property.id,
+            entryId = entry.id,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -79,18 +82,15 @@ class MeasurementValueRepository(
         return dao.countByCategoryId(categoryId)
     }
 
-    fun update(
-        id: Long,
-        value: Double,
-    ) {
+    fun update(value: MeasurementValue.Local) {
         dao.update(
-            id = id,
+            id = value.id,
             updatedAt = dateTimeFactory.now(),
-            value = value,
+            value = value.value,
         )
     }
 
-    fun deleteById(id: Long) {
-        dao.deleteById(id)
+    fun delete(value: MeasurementValue.Local) {
+        dao.deleteById(value.id)
     }
 }

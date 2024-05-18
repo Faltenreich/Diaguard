@@ -40,15 +40,17 @@ class SeedImport(
                     range = propertySeed.range,
                     categoryId = categoryId,
                 )
+                val property = checkNotNull(propertyRepository.getById(propertyId))
                 propertySeed.units.forEach { unitSeed ->
-                    unitRepository.create(
+                    val unit = MeasurementUnit.Seed(
                         key = unitSeed.key,
                         name = localization.getString(unitSeed.name),
                         abbreviation = localization.getString(unitSeed.abbreviation),
                         factor = unitSeed.factor,
                         isSelected = unitSeed.factor == MeasurementUnit.FACTOR_DEFAULT,
-                        propertyId = propertyId,
+                        property = property,
                     )
+                    unitRepository.create(unit)
                 }
             }
         }

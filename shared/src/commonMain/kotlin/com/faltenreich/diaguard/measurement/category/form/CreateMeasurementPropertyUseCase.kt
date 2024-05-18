@@ -34,14 +34,17 @@ class CreateMeasurementPropertyUseCase(
             categoryId = categoryId,
         )
 
-        unitRepository.create(
-            key = null,
+        val property = checkNotNull(propertyRepository.getById(propertyId))
+
+        val unit = MeasurementUnit.User(
             name = unitName,
             abbreviation = unitAbbreviation,
             factor = unitFactor,
             isSelected = unitIsSelected,
-            propertyId = propertyId,
+            property = property,
         )
+
+        unitRepository.create(unit)
 
         return checkNotNull(propertyRepository.getById(propertyId))
     }

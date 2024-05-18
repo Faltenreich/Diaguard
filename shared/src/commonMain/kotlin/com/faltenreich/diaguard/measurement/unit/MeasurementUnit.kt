@@ -28,6 +28,15 @@ sealed interface MeasurementUnit {
         override val property: MeasurementProperty,
     ) : MeasurementUnit
 
+    data class Seed(
+        override val key: DatabaseKey.MeasurementUnit?,
+        override val name: String,
+        override val abbreviation: String,
+        override val factor: Double,
+        override val isSelected: Boolean,
+        override val property: MeasurementProperty,
+    ) : MeasurementUnit, Seedable
+
     data class Local(
         override val id: Long,
         override val createdAt: DateTime,

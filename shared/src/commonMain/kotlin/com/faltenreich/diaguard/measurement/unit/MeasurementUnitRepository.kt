@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.unit
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementUnitRepository(
@@ -9,14 +8,22 @@ class MeasurementUnitRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(
-        name: String,
-        abbreviation: String,
-        key: DatabaseKey.MeasurementUnit?,
-        factor: Double,
-        isSelected: Boolean,
-        propertyId: Long,
-    ): Long {
+    fun create(unit: MeasurementUnit.User): Long = with(unit) {
+        val now = dateTimeFactory.now()
+        dao.create(
+            createdAt = now,
+            updatedAt = now,
+            key = null,
+            name = name,
+            abbreviation = abbreviation,
+            factor = factor,
+            isSelected = isSelected,
+            propertyId = property.id,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
+    fun create(unit: MeasurementUnit.Seed): Long = with(unit) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -26,7 +33,7 @@ class MeasurementUnitRepository(
             abbreviation = abbreviation,
             factor = factor,
             isSelected = isSelected,
-            propertyId = propertyId,
+            propertyId = property.id,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -47,12 +54,7 @@ class MeasurementUnitRepository(
         return dao.observeAll()
     }
 
-    fun update(
-        id: Long,
-        name: String,
-        abbreviation: String,
-        isSelected: Boolean,
-    ) {
+    fun update(unit: MeasurementUnit.Local) = with(unit) {
         dao.update(
             id = id,
             updatedAt = dateTimeFactory.now(),
@@ -62,7 +64,7 @@ class MeasurementUnitRepository(
         )
     }
 
-    fun deleteById(id: Long) {
-        dao.deleteById(id)
+    fun delete(unit: MeasurementUnit.Local) {
+        dao.deleteById(unit.id)
     }
 }

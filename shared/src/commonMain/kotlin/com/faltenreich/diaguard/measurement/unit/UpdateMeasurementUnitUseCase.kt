@@ -9,6 +9,7 @@ class UpdateMeasurementUnitUseCase(
             id = id,
             name = name,
             abbreviation = abbreviation,
+            isSelected = isSelected,
         )
     }
 }

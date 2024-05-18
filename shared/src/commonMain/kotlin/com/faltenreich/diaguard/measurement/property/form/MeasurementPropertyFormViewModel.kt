@@ -69,7 +69,7 @@ class MeasurementPropertyFormViewModel(
                     maximum = valueRangeMaximum.value.toDouble(),
                     isHighlighted = isValueRangeHighlighted.value,
                 ),
-                selectedUnitId = selectedUnit.value.id,
+                // TODO: selectedUnitId = selectedUnit.value.id,
             )
         )
         navigateBack()

@@ -19,7 +19,6 @@ SELECT last_insert_rowid();
 getByEntry:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.selectedUnitId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE entryId = ?;
@@ -27,7 +26,6 @@ WHERE entryId = ?;
 getByDateRange:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.selectedUnitId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime ORDER BY Entry.dateTime;
@@ -35,7 +33,6 @@ WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime ORDER 
 getLatestByCategory:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.selectedUnitId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.categoryId == :categoryId
@@ -45,7 +42,6 @@ LIMIT 1;
 getCategoryAndDateTime:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.selectedUnitId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.categoryId == :categoryId
@@ -55,7 +51,6 @@ AND Entry.dateTime <= :maxDateTime;
 getAverageByCategory:
 SELECT AVG(MeasurementValue.value) FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.selectedUnitId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.categoryId == :categoryId

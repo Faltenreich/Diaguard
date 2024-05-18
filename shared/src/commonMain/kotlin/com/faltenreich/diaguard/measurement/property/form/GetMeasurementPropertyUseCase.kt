@@ -19,7 +19,6 @@ class GetMeasurementPropertyUseCase(
                 this.units = units.onEach { unit ->
                     unit.property = property
                 }
-                this.selectedUnit = units.first { unit -> unit.id == selectedUnitId }
             }
         }
     }

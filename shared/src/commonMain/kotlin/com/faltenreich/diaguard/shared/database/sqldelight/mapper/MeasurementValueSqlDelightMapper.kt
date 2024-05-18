@@ -7,7 +7,6 @@ import com.faltenreich.diaguard.shared.di.inject
 class MeasurementValueSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
     private val propertyMapper: MeasurementPropertySqlDelightMapper = inject(),
-    private val unitMapper: MeasurementUnitSqlDelightMapper = inject(),
     private val categoryMapper: MeasurementCategorySqlDelightMapper = inject(),
     private val entryMapper: EntrySqlDelightMapper = inject(),
 ) {
@@ -33,17 +32,7 @@ class MeasurementValueSqlDelightMapper(
         propertyValueRangeHigh: Double?,
         propertyValueRangeMaximum: Double,
         propertyIsValueRangeHighlighted: Long,
-        propertySelectedUnitId: Long?,
         propertyCategoryId: Long,
-
-        unitId: Long,
-        unitCreatedAt: String,
-        unitUpdatedAt: String,
-        unitKey: String?,
-        unitName: String,
-        unitAbbreviation: String,
-        unitFactor: Double,
-        unitPropertyId: Long,
 
         categoryId: Long,
         categoryCreatedAt: String,
@@ -79,7 +68,6 @@ class MeasurementValueSqlDelightMapper(
                 valueRangeHigh = propertyValueRangeHigh,
                 valueRangeMaximum = propertyValueRangeMaximum,
                 isValueRangeHighlighted = propertyIsValueRangeHighlighted,
-                selectedUnitId = propertySelectedUnitId,
                 categoryId = propertyCategoryId,
             ).apply {
                 category = categoryMapper.map(
@@ -91,16 +79,6 @@ class MeasurementValueSqlDelightMapper(
                     icon = categoryIcon,
                     sortIndex = categorySortIndex,
                     isActive = categoryIsActive,
-                )
-                selectedUnit = unitMapper.map(
-                    id = unitId,
-                    createdAt = unitCreatedAt,
-                    updatedAt = unitUpdatedAt,
-                    key = unitKey,
-                    name = unitName,
-                    abbreviation = unitAbbreviation,
-                    factor = unitFactor,
-                    propertyId = unitPropertyId,
                 )
             },
             entry = entryMapper.map(

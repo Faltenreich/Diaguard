@@ -14,7 +14,6 @@ class UpdateMeasurementPropertyUseCase(
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
             range = range,
-            selectedUnitId = selectedUnitId,
         )
     }
 }

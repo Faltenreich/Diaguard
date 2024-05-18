@@ -29,7 +29,6 @@ class MeasurementPropertyRepository(
             range = range,
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
-            selectedUnitId = null,
             categoryId = categoryId,
         )
         return checkNotNull(dao.getLastId())
@@ -65,7 +64,6 @@ class MeasurementPropertyRepository(
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
-        selectedUnitId: Long?,
     ) {
         dao.update(
             id = id,
@@ -74,7 +72,6 @@ class MeasurementPropertyRepository(
             range = range,
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
-            selectedUnitId = selectedUnitId,
         )
     }
 

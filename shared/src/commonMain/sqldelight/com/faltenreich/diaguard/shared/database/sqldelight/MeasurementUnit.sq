@@ -6,13 +6,14 @@ CREATE TABLE MeasurementUnit (
     name TEXT NOT NULL,
     abbreviation TEXT NOT NULL,
     factor REAL NOT NULL,
+    isSelected INTEGER NOT NULL,
     propertyId INTEGER NOT NULL,
     FOREIGN KEY(propertyId) REFERENCES MeasurementProperty(id) ON DELETE CASCADE
 );
 
 create:
-INSERT INTO MeasurementUnit(createdAt, updatedAt, key, name, abbreviation, factor, propertyId)
-VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT INTO MeasurementUnit(createdAt, updatedAt, key, name, abbreviation, factor, isSelected, propertyId)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
@@ -36,7 +37,9 @@ getAll:
 SELECT * FROM MeasurementUnit ORDER BY createdAt ASC;
 
 update:
-UPDATE MeasurementUnit SET updatedAt = ?, name = ?, abbreviation = ? WHERE id = ?;
+UPDATE MeasurementUnit
+SET updatedAt = ?, name = ?, abbreviation = ?, isSelected = ?
+WHERE id = ?;
 
 deleteById:
 DELETE FROM MeasurementUnit WHERE id = ?;

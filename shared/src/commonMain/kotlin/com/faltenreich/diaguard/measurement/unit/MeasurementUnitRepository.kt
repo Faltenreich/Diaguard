@@ -14,6 +14,7 @@ class MeasurementUnitRepository(
         abbreviation: String,
         key: DatabaseKey.MeasurementUnit?,
         factor: Double,
+        isSelected: Boolean,
         propertyId: Long,
     ): Long {
         val now = dateTimeFactory.now()
@@ -24,6 +25,7 @@ class MeasurementUnitRepository(
             name = name,
             abbreviation = abbreviation,
             factor = factor,
+            isSelected = isSelected,
             propertyId = propertyId,
         )
         return checkNotNull(dao.getLastId())
@@ -49,12 +51,14 @@ class MeasurementUnitRepository(
         id: Long,
         name: String,
         abbreviation: String,
+        isSelected: Boolean,
     ) {
         dao.update(
             id = id,
             updatedAt = dateTimeFactory.now(),
             name = name,
             abbreviation = abbreviation,
+            isSelected = isSelected,
         )
     }
 

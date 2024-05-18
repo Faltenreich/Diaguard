@@ -19,6 +19,7 @@ class CreateMeasurementPropertyUseCase(
         propertyRange: MeasurementValueRange,
         categoryId: Long,
         unitName: String,
+        unitIsSelected: Boolean,
     ): MeasurementProperty {
         val unitFactor = MeasurementUnit.FACTOR_DEFAULT
         // TODO: Make customizable?
@@ -33,21 +34,13 @@ class CreateMeasurementPropertyUseCase(
             categoryId = categoryId,
         )
 
-        val unitId = unitRepository.create(
+        unitRepository.create(
             key = null,
             name = unitName,
             abbreviation = unitAbbreviation,
             factor = unitFactor,
+            isSelected = unitIsSelected,
             propertyId = propertyId,
-        )
-
-        propertyRepository.update(
-            id = propertyId,
-            name = propertyName,
-            sortIndex = propertySortIndex,
-            aggregationStyle = propertyAggregationStyle,
-            range = propertyRange,
-            selectedUnitId = unitId,
         )
 
         return checkNotNull(propertyRepository.getById(propertyId))

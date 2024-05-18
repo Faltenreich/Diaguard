@@ -74,6 +74,7 @@ class MeasurementPropertyListViewModel(
                         ),
                         categoryId = category.id,
                         unitName = unitName,
+                        unitIsSelected = true,
                     )
                     closeModal()
                     navigateToScreen(MeasurementPropertyFormScreen(property))

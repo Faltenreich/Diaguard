@@ -20,12 +20,13 @@ data class MeasurementProperty(
     val sortIndex: Long,
     val aggregationStyle: MeasurementAggregationStyle,
     val range: MeasurementValueRange,
-    val selectedUnitId: Long?,
     val categoryId: Long,
 ) : DatabaseEntity, Seedable {
 
     lateinit var category: MeasurementCategory
     lateinit var units: List<MeasurementUnit>
 
-    lateinit var selectedUnit: MeasurementUnit // TODO: Replace with Boolean Flag in MeasurementUnit
+    // TODO: Remove erroneous lateinit properties
+    val selectedUnit: MeasurementUnit
+        get() = units.first(MeasurementUnit::isSelected)
 }

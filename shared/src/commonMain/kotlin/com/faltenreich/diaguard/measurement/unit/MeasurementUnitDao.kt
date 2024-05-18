@@ -13,6 +13,7 @@ interface MeasurementUnitDao {
         name: String,
         abbreviation: String,
         factor: Double,
+        isSelected: Boolean,
         propertyId: Long,
     )
 
@@ -33,6 +34,7 @@ interface MeasurementUnitDao {
         updatedAt: DateTime,
         name: String,
         abbreviation: String,
+        isSelected: Boolean,
     )
 
     fun deleteById(id: Long)

@@ -15,7 +15,6 @@ interface MeasurementPropertyDao {
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
-        selectedUnitId: Long?,
         categoryId: Long,
     )
 
@@ -42,7 +41,6 @@ interface MeasurementPropertyDao {
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
-        selectedUnitId: Long?,
     )
 
     fun deleteById(id: Long)

@@ -34,7 +34,6 @@ class MeasurementPropertySqlDelightDao(
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
-        selectedUnitId: Long?,
         categoryId: Long,
     ) {
         queries.create(
@@ -50,7 +49,6 @@ class MeasurementPropertySqlDelightDao(
             valueRangeHigh = range.high,
             valueRangeMaximum = range.maximum,
             isValueRangeHighlighted = range.isHighlighted.toSqlLiteLong(),
-            selectedUnitId = selectedUnitId,
             categoryId = categoryId,
         )
     }
@@ -94,7 +92,6 @@ class MeasurementPropertySqlDelightDao(
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
-        selectedUnitId: Long?,
     ) {
         queries.update(
             updatedAt = updatedAt.isoString,
@@ -107,7 +104,6 @@ class MeasurementPropertySqlDelightDao(
             valueRangeHigh = range.high,
             valueRangeMaximum = range.maximum,
             isValueRangeHighlighted = range.isHighlighted.toSqlLiteLong(),
-            selectedUnitId = selectedUnitId,
             id = id,
         )
     }

@@ -12,9 +12,7 @@ CREATE TABLE MeasurementProperty (
     valueRangeHigh REAL,
     valueRangeMaximum REAL NOT NULL,
     isValueRangeHighlighted INTEGER NOT NULL,
-    selectedUnitId INTEGER,
     categoryId INTEGER NOT NULL,
-    FOREIGN KEY(selectedUnitId) REFERENCES MeasurementUnit(id) ON DELETE SET NULL,
     FOREIGN KEY(categoryId) REFERENCES MeasurementCategory(id) ON DELETE CASCADE
 );
 
@@ -32,33 +30,26 @@ INSERT INTO MeasurementProperty(
     valueRangeHigh,
     valueRangeMaximum,
     isValueRangeHighlighted,
-    selectedUnitId,
     categoryId
 )
-VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
 
 getById:
-SELECT * FROM MeasurementProperty
-INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementProperty.selectedUnitId
-WHERE MeasurementProperty.id = ?;
+SELECT * FROM MeasurementProperty WHERE MeasurementProperty.id = ?;
 
 getByKey:
-SELECT * FROM MeasurementProperty
-INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementProperty.selectedUnitId
-WHERE MeasurementProperty.key = ?;
+SELECT * FROM MeasurementProperty WHERE MeasurementProperty.key = ?;
 
 getByCategory:
 SELECT * FROM MeasurementProperty
-INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementProperty.selectedUnitId
 WHERE MeasurementProperty.categoryId = ?
 ORDER BY MeasurementProperty.sortIndex ASC;
 
 getAll:
 SELECT * FROM MeasurementProperty
-INNER JOIN MeasurementUnit ON MeasurementUnit.id = MeasurementProperty.selectedUnitId
 ORDER BY MeasurementProperty.sortIndex ASC;
 
 update:
@@ -72,8 +63,7 @@ SET updatedAt = ?,
     valueRangeTarget = ?,
     valueRangeHigh = ?,
     valueRangeMaximum = ?,
-    isValueRangeHighlighted = ?,
-    selectedUnitId = ?
+    isValueRangeHighlighted = ?
 WHERE id = ?;
 
 deleteById:

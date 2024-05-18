@@ -41,24 +41,14 @@ class SeedImport(
                     categoryId = categoryId,
                 )
                 propertySeed.units.forEach { unitSeed ->
-                    val unitId = unitRepository.create(
+                    unitRepository.create(
                         key = unitSeed.key,
                         name = localization.getString(unitSeed.name),
                         abbreviation = localization.getString(unitSeed.abbreviation),
                         factor = unitSeed.factor,
+                        isSelected = unitSeed.factor == MeasurementUnit.FACTOR_DEFAULT,
                         propertyId = propertyId,
                     )
-                    val isSelectedUnit = unitSeed.factor == MeasurementUnit.FACTOR_DEFAULT
-                    if (isSelectedUnit) {
-                        propertyRepository.update(
-                            id = propertyId,
-                            name = localization.getString(propertySeed.name),
-                            sortIndex = propertySortIndex.toLong(),
-                            aggregationStyle = propertySeed.aggregationStyle,
-                            range = propertySeed.range,
-                            selectedUnitId = unitId,
-                        )
-                    }
                 }
             }
         }

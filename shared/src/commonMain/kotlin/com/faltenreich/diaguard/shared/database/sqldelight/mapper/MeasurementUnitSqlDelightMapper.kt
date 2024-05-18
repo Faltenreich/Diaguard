@@ -1,8 +1,9 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
 
 class MeasurementUnitSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
@@ -16,6 +17,7 @@ class MeasurementUnitSqlDelightMapper(
         name: String,
         abbreviation: String,
         factor: Double,
+        isSelected: Long,
         propertyId: Long,
     ): MeasurementUnit {
         return MeasurementUnit(
@@ -26,6 +28,7 @@ class MeasurementUnitSqlDelightMapper(
             name = name,
             abbreviation = abbreviation,
             factor = factor,
+            isSelected = isSelected.toSqlLiteBoolean(),
             propertyId = propertyId,
         )
     }

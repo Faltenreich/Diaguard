@@ -98,7 +98,7 @@ class MeasurementPropertyFormViewModel(
         }
     }
 
-    private fun selectUnit(unit: MeasurementUnit) {
+    private fun selectUnit(unit: MeasurementUnit.Local) {
         selectedUnit.value = unit
     }
 }

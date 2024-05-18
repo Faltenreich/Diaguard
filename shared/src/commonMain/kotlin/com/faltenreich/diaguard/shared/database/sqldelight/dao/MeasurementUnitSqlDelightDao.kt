@@ -50,23 +50,23 @@ class MeasurementUnitSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun observeById(id: Long): Flow<MeasurementUnit?> {
+    override fun observeById(id: Long): Flow<MeasurementUnit.Local?> {
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
-    override fun getByKey(key: String): MeasurementUnit? {
+    override fun getByKey(key: String): MeasurementUnit.Local? {
         return queries.getByKey(key, mapper::map).executeAsOneOrNull()
     }
 
-    override fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit>> {
+    override fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit.Local>> {
         return queries.getByProperty(propertyId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit>> {
+    override fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit.Local>> {
         return queries.getByCategoryId(categoryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeAll(): Flow<List<MeasurementUnit>> {
+    override fun observeAll(): Flow<List<MeasurementUnit.Local>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 

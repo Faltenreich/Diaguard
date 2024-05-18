@@ -8,5 +8,5 @@ sealed interface MeasurementPropertyFormIntent {
 
     data object DeleteProperty : MeasurementPropertyFormIntent
 
-    data class SelectUnit(val unit: MeasurementUnit) : MeasurementPropertyFormIntent
+    data class SelectUnit(val unit: MeasurementUnit.Local) : MeasurementPropertyFormIntent
 }

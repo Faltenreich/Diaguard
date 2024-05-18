@@ -24,9 +24,9 @@ data class MeasurementProperty(
 ) : DatabaseEntity, Seedable {
 
     lateinit var category: MeasurementCategory
-    lateinit var units: List<MeasurementUnit>
+    lateinit var units: List<MeasurementUnit.Local>
 
     // TODO: Remove erroneous lateinit properties
-    val selectedUnit: MeasurementUnit
+    val selectedUnit: MeasurementUnit.Local
         get() = units.first(MeasurementUnit::isSelected)
 }

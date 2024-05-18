@@ -19,22 +19,36 @@ getLastId:
 SELECT last_insert_rowid();
 
 getById:
-SELECT * FROM MeasurementUnit WHERE id = ?;
+SELECT * FROM MeasurementUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+WHERE MeasurementUnit.id = ?;
 
 getByKey:
-SELECT * FROM MeasurementUnit WHERE key = ?;
+SELECT * FROM MeasurementUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+ WHERE MeasurementUnit.key = ?;
 
 getByProperty:
-SELECT * FROM MeasurementUnit WHERE propertyId = ? ORDER BY createdAt ASC;
+SELECT * FROM MeasurementUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+WHERE MeasurementUnit.propertyId = ?
+ORDER BY MeasurementUnit.createdAt ASC;
 
 getByCategoryId:
-SELECT MeasurementUnit.* FROM MeasurementUnit
-INNER JOIN MeasurementProperty ON MeasurementProperty.id = MeasurementUnit.propertyId
+SELECT * FROM MeasurementUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 WHERE MeasurementProperty.categoryId = ?
 ORDER BY MeasurementUnit.createdAt ASC;
 
 getAll:
-SELECT * FROM MeasurementUnit ORDER BY createdAt ASC;
+SELECT * FROM MeasurementUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+ORDER BY MeasurementUnit.createdAt ASC;
 
 update:
 UPDATE MeasurementUnit

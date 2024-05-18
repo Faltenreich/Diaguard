@@ -15,7 +15,7 @@ class MeasurementPropertyFormStateMapper(
 
     operator fun invoke(
         property: MeasurementProperty,
-        selectedUnit: MeasurementUnit,
+        selectedUnit: MeasurementUnit.Local,
     ): MeasurementPropertyFormState {
         val defaultUnit = property.units.first(MeasurementUnit::isDefault)
         return MeasurementPropertyFormState(

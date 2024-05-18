@@ -2,13 +2,12 @@ package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.shared.di.inject
 
 class MeasurementValueSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
-    private val propertyMapper: MeasurementPropertySqlDelightMapper = inject(),
-    private val categoryMapper: MeasurementCategorySqlDelightMapper = inject(),
-    private val entryMapper: EntrySqlDelightMapper = inject(),
+    private val propertyMapper: MeasurementPropertySqlDelightMapper,
+    private val categoryMapper: MeasurementCategorySqlDelightMapper,
+    private val entryMapper: EntrySqlDelightMapper,
 ) {
 
     fun map(

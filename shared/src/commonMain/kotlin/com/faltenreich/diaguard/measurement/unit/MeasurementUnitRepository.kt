@@ -31,19 +31,19 @@ class MeasurementUnitRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun getByKey(key: String): MeasurementUnit {
+    fun getByKey(key: String): MeasurementUnit.Local {
         return checkNotNull(dao.getByKey(key))
     }
 
-    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit>> {
+    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit.Local>> {
         return dao.observeByPropertyId(propertyId)
     }
 
-    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit>> {
+    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit.Local>> {
         return dao.observeByCategoryId(categoryId)
     }
 
-    fun observeAll(): Flow<List<MeasurementUnit>> {
+    fun observeAll(): Flow<List<MeasurementUnit.Local>> {
         return dao.observeAll()
     }
 

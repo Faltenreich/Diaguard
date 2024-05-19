@@ -25,34 +25,6 @@ class MeasurementCategorySqlDelightDao(
         return api.measurementCategoryQueries
     }
 
-    override fun getLastId(): Long? {
-        return queries.getLastId().executeAsOneOrNull()
-    }
-
-    override fun getById(id: Long): MeasurementCategory? {
-        return queries.getById(id, mapper::map).executeAsOneOrNull()
-    }
-
-    override fun observeById(id: Long): Flow<MeasurementCategory?> {
-        return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
-    }
-
-    override fun observeByKey(key: String): Flow<MeasurementCategory?> {
-        return queries.getByKey(key, mapper::map).asFlow().mapToOneOrNull(dispatcher)
-    }
-
-    override fun observeActive(): Flow<List<MeasurementCategory>> {
-        return queries.getActive(mapper::map).asFlow().mapToList(dispatcher)
-    }
-
-    override fun observeAll(): Flow<List<MeasurementCategory>> {
-        return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
-    }
-
-    override fun countAll(): Flow<Long> {
-        return queries.countAll().asFlow().mapToOne(dispatcher)
-    }
-
     override fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
@@ -71,6 +43,34 @@ class MeasurementCategorySqlDelightDao(
             sortIndex = sortIndex,
             isActive = isActive.toSqlLiteLong(),
         )
+    }
+
+    override fun getLastId(): Long? {
+        return queries.getLastId().executeAsOneOrNull()
+    }
+
+    override fun getById(id: Long): MeasurementCategory.Local? {
+        return queries.getById(id, mapper::map).executeAsOneOrNull()
+    }
+
+    override fun observeById(id: Long): Flow<MeasurementCategory.Local?> {
+        return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
+    }
+
+    override fun observeByKey(key: String): Flow<MeasurementCategory.Local?> {
+        return queries.getByKey(key, mapper::map).asFlow().mapToOneOrNull(dispatcher)
+    }
+
+    override fun observeActive(): Flow<List<MeasurementCategory.Local>> {
+        return queries.getActive(mapper::map).asFlow().mapToList(dispatcher)
+    }
+
+    override fun observeAll(): Flow<List<MeasurementCategory.Local>> {
+        return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
+    }
+
+    override fun countAll(): Flow<Long> {
+        return queries.countAll().asFlow().mapToOne(dispatcher)
     }
 
     override fun update(

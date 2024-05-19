@@ -29,23 +29,23 @@ class MeasurementCategoryRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun getById(id: Long): MeasurementCategory? {
+    fun getById(id: Long): MeasurementCategory.Local? {
         return dao.getById(id)
     }
 
-    fun observeByKey(key: DatabaseKey.MeasurementCategory): Flow<MeasurementCategory?> {
+    fun observeByKey(key: DatabaseKey.MeasurementCategory): Flow<MeasurementCategory.Local?> {
         return dao.observeByKey(key.key)
     }
 
-    fun observeBloodSugar(): Flow<MeasurementCategory?> {
+    fun observeBloodSugar(): Flow<MeasurementCategory.Local?> {
         return observeByKey(DatabaseKey.MeasurementCategory.BLOOD_SUGAR)
     }
 
-    fun observeActive(): Flow<List<MeasurementCategory>> {
+    fun observeActive(): Flow<List<MeasurementCategory.Local>> {
         return dao.observeActive()
     }
 
-    fun observeAll(): Flow<List<MeasurementCategory>> {
+    fun observeAll(): Flow<List<MeasurementCategory.Local>> {
         return dao.observeAll()
     }
 

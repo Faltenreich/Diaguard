@@ -18,8 +18,8 @@ class MeasurementCategorySqlDelightMapper(
         icon: String?,
         sortIndex: Long,
         isActive: Long,
-    ): MeasurementCategory {
-        return MeasurementCategory(
+    ): MeasurementCategory.Local {
+        return MeasurementCategory.Local(
             id = id,
             createdAt = dateTimeFactory.dateTime(isoString = createdAt),
             updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),

@@ -58,7 +58,7 @@ fun measurementModule() = module {
     singleOf(::MeasurementPropertyFormStateMapper)
 
     factoryOf(::MeasurementCategoryListViewModel)
-    factory { (category: MeasurementCategory) -> MeasurementCategoryFormViewModel(category) }
+    factory { (category: MeasurementCategory.Local) -> MeasurementCategoryFormViewModel(category) }
     factoryOf(::MeasurementPropertyListViewModel)
     factory { (property: MeasurementProperty.Local) -> MeasurementPropertyFormViewModel(property) }
 }

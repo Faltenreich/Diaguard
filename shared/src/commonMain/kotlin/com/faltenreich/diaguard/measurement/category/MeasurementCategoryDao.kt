@@ -18,15 +18,15 @@ interface MeasurementCategoryDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): MeasurementCategory?
+    fun getById(id: Long): MeasurementCategory.Local?
 
-    fun observeById(id: Long): Flow<MeasurementCategory?>
+    fun observeById(id: Long): Flow<MeasurementCategory.Local?>
 
-    fun observeByKey(key: String): Flow<MeasurementCategory?>
+    fun observeByKey(key: String): Flow<MeasurementCategory.Local?>
 
-    fun observeActive(): Flow<List<MeasurementCategory>>
+    fun observeActive(): Flow<List<MeasurementCategory.Local>>
 
-    fun observeAll(): Flow<List<MeasurementCategory>>
+    fun observeAll(): Flow<List<MeasurementCategory.Local>>
 
     fun countAll(): Flow<Long>
 

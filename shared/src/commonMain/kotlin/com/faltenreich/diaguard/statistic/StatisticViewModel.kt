@@ -19,7 +19,7 @@ class StatisticViewModel(
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<StatisticViewState, StatisticIntent, Unit>() {
 
-    private val selectedCategory = MutableStateFlow<MeasurementCategory?>(null)
+    private val selectedCategory = MutableStateFlow<MeasurementCategory.Local?>(null)
     private val initialDateRange = getToday().let { today ->
         today.minus(1, DateUnit.WEEK) .. today
     }

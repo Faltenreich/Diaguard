@@ -8,7 +8,7 @@ class UpdateMeasurementCategoryUseCase(
     private val repository: MeasurementCategoryRepository = inject(),
 ) {
 
-    operator fun invoke(category: MeasurementCategory) = with(category) {
+    operator fun invoke(category: MeasurementCategory.Local) = with(category) {
         repository.update(
             id = id,
             name = name,

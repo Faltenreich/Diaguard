@@ -17,14 +17,14 @@ sealed interface MeasurementProperty {
     val sortIndex: Long
     val aggregationStyle: MeasurementAggregationStyle
     val range: MeasurementValueRange
-    val category: MeasurementCategory
+    val category: MeasurementCategory.Local
 
     data class User(
         override val name: String,
         override val sortIndex: Long,
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
-        override val category: MeasurementCategory,
+        override val category: MeasurementCategory.Local,
     ) : MeasurementProperty
 
     data class Seed(
@@ -33,7 +33,7 @@ sealed interface MeasurementProperty {
         override val sortIndex: Long,
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
-        override val category: MeasurementCategory,
+        override val category: MeasurementCategory.Local,
     ) : MeasurementProperty, Seedable
 
     data class Local(
@@ -45,7 +45,7 @@ sealed interface MeasurementProperty {
         override val sortIndex: Long,
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
-        override val category: MeasurementCategory,
+        override val category: MeasurementCategory.Local,
         val selectedUnit: MeasurementUnit.Local,
     ) : MeasurementProperty, DatabaseEntity, Seedable
 }

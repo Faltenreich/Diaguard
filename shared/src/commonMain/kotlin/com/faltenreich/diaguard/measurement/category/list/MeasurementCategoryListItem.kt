@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.category.list
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +16,7 @@ import diaguard.shared.generated.resources.ic_arrow_up
 
 @Composable
 fun MeasurementCategoryListItem(
-    category: MeasurementCategory,
+    category: MeasurementCategory.Local,
     onIntent: (MeasurementCategoryListIntent) -> Unit,
     showArrowUp: Boolean,
     showArrowDown: Boolean,

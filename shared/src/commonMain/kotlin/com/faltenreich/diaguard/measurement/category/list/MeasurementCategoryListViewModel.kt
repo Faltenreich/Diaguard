@@ -31,25 +31,25 @@ class MeasurementCategoryListViewModel(
         }
     }
 
-    private fun decrementSortIndex(category: MeasurementCategory) {
+    private fun decrementSortIndex(category: MeasurementCategory.Local) {
         val within = stateInScope.value?.categories ?: return
         swapSortIndexes(first = category, second = within.last { it.sortIndex < category.sortIndex })
     }
 
-    private fun incrementSortIndex(category: MeasurementCategory) {
+    private fun incrementSortIndex(category: MeasurementCategory.Local) {
         val within = stateInScope.value?.categories ?: return
         swapSortIndexes(first = category, second = within.first { it.sortIndex > category.sortIndex })
     }
 
     private fun swapSortIndexes(
-        first: MeasurementCategory,
-        second: MeasurementCategory,
+        first: MeasurementCategory.Local,
+        second: MeasurementCategory.Local,
     ) {
         updateCategory(first.copy(sortIndex = second.sortIndex))
         updateCategory(second.copy(sortIndex = first.sortIndex))
     }
 
-    private fun editCategory(category: MeasurementCategory) {
+    private fun editCategory(category: MeasurementCategory.Local) {
         navigateToScreen(MeasurementCategoryFormScreen(category))
     }
 

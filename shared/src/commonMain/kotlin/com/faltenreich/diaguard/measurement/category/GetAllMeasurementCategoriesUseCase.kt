@@ -6,7 +6,7 @@ class GetAllMeasurementCategoriesUseCase(
     private val repository: MeasurementCategoryRepository,
 ) {
 
-    operator fun invoke(): Flow<List<MeasurementCategory>> {
+    operator fun invoke(): Flow<List<MeasurementCategory.Local>> {
         return repository.observeAll()
     }
 }

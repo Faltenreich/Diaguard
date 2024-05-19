@@ -6,10 +6,10 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
 class CountMeasurementValuesOfCategoryUseCase(
-    private val measurementValueRepository: MeasurementValueRepository = inject(),
+    private val repository: MeasurementValueRepository = inject(),
 ) {
 
-    operator fun invoke(category: MeasurementCategory): Flow<Long> {
-        return measurementValueRepository.observeByCategoryId(category.id)
+    operator fun invoke(category: MeasurementCategory.Local): Flow<Long> {
+        return repository.observeByCategoryId(category.id)
     }
 }

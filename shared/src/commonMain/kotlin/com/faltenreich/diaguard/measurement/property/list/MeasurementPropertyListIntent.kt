@@ -18,7 +18,7 @@ sealed interface MeasurementPropertyListIntent {
     data class EditProperty(val property: MeasurementProperty.Local) : MeasurementPropertyListIntent
 
     data class CreateProperty(
-        val category: MeasurementCategory,
+        val category: MeasurementCategory.Local,
         val properties: List<MeasurementProperty.Local>,
     ) : MeasurementPropertyListIntent
 }

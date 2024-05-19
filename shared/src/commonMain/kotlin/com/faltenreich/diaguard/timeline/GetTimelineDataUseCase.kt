@@ -24,20 +24,18 @@ class GetTimelineDataUseCase(
                 )
             }
         val valuesForTable = values.filterNot { value -> value.property.category.isBloodSugar }
-        categories.onEach { category ->
-            // TODO: Improve performance
-            category.properties = propertyRepository.getByCategoryId(category.id)
-        }
+        val properties = propertyRepository.getAll()
         return TimelineData(
             chart = TimelineData.Chart(valuesForChart),
             table = TimelineData.Table(
                 categories = categories.map { category ->
+                    val propertiesOfCategory = properties.filter { it.category == category }
                     TimelineData.Table.Category(
-                        properties = category.properties.map { property ->
+                        properties = propertiesOfCategory.map { property ->
                             TimelineData.Table.Category.Property(
                                 icon = category.icon,
                                 name = category.name,
-                                unit = property.name.takeIf { category.properties.size > 1 },
+                                unit = property.name.takeIf { propertiesOfCategory.isNotEmpty() },
                                 values = valuesForTable
                                     .filter { it.property == property }
                                     .groupBy { value ->

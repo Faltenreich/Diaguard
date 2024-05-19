@@ -11,7 +11,7 @@ class CreateMeasurementCategoryUseCase(
         name: String,
         icon: String?,
         sortIndex: Long,
-    ): MeasurementCategory {
+    ): MeasurementCategory.Local {
         val id = repository.create(
             name = name,
             key = null,

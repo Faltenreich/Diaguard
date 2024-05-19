@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetMeasurementPropertiesUseCase(private val repository: MeasurementPropertyRepository) {
 
-    operator fun invoke(category: MeasurementCategory): Flow<List<MeasurementProperty.Local>> {
+    operator fun invoke(category: MeasurementCategory.Local): Flow<List<MeasurementProperty.Local>> {
         return repository.observeByCategoryId(category.id)
     }
 }

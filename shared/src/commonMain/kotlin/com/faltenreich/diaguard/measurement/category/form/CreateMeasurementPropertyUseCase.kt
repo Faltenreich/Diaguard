@@ -18,7 +18,7 @@ class CreateMeasurementPropertyUseCase(
         propertySortIndex: Long,
         propertyAggregationStyle: MeasurementAggregationStyle,
         propertyRange: MeasurementValueRange,
-        category: MeasurementCategory,
+        category: MeasurementCategory.Local,
         unitName: String,
         unitIsSelected: Boolean,
     ): MeasurementProperty.Local {

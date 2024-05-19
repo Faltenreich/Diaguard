@@ -14,7 +14,7 @@ class GetAverageUseCase(
 ) {
 
     operator fun invoke(
-        category: MeasurementCategory,
+        category: MeasurementCategory.Local,
         dateRange: ClosedRange<Date>,
     ): StatisticViewState.Loaded.Average {
         return StatisticViewState.Loaded.Average(

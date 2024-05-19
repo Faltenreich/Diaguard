@@ -15,10 +15,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 
 class GetAverageUseCase(
-    private val measurementCategoryRepository: MeasurementCategoryRepository = inject(),
-    private val measurementPropertyRepository: MeasurementPropertyRepository = inject(),
-    private val measurementValueRepository: MeasurementValueRepository = inject(),
-    private val mapMeasurementValue: MeasurementValueMapper = inject(),
+    private val categoryRepository: MeasurementCategoryRepository = inject(),
+    private val propertyRepository: MeasurementPropertyRepository = inject(),
+    private val valueRepository: MeasurementValueRepository = inject(),
+    private val mapValue: MeasurementValueMapper = inject(),
     private val getToday: GetTodayUseCase = inject(),
 ) {
 
@@ -26,21 +26,21 @@ class GetAverageUseCase(
         val today = getToday()
         val todayAtEndOfDay = today.atEndOfDay()
 
-        return measurementCategoryRepository.observeBloodSugar().flatMapLatest { category ->
+        return categoryRepository.observeBloodSugar().flatMapLatest { category ->
             val categoryId = category?.id ?: return@flatMapLatest flowOf(null)
             combine(
-                measurementPropertyRepository.observeByCategoryId(categoryId),
-                measurementValueRepository.observeAverageByCategoryId(
+                propertyRepository.observeByCategoryId(categoryId),
+                valueRepository.observeAverageByCategoryId(
                     categoryId = categoryId,
                     minDateTime = today.atStartOfDay(),
                     maxDateTime = todayAtEndOfDay,
                 ),
-                measurementValueRepository.observeAverageByCategoryId(
+                valueRepository.observeAverageByCategoryId(
                     categoryId = categoryId,
                     minDateTime = today.minus(1, DateUnit.WEEK).atStartOfDay(),
                     maxDateTime = todayAtEndOfDay,
                 ),
-                measurementValueRepository.observeAverageByCategoryId(
+                valueRepository.observeAverageByCategoryId(
                     categoryId = categoryId,
                     minDateTime = today.minus(1, DateUnit.MONTH).atStartOfDay(),
                     maxDateTime = todayAtEndOfDay,
@@ -49,13 +49,13 @@ class GetAverageUseCase(
                 val unit = properties.first().selectedUnit
                 DashboardViewState.Revisit.Average(
                     day = averageOfDay?.let {
-                        mapMeasurementValue(MeasurementValueForDatabase(averageOfDay, unit))
+                        mapValue(MeasurementValueForDatabase(averageOfDay, unit))
                     }?.value,
                     week = averageOfWeek?.let {
-                        mapMeasurementValue(MeasurementValueForDatabase(averageOfWeek, unit))
+                        mapValue(MeasurementValueForDatabase(averageOfWeek, unit))
                     }?.value,
                     month = averageOfMonth?.let {
-                        mapMeasurementValue(MeasurementValueForDatabase(averageOfMonth, unit))
+                        mapValue(MeasurementValueForDatabase(averageOfMonth, unit))
                     }?.value,
                 )
             }

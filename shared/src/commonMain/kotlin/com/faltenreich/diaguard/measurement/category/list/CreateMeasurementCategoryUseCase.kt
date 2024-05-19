@@ -12,13 +12,13 @@ class CreateMeasurementCategoryUseCase(
         icon: String?,
         sortIndex: Long,
     ): MeasurementCategory.Local {
-        val id = repository.create(
+        val category = MeasurementCategory.User(
             name = name,
-            key = null,
             icon = icon,
             sortIndex = sortIndex,
             isActive = true,
         )
+        val id = repository.create(category)
         return checkNotNull(repository.getById(id))
     }
 }

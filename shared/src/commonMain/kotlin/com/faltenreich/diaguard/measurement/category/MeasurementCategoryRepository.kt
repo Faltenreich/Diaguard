@@ -9,13 +9,21 @@ class MeasurementCategoryRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(
-        key: DatabaseKey.MeasurementCategory?,
-        name: String,
-        icon: String?,
-        sortIndex: Long,
-        isActive: Boolean,
-    ): Long {
+    fun create(category: MeasurementCategory.User): Long = with(category) {
+        val now = dateTimeFactory.now()
+        dao.create(
+            createdAt = now,
+            updatedAt = now,
+            key = null,
+            name = name,
+            icon = icon,
+            sortIndex = sortIndex,
+            isActive = isActive,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
+    fun create(category: MeasurementCategory.Seed): Long = with(category) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -53,13 +61,7 @@ class MeasurementCategoryRepository(
         return dao.countAll()
     }
 
-    fun update(
-        id: Long,
-        name: String,
-        icon: String?,
-        sortIndex: Long,
-        isActive: Boolean,
-    ) {
+    fun update(category: MeasurementCategory.Local) = with(category) {
         dao.update(
             id = id,
             updatedAt = dateTimeFactory.now(),
@@ -70,7 +72,7 @@ class MeasurementCategoryRepository(
         )
     }
 
-    fun deleteById(id: Long) {
-        dao.deleteById(id)
+    fun delete(category: MeasurementCategory.Local) {
+        dao.deleteById(category.id)
     }
 }

@@ -8,6 +8,6 @@ class DeleteMeasurementCategoryUseCase(
 ) {
 
     operator fun invoke(category: MeasurementCategory.Local) {
-        repository.deleteById(category.id)
+        repository.delete(category)
     }
 }

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.seed
 import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodRepository
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
@@ -26,11 +27,13 @@ class SeedImport(
         val categorySeeds = seedRepository.getMeasurementCategories()
         categorySeeds.forEachIndexed { categorySortIndex, categorySeed ->
             val categoryId = categoryRepository.create(
-                key = categorySeed.key,
-                name = localization.getString(categorySeed.name),
-                icon = categorySeed.icon,
-                sortIndex = categorySortIndex.toLong(),
-                isActive = true,
+                MeasurementCategory.Seed(
+                    key = categorySeed.key,
+                    name = localization.getString(categorySeed.name),
+                    icon = categorySeed.icon,
+                    sortIndex = categorySortIndex.toLong(),
+                    isActive = true,
+                )
             )
             val category = checkNotNull(categoryRepository.getById(categoryId))
             categorySeed.properties.forEachIndexed { propertySortIndex, propertySeed ->

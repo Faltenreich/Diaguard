@@ -20,19 +20,19 @@ interface MeasurementPropertyDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): MeasurementProperty?
+    fun getById(id: Long): MeasurementProperty.Local?
 
-    fun observeById(id: Long): Flow<MeasurementProperty?>
+    fun observeById(id: Long): Flow<MeasurementProperty.Local?>
 
-    fun getByKey(key: String): MeasurementProperty?
+    fun getByKey(key: String): MeasurementProperty.Local?
 
-    fun getByCategoryId(categoryId: Long): List<MeasurementProperty>
+    fun getByCategoryId(categoryId: Long): List<MeasurementProperty.Local>
 
-    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty>>
+    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty.Local>>
 
-    fun getAll(): List<MeasurementProperty>
+    fun getAll(): List<MeasurementProperty.Local>
 
-    fun observeAll(): Flow<List<MeasurementProperty>>
+    fun observeAll(): Flow<List<MeasurementProperty.Local>>
 
     fun update(
         id: Long,

@@ -42,8 +42,8 @@ class MeasurementPropertyListViewModel(
     }
 
     private fun swapSortIndexes(
-        first: MeasurementProperty,
-        second: MeasurementProperty,
+        first: MeasurementProperty.Local,
+        second: MeasurementProperty.Local,
     ) {
         updateProperty(first.copy(sortIndex = second.sortIndex))
         updateProperty(second.copy(sortIndex = first.sortIndex))

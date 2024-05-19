@@ -15,7 +15,7 @@ sealed interface MeasurementUnit {
     val abbreviation: String
     val factor: Double
     val isSelected: Boolean
-    val property: MeasurementProperty
+    val property: MeasurementProperty.Local
 
     val isDefault: Boolean
         get() = factor == FACTOR_DEFAULT
@@ -25,7 +25,7 @@ sealed interface MeasurementUnit {
         override val abbreviation: String,
         override val factor: Double,
         override val isSelected: Boolean,
-        override val property: MeasurementProperty,
+        override val property: MeasurementProperty.Local,
     ) : MeasurementUnit
 
     data class Seed(
@@ -34,7 +34,7 @@ sealed interface MeasurementUnit {
         override val abbreviation: String,
         override val factor: Double,
         override val isSelected: Boolean,
-        override val property: MeasurementProperty,
+        override val property: MeasurementProperty.Local,
     ) : MeasurementUnit, Seedable
 
     data class Local(
@@ -46,7 +46,7 @@ sealed interface MeasurementUnit {
         override val abbreviation: String,
         override val factor: Double,
         override val isSelected: Boolean,
-        override val property: MeasurementProperty,
+        override val property: MeasurementProperty.Local,
     ) : MeasurementUnit, DatabaseEntity, Seedable
 
     companion object {

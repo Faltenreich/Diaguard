@@ -57,31 +57,31 @@ class MeasurementPropertySqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getById(id: Long): MeasurementProperty? {
+    override fun getById(id: Long): MeasurementProperty.Local? {
         return queries.getById(id, mapper::map).executeAsOneOrNull()
     }
 
-    override fun observeById(id: Long): Flow<MeasurementProperty?> {
+    override fun observeById(id: Long): Flow<MeasurementProperty.Local?> {
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
-    override fun getByKey(key: String): MeasurementProperty? {
+    override fun getByKey(key: String): MeasurementProperty.Local? {
         return queries.getByKey(key, mapper::map).executeAsOneOrNull()
     }
 
-    override fun getByCategoryId(categoryId: Long): List<MeasurementProperty> {
+    override fun getByCategoryId(categoryId: Long): List<MeasurementProperty.Local> {
         return queries.getByCategory(categoryId, mapper::map).executeAsList()
     }
 
-    override fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty>> {
+    override fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty.Local>> {
         return queries.getByCategory(categoryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun getAll(): List<MeasurementProperty> {
+    override fun getAll(): List<MeasurementProperty.Local> {
         return queries.getAll(mapper::map).executeAsList()
     }
 
-    override fun observeAll(): Flow<List<MeasurementProperty>> {
+    override fun observeAll(): Flow<List<MeasurementProperty.Local>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 

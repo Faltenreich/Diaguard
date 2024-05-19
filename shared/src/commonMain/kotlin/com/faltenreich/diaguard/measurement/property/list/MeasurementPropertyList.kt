@@ -21,7 +21,7 @@ import diaguard.shared.generated.resources.measurement_property_add
 @Composable
 fun MeasurementPropertyList(
     category: MeasurementCategory,
-    properties: List<MeasurementProperty>,
+    properties: List<MeasurementProperty.Local>,
     modifier: Modifier = Modifier,
     viewModel: MeasurementPropertyListViewModel = inject(),
 ) {

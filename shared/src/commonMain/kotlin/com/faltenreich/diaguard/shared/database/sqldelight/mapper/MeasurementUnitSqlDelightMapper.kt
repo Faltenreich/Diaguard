@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.
 class MeasurementUnitSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
     private val propertyMapper: MeasurementPropertySqlDelightMapper,
-    private val categoryMapper: MeasurementCategorySqlDelightMapper,
 ) {
 
     fun map(
@@ -56,32 +55,40 @@ class MeasurementUnitSqlDelightMapper(
             factor = unitFactor,
             isSelected = unitIsSelected.toSqlLiteBoolean(),
             property = propertyMapper.map(
-                id = propertyId,
-                createdAt = propertyCreatedAt,
-                updatedAt = propertyUpdatedAt,
-                key = propertyKey,
-                name = propertyName,
-                sortIndex = propertySortIndex,
-                aggregationStyle = propertyAggregationStyle,
-                valueRangeMinimum = propertyValueRangeMinimum,
-                valueRangeLow = propertyValueRangeLow,
-                valueRangeTarget = propertyValueRangeTarget,
-                valueRangeHigh = propertyValueRangeHigh,
-                valueRangeMaximum = propertyValueRangeMaximum,
-                isValueRangeHighlighted = propertyIsValueRangeHighlighted,
-                categoryId = propertyCategoryId,
-            ).apply {
-                category = categoryMapper.map(
-                    id = categoryId,
-                    createdAt = categoryCreatedAt,
-                    updatedAt = categoryUpdatedAt,
-                    key = categoryKey,
-                    name = categoryName,
-                    icon = categoryIcon,
-                    sortIndex = categorySortIndex,
-                    isActive = categoryIsActive,
-                )
-            },
+                propertyId = propertyId,
+                propertyCreatedAt = propertyCreatedAt,
+                propertyUpdatedAt = propertyUpdatedAt,
+                propertyKey = propertyKey,
+                propertyName = propertyName,
+                propertySortIndex = propertySortIndex,
+                propertyAggregationStyle = propertyAggregationStyle,
+                propertyValueRangeMinimum = propertyValueRangeMinimum,
+                propertyValueRangeLow = propertyValueRangeLow,
+                propertyValueRangeTarget = propertyValueRangeTarget,
+                propertyValueRangeHigh = propertyValueRangeHigh,
+                propertyValueRangeMaximum = propertyValueRangeMaximum,
+                propertyIsValueRangeHighlighted = propertyIsValueRangeHighlighted,
+                propertyCategoryId = propertyCategoryId,
+
+                unitId = unitId,
+                unitCreatedAt = unitCreatedAt,
+                unitUpdatedAt = unitUpdatedAt,
+                unitKey = unitKey,
+                unitName = unitName,
+                unitAbbreviation = unitAbbreviation,
+                unitFactor = unitFactor,
+                unitIsSelected = unitIsSelected,
+                unitPropertyId = unitPropertyId,
+
+                categoryId = categoryId,
+                categoryCreatedAt = categoryCreatedAt,
+                categoryUpdatedAt = categoryUpdatedAt,
+                categoryKey = categoryKey,
+                categoryName = categoryName,
+                categoryIcon = categoryIcon,
+                categorySortIndex = categorySortIndex,
+                categoryIsActive = categoryIsActive,
+            ),
         )
     }
 }

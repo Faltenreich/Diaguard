@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.shared.database.DatabaseEntity
 sealed interface MeasurementValue {
 
     val value: Double
-    val property: MeasurementProperty
+    val property: MeasurementProperty.Local
     val entry: Entry
 
     val isNotHighlighted: Boolean
@@ -25,7 +25,7 @@ sealed interface MeasurementValue {
 
     data class User(
         override val value: Double,
-        override val property: MeasurementProperty,
+        override val property: MeasurementProperty.Local,
         override val entry: Entry,
     ) : MeasurementValue
 
@@ -33,7 +33,7 @@ sealed interface MeasurementValue {
         val createdAt: DateTime,
         val updatedAt: DateTime,
         override val value: Double,
-        override val property: MeasurementProperty,
+        override val property: MeasurementProperty.Local,
         override val entry: Entry,
     ) : MeasurementValue
 
@@ -42,7 +42,7 @@ sealed interface MeasurementValue {
         override val createdAt: DateTime,
         override val updatedAt: DateTime,
         override val value: Double,
-        override val property: MeasurementProperty,
+        override val property: MeasurementProperty.Local,
         override val entry: Entry,
     ) : MeasurementValue, DatabaseEntity
 }

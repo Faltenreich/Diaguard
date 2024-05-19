@@ -16,11 +16,11 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.property.form.CountMeasurementValuesOfPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.DeleteMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.form.GetMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormStateMapper
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
+import com.faltenreich.diaguard.measurement.unit.GetMeasurementUnitsOfPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.value.CreateMeasurementValuesUseCase
@@ -46,8 +46,8 @@ fun measurementModule() = module {
     singleOf(::UpdateMeasurementCategoryUseCase)
     singleOf(::DeleteMeasurementCategoryUseCase)
     singleOf(::CreateMeasurementPropertyUseCase)
+    singleOf(::GetMeasurementUnitsOfPropertyUseCase)
     singleOf(::GetMeasurementPropertiesUseCase)
-    singleOf(::GetMeasurementPropertyUseCase)
     singleOf(::CreateMeasurementValuesUseCase)
     singleOf(::CountMeasurementValuesOfCategoryUseCase)
     singleOf(::CountMeasurementValuesOfPropertyUseCase)
@@ -60,5 +60,5 @@ fun measurementModule() = module {
     factoryOf(::MeasurementCategoryListViewModel)
     factory { (category: MeasurementCategory) -> MeasurementCategoryFormViewModel(category) }
     factoryOf(::MeasurementPropertyListViewModel)
-    factory { (property: MeasurementProperty) -> MeasurementPropertyFormViewModel(property) }
+    factory { (property: MeasurementProperty.Local) -> MeasurementPropertyFormViewModel(property) }
 }

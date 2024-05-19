@@ -11,22 +11,41 @@ import com.faltenreich.diaguard.shared.database.DatabaseKey
 /**
  * Entity representing one property of [MeasurementCategory]
  */
-data class MeasurementProperty(
-    override val id: Long,
-    override val createdAt: DateTime,
-    override val updatedAt: DateTime,
-    override val key: DatabaseKey.MeasurementProperty?,
-    val name: String,
-    val sortIndex: Long,
-    val aggregationStyle: MeasurementAggregationStyle,
-    val range: MeasurementValueRange,
-    val categoryId: Long,
-) : DatabaseEntity, Seedable {
+sealed interface MeasurementProperty {
 
-    lateinit var category: MeasurementCategory
-    lateinit var units: List<MeasurementUnit.Local>
+    val name: String
+    val sortIndex: Long
+    val aggregationStyle: MeasurementAggregationStyle
+    val range: MeasurementValueRange
+    val category: MeasurementCategory
 
-    // TODO: Remove erroneous lateinit properties
-    val selectedUnit: MeasurementUnit.Local
-        get() = units.first(MeasurementUnit::isSelected)
+    data class User(
+        override val name: String,
+        override val sortIndex: Long,
+        override val aggregationStyle: MeasurementAggregationStyle,
+        override val range: MeasurementValueRange,
+        override val category: MeasurementCategory,
+    ) : MeasurementProperty
+
+    data class Seed(
+        override val key: DatabaseKey.MeasurementProperty?,
+        override val name: String,
+        override val sortIndex: Long,
+        override val aggregationStyle: MeasurementAggregationStyle,
+        override val range: MeasurementValueRange,
+        override val category: MeasurementCategory,
+    ) : MeasurementProperty, Seedable
+
+    data class Local(
+        override val id: Long,
+        override val createdAt: DateTime,
+        override val updatedAt: DateTime,
+        override val key: DatabaseKey.MeasurementProperty?,
+        override val name: String,
+        override val sortIndex: Long,
+        override val aggregationStyle: MeasurementAggregationStyle,
+        override val range: MeasurementValueRange,
+        override val category: MeasurementCategory,
+        val selectedUnit: MeasurementUnit.Local,
+    ) : MeasurementProperty, DatabaseEntity, Seedable
 }

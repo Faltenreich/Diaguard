@@ -6,10 +6,10 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
 class CountMeasurementValuesOfPropertyUseCase(
-    private val measurementValueRepository: MeasurementValueRepository = inject(),
+    private val repository: MeasurementValueRepository = inject(),
 ) {
 
-    operator fun invoke(measurementProperty: MeasurementProperty): Flow<Long> {
-        return measurementValueRepository.observeCountByPropertyId(measurementProperty.id)
+    operator fun invoke(property: MeasurementProperty.Local): Flow<Long> {
+        return repository.observeCountByPropertyId(property.id)
     }
 }

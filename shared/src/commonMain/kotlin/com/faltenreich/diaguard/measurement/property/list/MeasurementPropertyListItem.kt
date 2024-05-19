@@ -15,7 +15,7 @@ import diaguard.shared.generated.resources.ic_arrow_up
 
 @Composable
 fun MeasurementPropertyListItem(
-    property: MeasurementProperty,
+    property: MeasurementProperty.Local,
     onArrowUp: (MeasurementProperty) -> Unit,
     showArrowUp: Boolean,
     onArrowDown: (MeasurementProperty) -> Unit,

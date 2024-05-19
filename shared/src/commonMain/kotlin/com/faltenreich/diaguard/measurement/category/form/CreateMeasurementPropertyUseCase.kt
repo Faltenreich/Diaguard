@@ -20,7 +20,7 @@ class CreateMeasurementPropertyUseCase(
         categoryId: Long,
         unitName: String,
         unitIsSelected: Boolean,
-    ): MeasurementProperty {
+    ): MeasurementProperty.Local {
         val unitFactor = MeasurementUnit.FACTOR_DEFAULT
         // TODO: Make customizable?
         val unitAbbreviation = unitName

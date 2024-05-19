@@ -5,10 +5,10 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.shared.di.inject
 
 class DeleteMeasurementPropertyUseCase(
-    private val measurementPropertyRepository: MeasurementPropertyRepository = inject(),
+    private val repository: MeasurementPropertyRepository = inject(),
 ) {
 
-    operator fun invoke(property: MeasurementProperty) {
-        measurementPropertyRepository.deleteById(property.id)
+    operator fun invoke(property: MeasurementProperty.Local) {
+        repository.deleteById(property.id)
     }
 }

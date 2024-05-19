@@ -14,13 +14,13 @@ class MeasurementPropertyFormStateMapper(
 ) {
 
     operator fun invoke(
-        property: MeasurementProperty,
-        selectedUnit: MeasurementUnit.Local,
+        property: MeasurementProperty.Local,
+        units: List<MeasurementUnit.Local>,
     ): MeasurementPropertyFormState {
-        val defaultUnit = property.units.first(MeasurementUnit::isDefault)
+        val defaultUnit = units.first(MeasurementUnit::isDefault)
         return MeasurementPropertyFormState(
             property = property,
-            units = if (property.isUserGenerated) emptyList() else property.units.map { unit ->
+            units = if (property.isUserGenerated) emptyList() else units.map { unit ->
                 MeasurementUnitListItemState(
                     unit = unit,
                     title = unit.name,
@@ -31,7 +31,7 @@ class MeasurementPropertyFormStateMapper(
                             defaultUnit.name,
                         )
                     },
-                    isSelected = selectedUnit.id == unit.id,
+                    isSelected = property.selectedUnit.id == unit.id,
                 )
             }
         )

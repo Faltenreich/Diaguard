@@ -34,27 +34,27 @@ class MeasurementPropertyRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun getById(id: Long): MeasurementProperty? {
+    fun getById(id: Long): MeasurementProperty.Local? {
         return dao.getById(id)
     }
 
-    fun getByKey(key: String): MeasurementProperty {
+    fun getByKey(key: String): MeasurementProperty.Local {
         return checkNotNull(dao.getByKey(key))
     }
 
-    fun getByCategoryId(categoryId: Long): List<MeasurementProperty> {
+    fun getByCategoryId(categoryId: Long): List<MeasurementProperty.Local> {
         return dao.getByCategoryId(categoryId)
     }
 
-    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty>> {
+    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty.Local>> {
         return dao.observeByCategoryId(categoryId)
     }
 
-    fun getAll(): List<MeasurementProperty> {
+    fun getAll(): List<MeasurementProperty.Local> {
         return dao.getAll()
     }
 
-    fun observeAll(): Flow<List<MeasurementProperty>> {
+    fun observeAll(): Flow<List<MeasurementProperty.Local>> {
         return dao.observeAll()
     }
 
@@ -77,14 +77,5 @@ class MeasurementPropertyRepository(
 
     fun deleteById(id: Long) {
         dao.deleteById(id)
-    }
-}
-
-fun MeasurementProperty.deep(
-    categoryRepository: MeasurementCategoryRepository = inject(),
-): MeasurementProperty {
-    return apply {
-        this.category = checkNotNull(categoryRepository.getById(categoryId))
-        // TODO: Selected unit
     }
 }

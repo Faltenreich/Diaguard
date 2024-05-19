@@ -3,9 +3,11 @@ package com.faltenreich.diaguard.measurement.unit
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import kotlinx.coroutines.flow.Flow
 
-class GetMeasurementUnitsOfPropertyUseCase {
+class GetMeasurementUnitsOfPropertyUseCase(
+    private val repository: MeasurementUnitRepository,
+) {
 
     operator fun invoke(property: MeasurementProperty.Local): Flow<List<MeasurementUnit.Local>> {
-        TODO()
+        return repository.observeByPropertyId(property.id)
     }
 }

@@ -8,18 +8,17 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.measurement.value.MeasurementValueForDatabase
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 
 class GetAverageUseCase(
-    private val categoryRepository: MeasurementCategoryRepository = inject(),
-    private val propertyRepository: MeasurementPropertyRepository = inject(),
-    private val valueRepository: MeasurementValueRepository = inject(),
-    private val mapValue: MeasurementValueMapper = inject(),
-    private val getToday: GetTodayUseCase = inject(),
+    private val categoryRepository: MeasurementCategoryRepository,
+    private val propertyRepository: MeasurementPropertyRepository,
+    private val valueRepository: MeasurementValueRepository,
+    private val mapValue: MeasurementValueMapper,
+    private val getToday: GetTodayUseCase,
 ) {
 
     operator fun invoke(): Flow<DashboardViewState.Revisit.Average?> {

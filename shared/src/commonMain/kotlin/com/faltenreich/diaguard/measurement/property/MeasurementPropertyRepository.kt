@@ -1,10 +1,6 @@
 package com.faltenreich.diaguard.measurement.property
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
-import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementPropertyRepository(
@@ -12,14 +8,22 @@ class MeasurementPropertyRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(
-        key: DatabaseKey.MeasurementProperty?,
-        name: String,
-        sortIndex: Long,
-        aggregationStyle: MeasurementAggregationStyle,
-        range: MeasurementValueRange,
-        categoryId: Long,
-    ): Long {
+    fun create(property: MeasurementProperty.User): Long = with(property) {
+        val now = dateTimeFactory.now()
+        dao.create(
+            createdAt = now,
+            updatedAt = now,
+            key = null,
+            name = name,
+            range = range,
+            sortIndex = sortIndex,
+            aggregationStyle = aggregationStyle,
+            categoryId = category.id,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
+    fun create(property: MeasurementProperty.Seed): Long = with(property) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -29,7 +33,7 @@ class MeasurementPropertyRepository(
             range = range,
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
-            categoryId = categoryId,
+            categoryId = category.id,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -58,13 +62,7 @@ class MeasurementPropertyRepository(
         return dao.observeAll()
     }
 
-    fun update(
-        id: Long,
-        name: String,
-        sortIndex: Long,
-        aggregationStyle: MeasurementAggregationStyle,
-        range: MeasurementValueRange,
-    ) {
+    fun update(property: MeasurementProperty.Local) = with(property) {
         dao.update(
             id = id,
             updatedAt = dateTimeFactory.now(),
@@ -75,7 +73,7 @@ class MeasurementPropertyRepository(
         )
     }
 
-    fun deleteById(id: Long) {
-        dao.deleteById(id)
+    fun delete(property: MeasurementProperty.Local) {
+        dao.deleteById(property.id)
     }
 }

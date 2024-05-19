@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
@@ -31,26 +32,30 @@ class SeedImport(
                 sortIndex = categorySortIndex.toLong(),
                 isActive = true,
             )
+            val category = checkNotNull(categoryRepository.getById(categoryId))
             categorySeed.properties.forEachIndexed { propertySortIndex, propertySeed ->
                 val propertyId = propertyRepository.create(
-                    key = propertySeed.key,
-                    name = localization.getString(propertySeed.name),
-                    sortIndex = propertySortIndex.toLong(),
-                    aggregationStyle = propertySeed.aggregationStyle,
-                    range = propertySeed.range,
-                    categoryId = categoryId,
+                    MeasurementProperty.Seed(
+                        key = propertySeed.key,
+                        name = localization.getString(propertySeed.name),
+                        sortIndex = propertySortIndex.toLong(),
+                        aggregationStyle = propertySeed.aggregationStyle,
+                        range = propertySeed.range,
+                        category = category,
+                    ),
                 )
                 val property = checkNotNull(propertyRepository.getById(propertyId))
                 propertySeed.units.forEach { unitSeed ->
-                    val unit = MeasurementUnit.Seed(
-                        key = unitSeed.key,
-                        name = localization.getString(unitSeed.name),
-                        abbreviation = localization.getString(unitSeed.abbreviation),
-                        factor = unitSeed.factor,
-                        isSelected = unitSeed.factor == MeasurementUnit.FACTOR_DEFAULT,
-                        property = property,
+                    unitRepository.create(
+                        MeasurementUnit.Seed(
+                            key = unitSeed.key,
+                            name = localization.getString(unitSeed.name),
+                            abbreviation = localization.getString(unitSeed.abbreviation),
+                            factor = unitSeed.factor,
+                            isSelected = unitSeed.factor == MeasurementUnit.FACTOR_DEFAULT,
+                            property = property,
+                        ),
                     )
-                    unitRepository.create(unit)
                 }
             }
         }

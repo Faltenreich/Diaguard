@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.category.form
 
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
@@ -17,7 +18,7 @@ class CreateMeasurementPropertyUseCase(
         propertySortIndex: Long,
         propertyAggregationStyle: MeasurementAggregationStyle,
         propertyRange: MeasurementValueRange,
-        categoryId: Long,
+        category: MeasurementCategory,
         unitName: String,
         unitIsSelected: Boolean,
     ): MeasurementProperty.Local {
@@ -26,12 +27,13 @@ class CreateMeasurementPropertyUseCase(
         val unitAbbreviation = unitName
 
         val propertyId = propertyRepository.create(
-            key = null,
-            name = propertyName,
-            sortIndex = propertySortIndex,
-            aggregationStyle = propertyAggregationStyle,
-            range = propertyRange,
-            categoryId = categoryId,
+            MeasurementProperty.User(
+                name = propertyName,
+                sortIndex = propertySortIndex,
+                aggregationStyle = propertyAggregationStyle,
+                range = propertyRange,
+                category = category,
+            )
         )
 
         val property = checkNotNull(propertyRepository.getById(propertyId))

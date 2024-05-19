@@ -7,13 +7,7 @@ class UpdateMeasurementPropertyUseCase(
     private val repository: MeasurementPropertyRepository,
 ) {
 
-    operator fun invoke(property: MeasurementProperty.Local) = with(property) {
-        repository.update(
-            id = id,
-            name = name,
-            sortIndex = sortIndex,
-            aggregationStyle = aggregationStyle,
-            range = range,
-        )
+    operator fun invoke(property: MeasurementProperty.Local) {
+        repository.update(property)
     }
 }

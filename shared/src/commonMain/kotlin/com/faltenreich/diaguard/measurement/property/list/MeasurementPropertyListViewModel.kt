@@ -72,7 +72,7 @@ class MeasurementPropertyListViewModel(
                             maximum = Double.MAX_VALUE,
                             isHighlighted = false,
                         ),
-                        categoryId = category.id,
+                        category = category,
                         unitName = unitName,
                         unitIsSelected = true,
                     )

@@ -9,6 +9,6 @@ class DeleteMeasurementPropertyUseCase(
 ) {
 
     operator fun invoke(property: MeasurementProperty.Local) {
-        repository.deleteById(property.id)
+        repository.delete(property)
     }
 }

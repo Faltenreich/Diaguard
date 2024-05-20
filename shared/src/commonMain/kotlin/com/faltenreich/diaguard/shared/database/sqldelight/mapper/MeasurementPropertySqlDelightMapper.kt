@@ -75,7 +75,7 @@ class MeasurementPropertySqlDelightMapper(
                 isActive = categoryIsActive,
             ),
         ).apply {
-            // We avoid circular dependencies by initializing late and without mapper
+            // We avoid recursion by initializing late and without mapper
             selectedUnit = MeasurementUnit.Local(
                 id = unitId,
                 createdAt = dateTimeFactory.dateTime(isoString = unitCreatedAt),

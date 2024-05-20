@@ -35,7 +35,6 @@ class SeedImport(
                     isActive = true,
                 )
             )
-            val category = checkNotNull(categoryRepository.getById(categoryId))
             categorySeed.properties.forEachIndexed { propertySortIndex, propertySeed ->
                 val propertyId = propertyRepository.create(
                     MeasurementProperty.Seed(
@@ -44,7 +43,7 @@ class SeedImport(
                         sortIndex = propertySortIndex.toLong(),
                         aggregationStyle = propertySeed.aggregationStyle,
                         range = propertySeed.range,
-                        category = category,
+                        categoryId = categoryId,
                     ),
                 )
                 propertySeed.units.forEach { unitSeed ->

@@ -33,7 +33,7 @@ class MeasurementPropertyRepository(
             range = range,
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
-            categoryId = category.id,
+            categoryId = categoryId,
         )
         return checkNotNull(dao.getLastId())
     }

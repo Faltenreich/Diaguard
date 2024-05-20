@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
@@ -73,8 +74,19 @@ class MeasurementPropertySqlDelightMapper(
                 sortIndex = categorySortIndex,
                 isActive = categoryIsActive,
             ),
-            // TODO: Set MeasurementUnit without circular dependency
-            selectedUnit = TODO(),
-        )
+        ).apply {
+            // We avoid circular dependencies by initializing late and without mapper
+            selectedUnit = MeasurementUnit.Local(
+                id = unitId,
+                createdAt = dateTimeFactory.dateTime(isoString = unitCreatedAt),
+                updatedAt = dateTimeFactory.dateTime(isoString = unitUpdatedAt),
+                key = unitKey?.let(DatabaseKey.MeasurementUnit::from),
+                name = unitName,
+                abbreviation = unitAbbreviation,
+                factor = unitFactor,
+                isSelected = unitIsSelected.toSqlLiteBoolean(),
+                property = this,
+            )
+        }
     }
 }

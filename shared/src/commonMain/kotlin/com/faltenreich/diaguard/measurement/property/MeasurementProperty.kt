@@ -46,6 +46,8 @@ sealed interface MeasurementProperty {
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
         override val category: MeasurementCategory.Local,
-        val selectedUnit: MeasurementUnit.Local,
-    ) : MeasurementProperty, DatabaseEntity, Seedable
+    ) : MeasurementProperty, DatabaseEntity, Seedable {
+
+        lateinit var selectedUnit: MeasurementUnit.Local
+    }
 }

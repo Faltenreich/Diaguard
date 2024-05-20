@@ -45,7 +45,7 @@ class GetAverageUseCase(
                     maxDateTime = todayAtEndOfDay,
                 ),
             ) { properties, averageOfDay, averageOfWeek, averageOfMonth ->
-                val unit = properties.first().selectedUnit
+                val unit = properties.firstOrNull()?.selectedUnit ?: return@combine null
                 DashboardViewState.Revisit.Average(
                     day = averageOfDay?.let {
                         mapValue(MeasurementValueForDatabase(averageOfDay, unit))

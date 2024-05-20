@@ -9,8 +9,6 @@ import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.
 
 class MeasurementPropertySqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
-    // FIXME: Avoid circular dependencies
-    private val unitMapper: MeasurementUnitSqlDelightMapper,
     private val categoryMapper: MeasurementCategorySqlDelightMapper,
 ) {
 
@@ -75,41 +73,8 @@ class MeasurementPropertySqlDelightMapper(
                 sortIndex = categorySortIndex,
                 isActive = categoryIsActive,
             ),
-            selectedUnit = unitMapper.map(
-                unitId = unitId,
-                unitCreatedAt = unitCreatedAt,
-                unitUpdatedAt = unitUpdatedAt,
-                unitKey = unitKey,
-                unitName = unitName,
-                unitAbbreviation = unitAbbreviation,
-                unitFactor = unitFactor,
-                unitIsSelected = unitIsSelected,
-                unitPropertyId = unitPropertyId,
-
-                propertyId = propertyId,
-                propertyCreatedAt = propertyCreatedAt,
-                propertyUpdatedAt = propertyUpdatedAt,
-                propertyKey = propertyKey,
-                propertyName = propertyName,
-                propertySortIndex = propertySortIndex,
-                propertyAggregationStyle = propertyAggregationStyle,
-                propertyValueRangeMinimum = propertyValueRangeMinimum,
-                propertyValueRangeLow = propertyValueRangeLow,
-                propertyValueRangeTarget = propertyValueRangeTarget,
-                propertyValueRangeHigh = propertyValueRangeHigh,
-                propertyValueRangeMaximum= propertyValueRangeMaximum,
-                propertyIsValueRangeHighlighted = propertyIsValueRangeHighlighted,
-                propertyCategoryId = propertyCategoryId,
-
-                categoryId = categoryId,
-                categoryCreatedAt = categoryCreatedAt,
-                categoryUpdatedAt = categoryUpdatedAt,
-                categoryKey = categoryKey,
-                categoryName = categoryName,
-                categoryIcon = categoryIcon,
-                categorySortIndex = categorySortIndex,
-                categoryIsActive = categoryIsActive,
-            )
+            // TODO: Set MeasurementUnit without circular dependency
+            selectedUnit = TODO(),
         )
     }
 }

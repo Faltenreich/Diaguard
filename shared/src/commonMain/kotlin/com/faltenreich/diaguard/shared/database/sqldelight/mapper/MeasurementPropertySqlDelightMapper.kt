@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.
 
 class MeasurementPropertySqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
+    // FIXME: Avoid circular dependencies
     private val unitMapper: MeasurementUnitSqlDelightMapper,
     private val categoryMapper: MeasurementCategorySqlDelightMapper,
 ) {

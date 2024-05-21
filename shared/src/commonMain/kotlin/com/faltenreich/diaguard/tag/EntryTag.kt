@@ -9,11 +9,11 @@ import com.faltenreich.diaguard.shared.database.DatabaseEntity
  */
 sealed interface EntryTag {
 
-    val entry: Entry
-    val tag: Tag
+    val entry: Entry.Local
+    val tag: Tag.Local
 
     data class Intermediate(
-        override val entry: Entry,
+        override val entry: Entry.Local,
         override val tag: Tag.Local,
     ) : EntryTag
 
@@ -21,7 +21,7 @@ sealed interface EntryTag {
         override val id: Long,
         override val createdAt: DateTime,
         override val updatedAt: DateTime,
-        override val entry: Entry,
+        override val entry: Entry.Local,
         override val tag: Tag.Local,
     ) : EntryTag, DatabaseEntity
 }

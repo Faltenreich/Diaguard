@@ -22,7 +22,7 @@ import diaguard.shared.generated.resources.ic_add
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
-data class FoodEatenListScreen(private val food: Food) : Screen {
+data class FoodEatenListScreen(private val food: Food.Local) : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {

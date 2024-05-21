@@ -13,7 +13,7 @@ class GetMeasurementCategoryInputStateUseCase(
     private val valueRepository: MeasurementValueRepository,
 ) {
 
-    operator fun invoke(entry: Entry?): Flow<List<MeasurementCategoryInputState>> {
+    operator fun invoke(entry: Entry.Local?): Flow<List<MeasurementCategoryInputState>> {
         return getCategories().map { categories ->
             categories.mapIndexed { categoryIndex, category ->
                 // FIXME: Observe via Flow

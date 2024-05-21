@@ -27,18 +27,18 @@ class EntrySqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getById(id: Long): Entry? {
+    override fun getById(id: Long): Entry.Local? {
         return queries.getById(id, mapper::map).executeAsOneOrNull()
     }
 
-    override fun observeById(id: Long): Flow<Entry?> {
+    override fun observeById(id: Long): Flow<Entry.Local?> {
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
     override fun getByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
-    ): List<Entry> {
+    ): List<Entry.Local> {
         return queries.getByDateRange(
             startDateTime = startDateTime.isoString,
             endDateTime = endDateTime.isoString,
@@ -46,11 +46,11 @@ class EntrySqlDelightDao(
         ).executeAsList()
     }
 
-    override fun getByQuery(query: String): Flow<List<Entry>> {
+    override fun getByQuery(query: String): Flow<List<Entry.Local>> {
         return queries.getByQuery(query, mapper::map).asFlow().mapToList(dispatcher)
     }
 
-    override fun getAll(): Flow<List<Entry>> {
+    override fun getAll(): Flow<List<Entry.Local>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 

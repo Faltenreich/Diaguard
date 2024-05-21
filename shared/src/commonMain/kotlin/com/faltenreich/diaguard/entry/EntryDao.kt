@@ -14,18 +14,18 @@ interface EntryDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): Entry?
+    fun getById(id: Long): Entry.Local?
 
-    fun observeById(id: Long): Flow<Entry?>
+    fun observeById(id: Long): Flow<Entry.Local?>
 
     fun getByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
-    ): List<Entry>
+    ): List<Entry.Local>
 
-    fun getByQuery(query: String): Flow<List<Entry>>
+    fun getByQuery(query: String): Flow<List<Entry.Local>>
 
-    fun getAll(): Flow<List<Entry>>
+    fun getAll(): Flow<List<Entry.Local>>
 
     fun countAll(): Flow<Long>
 

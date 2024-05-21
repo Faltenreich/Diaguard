@@ -27,9 +27,9 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
 data class EntryFormScreen(
-    val entry: Entry? = null,
+    val entry: Entry.Local? = null,
     val date: Date? = null,
-    val food: Food? = null,
+    val food: Food.Local? = null,
 ) : Screen {
 
     override val topAppBarStyle: TopAppBarStyle

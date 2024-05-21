@@ -22,7 +22,7 @@ import com.faltenreich.diaguard.tag.EntryTag
 
 @Composable
 fun EntryListItem(
-    entry: Entry,
+    entry: Entry.Local,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     dateTimeFormatter: DateTimeFormatter = inject(),

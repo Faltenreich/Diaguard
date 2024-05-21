@@ -12,12 +12,12 @@ sealed interface FoodEaten {
 
     val amountInGrams: Long
     val food: Food.Local
-    val entry: Entry
+    val entry: Entry.Local
 
     data class Intermediate(
         override val amountInGrams: Long,
         override val food: Food.Local,
-        override val entry: Entry,
+        override val entry: Entry.Local,
     ) : FoodEaten
 
     data class Local(
@@ -26,6 +26,6 @@ sealed interface FoodEaten {
         override val updatedAt: DateTime,
         override val amountInGrams: Long,
         override val food: Food.Local,
-        override val entry: Entry,
+        override val entry: Entry.Local,
     ) : FoodEaten, DatabaseEntity
 }

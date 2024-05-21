@@ -8,5 +8,5 @@ sealed interface TagDetailIntent {
 
     data object DeleteTag : TagDetailIntent
 
-    data class OpenEntry(val entry: Entry) : TagDetailIntent
+    data class OpenEntry(val entry: Entry.Local) : TagDetailIntent
 }

@@ -15,7 +15,7 @@ sealed interface DashboardViewState {
     ) : DashboardViewState {
 
         data class LatestBloodSugar(
-            val entry: Entry,
+            val entry: Entry.Local,
             val value: String,
             val tint: MeasurementValueTint,
             val timePassed: String,

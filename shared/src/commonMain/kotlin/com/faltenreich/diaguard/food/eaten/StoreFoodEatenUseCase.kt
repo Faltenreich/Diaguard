@@ -6,7 +6,7 @@ class StoreFoodEatenUseCase(private val repository: FoodEatenRepository) {
 
     operator fun invoke(
         foodEaten: List<FoodEatenInputState>,
-        entry: Entry,
+        entry: Entry.Local,
     ) {
         val foodEatenBefore = repository.getByEntryId(entry.id)
         createOrUpdateFoodEaten(foodEaten, foodEatenBefore, entry)
@@ -16,7 +16,7 @@ class StoreFoodEatenUseCase(private val repository: FoodEatenRepository) {
     private fun createOrUpdateFoodEaten(
         foodEaten: List<FoodEatenInputState>,
         foodEatenBefore: List<FoodEaten.Local>,
-        entry: Entry,
+        entry: Entry.Local,
     ) {
         foodEaten.forEach { now ->
             val amountInGrams = now.amountInGrams ?: return@forEach

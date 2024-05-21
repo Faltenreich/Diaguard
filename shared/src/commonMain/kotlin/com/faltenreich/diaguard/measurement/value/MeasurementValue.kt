@@ -12,7 +12,7 @@ sealed interface MeasurementValue {
 
     val value: Double
     val property: MeasurementProperty.Local
-    val entry: Entry
+    val entry: Entry.Local
 
     val isNotHighlighted: Boolean
         get() = property.range.isHighlighted.not()
@@ -26,7 +26,7 @@ sealed interface MeasurementValue {
     data class User(
         override val value: Double,
         override val property: MeasurementProperty.Local,
-        override val entry: Entry,
+        override val entry: Entry.Local,
     ) : MeasurementValue
 
     data class Legacy(
@@ -34,7 +34,7 @@ sealed interface MeasurementValue {
         val updatedAt: DateTime,
         override val value: Double,
         override val property: MeasurementProperty.Local,
-        override val entry: Entry,
+        override val entry: Entry.Local,
     ) : MeasurementValue
 
     data class Local(
@@ -43,6 +43,6 @@ sealed interface MeasurementValue {
         override val updatedAt: DateTime,
         override val value: Double,
         override val property: MeasurementProperty.Local,
-        override val entry: Entry,
+        override val entry: Entry.Local,
     ) : MeasurementValue, DatabaseEntity
 }

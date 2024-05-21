@@ -1,21 +1,33 @@
 package com.faltenreich.diaguard.entry
 
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
-import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.tag.EntryTag
 
 /**
  * Entity representing one entry at a given point in time
  */
-data class Entry(
-    override val id: Long,
-    override val createdAt: DateTime,
-    override val updatedAt: DateTime,
-    val dateTime: DateTime,
-    val note: String?,
-) : DatabaseEntity {
+sealed interface Entry {
 
-    lateinit var values: List<MeasurementValue>
-    lateinit var entryTags: List<EntryTag>
+    val dateTime: DateTime
+    val note: String?
+
+    data class User(
+        override val dateTime: DateTime,
+        override val note: String?,
+    ) : Entry
+
+    data class Local(
+        override val id: Long,
+        override val createdAt: DateTime,
+        override val updatedAt: DateTime,
+        override val dateTime: DateTime,
+        override val note: String?,
+    ) : Entry, DatabaseEntity {
+
+        // TODO: Remove lateinit properties
+        lateinit var values: List<MeasurementValue>
+        lateinit var entryTags: List<EntryTag>
+    }
 }

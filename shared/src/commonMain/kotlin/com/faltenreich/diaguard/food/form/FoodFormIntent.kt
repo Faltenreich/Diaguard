@@ -7,7 +7,7 @@ sealed interface FoodFormIntent {
 
     data class EditNutrient(val data: FoodNutrientData) : FoodFormIntent
 
-    data class OpenFoodEaten(val food: Food) : FoodFormIntent
+    data class OpenFoodEaten(val food: Food.Local) : FoodFormIntent
 
     data object Submit : FoodFormIntent
 

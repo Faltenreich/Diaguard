@@ -19,7 +19,7 @@ import diaguard.shared.generated.resources.placeholder
 @Composable
 fun LatestDashboardItem(
     data: DashboardViewState.Revisit.LatestBloodSugar?,
-    onClick: (Entry?) -> Unit,
+    onClick: (Entry.Local?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(

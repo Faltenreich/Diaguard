@@ -6,7 +6,7 @@ class CreateEntryTagsUseCase(private val repository: EntryTagRepository) {
 
     operator fun invoke(
         tags: List<Tag>,
-        entry: Entry,
+        entry: Entry.Local,
     ) {
         val entryTagsFromBefore = repository.getByEntryId(entry.id)
         createMissingEntryTags(tags, entry, entryTagsFromBefore)
@@ -15,7 +15,7 @@ class CreateEntryTagsUseCase(private val repository: EntryTagRepository) {
 
     private fun createMissingEntryTags(
         tags: List<Tag>,
-        entry: Entry,
+        entry: Entry.Local,
         entryTagsFromBefore: List<EntryTag>,
     ) {
         val missingTags = tags.filterIsInstance<Tag.Local>().filter { tag ->

@@ -38,6 +38,6 @@ fun entryModule() = module {
     singleOf(::DeleteEntryUseCase)
     singleOf(::SearchEntriesUseCase)
 
-    factory { (entry: Entry?, date: Date?, food: Food.Local?) -> EntryFormViewModel(entry, date, food) }
+    factory { (entry: Entry.Local?, date: Date?, food: Food.Local?) -> EntryFormViewModel(entry, date, food) }
     factory { (query: String) -> EntrySearchViewModel(query) }
 }

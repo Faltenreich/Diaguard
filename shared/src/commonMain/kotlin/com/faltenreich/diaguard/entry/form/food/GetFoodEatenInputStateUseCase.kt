@@ -11,7 +11,7 @@ class GetFoodEatenInputStateUseCase(
     private val getFoodEatenForEntry: GetFoodEatenForEntryUseCase,
 ) {
 
-    suspend operator fun invoke(entry: Entry?): List<FoodEatenInputState> = withContext(dispatcher) {
+    suspend operator fun invoke(entry: Entry.Local?): List<FoodEatenInputState> = withContext(dispatcher) {
         entry ?: return@withContext emptyList()
         getFoodEatenForEntry(entry).map { foodEaten ->
             FoodEatenInputState(

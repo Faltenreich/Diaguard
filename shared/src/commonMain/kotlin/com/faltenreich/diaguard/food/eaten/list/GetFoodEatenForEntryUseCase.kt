@@ -11,7 +11,7 @@ class GetFoodEatenForEntryUseCase(
     private val foodEatenRepository: FoodEatenRepository,
 ) {
 
-    suspend operator fun invoke(entry: Entry): List<FoodEaten> = withContext(dispatcher) {
+    suspend operator fun invoke(entry: Entry.Local): List<FoodEaten> = withContext(dispatcher) {
         foodEatenRepository.getByEntryId(entry.id)
     }
 }

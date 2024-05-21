@@ -31,7 +31,7 @@ fun EntrySearch(
             is EntrySearchViewState.Idle ->  Text(getString(Res.string.entry_search_placeholder))
             is EntrySearchViewState.Loading -> LoadingIndicator()
             is EntrySearchViewState.Result -> LazyColumn(modifier = modifier) {
-                items(items = viewState.items ?: emptyList(), key = Entry::id) { entry ->
+                items(items = viewState.items ?: emptyList(), key = Entry.Local::id) { entry ->
                     Column(
                         modifier = Modifier.animateItemPlacement(),
                     ) {

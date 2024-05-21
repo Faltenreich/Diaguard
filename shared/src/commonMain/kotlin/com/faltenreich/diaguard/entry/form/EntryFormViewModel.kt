@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class EntryFormViewModel(
-    entry: Entry?,
+    entry: Entry.Local?,
     date: Date?,
     food: Food.Local?,
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
@@ -65,7 +65,7 @@ class EntryFormViewModel(
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
-    private val editing: Entry? = entry
+    private val editing: Entry.Local? = entry
     private val id: Long? = entry?.id
 
     var dateTime: DateTime by mutableStateOf(getDateTimeForEntry(entry, date))

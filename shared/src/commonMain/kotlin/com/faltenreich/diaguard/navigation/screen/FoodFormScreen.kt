@@ -24,7 +24,7 @@ import diaguard.shared.generated.resources.save
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
-data class FoodFormScreen(private val food: Food? = null) : Screen {
+data class FoodFormScreen(private val food: Food.Local? = null) : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {

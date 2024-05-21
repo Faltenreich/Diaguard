@@ -9,7 +9,7 @@ class CreateMeasurementValuesUseCase(
 
     operator fun invoke(
         measurements: List<MeasurementCategoryInputState>,
-        entry: Entry,
+        entry: Entry.Local,
     ) {
         val values = measurements.flatMap(MeasurementCategoryInputState::propertyInputStates)
         val valuesFromBefore = repository.getByEntryId(entry.id)

@@ -12,7 +12,7 @@ class GetTagsOfEntry(
     private val entryTagRepository: EntryTagRepository,
 ) {
 
-    suspend operator fun invoke(entry: Entry?): List<Tag> = withContext(dispatcher) {
+    suspend operator fun invoke(entry: Entry.Local?): List<Tag> = withContext(dispatcher) {
         entry ?: return@withContext emptyList()
         entryTagRepository.getByEntryId(entryId = entry.id).map(EntryTag::tag)
     }

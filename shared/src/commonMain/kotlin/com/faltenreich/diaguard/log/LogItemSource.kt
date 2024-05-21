@@ -6,24 +6,27 @@ import app.cash.paging.PagingSourceLoadParams
 import app.cash.paging.PagingSourceLoadResult
 import app.cash.paging.PagingSourceLoadResultPage
 import app.cash.paging.PagingState
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.EntryRepository
-import com.faltenreich.diaguard.entry.deep
-import com.faltenreich.diaguard.log.item.LogDayStyle
-import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
+import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.log.item.LogDayStyle
+import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
 import com.faltenreich.diaguard.shared.view.isRefreshing
+import com.faltenreich.diaguard.tag.EntryTagRepository
 
 class LogItemSource(
     getTodayUseCase: GetTodayUseCase = inject(),
     private val entryRepository: EntryRepository = inject(),
+    private val valueRepository: MeasurementValueRepository = inject(),
+    private val entryTagRepository: EntryTagRepository = inject(),
 ) : PagingSource<Date, LogItem>() {
 
     private data class Cache(
@@ -69,7 +72,12 @@ class LogItemSource(
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atStartOfDay(),
             endDateTime = endDate.atEndOfDay(),
-        ).deep()
+        ).map { entry ->
+            entry.apply {
+                values = valueRepository.getByEntryId(entry.id)
+                entryTags = entryTagRepository.getByEntryId(entry.id)
+            }
+        }
 
         val items = DateProgression(startDate, endDate).map { date ->
             val headers = listOfNotNull(LogItem.MonthHeader(date).takeIf { date.dayOfMonth == 1 })

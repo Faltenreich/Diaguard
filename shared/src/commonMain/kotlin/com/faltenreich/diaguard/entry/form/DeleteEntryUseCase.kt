@@ -7,7 +7,7 @@ class DeleteEntryUseCase(
     private val entryRepository: EntryRepository,
 ) {
 
-    operator fun invoke(entry: Entry) {
-        entryRepository.deleteById(entry.id)
+    operator fun invoke(entry: Entry.Local) {
+        entryRepository.delete(entry)
     }
 }

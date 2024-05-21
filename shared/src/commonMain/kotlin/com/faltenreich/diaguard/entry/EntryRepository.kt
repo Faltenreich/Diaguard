@@ -2,11 +2,7 @@ package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.tag.EntryTagRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class EntryRepository(
     private val dao: EntryDao,
@@ -38,15 +34,19 @@ class EntryRepository(
         )
     }
 
-    fun getById(id: Long): Entry? {
+    fun getById(id: Long): Entry.Local? {
         return dao.getById(id)
     }
 
-    fun getByDateRange(startDateTime: DateTime, endDateTime: DateTime): List<Entry> {
+    fun getByDateRange(startDateTime: DateTime, endDateTime: DateTime): List<Entry.Local> {
         return dao.getByDateRange(startDateTime, endDateTime)
     }
 
-    fun getAll(): Flow<List<Entry>> {
+    fun getByQuery(query: String): Flow<List<Entry.Local>> {
+        return dao.getByQuery(query)
+    }
+
+    fun getAll(): Flow<List<Entry.Local>> {
         return dao.getAll()
     }
 
@@ -67,7 +67,7 @@ class EntryRepository(
         )
     }
 
-    fun update(entry: Entry) {
+    fun update(entry: Entry.Local) {
         update(
             id = entry.id,
             dateTime = entry.dateTime,
@@ -75,37 +75,7 @@ class EntryRepository(
         )
     }
 
-    fun deleteById(id: Long) {
-        dao.deleteById(id)
-    }
-
-    fun search(query: String): Flow<List<Entry>> {
-        return dao.getByQuery(query)
-    }
-}
-
-fun Flow<List<Entry>>.deep(
-    valueRepository: MeasurementValueRepository = inject(),
-    entryTagRepository: EntryTagRepository = inject(),
-): Flow<List<Entry>> {
-    return map { entries ->
-        entries.map { entry ->
-            entry.apply {
-                values = valueRepository.getByEntryId(entry.id)
-                entryTags = entryTagRepository.getByEntryId(entry.id)
-            }
-        }
-    }
-}
-
-fun List<Entry>.deep(
-    valueRepository: MeasurementValueRepository = inject(),
-    entryTagRepository: EntryTagRepository = inject(),
-): List<Entry> {
-    return map { entry ->
-        entry.apply {
-            values = valueRepository.getByEntryId(entry.id)
-            entryTags = entryTagRepository.getByEntryId(entry.id)
-        }
+    fun delete(entry: Entry.Local) {
+        dao.deleteById(entry.id)
     }
 }

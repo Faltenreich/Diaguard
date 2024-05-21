@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.food.Food
 
 sealed interface FoodEatenListIntent {
 
-    data class CreateEntry(val food: Food) : FoodEatenListIntent
+    data class CreateEntry(val food: Food.Local) : FoodEatenListIntent
 
-    data class OpenEntry(val entry: Entry) : FoodEatenListIntent
+    data class OpenEntry(val entry: Entry.Local) : FoodEatenListIntent
 }

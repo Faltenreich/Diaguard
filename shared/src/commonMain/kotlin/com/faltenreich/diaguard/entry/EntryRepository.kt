@@ -9,29 +9,25 @@ class EntryRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(
-        createdAt: DateTime,
-        updatedAt: DateTime,
-        dateTime: DateTime,
-        note: String?,
-    ): Long {
+    fun create(entry: Entry.Legacy): Long {
         dao.create(
-            createdAt = createdAt,
-            updatedAt = updatedAt,
-            dateTime = dateTime,
-            note = note,
+            createdAt = entry.createdAt,
+            updatedAt = entry.updatedAt,
+            dateTime = entry.dateTime,
+            note = entry.note,
         )
         return checkNotNull(dao.getLastId())
     }
 
-    fun create(dateTime: DateTime): Long {
+    fun create(entry: Entry.User): Long {
         val now = dateTimeFactory.now()
-        return create(
+        dao.create(
             createdAt = now,
             updatedAt = now,
-            dateTime = dateTime,
-            note = null,
+            dateTime = entry.dateTime,
+            note = entry.note,
         )
+        return checkNotNull(dao.getLastId())
     }
 
     fun getById(id: Long): Entry.Local? {
@@ -64,14 +60,6 @@ class EntryRepository(
             updatedAt = dateTimeFactory.now(),
             dateTime = dateTime,
             note = note,
-        )
-    }
-
-    fun update(entry: Entry.Local) {
-        update(
-            id = entry.id,
-            dateTime = entry.dateTime,
-            note = entry.note,
         )
     }
 

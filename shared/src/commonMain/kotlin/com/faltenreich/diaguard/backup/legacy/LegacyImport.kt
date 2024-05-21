@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.backup.legacy
 
 import com.faltenreich.diaguard.backup.Import
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
@@ -25,10 +26,12 @@ class LegacyImport(
         entries.forEach { entryLegacy ->
             val entryLegacyId = entryLegacy.id
             val entryId = entryRepository.create(
-                createdAt = entryLegacy.createdAt,
-                updatedAt = entryLegacy.updatedAt,
-                dateTime = entryLegacy.dateTime,
-                note = entryLegacy.note,
+                Entry.Legacy(
+                    createdAt = entryLegacy.createdAt,
+                    updatedAt = entryLegacy.updatedAt,
+                    dateTime = entryLegacy.dateTime,
+                    note = entryLegacy.note,
+                )
             )
             val entry = checkNotNull(entryRepository.getById(entryId))
             val valuesOfEntry = values.filter { value -> value.entryId == entryLegacyId }

@@ -13,6 +13,13 @@ sealed interface Entry {
     val dateTime: DateTime
     val note: String?
 
+    data class Legacy(
+        val createdAt: DateTime,
+        val updatedAt: DateTime,
+        override val dateTime: DateTime,
+        override val note: String?,
+    ) : Entry
+
     data class User(
         override val dateTime: DateTime,
         override val note: String?,

@@ -8,6 +8,15 @@ class TagRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
+    fun create(tag: Tag.Legacy): Long {
+        dao.create(
+            createdAt = tag.createdAt,
+            updatedAt = tag.updatedAt,
+            name = tag.name,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
     fun create(tag: Tag.User): Long {
         val now = dateTimeFactory.now()
         dao.create(

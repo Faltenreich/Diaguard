@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.backup.legacy
 
 import com.faltenreich.diaguard.backup.Import
-import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
@@ -23,16 +22,11 @@ class LegacyImport(
 
         Logger.info("Imported ${entries.size} entries, ${values.size} values and ${tags.size} tags")
 
+        // TODO: Import tags and food
+
         entries.forEach { entryLegacy ->
             val entryLegacyId = entryLegacy.id
-            val entryId = entryRepository.create(
-                Entry.Legacy(
-                    createdAt = entryLegacy.createdAt,
-                    updatedAt = entryLegacy.updatedAt,
-                    dateTime = entryLegacy.dateTime,
-                    note = entryLegacy.note,
-                )
-            )
+            val entryId = entryRepository.create(entryLegacy)
             val entry = checkNotNull(entryRepository.getById(entryId))
             val valuesOfEntry = values.filter { value -> value.entryId == entryLegacyId }
             valuesOfEntry.forEach { value ->

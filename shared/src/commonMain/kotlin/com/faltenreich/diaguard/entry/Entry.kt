@@ -14,6 +14,7 @@ sealed interface Entry {
     val note: String?
 
     data class Legacy(
+        val id: Long,
         val createdAt: DateTime,
         val updatedAt: DateTime,
         override val dateTime: DateTime,

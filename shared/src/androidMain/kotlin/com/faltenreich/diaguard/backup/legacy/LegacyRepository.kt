@@ -2,9 +2,8 @@ package com.faltenreich.diaguard.backup.legacy
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import com.faltenreich.diaguard.backup.legacy.measurement.EntryLegacy
 import com.faltenreich.diaguard.backup.legacy.measurement.MeasurementValueLegacy
-import com.faltenreich.diaguard.backup.legacy.measurement.TagLegacy
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.getDateTime
 import com.faltenreich.diaguard.shared.database.getDouble
@@ -12,6 +11,7 @@ import com.faltenreich.diaguard.shared.database.getLong
 import com.faltenreich.diaguard.shared.database.getString
 import com.faltenreich.diaguard.shared.database.queryEach
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.tag.Tag
 
 actual class LegacyRepository {
 
@@ -27,15 +27,15 @@ actual class LegacyRepository {
         }
     }
 
-    actual fun getEntries(): List<EntryLegacy> {
+    actual fun getEntries(): List<Entry.Legacy> {
         val database = database ?: return emptyList()
-        val entries = mutableListOf<EntryLegacy>()
+        val entries = mutableListOf<Entry.Legacy>()
         database.queryEach("entry") {
             entries.add(
-                EntryLegacy(
+                Entry.Legacy(
+                    id = getLong("_id"),
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
-                    id = getLong("_id"),
                     dateTime = getDateTime("date"),
                     note = getString("note"),
                 )
@@ -183,12 +183,12 @@ actual class LegacyRepository {
         return values
     }
 
-    actual fun getTags(): List<TagLegacy> {
+    actual fun getTags(): List<Tag.Legacy> {
         val database = database ?: return emptyList()
-        val tags = mutableListOf<TagLegacy>()
+        val tags = mutableListOf<Tag.Legacy>()
         database.queryEach("tag") {
             tags.add(
-                TagLegacy(
+                Tag.Legacy(
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     name = getString("name"),

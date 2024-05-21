@@ -11,6 +11,12 @@ sealed interface Tag {
 
     val name: String
 
+    data class Legacy(
+        val createdAt: DateTime,
+        val updatedAt: DateTime,
+        override val name: String,
+    ) : Tag
+
     data class User(
         override val name: String,
     ) : Tag

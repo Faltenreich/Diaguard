@@ -1,15 +1,14 @@
 package com.faltenreich.diaguard.backup.legacy
 
-import com.faltenreich.diaguard.backup.legacy.measurement.EntryLegacy
 import com.faltenreich.diaguard.backup.legacy.measurement.MeasurementValueLegacy
-import com.faltenreich.diaguard.backup.legacy.measurement.TagLegacy
+import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.tag.Tag
 
-// TODO: Merge dedicated data classes into sealed interfaces
 expect class LegacyRepository constructor() {
 
-    fun getEntries(): List<EntryLegacy>
+    fun getEntries(): List<Entry.Legacy>
 
     fun getMeasurementValues(): List<MeasurementValueLegacy>
 
-    fun getTags(): List<TagLegacy>
+    fun getTags(): List<Tag.Legacy>
 }

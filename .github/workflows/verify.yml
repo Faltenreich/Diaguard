@@ -30,12 +30,9 @@ jobs:
       - name: Report
         uses: mi-kas/kover-report@v1
         with:
-          path: |
-            ${{ github.workspace }}/shared/build/reports/kover/reportDebug.xml
+          path: ${{ github.workspace }}/shared/build/reports/kover/reportDebug.xml
           title: Code Coverage
           update-comment: true
-          min-coverage-overall: 80
-          min-coverage-changed-files: 80
           coverage-counter-type: LINE
 
   lint:

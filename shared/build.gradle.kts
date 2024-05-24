@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.sqldelight)
 }
 
@@ -48,7 +47,6 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(libs.koin.test)
                 implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.mockative)
                 implementation(libs.turbine)
                 implementation(libs.ktor.mock)
             }
@@ -110,12 +108,6 @@ android {
         sourceCompatibility = Constants.JavaVersion
         targetCompatibility = Constants.JavaVersion
     }
-}
-
-dependencies {
-    configurations
-        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
-        .forEach { add(it.name, libs.mockative.processor) }
 }
 
 sqldelight {

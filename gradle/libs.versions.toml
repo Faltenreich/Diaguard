@@ -14,15 +14,11 @@ emojipicker = "1.4.0"
 io = "0.3.5"
 junit = "4.13.2"
 koin = "3.5.6"
-# Waiting for KSP
-# https://github.com/google/ksp/releases
 kotlin = "2.0.0-RC3"
 # 0.8.0 causes KoverCriticalException
 # https://github.com/Kotlin/kotlinx-kover/issues/610
 kover = "0.7.6"
-ksp = "2.0.0-RC3-1.0.20"
 ktor = "2.3.11"
-mockative = "2.2.1"
 paging = "3.3.0-alpha02-0.5.1"
 paging-android = "3.3.0"
 serialization-json = "1.6.3"
@@ -58,8 +54,6 @@ ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
-mockative-processor = { module = "io.mockative:mockative-processor", version.ref = "mockative" }
 paging-android = { module = "androidx.paging:paging-runtime", version.ref = "paging-android" }
 paging-android-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-android" }
 paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging" }
@@ -85,5 +79,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

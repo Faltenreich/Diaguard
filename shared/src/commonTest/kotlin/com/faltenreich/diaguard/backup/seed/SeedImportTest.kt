@@ -26,13 +26,8 @@ import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.ResourceLocalization
 import com.faltenreich.diaguard.shared.serialization.Serialization
-import com.faltenreich.diaguard.shared.test.returns
 import com.faltenreich.diaguard.tag.TagDao
 import com.faltenreich.diaguard.tag.TagRepository
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.every
-import io.mockative.mock
 import org.jetbrains.compose.resources.StringResource
 import kotlin.test.Test
 
@@ -64,12 +59,12 @@ class SeedImportTest {
             serialization = Serialization(),
         ),
     )
-    @Mock private val categoryDao = mock(classOf<MeasurementCategoryDao>())
-    @Mock private val propertyDao = mock(classOf<MeasurementPropertyDao>())
-    @Mock private val unitDao = mock(classOf<MeasurementUnitDao>())
-    @Mock private val foodDao = mock(classOf<FoodDao>())
-    @Mock private val foodApi = mock(classOf<FoodApi>())
-    @Mock private val tagDao = mock(classOf<TagDao>())
+    private lateinit var categoryDao: MeasurementCategoryDao
+    private lateinit var propertyDao: MeasurementPropertyDao
+    private lateinit var unitDao: MeasurementUnitDao
+    private lateinit var foodDao: FoodDao
+    private lateinit var foodApi: FoodApi
+    private lateinit var tagDao: TagDao
     private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
 
     private val seedImport = SeedImport(
@@ -81,14 +76,6 @@ class SeedImportTest {
         foodRepository = FoodRepository(dao = foodDao, api = foodApi, dateTimeFactory = dateTimeFactory),
         tagRepository = TagRepository(dao = tagDao, dateTimeFactory = dateTimeFactory),
     )
-
-    init {
-        every { categoryDao.getLastId() } returns 0L
-        every { propertyDao.getLastId() } returns 0L
-        every { unitDao.getLastId() } returns 0L
-        every { foodDao.getLastId() } returns 0L
-        every { tagDao.getLastId() } returns 0L
-    }
 
     @Test
     fun `import succeeds`() {

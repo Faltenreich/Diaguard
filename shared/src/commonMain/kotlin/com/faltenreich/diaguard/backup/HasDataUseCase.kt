@@ -1,15 +1,12 @@
 package com.faltenreich.diaguard.backup
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class HasDataUseCase(
-    private val measurementCategoryRepository: MeasurementCategoryRepository = inject(),
-) {
+class HasDataUseCase(private val categoryRepository: MeasurementCategoryRepository) {
 
     operator fun invoke(): Flow<Boolean> {
-        return measurementCategoryRepository.countAll().map { count -> count > 0 }
+        return categoryRepository.countAll().map { count -> count > 0 }
     }
 }

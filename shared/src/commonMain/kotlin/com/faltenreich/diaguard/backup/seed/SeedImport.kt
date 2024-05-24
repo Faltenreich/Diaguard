@@ -13,6 +13,9 @@ import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.TagRepository
 
+/**
+ * Import from files bundled with the app
+ */
 class SeedImport(
     private val localization: Localization,
     private val seedRepository: SeedRepository,

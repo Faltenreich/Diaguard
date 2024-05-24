@@ -6,6 +6,9 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.logging.Logger
 
+/**
+ * Import from database of previous app version
+ */
 class LegacyImport(
     private val legacyRepository: LegacyRepository,
     private val entryRepository: EntryRepository,

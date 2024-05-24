@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.backup.legacy
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import com.faltenreich.diaguard.backup.legacy.measurement.MeasurementValueLegacy
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.getDateTime
 import com.faltenreich.diaguard.shared.database.getDouble
@@ -44,13 +44,13 @@ actual class LegacyRepository {
         return entries
     }
 
-    actual fun getMeasurementValues(): List<MeasurementValueLegacy> {
+    actual fun getMeasurementValues(): List<MeasurementValue.Legacy> {
         val database = database ?: return emptyList()
-        val values = mutableListOf<MeasurementValueLegacy>()
+        val values = mutableListOf<MeasurementValue.Legacy>()
 
         database.queryEach("bloodsugar") {
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("mgDl"),
@@ -64,7 +64,7 @@ actual class LegacyRepository {
             val updatedAt = getDateTime("updatedAt")
             val entryId = getLong("entry")
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("bolus"),
@@ -73,7 +73,7 @@ actual class LegacyRepository {
                 )
             )
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("correction"),
@@ -82,7 +82,7 @@ actual class LegacyRepository {
                 )
             )
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("basal"),
@@ -93,7 +93,7 @@ actual class LegacyRepository {
         }
         database.queryEach("meal") {
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("carbohydrates"),
@@ -104,7 +104,7 @@ actual class LegacyRepository {
         }
         database.queryEach("activity") {
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("minutes"),
@@ -115,7 +115,7 @@ actual class LegacyRepository {
         }
         database.queryEach("hba1c") {
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("percent"),
@@ -126,7 +126,7 @@ actual class LegacyRepository {
         }
         database.queryEach("weight") {
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("kilogram"),
@@ -137,7 +137,7 @@ actual class LegacyRepository {
         }
         database.queryEach("pulse") {
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("frequency"),
@@ -151,7 +151,7 @@ actual class LegacyRepository {
             val updatedAt = getDateTime("updatedAt")
             val entryId = getLong("entry")
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("systolic"),
@@ -160,7 +160,7 @@ actual class LegacyRepository {
                 )
             )
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     value = getDouble("diastolic"),
@@ -171,7 +171,7 @@ actual class LegacyRepository {
         }
         database.queryEach("oxygensaturation") {
             values.add(
-                MeasurementValueLegacy(
+                MeasurementValue.Legacy(
                     createdAt = getDateTime("createdAt"),
                     updatedAt = getDateTime("updatedAt"),
                     value = getDouble("percent"),

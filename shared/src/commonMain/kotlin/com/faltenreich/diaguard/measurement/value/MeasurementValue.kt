@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 /**
  * Entity representing a default value of an [Entry]
@@ -23,15 +24,19 @@ sealed interface MeasurementValue {
     val isTooHigh: Boolean
         get() = property.range.high?.let { value > it } ?: false
 
-    data class User(
-        override val value: Double,
-        override val property: MeasurementProperty.Local,
-        override val entry: Entry.Local,
-    ) : MeasurementValue
-
     data class Legacy(
         val createdAt: DateTime,
         val updatedAt: DateTime,
+        override val value: Double,
+        val propertyKey: DatabaseKey.MeasurementProperty,
+        val entryId: Long,
+    ) : MeasurementValue {
+
+        override lateinit var property: MeasurementProperty.Local
+        override lateinit var entry: Entry.Local
+    }
+
+    data class User(
         override val value: Double,
         override val property: MeasurementProperty.Local,
         override val entry: Entry.Local,

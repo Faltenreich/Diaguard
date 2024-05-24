@@ -14,19 +14,25 @@ import com.faltenreich.diaguard.backup.seed.data.WeightSeed
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import com.faltenreich.diaguard.food.FoodDao
+import com.faltenreich.diaguard.food.FoodDaoFake
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.food.api.FoodApi
+import com.faltenreich.diaguard.food.api.FoodApiFake
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDaoFake
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDaoFake
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDaoFake
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.ResourceLocalization
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.tag.TagDao
+import com.faltenreich.diaguard.tag.TagDaoFake
 import com.faltenreich.diaguard.tag.TagRepository
 import org.jetbrains.compose.resources.StringResource
 import kotlin.test.Test
@@ -59,12 +65,12 @@ class SeedImportTest {
             serialization = Serialization(),
         ),
     )
-    private lateinit var categoryDao: MeasurementCategoryDao
-    private lateinit var propertyDao: MeasurementPropertyDao
-    private lateinit var unitDao: MeasurementUnitDao
-    private lateinit var foodDao: FoodDao
-    private lateinit var foodApi: FoodApi
-    private lateinit var tagDao: TagDao
+    private val categoryDao: MeasurementCategoryDao = MeasurementCategoryDaoFake()
+    private val propertyDao: MeasurementPropertyDao = MeasurementPropertyDaoFake()
+    private val unitDao: MeasurementUnitDao = MeasurementUnitDaoFake()
+    private val foodDao: FoodDao = FoodDaoFake()
+    private val foodApi: FoodApi = FoodApiFake()
+    private val tagDao: TagDao = TagDaoFake()
     private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
 
     private val seedImport = SeedImport(

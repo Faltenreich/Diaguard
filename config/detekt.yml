@@ -6,6 +6,10 @@ complexity:
   TooManyFunctions:
     active: false
 
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+
 naming:
   active: true
   FunctionNaming:

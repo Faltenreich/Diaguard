@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.faltenreich.diaguard.shared.theme.color
 
 import androidx.compose.animation.animateColorAsState

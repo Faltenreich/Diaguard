@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.faltenreich.diaguard.timeline.canvas
 
 import androidx.compose.ui.geometry.Offset

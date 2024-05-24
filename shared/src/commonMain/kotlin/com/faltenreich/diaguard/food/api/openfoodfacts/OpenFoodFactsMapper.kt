@@ -16,7 +16,8 @@ class OpenFoodFactsMapper(
                 val name = product.name ?: return@mapNotNull null
                 val nutrients = product.nutrients ?: return@mapNotNull null
                 val carbohydrates = nutrients.carbohydrates?.toDouble() ?: return@mapNotNull null
-                val updatedAt = product.lastEditDates.firstOrNull()?.let(dateTimeFactory::date) ?: return@mapNotNull null
+                val updatedAt = product.lastEditDates.firstOrNull()?.let(dateTimeFactory::date)
+                    ?: return@mapNotNull null
                 FoodFromApi(
                     uuid = uuid,
                     updatedAt = updatedAt,

@@ -14,8 +14,8 @@ class MeasurementValueSqlDelightMapper(
         valueCreatedAt: String,
         valueUpdatedAt: String,
         valueValue: Double,
-        valuePropertyId: Long,
-        valueEntryId: Long,
+        @Suppress("UNUSED_PARAMETER") valuePropertyId: Long,
+        @Suppress("UNUSED_PARAMETER") valueEntryId: Long,
 
         propertyId: Long,
         propertyCreatedAt: String,

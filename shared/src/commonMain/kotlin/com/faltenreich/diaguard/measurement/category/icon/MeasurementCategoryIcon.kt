@@ -58,7 +58,7 @@ fun MeasurementCategoryIcon(
     }
 }
 
-@Suppress("FunctionName")
+@Suppress("FunctionName", "MagicNumber")
 fun DrawScope.MeasurementCategoryIcon(
     icon: String?,
     fallback: String,

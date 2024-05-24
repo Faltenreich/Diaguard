@@ -24,15 +24,19 @@ jobs:
       - name: Test
         run: ./gradlew test
 
-      - name: Code Coverage
-        run: ./gradlew koverHtmlReportDebug
+      - name: Kover
+        run: ./gradlew koverXmlReportDebug
 
-      - name: Upload
-        uses: actions/upload-artifact@v4
+      - name: Report
+        uses: mi-kas/kover-report@v1
         with:
-          name: kover-reports
-          path: "**/build/reports/kover"
-        if: always()
+          path: |
+            ${{ github.workspace }}/shared/build/reports/kover/reportDebug.xml
+          title: Code Coverage
+          update-comment: true
+          min-coverage-overall: 80
+          min-coverage-changed-files: 80
+          coverage-counter-type: LINE
 
   lint:
     runs-on: ubuntu-latest
@@ -46,13 +50,6 @@ jobs:
       - name: Lint
         run: ./gradlew lintDebug
 
-      - name: Upload
-        uses: actions/upload-artifact@v4
-        with:
-          name: lint-reports
-          path: "**/build/reports/lint-results-debug.*"
-        if: always()
-
   detekt:
     runs-on: ubuntu-latest
     steps:
@@ -64,10 +61,3 @@ jobs:
 
       - name: Detekt
         run: ./gradlew detektMetadataMain
-
-      - name: Upload
-        uses: actions/upload-artifact@v4
-        with:
-          name: detekt-reports
-          path: "**/build/reports/detekt"
-        if: always()

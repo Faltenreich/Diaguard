@@ -1,6 +1,7 @@
-package com.faltenreich.diaguard.tag
+package com.faltenreich.diaguard.entry.tag
 
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.tag.Tag
 
 class CreateEntryTagsUseCase(private val repository: EntryTagRepository) {
 

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.tag
+package com.faltenreich.diaguard.entry.tag
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.Flow

@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.tag.EntryTag
+import com.faltenreich.diaguard.entry.tag.EntryTag
 
 @Composable
 fun EntryListItem(

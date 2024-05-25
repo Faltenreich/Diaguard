@@ -2,9 +2,9 @@ package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.entry.tag.CreateEntryTagsUseCase
 import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.measurement.value.CreateMeasurementValuesUseCase
-import com.faltenreich.diaguard.tag.CreateEntryTagsUseCase
 
 class CreateEntryUseCase(
     private val entryRepository: EntryRepository,

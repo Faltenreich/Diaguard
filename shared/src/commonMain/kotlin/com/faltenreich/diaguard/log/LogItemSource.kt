@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
@@ -20,7 +21,6 @@ import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
 import com.faltenreich.diaguard.shared.view.isRefreshing
-import com.faltenreich.diaguard.tag.EntryTagRepository
 
 class LogItemSource(
     getTodayUseCase: GetTodayUseCase = inject(),
@@ -40,7 +40,6 @@ class LogItemSource(
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
         Logger.debug("LogViewModel: getRefreshKey for: $state")
         // FIXME: Calculate correct refresh key to avoid jumps after having scrolled down
-        val anchorPosition = state.anchorPosition ?: return null
         return state.closestItemToPosition(1)?.date
     }
 

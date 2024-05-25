@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.entry
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
-import com.faltenreich.diaguard.tag.EntryTag
+import com.faltenreich.diaguard.entry.tag.EntryTag
 
 /**
  * Entity representing one entry at a given point in time

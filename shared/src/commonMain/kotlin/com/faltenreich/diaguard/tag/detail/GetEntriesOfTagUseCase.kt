@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.tag.detail
 
-import com.faltenreich.diaguard.tag.EntryTag
-import com.faltenreich.diaguard.tag.EntryTagRepository
+import com.faltenreich.diaguard.entry.tag.EntryTag
+import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.flow.Flow
 

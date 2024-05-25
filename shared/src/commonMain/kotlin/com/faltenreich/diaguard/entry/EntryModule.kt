@@ -14,12 +14,15 @@ import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueR
 import com.faltenreich.diaguard.entry.form.validation.ValidEntryFormInputRule
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
+import com.faltenreich.diaguard.entry.tag.CreateEntryTagsUseCase
+import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.Food
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 fun entryModule() = module {
     singleOf(::EntryRepository)
+    singleOf(::EntryTagRepository)
 
     singleOf(::GetDateTimeForEntryUseCase)
     singleOf(::GetMeasurementCategoryInputStateUseCase)
@@ -35,6 +38,7 @@ fun entryModule() = module {
         )
     }
     singleOf(::CreateEntryUseCase)
+    singleOf(::CreateEntryTagsUseCase)
     singleOf(::DeleteEntryUseCase)
     singleOf(::SearchEntriesUseCase)
 

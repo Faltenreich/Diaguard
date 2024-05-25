@@ -16,7 +16,6 @@ import org.koin.dsl.module
 
 fun tagModule() = module {
     singleOf(::TagRepository)
-    singleOf(::EntryTagRepository)
 
     singleOf(::GetTagsUseCase)
     singleOf(::HasTagUseCase)
@@ -24,7 +23,6 @@ fun tagModule() = module {
     single { ValidateTagUseCase(listOf(UniqueTagRule())) }
     singleOf(::GetEntriesOfTagUseCase)
     singleOf(::DeleteTagUseCase)
-    singleOf(::CreateEntryTagsUseCase)
 
     factoryOf(::TagListViewModel)
     factoryOf(::TagFormViewModel)

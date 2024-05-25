@@ -8,8 +8,8 @@ import com.faltenreich.diaguard.shared.database.sqldelight.EntryTagQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntryTagSqlDelightMapper
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.tag.EntryTag
-import com.faltenreich.diaguard.tag.EntryTagDao
+import com.faltenreich.diaguard.entry.tag.EntryTag
+import com.faltenreich.diaguard.entry.tag.EntryTagDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 

@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextInput
-import com.faltenreich.diaguard.tag.EntryTag
+import com.faltenreich.diaguard.entry.tag.EntryTag
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.name
 

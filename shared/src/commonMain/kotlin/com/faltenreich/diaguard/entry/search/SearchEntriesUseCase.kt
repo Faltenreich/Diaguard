@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.entry.search
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.tag.EntryTagRepository
+import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

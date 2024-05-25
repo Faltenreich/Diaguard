@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPro
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementValueSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.TagSqlDelightMapper
-import com.faltenreich.diaguard.tag.EntryTagDao
+import com.faltenreich.diaguard.entry.tag.EntryTagDao
 import com.faltenreich.diaguard.tag.TagDao
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module

@@ -1,8 +1,9 @@
-package com.faltenreich.diaguard.tag
+package com.faltenreich.diaguard.entry.tag
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
+import com.faltenreich.diaguard.tag.Tag
 
 /**
  * Entity linking a [Tag] to an [Entry]

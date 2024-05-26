@@ -1,10 +1,20 @@
 package com.faltenreich.diaguard.measurement.unit
 
+import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flow
 
-class MeasurementUnitDaoFake : MeasurementUnitDao {
+class MeasurementUnitDaoFake(
+    private val propertyDao: MeasurementPropertyDao = inject(),
+) : MeasurementUnitDao {
+
+    private val cache = mutableStateListOf<MeasurementUnit.Local>()
 
     override fun create(
         createdAt: DateTime,
@@ -16,31 +26,41 @@ class MeasurementUnitDaoFake : MeasurementUnitDao {
         isSelected: Boolean,
         propertyId: Long
     ) {
-        TODO("Not yet implemented")
+        cache += MeasurementUnit.Local(
+            id = cache.size.toLong(),
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            key = key,
+            name = name,
+            abbreviation = abbreviation,
+            factor = factor,
+            isSelected = isSelected,
+            property = propertyDao.getById(propertyId)!!,
+        )
     }
 
     override fun getLastId(): Long? {
-        TODO("Not yet implemented")
+        return cache.lastOrNull()?.id
     }
 
     override fun observeById(id: Long): Flow<MeasurementUnit.Local?> {
-        TODO("Not yet implemented")
+        return cache.asFlow().filter { it.id == id }
     }
 
     override fun getByKey(key: String): MeasurementUnit.Local? {
-        TODO("Not yet implemented")
+        return cache.firstOrNull { it.key?.key == key }
     }
 
     override fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit.Local>> {
-        TODO("Not yet implemented")
+        return flow { cache.filter { it.property.id == propertyId } }
     }
 
     override fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit.Local>> {
-        TODO("Not yet implemented")
+        return flow { cache.filter { it.property.category.id == categoryId } }
     }
 
     override fun observeAll(): Flow<List<MeasurementUnit.Local>> {
-        TODO("Not yet implemented")
+        return flow { cache }
     }
 
     override fun update(
@@ -50,10 +70,18 @@ class MeasurementUnitDaoFake : MeasurementUnitDao {
         abbreviation: String,
         isSelected: Boolean
     ) {
-        TODO("Not yet implemented")
+        val entity = cache.firstOrNull { it.id == id } ?: return
+        val index = cache.indexOf(entity)
+        cache[index] = entity.copy(
+            updatedAt = updatedAt,
+            name = name,
+            abbreviation = abbreviation,
+            isSelected = isSelected,
+        )
     }
 
     override fun deleteById(id: Long) {
-        TODO("Not yet implemented")
+        val entry = cache.firstOrNull { it.id == id } ?: return
+        cache.remove(entry)
     }
 }

@@ -1,9 +1,19 @@
 package com.faltenreich.diaguard.measurement.value
 
+import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.entry.EntryDao
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
+import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
-class MeasurementValueDaoFake : MeasurementValueDao {
+class MeasurementValueDaoFake(
+    private val propertyDao: MeasurementPropertyDao = inject(),
+    private val entryDao: EntryDao = inject(),
+) : MeasurementValueDao {
+
+    private val cache = mutableStateListOf<MeasurementValue.Local>()
 
     override fun create(
         createdAt: DateTime,
@@ -12,30 +22,41 @@ class MeasurementValueDaoFake : MeasurementValueDao {
         propertyId: Long,
         entryId: Long
     ) {
-        TODO("Not yet implemented")
+        cache += MeasurementValue.Local(
+            id = cache.size.toLong(),
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            value = value,
+            property = propertyDao.getById(propertyId)!!,
+            entry = entryDao.getById(entryId)!!,
+        )
     }
 
     override fun getLastId(): Long? {
-        TODO("Not yet implemented")
+        return cache.lastOrNull()?.id
     }
 
     override fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {
-        TODO("Not yet implemented")
+        return cache.filter { it.entry.id == entryId }
     }
 
     override fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime
     ): Flow<List<MeasurementValue.Local>> {
-        TODO("Not yet implemented")
+        return flow {
+            cache.filter {
+                it.entry.dateTime > startDateTime && it.entry.dateTime < endDateTime
+            }
+        }
     }
 
     override fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue.Local?> {
-        TODO("Not yet implemented")
+        return flow { cache.firstOrNull { it.property.category.id == categoryId } }
     }
 
-    override fun observeByCategoryId(categoryId: Long): Flow<Long> {
-        TODO("Not yet implemented")
+    override fun observeCountByCategoryId(categoryId: Long): Flow<Long> {
+        return flow { cache.size }
     }
 
     override fun observeByCategoryId(
@@ -43,7 +64,7 @@ class MeasurementValueDaoFake : MeasurementValueDao {
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<List<MeasurementValue.Local>> {
-        TODO("Not yet implemented")
+        return flow { cache.filter { it.property.category.id == categoryId } }
     }
 
     override fun observeAverageByCategoryId(
@@ -51,7 +72,12 @@ class MeasurementValueDaoFake : MeasurementValueDao {
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<Double?> {
-        TODO("Not yet implemented")
+        return flow {
+            cache
+                .filter { it.property.category.id == categoryId }
+                .map { it.value }
+                .average()
+        }
     }
 
     override fun getAverageByPropertyId(
@@ -59,22 +85,32 @@ class MeasurementValueDaoFake : MeasurementValueDao {
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Double? {
-        TODO("Not yet implemented")
+        return cache
+            .filter { it.property.id == propertyId }
+            .takeIf(List<*>::isNotEmpty)
+            ?.map { it.value }
+            ?.average()
     }
 
     override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
-        TODO("Not yet implemented")
+        return flow { cache.count { it.property.id == propertyId }.toLong() }
     }
 
     override fun countByCategoryId(categoryId: Long): Long {
-        TODO("Not yet implemented")
+        return cache.count { it.property.category.id == categoryId }.toLong()
     }
 
     override fun update(id: Long, updatedAt: DateTime, value: Double) {
-        TODO("Not yet implemented")
+        val entity = cache.firstOrNull { it.id == id } ?: return
+        val index = cache.indexOf(entity)
+        cache[index] = entity.copy(
+            updatedAt = updatedAt,
+            value = value,
+        )
     }
 
     override fun deleteById(id: Long) {
-        TODO("Not yet implemented")
+        val entry = cache.firstOrNull { it.id == id } ?: return
+        cache.remove(entry)
     }
 }

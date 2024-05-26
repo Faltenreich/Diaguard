@@ -24,7 +24,7 @@ interface MeasurementValueDao {
 
     fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue.Local?>
 
-    fun observeByCategoryId(categoryId: Long): Flow<Long>
+    fun observeCountByCategoryId(categoryId: Long): Flow<Long>
 
     fun observeByCategoryId(
         categoryId: Long,

@@ -46,8 +46,8 @@ class MeasurementValueRepository(
         return dao.getByEntryId(entryId)
     }
 
-    fun observeByCategoryId(categoryId: Long): Flow<Long> {
-        return dao.observeByCategoryId(categoryId)
+    fun observeCountByCategoryId(categoryId: Long): Flow<Long> {
+        return dao.observeCountByCategoryId(categoryId)
     }
 
     fun observeByCategoryId(

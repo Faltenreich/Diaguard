@@ -10,6 +10,6 @@ class CountMeasurementValuesOfCategoryUseCase(
 ) {
 
     operator fun invoke(category: MeasurementCategory.Local): Flow<Long> {
-        return repository.observeByCategoryId(category.id)
+        return repository.observeCountByCategoryId(category.id)
     }
 }

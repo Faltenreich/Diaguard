@@ -26,19 +26,23 @@ import com.faltenreich.diaguard.statistic.statisticModule
 import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 
 object DependencyInjection {
 
-    fun setup(declaration: KoinAppDeclaration = {}) {
+    fun setup(
+        modules: List<Module>,
+        declaration: KoinAppDeclaration = {},
+    ) {
         startKoin {
             declaration()
-            modules(mainModules())
+            modules(modules)
         }
     }
 }
 
-private fun mainModules() = listOf(
+fun appModules() = listOf(
     // Common
     primitiveModule(),
     coroutineModule(),

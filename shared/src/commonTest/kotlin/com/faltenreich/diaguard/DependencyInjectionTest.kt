@@ -7,6 +7,6 @@ class DependencyInjectionTest {
 
     @Test
     fun verifyDependencyGraph() {
-        DependencyInjection.setup { checkModules() }
+        DependencyInjection.setup(modules = appModules()) { checkModules() }
     }
 }

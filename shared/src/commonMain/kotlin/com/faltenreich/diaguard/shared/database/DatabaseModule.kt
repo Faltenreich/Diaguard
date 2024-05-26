@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.database
 
 import com.faltenreich.diaguard.entry.EntryDao
+import com.faltenreich.diaguard.entry.tag.EntryTagDao
 import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.food.eaten.FoodEatenDao
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
@@ -26,12 +27,14 @@ import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPro
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementValueSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.TagSqlDelightMapper
-import com.faltenreich.diaguard.entry.tag.EntryTagDao
+import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.tag.TagDao
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 fun databaseModule() = module {
+    includes(sqlDelightModule())
+
     singleOf(::SqlDelightDatabase)
 
     singleOf(::EntrySqlDelightMapper)

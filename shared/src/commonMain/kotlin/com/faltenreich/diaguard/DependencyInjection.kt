@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.shared.architecture.coroutineModule
 import com.faltenreich.diaguard.shared.clipboard.clipboardModule
 import com.faltenreich.diaguard.shared.config.configModule
 import com.faltenreich.diaguard.shared.database.databaseModule
-import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.file.fileModule
 import com.faltenreich.diaguard.shared.keyvalue.keyValueStoreModule
 import com.faltenreich.diaguard.shared.localization.localizationModule
@@ -52,7 +51,6 @@ fun appModules() = listOf(
     serializationModule(),
     fileModule(),
     keyValueStoreModule(),
-    sqlDelightModule(),
     databaseModule(),
     networkingModule(),
     dateTimeModule(),

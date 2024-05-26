@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.database
+package com.faltenreich.diaguard.shared.database.sqlite
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase

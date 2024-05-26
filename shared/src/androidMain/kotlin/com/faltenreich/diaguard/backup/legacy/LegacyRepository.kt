@@ -5,11 +5,11 @@ import android.database.sqlite.SQLiteDatabase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.database.getDateTime
-import com.faltenreich.diaguard.shared.database.getDouble
-import com.faltenreich.diaguard.shared.database.getLong
-import com.faltenreich.diaguard.shared.database.getString
-import com.faltenreich.diaguard.shared.database.queryEach
+import com.faltenreich.diaguard.shared.database.sqlite.getDateTime
+import com.faltenreich.diaguard.shared.database.sqlite.getDouble
+import com.faltenreich.diaguard.shared.database.sqlite.getLong
+import com.faltenreich.diaguard.shared.database.sqlite.getString
+import com.faltenreich.diaguard.shared.database.sqlite.queryEach
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.Tag
 

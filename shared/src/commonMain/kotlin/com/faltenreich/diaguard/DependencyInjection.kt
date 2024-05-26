@@ -25,6 +25,7 @@ import com.faltenreich.diaguard.statistic.statisticModule
 import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 
@@ -38,6 +39,10 @@ object DependencyInjection {
             declaration()
             modules(modules)
         }
+    }
+
+    fun tearDown() {
+        stopKoin()
     }
 }
 

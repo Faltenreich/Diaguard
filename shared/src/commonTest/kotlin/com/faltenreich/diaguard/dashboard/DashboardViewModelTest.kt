@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -14,8 +16,14 @@ class DashboardViewModelTest : KoinTest {
 
     private val viewModel: DashboardViewModel by inject()
 
-    init {
+    @BeforeTest
+    fun setup() {
         DependencyInjection.setup(modules = appModules() + testModules())
+    }
+
+    @AfterTest
+    fun tearDown() {
+        DependencyInjection.tearDown()
     }
 
     @Test

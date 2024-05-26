@@ -68,7 +68,7 @@ class FoodSqlDelightDao(
     }
 
     override fun getById(id: Long): Food.Local? {
-        TODO()
+        return queries.getById(id, mapper::map).executeAsOneOrNull()
     }
 
     override fun getByUuids(uuids: List<String>): List<String> {

@@ -25,6 +25,10 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 getLastId:
 SELECT last_insert_rowid();
 
+getById:
+SELECT * FROM Food
+WHERE id = ?;
+
 getByUuid:
 SELECT * FROM Food
 WHERE uuid = ?

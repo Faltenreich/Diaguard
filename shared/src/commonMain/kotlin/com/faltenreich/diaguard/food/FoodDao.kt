@@ -28,6 +28,8 @@ interface FoodDao {
 
     fun getLastId(): Long?
 
+    fun getById(id: Long): Food.Local?
+
     fun getByUuid(uuid: String): Food.Local?
 
     fun getByUuids(uuids: List<String>): List<String>

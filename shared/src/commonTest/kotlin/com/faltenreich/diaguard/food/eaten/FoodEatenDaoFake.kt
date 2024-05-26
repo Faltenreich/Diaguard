@@ -1,9 +1,19 @@
 package com.faltenreich.diaguard.food.eaten
 
+import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.entry.EntryDao
+import com.faltenreich.diaguard.food.FoodDao
+import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
-class FoodEatenDaoFake : FoodEatenDao {
+class FoodEatenDaoFake(
+    private val foodDao: FoodDao = inject(),
+    private val entryDao: EntryDao = inject(),
+) : FoodEatenDao {
+
+    private val cache = mutableStateListOf<FoodEaten.Local>()
 
     override fun create(
         createdAt: DateTime,
@@ -12,30 +22,43 @@ class FoodEatenDaoFake : FoodEatenDao {
         foodId: Long,
         entryId: Long
     ) {
-        TODO("Not yet implemented")
+        cache += FoodEaten.Local(
+            id = cache.size.toLong(),
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            amountInGrams = amountInGrams,
+            food = foodDao.getById(foodId)!!,
+            entry = entryDao.getById(entryId)!!,
+        )
     }
 
     override fun getLastId(): Long? {
-        TODO("Not yet implemented")
+        return cache.lastOrNull()?.id
     }
 
     override fun observeByFoodId(foodId: Long): Flow<List<FoodEaten.Local>> {
-        TODO("Not yet implemented")
+        return flow { cache.filter { it.food.id == foodId } }
     }
 
     override fun observeByEntryId(entryId: Long): Flow<List<FoodEaten.Local>> {
-        TODO("Not yet implemented")
+        return flow { cache.filter { it.entry.id == entryId } }
     }
 
     override fun getByEntryId(entryId: Long): List<FoodEaten.Local> {
-        TODO("Not yet implemented")
+        return cache.filter { it.entry.id == entryId }
     }
 
     override fun update(id: Long, updatedAt: DateTime, amountInGrams: Long) {
-        TODO("Not yet implemented")
+        val entity = cache.firstOrNull { it.id == id } ?: return
+        val index = cache.indexOf(entity)
+        cache[index] = entity.copy(
+            updatedAt = updatedAt,
+            amountInGrams = amountInGrams,
+        )
     }
 
     override fun deleteById(id: Long) {
-        TODO("Not yet implemented")
+        val entry = cache.firstOrNull { it.id == id } ?: return
+        cache.remove(entry)
     }
 }

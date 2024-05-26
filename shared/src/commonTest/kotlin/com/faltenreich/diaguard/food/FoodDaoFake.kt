@@ -1,12 +1,15 @@
 package com.faltenreich.diaguard.food
 
+import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.data.PagingPage
 
 class FoodDaoFake : FoodDao {
 
+    private val cache = mutableStateListOf<Food.Local>()
+
     override fun transaction(transact: () -> Unit) {
-        TODO("Not yet implemented")
+        transact()
     }
 
     override fun create(
@@ -27,27 +30,49 @@ class FoodDaoFake : FoodDao {
         sodium: Double?,
         sugar: Double?
     ) {
-        TODO("Not yet implemented")
+        cache += Food.Local(
+            id = cache.size.toLong(),
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            uuid = uuid,
+            name = name,
+            brand = brand,
+            ingredients = ingredients,
+            labels = labels,
+            carbohydrates = carbohydrates,
+            energy = energy,
+            fat = fat,
+            fatSaturated = fatSaturated,
+            fiber = fiber,
+            proteins = proteins,
+            salt = salt,
+            sodium = sodium,
+            sugar = sugar,
+        )
     }
 
     override fun getLastId(): Long? {
-        TODO("Not yet implemented")
+        return cache.lastOrNull()?.id
+    }
+
+    override fun getById(id: Long): Food.Local? {
+        return cache.firstOrNull { it.id == id }
     }
 
     override fun getByUuid(uuid: String): Food.Local? {
-        TODO("Not yet implemented")
+        return cache.firstOrNull { it.uuid == uuid }
     }
 
     override fun getByUuids(uuids: List<String>): List<String> {
-        TODO("Not yet implemented")
+        return cache.filter { it.uuid in uuids }.map { it.uuid!! }
     }
 
     override fun getAll(page: PagingPage): List<Food.Local> {
-        TODO("Not yet implemented")
+        return cache
     }
 
     override fun getByQuery(query: String, page: PagingPage): List<Food.Local> {
-        TODO("Not yet implemented")
+        return cache.filter { it.name == query }.subList(page.page * page.pageSize, page.pageSize)
     }
 
     override fun update(
@@ -67,10 +92,28 @@ class FoodDaoFake : FoodDao {
         sodium: Double?,
         sugar: Double?
     ) {
-        TODO("Not yet implemented")
+        val entity = cache.firstOrNull { it.id == id } ?: return
+        val index = cache.indexOf(entity)
+        cache[index] = entity.copy(
+            updatedAt = updatedAt,
+            name = name,
+            brand = brand,
+            ingredients = ingredients,
+            labels = labels,
+            carbohydrates = carbohydrates,
+            energy = energy,
+            fat = fat,
+            fatSaturated = fatSaturated,
+            fiber = fiber,
+            proteins = proteins,
+            salt = salt,
+            sodium = sodium,
+            sugar = sugar,
+        )
     }
 
     override fun deleteById(id: Long) {
-        TODO("Not yet implemented")
+        val entry = cache.firstOrNull { it.id == id } ?: return
+        cache.remove(entry)
     }
 }

@@ -16,11 +16,14 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDaoFake
 import com.faltenreich.diaguard.measurement.value.MeasurementValueDao
 import com.faltenreich.diaguard.measurement.value.MeasurementValueDaoFake
+import com.faltenreich.diaguard.shared.architecture.coroutineModule
 import com.faltenreich.diaguard.tag.TagDao
 import com.faltenreich.diaguard.tag.TagDaoFake
 import org.koin.dsl.module
 
 fun testModules() = module {
+    includes(coroutineModule())
+
     single<EntryDao> { EntryDaoFake() }
     single<MeasurementCategoryDao> { MeasurementCategoryDaoFake() }
     single<MeasurementPropertyDao> { MeasurementPropertyDaoFake() }

@@ -5,11 +5,11 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 
 data class DashboardViewState(
-    val latestBloodSugar: LatestBloodSugar? = null,
-    val today: Today? = null,
-    val average: Average? = null,
-    val hbA1c: HbA1c? = null,
-    val trend: Trend? = null,
+    val latestBloodSugar: LatestBloodSugar?,
+    val today: Today?,
+    val average: Average?,
+    val hbA1c: HbA1c?,
+    val trend: Trend?,
 ) {
 
     data class LatestBloodSugar(

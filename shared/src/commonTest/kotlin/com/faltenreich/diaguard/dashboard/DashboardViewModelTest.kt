@@ -23,18 +23,44 @@ class DashboardViewModelTest : KoinTest {
     }
 
     @Test
-    fun `state is blank if no data available`() = runTest {
+    fun `state contains null content if no data is available`() = runTest {
         viewModel.state.test {
-            assertEquals(awaitItem(), DashboardViewState())
+            assertEquals(
+                awaitItem(),
+                DashboardViewState(
+                    latestBloodSugar = null,
+                    today = null,
+                    average = null,
+                    hbA1c = null,
+                    trend = null,
+                ),
+            )
             awaitComplete()
         }
     }
 
     @Test
-    fun `state contains blood sugar if available`() = runTest {
+    fun `state contains blank content if seed data is available`() = runTest {
         seedImport.import()
         viewModel.state.test {
-            assertEquals(awaitItem(), DashboardViewState())
+            assertEquals(
+                awaitItem(),
+                DashboardViewState(
+                    latestBloodSugar = null,
+                    today = DashboardViewState.Today(
+                        totalCount = 0,
+                        hypoCount = 0,
+                        hyperCount = 0,
+                    ),
+                    average = DashboardViewState.Average(
+                        day = null,
+                        week = null,
+                        month = null,
+                    ),
+                    hbA1c = null,
+                    trend = null,
+                ),
+            )
             awaitComplete()
         }
     }

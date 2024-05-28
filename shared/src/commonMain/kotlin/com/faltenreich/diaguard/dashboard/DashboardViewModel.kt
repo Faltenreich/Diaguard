@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 
 class DashboardViewModel(
     getLatestBloodSugar: GetLatestBloodSugarUseCase,
@@ -21,6 +22,9 @@ class DashboardViewModel(
         getLatestBloodSugar(),
         getToday(),
         getAverage(),
+        // TODO: Add use cases
+        flowOf(null),
+        flowOf(null),
         ::DashboardViewState,
     )
 

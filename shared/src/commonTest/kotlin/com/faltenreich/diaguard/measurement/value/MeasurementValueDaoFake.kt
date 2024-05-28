@@ -76,8 +76,9 @@ class MeasurementValueDaoFake(
         return flowOf(
             cache
                 .filter { it.property.category.id == categoryId }
-                .map { it.value }
-                .average()
+                .takeIf(List<*>::isNotEmpty)
+                ?.map { it.value }
+                ?.average()
         )
     }
 

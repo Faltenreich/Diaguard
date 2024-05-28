@@ -21,7 +21,7 @@ class DashboardViewModel(
         getLatestBloodSugar(),
         getToday(),
         getAverage(),
-        DashboardViewState::Revisit,
+        ::DashboardViewState,
     )
 
     override fun handleIntent(intent: DashboardIntent) {

@@ -21,7 +21,7 @@ class GetAverageUseCase(
     private val getToday: GetTodayUseCase,
 ) {
 
-    operator fun invoke(): Flow<DashboardViewState.Revisit.Average?> {
+    operator fun invoke(): Flow<DashboardViewState.Average?> {
         val today = getToday()
         val todayAtEndOfDay = today.atEndOfDay()
 
@@ -46,7 +46,7 @@ class GetAverageUseCase(
                 ),
             ) { properties, averageOfDay, averageOfWeek, averageOfMonth ->
                 val unit = properties.firstOrNull()?.selectedUnit ?: return@combine null
-                DashboardViewState.Revisit.Average(
+                DashboardViewState.Average(
                     day = averageOfDay?.let {
                         mapValue(MeasurementValueForDatabase(averageOfDay, unit))
                     }?.value,

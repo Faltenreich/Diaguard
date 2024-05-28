@@ -21,13 +21,13 @@ class GetLatestBloodSugarUseCase(
     private val dateTimeFormatter: DateTimeFormatter,
 ) {
 
-    operator fun invoke(): Flow<DashboardViewState.Revisit.LatestBloodSugar?> {
+    operator fun invoke(): Flow<DashboardViewState.LatestBloodSugar?> {
         return categoryRepository.observeBloodSugar().flatMapLatest { category ->
             val categoryId = category?.id ?: return@flatMapLatest flowOf(null)
             valueRepository.observeLatestByCategoryId(categoryId).map { value ->
                 when (value) {
                     null -> null
-                    else -> DashboardViewState.Revisit.LatestBloodSugar(
+                    else -> DashboardViewState.LatestBloodSugar(
                         entry = value.entry,
                         value = valueMapper(value).value,
                         tint = getValueColor(value),

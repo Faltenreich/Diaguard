@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class MeasurementCategoryDaoFake : MeasurementCategoryDao {
 
@@ -46,19 +47,19 @@ class MeasurementCategoryDaoFake : MeasurementCategoryDao {
     }
 
     override fun observeByKey(key: String): Flow<MeasurementCategory.Local?> {
-        return cache.asFlow().filter { it.key?.key == key }
+        return flow { emit(cache.firstOrNull()) }
     }
 
     override fun observeActive(): Flow<List<MeasurementCategory.Local>> {
-        return flow { cache.filter { it.isActive } }
+        return flow { emit(cache.filter { it.isActive }) }
     }
 
     override fun observeAll(): Flow<List<MeasurementCategory.Local>> {
-        return flow { cache }
+        return flow { emit(cache) }
     }
 
     override fun countAll(): Flow<Long> {
-        return flow { cache.size }
+        return flowOf(cache.size.toLong())
     }
 
     override fun update(

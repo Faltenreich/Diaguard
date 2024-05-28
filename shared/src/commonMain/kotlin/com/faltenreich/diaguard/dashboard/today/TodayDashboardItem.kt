@@ -21,7 +21,7 @@ import diaguard.shared.generated.resources.today
 
 @Composable
 fun TodayDashboardItem(
-    data: DashboardViewState.Revisit.Today?,
+    data: DashboardViewState.Today?,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {

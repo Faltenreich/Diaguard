@@ -9,8 +9,7 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 
 class DashboardViewModelTest : KoinTest {
 
@@ -22,10 +21,10 @@ class DashboardViewModelTest : KoinTest {
     }
 
     @Test
-    fun `state is initially null`() = runTest {
-        viewModel.stateInScope.test {
-            assertNull(awaitItem())
-            assertTrue(awaitItem() is DashboardViewState.Revisit)
+    fun `state is blank if no data available`() = runTest {
+        viewModel.state.test {
+            assertEquals(awaitItem(), DashboardViewState())
+            awaitComplete()
         }
     }
 }

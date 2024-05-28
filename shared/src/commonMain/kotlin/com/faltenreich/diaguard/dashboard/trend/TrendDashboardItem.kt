@@ -7,13 +7,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.dashboard.DashboardViewState
 import com.faltenreich.diaguard.shared.localization.getString
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.trend
 
 @Composable
 fun TrendDashboardItem(
-    data: DashboardViewState.Revisit.Trend?,
+    data: DashboardViewState.Trend?,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {

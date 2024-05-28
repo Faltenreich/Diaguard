@@ -16,7 +16,7 @@ class GetTodayUseCase(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    operator fun invoke(): Flow<DashboardViewState.Revisit.Today?> {
+    operator fun invoke(): Flow<DashboardViewState.Today?> {
         val today = dateTimeFactory.today()
         return categoryRepository.observeBloodSugar().flatMapLatest { category ->
             val categoryId = category?.id ?: return@flatMapLatest flowOf(null)
@@ -25,7 +25,7 @@ class GetTodayUseCase(
                 minDateTime = today.atStartOfDay(),
                 maxDateTime = today.atEndOfDay(),
             ).map { values ->
-                DashboardViewState.Revisit.Today(
+                DashboardViewState.Today(
                     totalCount = values.size,
                     hypoCount = values.count(MeasurementValue::isTooLow),
                     hyperCount = values.count(MeasurementValue::isTooHigh),

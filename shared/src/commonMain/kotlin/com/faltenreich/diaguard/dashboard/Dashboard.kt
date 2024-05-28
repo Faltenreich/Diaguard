@@ -25,7 +25,7 @@ fun Dashboard(
 ) {
     when (val state = viewModel.collectState()) {
         null -> LoadingIndicator()
-        is DashboardViewState.Revisit -> Column(
+        else -> Column(
             modifier = modifier
                 .padding(all = AppTheme.dimensions.padding.P_3)
                 .verticalScroll(rememberScrollState()),

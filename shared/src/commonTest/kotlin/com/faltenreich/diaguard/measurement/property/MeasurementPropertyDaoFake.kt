@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.measurement.property
 import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.di.inject
@@ -87,6 +88,10 @@ class MeasurementPropertyDaoFake(
             aggregationStyle = aggregationStyle,
             range = range,
         )
+    }
+
+    fun updateSelectedUnit(unit: MeasurementUnit.Local) {
+        cache.first { it.id == unit.property.id }.selectedUnit = unit
     }
 
     override fun deleteById(id: Long) {

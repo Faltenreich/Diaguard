@@ -34,7 +34,6 @@ class DashboardViewModelTest : KoinTest {
     fun `state contains blood sugar if available`() = runTest {
         seedImport.import()
         viewModel.state.test {
-            // FIXME: Completes immediately
             assertEquals(awaitItem(), DashboardViewState())
             awaitComplete()
         }

@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.TagDao
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class EntryTagDaoFake(
     private val entryDao: EntryDao = inject(),
@@ -34,11 +34,11 @@ class EntryTagDaoFake(
     }
 
     override fun observeByTagId(tagId: Long): Flow<List<EntryTag.Local>> {
-        return flow { cache.filter { it.tag.id == tagId } }
+        return flowOf(cache.filter { it.tag.id == tagId })
     }
 
     override fun countByTagId(tagId: Long): Flow<Long> {
-        return flow { cache.count { it.tag.id == tagId } }
+        return flowOf(cache.count { it.tag.id == tagId }.toLong())
     }
 
     override fun deleteById(id: Long) {

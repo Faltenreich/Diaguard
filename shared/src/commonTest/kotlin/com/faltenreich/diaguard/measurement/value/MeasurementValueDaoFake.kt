@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class MeasurementValueDaoFake(
     private val propertyDao: MeasurementPropertyDao = inject(),
@@ -44,19 +44,20 @@ class MeasurementValueDaoFake(
         startDateTime: DateTime,
         endDateTime: DateTime
     ): Flow<List<MeasurementValue.Local>> {
-        return flow {
+        return flowOf(
             cache.filter {
                 it.entry.dateTime > startDateTime && it.entry.dateTime < endDateTime
             }
-        }
+        )
     }
 
     override fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue.Local?> {
-        return flow { cache.firstOrNull { it.property.category.id == categoryId } }
+        return flowOf(cache.firstOrNull { it.property.category.id == categoryId })
+
     }
 
     override fun observeCountByCategoryId(categoryId: Long): Flow<Long> {
-        return flow { cache.size }
+        return flowOf(cache.size.toLong())
     }
 
     override fun observeByCategoryId(
@@ -64,7 +65,7 @@ class MeasurementValueDaoFake(
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<List<MeasurementValue.Local>> {
-        return flow { cache.filter { it.property.category.id == categoryId } }
+        return flowOf(cache.filter { it.property.category.id == categoryId })
     }
 
     override fun observeAverageByCategoryId(
@@ -72,12 +73,12 @@ class MeasurementValueDaoFake(
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<Double?> {
-        return flow {
+        return flowOf(
             cache
                 .filter { it.property.category.id == categoryId }
                 .map { it.value }
                 .average()
-        }
+        )
     }
 
     override fun getAverageByPropertyId(
@@ -93,7 +94,7 @@ class MeasurementValueDaoFake(
     }
 
     override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
-        return flow { cache.count { it.property.id == propertyId }.toLong() }
+        return flowOf(cache.count { it.property.id == propertyId }.toLong())
     }
 
     override fun countByCategoryId(categoryId: Long): Long {

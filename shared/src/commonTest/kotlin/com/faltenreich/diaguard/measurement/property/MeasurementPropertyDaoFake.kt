@@ -7,9 +7,7 @@ import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class MeasurementPropertyDaoFake(
     private val categoryDao: MeasurementCategoryDao = inject(),
@@ -49,7 +47,7 @@ class MeasurementPropertyDaoFake(
     }
 
     override fun observeById(id: Long): Flow<MeasurementProperty.Local?> {
-        return cache.asFlow().filter { it.id == id }
+        return flowOf(cache.firstOrNull { it.id == id })
     }
 
     override fun getByKey(key: String): MeasurementProperty.Local? {
@@ -61,7 +59,7 @@ class MeasurementPropertyDaoFake(
     }
 
     override fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty.Local>> {
-        return flow { cache.filter { it.category.id == categoryId } }
+        return flowOf(cache.filter { it.category.id == categoryId })
     }
 
     override fun getAll(): List<MeasurementProperty.Local> {
@@ -69,7 +67,7 @@ class MeasurementPropertyDaoFake(
     }
 
     override fun observeAll(): Flow<List<MeasurementProperty.Local>> {
-        return flow { cache }
+        return flowOf(cache)
     }
 
     override fun update(

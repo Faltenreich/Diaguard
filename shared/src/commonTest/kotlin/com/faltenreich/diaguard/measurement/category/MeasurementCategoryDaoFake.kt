@@ -4,9 +4,6 @@ import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 class MeasurementCategoryDaoFake : MeasurementCategoryDao {
@@ -43,19 +40,19 @@ class MeasurementCategoryDaoFake : MeasurementCategoryDao {
     }
 
     override fun observeById(id: Long): Flow<MeasurementCategory.Local?> {
-        return cache.asFlow().filter { it.id == id }
+        return flowOf(cache.firstOrNull { it.id == id })
     }
 
     override fun observeByKey(key: String): Flow<MeasurementCategory.Local?> {
-        return flow { emit(cache.firstOrNull()) }
+        return flowOf(cache.firstOrNull())
     }
 
     override fun observeActive(): Flow<List<MeasurementCategory.Local>> {
-        return flow { emit(cache.filter { it.isActive }) }
+        return flowOf(cache.filter { it.isActive })
     }
 
     override fun observeAll(): Flow<List<MeasurementCategory.Local>> {
-        return flow { emit(cache) }
+        return flowOf(cache)
     }
 
     override fun countAll(): Flow<Long> {

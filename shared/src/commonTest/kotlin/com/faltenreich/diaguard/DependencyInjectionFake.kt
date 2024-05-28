@@ -31,6 +31,7 @@ fun testModules() = module {
     includes(coroutineModule())
 
     single<EntryDao> { EntryDaoFake() }
+    // FIXME: Fix flows
     single<MeasurementCategoryDao> { MeasurementCategoryDaoFake() }
     single<MeasurementPropertyDao> { MeasurementPropertyDaoFake() }
     single<MeasurementUnitDao> { MeasurementUnitDaoFake() }

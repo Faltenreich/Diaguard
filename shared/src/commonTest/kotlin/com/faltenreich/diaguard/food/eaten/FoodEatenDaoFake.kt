@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class FoodEatenDaoFake(
     private val foodDao: FoodDao = inject(),
@@ -37,11 +37,11 @@ class FoodEatenDaoFake(
     }
 
     override fun observeByFoodId(foodId: Long): Flow<List<FoodEaten.Local>> {
-        return flow { cache.filter { it.food.id == foodId } }
+        return flowOf(cache.filter { it.food.id == foodId })
     }
 
     override fun observeByEntryId(entryId: Long): Flow<List<FoodEaten.Local>> {
-        return flow { cache.filter { it.entry.id == entryId } }
+        return flowOf(cache.filter { it.entry.id == entryId })
     }
 
     override fun getByEntryId(entryId: Long): List<FoodEaten.Local> {

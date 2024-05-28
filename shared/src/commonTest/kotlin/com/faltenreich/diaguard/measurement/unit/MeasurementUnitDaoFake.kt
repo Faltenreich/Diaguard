@@ -6,9 +6,7 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class MeasurementUnitDaoFake(
     private val propertyDao: MeasurementPropertyDao = inject(),
@@ -44,7 +42,7 @@ class MeasurementUnitDaoFake(
     }
 
     override fun observeById(id: Long): Flow<MeasurementUnit.Local?> {
-        return cache.asFlow().filter { it.id == id }
+        return flowOf(cache.firstOrNull { it.id == id })
     }
 
     override fun getByKey(key: String): MeasurementUnit.Local? {
@@ -52,15 +50,15 @@ class MeasurementUnitDaoFake(
     }
 
     override fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit.Local>> {
-        return flow { cache.filter { it.property.id == propertyId } }
+        return flowOf(cache.filter { it.property.id == propertyId })
     }
 
     override fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit.Local>> {
-        return flow { cache.filter { it.property.category.id == categoryId } }
+        return flowOf(cache.filter { it.property.category.id == categoryId })
     }
 
     override fun observeAll(): Flow<List<MeasurementUnit.Local>> {
-        return flow { cache }
+        return flowOf(cache)
     }
 
     override fun update(

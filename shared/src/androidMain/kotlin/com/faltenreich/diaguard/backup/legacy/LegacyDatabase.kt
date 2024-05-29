@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.shared.database.sqlite.queryEach
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.Tag
 
-actual class LegacyRepository {
+actual class LegacyDatabase : LegacyDao {
 
     private val database: SQLiteDatabase?
 
@@ -27,7 +27,7 @@ actual class LegacyRepository {
         }
     }
 
-    actual fun getEntries(): List<Entry.Legacy> {
+    actual override fun getEntries(): List<Entry.Legacy> {
         val database = database ?: return emptyList()
         val entries = mutableListOf<Entry.Legacy>()
         database.queryEach("entry") {
@@ -44,7 +44,7 @@ actual class LegacyRepository {
         return entries
     }
 
-    actual fun getMeasurementValues(): List<MeasurementValue.Legacy> {
+    actual override fun getMeasurementValues(): List<MeasurementValue.Legacy> {
         val database = database ?: return emptyList()
         val values = mutableListOf<MeasurementValue.Legacy>()
 
@@ -183,7 +183,7 @@ actual class LegacyRepository {
         return values
     }
 
-    actual fun getTags(): List<Tag.Legacy> {
+    actual override fun getTags(): List<Tag.Legacy> {
         val database = database ?: return emptyList()
         val tags = mutableListOf<Tag.Legacy>()
         database.queryEach("tag") {

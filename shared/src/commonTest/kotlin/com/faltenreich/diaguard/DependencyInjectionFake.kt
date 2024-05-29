@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard
 
+import com.faltenreich.diaguard.backup.legacy.LegacyDao
+import com.faltenreich.diaguard.backup.legacy.LegacyDaoFake
 import com.faltenreich.diaguard.backup.seed.data.FoodSeed
 import com.faltenreich.diaguard.backup.seed.data.TagSeed
 import com.faltenreich.diaguard.entry.EntryDao
@@ -31,7 +33,6 @@ fun testModules() = module {
     includes(coroutineModule())
 
     single<EntryDao> { EntryDaoFake() }
-    // FIXME: Fix flows
     single<MeasurementCategoryDao> { MeasurementCategoryDaoFake() }
     single<MeasurementPropertyDao> { MeasurementPropertyDaoFake() }
     single<MeasurementUnitDao> { MeasurementUnitDaoFake() }
@@ -40,6 +41,8 @@ fun testModules() = module {
     single<FoodEatenDao> { FoodEatenDaoFake() }
     single<TagDao> { TagDaoFake() }
     single<EntryTagDao> { EntryTagDaoFake() }
+
+    single<LegacyDao> { LegacyDaoFake() }
 
     single<ResourceLocalization> { ResourceLocalizationFake() }
 

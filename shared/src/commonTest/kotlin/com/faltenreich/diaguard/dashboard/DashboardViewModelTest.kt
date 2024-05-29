@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.dashboard
 import app.cash.turbine.test
 import com.faltenreich.diaguard.DependencyInjection
 import com.faltenreich.diaguard.appModules
-import com.faltenreich.diaguard.backup.seed.SeedImport
+import com.faltenreich.diaguard.backup.ImportUseCase
 import com.faltenreich.diaguard.testModules
 import kotlinx.coroutines.test.runTest
 import org.koin.test.KoinTest
@@ -14,7 +14,9 @@ import kotlin.test.assertEquals
 
 class DashboardViewModelTest : KoinTest {
 
-    private val seedImport: SeedImport by inject()
+    // FIXME: Override Logger
+    private val import: ImportUseCase by inject()
+
     private val viewModel: DashboardViewModel by inject()
 
     @BeforeTest
@@ -41,7 +43,7 @@ class DashboardViewModelTest : KoinTest {
 
     @Test
     fun `state contains blank content if seed data is available`() = runTest {
-        seedImport.import()
+        import()
         viewModel.state.test {
             assertEquals(
                 awaitItem(),

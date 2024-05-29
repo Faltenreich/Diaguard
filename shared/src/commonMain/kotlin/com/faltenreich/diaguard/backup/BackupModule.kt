@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.backup
 
+import com.faltenreich.diaguard.backup.legacy.LegacyDao
+import com.faltenreich.diaguard.backup.legacy.LegacyDatabase
 import com.faltenreich.diaguard.backup.legacy.LegacyImport
 import com.faltenreich.diaguard.backup.legacy.LegacyRepository
 import com.faltenreich.diaguard.backup.seed.SeedImport
@@ -35,6 +37,7 @@ fun backupModule() = module {
     singleOf(::SeedImport)
 
     singleOf(::LegacyRepository)
+    single<LegacyDao> { LegacyDatabase() }
     singleOf(::LegacyImport)
     singleOf(::ImportUseCase)
 }

@@ -2,9 +2,7 @@ package com.faltenreich.diaguard.shared.logging
 
 import android.util.Log
 
-actual object Logger {
-
-    private const val CALLS_UNTIL_CALL_SITE = 5
+actual class PlatformLogger : Logger {
 
     private fun tracing(message: String, traced: (tag: String, message: String) -> Unit) {
         val stackTrace = Thread.currentThread().stackTrace
@@ -16,23 +14,28 @@ actual object Logger {
         traced(tag, "$message ($hyperlink)")
     }
 
-    actual fun verbose(message: String, throwable: Throwable?) = tracing(message) { tag, msg ->
+    actual override fun verbose(message: String, throwable: Throwable?) = tracing(message) { tag, msg ->
         Log.v(tag, msg, throwable)
     }
 
-    actual fun debug(message: String, throwable: Throwable?) = tracing(message) { tag, msg ->
+    actual override fun debug(message: String, throwable: Throwable?) = tracing(message) { tag, msg ->
         Log.d(tag, msg, throwable)
     }
 
-    actual fun info(message: String, throwable: Throwable?) = tracing(message) { tag, msg ->
+    actual override fun info(message: String, throwable: Throwable?) = tracing(message) { tag, msg ->
         Log.i(tag, msg, throwable)
     }
 
-    actual fun warning(message: String, throwable: Throwable?) = tracing(message) { tag, msg ->
+    actual override fun warning(message: String, throwable: Throwable?) = tracing(message) { tag, msg ->
         Log.w(tag, msg, throwable)
     }
 
-    actual fun error(message: String, throwable: Throwable?) = tracing(message) { tag, msg ->
+    actual override fun error(message: String, throwable: Throwable?) = tracing(message) { tag, msg ->
         Log.e(tag, msg, throwable)
+    }
+
+    companion object {
+
+        private const val CALLS_UNTIL_CALL_SITE = 5
     }
 }

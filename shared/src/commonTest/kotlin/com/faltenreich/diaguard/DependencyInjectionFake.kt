@@ -24,6 +24,8 @@ import com.faltenreich.diaguard.shared.architecture.coroutineModule
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.localization.ResourceLocalization
 import com.faltenreich.diaguard.shared.localization.ResourceLocalizationFake
+import com.faltenreich.diaguard.shared.logging.ConsoleLogger
+import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.tag.TagDao
 import com.faltenreich.diaguard.tag.TagDaoFake
@@ -31,6 +33,8 @@ import org.koin.dsl.module
 
 fun testModules() = module {
     includes(coroutineModule())
+
+    single<Logger> { ConsoleLogger() }
 
     single<EntryDao> { EntryDaoFake() }
     single<MeasurementCategoryDao> { MeasurementCategoryDaoFake() }

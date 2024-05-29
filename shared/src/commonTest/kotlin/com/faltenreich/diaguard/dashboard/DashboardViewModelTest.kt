@@ -14,7 +14,6 @@ import kotlin.test.assertEquals
 
 class DashboardViewModelTest : KoinTest {
 
-    // FIXME: Override Logger
     private val import: ImportUseCase by inject()
 
     private val viewModel: DashboardViewModel by inject()

@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.shared.logging
 
-expect object Logger {
+import com.faltenreich.diaguard.shared.di.inject
+
+interface Logger {
 
     fun verbose(message: String, throwable: Throwable? = null)
 
@@ -11,4 +13,29 @@ expect object Logger {
     fun warning(message: String, throwable: Throwable? = null)
 
     fun error(message: String, throwable: Throwable? = null)
+
+    companion object {
+        
+        private val logger: Logger = inject()
+
+        fun verbose(message: String, throwable: Throwable? = null) {
+            logger.verbose(message, throwable)
+        }
+
+        fun debug(message: String, throwable: Throwable? = null) {
+            logger.debug(message, throwable)
+        }
+
+        fun info(message: String, throwable: Throwable? = null) {
+            logger.info(message, throwable)
+        }
+
+        fun warning(message: String, throwable: Throwable? = null) {
+            logger.warning(message, throwable)
+        }
+
+        fun error(message: String, throwable: Throwable? = null) {
+            logger.error(message, throwable)
+        }
+    }
 }

@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.shared.file.fileModule
 import com.faltenreich.diaguard.shared.keyvalue.keyValueStoreModule
 import com.faltenreich.diaguard.shared.localization.localizationModule
+import com.faltenreich.diaguard.shared.logging.loggerModule
 import com.faltenreich.diaguard.shared.networking.networkingModule
 import com.faltenreich.diaguard.shared.primitive.primitiveModule
 import com.faltenreich.diaguard.shared.serialization.serializationModule
@@ -48,6 +49,7 @@ object DependencyInjection {
 fun appModules() = listOf(
     // Common
     primitiveModule(),
+    loggerModule(),
     coroutineModule(),
     configModule(),
     localizationModule(),

@@ -26,7 +26,6 @@ serialization-csv = "0.0.18"
 serialization-yaml = "0.13.0"
 shimmer = "1.3.0"
 sqldelight = "2.0.2"
-turbine = "1.1.0"
 voyager = "1.1.0-beta01"
 
 [libraries]
@@ -61,7 +60,6 @@ paging-common-compose = { module = "app.cash.paging:paging-compose-common", vers
 shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }

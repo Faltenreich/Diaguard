@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.architecture
 
-import app.cash.turbine.test
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -20,9 +19,7 @@ class ViewModelTest {
 
     @Test
     fun `state is initially null`() = runTest {
-        viewModel.stateInScope.test {
-            assertNull(awaitItem())
-        }
+        assertNull(viewModel.stateInScope.value)
     }
 
     private class SampleViewModel : ViewModel<Unit, Unit, Unit>(dispatcher = StandardTestDispatcher()) {

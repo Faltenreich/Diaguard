@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.measurement.category.list
 
-import app.cash.turbine.test
 import com.faltenreich.diaguard.DependencyInjection
 import com.faltenreich.diaguard.appModules
 import com.faltenreich.diaguard.backup.ImportUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.testModules
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.KoinTest
 import org.koin.test.inject
@@ -28,19 +28,23 @@ class MeasurementCategoryListViewModelTest : KoinTest {
 
     @Test
     fun `state contains categories`() = runTest {
-        viewModel.state.test {
-            val categories = awaitItem().categories
-            assertTrue(categories.isNotEmpty())
-        }
+        val categories = viewModel.state.first().categories
+        assertTrue(categories.isNotEmpty())
     }
 
     @Test
     fun `state contains categories for every database key`() = runTest {
-        viewModel.state.test {
-            val categories = awaitItem().categories
-            DatabaseKey.MeasurementCategory.entries.forEach { key ->
-                assertTrue(categories.any { it.key == key })
-            }
+        val categories = viewModel.state.first().categories
+        DatabaseKey.MeasurementCategory.entries.forEach { key ->
+            assertTrue(categories.any { it.key == key })
         }
+    }
+
+    @Test
+    fun `decrements sort index of category`() = runTest{
+        val firstCategory = viewModel.state.first().categories.first()
+        viewModel.dispatchIntent(MeasurementCategoryListIntent.DecrementSortIndex(firstCategory))
+        val update = viewModel.state.first().categories
+        assertEquals(update[1], firstCategory)
     }
 }

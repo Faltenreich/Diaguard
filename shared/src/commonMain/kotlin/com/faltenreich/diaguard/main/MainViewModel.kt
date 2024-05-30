@@ -57,7 +57,7 @@ class MainViewModel(
         }
     }
 
-    override fun handleIntent(intent: NavigationIntent) {
+    override suspend fun handleIntent(intent: NavigationIntent) {
         when (intent) {
             is NavigationIntent.NavigateTo -> navigateToScreen(intent.screen)
             is NavigationIntent.NavigateBack -> navigateBack()

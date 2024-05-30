@@ -22,7 +22,7 @@ class MeasurementCategoryListViewModel(
 
     override val state = getCategories().map(::MeasurementCategoryListViewState)
 
-    override fun handleIntent(intent: MeasurementCategoryListIntent) = with(intent) {
+    override suspend fun handleIntent(intent: MeasurementCategoryListIntent) = with(intent) {
         when (this) {
             is MeasurementCategoryListIntent.DecrementSortIndex -> decrementSortIndex(category)
             is MeasurementCategoryListIntent.IncrementSortIndex -> incrementSortIndex(category)

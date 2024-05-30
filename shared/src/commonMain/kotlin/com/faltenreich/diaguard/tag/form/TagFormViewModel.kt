@@ -17,7 +17,7 @@ class TagFormViewModel(
 
     override val state = error.map(::TagFormState)
 
-    override fun handleIntent(intent: TagFormIntent) {
+    override suspend fun handleIntent(intent: TagFormIntent) {
         when (intent) {
             is TagFormIntent.Close -> closeModal()
             is TagFormIntent.Submit -> createTagIfValid(intent.tag)

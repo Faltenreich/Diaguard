@@ -47,7 +47,7 @@ class MeasurementPropertyFormViewModel(
 
     override val state = combine(flowOf(property), getUnits(property), mapState::invoke)
 
-    override fun handleIntent(intent: MeasurementPropertyFormIntent) {
+    override suspend fun handleIntent(intent: MeasurementPropertyFormIntent) {
         when (intent) {
             is MeasurementPropertyFormIntent.UpdateProperty -> updateProperty()
             is MeasurementPropertyFormIntent.DeleteProperty -> deleteProperty()

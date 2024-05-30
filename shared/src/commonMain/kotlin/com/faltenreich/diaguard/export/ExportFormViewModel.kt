@@ -71,7 +71,7 @@ class ExportFormViewModel(
         }
     }
 
-    override fun handleIntent(intent: ExportFormIntent) {
+    override suspend fun handleIntent(intent: ExportFormIntent) {
         when (intent) {
             is ExportFormIntent.SetCategory -> setCategory(intent.category)
             is ExportFormIntent.Submit -> submit()

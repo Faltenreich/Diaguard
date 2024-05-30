@@ -44,18 +44,18 @@ abstract class ViewModel<State, Intent, Event>(
     }
 
     /**
-     * Handles [intent] synchronously
-     */
-    open fun handleIntent(intent: Intent) = Unit
-
-    /**
-     * Handles [intent] asynchronously via [dispatcher] within [scope]
+     * Handles [intent] on [dispatcher] within [scope]
      *
      * Caution: Causes race conditions for text inputs, use [handleIntent] instead
      */
     fun dispatchIntent(intent: Intent) {
         scope.launch(dispatcher) { handleIntent(intent) }
     }
+
+    /**
+     * Handles [intent] on current dispatcher
+     */
+    open suspend fun handleIntent(intent: Intent) = Unit
 
     /**
      * Posts [event] asynchronously via [dispatcher] within [scope]

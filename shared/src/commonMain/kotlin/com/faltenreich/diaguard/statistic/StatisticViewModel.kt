@@ -41,7 +41,7 @@ class StatisticViewModel(
         )
     }
 
-    override fun handleIntent(intent: StatisticIntent) {
+    override suspend fun handleIntent(intent: StatisticIntent) {
         when (intent) {
             is StatisticIntent.Select -> selectedCategory.value = intent.category
         }

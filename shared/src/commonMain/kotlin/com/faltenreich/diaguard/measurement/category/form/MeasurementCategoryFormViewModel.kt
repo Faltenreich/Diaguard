@@ -35,7 +35,7 @@ class MeasurementCategoryFormViewModel(
 
     override val state = properties.map(::MeasurementCategoryFormViewState)
 
-    override fun handleIntent(intent: MeasurementCategoryFormIntent) {
+    override suspend fun handleIntent(intent: MeasurementCategoryFormIntent) {
         when (intent) {
             is MeasurementCategoryFormIntent.OpenIconPicker -> openIconPicker()
             is MeasurementCategoryFormIntent.UpdateCategory -> updateCategory()

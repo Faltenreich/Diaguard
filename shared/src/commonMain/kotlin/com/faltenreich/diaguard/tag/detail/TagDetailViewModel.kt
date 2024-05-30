@@ -38,7 +38,7 @@ class TagDetailViewModel(
         ::TagDetailState,
     )
 
-    override fun handleIntent(intent: TagDetailIntent) {
+    override suspend fun handleIntent(intent: TagDetailIntent) {
         when (intent) {
             is TagDetailIntent.UpdateTag -> updateTag()
             is TagDetailIntent.DeleteTag -> deleteTag()

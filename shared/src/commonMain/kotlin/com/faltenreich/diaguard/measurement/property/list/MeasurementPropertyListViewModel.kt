@@ -24,7 +24,7 @@ class MeasurementPropertyListViewModel(
 
     override val state = flowOf(Unit)
 
-    override fun handleIntent(intent: MeasurementPropertyListIntent) {
+    override suspend fun handleIntent(intent: MeasurementPropertyListIntent) {
         when (intent) {
             is MeasurementPropertyListIntent.DecrementSortIndex -> decrementSortIndex(intent)
             is MeasurementPropertyListIntent.IncrementSortIndex -> incrementSortIndex(intent)

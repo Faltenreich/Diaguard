@@ -46,7 +46,7 @@ class FoodSearchViewModel(
 
     override val state = MutableStateFlow(FoodSearchState())
 
-    override fun handleIntent(intent: FoodSearchIntent) {
+    override suspend fun handleIntent(intent: FoodSearchIntent) {
         when (intent) {
             is FoodSearchIntent.Refresh -> refresh()
             is FoodSearchIntent.Close -> navigateBack()

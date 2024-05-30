@@ -28,7 +28,7 @@ abstract class ViewModel<State, Intent, Event>(
 
     abstract val state: Flow<State>
 
-    val stateInScope: StateFlow<State?> by lazy {
+    private val stateInScope: StateFlow<State?> by lazy {
         state.flowOn(dispatcher).stateIn(
             scope = scope,
             started = SharingStarted.Lazily,

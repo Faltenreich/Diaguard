@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.modal.MeasurementCategoryFormModal
 import com.faltenreich.diaguard.navigation.screen.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 class MeasurementCategoryListViewModel(
@@ -31,13 +32,13 @@ class MeasurementCategoryListViewModel(
         }
     }
 
-    private fun decrementSortIndex(category: MeasurementCategory.Local) {
-        val within = stateInScope.value?.categories ?: return
+    private suspend fun decrementSortIndex(category: MeasurementCategory.Local) {
+        val within = state.firstOrNull()?.categories ?: return
         swapSortIndexes(first = category, second = within.last { it.sortIndex < category.sortIndex })
     }
 
-    private fun incrementSortIndex(category: MeasurementCategory.Local) {
-        val within = stateInScope.value?.categories ?: return
+    private suspend fun incrementSortIndex(category: MeasurementCategory.Local) {
+        val within = state.firstOrNull()?.categories ?: return
         swapSortIndexes(first = category, second = within.first { it.sortIndex > category.sortIndex })
     }
 
@@ -53,8 +54,8 @@ class MeasurementCategoryListViewModel(
         navigateToScreen(MeasurementCategoryFormScreen(category))
     }
 
-    private fun createCategory() {
-        val within = stateInScope.value?.categories ?: return
+    private suspend fun createCategory() {
+        val within = state.firstOrNull()?.categories ?: return
         openModal(
             MeasurementCategoryFormModal(
                 onDismissRequest = closeModal::invoke,

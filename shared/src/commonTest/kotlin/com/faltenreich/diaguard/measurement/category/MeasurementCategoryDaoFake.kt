@@ -1,14 +1,14 @@
 package com.faltenreich.diaguard.measurement.category
 
-import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 
 class MeasurementCategoryDaoFake : MeasurementCategoryDao {
 
-    private val cache = mutableStateListOf<MeasurementCategory.Local>()
+    private val cache = MutableStateFlow<List<MeasurementCategory.Local>>(emptyList())
 
     override fun create(
         createdAt: DateTime,
@@ -19,8 +19,8 @@ class MeasurementCategoryDaoFake : MeasurementCategoryDao {
         sortIndex: Long,
         isActive: Boolean
     ) {
-        cache += MeasurementCategory.Local(
-            id = cache.size.toLong(),
+        cache.value += MeasurementCategory.Local(
+            id = cache.value.size.toLong(),
             createdAt = createdAt,
             updatedAt = updatedAt,
             key = key,
@@ -32,31 +32,31 @@ class MeasurementCategoryDaoFake : MeasurementCategoryDao {
     }
 
     override fun getLastId(): Long? {
-        return cache.lastOrNull()?.id
+        return cache.value.lastOrNull()?.id
     }
 
     override fun getById(id: Long): MeasurementCategory.Local? {
-        return cache.firstOrNull { it.id == id }
+        return cache.value.firstOrNull { it.id == id }
     }
 
     override fun observeById(id: Long): Flow<MeasurementCategory.Local?> {
-        return flowOf(cache.firstOrNull { it.id == id })
+        return cache.map { it.firstOrNull { it.id == id } }
     }
 
     override fun observeByKey(key: String): Flow<MeasurementCategory.Local?> {
-        return flowOf(cache.firstOrNull())
+        return cache.map { it.firstOrNull { it.key?.key == key } }
     }
 
     override fun observeActive(): Flow<List<MeasurementCategory.Local>> {
-        return flowOf(cache.filter { it.isActive })
+        return cache.map { it.filter { it.isActive } }
     }
 
     override fun observeAll(): Flow<List<MeasurementCategory.Local>> {
-        return flowOf(cache)
+        return cache
     }
 
     override fun countAll(): Flow<Long> {
-        return flowOf(cache.size.toLong())
+        return cache.map { it.size.toLong() }
     }
 
     override fun update(
@@ -67,19 +67,21 @@ class MeasurementCategoryDaoFake : MeasurementCategoryDao {
         sortIndex: Long,
         isActive: Boolean
     ) {
-        val entity = cache.firstOrNull { it.id == id } ?: return
-        val index = cache.indexOf(entity)
-        cache[index] = entity.copy(
-            updatedAt = updatedAt,
-            name = name,
-            icon = icon,
-            sortIndex = sortIndex,
-            isActive = isActive,
-        )
+        cache.value = cache.value.map { entity ->
+            when (entity.id) {
+                id -> entity.copy(
+                    updatedAt = updatedAt,
+                    name = name,
+                    icon = icon,
+                    sortIndex = sortIndex,
+                    isActive = isActive,
+                )
+                else -> entity
+            }
+        }
     }
 
     override fun deleteById(id: Long) {
-        val entry = cache.firstOrNull { it.id == id } ?: return
-        cache.remove(entry)
+        cache.value = cache.value.filterNot { it.id == id }
     }
 }

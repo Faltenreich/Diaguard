@@ -11,6 +11,7 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class MeasurementCategoryListViewModelTest : KoinTest {
@@ -28,8 +29,8 @@ class MeasurementCategoryListViewModelTest : KoinTest {
     @Test
     fun `state contains categories`() = runTest {
         viewModel.state.test {
-            assertTrue(awaitItem().categories.isNotEmpty())
-            awaitComplete()
+            val categories = awaitItem().categories
+            assertTrue(categories.isNotEmpty())
         }
     }
 
@@ -40,7 +41,6 @@ class MeasurementCategoryListViewModelTest : KoinTest {
             DatabaseKey.MeasurementCategory.entries.forEach { key ->
                 assertTrue(categories.any { it.key == key })
             }
-            awaitComplete()
         }
     }
 }

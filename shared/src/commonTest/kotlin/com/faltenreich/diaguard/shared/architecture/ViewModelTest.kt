@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.shared.architecture
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
+import kotlin.test.Ignore
 import kotlin.test.Test
-import kotlin.test.assertNull
+import kotlin.test.assertEquals
 
 class ViewModelTest {
 
@@ -19,11 +18,33 @@ class ViewModelTest {
     }
 
     @Test
-    fun `state is initially null`() = runTest {
-        assertNull(viewModel.state.firstOrNull())
+    fun `handles intent`() = runTest {
+        viewModel.handleIntent(2)
+        assertEquals(2, viewModel.state.value)
     }
 
-    private class SampleViewModel : ViewModel<Unit, Unit, Unit>(dispatcher = StandardTestDispatcher()) {
-        override val state: Flow<Unit> = flowOf()
+    @Test
+    @Ignore
+    fun `dispatches intent`() = runTest {
+        viewModel.dispatchIntent(2)
+        assertEquals(2, viewModel.state.value)
+    }
+
+    @Test
+    @Ignore
+    fun `collects events`() = runTest {
+        viewModel.collectEvents { event ->
+            assertEquals(2, event)
+        }
+        viewModel.postEvent(2)
+    }
+
+    private class SampleViewModel : ViewModel<Int, Int, Int>(dispatcher = StandardTestDispatcher()) {
+
+        override val state = MutableStateFlow(0)
+
+        override suspend fun handleIntent(intent: Int) {
+            state.value += intent
+        }
     }
 }

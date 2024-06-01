@@ -3,13 +3,13 @@ package com.faltenreich.diaguard.measurement.unit
 import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDaoFake
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyFakeDao
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class MeasurementUnitDaoFake(
+class MeasurementUnitFakeDao(
     private val propertyDao: MeasurementPropertyDao = inject(),
 ) : MeasurementUnitDao {
 
@@ -37,7 +37,7 @@ class MeasurementUnitDaoFake(
             property = propertyDao.getById(propertyId)!!,
         ).also { unit ->
             // TODO: Find better way to lateinit selected unit
-            (propertyDao as MeasurementPropertyDaoFake).updateSelectedUnit(unit)
+            (propertyDao as MeasurementPropertyFakeDao).updateSelectedUnit(unit)
         }
     }
 

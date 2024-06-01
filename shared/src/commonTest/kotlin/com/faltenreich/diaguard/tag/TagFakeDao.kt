@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class TagDaoFake : TagDao {
+class TagFakeDao : TagDao {
 
     private val cache = mutableStateListOf<Tag.Local>()
 

@@ -34,8 +34,6 @@ jobs:
         with:
           path: ${{ github.workspace }}/shared/build/reports/kover/reportDebug.xml
           title: Code Coverage
-          update-comment: true
-          coverage-counter-type: LINE
 
   lint:
     runs-on: ubuntu-latest

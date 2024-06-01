@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
-class MeasurementCategoryDaoFake : MeasurementCategoryDao {
+class MeasurementCategoryFakeDao : MeasurementCategoryDao {
 
     private val cache = MutableStateFlow<List<MeasurementCategory.Local>>(emptyList())
 

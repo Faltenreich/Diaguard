@@ -49,7 +49,9 @@ abstract class ViewModel<State, Intent, Event>(
      * Caution: Causes race conditions for text inputs, use [handleIntent] instead
      */
     fun dispatchIntent(intent: Intent) {
-        scope.launch(dispatcher) { handleIntent(intent) }
+        scope.launch(dispatcher) {
+            handleIntent(intent)
+        }
     }
 
     /**
@@ -60,8 +62,10 @@ abstract class ViewModel<State, Intent, Event>(
     /**
      * Posts [event] asynchronously via [dispatcher] within [scope]
      */
-    fun postEvent(event: Event) = scope.launch(dispatcher) {
-        events.emit(event)
+    fun postEvent(event: Event) {
+        scope.launch(dispatcher) {
+            events.emit(event)
+        }
     }
 
     /**

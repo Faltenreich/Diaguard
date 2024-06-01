@@ -1,20 +1,38 @@
 package com.faltenreich.diaguard.shared.architecture
 
+import com.faltenreich.diaguard.DependencyInjection
+import com.faltenreich.diaguard.appModules
+import com.faltenreich.diaguard.testModules
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.koin.test.KoinTest
+import org.koin.test.inject
+import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ViewModelTest {
+class ViewModelTest : KoinTest {
 
-    private lateinit var viewModel: SampleViewModel
+    private val dispatcher: CoroutineDispatcher by inject()
+    private lateinit var viewModel: TestViewModel
 
     @BeforeTest
     fun setup() {
-        viewModel = SampleViewModel()
+        DependencyInjection.setup(modules = appModules() + testModules())
+        viewModel = TestViewModel()
+        Dispatchers.setMain(dispatcher)
+    }
+
+    @AfterTest
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     @Test
@@ -30,6 +48,7 @@ class ViewModelTest {
         assertEquals(2, viewModel.state.value)
     }
 
+
     @Test
     @Ignore
     fun `collects events`() = runTest {
@@ -37,9 +56,10 @@ class ViewModelTest {
             assertEquals(2, event)
         }
         viewModel.postEvent(2)
+        advanceUntilIdle()
     }
 
-    private class SampleViewModel : ViewModel<Int, Int, Int>(dispatcher = StandardTestDispatcher()) {
+    private class TestViewModel : ViewModel<Int, Int, Int>() {
 
         override val state = MutableStateFlow(0)
 

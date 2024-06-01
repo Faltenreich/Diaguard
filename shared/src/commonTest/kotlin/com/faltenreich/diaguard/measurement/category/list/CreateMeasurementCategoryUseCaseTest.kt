@@ -1,25 +1,22 @@
 package com.faltenreich.diaguard.measurement.category.list
 
-import com.faltenreich.diaguard.DependencyInjection
-import com.faltenreich.diaguard.appModules
+import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.backup.ImportUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.testModules
-import org.koin.test.KoinTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CreateMeasurementCategoryUseCaseTest : KoinTest {
+class CreateMeasurementCategoryUseCaseTest : TestSuite {
 
     private val import: ImportUseCase by inject()
 
     private val createCategory: CreateMeasurementCategoryUseCase by inject()
 
     @BeforeTest
-    fun setup() {
-        DependencyInjection.setup(modules = appModules() + testModules())
+    override fun beforeTest() {
+        super.beforeTest()
         import()
     }
 

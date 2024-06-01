@@ -1,27 +1,18 @@
 package com.faltenreich.diaguard.dashboard
 
-import com.faltenreich.diaguard.DependencyInjection
-import com.faltenreich.diaguard.appModules
+import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.backup.ImportUseCase
-import com.faltenreich.diaguard.testModules
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.koin.test.KoinTest
 import org.koin.test.inject
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DashboardViewModelTest : KoinTest {
+class DashboardViewModelTest : TestSuite {
 
     private val import: ImportUseCase by inject()
 
     private val viewModel: DashboardViewModel by inject()
-
-    @BeforeTest
-    fun setup() {
-        DependencyInjection.setup(modules = appModules() + testModules())
-    }
 
     @Test
     fun `state contains null content if no data is available`() = runTest {

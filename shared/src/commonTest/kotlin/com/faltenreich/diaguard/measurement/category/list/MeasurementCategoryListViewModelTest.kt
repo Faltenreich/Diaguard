@@ -1,13 +1,10 @@
 package com.faltenreich.diaguard.measurement.category.list
 
-import com.faltenreich.diaguard.DependencyInjection
-import com.faltenreich.diaguard.appModules
+import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.backup.ImportUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.testModules
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.koin.test.KoinTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
 import kotlin.test.Ignore
@@ -15,15 +12,15 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class MeasurementCategoryListViewModelTest : KoinTest {
+class MeasurementCategoryListViewModelTest : TestSuite {
 
     private val import: ImportUseCase by inject()
 
     private val viewModel: MeasurementCategoryListViewModel by inject()
 
     @BeforeTest
-    fun setup() {
-        DependencyInjection.setup(modules = appModules() + testModules())
+    override fun beforeTest() {
+        super.beforeTest()
         import()
     }
 

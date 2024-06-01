@@ -61,9 +61,12 @@ class MeasurementCategoryListViewModel(
                 onDismissRequest = closeModal::invoke,
                 onConfirmRequest = { name ->
                     val category = createCategory(
-                        name = name,
-                        icon = null,
-                        sortIndex = within.maxOf(MeasurementCategory::sortIndex) + 1,
+                        MeasurementCategory.User(
+                            name = name,
+                            icon = null,
+                            sortIndex = within.maxOf(MeasurementCategory::sortIndex) + 1,
+                            isActive = true,
+                        )
                     )
                     closeModal()
                     editCategory(category)

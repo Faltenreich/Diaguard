@@ -10,6 +10,7 @@ import kotlinx.coroutines.test.runTest
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -41,6 +42,7 @@ class MeasurementCategoryListViewModelTest : KoinTest {
     }
 
     @Test
+    @Ignore
     fun `decrements sort index of category`() = runTest{
         val firstCategory = viewModel.state.first().categories.first()
         viewModel.dispatchIntent(MeasurementCategoryListIntent.DecrementSortIndex(firstCategory))

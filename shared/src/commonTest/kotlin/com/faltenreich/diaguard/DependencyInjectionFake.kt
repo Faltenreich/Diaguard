@@ -20,7 +20,6 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDaoFake
 import com.faltenreich.diaguard.measurement.value.MeasurementValueDao
 import com.faltenreich.diaguard.measurement.value.MeasurementValueDaoFake
-import com.faltenreich.diaguard.shared.architecture.coroutineModule
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.localization.ResourceLocalization
 import com.faltenreich.diaguard.shared.localization.ResourceLocalizationFake
@@ -29,10 +28,17 @@ import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.tag.TagDao
 import com.faltenreich.diaguard.tag.TagDaoFake
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
 import org.koin.dsl.module
+import kotlin.coroutines.CoroutineContext
 
 fun testModules() = module {
-    includes(coroutineModule())
+    single<CoroutineDispatcher> { StandardTestDispatcher() }
+    single<CoroutineContext> { StandardTestDispatcher() }
+    single<CoroutineScope> { TestScope(context = get()) }
 
     single<Logger> { ConsoleLogger() }
 

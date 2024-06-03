@@ -15,9 +15,7 @@ io = "0.3.5"
 junit = "4.13.2"
 koin = "3.6.0-Beta4"
 kotlin = "2.0.0"
-# 0.8.0 causes KoverCriticalException
-# https://github.com/Kotlin/kotlinx-kover/issues/610
-kover = "0.7.6"
+kover = "0.8.0"
 ktor = "2.3.11"
 paging = "3.3.0-alpha02-0.5.1"
 paging-android = "3.3.0"

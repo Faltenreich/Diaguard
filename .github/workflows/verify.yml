@@ -24,15 +24,12 @@ jobs:
         run: ./gradlew androidApp:assemble
 
       - name: Test
-        run: ./gradlew test
-
-      - name: Kover
-        run: ./gradlew koverXmlReportDebug
+        run: ./gradlew koverXmlReport
 
       - name: Report
         uses: mi-kas/kover-report@v1
         with:
-          path: ${{ github.workspace }}/shared/build/reports/kover/reportDebug.xml
+          path: ${{ github.workspace }}/shared/build/reports/kover/report.xml
           title: Code Coverage
 
   lint:

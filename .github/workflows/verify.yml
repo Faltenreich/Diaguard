@@ -20,9 +20,6 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Assemble
-        run: ./gradlew androidApp:assemble
-
       - name: Test
         run: ./gradlew koverXmlReport
 

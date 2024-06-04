@@ -7,7 +7,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
-import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
 class OpenFoodFactsApi(
@@ -22,16 +21,38 @@ class OpenFoodFactsApi(
         val countryCode = locale.region
         val languageCode = locale.language
 
-        val fields = "sortkey,lang,product_name,brands,ingredients_text,labels,nutriments,last_edit_dates_tags"
-        val arguments = "search_terms=%s&page=%d&page_size=%d&cc=%s&lc=%s&json=1&fields=$fields"
-        val url = "https://world.openfoodfacts.org/cgi/search.pl?$arguments".format(
-            query ?: "",
-            // Pagination starts at page 1
-            page.page + 1,
-            page.pageSize,
-            countryCode,
-            languageCode,
-        )
+        val fields = listOf(
+            "sortkey",
+            "lang",
+            "product_name",
+            "brands",
+            "ingredients_text",
+            "labels",
+            "nutriments",
+            "last_edit_dates_tags",
+            "carbohydrates_100g",
+            "energy_100g",
+            "fat_100g",
+            "saturated-fat_100g",
+            "fiber_100g",
+            "proteins_100g",
+            "salt_100g",
+            "sodium_100g",
+            "sugars_100g",
+        ).joinToString(",")
+
+        val arguments = mapOf(
+            "search_terms" to (query ?: ""),
+            "page" to (page.page + 1),
+            "page_size" to page.pageSize,
+            "cc" to countryCode,
+            "lc" to languageCode,
+            "json" to "1",
+            "fields" to fields,
+        ).map { (key, value) -> "$key=${value}" }.joinToString("&")
+
+        val url = "https://world.openfoodfacts.org/api/v2/search?$arguments"
+
         return try {
             Logger.debug("Requesting $url")
             val json = client.request(url)
@@ -43,7 +64,7 @@ class OpenFoodFactsApi(
                 .reversed()
                 .filter { product ->
                     product.name?.isNotBlank() == true
-                        && product.nutrients?.carbohydrates != null
+                        && product.carbohydrates != null
                         && product.languageCode == languageCode
                 }
             mapper(remote).sortedBy(FoodFromApi::name)

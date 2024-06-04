@@ -14,6 +14,15 @@ data class OpenFoodFactsProduct(
     @SerialName("brands") val brand: String?,
     @SerialName("ingredients_text") val ingredients: String?,
     @SerialName("labels") val labels: String?,
-    @SerialName("nutriments") val nutrients: OpenFoodFactsNutrients?,
     @SerialName("last_edit_dates_tags") val lastEditDates: List<String>,
+    // Nutrients
+    @SerialName("carbohydrates_100g") val carbohydrates: Float?,
+    @SerialName("energy_100g") val energy: Float?,
+    @SerialName("fat_100g") val fat: Float?,
+    @SerialName("saturated-fat_100g") val fatSaturated: Float?,
+    @SerialName("fiber_100g") val fiber: Float?,
+    @SerialName("proteins_100g") val proteins: Float?,
+    @SerialName("salt_100g") val salt: Float?,
+    @SerialName("sodium_100g") val sodium: Float?,
+    @SerialName("sugars_100g") val sugar: Float?,
 )

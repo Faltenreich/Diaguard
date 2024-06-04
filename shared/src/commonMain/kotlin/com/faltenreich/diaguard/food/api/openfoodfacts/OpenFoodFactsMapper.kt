@@ -14,8 +14,7 @@ class OpenFoodFactsMapper(
             try {
                 val uuid = product.identifier?.jsonPrimitive?.content ?: return@mapNotNull null
                 val name = product.name ?: return@mapNotNull null
-                val nutrients = product.nutrients ?: return@mapNotNull null
-                val carbohydrates = nutrients.carbohydrates?.toDouble() ?: return@mapNotNull null
+                val carbohydrates = product.carbohydrates?.toDouble() ?: return@mapNotNull null
                 val updatedAt = product.lastEditDates.firstOrNull()?.let(dateTimeFactory::date)
                     ?: return@mapNotNull null
                 FoodFromApi(
@@ -26,14 +25,14 @@ class OpenFoodFactsMapper(
                     ingredients = product.ingredients,
                     labels = product.labels,
                     carbohydrates = carbohydrates,
-                    energy = nutrients.energy?.toDouble(),
-                    fat = nutrients.fat?.toDouble(),
-                    fatSaturated = nutrients.fatSaturated?.toDouble(),
-                    fiber = nutrients.fiber?.toDouble(),
-                    proteins = nutrients.proteins?.toDouble(),
-                    salt = nutrients.salt?.toDouble(),
-                    sodium = nutrients.sodium?.toDouble(),
-                    sugar = nutrients.sugar?.toDouble(),
+                    energy = product.energy?.toDouble(),
+                    fat = product.fat?.toDouble(),
+                    fatSaturated = product.fatSaturated?.toDouble(),
+                    fiber = product.fiber?.toDouble(),
+                    proteins = product.proteins?.toDouble(),
+                    salt = product.salt?.toDouble(),
+                    sodium = product.sodium?.toDouble(),
+                    sugar = product.sugar?.toDouble(),
                 )
             } catch (exception: Exception) {
                 Logger.error("Failed to map remote food", exception)

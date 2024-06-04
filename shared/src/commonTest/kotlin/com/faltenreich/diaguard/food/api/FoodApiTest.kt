@@ -12,7 +12,7 @@ class FoodApiTest : TestSuite {
     private val api: FoodApi by inject()
 
     @Test
-    fun `searches for food`() = runTest {
+    fun `search returns food`() = runTest {
         val response = api.search("", PagingPage(page = 0, pageSize = 10))
         assertTrue(response.isNotEmpty())
     }

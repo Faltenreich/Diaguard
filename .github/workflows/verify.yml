@@ -34,6 +34,13 @@ jobs:
           update-comment: true
           min-coverage-changed-files: 80
 
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: "**/build/reports"
+        if: always()
+
   lint:
     runs-on: ubuntu-latest
     steps:

@@ -30,7 +30,7 @@ class OpenFoodFactsApi(
                 "cc" to locale.region,
                 "lc" to locale.language,
                 "json" to "1",
-                "fields" to OpenFoodFactsProduct.FIELDS,
+                "fields" to OpenFoodFactsProduct.Fields.joinToString(","),
             ),
         )
 

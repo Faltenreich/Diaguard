@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
+import com.faltenreich.diaguard.shared.networking.NetworkingRequest
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
 class OpenFoodFactsApi(
@@ -18,8 +19,6 @@ class OpenFoodFactsApi(
 
     override suspend fun search(query: String?, page: PagingPage): List<FoodFromApi> {
         val locale = localization.getLocale()
-        val countryCode = locale.region
-        val languageCode = locale.language
 
         val fields = listOf(
             "sortkey",
@@ -45,13 +44,18 @@ class OpenFoodFactsApi(
             "search_terms" to (query ?: ""),
             "page" to (page.page + 1),
             "page_size" to page.pageSize,
-            "cc" to countryCode,
-            "lc" to languageCode,
+            "cc" to locale.region,
+            "lc" to locale.language,
             "json" to "1",
             "fields" to fields,
-        ).map { (key, value) -> "$key=${value}" }.joinToString("&")
+        )
 
-        val url = "https://world.openfoodfacts.org/api/v2/search?$arguments"
+        val request = NetworkingRequest(
+            host = HOST,
+            path = "search",
+            arguments = arguments,
+        )
+        val url = request.url()
 
         return try {
             Logger.debug("Requesting $url")
@@ -65,7 +69,7 @@ class OpenFoodFactsApi(
                 .filter { product ->
                     product.name?.isNotBlank() == true
                         && product.carbohydrates != null
-                        && product.languageCode == languageCode
+                        && product.languageCode == locale.language
                 }
             mapper(remote).sortedBy(FoodFromApi::name)
         } catch (exception: Exception) {
@@ -74,5 +78,10 @@ class OpenFoodFactsApi(
             // TODO: Propagate error to user
             emptyList()
         }
+    }
+
+    companion object {
+
+        private const val HOST = "https://world.openfoodfacts.org/api/v2"
     }
 }

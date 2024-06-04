@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.networking
+package com.faltenreich.diaguard.shared.networking.ktor
 
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*

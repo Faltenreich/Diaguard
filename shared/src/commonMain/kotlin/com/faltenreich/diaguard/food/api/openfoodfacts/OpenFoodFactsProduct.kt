@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
+// Attention: Add fields to OpenFoodFactsApi
 @Serializable
 data class OpenFoodFactsProduct(
     // Workaround: Sometimes a Number, sometimes a String

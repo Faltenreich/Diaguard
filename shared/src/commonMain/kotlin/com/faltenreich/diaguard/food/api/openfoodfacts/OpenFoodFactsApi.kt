@@ -22,9 +22,8 @@ class OpenFoodFactsApi(
         val countryCode = locale.region
         val languageCode = locale.language
 
-        // TODO: Improve performance of requests that currently take more than 5s
-        // TODO: Shrink response by passing arguments
-        val arguments = "search_terms=%s&page=%d&page_size=%d&cc=%s&lc=%s&json=1"
+        val fields = "sortkey,lang,product_name,brands,ingredients_text,labels,nutriments,last_edit_dates_tags"
+        val arguments = "search_terms=%s&page=%d&page_size=%d&cc=%s&lc=%s&json=1&fields=$fields"
         val url = "https://world.openfoodfacts.org/cgi/search.pl?$arguments".format(
             query ?: "",
             // Pagination starts at page 1

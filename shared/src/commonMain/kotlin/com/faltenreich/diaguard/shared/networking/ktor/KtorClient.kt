@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.networking.ktor
 
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
+import com.faltenreich.diaguard.shared.networking.NetworkingRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -16,8 +17,8 @@ class KtorClient(
     },
 ): NetworkingClient {
 
-    override suspend fun request(url: String): String {
-        val response = client.request(url)
+    override suspend fun request(request: NetworkingRequest): String {
+        val response = client.request(request.url())
         return response.bodyAsText()
     }
 }

@@ -4,7 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
-// Attention: Add fields to OpenFoodFactsApi
 @Serializable
 data class OpenFoodFactsProduct(
     // Workaround: Sometimes a Number, sometimes a String
@@ -25,4 +24,30 @@ data class OpenFoodFactsProduct(
     @SerialName("salt_100g") val salt: Float?,
     @SerialName("sodium_100g") val sodium: Float?,
     @SerialName("sugars_100g") val sugar: Float?,
-)
+) {
+
+    companion object {
+
+        // Attention: Add new fields to FIELDS as well
+
+        val FIELDS = listOf(
+            "sortkey",
+            "lang",
+            "product_name",
+            "brands",
+            "ingredients_text",
+            "labels",
+            "nutriments",
+            "last_edit_dates_tags",
+            "carbohydrates_100g",
+            "energy_100g",
+            "fat_100g",
+            "saturated-fat_100g",
+            "fiber_100g",
+            "proteins_100g",
+            "salt_100g",
+            "sodium_100g",
+            "sugars_100g",
+        ).joinToString(",")
+    }
+}

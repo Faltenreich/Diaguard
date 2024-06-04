@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.shared.primitive.format
 data class NetworkingRequest(
     private val host: String,
     private val path: String,
-    private val arguments: Map<String, Any>? = null,
+    private val arguments: Map<String, String>? = null,
 ) {
 
     fun url(): String {
@@ -16,5 +16,9 @@ data class NetworkingRequest(
                 ?.map { (key, value) -> "$key=$value" }
                 ?.joinToString("&"),
         )
+    }
+
+    override fun toString(): String {
+        return url()
     }
 }

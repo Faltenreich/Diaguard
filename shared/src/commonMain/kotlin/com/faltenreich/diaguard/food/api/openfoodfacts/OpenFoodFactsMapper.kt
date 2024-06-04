@@ -12,11 +12,22 @@ class OpenFoodFactsMapper(
     operator fun invoke(remote: List<OpenFoodFactsProduct>): List<FoodFromApi> {
         return remote.mapNotNull { product ->
             try {
-                val uuid = product.identifier?.jsonPrimitive?.content ?: return@mapNotNull null
-                val name = product.name ?: return@mapNotNull null
-                val carbohydrates = product.carbohydrates?.toDouble() ?: return@mapNotNull null
-                val updatedAt = product.lastEditDates.firstOrNull()?.let(dateTimeFactory::date)
-                    ?: return@mapNotNull null
+                val uuid = product.identifier?.jsonPrimitive?.content ?: run {
+                    Logger.warning("Skipping food due to missing uuid: $product")
+                    return@mapNotNull null
+                }
+                val name = product.name ?: run {
+                    Logger.warning("Skipping food due to missing name: $product")
+                    return@mapNotNull null
+                }
+                val carbohydrates = product.carbohydrates?.toDouble() ?: run {
+                    Logger.warning("Skipping food due to missing carbohydrates: $product")
+                    return@mapNotNull null
+                }
+                val updatedAt = product.lastEditDates.firstOrNull()?.let(dateTimeFactory::date) ?: run {
+                    Logger.warning("Skipping food due to missing updatedAt: $product")
+                    return@mapNotNull null
+                }
                 FoodFromApi(
                     uuid = uuid,
                     updatedAt = updatedAt,

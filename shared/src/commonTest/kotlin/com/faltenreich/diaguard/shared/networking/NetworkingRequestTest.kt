@@ -11,13 +11,13 @@ class NetworkingRequestTest {
             host = "HOST",
             path = "PATH",
             arguments = mapOf(
-                "STRING" to "VALUE",
-                "INTEGER" to 0,
-            )
+                "FIRST" to "1",
+                "SECOND" to "2"
+            ),
         )
         val url = request.url()
         assertEquals(
-            "HOST/PATH?STRING=VALUE&INTEGER=0",
+            "HOST/PATH?FIRST=1&SECOND=2",
             url,
         )
     }

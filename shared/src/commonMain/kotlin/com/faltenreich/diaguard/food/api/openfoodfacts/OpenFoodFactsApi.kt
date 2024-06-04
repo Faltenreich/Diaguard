@@ -20,47 +20,24 @@ class OpenFoodFactsApi(
     override suspend fun search(query: String?, page: PagingPage): List<FoodFromApi> {
         val locale = localization.getLocale()
 
-        val fields = listOf(
-            "sortkey",
-            "lang",
-            "product_name",
-            "brands",
-            "ingredients_text",
-            "labels",
-            "nutriments",
-            "last_edit_dates_tags",
-            "carbohydrates_100g",
-            "energy_100g",
-            "fat_100g",
-            "saturated-fat_100g",
-            "fiber_100g",
-            "proteins_100g",
-            "salt_100g",
-            "sodium_100g",
-            "sugars_100g",
-        ).joinToString(",")
-
-        val arguments = mapOf(
-            "search_terms" to (query ?: ""),
-            "page" to (page.page + 1),
-            "page_size" to page.pageSize,
-            "cc" to locale.region,
-            "lc" to locale.language,
-            "json" to "1",
-            "fields" to fields,
-        )
-
         val request = NetworkingRequest(
             host = HOST,
             path = "search",
-            arguments = arguments,
+            arguments = mapOf(
+                "search_terms" to (query ?: ""),
+                "page" to (page.page + 1).toString(),
+                "page_size" to page.pageSize.toString(),
+                "cc" to locale.region,
+                "lc" to locale.language,
+                "json" to "1",
+                "fields" to OpenFoodFactsProduct.FIELDS,
+            ),
         )
-        val url = request.url()
 
         return try {
-            Logger.debug("Requesting $url")
-            val json = client.request(url)
-            Logger.debug("Requested $url: $json")
+            Logger.debug("Requesting $request")
+            val json = client.request(request)
+            Logger.debug("Requested $request: $json")
             val response = serialization.decodeJson<OpenFoodFactsResponse>(json)
             // Products are returned for more languages than requested
             val remote = response.products
@@ -73,7 +50,7 @@ class OpenFoodFactsApi(
                 }
             mapper(remote).sortedBy(FoodFromApi::name)
         } catch (exception: Exception) {
-            Logger.error("Request failed for $url", exception)
+            Logger.error("Request failed: $request", exception)
             // FIXME: java.util.concurrent.CancellationException: Child of the scoped flow was cancelled
             // TODO: Propagate error to user
             emptyList()

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.networking
 
-interface NetworkingClient {
+fun interface NetworkingClient {
 
     suspend fun request(url: String): String
 }

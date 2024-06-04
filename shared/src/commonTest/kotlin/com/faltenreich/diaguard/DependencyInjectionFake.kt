@@ -10,6 +10,8 @@ import com.faltenreich.diaguard.entry.tag.EntryTagDao
 import com.faltenreich.diaguard.entry.tag.EntryTagFakeDao
 import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.food.FoodFakeDao
+import com.faltenreich.diaguard.food.api.FoodApi
+import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.food.eaten.FoodEatenDao
 import com.faltenreich.diaguard.food.eaten.FoodEatenFakeDao
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
@@ -25,8 +27,6 @@ import com.faltenreich.diaguard.shared.localization.ResourceLocalization
 import com.faltenreich.diaguard.shared.localization.ResourceLocalizationFake
 import com.faltenreich.diaguard.shared.logging.ConsoleLogger
 import com.faltenreich.diaguard.shared.logging.Logger
-import com.faltenreich.diaguard.shared.networking.NetworkingClient
-import com.faltenreich.diaguard.shared.networking.NetworkingFakeClient
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.tag.TagDao
 import com.faltenreich.diaguard.tag.TagFakeDao
@@ -44,7 +44,11 @@ fun testModules() = module {
 
     single<Logger> { ConsoleLogger() }
 
-    single<NetworkingClient> { NetworkingFakeClient() }
+    single<FoodApi> {
+        OpenFoodFactsApi(
+            client = { SystemFileReader("src/commonTest/resources/networking/openfoodfacts.json").read() },
+        )
+    }
 
     single<EntryDao> { EntryFakeDao() }
     single<MeasurementCategoryDao> { MeasurementCategoryFakeDao() }

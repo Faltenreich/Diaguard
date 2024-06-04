@@ -45,7 +45,7 @@ LIMIT :limit OFFSET :offset;
 
 getByQuery:
 SELECT * FROM Food
-WHERE name LIKE ('%' || :query || '%')
+WHERE name LIKE ('%' || :query || '%') OR brand LIKE ('%' || :query || '%') OR ingredients LIKE ('%' || :query || '%') OR labels LIKE ('%' || :query || '%')
 ORDER BY name COLLATE NOCASE ASC
 LIMIT :limit OFFSET :offset;
 

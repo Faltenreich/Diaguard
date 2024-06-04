@@ -31,6 +31,8 @@ jobs:
         with:
           path: ${{ github.workspace }}/shared/build/reports/kover/report.xml
           title: Code Coverage
+          update-comment: true
+          min-coverage-changed-files: 80
 
   lint:
     runs-on: ubuntu-latest

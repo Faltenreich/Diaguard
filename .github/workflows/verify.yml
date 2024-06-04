@@ -34,7 +34,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: reports
+          name: test-reports
           path: "**/build/reports"
         if: always()
 
@@ -50,6 +50,13 @@ jobs:
       - name: Lint
         run: ./gradlew lintDebug
 
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-reports
+          path: "**/build/reports/lint-results-debug.html"
+        if: always()
+
   detekt:
     runs-on: ubuntu-latest
     steps:
@@ -61,3 +68,10 @@ jobs:
 
       - name: Detekt
         run: ./gradlew detektMetadataMain
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: detekt-reports
+          path: "**/build/reports/detekt"
+        if: always()

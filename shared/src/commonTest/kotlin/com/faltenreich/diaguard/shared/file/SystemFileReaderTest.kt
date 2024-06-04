@@ -5,7 +5,7 @@ import kotlin.test.assertNotNull
 
 class SystemFileReaderTest {
 
-    private val systemFileReader = SystemFileReader("src/commonTest/resources/text.txt")
+    private val systemFileReader = SystemFileReader("src/commonTest/resources/test.txt")
 
     @Test
     fun `reads file`() {

@@ -30,11 +30,11 @@ class SeedRepositoryTest {
         bloodPressureSeed = BloodPressureSeed(),
         oxygenSaturationSeed = OxygenSaturationSeed(),
         foodSeed = FoodSeed(
-            fileReader = SystemFileReader("src/commonTest/resources/food.csv"),
+            fileReader = SystemFileReader("src/commonTest/resources/seed/food.csv"),
             serialization = Serialization(),
         ),
         tagSeed = TagSeed(
-            fileReader = SystemFileReader("src/commonTest/resources/tags.csv"),
+            fileReader = SystemFileReader("src/commonTest/resources/seed/tags.csv"),
             serialization = Serialization(),
         ),
     )

@@ -62,13 +62,13 @@ fun testModules() = module {
 
     single {
         FoodSeed(
-            fileReader = SystemFileReader("src/commonTest/resources/food.csv"),
+            fileReader = SystemFileReader("src/commonTest/resources/seed/food.csv"),
             serialization = Serialization(),
         )
     }
     single {
         TagSeed(
-            fileReader = SystemFileReader("src/commonTest/resources/tags.csv"),
+            fileReader = SystemFileReader("src/commonTest/resources/seed/tags.csv"),
             serialization = Serialization(),
         )
     }

@@ -23,6 +23,7 @@ class OpenFoodFactsApi(
         val languageCode = locale.language
 
         // TODO: Improve performance of requests that currently take more than 5s
+        // TODO: Shrink response by passing arguments
         val arguments = "search_terms=%s&page=%d&page_size=%d&cc=%s&lc=%s&json=1"
         val url = "https://world.openfoodfacts.org/cgi/search.pl?$arguments".format(
             query ?: "",
@@ -33,7 +34,9 @@ class OpenFoodFactsApi(
             languageCode,
         )
         return try {
+            Logger.debug("Requesting $url")
             val json = client.request(url)
+            Logger.debug("Requested $url: $json")
             val response = serialization.decodeJson<OpenFoodFactsResponse>(json)
             // Products are returned for more languages than requested
             val remote = response.products
@@ -46,7 +49,7 @@ class OpenFoodFactsApi(
                 }
             mapper(remote).sortedBy(FoodFromApi::name)
         } catch (exception: Exception) {
-            Logger.error("Failed to request food from api", exception)
+            Logger.error("Request failed for $url", exception)
             // FIXME: java.util.concurrent.CancellationException: Child of the scoped flow was cancelled
             // TODO: Propagate error to user
             emptyList()

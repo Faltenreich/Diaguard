@@ -1,0 +1,178 @@
+{
+  "count": 30,
+  "page": 1,
+  "page_count": 20,
+  "page_size": 20,
+  "products": [
+    {
+      "_id": "4056489255499",
+      "_keywords": [
+        "alliance",
+        "ballaststoffquelle",
+        "ballaststoffreich",
+        "crownfield",
+        "frühstückscerealien",
+        "fsc",
+        "für",
+        "getreide",
+        "getreideprodukte",
+        "kakao",
+        "kartoffeln",
+        "lidl",
+        "mit",
+        "mix",
+        "müsli",
+        "nachhaltig",
+        "nachhaltige",
+        "nutriscore",
+        "palmöl",
+        "rainforest",
+        "runder",
+        "schoko",
+        "schokoflocken",
+        "schokolade",
+        "tisch",
+        "und"
+      ],
+      "added_countries_tags": [],
+      "additives_n": 1,
+      "additives_original_tags": [
+        "en:e322"
+      ],
+      "additives_tags": [
+        "en:e322"
+      ],
+      "allergens": "en:gluten,en:milk,en:nuts",
+      "allergens_from_ingredients": "en:milk, Vollmilchpulver, Hafervollkornflocken, Weizenkleber, Malzmehl, Gerste, Weizen, Mandeln",
+      "allergens_from_user": "(de) Gluten,Milch,Schalenfrüchte",
+      "allergens_hierarchy": [
+        "en:gluten",
+        "en:milk",
+        "en:nuts"
+      ],
+      "allergens_lc": "de",
+      "allergens_tags": [
+        "en:gluten",
+        "en:milk",
+        "en:nuts"
+      ],
+      "amino_acids_tags": [],
+      "brands": "Crownfield,Lidl",
+      "brands_tags": [
+        "crownfield",
+        "lidl"
+      ],
+      "categories": "Getreide und Kartoffeln,Getreideprodukte,Frühstückscerealien,Schokoflocken,Müslis,Müslis mit Schokolade",
+      "categories_hierarchy": [
+        "en:plant-based-foods-and-beverages",
+        "en:plant-based-foods",
+        "en:breakfasts",
+        "en:cereals-and-potatoes",
+        "en:cereals-and-their-products",
+        "en:breakfast-cereals",
+        "en:chocolate-cereals",
+        "en:mueslis",
+        "en:mueslis-with-chocolate"
+      ],
+      "categories_lc": "de",
+      "categories_old": "Pflanzliche Lebensmittel und Getränke, Pflanzliche Lebensmittel, Frühstücke, Getreide und Kartoffeln, Getreideprodukte, Frühstückscerealien, Müslis, Müslis mit Schokolade",
+      "categories_properties": {
+        "agribalyse_proxy_food_code:en": "32112",
+        "ciqual_food_code:en": "32004"
+      },
+      "categories_properties_tags": [
+        "all-products",
+        "categories-known",
+        "agribalyse-food-code-unknown",
+        "agribalyse-proxy-food-code-32112",
+        "agribalyse-proxy-food-code-known",
+        "ciqual-food-code-32004",
+        "ciqual-food-code-known",
+        "agribalyse-known",
+        "agribalyse-32112"
+      ],
+      "categories_tags": [
+        "en:plant-based-foods-and-beverages",
+        "en:plant-based-foods",
+        "en:breakfasts",
+        "en:cereals-and-potatoes",
+        "en:cereals-and-their-products",
+        "en:breakfast-cereals",
+        "en:chocolate-cereals",
+        "en:mueslis",
+        "en:mueslis-with-chocolate"
+      ],
+      "checkers_tags": [],
+      "cities_tags": [],
+      "code": "4056489255499",
+      "codes_tags": [
+        "code-13",
+        "4056489255xxx",
+        "405648925xxxx",
+        "40564892xxxxx",
+        "4056489xxxxxx",
+        "405648xxxxxxx",
+        "40564xxxxxxxx",
+        "4056xxxxxxxxx",
+        "405xxxxxxxxxx",
+        "40xxxxxxxxxxx",
+        "4xxxxxxxxxxxx"
+      ],
+      "compared_to_category": "en:mueslis-with-chocolate",
+      "complete": 0,
+      "completeness": 0.9,
+      "correctors_tags": [
+        "yuka.sY2b0xO6T85zoF3NwEKvlmtGUNj6vBvaOwD6pUG3zdCCd4LkU4kiv6bdDKs",
+        "kiliweb",
+        "halal-app-chakib",
+        "yuka.sY2b0xO6T85zoF3NwEKvlkFAasXEmyn-CxjfkE63_4iEdIzTXe1ez6jlKag",
+        "yuka.sY2b0xO6T85zoF3NwEKvlhN-SOHdpQ3_bA36hGC75-ivEb3sPoxZvaWgC6s",
+        "raaphy",
+        "worldtest",
+        "smudidu",
+        "roboto-app",
+        "hlavackovec",
+        "yuka.sY2b0xO6T85zoF3NwEKvlhJqUNrT-Sz8ZjPvhXW749ueAMDTcNptvozHbqo",
+        "kleingedruckter23",
+        "openfoodfacts-contributors",
+        "aminosbakdlia"
+      ],
+      "countries": "Deutschland,Vereinigte Staaten von Amerika",
+      "countries_hierarchy": [
+        "en:germany",
+        "en:united-states"
+      ],
+      "countries_lc": "de",
+      "countries_tags": [
+        "en:germany",
+        "en:united-states"
+      ],
+      "created_t": 1609073609,
+      "creator": "prepperapp",
+      "data_quality_bugs_tags": [],
+      "data_quality_errors_tags": [],
+      "data_quality_info_tags": [
+        "en:packaging-data-incomplete",
+        "en:ingredients-percent-analysis-ok",
+        "en:nutrition-data-prepared",
+        "en:ecoscore-extended-data-not-computed",
+        "en:food-groups-1-known",
+        "en:food-groups-2-known",
+        "en:food-groups-3-unknown"
+      ],
+      "data_quality_tags": [
+        "en:packaging-data-incomplete",
+        "en:ingredients-percent-analysis-ok",
+        "en:nutrition-data-prepared",
+        "en:ecoscore-extended-data-not-computed",
+        "en:food-groups-1-known",
+        "en:food-groups-2-known",
+        "en:food-groups-3-unknown",
+        "en:ingredients-ingredient-tag-length-greater-than-50",
+        "en:nutrition-data-prepared-without-category-dried-products-to-be-rehydrated",
+        "en:nutrition-value-negative-fruits-vegetables-nuts-estimate-from-ingredients",
+        "en:ecoscore-origins-of-ingredients-orig"
+      ]
+    }
+  ]
+}

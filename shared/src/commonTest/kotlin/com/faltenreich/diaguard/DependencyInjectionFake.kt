@@ -25,6 +25,8 @@ import com.faltenreich.diaguard.shared.localization.ResourceLocalization
 import com.faltenreich.diaguard.shared.localization.ResourceLocalizationFake
 import com.faltenreich.diaguard.shared.logging.ConsoleLogger
 import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.shared.networking.NetworkingClient
+import com.faltenreich.diaguard.shared.networking.NetworkingFakeClient
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.tag.TagDao
 import com.faltenreich.diaguard.tag.TagFakeDao
@@ -41,6 +43,8 @@ fun testModules() = module {
     single<CoroutineScope> { TestScope(context = get()) }
 
     single<Logger> { ConsoleLogger() }
+
+    single<NetworkingClient> { NetworkingFakeClient() }
 
     single<EntryDao> { EntryFakeDao() }
     single<MeasurementCategoryDao> { MeasurementCategoryFakeDao() }

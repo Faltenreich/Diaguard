@@ -24,12 +24,13 @@ class OpenFoodFactsApi(
         // FIXME: Language and search term do not fit
         val request = NetworkingRequest(
             host = "%s-%s.openfoodfacts.org".format(locale.region, locale.language),
-            path = "api/v2/search",
+            path = "cgi/search.pl",
             arguments = mapOf(
                 "search_terms" to (query ?: ""),
                 "page" to (page.page + 1).toString(),
                 "page_size" to page.pageSize.toString(),
                 "fields" to OpenFoodFactsProduct.Fields.joinToString(","),
+                "json" to "1",
             ),
         )
 

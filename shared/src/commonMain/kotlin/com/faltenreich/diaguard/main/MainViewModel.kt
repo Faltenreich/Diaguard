@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.main
 
-import com.faltenreich.diaguard.backup.HasDataUseCase
 import com.faltenreich.diaguard.backup.ImportUseCase
 import com.faltenreich.diaguard.navigation.GetActiveScreenUseCase
 import com.faltenreich.diaguard.navigation.GetModalUseCase

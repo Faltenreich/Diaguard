@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.backup
+package com.faltenreich.diaguard.main
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import kotlinx.coroutines.flow.Flow

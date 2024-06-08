@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.entry.entryModule
 import com.faltenreich.diaguard.export.exportModule
 import com.faltenreich.diaguard.food.foodModule
 import com.faltenreich.diaguard.log.logModule
+import com.faltenreich.diaguard.main.mainModule
 import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
 import com.faltenreich.diaguard.preference.preferenceModule
@@ -43,6 +44,7 @@ fun appModules() = listOf(
     // Feature
     themeModule(),
     backupModule(),
+    mainModule(),
     exportModule(),
     navigationModule(),
     dashboardModule(),

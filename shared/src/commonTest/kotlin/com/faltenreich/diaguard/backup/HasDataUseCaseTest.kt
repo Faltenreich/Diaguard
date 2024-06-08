@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.backup
 
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import com.faltenreich.diaguard.main.HasDataUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryFakeDao
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import kotlinx.coroutines.flow.Flow

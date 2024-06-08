@@ -9,15 +9,15 @@ class NetworkingRequestTest {
     fun `generates url with host and path and arguments`() {
         val request = NetworkingRequest(
             host = "HOST",
-            path = "PATH",
+            path = "PATH SPACED",
             arguments = mapOf(
                 "FIRST" to "1",
-                "SECOND" to "2"
+                "SECOND" to "2 2"
             ),
         )
         val url = request.url()
         assertEquals(
-            "HOST/PATH?FIRST=1&SECOND=2",
+            "https://HOST/PATH%20SPACED?FIRST=1&SECOND=2+2",
             url,
         )
     }

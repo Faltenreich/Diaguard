@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
 import com.faltenreich.diaguard.shared.networking.NetworkingRequest
+import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
 class OpenFoodFactsApi(
@@ -20,18 +21,25 @@ class OpenFoodFactsApi(
     override suspend fun search(query: String?, page: PagingPage): List<FoodFromApi> {
         val locale = localization.getLocale()
 
+        val host = "https://%s-%s.openfoodfacts.org/api/v2".format(
+            locale.region,
+            locale.language,
+        )
+
+        val arguments = mapOf(
+            "search_terms" to (query ?: ""),
+            "page" to (page.page + 1).toString(),
+            "page_size" to page.pageSize.toString(),
+            "cc" to locale.region,
+            "lc" to locale.language,
+            "json" to "1",
+            "fields" to OpenFoodFactsProduct.Fields.joinToString(","),
+        )
+
         val request = NetworkingRequest(
-            host = HOST,
+            host = host,
             path = "search",
-            arguments = mapOf(
-                "search_terms" to (query ?: ""),
-                "page" to (page.page + 1).toString(),
-                "page_size" to page.pageSize.toString(),
-                "cc" to locale.region,
-                "lc" to locale.language,
-                "json" to "1",
-                "fields" to OpenFoodFactsProduct.Fields.joinToString(","),
-            ),
+            arguments = arguments,
         )
 
         return try {
@@ -55,10 +63,5 @@ class OpenFoodFactsApi(
             // TODO: Propagate error to user
             emptyList()
         }
-    }
-
-    companion object {
-
-        private const val HOST = "https://world.openfoodfacts.org/api/v2"
     }
 }

@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.shared.networking
 
-import com.faltenreich.diaguard.shared.primitive.format
+import io.ktor.http.URLBuilder
+import io.ktor.http.URLProtocol
+import io.ktor.http.parameters
 
 data class NetworkingRequest(
     private val host: String,
@@ -9,13 +11,16 @@ data class NetworkingRequest(
 ) {
 
     fun url(): String {
-        return "%s/%s?%s".format(
-            host,
-            path,
-            arguments
-                ?.map { (key, value) -> "$key=$value" }
-                ?.joinToString("&"),
-        )
+        return URLBuilder(
+            protocol = URLProtocol.HTTPS,
+            host = host,
+            pathSegments = listOf(path),
+            parameters = parameters {
+                arguments?.forEach { (key, value) ->
+                    append(key, value)
+                }
+            }
+        ).buildString()
     }
 
     override fun toString(): String {

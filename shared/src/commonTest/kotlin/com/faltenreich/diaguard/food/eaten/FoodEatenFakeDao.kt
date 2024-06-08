@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class FoodEatenFakeDao(
+open class FoodEatenFakeDao(
     private val foodDao: FoodDao = inject(),
     private val entryDao: EntryDao = inject(),
 ) : FoodEatenDao {

@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.tag.TagDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class EntryTagFakeDao(
+open class EntryTagFakeDao(
     private val entryDao: EntryDao = inject(),
     private val tagDao: TagDao = inject(),
 ) : EntryTagDao {

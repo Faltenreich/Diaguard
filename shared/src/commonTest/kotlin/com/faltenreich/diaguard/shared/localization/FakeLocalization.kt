@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.shared.localization
 import androidx.compose.ui.text.intl.Locale
 import org.jetbrains.compose.resources.StringResource
 
-class FakeLocalization : Localization {
+open class FakeLocalization : Localization {
 
     override fun getLocale(): Locale {
         return Locale("en")

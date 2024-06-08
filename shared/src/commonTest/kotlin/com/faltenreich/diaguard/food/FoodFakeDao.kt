@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.data.PagingPage
 
-class FoodFakeDao : FoodDao {
+open class FoodFakeDao : FoodDao {
 
     private val cache = mutableStateListOf<Food.Local>()
 

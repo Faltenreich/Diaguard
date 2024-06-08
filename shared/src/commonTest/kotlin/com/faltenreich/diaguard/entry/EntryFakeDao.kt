@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 
-class EntryFakeDao : EntryDao {
+open class EntryFakeDao : EntryDao {
 
     private val cache = mutableStateListOf<Entry.Local>()
 

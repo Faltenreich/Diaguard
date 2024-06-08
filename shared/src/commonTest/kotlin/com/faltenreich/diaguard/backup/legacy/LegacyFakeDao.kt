@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.tag.Tag
 
-class LegacyFakeDao : LegacyDao {
+open class LegacyFakeDao : LegacyDao {
 
     override fun getEntries(): List<Entry.Legacy> {
         return emptyList()

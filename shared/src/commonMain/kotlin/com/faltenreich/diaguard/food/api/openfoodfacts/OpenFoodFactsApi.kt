@@ -21,7 +21,6 @@ class OpenFoodFactsApi(
     override suspend fun search(query: String?, page: PagingPage): List<FoodFromApi> {
         val locale = localization.getLocale()
 
-        // FIXME: Language and search term do not fit
         val request = NetworkingRequest(
             host = "%s-%s.openfoodfacts.org".format(locale.region, locale.language),
             path = "cgi/search.pl",

@@ -13,12 +13,17 @@ import kotlin.time.Duration.Companion.seconds
 class KtorClient(
     private val client: HttpClient = HttpClient {
         install(ContentNegotiation) { json() }
-        install(HttpTimeout) { requestTimeoutMillis = 30.seconds.inWholeMilliseconds }
+        install(HttpTimeout) { requestTimeoutMillis = TIMEOUT_IN_SECONDS.seconds.inWholeMilliseconds }
     },
 ): NetworkingClient {
 
     override suspend fun request(request: NetworkingRequest): String {
         val response = client.request(request.url())
         return response.bodyAsText()
+    }
+
+    companion object {
+
+        private const val TIMEOUT_IN_SECONDS = 10
     }
 }

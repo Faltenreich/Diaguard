@@ -7,6 +7,7 @@ class Localization(
 ) : ResourceLocalization by resourceLocalization {
 
     fun getLocale(): Locale {
+        // FIXME: Not testable
         return Locale.current
     }
 }

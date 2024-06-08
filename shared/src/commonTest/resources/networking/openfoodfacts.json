@@ -1,53 +1,9 @@
 {
-  "count": 264558,
+  "count": 1,
   "page": 1,
   "page_count": 10,
-  "page_size": 10,
+  "page_size": 1,
   "products": [
-    {
-      "brands": "Cristaline",
-      "carbohydrates_100g": 0,
-      "energy_100g": 0,
-      "fat_100g": 0,
-      "fiber_100g": 0,
-      "ingredients_text": "Eau de source",
-      "labels": "Triman",
-      "lang": "fr",
-      "last_edit_dates_tags": [
-        "2024-05-10",
-        "2024-05",
-        "2024"
-      ],
-      "product_name": "Eau de source",
-      "proteins_100g": 0,
-      "salt_100g": 0.00525,
-      "saturated-fat_100g": 0,
-      "sodium_100g": 0.0021,
-      "sortkey": 1610102036,
-      "sugars_100g": 0
-    },
-    {
-      "brands": "Lu,Mondelez",
-      "carbohydrates_100g": 69,
-      "energy_100g": 1962,
-      "fat_100g": 17,
-      "fiber_100g": 4,
-      "ingredients_text": "Céréale 50,7% (Farine de _blé_ 35%, farine de _blé_complète 15,7%), sucre, huiles végétales (palme, colza), cacao maigre en poudre 4,5%, sirop de glucose, amidon de _blé_, poudres à lever (carbonates acide d'ammonium, carbonates acide de sodium, diphosphate disodique), émulsifiant (lécithines de _soja_, lécithine de tournesol), sel, _lait_ écrémé en poudre, lactose et protéines de _lait_, arômes.Peut Contenir _Oeuf_",
-      "labels": "Distributor labels,Charte LU Harmony,Green Dot,Triman",
-      "lang": "fr",
-      "last_edit_dates_tags": [
-        "2024-05-10",
-        "2024-05",
-        "2024"
-      ],
-      "product_name": "Prince Chocolat biscuits au blé complet",
-      "proteins_100g": 6.3,
-      "salt_100g": 0.49,
-      "saturated-fat_100g": 5.6,
-      "sodium_100g": 0.196,
-      "sortkey": 1610831524,
-      "sugars_100g": 32
-    },
     {
       "brands": "Ferrero",
       "carbohydrates_100g": 57.5,
@@ -56,7 +12,7 @@
       "fiber_100g": 0,
       "ingredients_text": "Sucre, huile de palme, NOISETTES 13%, LAIT écrémé en poudre 8,7%, cacao maigre 7,4%, émulsifiants: lécithines [SOJA]; vanilline. Sans gluten",
       "labels": "No gluten,No preservatives,No colorings,No hydrogenated fats,Triman,fr:SGS",
-      "lang": "fr",
+      "lang": "en",
       "last_edit_dates_tags": [
         "2024-06-02",
         "2024-06",
@@ -69,130 +25,6 @@
       "sodium_100g": 0.0428,
       "sortkey": 1610107184,
       "sugars_100g": 56.3
-    },
-    {
-      "brands": "Coca cola",
-      "carbohydrates_100g": 10.6,
-      "energy_100g": 180,
-      "fat_100g": 0,
-      "ingredients_text": "Eau gazéifiée, sucre, colorant: E150d, acidifiant: acide phosphorique, arômes naturels, arôme caféine.",
-      "labels": "Fabriqué en France, Triman, Povratna naknada",
-      "lang": "fr",
-      "last_edit_dates_tags": [
-        "2024-05-02",
-        "2024-05",
-        "2024"
-      ],
-      "product_name": "Coca-cola",
-      "proteins_100g": 0,
-      "salt_100g": 0,
-      "saturated-fat_100g": 0,
-      "sodium_100g": 0,
-      "sortkey": 1593344515,
-      "sugars_100g": 10.6
-    },
-    {
-      "brands": "Nutella,Ferrero",
-      "carbohydrates_100g": 57.5,
-      "energy_100g": 2252,
-      "fat_100g": 30.9,
-      "fiber_100g": 0,
-      "ingredients_text": "Sucre, huile de palme, NOISETTES 13%, cacao maigre 7,4%, LAIT écrémé en poudre 6,6%, LACTOSERUM en poudre, émulsifiants: lécithines [SOJA), vanilline. Sans gluten.",
-      "labels": "No gluten,Triman,Ar:nogluten,Ar:sans Colorants,Ar:sans Conservateurs,Ar:sans Gluten,Ar:sans Graisses Hydrogénées,Ar:vérifié Par Sgs",
-      "lang": "fr",
-      "last_edit_dates_tags": [
-        "2024-06-04",
-        "2024-06",
-        "2024"
-      ],
-      "product_name": "Nutella",
-      "proteins_100g": 6.3,
-      "salt_100g": 0.107,
-      "saturated-fat_100g": 10.6,
-      "sodium_100g": 0.0428,
-      "sortkey": 1610877517,
-      "sugars_100g": 56.3
-    },
-    {
-      "brands": "Coca-Cola",
-      "carbohydrates_100g": 0,
-      "energy_100g": 1.4,
-      "fat_100g": 0,
-      "fiber_100g": 0,
-      "ingredients_text": "eau gazéifiée : colorant : E150d , acidifiant : acide phosphorique, édulcorants : aspartame, acésulfame-K , arômes naturels (caféine), correcteur d'acidité, citrates de sodium",
-      "labels": "Fabriqué en France, Arômes naturels, Sans matière grasse hydrogénée, Triman",
-      "lang": "fr",
-      "last_edit_dates_tags": [
-        "2024-05-22",
-        "2024-05",
-        "2024"
-      ],
-      "product_name": "Coca Cola Zero",
-      "proteins_100g": 0,
-      "salt_100g": 0.02,
-      "saturated-fat_100g": 0,
-      "sodium_100g": 0.008,
-      "sortkey": 1610610867,
-      "sugars_100g": 0
-    },
-    {
-      "brands": "Zurück zum Ursprung",
-      "carbohydrates_100g": 4,
-      "energy_100g": 736,
-      "fat_100g": 13,
-      "ingredients_text": "Ziegenfrischkäse, Salz",
-      "labels": "Bio,EU-Öko-Verordnung,AT-BIO-902",
-      "lang": "de",
-      "last_edit_dates_tags": [
-        "2024-04-21",
-        "2024-04",
-        "2024"
-      ],
-      "product_name": "Ziegenfrischkäse Natur",
-      "proteins_100g": 11,
-      "salt_100g": 0.8,
-      "saturated-fat_100g": 8.5,
-      "sodium_100g": 0.32,
-      "sugars_100g": 3.5
-    },
-    {
-      "lang": "de",
-      "last_edit_dates_tags": [
-        "2024-01-17",
-        "2024-01",
-        "2024"
-      ],
-      "product_name": "Bio Bergkäse gerieben"
-    },
-    {
-      "lang": "de",
-      "last_edit_dates_tags": [
-        "2024-01-17",
-        "2024-01",
-        "2024"
-      ],
-      "product_name": "Schweineschmalz"
-    },
-    {
-      "brands": "Coca Cola",
-      "carbohydrates_100g": 11.2,
-      "energy_100g": 190,
-      "fat_100g": 0,
-      "ingredients_text": "Wasser, Zucker, Kohlensäure, Farbstoff E 150d, Säuerungsmittel E338, natürliche Aromen, Aroma Koffein.",
-      "labels": "",
-      "lang": "de",
-      "last_edit_dates_tags": [
-        "2024-06-01",
-        "2024-06",
-        "2024"
-      ],
-      "product_name": "Coca Cola",
-      "proteins_100g": 0,
-      "salt_100g": 0,
-      "saturated-fat_100g": 0,
-      "sodium_100g": 0,
-      "sortkey": 1607896969,
-      "sugars_100g": 11.2
     }
   ],
   "skip": 0

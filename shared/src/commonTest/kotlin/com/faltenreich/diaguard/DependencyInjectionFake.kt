@@ -23,8 +23,8 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnitFakeDao
 import com.faltenreich.diaguard.measurement.value.MeasurementValueDao
 import com.faltenreich.diaguard.measurement.value.MeasurementValueFakeDao
 import com.faltenreich.diaguard.shared.file.SystemFileReader
-import com.faltenreich.diaguard.shared.localization.ResourceLocalization
-import com.faltenreich.diaguard.shared.localization.ResourceLocalizationFake
+import com.faltenreich.diaguard.shared.localization.FakeLocalization
+import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.ConsoleLogger
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.serialization.Serialization
@@ -62,7 +62,7 @@ fun testModules() = module {
 
     single<LegacyDao> { LegacyFakeDao() }
 
-    single<ResourceLocalization> { ResourceLocalizationFake() }
+    single<Localization> { FakeLocalization() }
 
     single {
         FoodSeed(

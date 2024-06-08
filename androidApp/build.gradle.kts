@@ -15,7 +15,7 @@ android {
         targetSdk = Constants.TargetSdk
         versionCode = Constants.VersionCode
         versionName = Constants.VersionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.faltenreich.diaguard.TestInstrumentationRunner"
     }
 
     buildTypes {
@@ -37,9 +37,11 @@ dependencies {
     implementation(project(":shared"))
 
     testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.junit.ktx)
+    androidTestImplementation(libs.koin.test)
 
     implementation(libs.activity.compose)
     implementation(libs.koin.core)

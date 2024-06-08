@@ -14,6 +14,7 @@ class FoodApiTest : TestSuite {
     @Test
     fun `search returns food`() = runTest {
         val response = api.search("", PagingPage(page = 0, pageSize = 10))
+        // FIXME: Fails in GitHub Action
         assertTrue(response.isNotEmpty())
     }
 }

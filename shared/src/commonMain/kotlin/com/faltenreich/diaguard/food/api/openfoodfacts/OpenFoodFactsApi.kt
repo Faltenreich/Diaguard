@@ -21,25 +21,16 @@ class OpenFoodFactsApi(
     override suspend fun search(query: String?, page: PagingPage): List<FoodFromApi> {
         val locale = localization.getLocale()
 
-        val host = "https://%s-%s.openfoodfacts.org/api/v2".format(
-            locale.region,
-            locale.language,
-        )
-
-        val arguments = mapOf(
-            "search_terms" to (query ?: ""),
-            "page" to (page.page + 1).toString(),
-            "page_size" to page.pageSize.toString(),
-            "cc" to locale.region,
-            "lc" to locale.language,
-            "json" to "1",
-            "fields" to OpenFoodFactsProduct.Fields.joinToString(","),
-        )
-
+        // FIXME: Language and search term do not fit
         val request = NetworkingRequest(
-            host = host,
-            path = "search",
-            arguments = arguments,
+            host = "%s-%s.openfoodfacts.org".format(locale.region, locale.language),
+            path = "api/v2/search",
+            arguments = mapOf(
+                "search_terms" to (query ?: ""),
+                "page" to (page.page + 1).toString(),
+                "page_size" to page.pageSize.toString(),
+                "fields" to OpenFoodFactsProduct.Fields.joinToString(","),
+            ),
         )
 
         return try {
@@ -47,18 +38,10 @@ class OpenFoodFactsApi(
             val json = client.request(request)
             Logger.debug("Requested $request: $json")
             val response = serialization.decodeJson<OpenFoodFactsResponse>(json)
-            // Products are returned for more languages than requested
-            val remote = response.products
-                // Products are returned in reverse order
-                .reversed()
-                .filter { product ->
-                    product.name?.isNotBlank() == true
-                        && product.carbohydrates != null
-                        && product.languageCode == locale.language
-                }
+            val remote = response.products.reversed()
             mapper(remote).sortedBy(FoodFromApi::name)
         } catch (exception: Exception) {
-            Logger.error("Request failed: $request", exception)
+            Logger.error("Request failed: $request $exception", exception)
             // FIXME: java.util.concurrent.CancellationException: Child of the scoped flow was cancelled
             // TODO: Propagate error to user
             emptyList()

@@ -15,37 +15,33 @@ class HasDataUseCaseTest {
 
     @Test
     fun `returns true if there are categories`() = runTest {
-        val dao = object : MeasurementCategoryFakeDao() {
-            override fun countAll(): Flow<Long> {
-                return flowOf(1L)
-            }
-        }
-        val repository = MeasurementCategoryRepository(
-            dao = dao,
-            dateTimeFactory = KotlinxDateTimeFactory()
+        val useCase = HasDataUseCase(
+            categoryRepository = MeasurementCategoryRepository(
+                dao = object : MeasurementCategoryFakeDao() {
+                    override fun countAll(): Flow<Long> {
+                        return flowOf(1L)
+                    }
+                },
+                dateTimeFactory = KotlinxDateTimeFactory(),
+            )
         )
-        val useCase = HasDataUseCase(repository)
-
         val result = useCase().first()
-
         assertTrue(result)
     }
 
     @Test
     fun `returns false if there are no categories`() = runTest {
-        val dao = object : MeasurementCategoryFakeDao() {
-            override fun countAll(): Flow<Long> {
-                return flowOf(0L)
-            }
-        }
-        val repository = MeasurementCategoryRepository(
-            dao = dao,
-            dateTimeFactory = KotlinxDateTimeFactory()
+        val useCase = HasDataUseCase(
+            categoryRepository = MeasurementCategoryRepository(
+                dao = object : MeasurementCategoryFakeDao() {
+                    override fun countAll(): Flow<Long> {
+                        return flowOf(0L)
+                    }
+                },
+                dateTimeFactory = KotlinxDateTimeFactory(),
+            )
         )
-        val useCase = HasDataUseCase(repository)
-
         val result = useCase().first()
-
         assertFalse(result)
     }
 }

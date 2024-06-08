@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.shared.localization
 
 import androidx.compose.ui.text.intl.Locale
+import org.jetbrains.compose.resources.StringResource
 
-class Localization(
-    private val resourceLocalization: ResourceLocalization,
-) : ResourceLocalization by resourceLocalization {
+interface Localization {
 
-    fun getLocale(): Locale {
-        // FIXME: Not testable
-        return Locale.current
-    }
+    fun getLocale(): Locale
+
+    fun getString(resource: StringResource, vararg args: Any): String
+
+    fun getFile(path: String): String
 }

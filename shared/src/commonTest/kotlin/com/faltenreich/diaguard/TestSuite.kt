@@ -21,6 +21,7 @@ interface TestSuite : KoinTest {
     @AfterTest
     @CallSuper
     fun afterTest() {
+        DependencyInjection.tearDown()
         Dispatchers.resetMain()
     }
 }

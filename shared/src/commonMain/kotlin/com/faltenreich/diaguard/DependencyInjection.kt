@@ -36,13 +36,14 @@ object DependencyInjection {
         modules: List<Module>,
         declaration: KoinAppDeclaration = {},
     ) {
-        // Ensure single source, e.g. during tests
-        stopKoin()
-
         startKoin {
             declaration()
             modules(modules)
         }
+    }
+
+    fun tearDown() {
+        stopKoin()
     }
 }
 

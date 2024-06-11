@@ -1,16 +1,20 @@
 package com.faltenreich.diaguard.backup.legacy
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 
 
 @RunWith(AndroidJUnit4::class)
 class LegacySqliteDaoTest {
 
-    // FIXME: KoinApplication has not been started
-    private val dao = LegacySqliteDao()
+    private val database = SqliteDatabase(file = File("TODO"))
+    private val dateTimeFactory = KotlinxDateTimeFactory()
+    private val dao = LegacySqliteDao(database, dateTimeFactory)
 
     @Test
     fun readsEntries() {

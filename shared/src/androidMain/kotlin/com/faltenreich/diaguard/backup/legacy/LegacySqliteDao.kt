@@ -8,13 +8,12 @@ import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
 import com.faltenreich.diaguard.shared.database.sqlite.getDouble
 import com.faltenreich.diaguard.shared.database.sqlite.getLong
 import com.faltenreich.diaguard.shared.database.sqlite.getString
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.Tag
 
-actual class LegacySqliteDao : LegacyDao {
-
-    private val database: SqliteDatabase = inject()
-    private val dateTimeFactory: DateTimeFactory = inject()
+actual class LegacySqliteDao(
+    private val database: SqliteDatabase,
+    private val dateTimeFactory: DateTimeFactory,
+) : LegacyDao {
 
     override fun getEntries(): List<Entry.Legacy> {
         val entries = mutableListOf<Entry.Legacy>()

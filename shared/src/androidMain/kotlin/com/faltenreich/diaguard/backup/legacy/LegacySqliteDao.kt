@@ -4,21 +4,25 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.database.sqlite.SqliteApi
+import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
+import com.faltenreich.diaguard.shared.database.sqlite.getDouble
+import com.faltenreich.diaguard.shared.database.sqlite.getLong
+import com.faltenreich.diaguard.shared.database.sqlite.getString
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.Tag
 
-class LegacyDatabase(
-    private val sqliteApi: SqliteApi,
-    private val dateTimeFactory: DateTimeFactory,
-) : LegacyDao {
+actual class LegacySqliteDao : LegacyDao {
+
+    private val database: SqliteDatabase = inject()
+    private val dateTimeFactory: DateTimeFactory = inject()
 
     override fun getEntries(): List<Entry.Legacy> {
         val entries = mutableListOf<Entry.Legacy>()
-        sqliteApi.queryEach("entry") {
-            val id = getLong("_id") ?: return@queryEach
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val dateTime = getLong("date")?.let(dateTimeFactory::dateTime) ?: return@queryEach
+        database.query("entry") {
+            val id = getLong("_id") ?: return@query
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val dateTime = getLong("date")?.let(dateTimeFactory::dateTime) ?: return@query
             entries.add(
                 Entry.Legacy(
                     id = id,
@@ -35,11 +39,11 @@ class LegacyDatabase(
     override fun getMeasurementValues(): List<MeasurementValue.Legacy> {
         val values = mutableListOf<MeasurementValue.Legacy>()
 
-        sqliteApi.queryEach("bloodsugar") {
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("mgDl")?.takeIf { it > 0 } ?: return@queryEach
+        database.query("bloodsugar") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val entryId = getLong("entry") ?: return@query
+            val value = getDouble("mgDl")?.takeIf { it > 0 } ?: return@query
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -50,10 +54,10 @@ class LegacyDatabase(
                 )
             )
         }
-        sqliteApi.queryEach("insulin") {
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val entryId = getLong("entry") ?: return@queryEach
+        database.query("insulin") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val entryId = getLong("entry") ?: return@query
             getDouble("bolus")?.takeIf { it > 0 }?.let { value ->
                 values.add(
                     MeasurementValue.Legacy(
@@ -88,11 +92,11 @@ class LegacyDatabase(
                 )
             }
         }
-        sqliteApi.queryEach("meal") {
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("carbohydrates")?.takeIf { it > 0 } ?: return@queryEach
+        database.query("meal") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val entryId = getLong("entry") ?: return@query
+            val value = getDouble("carbohydrates")?.takeIf { it > 0 } ?: return@query
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -103,11 +107,11 @@ class LegacyDatabase(
                 )
             )
         }
-        sqliteApi.queryEach("activity") {
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("minutes")?.takeIf { it > 0 } ?: return@queryEach
+        database.query("activity") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val entryId = getLong("entry") ?: return@query
+            val value = getDouble("minutes")?.takeIf { it > 0 } ?: return@query
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -118,11 +122,11 @@ class LegacyDatabase(
                 )
             )
         }
-        sqliteApi.queryEach("hba1c") {
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("percent")?.takeIf { it > 0 } ?: return@queryEach
+        database.query("hba1c") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val entryId = getLong("entry") ?: return@query
+            val value = getDouble("percent")?.takeIf { it > 0 } ?: return@query
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -133,11 +137,11 @@ class LegacyDatabase(
                 )
             )
         }
-        sqliteApi.queryEach("weight") {
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("kilogram")?.takeIf { it > 0 } ?: return@queryEach
+        database.query("weight") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val entryId = getLong("entry") ?: return@query
+            val value = getDouble("kilogram")?.takeIf { it > 0 } ?: return@query
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -148,11 +152,11 @@ class LegacyDatabase(
                 )
             )
         }
-        sqliteApi.queryEach("pulse") {
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("frequency")?.takeIf { it > 0 } ?: return@queryEach
+        database.query("pulse") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val entryId = getLong("entry") ?: return@query
+            val value = getDouble("frequency")?.takeIf { it > 0 } ?: return@query
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -163,10 +167,10 @@ class LegacyDatabase(
                 )
             )
         }
-        sqliteApi.queryEach("pressure") {
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val entryId = getLong("entry") ?: return@queryEach
+        database.query("pressure") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val entryId = getLong("entry") ?: return@query
             getDouble("systolic")?.takeIf { it > 0 }?.let { value ->
                 values.add(
                     MeasurementValue.Legacy(
@@ -190,11 +194,11 @@ class LegacyDatabase(
                 )
             }
         }
-        sqliteApi.queryEach("oxygensaturation") {
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("percent")?.takeIf { it > 0 } ?: return@queryEach
+        database.query("oxygensaturation") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val entryId = getLong("entry") ?: return@query
+            val value = getDouble("percent")?.takeIf { it > 0 } ?: return@query
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -210,10 +214,10 @@ class LegacyDatabase(
 
     override fun getTags(): List<Tag.Legacy> {
         val tags = mutableListOf<Tag.Legacy>()
-        sqliteApi.queryEach("tag") {
-            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
-            val name = getString("name") ?: return@queryEach
+        database.query("tag") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val name = getString("name") ?: return@query
             tags.add(
                 Tag.Legacy(
                     createdAt = createdAt,

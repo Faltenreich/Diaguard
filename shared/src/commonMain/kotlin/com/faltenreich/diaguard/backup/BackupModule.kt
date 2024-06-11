@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.backup
 
 import com.faltenreich.diaguard.backup.legacy.LegacyDao
-import com.faltenreich.diaguard.backup.legacy.LegacyDatabase
 import com.faltenreich.diaguard.backup.legacy.LegacyImport
 import com.faltenreich.diaguard.backup.legacy.LegacyRepository
+import com.faltenreich.diaguard.backup.legacy.LegacySqliteDao
 import com.faltenreich.diaguard.backup.seed.SeedImport
 import com.faltenreich.diaguard.backup.seed.SeedRepository
 import com.faltenreich.diaguard.backup.seed.data.ActivitySeed
@@ -37,7 +37,7 @@ fun backupModule() = module {
     singleOf(::SeedImport)
 
     singleOf(::LegacyRepository)
-    single<LegacyDao> { LegacyDatabase(sqliteApi = get(), dateTimeFactory = get()) }
+    single<LegacyDao> { LegacySqliteDao() }
     singleOf(::LegacyImport)
     singleOf(::ImportUseCase)
 }

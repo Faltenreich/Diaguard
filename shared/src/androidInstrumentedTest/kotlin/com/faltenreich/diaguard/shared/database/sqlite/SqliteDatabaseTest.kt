@@ -11,7 +11,7 @@ import java.io.FileOutputStream
 
 
 @RunWith(AndroidJUnit4::class)
-class SqliteAndroidApiTest {
+class SqliteDatabaseTest {
 
     @Test
     fun readsData() {
@@ -24,12 +24,13 @@ class SqliteAndroidApiTest {
         val outputStream = FileOutputStream(file)
         FileUtils.copy(inputStream, outputStream)
 
-        val api = SqliteAndroidApi(file)
+        val database = SqliteDatabase(file)
 
         val ids = mutableListOf<Long?>()
-        api.queryEach("entry") {
+        database.query("entry") {
             ids.add(getLong("_id"))
         }
+
         Assert.assertTrue(ids.filterNotNull().isNotEmpty())
     }
 }

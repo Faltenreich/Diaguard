@@ -63,6 +63,15 @@ kotlin {
                 implementation(libs.sqldelight.android)
             }
         }
+        val androidUnitTest by getting
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(libs.junit)
+                implementation(libs.androidx.test.runner)
+                implementation(libs.androidx.test.junit)
+                implementation(libs.androidx.test.junit.ktx)
+            }
+        }
         iosMain
     }
 
@@ -101,6 +110,8 @@ android {
     compileSdk = Constants.CompileSdk
     defaultConfig {
         minSdk = Constants.MinSdk
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
 
     compileOptions {

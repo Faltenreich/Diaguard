@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <boolean name="didImportCommonFoodForLanguageen" value="true" />
+    <boolean name="sound" value="true" />
+    <string name="theme">3</string>
+    <boolean name="vibration" value="true" />
+    <boolean name="didImportTagsForLanguageen" value="true" />
+    <string name="startscreen">0</string>
+    <int name="versionCode" value="61" />
+</map>

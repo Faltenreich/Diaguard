@@ -16,6 +16,7 @@ android {
         versionCode = Constants.VersionCode
         versionName = Constants.VersionName
         testInstrumentationRunner = "com.faltenreich.diaguard.TestInstrumentationRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
 
     buildTypes {

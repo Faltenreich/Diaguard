@@ -37,7 +37,7 @@ fun backupModule() = module {
     singleOf(::SeedImport)
 
     singleOf(::LegacyRepository)
-    single<LegacyDao> { LegacyDatabase() }
+    single<LegacyDao> { LegacyDatabase(sqliteApi = get(), dateTimeFactory = get()) }
     singleOf(::LegacyImport)
     singleOf(::ImportUseCase)
 }

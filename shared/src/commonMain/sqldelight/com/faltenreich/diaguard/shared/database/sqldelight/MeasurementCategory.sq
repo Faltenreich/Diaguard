@@ -2,7 +2,7 @@ CREATE TABLE MeasurementCategory (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     createdAt TEXT NOT NULL,
     updatedAt TEXT NOT NULL,
-    key TEXT,
+    key TEXT UNIQUE,
     name TEXT NOT NULL,
     icon TEXT,
     sortIndex INTEGER NOT NULL,

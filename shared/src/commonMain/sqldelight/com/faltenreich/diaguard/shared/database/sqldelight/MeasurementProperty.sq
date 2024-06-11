@@ -2,7 +2,7 @@ CREATE TABLE MeasurementProperty (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     createdAt TEXT NOT NULL,
     updatedAt TEXT NOT NULL,
-    key TEXT,
+    key TEXT UNIQUE,
     name TEXT NOT NULL,
     sortIndex INTEGER NOT NULL,
     aggregationStyle INTEGER NOT NULL,

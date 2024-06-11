@@ -2,7 +2,7 @@ CREATE TABLE MeasurementUnit (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     createdAt TEXT NOT NULL,
     updatedAt TEXT NOT NULL,
-    key TEXT,
+    key TEXT UNIQUE,
     name TEXT NOT NULL,
     abbreviation TEXT NOT NULL,
     factor REAL NOT NULL,

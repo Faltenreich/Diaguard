@@ -49,6 +49,7 @@ class MainViewModel(
         scope.launch {
             // TODO: Check if this works as intended
             hasData().collect { hasData ->
+                // FIXME: Violates unique constraints if executed redundantly
                 if (!hasData) {
                     importData()
                 }

@@ -28,11 +28,13 @@ import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUni
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementValueSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.TagSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
+import com.faltenreich.diaguard.shared.database.sqlite.sqliteModule
 import com.faltenreich.diaguard.tag.TagDao
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 fun databaseModule() = module {
+    includes(sqliteModule())
     includes(sqlDelightModule())
 
     singleOf(::SqlDelightDatabase)

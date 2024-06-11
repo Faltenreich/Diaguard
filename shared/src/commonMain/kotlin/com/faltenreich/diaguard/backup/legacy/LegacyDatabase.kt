@@ -39,7 +39,7 @@ class LegacyDatabase(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("mgDl") ?: return@queryEach
+            val value = getDouble("mgDl")?.takeIf { it > 0 } ?: return@queryEach
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -54,7 +54,7 @@ class LegacyDatabase(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val entryId = getLong("entry") ?: return@queryEach
-            getDouble("bolus")?.let { value ->
+            getDouble("bolus")?.takeIf { it > 0 }?.let { value ->
                 values.add(
                     MeasurementValue.Legacy(
                         createdAt = createdAt,
@@ -65,7 +65,7 @@ class LegacyDatabase(
                     )
                 )
             }
-            getDouble("correction")?.let { value ->
+            getDouble("correction")?.takeIf { it > 0 }?.let { value ->
                 values.add(
                     MeasurementValue.Legacy(
                         createdAt = createdAt,
@@ -76,7 +76,7 @@ class LegacyDatabase(
                     )
                 )
             }
-            getDouble("basal")?.let { value ->
+            getDouble("basal")?.takeIf { it > 0 }?.let { value ->
                 values.add(
                     MeasurementValue.Legacy(
                         createdAt = createdAt,
@@ -92,7 +92,7 @@ class LegacyDatabase(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("carbohydrates") ?: return@queryEach
+            val value = getDouble("carbohydrates")?.takeIf { it > 0 } ?: return@queryEach
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -107,7 +107,7 @@ class LegacyDatabase(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("minutes") ?: return@queryEach
+            val value = getDouble("minutes")?.takeIf { it > 0 } ?: return@queryEach
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -122,7 +122,7 @@ class LegacyDatabase(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("percent") ?: return@queryEach
+            val value = getDouble("percent")?.takeIf { it > 0 } ?: return@queryEach
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -137,7 +137,7 @@ class LegacyDatabase(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("kilogram") ?: return@queryEach
+            val value = getDouble("kilogram")?.takeIf { it > 0 } ?: return@queryEach
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -152,7 +152,7 @@ class LegacyDatabase(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("frequency") ?: return@queryEach
+            val value = getDouble("frequency")?.takeIf { it > 0 } ?: return@queryEach
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,
@@ -167,7 +167,7 @@ class LegacyDatabase(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val entryId = getLong("entry") ?: return@queryEach
-            getDouble("systolic")?.let { value ->
+            getDouble("systolic")?.takeIf { it > 0 }?.let { value ->
                 values.add(
                     MeasurementValue.Legacy(
                         createdAt = createdAt,
@@ -178,7 +178,7 @@ class LegacyDatabase(
                     )
                 )
             }
-            getDouble("diastolic")?.let { value ->
+            getDouble("diastolic")?.takeIf { it > 0 }?.let { value ->
                 values.add(
                     MeasurementValue.Legacy(
                         createdAt = createdAt,
@@ -194,7 +194,7 @@ class LegacyDatabase(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@queryEach
             val entryId = getLong("entry") ?: return@queryEach
-            val value = getDouble("percent") ?: return@queryEach
+            val value = getDouble("percent")?.takeIf { it > 0 } ?: return@queryEach
             values.add(
                 MeasurementValue.Legacy(
                     createdAt = createdAt,

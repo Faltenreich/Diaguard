@@ -30,7 +30,8 @@ INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.pro
 INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime ORDER BY Entry.dateTime;
+WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime
+ORDER BY Entry.dateTime;
 
 getLatestByCategory:
 SELECT * FROM MeasurementValue
@@ -39,6 +40,7 @@ INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.categoryId == :categoryId
+AND Entry.dateTime <= :dateTime
 ORDER BY Entry.dateTime DESC
 LIMIT 1;
 

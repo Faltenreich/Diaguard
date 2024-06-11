@@ -38,8 +38,14 @@ class MeasurementValueRepository(
         return dao.observeByDateRange(startDateTime, endDateTime)
     }
 
-    fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue.Local?> {
-        return dao.observeLatestByCategoryId(categoryId)
+    fun observeLatestByCategoryId(
+        dateTime: DateTime,
+        categoryId: Long,
+    ): Flow<MeasurementValue.Local?> {
+        return dao.observeLatestByCategoryId(
+            dateTime = dateTime,
+            categoryId = categoryId,
+        )
     }
 
     fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {

@@ -59,8 +59,15 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue.Local?> {
-        return queries.getLatestByCategory(categoryId, mapper::map).asFlow().mapToOneOrNull(dispatcher)
+    override fun observeLatestByCategoryId(
+        dateTime: DateTime,
+        categoryId: Long,
+    ): Flow<MeasurementValue.Local?> {
+        return queries.getLatestByCategory(
+            categoryId = categoryId,
+            dateTime = dateTime.isoString,
+            mapper::map,
+        ).asFlow().mapToOneOrNull(dispatcher)
     }
 
     override fun observeCountByCategoryId(categoryId: Long): Flow<Long> {

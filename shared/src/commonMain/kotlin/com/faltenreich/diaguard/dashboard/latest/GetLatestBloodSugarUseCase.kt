@@ -23,8 +23,12 @@ class GetLatestBloodSugarUseCase(
 
     operator fun invoke(): Flow<DashboardViewState.LatestBloodSugar?> {
         return categoryRepository.observeBloodSugar().flatMapLatest { category ->
+            val dateTime = dateTimeFactory.now()
             val categoryId = category?.id ?: return@flatMapLatest flowOf(null)
-            valueRepository.observeLatestByCategoryId(categoryId).map { value ->
+            valueRepository.observeLatestByCategoryId(
+                dateTime = dateTime,
+                categoryId = categoryId,
+            ).map { value ->
                 when (value) {
                     null -> null
                     else -> DashboardViewState.LatestBloodSugar(

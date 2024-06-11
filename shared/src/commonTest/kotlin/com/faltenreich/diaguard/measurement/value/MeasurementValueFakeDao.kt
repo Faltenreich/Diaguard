@@ -51,8 +51,15 @@ open class MeasurementValueFakeDao(
         )
     }
 
-    override fun observeLatestByCategoryId(categoryId: Long): Flow<MeasurementValue.Local?> {
-        return flowOf(cache.firstOrNull { it.property.category.id == categoryId })
+    override fun observeLatestByCategoryId(
+        dateTime: DateTime,
+        categoryId: Long,
+    ): Flow<MeasurementValue.Local?> {
+        return flowOf(
+            cache.firstOrNull {
+                it.property.category.id == categoryId && it.entry.dateTime <= dateTime
+            }
+        )
 
     }
 

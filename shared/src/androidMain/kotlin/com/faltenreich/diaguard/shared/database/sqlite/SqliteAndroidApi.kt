@@ -1,20 +1,14 @@
 package com.faltenreich.diaguard.shared.database.sqlite
 
-import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.faltenreich.diaguard.shared.logging.Logger
+import java.io.File
 
-class SqliteAndroidApi(context: Context) : SqliteApi {
+class SqliteAndroidApi(file: File) : SqliteApi {
 
-    private val database: SQLiteDatabase?
-
-    init {
-        val databaseFile = context.getDatabasePath("diaguard.db")
-        database = if (databaseFile.exists()) {
-            SQLiteDatabase.openDatabase(databaseFile.absolutePath, null, 0)
-        } else {
-            null
-        }
+    private val database: SQLiteDatabase? by lazy {
+        if (file.exists()) SQLiteDatabase.openDatabase(file.absolutePath, null, 0)
+        else null
     }
 
     override fun queryEach(

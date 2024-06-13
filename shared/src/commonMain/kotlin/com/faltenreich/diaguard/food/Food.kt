@@ -24,6 +24,7 @@ sealed interface Food {
     val sugar: Double?
 
     data class Legacy(
+        val id: Long,
         val createdAt: DateTime,
         val updatedAt: DateTime,
         override val uuid: String?,

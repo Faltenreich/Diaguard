@@ -217,12 +217,14 @@ actual class LegacySqliteDao(
     override fun getFood(): List<Food.Legacy> {
         val food = mutableListOf<Food.Legacy>()
         database.query("food") {
+            val id = getLong("_id") ?: return@query
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val name = getString("name") ?: return@query
             val carbohydrates = getDouble("carbohydrates")?.takeIf { it > 0 } ?: return@query
             food.add(
                 Food.Legacy(
+                    id = id,
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     uuid = getString("serverId"),
@@ -269,11 +271,13 @@ actual class LegacySqliteDao(
     override fun getTags(): List<Tag.Legacy> {
         val tags = mutableListOf<Tag.Legacy>()
         database.query("tag") {
+            val id = getLong("_id") ?: return@query
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val name = getString("name") ?: return@query
             tags.add(
                 Tag.Legacy(
+                    id = id,
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                     name = name,

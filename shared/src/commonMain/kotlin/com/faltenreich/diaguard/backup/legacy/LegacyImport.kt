@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.tag.TagRepository
 
 /**
  * Import from database of previous app version
@@ -14,6 +15,7 @@ class LegacyImport(
     private val entryRepository: EntryRepository,
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
+    private val tagRepository: TagRepository,
 ) : Import {
 
     override fun import() {
@@ -21,7 +23,6 @@ class LegacyImport(
 
         val entries = legacyRepository.getEntries()
         val values = legacyRepository.getMeasurementValues()
-
         entries.forEach { entryLegacy ->
             val entryLegacyId = entryLegacy.id
             val entryId = entryRepository.create(entryLegacy)
@@ -35,10 +36,20 @@ class LegacyImport(
                 valueRepository.create(value)
             }
         }
+        Logger.info("Imported ${entries.size} entries with ${values.size} values")
 
-        // TODO: Import tags and food
+        // TODO: Find way to match legacy with new entity
+
+        val food = legacyRepository.getFood()
+        val foodEaten = legacyRepository.getFoodEaten()
+        Logger.info("Imported ${food.size} food with ${foodEaten.size} food eaten")
+
         val tags = legacyRepository.getTags()
-
-        Logger.info("Imported ${entries.size} entries, ${values.size} values and ${tags.size} tags")
+        val entryTags = legacyRepository.getEntryTags()
+        tags.forEach { tag ->
+            val tagLegacyId = tag.id
+            val tagId = tagRepository.getByName(tag.name)?.id ?: tagRepository.create(tag)
+        }
+        Logger.info("Imported ${tags.size} tags with ${entryTags.size} entry tags")
     }
 }

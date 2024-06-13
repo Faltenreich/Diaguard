@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.backup.legacy
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
 import com.faltenreich.diaguard.shared.test.FileFactory
 import com.faltenreich.diaguard.tag.Tag
@@ -90,6 +91,18 @@ class LegacySqliteDaoTest {
 
     @Test
     fun readsEntryTags() {
-        Assert.assertTrue(dao.getEntryTags().isNotEmpty())
+        val expected = arrayOf(
+            EntryTag.Legacy(
+                createdAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:38.200"),
+                updatedAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:38.200"),
+                entryId = 1,
+                tagId = 1,
+            )
+        )
+        val actual = dao.getEntryTags().toTypedArray()
+        Assert.assertArrayEquals(
+            expected,
+            actual,
+        )
     }
 }

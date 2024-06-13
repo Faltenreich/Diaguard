@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.backup.legacy
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
@@ -22,7 +23,31 @@ class LegacySqliteDaoTest {
 
     @Test
     fun readsEntries() {
-        Assert.assertTrue(dao.getEntries().isNotEmpty())
+        val expected = listOf(
+            Entry.Legacy(
+                id = 1,
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198200),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198200),
+                dateTime = dateTimeFactory.dateTime(millis = 1715234400000),
+                note = "Hello, World",
+            ),
+            Entry.Legacy(
+                id = 2,
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198204),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198204),
+                dateTime = dateTimeFactory.dateTime(millis = 1717221600000),
+                note = null,
+            ),
+            Entry.Legacy(
+                id = 3,
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198208),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198208),
+                dateTime = dateTimeFactory.dateTime(millis = 1717308000000),
+                note = null,
+            ),
+        ).toTypedArray()
+        val actual = dao.getEntries().toTypedArray()
+        Assert.assertArrayEquals(expected, actual)
     }
 
     @Test

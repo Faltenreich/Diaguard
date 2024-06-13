@@ -13,7 +13,7 @@ class FoodEatenSqlDelightMapper(
         foodEatenId: Long,
         foodEatenCreatedAt: String,
         foodEatenUpdatedAt: String,
-        foodEatenAmountInGrams: Long,
+        foodEatenAmountInGrams: Double,
         @Suppress("UNUSED_PARAMETER") foodEatenFoodId: Long,
         @Suppress("UNUSED_PARAMETER") foodEatenEntryId: Long,
 

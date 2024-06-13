@@ -256,7 +256,7 @@ actual class LegacySqliteDao(
                 FoodEaten.Legacy(
                     createdAt = createdAt,
                     updatedAt = updatedAt,
-                    amountInGrams = amountInGrams.toLong(),
+                    amountInGrams = amountInGrams,
                     foodId = foodId,
                     mealId = mealId,
                 )

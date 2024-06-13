@@ -18,7 +18,7 @@ open class FoodEatenFakeDao(
     override fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
-        amountInGrams: Long,
+        amountInGrams: Double,
         foodId: Long,
         entryId: Long
     ) {
@@ -48,7 +48,11 @@ open class FoodEatenFakeDao(
         return cache.filter { it.entry.id == entryId }
     }
 
-    override fun update(id: Long, updatedAt: DateTime, amountInGrams: Long) {
+    override fun update(
+        id: Long,
+        updatedAt: DateTime,
+        amountInGrams: Double,
+    ) {
         val entity = cache.firstOrNull { it.id == id } ?: return
         val index = cache.indexOf(entity)
         cache[index] = entity.copy(

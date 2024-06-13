@@ -10,15 +10,14 @@ import com.faltenreich.diaguard.shared.database.DatabaseEntity
  */
 sealed interface FoodEaten {
 
-    // TODO: Change to Double
-    val amountInGrams: Long
+    val amountInGrams: Double
     val food: Food.Local
     val entry: Entry.Local
 
     data class Legacy(
         val createdAt: DateTime,
         val updatedAt: DateTime,
-        override val amountInGrams: Long,
+        override val amountInGrams: Double,
         val foodId: Long,
         val mealId: Long,
     ) : FoodEaten {
@@ -28,7 +27,7 @@ sealed interface FoodEaten {
     }
 
     data class Intermediate(
-        override val amountInGrams: Long,
+        override val amountInGrams: Double,
         override val food: Food.Local,
         override val entry: Entry.Local,
     ) : FoodEaten
@@ -37,7 +36,7 @@ sealed interface FoodEaten {
         override val id: Long,
         override val createdAt: DateTime,
         override val updatedAt: DateTime,
-        override val amountInGrams: Long,
+        override val amountInGrams: Double,
         override val food: Food.Local,
         override val entry: Entry.Local,
     ) : FoodEaten, DatabaseEntity

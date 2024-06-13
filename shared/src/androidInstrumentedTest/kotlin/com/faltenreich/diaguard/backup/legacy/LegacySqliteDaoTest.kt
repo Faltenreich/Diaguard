@@ -42,41 +42,49 @@ class LegacySqliteDaoTest {
     fun readsTags() {
         val expected = arrayOf(
             Tag.Legacy(
+                id = 1,
                 createdAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.888"),
                 updatedAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.888"),
                 name = "after the sport",
             ),
             Tag.Legacy(
+                id = 2,
                 createdAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.898"),
                 updatedAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.898"),
                 name = "before the sport",
             ),
             Tag.Legacy(
+                id = 3,
                 createdAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.898"),
                 updatedAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.898"),
                 name = "sick",
             ),
             Tag.Legacy(
+                id = 4,
                 createdAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.899"),
                 updatedAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.899"),
                 name = "tired",
             ),
             Tag.Legacy(
+                id = 5,
                 createdAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.899"),
                 updatedAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.899"),
                 name = "excited",
             ),
             Tag.Legacy(
+                id = 6,
                 createdAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.899"),
                 updatedAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.899"),
                 name = "happy",
             ),
             Tag.Legacy(
+                id = 7,
                 createdAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.899"),
                 updatedAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.899"),
                 name = "falling asleep",
             ),
             Tag.Legacy(
+                id = 8,
                 createdAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.899"),
                 updatedAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:37.899"),
                 name = "just woke up",

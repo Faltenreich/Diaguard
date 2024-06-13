@@ -6,6 +6,8 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
 import com.faltenreich.diaguard.shared.test.FileFactory
 import com.faltenreich.diaguard.tag.Tag
@@ -23,7 +25,7 @@ class LegacySqliteDaoTest {
 
     @Test
     fun readsEntries() {
-        val expected = listOf(
+        val expected = arrayOf(
             Entry.Legacy(
                 id = 1,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198200),
@@ -45,14 +47,73 @@ class LegacySqliteDaoTest {
                 dateTime = dateTimeFactory.dateTime(millis = 1717308000000),
                 note = null,
             ),
-        ).toTypedArray()
+        )
         val actual = dao.getEntries().toTypedArray()
         Assert.assertArrayEquals(expected, actual)
     }
 
     @Test
     fun readsMeasurements() {
-        Assert.assertTrue(dao.getMeasurementValues().isNotEmpty())
+        val expected = arrayOf(
+            MeasurementValue.Legacy(
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198203),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198203),
+                value = 100.0,
+                propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
+                entryId = 1,
+            ),
+            MeasurementValue.Legacy(
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198206),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198206),
+                value = 100.0,
+                propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
+                entryId = 2,
+            ),
+            MeasurementValue.Legacy(
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198208),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198208),
+                value = 120.0,
+                propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
+                entryId = 3,
+            ),
+            MeasurementValue.Legacy(
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198228),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198228),
+                value = 1.0,
+                propertyKey = DatabaseKey.MeasurementProperty.INSULIN_BOLUS,
+                entryId = 1,
+            ),
+            MeasurementValue.Legacy(
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198246),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198246),
+                value = 6.0,
+                propertyKey = DatabaseKey.MeasurementProperty.INSULIN_BOLUS,
+                entryId = 2,
+            ),
+            MeasurementValue.Legacy(
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198244),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198244),
+                value = 60.0,
+                propertyKey = DatabaseKey.MeasurementProperty.MEAL,
+                entryId = 2,
+            ),
+            MeasurementValue.Legacy(
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198232),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198232),
+                value = 30.0,
+                propertyKey = DatabaseKey.MeasurementProperty.ACTIVITY,
+                entryId = 2,
+            ),
+            MeasurementValue.Legacy(
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198241),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198241),
+                value = 90.0,
+                propertyKey = DatabaseKey.MeasurementProperty.PULSE,
+                entryId = 3,
+            ),
+        )
+        val actual = dao.getMeasurementValues().toTypedArray()
+        Assert.assertArrayEquals(expected, actual)
     }
 
     @Test

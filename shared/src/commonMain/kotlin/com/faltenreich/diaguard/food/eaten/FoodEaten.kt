@@ -10,9 +10,22 @@ import com.faltenreich.diaguard.shared.database.DatabaseEntity
  */
 sealed interface FoodEaten {
 
+    // TODO: Change to Double
     val amountInGrams: Long
     val food: Food.Local
     val entry: Entry.Local
+
+    data class Legacy(
+        val createdAt: DateTime,
+        val updatedAt: DateTime,
+        override val amountInGrams: Long,
+        val foodId: Long,
+        val mealId: Long,
+    ) : FoodEaten {
+
+        override lateinit var food: Food.Local
+        override lateinit var entry: Entry.Local
+    }
 
     data class Intermediate(
         override val amountInGrams: Long,

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.legacy
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
@@ -241,6 +242,27 @@ actual class LegacySqliteDao(
             )
         }
         return food
+    }
+
+    override fun getFoodEaten(): List<FoodEaten.Legacy> {
+        val foodEaten = mutableListOf<FoodEaten.Legacy>()
+        database.query("foodeaten") {
+            val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
+            val foodId = getLong("food") ?: return@query
+            val mealId = getLong("meal") ?: return@query
+            val amountInGrams = getDouble("amountInGrams") ?: return@query
+            foodEaten.add(
+                FoodEaten.Legacy(
+                    createdAt = createdAt,
+                    updatedAt = updatedAt,
+                    amountInGrams = amountInGrams.toLong(),
+                    foodId = foodId,
+                    mealId = mealId,
+                )
+            )
+        }
+        return foodEaten
     }
 
     override fun getTags(): List<Tag.Legacy> {

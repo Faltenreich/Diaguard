@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.backup.legacy
 
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
@@ -28,6 +29,10 @@ actual class LegacySqliteDao : LegacyDao {
     }
 
     override fun getTags(): List<Tag.Legacy> {
+        return emptyList()
+    }
+
+    override fun getEntryTags(): List<EntryTag.Legacy> {
         return emptyList()
     }
 }

@@ -87,4 +87,9 @@ class LegacySqliteDaoTest {
             actual,
         )
     }
+
+    @Test
+    fun readsEntryTags() {
+        Assert.assertTrue(dao.getEntryTags().isNotEmpty())
+    }
 }

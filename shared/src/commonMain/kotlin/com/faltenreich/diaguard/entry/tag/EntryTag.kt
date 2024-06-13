@@ -13,6 +13,17 @@ sealed interface EntryTag {
     val entry: Entry.Local
     val tag: Tag.Local
 
+    data class Legacy(
+        val createdAt: DateTime,
+        val updatedAt: DateTime,
+        val entryId: Long,
+        val tagId: Long,
+    ) : EntryTag {
+
+        override lateinit var entry: Entry.Local
+        override lateinit var tag: Tag.Local
+    }
+
     data class Intermediate(
         override val entry: Entry.Local,
         override val tag: Tag.Local,

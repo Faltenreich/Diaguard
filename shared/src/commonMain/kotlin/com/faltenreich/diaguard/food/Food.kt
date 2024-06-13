@@ -23,6 +23,25 @@ sealed interface Food {
     val sodium: Double?
     val sugar: Double?
 
+    data class Legacy(
+        val createdAt: DateTime,
+        val updatedAt: DateTime,
+        override val uuid: String?,
+        override val name: String,
+        override val brand: String?,
+        override val ingredients: String?,
+        override val labels: String?,
+        override val carbohydrates: Double,
+        override val energy: Double?,
+        override val fat: Double?,
+        override val fatSaturated: Double?,
+        override val fiber: Double?,
+        override val proteins: Double?,
+        override val salt: Double?,
+        override val sodium: Double?,
+        override val sugar: Double?,
+    ) : Food, RemoteEntity
+
     data class User(
         override val name: String,
         override val brand: String?,

@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.datetime.Time
-import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.LocalDate
@@ -120,11 +119,7 @@ class KotlinxDate(
     }
 
     override fun toString(): String {
-        return "%02d.%02d.%04d".format(
-            dayOfMonth,
-            monthNumber,
-            year,
-        )
+        return delegate.toString()
     }
 
     override fun readObject(inputStream: ObjectInputStream) {

@@ -11,6 +11,28 @@ class FoodRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
+    fun create(food: Food.Legacy): Long = with(food) {
+        dao.create(
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            uuid = uuid,
+            name = name,
+            brand = brand,
+            ingredients = ingredients,
+            labels = labels,
+            carbohydrates = carbohydrates,
+            energy = energy,
+            fat = fat,
+            fatSaturated = fatSaturated,
+            fiber = fiber,
+            proteins = proteins,
+            salt = salt,
+            sodium = sodium,
+            sugar = sugar,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
     fun create(food: Food.User): Long = with(food) {
         val now = dateTimeFactory.now()
         dao.create(

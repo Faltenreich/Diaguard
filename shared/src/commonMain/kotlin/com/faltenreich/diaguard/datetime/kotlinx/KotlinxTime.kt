@@ -2,9 +2,8 @@ package com.faltenreich.diaguard.datetime.kotlinx
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.datetime.Time
-import com.faltenreich.diaguard.shared.primitive.format
+import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.LocalTime
@@ -80,12 +79,7 @@ class KotlinxTime(
     }
 
     override fun toString(): String {
-        return "%02d:%02d:%02d.%04d".format(
-            hourOfDay,
-            minuteOfHour,
-            secondOfMinute,
-            millisOfSecond,
-        )
+        return delegate.toString()
     }
 
     override fun readObject(inputStream: ObjectInputStream) {

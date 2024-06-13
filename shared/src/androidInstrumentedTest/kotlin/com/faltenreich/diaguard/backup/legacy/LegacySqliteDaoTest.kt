@@ -28,6 +28,11 @@ class LegacySqliteDaoTest {
     }
 
     @Test
+    fun readsFood() {
+        Assert.assertTrue(dao.getFood().isNotEmpty())
+    }
+
+    @Test
     fun readsTags() {
         val expected = arrayOf(
             Tag.Legacy(

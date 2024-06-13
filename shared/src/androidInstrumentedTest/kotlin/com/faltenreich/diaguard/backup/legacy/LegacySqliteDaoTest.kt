@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
 import com.faltenreich.diaguard.shared.test.FileFactory
 import com.faltenreich.diaguard.tag.Tag
@@ -77,7 +78,17 @@ class LegacySqliteDaoTest {
 
     @Test
     fun readsFoodEaten() {
-        Assert.assertTrue(dao.getFoodEaten().isNotEmpty())
+        val expected = arrayOf(
+            FoodEaten.Legacy(
+                createdAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:38.225"),
+                updatedAt = dateTimeFactory.dateTime(isoString = "2024-06-08T18:46:38.225"),
+                amountInGrams = 100.0,
+                foodId = 962,
+                mealId = 1,
+            ),
+        )
+        val actual = dao.getFoodEaten().toTypedArray()
+        Assert.assertArrayEquals(expected, actual)
     }
 
     @Test

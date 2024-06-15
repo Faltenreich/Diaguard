@@ -1,5 +1,11 @@
 package com.faltenreich.diaguard.backup.legacy
 
+import com.faltenreich.diaguard.backup.legacy.dao.LegacyEntrySqliteDao
+import com.faltenreich.diaguard.backup.legacy.dao.LegacyEntryTagSqliteDao
+import com.faltenreich.diaguard.backup.legacy.dao.LegacyFoodEatenSqliteDao
+import com.faltenreich.diaguard.backup.legacy.dao.LegacyFoodSqliteDao
+import com.faltenreich.diaguard.backup.legacy.dao.LegacyMeasurementValueSqliteDao
+import com.faltenreich.diaguard.backup.legacy.dao.LegacyTagSqliteDao
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food

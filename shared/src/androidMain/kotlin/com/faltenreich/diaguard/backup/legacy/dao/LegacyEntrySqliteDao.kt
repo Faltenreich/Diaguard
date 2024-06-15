@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.backup.legacy
+package com.faltenreich.diaguard.backup.legacy.dao
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry

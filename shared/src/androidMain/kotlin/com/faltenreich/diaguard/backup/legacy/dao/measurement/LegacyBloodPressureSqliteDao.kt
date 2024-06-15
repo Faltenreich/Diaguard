@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.backup.legacy.measurement
+package com.faltenreich.diaguard.backup.legacy.dao.measurement
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.value.MeasurementValue

@@ -1,54 +1,54 @@
 package com.faltenreich.diaguard.backup.legacy
 
-import com.faltenreich.diaguard.backup.legacy.dao.LegacyEntrySqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.LegacyEntryTagSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.LegacyFoodEatenSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.LegacyFoodSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.LegacyMeasurementValueSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.LegacyTagSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.measurement.LegacyActivitySqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.measurement.LegacyBloodPressureSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.measurement.LegacyBloodSugarSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.measurement.LegacyHbA1cSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.measurement.LegacyInsulinSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.measurement.LegacyMealSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.measurement.LegacyOxygenSaturationSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.measurement.LegacyPulseSqliteDao
-import com.faltenreich.diaguard.backup.legacy.dao.measurement.LegacyWeightSqliteDao
+import com.faltenreich.diaguard.backup.legacy.query.EntryLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.EntryTagLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.FoodEatenLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.FoodLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.MeasurementValueLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.TagLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.measurement.ActivityLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.measurement.BloodPressureLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.measurement.BloodSugarLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.measurement.HbA1cLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.measurement.InsulinLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.measurement.MealLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.measurement.OxygenSaturationLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.measurement.PulseLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.measurement.WeightLegacyQueries
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 actual fun legacyDaoModule() = module {
-    singleOf(::LegacyEntrySqliteDao)
+    singleOf(::EntryLegacyQueries)
 
-    singleOf(::LegacyBloodSugarSqliteDao)
-    singleOf(::LegacyInsulinSqliteDao)
-    singleOf(::LegacyMealSqliteDao)
-    singleOf(::LegacyActivitySqliteDao)
-    singleOf(::LegacyHbA1cSqliteDao)
-    singleOf(::LegacyWeightSqliteDao)
-    singleOf(::LegacyPulseSqliteDao)
-    singleOf(::LegacyBloodPressureSqliteDao)
-    singleOf(::LegacyOxygenSaturationSqliteDao)
+    singleOf(::BloodSugarLegacyQueries)
+    singleOf(::InsulinLegacyQueries)
+    singleOf(::MealLegacyQueries)
+    singleOf(::ActivityLegacyQueries)
+    singleOf(::HbA1cLegacyQueries)
+    singleOf(::WeightLegacyQueries)
+    singleOf(::PulseLegacyQueries)
+    singleOf(::BloodPressureLegacyQueries)
+    singleOf(::OxygenSaturationLegacyQueries)
 
-    singleOf(::LegacyMeasurementValueSqliteDao)
+    singleOf(::MeasurementValueLegacyQueries)
 
-    singleOf(::LegacyFoodSqliteDao)
+    singleOf(::FoodLegacyQueries)
 
-    singleOf(::LegacyFoodEatenSqliteDao)
+    singleOf(::FoodEatenLegacyQueries)
 
-    singleOf(::LegacyTagSqliteDao)
+    singleOf(::TagLegacyQueries)
 
-    singleOf(::LegacyEntryTagSqliteDao)
+    singleOf(::EntryTagLegacyQueries)
 
     single<LegacyDao> {
         LegacySqliteDao(
-            entryDao = get(),
-            measurementValueDao = get(),
-            foodDao = get(),
-            foodEatenDao = get(),
-            tagDao = get(),
-            entryTagDao = get(),
+            entryQueries = get(),
+            measurementValueQueries = get(),
+            foodQueries = get(),
+            foodEatenQueries = get(),
+            tagQueries = get(),
+            entryTagQueries = get(),
         )
     }
 }

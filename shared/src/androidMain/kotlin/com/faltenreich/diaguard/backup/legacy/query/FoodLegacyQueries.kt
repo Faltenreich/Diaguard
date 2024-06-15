@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.backup.legacy.dao
+package com.faltenreich.diaguard.backup.legacy.query
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.Food
@@ -7,12 +7,12 @@ import com.faltenreich.diaguard.shared.database.sqlite.getDouble
 import com.faltenreich.diaguard.shared.database.sqlite.getLong
 import com.faltenreich.diaguard.shared.database.sqlite.getString
 
-class LegacyFoodSqliteDao(
+class FoodLegacyQueries(
     private val database: SqliteDatabase,
     private val dateTimeFactory: DateTimeFactory,
-) {
+) : LegacyQueries<Food.Legacy> {
 
-    fun getFood(): List<Food.Legacy> {
+    override fun getAll(): List<Food.Legacy> {
         val food = mutableListOf<Food.Legacy>()
         database.query("food") {
             val id = getLong("_id") ?: return@query

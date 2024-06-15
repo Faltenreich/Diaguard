@@ -79,6 +79,10 @@ class FoodRepository(
         return checkNotNull(dao.getLastId())
     }
 
+    fun getById(id: Long): Food.Local? {
+        return dao.getById(id)
+    }
+
     suspend fun getByQuery(query: String, page: PagingPage): List<Food.Local> {
         return if (query.isBlank()) {
             dao.getAll(page)

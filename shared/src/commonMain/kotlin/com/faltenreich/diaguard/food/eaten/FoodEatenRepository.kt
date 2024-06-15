@@ -8,6 +8,17 @@ class FoodEatenRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
+    fun create(foodEaten: FoodEaten.Legacy): Long = with(foodEaten) {
+        dao.create(
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            amountInGrams = amountInGrams,
+            foodId = food.id,
+            entryId = entry.id,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
     fun create(foodEaten: FoodEaten.Intermediate): Long = with(foodEaten) {
         val now = dateTimeFactory.now()
         dao.create(

@@ -8,13 +8,23 @@ class EntryTagRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(entryTag: EntryTag.Intermediate): Long {
+    fun create(entryTag: EntryTag.Legacy): Long = with(entryTag){
+        dao.create(
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            entryId = entry.id,
+            tagId = tag.id,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
+    fun create(entryTag: EntryTag.Intermediate): Long = with(entryTag) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
             updatedAt = now,
-            entryId = entryTag.entry.id,
-            tagId = entryTag.tag.id,
+            entryId = entry.id,
+            tagId = tag.id,
         )
         return checkNotNull(dao.getLastId())
     }

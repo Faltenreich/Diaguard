@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.tag.TagRepository
 
@@ -27,49 +28,51 @@ class LegacyImport(
     override fun import() {
         val properties = propertyRepository.getAll()
 
-        val entriesByLegacyId = legacyRepository.getEntries().associate { legacy ->
+        val entries = legacyRepository.getEntries().associateWith { legacy ->
             val id = entryRepository.create(legacy)
-            val entry = checkNotNull(entryRepository.getById(id))
             Logger.info("Imported entry: $legacy")
-            legacy.id to entry
+            checkNotNull(entryRepository.getById(id))
         }
-        Logger.info("Imported ${entriesByLegacyId.size} entries")
+        Logger.info("Imported ${entries.size} entries")
 
-        val foodByLegacyId = legacyRepository.getFood().associate { legacy ->
+        val food = legacyRepository.getFood().associateWith { legacy ->
             // TODO: Skip redundant food by uuid/serverId
             val id = foodRepository.create(legacy)
-            val food = checkNotNull(foodRepository.getById(id))
             Logger.info("Imported food: $legacy")
-            legacy.id to food
+            checkNotNull(foodRepository.getById(id))
         }
-        Logger.info("Imported ${foodByLegacyId.size} food")
+        Logger.info("Imported ${food.size} food")
 
-        val tagsByLegacyId = legacyRepository.getTags().associate { legacy ->
+        val tags = legacyRepository.getTags().associateWith { legacy ->
             val id = tagRepository.create(legacy)
-            val tag = checkNotNull(tagRepository.getById(id))
             Logger.info("Imported tag: $legacy")
-            legacy.id to tag
+            checkNotNull(tagRepository.getById(id))
         }
-        Logger.info("Imported ${tagsByLegacyId.size} tags")
+        Logger.info("Imported ${tags.size} tags")
 
-        legacyRepository.getMeasurementValues().forEach { legacy ->
+        val values = legacyRepository.getMeasurementValues()
+        values.forEach { legacy ->
             legacy.property = properties.first { it.key == legacy.propertyKey }
-            legacy.entry = checkNotNull(entriesByLegacyId[legacy.entryId])
+            legacy.entry = entries.entries.first { it.key.id == legacy.entryId }.value
             valueRepository.create(legacy)
             Logger.info("Imported measurement value: $legacy")
         }
 
         legacyRepository.getFoodEaten().forEach { legacy ->
-            legacy.food = checkNotNull(foodByLegacyId[legacy.foodId])
-            // FIXME: Retrieve entry via legacy.mealId
-            // legacy.entry = checkNotNull(entriesByLegacyId[legacy.])
+            legacy.food = food.entries.first { it.key.id == legacy.foodId }.value
+            legacy.entry = entries.entries.first { entry ->
+                val value = values.first {
+                    it.propertyKey == DatabaseKey.MeasurementProperty.MEAL && it.id == legacy.mealId
+                }
+                entry.key.id == value.entryId
+            }.value
             foodEatenRepository.create(legacy)
             Logger.info("Imported food eaten: $legacy")
         }
 
         legacyRepository.getEntryTags().forEach { legacy ->
-            legacy.entry = checkNotNull(entriesByLegacyId[legacy.entryId])
-            legacy.tag = checkNotNull(tagsByLegacyId[legacy.tagId])
+            legacy.entry = entries.entries.first { it.key.id == legacy.entryId }.value
+            legacy.tag = tags.entries.first { it.key.id == legacy.entryId }.value
             entryTagRepository.create(legacy)
             Logger.info("Imported entry tag: $legacy")
         }

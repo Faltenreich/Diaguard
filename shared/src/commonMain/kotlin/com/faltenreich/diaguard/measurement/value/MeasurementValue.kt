@@ -25,6 +25,8 @@ sealed interface MeasurementValue {
         get() = property.range.high?.let { value > it } ?: false
 
     data class Legacy(
+        // Attention: May not be unique due to values once distributed into separate tables
+        val id: Long,
         val createdAt: DateTime,
         val updatedAt: DateTime,
         override val value: Double,

@@ -21,7 +21,7 @@ class LegacySqliteDaoTest {
 
     private val database = SqliteDatabase(file = FileFactory.createFromAssets("diaguard.db"))
     private val dateTimeFactory = KotlinxDateTimeFactory()
-    private val dao = LegacySqliteDao(database, dateTimeFactory)
+    private val dao = LegacySqliteDaoFactory.createDao(database, dateTimeFactory)
 
     @Test
     fun readsEntries() {
@@ -56,6 +56,7 @@ class LegacySqliteDaoTest {
     fun readsMeasurements() {
         val expected = arrayOf(
             MeasurementValue.Legacy(
+                id = 1,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198203),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198203),
                 value = 100.0,
@@ -63,6 +64,7 @@ class LegacySqliteDaoTest {
                 entryId = 1,
             ),
             MeasurementValue.Legacy(
+                id = 2,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198206),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198206),
                 value = 100.0,
@@ -70,6 +72,7 @@ class LegacySqliteDaoTest {
                 entryId = 2,
             ),
             MeasurementValue.Legacy(
+                id = 3,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198208),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198208),
                 value = 120.0,
@@ -77,6 +80,7 @@ class LegacySqliteDaoTest {
                 entryId = 3,
             ),
             MeasurementValue.Legacy(
+                id = 1,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198228),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198228),
                 value = 1.0,
@@ -84,6 +88,7 @@ class LegacySqliteDaoTest {
                 entryId = 1,
             ),
             MeasurementValue.Legacy(
+                id = 2,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198246),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198246),
                 value = 6.0,
@@ -91,6 +96,7 @@ class LegacySqliteDaoTest {
                 entryId = 2,
             ),
             MeasurementValue.Legacy(
+                id = 2,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198244),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198244),
                 value = 60.0,
@@ -98,6 +104,7 @@ class LegacySqliteDaoTest {
                 entryId = 2,
             ),
             MeasurementValue.Legacy(
+                id = 1,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198232),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198232),
                 value = 30.0,
@@ -105,6 +112,7 @@ class LegacySqliteDaoTest {
                 entryId = 2,
             ),
             MeasurementValue.Legacy(
+                id = 1,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198241),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198241),
                 value = 90.0,

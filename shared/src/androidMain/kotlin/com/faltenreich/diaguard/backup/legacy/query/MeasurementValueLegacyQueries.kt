@@ -12,28 +12,28 @@ import com.faltenreich.diaguard.backup.legacy.query.measurement.WeightLegacyQuer
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 
 class MeasurementValueLegacyQueries(
-    private val bloodSugarDao: BloodSugarLegacyQueries,
-    private val insulinDao: InsulinLegacyQueries,
-    private val mealDao: MealLegacyQueries,
-    private val activityDao: ActivityLegacyQueries,
-    private val hba1cDao: HbA1cLegacyQueries,
-    private val weightDao: WeightLegacyQueries,
-    private val pulseDao: PulseLegacyQueries,
-    private val bloodPressureDao: BloodPressureLegacyQueries,
-    private val oxygenSaturationDao: OxygenSaturationLegacyQueries,
+    private val bloodSugarQueries: BloodSugarLegacyQueries,
+    private val insulinQueries: InsulinLegacyQueries,
+    private val mealQueries: MealLegacyQueries,
+    private val activityQueries: ActivityLegacyQueries,
+    private val hba1cQueries: HbA1cLegacyQueries,
+    private val weightQueries: WeightLegacyQueries,
+    private val pulseQueries: PulseLegacyQueries,
+    private val bloodPressureQueries: BloodPressureLegacyQueries,
+    private val oxygenSaturationQueries: OxygenSaturationLegacyQueries,
 ) : LegacyQueries<MeasurementValue.Legacy> {
 
     override fun getAll(): List<MeasurementValue.Legacy> {
         return listOf(
-            bloodSugarDao,
-            insulinDao,
-            mealDao,
-            activityDao,
-            hba1cDao,
-            weightDao,
-            pulseDao,
-            bloodPressureDao,
-            oxygenSaturationDao,
+            bloodSugarQueries,
+            insulinQueries,
+            mealQueries,
+            activityQueries,
+            hba1cQueries,
+            weightQueries,
+            pulseQueries,
+            bloodPressureQueries,
+            oxygenSaturationQueries,
         ).flatMap(LegacyQueries<MeasurementValue.Legacy>::getAll)
     }
 }

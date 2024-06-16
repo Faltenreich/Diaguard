@@ -20,7 +20,7 @@ class PulseLegacyQueries(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val entryId = getLong("entry") ?: return@query
-            val value = getDouble("frequency")?.takeIf { it > 0 } ?: return@query
+            val value = getDouble("frequency") ?: return@query
             values.add(
                 MeasurementValue.Legacy(
                     id = id,

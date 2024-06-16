@@ -19,7 +19,7 @@ class FoodLegacyQueries(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val name = getString("name") ?: return@query
-            val carbohydrates = getDouble("carbohydrates")?.takeIf { it > 0 } ?: return@query
+            val carbohydrates = getDouble("carbohydrates") ?: return@query
             food.add(
                 Food.Legacy(
                     id = id,

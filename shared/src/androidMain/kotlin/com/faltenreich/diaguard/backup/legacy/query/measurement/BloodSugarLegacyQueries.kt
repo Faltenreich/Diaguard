@@ -20,7 +20,7 @@ class BloodSugarLegacyQueries(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val entryId = getLong("entry") ?: return@query
-            val value = getDouble("mgDl")?.takeIf { it > 0 } ?: return@query
+            val value = getDouble("mgDl") ?: return@query
             values.add(
                 MeasurementValue.Legacy(
                     id = id,

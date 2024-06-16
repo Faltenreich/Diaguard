@@ -20,7 +20,7 @@ class BloodPressureLegacyQueries(
             val createdAt = getLong("createdAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val updatedAt = getLong("updatedAt")?.let(dateTimeFactory::dateTime) ?: return@query
             val entryId = getLong("entry") ?: return@query
-            getDouble("systolic")?.takeIf { it > 0 }?.let { value ->
+            getDouble("systolic")?.let { value ->
                 values.add(
                     MeasurementValue.Legacy(
                         id = id,
@@ -32,7 +32,7 @@ class BloodPressureLegacyQueries(
                     )
                 )
             }
-            getDouble("diastolic")?.takeIf { it > 0 }?.let { value ->
+            getDouble("diastolic")?.let { value ->
                 values.add(
                     MeasurementValue.Legacy(
                         id = id,

@@ -42,11 +42,11 @@ class SeedRepository(
         )
     }
 
-    fun getFood(): List<Food.User> {
+    fun getFood(): List<Food.Seed> {
         return foodSeed()
     }
 
-    fun getTags(): List<Tag.User> {
+    fun getTags(): List<Tag.Seed> {
         return tagSeed()
     }
 }

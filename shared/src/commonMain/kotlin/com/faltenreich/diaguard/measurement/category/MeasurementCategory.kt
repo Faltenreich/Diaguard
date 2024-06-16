@@ -14,13 +14,6 @@ sealed interface MeasurementCategory {
     val icon: String?
     val sortIndex: Long
     val isActive: Boolean
-    
-    data class User(
-        override val name: String,
-        override val icon: String?,
-        override val sortIndex: Long,
-        override val isActive: Boolean,
-    ) : MeasurementCategory
 
     data class Seed(
         override val key: DatabaseKey.MeasurementCategory?,
@@ -29,6 +22,13 @@ sealed interface MeasurementCategory {
         override val sortIndex: Long,
         override val isActive: Boolean,
     ) : MeasurementCategory, Seedable
+    
+    data class User(
+        override val name: String,
+        override val icon: String?,
+        override val sortIndex: Long,
+        override val isActive: Boolean,
+    ) : MeasurementCategory
 
     data class Local(
         override val id: Long,

@@ -10,11 +10,11 @@ class FoodSeed(
     private val serialization: Serialization,
 ) {
 
-    operator fun invoke(): List<Food.User> {
+    operator fun invoke(): List<Food.Seed> {
         val csv = fileReader.read()
         val dtos = serialization.decodeCsv<SeedFood>(csv)
         return dtos.map { dto ->
-            Food.User(
+            Food.Seed(
                 name = dto.en, // TODO: Localize
                 brand = null,
                 ingredients = null,

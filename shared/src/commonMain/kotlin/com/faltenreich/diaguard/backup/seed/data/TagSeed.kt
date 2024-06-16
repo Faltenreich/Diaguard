@@ -10,11 +10,11 @@ class TagSeed(
     private val serialization: Serialization,
 ) {
 
-    operator fun invoke(): List<Tag.User> {
+    operator fun invoke(): List<Tag.Seed> {
         val csv = fileReader.read()
         val dtos = serialization.decodeCsv<SeedTag>(csv)
         return dtos.map { dto ->
-            Tag.User(
+            Tag.Seed(
                 name = dto.en, // TODO: Localize
             )
         }

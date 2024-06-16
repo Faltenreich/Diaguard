@@ -33,6 +33,14 @@ fun seedModule() = module {
 
     single { TagSeedQueries(fileReader = ResourceFileReader("files/tags.csv"), serialization = get()) }
 
+    single<SeedDao> {
+        SeedBundleDao(
+            measurementCategoryQueries = get(),
+            foodQueries = get(),
+            tagQueries = get(),
+        )
+    }
+
     singleOf(::SeedRepository)
 
     singleOf(::SeedImport)

@@ -8,9 +8,9 @@ import com.faltenreich.diaguard.shared.serialization.Serialization
 class FoodSeedQueries(
     private val fileReader: FileReader,
     private val serialization: Serialization,
-) {
+) : SeedQueries<Food.Seed> {
 
-    operator fun invoke(): List<Food.Seed> {
+    override fun getAll(): List<Food.Seed> {
         val csv = fileReader.read()
         val dtos = serialization.decodeCsv<SeedFood>(csv)
         return dtos.map { dto ->

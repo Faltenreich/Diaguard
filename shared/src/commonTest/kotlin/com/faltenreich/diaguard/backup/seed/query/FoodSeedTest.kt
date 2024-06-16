@@ -14,6 +14,6 @@ class FoodSeedTest {
 
     @Test
     fun testSeed() {
-        assertTrue(seed().isNotEmpty())
+        assertTrue(seed.getAll().isNotEmpty())
     }
 }

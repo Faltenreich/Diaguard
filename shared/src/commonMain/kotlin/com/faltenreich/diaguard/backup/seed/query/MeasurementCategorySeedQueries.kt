@@ -21,9 +21,9 @@ class MeasurementCategorySeedQueries(
     private val pulseQueries: PulseSeedQueries,
     private val bloodPressureQueries: BloodPressureSeedQueries,
     private val oxygenSaturationQueries: OxygenSaturationSeedQueries,
-) {
+) : SeedQueries<MeasurementCategory.Seed> {
 
-    operator fun invoke(): List<MeasurementCategory.Seed> {
+    override fun getAll(): List<MeasurementCategory.Seed> {
         return listOf(
             bloodSugarQueries(),
             insulinQueries(),

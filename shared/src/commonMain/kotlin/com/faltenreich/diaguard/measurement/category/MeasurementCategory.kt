@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement.category
 
-import com.faltenreich.diaguard.backup.seed.Seedable
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
@@ -17,13 +16,13 @@ sealed interface MeasurementCategory {
     val isActive: Boolean
 
     data class Seed(
-        override val key: DatabaseKey.MeasurementCategory?,
         override val name: String,
         override val icon: String?,
         override val sortIndex: Long,
         override val isActive: Boolean,
+        val key: DatabaseKey.MeasurementCategory?,
         val properties: List<MeasurementProperty.Seed>,
-    ) : MeasurementCategory, Seedable
+    ) : MeasurementCategory
     
     data class User(
         override val name: String,
@@ -36,17 +35,20 @@ sealed interface MeasurementCategory {
         override val id: Long,
         override val createdAt: DateTime,
         override val updatedAt: DateTime,
-        override val key: DatabaseKey.MeasurementCategory?,
         override val name: String,
         override val icon: String?,
         override val sortIndex: Long,
         override val isActive: Boolean,
-    ) : MeasurementCategory, DatabaseEntity, Seedable {
+        val key: DatabaseKey.MeasurementCategory?,
+    ) : MeasurementCategory, DatabaseEntity {
 
         val isBloodSugar: Boolean
             get() = key == DatabaseKey.MeasurementCategory.BLOOD_SUGAR
 
         val isMeal: Boolean
             get() = key == DatabaseKey.MeasurementCategory.MEAL
+
+        val isUserGenerated: Boolean
+            get() = key == null
     }
 }

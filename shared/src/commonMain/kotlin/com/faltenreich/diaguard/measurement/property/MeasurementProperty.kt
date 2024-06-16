@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement.property
 
-import com.faltenreich.diaguard.backup.seed.Seedable
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
@@ -19,13 +18,13 @@ sealed interface MeasurementProperty {
     val range: MeasurementValueRange
 
     data class Seed(
-        override val key: DatabaseKey.MeasurementProperty?,
         override val name: String,
         override val sortIndex: Long,
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
+        val key: DatabaseKey.MeasurementProperty?,
         val units: List<MeasurementUnit.Seed>,
-    ) : MeasurementProperty, Seedable
+    ) : MeasurementProperty
 
     data class User(
         override val name: String,
@@ -39,14 +38,17 @@ sealed interface MeasurementProperty {
         override val id: Long,
         override val createdAt: DateTime,
         override val updatedAt: DateTime,
-        override val key: DatabaseKey.MeasurementProperty?,
         override val name: String,
         override val sortIndex: Long,
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
+        val key: DatabaseKey.MeasurementProperty?,
         val category: MeasurementCategory.Local,
-    ) : MeasurementProperty, DatabaseEntity, Seedable {
+    ) : MeasurementProperty, DatabaseEntity {
 
         lateinit var selectedUnit: MeasurementUnit.Local
+
+        val isUserGenerated: Boolean
+            get() = key == null
     }
 }

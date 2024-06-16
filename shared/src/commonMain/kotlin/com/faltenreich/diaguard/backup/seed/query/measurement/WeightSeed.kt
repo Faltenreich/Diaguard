@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.backup.seed.data
+package com.faltenreich.diaguard.backup.seed.query.measurement
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle

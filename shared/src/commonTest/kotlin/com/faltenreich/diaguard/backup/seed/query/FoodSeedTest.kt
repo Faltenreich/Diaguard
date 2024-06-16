@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.backup.seed.data
+package com.faltenreich.diaguard.backup.seed.query
 
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization

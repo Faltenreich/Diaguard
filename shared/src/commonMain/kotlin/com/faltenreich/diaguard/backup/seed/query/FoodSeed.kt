@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.backup.seed.data
+package com.faltenreich.diaguard.backup.seed.query
 
 import com.faltenreich.diaguard.backup.seed.SeedFood
 import com.faltenreich.diaguard.food.Food

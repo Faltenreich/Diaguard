@@ -52,27 +52,37 @@ class LegacyImport(
 
         val values = legacyRepository.getMeasurementValues()
         values.forEach { legacy ->
-            legacy.property = properties.first { it.key == legacy.propertyKey }
-            legacy.entry = entries.entries.first { it.key.id == legacy.entryId }.value
+            legacy.property = properties.firstOrNull {
+                it.key == legacy.propertyKey
+            } ?: error("No property found for key ${legacy.propertyKey}")
+            legacy.entry = entries.entries.firstOrNull {
+                it.key.id == legacy.entryId
+            }?.value ?: error("No entry found for id ${legacy.entryId}")
             valueRepository.create(legacy)
             Logger.info("Imported measurement value: $legacy")
         }
 
         legacyRepository.getFoodEaten().forEach { legacy ->
-            legacy.food = food.entries.first { it.key.id == legacy.foodId }.value
-            legacy.entry = entries.entries.first { entry ->
-                val value = values.first {
+            legacy.food = food.entries.firstOrNull {
+                it.key.id == legacy.foodId
+            }?.value ?: error("No food found for id ${legacy.foodId}")
+            legacy.entry = entries.entries.firstOrNull { entry ->
+                val value = values.firstOrNull {
                     it.propertyKey == DatabaseKey.MeasurementProperty.MEAL && it.id == legacy.mealId
-                }
+                } ?: error("No meal value found with mealId ${legacy.mealId}")
                 entry.key.id == value.entryId
-            }.value
+            }?.value ?: error("No entry found for mealId ${legacy.mealId}")
             foodEatenRepository.create(legacy)
             Logger.info("Imported food eaten: $legacy")
         }
 
         legacyRepository.getEntryTags().forEach { legacy ->
-            legacy.entry = entries.entries.first { it.key.id == legacy.entryId }.value
-            legacy.tag = tags.entries.first { it.key.id == legacy.entryId }.value
+            legacy.entry = entries.entries.firstOrNull {
+                it.key.id == legacy.entryId
+            }?.value ?: error("No entry found for id ${legacy.entryId}")
+            legacy.tag = tags.entries.firstOrNull {
+                it.key.id == legacy.entryId
+            }?.value ?: error("No tag found for id ${legacy.tagId}")
             entryTagRepository.create(legacy)
             Logger.info("Imported entry tag: $legacy")
         }

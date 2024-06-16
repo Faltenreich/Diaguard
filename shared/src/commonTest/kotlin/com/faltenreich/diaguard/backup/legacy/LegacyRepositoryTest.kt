@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.backup.legacy
 import com.faltenreich.diaguard.TestSuite
 import org.koin.test.inject
 import kotlin.test.Test
-import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class LegacyRepositoryTest : TestSuite {
 
@@ -11,16 +11,31 @@ class LegacyRepositoryTest : TestSuite {
 
     @Test
     fun `returns entries`() {
-        assertNotNull(repository.getEntries())
+        assertTrue(repository.getEntries().isNotEmpty())
     }
 
     @Test
     fun `returns values`() {
-        assertNotNull(repository.getMeasurementValues())
+        assertTrue(repository.getMeasurementValues().isNotEmpty())
+    }
+
+    @Test
+    fun `returns food`() {
+        assertTrue(repository.getFood().isNotEmpty())
+    }
+
+    @Test
+    fun `returns food eaten`() {
+        assertTrue(repository.getFoodEaten().isNotEmpty())
     }
 
     @Test
     fun `returns tags`() {
-        assertNotNull(repository.getTags())
+        assertTrue(repository.getTags().isNotEmpty())
+    }
+
+    @Test
+    fun `returns entry tags`() {
+        assertTrue(repository.getEntryTags().isNotEmpty())
     }
 }

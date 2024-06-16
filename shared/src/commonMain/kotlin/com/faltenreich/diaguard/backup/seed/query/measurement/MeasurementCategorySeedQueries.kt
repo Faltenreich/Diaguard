@@ -1,14 +1,6 @@
-package com.faltenreich.diaguard.backup.seed.query
+package com.faltenreich.diaguard.backup.seed.query.measurement
 
-import com.faltenreich.diaguard.backup.seed.query.measurement.ActivitySeedQueries
-import com.faltenreich.diaguard.backup.seed.query.measurement.BloodPressureSeedQueries
-import com.faltenreich.diaguard.backup.seed.query.measurement.BloodSugarSeedQueries
-import com.faltenreich.diaguard.backup.seed.query.measurement.HbA1cSeedQueries
-import com.faltenreich.diaguard.backup.seed.query.measurement.InsulinSeedQueries
-import com.faltenreich.diaguard.backup.seed.query.measurement.MealSeedQueries
-import com.faltenreich.diaguard.backup.seed.query.measurement.OxygenSaturationSeedQueries
-import com.faltenreich.diaguard.backup.seed.query.measurement.PulseSeedQueries
-import com.faltenreich.diaguard.backup.seed.query.measurement.WeightSeedQueries
+import com.faltenreich.diaguard.backup.seed.query.SeedQueries
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 
 class MeasurementCategorySeedQueries(

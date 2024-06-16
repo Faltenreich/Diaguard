@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.backup.seed
 
-import com.faltenreich.diaguard.backup.seed.query.FoodSeedQueries
-import com.faltenreich.diaguard.backup.seed.query.MeasurementCategorySeedQueries
-import com.faltenreich.diaguard.backup.seed.query.TagSeedQueries
+import com.faltenreich.diaguard.backup.seed.query.food.FoodSeedQueries
+import com.faltenreich.diaguard.backup.seed.query.measurement.MeasurementCategorySeedQueries
+import com.faltenreich.diaguard.backup.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.tag.Tag

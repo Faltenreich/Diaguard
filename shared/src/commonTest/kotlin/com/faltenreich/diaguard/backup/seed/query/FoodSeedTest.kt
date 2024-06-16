@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.backup.seed.query
 
+import com.faltenreich.diaguard.backup.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import kotlin.test.Test

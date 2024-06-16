@@ -1,9 +1,9 @@
-package com.faltenreich.diaguard.backup.seed
+package com.faltenreich.diaguard.backup.seed.query.food
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SeedFood(
+data class FoodFromFile(
     val de: String,
     val fr: String,
     val it: String,

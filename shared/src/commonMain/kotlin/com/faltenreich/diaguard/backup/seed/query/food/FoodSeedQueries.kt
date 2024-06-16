@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.backup.seed.query
+package com.faltenreich.diaguard.backup.seed.query.food
 
-import com.faltenreich.diaguard.backup.seed.SeedFood
+import com.faltenreich.diaguard.backup.seed.query.SeedQueries
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
@@ -12,7 +12,7 @@ class FoodSeedQueries(
 
     override fun getAll(): List<Food.Seed> {
         val csv = fileReader.read()
-        val dtos = serialization.decodeCsv<SeedFood>(csv)
+        val dtos = serialization.decodeCsv<FoodFromFile>(csv)
         return dtos.map { dto ->
             Food.Seed(
                 name = dto.en, // TODO: Localize

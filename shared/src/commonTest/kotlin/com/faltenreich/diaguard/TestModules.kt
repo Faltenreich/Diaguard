@@ -2,8 +2,8 @@ package com.faltenreich.diaguard
 
 import com.faltenreich.diaguard.backup.legacy.LegacyDao
 import com.faltenreich.diaguard.backup.legacy.LegacyFakeDao
-import com.faltenreich.diaguard.backup.seed.query.FoodSeedQueries
-import com.faltenreich.diaguard.backup.seed.query.TagSeedQueries
+import com.faltenreich.diaguard.backup.seed.query.food.FoodSeedQueries
+import com.faltenreich.diaguard.backup.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.entry.EntryFakeDao
 import com.faltenreich.diaguard.entry.tag.EntryTagDao

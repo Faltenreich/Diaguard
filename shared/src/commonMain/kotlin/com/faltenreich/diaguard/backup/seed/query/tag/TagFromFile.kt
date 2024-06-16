@@ -1,9 +1,9 @@
-package com.faltenreich.diaguard.backup.seed
+package com.faltenreich.diaguard.backup.seed.query.tag
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SeedTag(
+data class TagFromFile(
     val en: String,
     val de: String,
     val fr: String,

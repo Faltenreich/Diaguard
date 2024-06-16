@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.backup.seed.query
+package com.faltenreich.diaguard.backup.seed.query.tag
 
-import com.faltenreich.diaguard.backup.seed.SeedTag
+import com.faltenreich.diaguard.backup.seed.query.SeedQueries
 import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.tag.Tag
@@ -12,7 +12,7 @@ class TagSeedQueries(
 
     override fun getAll(): List<Tag.Seed> {
         val csv = fileReader.read()
-        val dtos = serialization.decodeCsv<SeedTag>(csv)
+        val dtos = serialization.decodeCsv<TagFromFile>(csv)
         return dtos.map { dto ->
             Tag.Seed(
                 name = dto.en, // TODO: Localize

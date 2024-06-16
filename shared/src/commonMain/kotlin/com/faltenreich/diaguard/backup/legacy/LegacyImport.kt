@@ -67,6 +67,7 @@ class LegacyImport(
                 it.key.id == legacy.foodId
             }?.value ?: error("No food found for id ${legacy.foodId}")
             legacy.entry = entries.entries.firstOrNull { entry ->
+                // FIXME: Null due to skipped values with value of zero
                 val value = values.firstOrNull {
                     it.propertyKey == DatabaseKey.MeasurementProperty.MEAL && it.id == legacy.mealId
                 } ?: error("No meal value found with mealId ${legacy.mealId}")

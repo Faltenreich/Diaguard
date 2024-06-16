@@ -3,9 +3,7 @@ package com.faltenreich.diaguard.entry
 import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 open class EntryFakeDao : EntryDao {
 
@@ -35,7 +33,7 @@ open class EntryFakeDao : EntryDao {
     }
 
     override fun observeById(id: Long): Flow<Entry.Local?> {
-        return cache.asFlow().filter { it.id == id }
+        return flowOf(cache.firstOrNull { it.id == id })
     }
 
     override fun getByDateRange(startDateTime: DateTime, endDateTime: DateTime): List<Entry.Local> {
@@ -43,15 +41,15 @@ open class EntryFakeDao : EntryDao {
     }
 
     override fun getByQuery(query: String): Flow<List<Entry.Local>> {
-        return flow { cache.filter { it.note == query } }
+        return flowOf(cache.filter { it.note == query })
     }
 
     override fun getAll(): Flow<List<Entry.Local>> {
-        return flow { cache }
+        return flowOf(cache)
     }
 
     override fun countAll(): Flow<Long> {
-        return flow { cache.size }
+        return flowOf(cache.size.toLong())
     }
 
     override fun update(id: Long, updatedAt: DateTime, dateTime: DateTime, note: String?) {

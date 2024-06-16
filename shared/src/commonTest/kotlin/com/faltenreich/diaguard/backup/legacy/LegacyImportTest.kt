@@ -65,21 +65,21 @@ class LegacyImportTest : TestSuite {
     fun `imports entries`() = runTest {
         val expected = listOf(
             Entry.Local(
-                id = 1,
+                id = 0,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198200),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198200),
                 dateTime = dateTimeFactory.dateTime(millis = 1715234400000),
                 note = "Hello, World",
             ),
             Entry.Local(
-                id = 2,
+                id = 1,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198204),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198204),
                 dateTime = dateTimeFactory.dateTime(millis = 1717221600000),
                 note = null,
             ),
             Entry.Local(
-                id = 3,
+                id = 2,
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198208),
                 updatedAt = dateTimeFactory.dateTime(millis = 1717865198208),
                 dateTime = dateTimeFactory.dateTime(millis = 1717308000000),

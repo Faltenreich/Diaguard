@@ -2,8 +2,8 @@ package com.faltenreich.diaguard
 
 import com.faltenreich.diaguard.backup.legacy.LegacyDao
 import com.faltenreich.diaguard.backup.legacy.LegacyFakeDao
-import com.faltenreich.diaguard.backup.seed.query.FoodSeed
-import com.faltenreich.diaguard.backup.seed.query.TagSeed
+import com.faltenreich.diaguard.backup.seed.query.FoodSeedQueries
+import com.faltenreich.diaguard.backup.seed.query.TagSeedQueries
 import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.entry.EntryFakeDao
 import com.faltenreich.diaguard.entry.tag.EntryTagDao
@@ -65,13 +65,13 @@ fun testModules() = module {
     single<Localization> { FakeLocalization() }
 
     single {
-        FoodSeed(
+        FoodSeedQueries(
             fileReader = SystemFileReader("src/commonTest/resources/seed/food.csv"),
             serialization = Serialization(),
         )
     }
     single {
-        TagSeed(
+        TagSeedQueries(
             fileReader = SystemFileReader("src/commonTest/resources/seed/tags.csv"),
             serialization = Serialization(),
         )

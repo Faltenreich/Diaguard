@@ -15,7 +15,7 @@ import diaguard.shared.generated.resources.insulin
 import diaguard.shared.generated.resources.insulin_units
 import diaguard.shared.generated.resources.insulin_units_abbreviation
 
-class InsulinSeed(
+class InsulinSeedQueries(
     private val localization: Localization,
 ) {
 

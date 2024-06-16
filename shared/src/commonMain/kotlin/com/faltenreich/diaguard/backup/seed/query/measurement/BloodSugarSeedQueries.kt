@@ -14,7 +14,7 @@ import diaguard.shared.generated.resources.milligrams_per_deciliter_abbreviation
 import diaguard.shared.generated.resources.millimoles_per_liter
 import diaguard.shared.generated.resources.millimoles_per_liter_abbreviation
 
-class BloodSugarSeed(
+class BloodSugarSeedQueries(
     private val localization: Localization,
 ) {
 

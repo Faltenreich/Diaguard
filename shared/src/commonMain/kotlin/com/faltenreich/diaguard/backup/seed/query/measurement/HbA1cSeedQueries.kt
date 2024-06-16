@@ -14,7 +14,7 @@ import diaguard.shared.generated.resources.millimoles_per_mole_abbreviation
 import diaguard.shared.generated.resources.percent
 import diaguard.shared.generated.resources.percent_abbreviation
 
-class HbA1cSeed(
+class HbA1cSeedQueries(
     private val localization: Localization,
 ) {
 

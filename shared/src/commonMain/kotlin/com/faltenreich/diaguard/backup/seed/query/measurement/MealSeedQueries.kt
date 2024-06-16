@@ -16,7 +16,7 @@ import diaguard.shared.generated.resources.carbohydrates
 import diaguard.shared.generated.resources.carbohydrates_abbreviation
 import diaguard.shared.generated.resources.meal
 
-class MealSeed(
+class MealSeedQueries(
     private val localization: Localization,
 ) {
 

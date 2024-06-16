@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
-class FoodSeed(
+class FoodSeedQueries(
     private val fileReader: FileReader,
     private val serialization: Serialization,
 ) {

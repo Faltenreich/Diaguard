@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.tag.Tag
 
-class TagSeed(
+class TagSeedQueries(
     private val fileReader: FileReader,
     private val serialization: Serialization,
 ) {

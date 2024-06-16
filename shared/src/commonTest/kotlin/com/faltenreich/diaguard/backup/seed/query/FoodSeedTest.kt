@@ -7,7 +7,7 @@ import kotlin.test.assertTrue
 
 class FoodSeedTest {
 
-    private val seed = FoodSeed(
+    private val seed = FoodSeedQueries(
         fileReader = SystemFileReader("src/commonTest/resources/seed/food.csv"),
         serialization = Serialization(),
     )

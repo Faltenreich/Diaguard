@@ -8,40 +8,40 @@ import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.activity
-import diaguard.shared.generated.resources.minutes
-import diaguard.shared.generated.resources.minutes_abbreviation
+import diaguard.shared.generated.resources.beats_per_minute
+import diaguard.shared.generated.resources.beats_per_minute_abbreviation
+import diaguard.shared.generated.resources.pulse
 
-class ActivitySeed(
+class PulseSeedQueries(
     private val localization: Localization,
 ) {
 
     operator fun invoke(): MeasurementCategory.Seed {
         return MeasurementCategory.Seed(
-            key = DatabaseKey.MeasurementCategory.ACTIVITY,
-            name = localization.getString(Res.string.activity),
-            icon = "\uD83C\uDFC3",
-            sortIndex = 3,
+            key = DatabaseKey.MeasurementCategory.PULSE,
+            name = localization.getString(Res.string.pulse),
+            icon = "\uD83D\uDC9A",
+            sortIndex = 6,
             isActive = true,
             properties = listOf(
                 MeasurementProperty.Seed(
-                    key = DatabaseKey.MeasurementProperty.ACTIVITY,
-                    name = localization.getString(Res.string.activity),
+                    key = DatabaseKey.MeasurementProperty.PULSE,
+                    name = localization.getString(Res.string.pulse),
                     sortIndex = 0,
-                    aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
+                    aggregationStyle = MeasurementAggregationStyle.AVERAGE,
                     range = MeasurementValueRange(
                         minimum = 1.0,
-                        low = null,
-                        target = null,
-                        high = null,
-                        maximum = 1000.0,
-                        isHighlighted = false,
+                        low = 60.0,
+                        target = 70.0,
+                        high = 80.0,
+                        maximum = 200.0,
+                        isHighlighted = true,
                     ),
                     units = listOf(
                         MeasurementUnit.Seed(
-                            key = DatabaseKey.MeasurementUnit.ACTIVITY,
-                            name = localization.getString(Res.string.minutes),
-                            abbreviation = localization.getString(Res.string.minutes_abbreviation),
+                            key = DatabaseKey.MeasurementUnit.PULSE,
+                            name = localization.getString(Res.string.beats_per_minute),
+                            abbreviation = localization.getString(Res.string.beats_per_minute_abbreviation),
                             factor = 1.0,
                             isSelected = true,
                         )

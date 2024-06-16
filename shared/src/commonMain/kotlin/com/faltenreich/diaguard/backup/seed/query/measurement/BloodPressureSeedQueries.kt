@@ -14,7 +14,7 @@ import diaguard.shared.generated.resources.millimeters_of_mercury
 import diaguard.shared.generated.resources.millimeters_of_mercury_abbreviation
 import diaguard.shared.generated.resources.systolic
 
-class BloodPressureSeed(
+class BloodPressureSeedQueries(
     private val localization: Localization,
 ) {
 

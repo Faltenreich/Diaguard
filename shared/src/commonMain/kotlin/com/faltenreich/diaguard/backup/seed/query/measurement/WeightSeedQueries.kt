@@ -14,7 +14,7 @@ import diaguard.shared.generated.resources.pounds
 import diaguard.shared.generated.resources.pounds_abbreviation
 import diaguard.shared.generated.resources.weight
 
-class WeightSeed(
+class WeightSeedQueries(
     private val localization: Localization,
 ) {
 

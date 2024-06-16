@@ -1,12 +1,11 @@
-package com.faltenreich.diaguard.backup.seed.query
+package com.faltenreich.diaguard.backup.seed.query.food
 
-import com.faltenreich.diaguard.backup.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class FoodSeedTest {
+class FoodSeedQueriesTest {
 
     private val seed = FoodSeedQueries(
         fileReader = SystemFileReader("src/commonTest/resources/seed/food.csv"),

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.backup.legacy
 
-import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.FoodRepository
@@ -23,9 +22,9 @@ class LegacyImport(
     private val foodEatenRepository: FoodEatenRepository,
     private val tagRepository: TagRepository,
     private val entryTagRepository: EntryTagRepository,
-) : Import {
+) {
 
-    override fun import() {
+    fun import() {
         val properties = propertyRepository.getAll()
 
         val entries = legacyRepository.getEntries().associateWith { legacy ->

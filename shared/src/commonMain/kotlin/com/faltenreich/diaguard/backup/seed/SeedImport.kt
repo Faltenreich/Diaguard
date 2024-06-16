@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.backup.seed
 
-import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
@@ -18,9 +17,9 @@ class SeedImport(
     private val unitRepository: MeasurementUnitRepository,
     private val foodRepository: FoodRepository,
     private val tagRepository: TagRepository,
-) : Import {
+) {
 
-    override fun import() {
+    fun import() {
         seedRepository.getMeasurementCategories().forEach { category ->
             val categoryId = categoryRepository.create(category)
             Logger.info("Imported category: $category")

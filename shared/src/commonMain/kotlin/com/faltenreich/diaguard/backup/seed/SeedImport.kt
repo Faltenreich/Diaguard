@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.backup.seed
 
 import com.faltenreich.diaguard.backup.Import
-import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
@@ -66,22 +65,7 @@ class SeedImport(
 
         val foodSeeds = seedRepository.getFood()
         foodSeeds.forEach { foodSeed ->
-            val food = Food.User(
-                name = foodSeed.en, // TODO: Localize
-                brand = null,
-                ingredients = null,
-                labels = null, // TODO: Mark seed
-                carbohydrates = foodSeed.carbohydrates.toDouble(),
-                energy = foodSeed.energy.toDoubleOrNull(),
-                fat = foodSeed.fat.toDoubleOrNull(),
-                fatSaturated = foodSeed.fatSaturated.toDoubleOrNull(),
-                fiber = foodSeed.fiber.toDoubleOrNull(),
-                proteins = foodSeed.proteins.toDoubleOrNull(),
-                salt = foodSeed.salt.toDoubleOrNull(),
-                sodium = foodSeed.sodium.toDoubleOrNull(),
-                sugar = foodSeed.sugar.toDoubleOrNull(),
-            )
-            foodRepository.create(food)
+            foodRepository.create(foodSeed)
         }
 
         val tagSeeds = seedRepository.getTags()

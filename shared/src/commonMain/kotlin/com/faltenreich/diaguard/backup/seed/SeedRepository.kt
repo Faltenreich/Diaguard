@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.backup.seed.data.OxygenSaturationSeed
 import com.faltenreich.diaguard.backup.seed.data.PulseSeed
 import com.faltenreich.diaguard.backup.seed.data.TagSeed
 import com.faltenreich.diaguard.backup.seed.data.WeightSeed
+import com.faltenreich.diaguard.food.Food
 
 class SeedRepository(
     private val bloodSugarSeed: BloodSugarSeed,
@@ -40,7 +41,7 @@ class SeedRepository(
         )
     }
 
-    fun getFood(): List<SeedFood> {
+    fun getFood(): List<Food.User> {
         return foodSeed()
     }
 

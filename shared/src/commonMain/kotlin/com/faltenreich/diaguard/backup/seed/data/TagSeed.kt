@@ -3,14 +3,20 @@ package com.faltenreich.diaguard.backup.seed.data
 import com.faltenreich.diaguard.backup.seed.SeedTag
 import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.serialization.Serialization
+import com.faltenreich.diaguard.tag.Tag
 
 class TagSeed(
     private val fileReader: FileReader,
     private val serialization: Serialization,
 ) {
 
-    operator fun invoke(): List<SeedTag> {
+    operator fun invoke(): List<Tag.User> {
         val csv = fileReader.read()
-        return serialization.decodeCsv(csv)
+        val dtos = serialization.decodeCsv<SeedTag>(csv)
+        return dtos.map { dto ->
+            Tag.User(
+                name = dto.en, // TODO: Localize
+            )
+        }
     }
 }

@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.localization.Localization
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.tag.TagRepository
 
 /**
@@ -63,15 +63,14 @@ class SeedImport(
             }
         }
 
-        val foodSeeds = seedRepository.getFood()
-        foodSeeds.forEach { foodSeed ->
-            foodRepository.create(foodSeed)
+        seedRepository.getFood().forEach { seed ->
+            foodRepository.create(seed)
+            Logger.info("Imported food: $seed")
         }
 
-        val tagSeeds = seedRepository.getTags()
-        tagSeeds.forEach { tagSeed ->
-            val tag = Tag.User(name = tagSeed.en) // TODO: Localize
-            tagRepository.create(tag)
+        seedRepository.getTags().forEach { seed ->
+            tagRepository.create(seed)
+            Logger.info("Imported tag: $seed")
         }
     }
 }

@@ -12,27 +12,27 @@ import com.faltenreich.diaguard.tag.Tag
  */
 actual class LegacySqliteDao : LegacyDao {
 
-    override fun getEntries(): List<Entry.Legacy> {
+    actual override fun getEntries(): List<Entry.Legacy> {
         return emptyList()
     }
 
-    override fun getMeasurementValues(): List<MeasurementValue.Legacy> {
+    actual override fun getMeasurementValues(): List<MeasurementValue.Legacy> {
         return emptyList()
     }
 
-    override fun getFood(): List<Food.Legacy> {
+    actual override fun getFood(): List<Food.Legacy> {
         return emptyList()
     }
 
-    override fun getFoodEaten(): List<FoodEaten.Legacy> {
+    actual override fun getFoodEaten(): List<FoodEaten.Legacy> {
         return emptyList()
     }
 
-    override fun getTags(): List<Tag.Legacy> {
+    actual override fun getTags(): List<Tag.Legacy> {
         return emptyList()
     }
 
-    override fun getEntryTags(): List<EntryTag.Legacy> {
+    actual override fun getEntryTags(): List<EntryTag.Legacy> {
         return emptyList()
     }
 }

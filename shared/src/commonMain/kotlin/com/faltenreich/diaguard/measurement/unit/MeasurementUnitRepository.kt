@@ -8,6 +8,24 @@ class MeasurementUnitRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
+    fun create(
+        unit: MeasurementUnit.Seed,
+        propertyId: Long,
+    ): Long = with(unit) {
+        val now = dateTimeFactory.now()
+        dao.create(
+            createdAt = now,
+            updatedAt = now,
+            key = key,
+            name = name,
+            abbreviation = abbreviation,
+            factor = factor,
+            isSelected = isSelected,
+            propertyId = propertyId,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
     fun create(unit: MeasurementUnit.User): Long = with(unit) {
         val now = dateTimeFactory.now()
         dao.create(
@@ -19,21 +37,6 @@ class MeasurementUnitRepository(
             factor = factor,
             isSelected = isSelected,
             propertyId = property.id,
-        )
-        return checkNotNull(dao.getLastId())
-    }
-
-    fun create(unit: MeasurementUnit.Seed): Long = with(unit) {
-        val now = dateTimeFactory.now()
-        dao.create(
-            createdAt = now,
-            updatedAt = now,
-            key = key,
-            name = name,
-            abbreviation = abbreviation,
-            factor = factor,
-            isSelected = isSelected,
-            propertyId = propertyId,
         )
         return checkNotNull(dao.getLastId())
     }

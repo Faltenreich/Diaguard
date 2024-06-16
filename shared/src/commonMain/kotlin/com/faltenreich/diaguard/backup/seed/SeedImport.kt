@@ -2,13 +2,9 @@ package com.faltenreich.diaguard.backup.seed
 
 import com.faltenreich.diaguard.backup.Import
 import com.faltenreich.diaguard.food.FoodRepository
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
-import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.tag.TagRepository
 
@@ -16,7 +12,6 @@ import com.faltenreich.diaguard.tag.TagRepository
  * Import from files bundled with the app
  */
 class SeedImport(
-    private val localization: Localization,
     private val seedRepository: SeedRepository,
     private val categoryRepository: MeasurementCategoryRepository,
     private val propertyRepository: MeasurementPropertyRepository,
@@ -26,39 +21,15 @@ class SeedImport(
 ) : Import {
 
     override fun import() {
-        val categorySeeds = seedRepository.getMeasurementCategories()
-        categorySeeds.forEachIndexed { categorySortIndex, categorySeed ->
-            val categoryId = categoryRepository.create(
-                MeasurementCategory.Seed(
-                    key = categorySeed.key,
-                    name = localization.getString(categorySeed.name),
-                    icon = categorySeed.icon,
-                    sortIndex = categorySortIndex.toLong(),
-                    isActive = true,
-                )
-            )
-            categorySeed.properties.forEachIndexed { propertySortIndex, propertySeed ->
-                val propertyId = propertyRepository.create(
-                    MeasurementProperty.Seed(
-                        key = propertySeed.key,
-                        name = localization.getString(propertySeed.name),
-                        sortIndex = propertySortIndex.toLong(),
-                        aggregationStyle = propertySeed.aggregationStyle,
-                        range = propertySeed.range,
-                        categoryId = categoryId,
-                    ),
-                )
-                propertySeed.units.forEach { unitSeed ->
-                    unitRepository.create(
-                        MeasurementUnit.Seed(
-                            key = unitSeed.key,
-                            name = localization.getString(unitSeed.name),
-                            abbreviation = localization.getString(unitSeed.abbreviation),
-                            factor = unitSeed.factor,
-                            isSelected = unitSeed.factor == MeasurementUnit.FACTOR_DEFAULT,
-                            propertyId = propertyId,
-                        ),
-                    )
+        seedRepository.getMeasurementCategories().forEach { category ->
+            val categoryId = categoryRepository.create(category)
+            Logger.info("Imported category: $category")
+            category.properties.forEach { property ->
+                val propertyId = propertyRepository.create(property, categoryId)
+                Logger.info("Imported property: $property")
+                property.units.forEach { unit ->
+                    unitRepository.create(unit, propertyId)
+                    Logger.info("Imported unit: $unit")
                 }
             }
         }

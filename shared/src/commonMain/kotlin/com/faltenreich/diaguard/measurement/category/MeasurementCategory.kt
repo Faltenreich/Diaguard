@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.category
 
 import com.faltenreich.diaguard.backup.seed.Seedable
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
@@ -21,6 +22,7 @@ sealed interface MeasurementCategory {
         override val icon: String?,
         override val sortIndex: Long,
         override val isActive: Boolean,
+        val properties: List<MeasurementProperty.Seed>,
     ) : MeasurementCategory, Seedable
     
     data class User(

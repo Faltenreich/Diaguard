@@ -24,7 +24,7 @@ sealed interface MeasurementProperty {
         override val sortIndex: Long,
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
-        val categoryId: Long,
+        val units: List<MeasurementUnit.Seed>,
     ) : MeasurementProperty, Seedable
 
     data class User(

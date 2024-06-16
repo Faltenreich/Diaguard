@@ -25,7 +25,6 @@ sealed interface MeasurementUnit {
         override val abbreviation: String,
         override val factor: Double,
         override val isSelected: Boolean,
-        val propertyId: Long,
     ) : MeasurementUnit, Seedable
 
     data class User(

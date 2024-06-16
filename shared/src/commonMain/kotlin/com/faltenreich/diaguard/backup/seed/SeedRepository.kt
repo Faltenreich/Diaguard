@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.backup.seed.data.PulseSeed
 import com.faltenreich.diaguard.backup.seed.data.TagSeed
 import com.faltenreich.diaguard.backup.seed.data.WeightSeed
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.tag.Tag
 
 class SeedRepository(
@@ -28,7 +29,7 @@ class SeedRepository(
     private val tagSeed: TagSeed,
 ) {
 
-    fun getMeasurementCategories(): List<SeedMeasurementCategory> {
+    fun getMeasurementCategories(): List<MeasurementCategory.Seed> {
         return listOf(
             bloodSugarSeed(),
             insulinSeed(),

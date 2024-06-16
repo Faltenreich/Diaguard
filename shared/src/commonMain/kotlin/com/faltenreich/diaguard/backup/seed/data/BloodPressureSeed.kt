@@ -1,11 +1,12 @@
 package com.faltenreich.diaguard.backup.seed.data
 
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementCategory
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementProperty
-import com.faltenreich.diaguard.backup.seed.SeedMeasurementUnit
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.shared.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.blood_pressure
 import diaguard.shared.generated.resources.diastolic
@@ -13,17 +14,22 @@ import diaguard.shared.generated.resources.millimeters_of_mercury
 import diaguard.shared.generated.resources.millimeters_of_mercury_abbreviation
 import diaguard.shared.generated.resources.systolic
 
-class BloodPressureSeed {
+class BloodPressureSeed(
+    private val localization: Localization,
+) {
 
-    operator fun invoke(): SeedMeasurementCategory {
-        return SeedMeasurementCategory(
+    operator fun invoke(): MeasurementCategory.Seed {
+        return MeasurementCategory.Seed(
             key = DatabaseKey.MeasurementCategory.BLOOD_PRESSURE,
-            name = Res.string.blood_pressure,
+            name = localization.getString(Res.string.blood_pressure),
             icon = "⛽",
+            sortIndex = 7,
+            isActive = true,
             properties = listOf(
-                SeedMeasurementProperty(
+                MeasurementProperty.Seed(
                     key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_SYSTOLIC,
-                    name = Res.string.systolic,
+                    name = localization.getString(Res.string.systolic),
+                    sortIndex = 0,
                     aggregationStyle = MeasurementAggregationStyle.AVERAGE,
                     range = MeasurementValueRange(
                         minimum = 1.0,
@@ -34,17 +40,19 @@ class BloodPressureSeed {
                         isHighlighted = true,
                     ),
                     units = listOf(
-                        SeedMeasurementUnit(
+                        MeasurementUnit.Seed(
                             key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_SYSTOLIC,
-                            name = Res.string.millimeters_of_mercury,
-                            abbreviation = Res.string.millimeters_of_mercury_abbreviation,
+                            name = localization.getString(Res.string.millimeters_of_mercury),
+                            abbreviation = localization.getString(Res.string.millimeters_of_mercury_abbreviation),
                             factor = 1.0,
+                            isSelected = true,
                         )
                     ),
                 ),
-                SeedMeasurementProperty(
+                MeasurementProperty.Seed(
                     key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC,
-                    name = Res.string.diastolic,
+                    name = localization.getString(Res.string.diastolic),
+                    sortIndex = 1,
                     aggregationStyle = MeasurementAggregationStyle.AVERAGE,
                     range = MeasurementValueRange(
                         minimum = 1.0,
@@ -55,11 +63,12 @@ class BloodPressureSeed {
                         isHighlighted = true,
                     ),
                     units = listOf(
-                        SeedMeasurementUnit(
+                        MeasurementUnit.Seed(
                             key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_DIASTOLIC,
-                            name = Res.string.millimeters_of_mercury,
-                            abbreviation = Res.string.millimeters_of_mercury_abbreviation,
+                            name = localization.getString(Res.string.millimeters_of_mercury),
+                            abbreviation = localization.getString(Res.string.millimeters_of_mercury_abbreviation),
                             factor = 1.0,
+                            isSelected = true,
                         )
                     ),
                 ),

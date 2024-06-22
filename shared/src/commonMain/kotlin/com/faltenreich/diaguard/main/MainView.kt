@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
@@ -38,43 +39,47 @@ fun MainView(
 
     SideEffect { navigation.snackbarState = snackbarHostState }
 
-    Navigator(screen = state.startScreen) { navigator ->
-        SideEffect { navigation.navigator = navigator }
+    BottomSheetNavigator { bottomSheetNavigator ->
+        SideEffect { navigation.bottomSheetNavigator = bottomSheetNavigator }
 
-        Box(modifier = modifier) {
-            var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-            val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-            Scaffold(
-                topBar = {
-                    val screen = navigator.lastItem as? Screen
-                    val style = screen?.topAppBarStyle ?: TopAppBarStyle.Hidden
-                    if (style != TopAppBarStyle.Hidden) {
-                        TopAppBar(style)
-                    }
-                },
-                content = { padding ->
-                    Box(modifier = Modifier.padding(padding)) {
-                        CurrentScreen()
-                    }
-                },
-                bottomBar = {
-                    val screen = navigator.lastItem as? Screen
-                    val style = screen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
-                    if (style != BottomAppBarStyle.Hidden) {
-                        BottomAppBar(style, onMenuClick = { openBottomSheet = true })
-                    }
-                },
-                snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-            )
+        Navigator(screen = state.startScreen) { navigator ->
+            SideEffect { navigation.navigator = navigator }
 
-            if (openBottomSheet) {
-                BottomSheetNavigation(
-                    state = bottomSheetState,
-                    onDismissRequest = { openBottomSheet = false },
+            Box(modifier = modifier) {
+                var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+                val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                Scaffold(
+                    topBar = {
+                        val screen = navigator.lastItem as? Screen
+                        val style = screen?.topAppBarStyle ?: TopAppBarStyle.Hidden
+                        if (style != TopAppBarStyle.Hidden) {
+                            TopAppBar(style)
+                        }
+                    },
+                    content = { padding ->
+                        Box(modifier = Modifier.padding(padding)) {
+                            CurrentScreen()
+                        }
+                    },
+                    bottomBar = {
+                        val screen = navigator.lastItem as? Screen
+                        val style = screen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
+                        if (style != BottomAppBarStyle.Hidden) {
+                            BottomAppBar(style, onMenuClick = { openBottomSheet = true })
+                        }
+                    },
+                    snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                 )
-            }
 
-            state.modal?.Content()
+                if (openBottomSheet) {
+                    BottomSheetNavigation(
+                        state = bottomSheetState,
+                        onDismissRequest = { openBottomSheet = false },
+                    )
+                }
+
+                state.modal?.Content()
+            }
         }
     }
 }

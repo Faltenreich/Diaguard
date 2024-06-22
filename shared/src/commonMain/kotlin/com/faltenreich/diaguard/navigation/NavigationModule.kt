@@ -11,6 +11,8 @@ fun navigationModule() = module {
     singleOf(::NavigateToScreenUseCase)
     singleOf(::ShowSnackbarUseCase)
     singleOf(::GetActiveScreenUseCase)
+    singleOf(::OpenBottomSheetUseCase)
+    singleOf(::CloseBottomSheetUseCase)
     singleOf(::GetModalUseCase)
     singleOf(::OpenModalUseCase)
     singleOf(::CloseModalUseCase)

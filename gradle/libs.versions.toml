@@ -58,12 +58,13 @@ paging-common-compose = { module = "app.cash.paging:paging-compose-common", vers
 shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+voyager-bottom-sheet = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 
 [bundles]
-voyager = ["voyager-koin", "voyager-navigator", "voyager-transitions"]
+voyager = ["voyager-bottom-sheet", "voyager-koin", "voyager-navigator", "voyager-transitions"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }

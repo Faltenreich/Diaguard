@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.navigation
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.navigation.screen.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class Navigation {
 
     lateinit var navigator: Navigator
+    lateinit var bottomSheetNavigator: BottomSheetNavigator
     var modal = MutableStateFlow<Modal?>(null)
     lateinit var snackbarState: SnackbarHostState
 
@@ -30,6 +32,14 @@ class Navigation {
 
     fun canPop(): Boolean {
         return navigator.canPop
+    }
+
+    fun pushBottomSheet(screen: Screen) {
+        bottomSheetNavigator.push(screen)
+    }
+
+    fun popBottomSheet() {
+        bottomSheetNavigator.pop()
     }
 
     fun pushModal(modal: Modal) {

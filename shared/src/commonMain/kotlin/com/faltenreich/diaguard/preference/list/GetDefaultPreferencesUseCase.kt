@@ -1,10 +1,13 @@
 package com.faltenreich.diaguard.preference.list
 
+import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.DecimalPlacesFormScreen
+import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.DecimalPlacesFormModal
 import com.faltenreich.diaguard.navigation.screen.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.screen.TagListScreen
 import com.faltenreich.diaguard.preference.ColorScheme
+import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceListListItem
@@ -21,6 +24,7 @@ import diaguard.shared.generated.resources.color_scheme
 import diaguard.shared.generated.resources.contact
 import diaguard.shared.generated.resources.data
 import diaguard.shared.generated.resources.decimal_places
+import diaguard.shared.generated.resources.decimal_places_desc
 import diaguard.shared.generated.resources.facebook
 import diaguard.shared.generated.resources.facebook_url
 import diaguard.shared.generated.resources.facebook_url_short
@@ -55,6 +59,8 @@ class GetDefaultPreferencesUseCase(
     private val setPreference: SetPreferenceUseCase,
     private val getAppVersion: GetAppVersionUseCase,
     private val navigateToScreen: NavigateToScreenUseCase,
+    private val openModal: OpenModalUseCase,
+    private val closeModal: CloseModalUseCase,
 ) {
 
     operator fun invoke(): Flow<List<PreferenceListItem>> {
@@ -62,7 +68,8 @@ class GetDefaultPreferencesUseCase(
             getPreference(ColorScheme.Preference),
             getPreference(StartScreen.Preference),
             getAppVersion(),
-        ) { colorScheme, startScreen, appVersion ->
+            getPreference(DecimalPlaces),
+        ) { colorScheme, startScreen, appVersion, decimalPlaces ->
             preferences {
                 list {
                     title = Res.string.color_scheme
@@ -92,7 +99,8 @@ class GetDefaultPreferencesUseCase(
                 }
                 action {
                     title = Res.string.decimal_places
-                    onClick = { navigateToScreen(DecimalPlacesFormScreen) }
+                    subtitle = localization.getString(Res.string.decimal_places_desc)
+                    onClick = { openModal(DecimalPlacesFormModal(onDismissRequest = { closeModal() })) }
                 }
                 action {
                     title = Res.string.measurement_categories

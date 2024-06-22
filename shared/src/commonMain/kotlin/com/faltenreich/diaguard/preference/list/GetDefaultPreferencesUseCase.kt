@@ -91,16 +91,16 @@ class GetDefaultPreferencesUseCase(
                     icon = Res.drawable.ic_data
                 }
                 action {
+                    title = Res.string.decimal_places
+                    onClick = { navigateToScreen(DecimalPlacesFormScreen) }
+                }
+                action {
                     title = Res.string.measurement_categories
                     onClick = { navigateToScreen(MeasurementCategoryListScreen) }
                 }
                 action {
                     title = Res.string.tags
                     onClick = { navigateToScreen(TagListScreen) }
-                }
-                action {
-                    title = Res.string.decimal_places
-                    onClick = { navigateToScreen(DecimalPlacesFormScreen) }
                 }
                 category {
                     title = Res.string.contact

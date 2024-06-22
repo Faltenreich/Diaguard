@@ -35,7 +35,7 @@ class Navigation {
     }
 
     fun pushBottomSheet(screen: Screen) {
-        bottomSheetNavigator.push(screen)
+        bottomSheetNavigator.show(screen)
     }
 
     fun popBottomSheet() {

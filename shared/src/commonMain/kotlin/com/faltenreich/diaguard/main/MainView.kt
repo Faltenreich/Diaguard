@@ -5,14 +5,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
@@ -20,7 +15,7 @@ import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigation
+import com.faltenreich.diaguard.navigation.screen.BottomSheetNavigationScreen
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
@@ -46,8 +41,6 @@ fun MainView(
             SideEffect { navigation.navigator = navigator }
 
             Box(modifier = modifier) {
-                var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-                val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                 Scaffold(
                     topBar = {
                         val screen = navigator.lastItem as? Screen
@@ -65,18 +58,14 @@ fun MainView(
                         val screen = navigator.lastItem as? Screen
                         val style = screen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
                         if (style != BottomAppBarStyle.Hidden) {
-                            BottomAppBar(style, onMenuClick = { openBottomSheet = true })
+                            BottomAppBar(
+                                style = style,
+                                onMenuClick = { navigation.pushBottomSheet(BottomSheetNavigationScreen) },
+                            )
                         }
                     },
                     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                 )
-
-                if (openBottomSheet) {
-                    BottomSheetNavigation(
-                        state = bottomSheetState,
-                        onDismissRequest = { openBottomSheet = false },
-                    )
-                }
 
                 state.modal?.Content()
             }

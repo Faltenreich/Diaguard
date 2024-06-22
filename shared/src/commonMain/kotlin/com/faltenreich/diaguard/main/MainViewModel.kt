@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.main
 
 import com.faltenreich.diaguard.backup.ImportUseCase
+import com.faltenreich.diaguard.navigation.CloseBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.GetActiveScreenUseCase
 import com.faltenreich.diaguard.navigation.GetModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
@@ -24,6 +25,7 @@ class MainViewModel(
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     val getActiveScreen: GetActiveScreenUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
+    private val closeBottomSheet: CloseBottomSheetUseCase = inject(),
 ) : ViewModel<MainState, NavigationIntent, Unit>() {
 
     override val state = combine(
@@ -59,7 +61,10 @@ class MainViewModel(
 
     override suspend fun handleIntent(intent: NavigationIntent) {
         when (intent) {
-            is NavigationIntent.NavigateTo -> navigateToScreen(intent.screen)
+            is NavigationIntent.NavigateTo -> {
+                navigateToScreen(intent.screen)
+                closeBottomSheet()
+            }
             is NavigationIntent.NavigateBack -> navigateBack()
         }
     }

@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.navigation.bottom
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.search.FoodSearchMode
@@ -30,20 +29,14 @@ import diaguard.shared.generated.resources.log
 import diaguard.shared.generated.resources.preferences
 import diaguard.shared.generated.resources.statistic
 import diaguard.shared.generated.resources.timeline
-import kotlinx.coroutines.launch
 
 @Composable
 fun BottomSheetNavigation(
-    onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = inject(),
 ) {
-    val scope = rememberCoroutineScope()
     val navigateTo = { screen: Screen, clearBackStack: Boolean ->
-        scope.launch {
-            viewModel.dispatchIntent(NavigationIntent.NavigateTo(screen, clearBackStack))
-            // state.hide()
-        }.invokeOnCompletion { onDismissRequest() }
+        viewModel.dispatchIntent(NavigationIntent.NavigateTo(screen, clearBackStack))
     }
     Column(modifier = modifier) {
         BottomSheetNavigationItem(

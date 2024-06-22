@@ -39,7 +39,7 @@ class Navigation {
     }
 
     fun popBottomSheet() {
-        bottomSheetNavigator.pop()
+        bottomSheetNavigator.hide()
     }
 
     fun pushModal(modal: Modal) {

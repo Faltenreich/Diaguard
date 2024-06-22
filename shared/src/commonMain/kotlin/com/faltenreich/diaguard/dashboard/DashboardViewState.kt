@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.value.MeasurementValueForUser
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 
 data class DashboardViewState(
@@ -14,7 +15,7 @@ data class DashboardViewState(
 
     data class LatestBloodSugar(
         val entry: Entry.Local,
-        val value: String,
+        val value: MeasurementValueForUser,
         val tint: MeasurementValueTint,
         val timePassed: String,
     )
@@ -26,13 +27,13 @@ data class DashboardViewState(
     )
 
     data class Average(
-        val day: String?,
-        val week: String?,
-        val month: String?,
+        val day: MeasurementValueForUser?,
+        val week: MeasurementValueForUser?,
+        val month: MeasurementValueForUser?,
     )
 
     data class HbA1c(
-        val value: String,
+        val value: MeasurementValueForUser,
     )
 
     data class Trend(

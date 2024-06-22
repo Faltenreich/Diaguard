@@ -36,21 +36,21 @@ fun AverageDashboardItem(
                         text = getString(Res.string.day),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.day ?: getString(Res.string.placeholder))
+                    Text(data?.day?.value ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
                         text = getString(Res.string.week),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.week ?: getString(Res.string.placeholder))
+                    Text(data?.week?.value ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
                         text = getString(Res.string.month),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.month ?: getString(Res.string.placeholder))
+                    Text(data?.month?.value ?: getString(Res.string.placeholder))
                 }
             }
         }

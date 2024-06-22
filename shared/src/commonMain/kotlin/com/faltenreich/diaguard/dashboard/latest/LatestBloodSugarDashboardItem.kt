@@ -34,7 +34,7 @@ fun LatestDashboardItem(
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = data?.value ?: getString(Res.string.placeholder),
+                    text = data?.value?.value ?: getString(Res.string.placeholder),
                     style = AppTheme.typography.displayLarge,
                     color = data?.tint?.getColor() ?: AppTheme.colors.scheme.onPrimary,
                 )

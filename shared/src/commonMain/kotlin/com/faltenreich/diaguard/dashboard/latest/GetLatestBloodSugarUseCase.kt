@@ -33,7 +33,7 @@ class GetLatestBloodSugarUseCase(
                     null -> null
                     else -> DashboardViewState.LatestBloodSugar(
                         entry = value.entry,
-                        value = valueMapper(value).value,
+                        value = valueMapper(value),
                         tint = getValueColor(value),
                         timePassed = dateTimeFormatter.formatTimePassed(
                             start = value.entry.dateTime,

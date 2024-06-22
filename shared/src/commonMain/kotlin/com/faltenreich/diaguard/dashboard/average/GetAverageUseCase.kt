@@ -49,13 +49,13 @@ class GetAverageUseCase(
                 DashboardViewState.Average(
                     day = averageOfDay?.let {
                         mapValue(MeasurementValueForDatabase(averageOfDay, unit))
-                    }?.value,
+                    },
                     week = averageOfWeek?.let {
                         mapValue(MeasurementValueForDatabase(averageOfWeek, unit))
-                    }?.value,
+                    },
                     month = averageOfMonth?.let {
                         mapValue(MeasurementValueForDatabase(averageOfMonth, unit))
-                    }?.value,
+                    },
                 )
             }
         }

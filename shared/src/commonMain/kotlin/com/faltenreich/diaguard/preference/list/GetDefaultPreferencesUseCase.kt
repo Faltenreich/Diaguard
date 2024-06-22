@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.preference.list
 
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.navigation.screen.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.screen.TagListScreen
 import com.faltenreich.diaguard.preference.ColorScheme
@@ -19,6 +20,7 @@ import diaguard.shared.generated.resources.about
 import diaguard.shared.generated.resources.color_scheme
 import diaguard.shared.generated.resources.contact
 import diaguard.shared.generated.resources.data
+import diaguard.shared.generated.resources.decimal_places
 import diaguard.shared.generated.resources.facebook
 import diaguard.shared.generated.resources.facebook_url
 import diaguard.shared.generated.resources.facebook_url_short
@@ -95,6 +97,10 @@ class GetDefaultPreferencesUseCase(
                 action {
                     title = Res.string.tags
                     onClick = { navigateToScreen(TagListScreen) }
+                }
+                action {
+                    title = Res.string.decimal_places
+                    onClick = { navigateToScreen(DecimalPlacesFormScreen) }
                 }
                 category {
                     title = Res.string.contact

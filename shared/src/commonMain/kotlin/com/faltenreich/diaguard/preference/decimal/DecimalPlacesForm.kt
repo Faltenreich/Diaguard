@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.preference.decimal
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,10 +22,7 @@ fun DecimalPlacesForm(
     viewModel: DecimalPlacesFormViewModel = inject(),
 ) {
     var value by rememberSaveable { mutableStateOf(0f) }
-    Column(
-        modifier = modifier.padding(all = AppTheme.dimensions.padding.P_2),
-        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
-    ) {
+    Column(modifier = modifier) {
         Text(
             text = getString(Res.string.decimal_places),
             style = AppTheme.typography.labelMedium,

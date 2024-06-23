@@ -1,13 +1,8 @@
 package com.faltenreich.diaguard.navigation.bottom
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.search.FoodSearchMode
@@ -43,15 +38,7 @@ fun BottomSheetNavigation(
     val navigateTo = { screen: Screen, clearBackStack: Boolean ->
         viewModel.dispatchIntent(NavigationIntent.NavigateTo(screen, clearBackStack))
     }
-    Column(
-        modifier = modifier
-            .padding(
-                bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding(),
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        BottomSheetDefaults.DragHandle()
-
+    Column(modifier = modifier) {
         BottomSheetNavigationItem(
             label = Res.string.dashboard,
             icon = Res.drawable.ic_dashboard,

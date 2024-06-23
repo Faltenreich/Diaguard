@@ -1,8 +1,7 @@
-package com.faltenreich.diaguard.navigation.modal
+package com.faltenreich.diaguard.shared.view
 
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.shared.view.BottomSheet
-import com.faltenreich.diaguard.shared.view.EmojiPicker
+import com.faltenreich.diaguard.navigation.Modal
 
 class EmojiModal(
     private val onDismissRequest: () -> Unit,

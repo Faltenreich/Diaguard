@@ -1,14 +1,12 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.measurement.category.form
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryForm
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormIntent
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString

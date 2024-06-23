@@ -16,8 +16,8 @@ import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.screen.BottomSheetNavigationScreen
-import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationScreen
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.inject
@@ -70,7 +70,9 @@ fun MainView(
                         if (style != BottomAppBarStyle.Hidden) {
                             BottomAppBar(
                                 style = style,
-                                onMenuClick = { navigation.pushBottomSheet(BottomSheetNavigationScreen) },
+                                onMenuClick = { navigation.pushBottomSheet(
+                                    BottomSheetNavigationScreen
+                                ) },
                             )
                         }
                     },

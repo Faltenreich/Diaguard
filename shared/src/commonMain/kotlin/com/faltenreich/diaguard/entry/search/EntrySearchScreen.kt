@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.entry.search
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -6,9 +6,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.entry.search.EntrySearch
-import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.ClearButton

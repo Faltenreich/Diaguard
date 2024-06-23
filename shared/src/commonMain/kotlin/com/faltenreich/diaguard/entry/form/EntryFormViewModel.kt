@@ -25,10 +25,10 @@ import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.ShowSnackbarUseCase
-import com.faltenreich.diaguard.navigation.modal.DatePickerModal
-import com.faltenreich.diaguard.navigation.modal.DeleteModal
-import com.faltenreich.diaguard.navigation.modal.TimePickerModal
-import com.faltenreich.diaguard.navigation.screen.FoodSearchScreen
+import com.faltenreich.diaguard.datetime.picker.DatePickerModal
+import com.faltenreich.diaguard.shared.view.DeleteModal
+import com.faltenreich.diaguard.datetime.picker.TimePickerModal
+import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult

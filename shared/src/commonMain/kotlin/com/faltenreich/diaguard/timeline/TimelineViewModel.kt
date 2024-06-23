@@ -7,9 +7,9 @@ import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategor
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
-import com.faltenreich.diaguard.navigation.modal.DatePickerModal
-import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
-import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
+import com.faltenreich.diaguard.datetime.picker.DatePickerModal
+import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine

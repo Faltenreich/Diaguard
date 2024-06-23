@@ -1,12 +1,12 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.statistic
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.navigation.Screen
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.statistic.Statistic
 
 data object StatisticScreen : Screen {
 

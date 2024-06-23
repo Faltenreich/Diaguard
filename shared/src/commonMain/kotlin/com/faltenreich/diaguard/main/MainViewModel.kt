@@ -7,9 +7,9 @@ import com.faltenreich.diaguard.navigation.GetModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.NavigationIntent
-import com.faltenreich.diaguard.navigation.screen.DashboardScreen
-import com.faltenreich.diaguard.navigation.screen.LogScreen
-import com.faltenreich.diaguard.navigation.screen.TimelineScreen
+import com.faltenreich.diaguard.dashboard.DashboardScreen
+import com.faltenreich.diaguard.log.LogScreen
+import com.faltenreich.diaguard.timeline.TimelineScreen
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel

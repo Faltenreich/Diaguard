@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.food.eaten.list
 
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
+import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.map

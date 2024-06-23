@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.navigation
 
-import com.faltenreich.diaguard.navigation.modal.Modal
 import kotlinx.coroutines.flow.Flow
 
 class GetModalUseCase(

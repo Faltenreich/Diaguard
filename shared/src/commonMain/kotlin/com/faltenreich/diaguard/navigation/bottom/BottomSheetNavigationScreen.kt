@@ -1,8 +1,7 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.navigation.bottom
 
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.navigation.bottom.BottomSheetContainer
-import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigation
+import com.faltenreich.diaguard.navigation.Screen
 
 data object BottomSheetNavigationScreen : Screen {
 

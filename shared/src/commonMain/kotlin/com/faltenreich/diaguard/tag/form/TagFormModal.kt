@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.navigation.modal
+package com.faltenreich.diaguard.tag.form
 
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.tag.form.TagFormDialog
+import com.faltenreich.diaguard.navigation.Modal
 
 data object TagFormModal : Modal {
 

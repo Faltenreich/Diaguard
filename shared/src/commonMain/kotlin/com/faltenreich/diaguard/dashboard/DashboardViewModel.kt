@@ -4,8 +4,8 @@ import com.faltenreich.diaguard.dashboard.average.GetAverageUseCase
 import com.faltenreich.diaguard.dashboard.latest.GetLatestBloodSugarUseCase
 import com.faltenreich.diaguard.dashboard.today.GetTodayUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.EntryFormScreen
-import com.faltenreich.diaguard.navigation.screen.EntrySearchScreen
+import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

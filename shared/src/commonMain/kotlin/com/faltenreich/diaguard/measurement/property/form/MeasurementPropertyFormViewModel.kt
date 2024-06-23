@@ -8,8 +8,8 @@ import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
-import com.faltenreich.diaguard.navigation.modal.AlertModal
-import com.faltenreich.diaguard.navigation.modal.DeleteModal
+import com.faltenreich.diaguard.shared.view.AlertModal
+import com.faltenreich.diaguard.shared.view.DeleteModal
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization

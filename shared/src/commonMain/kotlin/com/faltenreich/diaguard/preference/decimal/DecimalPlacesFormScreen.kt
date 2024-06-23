@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.preference.decimal
 
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetContainer
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesForm
+import com.faltenreich.diaguard.navigation.Screen
 
 data object DecimalPlacesFormScreen : Screen {
 

@@ -2,9 +2,9 @@ package com.faltenreich.diaguard.preference.list
 
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenBottomSheetUseCase
-import com.faltenreich.diaguard.navigation.screen.DecimalPlacesFormScreen
-import com.faltenreich.diaguard.navigation.screen.MeasurementCategoryListScreen
-import com.faltenreich.diaguard.navigation.screen.TagListScreen
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
+import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
+import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem

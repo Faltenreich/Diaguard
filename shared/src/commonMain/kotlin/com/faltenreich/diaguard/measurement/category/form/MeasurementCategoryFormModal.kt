@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.navigation.modal
+package com.faltenreich.diaguard.measurement.category.form
 
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormDialog
+import com.faltenreich.diaguard.navigation.Modal
 
 class MeasurementCategoryFormModal(
     private val onDismissRequest: () -> Unit,

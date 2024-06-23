@@ -1,55 +1,54 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.food.form
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.form.EntryForm
-import com.faltenreich.diaguard.entry.form.EntryFormIntent
-import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
-import com.faltenreich.diaguard.shared.di.getSharedViewModel
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.entry
-import diaguard.shared.generated.resources.entry_delete
+import diaguard.shared.generated.resources.food
+import diaguard.shared.generated.resources.food_delete
+import diaguard.shared.generated.resources.food_eaten
 import diaguard.shared.generated.resources.ic_check
 import diaguard.shared.generated.resources.ic_delete
+import diaguard.shared.generated.resources.ic_history
 import diaguard.shared.generated.resources.save
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
-data class EntryFormScreen(
-    val entry: Entry.Local? = null,
-    val date: Date? = null,
-    val food: Food.Local? = null,
-) : Screen {
+data class FoodFormScreen(private val food: Food.Local? = null) : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
-            Text(getString(Res.string.entry))
+            Text(getString(Res.string.food))
         }
 
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date, food) }
+                val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
-                    contentDescription = Res.string.entry_delete,
-                    onClick = { viewModel.dispatchIntent(EntryFormIntent.Delete) },
+                    contentDescription = Res.string.food_delete,
+                    onClick = { viewModel.dispatchIntent(FoodFormIntent.Delete) },
                 )
+                food?.let { food ->
+                    BottomAppBarItem(
+                        painter = painterResource(Res.drawable.ic_history),
+                        contentDescription = Res.string.food_eaten,
+                        onClick = { viewModel.dispatchIntent(FoodFormIntent.OpenFoodEaten(food)) },
+                    )
+                }
             },
             floatingActionButton = {
-                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date, food) }
-                FloatingActionButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) }) {
+                val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
+                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
                         contentDescription = getString(Res.string.save),
@@ -60,9 +59,6 @@ data class EntryFormScreen(
 
     @Composable
     override fun Content() {
-        EntryForm(
-            viewModel = getViewModel { parametersOf(entry, date, food) },
-            foodSearchViewModel = getSharedViewModel { parametersOf(FoodSearchMode.FIND) },
-        )
+        FoodForm(viewModel = getViewModel { parametersOf(food) })
     }
 }

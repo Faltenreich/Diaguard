@@ -4,8 +4,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import com.faltenreich.diaguard.navigation.modal.Modal
-import com.faltenreich.diaguard.navigation.screen.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class Navigation {

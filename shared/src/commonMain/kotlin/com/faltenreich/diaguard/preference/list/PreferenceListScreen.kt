@@ -1,11 +1,10 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.preference.list
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.navigation.Screen
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
-import com.faltenreich.diaguard.preference.list.PreferenceList
-import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString

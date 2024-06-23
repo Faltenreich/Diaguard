@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.food.eaten.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Icon
@@ -7,10 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.eaten.list.FoodEatenList
-import com.faltenreich.diaguard.food.eaten.list.FoodEatenListIntent
-import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString

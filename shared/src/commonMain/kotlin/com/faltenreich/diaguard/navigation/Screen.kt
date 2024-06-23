@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.navigation
 
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
@@ -13,7 +13,7 @@ import cafe.adriel.voyager.core.screen.Screen as VoyagerScreen
  * Both [topAppBarStyle] and [bottomAppBarStyle] must be computed
  * in order to avoid a BadParcelableException on resume
  */
-sealed interface Screen : VoyagerScreen {
+interface Screen : VoyagerScreen {
 
     val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.Hidden

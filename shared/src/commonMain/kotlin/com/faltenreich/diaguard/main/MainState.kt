@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.main
 
-import com.faltenreich.diaguard.navigation.modal.Modal
-import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.Modal
+import com.faltenreich.diaguard.navigation.Screen
 
 sealed interface MainState {
 

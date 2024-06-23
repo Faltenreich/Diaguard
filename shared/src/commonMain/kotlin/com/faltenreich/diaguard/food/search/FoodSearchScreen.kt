@@ -1,12 +1,9 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.food.search
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.food.search.FoodSearch
-import com.faltenreich.diaguard.food.search.FoodSearchIntent
-import com.faltenreich.diaguard.food.search.FoodSearchMode
-import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getSharedViewModel
 import com.faltenreich.diaguard.shared.localization.getString

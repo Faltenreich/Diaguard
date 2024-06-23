@@ -9,6 +9,7 @@ expect class NumberFormatter constructor() {
     operator fun invoke(
         number: Double,
         scale: Int = 2,
+        // TODO: Extract
         locale: Locale = inject<Localization>().getLocale(),
     ): String
 }

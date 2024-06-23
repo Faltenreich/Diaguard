@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -34,13 +35,22 @@ fun MainView(
 
     SideEffect { navigation.snackbarState = snackbarHostState }
 
-    BottomSheetNavigator { bottomSheetNavigator ->
+    // TODO: Migrate to Material3
+    // https://github.com/adrielcafe/voyager/issues/185
+    BottomSheetNavigator(
+        modifier = modifier,
+        hideOnBackPress = true,
+        scrimColor = BottomSheetDefaults.ScrimColor,
+        sheetShape = BottomSheetDefaults.ExpandedShape,
+        sheetElevation = BottomSheetDefaults.Elevation,
+        sheetBackgroundColor = BottomSheetDefaults.ContainerColor,
+    ) { bottomSheetNavigator ->
         SideEffect { navigation.bottomSheetNavigator = bottomSheetNavigator }
 
         Navigator(screen = state.startScreen) { navigator ->
             SideEffect { navigation.navigator = navigator }
 
-            Box(modifier = modifier) {
+            Box {
                 Scaffold(
                     topBar = {
                         val screen = navigator.lastItem as? Screen

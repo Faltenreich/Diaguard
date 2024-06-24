@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.preference
 
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormViewModel
+import com.faltenreich.diaguard.preference.decimal.IllustrateDecimalPlacesUseCase
 import com.faltenreich.diaguard.preference.list.GetDefaultPreferencesUseCase
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
@@ -23,5 +24,7 @@ fun preferenceModule() = module {
     factory { (preferences: List<PreferenceListItem>?) ->
         PreferenceListViewModel(preferences)
     }
+
+    singleOf(::IllustrateDecimalPlacesUseCase)
     singleOf(::DecimalPlacesFormViewModel)
 }

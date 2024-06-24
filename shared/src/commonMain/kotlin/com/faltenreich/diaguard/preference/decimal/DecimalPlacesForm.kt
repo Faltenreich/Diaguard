@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.decimal_places
-import diaguard.shared.generated.resources.decimal_places_example
 
 @Composable
 fun DecimalPlacesForm(
@@ -24,11 +23,7 @@ fun DecimalPlacesForm(
             style = AppTheme.typography.labelMedium,
         )
         Text(
-            text = getString(
-                Res.string.decimal_places_example,
-                state.decimalPlaces.toString(),
-                state.decimalPlaces.toString(),
-            ),
+            text = state.illustration,
             style = AppTheme.typography.bodyMedium,
         )
         Slider(

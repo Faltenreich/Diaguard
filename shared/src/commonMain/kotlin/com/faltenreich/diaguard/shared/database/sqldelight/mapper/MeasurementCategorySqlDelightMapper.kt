@@ -1,0 +1,33 @@
+package com.faltenreich.diaguard.shared.database.sqldelight.mapper
+
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
+
+class MeasurementCategorySqlDelightMapper(
+    private val dateTimeFactory: DateTimeFactory,
+) {
+
+    fun map(
+        id: Long,
+        createdAt: String,
+        updatedAt: String,
+        key: String?,
+        name: String,
+        icon: String?,
+        sortIndex: Long,
+        isActive: Long,
+    ): MeasurementCategory.Local {
+        return MeasurementCategory.Local(
+            id = id,
+            createdAt = dateTimeFactory.dateTime(isoString = createdAt),
+            updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
+            key = key?.let(DatabaseKey.MeasurementCategory::from),
+            name = name,
+            icon = icon,
+            sortIndex = sortIndex,
+            isActive = isActive.toSqlLiteBoolean(),
+        )
+    }
+}

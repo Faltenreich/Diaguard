@@ -1,0 +1,88 @@
+package com.faltenreich.diaguard.navigation.bottom
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.food.search.FoodSearchMode
+import com.faltenreich.diaguard.main.MainViewModel
+import com.faltenreich.diaguard.navigation.NavigationIntent
+import com.faltenreich.diaguard.dashboard.DashboardScreen
+import com.faltenreich.diaguard.export.ExportFormScreen
+import com.faltenreich.diaguard.food.search.FoodSearchScreen
+import com.faltenreich.diaguard.log.LogScreen
+import com.faltenreich.diaguard.preference.list.PreferenceListScreen
+import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.statistic.StatisticScreen
+import com.faltenreich.diaguard.timeline.TimelineScreen
+import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.Divider
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.dashboard
+import diaguard.shared.generated.resources.export
+import diaguard.shared.generated.resources.food
+import diaguard.shared.generated.resources.ic_dashboard
+import diaguard.shared.generated.resources.ic_log
+import diaguard.shared.generated.resources.ic_timeline
+import diaguard.shared.generated.resources.log
+import diaguard.shared.generated.resources.preferences
+import diaguard.shared.generated.resources.statistic
+import diaguard.shared.generated.resources.timeline
+
+@Composable
+fun BottomSheetNavigation(
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel = inject(),
+) {
+    val navigateTo = { screen: Screen, clearBackStack: Boolean ->
+        viewModel.dispatchIntent(NavigationIntent.NavigateTo(screen, clearBackStack))
+    }
+    Column(modifier = modifier) {
+        BottomSheetNavigationItem(
+            label = Res.string.dashboard,
+            icon = Res.drawable.ic_dashboard,
+            isActive = viewModel.getActiveScreen() is DashboardScreen,
+            onClick = { navigateTo(DashboardScreen, true) },
+        )
+        BottomSheetNavigationItem(
+            label = Res.string.timeline,
+            icon = Res.drawable.ic_timeline,
+            isActive = viewModel.getActiveScreen() is TimelineScreen,
+            onClick = { navigateTo(TimelineScreen, true) },
+        )
+        BottomSheetNavigationItem(
+            label = Res.string.log,
+            icon = Res.drawable.ic_log,
+            isActive = viewModel.getActiveScreen() is LogScreen,
+            onClick = { navigateTo(LogScreen, true) },
+        )
+
+        Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
+
+        BottomSheetNavigationItem(
+            label = Res.string.food,
+            icon = null,
+            isActive = viewModel.getActiveScreen() is FoodSearchScreen,
+            onClick = { navigateTo(FoodSearchScreen(mode = FoodSearchMode.STROLL), false) },
+        )
+        BottomSheetNavigationItem(
+            label = Res.string.statistic,
+            icon = null,
+            isActive = viewModel.getActiveScreen() is StatisticScreen,
+            onClick = { navigateTo(StatisticScreen, false) },
+        )
+        BottomSheetNavigationItem(
+            label = Res.string.export,
+            icon = null,
+            isActive = viewModel.getActiveScreen() is ExportFormScreen,
+            onClick = { navigateTo(ExportFormScreen, false) },
+        )
+        BottomSheetNavigationItem(
+            label = Res.string.preferences,
+            icon = null,
+            isActive = viewModel.getActiveScreen() is PreferenceListScreen,
+            onClick = { navigateTo(PreferenceListScreen(), false) },
+        )
+    }
+}

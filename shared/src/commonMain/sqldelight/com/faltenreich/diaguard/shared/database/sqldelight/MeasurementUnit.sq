@@ -1,0 +1,59 @@
+CREATE TABLE MeasurementUnit (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    key TEXT UNIQUE,
+    name TEXT NOT NULL,
+    abbreviation TEXT NOT NULL,
+    factor REAL NOT NULL,
+    isSelected INTEGER NOT NULL,
+    propertyId INTEGER NOT NULL,
+    FOREIGN KEY(propertyId) REFERENCES MeasurementProperty(id) ON DELETE CASCADE
+);
+
+create:
+INSERT INTO MeasurementUnit(createdAt, updatedAt, key, name, abbreviation, factor, isSelected, propertyId)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getById:
+SELECT * FROM MeasurementUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+WHERE MeasurementUnit.id = ?;
+
+getByKey:
+SELECT * FROM MeasurementUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+ WHERE MeasurementUnit.key = ?;
+
+getByProperty:
+SELECT * FROM MeasurementUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+WHERE MeasurementUnit.propertyId = ?
+ORDER BY MeasurementUnit.createdAt ASC;
+
+getByCategoryId:
+SELECT * FROM MeasurementUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+WHERE MeasurementProperty.categoryId = ?
+ORDER BY MeasurementUnit.createdAt ASC;
+
+getAll:
+SELECT * FROM MeasurementUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+ORDER BY MeasurementUnit.createdAt ASC;
+
+update:
+UPDATE MeasurementUnit
+SET updatedAt = ?, name = ?, abbreviation = ?, isSelected = ?
+WHERE id = ?;
+
+deleteById:
+DELETE FROM MeasurementUnit WHERE id = ?;

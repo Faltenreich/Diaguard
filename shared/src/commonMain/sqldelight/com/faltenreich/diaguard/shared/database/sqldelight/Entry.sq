@@ -1,0 +1,35 @@
+CREATE TABLE Entry (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    dateTime TEXT NOT NULL,
+    note TEXT
+);
+
+create:
+INSERT INTO Entry(createdAt, updatedAt, dateTime, note)
+VALUES (?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getById:
+SELECT * FROM Entry WHERE id = ?;
+
+getByDateRange:
+SELECT * FROM Entry WHERE dateTime >= :startDateTime AND dateTime <= :endDateTime ORDER BY dateTime;
+
+getAll:
+SELECT * FROM Entry ORDER BY dateTime DESC;
+
+getByQuery:
+SELECT * FROM Entry WHERE note LIKE ('%' || :query || '%');
+
+countAll:
+SELECT COUNT(*) FROM Entry;
+
+update:
+UPDATE Entry SET updatedAt = ?, dateTime = ?, note = ? WHERE id = ?;
+
+deleteById:
+DELETE FROM Entry WHERE id = ?;

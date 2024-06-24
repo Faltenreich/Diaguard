@@ -1,0 +1,77 @@
+name: verify
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Test
+        run: ./gradlew koverXmlReport
+
+      - name: Report
+        uses: mi-kas/kover-report@v1
+        with:
+          path: ${{ github.workspace }}/shared/build/reports/kover/report.xml
+          title: Code Coverage
+          update-comment: true
+          min-coverage-changed-files: 80
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: "**/build/reports"
+        if: always()
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        run: ./gradlew lintDebug
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-reports
+          path: "**/build/reports/lint-results-debug.html"
+        if: always()
+
+  detekt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Detekt
+        run: ./gradlew detektMetadataMain
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: detekt-reports
+          path: "**/build/reports/detekt"
+        if: always()

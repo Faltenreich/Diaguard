@@ -1,0 +1,80 @@
+CREATE TABLE MeasurementProperty (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    key TEXT UNIQUE,
+    name TEXT NOT NULL,
+    sortIndex INTEGER NOT NULL,
+    aggregationStyle INTEGER NOT NULL,
+    valueRangeMinimum REAL NOT NULL,
+    valueRangeLow REAL,
+    valueRangeTarget REAL,
+    valueRangeHigh REAL,
+    valueRangeMaximum REAL NOT NULL,
+    isValueRangeHighlighted INTEGER NOT NULL,
+    categoryId INTEGER NOT NULL,
+    FOREIGN KEY(categoryId) REFERENCES MeasurementCategory(id) ON DELETE CASCADE
+);
+
+create:
+INSERT INTO MeasurementProperty(
+    createdAt,
+    updatedAt,
+    key,
+    name,
+    sortIndex,
+    aggregationStyle,
+    valueRangeMinimum,
+    valueRangeLow,
+    valueRangeTarget,
+    valueRangeHigh,
+    valueRangeMaximum,
+    isValueRangeHighlighted,
+    categoryId
+)
+VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getById:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+WHERE MeasurementProperty.id = ?;
+
+getByKey:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+WHERE MeasurementProperty.key = ?;
+
+getByCategory:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+WHERE MeasurementProperty.categoryId = ?
+ORDER BY MeasurementProperty.sortIndex ASC;
+
+getAll:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+ORDER BY MeasurementProperty.sortIndex ASC;
+
+update:
+UPDATE MeasurementProperty
+SET updatedAt = ?,
+    name = ?,
+    sortIndex = ?,
+    aggregationStyle = ?,
+    valueRangeMinimum = ?,
+    valueRangeLow = ?,
+    valueRangeTarget = ?,
+    valueRangeHigh = ?,
+    valueRangeMaximum = ?,
+    isValueRangeHighlighted = ?
+WHERE id = ?;
+
+deleteById:
+DELETE FROM MeasurementProperty WHERE id = ?;

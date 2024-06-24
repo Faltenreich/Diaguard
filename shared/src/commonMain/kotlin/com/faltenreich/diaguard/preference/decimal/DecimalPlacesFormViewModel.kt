@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class DecimalPlacesFormViewModel(
@@ -18,6 +19,7 @@ class DecimalPlacesFormViewModel(
 
     override val state = combine(
         decimalPlaces,
+        flowOf(range),
         illustration,
         ::DecimalPlacesFormState,
     )
@@ -26,5 +28,10 @@ class DecimalPlacesFormViewModel(
         when (intent) {
             is DecimalPlacesFormIntent.SetDecimalPlaces -> setPreference(DecimalPlaces, intent.decimalPlaces)
         }
+    }
+
+    companion object {
+
+        private val range = 0 .. 3
     }
 }

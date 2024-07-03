@@ -29,14 +29,12 @@ fun PreferenceListItemLayout(
     ) {
         Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ListOffsetWidth))
         Column {
-            Column {
-                Text(getString(preference.title))
-                preference.subtitle?.let { subtitle ->
-                    Text(
-                        text = subtitle,
-                        style = AppTheme.typography.bodySmall,
-                    )
-                }
+            Text(getString(preference.title))
+            preference.subtitle?.let { subtitle ->
+                Text(
+                    text = subtitle,
+                    style = AppTheme.typography.bodySmall,
+                )
             }
         }
         content?.invoke()

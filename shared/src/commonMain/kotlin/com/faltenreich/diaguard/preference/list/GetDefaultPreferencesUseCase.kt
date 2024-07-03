@@ -1,12 +1,11 @@
 package com.faltenreich.diaguard.preference.list
 
+import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenBottomSheetUseCase
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
-import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
-import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.preference.StartScreen
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceListListItem
 import com.faltenreich.diaguard.preference.list.item.preferences
@@ -16,6 +15,7 @@ import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.networking.UrlOpener
+import com.faltenreich.diaguard.tag.list.TagListScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.about
 import diaguard.shared.generated.resources.color_scheme

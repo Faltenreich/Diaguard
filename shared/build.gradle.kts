@@ -28,8 +28,8 @@ kotlin {
                 // implementation(compose.preview)
                 implementation(compose.runtime)
                 implementation(libs.datastore)
+                implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.core)
-                implementation(libs.koin.compose)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.io)
@@ -49,6 +49,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.test)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.ktor.mock)
@@ -60,7 +61,9 @@ kotlin {
                 implementation(libs.androidx.compose.material3)
                 implementation(libs.androidx.emojipicker)
                 implementation(libs.androidx.lifecycle.compose)
+                implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.android)
+                implementation(libs.koin.compose)
                 implementation(libs.ktor.android)
                 implementation(libs.paging.android)
                 implementation(libs.paging.android.compose)

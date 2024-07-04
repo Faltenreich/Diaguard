@@ -45,6 +45,8 @@ dependencies {
     androidTestImplementation(libs.koin.test)
 
     implementation(libs.activity.compose)
+
+    implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
 }

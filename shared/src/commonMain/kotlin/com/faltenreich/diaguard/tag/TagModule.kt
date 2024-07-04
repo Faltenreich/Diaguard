@@ -20,7 +20,7 @@ fun tagModule() = module {
     singleOf(::GetTagsUseCase)
     singleOf(::HasTagUseCase)
     singleOf(::StoreTagUseCase)
-    single { ValidateTagUseCase(listOf(UniqueTagRule())) }
+    single { ValidateTagUseCase(rules = listOf(UniqueTagRule())) }
     singleOf(::GetEntriesOfTagUseCase)
     singleOf(::DeleteTagUseCase)
 

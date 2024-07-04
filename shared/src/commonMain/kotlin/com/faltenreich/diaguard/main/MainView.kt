@@ -14,10 +14,10 @@ import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationScreen
-import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.inject
@@ -76,6 +76,7 @@ fun MainView(
                             )
                         }
                     },
+                    // FIXME: Overlapped by BottomSheet
                     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                 )
 

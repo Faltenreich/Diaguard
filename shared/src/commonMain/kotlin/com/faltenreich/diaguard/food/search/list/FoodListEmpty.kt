@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.food.search
+package com.faltenreich.diaguard.food.search.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import diaguard.shared.generated.resources.food_search_empty_description
 import diaguard.shared.generated.resources.food_search_empty_title
 
 @Composable
-fun FoodSearchEmpty(modifier: Modifier = Modifier) {
+fun FoodListEmpty(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(

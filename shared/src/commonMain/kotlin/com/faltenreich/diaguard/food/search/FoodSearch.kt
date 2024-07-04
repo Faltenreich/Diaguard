@@ -8,8 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.food.list.FoodList
-import com.faltenreich.diaguard.food.list.FoodListSkeleton
+import com.faltenreich.diaguard.food.search.list.FoodList
+import com.faltenreich.diaguard.food.search.list.FoodListEmpty
+import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
@@ -17,7 +18,8 @@ fun FoodSearch(
     modifier: Modifier = Modifier,
     viewModel: FoodSearchViewModel = inject(),
 ) {
-    val items = viewModel.pagingData.collectAsLazyPagingItems()
+    val state = viewModel.collectState() ?: return
+    val items = state.pagingData.collectAsLazyPagingItems()
 
     Column(modifier = modifier) {
         Column(modifier = Modifier.background(AppTheme.colors.scheme.primary)) {
@@ -43,7 +45,7 @@ fun FoodSearch(
         if (items.loadState.refresh == LoadState.Loading) {
             FoodListSkeleton()
         } else if (isAtTheEnd && items.itemCount == 0) {
-            FoodSearchEmpty()
+            FoodListEmpty()
         } else {
             FoodList(
                 items = items,

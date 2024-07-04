@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.food.list
+package com.faltenreich.diaguard.food.search.list
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize

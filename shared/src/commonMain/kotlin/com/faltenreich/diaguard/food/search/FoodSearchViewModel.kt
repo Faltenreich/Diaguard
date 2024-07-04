@@ -14,10 +14,10 @@ import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
@@ -29,21 +29,17 @@ class FoodSearchViewModel(
 
     var query: String by mutableStateOf("")
 
-    private lateinit var dataSource: FoodSearchSource
-    val pagingData: Flow<PagingData<Food.Local>> = snapshotFlow { query }
+    private val pagingData: Flow<PagingData<Food.Local>> = snapshotFlow { query }
         .debounce(1.seconds)
         .distinctUntilChanged()
         .flatMapLatest { query ->
             Pager(
                 config = FoodSearchSource.newConfig(),
-                pagingSourceFactory = {
-                    FoodSearchSource(query, searchFood)
-                        .also { dataSource = it }
-                },
+                pagingSourceFactory = { FoodSearchSource(query, searchFood) },
             ).flow
     }.cachedIn(scope)
 
-    override val state = MutableStateFlow(FoodSearchState())
+    override val state = flowOf(FoodSearchState(pagingData = pagingData))
 
     override suspend fun handleIntent(intent: FoodSearchIntent) {
         when (intent) {

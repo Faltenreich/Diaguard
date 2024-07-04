@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
@@ -57,7 +56,7 @@ fun DecimalPlacesForm(
         Row(
             modifier = Modifier.background(
                 color = AppTheme.colors.scheme.primaryContainer,
-                shape = RoundedCornerShape(size = AppTheme.dimensions.padding.P_2),
+                shape = AppTheme.shapes.medium,
             ),
             horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
             verticalAlignment = Alignment.CenterVertically,
@@ -76,7 +75,7 @@ fun DecimalPlacesForm(
 
             Text(
                 text = state.decimalPlaces.toString(),
-                color = AppTheme.colors.scheme.onPrimaryContainer,
+                color = AppTheme.colors.scheme.onPrimary,
             )
 
             IconButton(
@@ -94,7 +93,12 @@ fun DecimalPlacesForm(
 
         Text(state.illustration)
 
-        Button(onClick = { viewModel.dispatchIntent(DecimalPlacesFormIntent.Confirm) }) {
+        Button(
+            onClick = { viewModel.dispatchIntent(DecimalPlacesFormIntent.Confirm) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(AppTheme.dimensions.size.TouchSizeMedium),
+        ) {
             Text(stringResource(Res.string.save))
         }
 

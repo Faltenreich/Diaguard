@@ -70,13 +70,14 @@ fun MainView(
                         if (style != BottomAppBarStyle.Hidden) {
                             BottomAppBar(
                                 style = style,
-                                onMenuClick = { navigation.pushBottomSheet(
-                                    BottomSheetNavigationScreen
-                                ) },
+                                onMenuClick = {
+                                    navigation.pushBottomSheet(BottomSheetNavigationScreen)
+                                },
                             )
                         }
                     },
                     // FIXME: Overlapped by BottomSheet
+                    // https://github.com/adrielcafe/voyager/issues/454
                     snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                 )
 

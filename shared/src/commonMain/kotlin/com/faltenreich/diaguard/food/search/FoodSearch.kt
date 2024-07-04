@@ -47,7 +47,6 @@ fun FoodSearch(
         } else {
             FoodList(
                 items = items,
-                onRefresh = { viewModel.dispatchIntent(FoodSearchIntent.Refresh) },
                 onSelect = { food -> viewModel.dispatchIntent(FoodSearchIntent.Select(food)) },
             )
         }

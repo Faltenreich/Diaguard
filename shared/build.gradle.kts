@@ -29,6 +29,7 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(libs.datastore)
                 implementation(libs.koin.core)
+                implementation(libs.koin.compose)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.io)

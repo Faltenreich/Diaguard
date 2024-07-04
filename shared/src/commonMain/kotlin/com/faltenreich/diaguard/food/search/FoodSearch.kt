@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.zIndex
 import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
@@ -50,8 +49,6 @@ fun FoodSearch(
                 items = items,
                 onRefresh = { viewModel.dispatchIntent(FoodSearchIntent.Refresh) },
                 onSelect = { food -> viewModel.dispatchIntent(FoodSearchIntent.Select(food)) },
-                // Workaround to place PullToRefreshContainer behind headers
-                modifier = Modifier.zIndex(-1f),
             )
         }
     }

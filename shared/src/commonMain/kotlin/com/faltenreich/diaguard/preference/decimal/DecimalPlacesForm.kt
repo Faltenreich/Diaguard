@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -22,11 +21,8 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.decimal_places
-import diaguard.shared.generated.resources.decimal_places_desc
 import diaguard.shared.generated.resources.ic_remove
-import diaguard.shared.generated.resources.save
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun DecimalPlacesForm(
@@ -47,9 +43,7 @@ fun DecimalPlacesForm(
             style = AppTheme.typography.titleLarge,
         )
 
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
-
-        Text(stringResource(Res.string.decimal_places_desc))
+        Text(state.illustration)
 
         Row(
             modifier = Modifier.background(
@@ -89,17 +83,6 @@ fun DecimalPlacesForm(
             }
         }
 
-        Text(state.illustration)
-
-        Button(
-            onClick = { viewModel.dispatchIntent(DecimalPlacesFormIntent.Confirm) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(AppTheme.dimensions.size.TouchSizeMedium),
-        ) {
-            Text(stringResource(Res.string.save))
-        }
-
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_4))
     }
 }

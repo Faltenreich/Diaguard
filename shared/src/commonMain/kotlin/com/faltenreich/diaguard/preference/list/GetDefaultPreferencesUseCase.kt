@@ -22,7 +22,6 @@ import diaguard.shared.generated.resources.color_scheme
 import diaguard.shared.generated.resources.contact
 import diaguard.shared.generated.resources.data
 import diaguard.shared.generated.resources.decimal_places
-import diaguard.shared.generated.resources.decimal_places_desc
 import diaguard.shared.generated.resources.facebook
 import diaguard.shared.generated.resources.facebook_url
 import diaguard.shared.generated.resources.facebook_url_short
@@ -95,7 +94,6 @@ class GetDefaultPreferencesUseCase(
                 }
                 action {
                     title = Res.string.decimal_places
-                    subtitle = localization.getString(Res.string.decimal_places_desc)
                     onClick = { openBottomSheet(DecimalPlacesFormScreen) }
                 }
                 action {

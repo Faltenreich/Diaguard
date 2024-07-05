@@ -2,19 +2,28 @@ package com.faltenreich.diaguard.shared.database.sqlite
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import com.faltenreich.diaguard.shared.logging.Logger
 import java.io.File
 
 class SqliteDatabase(file: File) {
 
-    private val database = SQLiteDatabase.openDatabase(file.absolutePath, null, 0)
-
-    private fun query(table: String): Cursor {
-        return database.query(table, null, null, null, null, null, null)
+    private val database: SQLiteDatabase? = try {
+        if (file.exists()) {
+            SQLiteDatabase.openDatabase(file.absolutePath, null, 0)
+        } else {
+            Logger.error("No database found at ${file.absolutePath}")
+            null
+        }
+    } catch (exception: SQLiteException) {
+        Logger.error("Failed to open database at ${file.absolutePath}", exception)
+        null
     }
 
     fun query(table: String, onEach: Cursor.() -> Unit) {
-        with(query(table)) {
+        val database = database ?: return
+        val query = database.query(table, null, null, null, null, null, null)
+        with(query) {
             while (moveToNext()) {
                 try {
                     onEach()

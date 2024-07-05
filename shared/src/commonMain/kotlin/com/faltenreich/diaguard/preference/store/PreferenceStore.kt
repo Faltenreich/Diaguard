@@ -12,6 +12,7 @@ class PreferenceStore(
 ) {
 
     @PublishedApi internal fun <Store, Domain> getKey(preference: Preference<Store, Domain>): String {
+        // FIXME: java.lang.IllegalArgumentException: Invalid symbol '_'(137) at index 10
         val key = localization.getString(preference.key).takeIf(String::isNotBlank)
         requireNotNull(key)
         return key

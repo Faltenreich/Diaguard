@@ -15,7 +15,17 @@ import org.koin.core.qualifier.Qualifier
 import org.koin.core.scope.Scope
 
 /**
- * Solutions taken from https://github.com/InsertKoinIO/koin/issues/1879#issuecomment-2132926268
+ * Wrapper for retrieving [ViewModel] for [Screen]
+ *
+ * Causing java.lang.ClassNotFoundException:
+ * Didn't find class "org.koin.compose.stable.StableHoldersKt"
+ *
+ * Issues:
+ * https://github.com/InsertKoinIO/koin/issues/1879
+ * https://github.com/adrielcafe/voyager/issues/443
+ *
+ * Workaround:
+ * https://github.com/InsertKoinIO/koin/issues/1879#issuecomment-2132926268
  */
 
 @Composable

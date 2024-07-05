@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.shared.di
 
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.koin.koinNavigatorScreenModel
-import cafe.adriel.voyager.koin.koinScreenModel
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import cafe.adriel.voyager.core.model.rememberNavigatorScreenModel
+import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.faltenreich.diaguard.navigation.Screen
@@ -12,13 +14,21 @@ import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier
 import org.koin.core.scope.Scope
 
+/**
+ * Solutions taken from https://github.com/InsertKoinIO/koin/issues/1879#issuecomment-2132926268
+ */
+
 @Composable
 inline fun <reified T : ViewModel<*, *, *>> Screen.getViewModel(
     qualifier: Qualifier? = null,
     scope: Scope = currentKoinScope(),
     noinline parameters: ParametersDefinition? = null,
 ): T {
-    return koinScreenModel(qualifier, scope, parameters)
+    val state = parameters?.let { rememberUpdatedState(parameters) }
+    val tag = remember(qualifier, scope) { qualifier?.value }
+    return rememberScreenModel(tag = tag) {
+        scope.get(qualifier, state?.value)
+    }
 }
 
 @Suppress("UnusedReceiverParameter")
@@ -28,5 +38,9 @@ inline fun <reified T : ViewModel<*, *, *>> Screen.getSharedViewModel(
     scope: Scope = currentKoinScope(),
     noinline parameters: ParametersDefinition? = null,
 ): T {
-    return LocalNavigator.currentOrThrow.koinNavigatorScreenModel(qualifier, scope, parameters)
+    val state = parameters?.let { rememberUpdatedState(parameters) }
+    val tag = remember(qualifier, scope) { qualifier?.value }
+    return LocalNavigator.currentOrThrow.rememberNavigatorScreenModel(tag = tag) {
+        scope.get(qualifier, state?.value)
+    }
 }

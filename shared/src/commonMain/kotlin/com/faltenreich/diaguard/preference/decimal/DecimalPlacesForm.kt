@@ -51,8 +51,6 @@ fun DecimalPlacesForm(
 
         Text(stringResource(Res.string.decimal_places_desc))
 
-        // FIXME: Locked after hiding BottomSheet
-
         Row(
             modifier = Modifier.background(
                 color = AppTheme.colors.scheme.primaryContainer,

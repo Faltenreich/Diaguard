@@ -20,7 +20,7 @@ class IllustrateDecimalPlacesUseCase(
 
     companion object {
 
-        private const val EXAMPLE_SCALE = 3
-        private const val EXAMPLE_NUMBER = .123
+        private const val EXAMPLE_SCALE = 4
+        private const val EXAMPLE_NUMBER = .1234
     }
 }

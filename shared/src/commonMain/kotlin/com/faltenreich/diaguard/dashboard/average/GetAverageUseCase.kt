@@ -8,6 +8,8 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.measurement.value.MeasurementValueForDatabase
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -19,6 +21,7 @@ class GetAverageUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val mapValue: MeasurementValueMapper,
     private val getToday: GetTodayUseCase,
+    private val getPreference: GetPreferenceUseCase,
 ) {
 
     operator fun invoke(): Flow<DashboardViewState.Average?> {
@@ -44,17 +47,27 @@ class GetAverageUseCase(
                     minDateTime = today.minus(1, DateUnit.MONTH).atStartOfDay(),
                     maxDateTime = todayAtEndOfDay,
                 ),
-            ) { properties, averageOfDay, averageOfWeek, averageOfMonth ->
+                getPreference(DecimalPlaces),
+            ) { properties, averageOfDay, averageOfWeek, averageOfMonth, decimalPlaces ->
                 val unit = properties.firstOrNull()?.selectedUnit ?: return@combine null
                 DashboardViewState.Average(
                     day = averageOfDay?.let {
-                        mapValue(MeasurementValueForDatabase(averageOfDay, unit))
+                        mapValue(
+                            value = MeasurementValueForDatabase(averageOfDay, unit),
+                            decimalPlaces = decimalPlaces,
+                        )
                     },
                     week = averageOfWeek?.let {
-                        mapValue(MeasurementValueForDatabase(averageOfWeek, unit))
+                        mapValue(
+                            value = MeasurementValueForDatabase(averageOfWeek, unit),
+                            decimalPlaces = decimalPlaces,
+                        )
                     },
                     month = averageOfMonth?.let {
-                        mapValue(MeasurementValueForDatabase(averageOfMonth, unit))
+                        mapValue(
+                            value = MeasurementValueForDatabase(averageOfMonth, unit),
+                            decimalPlaces = decimalPlaces,
+                        )
                     },
                 )
             }

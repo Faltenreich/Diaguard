@@ -1,37 +1,37 @@
 package com.faltenreich.diaguard.measurement.value
 
-import com.faltenreich.diaguard.preference.DecimalPlaces
-import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
-import kotlinx.coroutines.flow.first
 
 class MeasurementValueMapper(
     private val formatNumber: NumberFormatter,
     private val localization: Localization,
-    private val getPreference: GetPreferenceUseCase,
 ) {
 
-    suspend operator fun invoke(value: MeasurementValue): MeasurementValueForUser {
+    operator fun invoke(
+        value: MeasurementValue,
+        decimalPlaces: Int,
+    ): MeasurementValueForUser {
         val unit = value.property.selectedUnit
         return MeasurementValueForUser(
             value = formatNumber(
                 number = value.value * unit.factor,
-                // FIXME: Observe Flow
-                scale = getPreference(DecimalPlaces).first(),
+                scale = decimalPlaces,
                 locale = localization.getLocale(),
             ),
             unit = unit,
         )
     }
 
-    suspend operator fun invoke(value: MeasurementValueForDatabase): MeasurementValueForUser {
+    operator fun invoke(
+        value: MeasurementValueForDatabase,
+        decimalPlaces: Int,
+    ): MeasurementValueForUser {
         val unit = value.unit
         return MeasurementValueForUser(
             value = formatNumber(
                 number = value.value * unit.factor,
-                // FIXME: Observe Flow
-                scale = getPreference(DecimalPlaces).first(),
+                scale = decimalPlaces,
                 locale = localization.getLocale(),
             ),
             unit = unit,

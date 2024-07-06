@@ -3,13 +3,15 @@ package com.faltenreich.diaguard.timeline
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
+import com.faltenreich.diaguard.datetime.picker.DatePickerModal
+import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
-import com.faltenreich.diaguard.datetime.picker.DatePickerModal
-import com.faltenreich.diaguard.entry.form.EntryFormScreen
-import com.faltenreich.diaguard.entry.search.EntrySearchScreen
+import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -20,6 +22,7 @@ class TimelineViewModel(
     getToday: GetTodayUseCase,
     formatDate: FormatTimelineDateUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
+    getPreference: GetPreferenceUseCase,
     getValues: GetMeasurementValuesAroundDateUseCase,
     getData: GetTimelineDataUseCase,
     private val navigateToScreen: NavigateToScreenUseCase,
@@ -29,9 +32,10 @@ class TimelineViewModel(
 
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
-    private val values = currentDate.flatMapLatest(getValues::invoke)
     private val categories = getCategories()
-    private val data = combine(categories, values, getData::invoke)
+    private val values = currentDate.flatMapLatest(getValues::invoke)
+    private val decimalPlaces = getPreference(DecimalPlaces)
+    private val data = combine(categories, values, decimalPlaces, getData::invoke)
 
     override val state = combine(
         initialDate,

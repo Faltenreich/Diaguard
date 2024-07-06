@@ -4,16 +4,19 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 
 class GetTimelineDataUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
     private val numberFormatter: NumberFormatter,
+    private val localization: Localization,
 ) {
 
     operator fun invoke(
         categories: List<MeasurementCategory>,
         values: List<MeasurementValue>,
+        decimalPlaces: Int,
     ): TimelineData {
         val valuesForChart = values
             .filter { value -> value.property.category.isBloodSugar }
@@ -57,7 +60,11 @@ class GetTimelineDataUseCase(
                                         }
                                         TimelineData.Table.Category.Value(
                                             dateTime = dateTime,
-                                            value = numberFormatter(value),
+                                            value = numberFormatter(
+                                                number = value,
+                                                scale = decimalPlaces,
+                                                locale = localization.getLocale(),
+                                            ),
                                         )
                                     },
                             )

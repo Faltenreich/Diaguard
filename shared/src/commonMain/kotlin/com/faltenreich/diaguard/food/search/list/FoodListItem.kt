@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 
 @Composable
@@ -21,6 +22,7 @@ fun FoodListItem(
     modifier: Modifier = Modifier,
     // TODO: Extract into use case
     formatNumber: NumberFormatter = inject(),
+    localization: Localization = inject(),
 ) {
     Row(
         modifier = modifier
@@ -35,7 +37,11 @@ fun FoodListItem(
             modifier = Modifier.weight(1f),
         )
         Text(
-            text = formatNumber(food.carbohydrates),
+            text = formatNumber(
+                number = food.carbohydrates,
+                scale = 2, // TODO: Get from preferences
+                locale = localization.getLocale(),
+            ),
             style = AppTheme.typography.bodyMedium,
         )
     }

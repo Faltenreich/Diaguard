@@ -4,14 +4,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.ShowSnackbarUseCase
-import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +26,8 @@ class FoodFormViewModel(
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
-    private val numberFormatter: NumberFormatter = inject(),
+    private val formatNumber: NumberFormatter = inject(),
+    private val localization: Localization = inject(),
 ) : ViewModel<Nothing, FoodFormIntent, Unit>() {
 
     override val state: Flow<Nothing>
@@ -35,15 +37,15 @@ class FoodFormViewModel(
     var brand: String by mutableStateOf(food?.brand ?: "")
     var ingredients: String by mutableStateOf(food?.ingredients ?: "")
     var labels: String by mutableStateOf(food?.labels ?: "")
-    var carbohydrates: String by mutableStateOf(food?.carbohydrates?.let(numberFormatter::invoke) ?: "")
-    var energy: String by mutableStateOf(food?.energy?.let(numberFormatter::invoke) ?: "")
-    var fat: String by mutableStateOf(food?.fat?.let(numberFormatter::invoke) ?: "")
-    var fatSaturated: String by mutableStateOf(food?.fatSaturated?.let(numberFormatter::invoke) ?: "")
-    var fiber: String by mutableStateOf(food?.fiber?.let(numberFormatter::invoke) ?: "")
-    var proteins: String by mutableStateOf(food?.proteins?.let(numberFormatter::invoke) ?: "")
-    var salt: String by mutableStateOf(food?.salt?.let(numberFormatter::invoke) ?: "")
-    var sodium: String by mutableStateOf(food?.sodium?.let(numberFormatter::invoke) ?: "")
-    var sugar: String by mutableStateOf(food?.sugar?.let(numberFormatter::invoke) ?: "")
+    var carbohydrates: String by mutableStateOf(food?.carbohydrates?.let(::formatNutrient) ?: "")
+    var energy: String by mutableStateOf(food?.energy?.let(::formatNutrient) ?: "")
+    var fat: String by mutableStateOf(food?.fat?.let(::formatNutrient) ?: "")
+    var fatSaturated: String by mutableStateOf(food?.fatSaturated?.let(::formatNutrient) ?: "")
+    var fiber: String by mutableStateOf(food?.fiber?.let(::formatNutrient) ?: "")
+    var proteins: String by mutableStateOf(food?.proteins?.let(::formatNutrient) ?: "")
+    var salt: String by mutableStateOf(food?.salt?.let(::formatNutrient) ?: "")
+    var sodium: String by mutableStateOf(food?.sodium?.let(::formatNutrient) ?: "")
+    var sugar: String by mutableStateOf(food?.sugar?.let(::formatNutrient) ?: "")
 
     private val nutrients = listOf(
         FoodNutrient.CARBOHYDRATES,
@@ -83,6 +85,14 @@ class FoodFormViewModel(
             is FoodFormIntent.Submit -> submit()
             is FoodFormIntent.Delete -> delete()
         }
+    }
+
+    private fun formatNutrient(nutrient: Double): String {
+        return formatNumber(
+            number = nutrient,
+            scale = SCALE,
+            locale = localization.getLocale(),
+        )
     }
 
     private fun editNutrient(data: FoodNutrientData) {
@@ -167,5 +177,10 @@ class FoodFormViewModel(
         val food = food ?: return
         deleteFood(food)
         navigateBack()
+    }
+
+    companion object {
+
+        private const val SCALE = 3
     }
 }

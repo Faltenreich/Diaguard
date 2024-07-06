@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import com.faltenreich.diaguard.shared.primitive.format
 
@@ -11,11 +12,13 @@ class GetAverageUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
     private val formatNumber: NumberFormatter,
+    private val localization: Localization,
 ) {
 
     operator fun invoke(
         category: MeasurementCategory.Local,
         dateRange: ClosedRange<Date>,
+        decimalPlaces: Int,
     ): StatisticViewState.Loaded.Average {
         return StatisticViewState.Loaded.Average(
             values = propertyRepository.getByCategoryId(category.id).map { property ->
@@ -25,7 +28,11 @@ class GetAverageUseCase(
                     dateRange.endInclusive.atEndOfDay(),
                 )?.let { average ->
                     "%s %s".format(
-                        formatNumber(average),
+                        formatNumber(
+                            number = average,
+                            scale = decimalPlaces,
+                            locale = localization.getLocale(),
+                        ),
                         property.selectedUnit.abbreviation,
                     )
                 }

@@ -7,4 +7,5 @@ data class MeasurementPropertyInputState(
     val input: String,
     val isLast: Boolean,
     val error: String?,
+    val decimalPlaces: Int,
 )

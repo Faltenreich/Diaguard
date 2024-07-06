@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.entry.form.validation
 
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.measurement.value.MeasurementValueForUser
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
@@ -9,6 +8,8 @@ import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.shared.validation.ValidationRule
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.entry_form_error_unrealistic_value
 
 class RealisticMeasurementValueRule(
     private val mapValue: MeasurementValueMapper = inject(),
@@ -24,11 +25,19 @@ class RealisticMeasurementValueRule(
             null -> ValidationResult.Success(input)
             in minimumValue ..< maximumValue -> ValidationResult.Success(input)
             else -> ValidationResult.Failure(
-                input,
+                data = input,
                 error = localization.getString(
                     Res.string.entry_form_error_unrealistic_value,
-                    formatNumber(minimumValue),
-                    formatNumber(maximumValue),
+                    formatNumber(
+                        number = minimumValue,
+                        scale = input.decimalPlaces,
+                        locale = localization.getLocale(),
+                    ),
+                    formatNumber(
+                        number = maximumValue,
+                        scale = input.decimalPlaces,
+                        locale = localization.getLocale(),
+                    ),
                 ),
             )
         }

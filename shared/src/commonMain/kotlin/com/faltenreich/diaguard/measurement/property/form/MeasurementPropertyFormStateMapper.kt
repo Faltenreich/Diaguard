@@ -9,13 +9,14 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.measurement_unit_factor_description
 
 class MeasurementPropertyFormStateMapper(
-    private val localization: Localization,
     private val numberFormatter: NumberFormatter,
+    private val localization: Localization,
 ) {
 
     operator fun invoke(
         property: MeasurementProperty.Local,
         units: List<MeasurementUnit.Local>,
+        decimalPlaces: Int,
     ): MeasurementPropertyFormState {
         val defaultUnit = units.first(MeasurementUnit::isDefault)
         return MeasurementPropertyFormState(
@@ -27,7 +28,11 @@ class MeasurementPropertyFormStateMapper(
                     subtitle = unit.takeIf(MeasurementUnit::isDefault)?.run {
                         localization.getString(
                             Res.string.measurement_unit_factor_description,
-                            numberFormatter(unit.factor),
+                            numberFormatter(
+                                number = unit.factor,
+                                scale = decimalPlaces,
+                                locale = localization.getLocale(),
+                            ),
                             defaultUnit.name,
                         )
                     },

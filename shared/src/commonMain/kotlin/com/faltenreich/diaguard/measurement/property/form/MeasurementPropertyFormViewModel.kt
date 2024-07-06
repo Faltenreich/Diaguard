@@ -8,11 +8,13 @@ import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
-import com.faltenreich.diaguard.shared.view.AlertModal
-import com.faltenreich.diaguard.shared.view.DeleteModal
+import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.shared.view.AlertModal
+import com.faltenreich.diaguard.shared.view.DeleteModal
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.delete_error_property
 import diaguard.shared.generated.resources.delete_title
@@ -23,6 +25,7 @@ import kotlinx.coroutines.flow.flowOf
 class MeasurementPropertyFormViewModel(
     private val property: MeasurementProperty.Local,
     private val localization: Localization = inject(),
+    getPreference: GetPreferenceUseCase = inject(),
     getUnits: GetMeasurementUnitsOfPropertyUseCase = inject(),
     mapState: MeasurementPropertyFormStateMapper = inject(),
     private val updateUnit: UpdateMeasurementUnitUseCase = inject(),
@@ -45,7 +48,12 @@ class MeasurementPropertyFormViewModel(
 
     var unitName = MutableStateFlow(property.selectedUnit.abbreviation)
 
-    override val state = combine(flowOf(property), getUnits(property), mapState::invoke)
+    override val state = combine(
+        flowOf(property),
+        getUnits(property),
+        getPreference(DecimalPlaces),
+        mapState::invoke,
+    )
 
     override suspend fun handleIntent(intent: MeasurementPropertyFormIntent) {
         when (intent) {

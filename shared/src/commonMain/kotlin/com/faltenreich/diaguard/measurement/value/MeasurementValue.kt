@@ -1,10 +1,13 @@
 package com.faltenreich.diaguard.measurement.value
 
+import androidx.compose.ui.text.intl.Locale
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import kotlin.jvm.JvmInline
 
 /**
  * Entity representing a default value of an [Entry]
@@ -52,4 +55,14 @@ sealed interface MeasurementValue {
         override val property: MeasurementProperty.Local,
         override val entry: Entry.Local,
     ) : MeasurementValue, DatabaseEntity
+
+    @JvmInline
+    value class Localized(
+        /**
+         * [MeasurementValue.value] to display to user
+         * converted via [MeasurementUnit.factor] of [MeasurementProperty.Local.selectedUnit]
+         * formatted according to current [Locale]
+         */
+        val value: String
+    )
 }

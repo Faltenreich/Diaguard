@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.value.MeasurementValueForDatabase
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.DecimalPlaces
@@ -53,19 +52,22 @@ class GetAverageUseCase(
                 DashboardViewState.Average(
                     day = averageOfDay?.let {
                         mapValue(
-                            value = MeasurementValueForDatabase(averageOfDay, unit),
+                            value = averageOfDay,
+                            unit = unit,
                             decimalPlaces = decimalPlaces,
                         )
                     },
                     week = averageOfWeek?.let {
                         mapValue(
-                            value = MeasurementValueForDatabase(averageOfWeek, unit),
+                            value = averageOfWeek,
+                            unit = unit,
                             decimalPlaces = decimalPlaces,
                         )
                     },
                     month = averageOfMonth?.let {
                         mapValue(
-                            value = MeasurementValueForDatabase(averageOfMonth, unit),
+                            value = averageOfMonth,
+                            unit = unit,
                             decimalPlaces = decimalPlaces,
                         )
                     },

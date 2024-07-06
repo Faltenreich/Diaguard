@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.entry.form.validation
 
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
-import com.faltenreich.diaguard.measurement.value.MeasurementValueForUser
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -18,10 +17,9 @@ class RealisticMeasurementValueRule(
 ) : ValidationRule<MeasurementPropertyInputState> {
 
     override fun check(input: MeasurementPropertyInputState): ValidationResult<MeasurementPropertyInputState> {
-        val valueForUser = MeasurementValueForUser(input.input, input.property.selectedUnit)
-        val valueForDatabase = mapValue(valueForUser)
+        val value = mapValue(input.input, input.property.selectedUnit)
         val (minimumValue, maximumValue) = input.property.range.minimum to input.property.range.maximum
-        return when (valueForDatabase?.value) {
+        return when (value) {
             null -> ValidationResult.Success(input)
             in minimumValue ..< maximumValue -> ValidationResult.Success(input)
             else -> ValidationResult.Failure(

@@ -32,7 +32,6 @@ fun DrawScope.TimelineYAxis(
                 strokeWidth = config.gridStrokeWidth,
             )
 
-            // TODO: Format via MeasurementValueMapper
             val text = value.toString()
             val textSize = textMeasurer.measure(text)
 

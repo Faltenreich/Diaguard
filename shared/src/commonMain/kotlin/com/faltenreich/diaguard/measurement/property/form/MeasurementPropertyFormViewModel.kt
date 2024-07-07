@@ -39,6 +39,7 @@ class MeasurementPropertyFormViewModel(
     var propertyName = MutableStateFlow(property.name)
     var selectedUnit = MutableStateFlow(property.selectedUnit)
     var aggregationStyle = MutableStateFlow(property.aggregationStyle)
+    // TODO: Format via MeasurementValueMapper
     var valueRangeMinimum = MutableStateFlow(property.range.minimum.toString())
     var valueRangeLow = MutableStateFlow(property.range.low?.toString() ?: "")
     var valueRangeTarget = MutableStateFlow(property.range.target?.toString() ?: "")

@@ -16,15 +16,16 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
+import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.entry.tag.EntryTag
 
 @Composable
 fun EntryListItem(
     entry: Entry.Local,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    // TODO: Extract formatting
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
     Card(
@@ -49,6 +50,7 @@ fun EntryListItem(
                 ) {
                     MeasurementCategoryIcon(value.property.category)
                     Text(
+                        // TODO: Format via MeasurementValueMapper
                         text = value.value.toString(),
                     )
                 }

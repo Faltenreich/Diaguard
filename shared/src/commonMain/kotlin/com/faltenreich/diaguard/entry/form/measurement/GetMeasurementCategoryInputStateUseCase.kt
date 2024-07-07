@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.entry.form.measurement
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -14,6 +15,7 @@ class GetMeasurementCategoryInputStateUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
     private val getPreference: GetPreferenceUseCase,
+    private val mapValue: MeasurementValueMapper,
 ) {
 
     operator fun invoke(entry: Entry.Local?): Flow<List<MeasurementCategoryInputState>> {
@@ -30,9 +32,10 @@ class GetMeasurementCategoryInputStateUseCase(
                     propertyInputStates = properties.mapIndexed { propertyIndex, property ->
                         val value = values?.firstOrNull { it.property.id == property.id }
                         val isLast = categoryIndex == categories.size - 1 && propertyIndex == properties.size - 1
+                        val input = value?.let { mapValue(value, decimalPlaces).value } ?: ""
                         MeasurementPropertyInputState(
                             property = property,
-                            input = value?.value?.toString() ?: "",
+                            input = input,
                             isLast = isLast,
                             error = null,
                             decimalPlaces = decimalPlaces,

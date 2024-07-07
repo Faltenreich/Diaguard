@@ -10,20 +10,6 @@ class MeasurementValueMapper(
 ) {
 
     operator fun invoke(
-        value: MeasurementValue,
-        decimalPlaces: Int,
-    ): MeasurementValue.Localized {
-        val unit = value.property.selectedUnit
-        return MeasurementValue.Localized(
-            value = formatNumber(
-                number = value.value * unit.factor,
-                scale = decimalPlaces,
-                locale = localization.getLocale(),
-            ),
-        )
-    }
-
-    operator fun invoke(
         value: Double,
         unit: MeasurementUnit,
         decimalPlaces: Int,
@@ -34,6 +20,18 @@ class MeasurementValueMapper(
                 scale = decimalPlaces,
                 locale = localization.getLocale(),
             ),
+            unit = unit,
+        )
+    }
+
+    operator fun invoke(
+        value: MeasurementValue,
+        decimalPlaces: Int,
+    ): MeasurementValue.Localized {
+        return invoke(
+            value = value.value,
+            unit = value.property.selectedUnit,
+            decimalPlaces = decimalPlaces,
         )
     }
 

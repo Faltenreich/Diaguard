@@ -7,7 +7,6 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import kotlin.jvm.JvmInline
 
 /**
  * Entity representing a default value of an [Entry]
@@ -56,13 +55,13 @@ sealed interface MeasurementValue {
         override val entry: Entry.Local,
     ) : MeasurementValue, DatabaseEntity
 
-    @JvmInline
-    value class Localized(
-        /**
-         * [MeasurementValue.value] to display to user
-         * converted via [MeasurementUnit.factor] of [MeasurementProperty.Local.selectedUnit]
-         * formatted according to current [Locale]
-         */
-        val value: String
+    /**
+     * [MeasurementValue.value] to display to user,
+     * converted via [MeasurementUnit.factor] of [MeasurementProperty.Local.selectedUnit],
+     * formatted according to current [Locale]
+     */
+    data class Localized(
+        val value: String,
+        val unit: MeasurementUnit,
     )
 }

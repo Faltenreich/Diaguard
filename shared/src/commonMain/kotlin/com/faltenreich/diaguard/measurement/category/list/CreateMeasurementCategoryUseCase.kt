@@ -2,10 +2,9 @@ package com.faltenreich.diaguard.measurement.category.list
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.shared.di.inject
 
 class CreateMeasurementCategoryUseCase(
-    private val repository: MeasurementCategoryRepository = inject(),
+    private val repository: MeasurementCategoryRepository,
 ) {
 
     operator fun invoke(category: MeasurementCategory.User): MeasurementCategory.Local {

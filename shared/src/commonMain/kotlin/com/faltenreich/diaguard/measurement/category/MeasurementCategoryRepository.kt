@@ -2,12 +2,11 @@ package com.faltenreich.diaguard.measurement.category
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementCategoryRepository(
-    private val dao: MeasurementCategoryDao = inject(),
-    private val dateTimeFactory: DateTimeFactory = inject(),
+    private val dao: MeasurementCategoryDao,
+    private val dateTimeFactory: DateTimeFactory,
 ) {
 
     fun create(category: MeasurementCategory.User): Long = with(category) {

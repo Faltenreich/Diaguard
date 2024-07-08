@@ -3,23 +3,22 @@ package com.faltenreich.diaguard.measurement.property.list
 import com.faltenreich.diaguard.measurement.category.form.CreateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormModal
+import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
-import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormModal
-import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.flowOf
 
 class MeasurementPropertyListViewModel(
-    private val createProperty: CreateMeasurementPropertyUseCase = inject(),
-    private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
-    private val openModal: OpenModalUseCase = inject(),
-    private val closeModal: CloseModalUseCase = inject(),
+    private val createProperty: CreateMeasurementPropertyUseCase,
+    private val updateProperty: UpdateMeasurementPropertyUseCase,
+    private val navigateToScreen: NavigateToScreenUseCase,
+    private val openModal: OpenModalUseCase,
+    private val closeModal: CloseModalUseCase,
 ) : ViewModel<Unit, MeasurementPropertyListIntent, Unit>() {
 
     override val state = flowOf(Unit)

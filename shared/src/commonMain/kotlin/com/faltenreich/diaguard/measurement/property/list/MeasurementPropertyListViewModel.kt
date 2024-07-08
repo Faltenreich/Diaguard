@@ -68,7 +68,7 @@ class MeasurementPropertyListViewModel(
                             low = null,
                             target = null,
                             high = null,
-                            maximum = Double.MAX_VALUE,
+                            maximum = 10_000.0,
                             isHighlighted = false,
                         ),
                         category = category,

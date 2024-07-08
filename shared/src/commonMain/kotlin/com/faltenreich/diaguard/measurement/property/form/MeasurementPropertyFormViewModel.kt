@@ -94,8 +94,6 @@ class MeasurementPropertyFormViewModel(
 
     // TODO: Validate
     private fun updateProperty() {
-        updateUnit(property.selectedUnit.copy(name = unitName.value))
-
         updateProperty(
             property.copy(
                 name = propertyName.value,
@@ -108,9 +106,12 @@ class MeasurementPropertyFormViewModel(
                     maximum = valueRangeMaximum.value.toDouble(),
                     isHighlighted = isValueRangeHighlighted.value,
                 ),
-                // TODO: selectedUnitId = selectedUnit.value.id,
             )
         )
+
+        // TODO: Switch isSelected
+        updateUnit(selectedUnit.value.copy(name = unitName.value))
+
         navigateBack()
     }
 

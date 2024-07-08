@@ -54,8 +54,9 @@ class MeasurementPropertyFormViewModel(
 
     private val units = combine(
         getUnits(property),
+        selectedUnit,
         getPreference(DecimalPlaces),
-    ) { units, decimalPlaces ->
+    ) { units, selectedUnit, decimalPlaces ->
         if (property.isUserGenerated) emptyList() else units.map { unit ->
             MeasurementUnitListItemState(
                 unit = unit,
@@ -72,7 +73,7 @@ class MeasurementPropertyFormViewModel(
                             units.first(MeasurementUnit::isDefault).name,
                         )
                     },
-                isSelected = property.selectedUnit.id == unit.id,
+                isSelected = selectedUnit.id == unit.id,
             )
         }
     }

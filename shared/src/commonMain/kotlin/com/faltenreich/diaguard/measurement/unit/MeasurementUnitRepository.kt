@@ -36,7 +36,7 @@ class MeasurementUnitRepository(
             abbreviation = abbreviation,
             factor = factor,
             isSelected = isSelected,
-            propertyId = property.id,
+            propertyId = propertyId,
         )
         return checkNotNull(dao.getLastId())
     }

@@ -31,7 +31,7 @@ sealed interface MeasurementUnit {
         override val abbreviation: String,
         override val factor: Double,
         override val isSelected: Boolean,
-        val property: MeasurementProperty.Local,
+        val propertyId: Long,
     ) : MeasurementUnit
 
     data class Local(

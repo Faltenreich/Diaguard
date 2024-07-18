@@ -36,19 +36,16 @@ class CreateMeasurementPropertyUseCase(
             )
         )
 
-        // FIXME: IllegalStateException: Required value was null
-        val property = checkNotNull(propertyRepository.getById(propertyId))
-
         val unit = MeasurementUnit.User(
             name = unitName,
             abbreviation = unitAbbreviation,
             factor = unitFactor,
             isSelected = unitIsSelected,
-            property = property,
+            propertyId = propertyId,
         )
 
         unitRepository.create(unit)
 
-        return property
+        return checkNotNull(propertyRepository.getById(propertyId))
     }
 }

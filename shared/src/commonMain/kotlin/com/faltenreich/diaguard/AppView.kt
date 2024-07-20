@@ -16,7 +16,6 @@ fun AppView(
     modifier: Modifier = Modifier,
     themeViewModel: ThemeViewModel = inject(),
 ) {
-    // FIXME: Does not update anymore
     val isDarkColorScheme = when (themeViewModel.collectState()) {
         ColorScheme.SYSTEM, null -> isSystemInDarkTheme()
         ColorScheme.LIGHT -> false

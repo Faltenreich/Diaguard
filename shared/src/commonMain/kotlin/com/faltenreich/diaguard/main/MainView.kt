@@ -37,6 +37,7 @@ fun MainView(
 
     // TODO: Migrate to Material3
     // https://github.com/adrielcafe/voyager/issues/185
+    // FIXME: Material2 BottomSheetNavigator breaks update of Material3 theme
     BottomSheetNavigator(
         modifier = modifier,
         hideOnBackPress = true,

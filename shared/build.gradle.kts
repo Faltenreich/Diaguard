@@ -45,6 +45,7 @@ kotlin {
                 implementation(libs.paging.common.compose)
                 implementation(libs.shimmer)
                 implementation(libs.sqldelight.coroutines)
+                implementation(libs.viewmodel)
                 implementation(libs.bundles.voyager)
             }
         }

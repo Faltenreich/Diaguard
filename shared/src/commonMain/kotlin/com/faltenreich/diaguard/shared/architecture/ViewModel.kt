@@ -1,8 +1,7 @@
 package com.faltenreich.diaguard.shared.architecture
 
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.viewModelScope
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -21,10 +20,10 @@ import kotlinx.coroutines.launch
  */
 abstract class ViewModel<State, Intent, Event>(
     private val dispatcher: CoroutineDispatcher = inject(),
-) : ScreenModel {
+) : androidx.lifecycle.ViewModel() {
 
     val scope: CoroutineScope
-        get() = screenModelScope
+        get() = viewModelScope
 
     abstract val state: Flow<State>
 

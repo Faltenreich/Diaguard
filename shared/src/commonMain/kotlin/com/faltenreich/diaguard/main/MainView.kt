@@ -8,13 +8,11 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
@@ -29,7 +27,6 @@ import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationScreen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.logging.Logger
 
 @Composable
 fun MainView(
@@ -45,6 +42,8 @@ fun MainView(
     SideEffect { navigation.snackbarState = snackbarHostState }
 
     val navController = rememberNavController()
+    SideEffect { navigation.navController = navController }
+
     NavHost(
         navController = navController,
         startDestination = DashboardScreen,
@@ -71,8 +70,6 @@ fun MainView(
         SideEffect { navigation.bottomSheetNavigator = bottomSheetNavigator }
 
         Navigator(screen = state.startScreen) { navigator ->
-            SideEffect { navigation.navigator = navigator }
-
             Box {
                 Scaffold(
                     topBar = {

@@ -2,34 +2,37 @@ package com.faltenreich.diaguard.navigation
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import cafe.adriel.voyager.navigator.Navigator
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class Navigation {
 
-    lateinit var navigator: Navigator
+    lateinit var navController: NavController
     lateinit var bottomSheetNavigator: BottomSheetNavigator
     var modal = MutableStateFlow<Modal?>(null)
     lateinit var snackbarState: SnackbarHostState
 
     val lastItem: Screen?
-        get() = navigator.lastItem as? Screen
+        // FIXME: Always fails
+        get() = navController.currentBackStackEntry as? Screen
 
     fun push(screen: Screen, popHistory: Boolean = false) {
-        if (popHistory) {
-            navigator.replaceAll(screen)
-        } else {
-            navigator.push(screen)
-        }
+        navController.navigate(
+            route = screen,
+            navOptions = NavOptions.Builder()
+                // TODO: Support popHistory
+                .build()
+        )
     }
 
     fun pop(): Boolean {
-        return navigator.pop()
+        return navController.popBackStack()
     }
 
     fun canPop(): Boolean {
-        return navigator.canPop
+        return navController.previousBackStackEntry != null
     }
 
     fun pushBottomSheet(screen: Screen) {

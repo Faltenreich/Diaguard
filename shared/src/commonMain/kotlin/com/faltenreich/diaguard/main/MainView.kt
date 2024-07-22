@@ -10,9 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
@@ -34,6 +38,19 @@ fun MainView(
     if (state !is MainState.Loaded) return
 
     SideEffect { navigation.snackbarState = snackbarHostState }
+
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = DashboardScreen,
+        modifier = modifier,
+    ) {
+        composable<DashboardScreen> {
+            DashboardScreen.Content()
+        }
+    }
+
+    return
 
     // TODO: Migrate to Material3
     // https://github.com/adrielcafe/voyager/issues/185

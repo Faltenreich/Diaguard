@@ -3,9 +3,9 @@ package com.faltenreich.diaguard.dashboard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
@@ -16,8 +16,10 @@ import diaguard.shared.generated.resources.entry_new_description
 import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 
+@Serializable
 data object DashboardScreen : Screen {
 
     override val topAppBarStyle: TopAppBarStyle

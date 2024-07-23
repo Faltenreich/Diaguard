@@ -7,6 +7,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
@@ -21,12 +22,14 @@ import kotlinx.coroutines.flow.flowOf
 import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
-    // FIXME: NoParameterFoundException: Can't get injected parameter #0 from DefinitionParameters[] for type 'com.faltenreich.diaguard.food.search.FoodSearchMode'
     private val mode: FoodSearchMode,
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<FoodSearchState, FoodSearchIntent, FoodSearchEvent>() {
+
+    @Suppress("UNUSED_PARAMETER")
+    constructor(screen: EntryFormScreen) : this(mode = FoodSearchMode.FIND)
 
     var query: String by mutableStateOf("")
 

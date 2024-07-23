@@ -67,6 +67,12 @@ class EntryFormViewModel(
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
+    constructor(screen: EntryFormScreen) : this(
+        entryId = screen.entryId,
+        dateTimeIsoString = screen.dateTimeIsoString,
+        foodId = screen.foodId,
+    )
+
     private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
     private val food: Food.Local? = foodId?.let(getFoodById::invoke)
 

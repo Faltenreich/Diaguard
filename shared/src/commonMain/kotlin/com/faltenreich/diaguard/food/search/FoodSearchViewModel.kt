@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
+    // FIXME: NoParameterFoundException: Can't get injected parameter #0 from DefinitionParameters[] for type 'com.faltenreich.diaguard.food.search.FoodSearchMode'
     private val mode: FoodSearchMode,
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),

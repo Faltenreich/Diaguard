@@ -46,9 +46,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class EntryFormViewModel(
-    entry: Entry.Local?,
-    date: Date?,
-    food: Food.Local?,
+    private val entryId: Long? = null,
+    dateTimeIsoString: String? = null,
+    foodId: Long? = null,
+    getEntryById: GetEntryByIdUseCase = inject(),
+    getFoodById: GetFoodByIdUseCase = inject(),
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
     getMeasurementCategoryInputState: GetMeasurementCategoryInputStateUseCase = inject(),
     getFoodEatenInputState: GetFoodEatenInputStateUseCase = inject(),
@@ -65,10 +67,10 @@ class EntryFormViewModel(
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
-    private val editing: Entry.Local? = entry
-    private val id: Long? = entry?.id
+    private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
+    private val food: Food.Local? = foodId?.let(getFoodById::invoke)
 
-    var dateTime: DateTime by mutableStateOf(getDateTimeForEntry(entry, date))
+    var dateTime: DateTime by mutableStateOf(getDateTimeForEntry(editing, dateTimeIsoString))
         private set
 
     var date: Date
@@ -84,7 +86,7 @@ class EntryFormViewModel(
         get() = formatDateTime(time)
 
     // TODO: Reconsider rememberSaveable to avoid persisting state after returning to Composable
-    var note: String by mutableStateOf(entry?.note ?: "")
+    var note: String by mutableStateOf(editing?.note ?: "")
 
     var alarmDelayInMinutes: Int? by mutableStateOf(null)
 
@@ -106,18 +108,18 @@ class EntryFormViewModel(
 
     init {
         scope.launch {
-            getMeasurementCategoryInputState(entry).collectLatest { measurements ->
+            getMeasurementCategoryInputState(editing).collectLatest { measurements ->
                 this@EntryFormViewModel.measurements += measurements
             }
         }
         scope.launch(Dispatchers.IO) {
-            val foodEaten = getFoodEatenInputState(entry)
+            val foodEaten = getFoodEatenInputState(editing)
             withContext(Dispatchers.Main) {
                 this@EntryFormViewModel.foodEaten += foodEaten
             }
         }
         scope.launch(Dispatchers.IO) {
-            val tagsOfEntry = getTagsOfEntry(entry)
+            val tagsOfEntry = getTagsOfEntry(editing)
             withContext(Dispatchers.Main) {
                 this@EntryFormViewModel.tagSelection.value += tagsOfEntry
             }
@@ -177,7 +179,7 @@ class EntryFormViewModel(
 
     private fun submit() = scope.launch {
         val input = EntryFormInput(
-            id = id,
+            id = entryId,
             dateTime = dateTime,
             measurements = measurements,
             tags = tagSelection.value,

@@ -70,8 +70,13 @@ data class EntryFormScreen(
     @Composable
     override fun Content() {
         EntryForm(
-            // TODO: Pass parameters
-            viewModel = viewModel<EntryFormViewModel>(),
+            viewModel = viewModel {
+                EntryFormViewModel(
+                    entryId = entryId,
+                    dateTimeIsoString = dateTimeIsoString,
+                    foodId = foodId,
+                )
+            },
             // TODO: Instantiate as shared view model
             foodSearchViewModel = viewModel { FoodSearchViewModel(FoodSearchMode.FIND) },
         )

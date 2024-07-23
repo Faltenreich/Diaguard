@@ -23,7 +23,6 @@ class Navigation(
         get() = navController.currentBackStackEntry as? Screen
 
     suspend fun push(screen: Screen, popHistory: Boolean = false) = withContext(dispatcher) {
-        // FIXME: Method setCurrentState must be called on the main thread
         navController.navigate(
             route = screen,
             navOptions = NavOptions.Builder()

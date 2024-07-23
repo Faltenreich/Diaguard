@@ -19,6 +19,8 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.faltenreich.diaguard.dashboard.Dashboard
 import com.faltenreich.diaguard.dashboard.DashboardScreen
+import com.faltenreich.diaguard.entry.form.EntryForm
+import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
@@ -51,6 +53,9 @@ fun MainView(
     ) {
         composable<DashboardScreen> {
             Dashboard(viewModel = viewModel())
+        }
+        composable<EntryFormScreen> {
+            EntryForm(viewModel = viewModel())
         }
     }
 

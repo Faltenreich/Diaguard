@@ -3,16 +3,16 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.search.FoodSearchMode
+import com.faltenreich.diaguard.food.search.FoodSearchViewModel
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
-import com.faltenreich.diaguard.shared.di.getSharedViewModel
-import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -21,14 +21,25 @@ import diaguard.shared.generated.resources.entry_delete
 import diaguard.shared.generated.resources.ic_check
 import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.save
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
-import org.koin.core.parameter.parametersOf
 
+@Serializable
 data class EntryFormScreen(
-    val entry: Entry.Local? = null,
-    val date: Date? = null,
-    val food: Food.Local? = null,
+    val entryId: Long,
+    val dateTimeIsoString: String?,
+    val foodId: Long,
 ) : Screen {
+
+    constructor(
+        entry: Entry.Local? = null,
+        date: Date? = null,
+        food: Food.Local? = null,
+    ) : this(
+        entryId = entry?.id ?: -1,
+        dateTimeIsoString = date?.atStartOfDay()?.isoString,
+        foodId = food?.id ?: -1,
+    )
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
@@ -38,7 +49,7 @@ data class EntryFormScreen(
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date, food) }
+                val viewModel = viewModel<EntryFormViewModel>()
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.entry_delete,
@@ -46,7 +57,7 @@ data class EntryFormScreen(
                 )
             },
             floatingActionButton = {
-                val viewModel = getViewModel<EntryFormViewModel> { parametersOf(entry, date, food) }
+                val viewModel = viewModel<EntryFormViewModel>()
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
@@ -59,8 +70,10 @@ data class EntryFormScreen(
     @Composable
     override fun Content() {
         EntryForm(
-            viewModel = getViewModel { parametersOf(entry, date, food) },
-            foodSearchViewModel = getSharedViewModel { parametersOf(FoodSearchMode.FIND) },
+            // TODO: Pass parameters
+            viewModel = viewModel<EntryFormViewModel>(),
+            // TODO: Instantiate as shared view model
+            foodSearchViewModel = viewModel { FoodSearchViewModel(FoodSearchMode.FIND) },
         )
     }
 }

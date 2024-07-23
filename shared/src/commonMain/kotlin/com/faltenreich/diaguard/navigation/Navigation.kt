@@ -5,9 +5,13 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.withContext
 
-class Navigation {
+class Navigation(
+    private val dispatcher: CoroutineDispatcher,
+) {
 
     lateinit var navController: NavController
     lateinit var bottomSheetNavigator: BottomSheetNavigator
@@ -18,7 +22,8 @@ class Navigation {
         // FIXME: Always fails
         get() = navController.currentBackStackEntry as? Screen
 
-    fun push(screen: Screen, popHistory: Boolean = false) {
+    suspend fun push(screen: Screen, popHistory: Boolean = false) = withContext(dispatcher) {
+        // FIXME: Method setCurrentState must be called on the main thread
         navController.navigate(
             route = screen,
             navOptions = NavOptions.Builder()

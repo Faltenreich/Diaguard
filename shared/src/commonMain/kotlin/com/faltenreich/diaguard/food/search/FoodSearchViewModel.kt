@@ -41,15 +41,15 @@ class FoodSearchViewModel(
 
     override val state = flowOf(FoodSearchState(pagingData = pagingData))
 
-    override suspend fun handleIntent(intent: FoodSearchIntent) {
-        when (intent) {
+    override suspend fun handleIntent(intent: FoodSearchIntent) = with(intent) {
+        when (this) {
             is FoodSearchIntent.Close -> navigateBack()
             is FoodSearchIntent.Create -> navigateToScreen(FoodFormScreen())
-            is FoodSearchIntent.Select -> selectFood(intent.food)
+            is FoodSearchIntent.Select -> selectFood(food)
         }
     }
 
-    private fun selectFood(food: Food.Local) {
+    private suspend fun selectFood(food: Food.Local) {
         when (mode) {
             FoodSearchMode.STROLL -> navigateToScreen(FoodFormScreen(food))
             FoodSearchMode.FIND -> {

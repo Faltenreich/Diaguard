@@ -2,15 +2,16 @@ package com.faltenreich.diaguard.measurement.category.list
 
 import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormModal
+import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormModal
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class MeasurementCategoryListViewModel(
     getCategories: GetAllMeasurementCategoriesUseCase,
@@ -50,7 +51,7 @@ class MeasurementCategoryListViewModel(
         updateCategory(second.copy(sortIndex = first.sortIndex))
     }
 
-    private fun editCategory(category: MeasurementCategory.Local) {
+    private suspend fun editCategory(category: MeasurementCategory.Local) {
         navigateToScreen(MeasurementCategoryFormScreen(category))
     }
 
@@ -69,7 +70,9 @@ class MeasurementCategoryListViewModel(
                         )
                     )
                     closeModal()
-                    editCategory(category)
+                    scope.launch {
+                        editCategory(category)
+                    }
                 }
             )
         )

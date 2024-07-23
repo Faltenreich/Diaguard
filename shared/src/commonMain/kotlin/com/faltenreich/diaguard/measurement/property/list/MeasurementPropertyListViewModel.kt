@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.property.list
 
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.form.CreateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
@@ -12,6 +13,7 @@ import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 
 class MeasurementPropertyListViewModel(
     private val createProperty: CreateMeasurementPropertyUseCase,
@@ -23,20 +25,26 @@ class MeasurementPropertyListViewModel(
 
     override val state = flowOf(Unit)
 
-    override suspend fun handleIntent(intent: MeasurementPropertyListIntent) {
-        when (intent) {
-            is MeasurementPropertyListIntent.DecrementSortIndex -> decrementSortIndex(intent)
-            is MeasurementPropertyListIntent.IncrementSortIndex -> incrementSortIndex(intent)
-            is MeasurementPropertyListIntent.EditProperty -> editProperty(intent)
-            is MeasurementPropertyListIntent.CreateProperty -> createProperty(intent)
+    override suspend fun handleIntent(intent: MeasurementPropertyListIntent) = with(intent) {
+        when (this) {
+            is MeasurementPropertyListIntent.DecrementSortIndex -> decrementSortIndex(property, inProperties)
+            is MeasurementPropertyListIntent.IncrementSortIndex -> incrementSortIndex(property, inProperties)
+            is MeasurementPropertyListIntent.EditProperty -> editProperty(property)
+            is MeasurementPropertyListIntent.CreateProperty -> createProperty(category, properties)
         }
     }
 
-    private fun decrementSortIndex(intent: MeasurementPropertyListIntent.DecrementSortIndex) = with(intent) {
+    private fun decrementSortIndex(
+        property: MeasurementProperty.Local,
+        inProperties: List<MeasurementProperty.Local>,
+    ) {
         swapSortIndexes(first = property, second = inProperties.last { it.sortIndex < property.sortIndex })
     }
 
-    private fun incrementSortIndex(intent: MeasurementPropertyListIntent.IncrementSortIndex) = with(intent) {
+    private fun incrementSortIndex(
+        property: MeasurementProperty.Local,
+        inProperties: List<MeasurementProperty.Local>,
+    ) {
         swapSortIndexes(first = property, second = inProperties.first { it.sortIndex > property.sortIndex })
     }
 
@@ -48,18 +56,22 @@ class MeasurementPropertyListViewModel(
         updateProperty(second.copy(sortIndex = first.sortIndex))
     }
 
-    private fun editProperty(intent: MeasurementPropertyListIntent.EditProperty) = with(intent) {
+    private suspend fun editProperty(property: MeasurementProperty.Local) {
         navigateToScreen(MeasurementPropertyFormScreen(property))
     }
 
-    private fun createProperty(intent: MeasurementPropertyListIntent.CreateProperty) = with(intent) {
+    private fun createProperty(
+        category: MeasurementCategory.Local,
+        properties: List<MeasurementProperty.Local>,
+    ) {
         openModal(
             MeasurementPropertyFormModal(
                 onDismissRequest = closeModal::invoke,
                 onConfirmRequest = { propertyName, unitName ->
                     val property = createProperty(
                         propertyName = propertyName,
-                        propertySortIndex = properties.maxOfOrNull(MeasurementProperty::sortIndex)?.plus(1) ?: 0,
+                        propertySortIndex = properties.maxOfOrNull(MeasurementProperty::sortIndex)
+                            ?.plus(1) ?: 0,
                         // TODO: Make user-customizable
                         propertyAggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
                         // TODO: Make user-customizable
@@ -76,7 +88,9 @@ class MeasurementPropertyListViewModel(
                         unitIsSelected = true,
                     )
                     closeModal()
-                    navigateToScreen(MeasurementPropertyFormScreen(property))
+                    scope.launch {
+                        navigateToScreen (MeasurementPropertyFormScreen(property))
+                    }
                 }
             )
         )

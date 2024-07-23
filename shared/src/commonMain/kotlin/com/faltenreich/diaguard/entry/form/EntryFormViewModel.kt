@@ -8,6 +8,8 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
+import com.faltenreich.diaguard.datetime.picker.DatePickerModal
+import com.faltenreich.diaguard.datetime.picker.TimePickerModal
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
@@ -20,18 +22,16 @@ import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.food.search.FoodSearchMode
+import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.ShowSnackbarUseCase
-import com.faltenreich.diaguard.datetime.picker.DatePickerModal
-import com.faltenreich.diaguard.shared.view.DeleteModal
-import com.faltenreich.diaguard.datetime.picker.TimePickerModal
-import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
+import com.faltenreich.diaguard.shared.view.DeleteModal
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -124,19 +124,19 @@ class EntryFormViewModel(
         }
     }
 
-    override suspend fun handleIntent(intent: EntryFormIntent) {
-        when (intent) {
-            is EntryFormIntent.Edit -> edit(intent.data)
+    override suspend fun handleIntent(intent: EntryFormIntent): Unit = with(intent) {
+        when (this) {
+            is EntryFormIntent.Edit -> edit(data)
             is EntryFormIntent.SelectDate -> selectDate()
             is EntryFormIntent.SelectTime -> selectTime()
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> delete()
             is EntryFormIntent.SelectFood -> selectFood()
-            is EntryFormIntent.AddFood -> addFood(intent.food)
-            is EntryFormIntent.EditFood -> editFood(intent.food)
-            is EntryFormIntent.RemoveFood -> removeFood(intent.food)
-            is EntryFormIntent.AddTag -> addTag(intent.tag)
-            is EntryFormIntent.RemoveTag -> removeTag(intent.tag)
+            is EntryFormIntent.AddFood -> addFood(food)
+            is EntryFormIntent.EditFood -> editFood(food)
+            is EntryFormIntent.RemoveFood -> removeFood(food)
+            is EntryFormIntent.AddTag -> addTag(tag)
+            is EntryFormIntent.RemoveTag -> removeTag(tag)
         }
     }
 
@@ -214,7 +214,7 @@ class EntryFormViewModel(
         }
     }
 
-    private fun selectFood() {
+    private suspend fun selectFood() {
         navigateToScreen(FoodSearchScreen(mode = FoodSearchMode.FIND))
     }
 

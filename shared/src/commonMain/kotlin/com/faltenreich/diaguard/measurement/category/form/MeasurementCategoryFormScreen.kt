@@ -4,9 +4,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
@@ -18,7 +18,6 @@ import diaguard.shared.generated.resources.measurement_category
 import diaguard.shared.generated.resources.measurement_category_delete
 import diaguard.shared.generated.resources.save
 import org.jetbrains.compose.resources.painterResource
-import org.koin.core.parameter.parametersOf
 
 data class MeasurementCategoryFormScreen(val category: MeasurementCategory.Local) : Screen {
 
@@ -30,7 +29,7 @@ data class MeasurementCategoryFormScreen(val category: MeasurementCategory.Local
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<MeasurementCategoryFormViewModel> { parametersOf(category) }
+                val viewModel = getViewModel<MeasurementCategoryFormViewModel> { MeasurementCategoryFormViewModel(category) }
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.measurement_category_delete,
@@ -38,7 +37,7 @@ data class MeasurementCategoryFormScreen(val category: MeasurementCategory.Local
                 )
             },
             floatingActionButton = {
-                val viewModel = getViewModel<MeasurementCategoryFormViewModel> { parametersOf(category) }
+                val viewModel = getViewModel<MeasurementCategoryFormViewModel> { MeasurementCategoryFormViewModel(category) }
                 FloatingActionButton(
                     onClick = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.UpdateCategory) },
                 ) {
@@ -52,6 +51,6 @@ data class MeasurementCategoryFormScreen(val category: MeasurementCategory.Local
 
     @Composable
     override fun Content() {
-        MeasurementCategoryForm(viewModel = getViewModel { parametersOf(category) })
+        MeasurementCategoryForm(viewModel = getViewModel { MeasurementCategoryFormViewModel(category) })
     }
 }

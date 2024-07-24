@@ -4,9 +4,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
@@ -20,7 +20,6 @@ import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.ic_history
 import diaguard.shared.generated.resources.save
 import org.jetbrains.compose.resources.painterResource
-import org.koin.core.parameter.parametersOf
 
 data class FoodFormScreen(private val food: Food.Local? = null) : Screen {
 
@@ -32,7 +31,7 @@ data class FoodFormScreen(private val food: Food.Local? = null) : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
+                val viewModel = getViewModel<FoodFormViewModel> { FoodFormViewModel(food) }
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.food_delete,
@@ -47,7 +46,7 @@ data class FoodFormScreen(private val food: Food.Local? = null) : Screen {
                 }
             },
             floatingActionButton = {
-                val viewModel = getViewModel<FoodFormViewModel> { parametersOf(food) }
+                val viewModel = getViewModel<FoodFormViewModel> { FoodFormViewModel(food) }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
@@ -59,6 +58,6 @@ data class FoodFormScreen(private val food: Food.Local? = null) : Screen {
 
     @Composable
     override fun Content() {
-        FoodForm(viewModel = getViewModel { parametersOf(food) })
+        FoodForm(viewModel = getViewModel { FoodFormViewModel(food) })
     }
 }

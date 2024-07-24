@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
@@ -18,7 +18,6 @@ import diaguard.shared.generated.resources.entry_new_description
 import diaguard.shared.generated.resources.food_eaten
 import diaguard.shared.generated.resources.ic_add
 import org.jetbrains.compose.resources.painterResource
-import org.koin.core.parameter.parametersOf
 
 data class FoodEatenListScreen(private val food: Food.Local) : Screen {
 
@@ -36,7 +35,7 @@ data class FoodEatenListScreen(private val food: Food.Local) : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = getViewModel<FoodEatenListViewModel> { parametersOf(food) }
+                val viewModel = getViewModel<FoodEatenListViewModel> { FoodEatenListViewModel(food) }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodEatenListIntent.CreateEntry(food)) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
@@ -48,6 +47,6 @@ data class FoodEatenListScreen(private val food: Food.Local) : Screen {
 
     @Composable
     override fun Content() {
-        FoodEatenList(viewModel = getViewModel { parametersOf(food) })
+        FoodEatenList(viewModel = getViewModel { FoodEatenListViewModel(food) })
     }
 }

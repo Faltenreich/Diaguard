@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -18,12 +17,8 @@ import androidx.navigation.toRoute
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import com.faltenreich.diaguard.dashboard.Dashboard
 import com.faltenreich.diaguard.dashboard.DashboardScreen
-import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
-import com.faltenreich.diaguard.entry.form.EntryFormViewModel
-import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
@@ -54,15 +49,13 @@ fun MainView(
         startDestination = DashboardScreen,
         modifier = modifier,
     ) {
-        composable<DashboardScreen> {
-            Dashboard(viewModel = viewModel())
+        composable<DashboardScreen> { backStackEntry ->
+            val screen = backStackEntry.toRoute<DashboardScreen>()
+            screen.Content()
         }
         composable<EntryFormScreen> { backStackEntry ->
             val screen = backStackEntry.toRoute<EntryFormScreen>()
-            EntryForm(
-                viewModel = viewModel { EntryFormViewModel(screen) },
-                foodSearchViewModel = viewModel { FoodSearchViewModel(screen) }
-            )
+            screen.Content()
         }
     }
 

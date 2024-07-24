@@ -6,5 +6,5 @@ sealed interface TagListIntent {
 
     data object CreateTag : TagListIntent
 
-    data class OpenTag(val tag: Tag) : TagListIntent
+    data class OpenTag(val tag: Tag.Local) : TagListIntent
 }

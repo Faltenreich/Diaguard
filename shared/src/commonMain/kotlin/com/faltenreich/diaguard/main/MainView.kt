@@ -2,23 +2,17 @@ package com.faltenreich.diaguard.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import cafe.adriel.voyager.navigator.CurrentScreen
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.faltenreich.diaguard.dashboard.Dashboard
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.entry.form.EntryForm
@@ -42,90 +36,69 @@ fun MainView(
     viewModel: MainViewModel = inject(),
     navigation: Navigation = inject(),
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
-
     val state = viewModel.collectState()
     if (state !is MainState.Loaded) return
 
+    val snackbarHostState = remember { SnackbarHostState() }
     SideEffect { navigation.snackbarState = snackbarHostState }
 
     val navController = rememberNavController()
     SideEffect { navigation.navController = navController }
 
-    NavHost(
-        navController = navController,
-        startDestination = DashboardScreen,
-        modifier = modifier,
-    ) {
-        composable<DashboardScreen> {
-            Dashboard(viewModel = getViewModel())
-        }
-        composable<EntryFormScreen> { backStackEntry ->
-            val screen = backStackEntry.toRoute<EntryFormScreen>()
-            EntryForm(
-                viewModel = getViewModel {
-                    EntryFormViewModel(
-                        entryId = screen.entryId,
-                        dateTimeIsoString = screen.dateTimeIsoString,
-                        foodId = screen.foodId,
-                    )
-                },
-                foodSearchViewModel = getViewModel {
-                    FoodSearchViewModel(mode = FoodSearchMode.FIND)
+    Box(modifier = modifier) {
+        Scaffold(
+            topBar = {
+                // TODO: Pass Screen from composable
+                val screen: Screen? = null
+                val style = screen?.topAppBarStyle ?: TopAppBarStyle.Hidden
+                if (style != TopAppBarStyle.Hidden) {
+                    TopAppBar(style)
                 }
-            )
-        }
-    }
+            },
+            content = { padding ->
+                NavHost(
+                    navController = navController,
+                    startDestination = DashboardScreen,
+                    modifier = Modifier.padding(padding),
+                ) {
+                    composable<DashboardScreen> {
+                        Dashboard(viewModel = getViewModel())
+                    }
+                    composable<EntryFormScreen> { backStackEntry ->
+                        val screen = backStackEntry.toRoute<EntryFormScreen>()
+                        EntryForm(
+                            viewModel = getViewModel {
+                                EntryFormViewModel(
+                                    entryId = screen.entryId,
+                                    dateTimeIsoString = screen.dateTimeIsoString,
+                                    foodId = screen.foodId,
+                                )
+                            },
+                            foodSearchViewModel = getViewModel {
+                                FoodSearchViewModel(mode = FoodSearchMode.FIND)
+                            }
+                        )
+                    }
+                }
+            },
+            bottomBar = {
+                // TODO: Pass Screen from composable
+                val screen: Screen? = null
+                val style = screen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
+                if (style != BottomAppBarStyle.Hidden) {
+                    BottomAppBar(
+                        style = style,
+                        onMenuClick = {
+                            navigation.pushBottomSheet(BottomSheetNavigationScreen)
+                        },
+                    )
+                }
+            },
+            // FIXME: Overlapped by BottomSheet
+            // https://github.com/adrielcafe/voyager/issues/454
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        )
 
-    return
-
-    // TODO: Migrate to Material3
-    // https://github.com/adrielcafe/voyager/issues/185
-    // FIXME: Material2 BottomSheetNavigator breaks update of Material3 theme
-    BottomSheetNavigator(
-        modifier = modifier,
-        hideOnBackPress = true,
-        scrimColor = BottomSheetDefaults.ScrimColor,
-        sheetShape = BottomSheetDefaults.ExpandedShape,
-        sheetElevation = BottomSheetDefaults.Elevation,
-        sheetBackgroundColor = BottomSheetDefaults.ContainerColor,
-    ) { bottomSheetNavigator ->
-        SideEffect { navigation.bottomSheetNavigator = bottomSheetNavigator }
-
-        Navigator(screen = state.startScreen) { navigator ->
-            Box {
-                Scaffold(
-                    topBar = {
-                        val screen = navigator.lastItem as? Screen
-                        val style = screen?.topAppBarStyle ?: TopAppBarStyle.Hidden
-                        if (style != TopAppBarStyle.Hidden) {
-                            TopAppBar(style)
-                        }
-                    },
-                    content = { padding ->
-                        Box(modifier = Modifier.padding(padding)) {
-                            CurrentScreen()
-                        }
-                    },
-                    bottomBar = {
-                        val screen = navigator.lastItem as? Screen
-                        val style = screen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
-                        if (style != BottomAppBarStyle.Hidden) {
-                            BottomAppBar(
-                                style = style,
-                                onMenuClick = {
-                                    navigation.pushBottomSheet(BottomSheetNavigationScreen)
-                                },
-                            )
-                        }
-                    },
-                    // FIXME: Overlapped by BottomSheet
-                    // https://github.com/adrielcafe/voyager/issues/454
-                    snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-                )
-
-                state.modal?.Content()
-            }
-        }
+        state.modal?.Content()
     }
 }

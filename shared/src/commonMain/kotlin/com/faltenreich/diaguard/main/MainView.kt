@@ -8,17 +8,24 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import com.faltenreich.diaguard.dashboard.Dashboard
 import com.faltenreich.diaguard.dashboard.DashboardScreen
+import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.form.EntryFormViewModel
+import com.faltenreich.diaguard.food.search.FoodSearchMode
+import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
@@ -26,6 +33,7 @@ import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationScreen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
+import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
@@ -49,13 +57,23 @@ fun MainView(
         startDestination = DashboardScreen,
         modifier = modifier,
     ) {
-        composable<DashboardScreen> { backStackEntry ->
-            val screen = backStackEntry.toRoute<DashboardScreen>()
-            screen.Content()
+        composable<DashboardScreen> {
+            Dashboard(viewModel = getViewModel())
         }
         composable<EntryFormScreen> { backStackEntry ->
             val screen = backStackEntry.toRoute<EntryFormScreen>()
-            screen.Content()
+            EntryForm(
+                viewModel = getViewModel {
+                    EntryFormViewModel(
+                        entryId = screen.entryId,
+                        dateTimeIsoString = screen.dateTimeIsoString,
+                        foodId = screen.foodId,
+                    )
+                },
+                foodSearchViewModel = getViewModel {
+                    FoodSearchViewModel(mode = FoodSearchMode.FIND)
+                }
+            )
         }
     }
 

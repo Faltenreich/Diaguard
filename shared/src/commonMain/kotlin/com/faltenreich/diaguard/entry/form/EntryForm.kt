@@ -46,8 +46,8 @@ import diaguard.shared.generated.resources.tag_remove_description
 @Composable
 fun EntryForm(
     modifier: Modifier = Modifier,
-    viewModel: EntryFormViewModel = inject(),
-    foodSearchViewModel: FoodSearchViewModel = inject(),
+    viewModel: EntryFormViewModel,
+    foodSearchViewModel: FoodSearchViewModel,
 ) {
     val state = viewModel.collectState()
 

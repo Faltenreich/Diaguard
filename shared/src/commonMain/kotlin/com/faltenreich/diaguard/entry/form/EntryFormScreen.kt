@@ -7,7 +7,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
@@ -70,8 +69,8 @@ data class EntryFormScreen(
     @Composable
     override fun Content() {
         EntryForm(
-            viewModel = getViewModel { EntryFormViewModel(this@EntryFormScreen) },
-            foodSearchViewModel = getViewModel { FoodSearchViewModel(this@EntryFormScreen) }
+            viewModel = getViewModel(),
+            foodSearchViewModel = getViewModel(),
         )
     }
 }

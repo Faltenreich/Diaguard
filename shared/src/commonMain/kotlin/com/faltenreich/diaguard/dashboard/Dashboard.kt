@@ -15,13 +15,12 @@ import com.faltenreich.diaguard.dashboard.hba1c.HbA1cDashboardItem
 import com.faltenreich.diaguard.dashboard.latest.LatestDashboardItem
 import com.faltenreich.diaguard.dashboard.today.TodayDashboardItem
 import com.faltenreich.diaguard.dashboard.trend.TrendDashboardItem
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 
 @Composable
 fun Dashboard(
     modifier: Modifier = Modifier,
-    viewModel: DashboardViewModel = inject(),
+    viewModel: DashboardViewModel,
 ) {
     when (val state = viewModel.collectState()) {
         null -> LoadingIndicator()

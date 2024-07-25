@@ -11,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.faltenreich.diaguard.dashboard.Dashboard
@@ -25,6 +24,7 @@ import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationScreen
+import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
@@ -62,14 +62,10 @@ fun MainView(
                     startDestination = DashboardScreen,
                     modifier = Modifier.padding(padding),
                 ) {
-                    composable<DashboardScreen> { backStackEntry ->
-                        val screen = backStackEntry.toRoute<DashboardScreen>()
-                        navigation.setCurrentScreen(screen)
+                    screen<DashboardScreen>(route = { toRoute<DashboardScreen>() }) {
                         Dashboard(viewModel = getViewModel())
                     }
-                    composable<EntryFormScreen> { backStackEntry ->
-                        val screen = backStackEntry.toRoute<EntryFormScreen>()
-                        navigation.setCurrentScreen(screen)
+                    screen<EntryFormScreen>(route = { toRoute<EntryFormScreen>() }) { screen ->
                         EntryForm(
                             viewModel = getViewModel {
                                 EntryFormViewModel(

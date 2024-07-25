@@ -35,7 +35,7 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
     SizeTransform?)? = null,
     navigation: Navigation = inject(),
     noinline route: NavBackStackEntry.() -> T,
-    noinline content: @Composable AnimatedContentScope.(T) -> Unit,
+    noinline content: @Composable AnimatedContentScope.(arguments: T) -> Unit,
 ) {
     composable<T>(
         typeMap,

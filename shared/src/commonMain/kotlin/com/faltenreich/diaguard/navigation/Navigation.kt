@@ -4,7 +4,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +15,6 @@ class Navigation(
 ) {
 
     lateinit var navController: NavController
-    lateinit var bottomSheetNavigator: BottomSheetNavigator
     var modal = MutableStateFlow<Modal?>(null)
     lateinit var snackbarState: SnackbarHostState
 
@@ -45,11 +43,11 @@ class Navigation(
     }
 
     fun pushBottomSheet(screen: Screen) {
-        bottomSheetNavigator.show(screen)
+        TODO()
     }
 
     fun popBottomSheet() {
-        bottomSheetNavigator.hide()
+        TODO()
     }
 
     fun pushModal(modal: Modal) {

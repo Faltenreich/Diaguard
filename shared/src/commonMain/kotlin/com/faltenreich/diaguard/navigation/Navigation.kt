@@ -7,6 +7,8 @@ import androidx.navigation.NavOptions
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 
 class Navigation(
@@ -18,9 +20,12 @@ class Navigation(
     var modal = MutableStateFlow<Modal?>(null)
     lateinit var snackbarState: SnackbarHostState
 
-    val lastItem: Screen?
-        // FIXME: Always fails
-        get() = navController.currentBackStackEntry as? Screen
+    private val _currentScreen = MutableStateFlow<Screen?>(null)
+    val currentScreen = _currentScreen.asStateFlow()
+
+    fun setCurrentScreen(screen: Screen) {
+        _currentScreen.update { screen }
+    }
 
     suspend fun push(screen: Screen, popHistory: Boolean = false) = withContext(dispatcher) {
         navController.navigate(

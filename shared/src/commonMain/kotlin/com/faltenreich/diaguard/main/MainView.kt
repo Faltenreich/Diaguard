@@ -7,6 +7,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -21,12 +22,12 @@ import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationScreen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
+import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.di.inject
 
@@ -45,12 +46,12 @@ fun MainView(
     val navController = rememberNavController()
     SideEffect { navigation.navController = navController }
 
+    val currentScreen by navigation.currentScreen.collectAsStateWithLifecycle()
+
     Box(modifier = modifier) {
         Scaffold(
             topBar = {
-                // TODO: Pass Screen from composable
-                val screen: Screen? = null
-                val style = screen?.topAppBarStyle ?: TopAppBarStyle.Hidden
+                val style = currentScreen?.topAppBarStyle ?: TopAppBarStyle.Hidden
                 if (style != TopAppBarStyle.Hidden) {
                     TopAppBar(style)
                 }
@@ -61,11 +62,14 @@ fun MainView(
                     startDestination = DashboardScreen,
                     modifier = Modifier.padding(padding),
                 ) {
-                    composable<DashboardScreen> {
+                    composable<DashboardScreen> { backStackEntry ->
+                        val screen = backStackEntry.toRoute<DashboardScreen>()
+                        navigation.setCurrentScreen(screen)
                         Dashboard(viewModel = getViewModel())
                     }
                     composable<EntryFormScreen> { backStackEntry ->
                         val screen = backStackEntry.toRoute<EntryFormScreen>()
+                        navigation.setCurrentScreen(screen)
                         EntryForm(
                             viewModel = getViewModel {
                                 EntryFormViewModel(
@@ -82,9 +86,7 @@ fun MainView(
                 }
             },
             bottomBar = {
-                // TODO: Pass Screen from composable
-                val screen: Screen? = null
-                val style = screen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
+                val style = currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
                 if (style != BottomAppBarStyle.Hidden) {
                     BottomAppBar(
                         style = style,

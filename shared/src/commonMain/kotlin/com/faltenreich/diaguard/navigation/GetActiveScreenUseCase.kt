@@ -5,6 +5,6 @@ class GetActiveScreenUseCase(
 ) {
 
     operator fun invoke(): Screen? {
-        return navigation.lastItem
+        return navigation.currentScreen.value
     }
 }

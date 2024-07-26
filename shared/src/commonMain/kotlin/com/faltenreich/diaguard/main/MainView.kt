@@ -51,6 +51,7 @@ fun MainView(
     val currentScreen by navigation.currentScreen.collectAsStateWithLifecycle()
 
     val bottomSheet by navigation.bottomSheet.collectAsStateWithLifecycle()
+    // TODO: Move into navigation?
 
     val snackbarHostState = remember { SnackbarHostState() }
     SideEffect { navigation.snackbarState = snackbarHostState }
@@ -90,6 +91,19 @@ fun MainView(
                         PreferenceList(viewModel = getViewModel { PreferenceListViewModel() })
                     }
                 }
+
+                // FIXME: Use smart cast
+                bottomSheet?.let { bottomSheet ->
+                    BottomSheet(
+                        onDismissRequest = navigation::popBottomSheet,
+                        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+                    ) {
+                        // TODO: Differentiate from non-modal screens
+                        bottomSheet.Content()
+                    }
+                }
+
+                state.modal?.Content()
             },
             bottomBar = {
                 val style = currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
@@ -102,21 +116,7 @@ fun MainView(
                     )
                 }
             },
-            // FIXME: Overlapped by BottomSheet
-            // https://github.com/adrielcafe/voyager/issues/454
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         )
-
-        // FIXME: Use smart cast by removing Voyager from Screen
-        bottomSheet?.let { bottomSheet ->
-            BottomSheet(
-                onDismissRequest = navigation::popBottomSheet,
-                sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-            ) {
-                bottomSheet.Content()
-            }
-        }
-
-        state.modal?.Content()
     }
 }

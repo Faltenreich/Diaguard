@@ -4,14 +4,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
-import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.preferences
+import kotlinx.serialization.Serializable
 
-// FIXME: Supports no state restoration until parameter implements Serializable
-data class PreferenceListScreen(val preferences: List<PreferenceListItem>? = null) : Screen {
+@Serializable
+data object PreferenceListScreen : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
@@ -20,6 +20,6 @@ data class PreferenceListScreen(val preferences: List<PreferenceListItem>? = nul
 
     @Composable
     override fun Content() {
-        PreferenceList(viewModel = getViewModel { PreferenceListViewModel(preferences) })
+        PreferenceList(viewModel = getViewModel { PreferenceListViewModel() })
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -27,6 +28,9 @@ import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationScreen
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.navigation.top.TopAppBar
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
+import com.faltenreich.diaguard.preference.list.PreferenceList
+import com.faltenreich.diaguard.preference.list.PreferenceListScreen
+import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
 import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -82,6 +86,9 @@ fun MainView(
                             }
                         )
                     }
+                    screen<PreferenceListScreen>(route = { toRoute<PreferenceListScreen>() }) {
+                        PreferenceList(viewModel = getViewModel { PreferenceListViewModel() })
+                    }
                 }
             },
             bottomBar = {
@@ -102,7 +109,10 @@ fun MainView(
 
         // FIXME: Use smart cast by removing Voyager from Screen
         bottomSheet?.let { bottomSheet ->
-            BottomSheet(onDismissRequest = navigation::popBottomSheet) {
+            BottomSheet(
+                onDismissRequest = navigation::popBottomSheet,
+                sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+            ) {
                 bottomSheet.Content()
             }
         }

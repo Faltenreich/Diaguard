@@ -5,19 +5,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.food.search.FoodSearchMode
-import com.faltenreich.diaguard.main.MainViewModel
-import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.export.ExportFormScreen
+import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.preference.list.PreferenceListScreen
+import com.faltenreich.diaguard.main.MainViewModel
+import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.Screen
-import com.faltenreich.diaguard.statistic.StatisticScreen
-import com.faltenreich.diaguard.timeline.TimelineScreen
+import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.statistic.StatisticScreen
+import com.faltenreich.diaguard.timeline.TimelineScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.dashboard
 import diaguard.shared.generated.resources.export
@@ -82,7 +82,7 @@ fun BottomSheetNavigation(
             label = Res.string.preferences,
             icon = null,
             isActive = viewModel.getActiveScreen() is PreferenceListScreen,
-            onClick = { navigateTo(PreferenceListScreen(), false) },
+            onClick = { navigateTo(PreferenceListScreen, false) },
         )
     }
 }

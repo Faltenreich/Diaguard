@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.entry.form
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
@@ -11,7 +10,6 @@ import com.faltenreich.diaguard.navigation.Screen
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
-import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -65,12 +63,4 @@ data class EntryFormScreen(
                 }
             }
         )
-
-    @Composable
-    override fun Content() {
-        EntryForm(
-            viewModel = getViewModel(),
-            foodSearchViewModel = getViewModel(),
-        )
-    }
 }

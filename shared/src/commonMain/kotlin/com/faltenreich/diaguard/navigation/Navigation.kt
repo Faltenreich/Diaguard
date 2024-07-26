@@ -6,20 +6,25 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 
-class Navigation(
-    private val dispatcher: CoroutineDispatcher,
-) {
+class Navigation(private val dispatcher: CoroutineDispatcher) {
 
     lateinit var navController: NavController
-    var modal = MutableStateFlow<Modal?>(null)
-    lateinit var snackbarState: SnackbarHostState
 
     private val _currentScreen = MutableStateFlow<Screen?>(null)
     val currentScreen = _currentScreen.asStateFlow()
+
+    private val _bottomSheet = MutableStateFlow<Screen?>(null)
+    val bottomSheet: StateFlow<Screen?> = _bottomSheet.asStateFlow()
+
+    private val _modal = MutableStateFlow<Modal?>(null)
+    val modal = _modal.asStateFlow()
+
+    lateinit var snackbarState: SnackbarHostState
 
     fun setCurrentScreen(screen: Screen) {
         _currentScreen.update { screen }
@@ -43,19 +48,19 @@ class Navigation(
     }
 
     fun pushBottomSheet(screen: Screen) {
-        TODO()
+        _bottomSheet.tryEmit(screen)
     }
 
     fun popBottomSheet() {
-        TODO()
+        _bottomSheet.tryEmit(null)
     }
 
     fun pushModal(modal: Modal) {
-        this.modal.value = modal
+        _modal.tryEmit(modal)
     }
 
     fun popModal() {
-        this.modal.value = null
+        _modal.tryEmit(null)
     }
 
     suspend fun showSnackbar(

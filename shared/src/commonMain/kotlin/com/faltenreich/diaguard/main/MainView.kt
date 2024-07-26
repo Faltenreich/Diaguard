@@ -30,6 +30,7 @@ import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.BottomSheet
 
 @Composable
 fun MainView(
@@ -40,13 +41,15 @@ fun MainView(
     val state = viewModel.collectState()
     if (state !is MainState.Loaded) return
 
-    val snackbarHostState = remember { SnackbarHostState() }
-    SideEffect { navigation.snackbarState = snackbarHostState }
-
     val navController = rememberNavController()
     SideEffect { navigation.navController = navController }
 
     val currentScreen by navigation.currentScreen.collectAsStateWithLifecycle()
+
+    val bottomSheet by navigation.bottomSheet.collectAsStateWithLifecycle()
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    SideEffect { navigation.snackbarState = snackbarHostState }
 
     Box(modifier = modifier) {
         Scaffold(
@@ -96,6 +99,13 @@ fun MainView(
             // https://github.com/adrielcafe/voyager/issues/454
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         )
+
+        // FIXME: Use smart cast by removing Voyager from Screen
+        bottomSheet?.let { bottomSheet ->
+            BottomSheet(onDismissRequest = navigation::popBottomSheet) {
+                bottomSheet.Content()
+            }
+        }
 
         state.modal?.Content()
     }

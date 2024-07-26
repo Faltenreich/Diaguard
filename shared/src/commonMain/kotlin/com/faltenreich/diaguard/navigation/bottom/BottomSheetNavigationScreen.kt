@@ -7,8 +7,6 @@ data object BottomSheetNavigationScreen : Screen {
 
     @Composable
     override fun Content() {
-        BottomSheetContainer {
-            BottomSheetNavigation()
-        }
+        BottomSheetNavigation()
     }
 }

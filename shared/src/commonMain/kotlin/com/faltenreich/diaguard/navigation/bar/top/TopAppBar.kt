@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.top
+package com.faltenreich.diaguard.navigation.bar.top
 
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon

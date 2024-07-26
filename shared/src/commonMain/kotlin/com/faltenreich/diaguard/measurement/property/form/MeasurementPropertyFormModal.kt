@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.navigation.Modal
+import com.faltenreich.diaguard.navigation.modal.Modal
 
 class MeasurementPropertyFormModal(
     private val onDismissRequest: () -> Unit,

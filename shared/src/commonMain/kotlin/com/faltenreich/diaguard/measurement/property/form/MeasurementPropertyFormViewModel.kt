@@ -6,9 +6,9 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListItemState
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
-import com.faltenreich.diaguard.navigation.CloseModalUseCase
+import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel

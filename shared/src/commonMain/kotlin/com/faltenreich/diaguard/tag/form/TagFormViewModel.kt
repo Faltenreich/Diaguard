@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.tag.form
 
-import com.faltenreich.diaguard.navigation.CloseModalUseCase
+import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag

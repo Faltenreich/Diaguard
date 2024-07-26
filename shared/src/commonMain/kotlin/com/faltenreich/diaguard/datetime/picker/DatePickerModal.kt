@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.datetime.picker
 
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.navigation.Modal
+import com.faltenreich.diaguard.navigation.modal.Modal
 
 data class DatePickerModal(
     private val date: Date,

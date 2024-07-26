@@ -9,9 +9,9 @@ import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
 import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItem
-import com.faltenreich.diaguard.navigation.CloseModalUseCase
+import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
-import com.faltenreich.diaguard.navigation.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen

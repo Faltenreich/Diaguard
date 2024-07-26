@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.bottom
+package com.faltenreich.diaguard.navigation.bottomsheet
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.main.MainViewModel
 import com.faltenreich.diaguard.navigation.NavigationIntent
-import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Divider

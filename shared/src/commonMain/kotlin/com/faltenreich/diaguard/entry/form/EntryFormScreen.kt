@@ -6,10 +6,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.navigation.Screen
-import com.faltenreich.diaguard.navigation.bottom.BottomAppBarItem
-import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res

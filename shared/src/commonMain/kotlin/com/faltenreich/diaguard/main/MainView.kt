@@ -22,12 +22,12 @@ import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationIntent
-import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
-import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationScreen
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationScreen
 import com.faltenreich.diaguard.navigation.screen
-import com.faltenreich.diaguard.navigation.top.TopAppBar
-import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
@@ -105,7 +105,9 @@ fun MainView(
                     BottomAppBar(
                         style = style,
                         onMenuClick = {
-                            viewModel.dispatchIntent(NavigationIntent.OpenBottomSheet(BottomSheetNavigationScreen))
+                            viewModel.dispatchIntent(NavigationIntent.OpenBottomSheet(
+                                BottomSheetNavigationScreen
+                            ))
                         },
                     )
                 }

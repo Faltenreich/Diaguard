@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.navigation.Modal
+import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel

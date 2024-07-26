@@ -2,9 +2,9 @@ package com.faltenreich.diaguard.food.search
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.navigation.Screen
-import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getSharedViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton

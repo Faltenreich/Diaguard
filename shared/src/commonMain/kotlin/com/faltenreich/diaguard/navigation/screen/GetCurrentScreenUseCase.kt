@@ -1,5 +1,6 @@
-package com.faltenreich.diaguard.navigation
+package com.faltenreich.diaguard.navigation.screen
 
+import com.faltenreich.diaguard.navigation.Navigation
 import kotlinx.coroutines.flow.Flow
 
 class GetCurrentScreenUseCase(private val navigation: Navigation) {

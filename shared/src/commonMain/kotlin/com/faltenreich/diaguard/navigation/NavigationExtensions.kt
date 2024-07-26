@@ -11,6 +11,7 @@ import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.di.inject
 import kotlin.jvm.JvmSuppressWildcards
 import kotlin.reflect.KType

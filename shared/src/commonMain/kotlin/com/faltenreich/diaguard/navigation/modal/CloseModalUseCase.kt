@@ -1,4 +1,6 @@
-package com.faltenreich.diaguard.navigation
+package com.faltenreich.diaguard.navigation.modal
+
+import com.faltenreich.diaguard.navigation.Navigation
 
 class CloseModalUseCase(
     private val navigation: Navigation,

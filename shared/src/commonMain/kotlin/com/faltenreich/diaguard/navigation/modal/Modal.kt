@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation
+package com.faltenreich.diaguard.navigation.modal
 
 import androidx.compose.runtime.Composable
 

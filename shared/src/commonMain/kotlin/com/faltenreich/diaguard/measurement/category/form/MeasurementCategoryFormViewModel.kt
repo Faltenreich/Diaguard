@@ -4,17 +4,18 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.navigation.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.OpenModalUseCase
-import com.faltenreich.diaguard.shared.view.AlertModal
-import com.faltenreich.diaguard.shared.view.DeleteModal
-import com.faltenreich.diaguard.shared.view.EmojiModal
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.shared.view.AlertModal
+import com.faltenreich.diaguard.shared.view.DeleteModal
+import com.faltenreich.diaguard.shared.view.EmojiModal
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.delete_error_property
 import diaguard.shared.generated.resources.delete_title
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class MeasurementCategoryFormViewModel(
     val category: MeasurementCategory.Local,
@@ -56,7 +57,7 @@ class MeasurementCategoryFormViewModel(
     }
 
     // TODO: Validate
-    private fun updateCategory() {
+    private suspend fun updateCategory() {
         val category = category.copy(
             name = name.value,
             icon = icon.value?.takeIf(String::isNotBlank),
@@ -74,7 +75,7 @@ class MeasurementCategoryFormViewModel(
                     onConfirmRequest = {
                         deleteCategory(category)
                         closeModal()
-                        navigateBack()
+                        scope.launch { navigateBack() }
                     }
                 )
             )

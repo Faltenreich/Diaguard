@@ -173,7 +173,7 @@ class FoodFormViewModel(
         }
     }
 
-    private fun delete() {
+    private suspend fun delete() {
         val food = food ?: return
         deleteFood(food)
         navigateBack()

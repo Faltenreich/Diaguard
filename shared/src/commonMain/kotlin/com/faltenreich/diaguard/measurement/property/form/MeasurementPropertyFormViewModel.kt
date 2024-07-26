@@ -24,6 +24,7 @@ import diaguard.shared.generated.resources.measurement_unit_factor_description
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 
 class MeasurementPropertyFormViewModel(
     private val property: MeasurementProperty.Local,
@@ -93,7 +94,7 @@ class MeasurementPropertyFormViewModel(
     }
 
     // TODO: Validate
-    private fun updateProperty() {
+    private suspend fun updateProperty() {
         updateProperty(
             property.copy(
                 name = propertyName.value,
@@ -123,7 +124,7 @@ class MeasurementPropertyFormViewModel(
                     onConfirmRequest = {
                         deleteProperty(property)
                         closeModal()
-                        navigateBack()
+                        scope.launch { navigateBack() }
                     }
                 )
             )

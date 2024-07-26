@@ -39,8 +39,8 @@ class Navigation(private val dispatcher: CoroutineDispatcher) {
         )
     }
 
-    fun pop(): Boolean {
-        return navController.popBackStack()
+    suspend fun pop(): Boolean = withContext(dispatcher) {
+        navController.popBackStack()
     }
 
     fun canPop(): Boolean {

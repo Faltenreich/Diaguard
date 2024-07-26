@@ -67,6 +67,7 @@ class EntryFormViewModel(
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
+    // FIXME: Null, e.g. on opening existing entry
     private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
     private val food: Food.Local? = foodId?.let(getFoodById::invoke)
 
@@ -198,7 +199,7 @@ class EntryFormViewModel(
         }
     }
 
-    private fun delete() {
+    private suspend fun delete() {
         val entry = editing
         if (entry != null) {
             showModal(
@@ -207,7 +208,7 @@ class EntryFormViewModel(
                     onConfirmRequest = {
                         deleteEntry(entry)
                         closeModal()
-                        navigateBack()
+                        scope.launch { navigateBack() }
                     },
                 )
             )

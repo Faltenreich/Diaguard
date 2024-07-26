@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.food.search
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.Screen
+import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.shared.di.getSharedViewModel
 import com.faltenreich.diaguard.shared.localization.getString
@@ -12,7 +12,6 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_new
 import diaguard.shared.generated.resources.ic_add
 import org.jetbrains.compose.resources.painterResource
-import org.koin.core.parameter.parametersOf
 
 data class FoodSearchScreen(private val mode: FoodSearchMode) : Screen {
 
@@ -22,7 +21,7 @@ data class FoodSearchScreen(private val mode: FoodSearchMode) : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = getSharedViewModel<FoodSearchViewModel> { parametersOf(mode) }
+                val viewModel = getSharedViewModel<FoodSearchViewModel>()
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
@@ -34,6 +33,6 @@ data class FoodSearchScreen(private val mode: FoodSearchMode) : Screen {
 
     @Composable
     override fun Content() {
-        FoodSearch(viewModel = getSharedViewModel { parametersOf(mode) })
+        FoodSearch(viewModel = getSharedViewModel())
     }
 }

@@ -20,9 +20,6 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 implementation(compose.foundation)
-                // FIXME: Required for Voyager's BottomSheetNavigator
-                // https://github.com/adrielcafe/voyager/issues/185
-                runtimeOnly(compose.material)
                 implementation(compose.material3)
                 // FIXME: Not yet compatible with iOS
                 // implementation(compose.preview)
@@ -46,7 +43,6 @@ kotlin {
                 implementation(libs.shimmer)
                 implementation(libs.sqldelight.coroutines)
                 implementation(libs.viewmodel)
-                implementation(libs.bundles.voyager)
             }
         }
         commonTest {

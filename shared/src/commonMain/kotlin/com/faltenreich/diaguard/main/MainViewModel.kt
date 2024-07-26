@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.navigation.GetModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.NavigationIntent
+import com.faltenreich.diaguard.navigation.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottom.GetBottomSheetUseCase
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -27,8 +28,10 @@ class MainViewModel(
     private val hasData: HasDataUseCase = inject(),
     private val importData: ImportUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    // TODO: Make private and expose via state
     val getActiveScreen: GetActiveScreenUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
+    private val openBottomSheet: OpenBottomSheetUseCase = inject(),
     private val closeBottomSheet: CloseBottomSheetUseCase = inject(),
 ) : ViewModel<MainState, NavigationIntent, Unit>() {
 
@@ -67,13 +70,15 @@ class MainViewModel(
         }
     }
 
-    override suspend fun handleIntent(intent: NavigationIntent) {
-        when (intent) {
+    override suspend fun handleIntent(intent: NavigationIntent) = with(intent) {
+        when (this) {
             is NavigationIntent.NavigateTo -> {
-                navigateToScreen(intent.screen)
+                navigateToScreen(screen)
                 closeBottomSheet()
             }
             is NavigationIntent.NavigateBack -> navigateBack()
+            is NavigationIntent.OpenBottomSheet -> openBottomSheet(screen)
+            is NavigationIntent.CloseBottomSheet -> closeBottomSheet()
         }
     }
 }

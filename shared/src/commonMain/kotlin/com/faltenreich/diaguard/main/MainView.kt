@@ -21,6 +21,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bottom.BottomSheetNavigationScreen
@@ -88,7 +89,7 @@ fun MainView(
                 // FIXME: Use smart cast
                 state.bottomSheet?.let { bottomSheet ->
                     BottomSheet(
-                        onDismissRequest = navigation::popBottomSheet,
+                        onDismissRequest = { viewModel.dispatchIntent(NavigationIntent.CloseBottomSheet) },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
                     ) {
                         // TODO: Differentiate from non-modal screens
@@ -104,7 +105,7 @@ fun MainView(
                     BottomAppBar(
                         style = style,
                         onMenuClick = {
-                            navigation.pushBottomSheet(BottomSheetNavigationScreen)
+                            viewModel.dispatchIntent(NavigationIntent.OpenBottomSheet(BottomSheetNavigationScreen))
                         },
                     )
                 }

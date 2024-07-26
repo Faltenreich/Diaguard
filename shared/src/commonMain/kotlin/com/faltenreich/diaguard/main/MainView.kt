@@ -8,7 +8,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -31,7 +30,6 @@ import com.faltenreich.diaguard.navigation.top.TopAppBarStyle
 import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
-import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.BottomSheet
@@ -48,18 +46,13 @@ fun MainView(
     val navController = rememberNavController()
     SideEffect { navigation.navController = navController }
 
-    val currentScreen by navigation.currentScreen.collectAsStateWithLifecycle()
-
-    val bottomSheet by navigation.bottomSheet.collectAsStateWithLifecycle()
-    // TODO: Move into navigation?
-
     val snackbarHostState = remember { SnackbarHostState() }
     SideEffect { navigation.snackbarState = snackbarHostState }
 
     Box(modifier = modifier) {
         Scaffold(
             topBar = {
-                val style = currentScreen?.topAppBarStyle ?: TopAppBarStyle.Hidden
+                val style = state.currentScreen?.topAppBarStyle ?: TopAppBarStyle.Hidden
                 if (style != TopAppBarStyle.Hidden) {
                     TopAppBar(style)
                 }
@@ -93,7 +86,7 @@ fun MainView(
                 }
 
                 // FIXME: Use smart cast
-                bottomSheet?.let { bottomSheet ->
+                state.bottomSheet?.let { bottomSheet ->
                     BottomSheet(
                         onDismissRequest = navigation::popBottomSheet,
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
@@ -106,7 +99,7 @@ fun MainView(
                 state.modal?.Content()
             },
             bottomBar = {
-                val style = currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
+                val style = state.currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
                 if (style != BottomAppBarStyle.Hidden) {
                     BottomAppBar(
                         style = style,

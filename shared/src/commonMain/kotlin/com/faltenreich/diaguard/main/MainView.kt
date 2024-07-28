@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
@@ -57,6 +58,7 @@ fun MainView(
                 ) {
                     screen<DashboardScreen>()
                     screen<EntryFormScreen>()
+                    screen<FoodSearchScreen>()
                     screen<PreferenceListScreen>()
                 }
 

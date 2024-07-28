@@ -11,12 +11,11 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.search.list.FoodList
 import com.faltenreich.diaguard.food.search.list.FoodListEmpty
 import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
-import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
 fun FoodSearch(
     modifier: Modifier = Modifier,
-    viewModel: FoodSearchViewModel = inject(),
+    viewModel: FoodSearchViewModel,
 ) {
     val state = viewModel.collectState() ?: return
     val items = state.pagingData.collectAsLazyPagingItems()

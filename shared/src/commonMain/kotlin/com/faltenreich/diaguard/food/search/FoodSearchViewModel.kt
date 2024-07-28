@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
-    private val mode: FoodSearchMode,
+    private val mode: FoodSearchMode = FoodSearchMode.STROLL,
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),

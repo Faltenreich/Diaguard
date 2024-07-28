@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.faltenreich.diaguard.dashboard.Dashboard
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.entry.form.EntryForm
@@ -24,10 +23,10 @@ import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationScreen
-import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationScreen
+import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
@@ -64,10 +63,10 @@ fun MainView(
                     startDestination = DashboardScreen,
                     modifier = Modifier.padding(padding),
                 ) {
-                    screen<DashboardScreen>(route = { toRoute<DashboardScreen>() }) {
+                    screen<DashboardScreen> {
                         Dashboard(viewModel = getViewModel())
                     }
-                    screen<EntryFormScreen>(route = { toRoute<EntryFormScreen>() }) { screen ->
+                    screen<EntryFormScreen> { screen ->
                         EntryForm(
                             viewModel = getViewModel {
                                 EntryFormViewModel(
@@ -81,7 +80,7 @@ fun MainView(
                             }
                         )
                     }
-                    screen<PreferenceListScreen>(route = { toRoute<PreferenceListScreen>() }) {
+                    screen<PreferenceListScreen> {
                         PreferenceList(viewModel = getViewModel { PreferenceListViewModel() })
                     }
                 }

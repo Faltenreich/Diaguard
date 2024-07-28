@@ -11,6 +11,7 @@ import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.di.inject
 import kotlin.jvm.JvmSuppressWildcards
@@ -35,7 +36,6 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
     (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards
     SizeTransform?)? = null,
     navigation: Navigation = inject(),
-    noinline route: NavBackStackEntry.() -> T,
     noinline content: @Composable AnimatedContentScope.(arguments: T) -> Unit,
 ) {
     composable<T>(
@@ -47,7 +47,7 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
         popExitTransition,
         sizeTransform,
     ) { backStackEntry ->
-        val screen = backStackEntry.route()
+        val screen = backStackEntry.toRoute<T>()
         navigation.setCurrentScreen(screen)
         content(screen)
     }

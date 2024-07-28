@@ -1,11 +1,9 @@
 package com.faltenreich.diaguard.navigation
 
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.SizeTransform
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
@@ -21,22 +19,16 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
     typeMap: Map<KType, NavType<*>> = emptyMap(),
     deepLinks: List<NavDeepLink> = emptyList(),
     noinline enterTransition:
-    (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards
-    EnterTransition?)? = null,
+    (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards EnterTransition?)? = null,
     noinline exitTransition:
-    (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards
-    ExitTransition?)? = null,
+    (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards ExitTransition?)? = null,
     noinline popEnterTransition:
-    (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards
-    EnterTransition?)? = enterTransition,
+    (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards EnterTransition?)? = enterTransition,
     noinline popExitTransition:
-    (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards
-    ExitTransition?)? = exitTransition,
+    (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards ExitTransition?)? = exitTransition,
     noinline sizeTransform:
-    (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards
-    SizeTransform?)? = null,
+    (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards SizeTransform?)? = null,
     navigation: Navigation = inject(),
-    noinline content: @Composable AnimatedContentScope.(arguments: T) -> Unit,
 ) {
     composable<T>(
         typeMap,
@@ -49,6 +41,6 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
     ) { backStackEntry ->
         val screen = backStackEntry.toRoute<T>()
         navigation.setCurrentScreen(screen)
-        content(screen)
+        screen.Content()
     }
 }

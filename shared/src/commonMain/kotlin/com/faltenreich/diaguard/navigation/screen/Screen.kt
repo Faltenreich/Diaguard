@@ -12,7 +12,6 @@ interface Screen {
     val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible()
 
-    @Deprecated("Use NavGraphBuilder instead")
     @Composable
-    fun Content() = Unit
+    fun Content()
 }

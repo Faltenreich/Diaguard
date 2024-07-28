@@ -12,13 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.faltenreich.diaguard.dashboard.Dashboard
 import com.faltenreich.diaguard.dashboard.DashboardScreen
-import com.faltenreich.diaguard.entry.form.EntryForm
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
-import com.faltenreich.diaguard.entry.form.EntryFormViewModel
-import com.faltenreich.diaguard.food.search.FoodSearchMode
-import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
@@ -27,10 +22,7 @@ import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationScreen
 import com.faltenreich.diaguard.navigation.screen
-import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
-import com.faltenreich.diaguard.preference.list.PreferenceListViewModel
-import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.BottomSheet
 
@@ -63,26 +55,9 @@ fun MainView(
                     startDestination = DashboardScreen,
                     modifier = Modifier.padding(padding),
                 ) {
-                    screen<DashboardScreen> {
-                        Dashboard(viewModel = getViewModel())
-                    }
-                    screen<EntryFormScreen> { screen ->
-                        EntryForm(
-                            viewModel = getViewModel {
-                                EntryFormViewModel(
-                                    entryId = screen.entryId,
-                                    dateTimeIsoString = screen.dateTimeIsoString,
-                                    foodId = screen.foodId,
-                                )
-                            },
-                            foodSearchViewModel = getViewModel {
-                                FoodSearchViewModel(mode = FoodSearchMode.FIND)
-                            }
-                        )
-                    }
-                    screen<PreferenceListScreen> {
-                        PreferenceList(viewModel = getViewModel { PreferenceListViewModel() })
-                    }
+                    screen<DashboardScreen>()
+                    screen<EntryFormScreen>()
+                    screen<PreferenceListScreen>()
                 }
 
                 // FIXME: Use smart cast

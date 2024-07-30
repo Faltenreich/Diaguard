@@ -27,7 +27,9 @@ kotlin {
                 implementation(libs.datastore)
                 implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.compose)
+                implementation(libs.koin.compose.viewmodel)
                 implementation(libs.koin.core)
+                implementation(libs.koin.viewmodel)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.io)
@@ -42,7 +44,6 @@ kotlin {
                 implementation(libs.paging.common.compose)
                 implementation(libs.shimmer)
                 implementation(libs.sqldelight.coroutines)
-                implementation(libs.viewmodel)
             }
         }
         commonTest {

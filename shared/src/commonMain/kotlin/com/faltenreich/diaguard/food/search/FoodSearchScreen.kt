@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.shared.di.getSharedViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -25,7 +25,11 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = getViewModel<FoodSearchViewModel>()
+                val viewModel = getSharedViewModel<FoodSearchViewModel> {
+                    FoodSearchViewModel(
+                        mode = FoodSearchMode.entries.first { it.ordinal == modeOrdinal },
+                    )
+                }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
@@ -39,7 +43,7 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
     override fun Content() {
         FoodSearch(
             // FIXME: Use as shared ViewModel
-            viewModel = getViewModel {
+            viewModel = getSharedViewModel {
                 FoodSearchViewModel(
                     mode = FoodSearchMode.entries.first { it.ordinal == modeOrdinal },
                 )

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.entry.form.CreateEntryUseCase
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
+import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.GetEntryByIdUseCase
 import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
@@ -17,6 +18,7 @@ import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
 import com.faltenreich.diaguard.entry.tag.CreateEntryTagsUseCase
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 fun entryModule() = module {
@@ -43,5 +45,8 @@ fun entryModule() = module {
     singleOf(::DeleteEntryUseCase)
     singleOf(::SearchEntriesUseCase)
 
+    viewModel { (entryId: Long?, dateTimeIsoString: String?, foodId: Long?) ->
+        EntryFormViewModel(entryId, dateTimeIsoString, foodId)
+    }
     factory { (query: String) -> EntrySearchViewModel(query) }
 }

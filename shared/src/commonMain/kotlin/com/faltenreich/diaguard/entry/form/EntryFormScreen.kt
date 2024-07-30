@@ -8,12 +8,10 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.search.FoodSearchMode
-import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.shared.di.getViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -24,6 +22,8 @@ import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.save
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Serializable
 data class EntryFormScreen(
@@ -71,16 +71,8 @@ data class EntryFormScreen(
     @Composable
     override fun Content() {
         EntryForm(
-            viewModel = getViewModel {
-                EntryFormViewModel(
-                    entryId = entryId,
-                    dateTimeIsoString = dateTimeIsoString,
-                    foodId = foodId,
-                )
-            },
-            foodSearchViewModel = getViewModel {
-                FoodSearchViewModel(mode = FoodSearchMode.FIND)
-            }
+            viewModel = koinViewModel(parameters = { parametersOf(entryId, dateTimeIsoString, foodId) }),
+            foodSearchViewModel = koinViewModel(parameters = { parametersOf(FoodSearchMode.FIND) }),
         )
     }
 }

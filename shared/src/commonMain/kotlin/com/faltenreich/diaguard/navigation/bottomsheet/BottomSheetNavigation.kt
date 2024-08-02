@@ -10,8 +10,6 @@ import com.faltenreich.diaguard.export.ExportFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.main.MainViewModel
-import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.shared.di.inject
@@ -33,28 +31,32 @@ import diaguard.shared.generated.resources.timeline
 @Composable
 fun BottomSheetNavigation(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = inject(),
+    viewModel: BottomSheetNavigationViewModel = inject(),
 ) {
+    val state = viewModel.collectState() ?: return
+    val activeScreen = state.activeScreen
+
     val navigateTo = { screen: Screen, clearBackStack: Boolean ->
-        viewModel.dispatchIntent(NavigationIntent.NavigateTo(screen, clearBackStack))
+        viewModel.dispatchIntent(BottomSheetNavigationIntent.NavigateTo(screen, clearBackStack))
     }
+
     Column(modifier = modifier) {
         BottomSheetNavigationItem(
             label = Res.string.dashboard,
             icon = Res.drawable.ic_dashboard,
-            isActive = viewModel.getActiveScreen() is DashboardScreen,
+            isActive = activeScreen is DashboardScreen,
             onClick = { navigateTo(DashboardScreen, true) },
         )
         BottomSheetNavigationItem(
             label = Res.string.timeline,
             icon = Res.drawable.ic_timeline,
-            isActive = viewModel.getActiveScreen() is TimelineScreen,
+            isActive = activeScreen is TimelineScreen,
             onClick = { navigateTo(TimelineScreen, true) },
         )
         BottomSheetNavigationItem(
             label = Res.string.log,
             icon = Res.drawable.ic_log,
-            isActive = viewModel.getActiveScreen() is LogScreen,
+            isActive = activeScreen is LogScreen,
             onClick = { navigateTo(LogScreen, true) },
         )
 
@@ -63,25 +65,25 @@ fun BottomSheetNavigation(
         BottomSheetNavigationItem(
             label = Res.string.food,
             icon = null,
-            isActive = viewModel.getActiveScreen() is FoodSearchScreen,
+            isActive = activeScreen is FoodSearchScreen,
             onClick = { navigateTo(FoodSearchScreen(mode = FoodSearchMode.STROLL), false) },
         )
         BottomSheetNavigationItem(
             label = Res.string.statistic,
             icon = null,
-            isActive = viewModel.getActiveScreen() is StatisticScreen,
+            isActive = activeScreen is StatisticScreen,
             onClick = { navigateTo(StatisticScreen, false) },
         )
         BottomSheetNavigationItem(
             label = Res.string.export,
             icon = null,
-            isActive = viewModel.getActiveScreen() is ExportFormScreen,
+            isActive = activeScreen is ExportFormScreen,
             onClick = { navigateTo(ExportFormScreen, false) },
         )
         BottomSheetNavigationItem(
             label = Res.string.preferences,
             icon = null,
-            isActive = viewModel.getActiveScreen() is PreferenceListScreen,
+            isActive = activeScreen is PreferenceListScreen,
             onClick = { navigateTo(PreferenceListScreen, false) },
         )
     }

@@ -3,14 +3,11 @@ package com.faltenreich.diaguard.main
 import com.faltenreich.diaguard.backup.ImportUseCase
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.navigation.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.GetBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.modal.GetModalUseCase
-import com.faltenreich.diaguard.navigation.screen.GetActiveScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.GetCurrentScreenUseCase
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -27,10 +24,6 @@ class MainViewModel(
     getModal: GetModalUseCase = inject(),
     private val hasData: HasDataUseCase = inject(),
     private val importData: ImportUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
-    // TODO: Make private and expose via state
-    val getActiveScreen: GetActiveScreenUseCase = inject(),
-    private val navigateBack: NavigateBackUseCase = inject(),
     private val openBottomSheet: OpenBottomSheetUseCase = inject(),
     private val closeBottomSheet: CloseBottomSheetUseCase = inject(),
 ) : ViewModel<MainState, NavigationIntent, Unit>() {
@@ -72,11 +65,6 @@ class MainViewModel(
 
     override suspend fun handleIntent(intent: NavigationIntent) = with(intent) {
         when (this) {
-            is NavigationIntent.NavigateTo -> {
-                navigateToScreen(screen)
-                closeBottomSheet()
-            }
-            is NavigationIntent.NavigateBack -> navigateBack()
             is NavigationIntent.OpenBottomSheet -> openBottomSheet(screen)
             is NavigationIntent.CloseBottomSheet -> closeBottomSheet()
         }

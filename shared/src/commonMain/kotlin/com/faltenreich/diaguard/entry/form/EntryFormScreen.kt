@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
@@ -12,6 +11,7 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -22,7 +22,6 @@ import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.save
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Serializable
@@ -50,7 +49,9 @@ data class EntryFormScreen(
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = viewModel<EntryFormViewModel>()
+                val viewModel = viewModel<EntryFormViewModel>(
+                    parameters = { parametersOf(entryId, dateTimeIsoString, foodId) },
+                )
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.entry_delete,
@@ -58,7 +59,9 @@ data class EntryFormScreen(
                 )
             },
             floatingActionButton = {
-                val viewModel = viewModel<EntryFormViewModel>()
+                val viewModel = viewModel<EntryFormViewModel>(
+                    parameters = { parametersOf(entryId, dateTimeIsoString, foodId) },
+                )
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
@@ -71,8 +74,8 @@ data class EntryFormScreen(
     @Composable
     override fun Content() {
         EntryForm(
-            viewModel = koinViewModel(parameters = { parametersOf(entryId, dateTimeIsoString, foodId) }),
-            foodSearchViewModel = koinViewModel(parameters = { parametersOf(FoodSearchMode.FIND) }),
+            viewModel = viewModel(parameters = { parametersOf(entryId, dateTimeIsoString, foodId) }),
+            foodSearchViewModel = viewModel(parameters = { parametersOf(FoodSearchMode.FIND) }),
         )
     }
 }

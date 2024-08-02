@@ -14,6 +14,12 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    configurations.all {
+        // TODO: This hides the LifecycleOwner. Do we want this?
+        //  Hide transitive dependency of Compose Navigation and Koin
+        //  exclude(group = "org.jetbrains.androidx.lifecycle", module = "lifecycle-viewmodel-compose")
+    }
+
     sourceSets {
         commonMain {
             dependencies {
@@ -24,6 +30,7 @@ kotlin {
                 // FIXME: Not yet compatible with iOS
                 // implementation(compose.preview)
                 implementation(compose.runtime)
+                implementation(libs.compose.navigation)
                 implementation(libs.datastore)
                 implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.compose)
@@ -39,7 +46,6 @@ kotlin {
                 implementation(libs.ktor.core)
                 implementation(libs.ktor.contentnegotiation)
                 implementation(libs.ktor.serialization)
-                implementation(libs.navigation)
                 implementation(libs.paging.common)
                 implementation(libs.paging.common.compose)
                 implementation(libs.shimmer)

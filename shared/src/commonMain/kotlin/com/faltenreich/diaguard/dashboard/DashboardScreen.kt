@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -18,7 +18,6 @@ import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
 data object DashboardScreen : Screen {
@@ -31,7 +30,7 @@ data object DashboardScreen : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = koinViewModel<DashboardViewModel>()
+                val viewModel = viewModel<DashboardViewModel>()
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_search),
                     contentDescription = Res.string.search_open,
@@ -39,7 +38,7 @@ data object DashboardScreen : Screen {
                 )
             },
             floatingActionButton = {
-                val viewModel = getViewModel<DashboardViewModel>()
+                val viewModel = viewModel<DashboardViewModel>()
                 FloatingActionButton(
                     onClick = { viewModel.dispatchIntent(DashboardIntent.CreateEntry) },
                 ) {
@@ -53,6 +52,6 @@ data object DashboardScreen : Screen {
 
     @Composable
     override fun Content() {
-        Dashboard(viewModel = koinViewModel())
+        Dashboard(viewModel = viewModel())
     }
 }

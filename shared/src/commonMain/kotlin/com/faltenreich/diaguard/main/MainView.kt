@@ -30,6 +30,10 @@ fun MainView(
     val state = viewModel.collectState()
     if (state !is MainState.Loaded) return
 
+    val currentScreen = state.currentScreen
+    val bottomSheet = state.bottomSheet
+    val modal = state.modal
+
     val navController = rememberNavController()
     SideEffect { navigation.navController = navController }
 
@@ -39,7 +43,7 @@ fun MainView(
     Box(modifier = modifier) {
         Scaffold(
             topBar = {
-                val style = state.currentScreen?.topAppBarStyle ?: TopAppBarStyle.Hidden
+                val style = currentScreen?.topAppBarStyle ?: TopAppBarStyle.Hidden
                 if (style != TopAppBarStyle.Hidden) {
                     TopAppBar(style)
                 }
@@ -50,7 +54,6 @@ fun MainView(
                     modifier = Modifier.padding(padding),
                 )
 
-                val bottomSheet = state.bottomSheet
                 if (bottomSheet != null) {
                     BottomSheet(
                         onDismissRequest = { viewModel.dispatchIntent(NavigationIntent.CloseBottomSheet) },
@@ -60,10 +63,10 @@ fun MainView(
                     }
                 }
 
-                state.modal?.Content()
+                modal?.Content()
             },
             bottomBar = {
-                val style = state.currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
+                val style = currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
                 if (style != BottomAppBarStyle.Hidden) {
                     BottomAppBar(
                         style = style,

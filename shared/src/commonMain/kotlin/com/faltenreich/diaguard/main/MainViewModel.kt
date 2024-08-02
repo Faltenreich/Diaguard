@@ -73,8 +73,8 @@ class MainViewModel(
     override suspend fun handleIntent(intent: NavigationIntent) = with(intent) {
         when (this) {
             is NavigationIntent.NavigateTo -> {
-                closeBottomSheet()
                 navigateToScreen(screen)
+                closeBottomSheet()
             }
             is NavigationIntent.NavigateBack -> navigateBack()
             is NavigationIntent.OpenBottomSheet -> openBottomSheet(screen)

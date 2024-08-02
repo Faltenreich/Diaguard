@@ -28,8 +28,9 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
     (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards ExitTransition?)? = exitTransition,
     noinline sizeTransform:
     (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards SizeTransform?)? = null,
-    navigation: Navigation = inject(),
 ) {
+    val navigation = inject<Navigation>()
+
     composable<T>(
         typeMap,
         deepLinks,

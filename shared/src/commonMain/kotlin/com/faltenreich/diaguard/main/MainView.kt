@@ -50,13 +50,12 @@ fun MainView(
                     modifier = Modifier.padding(padding),
                 )
 
-                // FIXME: Use smart cast
-                state.bottomSheet?.let { bottomSheet ->
+                val bottomSheet = state.bottomSheet
+                if (bottomSheet != null) {
                     BottomSheet(
                         onDismissRequest = { viewModel.dispatchIntent(NavigationIntent.CloseBottomSheet) },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
                     ) {
-                        // TODO: Differentiate from non-modal screens
                         bottomSheet.Content()
                     }
                 }

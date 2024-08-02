@@ -5,9 +5,9 @@ import com.faltenreich.diaguard.navigation.screen.Screen
 
 sealed interface MainState {
 
-    data object Loading : MainState
+    data object FirstStart : MainState
 
-    data class Loaded(
+    data class SubsequentStart(
         val startScreen: Screen,
         val currentScreen: Screen?,
         val bottomSheet: Screen?,

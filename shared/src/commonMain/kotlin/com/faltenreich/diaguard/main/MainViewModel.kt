@@ -36,7 +36,7 @@ class MainViewModel(
         getModal(),
     ) { hasData, startScreen, currentScreen, bottomSheet, modal ->
         if (hasData) {
-            MainState.Loaded(
+            MainState.SubsequentStart(
                 startScreen = when (startScreen) {
                     StartScreen.DASHBOARD -> DashboardScreen
                     StartScreen.TIMELINE -> TimelineScreen
@@ -47,7 +47,7 @@ class MainViewModel(
                 modal = modal,
             )
         } else {
-            MainState.Loading
+            MainState.FirstStart
         }
     }
 

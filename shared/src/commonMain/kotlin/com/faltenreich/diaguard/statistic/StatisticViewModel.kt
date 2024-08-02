@@ -36,7 +36,7 @@ class StatisticViewModel(
         selectedCategory,
     ) { categories, decimalPlaces, selectedCategory ->
         val category = selectedCategory ?: categories.first()
-        StatisticViewState.Loaded(
+        StatisticViewState(
             categories = categories,
             selectedCategory = category,
             dateRange = dateRange,

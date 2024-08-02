@@ -37,48 +37,47 @@ fun Statistic(
     modifier: Modifier = Modifier,
     viewModel: StatisticViewModel = inject(),
 ) {
+    val state = viewModel.collectState() ?: return
+
     var showDateRangePicker by remember { mutableStateOf(false) }
 
-    when (val viewState = viewModel.collectState()) {
-        null -> Unit
-        is StatisticViewState.Loaded -> Column(
-            modifier = modifier.verticalScroll(rememberScrollState()),
-        ) {
-            FormRow(icon = { MeasurementCategoryIcon(viewState.selectedCategory) }) {
-                DropdownButton(
-                    text = viewState.selectedCategory.name,
-                    items = viewState.categories.map { category ->
-                        category.name to { viewModel.dispatchIntent(StatisticIntent.Select(category)) }
-                    }
+    Column(
+        modifier = modifier.verticalScroll(rememberScrollState()),
+    ) {
+        FormRow(icon = { MeasurementCategoryIcon(state.selectedCategory) }) {
+            DropdownButton(
+                text = state.selectedCategory.name,
+                items = state.categories.map { category ->
+                    category.name to { viewModel.dispatchIntent(StatisticIntent.Select(category)) }
+                }
+            )
+        }
+        Divider()
+        FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
+            TextButton(onClick = { showDateRangePicker = true }) {
+                Text(
+                    text = viewModel.dateRangeLocalized,
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
-            Divider()
-            FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
-                TextButton(onClick = { showDateRangePicker = true }) {
-                    Text(
-                        text = viewModel.dateRangeLocalized,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-            }
-
-            TextDivider(getString(Res.string.average))
-            viewState.average.values.forEach { value ->
-                FormRow {
-                    Text(value.first.name, modifier = Modifier.weight(1f))
-                    Text(value.second ?: getString(Res.string.placeholder))
-                }
-                Divider()
-            }
-            FormRow {
-                Text(getString(Res.string.entries_per_day), modifier = Modifier.weight(1f))
-                Text(viewState.average.countPerDay)
-            }
-
-            TextDivider(getString(Res.string.trend))
-
-            TextDivider(getString(Res.string.distribution))
         }
+
+        TextDivider(getString(Res.string.average))
+        state.average.values.forEach { value ->
+            FormRow {
+                Text(value.first.name, modifier = Modifier.weight(1f))
+                Text(value.second ?: getString(Res.string.placeholder))
+            }
+            Divider()
+        }
+        FormRow {
+            Text(getString(Res.string.entries_per_day), modifier = Modifier.weight(1f))
+            Text(state.average.countPerDay)
+        }
+
+        TextDivider(getString(Res.string.trend))
+
+        TextDivider(getString(Res.string.distribution))
     }
 
     AnimatedVisibility(

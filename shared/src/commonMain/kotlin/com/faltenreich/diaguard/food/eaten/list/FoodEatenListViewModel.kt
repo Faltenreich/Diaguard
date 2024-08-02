@@ -11,12 +11,12 @@ class FoodEatenListViewModel(
     food: Food.Local,
     getFoodEaten: GetFoodEatenForFoodUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<FoodEatenListViewState, FoodEatenListIntent, Unit>() {
+) : ViewModel<FoodEatenListState, FoodEatenListIntent, Unit>() {
 
     override val state = getFoodEaten(food).map { results ->
         when {
-            results.isEmpty() -> FoodEatenListViewState.Empty
-            else -> FoodEatenListViewState.Loaded(results)
+            results.isEmpty() -> FoodEatenListState.Empty
+            else -> FoodEatenListState.NonEmpty(results)
         }
     }
 

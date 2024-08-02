@@ -17,8 +17,8 @@ class GetAverageUseCase(
         category: MeasurementCategory.Local,
         dateRange: ClosedRange<Date>,
         decimalPlaces: Int,
-    ): StatisticViewState.Loaded.Average {
-        return StatisticViewState.Loaded.Average(
+    ): StatisticViewState.Average {
+        return StatisticViewState.Average(
             values = propertyRepository.getByCategoryId(category.id).map { property ->
                 property to valueRepository.getAverageByPropertyId(
                     propertyId = property.id,

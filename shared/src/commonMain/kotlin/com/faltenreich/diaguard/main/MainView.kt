@@ -28,7 +28,7 @@ fun MainView(
     navigation: Navigation = inject(),
 ) {
     val state = viewModel.collectState()
-    if (state !is MainState.Loaded) return
+    if (state !is MainState.SubsequentStart) return
 
     val currentScreen = state.currentScreen
     val bottomSheet = state.bottomSheet

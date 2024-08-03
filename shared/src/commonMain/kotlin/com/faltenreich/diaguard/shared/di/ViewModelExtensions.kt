@@ -58,11 +58,3 @@ inline fun <reified T : ViewModel> getViewModel(
 ): T {
     return viewModel(owner, key, factory, extras)
 }
-
-@Deprecated("Use Koin instead", ReplaceWith("activityViewModel"))
-@Composable
-inline fun <reified T : ViewModel> getSharedViewModel(
-    noinline initializer: CreationExtras.() -> T,
-): T {
-    TODO()
-}

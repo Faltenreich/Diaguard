@@ -26,9 +26,9 @@ import org.koin.core.parameter.parametersOf
 
 @Serializable
 data class EntryFormScreen(
-    val entryId: Long,
-    val dateTimeIsoString: String?,
-    val foodId: Long,
+    private val entryId: Long,
+    private val dateTimeIsoString: String?,
+    private val foodId: Long,
 ) : Screen {
 
     constructor(

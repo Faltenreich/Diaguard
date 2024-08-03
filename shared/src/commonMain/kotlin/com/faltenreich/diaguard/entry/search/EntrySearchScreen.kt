@@ -6,23 +6,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.ClearButton
 import com.faltenreich.diaguard.shared.view.SearchField
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search_prompt
 import diaguard.shared.generated.resources.ic_search
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.koin.core.parameter.parametersOf
 
-data class EntrySearchScreen(val query: String = "") : Screen {
+@Serializable
+data class EntrySearchScreen(private val query: String = "") : Screen {
 
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<EntrySearchViewModel> { EntrySearchViewModel(query) }
+                val viewModel = viewModel<EntrySearchViewModel>(parameters = { parametersOf(query) })
                 SearchField(
                     query = viewModel.query,
                     placeholder = getString(Res.string.entry_search_prompt),
@@ -43,6 +46,6 @@ data class EntrySearchScreen(val query: String = "") : Screen {
 
     @Composable
     override fun Content() {
-        EntrySearch(viewModel = getViewModel { EntrySearchViewModel(query) })
+        EntrySearch(viewModel = viewModel(parameters = { parametersOf(query) }))
     }
 }

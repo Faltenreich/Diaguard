@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -13,14 +13,16 @@ import diaguard.shared.generated.resources.entry_new_description
 import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 
+@Serializable
 data object TimelineScreen : Screen {
 
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<TimelineViewModel>()
+                val viewModel = viewModel<TimelineViewModel>()
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_search),
                     contentDescription = Res.string.search_open,
@@ -28,7 +30,7 @@ data object TimelineScreen : Screen {
                 )
             },
             floatingActionButton = {
-                val viewModel = getViewModel<TimelineViewModel>()
+                val viewModel = viewModel<TimelineViewModel>()
                 FloatingActionButton(
                     onClick = { viewModel.dispatchIntent(TimelineIntent.CreateEntry) },
                 ) {
@@ -42,6 +44,6 @@ data object TimelineScreen : Screen {
 
     @Composable
     override fun Content() {
-        Timeline(viewModel = getViewModel())
+        Timeline(viewModel = viewModel())
     }
 }

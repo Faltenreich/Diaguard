@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.export.ExportFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
+import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationIntent
@@ -32,6 +33,7 @@ import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.di.rememberViewModelStoreOwner
+import com.faltenreich.diaguard.timeline.TimelineScreen
 
 @Composable
 fun MainView(
@@ -66,6 +68,9 @@ fun MainView(
                     modifier = Modifier.padding(padding),
                 ) {
                     screen<DashboardScreen>()
+                    screen<TimelineScreen>()
+                    screen<LogScreen>()
+
                     screen<EntryFormScreen>()
                     screen<EntrySearchScreen>()
                     screen<FoodSearchScreen>()

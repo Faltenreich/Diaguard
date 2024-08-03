@@ -6,28 +6,27 @@ import app.cash.paging.Pager
 import app.cash.paging.PagingSource
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
-import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
-import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
-import com.faltenreich.diaguard.log.item.LogItem
-import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
-import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
+import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
+import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
+import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
+import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 
 class LogViewModel(
-    getToday: GetTodayUseCase = inject(),
-    private val invalidateStickyHeaderInfo: InvalidateLogDayStickyHeaderInfoUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
-    private val showModal: OpenModalUseCase = inject(),
-    private val closeModal: CloseModalUseCase = inject(),
+    getToday: GetTodayUseCase,
+    private val invalidateStickyHeaderInfo: InvalidateLogDayStickyHeaderInfoUseCase,
+    private val navigateToScreen: NavigateToScreenUseCase,
+    private val showModal: OpenModalUseCase,
+    private val closeModal: CloseModalUseCase,
 ) : ViewModel<LogState, LogIntent, Unit>() {
 
     private val initialDate: Date = getToday()

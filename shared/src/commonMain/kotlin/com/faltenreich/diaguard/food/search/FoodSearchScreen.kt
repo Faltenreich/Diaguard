@@ -26,7 +26,12 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             floatingActionButton = {
-                FloatingActionButton(onClick = { TODO() }) { // viewModel.dispatchIntent(FoodSearchIntent.Create) }) {
+                val viewModel = sharedViewModel<FoodSearchViewModel>(
+                    parameters = {
+                        parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
+                    },
+                )
+                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
                         contentDescription = getString(Res.string.food_new),

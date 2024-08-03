@@ -10,8 +10,8 @@ import com.faltenreich.diaguard.tag.form.UniqueTagRule
 import com.faltenreich.diaguard.tag.form.ValidateTagUseCase
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
 import com.faltenreich.diaguard.tag.list.TagListViewModel
-import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun tagModule() = module {
@@ -24,7 +24,7 @@ fun tagModule() = module {
     singleOf(::GetEntriesOfTagUseCase)
     singleOf(::DeleteTagUseCase)
 
-    factoryOf(::TagListViewModel)
-    factoryOf(::TagFormViewModel)
+    viewModelOf(::TagListViewModel)
+    viewModelOf(::TagFormViewModel)
     factory { (tag: Tag.Local) -> TagDetailViewModel(tag = tag) }
 }

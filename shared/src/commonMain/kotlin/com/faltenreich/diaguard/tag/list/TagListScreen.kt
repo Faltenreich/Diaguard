@@ -3,15 +3,20 @@ package com.faltenreich.diaguard.tag.list
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_add
+import diaguard.shared.generated.resources.tag_new
+import diaguard.shared.generated.resources.tags
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 
+@Serializable
 data object TagListScreen : Screen {
 
     override val topAppBarStyle: TopAppBarStyle
@@ -22,7 +27,7 @@ data object TagListScreen : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = getViewModel<TagListViewModel>()
+                val viewModel = viewModel<TagListViewModel>()
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(TagListIntent.CreateTag) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
@@ -34,6 +39,6 @@ data object TagListScreen : Screen {
 
     @Composable
     override fun Content() {
-        TagList(viewModel = getViewModel())
+        TagList(viewModel = viewModel())
     }
 }

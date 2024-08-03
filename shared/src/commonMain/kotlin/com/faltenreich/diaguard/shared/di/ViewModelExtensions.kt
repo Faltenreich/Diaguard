@@ -7,9 +7,7 @@
 package com.faltenreich.diaguard.shared.di
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.HasDefaultViewModelProviderFactory
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -47,19 +45,6 @@ inline fun <reified T : ViewModel> getViewModel(
     owner: ViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current),
     key: String? = null,
     noinline initializer: CreationExtras.() -> T,
-): T {
-    TODO()
-}
-
-@Deprecated("Use Koin instead", ReplaceWith("viewModel"))
-@Composable
-inline fun <reified T : ViewModel> getViewModel(
-    owner: ViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current),
-    key: String? = null,
-    factory: ViewModelProvider.Factory? = null,
-    extras: CreationExtras =
-        if (owner is HasDefaultViewModelProviderFactory) owner.defaultViewModelCreationExtras
-        else CreationExtras.Empty,
 ): T {
     TODO()
 }

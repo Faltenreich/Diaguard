@@ -33,6 +33,8 @@ import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.di.rememberViewModelStoreOwner
+import com.faltenreich.diaguard.statistic.StatisticScreen
+import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
 
 @Composable
@@ -74,11 +76,14 @@ fun MainView(
                     screen<EntryFormScreen>()
                     screen<EntrySearchScreen>()
                     screen<FoodSearchScreen>()
+
+                    screen<StatisticScreen>()
                     screen<ExportFormScreen>()
 
                     screen<PreferenceListScreen>()
                     screen<DecimalPlacesFormScreen>()
                     screen<MeasurementCategoryListScreen>()
+                    screen<TagListScreen>()
                 }
 
                 if (bottomSheet != null) {

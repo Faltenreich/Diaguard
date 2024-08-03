@@ -20,9 +20,9 @@ class EntrySearchViewModel(
     query: String = "",
     searchEntries: SearchEntriesUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<EntrySearchViewState, EntrySearchIntent, Unit>() {
+) : ViewModel<EntrySearchState, EntrySearchIntent, Unit>() {
 
-    override val state = MutableStateFlow<EntrySearchViewState>(EntrySearchViewState.Idle)
+    override val state = MutableStateFlow<EntrySearchState>(EntrySearchState.Idle)
 
     var query: String by mutableStateOf("")
 
@@ -30,12 +30,12 @@ class EntrySearchViewModel(
         snapshotFlow { this.query }
             .debounce(1.seconds)
             .distinctUntilChanged()
-            .onEach { state.value = EntrySearchViewState.Loading }
+            .onEach { state.value = EntrySearchState.Loading }
             .flatMapLatest { searchEntries(it) }
             .onEach {
                 state.value =
-                    if (this.query.isBlank()) EntrySearchViewState.Idle
-                    else EntrySearchViewState.Result(it)
+                    if (this.query.isBlank()) EntrySearchState.Idle
+                    else EntrySearchState.Result(it)
             }
             .launchIn(scope)
 

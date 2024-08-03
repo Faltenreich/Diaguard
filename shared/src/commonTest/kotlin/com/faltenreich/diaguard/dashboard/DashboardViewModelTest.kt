@@ -18,7 +18,7 @@ class DashboardViewModelTest : TestSuite {
     @Test
     fun `state contains null content if no data is available`() = runTest {
         assertEquals(
-            DashboardViewState(
+            DashboardState(
                 latestBloodSugar = null,
                 today = null,
                 average = null,

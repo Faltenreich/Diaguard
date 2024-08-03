@@ -26,7 +26,7 @@ class MeasurementCategoryFormViewModel(
     private val navigateBack: NavigateBackUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
-) : ViewModel<MeasurementCategoryFormViewState, MeasurementCategoryFormIntent, Unit>() {
+) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
 
     var icon = MutableStateFlow(category.icon)
     var name = MutableStateFlow(category.name)
@@ -34,7 +34,7 @@ class MeasurementCategoryFormViewModel(
 
     private val properties = getProperties(category)
 
-    override val state = properties.map(::MeasurementCategoryFormViewState)
+    override val state = properties.map(::MeasurementCategoryFormState)
 
     override suspend fun handleIntent(intent: MeasurementCategoryFormIntent) {
         when (intent) {

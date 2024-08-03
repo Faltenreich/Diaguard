@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.dashboard.latest
 
-import com.faltenreich.diaguard.dashboard.DashboardViewState
+import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
@@ -24,7 +24,7 @@ class GetLatestBloodSugarUseCase(
     private val dateTimeFormatter: DateTimeFormatter,
 ) {
 
-    operator fun invoke(): Flow<DashboardViewState.LatestBloodSugar?> {
+    operator fun invoke(): Flow<DashboardState.LatestBloodSugar?> {
         return categoryRepository.observeBloodSugar().flatMapLatest { category ->
             val dateTime = dateTimeFactory.now()
             val categoryId = category?.id ?: return@flatMapLatest flowOf(null)
@@ -37,7 +37,7 @@ class GetLatestBloodSugarUseCase(
             ) { value, decimalPlaces ->
                 when (value) {
                     null -> null
-                    else -> DashboardViewState.LatestBloodSugar(
+                    else -> DashboardState.LatestBloodSugar(
                         entry = value.entry,
                         value = valueMapper(
                             value = value,

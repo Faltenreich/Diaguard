@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.dashboard.average
 
-import com.faltenreich.diaguard.dashboard.DashboardViewState
+import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
@@ -23,7 +23,7 @@ class GetAverageUseCase(
     private val getPreference: GetPreferenceUseCase,
 ) {
 
-    operator fun invoke(): Flow<DashboardViewState.Average?> {
+    operator fun invoke(): Flow<DashboardState.Average?> {
         val today = getToday()
         val todayAtEndOfDay = today.atEndOfDay()
 
@@ -49,7 +49,7 @@ class GetAverageUseCase(
                 getPreference(DecimalPlaces),
             ) { properties, averageOfDay, averageOfWeek, averageOfMonth, decimalPlaces ->
                 val unit = properties.firstOrNull()?.selectedUnit ?: return@combine null
-                DashboardViewState.Average(
+                DashboardState.Average(
                     day = averageOfDay?.let {
                         mapValue(
                             value = averageOfDay,

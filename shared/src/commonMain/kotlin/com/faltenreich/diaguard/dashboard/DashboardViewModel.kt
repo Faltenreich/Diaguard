@@ -17,16 +17,16 @@ class DashboardViewModel(
     getToday: GetTodayUseCase = inject(),
     getAverage: GetAverageUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<DashboardViewState, DashboardIntent, Unit>() {
+) : ViewModel<DashboardState, DashboardIntent, Unit>() {
 
-    override val state: Flow<DashboardViewState> = combine(
+    override val state: Flow<DashboardState> = combine(
         getLatestBloodSugar(),
         getToday(),
         getAverage(),
         // TODO: Add use cases
         flowOf(null),
         flowOf(null),
-        ::DashboardViewState,
+        ::DashboardState,
     )
 
     override suspend fun handleIntent(intent: DashboardIntent) {

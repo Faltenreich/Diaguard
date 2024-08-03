@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.dashboard.DashboardViewState
+import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hyper
@@ -21,7 +21,7 @@ import diaguard.shared.generated.resources.today
 
 @Composable
 fun TodayDashboardItem(
-    data: DashboardViewState.Today?,
+    data: DashboardState.Today?,
     modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {

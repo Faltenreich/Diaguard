@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.dashboard.DashboardViewState
+import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
@@ -18,7 +18,7 @@ import diaguard.shared.generated.resources.placeholder
 
 @Composable
 fun LatestDashboardItem(
-    data: DashboardViewState.LatestBloodSugar?,
+    data: DashboardState.LatestBloodSugar?,
     onClick: (Entry.Local?) -> Unit,
     modifier: Modifier = Modifier,
 ) {

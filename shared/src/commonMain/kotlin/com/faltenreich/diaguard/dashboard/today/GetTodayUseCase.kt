@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.dashboard.today
 
-import com.faltenreich.diaguard.dashboard.DashboardViewState
+import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
@@ -16,7 +16,7 @@ class GetTodayUseCase(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    operator fun invoke(): Flow<DashboardViewState.Today?> {
+    operator fun invoke(): Flow<DashboardState.Today?> {
         val today = dateTimeFactory.today()
         return categoryRepository.observeBloodSugar().flatMapLatest { category ->
             val categoryId = category?.id ?: return@flatMapLatest flowOf(null)
@@ -25,7 +25,7 @@ class GetTodayUseCase(
                 minDateTime = today.atStartOfDay(),
                 maxDateTime = today.atEndOfDay(),
             ).map { values ->
-                DashboardViewState.Today(
+                DashboardState.Today(
                     totalCount = values.size,
                     hypoCount = values.count(MeasurementValue::isTooLow),
                     hyperCount = values.count(MeasurementValue::isTooHigh),

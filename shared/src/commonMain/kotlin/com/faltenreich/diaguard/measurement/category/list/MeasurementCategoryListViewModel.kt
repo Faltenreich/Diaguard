@@ -20,9 +20,9 @@ class MeasurementCategoryListViewModel(
     private val navigateToScreen: NavigateToScreenUseCase,
     private val openModal: OpenModalUseCase,
     private val closeModal: CloseModalUseCase,
-) : ViewModel<MeasurementCategoryListViewState, MeasurementCategoryListIntent, Unit>() {
+) : ViewModel<MeasurementCategoryListState, MeasurementCategoryListIntent, Unit>() {
 
-    override val state = getCategories().map(::MeasurementCategoryListViewState)
+    override val state = getCategories().map(::MeasurementCategoryListState)
 
     override suspend fun handleIntent(intent: MeasurementCategoryListIntent) = with(intent) {
         when (this) {

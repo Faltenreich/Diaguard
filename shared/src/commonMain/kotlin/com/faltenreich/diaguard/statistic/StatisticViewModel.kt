@@ -20,7 +20,7 @@ class StatisticViewModel(
     getPreference: GetPreferenceUseCase,
     private val getAverage: GetAverageUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
-) : ViewModel<StatisticViewState, StatisticIntent, Unit>() {
+) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val selectedCategory = MutableStateFlow<MeasurementCategory.Local?>(null)
     private val initialDateRange = getToday().let { today ->
@@ -36,7 +36,7 @@ class StatisticViewModel(
         selectedCategory,
     ) { categories, decimalPlaces, selectedCategory ->
         val category = selectedCategory ?: categories.first()
-        StatisticViewState(
+        StatisticState(
             categories = categories,
             selectedCategory = category,
             dateRange = dateRange,

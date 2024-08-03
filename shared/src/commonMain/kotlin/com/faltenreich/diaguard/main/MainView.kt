@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.main
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -18,7 +19,6 @@ import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationScreen
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.BottomSheet
 
 @Composable
 fun MainView(
@@ -41,12 +41,7 @@ fun MainView(
 
     Scaffold(
         modifier = modifier,
-        topBar = {
-            val style = currentScreen?.topAppBarStyle ?: TopAppBarStyle.Hidden
-            if (style != TopAppBarStyle.Hidden) {
-                TopAppBar(style)
-            }
-        },
+        topBar = { TopAppBar(currentScreen?.topAppBarStyle ?: TopAppBarStyle.Hidden) },
         content = { padding ->
             MainNavigation(
                 navController = navController,
@@ -54,7 +49,7 @@ fun MainView(
             )
 
             if (bottomSheet != null) {
-                BottomSheet(
+                ModalBottomSheet(
                     onDismissRequest = { viewModel.dispatchIntent(NavigationIntent.CloseBottomSheet) },
                     sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
                 ) {
@@ -65,17 +60,14 @@ fun MainView(
             modal?.Content()
         },
         bottomBar = {
-            val style = currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden
-            if (style != BottomAppBarStyle.Hidden) {
-                BottomAppBar(
-                    style = style,
-                    onMenuClick = {
-                        viewModel.dispatchIntent(NavigationIntent.OpenBottomSheet(
-                            BottomSheetNavigationScreen
-                        ))
-                    },
-                )
-            }
+            BottomAppBar(
+                style = currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden,
+                onMenuClick = {
+                    viewModel.dispatchIntent(NavigationIntent.OpenBottomSheet(
+                        BottomSheetNavigationScreen
+                    ))
+                },
+            )
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     )

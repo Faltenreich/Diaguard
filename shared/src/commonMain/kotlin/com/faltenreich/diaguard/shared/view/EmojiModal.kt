@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.view
 
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.modal.Modal
 
@@ -10,7 +11,7 @@ class EmojiModal(
 
     @Composable
     override fun Content() {
-        BottomSheet(onDismissRequest = onDismissRequest) {
+        ModalBottomSheet(onDismissRequest = onDismissRequest) {
             EmojiPicker(onEmojiPicked = onEmojiPicked)
         }
     }

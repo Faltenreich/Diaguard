@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.sharedViewModel
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
@@ -75,7 +76,7 @@ data class EntryFormScreen(
     override fun Content() {
         EntryForm(
             viewModel = viewModel(parameters = { parametersOf(entryId, dateTimeIsoString, foodId) }),
-            foodSearchViewModel = viewModel(parameters = { parametersOf(FoodSearchMode.FIND) }),
+            foodSearchViewModel = sharedViewModel(parameters = { parametersOf(FoodSearchMode.FIND) }),
         )
     }
 }

@@ -16,7 +16,9 @@ import androidx.navigation.compose.rememberNavController
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
+import com.faltenreich.diaguard.export.ExportFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
+import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
@@ -25,6 +27,7 @@ import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationScreen
 import com.faltenreich.diaguard.navigation.screen
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.shared.di.inject
@@ -66,7 +69,11 @@ fun MainView(
                     screen<EntryFormScreen>()
                     screen<EntrySearchScreen>()
                     screen<FoodSearchScreen>()
+                    screen<ExportFormScreen>()
+
                     screen<PreferenceListScreen>()
+                    screen<DecimalPlacesFormScreen>()
+                    screen<MeasurementCategoryListScreen>()
                 }
 
                 if (bottomSheet != null) {

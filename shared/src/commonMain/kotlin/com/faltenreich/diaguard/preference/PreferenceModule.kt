@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.PreferenceStore
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
-import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -23,7 +22,7 @@ fun preferenceModule() = module {
     singleOf(::GetDefaultPreferencesUseCase)
 
     singleOf(::IllustrateDecimalPlacesUseCase)
-    factoryOf(::DecimalPlacesFormViewModel)
+    viewModelOf(::DecimalPlacesFormViewModel)
 
     viewModelOf<PreferenceListViewModel>(::PreferenceListViewModel)
 }

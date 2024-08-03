@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.tag.detail
 
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
-import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -19,7 +19,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class TagDetailViewModel(
-    private val tag: Tag.Local,
+    tagId: Long,
+    getTagById: GetTagByIdUseCase = inject(),
     getEntriesOfTag: GetEntriesOfTagUseCase = inject(),
     private val validateTag: ValidateTagUseCase = inject(),
     private val storeTag: StoreTagUseCase = inject(),
@@ -30,6 +31,7 @@ class TagDetailViewModel(
     private val navigateBack: NavigateBackUseCase = inject(),
 ) : ViewModel<TagDetailState, TagDetailIntent, Unit>() {
 
+    private val tag: Tag.Local = requireNotNull(getTagById(tagId))
     var name = MutableStateFlow(tag.name)
     private val error = MutableStateFlow<String?>(null)
 
@@ -55,6 +57,7 @@ class TagDetailViewModel(
                 navigateBack()
             }
             is ValidationResult.Failure -> {
+                // FIXME: Not shown anymore
                 error.value = result.error
             }
         }

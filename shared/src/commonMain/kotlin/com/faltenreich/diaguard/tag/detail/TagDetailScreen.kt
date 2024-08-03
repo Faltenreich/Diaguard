@@ -3,11 +3,11 @@ package com.faltenreich.diaguard.tag.detail
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.tag.Tag
@@ -17,9 +17,14 @@ import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.save
 import diaguard.shared.generated.resources.tag
 import diaguard.shared.generated.resources.tag_delete
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.koin.core.parameter.parametersOf
 
-data class TagDetailScreen(private val tag: Tag.Local) : Screen {
+@Serializable
+data class TagDetailScreen(private val tagId: Long) : Screen {
+
+    constructor(tag: Tag.Local) : this(tag.id)
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
@@ -29,7 +34,7 @@ data class TagDetailScreen(private val tag: Tag.Local) : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<TagDetailViewModel> { TagDetailViewModel(tag) }
+                val viewModel = viewModel<TagDetailViewModel> { parametersOf(tagId) }
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.tag_delete,
@@ -37,7 +42,7 @@ data class TagDetailScreen(private val tag: Tag.Local) : Screen {
                 )
             },
             floatingActionButton = {
-                val viewModel = getViewModel<TagDetailViewModel> { TagDetailViewModel(tag) }
+                val viewModel = viewModel<TagDetailViewModel> { parametersOf(tagId) }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(TagDetailIntent.UpdateTag) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
@@ -49,6 +54,6 @@ data class TagDetailScreen(private val tag: Tag.Local) : Screen {
 
     @Composable
     override fun Content() {
-        TagDetail(viewModel = getViewModel { TagDetailViewModel(tag) })
+        TagDetail(viewModel = viewModel { parametersOf(tagId) })
     }
 }

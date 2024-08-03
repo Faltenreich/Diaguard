@@ -34,6 +34,7 @@ import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.di.rememberViewModelStoreOwner
 import com.faltenreich.diaguard.statistic.StatisticScreen
+import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
 
@@ -84,6 +85,7 @@ fun MainView(
                     screen<DecimalPlacesFormScreen>()
                     screen<MeasurementCategoryListScreen>()
                     screen<TagListScreen>()
+                    screen<TagDetailScreen>()
                 }
 
                 if (bottomSheet != null) {

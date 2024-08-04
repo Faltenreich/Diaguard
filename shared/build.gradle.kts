@@ -14,12 +14,6 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    configurations.all {
-        // TODO: This hides the LifecycleOwner. Do we want this?
-        //  Hide transitive dependency of Compose Navigation and Koin
-        //  exclude(group = "org.jetbrains.androidx.lifecycle", module = "lifecycle-viewmodel-compose")
-    }
-
     sourceSets {
         commonMain {
             dependencies {
@@ -27,8 +21,9 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.foundation)
                 implementation(compose.material3)
-                // FIXME: Not yet compatible with iOS
-                // implementation(compose.preview)
+                // TODO: Support multiplatform
+                //  https://github.com/JetBrains/compose-multiplatform/issues/2045
+                //  implementation(compose.preview)
                 implementation(compose.runtime)
                 implementation(libs.compose.navigation)
                 implementation(libs.datastore)

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.food.form
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
@@ -19,7 +20,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class FoodFormViewModel(
-    private val food: Food.Local?,
+    foodId: Long?,
+    getFoodById: GetFoodByIdUseCase = inject(),
     private val validateInput: ValidateFoodInputUseCase = inject(),
     private val storeFood: StoreFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
@@ -29,6 +31,8 @@ class FoodFormViewModel(
     private val formatNumber: NumberFormatter = inject(),
     private val localization: Localization = inject(),
 ) : ViewModel<Nothing, FoodFormIntent, Unit>() {
+
+    val food = foodId?.let(getFoodById::invoke)
 
     override val state: Flow<Nothing>
         get() = throw UnsupportedOperationException()

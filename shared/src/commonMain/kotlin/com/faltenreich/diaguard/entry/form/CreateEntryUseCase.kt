@@ -21,6 +21,7 @@ class CreateEntryUseCase(
                 note = note,
             )
         } ?: entryRepository.create(Entry.User(dateTime = dateTime, note = note))
+        // FIXME: Null when entry created through FoodEatenList
         val entry = checkNotNull(entryRepository.getById(entryId))
         createMeasurementValues(measurements, entry)
         storeFoodEaten(foodEaten, entry)

@@ -17,6 +17,8 @@ import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.export.ExportFormScreen
+import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
+import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
@@ -76,7 +78,9 @@ fun MainView(
 
                     screen<EntryFormScreen>()
                     screen<EntrySearchScreen>()
+                    screen<FoodFormScreen>()
                     screen<FoodSearchScreen>()
+                    screen<FoodEatenListScreen>()
 
                     screen<StatisticScreen>()
                     screen<ExportFormScreen>()

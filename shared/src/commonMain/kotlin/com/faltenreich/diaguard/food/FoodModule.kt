@@ -35,6 +35,6 @@ fun foodModule() = module {
     singleOf(::StoreFoodEatenUseCase)
 
     viewModel { (mode: FoodSearchMode) -> FoodSearchViewModel(mode) }
-    factory { (food: Food.Local?) -> FoodFormViewModel(food) }
-    factory { (food: Food.Local) -> FoodEatenListViewModel(food) }
+    viewModel { (foodId: Long?) -> FoodFormViewModel(foodId) }
+    viewModel { (foodId: Long) -> FoodEatenListViewModel(foodId) }
 }

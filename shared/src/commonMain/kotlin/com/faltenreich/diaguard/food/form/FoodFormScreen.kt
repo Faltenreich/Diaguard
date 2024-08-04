@@ -4,11 +4,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -19,9 +19,14 @@ import diaguard.shared.generated.resources.ic_check
 import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.ic_history
 import diaguard.shared.generated.resources.save
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.koin.core.parameter.parametersOf
 
-data class FoodFormScreen(private val food: Food.Local? = null) : Screen {
+@Serializable
+data class FoodFormScreen(private val foodId: Long) : Screen {
+
+    constructor(food: Food.Local? = null) : this(foodId = food?.id ?: -1)
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
@@ -31,13 +36,14 @@ data class FoodFormScreen(private val food: Food.Local? = null) : Screen {
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<FoodFormViewModel> { FoodFormViewModel(food) }
+                val viewModel = viewModel<FoodFormViewModel> { parametersOf(foodId) }
+                val food = viewModel.food
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.food_delete,
                     onClick = { viewModel.dispatchIntent(FoodFormIntent.Delete) },
                 )
-                food?.let { food ->
+                if (food != null) {
                     BottomAppBarItem(
                         painter = painterResource(Res.drawable.ic_history),
                         contentDescription = Res.string.food_eaten,
@@ -46,7 +52,7 @@ data class FoodFormScreen(private val food: Food.Local? = null) : Screen {
                 }
             },
             floatingActionButton = {
-                val viewModel = getViewModel<FoodFormViewModel> { FoodFormViewModel(food) }
+                val viewModel = viewModel<FoodFormViewModel> { parametersOf(foodId) }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
@@ -58,6 +64,6 @@ data class FoodFormScreen(private val food: Food.Local? = null) : Screen {
 
     @Composable
     override fun Content() {
-        FoodForm(viewModel = getViewModel { FoodFormViewModel(food) })
+        FoodForm(viewModel = viewModel { parametersOf(foodId.takeIf { it >= 0 }) })
     }
 }

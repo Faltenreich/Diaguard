@@ -9,7 +9,6 @@ package com.faltenreich.diaguard.shared.di
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.ParametersDefinition
@@ -38,13 +37,3 @@ inline fun <reified T : ViewModel> sharedViewModel(
 
 @Composable
 expect fun rememberViewModelStoreOwner(): ViewModelStoreOwner
-
-@Deprecated("Use Koin instead", ReplaceWith("viewModel"))
-@Composable
-inline fun <reified T : ViewModel> getViewModel(
-    owner: ViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current),
-    key: String? = null,
-    noinline initializer: CreationExtras.() -> T,
-): T {
-    TODO()
-}

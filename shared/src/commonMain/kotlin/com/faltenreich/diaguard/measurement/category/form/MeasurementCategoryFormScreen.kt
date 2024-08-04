@@ -4,11 +4,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -17,9 +17,14 @@ import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.measurement_category
 import diaguard.shared.generated.resources.measurement_category_delete
 import diaguard.shared.generated.resources.save
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.koin.core.parameter.parametersOf
 
-data class MeasurementCategoryFormScreen(val category: MeasurementCategory.Local) : Screen {
+@Serializable
+data class MeasurementCategoryFormScreen(val categoryId: Long) : Screen {
+
+    constructor(category: MeasurementCategory.Local) : this(categoryId = category.id)
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
@@ -29,7 +34,7 @@ data class MeasurementCategoryFormScreen(val category: MeasurementCategory.Local
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<MeasurementCategoryFormViewModel> { MeasurementCategoryFormViewModel(category) }
+                val viewModel = viewModel<MeasurementCategoryFormViewModel> { parametersOf(categoryId) }
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.measurement_category_delete,
@@ -37,7 +42,7 @@ data class MeasurementCategoryFormScreen(val category: MeasurementCategory.Local
                 )
             },
             floatingActionButton = {
-                val viewModel = getViewModel<MeasurementCategoryFormViewModel> { MeasurementCategoryFormViewModel(category) }
+                val viewModel = viewModel<MeasurementCategoryFormViewModel> { parametersOf(categoryId) }
                 FloatingActionButton(
                     onClick = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.UpdateCategory) },
                 ) {
@@ -51,6 +56,6 @@ data class MeasurementCategoryFormScreen(val category: MeasurementCategory.Local
 
     @Composable
     override fun Content() {
-        MeasurementCategoryForm(viewModel = getViewModel { MeasurementCategoryFormViewModel(category) })
+        MeasurementCategoryForm(viewModel = viewModel { parametersOf(categoryId) })
     }
 }

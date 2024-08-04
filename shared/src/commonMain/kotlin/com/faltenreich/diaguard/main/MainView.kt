@@ -21,7 +21,9 @@ import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
+import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
+import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
@@ -88,6 +90,8 @@ fun MainView(
                     screen<PreferenceListScreen>()
                     screen<DecimalPlacesFormScreen>()
                     screen<MeasurementCategoryListScreen>()
+                    screen<MeasurementCategoryFormScreen>()
+                    screen<MeasurementPropertyFormScreen>()
                     screen<TagListScreen>()
                     screen<TagDetailScreen>()
                 }

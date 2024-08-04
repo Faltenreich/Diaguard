@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -18,15 +18,18 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class MeasurementCategoryFormViewModel(
-    val category: MeasurementCategory.Local,
-    private val localization: Localization = inject(),
+    categoryId: Long,
+    getCategoryBdId: GetMeasurementCategoryBdIdUseCase = inject(),
     getProperties: GetMeasurementPropertiesUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
+    private val localization: Localization = inject(),
 ) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
+
+    val category: MeasurementCategory.Local = requireNotNull(getCategoryBdId(categoryId))
 
     var icon = MutableStateFlow(category.icon)
     var name = MutableStateFlow(category.name)

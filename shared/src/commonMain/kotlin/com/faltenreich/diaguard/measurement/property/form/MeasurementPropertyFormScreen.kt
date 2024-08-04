@@ -4,11 +4,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.shared.di.getViewModel
+import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -17,9 +17,14 @@ import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.measurement_property
 import diaguard.shared.generated.resources.measurement_property_delete
 import diaguard.shared.generated.resources.save
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.koin.core.parameter.parametersOf
 
-data class MeasurementPropertyFormScreen(val property: MeasurementProperty.Local) : Screen {
+@Serializable
+data class MeasurementPropertyFormScreen(val propertyId: Long) : Screen {
+
+    constructor(property: MeasurementProperty.Local) : this(propertyId = property.id)
 
     override val topAppBarStyle: TopAppBarStyle
         get() = TopAppBarStyle.CenterAligned {
@@ -29,7 +34,7 @@ data class MeasurementPropertyFormScreen(val property: MeasurementProperty.Local
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = getViewModel<MeasurementPropertyFormViewModel> { MeasurementPropertyFormViewModel(property) }
+                val viewModel = viewModel<MeasurementPropertyFormViewModel> { parametersOf(propertyId) }
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.measurement_property_delete,
@@ -37,7 +42,7 @@ data class MeasurementPropertyFormScreen(val property: MeasurementProperty.Local
                 )
             },
             floatingActionButton = {
-                val viewModel = getViewModel<MeasurementPropertyFormViewModel> { MeasurementPropertyFormViewModel(property) }
+                val viewModel = viewModel<MeasurementPropertyFormViewModel> { parametersOf(propertyId) }
                 FloatingActionButton(
                     onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateProperty) },
                 ) {
@@ -51,6 +56,6 @@ data class MeasurementPropertyFormScreen(val property: MeasurementProperty.Local
 
     @Composable
     override fun Content() {
-        MeasurementPropertyForm(viewModel = getViewModel { MeasurementPropertyFormViewModel(property) })
+        MeasurementPropertyForm(viewModel = viewModel { parametersOf(propertyId) })
     }
 }

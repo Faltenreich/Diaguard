@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.measurement.property.form
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.unit.GetMeasurementUnitsOfPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListItemState
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
-import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -27,9 +26,8 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
 class MeasurementPropertyFormViewModel(
-    private val property: MeasurementProperty.Local,
-    private val localization: Localization = inject(),
-    private val numberFormatter: NumberFormatter = inject(),
+    propertyId: Long,
+    getPropertyByIdUseCase: GetMeasurementPropertyBdIdUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
     getUnits: GetMeasurementUnitsOfPropertyUseCase = inject(),
     private val updateUnit: UpdateMeasurementUnitUseCase = inject(),
@@ -38,7 +36,11 @@ class MeasurementPropertyFormViewModel(
     private val navigateBack: NavigateBackUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
+    private val localization: Localization = inject(),
+    private val numberFormatter: NumberFormatter = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
+
+    private val property = requireNotNull(getPropertyByIdUseCase(propertyId))
 
     var propertyName = MutableStateFlow(property.name)
     var selectedUnit = MutableStateFlow(property.selectedUnit)

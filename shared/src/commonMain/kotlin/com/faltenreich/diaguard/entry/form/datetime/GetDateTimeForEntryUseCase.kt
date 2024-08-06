@@ -10,7 +10,7 @@ class GetDateTimeForEntryUseCase(
 
     operator fun invoke(entry: Entry?, dateTimeIsoString: String?): DateTime {
         return entry?.dateTime
-            ?: dateTimeIsoString?.let(dateTimeFactory::date)?.atTime(dateTimeFactory.now().time)
+            ?: dateTimeIsoString?.let(dateTimeFactory::dateTime)?.date?.atTime(dateTimeFactory.now().time)
             ?: dateTimeFactory.now()
     }
 }

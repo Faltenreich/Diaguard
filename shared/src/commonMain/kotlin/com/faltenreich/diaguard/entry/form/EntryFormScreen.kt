@@ -38,8 +38,6 @@ data class EntryFormScreen(
         food: Food.Local? = null,
     ) : this(
         entryId = entry?.id ?: -1,
-        // FIXME: crashes when opening from empty log item
-        //  DateTimeParseException: Text '2024-07-31T00:00' could not be parsed
         dateTimeIsoString = date?.atStartOfDay()?.isoString,
         foodId = food?.id ?: -1,
     )

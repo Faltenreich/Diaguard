@@ -51,10 +51,6 @@ fun MainView(
     val state = viewModel.collectState()
     if (state !is MainState.SubsequentStart) return
 
-    val currentScreen = state.currentScreen
-    val bottomSheet = state.bottomSheet
-    val modal = state.modal
-
     val navController = rememberNavController()
     SideEffect { navigation.navController = navController }
 
@@ -66,12 +62,11 @@ fun MainView(
     CompositionLocalProvider(LocalSharedViewModelStoreOwner provides viewModelStoreOwner) {
         Scaffold(
             modifier = modifier,
-            topBar = { TopAppBar(currentScreen?.topAppBarStyle ?: TopAppBarStyle.Hidden) },
+            topBar = { TopAppBar(state.currentScreen?.topAppBarStyle ?: TopAppBarStyle.Hidden) },
             content = { padding ->
-
                 NavHost(
                     navController = navController,
-                    startDestination = DashboardScreen,
+                    startDestination = state.startScreen,
                     modifier = Modifier.padding(padding),
                 ) {
                     screen<DashboardScreen>()
@@ -96,7 +91,7 @@ fun MainView(
                     screen<TagDetailScreen>()
                 }
 
-                if (bottomSheet != null) {
+                state.bottomSheet?.let { bottomSheet ->
                     ModalBottomSheet(
                         onDismissRequest = { viewModel.dispatchIntent(NavigationIntent.CloseBottomSheet) },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
@@ -105,11 +100,11 @@ fun MainView(
                     }
                 }
 
-                modal?.Content()
+                state.modal?.Content()
             },
             bottomBar = {
                 BottomAppBar(
-                    style = currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden,
+                    style = state.currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden,
                     onMenuClick = {
                         viewModel.dispatchIntent(
                             NavigationIntent.OpenBottomSheet(

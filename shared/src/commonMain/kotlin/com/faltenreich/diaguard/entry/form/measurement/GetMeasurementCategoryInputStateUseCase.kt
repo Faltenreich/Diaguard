@@ -24,7 +24,6 @@ class GetMeasurementCategoryInputStateUseCase(
             getPreference(DecimalPlaces),
         ) { categories, decimalPlaces ->
             categories.mapIndexed { categoryIndex, category ->
-                // FIXME: Observe via Flow
                 val properties = propertyRepository.getByCategoryId(category.id)
                 val values = entry?.id?.let(valueRepository::getByEntryId)
                 MeasurementCategoryInputState(

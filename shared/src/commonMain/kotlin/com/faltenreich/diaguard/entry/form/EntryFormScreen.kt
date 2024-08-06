@@ -38,6 +38,7 @@ data class EntryFormScreen(
         food: Food.Local? = null,
     ) : this(
         entryId = entry?.id ?: -1,
+        // Attention: Will be converted to DateTime at Time now in GetDateTimeForEntryUseCase
         dateTimeIsoString = date?.atStartOfDay()?.isoString,
         foodId = food?.id ?: -1,
     )
@@ -51,7 +52,9 @@ data class EntryFormScreen(
         get() = BottomAppBarStyle.Visible(
             actions = {
                 val viewModel = viewModel<EntryFormViewModel>(
-                    parameters = { parametersOf(entryId, dateTimeIsoString, foodId) },
+                    parameters = {
+                        parametersOf(entryId.takeIf { it >= 0 }, dateTimeIsoString, foodId.takeIf { it >= 0 })
+                    },
                 )
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
@@ -61,7 +64,9 @@ data class EntryFormScreen(
             },
             floatingActionButton = {
                 val viewModel = viewModel<EntryFormViewModel>(
-                    parameters = { parametersOf(entryId, dateTimeIsoString, foodId) },
+                    parameters = {
+                        parametersOf(entryId.takeIf { it >= 0 }, dateTimeIsoString, foodId.takeIf { it >= 0 })
+                    },
                 )
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) }) {
                     Icon(
@@ -75,7 +80,9 @@ data class EntryFormScreen(
     @Composable
     override fun Content() {
         EntryForm(
-            viewModel = viewModel(parameters = { parametersOf(entryId, dateTimeIsoString, foodId) }),
+            viewModel = viewModel(parameters = {
+                parametersOf(entryId.takeIf { it >= 0 }, dateTimeIsoString, foodId.takeIf { it >= 0 })
+            }),
             foodSearchViewModel = sharedViewModel(parameters = { parametersOf(FoodSearchMode.FIND) }),
         )
     }

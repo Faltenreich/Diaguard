@@ -1,4 +1,4 @@
-CREATE TABLE foodEaten (
+CREATE TABLE FoodEaten (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     createdAt TEXT NOT NULL,
     updatedAt TEXT NOT NULL,
@@ -10,30 +10,30 @@ CREATE TABLE foodEaten (
 );
 
 create:
-INSERT INTO foodEaten(createdAt, updatedAt, amountInGrams, foodId, entryId)
+INSERT INTO FoodEaten(createdAt, updatedAt, amountInGrams, foodId, entryId)
 VALUES (?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
 
 getByFood:
-SELECT * FROM foodEaten
-INNER JOIN Food ON Food.id == foodEaten.foodId
-INNER JOIN Entry ON Entry.id == foodEaten.entryId
-WHERE foodEaten.foodId = ?
-ORDER BY foodEaten.updatedAt DESC;
+SELECT * FROM FoodEaten
+INNER JOIN Food ON Food.id == FoodEaten.foodId
+INNER JOIN Entry ON Entry.id == FoodEaten.entryId
+WHERE FoodEaten.foodId = ?
+ORDER BY FoodEaten.updatedAt DESC;
 
 getByEntry:
-SELECT * FROM foodEaten
-INNER JOIN Food ON Food.id == foodEaten.foodId
-INNER JOIN Entry ON Entry.id == foodEaten.entryId
-WHERE foodEaten.entryId = ?
-ORDER BY foodEaten.updatedAt DESC;
+SELECT * FROM FoodEaten
+INNER JOIN Food ON Food.id == FoodEaten.foodId
+INNER JOIN Entry ON Entry.id == FoodEaten.entryId
+WHERE FoodEaten.entryId = ?
+ORDER BY FoodEaten.updatedAt DESC;
 
 update:
-UPDATE foodEaten
+UPDATE FoodEaten
 SET updatedAt = ?, amountInGrams = ?
 WHERE id = ?;
 
 deleteById:
-DELETE FROM foodEaten WHERE id = ?;
+DELETE FROM FoodEaten WHERE id = ?;

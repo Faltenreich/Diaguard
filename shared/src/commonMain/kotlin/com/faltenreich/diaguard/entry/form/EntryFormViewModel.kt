@@ -187,6 +187,7 @@ class EntryFormViewModel(
             note = note.takeIf(String::isNotBlank),
             foodEaten = foodEaten,
         )
+        // FIXME: Always invalid
         when (val result = validate(input)) {
             is ValidationResult.Success -> {
                 createEntry(input)

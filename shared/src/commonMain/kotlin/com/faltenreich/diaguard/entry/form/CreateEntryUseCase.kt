@@ -27,7 +27,6 @@ class CreateEntryUseCase(
             )
         )
         val entry = checkNotNull(entryRepository.getById(entryId))
-        // FIXME: Empty when entry created through FoodEatenList
         createMeasurementValues(measurements, entry)
         storeFoodEaten(foodEaten, entry)
         createEntryTags(tags, entry)

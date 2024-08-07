@@ -51,6 +51,7 @@ data class EntryFormScreen(
     override val bottomAppBarStyle: BottomAppBarStyle
         get() = BottomAppBarStyle.Visible(
             actions = {
+                // FIXME: Breaks instance due to changed LifecycleOwner
                 val viewModel = viewModel<EntryFormViewModel>(
                     parameters = {
                         parametersOf(entryId.takeIf { it >= 0 }, dateTimeIsoString, foodId.takeIf { it >= 0 })
@@ -63,6 +64,7 @@ data class EntryFormScreen(
                 )
             },
             floatingActionButton = {
+                // FIXME: Breaks instance due to changed LifecycleOwner
                 val viewModel = viewModel<EntryFormViewModel>(
                     parameters = {
                         parametersOf(entryId.takeIf { it >= 0 }, dateTimeIsoString, foodId.takeIf { it >= 0 })

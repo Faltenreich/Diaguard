@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.entry.Entry
@@ -36,7 +37,7 @@ fun LatestDashboardItem(
                 Text(
                     text = data?.value?.value ?: getString(Res.string.placeholder),
                     style = AppTheme.typography.displayLarge,
-                    color = data?.tint?.getColor() ?: AppTheme.colors.scheme.onPrimary,
+                    color = data?.tint?.getColor() ?: Color.Unspecified,
                 )
                 Text(
                     text = data?.timePassed ?: getString(Res.string.entry_first_description),

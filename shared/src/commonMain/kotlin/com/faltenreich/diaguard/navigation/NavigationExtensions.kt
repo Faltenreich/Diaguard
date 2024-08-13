@@ -42,6 +42,8 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
     ) { backStackEntry ->
         val screen = backStackEntry.toRoute<T>()
         navigation.setCurrentScreen(screen)
+        navigation.setTopAppBarStyle(screen.TopAppBar())
+        navigation.setBottomAppBarStyle(screen.BottomAppBar())
         screen.Content()
     }
 }

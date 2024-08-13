@@ -13,5 +13,11 @@ interface Screen {
         get() = BottomAppBarStyle.Visible()
 
     @Composable
+    fun TopAppBar(): TopAppBarStyle = TopAppBarStyle.Hidden
+
+    @Composable
+    fun BottomAppBar(): BottomAppBarStyle = BottomAppBarStyle.Hidden
+
+    @Composable
     fun Content()
 }

@@ -27,9 +27,7 @@ import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFor
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationScreen
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
@@ -62,7 +60,7 @@ fun MainView(
     CompositionLocalProvider(LocalSharedViewModelStoreOwner provides viewModelStoreOwner) {
         Scaffold(
             modifier = modifier,
-            topBar = { TopAppBar(state.currentScreen?.topAppBarStyle ?: TopAppBarStyle.Hidden) },
+            topBar = { TopAppBar(state.topAppBarStyle) },
             content = { padding ->
                 NavHost(
                     navController = navController,
@@ -104,7 +102,7 @@ fun MainView(
             },
             bottomBar = {
                 BottomAppBar(
-                    style = state.currentScreen?.bottomAppBarStyle ?: BottomAppBarStyle.Hidden,
+                    style = state.bottomAppBarStyle,
                     onMenuClick = {
                         viewModel.dispatchIntent(
                             NavigationIntent.OpenBottomSheet(

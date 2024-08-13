@@ -51,7 +51,39 @@ data object DashboardScreen : Screen {
         )
 
     @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
+            Text(getString(Res.string.app_name))
+        }
+    }
+
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<DashboardViewModel>()
+        return BottomAppBarStyle.Visible(
+            actions = {
+                BottomAppBarItem(
+                    painter = painterResource(Res.drawable.ic_search),
+                    contentDescription = Res.string.search_open,
+                    onClick = { viewModel.dispatchIntent(DashboardIntent.SearchEntries) },
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = { viewModel.dispatchIntent(DashboardIntent.CreateEntry) },
+                ) {
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_add),
+                        contentDescription = getString(Res.string.entry_new_description),
+                    )
+                }
+            },
+        )
+    }
+
+    @Composable
     override fun Content() {
-        Dashboard(viewModel = viewModel())
+        val viewModel = viewModel<DashboardViewModel>()
+        Dashboard(viewModel = viewModel)
     }
 }

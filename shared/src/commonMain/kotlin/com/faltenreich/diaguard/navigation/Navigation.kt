@@ -4,6 +4,8 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.navigation.screen.Screen
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,6 +22,12 @@ class Navigation(private val dispatcher: CoroutineDispatcher) {
     private val _currentScreen = MutableStateFlow<Screen?>(null)
     val currentScreen = _currentScreen.asStateFlow()
 
+    private val _topAppBarStyle = MutableStateFlow<TopAppBarStyle>(TopAppBarStyle.Hidden)
+    val topAppBarStyle = _topAppBarStyle.asStateFlow()
+
+    private val _bottomAppBarStyle = MutableStateFlow<BottomAppBarStyle>(BottomAppBarStyle.Hidden)
+    val bottomAppBarStyle = _bottomAppBarStyle.asStateFlow()
+
     private val _bottomSheet = MutableStateFlow<Screen?>(null)
     val bottomSheet: StateFlow<Screen?> = _bottomSheet.asStateFlow()
 
@@ -30,6 +38,14 @@ class Navigation(private val dispatcher: CoroutineDispatcher) {
 
     fun setCurrentScreen(screen: Screen) {
         _currentScreen.update { screen }
+    }
+
+    fun setTopAppBarStyle(topAppBarStyle: TopAppBarStyle) {
+        _topAppBarStyle.update { topAppBarStyle }
+    }
+
+    fun setBottomAppBarStyle(bottomAppBarStyle: BottomAppBarStyle) {
+        _bottomAppBarStyle.update { bottomAppBarStyle }
     }
 
     suspend fun push(screen: Screen, popHistory: Boolean = false) = withContext(dispatcher) {

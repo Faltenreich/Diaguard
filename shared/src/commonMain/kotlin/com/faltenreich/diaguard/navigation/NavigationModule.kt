@@ -9,7 +9,9 @@ import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.GetModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.GetActiveScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetCurrentScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -20,6 +22,8 @@ fun navigationModule() = module {
 
     singleOf(::GetCurrentScreenUseCase)
     singleOf(::GetActiveScreenUseCase)
+    singleOf(::GetTopAppBarStyleUseCase)
+    singleOf(::GetBottomAppBarStyleUseCase)
     singleOf(::NavigateToScreenUseCase)
     singleOf(::NavigateBackUseCase)
     singleOf(::CanNavigateBackUseCase)

@@ -23,7 +23,11 @@ getAll:
 SELECT * FROM Entry ORDER BY dateTime DESC;
 
 getByQuery:
-SELECT * FROM Entry WHERE note LIKE ('%' || :query || '%');
+SELECT Entry.* FROM Entry
+INNER JOIN EntryTag ON EntryTag.entryId == Entry.id
+INNER JOIN Tag ON Tag.id == EntryTag.tagId
+WHERE Entry.note LIKE ('%' || :query || '%')
+OR Tag.name LIKE ('%' || :query || '%');
 
 countAll:
 SELECT COUNT(*) FROM Entry;

@@ -96,6 +96,9 @@ fun Log(
                         LogEntry(
                             item = item,
                             onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
+                            onTagClick = { tag ->
+                                viewModel.dispatchIntent(LogIntent.OpenEntrySearch(query = tag.name))
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(

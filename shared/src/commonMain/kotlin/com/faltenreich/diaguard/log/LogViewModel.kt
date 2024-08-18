@@ -50,25 +50,25 @@ class LogViewModel(
         ::LogState,
     )
 
-    override suspend fun handleIntent(intent: LogIntent) {
-        when (intent) {
-            is LogIntent.CacheMonthHeaderSize -> monthHeaderSize.value = intent.size
-            is LogIntent.CacheDayHeaderSize -> dayHeaderSize.value = intent.size
+    override suspend fun handleIntent(intent: LogIntent) = with(intent) {
+        when (this) {
+            is LogIntent.CacheMonthHeaderSize -> monthHeaderSize.value = size
+            is LogIntent.CacheDayHeaderSize -> dayHeaderSize.value = size
             is LogIntent.OnScroll -> {
-                currentDate.value = intent.firstItem.date
+                currentDate.value = firstItem.date
                 stickyHeaderInfo.value = invalidateStickyHeaderInfo(
                     stickyHeaderInfo = stickyHeaderInfo.value,
                     monthHeaderSize = monthHeaderSize.value,
                     dayHeaderSize = dayHeaderSize.value,
-                    firstItem = intent.firstItem,
-                    nextItems = intent.nextItems,
+                    firstItem = firstItem,
+                    nextItems = nextItems,
                 )
             }
-            is LogIntent.CreateEntry -> navigateToScreen(EntryFormScreen(date = intent.date))
-            is LogIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))
-            is LogIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())
+            is LogIntent.CreateEntry -> navigateToScreen(EntryFormScreen(date = date))
+            is LogIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = entry))
+            is LogIntent.OpenEntrySearch -> navigateToScreen(EntrySearchScreen(query))
             is LogIntent.SelectDate -> selectDate()
-            is LogIntent.SetDate -> setDate(intent.date)
+            is LogIntent.SetDate -> setDate(date)
         }
     }
 

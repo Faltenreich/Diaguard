@@ -9,12 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.entry.list.EntryListItem
+import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextInput
-import com.faltenreich.diaguard.entry.tag.EntryTag
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.name
 
@@ -46,6 +46,9 @@ fun TagDetail(
             EntryListItem(
                 entry = entryTag.entry,
                 onClick = { viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entryTag.entry)) },
+                onTagClick = { tag ->
+                    viewModel.dispatchIntent(TagDetailIntent.OpenEntrySearch(query = tag.name))
+                },
             )
             Divider(orientation = Orientation.Vertical)
         }

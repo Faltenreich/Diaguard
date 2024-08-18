@@ -29,7 +29,7 @@ data object LogScreen : Screen {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_search),
                     contentDescription = Res.string.search_open,
-                    onClick = { viewModel.dispatchIntent(LogIntent.SearchEntries) },
+                    onClick = { viewModel.dispatchIntent(LogIntent.OpenEntrySearch()) },
                 )
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date_range),

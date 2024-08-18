@@ -6,11 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.list.EntryListItem
+import com.faltenreich.diaguard.tag.Tag
 
 @Composable
 fun LogEntry(
     item: LogItem.EntryContent,
     onClick: () -> Unit,
+    onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier) {
@@ -22,6 +24,7 @@ fun LogEntry(
         EntryListItem(
             entry = item.entry,
             onClick = onClick,
+            onTagClick = onTagClick,
         )
     }
 }

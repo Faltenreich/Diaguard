@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.tag.detail
 
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
@@ -41,11 +42,12 @@ class TagDetailViewModel(
         ::TagDetailState,
     )
 
-    override suspend fun handleIntent(intent: TagDetailIntent) {
-        when (intent) {
+    override suspend fun handleIntent(intent: TagDetailIntent) = with(intent) {
+        when (this) {
             is TagDetailIntent.UpdateTag -> updateTag()
             is TagDetailIntent.DeleteTag -> deleteTag()
-            is TagDetailIntent.OpenEntry -> navigateToScreen(EntryFormScreen(intent.entry))
+            is TagDetailIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry))
+            is TagDetailIntent.OpenEntrySearch -> navigateToScreen(EntrySearchScreen(query))
         }
     }
 

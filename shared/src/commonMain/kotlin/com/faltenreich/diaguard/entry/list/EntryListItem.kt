@@ -19,13 +19,14 @@ import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.tag.Tag
 
 @Composable
 fun EntryListItem(
     entry: Entry.Local,
     onClick: () -> Unit,
+    onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
-    // TODO: Extract formatting
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
     Card(
@@ -57,8 +58,7 @@ fun EntryListItem(
             }
             EntryTagList(
                 tags = entry.entryTags.map(EntryTag::tag),
-                // TODO: Open search with tag
-                onTagClick = { tag -> },
+                onTagClick = onTagClick,
             )
             entry.note?.takeIf(String::isNotBlank)?.let { note ->
                 Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))

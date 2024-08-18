@@ -57,6 +57,9 @@ fun MainView(
 
     val viewModelStoreOwner = rememberViewModelStoreOwner()
 
+    // Avoid recomposing Scaffold on changing preference
+    val startScreen = remember { state.startScreen }
+
     CompositionLocalProvider(LocalSharedViewModelStoreOwner provides viewModelStoreOwner) {
         Scaffold(
             modifier = modifier,
@@ -64,7 +67,7 @@ fun MainView(
             content = { padding ->
                 NavHost(
                     navController = navController,
-                    startDestination = state.startScreen,
+                    startDestination = startScreen,
                     modifier = Modifier.padding(padding),
                 ) {
                     screen<DashboardScreen>()

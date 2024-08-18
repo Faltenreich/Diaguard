@@ -13,10 +13,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object StatisticScreen : Screen {
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(getString(Res.string.statistic))
         }
+    }
 
     @Composable
     override fun Content() {

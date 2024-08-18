@@ -18,15 +18,18 @@ import org.jetbrains.compose.resources.painterResource
 @Serializable
 data object ExportFormScreen : Screen {
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(getString(Res.string.export))
         }
+    }
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<ExportFormViewModel>()
+        return BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = viewModel<ExportFormViewModel>()
                 FloatingActionButton(onClick = { viewModel.submit() }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
@@ -35,6 +38,7 @@ data object ExportFormScreen : Screen {
                 }
             }
         )
+    }
 
     @Composable
     override fun Content() {

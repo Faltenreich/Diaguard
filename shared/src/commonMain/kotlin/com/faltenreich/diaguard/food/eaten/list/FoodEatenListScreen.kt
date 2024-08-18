@@ -26,9 +26,10 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
 
     constructor(tag: Food.Local) : this(tag.id)
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
-            val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
+        return TopAppBarStyle.CenterAligned {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(getString(Res.string.food_eaten))
                 Text(
@@ -37,11 +38,13 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
                 )
             }
         }
+    }
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
+        return BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodEatenListIntent.CreateEntry) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
@@ -50,6 +53,7 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
                 }
             },
         )
+    }
 
     @Composable
     override fun Content() {

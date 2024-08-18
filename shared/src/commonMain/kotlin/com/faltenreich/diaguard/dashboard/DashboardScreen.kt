@@ -22,34 +22,6 @@ import org.jetbrains.compose.resources.painterResource
 @Serializable
 data object DashboardScreen : Screen {
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
-            Text(getString(Res.string.app_name))
-        }
-
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
-            actions = {
-                val viewModel = viewModel<DashboardViewModel>()
-                BottomAppBarItem(
-                    painter = painterResource(Res.drawable.ic_search),
-                    contentDescription = Res.string.search_open,
-                    onClick = { viewModel.dispatchIntent(DashboardIntent.SearchEntries) },
-                )
-            },
-            floatingActionButton = {
-                val viewModel = viewModel<DashboardViewModel>()
-                FloatingActionButton(
-                    onClick = { viewModel.dispatchIntent(DashboardIntent.CreateEntry) },
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_add),
-                        contentDescription = getString(Res.string.entry_new_description),
-                    )
-                }
-            },
-        )
-
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
         return TopAppBarStyle.CenterAligned {

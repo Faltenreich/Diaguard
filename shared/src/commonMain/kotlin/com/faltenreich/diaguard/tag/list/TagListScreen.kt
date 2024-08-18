@@ -19,15 +19,18 @@ import org.jetbrains.compose.resources.painterResource
 @Serializable
 data object TagListScreen : Screen {
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(getString(Res.string.tags))
         }
+    }
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<TagListViewModel>()
+        return BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = viewModel<TagListViewModel>()
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(TagListIntent.CreateTag) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
@@ -36,6 +39,7 @@ data object TagListScreen : Screen {
                 }
             }
         )
+    }
 
     @Composable
     override fun Content() {

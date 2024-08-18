@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.food.search
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.di.sharedViewModel
 import com.faltenreich.diaguard.shared.localization.getString
@@ -20,17 +19,15 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
 
     constructor(mode: FoodSearchMode) : this(modeOrdinal = mode.ordinal)
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.Hidden
-
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = sharedViewModel<FoodSearchViewModel>(
+            parameters = {
+                parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
+            },
+        )
+        return BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = sharedViewModel<FoodSearchViewModel>(
-                    parameters = {
-                        parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
-                    },
-                )
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
@@ -39,15 +36,15 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
                 }
             }
         )
+    }
 
     @Composable
     override fun Content() {
-        FoodSearch(
-            viewModel = sharedViewModel(
-                parameters = {
-                    parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
-                },
-            )
+        val viewModel = sharedViewModel<FoodSearchViewModel>(
+            parameters = {
+                parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
+            },
         )
+        FoodSearch(viewModel = viewModel)
     }
 }

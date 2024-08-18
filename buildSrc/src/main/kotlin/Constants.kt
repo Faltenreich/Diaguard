@@ -8,5 +8,5 @@ object Constants {
     const val TargetSdk = 34
     const val CompileSdk = 34
 
-    val JavaVersion = org.gradle.api.JavaVersion.VERSION_21
+    val JavaVersion = org.gradle.api.JavaVersion.VERSION_17
 }

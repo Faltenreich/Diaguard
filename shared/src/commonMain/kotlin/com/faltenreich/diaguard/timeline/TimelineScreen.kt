@@ -19,10 +19,11 @@ import org.jetbrains.compose.resources.painterResource
 @Serializable
 data object TimelineScreen : Screen {
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<TimelineViewModel>()
+        return BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = viewModel<TimelineViewModel>()
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_search),
                     contentDescription = Res.string.search_open,
@@ -30,7 +31,6 @@ data object TimelineScreen : Screen {
                 )
             },
             floatingActionButton = {
-                val viewModel = viewModel<TimelineViewModel>()
                 FloatingActionButton(
                     onClick = { viewModel.dispatchIntent(TimelineIntent.CreateEntry) },
                 ) {
@@ -41,6 +41,7 @@ data object TimelineScreen : Screen {
                 }
             },
         )
+    }
 
     @Composable
     override fun Content() {

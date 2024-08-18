@@ -43,20 +43,25 @@ data class EntryFormScreen(
         foodId = food?.id ?: -1,
     )
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(getString(Res.string.entry))
         }
+    }
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<EntryFormViewModel>(
+            parameters = {
+                parametersOf(
+                    entryId.takeIf { it >= 0 },
+                    dateTimeIsoString,
+                    foodId.takeIf { it >= 0 })
+            },
+        )
+        return BottomAppBarStyle.Visible(
             actions = {
-                // FIXME: Breaks instance due to changed LifecycleOwner
-                val viewModel = viewModel<EntryFormViewModel>(
-                    parameters = {
-                        parametersOf(entryId.takeIf { it >= 0 }, dateTimeIsoString, foodId.takeIf { it >= 0 })
-                    },
-                )
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.entry_delete,
@@ -64,12 +69,6 @@ data class EntryFormScreen(
                 )
             },
             floatingActionButton = {
-                // FIXME: Breaks instance due to changed LifecycleOwner
-                val viewModel = viewModel<EntryFormViewModel>(
-                    parameters = {
-                        parametersOf(entryId.takeIf { it >= 0 }, dateTimeIsoString, foodId.takeIf { it >= 0 })
-                    },
-                )
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
@@ -78,13 +77,20 @@ data class EntryFormScreen(
                 }
             }
         )
+    }
 
     @Composable
     override fun Content() {
+        val viewModel = viewModel<EntryFormViewModel>(
+            parameters = {
+                parametersOf(
+                    entryId.takeIf { it >= 0 },
+                    dateTimeIsoString,
+                    foodId.takeIf { it >= 0 })
+            },
+        )
         EntryForm(
-            viewModel = viewModel(parameters = {
-                parametersOf(entryId.takeIf { it >= 0 }, dateTimeIsoString, foodId.takeIf { it >= 0 })
-            }),
+            viewModel = viewModel,
             foodSearchViewModel = sharedViewModel(parameters = { parametersOf(FoodSearchMode.FIND) }),
         )
     }

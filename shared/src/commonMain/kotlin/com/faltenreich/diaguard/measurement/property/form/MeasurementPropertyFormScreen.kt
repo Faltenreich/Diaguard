@@ -26,15 +26,18 @@ data class MeasurementPropertyFormScreen(val propertyId: Long) : Screen {
 
     constructor(property: MeasurementProperty.Local) : this(propertyId = property.id)
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(getString(Res.string.measurement_property))
         }
+    }
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<MeasurementPropertyFormViewModel> { parametersOf(propertyId) }
+        return BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = viewModel<MeasurementPropertyFormViewModel> { parametersOf(propertyId) }
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.measurement_property_delete,
@@ -42,7 +45,6 @@ data class MeasurementPropertyFormScreen(val propertyId: Long) : Screen {
                 )
             },
             floatingActionButton = {
-                val viewModel = viewModel<MeasurementPropertyFormViewModel> { parametersOf(propertyId) }
                 FloatingActionButton(
                     onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateProperty) },
                 ) {
@@ -53,6 +55,7 @@ data class MeasurementPropertyFormScreen(val propertyId: Long) : Screen {
                 }
             },
         )
+    }
 
     @Composable
     override fun Content() {

@@ -19,19 +19,20 @@ import org.jetbrains.compose.resources.painterResource
 @Serializable
 data object MeasurementCategoryListScreen : Screen {
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(getString(Res.string.measurement_categories))
         }
+    }
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<MeasurementCategoryListViewModel>()
+        return BottomAppBarStyle.Visible(
             floatingActionButton = {
-                val viewModel = viewModel<MeasurementCategoryListViewModel>()
                 FloatingActionButton(
-                    onClick = {
-                        viewModel.dispatchIntent(MeasurementCategoryListIntent.Create)
-                    },
+                    onClick = { viewModel.dispatchIntent(MeasurementCategoryListIntent.Create) },
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
@@ -40,6 +41,7 @@ data object MeasurementCategoryListScreen : Screen {
                 }
             }
         )
+    }
 
     @Composable
     override fun Content() {

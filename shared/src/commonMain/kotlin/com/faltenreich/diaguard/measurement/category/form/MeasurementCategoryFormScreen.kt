@@ -26,15 +26,18 @@ data class MeasurementCategoryFormScreen(val categoryId: Long) : Screen {
 
     constructor(category: MeasurementCategory.Local) : this(categoryId = category.id)
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(getString(Res.string.measurement_category))
         }
+    }
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<MeasurementCategoryFormViewModel> { parametersOf(categoryId) }
+        return BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = viewModel<MeasurementCategoryFormViewModel> { parametersOf(categoryId) }
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.measurement_category_delete,
@@ -42,7 +45,6 @@ data class MeasurementCategoryFormScreen(val categoryId: Long) : Screen {
                 )
             },
             floatingActionButton = {
-                val viewModel = viewModel<MeasurementCategoryFormViewModel> { parametersOf(categoryId) }
                 FloatingActionButton(
                     onClick = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.UpdateCategory) },
                 ) {
@@ -53,6 +55,7 @@ data class MeasurementCategoryFormScreen(val categoryId: Long) : Screen {
                 }
             },
         )
+    }
 
     @Composable
     override fun Content() {

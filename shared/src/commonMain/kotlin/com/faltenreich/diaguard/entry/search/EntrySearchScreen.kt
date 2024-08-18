@@ -22,10 +22,11 @@ import org.koin.core.parameter.parametersOf
 @Serializable
 data class EntrySearchScreen(private val query: String = "") : Screen {
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<EntrySearchViewModel>(parameters = { parametersOf(query) })
+        return BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = viewModel<EntrySearchViewModel>(parameters = { parametersOf(query) })
                 SearchField(
                     query = viewModel.query,
                     placeholder = getString(Res.string.entry_search_prompt),
@@ -43,6 +44,7 @@ data class EntrySearchScreen(private val query: String = "") : Screen {
                 )
             }
         )
+    }
 
     @Composable
     override fun Content() {

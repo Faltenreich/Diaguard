@@ -28,15 +28,18 @@ data class FoodFormScreen(private val foodId: Long) : Screen {
 
     constructor(food: Food.Local? = null) : this(foodId = food?.id ?: -1)
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(getString(Res.string.food))
         }
+    }
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<FoodFormViewModel> { parametersOf(foodId) }
+        return BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = viewModel<FoodFormViewModel> { parametersOf(foodId) }
                 val food = viewModel.food
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
@@ -52,7 +55,6 @@ data class FoodFormScreen(private val foodId: Long) : Screen {
                 }
             },
             floatingActionButton = {
-                val viewModel = viewModel<FoodFormViewModel> { parametersOf(foodId) }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
@@ -61,6 +63,7 @@ data class FoodFormScreen(private val foodId: Long) : Screen {
                 }
             }
         )
+    }
 
     @Composable
     override fun Content() {

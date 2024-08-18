@@ -26,15 +26,18 @@ data class TagDetailScreen(private val tagId: Long) : Screen {
 
     constructor(tag: Tag.Local) : this(tag.id)
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(getString(Res.string.tag))
         }
+    }
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<TagDetailViewModel> { parametersOf(tagId) }
+        return BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = viewModel<TagDetailViewModel> { parametersOf(tagId) }
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.tag_delete,
@@ -42,7 +45,6 @@ data class TagDetailScreen(private val tagId: Long) : Screen {
                 )
             },
             floatingActionButton = {
-                val viewModel = viewModel<TagDetailViewModel> { parametersOf(tagId) }
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(TagDetailIntent.UpdateTag) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),
@@ -51,6 +53,7 @@ data class TagDetailScreen(private val tagId: Long) : Screen {
                 }
             }
         )
+    }
 
     @Composable
     override fun Content() {

@@ -21,10 +21,11 @@ import org.jetbrains.compose.resources.painterResource
 @Serializable
 data object LogScreen : Screen {
 
-    override val bottomAppBarStyle: BottomAppBarStyle
-        get() = BottomAppBarStyle.Visible(
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<LogViewModel>()
+        return BottomAppBarStyle.Visible(
             actions = {
-                val viewModel = viewModel<LogViewModel>()
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_search),
                     contentDescription = Res.string.search_open,
@@ -37,7 +38,6 @@ data object LogScreen : Screen {
                 )
             },
             floatingActionButton = {
-                val viewModel = viewModel<LogViewModel>()
                 FloatingActionButton(
                     onClick = { viewModel.dispatchIntent(LogIntent.CreateEntry()) },
                 ) {
@@ -48,6 +48,7 @@ data object LogScreen : Screen {
                 }
             },
         )
+    }
 
     @Composable
     override fun Content() {

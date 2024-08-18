@@ -13,10 +13,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object PreferenceListScreen : Screen {
 
-    override val topAppBarStyle: TopAppBarStyle
-        get() = TopAppBarStyle.CenterAligned {
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(getString(Res.string.preferences))
         }
+    }
 
     @Composable
     override fun Content() {

@@ -55,14 +55,18 @@ fun EntryListItem(
                     )
                 }
             }
-            entry.note?.takeIf(String::isNotBlank)?.let { note ->
-                Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
-                Text(note )
-            }
             EntryTagList(
                 tags = entry.entryTags.map(EntryTag::tag),
+                // TODO: Open search with tag
                 onTagClick = { tag -> },
             )
+            entry.note?.takeIf(String::isNotBlank)?.let { note ->
+                Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
+                Text(note)
+            }
+            entry.foodEaten.forEach { foodEaten ->
+                Text("${foodEaten.amountInGrams} ${foodEaten.food.name}")
+            }
         }
     }
 }

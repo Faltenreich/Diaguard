@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
+import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
@@ -27,6 +28,7 @@ class LogItemSource(
     private val entryRepository: EntryRepository = inject(),
     private val valueRepository: MeasurementValueRepository = inject(),
     private val entryTagRepository: EntryTagRepository = inject(),
+    private val foodEatenRepository: FoodEatenRepository = inject(),
 ) : PagingSource<Date, LogItem>() {
 
     private data class Cache(
@@ -75,6 +77,7 @@ class LogItemSource(
             entry.apply {
                 values = valueRepository.getByEntryId(entry.id)
                 entryTags = entryTagRepository.getByEntryId(entry.id)
+                foodEaten = foodEatenRepository.getByEntryId(entry.id)
             }
         }
 

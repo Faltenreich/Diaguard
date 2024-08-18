@@ -1,9 +1,10 @@
 package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.entry.tag.EntryTag
+import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
-import com.faltenreich.diaguard.entry.tag.EntryTag
 
 /**
  * Entity representing one entry at a given point in time
@@ -37,5 +38,6 @@ sealed interface Entry {
         // TODO: Remove lateinit properties
         lateinit var values: List<MeasurementValue>
         lateinit var entryTags: List<EntryTag>
+        lateinit var foodEaten: List<FoodEaten>
     }
 }

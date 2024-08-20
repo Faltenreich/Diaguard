@@ -5,10 +5,14 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
+import com.faltenreich.diaguard.navigation.bar.BarNavigation
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.modal.Modal
+import com.faltenreich.diaguard.navigation.modal.ModalNavigation
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.screen.ScreenNavigation
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +20,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 
-class Navigation(private val dispatcher: CoroutineDispatcher) {
+class Navigation(
+    private val dispatcher: CoroutineDispatcher,
+) : ScreenNavigation, BottomSheetNavigation, ModalNavigation, BarNavigation {
 
     lateinit var navController: NavController
 
@@ -49,7 +55,7 @@ class Navigation(private val dispatcher: CoroutineDispatcher) {
         _bottomAppBarStyle.update { bottomAppBarStyle }
     }
 
-    suspend fun push(screen: Screen, popHistory: Boolean) = withContext(dispatcher) {
+    override suspend fun pushScreen(screen: Screen, popHistory: Boolean) = withContext(dispatcher) {
         navController.navigate(
             route = screen,
             navOptions = NavOptions.Builder()
@@ -67,35 +73,35 @@ class Navigation(private val dispatcher: CoroutineDispatcher) {
         )
     }
 
-    suspend fun pop(): Boolean = withContext(dispatcher) {
+    override suspend fun popScreen(): Boolean = withContext(dispatcher) {
         navController.popBackStack()
     }
 
-    fun canPop(): Boolean {
+    override fun canPopScreen(): Boolean {
         return navController.previousBackStackEntry != null
     }
 
-    fun pushBottomSheet(screen: Screen) {
-        _bottomSheet.tryEmit(screen)
+    override fun openBottomSheet(bottomSheet: Screen) {
+        _bottomSheet.tryEmit(bottomSheet)
     }
 
-    fun popBottomSheet() {
+    override fun closeBottomSheet() {
         _bottomSheet.tryEmit(null)
     }
 
-    fun pushModal(modal: Modal) {
+    override fun openModal(modal: Modal) {
         _modal.tryEmit(modal)
     }
 
-    fun popModal() {
+    override fun closeModal() {
         _modal.tryEmit(null)
     }
 
-    suspend fun showSnackbar(
+    override suspend fun showSnackbar(
         message: String,
-        actionLabel: String? = null,
-        withDismissAction: Boolean = false,
-        duration: SnackbarDuration = if (actionLabel == null) SnackbarDuration.Short else SnackbarDuration.Indefinite,
+        actionLabel: String?,
+        withDismissAction: Boolean,
+        duration: SnackbarDuration,
     ) {
         snackbarState.showSnackbar(message, actionLabel, withDismissAction, duration)
     }

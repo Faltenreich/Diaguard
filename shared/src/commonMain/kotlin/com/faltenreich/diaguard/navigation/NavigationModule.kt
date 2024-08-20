@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.navigation
 
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
-import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationViewModel
+import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationListViewModel
 import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.GetBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
@@ -38,5 +38,5 @@ fun navigationModule() = module {
 
     singleOf(::ShowSnackbarUseCase)
 
-    viewModelOf<BottomSheetNavigationViewModel>(::BottomSheetNavigationViewModel)
+    viewModelOf<BottomSheetNavigationListViewModel>(::BottomSheetNavigationListViewModel)
 }

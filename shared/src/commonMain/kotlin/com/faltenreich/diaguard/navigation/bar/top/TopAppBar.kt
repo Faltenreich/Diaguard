@@ -28,8 +28,8 @@ fun TopAppBar(
         is TopAppBarStyle.CenterAligned -> CenterAlignedTopAppBar(
             title = { style.content() },
             navigationIcon = {
-                if (navigation.canPop()) {
-                    IconButton(onClick = { scope.launch { navigation.pop() } }) {
+                if (navigation.canPopScreen()) {
+                    IconButton(onClick = { scope.launch { navigation.popScreen() } }) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_arrow_back),
                             contentDescription = getString(Res.string.navigate_back),

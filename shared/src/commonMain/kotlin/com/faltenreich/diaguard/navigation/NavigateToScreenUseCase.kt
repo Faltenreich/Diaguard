@@ -7,6 +7,6 @@ class NavigateToScreenUseCase(
 ) {
 
     suspend operator fun invoke(screen: Screen, popHistory: Boolean = false) {
-        navigation.push(screen, popHistory)
+        navigation.pushScreen(screen, popHistory)
     }
 }

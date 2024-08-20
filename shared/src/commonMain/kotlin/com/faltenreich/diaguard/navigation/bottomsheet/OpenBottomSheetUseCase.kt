@@ -7,7 +7,7 @@ class OpenBottomSheetUseCase(
     private val navigation: Navigation,
 ) {
 
-    operator fun invoke(screen: Screen) {
-        navigation.pushBottomSheet(screen)
+    operator fun invoke(bottomSheet: Screen) {
+        navigation.openBottomSheet(bottomSheet)
     }
 }

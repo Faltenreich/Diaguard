@@ -5,6 +5,6 @@ class NavigateBackUseCase(
 ) {
 
     suspend operator fun invoke() {
-        navigation.pop()
+        navigation.popScreen()
     }
 }

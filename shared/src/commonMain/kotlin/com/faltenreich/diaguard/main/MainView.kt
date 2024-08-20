@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
-import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationScreen
+import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationListScreen
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
@@ -109,7 +109,7 @@ fun MainView(
                     onMenuClick = {
                         viewModel.dispatchIntent(
                             NavigationIntent.OpenBottomSheet(
-                                BottomSheetNavigationScreen
+                                BottomSheetNavigationListScreen
                             )
                         )
                     },

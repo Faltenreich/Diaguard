@@ -5,6 +5,6 @@ class CanNavigateBackUseCase(
 ) {
 
     operator fun invoke(): Boolean {
-        return navigation.canPop()
+        return navigation.canPopScreen()
     }
 }

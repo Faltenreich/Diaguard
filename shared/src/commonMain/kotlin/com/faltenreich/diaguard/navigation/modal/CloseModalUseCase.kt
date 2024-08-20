@@ -7,6 +7,6 @@ class CloseModalUseCase(
 ) {
 
     operator fun invoke() {
-        navigation.popModal()
+        navigation.closeModal()
     }
 }

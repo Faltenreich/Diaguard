@@ -7,6 +7,6 @@ class CloseBottomSheetUseCase(
 ) {
 
     operator fun invoke() {
-        navigation.popBottomSheet()
+        navigation.closeBottomSheet()
     }
 }

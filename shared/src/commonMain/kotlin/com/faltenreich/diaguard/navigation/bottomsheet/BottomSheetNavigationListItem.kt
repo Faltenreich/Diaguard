@@ -20,7 +20,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun BottomSheetNavigationItem(
+fun BottomSheetNavigationListItem(
     label: StringResource,
     icon: DrawableResource?,
     isActive: Boolean,

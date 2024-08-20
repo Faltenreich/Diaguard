@@ -7,6 +7,6 @@ class OpenModalUseCase(
 ) {
 
     operator fun invoke(modal: Modal) {
-        navigation.pushModal(modal)
+        navigation.openModal(modal)
     }
 }

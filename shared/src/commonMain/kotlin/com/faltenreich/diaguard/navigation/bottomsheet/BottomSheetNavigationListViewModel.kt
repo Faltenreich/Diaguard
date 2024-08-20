@@ -6,17 +6,17 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.map
 
-class BottomSheetNavigationViewModel(
+class BottomSheetNavigationListViewModel(
     getActiveScreen: GetActiveScreenUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val closeBottomSheet: CloseBottomSheetUseCase = inject(),
-) : ViewModel<BottomSheetNavigationState, BottomSheetNavigationIntent, Unit>() {
+) : ViewModel<BottomSheetNavigationListState, BottomSheetNavigationListIntent, Unit>() {
 
-    override val state = getActiveScreen().map(::BottomSheetNavigationState)
+    override val state = getActiveScreen().map(::BottomSheetNavigationListState)
 
-    override suspend fun handleIntent(intent: BottomSheetNavigationIntent) = with(intent) {
+    override suspend fun handleIntent(intent: BottomSheetNavigationListIntent) = with(intent) {
         when (this) {
-            is BottomSheetNavigationIntent.NavigateTo -> {
+            is BottomSheetNavigationListIntent.NavigateTo -> {
                 navigateToScreen(screen, popHistory)
                 closeBottomSheet()
             }

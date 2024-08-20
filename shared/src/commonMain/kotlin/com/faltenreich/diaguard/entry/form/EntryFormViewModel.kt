@@ -23,11 +23,11 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
@@ -67,7 +67,6 @@ class EntryFormViewModel(
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
-    // FIXME: Null, e.g. on opening existing entry
     private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
     private val food: Food.Local? = foodId?.let(getFoodById::invoke)
 
@@ -86,7 +85,6 @@ class EntryFormViewModel(
     val timeFormatted: String
         get() = formatDateTime(time)
 
-    // TODO: Reconsider rememberSaveable to avoid persisting state after returning to Composable
     var note: String by mutableStateOf(editing?.note ?: "")
 
     var alarmDelayInMinutes: Int? by mutableStateOf(null)

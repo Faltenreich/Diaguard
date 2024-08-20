@@ -36,8 +36,8 @@ fun MainMenu(
     val state = viewModel.collectState() ?: return
     val activeScreen = state.activeScreen
 
-    val navigateTo = { screen: Screen, clearBackStack: Boolean ->
-        viewModel.dispatchIntent(MainMenuIntent.NavigateTo(screen, clearBackStack))
+    val navigateTo = { screen: Screen, popHistory: Boolean ->
+        viewModel.dispatchIntent(MainMenuIntent.NavigateTo(screen, popHistory))
     }
 
     Column(modifier = modifier) {

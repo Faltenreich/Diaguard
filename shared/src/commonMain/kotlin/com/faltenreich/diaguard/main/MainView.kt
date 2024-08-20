@@ -21,13 +21,13 @@ import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
+import com.faltenreich.diaguard.main.menu.MainMenuScreen
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
-import com.faltenreich.diaguard.main.menu.MainMenuScreen
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
@@ -64,6 +64,7 @@ fun MainView(
             modifier = modifier,
             topBar = { TopAppBar(state.topAppBarStyle) },
             content = { padding ->
+                // FIXME: Recomposes too often, e.g. when opening FoodSearchScreen from MainMenu
                 NavHost(
                     navController = navController,
                     startDestination = startScreen,

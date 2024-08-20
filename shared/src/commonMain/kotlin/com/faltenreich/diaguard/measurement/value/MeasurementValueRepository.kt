@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.value
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementValueRepository(
@@ -38,13 +39,13 @@ class MeasurementValueRepository(
         return dao.observeByDateRange(startDateTime, endDateTime)
     }
 
-    fun observeLatestByCategoryId(
+    fun observePreviousByProperty(
         dateTime: DateTime,
-        categoryId: Long,
+        key: DatabaseKey.MeasurementProperty,
     ): Flow<MeasurementValue.Local?> {
-        return dao.observeLatestByCategoryId(
+        return dao.observePreviousByProperty(
             dateTime = dateTime,
-            categoryId = categoryId,
+            key = key,
         )
     }
 

@@ -33,14 +33,14 @@ INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime
 ORDER BY Entry.dateTime;
 
-getLatestByCategory:
+getPreviousByProperty:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
 INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE MeasurementProperty.categoryId == :categoryId
-AND Entry.dateTime <= :dateTime
+WHERE Entry.dateTime <= :dateTime
+AND MeasurementProperty.key == :key
 ORDER BY Entry.dateTime DESC
 LIMIT 1;
 

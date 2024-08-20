@@ -7,6 +7,7 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueDao
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementValueQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementValueSqlDelightMapper
@@ -55,18 +56,18 @@ class MeasurementValueSqlDelightDao(
         return queries.getByDateRange(
             startDateTime = startDateTime.isoString,
             endDateTime = endDateTime.isoString,
-            mapper::map,
+            mapper = mapper::map,
         ).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeLatestByCategoryId(
+    override fun observePreviousByProperty(
         dateTime: DateTime,
-        categoryId: Long,
+        key: DatabaseKey.MeasurementProperty,
     ): Flow<MeasurementValue.Local?> {
-        return queries.getLatestByCategory(
-            categoryId = categoryId,
+        return queries.getPreviousByProperty(
             dateTime = dateTime.isoString,
-            mapper::map,
+            key = key.key,
+            mapper = mapper::map,
         ).asFlow().mapToOneOrNull(dispatcher)
     }
 
@@ -80,10 +81,10 @@ class MeasurementValueSqlDelightDao(
         maxDateTime: DateTime
     ): Flow<List<MeasurementValue.Local>> {
         return queries.getCategoryAndDateTime(
-            categoryId,
-            minDateTime.isoString,
-            maxDateTime.isoString,
-            mapper::map,
+            categoryId = categoryId,
+            minDateTime = minDateTime.isoString,
+            maxDateTime= maxDateTime.isoString,
+            mapper = mapper::map,
         ).asFlow().mapToList(dispatcher)
     }
 
@@ -93,9 +94,9 @@ class MeasurementValueSqlDelightDao(
         maxDateTime: DateTime
     ): Flow<Double?> {
         return queries.getAverageByCategory(
-            categoryId,
-            minDateTime.isoString,
-            maxDateTime.isoString,
+            categoryId = categoryId,
+            minDateTime = minDateTime.isoString,
+            maxDateTime = maxDateTime.isoString,
         ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
     }
 
@@ -105,9 +106,10 @@ class MeasurementValueSqlDelightDao(
         maxDateTime: DateTime
     ): Double? {
         return queries.getAverageByCategory(
-            propertyId,
-            minDateTime.isoString,
-            maxDateTime.isoString,
+            // FIXME: Replace with getAverageByProperty
+            categoryId = propertyId,
+            minDateTime = minDateTime.isoString,
+            maxDateTime = maxDateTime.isoString,
         ).executeAsOneOrNull()?.AVG
     }
 

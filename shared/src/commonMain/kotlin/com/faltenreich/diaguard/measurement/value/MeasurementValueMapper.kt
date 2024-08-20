@@ -20,7 +20,6 @@ class MeasurementValueMapper(
                 scale = decimalPlaces,
                 locale = localization.getLocale(),
             ),
-            unit = unit,
         )
     }
 

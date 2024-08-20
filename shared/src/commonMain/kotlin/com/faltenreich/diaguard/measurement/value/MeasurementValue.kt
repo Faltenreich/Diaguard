@@ -55,13 +55,12 @@ sealed interface MeasurementValue {
         override val entry: Entry.Local,
     ) : MeasurementValue, DatabaseEntity
 
-    /**
-     * [MeasurementValue.value] to display to user,
-     * converted via [MeasurementUnit.factor] of [MeasurementProperty.Local.selectedUnit],
-     * formatted according to current [Locale]
-     */
     data class Localized(
+        /**
+         * [MeasurementValue.value] to display to user,
+         * converted via [MeasurementUnit.factor] of [MeasurementProperty.Local.selectedUnit],
+         * formatted according to current [Locale]
+         */
         val value: String,
-        val unit: MeasurementUnit,
     )
 }

@@ -6,5 +6,5 @@ sealed interface FoodEatenListState {
 
     data object Empty : FoodEatenListState
 
-    data class NonEmpty(val results: List<FoodEaten>) : FoodEatenListState
+    data class NonEmpty(val results: List<FoodEaten.Local>) : FoodEatenListState
 }

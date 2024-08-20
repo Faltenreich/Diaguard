@@ -15,7 +15,7 @@ import diaguard.shared.generated.resources.grams_abbreviation
 
 @Composable
 fun FoodEatenListItem(
-    foodEaten: FoodEaten,
+    foodEaten: FoodEaten.Local,
     onIntent: (FoodEatenListIntent) -> Unit,
     modifier: Modifier = Modifier,
     // TODO: Remove formatter and pass formatted value instead

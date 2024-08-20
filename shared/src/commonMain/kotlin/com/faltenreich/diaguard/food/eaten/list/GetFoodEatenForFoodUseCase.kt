@@ -9,7 +9,7 @@ class GetFoodEatenForFoodUseCase(
     private val foodEatenRepository: FoodEatenRepository,
 ) {
 
-    operator fun invoke(food: Food.Local): Flow<List<FoodEaten>> {
+    operator fun invoke(food: Food.Local): Flow<List<FoodEaten.Local>> {
         return foodEatenRepository.observeByFoodId(food.id)
     }
 }

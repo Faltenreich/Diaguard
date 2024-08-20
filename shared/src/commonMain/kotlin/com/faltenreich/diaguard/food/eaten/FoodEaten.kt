@@ -40,4 +40,10 @@ sealed interface FoodEaten {
         override val food: Food.Local,
         override val entry: Entry.Local,
     ) : FoodEaten, DatabaseEntity
+
+    data class Localized(
+        val local: Local,
+        val dateTime: String,
+        val amountInGrams: String,
+    )
 }

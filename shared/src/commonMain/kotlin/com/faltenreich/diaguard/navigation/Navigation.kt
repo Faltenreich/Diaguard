@@ -5,8 +5,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
-import com.faltenreich.diaguard.navigation.bar.snack.SnackbarNavigation
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.snack.SnackbarNavigation
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.modal.Modal
@@ -58,18 +58,14 @@ class Navigation(
     override suspend fun pushScreen(screen: Screen, popHistory: Boolean) = withContext(dispatcher) {
         navController.navigate(
             route = screen,
-            navOptions = NavOptions.Builder()
-                .run {
-                    if (popHistory) {
-                        setPopUpTo(
-                            route = navController.graph.findStartDestination().route,
-                            inclusive = true,
-                        )
-                    } else {
-                        this
-                    }
-                }
-                .build()
+            navOptions = if (popHistory) {
+                NavOptions.Builder()
+                    .setPopUpTo(
+                        route = navController.graph.findStartDestination().route,
+                        inclusive = true,
+                    )
+                    .build()
+            } else null
         )
     }
 

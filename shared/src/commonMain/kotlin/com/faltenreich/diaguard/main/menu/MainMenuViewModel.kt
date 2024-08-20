@@ -18,9 +18,9 @@ class MainMenuViewModel(
     override suspend fun handleIntent(intent: MainMenuIntent) = with(intent) {
         when (this) {
             is MainMenuIntent.NavigateTo -> {
-                navigateToScreen(screen, popHistory)
-                // FIXME: Breaks FoodSearchMode.STROLL
                 closeBottomSheet()
+                // Attention: Must be executed at last to not break FoodSearchMode
+                navigateToScreen(screen, popHistory)
             }
         }
     }

@@ -64,7 +64,6 @@ fun MainView(
             modifier = modifier,
             topBar = { TopAppBar(state.topAppBarStyle) },
             content = { padding ->
-                // FIXME: Recomposes too often, e.g. when opening FoodSearchScreen from MainMenu
                 NavHost(
                     navController = navController,
                     startDestination = startScreen,

@@ -34,7 +34,7 @@ fun MainMenu(
     viewModel: MainMenuViewModel = inject(),
 ) {
     val state = viewModel.collectState() ?: return
-    val activeScreen = state.activeScreen
+    val currentScreen = state.currentScreen
 
     val navigateTo = { screen: Screen, popHistory: Boolean ->
         viewModel.dispatchIntent(MainMenuIntent.NavigateTo(screen, popHistory))
@@ -44,19 +44,19 @@ fun MainMenu(
         MainMenuItem(
             label = Res.string.dashboard,
             icon = Res.drawable.ic_dashboard,
-            isActive = activeScreen is DashboardScreen,
+            isActive = currentScreen is DashboardScreen,
             onClick = { navigateTo(DashboardScreen, true) },
         )
         MainMenuItem(
             label = Res.string.timeline,
             icon = Res.drawable.ic_timeline,
-            isActive = activeScreen is TimelineScreen,
+            isActive = currentScreen is TimelineScreen,
             onClick = { navigateTo(TimelineScreen, true) },
         )
         MainMenuItem(
             label = Res.string.log,
             icon = Res.drawable.ic_log,
-            isActive = activeScreen is LogScreen,
+            isActive = currentScreen is LogScreen,
             onClick = { navigateTo(LogScreen, true) },
         )
 
@@ -65,25 +65,25 @@ fun MainMenu(
         MainMenuItem(
             label = Res.string.food,
             icon = null,
-            isActive = activeScreen is FoodSearchScreen,
+            isActive = currentScreen is FoodSearchScreen,
             onClick = { navigateTo(FoodSearchScreen(mode = FoodSearchMode.STROLL), false) },
         )
         MainMenuItem(
             label = Res.string.statistic,
             icon = null,
-            isActive = activeScreen is StatisticScreen,
+            isActive = currentScreen is StatisticScreen,
             onClick = { navigateTo(StatisticScreen, false) },
         )
         MainMenuItem(
             label = Res.string.export,
             icon = null,
-            isActive = activeScreen is ExportFormScreen,
+            isActive = currentScreen is ExportFormScreen,
             onClick = { navigateTo(ExportFormScreen, false) },
         )
         MainMenuItem(
             label = Res.string.preferences,
             icon = null,
-            isActive = activeScreen is PreferenceListScreen,
+            isActive = currentScreen is PreferenceListScreen,
             onClick = { navigateTo(PreferenceListScreen, false) },
         )
     }

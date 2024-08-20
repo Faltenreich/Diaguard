@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.navigation
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
@@ -48,11 +49,20 @@ class Navigation(private val dispatcher: CoroutineDispatcher) {
         _bottomAppBarStyle.update { bottomAppBarStyle }
     }
 
-    suspend fun push(screen: Screen, popHistory: Boolean = false) = withContext(dispatcher) {
+    suspend fun push(screen: Screen, popHistory: Boolean) = withContext(dispatcher) {
         navController.navigate(
             route = screen,
             navOptions = NavOptions.Builder()
-                // TODO: Support popHistory
+                .run {
+                    if (popHistory) {
+                        setPopUpTo(
+                            route = navController.graph.findStartDestination().route,
+                            inclusive = true,
+                        )
+                    } else {
+                        this
+                    }
+                }
                 .build()
         )
     }

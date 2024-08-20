@@ -4,5 +4,5 @@ import com.faltenreich.diaguard.navigation.screen.Screen
 
 sealed interface BottomSheetNavigationIntent {
 
-    data class NavigateTo(val screen: Screen, val clearBackStack: Boolean) : BottomSheetNavigationIntent
+    data class NavigateTo(val screen: Screen, val popHistory: Boolean) : BottomSheetNavigationIntent
 }

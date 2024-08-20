@@ -17,7 +17,7 @@ class BottomSheetNavigationViewModel(
     override suspend fun handleIntent(intent: BottomSheetNavigationIntent) = with(intent) {
         when (this) {
             is BottomSheetNavigationIntent.NavigateTo -> {
-                navigateToScreen(screen)
+                navigateToScreen(screen, popHistory)
                 closeBottomSheet()
             }
         }

@@ -6,7 +6,7 @@ class NavigateToScreenUseCase(
     private val navigation: Navigation,
 ) {
 
-    suspend operator fun invoke(screen: Screen) {
-        navigation.push(screen)
+    suspend operator fun invoke(screen: Screen, popHistory: Boolean = false) {
+        navigation.push(screen, popHistory)
     }
 }

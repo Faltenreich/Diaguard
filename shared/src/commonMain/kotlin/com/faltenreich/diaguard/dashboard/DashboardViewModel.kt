@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.dashboard.latest.GetLatestBloodSugarUseCase
 import com.faltenreich.diaguard.dashboard.today.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow

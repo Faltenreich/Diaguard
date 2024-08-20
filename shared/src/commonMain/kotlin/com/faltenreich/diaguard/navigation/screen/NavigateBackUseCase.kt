@@ -1,4 +1,6 @@
-package com.faltenreich.diaguard.navigation
+package com.faltenreich.diaguard.navigation.screen
+
+import com.faltenreich.diaguard.navigation.Navigation
 
 class NavigateBackUseCase(
     private val navigation: Navigation,

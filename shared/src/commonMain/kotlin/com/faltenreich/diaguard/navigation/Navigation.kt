@@ -5,7 +5,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
-import com.faltenreich.diaguard.navigation.bar.BarNavigation
+import com.faltenreich.diaguard.navigation.bar.snack.SnackbarNavigation
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigation
@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
 
 class Navigation(
     private val dispatcher: CoroutineDispatcher,
-) : ScreenNavigation, BottomSheetNavigation, ModalNavigation, BarNavigation {
+) : ScreenNavigation, BottomSheetNavigation, ModalNavigation, SnackbarNavigation {
 
     lateinit var navController: NavController
 

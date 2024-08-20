@@ -25,10 +25,9 @@ import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFor
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
-import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigationListScreen
+import com.faltenreich.diaguard.main.menu.MainMenuScreen
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
@@ -94,7 +93,7 @@ fun MainView(
 
                 state.bottomSheet?.let { bottomSheet ->
                     ModalBottomSheet(
-                        onDismissRequest = { viewModel.dispatchIntent(NavigationIntent.CloseBottomSheet) },
+                        onDismissRequest = { viewModel.dispatchIntent(MainIntent.CloseBottomSheet) },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
                     ) {
                         bottomSheet.Content()
@@ -108,8 +107,8 @@ fun MainView(
                     style = state.bottomAppBarStyle,
                     onMenuClick = {
                         viewModel.dispatchIntent(
-                            NavigationIntent.OpenBottomSheet(
-                                BottomSheetNavigationListScreen
+                            MainIntent.OpenBottomSheet(
+                                MainMenuScreen
                             )
                         )
                     },

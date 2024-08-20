@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.tag.list
 
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.tag.form.TagFormModal
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen

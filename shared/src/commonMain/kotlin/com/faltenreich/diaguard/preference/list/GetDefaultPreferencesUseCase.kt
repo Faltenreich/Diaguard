@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.preference.list
 
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.preference.StartScreen

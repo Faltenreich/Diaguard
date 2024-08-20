@@ -9,8 +9,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.form.FoodFormScreen
-import com.faltenreich.diaguard.navigation.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow

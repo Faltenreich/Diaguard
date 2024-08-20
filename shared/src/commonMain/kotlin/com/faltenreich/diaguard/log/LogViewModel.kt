@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
 import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItem
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel

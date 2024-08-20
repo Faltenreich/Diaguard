@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFor
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.flowOf

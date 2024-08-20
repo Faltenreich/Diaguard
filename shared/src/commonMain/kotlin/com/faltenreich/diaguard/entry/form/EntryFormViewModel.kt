@@ -23,8 +23,8 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
-import com.faltenreich.diaguard.navigation.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase

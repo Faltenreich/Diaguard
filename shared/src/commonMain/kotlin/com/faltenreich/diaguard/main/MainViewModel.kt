@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.main
 import com.faltenreich.diaguard.backup.ImportUseCase
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.navigation.NavigationIntent
 import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.GetBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
@@ -30,7 +29,7 @@ class MainViewModel(
     private val importData: ImportUseCase = inject(),
     private val openBottomSheet: OpenBottomSheetUseCase = inject(),
     private val closeBottomSheet: CloseBottomSheetUseCase = inject(),
-) : ViewModel<MainState, NavigationIntent, Unit>() {
+) : ViewModel<MainState, MainIntent, Unit>() {
 
     override val state = combine(
         hasData(),
@@ -71,10 +70,10 @@ class MainViewModel(
         }
     }
 
-    override suspend fun handleIntent(intent: NavigationIntent) = with(intent) {
+    override suspend fun handleIntent(intent: MainIntent) = with(intent) {
         when (this) {
-            is NavigationIntent.OpenBottomSheet -> openBottomSheet(screen)
-            is NavigationIntent.CloseBottomSheet -> closeBottomSheet()
+            is MainIntent.OpenBottomSheet -> openBottomSheet(screen)
+            is MainIntent.CloseBottomSheet -> closeBottomSheet()
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.bottomsheet
+package com.faltenreich.diaguard.main.menu
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -29,31 +29,31 @@ import diaguard.shared.generated.resources.statistic
 import diaguard.shared.generated.resources.timeline
 
 @Composable
-fun BottomSheetNavigationList(
+fun MainMenu(
     modifier: Modifier = Modifier,
-    viewModel: BottomSheetNavigationListViewModel = inject(),
+    viewModel: MainMenuViewModel = inject(),
 ) {
     val state = viewModel.collectState() ?: return
     val activeScreen = state.activeScreen
 
     val navigateTo = { screen: Screen, clearBackStack: Boolean ->
-        viewModel.dispatchIntent(BottomSheetNavigationListIntent.NavigateTo(screen, clearBackStack))
+        viewModel.dispatchIntent(MainMenuIntent.NavigateTo(screen, clearBackStack))
     }
 
     Column(modifier = modifier) {
-        BottomSheetNavigationListItem(
+        MainMenuItem(
             label = Res.string.dashboard,
             icon = Res.drawable.ic_dashboard,
             isActive = activeScreen is DashboardScreen,
             onClick = { navigateTo(DashboardScreen, true) },
         )
-        BottomSheetNavigationListItem(
+        MainMenuItem(
             label = Res.string.timeline,
             icon = Res.drawable.ic_timeline,
             isActive = activeScreen is TimelineScreen,
             onClick = { navigateTo(TimelineScreen, true) },
         )
-        BottomSheetNavigationListItem(
+        MainMenuItem(
             label = Res.string.log,
             icon = Res.drawable.ic_log,
             isActive = activeScreen is LogScreen,
@@ -62,25 +62,25 @@ fun BottomSheetNavigationList(
 
         Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
 
-        BottomSheetNavigationListItem(
+        MainMenuItem(
             label = Res.string.food,
             icon = null,
             isActive = activeScreen is FoodSearchScreen,
             onClick = { navigateTo(FoodSearchScreen(mode = FoodSearchMode.STROLL), false) },
         )
-        BottomSheetNavigationListItem(
+        MainMenuItem(
             label = Res.string.statistic,
             icon = null,
             isActive = activeScreen is StatisticScreen,
             onClick = { navigateTo(StatisticScreen, false) },
         )
-        BottomSheetNavigationListItem(
+        MainMenuItem(
             label = Res.string.export,
             icon = null,
             isActive = activeScreen is ExportFormScreen,
             onClick = { navigateTo(ExportFormScreen, false) },
         )
-        BottomSheetNavigationListItem(
+        MainMenuItem(
             label = Res.string.preferences,
             icon = null,
             isActive = activeScreen is PreferenceListScreen,

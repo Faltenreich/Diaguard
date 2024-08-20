@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFor
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.firstOrNull

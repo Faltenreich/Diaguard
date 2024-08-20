@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.bottomsheet
+package com.faltenreich.diaguard.main.menu
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -20,7 +20,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun BottomSheetNavigationListItem(
+fun MainMenuItem(
     label: StringResource,
     icon: DrawableResource?,
     isActive: Boolean,

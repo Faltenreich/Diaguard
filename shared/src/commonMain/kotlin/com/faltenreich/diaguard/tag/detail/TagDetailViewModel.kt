@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.tag.detail
 
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.navigation.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel

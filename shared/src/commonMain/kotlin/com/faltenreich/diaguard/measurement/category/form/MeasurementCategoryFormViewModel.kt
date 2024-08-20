@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.navigation.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel

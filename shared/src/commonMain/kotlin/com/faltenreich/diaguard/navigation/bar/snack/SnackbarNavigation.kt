@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.navigation.bar
+package com.faltenreich.diaguard.navigation.bar.snack
 
 import androidx.compose.material3.SnackbarDuration
 
-interface BarNavigation {
+interface SnackbarNavigation {
 
     suspend fun showSnackbar(
         message: String,

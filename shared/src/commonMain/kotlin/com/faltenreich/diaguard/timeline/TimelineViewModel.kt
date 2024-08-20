@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase

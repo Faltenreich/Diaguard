@@ -8,8 +8,8 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
-import com.faltenreich.diaguard.navigation.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject

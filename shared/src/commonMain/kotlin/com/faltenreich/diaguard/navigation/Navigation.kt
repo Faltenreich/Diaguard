@@ -58,14 +58,15 @@ class Navigation(
     override suspend fun pushScreen(screen: Screen, popHistory: Boolean) = withContext(dispatcher) {
         navController.navigate(
             route = screen,
-            navOptions = if (popHistory) {
-                NavOptions.Builder()
-                    .setPopUpTo(
+            navOptions = NavOptions.Builder()
+                .run {
+                    if (popHistory) setPopUpTo(
                         route = navController.graph.findStartDestination().route,
                         inclusive = true,
                     )
-                    .build()
-            } else null
+                    else this
+                }
+                .build()
         )
     }
 

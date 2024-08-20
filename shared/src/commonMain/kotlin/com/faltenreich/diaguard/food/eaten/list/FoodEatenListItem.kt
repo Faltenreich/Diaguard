@@ -4,19 +4,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import diaguard.shared.generated.resources.*
-import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.FormRow
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.grams_abbreviation
 
 @Composable
 fun FoodEatenListItem(
     foodEaten: FoodEaten,
     onIntent: (FoodEatenListIntent) -> Unit,
     modifier: Modifier = Modifier,
+    // TODO: Remove formatter and pass formatted value instead
     dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
     FormRow(modifier = modifier.clickable { onIntent(FoodEatenListIntent.OpenEntry(foodEaten.entry)) }) {
@@ -25,8 +27,9 @@ fun FoodEatenListItem(
             modifier = Modifier.weight(1f),
         )
         Text(
-            text = "%d %s".format(
-                foodEaten.amountInGrams,
+            text = "%s %s".format(
+                // TODO: Localize via NumberFormatter
+                foodEaten.amountInGrams.toString(),
                 getString(Res.string.grams_abbreviation),
             )
         )

@@ -40,7 +40,7 @@ fun EntrySearch(
                 LazyColumn(
                     state = listState,
                     modifier = modifier) {
-                    items(items = viewState.items ?: emptyList(), key = Entry.Local::id) { entry ->
+                    items(items = viewState.items ?: emptyList(), key = Entry.Localized::id) { entry ->
                         Column(modifier = Modifier.animateItem()) {
                             EntryListItem(
                                 entry = entry,

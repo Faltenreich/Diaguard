@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
@@ -29,6 +30,7 @@ class LogItemSource(
     private val valueRepository: MeasurementValueRepository = inject(),
     private val entryTagRepository: EntryTagRepository = inject(),
     private val foodEatenRepository: FoodEatenRepository = inject(),
+    private val dateTimeFormatter: DateTimeFormatter = inject(),
 ) : PagingSource<Date, LogItem>() {
 
     private data class Cache(
@@ -74,11 +76,20 @@ class LogItemSource(
             startDateTime = startDate.atStartOfDay(),
             endDateTime = endDate.atEndOfDay(),
         ).map { entry ->
-            entry.apply {
-                values = valueRepository.getByEntryId(entry.id)
-                entryTags = entryTagRepository.getByEntryId(entry.id)
-                foodEaten = foodEatenRepository.getByEntryId(entry.id)
-            }
+            // TODO: Extract into UseCase (or reuse SearchEntriesUseCase)
+            Entry.Localized(
+                id = entry.id,
+                createdAt = entry.createdAt,
+                updatedAt = entry.updatedAt,
+                dateTime = entry.dateTime,
+                note = entry.note,
+                dateTimeFormatted = dateTimeFormatter.formatDateTime(entry.dateTime),
+                dateFormatted = dateTimeFormatter.formatDate(entry.dateTime.date),
+                timeFormatted = dateTimeFormatter.formatTime(entry.dateTime.time),
+                values = valueRepository.getByEntryId(entry.id),
+                entryTags = entryTagRepository.getByEntryId(entry.id),
+                foodEaten = foodEatenRepository.getByEntryId(entry.id),
+            )
         }
 
         val items = DateProgression(startDate, endDate).map { date ->

@@ -13,21 +13,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.Tag
 
 @Composable
 fun EntryListItem(
-    entry: Entry.Local,
+    entry: Entry.Localized,
     onClick: () -> Unit,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
-    dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
     Card(
         onClick = onClick,
@@ -40,7 +37,7 @@ fun EntryListItem(
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
         ) {
             Text(
-                text = dateTimeFormatter.formatTime(entry.dateTime.time),
+                text = entry.timeFormatted,
                 style = AppTheme.typography.titleLarge,
             )
             Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))

@@ -8,5 +8,5 @@ sealed interface EntrySearchState {
 
     data object Loading: EntrySearchState
 
-    data class Result(val items: List<Entry.Local>?): EntrySearchState
+    data class Result(val items: List<Entry.Localized>?): EntrySearchState
 }

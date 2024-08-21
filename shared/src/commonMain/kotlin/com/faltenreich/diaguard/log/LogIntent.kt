@@ -16,7 +16,7 @@ sealed interface LogIntent {
 
     data class CreateEntry(val date: Date? = null) : LogIntent
 
-    data class OpenEntry(val entry: Entry.Local) : LogIntent
+    data class OpenEntry(val entry: Entry.Localized) : LogIntent
 
     data class OpenEntrySearch(val query: String = "") : LogIntent
 

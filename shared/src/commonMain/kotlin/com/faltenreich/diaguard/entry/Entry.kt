@@ -33,11 +33,19 @@ sealed interface Entry {
         override val updatedAt: DateTime,
         override val dateTime: DateTime,
         override val note: String?,
-    ) : Entry, DatabaseEntity {
+    ) : Entry, DatabaseEntity
 
-        // TODO: Remove lateinit properties
-        lateinit var values: List<MeasurementValue>
-        lateinit var entryTags: List<EntryTag>
-        lateinit var foodEaten: List<FoodEaten>
-    }
+    data class Localized(
+        override val id: Long,
+        override val createdAt: DateTime,
+        override val updatedAt: DateTime,
+        override val dateTime: DateTime,
+        override val note: String?,
+        val dateTimeFormatted: String,
+        val timeFormatted: String,
+        val dateFormatted: String,
+        val values: List<MeasurementValue>,
+        val entryTags: List<EntryTag>,
+        val foodEaten: List<FoodEaten>,
+    ) : Entry, DatabaseEntity
 }

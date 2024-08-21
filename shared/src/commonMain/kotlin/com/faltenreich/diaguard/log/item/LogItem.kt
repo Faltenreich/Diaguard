@@ -20,7 +20,7 @@ sealed class LogItem(val date: Date, val style: LogDayStyle, val key: LogKey) {
     }
 
     class EntryContent(
-        val entry: Entry.Local,
+        val entry: Entry.Localized,
         style: LogDayStyle,
     ) : LogItem(
         date = entry.dateTime.date,

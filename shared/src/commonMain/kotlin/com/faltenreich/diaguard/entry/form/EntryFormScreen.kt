@@ -33,7 +33,19 @@ data class EntryFormScreen(
 ) : Screen {
 
     constructor(
-        entry: Entry.Local? = null,
+        entry: Entry.Localized? = null,
+        date: Date? = null,
+        food: Food.Local? = null,
+    ) : this(
+        entryId = entry?.id ?: -1,
+        // Attention: Will be converted to DateTime at Time now in GetDateTimeForEntryUseCase
+        dateTimeIsoString = date?.atStartOfDay()?.isoString,
+        foodId = food?.id ?: -1,
+    )
+
+    @Deprecated("Use constructor with Entry.Localized instead")
+    constructor(
+        entry: Entry.Local?,
         date: Date? = null,
         food: Food.Local? = null,
     ) : this(

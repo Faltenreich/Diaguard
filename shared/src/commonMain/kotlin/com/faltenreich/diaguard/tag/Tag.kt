@@ -32,4 +32,11 @@ sealed interface Tag {
         override val updatedAt: DateTime,
         override val name: String,
     ) : Tag, DatabaseEntity
+
+    data class Localized(
+        override val id: Long,
+        override val createdAt: DateTime,
+        override val updatedAt: DateTime,
+        override val name: String,
+    ) : Tag, DatabaseEntity
 }

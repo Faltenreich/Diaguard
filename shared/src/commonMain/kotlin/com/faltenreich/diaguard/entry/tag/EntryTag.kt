@@ -10,8 +10,8 @@ import com.faltenreich.diaguard.tag.Tag
  */
 sealed interface EntryTag {
 
-    val entry: Entry.Local
-    val tag: Tag.Local
+    val entry: Entry
+    val tag: Tag
 
     data class Legacy(
         val createdAt: DateTime,
@@ -35,5 +35,13 @@ sealed interface EntryTag {
         override val updatedAt: DateTime,
         override val entry: Entry.Local,
         override val tag: Tag.Local,
+    ) : EntryTag, DatabaseEntity
+
+    data class Localized(
+        override val id: Long,
+        override val createdAt: DateTime,
+        override val updatedAt: DateTime,
+        override val entry: Entry.Localized,
+        override val tag: Tag.Localized,
     ) : EntryTag, DatabaseEntity
 }

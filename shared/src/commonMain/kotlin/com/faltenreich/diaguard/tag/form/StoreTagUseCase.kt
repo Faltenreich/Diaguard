@@ -11,6 +11,7 @@ class StoreTagUseCase(private val repository: TagRepository) {
             is Tag.Legacy -> repository.create(tag)
             is Tag.User -> repository.create(tag)
             is Tag.Local -> repository.update(tag)
+            is Tag.Localized -> repository.update(tag)
         }
     }
 }

@@ -8,7 +8,7 @@ sealed interface TagDetailIntent {
 
     data object DeleteTag : TagDetailIntent
 
-    data class OpenEntry(val entry: Entry.Local) : TagDetailIntent
+    data class OpenEntry(val entry: Entry.Localized) : TagDetailIntent
 
     data class OpenEntrySearch(val query: String) : TagDetailIntent
 }

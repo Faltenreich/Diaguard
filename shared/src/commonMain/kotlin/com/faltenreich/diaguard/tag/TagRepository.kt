@@ -61,6 +61,14 @@ class TagRepository(
         )
     }
 
+    fun update(tag: Tag.Localized) = with(tag) {
+        dao.update(
+            id = id,
+            updatedAt = dateTimeFactory.now(),
+            name = name,
+        )
+    }
+
     fun delete(tag: Tag.Local) {
         dao.deleteById(tag.id)
     }

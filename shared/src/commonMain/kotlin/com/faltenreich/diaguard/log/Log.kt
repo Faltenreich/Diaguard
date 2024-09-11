@@ -47,13 +47,13 @@ fun Log(
     val items = viewModel.pagingData.collectAsLazyPagingItems()
     val listState = rememberLazyListState()
 
-    // TODO: Compensate initial scroll offset for month header without delay
     LaunchedEffect(state.monthHeaderSize.height) {
         listState.scrollBy(-state.monthHeaderSize.height.toFloat())
     }
 
     val lifecycleState = rememberLifecycleState()
     LaunchedEffect(lifecycleState) {
+        // FIXME: Leads to jump when switching back to Log
         if (lifecycleState == LifecycleState.RESUMED) {
             items.refresh()
         }

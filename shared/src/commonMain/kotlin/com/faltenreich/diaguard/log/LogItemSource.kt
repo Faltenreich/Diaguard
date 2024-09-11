@@ -41,8 +41,8 @@ class LogItemSource(
 
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
         Logger.debug("LogViewModel: getRefreshKey for: $state")
-        // FIXME: Calculate correct refresh key to avoid jumps after having scrolled down
-        return state.closestItemToPosition(1)?.date
+        // FIXME: Messes up position after refresh
+        return state.closestItemToPosition(0)?.date
     }
 
     override suspend fun load(params: PagingSourceLoadParams<Date>): PagingSourceLoadResult<Date, LogItem> {

@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.log
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
@@ -12,8 +14,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -55,6 +59,11 @@ fun Log(
         }
     }
 
+    val alpha by animateFloatAsState(
+        targetValue = if (state.monthHeaderSize != IntSize.Zero) 1f else 0f,
+        animationSpec = tween(),
+    )
+
     LaunchedEffect(state) {
         snapshotFlow {
             listState.layoutInfo.visibleItemsInfo
@@ -68,7 +77,9 @@ fun Log(
 
     Box {
         LazyColumn(
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier
+                .fillMaxSize()
+                .alpha(alpha),
             state = listState,
         ) {
             if (items.loadState.prepend == LoadState.Loading) {
@@ -138,7 +149,7 @@ fun Log(
         }
 
         val stickyDate = state.stickyHeaderInfo.date
-        if (state.monthHeaderSize != IntSize.Zero && stickyDate != null) {
+        if (stickyDate != null) {
             LogDay(
                 date = stickyDate,
                 style = state.stickyHeaderInfo.style,
@@ -146,6 +157,7 @@ fun Log(
                     .onGloballyPositioned {
                         viewModel.dispatchIntent(LogIntent.CacheDayHeaderSize(it.size))
                     }
+                    .alpha(alpha)
                     .offset { state.stickyHeaderInfo.offset }
                     .drawWithContent {
                         clipRect(top = state.stickyHeaderInfo.clip) {

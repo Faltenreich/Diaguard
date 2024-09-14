@@ -30,12 +30,6 @@ class LogItemSource(
     private val foodEatenRepository: FoodEatenRepository = inject(),
 ) : PagingSource<Date, LogItem>() {
 
-    private data class Cache(
-        val startDate: Date,
-        val endDate: Date,
-    )
-
-    private lateinit var cache: Cache
     private val today = getTodayUseCase()
 
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
@@ -50,17 +44,14 @@ class LogItemSource(
             params.isRefreshing() -> {
                 startDate = key
                 endDate = key.plus(params.loadSize, DateUnit.DAY)
-                cache = Cache(startDate = startDate, endDate = endDate)
             }
             params.isPrepending() -> {
                 startDate = key.minus(params.loadSize, DateUnit.DAY)
                 endDate = key
-                cache = cache.copy(startDate = startDate)
             }
             params.isAppending() -> {
                 startDate = key
                 endDate = key.plus(params.loadSize, DateUnit.DAY)
-                cache = cache.copy(endDate = endDate)
             }
             else -> throw IllegalArgumentException("Unhandled parameters: $params")
         }
@@ -102,8 +93,8 @@ class LogItemSource(
 
         val page = PagingSourceLoadResultPage(
             data = items,
-            prevKey = cache.startDate.minus(1, DateUnit.DAY),
-            nextKey = cache.endDate.plus(1, DateUnit.DAY),
+            prevKey = startDate.minus(1, DateUnit.DAY),
+            nextKey = endDate.plus(1, DateUnit.DAY),
         )
         return page
     }

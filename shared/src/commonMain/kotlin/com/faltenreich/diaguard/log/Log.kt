@@ -48,12 +48,12 @@ fun Log(
     val listState = rememberLazyListState()
 
     LaunchedEffect(state.monthHeaderSize.height) {
+        // FIXME: Leads to jump when switching back to Log
         listState.scrollBy(-state.monthHeaderSize.height.toFloat())
     }
 
     val lifecycleState = rememberLifecycleState()
     LaunchedEffect(lifecycleState) {
-        // FIXME: Leads to jump when switching back to Log
         if (lifecycleState == LifecycleState.RESUMED) {
             items.refresh()
         }

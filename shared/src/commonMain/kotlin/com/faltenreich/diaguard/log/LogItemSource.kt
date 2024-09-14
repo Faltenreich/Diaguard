@@ -18,7 +18,6 @@ import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
 import com.faltenreich.diaguard.shared.view.isRefreshing
@@ -40,18 +39,15 @@ class LogItemSource(
     private val today = getTodayUseCase()
 
     override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
-        Logger.debug("LogViewModel: getRefreshKey for: $state")
-        // FIXME: Messes up position after refresh
         return state.closestItemToPosition(0)?.date
     }
 
     override suspend fun load(params: PagingSourceLoadParams<Date>): PagingSourceLoadResult<Date, LogItem> {
-        val key = params.key ?: throw IllegalArgumentException("Missing key")
+        val key = params.key ?: today
         val startDate: Date
         val endDate: Date
         when {
             params.isRefreshing() -> {
-                // FIXME: Leads to delayed sticky header as start of month will be loaded afterwards
                 startDate = key
                 endDate = key.plus(params.loadSize, DateUnit.DAY)
                 cache = Cache(startDate = startDate, endDate = endDate)
@@ -68,7 +64,6 @@ class LogItemSource(
             }
             else -> throw IllegalArgumentException("Unhandled parameters: $params")
         }
-        Logger.debug("LogViewModel: Fetching data for: $startDate - $endDate")
 
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atStartOfDay(),
@@ -110,8 +105,6 @@ class LogItemSource(
             prevKey = cache.startDate.minus(1, DateUnit.DAY),
             nextKey = cache.endDate.plus(1, DateUnit.DAY),
         )
-        Logger.debug("LogViewModel: Fetched data for $startDate - $endDate, " +
-            "previous: ${page.prevKey}, next: ${page.nextKey}")
         return page
     }
 

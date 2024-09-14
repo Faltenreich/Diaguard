@@ -5,6 +5,7 @@ import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import app.cash.paging.PagingSource
 import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
@@ -12,9 +13,9 @@ import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
 import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItem
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.Flow
@@ -30,12 +31,12 @@ class LogViewModel(
 ) : ViewModel<LogState, LogIntent, Unit>() {
 
     private val initialDate: Date = getToday()
-    private lateinit var dataSource: PagingSource<Date, LogItem>
+    private lateinit var dataSource: PagingSource<MonthOfYear, LogItem>
     private val currentDate = MutableStateFlow(initialDate)
 
     val pagingData = Pager(
         config = LogItemSource.newConfig(),
-        initialKey = initialDate,
+        initialKey = initialDate.monthOfYear,
         pagingSourceFactory = { LogItemSource().also { dataSource = it } },
     ).flow.cachedIn(scope)
 

@@ -6,9 +6,9 @@ import app.cash.paging.PagingSourceLoadParams
 import app.cash.paging.PagingSourceLoadResult
 import app.cash.paging.PagingSourceLoadResultPage
 import app.cash.paging.PagingState
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
-import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.MonthOfYear
+import com.faltenreich.diaguard.datetime.MonthYearUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
@@ -18,9 +18,6 @@ import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.isAppending
-import com.faltenreich.diaguard.shared.view.isPrepending
-import com.faltenreich.diaguard.shared.view.isRefreshing
 
 class LogItemSource(
     getTodayUseCase: GetTodayUseCase = inject(),
@@ -28,33 +25,21 @@ class LogItemSource(
     private val valueRepository: MeasurementValueRepository = inject(),
     private val entryTagRepository: EntryTagRepository = inject(),
     private val foodEatenRepository: FoodEatenRepository = inject(),
-) : PagingSource<Date, LogItem>() {
+) : PagingSource<MonthOfYear, LogItem>() {
 
     private val today = getTodayUseCase()
 
-    override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
-        return state.closestItemToPosition(0)?.date
+    override fun getRefreshKey(state: PagingState<MonthOfYear, LogItem>): MonthOfYear? {
+        return state.closestItemToPosition(state.anchorPosition ?: 0)?.date?.monthOfYear
     }
 
-    override suspend fun load(params: PagingSourceLoadParams<Date>): PagingSourceLoadResult<Date, LogItem> {
-        val key = params.key ?: today
-        val startDate: Date
-        val endDate: Date
-        when {
-            params.isRefreshing() -> {
-                startDate = key
-                endDate = key.plus(params.loadSize, DateUnit.DAY)
-            }
-            params.isPrepending() -> {
-                startDate = key.minus(params.loadSize, DateUnit.DAY)
-                endDate = key
-            }
-            params.isAppending() -> {
-                startDate = key
-                endDate = key.plus(params.loadSize, DateUnit.DAY)
-            }
-            else -> throw IllegalArgumentException("Unhandled parameters: $params")
-        }
+    override suspend fun load(
+        params: PagingSourceLoadParams<MonthOfYear>,
+    ): PagingSourceLoadResult<MonthOfYear, LogItem> {
+        val monthOfYear = params.key ?: today.monthOfYear
+
+        val startDate = monthOfYear.firstDay
+        val endDate = monthOfYear.lastDay
 
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atStartOfDay(),
@@ -91,12 +76,11 @@ class LogItemSource(
             headers + content
         }.flatten()
 
-        val page = PagingSourceLoadResultPage(
+        return PagingSourceLoadResultPage(
             data = items,
-            prevKey = startDate.minus(1, DateUnit.DAY),
-            nextKey = endDate.plus(1, DateUnit.DAY),
+            prevKey = monthOfYear.minus(1, unit = MonthYearUnit.MONTH),
+            nextKey = monthOfYear.plus(1, unit = MonthYearUnit.MONTH),
         )
-        return page
     }
 
     companion object {

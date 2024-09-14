@@ -26,7 +26,6 @@ interface Date : Serializable, Comparable<Date> {
      * Month-of-year as pair of Month and year
      */
     val monthOfYear: MonthOfYear
-        get() = MonthOfYear(month, year)
 
     /**
      * Day-of-month ranging from 1 to 31, depending on month

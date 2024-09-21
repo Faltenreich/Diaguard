@@ -30,7 +30,9 @@ class LogItemSource(
     private val today = getTodayUseCase()
 
     override fun getRefreshKey(state: PagingState<MonthOfYear, LogItem>): MonthOfYear? {
-        return state.closestItemToPosition(state.anchorPosition ?: 0)?.date?.monthOfYear
+        val position = state.anchorPosition ?: 0
+        val item = state.closestItemToPosition(position)
+        return item?.date?.monthOfYear
     }
 
     override suspend fun load(

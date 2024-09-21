@@ -24,7 +24,7 @@ class KotlinxMonthOfYear(
         get() = KotlinxDate(year = year, monthNumber = month.monthNumber, dayOfMonth = 1)
 
     override val lastDay: Date
-        get() = KotlinxDate(year = year, monthNumber = month.monthNumber, dayOfMonth = 1)
+        get() = firstDay
             .plus(1, DateUnit.MONTH)
             .minus(1, DateUnit.DAY)
 

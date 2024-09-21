@@ -11,7 +11,7 @@
         android:allowBackup="false"
         android:label="Diaguard"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@android:style/Theme.Material.NoActionBar">
 
         <activity
             android:name="com.faltenreich.diaguard.MainActivity"

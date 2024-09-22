@@ -16,7 +16,7 @@ data object LicenseScreen : Screen {
     @Composable
     override fun Content() {
         val libraries by rememberLibraries {
-            // TODO: Generate file
+            // FIXME: Missing resource with path: composeResources/diaguard.shared.generated.resources/files/aboutlibraries.json
             Res.readBytes("files/aboutlibraries.json").decodeToString()
         }
         LibrariesContainer(

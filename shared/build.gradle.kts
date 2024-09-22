@@ -22,7 +22,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 // TODO: Support multiplatform
-                //  https://github.com/JetBrains/compose-multiplatform/issues/2045
+                //  https://youtrack.jetbrains.com/issue/CMP-2045
                 //  implementation(compose.preview)
                 implementation(compose.runtime)
                 implementation(libs.compose.navigation)

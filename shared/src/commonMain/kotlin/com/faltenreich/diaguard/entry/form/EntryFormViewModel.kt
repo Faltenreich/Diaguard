@@ -232,7 +232,6 @@ class EntryFormViewModel(
         }
     }
 
-    // FIXME: Does not work after adding new food to an existing entry
     private fun removeFood(food: FoodEatenInputState) {
         foodEaten -= food
     }

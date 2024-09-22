@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.compose) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.about.libraries) apply false
     alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.detekt)
     alias(libs.plugins.kover)

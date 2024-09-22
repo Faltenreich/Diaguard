@@ -2,34 +2,35 @@ package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
-import com.faltenreich.diaguard.entry.tag.CreateEntryTagsUseCase
+import com.faltenreich.diaguard.entry.tag.StoreEntryTagsUseCase
 import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
-import com.faltenreich.diaguard.measurement.value.CreateMeasurementValuesUseCase
+import com.faltenreich.diaguard.measurement.value.StoreMeasurementValuesUseCase
 
 class StoreEntryUseCase(
-    private val entryRepository: EntryRepository,
-    private val createMeasurementValues: CreateMeasurementValuesUseCase,
+    private val repository: EntryRepository,
+    private val storeMeasurementValues: StoreMeasurementValuesUseCase,
     private val storeFoodEaten: StoreFoodEatenUseCase,
-    private val createEntryTags: CreateEntryTagsUseCase,
+    private val storeEntryTags: StoreEntryTagsUseCase,
 ) {
 
     operator fun invoke(input: EntryFormInput) = with(input) {
-        val entryId = entry?.let { editing ->
-            val entry = editing.copy(
+        val entry = if (entry != null) {
+            val entry = entry.copy(
                 dateTime = dateTime,
                 note = note,
             )
-            entryRepository.update(entry)
-            entry.id
-        } ?: entryRepository.create(
-            Entry.User(
+            repository.update(entry)
+            entry
+        } else {
+            val entry = Entry.User(
                 dateTime = dateTime,
                 note = note,
             )
-        )
-        val entry = checkNotNull(entryRepository.getById(entryId))
-        createMeasurementValues(measurements, entry)
+            val entryId = repository.create(entry)
+            checkNotNull(repository.getById(entryId))
+        }
+        storeMeasurementValues(measurements, entry)
         storeFoodEaten(foodEaten, entry)
-        createEntryTags(tags, entry)
+        storeEntryTags(tags, entry)
     }
 }

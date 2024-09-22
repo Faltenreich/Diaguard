@@ -3,9 +3,7 @@ package com.faltenreich.diaguard.measurement.value
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 
-class CreateMeasurementValuesUseCase(
-    private val repository: MeasurementValueRepository,
-) {
+class StoreMeasurementValuesUseCase(private val repository: MeasurementValueRepository) {
 
     operator fun invoke(
         measurements: List<MeasurementCategoryInputState>,

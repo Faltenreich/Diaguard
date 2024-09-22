@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.entry.tag
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.tag.Tag
 
-class CreateEntryTagsUseCase(private val repository: EntryTagRepository) {
+class StoreEntryTagsUseCase(private val repository: EntryTagRepository) {
 
     operator fun invoke(
         tags: List<Tag>,

@@ -62,7 +62,7 @@ class EntryFormViewModel(
     private val closeModal: CloseModalUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
-    private val createEntry: StoreEntryUseCase = inject(),
+    private val storeEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
@@ -187,7 +187,7 @@ class EntryFormViewModel(
         )
         when (val result = validate(input)) {
             is ValidationResult.Success -> {
-                createEntry(input)
+                storeEntry(input)
                 navigateBack()
             }
             is ValidationResult.Failure -> {

@@ -22,7 +22,7 @@ import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyLis
 import com.faltenreich.diaguard.measurement.unit.GetMeasurementUnitsOfPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
-import com.faltenreich.diaguard.measurement.value.CreateMeasurementValuesUseCase
+import com.faltenreich.diaguard.measurement.value.StoreMeasurementValuesUseCase
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
@@ -50,7 +50,7 @@ fun measurementModule() = module {
     singleOf(::GetMeasurementUnitsOfPropertyUseCase)
     singleOf(::GetMeasurementPropertyBdIdUseCase)
     singleOf(::GetMeasurementPropertiesUseCase)
-    singleOf(::CreateMeasurementValuesUseCase)
+    singleOf(::StoreMeasurementValuesUseCase)
     singleOf(::CountMeasurementValuesOfCategoryUseCase)
     singleOf(::CountMeasurementValuesOfPropertyUseCase)
     singleOf(::UpdateMeasurementPropertyUseCase)

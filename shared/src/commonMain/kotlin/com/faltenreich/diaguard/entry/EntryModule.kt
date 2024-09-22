@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.entry
 
-import com.faltenreich.diaguard.entry.form.CreateEntryUseCase
+import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.GetEntryByIdUseCase
@@ -40,7 +40,7 @@ fun entryModule() = module {
             rulesForProperties = listOf(RealisticMeasurementValueRule()),
         )
     }
-    singleOf(::CreateEntryUseCase)
+    singleOf(::StoreEntryUseCase)
     singleOf(::CreateEntryTagsUseCase)
     singleOf(::DeleteEntryUseCase)
     singleOf(::SearchEntriesUseCase)

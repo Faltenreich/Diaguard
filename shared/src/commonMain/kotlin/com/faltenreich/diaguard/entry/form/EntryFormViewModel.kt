@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class EntryFormViewModel(
-    private val entryId: Long? = null,
+    entryId: Long? = null,
     dateTimeIsoString: String? = null,
     foodId: Long? = null,
     getEntryById: GetEntryByIdUseCase = inject(),
@@ -62,7 +62,7 @@ class EntryFormViewModel(
     private val closeModal: CloseModalUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
-    private val createEntry: CreateEntryUseCase = inject(),
+    private val createEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
@@ -178,7 +178,7 @@ class EntryFormViewModel(
 
     private fun submit() = scope.launch {
         val input = EntryFormInput(
-            id = entryId,
+            entry = editing,
             dateTime = dateTime,
             measurements = measurements,
             tags = tagSelection.value,

@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.entry.tag.CreateEntryTagsUseCase
 import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.measurement.value.CreateMeasurementValuesUseCase
 
-class CreateEntryUseCase(
+class StoreEntryUseCase(
     private val entryRepository: EntryRepository,
     private val createMeasurementValues: CreateMeasurementValuesUseCase,
     private val storeFoodEaten: StoreFoodEatenUseCase,
@@ -14,12 +14,13 @@ class CreateEntryUseCase(
 ) {
 
     operator fun invoke(input: EntryFormInput) = with(input) {
-        val entryId = id?.also {
-            entryRepository.update(
-                id = id,
+        val entryId = entry?.let { editing ->
+            val entry = editing.copy(
                 dateTime = dateTime,
                 note = note,
             )
+            entryRepository.update(entry)
+            entry.id
         } ?: entryRepository.create(
             Entry.User(
                 dateTime = dateTime,

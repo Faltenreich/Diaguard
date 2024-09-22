@@ -50,12 +50,7 @@ class EntryRepository(
         return dao.countAll()
     }
 
-    // TODO: Replace parameters with Entry.Local by merging with EntryFormInput
-    fun update(
-        id: Long,
-        dateTime: DateTime,
-        note: String?,
-    ) {
+    fun update(entry: Entry.Local) = with(entry) {
         dao.update(
             id = id,
             updatedAt = dateTimeFactory.now(),

@@ -14,6 +14,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.ParametersDefinition
 import kotlin.jvm.JvmName
 
+// TODO: Differentiate from androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 inline fun <reified T : ViewModel> viewModel(
     viewModelStoreOwner: ViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current),

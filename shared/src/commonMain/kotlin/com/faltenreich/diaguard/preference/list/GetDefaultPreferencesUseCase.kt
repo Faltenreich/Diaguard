@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
-import com.faltenreich.diaguard.preference.license.LicenseScreen
+import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceListListItem
 import com.faltenreich.diaguard.preference.list.item.preferences
@@ -135,7 +135,7 @@ class GetDefaultPreferencesUseCase(
                 }
                 action {
                     title = Res.string.licenses
-                    onClick = { navigateToScreen(LicenseScreen) }
+                    onClick = { navigateToScreen(LicenseListScreen) }
                 }
                 action {
                     title = Res.string.privacy_policy

@@ -30,7 +30,7 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
-import com.faltenreich.diaguard.preference.license.LicenseScreen
+import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.shared.di.inject
@@ -90,7 +90,7 @@ fun MainView(
                     screen<MeasurementPropertyFormScreen>()
                     screen<TagListScreen>()
                     screen<TagDetailScreen>()
-                    screen<LicenseScreen>()
+                    screen<LicenseListScreen>()
                 }
 
                 state.bottomSheet?.let { bottomSheet ->

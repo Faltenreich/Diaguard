@@ -27,7 +27,8 @@ fun preferenceModule() = module {
     singleOf(::IllustrateDecimalPlacesUseCase)
     viewModelOf(::DecimalPlacesFormViewModel)
 
-    // TODO: Use generated file at shared/build/generated/aboutLibraries/<variant>/res/raw
+    // TODO: Update automatically via command-line
+    //  ./gradlew exportLibraryDefinitions -PexportPath=src/commonMain/composeResources/files/
     single { GetLicensesUseCase(fileReader = ResourceFileReader("files/aboutlibraries.json")) }
     viewModelOf(::LicenseListViewModel)
 

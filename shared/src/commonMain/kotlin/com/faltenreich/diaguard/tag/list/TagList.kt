@@ -24,7 +24,7 @@ fun TagList(
                     TagListItem(
                         tag = tag,
                         modifier = Modifier
-                            .animateItemPlacement()
+                            .animateItem()
                             .fillMaxWidth()
                             .clickable { viewModel.dispatchIntent(TagListIntent.OpenTag(tag)) },
                     )

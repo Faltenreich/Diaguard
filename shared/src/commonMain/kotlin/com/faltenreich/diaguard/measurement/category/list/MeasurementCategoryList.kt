@@ -31,7 +31,7 @@ fun MeasurementCategoryList(
                     showArrowUp = index > 1,
                     showArrowDown = index > 0 && index < categories.size - 1,
                     modifier = Modifier
-                        .animateItemPlacement()
+                        .animateItem()
                         .clickable { viewModel.dispatchIntent(MeasurementCategoryListIntent.Edit(category)) },
                 )
             }

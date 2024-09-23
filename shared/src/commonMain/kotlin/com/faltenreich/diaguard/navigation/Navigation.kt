@@ -32,7 +32,7 @@ class Navigation(
     private val _topAppBarStyle = MutableStateFlow<TopAppBarStyle>(TopAppBarStyle.Hidden)
     val topAppBarStyle = _topAppBarStyle.asStateFlow()
 
-    private val _bottomAppBarStyle = MutableStateFlow<BottomAppBarStyle>(BottomAppBarStyle.Hidden)
+    private val _bottomAppBarStyle = MutableStateFlow<BottomAppBarStyle>(BottomAppBarStyle.Visible())
     val bottomAppBarStyle = _bottomAppBarStyle.asStateFlow()
 
     private val _bottomSheet = MutableStateFlow<Screen?>(null)

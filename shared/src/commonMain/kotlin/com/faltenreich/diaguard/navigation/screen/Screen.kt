@@ -10,7 +10,7 @@ interface Screen {
     fun TopAppBar(): TopAppBarStyle = TopAppBarStyle.Hidden
 
     @Composable
-    fun BottomAppBar(): BottomAppBarStyle = BottomAppBarStyle.Hidden
+    fun BottomAppBar(): BottomAppBarStyle = BottomAppBarStyle.Visible()
 
     @Composable
     fun Content()

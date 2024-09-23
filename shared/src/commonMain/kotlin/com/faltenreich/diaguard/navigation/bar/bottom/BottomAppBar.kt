@@ -2,7 +2,9 @@ package com.faltenreich.diaguard.navigation.bar.bottom
 
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_menu
+import diaguard.shared.generated.resources.menu_open
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.material3.BottomAppBar as Material3BottomBar
 
@@ -12,7 +14,6 @@ fun BottomAppBar(
     onMenuClick: () -> Unit,
 ) {
     when (style) {
-        is BottomAppBarStyle.Hidden -> Unit
         is BottomAppBarStyle.Visible -> {
             Material3BottomBar(
                 actions = {

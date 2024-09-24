@@ -46,7 +46,11 @@ android {
         targetCompatibility = Constants.JavaVersion
     }
 
-    buildFeatures.compose = true
+    buildFeatures {
+        buildConfig = true
+        compose = true
+    }
+
     packagingOptions.resources.excludes += "META-INF/versions/9/previous-compilation-data.bin"
 }
 

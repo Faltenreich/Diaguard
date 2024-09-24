@@ -12,8 +12,7 @@ class MainApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@MainApplication)
-            // TODO: Set to none for release
-            androidLogger(Level.INFO)
+            androidLogger(if (BuildConfig.DEBUG) Level.INFO else Level.NONE)
             modules(appModules())
         }
     }

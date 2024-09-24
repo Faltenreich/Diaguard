@@ -9,19 +9,35 @@ android {
     compileSdk = Constants.CompileSdk
 
     defaultConfig {
-        // TODO: Introduce flavors
-        applicationId = "${Constants.NameSpace}.beta"
         minSdk = Constants.MinSdk
         targetSdk = Constants.TargetSdk
         versionCode = Constants.VersionCode
         versionName = Constants.VersionName
-        testInstrumentationRunner = "com.faltenreich.diaguard.TestInstrumentationRunner"
+        testInstrumentationRunner = "${Constants.NameSpace}.TestInstrumentationRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
 
     buildTypes {
-        getByName("release") {
+        getByName("debug") {
             isMinifyEnabled = false
+            isShrinkResources = false
+        }
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+        }
+    }
+
+    flavorDimensions += "version"
+    productFlavors {
+        create("demo") {
+            applicationId = Constants.NameSpace
+        }
+        create("beta") {
+            applicationId = "${Constants.NameSpace}.beta"
+        }
+        create("store") {
+            applicationId = Constants.NameSpace
         }
     }
 

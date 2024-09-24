@@ -23,9 +23,6 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.foundation)
                 implementation(compose.material3)
-                // TODO: Support multiplatform
-                //  https://youtrack.jetbrains.com/issue/CMP-2045
-                //  implementation(compose.preview)
                 implementation(compose.runtime)
                 implementation(libs.compose.navigation)
                 implementation(libs.datastore)

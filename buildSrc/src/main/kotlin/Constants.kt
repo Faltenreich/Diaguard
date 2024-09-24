@@ -1,3 +1,5 @@
+@file:Suppress("ConstPropertyName")
+
 object Constants {
 
     const val VersionCode = 62

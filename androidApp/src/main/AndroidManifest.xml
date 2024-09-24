@@ -5,10 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- TODO: Support predictive navigation via enableOnBackInvokedCallback -->
     <application
         android:name="com.faltenreich.diaguard.MainApplication"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:label="Diaguard"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.NoActionBar">
@@ -23,7 +22,6 @@
             </intent-filter>
         </activity>
 
-        <!-- TODO: Improve authorities -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.entry.list.EntryListItem
 import com.faltenreich.diaguard.entry.tag.EntryTag
@@ -29,12 +28,12 @@ fun TagDetail(
         stickyHeader {
             FormRow {
                 TextInput(
-                    input = viewModel.name.collectAsState().value,
-                    onInputChange = { input -> viewModel.name.value = input },
+                    input = viewModel.name,
+                    onInputChange = { input -> viewModel.name = input },
                     label = getString(Res.string.name),
                     modifier = Modifier.fillMaxWidth(),
-                    supportingText = { Text(state?.inputError ?: "") },
-                    isError = state?.inputError != null,
+                    supportingText = viewModel.error?.let { error -> { Text(error) } },
+                    isError = viewModel.error != null,
                 )
             }
         }

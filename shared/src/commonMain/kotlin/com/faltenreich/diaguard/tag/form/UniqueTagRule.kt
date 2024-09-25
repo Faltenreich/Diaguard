@@ -17,7 +17,11 @@ class UniqueTagRule(
     override fun check(input: Tag): ValidationResult<Tag> {
         return when (repository.getByName(input.name)) {
             null -> ValidationResult.Success(input)
-            else -> ValidationResult.Failure(input, error = localization.getString(Res.string.tag_already_taken))
+            input -> ValidationResult.Success(input)
+            else -> ValidationResult.Failure(
+                data = input,
+                error = localization.getString(Res.string.tag_already_taken),
+            )
         }
     }
 }

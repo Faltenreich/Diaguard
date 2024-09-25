@@ -1,8 +1,7 @@
-package com.faltenreich.diaguard.tag.form
+package com.faltenreich.diaguard.tag
 
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.shared.validation.ValidationRule
-import com.faltenreich.diaguard.tag.Tag
 
 class ValidateTagUseCase(private val rules: List<ValidationRule<Tag>>) {
 

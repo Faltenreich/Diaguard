@@ -6,7 +6,9 @@ import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.validation.ValidationResult
+import com.faltenreich.diaguard.tag.StoreTagUseCase
 import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.tag.ValidateTagUseCase
 import kotlinx.coroutines.flow.emptyFlow
 
 class TagFormViewModel(

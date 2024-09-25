@@ -1,7 +1,4 @@
-package com.faltenreich.diaguard.tag.form
-
-import com.faltenreich.diaguard.tag.Tag
-import com.faltenreich.diaguard.tag.TagRepository
+package com.faltenreich.diaguard.tag
 
 class StoreTagUseCase(private val repository: TagRepository) {
 

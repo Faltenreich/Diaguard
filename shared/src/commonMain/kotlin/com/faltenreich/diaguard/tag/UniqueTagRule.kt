@@ -1,11 +1,9 @@
-package com.faltenreich.diaguard.tag.form
+package com.faltenreich.diaguard.tag
 
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.shared.validation.ValidationRule
-import com.faltenreich.diaguard.tag.Tag
-import com.faltenreich.diaguard.tag.TagRepository
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.tag_already_taken
 

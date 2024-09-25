@@ -14,9 +14,8 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.shared.view.DeleteModal
 import com.faltenreich.diaguard.tag.Tag
-import com.faltenreich.diaguard.tag.form.DeleteTagUseCase
-import com.faltenreich.diaguard.tag.form.StoreTagUseCase
-import com.faltenreich.diaguard.tag.form.ValidateTagUseCase
+import com.faltenreich.diaguard.tag.StoreTagUseCase
+import com.faltenreich.diaguard.tag.ValidateTagUseCase
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 

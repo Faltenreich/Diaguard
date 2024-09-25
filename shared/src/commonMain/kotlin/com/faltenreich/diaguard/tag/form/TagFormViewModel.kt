@@ -1,38 +1,42 @@
 package com.faltenreich.diaguard.tag.form
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.emptyFlow
 
 class TagFormViewModel(
     private val validateTag: ValidateTagUseCase,
     private val createTag: StoreTagUseCase,
     private val closeModal: CloseModalUseCase,
-) : ViewModel<TagFormState, TagFormIntent, Unit>() {
+) : ViewModel<Unit, TagFormIntent, Unit>() {
 
-    private val error = MutableStateFlow<String?>(null)
+    override val state = emptyFlow<Unit>()
 
-    override val state = error.map(::TagFormState)
+    var name: String by mutableStateOf("")
+    var error: String? by mutableStateOf(null)
 
     override suspend fun handleIntent(intent: TagFormIntent) {
         when (intent) {
             is TagFormIntent.Close -> closeModal()
-            is TagFormIntent.Submit -> createTagIfValid(intent.tag)
+            is TagFormIntent.Submit -> createTagIfValid()
         }
     }
 
-    private fun createTagIfValid(tag: Tag.User) {
+    private fun createTagIfValid() {
+        val tag = Tag.User(name)
         when (val result = validateTag(tag)) {
             is ValidationResult.Success -> {
                 createTag(tag)
                 closeModal()
-                error.value = null
+                error = null
             }
             is ValidationResult.Failure -> {
-                error.value = result.error
+                error = result.error
             }
         }
     }

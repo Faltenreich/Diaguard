@@ -5,17 +5,12 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
-import com.faltenreich.diaguard.tag.Tag
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.create
@@ -29,13 +24,10 @@ fun TagFormDialog(
 ) {
     val focusRequester = rememberFocusRequester(requestFocus = true)
 
-    val state = viewModel.collectState()
-    var name by rememberSaveable { mutableStateOf("") }
-
     AlertDialog(
         onDismissRequest = { viewModel.dispatchIntent(TagFormIntent.Close) },
         confirmButton = {
-            TextButton(onClick = { viewModel.dispatchIntent(TagFormIntent.Submit(Tag.User(name))) }) {
+            TextButton(onClick = { viewModel.dispatchIntent(TagFormIntent.Submit) }) {
                 Text(getString(Res.string.create))
             }
         },
@@ -48,12 +40,15 @@ fun TagFormDialog(
         title = { Text(getString(Res.string.tag)) },
         text = {
             TextInput(
-                input = name,
-                onInputChange = { name = it },
+                input = viewModel.name,
+                onInputChange = { input ->
+                    viewModel.name = input
+                    viewModel.error = null
+                },
                 label = getString(Res.string.name),
                 modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
-                supportingText = { Text(state?.inputError ?: "") },
-                isError = state?.inputError != null,
+                supportingText = viewModel.error?.let { error -> { Text(error) } },
+                isError = viewModel.error != null,
             )
         }
     )

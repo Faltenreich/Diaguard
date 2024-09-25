@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.shared.validation
 
-sealed class ValidationResult<T>(val data: T) {
+sealed interface ValidationResult<T> {
 
-    class Success<T>(data: T) : ValidationResult<T>(data)
+    data class Success<T>(val data: T) : ValidationResult<T>
 
-    class Failure<T>(data: T, val error: String) : ValidationResult<T>(data)
+    data class Failure<T>(val data: T, val error: String) : ValidationResult<T>
 }

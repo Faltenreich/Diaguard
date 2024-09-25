@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.tag
 
+import com.faltenreich.diaguard.tag.detail.DeleteTagUseCase
 import com.faltenreich.diaguard.tag.detail.GetEntriesOfTagUseCase
 import com.faltenreich.diaguard.tag.detail.GetTagByIdUseCase
 import com.faltenreich.diaguard.tag.detail.TagDetailViewModel
-import com.faltenreich.diaguard.tag.detail.DeleteTagUseCase
 import com.faltenreich.diaguard.tag.form.TagFormViewModel
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
 import com.faltenreich.diaguard.tag.list.TagListViewModel
@@ -18,7 +18,8 @@ fun tagModule() = module {
     singleOf(::GetTagByIdUseCase)
     singleOf(::GetTagsUseCase)
     singleOf(::StoreTagUseCase)
-    single { ValidateTagUseCase(rules = listOf(UniqueTagRule())) }
+    single { UniqueTagRule() }
+    single { ValidateTagUseCase(rules = listOf(get<UniqueTagRule>())) }
     singleOf(::GetEntriesOfTagUseCase)
     singleOf(::DeleteTagUseCase)
 

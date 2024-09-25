@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -51,13 +52,13 @@ open class MeasurementValueFakeDao(
         )
     }
 
-    override fun observeLatestByCategoryId(
+    override fun observePreviousByProperty(
         dateTime: DateTime,
-        categoryId: Long,
+        key: DatabaseKey.MeasurementProperty,
     ): Flow<MeasurementValue.Local?> {
         return flowOf(
             cache.firstOrNull {
-                it.property.category.id == categoryId && it.entry.dateTime <= dateTime
+                it.property.key == key && it.entry.dateTime <= dateTime
             }
         )
 

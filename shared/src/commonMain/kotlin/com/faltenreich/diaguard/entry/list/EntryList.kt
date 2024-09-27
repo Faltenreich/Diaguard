@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.entry.list
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -11,6 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.log.item.LogDayStyle
+import com.faltenreich.diaguard.log.item.LogEntry
+import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.tag.Tag
 
 @Composable
@@ -29,15 +33,22 @@ fun EntryList(
         header()
 
         items(items = items, key = Entry.Local::id) { entry ->
-            EntryListItem(
-                entry = entry,
+            LogEntry(
+                item = LogItem.EntryContent(
+                    entry = entry,
+                    // TODO: Determine in ViewModel
+                    style = LogDayStyle(
+                        isVisible = true,
+                        isHighlighted = false,
+                    ),
+                ),
                 onClick = { onEntryClick(entry) },
                 onTagClick = onTagClick,
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(
-                        start = AppTheme.dimensions.padding.P_2,
-                        top = AppTheme.dimensions.padding.P_2,
-                        end = AppTheme.dimensions.padding.P_2,
+                        horizontal = AppTheme.dimensions.padding.P_3,
+                        vertical = AppTheme.dimensions.padding.P_2,
                     )
                     .animateItem(),
             )

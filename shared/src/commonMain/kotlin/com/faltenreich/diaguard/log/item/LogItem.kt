@@ -1,16 +1,17 @@
 package com.faltenreich.diaguard.log.item
 
 import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.list.DateListItemStyle
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.log.LogKey
 
-sealed class LogItem(val date: Date, val style: LogDayStyle, val key: LogKey) {
+sealed class LogItem(val date: Date, val style: DateListItemStyle, val key: LogKey) {
 
     class MonthHeader(
         date: Date,
     ) : LogItem(
         date = date,
-        style = LogDayStyle(isVisible = false, isHighlighted = false),
+        style = DateListItemStyle(isVisible = false, isHighlighted = false),
         key = LogKey.Header(date),
     ) {
 
@@ -21,7 +22,7 @@ sealed class LogItem(val date: Date, val style: LogDayStyle, val key: LogKey) {
 
     class EntryContent(
         val entry: Entry.Local,
-        style: LogDayStyle,
+        style: DateListItemStyle,
     ) : LogItem(
         date = entry.dateTime.date,
         style = style,
@@ -35,7 +36,7 @@ sealed class LogItem(val date: Date, val style: LogDayStyle, val key: LogKey) {
 
     class EmptyContent(
         date: Date,
-        style: LogDayStyle,
+        style: DateListItemStyle,
     ) : LogItem(
         date = date,
         style = style,

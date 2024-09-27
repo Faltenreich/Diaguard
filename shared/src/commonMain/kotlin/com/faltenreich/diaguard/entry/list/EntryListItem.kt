@@ -15,11 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.datetime.list.LogDay
+import com.faltenreich.diaguard.datetime.list.DateListItemStyle
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.entry.tag.EntryTag
-import com.faltenreich.diaguard.log.item.LogDay
-import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.Tag
@@ -27,7 +27,7 @@ import com.faltenreich.diaguard.tag.Tag
 @Composable
 fun EntryListItem(
     entry: Entry.Local,
-    style: LogDayStyle,
+    style: DateListItemStyle,
     onClick: () -> Unit,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,

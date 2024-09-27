@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.datetime.list.LogDay
 import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.log.LogIntent
 import com.faltenreich.diaguard.shared.localization.getString

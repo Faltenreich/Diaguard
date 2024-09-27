@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
-import com.faltenreich.diaguard.log.item.LogDayStyle
+import com.faltenreich.diaguard.datetime.list.DateListItemStyle
 import com.faltenreich.diaguard.log.item.LogItem
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.di.inject
@@ -73,7 +73,7 @@ class LogItemSource(
             val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
                 LogItem.EntryContent(
                     entry = entry,
-                    style = LogDayStyle(
+                    style = DateListItemStyle(
                         isVisible = entry == entriesOfDate.first(),
                         isHighlighted = entry.dateTime.date == today,
                     ),
@@ -82,7 +82,7 @@ class LogItemSource(
             val content = entryContent ?: listOf(
                 LogItem.EmptyContent(
                     date = date,
-                    style = LogDayStyle(
+                    style = DateListItemStyle(
                         isVisible = true,
                         isHighlighted = date == today,
                     ),

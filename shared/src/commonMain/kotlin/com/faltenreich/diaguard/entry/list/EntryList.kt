@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.log.item.LogDayStyle
+import com.faltenreich.diaguard.datetime.list.DateListItemStyle
 import com.faltenreich.diaguard.tag.Tag
 
 @Composable
@@ -34,7 +34,7 @@ fun EntryList(
             EntryListItem(
                 entry = entry,
                 // TODO: Determine in ViewModel
-                style = LogDayStyle(
+                style = DateListItemStyle(
                     isVisible = true,
                     isHighlighted = false,
                 ),

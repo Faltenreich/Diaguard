@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.log.item
+package com.faltenreich.diaguard.datetime.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.shared.di.inject
 @Composable
 fun LogDay(
     date: Date,
-    style: LogDayStyle,
+    style: DateListItemStyle,
     modifier: Modifier = Modifier,
     formatter: DateTimeFormatter = inject(),
 ) {
@@ -26,8 +26,8 @@ fun LogDay(
             Text(
                 text = formatter.formatDayOfMonth(date),
                 color =
-                if (style.isHighlighted) AppTheme.colors.scheme.primary
-                else AppTheme.colors.scheme.onBackground,
+                    if (style.isHighlighted) AppTheme.colors.scheme.primary
+                    else AppTheme.colors.scheme.onBackground,
                 style = AppTheme.typography.headlineSmall,
             )
             Text(

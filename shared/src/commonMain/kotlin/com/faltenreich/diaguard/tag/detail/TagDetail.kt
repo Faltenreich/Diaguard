@@ -2,14 +2,10 @@ package com.faltenreich.diaguard.tag.detail
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.entry.list.EntryListItem
+import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -26,40 +22,27 @@ fun TagDetail(
 ) {
     val state = viewModel.collectState()
 
-    LazyColumn(modifier = modifier) {
-        stickyHeader {
-            FormRow {
-                TextInput(
-                    input = viewModel.name,
-                    onInputChange = { input -> viewModel.name = input },
-                    label = getString(Res.string.name),
-                    modifier = Modifier.fillMaxWidth(),
-                    supportingText = viewModel.error?.let { error -> { Text(error) } },
-                    isError = viewModel.error != null,
-                )
-            }
-        }
-
-        item { Divider(orientation = Orientation.Vertical) }
-
-        items(
-            items = state?.entryTags ?: emptyList(),
-            key = EntryTag.Local::id,
-        ) { entryTag ->
-            EntryListItem(
-                entry = entryTag.entry,
-                onClick = { viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entryTag.entry)) },
-                onTagClick = { tag ->
-                    viewModel.dispatchIntent(TagDetailIntent.OpenEntrySearch(query = tag.name))
-                },
-                modifier = Modifier
-                    .padding(
-                        start = AppTheme.dimensions.padding.P_2,
-                        top = AppTheme.dimensions.padding.P_2,
-                        end = AppTheme.dimensions.padding.P_2,
+    EntryList(
+        items = state?.entryTags?.map(EntryTag::entry) ?: emptyList(),
+        onEntryClick = { entry -> viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entry)) },
+        onTagClick = { tag ->
+            viewModel.dispatchIntent(TagDetailIntent.OpenEntrySearch(query = tag.name))
+        },
+        modifier = modifier,
+        header = {
+            stickyHeader {
+                FormRow {
+                    TextInput(
+                        input = viewModel.name,
+                        onInputChange = { input -> viewModel.name = input },
+                        label = getString(Res.string.name),
+                        modifier = Modifier.fillMaxWidth(),
+                        supportingText = viewModel.error?.let { error -> { Text(error) } },
+                        isError = viewModel.error != null,
                     )
-                    .animateItem(),
-            )
-        }
-    }
+                }
+            }
+            item { Divider(orientation = Orientation.Vertical) }
+        },
+    )
 }

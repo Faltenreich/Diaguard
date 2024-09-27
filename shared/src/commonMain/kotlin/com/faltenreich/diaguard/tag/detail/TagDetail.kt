@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.tag.detail
 
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -42,14 +43,16 @@ fun TagDetail(
             items = state?.entryTags ?: emptyList(),
             key = EntryTag.Local::id,
         ) { entryTag ->
-            EntryListItem(
-                entry = entryTag.entry,
-                onClick = { viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entryTag.entry)) },
-                onTagClick = { tag ->
-                    viewModel.dispatchIntent(TagDetailIntent.OpenEntrySearch(query = tag.name))
-                },
-            )
-            Divider(orientation = Orientation.Vertical)
+            Column(modifier = Modifier.animateItem()) {
+                EntryListItem(
+                    entry = entryTag.entry,
+                    onClick = { viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entryTag.entry)) },
+                    onTagClick = { tag ->
+                        viewModel.dispatchIntent(TagDetailIntent.OpenEntrySearch(query = tag.name))
+                    },
+                )
+                Divider(orientation = Orientation.Vertical)
+            }
         }
     }
 }

@@ -1,13 +1,14 @@
 package com.faltenreich.diaguard.tag.detail
 
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.list.EntryListItem
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.shared.di.inject
@@ -38,21 +39,27 @@ fun TagDetail(
                 )
             }
         }
+
         item { Divider(orientation = Orientation.Vertical) }
+
         items(
             items = state?.entryTags ?: emptyList(),
             key = EntryTag.Local::id,
         ) { entryTag ->
-            Column(modifier = Modifier.animateItem()) {
-                EntryListItem(
-                    entry = entryTag.entry,
-                    onClick = { viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entryTag.entry)) },
-                    onTagClick = { tag ->
-                        viewModel.dispatchIntent(TagDetailIntent.OpenEntrySearch(query = tag.name))
-                    },
-                )
-                Divider(orientation = Orientation.Vertical)
-            }
+            EntryListItem(
+                entry = entryTag.entry,
+                onClick = { viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entryTag.entry)) },
+                onTagClick = { tag ->
+                    viewModel.dispatchIntent(TagDetailIntent.OpenEntrySearch(query = tag.name))
+                },
+                modifier = Modifier
+                    .padding(
+                        start = AppTheme.dimensions.padding.P_2,
+                        top = AppTheme.dimensions.padding.P_2,
+                        end = AppTheme.dimensions.padding.P_2,
+                    )
+                    .animateItem(),
+            )
         }
     }
 }

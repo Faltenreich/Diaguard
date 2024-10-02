@@ -12,9 +12,9 @@ import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
 import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItem
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.Flow
@@ -34,9 +34,9 @@ class LogViewModel(
     private val currentDate = MutableStateFlow(initialDate)
 
     val pagingData = Pager(
-        config = LogItemSource.newConfig(),
+        config = LogPagingSource.newConfig(),
         initialKey = initialDate,
-        pagingSourceFactory = { LogItemSource().also { dataSource = it } },
+        pagingSourceFactory = { LogPagingSource().also { dataSource = it } },
     ).flow.cachedIn(scope)
 
     private val monthHeaderSize = MutableStateFlow(IntSize.Zero)

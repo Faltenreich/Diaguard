@@ -46,8 +46,8 @@ class EntrySqlDelightDao(
         ).executeAsList()
     }
 
-    override fun getByQuery(query: String): Flow<List<Entry.Local>> {
-        return queries.getByQuery(query, mapper::map).asFlow().mapToList(dispatcher)
+    override fun getByQuery(query: String): List<Entry.Local> {
+        return queries.getByQuery(query, mapper::map).executeAsList()
     }
 
     override fun getAll(): Flow<List<Entry.Local>> {

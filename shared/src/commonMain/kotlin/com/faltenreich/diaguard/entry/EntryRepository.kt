@@ -38,7 +38,7 @@ class EntryRepository(
         return dao.getByDateRange(startDateTime, endDateTime)
     }
 
-    fun getByQuery(query: String): Flow<List<Entry.Local>> {
+    fun getByQuery(query: String): List<Entry.Local> {
         return dao.getByQuery(query)
     }
 

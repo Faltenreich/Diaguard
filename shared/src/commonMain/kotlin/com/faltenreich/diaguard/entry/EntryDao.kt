@@ -23,7 +23,7 @@ interface EntryDao {
         endDateTime: DateTime,
     ): List<Entry.Local>
 
-    fun getByQuery(query: String): Flow<List<Entry.Local>>
+    fun getByQuery(query: String): List<Entry.Local>
 
     fun getAll(): Flow<List<Entry.Local>>
 

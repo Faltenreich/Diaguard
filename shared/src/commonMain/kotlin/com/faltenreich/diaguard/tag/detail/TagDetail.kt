@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.entry.list.EntryList
-import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
@@ -23,7 +22,7 @@ fun TagDetail(
     val state = viewModel.collectState()
 
     EntryList(
-        items = state?.entryTags?.map(EntryTag::entry) ?: emptyList(),
+        items = TODO(),
         onEntryClick = { entry -> viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entry)) },
         onTagClick = { tag ->
             viewModel.dispatchIntent(TagDetailIntent.OpenEntrySearch(query = tag.name))

@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.paging.LoadState
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -25,25 +27,28 @@ fun EntrySearch(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        when (val viewState = viewModel.collectState()) {
-            null -> Unit
-            is EntrySearchState.Idle ->  Text(getString(Res.string.entry_search_placeholder))
-            is EntrySearchState.Loading -> LoadingIndicator()
-            is EntrySearchState.Result -> {
-                val scope = rememberCoroutineScope()
-                val listState = rememberLazyListState()
+        val items = viewModel.pagingData.collectAsLazyPagingItems()
+        val scope = rememberCoroutineScope()
+        val listState = rememberLazyListState()
 
-                EntryList(
-                    items = viewState.items ?: emptyList(),
-                    onEntryClick = { entry ->
-                        viewModel.dispatchIntent(EntrySearchIntent.OpenEntry(entry))
-                    },
-                    onTagClick = { tag ->
-                        viewModel.query = tag.name
-                        scope.launch { listState.scrollToItem(0) }
-                    },
-                    listState = listState,
-                )
+        EntryList(
+            items = items,
+            onEntryClick = { entry ->
+                viewModel.dispatchIntent(EntrySearchIntent.OpenEntry(entry))
+            },
+            onTagClick = { tag ->
+                viewModel.query = tag.name
+                scope.launch { listState.scrollToItem(0) }
+            },
+            listState = listState,
+        )
+
+        return
+
+        when {
+            items.loadState.isIdle -> Text(getString(Res.string.entry_search_placeholder))
+            items.loadState.refresh is LoadState.Loading -> LoadingIndicator()
+            else -> {
             }
         }
     }

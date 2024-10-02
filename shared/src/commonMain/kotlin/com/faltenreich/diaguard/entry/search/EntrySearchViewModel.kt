@@ -4,14 +4,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import androidx.paging.Pager
+import androidx.paging.cachedIn
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.list.EntryListPagingSource
+import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlin.time.Duration.Companion.seconds
@@ -22,21 +24,22 @@ class EntrySearchViewModel(
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<EntrySearchState, EntrySearchIntent, Unit>() {
 
-    override val state = MutableStateFlow<EntrySearchState>(EntrySearchState.Idle)
-
     var query: String by mutableStateOf("")
+
+    private lateinit var pagingSource: EntryListPagingSource
+    val pagingData = Pager(
+        config = EntryListPagingSource.newConfig(),
+        initialKey = 0,
+        pagingSourceFactory = { EntryListPagingSource(getEntries = { page -> searchEntries(query = query, page = page) }).also { pagingSource = it } },
+    ).flow.cachedIn(scope)
+
+    override val state = MutableStateFlow<EntrySearchState>(EntrySearchState.Idle)
 
     init {
         snapshotFlow { this.query }
             .debounce(1.seconds)
             .distinctUntilChanged()
-            .onEach { state.value = EntrySearchState.Loading }
-            .flatMapLatest { searchEntries(it) }
-            .onEach {
-                state.value =
-                    if (this.query.isBlank()) EntrySearchState.Idle
-                    else EntrySearchState.Result(it)
-            }
+            .onEach { pagingSource.invalidate() }
             .launchIn(scope)
 
         if (query.isNotBlank()) {

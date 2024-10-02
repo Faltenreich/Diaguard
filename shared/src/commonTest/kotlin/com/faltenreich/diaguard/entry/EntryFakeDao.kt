@@ -40,8 +40,8 @@ open class EntryFakeDao : EntryDao {
         return cache.filter { it.dateTime > startDateTime && it.dateTime < endDateTime }
     }
 
-    override fun getByQuery(query: String): Flow<List<Entry.Local>> {
-        return flowOf(cache.filter { it.note == query })
+    override fun getByQuery(query: String): List<Entry.Local> {
+        return cache.filter { it.note == query }
     }
 
     override fun getAll(): Flow<List<Entry.Local>> {

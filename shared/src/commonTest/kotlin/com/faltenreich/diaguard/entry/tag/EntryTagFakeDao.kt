@@ -33,8 +33,8 @@ open class EntryTagFakeDao(
         return cache.filter { it.entry.id == entryId }
     }
 
-    override fun observeByTagId(tagId: Long): Flow<List<EntryTag.Local>> {
-        return flowOf(cache.filter { it.tag.id == tagId })
+    override fun getByTagId(tagId: Long): List<EntryTag.Local> {
+        return cache.filter { it.tag.id == tagId }
     }
 
     override fun countByTagId(tagId: Long): Flow<Long> {

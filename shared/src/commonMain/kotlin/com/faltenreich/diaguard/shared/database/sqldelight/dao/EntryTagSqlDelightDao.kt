@@ -1,15 +1,14 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.entry.tag.EntryTag
+import com.faltenreich.diaguard.entry.tag.EntryTagDao
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryTagQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntryTagSqlDelightMapper
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.entry.tag.EntryTag
-import com.faltenreich.diaguard.entry.tag.EntryTagDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
@@ -44,8 +43,8 @@ class EntryTagSqlDelightDao(
         return queries.getByEntry(entryId, mapper::map).executeAsList()
     }
 
-    override fun observeByTagId(tagId: Long): Flow<List<EntryTag.Local>> {
-        return queries.getByTag(tagId, mapper::map).asFlow().mapToList(dispatcher)
+    override fun getByTagId(tagId: Long): List<EntryTag.Local> {
+        return queries.getByTag(tagId, mapper::map).executeAsList()
     }
 
     override fun countByTagId(tagId: Long): Flow<Long> {

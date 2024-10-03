@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -19,10 +20,10 @@ fun TagDetail(
     modifier: Modifier = Modifier,
     viewModel: TagDetailViewModel = inject(),
 ) {
-    val state = viewModel.collectState()
+    val items = viewModel.pagingData.collectAsLazyPagingItems()
 
     EntryList(
-        items = TODO(),
+        items = items,
         onEntryClick = { entry -> viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entry)) },
         onTagClick = { tag ->
             viewModel.dispatchIntent(TagDetailIntent.OpenEntrySearch(query = tag.name))

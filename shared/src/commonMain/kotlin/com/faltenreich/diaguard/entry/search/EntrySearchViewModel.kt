@@ -11,9 +11,9 @@ import com.faltenreich.diaguard.entry.list.EntryListPagingSource
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlin.time.Duration.Companion.seconds
@@ -22,7 +22,9 @@ class EntrySearchViewModel(
     query: String = "",
     searchEntries: SearchEntriesUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<EntrySearchState, EntrySearchIntent, Unit>() {
+) : ViewModel<Unit, EntrySearchIntent, Unit>() {
+
+    override val state = emptyFlow<Unit>()
 
     var query: String by mutableStateOf("")
 
@@ -40,8 +42,6 @@ class EntrySearchViewModel(
             ).also { pagingSource = it }
         },
     ).flow.cachedIn(scope)
-
-    override val state = MutableStateFlow<EntrySearchState>(EntrySearchState.Idle)
 
     init {
         snapshotFlow { this.query }

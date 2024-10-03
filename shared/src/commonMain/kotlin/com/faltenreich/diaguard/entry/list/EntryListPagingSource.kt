@@ -39,7 +39,7 @@ class EntryListPagingSource(
         return PagingSourceLoadResultPage(
             data = entries,
             prevKey = null,
-            nextKey = page + 1,
+            nextKey = if (entries.isNotEmpty()) page + 1 else null,
         )
     }
 

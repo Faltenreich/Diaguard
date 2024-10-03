@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.shared.data.PagingPage
 import kotlinx.coroutines.flow.Flow
 
 interface EntryDao {
@@ -23,7 +24,7 @@ interface EntryDao {
         endDateTime: DateTime,
     ): List<Entry.Local>
 
-    fun getByQuery(query: String): List<Entry.Local>
+    fun getByQuery(query: String, page: PagingPage): List<Entry.Local>
 
     fun getAll(): Flow<List<Entry.Local>>
 

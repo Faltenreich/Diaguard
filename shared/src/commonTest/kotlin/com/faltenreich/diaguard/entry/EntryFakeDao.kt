@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.entry
 
 import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.shared.data.PagingPage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -40,8 +41,8 @@ open class EntryFakeDao : EntryDao {
         return cache.filter { it.dateTime > startDateTime && it.dateTime < endDateTime }
     }
 
-    override fun getByQuery(query: String): List<Entry.Local> {
-        return cache.filter { it.note == query }
+    override fun getByQuery(query: String, page: PagingPage): List<Entry.Local> {
+        return cache.filter { it.note == query }.subList(page.page * page.pageSize, page.pageSize)
     }
 
     override fun getAll(): Flow<List<Entry.Local>> {

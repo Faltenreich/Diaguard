@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.shared.data.PagingPage
 import kotlinx.coroutines.flow.Flow
 
 class EntryRepository(
@@ -38,8 +39,8 @@ class EntryRepository(
         return dao.getByDateRange(startDateTime, endDateTime)
     }
 
-    fun getByQuery(query: String): List<Entry.Local> {
-        return dao.getByQuery(query)
+    fun getByQuery(query: String, page: PagingPage): List<Entry.Local> {
+        return dao.getByQuery(query, page)
     }
 
     fun getAll(): Flow<List<Entry.Local>> {

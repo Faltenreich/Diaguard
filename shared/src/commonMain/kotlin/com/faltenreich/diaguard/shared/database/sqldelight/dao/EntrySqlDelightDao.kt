@@ -7,6 +7,7 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryDao
+import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntrySqlDelightMapper
@@ -46,8 +47,13 @@ class EntrySqlDelightDao(
         ).executeAsList()
     }
 
-    override fun getByQuery(query: String): List<Entry.Local> {
-        return queries.getByQuery(query, mapper::map).executeAsList()
+    override fun getByQuery(query: String, page: PagingPage): List<Entry.Local> {
+        return queries.getByQuery(
+            query = query,
+            offset = page.page.toLong() * page.pageSize.toLong(),
+            limit = page.pageSize.toLong(),
+            mapper = mapper::map,
+        ).executeAsList()
     }
 
     override fun getAll(): Flow<List<Entry.Local>> {

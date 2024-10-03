@@ -15,13 +15,10 @@ class SearchEntriesUseCase(
 ) {
 
     operator fun invoke(query: String, page: PagingPage): List<Entry.Local> {
-        // TODO: Support page
-        if (page.page > 0) return emptyList()
-
         return if (query.isBlank()) {
             emptyList()
         } else {
-            entryRepository.getByQuery(query).map { entry ->
+            entryRepository.getByQuery(query, page).map { entry ->
                 entry.apply {
                     values = valueRepository.getByEntryId(entry.id)
                     entryTags = entryTagRepository.getByEntryId(entry.id)

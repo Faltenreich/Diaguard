@@ -1,32 +1,31 @@
 package com.faltenreich.diaguard.entry.list
 
-import app.cash.paging.PagingConfig
-import app.cash.paging.PagingSource
-import app.cash.paging.PagingSourceLoadParams
-import app.cash.paging.PagingSourceLoadResult
-import app.cash.paging.PagingSourceLoadResultPage
+import androidx.paging.PagingConfig
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.di.inject
 
 class EntryListPagingSource(
-    private val getEntries: (page: Int) -> List<Entry.Local>,
+    private val getEntries: (PagingPage) -> List<Entry.Local>,
     private val valueRepository: MeasurementValueRepository = inject(),
     private val entryTagRepository: EntryTagRepository = inject(),
     private val foodEatenRepository: FoodEatenRepository = inject(),
-) : PagingSource<Int, Entry.Local>() {
+) : PagingSource<PagingPage, Entry.Local>() {
 
-    override fun getRefreshKey(state: androidx.paging.PagingState<Int, Entry.Local>): Int? {
+    override fun getRefreshKey(state: PagingState<PagingPage, Entry.Local>): PagingPage? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: PagingSourceLoadParams<Int>): PagingSourceLoadResult<Int, Entry.Local> {
-        val page = params.key ?: 0
+    override suspend fun load(params: LoadParams<PagingPage>): LoadResult<PagingPage, Entry.Local> {
+        val page = params.key ?: PagingPage(page = 0, pageSize = params.loadSize)
 
         val entries = getEntries(page).map { entry ->
             entry.apply {
@@ -36,7 +35,7 @@ class EntryListPagingSource(
             }
         }
 
-        return PagingSourceLoadResultPage(
+        return LoadResult.Page(
             data = entries,
             prevKey = null,
             nextKey = if (entries.isNotEmpty()) page + 1 else null,

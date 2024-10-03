@@ -29,7 +29,6 @@ class EntrySearchViewModel(
     private lateinit var pagingSource: EntryListPagingSource
     val pagingData = Pager(
         config = EntryListPagingSource.newConfig(),
-        initialKey = 0,
         pagingSourceFactory = {
             EntryListPagingSource(
                 getEntries = { page ->

@@ -20,7 +20,7 @@ class FoodSearchSource(
     }
 
     override suspend fun load(params: LoadParams<PagingPage>): LoadResult<PagingPage, Food.Local> {
-        val page = params.key ?: PagingPage(page = 0, pageSize = PAGE_SIZE)
+        val page = params.key ?: PagingPage(page = 0, pageSize = params.loadSize)
         Logger.debug("Loading food for query \"$query\" at page $page")
         val food = searchFood(query, page)
         Logger.debug("Loaded ${food.size} food for query \"$query\" at page $page")

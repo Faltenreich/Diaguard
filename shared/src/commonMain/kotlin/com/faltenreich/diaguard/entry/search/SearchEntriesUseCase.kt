@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.shared.data.PagingPage
 
 class SearchEntriesUseCase(
     private val entryRepository: EntryRepository,
@@ -13,9 +14,9 @@ class SearchEntriesUseCase(
     private val foodEatenRepository: FoodEatenRepository,
 ) {
 
-    operator fun invoke(query: String, page: Int): List<Entry.Local> {
+    operator fun invoke(query: String, page: PagingPage): List<Entry.Local> {
         // TODO: Support page
-        if (page > 0) return emptyList()
+        if (page.page > 0) return emptyList()
 
         return if (query.isBlank()) {
             emptyList()

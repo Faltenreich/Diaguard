@@ -30,7 +30,16 @@ class EntrySearchViewModel(
     val pagingData = Pager(
         config = EntryListPagingSource.newConfig(),
         initialKey = 0,
-        pagingSourceFactory = { EntryListPagingSource(getEntries = { page -> searchEntries(query = query, page = page) }).also { pagingSource = it } },
+        pagingSourceFactory = {
+            EntryListPagingSource(
+                getEntries = { page ->
+                    searchEntries(
+                        query = this.query,
+                        page = page,
+                    )
+                },
+            ).also { pagingSource = it }
+        },
     ).flow.cachedIn(scope)
 
     override val state = MutableStateFlow<EntrySearchState>(EntrySearchState.Idle)

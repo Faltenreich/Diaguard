@@ -17,12 +17,17 @@ class SearchEntriesUseCase(
         // TODO: Support page
         if (page > 0) return emptyList()
 
-        return entryRepository.getByQuery(query).map { entry ->
-            entry.apply {
-                values = valueRepository.getByEntryId(entry.id)
-                entryTags = entryTagRepository.getByEntryId(entry.id)
-                foodEaten = foodEatenRepository.getByEntryId(entry.id)
+        return if (query.isBlank()) {
+            emptyList()
+        } else {
+            entryRepository.getByQuery(query).map { entry ->
+                entry.apply {
+                    values = valueRepository.getByEntryId(entry.id)
+                    entryTags = entryTagRepository.getByEntryId(entry.id)
+                    foodEaten = foodEatenRepository.getByEntryId(entry.id)
+                }
             }
         }
+
     }
 }

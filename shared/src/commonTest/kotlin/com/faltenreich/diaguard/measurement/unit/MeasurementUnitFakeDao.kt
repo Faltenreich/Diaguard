@@ -36,7 +36,6 @@ open class MeasurementUnitFakeDao(
             isSelected = isSelected,
             property = propertyDao.getById(propertyId)!!,
         ).also { unit ->
-            // TODO: Find better way to lateinit selected unit
             (propertyDao as MeasurementPropertyFakeDao).updateSelectedUnit(unit)
         }
     }

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.StringResource
 
-// TODO: Implement Serializable
 sealed class PreferenceListItem(
     val title: StringResource,
     val subtitle: String?,

@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.list.DateListItemStyle
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.log.item.LogLoadingIndicator
+import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.tag.Tag
 
 @Composable
@@ -26,34 +27,35 @@ fun EntryList(
     listState: LazyListState = rememberLazyListState(),
     header: LazyListScope.() -> Unit = {},
 ) {
+    Logger.debug("EntryList updated: ${items.loadState}")
+
     LazyColumn(
         state = listState,
         modifier = modifier.fillMaxSize(),
     ) {
         header()
 
-        for (index in 0 until items.itemCount) {
-            val peek = checkNotNull(items.peek(index))
-            item(key = peek.id) {
-                val entry = checkNotNull(items[index])
-                EntryListItem(
-                    entry = entry,
-                    // TODO: Determine in ViewModel
-                    style = DateListItemStyle(
-                        isVisible = true,
-                        isHighlighted = false,
-                    ),
-                    onClick = { onEntryClick(entry) },
-                    onTagClick = onTagClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = AppTheme.dimensions.padding.P_3,
-                            vertical = AppTheme.dimensions.padding.P_2,
-                        )
-                        .animateItem(),
-                )
-            }
+        items(
+            count = items.itemCount,
+            key = { index -> checkNotNull(items.peek(index)).id },
+        ) { index ->
+            val entry = checkNotNull(items[index])
+            EntryListItem(
+                entry = entry,
+                style = DateListItemStyle(
+                    isVisible = true,
+                    isHighlighted = false,
+                ),
+                onClick = { onEntryClick(entry) },
+                onTagClick = onTagClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = AppTheme.dimensions.padding.P_3,
+                        vertical = AppTheme.dimensions.padding.P_2,
+                    )
+                    .animateItem(),
+            )
         }
 
         if (items.loadState.append == LoadState.Loading) {

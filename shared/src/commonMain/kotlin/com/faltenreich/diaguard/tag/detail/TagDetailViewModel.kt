@@ -47,7 +47,7 @@ class TagDetailViewModel(
         pagingSourceFactory = {
             EntryListPagingSource(
                 getEntries = { page ->
-                    getEntriesOfTag(tag)
+                    getEntriesOfTag(tag, page)
                 },
             )
         },

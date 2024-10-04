@@ -56,8 +56,13 @@ class EntrySqlDelightDao(
         ).executeAsList()
     }
 
-    override fun getByTagId(tagId: Long): List<Entry.Local> {
-        return queries.getByTag(tagId, mapper::map).executeAsList()
+    override fun getByTagId(tagId: Long, page: PagingPage): List<Entry.Local> {
+        return queries.getByTag(
+            tagId = tagId,
+            offset = page.page.toLong() * page.pageSize.toLong(),
+            limit = page.pageSize.toLong(),
+            mapper = mapper::map,
+        ).executeAsList()
     }
 
     override fun getAll(): Flow<List<Entry.Local>> {

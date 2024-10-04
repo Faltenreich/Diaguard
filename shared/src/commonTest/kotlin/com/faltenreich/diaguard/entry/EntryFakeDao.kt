@@ -42,11 +42,15 @@ open class EntryFakeDao : EntryDao {
     }
 
     override fun getByQuery(query: String, page: PagingPage): List<Entry.Local> {
-        return cache.filter { it.note == query }.subList(page.page * page.pageSize, page.pageSize)
+        return cache
+            .filter { it.note == query }
+            .subList(page.page * page.pageSize, page.pageSize)
     }
 
-    override fun getByTagId(tagId: Long): List<Entry.Local> {
-        return cache.filter { it.entryTags.any { entryTag -> entryTag.tag.id == tagId } }.distinct()
+    override fun getByTagId(tagId: Long, page: PagingPage): List<Entry.Local> {
+        return cache
+            .filter { it.entryTags.any { entryTag -> entryTag.tag.id == tagId } }
+            .subList(page.page * page.pageSize, page.pageSize)
     }
 
     override fun getAll(): Flow<List<Entry.Local>> {

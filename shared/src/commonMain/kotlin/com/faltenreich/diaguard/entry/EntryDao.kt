@@ -26,7 +26,7 @@ interface EntryDao {
 
     fun getByQuery(query: String, page: PagingPage): List<Entry.Local>
 
-    fun getByTagId(tagId: Long): List<Entry.Local>
+    fun getByTagId(tagId: Long, page: PagingPage): List<Entry.Local>
 
     fun getAll(): Flow<List<Entry.Local>>
 

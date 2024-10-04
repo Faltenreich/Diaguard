@@ -45,6 +45,10 @@ open class EntryFakeDao : EntryDao {
         return cache.filter { it.note == query }.subList(page.page * page.pageSize, page.pageSize)
     }
 
+    override fun getByTagId(tagId: Long): List<Entry.Local> {
+        return cache.filter { it.entryTags.any { entryTag -> entryTag.tag.id == tagId } }.distinct()
+    }
+
     override fun getAll(): Flow<List<Entry.Local>> {
         return flowOf(cache)
     }

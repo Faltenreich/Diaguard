@@ -19,6 +19,13 @@ SELECT * FROM Entry WHERE id = ?;
 getByDateRange:
 SELECT * FROM Entry WHERE dateTime >= :startDateTime AND dateTime <= :endDateTime ORDER BY dateTime;
 
+getByTag:
+SELECT Entry.* FROM Entry
+INNER JOIN EntryTag ON Entry.id == EntryTag.entryId
+INNER JOIN Tag ON Tag.id == EntryTag.tagId
+WHERE EntryTag.tagId = ?
+ORDER BY EntryTag.updatedAt DESC;
+
 getAll:
 SELECT * FROM Entry ORDER BY dateTime DESC;
 

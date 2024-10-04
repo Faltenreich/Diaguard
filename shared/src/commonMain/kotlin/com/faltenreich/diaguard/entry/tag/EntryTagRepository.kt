@@ -36,10 +36,6 @@ class EntryTagRepository(
         return dao.getByEntryId(entryId)
     }
 
-    fun getByTagId(tagId: Long): List<EntryTag.Local> {
-        return dao.getByTagId(tagId)
-    }
-
     fun deleteById(id: Long) {
         dao.deleteById(id)
     }

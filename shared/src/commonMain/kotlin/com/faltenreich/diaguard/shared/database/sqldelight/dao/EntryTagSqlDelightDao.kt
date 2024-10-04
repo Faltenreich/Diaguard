@@ -43,10 +43,6 @@ class EntryTagSqlDelightDao(
         return queries.getByEntry(entryId, mapper::map).executeAsList()
     }
 
-    override fun getByTagId(tagId: Long): List<EntryTag.Local> {
-        return queries.getByTag(tagId, mapper::map).executeAsList()
-    }
-
     override fun countByTagId(tagId: Long): Flow<Long> {
         return queries.countByTag(tagId).asFlow().mapToOne(dispatcher)
     }

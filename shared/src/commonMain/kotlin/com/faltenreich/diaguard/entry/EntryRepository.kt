@@ -43,6 +43,10 @@ class EntryRepository(
         return dao.getByQuery(query, page)
     }
 
+    fun getByTagId(tagId: Long): List<Entry.Local> {
+        return dao.getByTagId(tagId)
+    }
+
     fun getAll(): Flow<List<Entry.Local>> {
         return dao.getAll()
     }

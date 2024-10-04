@@ -56,6 +56,10 @@ class EntrySqlDelightDao(
         ).executeAsList()
     }
 
+    override fun getByTagId(tagId: Long): List<Entry.Local> {
+        return queries.getByTag(tagId, mapper::map).executeAsList()
+    }
+
     override fun getAll(): Flow<List<Entry.Local>> {
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }

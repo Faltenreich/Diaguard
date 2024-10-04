@@ -22,13 +22,6 @@ INNER JOIN Tag ON Tag.id == EntryTag.tagId
 WHERE EntryTag.entryId = ?
 ORDER BY EntryTag.updatedAt DESC;
 
-getByTag:
-SELECT * FROM EntryTag
-INNER JOIN Entry ON Entry.id == EntryTag.entryId
-INNER JOIN Tag ON Tag.id == EntryTag.tagId
-WHERE EntryTag.tagId = ?
-ORDER BY EntryTag.updatedAt DESC;
-
 countByTag:
 SELECT COUNT(*) FROM EntryTag WHERE id = ?;
 

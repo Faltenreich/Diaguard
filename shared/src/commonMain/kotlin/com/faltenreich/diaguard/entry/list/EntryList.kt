@@ -35,12 +35,14 @@ fun EntryList(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        when {
-            items.loadState.refresh == LoadState.Loading -> LoadingIndicator()
-
-            items.itemCount == 0 -> Text(getString(Res.string.entry_search_placeholder))
-
-            else -> LazyColumn(
+        if (items.itemCount == 0) {
+            if (items.loadState.refresh == LoadState.Loading) {
+                LoadingIndicator()
+            } else {
+                Text(getString(Res.string.entry_search_placeholder))
+            }
+        } else {
+            LazyColumn(
                 state = listState,
                 modifier = Modifier.fillMaxSize(),
             ) {

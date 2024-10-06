@@ -44,8 +44,6 @@ class EntrySearchViewModel(
     ).flow.cachedIn(scope)
 
     init {
-        // FIXME: Starts with loading instead of empty placeholder
-        // FIXME: Does not trigger loading again, maybe replace invalidate() with refresh()?
         snapshotFlow { this.query }
             .debounce(1.seconds)
             .distinctUntilChanged()

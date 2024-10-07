@@ -14,9 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.log.item.LogLoadingIndicator
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.tag.Tag
 import diaguard.shared.generated.resources.Res
@@ -29,6 +32,8 @@ fun EntryList(
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
+    // TODO: Format in ViewModel
+    dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -55,6 +60,15 @@ fun EntryList(
                         entry = entry,
                         onClick = { onEntryClick(entry) },
                         onTagClick = onTagClick,
+                        dateTime = {
+                            Text(
+                                text = "%s, %s".format(
+                                    dateTimeFormatter.formatMonth(entry.dateTime.date.month, abbreviated = true),
+                                    dateTimeFormatter.formatDateTime(entry.dateTime)
+                                ),
+                                style = AppTheme.typography.titleMedium,
+                            )
+                        },
                         modifier = Modifier
                             .animateItem()
                             .fillMaxWidth()

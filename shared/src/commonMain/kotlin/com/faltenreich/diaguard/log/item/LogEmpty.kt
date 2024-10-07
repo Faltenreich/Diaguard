@@ -11,24 +11,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.list.LogDay
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.log.LogIntent
 import com.faltenreich.diaguard.shared.localization.getString
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.no_entries
 
 @Composable
 fun LogEmpty(
-    item: LogItem.EmptyContent,
+    state: LogItemState.EmptyContent,
     onIntent: (LogIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier) {
         LogDay(
-            date = item.date,
-            style = item.style,
+            date = state.date,
+            style = state.style,
             modifier = Modifier.width(AppTheme.dimensions.size.LogDayWidth),
         )
         Card(
-            onClick = { onIntent(LogIntent.CreateEntry(item.date)) },
+            onClick = { onIntent(LogIntent.CreateEntry(state.date)) },
             modifier = Modifier.fillMaxSize(),
             colors = CardDefaults.cardColors(containerColor = AppTheme.colors.Transparent),
         ) {

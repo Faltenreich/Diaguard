@@ -7,14 +7,14 @@ import com.faltenreich.diaguard.tag.Tag
 
 @Composable
 fun LogEntry(
-    item: LogItem.EntryContent,
+    state: LogItemState.EntryContent,
     onClick: () -> Unit,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     EntryListItem(
-        entry = item.entry,
-        style = item.style,
+        entry = state.entry,
+        style = state.style,
         onClick = onClick,
         onTagClick = onTagClick,
         modifier = modifier,

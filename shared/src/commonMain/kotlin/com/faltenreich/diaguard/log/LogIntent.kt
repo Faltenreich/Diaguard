@@ -4,7 +4,7 @@ import androidx.compose.foundation.lazy.LazyListItemInfo
 import androidx.compose.ui.unit.IntSize
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.log.item.LogItemState
 
 sealed interface LogIntent {
 
@@ -12,7 +12,7 @@ sealed interface LogIntent {
 
     data class CacheDayHeaderSize(val size: IntSize) : LogIntent
 
-    data class OnScroll(val firstItem: LogItem, val nextItems: List<LazyListItemInfo>) : LogIntent
+    data class OnScroll(val firstItem: LogItemState, val nextItems: List<LazyListItemInfo>) : LogIntent
 
     data class CreateEntry(val date: Date? = null) : LogIntent
 

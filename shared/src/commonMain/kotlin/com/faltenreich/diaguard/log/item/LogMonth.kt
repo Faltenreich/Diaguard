@@ -16,7 +16,7 @@ private const val ASPECT_RATIO = 32f / 9f
 
 @Composable
 fun LogMonth(
-    item: LogItem.MonthHeader,
+    state: LogItemState.MonthHeader,
     modifier: Modifier = Modifier,
     formatter: DateTimeFormatter = inject(),
 ) {
@@ -28,7 +28,7 @@ fun LogMonth(
         contentAlignment = Alignment.BottomStart,
     ) {
         Text(
-            text = formatter.formatMonthOfYear(item.date.monthOfYear, abbreviated = false),
+            text = formatter.formatMonthOfYear(state.date.monthOfYear, abbreviated = false),
             color = AppTheme.colors.scheme.onPrimary,
             style = AppTheme.typography.headlineSmall,
         )

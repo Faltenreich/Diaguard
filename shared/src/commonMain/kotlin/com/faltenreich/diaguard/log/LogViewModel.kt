@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
 import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
-import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.log.item.LogItemState
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
@@ -30,7 +30,7 @@ class LogViewModel(
 ) : ViewModel<LogState, LogIntent, Unit>() {
 
     private val initialDate: Date = getToday()
-    private lateinit var dataSource: PagingSource<Date, LogItem>
+    private lateinit var dataSource: PagingSource<Date, LogItemState>
     private val currentDate = MutableStateFlow(initialDate)
 
     val pagingData = Pager(

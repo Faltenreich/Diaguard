@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
-import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.log.item.LogItemState
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.isAppending
@@ -28,15 +28,15 @@ class LogPagingSource(
     private val valueRepository: MeasurementValueRepository = inject(),
     private val entryTagRepository: EntryTagRepository = inject(),
     private val foodEatenRepository: FoodEatenRepository = inject(),
-) : PagingSource<Date, LogItem>() {
+) : PagingSource<Date, LogItemState>() {
 
     private val today = getTodayUseCase()
 
-    override fun getRefreshKey(state: PagingState<Date, LogItem>): Date? {
+    override fun getRefreshKey(state: PagingState<Date, LogItemState>): Date? {
         return state.closestItemToPosition(0)?.date
     }
 
-    override suspend fun load(params: PagingSourceLoadParams<Date>): PagingSourceLoadResult<Date, LogItem> {
+    override suspend fun load(params: PagingSourceLoadParams<Date>): PagingSourceLoadResult<Date, LogItemState> {
         val key = params.key ?: today
         val startDate: Date
         val endDate: Date
@@ -68,10 +68,10 @@ class LogPagingSource(
         }
 
         val items = DateProgression(startDate, endDate).map { date ->
-            val headers = listOfNotNull(LogItem.MonthHeader(date).takeIf { date.dayOfMonth == 1 })
+            val headers = listOfNotNull(LogItemState.MonthHeader(date).takeIf { date.dayOfMonth == 1 })
             val entriesOfDate = entries.filter { it.dateTime.date == date }
             val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
-                LogItem.EntryContent(
+                LogItemState.EntryContent(
                     entry = entry,
                     style = DateListItemStyle(
                         isVisible = entry == entriesOfDate.first(),
@@ -80,7 +80,7 @@ class LogPagingSource(
                 )
             }
             val content = entryContent ?: listOf(
-                LogItem.EmptyContent(
+                LogItemState.EmptyContent(
                     date = date,
                     style = DateListItemStyle(
                         isVisible = true,

@@ -12,10 +12,10 @@ class InvalidateLogDayStickyHeaderInfoUseCase {
         stickyHeaderInfo: LogDayStickyHeaderInfo,
         monthHeaderSize: IntSize,
         dayHeaderSize: IntSize,
-        firstItem: LogItem,
+        firstItem: LogItemState,
         nextItems: List<LazyListItemInfo>,
     ): LogDayStickyHeaderInfo {
-        if (firstItem is LogItem.MonthHeader) {
+        if (firstItem is LogItemState.MonthHeader) {
             return stickyHeaderInfo.copy(offset = IntOffset(x = 0, y = -dayHeaderSize.height))
         }
 

@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.list.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
-import com.faltenreich.diaguard.log.item.LogItem
+import com.faltenreich.diaguard.log.item.LogItemState
 import com.faltenreich.diaguard.log.item.LogLoadingIndicator
 import com.faltenreich.diaguard.log.item.LogMonth
 import com.faltenreich.diaguard.shared.di.inject
@@ -90,22 +90,22 @@ fun Log(
 
             for (index in 0 until items.itemCount) {
                 when (val peek = items.peek(index)) {
-                    is LogItem.MonthHeader -> stickyHeader(key = peek.key) {
-                        val item = items[index] as? LogItem.MonthHeader
+                    is LogItemState.MonthHeader -> stickyHeader(key = peek.key) {
+                        val item = items[index] as? LogItemState.MonthHeader
                         checkNotNull(item)
                         LogMonth(
-                            item = item,
+                            state = item,
                             modifier = Modifier.onGloballyPositioned {
                                 viewModel.dispatchIntent(LogIntent.CacheMonthHeaderSize(it.size))
                             },
                         )
                     }
 
-                    is LogItem.EntryContent -> item(key = peek.key) {
-                        val item = items[index] as? LogItem.EntryContent
+                    is LogItemState.EntryContent -> item(key = peek.key) {
+                        val item = items[index] as? LogItemState.EntryContent
                         checkNotNull(item)
                         LogEntry(
-                            item = item,
+                            state = item,
                             onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
                             onTagClick = { tag ->
                                 viewModel.dispatchIntent(LogIntent.OpenEntrySearch(query = tag.name))
@@ -119,11 +119,11 @@ fun Log(
                         )
                     }
 
-                    is LogItem.EmptyContent -> item(key = peek.key) {
-                        val item = items[index] as? LogItem.EmptyContent
+                    is LogItemState.EmptyContent -> item(key = peek.key) {
+                        val item = items[index] as? LogItemState.EmptyContent
                         checkNotNull(item)
                         LogEmpty(
-                            item = item,
+                            state = item,
                             onIntent = viewModel::dispatchIntent,
                             modifier = Modifier
                                 .fillMaxWidth()

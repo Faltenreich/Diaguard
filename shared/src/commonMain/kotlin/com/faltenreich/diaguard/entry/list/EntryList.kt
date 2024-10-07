@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.list.DateListItemStyle
+import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.log.item.LogLoadingIndicator
 import com.faltenreich.diaguard.shared.localization.getString
@@ -54,7 +54,7 @@ fun EntryList(
 
                     EntryListItem(
                         entry = entry,
-                        style = DateListItemStyle(
+                        style = LogDayStyle(
                             isVisible = true,
                             isHighlighted = false,
                         ),

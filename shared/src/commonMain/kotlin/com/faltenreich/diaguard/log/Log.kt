@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.list.LogDay
+import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItemState

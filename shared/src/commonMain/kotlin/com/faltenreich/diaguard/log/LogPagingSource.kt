@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
-import com.faltenreich.diaguard.datetime.list.DateListItemStyle
+import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
@@ -73,7 +73,7 @@ class LogPagingSource(
             val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
                 LogItemState.EntryContent(
                     entry = entry,
-                    style = DateListItemStyle(
+                    style = LogDayStyle(
                         isVisible = entry == entriesOfDate.first(),
                         isHighlighted = entry.dateTime.date == today,
                     ),
@@ -82,7 +82,7 @@ class LogPagingSource(
             val content = entryContent ?: listOf(
                 LogItemState.EmptyContent(
                     date = date,
-                    style = DateListItemStyle(
+                    style = LogDayStyle(
                         isVisible = true,
                         isHighlighted = date == today,
                     ),

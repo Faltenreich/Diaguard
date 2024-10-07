@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.entry.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,22 +32,16 @@ fun EntryListItem(
         modifier = modifier,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(AppTheme.dimensions.padding.P_3),
-            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         ) {
             DateTime(state)
-
-            Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
 
             MeasurementValues(state)
 
             EntryTags(state, onTagClick)
 
-            Note(state)
-
-            FoodEaten(state)
+            Footer(state)
         }
     }
 }
@@ -54,22 +50,32 @@ fun EntryListItem(
 private fun DateTime(state: EntryListItemState) {
     Text(
         text = state.dateTimeLocalized,
+        modifier = Modifier.padding(
+            start = AppTheme.dimensions.padding.P_3,
+            top = AppTheme.dimensions.padding.P_3,
+            end = AppTheme.dimensions.padding.P_3,
+        ),
         style = AppTheme.typography.titleMedium,
     )
 }
 
 @Composable
 private fun MeasurementValues(state: EntryListItemState) {
-    state.entry.values.forEach { value ->
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            MeasurementCategoryIcon(value.property.category)
-            Text(
-                // TODO: Format via MeasurementValueMapper
-                text = value.value.toString(),
-            )
+    FlowRow(
+        modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_3),
+        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+    ) {
+        state.entry.values.forEach { value ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                MeasurementCategoryIcon(value.property.category)
+                Text(
+                    // TODO: Format via MeasurementValueMapper
+                    text = value.value.toString(),
+                )
+            }
         }
     }
 }
@@ -79,7 +85,26 @@ private fun EntryTags(state: EntryListItemState, onTagClick: (Tag) -> Unit) {
     EntryTagList(
         tags = state.entry.entryTags.map(EntryTag::tag),
         onTagClick = onTagClick,
+        modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_3),
     )
+}
+
+@Composable
+private fun Footer(state: EntryListItemState) {
+    val note = state.entry.note?.takeIf(String::isNotBlank)
+    val foodEaten = state.entry.foodEaten
+
+    if (note != null || foodEaten.isNotEmpty()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(AppTheme.colors.scheme.surfaceBright)
+                .padding(AppTheme.dimensions.padding.P_3),
+        ) {
+            Note(state)
+            FoodEaten(state)
+        }
+    }
 }
 
 @Composable

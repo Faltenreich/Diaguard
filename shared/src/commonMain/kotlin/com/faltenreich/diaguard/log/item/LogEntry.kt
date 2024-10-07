@@ -1,7 +1,10 @@
 package com.faltenreich.diaguard.log.item
 
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.list.EntryListItem
 import com.faltenreich.diaguard.tag.Tag
 
@@ -12,11 +15,16 @@ fun LogEntry(
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    EntryListItem(
-        entry = state.entry,
-        style = state.style,
-        onClick = onClick,
-        onTagClick = onTagClick,
-        modifier = modifier,
-    )
+    Row(modifier = modifier) {
+        LogDay(
+            date = state.entry.dateTime.date,
+            style = state.style,
+            modifier = Modifier.width(AppTheme.dimensions.size.LogDayWidth),
+        )
+        EntryListItem(
+            entry = state.entry,
+            onClick = onClick,
+            onTagClick = onTagClick,
+        )
+    }
 }

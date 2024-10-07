@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.log.item.LogLoadingIndicator
 import com.faltenreich.diaguard.shared.localization.getString
@@ -54,16 +53,15 @@ fun EntryList(
 
                     EntryListItem(
                         entry = entry,
-                        style = LogDayStyle(
-                            isVisible = true,
-                            isHighlighted = false,
-                        ),
                         onClick = { onEntryClick(entry) },
                         onTagClick = onTagClick,
-                        modifier = Modifier.fillMaxWidth().padding(
-                            horizontal = AppTheme.dimensions.padding.P_3,
-                            vertical = AppTheme.dimensions.padding.P_2,
-                        ).animateItem(),
+                        modifier = Modifier
+                            .animateItem()
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = AppTheme.dimensions.padding.P_3,
+                                vertical = AppTheme.dimensions.padding.P_2,
+                            ),
                     )
                 }
 

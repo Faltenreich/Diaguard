@@ -16,6 +16,7 @@ fun LogDay(
     date: Date,
     style: LogDayStyle,
     modifier: Modifier = Modifier,
+    // TODO: Format in ViewModel
     formatter: DateTimeFormatter = inject(),
 ) {
     if (style.isVisible) {

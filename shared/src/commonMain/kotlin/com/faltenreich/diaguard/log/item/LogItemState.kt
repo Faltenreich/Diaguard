@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.log.item
 
 import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.log.LogKey
 
 sealed interface LogItemState {
@@ -23,15 +23,15 @@ sealed interface LogItemState {
     }
 
     data class EntryContent(
-        val entry: Entry.Local,
+        val entryState: EntryListItemState,
         override val style: LogDayStyle,
     ) : LogItemState {
 
-        override val date = entry.dateTime.date
-        override val key = LogKey.Item(entry.dateTime.date, isFirstOfDay = style.isVisible)
+        override val date = entryState.entry.dateTime.date
+        override val key = LogKey.Item(entryState.entry.dateTime.date, isFirstOfDay = style.isVisible)
 
         override fun toString(): String {
-            return "Entry: ${entry.dateTime}"
+            return "Entry: ${entryState.entry.dateTime}"
         }
     }
 

@@ -106,7 +106,7 @@ fun Log(
                         checkNotNull(item)
                         LogEntry(
                             state = item,
-                            onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entry)) },
+                            onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entryState.entry)) },
                             onTagClick = { tag ->
                                 viewModel.dispatchIntent(LogIntent.OpenEntrySearch(query = tag.name))
                             },

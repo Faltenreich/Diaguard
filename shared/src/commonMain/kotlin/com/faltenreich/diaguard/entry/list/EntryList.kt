@@ -14,12 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.log.item.LogLoadingIndicator
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.LoadingIndicator
 import com.faltenreich.diaguard.tag.Tag
 import diaguard.shared.generated.resources.Res
@@ -27,13 +24,11 @@ import diaguard.shared.generated.resources.entry_search_placeholder
 
 @Composable
 fun EntryList(
-    items: LazyPagingItems<Entry.Local>,
+    items: LazyPagingItems<EntryListItemState>,
     onEntryClick: (Entry.Local) -> Unit,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
-    // TODO: Format in ViewModel
-    dateTimeFormatter: DateTimeFormatter = inject(),
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -52,23 +47,14 @@ fun EntryList(
             ) {
                 items(
                     count = items.itemCount,
-                    key = { index -> checkNotNull(items.peek(index)).id },
+                    key = { index -> checkNotNull(items.peek(index)).entry.id },
                 ) { index ->
-                    val entry = checkNotNull(items[index])
+                    val item = checkNotNull(items[index])
 
                     EntryListItem(
-                        entry = entry,
-                        onClick = { onEntryClick(entry) },
+                        state = item,
+                        onClick = { onEntryClick(item.entry) },
                         onTagClick = onTagClick,
-                        dateTime = {
-                            Text(
-                                text = "%s, %s".format(
-                                    dateTimeFormatter.formatMonth(entry.dateTime.date.month, abbreviated = true),
-                                    dateTimeFormatter.formatDateTime(entry.dateTime)
-                                ),
-                                style = AppTheme.typography.titleMedium,
-                            )
-                        },
                         modifier = Modifier
                             .animateItem()
                             .fillMaxWidth()

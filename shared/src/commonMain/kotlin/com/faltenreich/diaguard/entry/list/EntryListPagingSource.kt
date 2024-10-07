@@ -3,36 +3,45 @@ package com.faltenreich.diaguard.entry.list
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.primitive.format
 
 class EntryListPagingSource(
     private val getEntries: (PagingPage) -> List<Entry.Local>,
     private val valueRepository: MeasurementValueRepository = inject(),
     private val entryTagRepository: EntryTagRepository = inject(),
     private val foodEatenRepository: FoodEatenRepository = inject(),
-) : PagingSource<PagingPage, Entry.Local>() {
+    private val dateTimeFormatter: DateTimeFormatter = inject(),
+) : PagingSource<PagingPage, EntryListItemState>() {
 
-    override fun getRefreshKey(state: PagingState<PagingPage, Entry.Local>): PagingPage? {
+    override fun getRefreshKey(state: PagingState<PagingPage, EntryListItemState>): PagingPage? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<PagingPage>): LoadResult<PagingPage, Entry.Local> {
+    override suspend fun load(params: LoadParams<PagingPage>): LoadResult<PagingPage, EntryListItemState> {
         val page = params.key ?: PagingPage(page = 0, pageSize = params.loadSize)
 
         val entries = getEntries(page).map { entry ->
-            entry.apply {
-                values = valueRepository.getByEntryId(entry.id)
-                entryTags = entryTagRepository.getByEntryId(entry.id)
-                foodEaten = foodEatenRepository.getByEntryId(entry.id)
-            }
+            EntryListItemState(
+                entry = entry.apply {
+                    values = valueRepository.getByEntryId(entry.id)
+                    entryTags = entryTagRepository.getByEntryId(entry.id)
+                    foodEaten = foodEatenRepository.getByEntryId(entry.id)
+                },
+                dateTimeLocalized = "%s, %s".format(
+                    dateTimeFormatter.formatMonth(entry.dateTime.date.month, abbreviated = true),
+                    dateTimeFormatter.formatDateTime(entry.dateTime),
+                ),
+            )
         }
 
         return LoadResult.Page(

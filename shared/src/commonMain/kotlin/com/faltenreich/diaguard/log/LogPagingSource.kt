@@ -10,11 +10,13 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
-import com.faltenreich.diaguard.log.item.LogDayStyle
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
+import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogItemState
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.di.inject
@@ -28,6 +30,7 @@ class LogPagingSource(
     private val valueRepository: MeasurementValueRepository = inject(),
     private val entryTagRepository: EntryTagRepository = inject(),
     private val foodEatenRepository: FoodEatenRepository = inject(),
+    private val dateTimeFormatter: DateTimeFormatter = inject(),
 ) : PagingSource<Date, LogItemState>() {
 
     private val today = getTodayUseCase()
@@ -72,7 +75,10 @@ class LogPagingSource(
             val entriesOfDate = entries.filter { it.dateTime.date == date }
             val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
                 LogItemState.EntryContent(
-                    entry = entry,
+                    entryState = EntryListItemState(
+                        entry = entry,
+                        dateTimeLocalized = dateTimeFormatter.formatTime(entry.dateTime.time),
+                    ),
                     style = LogDayStyle(
                         isVisible = entry == entriesOfDate.first(),
                         isHighlighted = entry.dateTime.date == today,

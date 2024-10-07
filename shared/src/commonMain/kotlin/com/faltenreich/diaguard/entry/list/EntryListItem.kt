@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
@@ -21,10 +20,9 @@ import com.faltenreich.diaguard.tag.Tag
 
 @Composable
 fun EntryListItem(
-    entry: Entry.Local,
+    state: EntryListItemState,
     onClick: () -> Unit,
     onTagClick: (Tag) -> Unit,
-    dateTime: @Composable () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -37,24 +35,32 @@ fun EntryListItem(
                 .padding(AppTheme.dimensions.padding.P_3),
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
         ) {
-            dateTime()
+            DateTime(state)
 
             Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
 
-            MeasurementValues(entry)
+            MeasurementValues(state)
 
-            EntryTags(entry, onTagClick)
+            EntryTags(state, onTagClick)
 
-            Note(entry)
+            Note(state)
 
-            FoodEaten(entry)
+            FoodEaten(state)
         }
     }
 }
 
 @Composable
-private fun MeasurementValues(entry: Entry.Local) {
-    entry.values.forEach { value ->
+private fun DateTime(state: EntryListItemState) {
+    Text(
+        text = state.dateTimeLocalized,
+        style = AppTheme.typography.titleMedium,
+    )
+}
+
+@Composable
+private fun MeasurementValues(state: EntryListItemState) {
+    state.entry.values.forEach { value ->
         Row(
             horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
             verticalAlignment = Alignment.CenterVertically,
@@ -69,24 +75,24 @@ private fun MeasurementValues(entry: Entry.Local) {
 }
 
 @Composable
-private fun EntryTags(entry: Entry.Local, onTagClick: (Tag) -> Unit) {
+private fun EntryTags(state: EntryListItemState, onTagClick: (Tag) -> Unit) {
     EntryTagList(
-        tags = entry.entryTags.map(EntryTag::tag),
+        tags = state.entry.entryTags.map(EntryTag::tag),
         onTagClick = onTagClick,
     )
 }
 
 @Composable
-private fun Note(entry: Entry.Local) {
-    entry.note?.takeIf(String::isNotBlank)?.let { note ->
+private fun Note(state: EntryListItemState) {
+    state.entry.note?.takeIf(String::isNotBlank)?.let { note ->
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
         Text(note)
     }
 }
 
 @Composable
-private fun FoodEaten(entry: Entry.Local) {
-    entry.foodEaten.forEach { foodEaten ->
+private fun FoodEaten(state: EntryListItemState) {
+    state.entry.foodEaten.forEach { foodEaten ->
         Text("${foodEaten.amountInGrams} ${foodEaten.food.name}")
     }
 }

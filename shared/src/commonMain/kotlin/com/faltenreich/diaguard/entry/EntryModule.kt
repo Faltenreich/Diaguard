@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueRule
 import com.faltenreich.diaguard.entry.form.validation.ValidEntryFormInputRule
-import com.faltenreich.diaguard.entry.list.EntryListItemStateMapper
+import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
@@ -26,8 +26,6 @@ fun entryModule() = module {
     singleOf(::EntryRepository)
     singleOf(::EntryTagRepository)
 
-    singleOf(::EntryListItemStateMapper)
-
     singleOf(::GetEntryByIdUseCase)
     singleOf(::GetFoodByIdUseCase)
     singleOf(::GetDateTimeForEntryUseCase)
@@ -35,6 +33,8 @@ fun entryModule() = module {
     singleOf(::GetFoodEatenInputStateUseCase)
     singleOf(::GetTagsByQueryUseCase)
     singleOf(::GetTagsOfEntry)
+    singleOf(::MapEntryListItemStateUseCase)
+
     single {
         ValidateEntryFormInputUseCase(
             dispatcher = get(),

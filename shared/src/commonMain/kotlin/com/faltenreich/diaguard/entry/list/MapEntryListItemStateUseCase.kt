@@ -14,7 +14,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.grams_abbreviation
 import kotlinx.coroutines.flow.first
 
-class EntryListItemStateMapper(
+class MapEntryListItemStateUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val entryTagRepository: EntryTagRepository,
     private val foodEatenRepository: FoodEatenRepository,

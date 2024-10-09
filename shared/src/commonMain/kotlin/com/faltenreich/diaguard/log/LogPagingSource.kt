@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
-import com.faltenreich.diaguard.entry.list.EntryListItemStateMapper
+import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogItemState
 import com.faltenreich.diaguard.shared.di.inject
@@ -23,7 +23,7 @@ import com.faltenreich.diaguard.shared.view.isRefreshing
 class LogPagingSource(
     getTodayUseCase: GetTodayUseCase = inject(),
     private val entryRepository: EntryRepository = inject(),
-    private val mapEntryListItemState: EntryListItemStateMapper = inject(),
+    private val mapEntryListItemState: MapEntryListItemStateUseCase = inject(),
 ) : PagingSource<Date, LogItemState>() {
 
     private val today = getTodayUseCase()

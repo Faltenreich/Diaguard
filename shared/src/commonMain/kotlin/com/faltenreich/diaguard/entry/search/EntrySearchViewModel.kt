@@ -7,8 +7,8 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
-import com.faltenreich.diaguard.entry.list.EntryListItemStateMapper
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
+import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -22,7 +22,7 @@ import kotlin.time.Duration.Companion.seconds
 class EntrySearchViewModel(
     query: String = "",
     searchEntries: SearchEntriesUseCase = inject(),
-    private val mapEntryListItemState: EntryListItemStateMapper = inject(),
+    mapEntryListItemState: MapEntryListItemStateUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<Unit, EntrySearchIntent, Unit>() {
 

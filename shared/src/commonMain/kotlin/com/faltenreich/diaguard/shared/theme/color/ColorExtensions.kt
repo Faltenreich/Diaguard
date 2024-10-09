@@ -52,6 +52,13 @@ fun ColorScheme.animated(): ColorScheme = copy(
     outline = outline.animated(),
     outlineVariant = outlineVariant.animated(),
     scrim = scrim.animated(),
+    surfaceBright = surfaceBright.animated(),
+    surfaceDim = surfaceDim.animated(),
+    surfaceContainer = surfaceContainer.animated(),
+    surfaceContainerHigh = surfaceContainerHigh.animated(),
+    surfaceContainerHighest = surfaceContainerHighest.animated(),
+    surfaceContainerLow = surfaceContainerLow.animated(),
+    surfaceContainerLowest = surfaceContainerLowest.animated(),
 )
 
 fun Char.asColor(): Color {

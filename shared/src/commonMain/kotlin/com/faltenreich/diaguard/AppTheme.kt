@@ -22,6 +22,7 @@ fun AppTheme(
     content: @Composable () -> Unit,
 ) {
     val colorScheme = if (isDarkColorScheme) ColorSchemes.dark else ColorSchemes.light
+
     MaterialTheme(
         colorScheme = colorScheme.animated(),
         typography = Typography(

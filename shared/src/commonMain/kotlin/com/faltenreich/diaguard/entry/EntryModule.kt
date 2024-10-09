@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.entry
 
-import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.GetEntryByIdUseCase
 import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
+import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInputStateUseCase
@@ -13,10 +13,11 @@ import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueRule
 import com.faltenreich.diaguard.entry.form.validation.ValidEntryFormInputRule
+import com.faltenreich.diaguard.entry.list.EntryListItemStateMapper
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
-import com.faltenreich.diaguard.entry.tag.StoreEntryTagsUseCase
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
+import com.faltenreich.diaguard.entry.tag.StoreEntryTagsUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -24,6 +25,8 @@ import org.koin.dsl.module
 fun entryModule() = module {
     singleOf(::EntryRepository)
     singleOf(::EntryTagRepository)
+
+    singleOf(::EntryListItemStateMapper)
 
     singleOf(::GetEntryByIdUseCase)
     singleOf(::GetFoodByIdUseCase)

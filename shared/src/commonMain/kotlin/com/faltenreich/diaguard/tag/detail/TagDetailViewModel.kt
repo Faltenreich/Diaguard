@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.list.EntryListItemStateMapper
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
@@ -26,6 +27,7 @@ class TagDetailViewModel(
     tagId: Long,
     getTagById: GetTagByIdUseCase = inject(),
     getEntriesOfTag: GetEntriesOfTagUseCase = inject(),
+    private val mapEntryListItemState: EntryListItemStateMapper = inject(),
     private val validateTag: ValidateTagUseCase = inject(),
     private val storeTag: StoreTagUseCase = inject(),
     private val deleteTag: DeleteTagUseCase = inject(),
@@ -46,8 +48,8 @@ class TagDetailViewModel(
         config = EntryListPagingSource.newConfig(),
         pagingSourceFactory = {
             EntryListPagingSource(
-                getEntries = { page ->
-                    getEntriesOfTag(tag, page)
+                getData = { page ->
+                    getEntriesOfTag(tag, page).map { entry -> mapEntryListItemState(entry) }
                 },
             )
         },

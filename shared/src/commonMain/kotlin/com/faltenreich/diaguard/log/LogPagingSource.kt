@@ -10,38 +10,20 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
-import com.faltenreich.diaguard.entry.list.EntryListItemState
-import com.faltenreich.diaguard.entry.tag.EntryTagRepository
-import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
+import com.faltenreich.diaguard.entry.list.EntryListItemStateMapper
 import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogItemState
-import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.preference.DecimalPlaces
-import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.localization.Localization
-import com.faltenreich.diaguard.shared.primitive.NumberFormatter
-import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
 import com.faltenreich.diaguard.shared.view.isRefreshing
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.grams_abbreviation
-import kotlinx.coroutines.flow.first
 
 class LogPagingSource(
     getTodayUseCase: GetTodayUseCase = inject(),
     private val entryRepository: EntryRepository = inject(),
-    private val valueRepository: MeasurementValueRepository = inject(),
-    private val entryTagRepository: EntryTagRepository = inject(),
-    private val foodEatenRepository: FoodEatenRepository = inject(),
-    private val getPreference: GetPreferenceUseCase = inject(),
-    private val dateTimeFormatter: DateTimeFormatter = inject(),
-    private val numberFormatter: NumberFormatter = inject(),
-    private val localization: Localization = inject(),
+    private val mapEntryListItemState: EntryListItemStateMapper = inject(),
 ) : PagingSource<Date, LogItemState>() {
 
     private val today = getTodayUseCase()
@@ -73,35 +55,14 @@ class LogPagingSource(
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atStartOfDay(),
             endDateTime = endDate.atEndOfDay(),
-        ).map { entry ->
-            entry.apply {
-                values = valueRepository.getByEntryId(entry.id)
-                entryTags = entryTagRepository.getByEntryId(entry.id)
-                foodEaten = foodEatenRepository.getByEntryId(entry.id)
-            }
-        }
+        )
 
         val items = DateProgression(startDate, endDate).map { date ->
             val headers = listOfNotNull(LogItemState.MonthHeader(date).takeIf { date.dayOfMonth == 1 })
             val entriesOfDate = entries.filter { it.dateTime.date == date }
             val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
                 LogItemState.EntryContent(
-                    entryState = EntryListItemState(
-                        entry = entry,
-                        dateTimeLocalized = dateTimeFormatter.formatTime(entry.dateTime.time),
-                        foodEatenLocalized = entry.foodEaten.map { foodEaten ->
-                            "%s %s %s".format(
-                                numberFormatter(
-                                    number = foodEaten.amountInGrams,
-                                    // TODO: Observe Flow safely
-                                    scale = getPreference(DecimalPlaces).first(),
-                                    locale = localization.getLocale(),
-                                ),
-                                localization.getString(Res.string.grams_abbreviation),
-                                foodEaten.food.name,
-                            )
-                        },
-                    ),
+                    entryState = mapEntryListItemState(entry),
                     style = LogDayStyle(
                         isVisible = entry == entriesOfDate.first(),
                         isHighlighted = entry.dateTime.date == today,

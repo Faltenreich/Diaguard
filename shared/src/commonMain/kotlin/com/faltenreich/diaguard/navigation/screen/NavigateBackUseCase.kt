@@ -6,7 +6,7 @@ class NavigateBackUseCase(
     private val navigation: Navigation,
 ) {
 
-    suspend operator fun invoke() {
-        navigation.popScreen()
+    suspend operator fun invoke(result: Pair<String, Any>? = null) {
+        navigation.popScreen(result)
     }
 }

@@ -21,11 +21,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
-    private val mode: FoodSearchMode = FoodSearchMode.STROLL,
+    private val mode: FoodSearchMode,
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
-) : ViewModel<FoodSearchState, FoodSearchIntent, FoodSearchEvent>() {
+) : ViewModel<FoodSearchState, FoodSearchIntent, Unit>() {
 
     var query: String by mutableStateOf("")
 
@@ -51,11 +51,17 @@ class FoodSearchViewModel(
 
     private suspend fun selectFood(food: Food.Local) {
         when (mode) {
-            FoodSearchMode.STROLL -> navigateToScreen(FoodFormScreen(food))
+            FoodSearchMode.STROLL -> {
+                navigateToScreen(FoodFormScreen(food))
+            }
             FoodSearchMode.FIND -> {
-                postEvent(FoodSearchEvent.Select(food))
-                navigateBack()
+                navigateBack(result = KEY_SELECTED_FOOD_ID to food.id)
             }
         }
+    }
+
+    companion object {
+
+        const val KEY_SELECTED_FOOD_ID = "selectedFoodId"
     }
 }

@@ -24,9 +24,6 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
-import com.faltenreich.diaguard.food.search.FoodSearchEvent
-import com.faltenreich.diaguard.food.search.FoodSearchViewModel
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -47,16 +44,11 @@ import diaguard.shared.generated.resources.tag_remove_description
 fun EntryForm(
     modifier: Modifier = Modifier,
     viewModel: EntryFormViewModel,
-    foodSearchViewModel: FoodSearchViewModel,
 ) {
     val state = viewModel.collectState()
 
     LaunchedEffect(Unit) {
-        foodSearchViewModel.collectEvents { event ->
-            when (event) {
-                is FoodSearchEvent.Select -> viewModel.dispatchIntent(EntryFormIntent.AddFood(event.food))
-            }
-        }
+        viewModel.handleIntent(EntryFormIntent.AddFoodIfSelected)
     }
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {

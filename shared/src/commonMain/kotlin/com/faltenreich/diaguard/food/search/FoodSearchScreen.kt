@@ -4,7 +4,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.shared.di.sharedViewModel
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
@@ -21,7 +21,7 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
 
     @Composable
     override fun BottomAppBar(): BottomAppBarStyle {
-        val viewModel = sharedViewModel<FoodSearchViewModel>(
+        val viewModel = viewModel<FoodSearchViewModel>(
             parameters = {
                 parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
             },
@@ -40,7 +40,7 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
 
     @Composable
     override fun Content() {
-        val viewModel = sharedViewModel<FoodSearchViewModel>(
+        val viewModel = viewModel<FoodSearchViewModel>(
             parameters = {
                 parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
             },

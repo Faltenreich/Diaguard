@@ -70,8 +70,15 @@ class Navigation(
         )
     }
 
-    override suspend fun popScreen(): Boolean = withContext(dispatcher) {
+    override suspend fun popScreen(result: Pair<String, Any>?): Boolean = withContext(dispatcher) {
+        result?.let { (key, value) ->
+            navController.previousBackStackEntry?.savedStateHandle?.set(key, value)
+        }
         navController.popBackStack()
+    }
+
+    override fun <T> observeScreenResult(key: String, default: T?): StateFlow<T?>? {
+        return navController.currentBackStackEntry?.savedStateHandle?.getStateFlow(key, default)
     }
 
     override fun canPopScreen(): Boolean {

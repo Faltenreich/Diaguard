@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import com.faltenreich.diaguard.shared.primitive.format
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.grams_abbreviation
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 
 class MapEntryListItemStateUseCase(
     private val valueRepository: MeasurementValueRepository,
@@ -39,8 +39,7 @@ class MapEntryListItemStateUseCase(
                 "%s %s %s".format(
                     numberFormatter(
                         number = foodEaten.amountInGrams,
-                        // TODO: Observe Flow safely
-                        scale = getPreference(DecimalPlaces).first(),
+                        scale = getPreference(DecimalPlaces).firstOrNull() ?: DecimalPlaces.default,
                         locale = localization.getLocale(),
                     ),
                     localization.getString(Res.string.grams_abbreviation),

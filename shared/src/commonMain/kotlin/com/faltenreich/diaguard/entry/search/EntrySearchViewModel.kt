@@ -8,7 +8,6 @@ import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
-import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -22,7 +21,6 @@ import kotlin.time.Duration.Companion.seconds
 class EntrySearchViewModel(
     query: String = "",
     searchEntries: SearchEntriesUseCase = inject(),
-    mapEntryListItemState: MapEntryListItemStateUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<Unit, EntrySearchIntent, Unit>() {
 
@@ -34,11 +32,8 @@ class EntrySearchViewModel(
     val pagingData = Pager(
         config = EntryListPagingSource.newConfig(),
         pagingSourceFactory = {
-            EntryListPagingSource(
-                getData = { page ->
-                    searchEntries(this.query, page).map { entry -> mapEntryListItemState(entry) }
-                },
-            ).also { pagingSource = it }
+            EntryListPagingSource(getData = { page -> searchEntries(this.query, page) })
+                .also { pagingSource = it }
         },
     ).flow.cachedIn(scope)
 

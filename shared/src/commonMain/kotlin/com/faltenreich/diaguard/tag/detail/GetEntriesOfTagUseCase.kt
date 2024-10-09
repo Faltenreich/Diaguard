@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.tag.detail
 
-import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.entry.list.EntryListItemState
+import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
@@ -13,16 +14,16 @@ class GetEntriesOfTagUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val entryTagRepository: EntryTagRepository,
     private val foodEatenRepository: FoodEatenRepository,
+    private val mapEntryListItemState: MapEntryListItemStateUseCase,
 ) {
 
-    operator fun invoke(tag: Tag.Local, page: PagingPage): List<Entry.Local> {
-        val result = entryRepository.getByTagId(tag.id, page).map { entry ->
+    suspend operator fun invoke(tag: Tag.Local, page: PagingPage): List<EntryListItemState> {
+        return entryRepository.getByTagId(tag.id, page).map { entry ->
             entry.apply {
                 values = valueRepository.getByEntryId(id)
                 entryTags = entryTagRepository.getByEntryId(id)
                 foodEaten = foodEatenRepository.getByEntryId(id)
             }
-        }
-        return result
+        }.map { entry -> mapEntryListItemState(entry) }
     }
 }

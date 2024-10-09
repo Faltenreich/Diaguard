@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.entry.search
 
-import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.entry.list.EntryListItemState
+import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
@@ -12,9 +13,10 @@ class SearchEntriesUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val entryTagRepository: EntryTagRepository,
     private val foodEatenRepository: FoodEatenRepository,
+    private val mapEntryListItemState: MapEntryListItemStateUseCase,
 ) {
 
-    operator fun invoke(query: String, page: PagingPage): List<Entry.Local> {
+    suspend operator fun invoke(query: String, page: PagingPage): List<EntryListItemState> {
         return if (query.isBlank()) {
             emptyList()
         } else {
@@ -24,7 +26,7 @@ class SearchEntriesUseCase(
                     entryTags = entryTagRepository.getByEntryId(entry.id)
                     foodEaten = foodEatenRepository.getByEntryId(entry.id)
                 }
-            }
+            }.map { entry -> mapEntryListItemState(entry) }
         }
     }
 }

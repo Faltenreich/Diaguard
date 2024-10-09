@@ -10,6 +10,10 @@ val LocalColors = staticCompositionLocalOf { Colors }
 
 object Colors {
 
+    val scheme: ColorScheme
+        @Composable
+        get() = MaterialTheme.colorScheme
+
     val Green = Color(0xff478063)
     val Red = Color(0xffdd6050)
     val Yellow = Color(0xffFBC02D)
@@ -20,18 +24,14 @@ object Colors {
     val ValueNormal = Green
     val ValueHigh = Red
 
-    val scheme: ColorScheme
-        @Composable
-        get() = MaterialTheme.colorScheme
-
     /**
-     * Created by Material Theme Builder
+     * Created via Material Theme Builder
      * https://material-foundation.github.io/material-theme-builder
      */
 
-    val primaryLight = Color(0xFF205A40)
+    val primaryLight = Color(0xFF478063)
     val onPrimaryLight = Color(0xFFFFFFFF)
-    val primaryContainerLight = Color(0xFF478063)
+    val primaryContainerLight = Color(0xFF205A40)
     val onPrimaryContainerLight = Color(0xFFFFFFFF)
     val secondaryLight = Color(0xFF24543C)
     val onSecondaryLight = Color(0xFFFFFFFF)
@@ -65,9 +65,9 @@ object Colors {
     val surfaceContainerHighLight = Color(0xFFEBE7E7)
     val surfaceContainerHighestLight = Color(0xFFE5E2E1)
 
-    val primaryDark = Color(0xFF205A40)
+    val primaryDark = Color(0xFF478063)
     val onPrimaryDark = Color(0xFFFFFFFF)
-    val primaryContainerDark = Color(0xFF478063)
+    val primaryContainerDark = Color(0xFF205A40)
     val onPrimaryContainerDark = Color(0xFFFFFFFF)
     val secondaryDark = Color(0xFF24543C)
     val onSecondaryDark = Color(0xFFFFFFFF)

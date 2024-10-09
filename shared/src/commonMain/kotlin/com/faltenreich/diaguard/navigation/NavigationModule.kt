@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.CanNavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetCurrentScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.GetLatestScreenResultUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
@@ -29,6 +30,7 @@ fun navigationModule() = module {
     singleOf(::NavigateToScreenUseCase)
     singleOf(::NavigateBackUseCase)
     singleOf(::CanNavigateBackUseCase)
+    singleOf(::GetLatestScreenResultUseCase)
 
     singleOf(::GetBottomSheetUseCase)
     singleOf(::OpenBottomSheetUseCase)

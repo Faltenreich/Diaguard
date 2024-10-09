@@ -24,10 +24,10 @@ import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.food.search.FoodSearchViewModel
-import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.screen.GetLatestScreenResultUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -44,7 +44,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -61,6 +60,7 @@ class EntryFormViewModel(
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val getLatestScreenResult: GetLatestScreenResultUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
@@ -68,8 +68,6 @@ class EntryFormViewModel(
     private val storeEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
-    // TODO: Wrap behind UseCase
-    private val navigation: Navigation = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
     private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
@@ -225,11 +223,9 @@ class EntryFormViewModel(
     }
 
     private suspend fun addFoodIfSelected() {
-        navigation
-            .observeScreenResult<Long>(FoodSearchViewModel.KEY_SELECTED_FOOD_ID)
-            ?.mapNotNull { selectedFoodId -> selectedFoodId }
-            ?.mapNotNull { selectedFoodId -> getFoodById(selectedFoodId) }
-            ?.collectLatest { selectedFood -> foodEaten += FoodEatenInputState(selectedFood) }
+        val selectedFoodId = getLatestScreenResult<Long>(FoodSearchViewModel.KEY_SELECTED_FOOD_ID) ?: return
+        val selectedFood = getFoodById(selectedFoodId) ?: return
+        foodEaten += FoodEatenInputState(selectedFood)
     }
 
     private fun editFood(food: FoodEatenInputState) {

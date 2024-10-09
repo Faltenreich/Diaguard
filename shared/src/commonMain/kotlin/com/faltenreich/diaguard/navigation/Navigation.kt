@@ -17,6 +17,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 
@@ -72,13 +73,15 @@ class Navigation(
 
     override suspend fun popScreen(result: Pair<String, Any>?): Boolean = withContext(dispatcher) {
         result?.let { (key, value) ->
-            navController.previousBackStackEntry?.savedStateHandle?.set(key, value)
+            val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle ?: return@let
+            savedStateHandle[key] = value
         }
         navController.popBackStack()
     }
 
-    override fun <T> observeScreenResult(key: String, default: T?): StateFlow<T?>? {
-        return navController.currentBackStackEntry?.savedStateHandle?.getStateFlow(key, default)
+    override suspend fun <T> collectLatestScreenResult(key: String, default: T?): T? {
+        val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle ?: return null
+        return savedStateHandle.getStateFlow(key, default).firstOrNull()
     }
 
     override fun canPopScreen(): Boolean {

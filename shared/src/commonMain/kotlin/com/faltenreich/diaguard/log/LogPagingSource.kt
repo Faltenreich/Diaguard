@@ -19,10 +19,18 @@ import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.log.item.LogDayStyle
 import com.faltenreich.diaguard.log.item.LogItemState
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.shared.primitive.NumberFormatter
+import com.faltenreich.diaguard.shared.primitive.format
 import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
 import com.faltenreich.diaguard.shared.view.isRefreshing
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.grams_abbreviation
+import kotlinx.coroutines.flow.first
 
 class LogPagingSource(
     getTodayUseCase: GetTodayUseCase = inject(),
@@ -30,7 +38,10 @@ class LogPagingSource(
     private val valueRepository: MeasurementValueRepository = inject(),
     private val entryTagRepository: EntryTagRepository = inject(),
     private val foodEatenRepository: FoodEatenRepository = inject(),
+    private val getPreference: GetPreferenceUseCase = inject(),
     private val dateTimeFormatter: DateTimeFormatter = inject(),
+    private val numberFormatter: NumberFormatter = inject(),
+    private val localization: Localization = inject(),
 ) : PagingSource<Date, LogItemState>() {
 
     private val today = getTodayUseCase()
@@ -78,6 +89,18 @@ class LogPagingSource(
                     entryState = EntryListItemState(
                         entry = entry,
                         dateTimeLocalized = dateTimeFormatter.formatTime(entry.dateTime.time),
+                        foodEatenLocalized = entry.foodEaten.map { foodEaten ->
+                            "%s %s %s".format(
+                                numberFormatter(
+                                    number = foodEaten.amountInGrams,
+                                    // TODO: Observe Flow safely
+                                    scale = getPreference(DecimalPlaces).first(),
+                                    locale = localization.getLocale(),
+                                ),
+                                localization.getString(Res.string.grams_abbreviation),
+                                foodEaten.food.name,
+                            )
+                        },
                     ),
                     style = LogDayStyle(
                         isVisible = entry == entriesOfDate.first(),

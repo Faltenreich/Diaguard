@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -98,8 +96,9 @@ private fun Footer(state: EntryListItemState) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(AppTheme.colors.scheme.surfaceBright)
+                .background(AppTheme.colors.scheme.surfaceContainer)
                 .padding(AppTheme.dimensions.padding.P_3),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         ) {
             Note(state)
             FoodEaten(state)
@@ -110,14 +109,13 @@ private fun Footer(state: EntryListItemState) {
 @Composable
 private fun Note(state: EntryListItemState) {
     state.entry.note?.takeIf(String::isNotBlank)?.let { note ->
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
         Text(note)
     }
 }
 
 @Composable
 private fun FoodEaten(state: EntryListItemState) {
-    state.entry.foodEaten.forEach { foodEaten ->
-        Text("${foodEaten.amountInGrams} ${foodEaten.food.name}")
+    state.foodEatenLocalized.forEach { foodEaten ->
+        Text(foodEaten)
     }
 }

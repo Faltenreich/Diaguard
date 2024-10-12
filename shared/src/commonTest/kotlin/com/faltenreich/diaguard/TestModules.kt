@@ -68,6 +68,7 @@ fun testModules() = module {
         FoodSeedQueries(
             fileReader = SystemFileReader("src/commonTest/resources/seed/food.csv"),
             serialization = Serialization(),
+            localization = FakeLocalization(),
         )
     }
     single {

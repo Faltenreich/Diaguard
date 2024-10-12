@@ -73,6 +73,7 @@
     <string name="fiber">Fiber</string>
     <string name="food">Food</string>
     <string name="food_add">Add food</string>
+    <string name="food_common">Grundnahrungsmittel</string>
     <string name="food_delete">Delete food</string>
     <string name="food_eaten">Food eaten</string>
     <string name="food_edit">Edit food</string>

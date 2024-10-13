@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.backup.seed.query.SeedQueries
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.shared.localization.LocalizationConstants
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_common
@@ -43,17 +44,10 @@ class FoodSeedQueries(
 
     private fun FoodFromFile.localizedName(locale: Locale): String {
         return when (locale.language) {
-            LANGUAGE_GERMAN -> de
-            LANGUAGE_FRENCH -> fr
-            LANGUAGE_ITALIAN -> it
+            LocalizationConstants.LANGUAGE_FRENCH -> fr
+            LocalizationConstants.LANGUAGE_GERMAN -> de
+            LocalizationConstants.LANGUAGE_ITALIAN -> it
             else -> en
         }
-    }
-
-    companion object {
-
-        private const val LANGUAGE_GERMAN = "de"
-        private const val LANGUAGE_FRENCH = "fr"
-        private const val LANGUAGE_ITALIAN = "it"
     }
 }

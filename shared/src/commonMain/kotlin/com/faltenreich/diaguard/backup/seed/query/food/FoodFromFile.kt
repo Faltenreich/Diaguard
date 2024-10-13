@@ -8,6 +8,7 @@ data class FoodFromFile(
     val fr: String,
     val it: String,
     val en: String,
+    // TODO: Add other languages, e.g. Spanish
     val carbohydrates: String,
     val energy: String,
     val fat: String,

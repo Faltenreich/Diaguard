@@ -29,9 +29,21 @@ fun seedModule() = module {
 
     singleOf(::MeasurementCategorySeedQueries)
 
-    single { FoodSeedQueries(fileReader = ResourceFileReader("files/food_common.csv"), serialization = get(), localization = get()) }
+    single {
+        FoodSeedQueries(
+            fileReader = ResourceFileReader("files/food_common.csv"),
+            serialization = get(),
+            localization = get(),
+        )
+    }
 
-    single { TagSeedQueries(fileReader = ResourceFileReader("files/tags.csv"), serialization = get()) }
+    single {
+        TagSeedQueries(
+            fileReader = ResourceFileReader("files/tags.csv"),
+            serialization = get(),
+            localization = get(),
+        )
+    }
 
     single<SeedDao> {
         SeedBundleDao(

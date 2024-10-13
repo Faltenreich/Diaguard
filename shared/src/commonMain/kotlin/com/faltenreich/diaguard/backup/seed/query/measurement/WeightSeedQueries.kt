@@ -45,7 +45,7 @@ class WeightSeedQueries(
                             name = localization.getString(Res.string.kilograms),
                             abbreviation = localization.getString(Res.string.kilograms_abbreviation),
                             factor = 1.0,
-                            isSelected = true, // TODO: Localize
+                            isSelected = true,
                         ),
                         MeasurementUnit.Seed(
                             key = DatabaseKey.MeasurementUnit.WEIGHT_POUNDS,

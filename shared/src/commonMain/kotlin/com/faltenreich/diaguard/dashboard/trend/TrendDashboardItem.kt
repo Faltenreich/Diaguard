@@ -15,9 +15,13 @@ import diaguard.shared.generated.resources.trend
 @Composable
 fun TrendDashboardItem(
     data: DashboardState.Trend?,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Card(modifier = modifier) {
+    Card(
+        onClick = onClick,
+        modifier = modifier,
+    ) {
         Column(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Text(
                 text = getString(Res.string.trend),

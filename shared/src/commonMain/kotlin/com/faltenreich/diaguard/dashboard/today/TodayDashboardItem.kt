@@ -22,9 +22,13 @@ import diaguard.shared.generated.resources.today
 @Composable
 fun TodayDashboardItem(
     data: DashboardState.Today?,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Card(modifier = modifier) {
+    Card(
+        onClick = onClick,
+        modifier = modifier,
+    ) {
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(

@@ -44,10 +44,12 @@ fun Dashboard(
             ) {
                 TodayDashboardItem(
                     data = state.today,
+                    onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
                     modifier = Modifier.weight(1f),
                 )
                 AverageDashboardItem(
                     data = state.average,
+                    onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
                     modifier = Modifier.weight(1f),
                 )
             }
@@ -57,6 +59,7 @@ fun Dashboard(
             )
             TrendDashboardItem(
                 data = state.trend,
+                onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
                 modifier = Modifier.fillMaxWidth(),
             )
         }

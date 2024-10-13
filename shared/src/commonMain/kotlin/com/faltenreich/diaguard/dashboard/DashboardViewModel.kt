@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.statistic.StatisticScreen
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
@@ -34,6 +35,7 @@ class DashboardViewModel(
             is DashboardIntent.CreateEntry -> navigateToScreen(EntryFormScreen())
             is DashboardIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())
             is DashboardIntent.EditEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))
+            is DashboardIntent.OpenStatistic -> navigateToScreen(StatisticScreen)
         }
     }
 }

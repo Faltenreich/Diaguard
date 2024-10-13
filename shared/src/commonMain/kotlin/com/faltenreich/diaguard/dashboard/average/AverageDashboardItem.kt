@@ -22,9 +22,13 @@ import diaguard.shared.generated.resources.week
 @Composable
 fun AverageDashboardItem(
     data: DashboardState.Average?,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Card(modifier = modifier) {
+    Card(
+        onClick = onClick,
+        modifier = modifier,
+    ) {
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(

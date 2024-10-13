@@ -22,10 +22,10 @@ class GetLatestBloodSugarUseCase(
 ) {
 
     operator fun invoke(): Flow<DashboardState.LatestBloodSugar?> {
-        val dateTime = dateTimeFactory.now()
+        val now = dateTimeFactory.now()
         return combine(
             valueRepository.observePreviousByProperty(
-                dateTime = dateTime,
+                dateTime = now,
                 key = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
             ),
             getPreference(DecimalPlaces),
@@ -41,7 +41,7 @@ class GetLatestBloodSugarUseCase(
                     tint = getValueColor(value),
                     timePassed = dateTimeFormatter.formatTimePassed(
                         start = value.entry.dateTime,
-                        end = dateTime,
+                        end = now,
                     ),
                 )
             }

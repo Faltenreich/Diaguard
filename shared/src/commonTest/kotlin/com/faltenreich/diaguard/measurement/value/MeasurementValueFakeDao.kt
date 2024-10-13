@@ -52,16 +52,14 @@ open class MeasurementValueFakeDao(
         )
     }
 
-    override fun observePreviousByProperty(
-        dateTime: DateTime,
+    override fun observeLatestByProperty(
         key: DatabaseKey.MeasurementProperty,
     ): Flow<MeasurementValue.Local?> {
         return flowOf(
-            cache.firstOrNull {
-                it.property.key == key && it.entry.dateTime <= dateTime
-            }
+            cache
+                .sortedByDescending { it.entry.dateTime }
+                .firstOrNull { it.property.key == key }
         )
-
     }
 
     override fun observeCountByCategoryId(categoryId: Long): Flow<Long> {

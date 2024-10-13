@@ -60,12 +60,10 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToList(dispatcher)
     }
 
-    override fun observePreviousByProperty(
-        dateTime: DateTime,
+    override fun observeLatestByProperty(
         key: DatabaseKey.MeasurementProperty,
     ): Flow<MeasurementValue.Local?> {
-        return queries.getPreviousByProperty(
-            dateTime = dateTime.isoString,
+        return queries.getLatestByProperty(
             key = key.key,
             mapper = mapper::map,
         ).asFlow().mapToOneOrNull(dispatcher)

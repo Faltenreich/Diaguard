@@ -39,14 +39,10 @@ class MeasurementValueRepository(
         return dao.observeByDateRange(startDateTime, endDateTime)
     }
 
-    fun observePreviousByProperty(
-        dateTime: DateTime,
+    fun observeLatestByProperty(
         key: DatabaseKey.MeasurementProperty,
     ): Flow<MeasurementValue.Local?> {
-        return dao.observePreviousByProperty(
-            dateTime = dateTime,
-            key = key,
-        )
+        return dao.observeLatestByProperty(key = key)
     }
 
     fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {

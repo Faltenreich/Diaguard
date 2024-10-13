@@ -23,10 +23,7 @@ interface MeasurementValueDao {
         endDateTime: DateTime,
     ): Flow<List<MeasurementValue.Local>>
 
-    fun observePreviousByProperty(
-        dateTime: DateTime,
-        key: DatabaseKey.MeasurementProperty,
-    ): Flow<MeasurementValue.Local?>
+    fun observeLatestByProperty(key: DatabaseKey.MeasurementProperty): Flow<MeasurementValue.Local?>
 
     fun observeCountByCategoryId(categoryId: Long): Flow<Long>
 

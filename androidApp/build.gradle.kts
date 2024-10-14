@@ -41,17 +41,16 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = Constants.JavaVersion
-        targetCompatibility = Constants.JavaVersion
-    }
-
     buildFeatures {
         buildConfig = true
         compose = true
     }
 
     packagingOptions.resources.excludes += "META-INF/versions/9/previous-compilation-data.bin"
+}
+
+kotlin {
+    jvmToolchain(Constants.JavaVersion)
 }
 
 dependencies {

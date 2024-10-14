@@ -6,9 +6,9 @@ sealed interface DashboardIntent {
 
     data object CreateEntry : DashboardIntent
 
-    data object SearchEntries : DashboardIntent
-
     data class EditEntry(val entry: Entry.Local) : DashboardIntent
 
     data object OpenStatistic : DashboardIntent
+
+    data object SearchEntries : DashboardIntent
 }

@@ -75,6 +75,7 @@ fun testModules() = module {
         TagSeedQueries(
             fileReader = SystemFileReader("src/commonTest/resources/seed/tags.csv"),
             serialization = Serialization(),
+            localization = FakeLocalization(),
         )
     }
 }

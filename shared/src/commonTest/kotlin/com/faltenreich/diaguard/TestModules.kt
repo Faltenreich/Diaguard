@@ -23,6 +23,8 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnitFakeDao
 import com.faltenreich.diaguard.measurement.value.MeasurementValueDao
 import com.faltenreich.diaguard.measurement.value.MeasurementValueFakeDao
 import com.faltenreich.diaguard.shared.file.SystemFileReader
+import com.faltenreich.diaguard.shared.keyvalue.FakeKeyValueStore
+import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.shared.localization.FakeLocalization
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.ConsoleLogger
@@ -43,6 +45,8 @@ fun testModules() = module {
     single<CoroutineScope> { TestScope(context = get()) }
 
     single<Logger> { ConsoleLogger() }
+
+    single<KeyValueStore> { FakeKeyValueStore() }
 
     single<FoodApi> {
         OpenFoodFactsApi(

@@ -1,7 +1,7 @@
 # Diaguard
 
 [![version](https://img.shields.io/badge/Release-3.12.2-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
-[![ci](https://github.com/Faltenreich/Diaguard/actions/workflows/ci.yml/badge.svg)](https://github.com/Faltenreich/Diaguard/actions/workflows/ci.yml)
+[![ci](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml/badge.svg)](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml)
 
 <img src="./resource/image/marketing/showcase.png" width="750"> 
 

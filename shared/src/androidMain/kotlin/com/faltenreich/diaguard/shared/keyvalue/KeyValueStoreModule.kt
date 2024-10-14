@@ -4,5 +4,5 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 actual fun keyValueStoreModule() = module {
-    single { KeyValueStore(androidContext()) }
+    single<KeyValueStore> { DataStore(androidContext()) }
 }

@@ -16,19 +16,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.reflect.KClass
 
-actual class KeyValueStore(
+class DataStore(
     private val context: Context,
     name: String = STORE_NAME_DEFAULT,
-) {
+) : KeyValueStore {
 
-    private val Context.dataStore by preferencesDataStore(name = name)
+    private val Context.preferencesDataStore by preferencesDataStore(name = name)
 
     @PublishedApi internal fun <T> read(transform: (Preferences) -> T): Flow<T> {
-        return context.dataStore.data.map(transform)
+        return context.preferencesDataStore.data.map(transform)
     }
 
     @PublishedApi internal suspend fun write(transform: (MutablePreferences) -> Unit) {
-        context.dataStore.edit(transform)
+        context.preferencesDataStore.edit(transform)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -45,12 +45,12 @@ actual class KeyValueStore(
         } as Preferences.Key<T>
     }
 
-    actual fun <T: Any> read(kClass: KClass<T>, key: String): Flow<T?> {
+    override fun <T: Any> read(kClass: KClass<T>, key: String): Flow<T?> {
         val preferencesKey = getKey(kClass, key)
         return read { preferences -> preferences[preferencesKey] }
     }
 
-    actual suspend fun <T: Any> write(kClass: KClass<T>, key: String, value: T) {
+    override suspend fun <T: Any> write(kClass: KClass<T>, key: String, value: T) {
         val preferencesKey = getKey(kClass, key)
         write { preferences -> preferences[preferencesKey] = value }
     }

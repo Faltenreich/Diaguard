@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.shared.keyvalue
 import kotlinx.coroutines.flow.Flow
 import kotlin.reflect.KClass
 
-expect class KeyValueStore {
+interface KeyValueStore {
 
     fun <T: Any> read(kClass: KClass<T>, key: String): Flow<T?>
 

@@ -8,12 +8,12 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   android:
-    runs-on: macos-latest
+    runs-on: macos-13
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -63,7 +63,6 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: ${{ matrix.api-level }}
-        arch: arm64-v8a
         script: ./gradlew connectedBetaDebugAndroidTest
 
     - name: Upload test reports

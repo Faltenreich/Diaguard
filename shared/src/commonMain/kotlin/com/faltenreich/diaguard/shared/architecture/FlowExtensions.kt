@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber")
 /**
  * Workaround for: Duplicate JVM class name
  * https://youtrack.jetbrains.com/issue/KT-21186

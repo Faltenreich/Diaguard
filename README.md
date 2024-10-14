@@ -1,7 +1,7 @@
 # Diaguard
 
-[![version](https://img.shields.io/badge/Release-3.12.2-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
-[![ci](https://github.com/Faltenreich/Diaguard/actions/workflows/ci.yml/badge.svg)](https://github.com/Faltenreich/Diaguard/actions/workflows/ci.yml)
+[![version](https://img.shields.io/badge/Release-4.0.0-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
+[![pipeline](https://github.com/Faltenreich/Diaguard/actions/workflows/android.yml/badge.svg)](https://github.com/Faltenreich/Diaguard/actions/workflows/android.yml)
 
 <img src="./resource/image/marketing/showcase.png" width="750"> 
 
@@ -27,7 +27,7 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 
 ## Distribution
 
-<a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a><a href='https://f-droid.org/de/packages/com.faltenreich.diaguard'><img alt='Get it on F-Droid' src='https://f-droid.org/badge/get-it-on.png' width="250"/></a>
+<a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a><a href='https://f-droid.org/de/packages/com.faltenreich.diaguard'><img alt='Get it on F-Droid' src='https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on.png' width="250"/></a>
 
 ## About
 
@@ -77,9 +77,9 @@ English is used as general language for naming things. Everything except the loc
 
 Localization takes place locally and affects following components:
 
-* User interfaces: localized via [Android resources](https://developer.android.com/guide/topics/resources/localization) (one [strings.xml](/app/src/main/res/values/strings.xml) per language)
-* Common food: localized via custom file import (one [food_common.csv](/app/src/main/assets/food_common.csv) for all languages)
-* Default tags: localized via custom file import (one [tags.csv](/app/src/main/assets/tags.csv) for all languages)
+* User interfaces: localized via [Android resources](https://developer.android.com/guide/topics/resources/localization) (one [strings.xml](/shared/src/commonMain/resources/MR/base/strings.xml) per language)
+* Common food: localized via custom file import (one [food_common.csv](/shared/src/commonMain/resources/MR/files/food_common.csv) for all languages)
+* Default tags: localized via custom file import (one [tags.csv](/shared/src/commonMain/resources/MR/files/tags.csv) for all languages)
 
 Currently the localization process requires certain programming skills. This should and could be improved by using an external service in order to support localizations by non-developers.
 
@@ -93,7 +93,7 @@ Domain-driven design improves the structure by grouping files in features. Every
  
 #### Testing
 
-Testing takes place via [JUnit](https://junit.org) and [Espresso](https://developer.android.com/training/testing/espresso). Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
+Testing takes place via [JUnit](https://junit.org), [Espresso](https://developer.android.com/training/testing/espresso) and [Robolectric](http://robolectric.org). Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
 
 #### Third-party licenses
 
@@ -120,6 +120,7 @@ This software uses following technologies with great appreciation:
 * [PDFjet](http://pdfjet.com)
 * [Picasso](http://square.github.io/picasso)
 * [Retrofit](https://square.github.io/retrofit)
+* [Robolectric](http://robolectric.org)
 * [Schweizer Nährwertdatenbank](http://naehrwertdaten.ch)
 * [Shields.io](https://shields.io)
 

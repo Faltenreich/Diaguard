@@ -1,0 +1,31 @@
+{
+  "count": 1,
+  "page": 1,
+  "page_count": 10,
+  "page_size": 1,
+  "products": [
+    {
+      "brands": "Ferrero",
+      "carbohydrates_100g": 57.5,
+      "energy_100g": 2252,
+      "fat_100g": 30.9,
+      "fiber_100g": 0,
+      "ingredients_text": "Sucre, huile de palme, NOISETTES 13%, LAIT écrémé en poudre 8,7%, cacao maigre 7,4%, émulsifiants: lécithines [SOJA]; vanilline. Sans gluten",
+      "labels": "No gluten,No preservatives,No colorings,No hydrogenated fats,Triman,fr:SGS",
+      "lang": "en",
+      "last_edit_dates_tags": [
+        "2024-06-02",
+        "2024-06",
+        "2024"
+      ],
+      "product_name": "Nutella",
+      "proteins_100g": 6.3,
+      "salt_100g": 0.107,
+      "saturated-fat_100g": 10.6,
+      "sodium_100g": 0.0428,
+      "sortkey": 1610107184,
+      "sugars_100g": 56.3
+    }
+  ],
+  "skip": 0
+}

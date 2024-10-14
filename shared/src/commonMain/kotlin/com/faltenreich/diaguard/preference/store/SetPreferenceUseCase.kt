@@ -6,7 +6,7 @@ class SetPreferenceUseCase(
     @PublishedApi internal val preferenceStore: PreferenceStore,
 ) {
 
-    suspend inline operator fun <reified Store, Domain> invoke(
+    suspend inline operator fun <reified Store: Any, Domain> invoke(
         preference: Preference<Store, Domain>,
         value: Domain,
     ) {

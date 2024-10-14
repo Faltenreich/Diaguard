@@ -14,6 +14,7 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlin.reflect.KClass
 
 actual class KeyValueStore(
     private val context: Context,
@@ -31,8 +32,8 @@ actual class KeyValueStore(
     }
 
     @Suppress("UNCHECKED_CAST")
-    @PublishedApi internal inline fun <reified T> getKey(key: String): Preferences.Key<T> {
-        return when (T::class) {
+    private fun <T: Any> getKey(kClass: KClass<T>, key: String): Preferences.Key<T> {
+        return when (kClass) {
             Int::class -> intPreferencesKey(key)
             Double::class -> doublePreferencesKey(key)
             String::class -> stringPreferencesKey(key)
@@ -40,17 +41,17 @@ actual class KeyValueStore(
             Float::class -> floatPreferencesKey(key)
             Long::class -> longPreferencesKey(key)
             Set::class -> stringSetPreferencesKey(key)
-            else -> throw IllegalArgumentException("Unsupported class: ${T::class}")
+            else -> throw IllegalArgumentException("Unsupported class: $kClass")
         } as Preferences.Key<T>
     }
 
-    actual inline fun <reified T> read(key: String): Flow<T?> {
-        val preferencesKey = getKey<T>(key)
+    actual fun <T: Any> read(kClass: KClass<T>, key: String): Flow<T?> {
+        val preferencesKey = getKey(kClass, key)
         return read { preferences -> preferences[preferencesKey] }
     }
 
-    actual suspend inline fun <reified T> write(key: String, value: T) {
-        val preferencesKey = getKey<T>(key)
+    actual suspend fun <T: Any> write(kClass: KClass<T>, key: String, value: T) {
+        val preferencesKey = getKey(kClass, key)
         write { preferences -> preferences[preferencesKey] = value }
     }
 

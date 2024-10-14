@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.preference.store
 
 import com.faltenreich.diaguard.preference.Preference
 import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
+import com.faltenreich.diaguard.shared.keyvalue.read
+import com.faltenreich.diaguard.shared.keyvalue.write
 import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.flow.Flow
 
@@ -22,7 +24,7 @@ class PreferenceStore(
         return keyValueStore.read(getKey(preference))
     }
 
-    suspend inline fun <reified Store, Domain> write(preference: Preference<Store, Domain>, value: Store) {
+    suspend inline fun <reified Store: Any, Domain> write(preference: Preference<Store, Domain>, value: Store) {
         keyValueStore.write(getKey(preference), value)
     }
 }

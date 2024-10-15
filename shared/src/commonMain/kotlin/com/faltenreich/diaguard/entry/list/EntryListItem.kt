@@ -63,16 +63,13 @@ private fun MeasurementValues(state: EntryListItemState) {
         modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_3),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
     ) {
-        state.entry.values.forEach { value ->
+        state.values.forEach { value ->
             Row(
                 horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                MeasurementCategoryIcon(value.property.category)
-                Text(
-                    // TODO: Format via MeasurementValueMapper
-                    text = value.value.toString(),
-                )
+                MeasurementCategoryIcon(value.category)
+                Text(value.valueLocalized)
             }
         }
     }

@@ -103,9 +103,8 @@ class MeasurementValueSqlDelightDao(
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Double? {
-        return queries.getAverageByCategory(
-            // FIXME: Replace with getAverageByProperty
-            categoryId = propertyId,
+        return queries.getAverageByProperty(
+            propertyId = propertyId,
             minDateTime = minDateTime.isoString,
             maxDateTime = maxDateTime.isoString,
         ).executeAsOneOrNull()?.AVG

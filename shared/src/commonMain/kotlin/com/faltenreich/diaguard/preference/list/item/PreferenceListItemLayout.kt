@@ -28,6 +28,7 @@ fun PreferenceListItemLayout(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ListOffsetWidth))
+        // FIXME: Overlaps content if too wide
         Column {
             Text(getString(preference.title))
             preference.subtitle?.let { subtitle ->
@@ -37,6 +38,7 @@ fun PreferenceListItemLayout(
                 )
             }
         }
+        // TODO: Add default padding?
         content?.invoke()
     }
 }

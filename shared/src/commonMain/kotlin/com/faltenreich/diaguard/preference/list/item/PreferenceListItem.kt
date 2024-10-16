@@ -20,6 +20,10 @@ sealed class PreferenceListItem(
             preferences += PreferenceCategoryListItem.Builder().apply(init).build()
         }
 
+        fun checkbox(init: PreferenceCheckBoxListItem.Builder.() -> Unit) {
+            preferences += PreferenceCheckBoxListItem.Builder().apply(init).build()
+        }
+
         fun action(init: PreferenceActionListItem.Builder.() -> Unit) {
             preferences += PreferenceActionListItem.Builder().apply(init).build()
         }

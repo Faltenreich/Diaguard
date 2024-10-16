@@ -22,7 +22,7 @@ import org.jetbrains.compose.resources.painterResource
 
 class PreferenceCategoryListItem(
     title: StringResource,
-    private val icon: DrawableResource,
+    private val icon: DrawableResource?,
 ) : PreferenceListItem(title, null) {
 
     @Composable
@@ -40,12 +40,14 @@ class PreferenceCategoryListItem(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(modifier = Modifier.width(AppTheme.dimensions.size.ListOffsetWidth)) {
-                    Image(
-                        painter = painterResource(icon),
-                        contentDescription = null,
-                        modifier = Modifier.size(AppTheme.dimensions.size.ImageSmall),
-                        colorFilter = ColorFilter.tint(AppTheme.colors.scheme.primary),
-                    )
+                    icon?.let {
+                        Image(
+                            painter = painterResource(icon),
+                            contentDescription = null,
+                            modifier = Modifier.size(AppTheme.dimensions.size.ImageSmall),
+                            colorFilter = ColorFilter.tint(AppTheme.colors.scheme.primary),
+                        )
+                    }
                 }
                 Text(
                     text = getString(title),
@@ -59,7 +61,7 @@ class PreferenceCategoryListItem(
     class Builder {
 
         lateinit var title: StringResource
-        lateinit var icon: DrawableResource
+        var icon: DrawableResource? = null
 
         fun build(): PreferenceCategoryListItem {
             return PreferenceCategoryListItem(title, icon)

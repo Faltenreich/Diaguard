@@ -1,26 +1,30 @@
-package com.faltenreich.diaguard.preference.food
+package com.faltenreich.diaguard.preference.overview
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.preference.list.PreferenceList
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.food
+import diaguard.shared.generated.resources.preferences
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object FoodPreferenceListScreen : Screen {
+data object OverviewPreferenceScreen : Screen {
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
         return TopAppBarStyle.CenterAligned {
-            Text(getString(Res.string.food))
+            Text(getString(Res.string.preferences))
         }
     }
 
     @Composable
     override fun Content() {
-        TODO()
+        val viewModel = viewModel<OverviewPreferenceViewModel>()
+        val items = viewModel.collectState() ?: emptyList()
+        PreferenceList(items = items)
     }
 }

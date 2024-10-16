@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
-import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
+import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceListListItem
@@ -109,7 +109,7 @@ class GetOverviewPreferencesUseCase(
                 }
                 action {
                     title = Res.string.food
-                    onClick = { navigateToScreen(FoodPreferenceListScreen) }
+                    onClick = { navigateToScreen(FoodPreferenceScreen) }
                 }
                 category {
                     title = Res.string.contact

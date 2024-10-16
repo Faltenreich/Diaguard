@@ -2,10 +2,12 @@ package com.faltenreich.diaguard.preference
 
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormViewModel
 import com.faltenreich.diaguard.preference.decimal.IllustrateDecimalPlacesUseCase
+import com.faltenreich.diaguard.preference.food.FoodPreferenceViewModel
+import com.faltenreich.diaguard.preference.food.GetFoodPreferencesUseCase
 import com.faltenreich.diaguard.preference.license.GetLicensesUseCase
 import com.faltenreich.diaguard.preference.license.LicenseListViewModel
 import com.faltenreich.diaguard.preference.overview.GetOverviewPreferencesUseCase
-import com.faltenreich.diaguard.preference.overview.PreferenceOverviewViewModel
+import com.faltenreich.diaguard.preference.overview.OverviewPreferenceViewModel
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.PreferenceStore
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
@@ -22,8 +24,6 @@ fun preferenceModule() = module {
     singleOf(::SetPreferenceUseCase)
     singleOf(::GetAppVersionUseCase)
 
-    singleOf(::GetOverviewPreferencesUseCase)
-
     singleOf(::IllustrateDecimalPlacesUseCase)
     viewModelOf(::DecimalPlacesFormViewModel)
 
@@ -32,5 +32,9 @@ fun preferenceModule() = module {
     single { GetLicensesUseCase(fileReader = ResourceFileReader("files/aboutlibraries.json")) }
     viewModelOf(::LicenseListViewModel)
 
-    viewModelOf(::PreferenceOverviewViewModel)
+    singleOf(::GetOverviewPreferencesUseCase)
+    viewModelOf(::OverviewPreferenceViewModel)
+
+    singleOf(::GetFoodPreferencesUseCase)
+    viewModelOf(::FoodPreferenceViewModel)
 }

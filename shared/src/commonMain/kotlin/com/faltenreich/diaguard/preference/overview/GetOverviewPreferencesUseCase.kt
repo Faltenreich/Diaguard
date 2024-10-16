@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list
+package com.faltenreich.diaguard.preference.overview
 
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
@@ -52,7 +52,7 @@ import diaguard.shared.generated.resources.version
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-class GetDefaultPreferencesUseCase(
+class GetOverviewPreferencesUseCase(
     private val localization: Localization,
     private val urlOpener: UrlOpener,
     private val getPreference: GetPreferenceUseCase,

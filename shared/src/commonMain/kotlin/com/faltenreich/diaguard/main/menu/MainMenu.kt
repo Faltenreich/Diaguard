@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.preference.list.PreferenceListScreen
+import com.faltenreich.diaguard.preference.overview.PreferenceOverviewScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.statistic.StatisticScreen
@@ -83,8 +83,8 @@ fun MainMenu(
         MainMenuItem(
             label = Res.string.preferences,
             icon = null,
-            isActive = currentScreen is PreferenceListScreen,
-            onClick = { navigateTo(PreferenceListScreen, false) },
+            isActive = currentScreen is PreferenceOverviewScreen,
+            onClick = { navigateTo(PreferenceOverviewScreen, false) },
         )
     }
 }

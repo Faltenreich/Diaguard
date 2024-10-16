@@ -5,14 +5,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 
 @Composable
 fun PreferenceList(
+    items: List<PreferenceListItem>,
     modifier: Modifier = Modifier,
-    viewModel: PreferenceListViewModel = inject(),
 ) {
-    val items = viewModel.collectState()?.items ?: return
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(items) { preference ->
             preference.Content(Modifier)

@@ -1,9 +1,10 @@
-package com.faltenreich.diaguard.preference.list
+package com.faltenreich.diaguard.preference.overview
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.preference.list.PreferenceList
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
@@ -11,7 +12,7 @@ import diaguard.shared.generated.resources.preferences
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object PreferenceListScreen : Screen {
+data object PreferenceOverviewScreen : Screen {
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
@@ -22,6 +23,8 @@ data object PreferenceListScreen : Screen {
 
     @Composable
     override fun Content() {
-        PreferenceList(viewModel = viewModel())
+        val viewModel = viewModel<PreferenceOverviewViewModel>()
+        val items = viewModel.collectState() ?: emptyList()
+        PreferenceList(items = items)
     }
 }

@@ -42,8 +42,6 @@ class OpenFoodFactsApi(
             mapper(remote).sortedBy(FoodFromApi::name)
         } catch (exception: Exception) {
             Logger.error("Request failed: $request $exception", exception)
-            // FIXME: java.util.concurrent.CancellationException: Child of the scoped flow was cancelled
-            // TODO: Propagate error to user
             emptyList()
         }
     }

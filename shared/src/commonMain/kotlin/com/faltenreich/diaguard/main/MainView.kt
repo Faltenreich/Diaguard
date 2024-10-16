@@ -30,6 +30,7 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
+import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.PreferenceListScreen
 import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
@@ -79,6 +80,7 @@ fun MainView(
                     screen<FoodFormScreen>()
                     screen<FoodSearchScreen>()
                     screen<FoodEatenListScreen>()
+                    screen<FoodPreferenceListScreen>()
 
                     screen<StatisticScreen>()
                     screen<ExportFormScreen>()

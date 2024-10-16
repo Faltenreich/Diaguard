@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
+import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceListListItem
@@ -26,6 +27,7 @@ import diaguard.shared.generated.resources.decimal_places
 import diaguard.shared.generated.resources.facebook
 import diaguard.shared.generated.resources.facebook_url
 import diaguard.shared.generated.resources.facebook_url_short
+import diaguard.shared.generated.resources.food
 import diaguard.shared.generated.resources.homepage
 import diaguard.shared.generated.resources.homepage_url
 import diaguard.shared.generated.resources.homepage_url_short
@@ -104,6 +106,10 @@ class GetDefaultPreferencesUseCase(
                 action {
                     title = Res.string.tags
                     onClick = { navigateToScreen(TagListScreen) }
+                }
+                action {
+                    title = Res.string.food
+                    onClick = { navigateToScreen(FoodPreferenceListScreen) }
                 }
                 category {
                     title = Res.string.contact

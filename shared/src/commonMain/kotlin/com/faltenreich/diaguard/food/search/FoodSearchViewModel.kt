@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
@@ -46,6 +47,7 @@ class FoodSearchViewModel(
             is FoodSearchIntent.Close -> navigateBack()
             is FoodSearchIntent.Create -> navigateToScreen(FoodFormScreen())
             is FoodSearchIntent.Select -> selectFood(food)
+            is FoodSearchIntent.OpenPreferences -> navigateToScreen(FoodPreferenceScreen)
         }
     }
 

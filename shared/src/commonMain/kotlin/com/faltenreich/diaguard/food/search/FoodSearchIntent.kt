@@ -9,4 +9,6 @@ sealed interface FoodSearchIntent {
     data object Create : FoodSearchIntent
 
     data class Select(val food: Food.Local) : FoodSearchIntent
+
+    data object OpenPreferences : FoodSearchIntent
 }

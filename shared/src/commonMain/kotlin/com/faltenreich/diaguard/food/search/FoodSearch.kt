@@ -26,6 +26,7 @@ fun FoodSearch(
                 query = viewModel.query,
                 onQueryChange = { viewModel.query = it },
                 onNavigateBack = { viewModel.dispatchIntent(FoodSearchIntent.Close) },
+                onOpenPreferences = { viewModel.dispatchIntent(FoodSearchIntent.OpenPreferences) },
             )
             FoodSearchHeader(
                 modifier = Modifier

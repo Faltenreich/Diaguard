@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.database.sqldelight.FoodQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
+import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
 import com.faltenreich.diaguard.shared.di.inject
 
@@ -81,8 +82,10 @@ class FoodSqlDelightDao(
         showBrandedFood: Boolean,
         page: PagingPage,
     ): List<Food.Local> {
-        // TODO: Pass flags to query
         return queries.getAll(
+            showCommonFood = showCommonFood.toSqlLiteLong(),
+            showCustomFood = showCustomFood.toSqlLiteLong(),
+            showBrandedFood = showBrandedFood.toSqlLiteLong(),
             offset = page.page.toLong() * page.pageSize.toLong(),
             limit = page.pageSize.toLong(),
             mapper = mapper::map,
@@ -96,9 +99,11 @@ class FoodSqlDelightDao(
         showBrandedFood: Boolean,
         page: PagingPage,
     ): List<Food.Local> {
-        // TODO: Pass flags to query
         return queries.getByQuery(
             query = query,
+            showCommonFood = showCommonFood.toSqlLiteLong(),
+            showCustomFood = showCustomFood.toSqlLiteLong(),
+            showBrandedFood = showBrandedFood.toSqlLiteLong(),
             offset = page.page.toLong() * page.pageSize.toLong(),
             limit = page.pageSize.toLong(),
             mapper = mapper::map,

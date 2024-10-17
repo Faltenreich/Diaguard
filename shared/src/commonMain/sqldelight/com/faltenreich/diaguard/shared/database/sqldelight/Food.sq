@@ -40,12 +40,25 @@ WHERE uuid IN ?;
 
 getAll:
 SELECT * FROM Food
+WHERE (:showCommonFood == 1 AND uuid IS NULL AND labels IS NOT NULL)
+OR (:showCustomFood == 1 AND uuid IS NULL AND labels IS NULL)
+OR (:showBrandedFood == 1 AND uuid IS NOT NULL)
 ORDER BY name COLLATE NOCASE ASC
 LIMIT :limit OFFSET :offset;
 
 getByQuery:
 SELECT * FROM Food
-WHERE name LIKE ('%' || :query || '%') OR brand LIKE ('%' || :query || '%') OR ingredients LIKE ('%' || :query || '%') OR labels LIKE ('%' || :query || '%')
+WHERE (
+    name LIKE ('%' || :query || '%')
+    OR brand LIKE ('%' || :query || '%')
+    OR ingredients LIKE ('%' || :query || '%')
+    OR labels LIKE ('%' || :query || '%')
+)
+AND (
+    (:showCommonFood == 1 AND uuid IS NULL AND labels IS NOT NULL)
+    OR (:showCustomFood == 1 AND uuid IS NULL AND labels IS NULL)
+    OR (:showBrandedFood == 1 AND uuid IS NOT NULL)
+)
 ORDER BY name COLLATE NOCASE ASC
 LIMIT :limit OFFSET :offset;
 

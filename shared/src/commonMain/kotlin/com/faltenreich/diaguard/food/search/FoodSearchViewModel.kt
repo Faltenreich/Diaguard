@@ -11,10 +11,13 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.preference.FoodPreference
 import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
+import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -23,6 +26,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
     private val mode: FoodSearchMode,
+    getPreference: GetPreferenceUseCase = inject(),
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val navigateToScreen: NavigateToScreenUseCase = inject(),
@@ -30,14 +34,19 @@ class FoodSearchViewModel(
 
     var query: String by mutableStateOf("")
 
-    private val pagingData: Flow<PagingData<Food.Local>> = snapshotFlow { query }
-        .debounce(1.seconds)
-        .distinctUntilChanged()
-        .flatMapLatest { query ->
-            Pager(
-                config = FoodSearchSource.newConfig(),
-                pagingSourceFactory = { FoodSearchSource(query, searchFood) },
-            ).flow
+    private val pagingData: Flow<PagingData<Food.Local>> = combine(
+        snapshotFlow { query }
+            .debounce(1.seconds)
+            .distinctUntilChanged(),
+        getPreference(FoodPreference.ShowCommonFood),
+        getPreference(FoodPreference.ShowCustomFood),
+        getPreference(FoodPreference.ShowBrandedFood),
+        ::FoodSearchParams,
+    ).flatMapLatest { params ->
+        Pager(
+            config = FoodSearchSource.newConfig(),
+            pagingSourceFactory = { FoodSearchSource(params, searchFood) },
+        ).flow
     }.cachedIn(scope)
 
     override val state = flowOf(FoodSearchState(pagingData = pagingData))

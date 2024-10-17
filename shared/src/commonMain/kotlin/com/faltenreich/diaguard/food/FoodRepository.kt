@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.food
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
+import com.faltenreich.diaguard.food.search.FoodSearchParams
 import com.faltenreich.diaguard.shared.data.PagingPage
 
 class FoodRepository(
@@ -107,12 +108,9 @@ class FoodRepository(
     }
 
     suspend fun getByQuery(
-        query: String,
-        showCommonFood: Boolean,
-        showCustomFood: Boolean,
-        showBrandedFood: Boolean,
+        params: FoodSearchParams,
         page: PagingPage,
-    ): List<Food.Local> {
+    ): List<Food.Local> = with(params) {
         return if (query.isBlank()) {
             dao.getAll(showCommonFood, showCustomFood, showBrandedFood, page)
         } else {

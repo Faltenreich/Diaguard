@@ -8,9 +8,9 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
+import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
-import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -115,10 +115,10 @@ class FoodFormViewModel(
 
     private fun submit() = scope.launch {
         val foodInput = FoodInput(
-            name = name,
-            brand = brand,
-            ingredients = ingredients,
-            labels = labels,
+            name = name.takeIf(String::isNotBlank),
+            brand = brand.takeIf(String::isNotBlank),
+            ingredients = ingredients.takeIf(String::isNotBlank),
+            labels = labels.takeIf(String::isNotBlank),
             carbohydrates = carbohydrates.toDoubleOrNull()?.takeIf { it > 0 },
             energy = energy.toDoubleOrNull()?.takeIf { it > 0 },
             fat = fat.toDoubleOrNull()?.takeIf { it > 0 },

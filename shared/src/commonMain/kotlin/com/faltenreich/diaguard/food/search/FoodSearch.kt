@@ -18,6 +18,7 @@ fun FoodSearch(
     viewModel: FoodSearchViewModel,
 ) {
     val state = viewModel.collectState() ?: return
+    // FIXME: Update on return, e.g. after creating/updating food
     val items = state.pagingData.collectAsLazyPagingItems()
 
     Column(modifier = modifier) {

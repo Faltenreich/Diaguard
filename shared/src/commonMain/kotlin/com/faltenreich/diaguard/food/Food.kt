@@ -59,6 +59,22 @@ sealed interface Food {
         override val sugar: Double?,
     ) : Food, RemoteEntity
 
+    data class Input(
+        val name: String,
+        val brand: String,
+        val ingredients: String,
+        val labels: String,
+        val carbohydrates: String,
+        val energy: String,
+        val fat: String,
+        val fatSaturated: String,
+        val fiber: String,
+        val proteins: String,
+        val salt: String,
+        val sodium: String,
+        val sugar: String,
+    )
+
     data class User(
         override val name: String,
         override val brand: String?,

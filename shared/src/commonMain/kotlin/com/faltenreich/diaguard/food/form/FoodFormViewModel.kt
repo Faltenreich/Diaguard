@@ -114,37 +114,23 @@ class FoodFormViewModel(
     }
 
     private fun submit() = scope.launch {
-        val food = food?.copy(
+        val input = Food.Input(
             name = name,
-            brand = brand.takeIf(String::isNotBlank),
-            ingredients = ingredients.takeIf(String::isNotBlank),
-            labels = labels.takeIf(String::isNotBlank),
-            carbohydrates = carbohydrates.toDoubleOrNull() ?: -1.0,
-            energy = energy.toDoubleOrNull()?.takeIf { it > 0 },
-            fat = fat.toDoubleOrNull()?.takeIf { it > 0 },
-            fatSaturated = fatSaturated.toDoubleOrNull()?.takeIf { it > 0 },
-            fiber = fiber.toDoubleOrNull()?.takeIf { it > 0 },
-            proteins = proteins.toDoubleOrNull()?.takeIf { it > 0 },
-            salt = salt.toDoubleOrNull()?.takeIf { it > 0 },
-            sodium = sodium.toDoubleOrNull()?.takeIf { it > 0 },
-            sugar = sugar.toDoubleOrNull()?.takeIf { it > 0 },
-        ) ?: Food.User(
-            name = name,
-            brand = brand.takeIf(String::isNotBlank),
-            ingredients = ingredients.takeIf(String::isNotBlank),
-            labels = labels.takeIf(String::isNotBlank),
-            carbohydrates = carbohydrates.toDoubleOrNull() ?: -1.0,
-            energy = energy.toDoubleOrNull()?.takeIf { it > 0 },
-            fat = fat.toDoubleOrNull()?.takeIf { it > 0 },
-            fatSaturated = fatSaturated.toDoubleOrNull()?.takeIf { it > 0 },
-            fiber = fiber.toDoubleOrNull()?.takeIf { it > 0 },
-            proteins = proteins.toDoubleOrNull()?.takeIf { it > 0 },
-            salt = salt.toDoubleOrNull()?.takeIf { it > 0 },
-            sodium = sodium.toDoubleOrNull()?.takeIf { it > 0 },
-            sugar = sugar.toDoubleOrNull()?.takeIf { it > 0 },
+            brand = brand,
+            ingredients = ingredients,
+            labels = labels,
+            carbohydrates = carbohydrates,
+            energy = energy,
+            fat = fat,
+            fatSaturated = fatSaturated,
+            fiber = fiber,
+            proteins = proteins,
+            salt = salt,
+            sodium = sodium,
+            sugar = sugar,
         )
 
-        when (val result = validateInput(food)) {
+        when (val result = validateInput(input, food)) {
             is ValidationResult.Success -> {
                 storeFood(result.data)
                 navigateBack()

@@ -34,9 +34,21 @@ interface FoodDao {
 
     fun getByUuids(uuids: List<String>): List<String>
 
-    fun getAll(page: PagingPage): List<Food.Local>
+    fun getAll(
+        showCommonFood: Boolean,
+        showCustomFood: Boolean,
+        showBrandedFood: Boolean,
+        page: PagingPage,
+    ): List<Food.Local>
 
-    fun getByQuery(query: String, page: PagingPage): List<Food.Local>
+    fun getByQuery(
+        query: String,
+        showCommonFood: Boolean,
+        showCustomFood: Boolean,
+        showBrandedFood: Boolean,
+        page: PagingPage,
+    ): List<Food.Local>
+
 
     fun update(
         id: Long,

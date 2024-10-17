@@ -106,9 +106,15 @@ class FoodRepository(
         return dao.getById(id)
     }
 
-    suspend fun getByQuery(query: String, page: PagingPage): List<Food.Local> {
+    suspend fun getByQuery(
+        query: String,
+        showCommonFood: Boolean,
+        showCustomFood: Boolean,
+        showBrandedFood: Boolean,
+        page: PagingPage,
+    ): List<Food.Local> {
         return if (query.isBlank()) {
-            dao.getAll(page)
+            dao.getAll(showCommonFood, showCustomFood, showBrandedFood, page)
         } else {
             val foodFromApi = api.search(query, page)
             val uuids = foodFromApi.map(FoodFromApi::uuid)
@@ -139,7 +145,7 @@ class FoodRepository(
                 }
             }
             // FIXME: Compensate delta of response from FoodApi
-            return dao.getByQuery(query, page)
+            return dao.getByQuery(query, showCommonFood, showCustomFood, showBrandedFood, page)
         }
     }
 

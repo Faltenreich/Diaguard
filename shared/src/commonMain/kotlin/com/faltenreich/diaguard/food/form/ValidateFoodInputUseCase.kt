@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.food.form
 
+import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import diaguard.shared.generated.resources.Res
@@ -12,13 +13,14 @@ class ValidateFoodInputUseCase(
     private val localization: Localization,
 ) {
 
-    suspend operator fun invoke(
-        input: FoodInput,
-    ): ValidationResult<FoodInput> = withContext(dispatcher) {
-        if (input.name?.isNotBlank() == true && input.carbohydrates != null) {
-            ValidationResult.Success(input)
+    suspend operator fun invoke(food: Food): ValidationResult<Food> = withContext(dispatcher) {
+        if (food.name.isNotBlank() && food.carbohydrates >= 0) {
+            ValidationResult.Success(food)
         } else {
-            ValidationResult.Failure(input, localization.getString(Res.string.food_form_missing_input))
+            ValidationResult.Failure(
+                data = food,
+                error = localization.getString(Res.string.food_form_missing_input),
+            )
         }
     }
 }

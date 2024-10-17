@@ -114,12 +114,26 @@ class FoodFormViewModel(
     }
 
     private fun submit() = scope.launch {
-        val foodInput = FoodInput(
-            name = name.takeIf(String::isNotBlank),
+        val food = food?.copy(
+            name = name,
             brand = brand.takeIf(String::isNotBlank),
             ingredients = ingredients.takeIf(String::isNotBlank),
             labels = labels.takeIf(String::isNotBlank),
-            carbohydrates = carbohydrates.toDoubleOrNull()?.takeIf { it > 0 },
+            carbohydrates = carbohydrates.toDoubleOrNull() ?: -1.0,
+            energy = energy.toDoubleOrNull()?.takeIf { it > 0 },
+            fat = fat.toDoubleOrNull()?.takeIf { it > 0 },
+            fatSaturated = fatSaturated.toDoubleOrNull()?.takeIf { it > 0 },
+            fiber = fiber.toDoubleOrNull()?.takeIf { it > 0 },
+            proteins = proteins.toDoubleOrNull()?.takeIf { it > 0 },
+            salt = salt.toDoubleOrNull()?.takeIf { it > 0 },
+            sodium = sodium.toDoubleOrNull()?.takeIf { it > 0 },
+            sugar = sugar.toDoubleOrNull()?.takeIf { it > 0 },
+        ) ?: Food.User(
+            name = name,
+            brand = brand.takeIf(String::isNotBlank),
+            ingredients = ingredients.takeIf(String::isNotBlank),
+            labels = labels.takeIf(String::isNotBlank),
+            carbohydrates = carbohydrates.toDoubleOrNull() ?: -1.0,
             energy = energy.toDoubleOrNull()?.takeIf { it > 0 },
             fat = fat.toDoubleOrNull()?.takeIf { it > 0 },
             fatSaturated = fatSaturated.toDoubleOrNull()?.takeIf { it > 0 },
@@ -130,50 +144,14 @@ class FoodFormViewModel(
             sugar = sugar.toDoubleOrNull()?.takeIf { it > 0 },
         )
 
-        when (val result = validateInput(foodInput)) {
+        when (val result = validateInput(food)) {
             is ValidationResult.Success -> {
-                // TODO: Remove force unwraps
-                when (val food = food) {
-                    null -> with(foodInput) {
-                        val new = Food.User(
-                            name = name!!,
-                            brand = brand,
-                            ingredients = ingredients,
-                            labels = labels,
-                            carbohydrates = carbohydrates!!,
-                            energy = energy,
-                            fat = fat,
-                            fatSaturated = fatSaturated,
-                            fiber = fiber,
-                            proteins = proteins,
-                            salt = salt,
-                            sodium = sodium,
-                            sugar = sugar,
-                        )
-                        storeFood(new)
-                    }
-                    else -> with(foodInput) {
-                        val update = food.copy(
-                            name = name!!,
-                            brand = brand,
-                            ingredients = ingredients,
-                            labels = labels,
-                            carbohydrates = carbohydrates!!,
-                            energy = energy,
-                            fat = fat,
-                            fatSaturated = fatSaturated,
-                            fiber = fiber,
-                            proteins = proteins,
-                            salt = salt,
-                            sodium = sodium,
-                            sugar = sugar,
-                        )
-                        storeFood(update)
-                    }
-                }
+                storeFood(result.data)
                 navigateBack()
             }
-            is ValidationResult.Failure -> showSnackbar(result.error)
+            is ValidationResult.Failure -> {
+                showSnackbar(result.error)
+            }
         }
     }
 

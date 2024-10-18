@@ -1,17 +1,14 @@
 package com.faltenreich.diaguard.dashboard.hba1c
 
 import com.faltenreich.diaguard.dashboard.DashboardState
-import com.faltenreich.diaguard.datetime.DateUnit
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
-import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.format
 import diaguard.shared.generated.resources.Res
@@ -22,10 +19,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 class GetCurrentHbA1cUseCase(
-    private val valueRepository: MeasurementValueRepository,
+    private val getLatestHbA1c: GetLatestHbA1cUseCase,
+    private val getEstimatedHbA1c: GetEstimatedHbA1cUseCase,
     private val getPreference: GetPreferenceUseCase,
     private val localization: Localization,
-    private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val measurementValueMapper: MeasurementValueMapper,
     private val navigateToScreen: NavigateToScreenUseCase,
@@ -33,42 +30,53 @@ class GetCurrentHbA1cUseCase(
 ) {
 
     operator fun invoke(): Flow<DashboardState.HbA1c?> {
-        val now = dateTimeFactory.now()
         return combine(
+            // TODO: Return State from encapsulated use cases
+            getLatestHbA1c(),
+            getEstimatedHbA1c(),
             getPreference(DecimalPlaces),
-            valueRepository.observeLatestByProperty(DatabaseKey.MeasurementProperty.HBA1C),
-            valueRepository.observeAverageByPropertyKey(
-                propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
-                minDateTime = now.date.minus(1, DateUnit.QUARTER).atStartOfDay(),
-                maxDateTime = now,
-            ),
-        ) { decimalPlaces, latestHbA1c, averageBloodSugar ->
+        ) { latestHbA1c, averageBloodSugar, decimalPlaces ->
             when {
-                latestHbA1c != null -> DashboardState.HbA1c(
-                    label = localization.getString(Res.string.hba1c_latest).format(
-                        dateTimeFormatter.formatDate(latestHbA1c.entry.dateTime.date)
-                    ),
-                    value = measurementValueMapper(
-                        value = latestHbA1c,
-                        decimalPlaces = decimalPlaces,
-                    ),
-                    onClick = {
-                        navigateToScreen(EntryFormScreen(entry = latestHbA1c.entry))
-                    },
-                )
-                averageBloodSugar?.value != null -> DashboardState.HbA1c(
-                    label = localization.getString(Res.string.hba1c_estimated),
-                    value = measurementValueMapper(
-                        value = 0.031 * averageBloodSugar.value + 2.393,
-                        unit = averageBloodSugar.property.selectedUnit,
-                        decimalPlaces = decimalPlaces,
-                    ),
-                    onClick = {
-                        showSnackbar.invoke(localization.getString(Res.string.hba1c_formula))
-                    },
-                )
+                latestHbA1c != null -> getLatestHbA1c(latestHbA1c, decimalPlaces)
+                averageBloodSugar != null -> getEstimatedHbA1c(averageBloodSugar, decimalPlaces)
                 else -> null
             }
         }
+    }
+
+    private fun getLatestHbA1c(
+        value: MeasurementValue,
+        decimalPlaces: Int,
+    ): DashboardState.HbA1c {
+        return DashboardState.HbA1c(
+            label = localization.getString(Res.string.hba1c_latest).format(
+                dateTimeFormatter.formatDate(value.entry.dateTime.date)
+            ),
+            value = measurementValueMapper(
+                value = value,
+                decimalPlaces = decimalPlaces,
+            ),
+            onClick = {
+                navigateToScreen(EntryFormScreen(entry = value.entry))
+            },
+        )
+    }
+
+    private fun getEstimatedHbA1c(
+        value: MeasurementValue.Average,
+        decimalPlaces: Int,
+    ): DashboardState.HbA1c? {
+        value.value ?: return null
+        return DashboardState.HbA1c(
+            label = localization.getString(Res.string.hba1c_estimated),
+            value = measurementValueMapper(
+                value = value.value,
+                unit = value.property.selectedUnit,
+                decimalPlaces = decimalPlaces,
+            ),
+            onClick = {
+                showSnackbar.invoke(localization.getString(Res.string.hba1c_formula))
+            },
+        )
     }
 }

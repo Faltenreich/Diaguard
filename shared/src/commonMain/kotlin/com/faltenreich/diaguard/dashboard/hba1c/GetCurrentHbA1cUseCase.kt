@@ -30,26 +30,25 @@ class GetCurrentHbA1cUseCase(
 ) {
 
     operator fun invoke(): Flow<DashboardState.HbA1c?> {
-        val propertyKey = DatabaseKey.MeasurementProperty.HBA1C
         val now = dateTimeFactory.now()
         return combine(
             getPreference(DecimalPlaces),
+            valueRepository.observeLatestByProperty(DatabaseKey.MeasurementProperty.HBA1C),
             // TODO: Avoid redundant call to property
-            flowOf(propertyRepository.getByKey(DatabaseKey.MeasurementProperty.HBA1C.key)),
-            valueRepository.observeLatestByProperty(propertyKey),
+            flowOf(propertyRepository.getByKey(DatabaseKey.MeasurementProperty.BLOOD_SUGAR.key)),
             valueRepository.observeAverageByPropertyKey(
-                propertyKey = propertyKey,
+                propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
                 minDateTime = now.date.minus(1, DateUnit.QUARTER).atStartOfDay(),
                 maxDateTime = now,
-            )
-        ) { decimalPlaces, property, latestHbA1c, averageOfQuarter ->
+            ),
+        ) { decimalPlaces, latestHbA1c, bloodSugarProperty, averageBloodSugar ->
             when (latestHbA1c) {
                 null -> DashboardState.HbA1c(
                     label = localization.getString(Res.string.hba1c_estimated),
-                    value = averageOfQuarter?.let {
+                    value = averageBloodSugar?.let {
                         measurementValueMapper(
-                            value = averageOfQuarter,
-                            unit = property.selectedUnit,
+                            value = averageBloodSugar,
+                            unit = bloodSugarProperty.selectedUnit,
                             decimalPlaces = decimalPlaces,
                         )
                     }

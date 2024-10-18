@@ -73,7 +73,7 @@ class MeasurementValueRepository(
         propertyKey: DatabaseKey.MeasurementProperty,
         minDateTime: DateTime,
         maxDateTime: DateTime,
-    ): Flow<Double?> {
+    ): Flow<MeasurementValue.Average?> {
         return dao.observeAverageByPropertyKey(propertyKey, minDateTime, maxDateTime)
     }
 

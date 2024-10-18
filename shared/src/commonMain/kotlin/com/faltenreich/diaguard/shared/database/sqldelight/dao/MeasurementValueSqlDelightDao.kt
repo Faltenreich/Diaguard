@@ -102,12 +102,13 @@ class MeasurementValueSqlDelightDao(
         propertyKey: DatabaseKey.MeasurementProperty,
         minDateTime: DateTime,
         maxDateTime: DateTime,
-    ): Flow<Double?> {
+    ): Flow<MeasurementValue.Average?> {
         return queries.getAverageByPropertyKey(
             propertyKey = propertyKey.key,
             minDateTime = minDateTime.isoString,
             maxDateTime = maxDateTime.isoString,
-        ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
+            mapper = mapper::map,
+        ).asFlow().mapToOneOrNull(dispatcher)
     }
 
     override fun getAverageByPropertyId(

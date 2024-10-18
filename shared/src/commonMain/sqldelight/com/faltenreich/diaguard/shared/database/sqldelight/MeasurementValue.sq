@@ -70,8 +70,14 @@ INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.categoryId == :categoryId;
 
 getAverageByPropertyKey:
-SELECT AVG(MeasurementValue.value) FROM MeasurementValue
+SELECT
+    AVG(MeasurementValue.value),
+    MeasurementProperty.*,
+    MeasurementUnit.*,
+    MeasurementCategory.* FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.key == :propertyKey
 AND Entry.dateTime >= :minDateTime

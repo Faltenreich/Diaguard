@@ -106,4 +106,81 @@ class MeasurementValueSqlDelightMapper(
             ),
         )
     }
+
+    fun map(
+        average: Double?,
+
+        propertyId: Long,
+        propertyCreatedAt: String,
+        propertyUpdatedAt: String,
+        propertyKey: String?,
+        propertyName: String,
+        propertySortIndex: Long,
+        propertyAggregationStyle: Long,
+        propertyValueRangeMinimum: Double,
+        propertyValueRangeLow: Double?,
+        propertyValueRangeTarget: Double?,
+        propertyValueRangeHigh: Double?,
+        propertyValueRangeMaximum: Double,
+        propertyIsValueRangeHighlighted: Long,
+        propertyCategoryId: Long,
+
+        unitId: Long,
+        unitCreatedAt: String,
+        unitUpdatedAt: String,
+        unitKey: String?,
+        unitName: String,
+        unitAbbreviation: String,
+        unitFactor: Double,
+        unitIsSelected: Long,
+        unitPropertyId: Long,
+
+        categoryId: Long,
+        categoryCreatedAt: String,
+        categoryUpdatedAt: String,
+        categoryKey: String?,
+        categoryName: String,
+        categoryIcon: String?,
+        categorySortIndex: Long,
+        categoryIsActive: Long,
+    ): MeasurementValue.Average {
+        return MeasurementValue.Average(
+            value = average,
+            property = propertyMapper.map(
+                propertyId = propertyId,
+                propertyCreatedAt = propertyCreatedAt,
+                propertyUpdatedAt = propertyUpdatedAt,
+                propertyKey = propertyKey,
+                propertyName = propertyName,
+                propertySortIndex = propertySortIndex,
+                propertyAggregationStyle = propertyAggregationStyle,
+                propertyValueRangeMinimum = propertyValueRangeMinimum,
+                propertyValueRangeLow = propertyValueRangeLow,
+                propertyValueRangeTarget = propertyValueRangeTarget,
+                propertyValueRangeHigh = propertyValueRangeHigh,
+                propertyValueRangeMaximum = propertyValueRangeMaximum,
+                propertyIsValueRangeHighlighted = propertyIsValueRangeHighlighted,
+                propertyCategoryId = propertyCategoryId,
+
+                unitId = unitId,
+                unitCreatedAt = unitCreatedAt,
+                unitUpdatedAt = unitUpdatedAt,
+                unitKey = unitKey,
+                unitName = unitName,
+                unitAbbreviation = unitAbbreviation,
+                unitFactor = unitFactor,
+                unitIsSelected = unitIsSelected,
+                unitPropertyId = unitPropertyId,
+
+                categoryId = categoryId,
+                categoryCreatedAt = categoryCreatedAt,
+                categoryUpdatedAt = categoryUpdatedAt,
+                categoryKey = categoryKey,
+                categoryName = categoryName,
+                categoryIcon = categoryIcon,
+                categorySortIndex = categorySortIndex,
+                categoryIsActive = categoryIsActive,
+            ),
+        )
+    }
 }

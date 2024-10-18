@@ -43,7 +43,7 @@ interface MeasurementValueDao {
         propertyKey: DatabaseKey.MeasurementProperty,
         minDateTime: DateTime,
         maxDateTime: DateTime
-    ): Flow<Double?>
+    ): Flow<MeasurementValue.Average?>
 
     fun getAverageByPropertyId(
         propertyId: Long,

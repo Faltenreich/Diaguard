@@ -55,6 +55,11 @@ sealed interface MeasurementValue {
         override val entry: Entry.Local,
     ) : MeasurementValue, DatabaseEntity
 
+    data class Average(
+        val value: Double?,
+        val property: MeasurementProperty.Local,
+    )
+
     data class Localized(
         /**
          * [MeasurementValue.value] to display to user,

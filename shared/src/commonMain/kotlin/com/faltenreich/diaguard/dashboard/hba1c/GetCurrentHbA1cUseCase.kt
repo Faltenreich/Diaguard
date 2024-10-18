@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
@@ -21,11 +20,9 @@ import diaguard.shared.generated.resources.hba1c_formula
 import diaguard.shared.generated.resources.hba1c_latest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
 
 class GetCurrentHbA1cUseCase(
     private val valueRepository: MeasurementValueRepository,
-    private val propertyRepository: MeasurementPropertyRepository,
     private val getPreference: GetPreferenceUseCase,
     private val localization: Localization,
     private val dateTimeFactory: DateTimeFactory,
@@ -40,14 +37,12 @@ class GetCurrentHbA1cUseCase(
         return combine(
             getPreference(DecimalPlaces),
             valueRepository.observeLatestByProperty(DatabaseKey.MeasurementProperty.HBA1C),
-            // TODO: Avoid redundant call to property
-            flowOf(propertyRepository.getByKey(DatabaseKey.MeasurementProperty.BLOOD_SUGAR.key)),
             valueRepository.observeAverageByPropertyKey(
                 propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
                 minDateTime = now.date.minus(1, DateUnit.QUARTER).atStartOfDay(),
                 maxDateTime = now,
             ),
-        ) { decimalPlaces, latestHbA1c, bloodSugarProperty, averageBloodSugar ->
+        ) { decimalPlaces, latestHbA1c, averageBloodSugar ->
             when {
                 latestHbA1c != null -> DashboardState.HbA1c(
                     label = localization.getString(Res.string.hba1c_latest).format(
@@ -61,11 +56,11 @@ class GetCurrentHbA1cUseCase(
                         navigateToScreen(EntryFormScreen(entry = latestHbA1c.entry))
                     },
                 )
-                averageBloodSugar != null -> DashboardState.HbA1c(
+                averageBloodSugar?.value != null -> DashboardState.HbA1c(
                     label = localization.getString(Res.string.hba1c_estimated),
                     value = measurementValueMapper(
-                        value = 0.031 * averageBloodSugar + 2.393,
-                        unit = bloodSugarProperty.selectedUnit,
+                        value = 0.031 * averageBloodSugar.value + 2.393,
+                        unit = averageBloodSugar.property.selectedUnit,
                         decimalPlaces = decimalPlaces,
                     ),
                     onClick = {

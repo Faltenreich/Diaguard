@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.dashboard.average.GetAverageUseCase
+import com.faltenreich.diaguard.dashboard.hba1c.GetCurrentHbA1cUseCase
 import com.faltenreich.diaguard.dashboard.latest.GetLatestBloodSugarUseCase
 import com.faltenreich.diaguard.dashboard.today.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
@@ -15,6 +16,7 @@ class DashboardViewModel(
     getLatestBloodSugar: GetLatestBloodSugarUseCase,
     getToday: GetTodayUseCase,
     getAverage: GetAverageUseCase,
+    getCurrentHbA1c: GetCurrentHbA1cUseCase,
     private val navigateToScreen: NavigateToScreenUseCase,
 ) : ViewModel<DashboardState, DashboardIntent, Unit>() {
 
@@ -22,8 +24,7 @@ class DashboardViewModel(
         getLatestBloodSugar(),
         getToday(),
         getAverage(),
-        // TODO: Add use cases
-        flowOf(null),
+        getCurrentHbA1c(),
         flowOf(null),
         ::DashboardState,
     )

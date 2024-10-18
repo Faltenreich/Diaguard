@@ -100,6 +100,8 @@
     <string name="food_source_powered_by">Powered by</string>
     <string name="grams_abbreviation">g</string>
     <string name="hba1c">HbA1c</string>
+    <string name="hba1c_estimated">Estimated HbA1c</string>
+    <string name="hba1c_latest">HbA1c on %s</string>
     <string name="homepage">Homepage</string>
     <string name="homepage_url">http://www.diaguard.wordpress.com</string>
     <string name="homepage_url_short">diaguard.wordpress.com</string>

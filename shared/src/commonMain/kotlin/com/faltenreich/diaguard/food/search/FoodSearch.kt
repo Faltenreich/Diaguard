@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
@@ -11,6 +12,8 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.search.list.FoodList
 import com.faltenreich.diaguard.food.search.list.FoodListEmpty
 import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
+import com.faltenreich.diaguard.shared.view.LifecycleState
+import com.faltenreich.diaguard.shared.view.rememberLifecycleState
 
 @Composable
 fun FoodSearch(
@@ -18,8 +21,14 @@ fun FoodSearch(
     viewModel: FoodSearchViewModel,
 ) {
     val state = viewModel.collectState() ?: return
-    // FIXME: Update on return, e.g. after creating/updating food
     val items = state.pagingData.collectAsLazyPagingItems()
+
+    val lifecycleState = rememberLifecycleState()
+    LaunchedEffect(lifecycleState) {
+        if (lifecycleState == LifecycleState.RESUMED) {
+            items.refresh()
+        }
+    }
 
     Column(modifier = modifier) {
         Column(modifier = Modifier.background(AppTheme.colors.scheme.primary)) {

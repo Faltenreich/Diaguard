@@ -47,7 +47,7 @@ class GetCurrentHbA1cUseCase(
                     label = localization.getString(Res.string.hba1c_estimated),
                     value = averageBloodSugar?.let {
                         measurementValueMapper(
-                            value = averageBloodSugar,
+                            value = 0.031 * averageBloodSugar + 2.393,
                             unit = bloodSugarProperty.selectedUnit,
                             decimalPlaces = decimalPlaces,
                         )

@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.main
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -10,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -36,10 +39,16 @@ import com.faltenreich.diaguard.preference.overview.OverviewPreferenceScreen
 import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.di.rememberViewModelStoreOwner
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_arrow_back
+import diaguard.shared.generated.resources.navigate_back
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun MainView(
@@ -49,6 +58,8 @@ fun MainView(
 ) {
     val state = viewModel.collectState()
     if (state !is MainState.SubsequentStart) return
+
+    val scope = rememberCoroutineScope()
 
     val navController = rememberNavController()
     SideEffect { navigation.navController = navController }
@@ -64,7 +75,21 @@ fun MainView(
     CompositionLocalProvider(LocalSharedViewModelStoreOwner provides viewModelStoreOwner) {
         Scaffold(
             modifier = modifier,
-            topBar = { TopAppBar(state.topAppBarStyle) },
+            topBar = {
+                TopAppBar(
+                    style = state.topAppBarStyle,
+                    navigationIcon = {
+                        if (navigation.canPopScreen()) {
+                            IconButton(onClick = { scope.launch { navigation.popScreen() } }) {
+                                Icon(
+                                    painter = painterResource(Res.drawable.ic_arrow_back),
+                                    contentDescription = getString(Res.string.navigate_back),
+                                )
+                            }
+                        }
+                    },
+                )
+            },
             content = { padding ->
                 NavHost(
                     navController = navController,

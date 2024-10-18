@@ -62,12 +62,8 @@ class FoodSearchViewModel(
 
     private suspend fun selectFood(food: Food.Local) {
         when (mode) {
-            FoodSearchMode.STROLL -> {
-                navigateToScreen(FoodFormScreen(food))
-            }
-            FoodSearchMode.FIND -> {
-                navigateBack(result = KEY_SELECTED_FOOD_ID to food.id)
-            }
+            FoodSearchMode.STROLL -> navigateToScreen(FoodFormScreen(food))
+            FoodSearchMode.FIND -> navigateBack(result = KEY_SELECTED_FOOD_ID to food.id)
         }
     }
 

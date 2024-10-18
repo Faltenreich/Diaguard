@@ -34,7 +34,7 @@ data class DashboardState(
 
     data class HbA1c(
         val label: String,
-        val value: MeasurementValue.Localized,
+        val value: MeasurementValue.Localized?,
     )
 
     data class Trend(

@@ -51,7 +51,7 @@ class MeasurementValueSqlDelightDao(
 
     override fun observeByDateRange(
         startDateTime: DateTime,
-        endDateTime: DateTime
+        endDateTime: DateTime,
     ): Flow<List<MeasurementValue.Local>> {
         return queries.getByDateRange(
             startDateTime = startDateTime.isoString,
@@ -76,7 +76,7 @@ class MeasurementValueSqlDelightDao(
     override fun observeByCategoryId(
         categoryId: Long,
         minDateTime: DateTime,
-        maxDateTime: DateTime
+        maxDateTime: DateTime,
     ): Flow<List<MeasurementValue.Local>> {
         return queries.getCategoryAndDateTime(
             categoryId = categoryId,
@@ -89,7 +89,7 @@ class MeasurementValueSqlDelightDao(
     override fun observeAverageByCategoryId(
         categoryId: Long,
         minDateTime: DateTime,
-        maxDateTime: DateTime
+        maxDateTime: DateTime,
     ): Flow<Double?> {
         return queries.getAverageByCategory(
             categoryId = categoryId,
@@ -98,10 +98,22 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
     }
 
+    override fun observeAverageByPropertyKey(
+        propertyKey: DatabaseKey.MeasurementProperty,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Double?> {
+        return queries.getAverageByPropertyKey(
+            propertyKey = propertyKey.key,
+            minDateTime = minDateTime.isoString,
+            maxDateTime = maxDateTime.isoString,
+        ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
+    }
+
     override fun getAverageByPropertyId(
         propertyId: Long,
         minDateTime: DateTime,
-        maxDateTime: DateTime
+        maxDateTime: DateTime,
     ): Double? {
         return queries.getAverageByProperty(
             propertyId = propertyId,

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOneNotNull
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
@@ -65,8 +66,8 @@ class MeasurementPropertySqlDelightDao(
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
-    override fun getByKey(key: String): MeasurementProperty.Local? {
-        return queries.getByKey(key, mapper::map).executeAsOneOrNull()
+    override fun observeByKey(key: String): Flow<MeasurementProperty.Local?> {
+        return queries.getByKey(key, mapper::map).asFlow().mapToOneNotNull(dispatcher)
     }
 
     override fun getByCategoryId(categoryId: Long): List<MeasurementProperty.Local> {

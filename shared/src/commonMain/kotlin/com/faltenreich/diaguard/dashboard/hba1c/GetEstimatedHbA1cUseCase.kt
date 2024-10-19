@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
 
 class GetEstimatedHbA1cUseCase(
     private val valueRepository: MeasurementValueRepository,
@@ -24,8 +23,7 @@ class GetEstimatedHbA1cUseCase(
                 minDateTime = now.date.minus(1, DateUnit.QUARTER).atStartOfDay(),
                 maxDateTime = now,
             ),
-            // TODO: Observe by Key
-            flowOf(propertyRepository.getByKey(DatabaseKey.MeasurementProperty.HBA1C.key)),
+            propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.HBA1C.key),
         ) { bloodSugarAverage, hbA1cProperty ->
             bloodSugarAverage?.value ?: return@combine null
             MeasurementValue.Average(

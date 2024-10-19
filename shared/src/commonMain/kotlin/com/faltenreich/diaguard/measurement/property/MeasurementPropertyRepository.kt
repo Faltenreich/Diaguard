@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.property
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class MeasurementPropertyRepository(
     private val dao: MeasurementPropertyDao,
@@ -45,8 +46,8 @@ class MeasurementPropertyRepository(
         return dao.getById(id)
     }
 
-    fun getByKey(key: String): MeasurementProperty.Local {
-        return checkNotNull(dao.getByKey(key))
+    fun observeByKey(key: String): Flow<MeasurementProperty.Local> {
+        return dao.observeByKey(key).map(::checkNotNull)
     }
 
     fun getByCategoryId(categoryId: Long): List<MeasurementProperty.Local> {

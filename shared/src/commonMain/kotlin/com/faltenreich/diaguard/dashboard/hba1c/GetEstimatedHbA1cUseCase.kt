@@ -25,11 +25,14 @@ class GetEstimatedHbA1cUseCase(
             ),
             propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.HBA1C.key),
         ) { bloodSugarAverage, hbA1cProperty ->
-            bloodSugarAverage?.value ?: return@combine null
-            MeasurementValue.Average(
-                value = 0.031 * bloodSugarAverage.value + 2.393,
-                property = hbA1cProperty,
-            )
+            if (bloodSugarAverage?.value != null && hbA1cProperty != null) {
+                MeasurementValue.Average(
+                    value = 0.031 * bloodSugarAverage.value + 2.393,
+                    property = hbA1cProperty,
+                )
+            } else {
+                null
+            }
         }
     }
 }

@@ -25,6 +25,7 @@ class DashboardViewModelTest : TestSuite {
                 hbA1c = null,
                 trend = null,
             ),
+            // FIXME: Times out since introduction of GetCurrentHbA1cUseCase
             viewModel.state.first(),
         )
     }

@@ -67,12 +67,34 @@ open class FoodFakeDao : FoodDao {
         return cache.filter { it.uuid in uuids }.map { it.uuid!! }
     }
 
-    override fun getAll(page: PagingPage): List<Food.Local> {
-        return cache
+    override fun getAll(
+        showCommonFood: Boolean,
+        showCustomFood: Boolean,
+        showBrandedFood: Boolean,
+        page: PagingPage
+    ): List<Food.Local> {
+        return cache.filter {
+            showCommonFood && it.uuid == null && it.labels != null
+                || showCustomFood && it.uuid == null && it.labels == null
+                || showBrandedFood && it.uuid != null
+        }
     }
 
-    override fun getByQuery(query: String, page: PagingPage): List<Food.Local> {
-        return cache.filter { it.name == query }.subList(page.page * page.pageSize, page.pageSize)
+    override fun getByQuery(
+        query: String,
+        showCommonFood: Boolean,
+        showCustomFood: Boolean,
+        showBrandedFood: Boolean,
+        page: PagingPage
+    ): List<Food.Local> {
+        return cache
+            .filter { it.name == query }
+            .filter {
+                showCommonFood && it.uuid == null && it.labels != null
+                    || showCustomFood && it.uuid == null && it.labels == null
+                    || showBrandedFood && it.uuid != null
+            }
+            .subList(page.page * page.pageSize, page.pageSize)
     }
 
     override fun update(

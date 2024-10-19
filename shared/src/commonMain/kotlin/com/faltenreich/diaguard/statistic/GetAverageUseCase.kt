@@ -13,6 +13,7 @@ class GetAverageUseCase(
     private val mapValue: MeasurementValueMapper,
 ) {
 
+    // TODO: Convert to Flows
     operator fun invoke(
         category: MeasurementCategory.Local,
         dateRange: ClosedRange<Date>,

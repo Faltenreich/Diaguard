@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 
 open class MeasurementValueFakeDao(
@@ -82,10 +83,26 @@ open class MeasurementValueFakeDao(
         return flowOf(
             cache
                 .filter { it.property.category.id == categoryId }
+                .map { it.value }
                 .takeIf(List<*>::isNotEmpty)
-                ?.map { it.value }
                 ?.average()
         )
+    }
+
+    override fun observeAverageByPropertyKey(
+        propertyKey: DatabaseKey.MeasurementProperty,
+        minDateTime: DateTime,
+        maxDateTime: DateTime
+    ): Flow<MeasurementValue.Average?> {
+        val values = cache
+            .filter { it.property.key == propertyKey }
+            .takeIf(List<*>::isNotEmpty)
+            ?: return emptyFlow()
+        val average = MeasurementValue.Average(
+            value = values.map { it.value }.average(),
+            property = values.first().property,
+        )
+        return flowOf(average)
     }
 
     override fun getAverageByPropertyId(
@@ -93,11 +110,7 @@ open class MeasurementValueFakeDao(
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Double? {
-        return cache
-            .filter { it.property.id == propertyId }
-            .takeIf(List<*>::isNotEmpty)
-            ?.map { it.value }
-            ?.average()
+        TODO("Not yet implemented")
     }
 
     override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {

@@ -31,7 +31,6 @@ class GetCurrentHbA1cUseCase(
 
     operator fun invoke(): Flow<DashboardState.HbA1c?> {
         return combine(
-            // TODO: Return State from encapsulated use cases
             getLatestHbA1c(),
             getEstimatedHbA1c(),
             getPreference(DecimalPlaces),
@@ -52,13 +51,8 @@ class GetCurrentHbA1cUseCase(
             label = localization.getString(Res.string.hba1c_latest).format(
                 dateTimeFormatter.formatDate(value.entry.dateTime.date)
             ),
-            value = measurementValueMapper(
-                value = value,
-                decimalPlaces = decimalPlaces,
-            ),
-            onClick = {
-                navigateToScreen(EntryFormScreen(entry = value.entry))
-            },
+            value = measurementValueMapper(value, decimalPlaces),
+            onClick = { navigateToScreen(EntryFormScreen(entry = value.entry)) },
         )
     }
 
@@ -74,9 +68,7 @@ class GetCurrentHbA1cUseCase(
                 unit = value.property.selectedUnit,
                 decimalPlaces = decimalPlaces,
             ),
-            onClick = {
-                showSnackbar.invoke(localization.getString(Res.string.hba1c_formula))
-            },
+            onClick = { showSnackbar.invoke(localization.getString(Res.string.hba1c_formula)) },
         )
     }
 }

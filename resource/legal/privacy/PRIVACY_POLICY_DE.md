@@ -1,64 +1,70 @@
-# Datenschutzerklärung
+**Datenschutzerklärung**
 
-Philipp Fahlteich hat die Diaguard-App als Open-Source-App entwickelt. Dieser SERVICE wird von Philipp Fahlteich kostenlos zur Verfügung gestellt und ist zur Nutzung in der vorliegenden Form vorgesehen.
+Diese Datenschutzerklärung gilt für die Diaguard-App (nachfolgend „Anwendung“ genannt) für mobile Geräte, die von Philipp Fahlteich (nachfolgend „Dienstanbieter“ genannt) als Open-Source-Dienst entwickelt wurde. Dieser Dienst wird „AS IS“ zur Verfügung gestellt.
 
-Diese Seite dient dazu, Besucher über meine Richtlinien bezüglich der Sammlung, Verwendung und Offenlegung von persönlichen Informationen zu informieren, falls sich jemand entschieden hat, meinen Dienst zu nutzen.
+**Welche Informationen erhält die Anwendung und wie werden sie verwendet?**
+**vom Benutzer bereitgestellte Informationen**
 
-Wenn Sie sich für die Nutzung meines Dienstes entscheiden, erklären Sie sich mit der Sammlung und Nutzung von Informationen im Zusammenhang mit dieser Richtlinie einverstanden. Die von mir erfassten persönlichen Daten werden zur Bereitstellung und Verbesserung des Dienstes verwendet. Ich werde Ihre Informationen nicht verwenden oder an Dritte weitergeben, außer wie in dieser Datenschutzrichtlinie beschrieben.
+Die Anwendung erfasst die von Ihnen bereitgestellten Informationen, wenn Sie die Anwendung herunterladen und registrieren. Die Registrierung beim Dienstanbieter ist nicht zwingend erforderlich. Beachten Sie jedoch, dass Sie einige der von der Anwendung angebotenen Funktionen möglicherweise nicht nutzen können, wenn Sie sich nicht bei ihnen registrieren.
 
-Die in dieser Datenschutzrichtlinie verwendeten Begriffe haben die gleiche Bedeutung wie in unseren Allgemeinen Geschäftsbedingungen, die bei Diaguard zugänglich sind, sofern in dieser Datenschutzrichtlinie nicht anders definiert.
+Der Dienstanbieter kann die von Ihnen zur Verfügung gestellten Informationen auch dazu verwenden, Sie von Zeit zu Zeit zu kontaktieren, um Ihnen wichtige Informationen, erforderliche Mitteilungen und Marketingaktionen zukommen zu lassen.
 
-## Sammlung und Verwendung von Informationen
+**Automatisch gesammelte Informationen**
 
-Für eine bessere Erfahrung bei der Nutzung unseres Dienstes kann es sein, dass ich Sie auffordere, uns bestimmte personenbezogene Daten zur Verfügung zu stellen. Die von mir angeforderten Informationen werden auf Ihrem Gerät gespeichert und in keiner Weise von mir erfasst.
+Darüber hinaus kann die Anwendung bestimmte Informationen automatisch erfassen, einschließlich, aber nicht beschränkt auf die Art des von Ihnen verwendeten mobilen Geräts, die eindeutige Geräte-ID Ihres mobilen Geräts, die IP-Adresse Ihres mobilen Geräts, Ihr mobiles Betriebssystem, die Art des von Ihnen verwendeten mobilen Internetbrowsers und Informationen über die Art und Weise, wie Sie die Anwendung nutzen.
 
-Die App nutzt Dienste von Drittanbietern, die möglicherweise Informationen zur Identifizierung Ihrer Person sammeln.
+**Erfasst die Anwendung genaue Echtzeit-Standortinformationen des Geräts?
 
-Link zu den Datenschutzrichtlinien von Drittanbietern, die von der App genutzt werden
+Diese Anwendung sammelt keine genauen Informationen über den Standort Ihres mobilen Geräts.
 
-* [Google Play-Dienste](https://www.google.com/policies/privacy/)
+Diese Anwendung sammelt den Standort Ihres Geräts, was dem Dienstanbieter hilft, Ihren ungefähren geografischen Standort zu bestimmen und auf folgende Weise zu nutzen:
 
-## Protokolldaten
+* Geolokalisierungsdienste: Der Dienstanbieter nutzt Standortdaten, um Funktionen wie personalisierte Inhalte, relevante Empfehlungen und standortbezogene Dienste anzubieten.
+* Analysen und Verbesserungen: Aggregierte und anonymisierte Standortdaten helfen dem Dienstanbieter, das Nutzerverhalten zu analysieren, Trends zu erkennen und die Gesamtleistung und Funktionalität der Anwendung zu verbessern.
+* Dienste von Drittanbietern: Von Zeit zu Zeit kann der Dienstanbieter anonymisierte Standortdaten an externe Dienste übermitteln. Diese Dienste helfen ihnen dabei, die Anwendung zu verbessern und ihre Angebote zu optimieren.
 
-Ich möchte Sie darüber informieren, dass ich immer, wenn Sie meinen Dienst nutzen, im Falle eines Fehlers in der App Daten und Informationen (durch Produkte von Drittanbietern) auf Ihrem Telefon sammle, die Logdaten genannt werden. Diese Protokolldaten können Informationen wie die Internet-Protokoll-Adresse ("IP-Adresse") Ihres Geräts, den Gerätenamen, die Betriebssystemversion, die Konfiguration der Anwendung bei der Nutzung meines Dienstes, die Uhrzeit und das Datum Ihrer Nutzung des Dienstes und andere Statistiken enthalten.
+**Sehen Dritte die von der Anwendung erhaltenen Informationen und/oder haben sie Zugriff darauf?
 
-## Cookies
+Nur aggregierte, anonymisierte Daten werden regelmäßig an externe Dienste übertragen, um den Dienstanbieter bei der Verbesserung der Anwendung und seines Dienstes zu unterstützen. Der Dienstanbieter kann Ihre Informationen auf die in dieser Datenschutzerklärung beschriebene Weise an Dritte weitergeben.
 
-Cookies sind Dateien mit einer kleinen Datenmenge, die häufig als anonyme eindeutige Identifizierungsmerkmale verwendet werden. Diese werden von den Websites, die Sie besuchen, an Ihren Browser gesendet und im internen Speicher Ihres Geräts gespeichert.
+Der Dienstanbieter kann vom Benutzer bereitgestellte und automatisch gesammelte Informationen weitergeben:
 
-Dieser Dienst verwendet diese "Cookies" nicht ausdrücklich. Die Anwendung kann jedoch Code von Dritten und Bibliotheken verwenden, die "Cookies" verwenden, um Informationen zu sammeln und ihre Dienste zu verbessern. Sie haben die Möglichkeit, diese Cookies entweder zu akzeptieren oder abzulehnen und wissen, wann ein Cookie an Ihr Gerät gesendet wird. Wenn Sie sich dafür entscheiden, unsere Cookies abzulehnen, können Sie möglicherweise einige Teile dieses Dienstes nicht nutzen.
+* wenn dies gesetzlich vorgeschrieben ist, z. B. um einer Vorladung oder einem ähnlichen rechtlichen Verfahren nachzukommen;
+* wenn er in gutem Glauben davon ausgeht, dass die Offenlegung notwendig ist, um seine Rechte zu schützen, Ihre Sicherheit oder die Sicherheit anderer zu schützen, Betrug zu untersuchen oder auf eine behördliche Anfrage zu reagieren;
+* mit ihren vertrauenswürdigen Dienstleistern, die in ihrem Auftrag arbeiten, die keine unabhängige Verwendung der von uns offengelegten Daten haben und die sich zur Einhaltung der in dieser Datenschutzerklärung dargelegten Regeln verpflichtet haben.
 
-## Dienstanbieter
+**Welche Rechte habe ich?
 
-Aus den folgenden Gründen kann ich Drittfirmen und Einzelpersonen beschäftigen:
+Sie können die Erfassung von Informationen durch die Anwendung ganz einfach beenden, indem Sie die Anwendung deinstallieren. Sie können die Standard-Deinstallationsverfahren verwenden, die als Teil Ihres mobilen Geräts oder über den Markt für mobile Anwendungen oder das Netzwerk verfügbar sind.
 
-* Um unseren Service zu erleichtern;
-* Um den Service in unserem Namen zu erbringen;
-* um dienstleistungsbezogene Dienstleistungen zu erbringen; oder
-* Um uns bei der Analyse zu helfen, wie unser Dienst genutzt wird.
+**Datenaufbewahrungsrichtlinie, Verwaltung Ihrer Informationen**
 
-Ich möchte die Benutzer dieses Dienstes darüber informieren, dass diese Dritten Zugang zu Ihren persönlichen Daten haben. Der Grund dafür ist, die ihnen übertragenen Aufgaben in unserem Namen auszuführen. Sie sind jedoch verpflichtet, die Informationen nicht offenzulegen oder für andere Zwecke zu verwenden.
+Der Dienstanbieter wird die vom Nutzer bereitgestellten Daten so lange aufbewahren, wie Sie die Anwendung nutzen, und für einen angemessenen Zeitraum darüber hinaus. Der Dienstanbieter bewahrt automatisch erfasste Daten bis zu 24 Monate lang auf und kann sie danach in zusammengefasster Form speichern. Wenn Sie möchten, dass der Dienstanbieter die von Ihnen über die Anwendung zur Verfügung gestellten Daten löscht, wenden Sie sich bitte an diaguard.de@gmail.com. Wir werden Ihnen innerhalb einer angemessenen Frist antworten. Bitte beachten Sie, dass einige oder alle der vom Nutzer bereitgestellten Daten erforderlich sein können, damit die Anwendung ordnungsgemäß funktioniert.
 
-## Sicherheit
+**Kinder**
 
-Ich weiß Ihr Vertrauen zu schätzen, dass Sie uns Ihre persönlichen Daten zur Verfügung stellen, weshalb wir bestrebt sind, kommerziell akzeptable Mittel zum Schutz dieser Daten einzusetzen. Aber denken Sie daran, dass keine Methode der Übertragung über das Internet oder der elektronischen Speicherung zu 100% sicher und zuverlässig ist, und ich kann nicht für ihre absolute Sicherheit garantieren.
+Der Dienstanbieter verwendet die Anwendung nicht, um wissentlich Daten von Kindern unter 13 Jahren zu erheben oder an diese zu vermarkten.
 
-## Links zu anderen Sites
+Der Dienstanbieter sammelt nicht wissentlich persönlich identifizierbare Informationen von Kindern. Der Dienstanbieter fordert alle Kinder auf, niemals persönlich identifizierbare Informationen über die Anwendung und/oder Dienste zu übermitteln. Der Dienstanbieter ermutigt Eltern und Erziehungsberechtigte, die Internetnutzung ihrer Kinder zu überwachen und zur Durchsetzung dieser Richtlinie beizutragen, indem sie ihre Kinder anweisen, niemals ohne ihre Erlaubnis persönlich identifizierbare Informationen über die Anwendung und/oder Dienste zu übermitteln. Wenn Sie Grund zu der Annahme haben, dass ein Kind dem Dienstanbieter über die Anwendung und/oder die Dienste personenbezogene Daten zur Verfügung gestellt hat, wenden Sie sich bitte an den Dienstanbieter (diaguard.de@gmail.com), damit dieser die erforderlichen Maßnahmen ergreifen kann. Sie müssen außerdem mindestens 16 Jahre alt sein, um der Verarbeitung Ihrer personenbezogenen Daten in Ihrem Land zuzustimmen (in einigen Ländern können wir Ihrem Elternteil oder Erziehungsberechtigten erlauben, dies in Ihrem Namen zu tun).
 
-Dieser Dienst kann Links zu anderen Websites enthalten. Wenn Sie auf einen Link eines Dritten klicken, werden Sie zu dieser Seite weitergeleitet. Beachten Sie, dass diese externen Sites nicht von mir betrieben werden. Daher rate ich Ihnen dringend, die Datenschutzrichtlinien dieser Websites zu überprüfen. Ich habe keine Kontrolle über und übernehme keine Verantwortung für den Inhalt, die Datenschutzrichtlinien oder die Praktiken von Websites oder Diensten Dritter.
+**Sicherheit**
 
-## Datenschutz für Kinder
+Der Dienstanbieter ist bestrebt, die Vertraulichkeit Ihrer Daten zu wahren. Der Dienstanbieter trifft physische, elektronische und verfahrenstechnische Sicherheitsvorkehrungen, um die von uns verarbeiteten und verwalteten Daten zu schützen. So beschränken wir beispielsweise den Zugang zu diesen Informationen auf autorisierte Mitarbeiter und Auftragnehmer, die diese Informationen benötigen, um ihre Anwendung zu betreiben, zu entwickeln oder zu verbessern. Bitte beachten Sie, dass wir uns zwar bemühen, angemessene Sicherheitsvorkehrungen für die von uns verarbeiteten und verwalteten Daten zu treffen, dass aber kein Sicherheitssystem alle potenziellen Sicherheitsverletzungen verhindern kann.
 
-Diese Dienste richten sich nicht an Personen unter 13 Jahren. Ich sammle nicht wissentlich persönlich identifizierbare Daten von Kindern unter 13\\. Sollte ich feststellen, dass ein Kind unter 13 Jahren mir personenbezogene Daten zur Verfügung gestellt hat, lösche ich diese sofort von unseren Servern. Wenn Sie ein Elternteil oder ein Erziehungsberechtigter sind und Sie wissen, dass Ihr Kind uns persönliche Informationen zur Verfügung gestellt hat, kontaktieren Sie mich bitte, damit ich die notwendigen Schritte einleiten kann.
+**Änderungen**
 
-## Änderungen dieser Datenschutzrichtlinie
+Diese Datenschutzrichtlinie kann von Zeit zu Zeit aus beliebigen Gründen aktualisiert werden. Der Dienstanbieter wird Sie über alle Änderungen der Datenschutzrichtlinie informieren, indem er diese Seite mit der neuen Datenschutzrichtlinie aktualisiert. Wir empfehlen Ihnen, diese Datenschutzrichtlinie regelmäßig auf Änderungen zu prüfen, da die fortgesetzte Nutzung als Zustimmung zu allen Änderungen gilt.
 
-Ich kann unsere Datenschutzrichtlinie von Zeit zu Zeit aktualisieren. Wir empfehlen Ihnen daher, diese Seite regelmäßig auf etwaige Änderungen zu überprüfen. Ich werde Sie über alle Änderungen informieren, indem ich die neue Datenschutzrichtlinie auf dieser Seite veröffentliche.
+Diese Datenschutzrichtlinie gilt ab dem 2024-10-21
 
-Diese Richtlinie gilt ab dem 31.10.2020
+**Ihre Zustimmung**
 
-## Kontakt
+Durch die Nutzung der Anwendung erklären Sie sich damit einverstanden, dass der Dienstanbieter Ihre Daten wie in dieser Datenschutzrichtlinie dargelegt und in der von uns geänderten Fassung verarbeitet. „Verarbeitung“ bedeutet die Verwendung von Cookies auf einem Computer/Handheld-Gerät oder die Verwendung oder Berührung von Informationen in jeglicher Form, einschließlich, aber nicht beschränkt auf das Sammeln, Speichern, Löschen, Verwenden, Kombinieren und Offenlegen von Informationen.
 
-Wenn Sie Fragen oder Anregungen zu meiner Datenschutzerklärung haben, zögern Sie nicht, mich unter diaguard.de@gmail.com zu kontaktieren.
+**Kontaktieren Sie uns**
 
-Diese Seite zum Datenschutz wurde unter [privacypolicytemplate.net](https://privacypolicytemplate.net) erstellt und von [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/) modifiziert/generiert.
+Wenn Sie bei der Nutzung der Anwendung Fragen zum Datenschutz haben oder Fragen zu den Praktiken haben, wenden Sie sich bitte per E-Mail an den Dienstanbieter unter diaguard.de@gmail.com.
+
+* * *
+
+Diese Seite mit den Datenschutzbestimmungen wurde von [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/) erstellt.

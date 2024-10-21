@@ -17,8 +17,8 @@
     <string name="alarm_reminder_none">Никаких напоминаний</string>
     <string name="all">Все</string>
     <string name="amount">Сумма …</string>
-    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_EN.md</string>
-    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_RU.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_RU.md</string>
     <string name="available_placeholder">%d доступно</string>
     <string name="average">Средний</string>
     <string name="back">Назад</string>
@@ -147,7 +147,7 @@
     <string name="format">Формат</string>
     <string name="general">Общие</string>
     <string name="hba1c">HbA1c</string>
-    <string name="hba1c_estimated">Предполагаемый уровень HbA1c</string>
+    <string name="hba1c_estimated">Предполагаемый HbA1c</string>
     <string name="hba1c_on">HbA1c на %s</string>
     <string name="hba1c_units_default">Процент</string>
     <string name="help">Помогите</string>

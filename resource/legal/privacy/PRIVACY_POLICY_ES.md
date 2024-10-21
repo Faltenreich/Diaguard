@@ -1,64 +1,70 @@
-# Política de privacidad
+**Política de privacidad
 
-Philipp Fahlteich construyó la aplicación Diaguard como una aplicación de código abierto. Este SERVICIO es proporcionado por Philipp Fahlteich sin costo alguno y está destinado a ser usado tal cual.
+Esta política de privacidad se aplica a la aplicación Diaguard (en lo sucesivo, «Aplicación») para dispositivos móviles, desarrollada por Philipp Fahlteich (en lo sucesivo, «Proveedor de Servicios») como un servicio de código abierto. Este servicio se proporciona «TAL CUAL».
 
-Esta página se utiliza para informar a los visitantes sobre mis políticas con respecto a la recopilación, uso y divulgación de información personal si alguien decide utilizar mi Servicio.
+**¿Qué información obtiene la aplicación y cómo se utiliza?
+**Información proporcionada por el usuario
 
-Si decide utilizar mi Servicio, entonces está de acuerdo con la recopilación y el uso de la información en relación con esta política. La Información Personal que yo recojo se utiliza para proporcionar y mejorar el Servicio. No utilizaré ni compartiré su información con nadie excepto en los casos descritos en esta Política de privacidad.
+La Aplicación adquiere la información que usted proporciona cuando descarga y registra la Aplicación. El registro en el Proveedor de Servicios no es obligatorio. Sin embargo, tenga en cuenta que es posible que no pueda utilizar algunas de las funciones que ofrece la Aplicación a menos que se registre en ellas.
 
-Los términos utilizados en esta Política de Privacidad tienen los mismos significados que en nuestros Términos y Condiciones, a los que se puede acceder en Diaguard, a menos que se defina lo contrario en esta Política de Privacidad.
+El Proveedor de Servicios también puede utilizar la información que usted le ha proporcionado para ponerse en contacto con usted de vez en cuando y facilitarle información importante, avisos obligatorios y promociones de marketing.
 
-## Recopilación y uso de la información
+**Información recopilada automáticamente
 
-Para una mejor experiencia, al utilizar nuestro Servicio, puedo solicitarle que nos proporcione cierta información personal identificable. La información que solicito se conservará en su dispositivo y no la recopilaré de ninguna manera.
+Además, la Aplicación puede recopilar cierta información automáticamente, incluyendo, pero sin limitarse a, el tipo de dispositivo móvil que utiliza, el identificador único de su dispositivo móvil, la dirección IP de su dispositivo móvil, su sistema operativo móvil, el tipo de navegadores de Internet móviles que utiliza e información sobre la forma en que utiliza la Aplicación.
 
-La aplicación utiliza servicios de terceros que pueden recopilar información que se utiliza para identificarle.
+**¿Recoge la Aplicación información precisa sobre la ubicación del dispositivo en tiempo real?
 
-Enlace a la política de privacidad de los proveedores de servicios de terceros utilizados por la aplicación
+Esta Aplicación no recoge información precisa sobre la ubicación de su dispositivo móvil.
 
-* [Servicios de Google Play](https://www.google.com/policies/privacy/)
+Esta Aplicación recoge la ubicación de su dispositivo, lo que ayuda al Proveedor de Servicios a determinar su ubicación geográfica aproximada y hacer uso de las siguientes maneras:
 
-## Log Data
+* Servicios de geolocalización: El Proveedor de Servicios utiliza los datos de ubicación para proporcionar funciones como contenido personalizado, recomendaciones relevantes y servicios basados en la ubicación.
+* Análisis y mejoras: Los datos de localización agregados y anonimizados ayudan al Proveedor de Servicios a analizar el comportamiento de los usuarios, identificar tendencias y mejorar el rendimiento general y la funcionalidad de la Aplicación.
+* Servicios de terceros: Periódicamente, el Proveedor de Servicios puede transmitir datos de ubicación anonimizados a servicios externos. Estos servicios les ayudan a mejorar la Aplicación y optimizar sus ofertas.
 
-Quiero informarle de que siempre que utiliza mi Servicio, en caso de un error en la aplicación, recopilo datos e información (a través de productos de terceros) en su teléfono llamado Log Data. Estos datos de registro pueden incluir información como la dirección del Protocolo de Internet ("IP") de su dispositivo, el nombre del dispositivo, la versión del sistema operativo, la configuración de la aplicación cuando utiliza mi Servicio, la hora y la fecha de su uso del Servicio y otras estadísticas.
+**¿Pueden terceros ver y/o tener acceso a la información obtenida por la Aplicación?
 
-## Cookies
+Sólo se transmiten periódicamente datos agregados y anónimos a servicios externos para ayudar al Proveedor de Servicios a mejorar la Aplicación y su servicio. El Proveedor de Servicios puede compartir su información con terceros en las formas que se describen en esta declaración de privacidad.
 
-Las cookies son archivos con una pequeña cantidad de datos que se utilizan comúnmente como identificadores únicos anónimos. Se envían a su navegador desde los sitios web que visita y se almacenan en la memoria interna de su dispositivo.
+El Proveedor de Servicios puede divulgar la Información proporcionada por el usuario y la Información recopilada automáticamente:
 
-Este Servicio no utiliza estas "cookies" explícitamente. Sin embargo, la aplicación puede utilizar códigos de terceros y bibliotecas que utilizan "cookies" para recopilar información y mejorar sus servicios. Usted tiene la opción de aceptar o rechazar estas cookies y saber cuándo se envía una cookie a su dispositivo. Si decide rechazar nuestras cookies, es posible que no pueda utilizar algunas partes de este Servicio.
+* cuando lo exija la ley, como para cumplir una citación judicial, o un proceso legal similar;
+* cuando considere de buena fe que su divulgación es necesaria para proteger sus derechos, proteger su seguridad o la de otros, investigar un fraude o responder a una solicitud gubernamental;
+* con sus proveedores de servicios de confianza que trabajan en su nombre, no tienen un uso independiente de la información que les revelamos y han acordado cumplir las normas establecidas en esta declaración de privacidad.
 
-## Proveedores de servicios
+**¿Cuáles son mis derechos de exclusión?
 
-Puedo emplear a terceras empresas y personas por las siguientes razones:
+Puede detener la recopilación de información por parte de la Aplicación fácilmente desinstalando la Aplicación. Puede utilizar los procesos de desinstalación estándar que pueden estar disponibles como parte de su dispositivo móvil o a través del mercado o red de aplicaciones móviles.
 
-* Para facilitar nuestro servicio;
-* Para proporcionar el Servicio en nuestro nombre;
-* Para realizar servicios relacionados con el Servicio; o
-* Para ayudarnos a analizar cómo se utiliza nuestro servicio.
+**Política de conservación de datos y gestión de su información**.
 
-Quiero informar a los usuarios de este Servicio que estos terceros tienen acceso a su Información Personal. El motivo es realizar las tareas que se les asignan en nuestro nombre. Sin embargo, están obligados a no revelar o utilizar la información para cualquier otro propósito.
+El Proveedor de Servicios conservará los datos proporcionados por el Usuario mientras éste utilice la Aplicación y durante un tiempo razonable a partir de ese momento. El Proveedor de Servicios conservará la información recopilada automáticamente durante un máximo de 24 meses y, posteriormente, podrá almacenarla de forma agregada. Si desea que el Proveedor de Servicios elimine los Datos Facilitados por el Usuario que usted haya proporcionado a través de la Aplicación, póngase en contacto con él en diaguard.de@gmail.com y le responderemos en un plazo razonable. Tenga en cuenta que algunos o todos los Datos Facilitados por el Usuario pueden ser necesarios para que la Aplicación funcione correctamente.
 
-## Seguridad
+**Niños**
 
-Valoro su confianza al proporcionarnos su información personal, por lo que nos esforzamos por utilizar medios comercialmente aceptables para protegerla. Pero recuerde que ningún método de transmisión por Internet, o método de almacenamiento electrónico es 100% seguro y fiable, y no puedo garantizar su seguridad absoluta.
+El Proveedor de Servicios no utiliza la Aplicación para solicitar deliberadamente datos de niños menores de 13 años ni para comercializar con ellos.
 
-## Enlaces a otros sitios
+El Proveedor de Servicios no recopila a sabiendas información personal identificable de niños. El Proveedor de Servicios anima a todos los niños a no enviar nunca información personal identificable a través de la Aplicación y/o los Servicios. El Proveedor de Servicios anima a los padres y tutores legales a que supervisen el uso que hacen sus hijos de Internet y a que ayuden a hacer cumplir esta Política indicando a sus hijos que nunca proporcionen información de identificación personal a través de la Aplicación y/o los Servicios sin su permiso. Si tiene motivos para creer que un menor ha proporcionado información de identificación personal al Proveedor de Servicios a través de la Aplicación y/o los Servicios, póngase en contacto con el Proveedor de Servicios (diaguard.de@gmail.com) para que pueda tomar las medidas necesarias. Asimismo, debe tener al menos 16 años de edad para dar su consentimiento al tratamiento de su información de identificación personal en su país (en algunos países podemos permitir que su padre, madre o tutor lo haga en su nombre).
 
-Este Servicio puede contener enlaces a otros sitios. Si hace clic en un enlace de un tercero, será dirigido a ese sitio. Tenga en cuenta que estos sitios externos no son operados por mí. Por lo tanto, le recomiendo encarecidamente que revise la Política de privacidad de estos sitios web. No tengo ningún control ni asumo ninguna responsabilidad por el contenido, las políticas de privacidad o las prácticas de los sitios o servicios de terceros.
+**Seguridad
 
-## Privacidad de los niños
+El Proveedor de Servicios se preocupa por salvaguardar la confidencialidad de su información. El Proveedor de Servicios proporciona salvaguardas físicas, electrónicas y de procedimiento para proteger la información que procesamos y mantenemos. Por ejemplo, limitamos el acceso a esta información a los empleados y contratistas autorizados que necesitan conocer dicha información para operar, desarrollar o mejorar su Aplicación. Tenga en cuenta que, aunque nos esforzamos por proporcionar una seguridad razonable a la información que procesamos y mantenemos, ningún sistema de seguridad puede evitar todas las posibles brechas de seguridad.
 
-Estos servicios no se dirigen a nadie menor de 13 años. No recojo conscientemente información personal identificable de niños menores de 13 años. En caso de que descubra que un niño menor de 13 años me ha proporcionado información personal, la borro inmediatamente de nuestros servidores. Si usted es un padre o tutor y es consciente de que su hijo nos ha proporcionado información personal, por favor, póngase en contacto conmigo para que pueda hacer las acciones necesarias.
+**Modificaciones
 
-## Cambios en esta política de privacidad
+La presente Política de Privacidad podrá ser actualizada periódicamente por cualquier motivo. El Proveedor de Servicios le notificará cualquier cambio en la Política de Privacidad actualizando esta página con la nueva Política de Privacidad. Le aconsejamos que consulte esta Política de Privacidad con regularidad para comprobar si se han producido cambios, ya que el uso continuado se considera una aprobación de todos los cambios.
 
-Puedo actualizar nuestra política de privacidad de vez en cuando. Por lo tanto, se le aconseja que revise esta página periódicamente para conocer los cambios. Le notificaré cualquier cambio publicando la nueva Política de privacidad en esta página.
+Esta política de privacidad es efectiva a partir del 2024-10-21
 
-Esta política es efectiva a partir de 2020-10-31
+**Su consentimiento**
 
-## Contactar con nosotros
+Al utilizar la Aplicación, usted está dando su consentimiento para que el Proveedor de Servicios procese su información como se establece en esta Política de Privacidad ahora y según sea modificada por nosotros. «Procesamiento» significa el uso de cookies en un ordenador/dispositivo portátil o el uso o tratamiento de la información de cualquier manera, incluyendo, entre otros, la recopilación, el almacenamiento, la eliminación, el uso, la combinación y la divulgación de información.
 
-Si tiene alguna pregunta o sugerencia sobre mi política de privacidad, no dude en contactarme en diaguard.de@gmail.com.
+**Contacto
 
-Esta página de política de privacidad ha sido creada en [privacypolicytemplate.net](https://privacypolicytemplate.net) y modificada/generada por [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/)
+Si tiene alguna pregunta relacionada con la privacidad mientras utiliza la Aplicación, o tiene alguna duda sobre las prácticas, póngase en contacto con el Proveedor de Servicios por correo electrónico en diaguard.de@gmail.com.
+
+* * *
+
+Esta página de política de privacidad ha sido generada por [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/)

@@ -21,7 +21,7 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Estimated HbA1c
 * Statistics
 * Dark Mode
-* Localized in English, German, French, Spanish and Italian
+* Localized in English, German, French, Spanish, Italian and Russian
 
 <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="100" alt="">  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" width="100" alt=""> 
 

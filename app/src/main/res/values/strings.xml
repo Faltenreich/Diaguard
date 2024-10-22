@@ -186,7 +186,7 @@
     <string name="sodium">Sodium</string>
     <string name="sugar">Sugar</string>
 
-    <string-array name="time_rhythm">
+    <string-array name="time_rhythm" translatable="false">
         <item>@string/change_none</item>
         <item>@string/change_every_six_hours</item>
         <item>@string/change_every_four_hours</item>

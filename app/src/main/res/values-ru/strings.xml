@@ -45,14 +45,7 @@
     <string name="category">Категория</string>
     <string name="category_pin">Категория Pin-кода</string>
     <string name="category_pin_confirm">%s был закреплен</string>
-    <string name="category_preference_desc">"Активный:
-Категория отображается в записи
-
-Закрепленный:
-Категория автоматически выбирается для новых записей
-
-Сортировать:
-Удерживая шеститочечный символ, перетащите его вверх или вниз"</string>
+    <string name="category_preference_desc">"Активный:\nКатегория отображается в записи\n\nЗакрепленный:\nКатегория автоматически выбирается для новых записей\n\nСортировать:\nУдерживая шеститочечный символ, перетащите его вверх или вниз"</string>
     <string name="category_unpin_confirm">%s был откреплен</string>
     <string name="change_every_four_hours">Меняется каждые четыре часа</string>
     <string name="change_every_hour">Меняется каждый час</string>
@@ -60,12 +53,6 @@
     <string name="change_every_six_hours">Меняется в любое время суток</string>
     <string name="change_none">Постоянный</string>
     <string name="change_now">Измениться сейчас</string>
-    <string name="changelog">Что нового</string>
-    <string name="changelog_desc">"- Временная шкала: Возможность переключения точек и линий
-
- - Еда: Выделение пользовательских и фирменных блюд в подробном представлении
-
- - Настройки: Поддержка динамических десятичных разрядов"</string>
     <string name="cleanup">убирать</string>
     <string name="cleanup_desc">Это приведет к безвозвратному удалению всех данных в выбранную дату и до нее.</string>
     <string name="close">Закрывать</string>
@@ -85,7 +72,7 @@
     <string name="days">Дни</string>
     <string name="decimal_places">Десятичные разряды</string>
     <string name="decimal_places_desc">Количество цифр для дробной части чисел с плавающей запятой</string>
-    <string name="decimal_places_example" formatted="false">%s будет отображаться как %s</string>
+    <string name="decimal_places_example">%s будет отображаться как %s</string>
     <string name="delete">Удалить</string>
     <string name="diastolic">Диастолическое</string>
     <string name="distribution">Распределение</string>
@@ -156,7 +143,7 @@
     <string name="homepage">Вебсайт</string>
     <string name="hour">Час</string>
     <string name="hours">Часов</string>
-   <string name="hyper">Гипер</string>
+    <string name="hyper">Гипер</string>
     <string name="hyper_per_day">Гиперов в день</string>
     <string name="hypo">Гипо</string>
     <string name="hypo_per_day">Гипов в день</string>
@@ -247,7 +234,7 @@
     <string name="table">Стол</string>
     <string name="tag">Метка</string>
     <string name="tag_delete">Удалить тег</string>
-    <string name="tag_delete_confirmation">записи %d потеряют этот тег</string>
+    <string name="tag_delete_confirmation">%d записи потеряют этот тег</string>
     <string name="tag_duplicate">Тег уже доступен</string>
     <string name="tag_new">Новый тег</string>
     <string name="tags">Теги</string>

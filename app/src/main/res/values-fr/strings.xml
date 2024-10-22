@@ -119,40 +119,18 @@
     <string name="week">Semaine</string>
     <string name="month">Mois</string>
     <string name="quarter">Trimestre</string>
-
-    <string-array name="weekdays">
-        <item>Lundi</item>
-        <item>Mardi</item>
-        <item>Mercredi</item>
-        <item>Jeudi</item>
-        <item>Vendredi</item>
-        <item>Samedi</item>
-        <item>Dimanche</item>
-    </string-array>
-    <string-array name="weekdays_short">
-        <item>Lu</item>
-        <item>Ma</item>
-        <item>Me</item>
-        <item>Je</item>
-        <item>Ve</item>
-        <item>Sa</item>
-        <item>Di</item>
-    </string-array>
-
     <string name="morning">Le matin</string>
     <string name="noon">Le midi</string>
     <string name="evening">Le soir</string>
     <string name="night">La nuit</string>
-    <string-array name="factor_names">
-        <item>Le matin</item>
-        <item>Le midi</item>
-        <item>Le soir</item>
-        <item>La nuit</item>
+    <string name="insulin_units_default">Unités d\'insuline</string>
+
+    <string name="bloodsugar_units_default">mmol/L</string>
+    <string-array name="bloodsugar_units">
+        <item>mg/dL</item>
+        <item>mmol/L</item>
     </string-array>
 
-    <string name="dateformat_default">DD.MM.YYYY</string>
-
-    <string name="insulin_units_default">Unités d\'insuline</string>
     <string-array name="insulin_units">
         <item>Unités d\'insuline</item>
     </string-array>

@@ -124,40 +124,16 @@
     <string name="week">Semana</string>
     <string name="month">Mes</string>
     <string name="quarter">Cuarto</string>
-
-    <string-array name="weekdays">
-        <item>Lunes</item>
-        <item>Martes</item>
-        <item>Miércoles</item>
-        <item>Jueves</item>
-        <item>Viernes</item>
-        <item>Sábado</item>
-        <item>Domingo</item>
-    </string-array>
-
-    <string-array name="weekdays_short">
-        <item>Lu</item>
-        <item>Ma</item>
-        <item>Mi</item>
-        <item>Ju</item>
-        <item>Vi</item>
-        <item>Sa</item>
-        <item>Do</item>
-    </string-array>
-
     <string name="morning">Mañana</string>
     <string name="noon"> Mediodía </string>
     <string name="evening">Tarde</string>
     <string name="night">Noche</string>
 
-    <string-array name="factor_names">
-        <item>Mañana </item>
-        <item>Mediodía</item>
-        <item>Tarde</item>
-        <item>Noche</item>
+    <string name="bloodsugar_units_default">mmol/L</string>
+    <string-array name="bloodsugar_units">
+        <item>mg/dL</item>
+        <item>mmol/L</item>
     </string-array>
-
-    <string name="dateformat_default">DD.MM.YYYY</string>
 
     <string name="insulin_units_default">Unidades de Insulina</string>
     <string-array name="insulin_units">

@@ -222,42 +222,10 @@
     <string name="months">Months</string>
     <string name="quarter">Quarter</string>
     <string name="year">Year</string>
-
-    <string-array name="weekdays">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
-    </string-array>
-    <string-array name="weekdays_short">
-        <item>Mon</item>
-        <item>Tue</item>
-        <item>Wed</item>
-        <item>Thu</item>
-        <item>Fri</item>
-        <item>Sat</item>
-        <item>Sun</item>
-    </string-array>
-
     <string name="morning">Morning</string>
     <string name="noon">Noon</string>
     <string name="evening">Evening</string>
     <string name="night">Night</string>
-    <string-array name="factor_names">
-        <item>Morning</item>
-        <item>Noon</item>
-        <item>Evening</item>
-        <item>Night</item>
-    </string-array>
-
-    <string name="dateformat_default">YYYY-MM-DD</string>
-    <string-array name="dateformat">
-        <item>DD.MM.YYYY</item>
-        <item>YYYY-MM-DD</item>
-    </string-array>
 
     <!-- EXPORT -->
 
@@ -274,8 +242,8 @@
 
     <!-- CATEGORIES -->
 
-    <string name="bloodsugar_units_default" translatable="false">mmol/L</string>
-    <string-array name="bloodsugar_units" translatable="false">
+    <string name="bloodsugar_units_default">mmol/L</string>
+    <string-array name="bloodsugar_units">
         <item>mg/dL</item>
         <item>mmol/L</item>
     </string-array>

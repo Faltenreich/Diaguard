@@ -7,6 +7,12 @@
     <string name="active">Активный</string>
     <string name="activity">Деятельность</string>
     <string name="activity_units_default">Минут</string>
+    <string-array name="activity_units">
+        <item>Минут</item>
+    </string-array>
+    <string-array name="activity_units_acronyms">
+        <item>мин</item>
+    </string-array>
     <string name="alarm">Измерьте уровень сахара в крови</string>
     <string name="alarm_delete">Удалить напоминание</string>
     <string name="alarm_deleted">Удалено напоминание</string>
@@ -16,7 +22,7 @@
     <string name="alarm_reminder_in">Напоминание через</string>
     <string name="alarm_reminder_none">Никаких напоминаний</string>
     <string name="all">Все</string>
-    <string name="amount">Сумма …</string>
+    <string name="amount">Сумма &#8230;</string>
     <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_RU.md</string>
     <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_RU.md</string>
     <string name="available_placeholder">%d доступно</string>
@@ -26,12 +32,17 @@
     <string name="backup_create">Создание резервной копии</string>
     <string name="backup_desc">Сохранить данные в файле резервной копии на выбранном вами хранилище (данные не будут автоматически отправляться во внешние службы).</string>
     <string name="backup_import">Импорт резервной копии</string>
-    <string name="backup_import_progress">Резервная копия восстанавливается …</string>
+    <string name="backup_import_progress">Резервная копия восстанавливается &#8230;</string>
     <string name="backup_store">Хранить резервную копию</string>
     <string name="backup_title">Выберите резервное копирование</string>
     <string name="basal_rate">Базальный показатель</string>
     <string name="basal_rate_desc">Основные потребности в инсулине</string>
     <string name="bloodsugar">Уровень сахара в крови</string>
+    <string name="bloodsugar_units_default">ммоль/л</string>
+    <string-array name="bloodsugar_units">
+        <item>мг/дл</item>
+        <item>ммоль/л</item>
+    </string-array>
     <string name="bolus">Короткий</string>
     <string name="bolus_no1">Рекомендуется не вводить короткий инсулин.</string>
     <string name="bolus_no2">Вместо этого следует употреблять некоторые продукты, богатые углеводами, чтобы предотвратить снижение уровня сахара в крови.</string>
@@ -64,7 +75,6 @@
     <string name="date_select">Выберите дату</string>
     <string name="dateend">Дата окончания</string>
     <string name="dateformat">Формат даты</string>
-    <string name="dateformat_default">ГГГГ-ММ-ДД</string>
     <string name="datestart">Дата начала</string>
     <string name="day">День</string>
     <string name="day_next">Следующий день</string>
@@ -137,6 +147,10 @@
     <string name="hba1c_estimated">Предполагаемый HbA1c</string>
     <string name="hba1c_on">HbA1c на %s</string>
     <string name="hba1c_units_default">Процент</string>
+    <string-array name="hba1c_units">
+        <item>Процент</item>
+        <item>ммоль/моль</item>
+    </string-array>
     <string name="help">Помогите</string>
     <string name="highlight_limits">Выделите ограничения</string>
     <string name="home">Обзор</string>
@@ -152,10 +166,17 @@
     <string name="ingredients">Ингредиенты</string>
     <string name="insulin">Инсулин</string>
     <string name="insulin_split">Разделяется на болюсную, корректирующую и базальную</string>
-    <string name="insulin_units_default">Единицы измерения инсулина</string>
+    <string name="insulin_units_default">Единицы инсулина</string>
+    <string-array name="insulin_units">
+        <item>Единицы инсулина</item>
+    </string-array>
+    <string-array name="insulin_units_acronyms">
+        <item>IU</item>
+    </string-array>
     <string name="interval">Интервал</string>
     <string name="latest">[value] [unit] назад</string>
-    <string name="latest_moments">Несколько мгновений назад</string><string name="licenses">Лицензии с открытым исходным кодом</string>
+    <string name="latest_moments">Мгновения назад</string>
+    <string name="licenses">Лицензии с открытым исходным кодом</string>
     <string name="log">Лог</string>
     <string name="mail">Электронная почта</string>
     <string name="meal">Еда</string>
@@ -164,6 +185,16 @@
     <string name="meal_factors">Хлебный фактор</string>
     <string name="meal_optional">Питание (По желанию)</string>
     <string name="meal_units_default">Углеводы</string>
+    <string-array name="meal_units">
+        <item>Углеводы</item>
+        <item>Единицы углеводов</item>
+        <item>Хлебные единицы</item>
+    </string-array>
+    <string-array name="meal_units_acronyms">
+        <item>CHO</item>
+        <item>CU</item>
+        <item>BU</item>
+    </string-array>
     <string name="measurement_add">Добавить измерение</string>
     <string name="measurement_latest">Самый последний</string>
     <string name="measurements">Измеренный</string>
@@ -202,17 +233,29 @@
     <string name="pressure">Артериальное давление</string>
     <string name="pressure_acronym">Кровавый пиар.</string>
     <string name="pressure_units_default">Миллиметры ртутного столба</string>
+    <string-array name="pressure_units">
+        <item>Миллиметры ртутного столба</item>
+    </string-array>
+    <string-array name="pressure_units_acronyms">
+        <item>мм рт. ст.</item>
+    </string-array>
     <string name="privacy_policy">Политика конфиденциальности</string>
     <string name="proteins">Белки</string>
     <string name="pulse">Пульс</string>
     <string name="pulse_units_default">Ударов в минуту</string>
+    <string-array name="pulse_units">
+        <item>Ударов в минуту</item>
+    </string-array>
+    <string-array name="pulse_units_acronyms">
+        <item>бпм</item>
+    </string-array>
     <string name="quarter">Четверть</string>
     <string name="quarter_current">Текущий квартал</string>
     <string name="query_clear">Очистить запрос</string>
     <string name="remove_placeholder">Удалить %s</string>
     <string name="salt">Соль</string>
     <string name="search">Поиск</string>
-    <string name="search_hint">Заметки, теги, …</string>
+    <string name="search_hint">Заметки, теги, &#8230;</string>
     <string name="search_prompt">Начните поиск, набрав</string>
     <string name="settings">Настройки</string>
     <string name="settings_open">Откройте настройки</string>
@@ -273,6 +316,14 @@
     <string name="weeks_two">Последние две недели</string>
     <string name="weight">Вес</string>
     <string name="weight_units_default">Фунт</string>
+    <string-array name="weight_units">
+        <item>Килограмм</item>
+        <item>Фунт</item>
+    </string-array>
+    <string-array name="weight_units_acronyms">
+        <item>кг</item>
+        <item>Фунт</item>
+    </string-array>
     <string name="year">Год</string>
     <string name="error_missing_permission">Для использования этой функциональности необходимо получить разрешение</string>
     <string name="export_date">Дата экспорта</string>

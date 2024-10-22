@@ -169,38 +169,16 @@
     <string name="months">Mesi</string>
     <string name="quarter">Trimestre</string>
     <string name="year">Anno</string>
-
-    <string-array name="weekdays">
-        <item>Lunedì</item>
-        <item>Martedì</item>
-        <item>Mercoledì</item>
-        <item>Giovedì</item>
-        <item>Venerdì</item>
-        <item>Sabato</item>
-        <item>Domenica</item>
-    </string-array>
-    <string-array name="weekdays_short">
-        <item>Lun</item>
-        <item>Mar</item>
-        <item>Mer</item>
-        <item>Gio</item>
-        <item>Ven</item>
-        <item>Sab</item>
-        <item>Dom</item>
-    </string-array>
-
     <string name="morning">Mattina</string>
     <string name="noon">Mezzogiorno</string>
     <string name="evening">Sera</string>
     <string name="night">Notte</string>
-    <string-array name="factor_names">
-        <item>Morning</item>
-        <item>Noon</item>
-        <item>Evening</item>
-        <item>Night</item>
-    </string-array>
 
-    <string name="dateformat_default">DD/MM/YYYY</string>
+    <string name="bloodsugar_units_default">mmol/L</string>
+    <string-array name="bloodsugar_units">
+        <item>mg/dL</item>
+        <item>mmol/L</item>
+    </string-array>
 
     <string name="insulin_units_default">Unità di insulina</string>
     <string-array name="insulin_units">

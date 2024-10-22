@@ -28,7 +28,6 @@
         <item name="materialButtonStyle">@style/Button</item>
         <item name="android:windowSplashScreenBackground" tools:ignore="NewApi">@color/green_darker</item>
         <item name="android:windowSplashScreenIconBackgroundColor" tools:ignore="NewApi">@color/green</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:ignore="NewApi">true</item>
     </style>
 
     <style name="Theme.Dark" parent="Theme.Material3.DayNight.NoActionBar">
@@ -57,7 +56,6 @@
         <item name="materialButtonStyle">@style/Button</item>
         <item name="android:windowSplashScreenBackground" tools:ignore="NewApi">@color/green_darker</item>
         <item name="android:windowSplashScreenIconBackgroundColor" tools:ignore="NewApi">@color/green</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:ignore="NewApi">true</item>
     </style>
 
     <style name="AppTheme.Transparent">

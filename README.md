@@ -104,6 +104,7 @@ This software uses following technologies with great appreciation:
 * [Apache Commons Text](http://commons.apache.org/proper/commons-text)
 * [App Privacy Policy Generator](https://github.com/nisrulz/app-privacy-policy-generator)
 * [BetterPickers](https://github.com/code-troopers/android-betterpickers)
+* [Droid Sans](https://github.com/google/fonts)
 * [EventBus](https://github.com/greenrobot/EventBus)
 * [FloatingActionButton](https://github.com/Clans/FloatingActionButton)
 * [Gson](https://github.com/google/gson)

@@ -25,6 +25,7 @@
     <string name="backup_import_progress">Backup wird eingespielt &#8230;</string>
     <string name="backup_store">Backup sichern</string>
     <string name="backup_title">Backup wählen</string>
+    <string name="basal">Basal</string>
     <string name="bloodsugar">Blutzucker</string>
     <string name="bloodsugar_acronym">Blutzucker</string>
     <string name="bolus">Bolus</string>
@@ -56,6 +57,8 @@
     <string name="drawer_open">Navigator öffnen</string>
     <string name="edit">Bearbeiten</string>
     <string name="empty_days_skip">Tage ohne Einträge überspringen</string>
+    <string name="energy_acronym">kcal</string>
+    <string name="energy_acronym_2">kJ</string>
     <string name="entries">Einträge</string>
     <string name="entry">Eintrag</string>
     <string name="entry_added">Eintrag hinzugefügt</string>
@@ -83,6 +86,9 @@
     <string name="food_search">Lebensmittel suchen</string>
     <string name="format">Format</string>
     <string name="general">Allgemein</string>
+    <string name="grams_acronym">g</string>
+    <string name="milligrams_acronym">mg</string>
+    <string name="grams_milliliters_acronym">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Geschätzter HbA1c</string>
     <string name="hba1c_on">HbA1c am %s</string>
@@ -93,6 +99,7 @@
     <string name="hypo">Hypo</string>
     <string name="hypo_per_day">Hypos pro Tag</string>
     <string name="in">in</string>
+    <string name="info">Info</string>
     <string name="ingredients">Zutaten</string>
     <string name="insulin">Insulin</string>
     <string name="interval">Intervall</string>

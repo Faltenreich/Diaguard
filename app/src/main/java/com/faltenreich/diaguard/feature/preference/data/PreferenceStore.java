@@ -470,7 +470,11 @@ public class PreferenceStore {
     }
 
     public String getLabelForMealPer100g(Context context) {
-        return String.format("%s %s 100 g", getUnitAcronym(Category.MEAL), context.getString(R.string.per));
+        return String.format("%s %s 100 %s",
+            getUnitAcronym(Category.MEAL),
+            context.getString(R.string.per),
+            context.getString(R.string.grams_acronym)
+        );
     }
 
     private String[] getUnitsValues(String unitName) {

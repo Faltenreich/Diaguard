@@ -35,6 +35,7 @@
     <string name="backup_import_progress">Резервная копия восстанавливается &#8230;</string>
     <string name="backup_store">Хранить резервную копию</string>
     <string name="backup_title">Выберите резервное копирование</string>
+    <string name="basal">Базальный</string>
     <string name="basal_rate">Базальный показатель</string>
     <string name="basal_rate_desc">Основные потребности в инсулине</string>
     <string name="bloodsugar">Уровень сахара в крови</string>
@@ -92,6 +93,8 @@
     <string name="drawer_open">Откройте Навигатор</string>
     <string name="edit">Редактировать</string>
     <string name="empty_days_skip">Пропустить дни без записей</string>
+    <string name="energy_acronym">ккал</string>
+    <string name="energy_acronym_2">кДж</string>
     <string name="energy">Энергия</string>
     <string name="entries">Записи</string>
     <string name="entry">Вход</string>
@@ -145,6 +148,9 @@
     <string name="food_search">Поиск пищи</string>
     <string name="format">Формат</string>
     <string name="general">Общие</string>
+    <string name="grams_acronym">г</string>
+    <string name="milligrams_acronym">мг</string>
+    <string name="grams_milliliters_acronym">г</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Предполагаемый HbA1c</string>
     <string name="hba1c_on">HbA1c на %s</string>
@@ -165,6 +171,7 @@
     <string name="hypo_per_day">Гипов в день</string>
     <string name="import_desc">Восстановление данных из ранее созданного файла резервной копии</string>
     <string name="in">в</string>
+    <string name="info">инфо</string>
     <string name="ingredients">Ингредиенты</string>
     <string name="insulin">Инсулин</string>
     <string name="insulin_split">Разделяется на болюсную, корректирующую и базальную</string>
@@ -193,9 +200,9 @@
         <item>Хлебные единицы</item>
     </string-array>
     <string-array name="meal_units_acronyms">
-        <item>CHO</item>
-        <item>CU</item>
-        <item>BU</item>
+        <item>УГЛ</item>
+        <item>УЕ</item>
+        <item>ХЕ</item>
     </string-array>
     <string name="measurement_add">Добавить измерение</string>
     <string name="measurement_latest">Самый последний</string>
@@ -221,9 +228,9 @@
     <string name="overview">Обзор</string>
     <string name="oxygen_saturation">Насыщение кислородом</string>
     <string name="oxygen_saturation_acronym">Кислород сел.</string>
-    <string name="per">по</string>
+    <string name="per">за</string>
     <string name="per_day">в день</string>
-    <string name="pinned">Закрепленный</string>
+    <string name="pinned">фикс</string>
     <string name="powered_by">Питается от</string>
     <string name="pref_therapy_limits">Пределы</string>
     <string name="pref_therapy_targets">Целевые значения</string>

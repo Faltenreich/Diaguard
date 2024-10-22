@@ -46,7 +46,7 @@
     <string name="backup_import_progress">Backup is being restored &#8230;</string>
     <string name="backup_store">Store backup</string>
     <string name="backup_title">Choose backup</string>
-    <string name="basal" translatable="false">Basal</string>
+    <string name="basal">Basal</string>
     <string name="bloodsugar">Blood Sugar</string>
     <string name="bloodsugar_acronym">Blood Sugar</string>
     <string name="bolus">Bolus</string>
@@ -78,8 +78,8 @@
     <string name="drawer_open">Open Navigator</string>
     <string name="edit">Edit</string>
     <string name="empty_days_skip">Skip days without entries</string>
-    <string name="energy_acronym" translatable="false">kcal</string>
-    <string name="energy_acronym_2" translatable="false">kJ</string>
+    <string name="energy_acronym">kcal</string>
+    <string name="energy_acronym_2">kJ</string>
     <string name="entries">Entries</string>
     <string name="entry">Entry</string>
     <string name="entry_added">Entry added</string>
@@ -108,9 +108,9 @@
     <string name="food_search">Search for food</string>
     <string name="format">Format</string>
     <string name="general">General</string>
-    <string name="grams_acronym" translatable="false">g</string>
-    <string name="milligrams_acronym" translatable="false">mg</string>
-    <string name="grams_milliliters_acronym" translatable="false">g</string>
+    <string name="grams_acronym">g</string>
+    <string name="milligrams_acronym">mg</string>
+    <string name="grams_milliliters_acronym">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
     <string name="hba1c_on">HbA1c on %s</string>
@@ -123,7 +123,7 @@
     <string name="hypo">Hypo</string>
     <string name="hypo_per_day">Hypos per day</string>
     <string name="in">in</string>
-    <string name="info" translatable="false">Info</string>
+    <string name="info">Info</string>
     <string name="ingredients">Ingredients</string>
     <string name="insulin">Insulin</string>
     <string name="interval">Interval</string>

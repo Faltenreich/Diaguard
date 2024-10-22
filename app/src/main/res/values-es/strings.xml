@@ -21,6 +21,7 @@
     <string name="backup_complete">Se creará la copia de seguridad</string>
     <string name="backup_store">Guardar copia de seguridad</string>
     <string name="backup_title">Seleccionar copia de seguridad</string>
+    <string name="basal">Basal</string>
     <string name="bloodsugar">Glicemia</string>
     <string name="bloodsugar_acronym">Glicemia</string>
     <string name="bolus">Bolo</string>
@@ -49,6 +50,8 @@
     <string name="drawer_open">Abrir navegador</string>
     <string name="edit">Editar</string>
     <string name="empty_days_skip">Saltar días sin entradas</string>
+    <string name="energy_acronym">kcal</string>
+    <string name="energy_acronym_2">kJ</string>
     <string name="entry">Entrada</string>
     <string name="entry_added">Ha agregado una entrada</string>
     <string name="entry_count_per_day">Entrada por día</string>
@@ -66,12 +69,16 @@
     <string name="food_add_desc">Añadir alimentos</string>
     <string name="format">Formato</string>
     <string name="general">General</string>
+    <string name="grams_acronym">g</string>
+    <string name="milligrams_acronym">mg</string>
+    <string name="grams_milliliters_acronym">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Resumen</string>
     <string name="homepage">Página web</string>
     <string name="hyper">Hiper</string>
     <string name="hypo">Hipo</string>
     <string name="in">in</string>
+    <string name="info">Info</string>
     <string name="insulin">Insulina</string>
     <string name="latest">Antes [value] [unit]</string>
     <string name="latest_moments">En este momento</string>

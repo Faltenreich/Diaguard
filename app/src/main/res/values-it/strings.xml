@@ -25,6 +25,7 @@
     <string name="backup_import_progress">Copia di sicurezza ripristinata &#8230;</string>
     <string name="backup_store">Copia di sicurezza salvata</string>
     <string name="backup_title">Scegli copia di sicurezza</string>
+    <string name="basal">Basal</string>
     <string name="bloodsugar">Glicemia sanguigna</string>
     <string name="bloodsugar_acronym">Glicemia</string>
     <string name="bolus">Bolo</string>
@@ -56,6 +57,8 @@
     <string name="drawer_open">Apri navigazione</string>
     <string name="edit">Modifica</string>
     <string name="empty_days_skip">Salta i giorni senza voci</string>
+    <string name="energy_acronym">kcal</string>
+    <string name="energy_acronym_2">kJ</string>
     <string name="entries">Valori</string>
     <string name="entry">Valore</string>
     <string name="entry_added">Valore aggiunto</string>
@@ -83,6 +86,9 @@
     <string name="food_search">Cerca cibo</string>
     <string name="format">Formato</string>
     <string name="general">Generale</string>
+    <string name="grams_acronym">g</string>
+    <string name="milligrams_acronym">mg</string>
+    <string name="grams_milliliters_acronym">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">HbA1c stimata</string>
     <string name="hba1c_on">HbA1c al %s</string>
@@ -93,6 +99,7 @@
     <string name="hypo">Ipoglicemia</string>
     <string name="hypo_per_day">Ipoglicemie al giorno</string>
     <string name="in">in</string>
+    <string name="info">Info</string>
     <string name="ingredients">Ingredienti</string>
     <string name="insulin">Insulina</string>
     <string name="interval">Intervallo</string>

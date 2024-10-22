@@ -21,6 +21,7 @@
     <string name="backup_store">Sauvegarde du magasin</string>
     <string name="backup_title">Sélectionnez sauvegarde</string>
     <string name="bloodsugar">Glycémie</string>
+    <string name="bloodsugar_acronym">Glycémie</string>
     <string name="bolus">Bol</string>
     <string name="bolus_no1">L\'administration d\'un bolus est déconseillée.</string>
     <string name="bolus_no2">Cependant, il est recommandé de consommer des hydrates de carbone rapides, afin d\'éviter des niveaux de glycémie trop bas.</string>
@@ -219,12 +220,14 @@
     <string name="backup_complete">Sauvegarde terminée</string>
     <string name="correction">Correction</string>
     <string name="diastolic">Diastolique</string>
+    <string name="diastolic_acronym">diast.</string>
     <string name="error_unexpected">Quelque chose a mal tourné</string>
     <string name="error_import">Format de fichier invalide</string>
     <string name="export_complete">Sauvé sous %s</string>
     <string name="interval">Intervalle</string>
     <string name="measurement_latest">Dernier</string>
     <string name="systolic">Systolique</string>
+    <string name="systolic_acronym">syst.</string>
     <string name="validator_value_empty_list"> Au moins une catégorie doit être sélectionnée</string>
     <string name="pressure">Pression artérielle</string>
     <string name="pressure_acronym">Pression art.</string>

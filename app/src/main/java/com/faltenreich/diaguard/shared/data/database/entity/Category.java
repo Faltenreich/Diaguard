@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.R;
 
 public enum Category {
 
-    BLOODSUGAR(BloodSugar.class, 1, R.string.bloodsugar, R.drawable.ic_category_bloodsugar, R.drawable.ic_showcase_bloodsugar),
+    BLOODSUGAR(BloodSugar.class, 1, R.string.bloodsugar, R.string.bloodsugar_acronym, R.drawable.ic_category_bloodsugar, R.drawable.ic_showcase_bloodsugar),
     INSULIN(Insulin.class, 2, R.string.insulin, R.drawable.ic_category_insulin, R.drawable.ic_showcase_insulin),
     MEAL(Meal.class, 3, R.string.meal, R.drawable.ic_category_meal, R.drawable.ic_showcase_meal),
     ACTIVITY(Activity.class, 4, R.string.activity, R.drawable.ic_category_activity, R.drawable.ic_showcase_activity),
@@ -41,11 +41,11 @@ public enum Category {
     }
 
     Category(
-        Class clazz,
-        int stableId,
-        @StringRes int stringResId,
-        @DrawableRes int iconImageResId,
-        @DrawableRes int showcaseImageResId
+            Class clazz,
+            int stableId,
+            @StringRes int stringResId,
+            @DrawableRes int iconImageResId,
+            @DrawableRes int showcaseImageResId
     ) {
         this(clazz, stableId, stringResId, stringResId, iconImageResId, showcaseImageResId);
     }

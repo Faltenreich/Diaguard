@@ -26,6 +26,7 @@
     <string name="backup_store">Backup sichern</string>
     <string name="backup_title">Backup wählen</string>
     <string name="bloodsugar">Blutzucker</string>
+    <string name="bloodsugar_acronym">Blutzucker</string>
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">Es wird empfohlen, keinen Bolus zu verabreichen.</string>
     <string name="bolus_no2">Stattdessen sollten schnelle Kohlenhydrate konsumiert werden, um tiefere Blutzuckerlevel zu vermeiden.</string>
@@ -49,6 +50,7 @@
     <string name="day_previous">Vorheriger Tag</string>
     <string name="delete">Löschen</string>
     <string name="diastolic">Diastolisch</string>
+    <string name="diastolic_acronym">diast.</string>
     <string name="distribution">Verteilung</string>
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
@@ -124,6 +126,7 @@
     <string name="statistics">Statistik</string>
     <string name="store_values">Eintragen</string>
     <string name="systolic">Systolisch</string>
+    <string name="systolic_acronym">syst.</string>
     <string name="target_area">Zielbereich</string>
     <string name="timeline">Tagebuch</string>
     <string name="to">zu</string>

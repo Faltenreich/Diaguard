@@ -38,6 +38,7 @@
     <string name="basal_rate">Базальный показатель</string>
     <string name="basal_rate_desc">Основные потребности в инсулине</string>
     <string name="bloodsugar">Уровень сахара в крови</string>
+    <string name="bloodsugar_acronym">Сахар в крови</string>
     <string name="bloodsugar_units_default">ммоль/л</string>
     <string-array name="bloodsugar_units">
         <item>мг/дл</item>
@@ -85,6 +86,7 @@
     <string name="decimal_places_example">%s будет отображаться как %s</string>
     <string name="delete">Удалить</string>
     <string name="diastolic">Диастолическое</string>
+    <string name="diastolic_acronym">диаст.</string>
     <string name="distribution">Распределение</string>
     <string name="drawer_close">Закрыть Навигатор</string>
     <string name="drawer_open">Откройте Навигатор</string>
@@ -231,7 +233,7 @@
     <string name="pref_therapy_targets_hypoclycemia">Предел для гипогликемии</string>
     <string name="pref_therapy_targets_target">Целевое значение</string>
     <string name="pressure">Артериальное давление</string>
-    <string name="pressure_acronym">Кровавый пиар.</string>
+    <string name="pressure_acronym">АД</string>
     <string name="pressure_units_default">Миллиметры ртутного столба</string>
     <string-array name="pressure_units">
         <item>Миллиметры ртутного столба</item>
@@ -274,6 +276,7 @@
     <string name="store_values">Магазин</string>
     <string name="sugar">Сахар</string>
     <string name="systolic">Систолическое</string>
+    <string name="systolic_acronym">сист.</string>
     <string name="table">Стол</string>
     <string name="tag">Метка</string>
     <string name="tag_delete">Удалить тег</string>

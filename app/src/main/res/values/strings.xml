@@ -48,6 +48,7 @@
     <string name="backup_title">Choose backup</string>
     <string name="basal" translatable="false">Basal</string>
     <string name="bloodsugar">Blood Sugar</string>
+    <string name="bloodsugar_acronym">Blood Sugar</string>
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">It is recommended not to inject a bolus.</string>
     <string name="bolus_no2">Instead some carbohydrate-heavy products should be consumed to prevent lower blood sugar level.</string>
@@ -71,7 +72,7 @@
     <string name="day_previous">Previous day</string>
     <string name="delete">Delete</string>
     <string name="diastolic">Diastolic</string>
-    <string name="diastolic_acronym" translatable="false">diast.</string>
+    <string name="diastolic_acronym">diast.</string>
     <string name="distribution">Distribution</string>
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
@@ -157,7 +158,7 @@
     <string name="statistics">Statistics</string>
     <string name="store_values">Store</string>
     <string name="systolic">Systolic</string>
-    <string name="systolic_acronym" translatable="false">syst.</string>
+    <string name="systolic_acronym">syst.</string>
     <string name="target_area">Target area</string>
     <string name="timeline">Timeline</string>
     <string name="to">to</string>

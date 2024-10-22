@@ -22,6 +22,7 @@
     <string name="backup_store">Guardar copia de seguridad</string>
     <string name="backup_title">Seleccionar copia de seguridad</string>
     <string name="bloodsugar">Glicemia</string>
+    <string name="bloodsugar_acronym">Glicemia</string>
     <string name="bolus">Bolo</string>
     <string name="bolus_no1">No se recomienda administrar bolo.</string>
     <string name="bolus_no2">Usted debería consumir carbohidratos, para así evitar un menor nivel de azúcar en la sangre.</string>
@@ -42,6 +43,7 @@
     <string name="day_previous">Día anterior</string>
     <string name="delete">Eliminar</string>
     <string name="diastolic">Diastólica</string>
+    <string name="diastolic_acronym">diast.</string>
     <string name="distribution">Distribución</string>
     <string name="drawer_close">Cerrar navegador</string>
     <string name="drawer_open">Abrir navegador</string>
@@ -95,6 +97,7 @@
     <string name="statistics">Estadística</string>
     <string name="store_values">Ingresar</string>
     <string name="systolic">Sistólica</string>
+    <string name="systolic_acronym">syst.</string>
     <string name="timeline">Diario</string>
     <string name="to">y</string>
     <string name="today">Hoy</string>

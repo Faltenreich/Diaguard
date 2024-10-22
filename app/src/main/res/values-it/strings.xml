@@ -26,6 +26,7 @@
     <string name="backup_store">Copia di sicurezza salvata</string>
     <string name="backup_title">Scegli copia di sicurezza</string>
     <string name="bloodsugar">Glicemia sanguigna</string>
+    <string name="bloodsugar_acronym">Glicemia</string>
     <string name="bolus">Bolo</string>
     <string name="bolus_no1">È raccomandato non iniettare nessun bolo.</string>
     <string name="bolus_no2">Per prevenire bassi livelli di glicemia invece è consigliato assumere carboidrati a catena lunga.</string>
@@ -49,6 +50,7 @@
     <string name="day_previous">Giorno precedente</string>
     <string name="delete">Cancella</string>
     <string name="diastolic">Diastolica</string>
+    <string name="diastolic_acronym">diast.</string>
     <string name="distribution">Distribuzione</string>
     <string name="drawer_close">Chiudi navigazione</string>
     <string name="drawer_open">Apri navigazione</string>
@@ -124,6 +126,7 @@
     <string name="statistics">Statistiche</string>
     <string name="store_values">Salva</string>
     <string name="systolic">Sistolica</string>
+    <string name="systolic_acronym">syst.</string>
     <string name="target_area">Area obiettivo</string>
     <string name="timeline">Linea temporale</string>
     <string name="to">a</string>

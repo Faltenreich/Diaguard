@@ -67,4 +67,4 @@ In caso di domande sulla privacy durante l'utilizzo dell'Applicazione o di dubbi
 
 * * *
 
-Questa pagina di informativa sulla privacy è stata generata da [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/)
+Questa pagina sulla privacy è stata creata da [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/) e tradotta da [DeepL](https://www.deepl.com/de/translator).

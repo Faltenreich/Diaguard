@@ -67,4 +67,4 @@ Si tiene alguna pregunta relacionada con la privacidad mientras utiliza la Aplic
 
 * * *
 
-Esta página de política de privacidad ha sido generada por [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/)
+Esta página de política de privacidad ha sido creada por [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/) y traducida por [DeepL](https://www.deepl.com/de/translator).

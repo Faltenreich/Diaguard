@@ -29,4 +29,4 @@ Sollten Sie Fragen oder Anregungen zu den Allgemeinen Geschäftsbedingungen habe
 
 * * *
 
-Diese Seite mit den Allgemeinen Geschäftsbedingungen wurde von [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/) erstellt.
+Diese Seite mit den Allgemeinen Geschäftsbedingungen wurde von [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/) erstellt und von [DeepL](https://www.deepl.com/de/translator) übersetzt.

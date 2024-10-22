@@ -1,9 +1,9 @@
 # Diaguard
 
-[![version](https://img.shields.io/badge/Release-3.12.2-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
+[![version](https://img.shields.io/badge/Release-3.13.0-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
 [![ci](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml/badge.svg)](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml)
 
-<img src="./resource/image/marketing/showcase.png" width="750"> 
+<img src="./resource/image/marketing/showcase.png" width="750" alt=""> 
 
 Diaguard is an Android app for people with diabetes mellitus.
 
@@ -23,7 +23,7 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Dark Mode
 * Localized in English, German, French, Spanish and Italian
 
-<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="100">  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" width="100"> 
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="100" alt="">  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" width="100" alt=""> 
 
 ## Distribution
 
@@ -58,7 +58,7 @@ For these reasons, Diaguard has been, is and will always be free of cost.
 If you want to buy me a beer or support me in general, please use the donate button and be aware of my thanks.
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AM6HG633T4BWY&source=url">
- <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100"/>
+ <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100" alt=""/>
 </a>
 
 ## Development
@@ -150,4 +150,4 @@ Additionally to the permissions, conditions and limitations of the GPLv3, the pe
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-<img src="./resource/image/logo/logo_legacy.png" width="100">
+<img src="./resource/image/logo/logo_legacy.png" width="100" alt="">

@@ -30,5 +30,4 @@ Si vous avez des questions ou des suggestions concernant les conditions généra
 
 * * *
 
-Cette page de conditions générales a été générée par [App Privacy Policy Generator] (https://app-privacy-policy-generator.nisrulz.com/).
-
+Cette page de conditions générales a été créée par [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/) et traduite par [DeepL](https://www.deepl.com/de/translator).

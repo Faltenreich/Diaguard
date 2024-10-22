@@ -67,4 +67,4 @@
 
 * * *
 
-Эта страница политики конфиденциальности была создана с помощью [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/)
+Эта страница политики конфиденциальности была создана [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/) и переведена [DeepL](https://www.deepl.com/de/translator).

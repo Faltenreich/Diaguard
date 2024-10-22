@@ -67,4 +67,4 @@ Si vous avez des questions concernant la protection de la vie privée lors de l'
 
 * * *
 
-Cette page de politique de confidentialité a été générée par [App Privacy Policy Generator] (https://app-privacy-policy-generator.nisrulz.com/).
+Cette page de politique de confidentialité a été créée par [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/) et traduite par [DeepL](https://www.deepl.com/de/translator).

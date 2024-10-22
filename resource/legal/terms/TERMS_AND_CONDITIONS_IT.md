@@ -30,5 +30,4 @@ In caso di domande o suggerimenti sui Termini e Condizioni, non esitate a contat
 
 * * *
 
-Questa pagina di Termini e condizioni è stata generata da [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/)
-
+Questa pagina con i Termini e condizioni generali è stata creata da [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/) e tradotta da [DeepL](https://www.deepl.com/de/translator).

@@ -78,8 +78,8 @@ English is used as general language for naming things. Everything except the loc
 Localization takes place locally and affects following components:
 
 * User interfaces: localized via [Android resources](https://developer.android.com/guide/topics/resources/localization) (one [strings.xml](/app/src/main/res/values/strings.xml) per language)
-* Common food: localized via custom file import (one [food_common.csv](/app/src/main/assets/food_common.csv) for all languages)
-* Default tags: localized via custom file import (one [tags.csv](/app/src/main/assets/tags.csv) for all languages)
+* Common food: localized via custom file import (one [food_common.csv](/app/src/main/assets/seed/food_common.csv) for all languages)
+* Default tags: localized via custom file import (one [tags.csv](/app/src/main/assets/seed/tags.csv) for all languages)
 
 Currently the localization process requires certain programming skills. This should and could be improved by using an external service in order to support localizations by non-developers.
 

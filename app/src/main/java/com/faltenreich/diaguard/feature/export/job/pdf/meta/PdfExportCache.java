@@ -36,9 +36,9 @@ public class PdfExportCache {
         this.dateTime = config.getDateStart();
 
         AssetManager assets = config.getContext().getAssets();
-        this.fontNormal = new Font(pdf, assets.open("DroidSans.ttf.stream"), Font.STREAM);
-        this.fontBold = new Font(pdf, assets.open("DroidSans-Bold.ttf.stream"), Font.STREAM);
-        this.fontHeader = new Font(pdf, assets.open("DroidSans-Bold.ttf.stream"), Font.STREAM);
+        this.fontNormal = new Font(pdf, assets.open("font/DroidSans.ttf.stream"), Font.STREAM);
+        this.fontBold = new Font(pdf, assets.open("font/DroidSans-Bold.ttf.stream"), Font.STREAM);
+        this.fontHeader = new Font(pdf, assets.open("font/DroidSans-Bold.ttf.stream"), Font.STREAM);
         this.fontHeader.setSize(FONT_SIZE_HEADER);
 
         this.colorDivider = ContextCompat.getColor(getContext(), R.color.background_light_primary);

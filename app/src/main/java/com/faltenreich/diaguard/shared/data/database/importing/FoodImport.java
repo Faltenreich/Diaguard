@@ -18,7 +18,7 @@ import java.util.Locale;
 class FoodImport implements Importing {
 
     private static final String TAG = FoodImport.class.getSimpleName();
-    private static final String FOOD_CSV_FILE_NAME = "seed/food_common.csv";
+    private static final String FOOD_CSV_FILE_NAME = "seed/food.csv";
 
     private final Context context;
     private final Locale locale;

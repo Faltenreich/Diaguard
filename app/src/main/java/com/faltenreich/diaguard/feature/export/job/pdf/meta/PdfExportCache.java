@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.feature.export.job.pdf.meta;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.Pdf;
 import com.faltenreich.diaguard.feature.export.job.pdf.print.PdfPage;
-import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
 
 import org.joda.time.DateTime;
@@ -34,10 +34,13 @@ public class PdfExportCache {
         this.config = config;
         this.pdf = new Pdf(file, config);
         this.dateTime = config.getDateStart();
-        this.fontNormal = new Font(pdf, CoreFont.HELVETICA);
-        this.fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        this.fontHeader = new Font(pdf, CoreFont.HELVETICA_BOLD);
+
+        AssetManager assets = config.getContext().getAssets();
+        this.fontNormal = new Font(pdf, assets.open("DroidSans.ttf.stream"), Font.STREAM);
+        this.fontBold = new Font(pdf, assets.open("DroidSans-Bold.ttf.stream"), Font.STREAM);
+        this.fontHeader = new Font(pdf, assets.open("DroidSans-Bold.ttf.stream"), Font.STREAM);
         this.fontHeader.setSize(FONT_SIZE_HEADER);
+
         this.colorDivider = ContextCompat.getColor(getContext(), R.color.background_light_primary);
         this.colorHyperglycemia = ContextCompat.getColor(getContext(), R.color.red);
         this.colorHypoglycemia = ContextCompat.getColor(getContext(), R.color.blue);

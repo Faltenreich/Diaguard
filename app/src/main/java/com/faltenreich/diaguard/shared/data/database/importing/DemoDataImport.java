@@ -16,7 +16,7 @@ import java.io.InputStream;
 class DemoDataImport implements Importing {
 
     private static final String TAG = DemoDataImport.class.getSimpleName();
-    private static final String DEMO_BACKUP_FILE_NAME = "backup.csv";
+    private static final String DEMO_BACKUP_FILE_NAME = "seed/backup.csv";
     private static final DateTime MAXIMUM_DATE_IN_BACKUP = new DateTime().withDate(2020, 1, 31);
 
     private final Context context;

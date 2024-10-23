@@ -12,11 +12,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 interface CsvImport {
 
     static int getLanguageColumn(String languageCode, String[] row) {
-        int languageColumn = 0;
+        // Default is EN (English)
+        int languageColumn = 1;
+
         for (int column = 0; column < row.length; column++) {
             String availableLanguageCode = row[column];
             if (languageCode.startsWith(availableLanguageCode.substring(0, 1))) {
@@ -30,7 +33,7 @@ interface CsvImport {
     static CSVReader getCsvReader(Context context, String fileName) throws IOException {
         AssetManager assetManager = context.getAssets();
         InputStream inputStream = assetManager.open(fileName);
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         return new CSVReaderBuilder(bufferedReader)
             .withCSVParser(new CSVParserBuilder()

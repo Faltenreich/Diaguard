@@ -21,7 +21,9 @@
     <string name="backup_complete">Se creará la copia de seguridad</string>
     <string name="backup_store">Guardar copia de seguridad</string>
     <string name="backup_title">Seleccionar copia de seguridad</string>
+    <string name="basal">Basal</string>
     <string name="bloodsugar">Glicemia</string>
+    <string name="bloodsugar_acronym">Glicemia</string>
     <string name="bolus">Bolo</string>
     <string name="bolus_no1">No se recomienda administrar bolo.</string>
     <string name="bolus_no2">Usted debería consumir carbohidratos, para así evitar un menor nivel de azúcar en la sangre.</string>
@@ -42,11 +44,14 @@
     <string name="day_previous">Día anterior</string>
     <string name="delete">Eliminar</string>
     <string name="diastolic">Diastólica</string>
+    <string name="diastolic_acronym">diast.</string>
     <string name="distribution">Distribución</string>
     <string name="drawer_close">Cerrar navegador</string>
     <string name="drawer_open">Abrir navegador</string>
     <string name="edit">Editar</string>
     <string name="empty_days_skip">Saltar días sin entradas</string>
+    <string name="energy_acronym">kcal</string>
+    <string name="energy_acronym_2">kJ</string>
     <string name="entry">Entrada</string>
     <string name="entry_added">Ha agregado una entrada</string>
     <string name="entry_count_per_day">Entrada por día</string>
@@ -64,12 +69,16 @@
     <string name="food_add_desc">Añadir alimentos</string>
     <string name="format">Formato</string>
     <string name="general">General</string>
+    <string name="grams_acronym">g</string>
+    <string name="milligrams_acronym">mg</string>
+    <string name="grams_milliliters_acronym">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Resumen</string>
     <string name="homepage">Página web</string>
     <string name="hyper">Hiper</string>
     <string name="hypo">Hipo</string>
     <string name="in">in</string>
+    <string name="info">Info</string>
     <string name="insulin">Insulina</string>
     <string name="latest">Antes [value] [unit]</string>
     <string name="latest_moments">En este momento</string>
@@ -95,6 +104,7 @@
     <string name="statistics">Estadística</string>
     <string name="store_values">Ingresar</string>
     <string name="systolic">Sistólica</string>
+    <string name="systolic_acronym">syst.</string>
     <string name="timeline">Diario</string>
     <string name="to">y</string>
     <string name="today">Hoy</string>
@@ -124,40 +134,16 @@
     <string name="week">Semana</string>
     <string name="month">Mes</string>
     <string name="quarter">Cuarto</string>
-
-    <string-array name="weekdays">
-        <item>Lunes</item>
-        <item>Martes</item>
-        <item>Miércoles</item>
-        <item>Jueves</item>
-        <item>Viernes</item>
-        <item>Sábado</item>
-        <item>Domingo</item>
-    </string-array>
-
-    <string-array name="weekdays_short">
-        <item>Lu</item>
-        <item>Ma</item>
-        <item>Mi</item>
-        <item>Ju</item>
-        <item>Vi</item>
-        <item>Sa</item>
-        <item>Do</item>
-    </string-array>
-
     <string name="morning">Mañana</string>
     <string name="noon"> Mediodía </string>
     <string name="evening">Tarde</string>
     <string name="night">Noche</string>
 
-    <string-array name="factor_names">
-        <item>Mañana </item>
-        <item>Mediodía</item>
-        <item>Tarde</item>
-        <item>Noche</item>
+    <string name="bloodsugar_units_default">mmol/L</string>
+    <string-array name="bloodsugar_units">
+        <item>mg/dL</item>
+        <item>mmol/L</item>
     </string-array>
-
-    <string name="dateformat_default">DD.MM.YYYY</string>
 
     <string name="insulin_units_default">Unidades de Insulina</string>
     <string-array name="insulin_units">

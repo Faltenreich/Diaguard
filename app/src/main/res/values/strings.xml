@@ -46,8 +46,9 @@
     <string name="backup_import_progress">Backup is being restored &#8230;</string>
     <string name="backup_store">Store backup</string>
     <string name="backup_title">Choose backup</string>
-    <string name="basal" translatable="false">Basal</string>
+    <string name="basal">Basal</string>
     <string name="bloodsugar">Blood Sugar</string>
+    <string name="bloodsugar_acronym">Blood Sugar</string>
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">It is recommended not to inject a bolus.</string>
     <string name="bolus_no2">Instead some carbohydrate-heavy products should be consumed to prevent lower blood sugar level.</string>
@@ -71,14 +72,14 @@
     <string name="day_previous">Previous day</string>
     <string name="delete">Delete</string>
     <string name="diastolic">Diastolic</string>
-    <string name="diastolic_acronym" translatable="false">diast.</string>
+    <string name="diastolic_acronym">diast.</string>
     <string name="distribution">Distribution</string>
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
     <string name="edit">Edit</string>
     <string name="empty_days_skip">Skip days without entries</string>
-    <string name="energy_acronym" translatable="false">kcal</string>
-    <string name="energy_acronym_2" translatable="false">kJ</string>
+    <string name="energy_acronym">kcal</string>
+    <string name="energy_acronym_2">kJ</string>
     <string name="entries">Entries</string>
     <string name="entry">Entry</string>
     <string name="entry_added">Entry added</string>
@@ -107,9 +108,9 @@
     <string name="food_search">Search for food</string>
     <string name="format">Format</string>
     <string name="general">General</string>
-    <string name="grams_acronym" translatable="false">g</string>
-    <string name="milligrams_acronym" translatable="false">mg</string>
-    <string name="grams_milliliters_acronym" translatable="false">g</string>
+    <string name="grams_acronym">g</string>
+    <string name="milligrams_acronym">mg</string>
+    <string name="grams_milliliters_acronym">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
     <string name="hba1c_on">HbA1c on %s</string>
@@ -122,7 +123,7 @@
     <string name="hypo">Hypo</string>
     <string name="hypo_per_day">Hypos per day</string>
     <string name="in">in</string>
-    <string name="info" translatable="false">Info</string>
+    <string name="info">Info</string>
     <string name="ingredients">Ingredients</string>
     <string name="insulin">Insulin</string>
     <string name="interval">Interval</string>
@@ -157,7 +158,7 @@
     <string name="statistics">Statistics</string>
     <string name="store_values">Store</string>
     <string name="systolic">Systolic</string>
-    <string name="systolic_acronym" translatable="false">syst.</string>
+    <string name="systolic_acronym">syst.</string>
     <string name="target_area">Target area</string>
     <string name="timeline">Timeline</string>
     <string name="to">to</string>
@@ -186,7 +187,7 @@
     <string name="sodium">Sodium</string>
     <string name="sugar">Sugar</string>
 
-    <string-array name="time_rhythm">
+    <string-array name="time_rhythm" translatable="false">
         <item>@string/change_none</item>
         <item>@string/change_every_six_hours</item>
         <item>@string/change_every_four_hours</item>
@@ -222,42 +223,10 @@
     <string name="months">Months</string>
     <string name="quarter">Quarter</string>
     <string name="year">Year</string>
-
-    <string-array name="weekdays">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
-    </string-array>
-    <string-array name="weekdays_short">
-        <item>Mon</item>
-        <item>Tue</item>
-        <item>Wed</item>
-        <item>Thu</item>
-        <item>Fri</item>
-        <item>Sat</item>
-        <item>Sun</item>
-    </string-array>
-
     <string name="morning">Morning</string>
     <string name="noon">Noon</string>
     <string name="evening">Evening</string>
     <string name="night">Night</string>
-    <string-array name="factor_names">
-        <item>Morning</item>
-        <item>Noon</item>
-        <item>Evening</item>
-        <item>Night</item>
-    </string-array>
-
-    <string name="dateformat_default">YYYY-MM-DD</string>
-    <string-array name="dateformat">
-        <item>DD.MM.YYYY</item>
-        <item>YYYY-MM-DD</item>
-    </string-array>
 
     <!-- EXPORT -->
 
@@ -274,8 +243,8 @@
 
     <!-- CATEGORIES -->
 
-    <string name="bloodsugar_units_default" translatable="false">mmol/L</string>
-    <string-array name="bloodsugar_units" translatable="false">
+    <string name="bloodsugar_units_default">mmol/L</string>
+    <string-array name="bloodsugar_units">
         <item>mg/dL</item>
         <item>mmol/L</item>
     </string-array>

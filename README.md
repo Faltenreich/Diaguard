@@ -1,9 +1,9 @@
 # Diaguard
 
-[![version](https://img.shields.io/badge/Release-3.12.2-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
-[![ci](https://github.com/Faltenreich/Diaguard/actions/workflows/ci.yml/badge.svg)](https://github.com/Faltenreich/Diaguard/actions/workflows/ci.yml)
+[![version](https://img.shields.io/badge/Release-3.13.0-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
+[![ci](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml/badge.svg)](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml)
 
-<img src="./resource/image/marketing/showcase.png" width="750"> 
+<img src="./resource/image/marketing/showcase.png" width="750" alt=""> 
 
 Diaguard is an Android app for people with diabetes mellitus.
 
@@ -21,9 +21,9 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Estimated HbA1c
 * Statistics
 * Dark Mode
-* Localized in English, German, French, Spanish and Italian
+* Localized in English, German, French, Spanish, Italian and Russian
 
-<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="100">  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" width="100"> 
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="100" alt="">  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" width="100" alt=""> 
 
 ## Distribution
 
@@ -58,7 +58,7 @@ For these reasons, Diaguard has been, is and will always be free of cost.
 If you want to buy me a beer or support me in general, please use the donate button and be aware of my thanks.
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AM6HG633T4BWY&source=url">
- <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100"/>
+ <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100" alt=""/>
 </a>
 
 ## Development
@@ -78,8 +78,8 @@ English is used as general language for naming things. Everything except the loc
 Localization takes place locally and affects following components:
 
 * User interfaces: localized via [Android resources](https://developer.android.com/guide/topics/resources/localization) (one [strings.xml](/app/src/main/res/values/strings.xml) per language)
-* Common food: localized via custom file import (one [food_common.csv](/app/src/main/assets/food_common.csv) for all languages)
-* Default tags: localized via custom file import (one [tags.csv](/app/src/main/assets/tags.csv) for all languages)
+* Common food: localized via custom file import (one [food_common.csv](/app/src/main/assets/seed/food_common.csv) for all languages)
+* Default tags: localized via custom file import (one [tags.csv](/app/src/main/assets/seed/tags.csv) for all languages)
 
 Currently the localization process requires certain programming skills. This should and could be improved by using an external service in order to support localizations by non-developers.
 
@@ -104,6 +104,7 @@ This software uses following technologies with great appreciation:
 * [Apache Commons Text](http://commons.apache.org/proper/commons-text)
 * [App Privacy Policy Generator](https://github.com/nisrulz/app-privacy-policy-generator)
 * [BetterPickers](https://github.com/code-troopers/android-betterpickers)
+* [Droid Sans](https://github.com/google/fonts)
 * [EventBus](https://github.com/greenrobot/EventBus)
 * [FloatingActionButton](https://github.com/Clans/FloatingActionButton)
 * [Gson](https://github.com/google/gson)
@@ -150,4 +151,4 @@ Additionally to the permissions, conditions and limitations of the GPLv3, the pe
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-<img src="./resource/image/logo/logo_legacy.png" width="100">
+<img src="./resource/image/logo/logo_legacy.png" width="100" alt="">

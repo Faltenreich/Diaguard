@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="about">О сайте</string>
+    <string name="actions">Действия</string>
+    <string name="active">Активный</string>
+    <string name="activity">Деятельность</string>
+    <string name="activity_units_default">Минут</string>
+    <string-array name="activity_units">
+        <item>Минут</item>
+    </string-array>
+    <string-array name="activity_units_acronyms">
+        <item>мин</item>
+    </string-array>
+    <string name="alarm">Измерьте уровень сахара в крови</string>
+    <string name="alarm_delete">Удалить напоминание</string>
+    <string name="alarm_deleted">Удалено напоминание</string>
+    <string name="alarm_desc">%s момента последнего измерения</string>
+    <string name="alarm_desc_first">Уже думал об этом?</string>
+    <string name="alarm_reminder">Напоминание</string>
+    <string name="alarm_reminder_in">Напоминание через</string>
+    <string name="alarm_reminder_none">Никаких напоминаний</string>
+    <string name="all">Все</string>
+    <string name="amount">Сумма &#8230;</string>
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_RU.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_RU.md</string>
+    <string name="available_placeholder">%d доступно</string>
+    <string name="average">Средний</string>
+    <string name="back">Назад</string>
+    <string name="backup_complete">Резервное копирование завершено</string>
+    <string name="backup_create">Создание резервной копии</string>
+    <string name="backup_desc">Сохранить данные в файле резервной копии на выбранном вами хранилище (данные не будут автоматически отправляться во внешние службы).</string>
+    <string name="backup_import">Импорт резервной копии</string>
+    <string name="backup_import_progress">Резервная копия восстанавливается &#8230;</string>
+    <string name="backup_store">Хранить резервную копию</string>
+    <string name="backup_title">Выберите резервное копирование</string>
+    <string name="basal">Базальный</string>
+    <string name="basal_rate">Базальный показатель</string>
+    <string name="basal_rate_desc">Основные потребности в инсулине</string>
+    <string name="bloodsugar">Уровень сахара в крови</string>
+    <string name="bloodsugar_acronym">Сахар в крови</string>
+    <string name="bloodsugar_units_default">ммоль/л</string>
+    <string-array name="bloodsugar_units">
+        <item>мг/дл</item>
+        <item>ммоль/л</item>
+    </string-array>
+    <string name="bolus">Короткий</string>
+    <string name="bolus_no1">Рекомендуется не вводить короткий инсулин.</string>
+    <string name="bolus_no2">Вместо этого следует употреблять некоторые продукты, богатые углеводами, чтобы предотвратить снижение уровня сахара в крови.</string>
+    <string name="brand">Марка</string>
+    <string name="calculator">Калькулятор</string>
+    <string name="calendarweek">Календарная неделя</string>
+    <string name="cancel">Отменить</string>
+    <string name="carbohydrates">Углеводы</string>
+    <string name="carbohydrates_per_100g">Углеводы на 100 г</string>
+    <string name="categories">Категории</string>
+    <string name="category">Категория</string>
+    <string name="category_pin">Категория Pin-кода</string>
+    <string name="category_pin_confirm">%s был закреплен</string>
+    <string name="category_preference_desc">"Активный:\nКатегория отображается в записи\n\nЗакрепленный:\nКатегория автоматически выбирается для новых записей\n\nСортировать:\nУдерживая шеститочечный символ, перетащите его вверх или вниз"</string>
+    <string name="category_unpin_confirm">%s был откреплен</string>
+    <string name="change_every_four_hours">Меняется каждые четыре часа</string>
+    <string name="change_every_hour">Меняется каждый час</string>
+    <string name="change_every_second_hour">Меняется каждый второй час</string>
+    <string name="change_every_six_hours">Меняется в любое время суток</string>
+    <string name="change_none">Постоянный</string>
+    <string name="change_now">Измениться сейчас</string>
+    <string name="cleanup">убирать</string>
+    <string name="cleanup_desc">Это приведет к безвозвратному удалению всех данных в выбранную дату и до нее.</string>
+    <string name="close">Закрывать</string>
+    <string name="contact">Контакт</string>
+    <string name="correction">Правка</string>
+    <string name="correction_value">Корректирующий фактор</string>
+    <string name="correction_value_desc">Снижение уровня сахара в крови на 1 ЕД инсулина</string>
+    <string name="data">Данные</string>
+    <string name="date_select">Выберите дату</string>
+    <string name="dateend">Дата окончания</string>
+    <string name="dateformat">Формат даты</string>
+    <string name="datestart">Дата начала</string>
+    <string name="day">День</string>
+    <string name="day_next">Следующий день</string>
+    <string name="day_previous">Предыдущий день</string>
+    <string name="days">Дни</string>
+    <string name="decimal_places">Десятичные разряды</string>
+    <string name="decimal_places_desc">Количество цифр для дробной части чисел с плавающей запятой</string>
+    <string name="decimal_places_example">%s будет отображаться как %s</string>
+    <string name="delete">Удалить</string>
+    <string name="diastolic">Диастолическое</string>
+    <string name="diastolic_acronym">диаст.</string>
+    <string name="distribution">Распределение</string>
+    <string name="drawer_close">Закрыть Навигатор</string>
+    <string name="drawer_open">Откройте Навигатор</string>
+    <string name="edit">Редактировать</string>
+    <string name="empty_days_skip">Пропустить дни без записей</string>
+    <string name="energy_acronym">ккал</string>
+    <string name="energy_acronym_2">кДж</string>
+    <string name="energy">Энергия</string>
+    <string name="entries">Записи</string>
+    <string name="entry">Вход</string>
+    <string name="entry_added">Добавлена запись</string>
+    <string name="entry_count_per_day">Записи в день</string>
+    <string name="entry_delete">Удалить запись</string>
+    <string name="entry_deleted">Запись удалена</string>
+    <string name="entry_edit">Редактирование запись</string>
+    <string name="entry_new">Новая запись</string>
+    <string name="error_import">Недопустимый формат файла</string>
+    <string name="error_no_app">Не найдено приложение для открытия файла</string>
+    <string name="error_no_backups">Никаких резервных копий не найдено на</string>
+    <string name="error_no_connection">Нет связи?</string>
+    <string name="error_no_connection_desc">Зайдите в Интернет, чтобы получить больше информации</string>
+    <string name="error_no_data">Зияющая пустота?</string>
+    <string name="error_no_data_desc">Попробуйте выполнить другой запрос, чтобы улучшить свои результаты или</string>
+    <string name="error_no_data_settings_desc">Измените настройки для получения дополнительных результатов</string>
+    <string name="error_no_mail">Не найдено приложения для отправки электронной почты</string>
+    <string name="error_sd_card">SD-карта недоступна</string>
+    <string name="error_unexpected">Что-то пошло не так</string>
+    <string name="evening">Вечер</string>
+    <string name="export">Экспорт</string>
+    <string name="export_complete">Сохранено в %s</string>
+    <string name="export_delete">Удалить экспорт</string>
+    <string name="export_delete_desc">Это приведет к безвозвратному удалению файла с вашего устройства</string>
+    <string name="page_number">Номер страницы</string>
+    <string name="export_history">История экспорта</string>
+    <string name="export_progress">Создается PDF-файл</string>
+    <string name="export_share">Экспорт акций</string>
+    <string name="export_page">Страница %d</string>
+    <string name="export_stamp">Отчет, созданный на</string>
+    <string name="factors">Факторы</string>
+    <string name="fat">Жир</string>
+    <string name="fat_saturated">Насыщенный жир</string>
+    <string name="fiber">Волокно</string>
+    <string name="first_visit">Первый визит?</string>
+    <string name="first_visit_desc">Введите свое первое значение</string>
+    <string name="food">Еда</string>
+    <string name="food_add">Добавьте еду</string>
+    <string name="food_add_desc">Добавьте еду</string>
+    <string name="food_append">Добавить еду</string>
+    <string name="food_branded">Фирменная еда</string>
+    <string name="food_common">Обычная еда</string>
+    <string name="food_custom">Пользовательская еда</string>
+    <string name="food_delete">Удалить продукты питания</string>
+    <string name="food_deleted">Еда удалена</string>
+    <string name="food_eaten_placeholder">%d съеденные блюда будут затронуты</string>
+    <string name="food_edit">Редактирование еды</string>
+    <string name="food_new">Новая еда</string>
+    <string name="food_preferences">Настройки питания</string>
+    <string name="food_search">Поиск пищи</string>
+    <string name="format">Формат</string>
+    <string name="general">Общие</string>
+    <string name="grams_acronym">г</string>
+    <string name="milligrams_acronym">мг</string>
+    <string name="grams_milliliters_acronym">г</string>
+    <string name="hba1c">HbA1c</string>
+    <string name="hba1c_estimated">Предполагаемый HbA1c</string>
+    <string name="hba1c_on">HbA1c на %s</string>
+    <string name="hba1c_units_default">Процент</string>
+    <string-array name="hba1c_units">
+        <item>Процент</item>
+        <item>ммоль/моль</item>
+    </string-array>
+    <string name="help">Помогите</string>
+    <string name="highlight_limits">Выделите ограничения</string>
+    <string name="home">Обзор</string>
+    <string name="homepage">Вебсайт</string>
+    <string name="hour">Час</string>
+    <string name="hours">Часов</string>
+    <string name="hyper">Гипер</string>
+    <string name="hyper_per_day">Гиперов в день</string>
+    <string name="hypo">Гипо</string>
+    <string name="hypo_per_day">Гипов в день</string>
+    <string name="import_desc">Восстановление данных из ранее созданного файла резервной копии</string>
+    <string name="in">в</string>
+    <string name="info">инфо</string>
+    <string name="ingredients">Ингредиенты</string>
+    <string name="insulin">Инсулин</string>
+    <string name="insulin_split">Разделяется на болюсную, корректирующую и базальную</string>
+    <string name="insulin_units_default">Единицы инсулина</string>
+    <string-array name="insulin_units">
+        <item>Единицы инсулина</item>
+    </string-array>
+    <string-array name="insulin_units_acronyms">
+        <item>IU</item>
+    </string-array>
+    <string name="interval">Интервал</string>
+    <string name="latest">[value] [unit] назад</string>
+    <string name="latest_moments">Мгновения назад</string>
+    <string name="licenses">Лицензии с открытым исходным кодом</string>
+    <string name="log">Лог</string>
+    <string name="mail">Электронная почта</string>
+    <string name="meal">Еда</string>
+    <string name="meal_factor">Хлебный фактор</string>
+    <string name="meal_factor_desc">Количество инсулина, необходимое для усвоения 1 ХЕ</string>
+    <string name="meal_factors">Хлебный фактор</string>
+    <string name="meal_optional">Питание (По желанию)</string>
+    <string name="meal_units_default">Углеводы</string>
+    <string-array name="meal_units">
+        <item>Углеводы</item>
+        <item>Единицы углеводов</item>
+        <item>Хлебные единицы</item>
+    </string-array>
+    <string-array name="meal_units_acronyms">
+        <item>УГЛ</item>
+        <item>УЕ</item>
+        <item>ХЕ</item>
+    </string-array>
+    <string name="measurement_add">Добавить измерение</string>
+    <string name="measurement_latest">Самый последний</string>
+    <string name="measurements">Измеренный</string>
+    <string name="menu_open">Открыть меню</string>
+    <string name="minute">Минута</string>
+    <string name="minutes">Минут</string>
+    <string name="month">Месяц</string>
+    <string name="month_current">Текущий месяц</string>
+    <string name="months">Месяцы</string>
+    <string name="morning">Утро</string>
+    <string name="name">Название</string>
+    <string name="night">Ночь</string>
+    <string name="no_data">Нет доступных данных</string>
+    <string name="no_results_found">Результатов не найдено</string>
+    <string name="noon">Полдень</string>
+    <string name="note">Примечание</string>
+    <string name="notes">Записи</string>
+    <string name="nutriments">Питательные вещества</string>
+    <string name="nutriments_per_100g">Питательные вещества на 100 г</string>
+    <string name="ok">ОК</string>
+    <string name="open">Открыть</string>
+    <string name="overview">Обзор</string>
+    <string name="oxygen_saturation">Насыщение кислородом</string>
+    <string name="oxygen_saturation_acronym">Кислород сел.</string>
+    <string name="per">за</string>
+    <string name="per_day">в день</string>
+    <string name="pinned">фикс</string>
+    <string name="powered_by">Питается от</string>
+    <string name="pref_therapy_limits">Пределы</string>
+    <string name="pref_therapy_targets">Целевые значения</string>
+    <string name="pref_therapy_targets_highlight">Выделить ограничения</string>
+    <string name="pref_therapy_targets_highlight_desc">Выделяет гипергликемию красным цветом и гипогликемию синим</string>
+    <string name="pref_therapy_targets_hyperclycemia">Предел для гипергликемии</string>
+    <string name="pref_therapy_targets_hypoclycemia">Предел для гипогликемии</string>
+    <string name="pref_therapy_targets_target">Целевое значение</string>
+    <string name="pressure">Артериальное давление</string>
+    <string name="pressure_acronym">АД</string>
+    <string name="pressure_units_default">Миллиметры ртутного столба</string>
+    <string-array name="pressure_units">
+        <item>Миллиметры ртутного столба</item>
+    </string-array>
+    <string-array name="pressure_units_acronyms">
+        <item>мм рт. ст.</item>
+    </string-array>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="proteins">Белки</string>
+    <string name="pulse">Пульс</string>
+    <string name="pulse_units_default">Ударов в минуту</string>
+    <string-array name="pulse_units">
+        <item>Ударов в минуту</item>
+    </string-array>
+    <string-array name="pulse_units_acronyms">
+        <item>бпм</item>
+    </string-array>
+    <string name="quarter">Четверть</string>
+    <string name="quarter_current">Текущий квартал</string>
+    <string name="query_clear">Очистить запрос</string>
+    <string name="remove_placeholder">Удалить %s</string>
+    <string name="salt">Соль</string>
+    <string name="search">Поиск</string>
+    <string name="search_hint">Заметки, теги, &#8230;</string>
+    <string name="search_prompt">Начните поиск, набрав</string>
+    <string name="settings">Настройки</string>
+    <string name="settings_open">Откройте настройки</string>
+    <string name="share">Делиться</string>
+    <string name="show_branded_food">Поиск фирменных продуктов питания</string>
+    <string name="show_branded_food_desc">Включает тысячи упакованных товаров, которые запрашиваются через сеть (может привести к дублированию, например, один продукт от разных производителей)</string>
+    <string name="show_common_food">Показывать обычную еду</string>
+    <string name="show_common_food_desc">Включает в себя сотни основных продуктов питания, поставляемых в комплекте с приложением</string>
+    <string name="show_custom_food">Показывать пользовательскую еду</string>
+    <string name="show_custom_food_desc">Включает в себя все продукты, которые были добавлены пользователем вручную.</string>
+    <string name="sodium">Натрий</string>
+    <string name="sound">Звук</string>
+    <string name="sourcecode">Исходный код</string>
+    <string name="startscreen">Начальный экран</string>
+    <string name="statistics">Статистика</string>
+    <string name="store_values">Магазин</string>
+    <string name="sugar">Сахар</string>
+    <string name="systolic">Систолическое</string>
+    <string name="systolic_acronym">сист.</string>
+    <string name="table">Стол</string>
+    <string name="tag">Метка</string>
+    <string name="tag_delete">Удалить тег</string>
+    <string name="tag_delete_confirmation">%d записи потеряют этот тег</string>
+    <string name="tag_duplicate">Тег уже доступен</string>
+    <string name="tag_new">Новый тег</string>
+    <string name="tags">Теги</string>
+    <string name="target_area">Целевая область</string>
+    <string name="terms_and_conditions">Условия и положения</string>
+    <string name="theme">Цветовая тема</string>
+    <string name="theme_dark">Темная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_system">Настройка системы</string>
+    <string name="theme_time_based">По времени суток</string>
+    <string name="therapy">Терапия</string>
+    <string name="timeline">Временная шкала</string>
+    <string name="timeline_show_dots">Показывать точки</string>
+    <string name="timeline_show_dots_desc">Отмечать измерения точками (отключение этого параметра приведет к прекращению выделения пределов)</string>
+    <string name="timeline_show_lines">Показывать линии</string>
+    <string name="timeline_show_lines_desc">Соединить измерения линиями</string>
+    <string name="to">к</string>
+    <string name="today">Сегодня</string>
+    <string name="trend">Тенденция</string>
+    <string name="try_again">Пробовать снова</string>
+    <string name="undo">Отменить</string>
+    <string name="unit_factor_bread_unit">Хлебный фактор</string>
+    <string name="unit_factor_carbohydrates_unit">Углеводный фактор</string>
+    <string name="units">Единицы</string>
+    <string name="validator_value_empty">Пожалуйста, введите значение</string>
+    <string name="validator_value_empty_list">Должна быть выбрана хотя бы одна категория</string>
+    <string name="validator_value_infuture">Событие не может произойти в будущем</string>
+    <string name="validator_value_none">Запись не содержит событий</string>
+    <string name="validator_value_number">Допускаются только цифры</string>
+    <string name="validator_value_unrealistic">Нереалистичная ценность</string>
+    <string name="version">Версия</string>
+    <string name="vibration">Вибрация</string>
+    <string name="week">Неделя</string>
+    <string name="week_current">Текущая неделя</string>
+    <string name="weeks_four">Последние четыре недели</string>
+    <string name="weeks_two">Последние две недели</string>
+    <string name="weight">Вес</string>
+    <string name="weight_units_default">Фунт</string>
+    <string-array name="weight_units">
+        <item>Килограмм</item>
+        <item>Фунт</item>
+    </string-array>
+    <string-array name="weight_units_acronyms">
+        <item>кг</item>
+        <item>Фунт</item>
+    </string-array>
+    <string name="year">Год</string>
+    <string name="error_missing_permission">Для использования этой функциональности необходимо получить разрешение</string>
+    <string name="export_date">Дата экспорта</string>
+    <string name="layout">Макет</string>
+
+</resources>

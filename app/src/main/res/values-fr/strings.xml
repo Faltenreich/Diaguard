@@ -20,7 +20,9 @@
     <string name="backup_import_progress">Sauvegarde est charger &#8230;</string>
     <string name="backup_store">Sauvegarde du magasin</string>
     <string name="backup_title">Sélectionnez sauvegarde</string>
+    <string name="basal">Basal</string>
     <string name="bloodsugar">Glycémie</string>
+    <string name="bloodsugar_acronym">Glycémie</string>
     <string name="bolus">Bol</string>
     <string name="bolus_no1">L\'administration d\'un bolus est déconseillée.</string>
     <string name="bolus_no2">Cependant, il est recommandé de consommer des hydrates de carbone rapides, afin d\'éviter des niveaux de glycémie trop bas.</string>
@@ -45,6 +47,8 @@
     <string name="drawer_open">Ouvrir Navigator</string>
     <string name="edit">Modifiez</string>
     <string name="empty_days_skip">Sauter les jours sans entrées</string>
+    <string name="energy_acronym">kcal</string>
+    <string name="energy_acronym_2">kJ</string>
     <string name="entry">Entrée</string>
     <string name="entry_added">Ajout d\'une entrée</string>
     <string name="entry_edit">Modifiez l\'entrée</string>
@@ -62,12 +66,16 @@
     <string name="food_add_desc">Ajouter l\'aliment</string>
     <string name="format">Format</string>
     <string name="general">Généralement</string>
+    <string name="grams_acronym">g</string>
+    <string name="milligrams_acronym">mg</string>
+    <string name="grams_milliliters_acronym">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Sommaire</string>
     <string name="homepage">Site web</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
     <string name="in">en</string>
+    <string name="info">Info</string>
     <string name="insulin">Insuline</string>
     <string name="latest">Il ya [value] [unit]</string>
     <string name="latest_moments">A l\'instant</string>
@@ -119,40 +127,18 @@
     <string name="week">Semaine</string>
     <string name="month">Mois</string>
     <string name="quarter">Trimestre</string>
-
-    <string-array name="weekdays">
-        <item>Lundi</item>
-        <item>Mardi</item>
-        <item>Mercredi</item>
-        <item>Jeudi</item>
-        <item>Vendredi</item>
-        <item>Samedi</item>
-        <item>Dimanche</item>
-    </string-array>
-    <string-array name="weekdays_short">
-        <item>Lu</item>
-        <item>Ma</item>
-        <item>Me</item>
-        <item>Je</item>
-        <item>Ve</item>
-        <item>Sa</item>
-        <item>Di</item>
-    </string-array>
-
     <string name="morning">Le matin</string>
     <string name="noon">Le midi</string>
     <string name="evening">Le soir</string>
     <string name="night">La nuit</string>
-    <string-array name="factor_names">
-        <item>Le matin</item>
-        <item>Le midi</item>
-        <item>Le soir</item>
-        <item>La nuit</item>
+    <string name="insulin_units_default">Unités d\'insuline</string>
+
+    <string name="bloodsugar_units_default">mmol/L</string>
+    <string-array name="bloodsugar_units">
+        <item>mg/dL</item>
+        <item>mmol/L</item>
     </string-array>
 
-    <string name="dateformat_default">DD.MM.YYYY</string>
-
-    <string name="insulin_units_default">Unités d\'insuline</string>
     <string-array name="insulin_units">
         <item>Unités d\'insuline</item>
     </string-array>
@@ -241,12 +227,14 @@
     <string name="backup_complete">Sauvegarde terminée</string>
     <string name="correction">Correction</string>
     <string name="diastolic">Diastolique</string>
+    <string name="diastolic_acronym">diast.</string>
     <string name="error_unexpected">Quelque chose a mal tourné</string>
     <string name="error_import">Format de fichier invalide</string>
     <string name="export_complete">Sauvé sous %s</string>
     <string name="interval">Intervalle</string>
     <string name="measurement_latest">Dernier</string>
     <string name="systolic">Systolique</string>
+    <string name="systolic_acronym">syst.</string>
     <string name="validator_value_empty_list"> Au moins une catégorie doit être sélectionnée</string>
     <string name="pressure">Pression artérielle</string>
     <string name="pressure_acronym">Pression art.</string>

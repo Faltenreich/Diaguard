@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.feature.preference.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -168,10 +167,7 @@ public class PreferenceStore {
     }
 
     public int[] getExtrema(Category category) {
-        int resourceIdExtrema = getContext().getResources().getIdentifier(category.name().toLowerCase() + "_extrema", "array", getContext().getPackageName());
-        if (resourceIdExtrema == 0) {
-            throw new Resources.NotFoundException("Resource \"category_extrema\" not found: IntArray with event value extrema");
-        }
+        int resourceIdExtrema = category.getExtremaArrayResourceId();
         return getContext().getResources().getIntArray(resourceIdExtrema);
     }
 
@@ -296,7 +292,7 @@ public class PreferenceStore {
 
     public void addInputQuery(String query) {
         String inputQueries = getInputQueriesString();
-        if (inputQueries.length() > 0) {
+        if (!inputQueries.isEmpty()) {
             inputQueries = inputQueries + INPUT_QUERIES_SEPARATOR;
         }
         inputQueries = inputQueries + query;
@@ -431,9 +427,7 @@ public class PreferenceStore {
     // UNITS
 
     private String[] getUnitsNames(Category category) {
-        String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
-            "_units", "array", getContext().getPackageName());
+        int resourceIdUnits = category.getUnitNameArrayResourceId();
         return getContext().getResources().getStringArray(resourceIdUnits);
     }
 
@@ -444,13 +438,12 @@ public class PreferenceStore {
     }
 
     private String[] getUnitsAcronyms(Category category) {
-        String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
-            "_units_acronyms", "array", getContext().getPackageName());
-        if (resourceIdUnits == 0)
+        int resourceIdUnits = category.getUnitNameAcronymArrayResourceId();
+        if (resourceIdUnits == 0) {
             return null;
-        else
+        } else {
             return getContext().getResources().getStringArray(resourceIdUnits);
+        }
     }
 
     public String getUnitAcronym(Category category) {
@@ -477,15 +470,9 @@ public class PreferenceStore {
         );
     }
 
-    private String[] getUnitsValues(String unitName) {
-        int resourceIdUnits = getContext().getResources().getIdentifier(unitName +
-            "_units_values", "array", getContext().getPackageName());
-        return getContext().getResources().getStringArray(resourceIdUnits);
-    }
-
     private String[] getUnitsValues(Category category) {
-        String categoryName = category.name().toLowerCase();
-        return getUnitsValues(categoryName);
+        int resourceId = category.getUnitValueArrayResourceId();
+        return getContext().getResources().getStringArray(resourceId);
     }
 
     private float getUnitValue(Category category) {

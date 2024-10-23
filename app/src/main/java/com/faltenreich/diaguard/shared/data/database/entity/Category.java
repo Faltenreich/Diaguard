@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
+import android.content.res.Resources;
+
+import androidx.annotation.ArrayRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 
@@ -82,6 +85,69 @@ public enum Category {
 
     public boolean isOptional() {
         return this != BLOODSUGAR;
+    }
+
+    @ArrayRes
+    public int getExtremaArrayResourceId() {
+        switch (this) {
+            case BLOODSUGAR: return R.array.bloodsugar_extrema;
+            case INSULIN: return R.array.insulin_extrema;
+            case MEAL: return R.array.meal_extrema;
+            case ACTIVITY: return R.array.activity_extrema;
+            case HBA1C: return R.array.hba1c_extrema;
+            case WEIGHT: return R.array.weight_extrema;
+            case PULSE: return R.array.pulse_extrema;
+            case PRESSURE: return R.array.pressure_extrema;
+            case OXYGEN_SATURATION: return R.array.oxygen_saturation_extrema;
+            default: throw new Resources.NotFoundException("Array of extrema missing for category: " + this);
+        }
+    }
+
+    @ArrayRes
+    public int getUnitNameArrayResourceId() {
+        switch (this) {
+            case BLOODSUGAR: return R.array.bloodsugar_units;
+            case INSULIN: return R.array.insulin_units;
+            case MEAL: return R.array.meal_units;
+            case ACTIVITY: return R.array.activity_units;
+            case HBA1C: return R.array.hba1c_units;
+            case WEIGHT: return R.array.weight_units;
+            case PULSE: return R.array.pulse_units;
+            case PRESSURE: return R.array.pressure_units;
+            case OXYGEN_SATURATION: return R.array.oxygen_saturation_units;
+            default: throw new Resources.NotFoundException("Array of unit names missing for category: " + this);
+        }
+    }
+
+    @ArrayRes
+    public int getUnitNameAcronymArrayResourceId() {
+        switch (this) {
+            case INSULIN: return R.array.insulin_units_acronyms;
+            case MEAL: return R.array.meal_units_acronyms;
+            case ACTIVITY: return R.array.activity_units_acronyms;
+            case HBA1C: return R.array.hba1c_units_acronyms;
+            case WEIGHT: return R.array.weight_units_acronyms;
+            case PULSE: return R.array.pulse_units_acronyms;
+            case PRESSURE: return R.array.pressure_units_acronyms;
+            case OXYGEN_SATURATION: return R.array.oxygen_saturation_units_acronyms;
+            default: return 0;
+        }
+    }
+
+    @ArrayRes
+    public int getUnitValueArrayResourceId() {
+        switch (this) {
+            case BLOODSUGAR: return R.array.bloodsugar_units_values;
+            case INSULIN: return R.array.insulin_units_values;
+            case MEAL: return R.array.meal_units_values;
+            case ACTIVITY: return R.array.activity_units_values;
+            case HBA1C: return R.array.hba1c_units_values;
+            case WEIGHT: return R.array.weight_units_values;
+            case PULSE: return R.array.pulse_units_values;
+            case PRESSURE: return R.array.pressure_units_values;
+            case OXYGEN_SATURATION: return R.array.oxygen_saturation_units_values;
+            default: throw new Resources.NotFoundException("Array of unit values missing for category: " + this);
+        }
     }
 
     public static Category fromStableId(int stableId) {

@@ -349,16 +349,40 @@ public class PreferenceStore {
 
     public int getMonthResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
-        String identifier = String.format(Locale.getDefault(), "bg_month_%d", monthOfYear - 1);
-        return getContext().getResources().getIdentifier(identifier,
-            "drawable", getContext().getPackageName());
+        switch (monthOfYear - 1) {
+            case 0: return R.drawable.bg_month_0;
+            case 1: return R.drawable.bg_month_1;
+            case 2: return R.drawable.bg_month_2;
+            case 3: return R.drawable.bg_month_3;
+            case 4: return R.drawable.bg_month_4;
+            case 5: return R.drawable.bg_month_5;
+            case 6: return R.drawable.bg_month_6;
+            case 7: return R.drawable.bg_month_7;
+            case 8: return R.drawable.bg_month_8;
+            case 9: return R.drawable.bg_month_9;
+            case 10: return R.drawable.bg_month_10;
+            case 11: return R.drawable.bg_month_11;
+            default: return 0;
+        }
     }
 
     public int getMonthSmallResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
-        String identifier = String.format(Locale.getDefault(), "bg_month_%d_small", monthOfYear - 1);
-        return getContext().getResources().getIdentifier(identifier,
-            "drawable", getContext().getPackageName());
+        switch (monthOfYear - 1) {
+            case 0: return R.drawable.bg_month_0_small;
+            case 1: return R.drawable.bg_month_1_small;
+            case 2: return R.drawable.bg_month_2_small;
+            case 3: return R.drawable.bg_month_3_small;
+            case 4: return R.drawable.bg_month_4_small;
+            case 5: return R.drawable.bg_month_5_small;
+            case 6: return R.drawable.bg_month_6_small;
+            case 7: return R.drawable.bg_month_7_small;
+            case 8: return R.drawable.bg_month_8_small;
+            case 9: return R.drawable.bg_month_9_small;
+            case 10: return R.drawable.bg_month_10_small;
+            case 11: return R.drawable.bg_month_11_small;
+            default: return 0;
+        }
     }
 
     public boolean isCategoryActive(Category category) {

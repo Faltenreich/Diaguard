@@ -99,7 +99,7 @@ public enum Category {
             case PULSE: return R.array.pulse_extrema;
             case PRESSURE: return R.array.pressure_extrema;
             case OXYGEN_SATURATION: return R.array.oxygen_saturation_extrema;
-            default: throw new Resources.NotFoundException("Array of extrema missing for category: " + this);
+            default: throw new Resources.NotFoundException("Extrema missing for category: " + this);
         }
     }
 
@@ -115,7 +115,7 @@ public enum Category {
             case PULSE: return R.array.pulse_units;
             case PRESSURE: return R.array.pressure_units;
             case OXYGEN_SATURATION: return R.array.oxygen_saturation_units;
-            default: throw new Resources.NotFoundException("Array of unit names missing for category: " + this);
+            default: throw new Resources.NotFoundException("Unit names missing for category: " + this);
         }
     }
 
@@ -146,7 +146,7 @@ public enum Category {
             case PULSE: return R.array.pulse_units_values;
             case PRESSURE: return R.array.pressure_units_values;
             case OXYGEN_SATURATION: return R.array.oxygen_saturation_units_values;
-            default: throw new Resources.NotFoundException("Array of unit values missing for category: " + this);
+            default: throw new Resources.NotFoundException("Unit values missing for category: " + this);
         }
     }
 

@@ -167,8 +167,7 @@ public class PreferenceStore {
     }
 
     public int[] getExtrema(Category category) {
-        int resourceIdExtrema = category.getExtremaArrayResourceId();
-        return getContext().getResources().getIntArray(resourceIdExtrema);
+        return getContext().getResources().getIntArray(category.getExtremaArrayResourceId());
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
@@ -451,8 +450,7 @@ public class PreferenceStore {
     // UNITS
 
     private String[] getUnitsNames(Category category) {
-        int resourceIdUnits = category.getUnitNameArrayResourceId();
-        return getContext().getResources().getStringArray(resourceIdUnits);
+        return getContext().getResources().getStringArray(category.getUnitNameArrayResourceId());
     }
 
     public String getUnitName(Category category) {
@@ -462,11 +460,11 @@ public class PreferenceStore {
     }
 
     private String[] getUnitsAcronyms(Category category) {
-        int resourceIdUnits = category.getUnitNameAcronymArrayResourceId();
-        if (resourceIdUnits == 0) {
+        int resourceId = category.getUnitNameAcronymArrayResourceId();
+        if (resourceId == 0) {
             return null;
         } else {
-            return getContext().getResources().getStringArray(resourceIdUnits);
+            return getContext().getResources().getStringArray(resourceId);
         }
     }
 
@@ -495,8 +493,7 @@ public class PreferenceStore {
     }
 
     private String[] getUnitsValues(Category category) {
-        int resourceId = category.getUnitValueArrayResourceId();
-        return getContext().getResources().getStringArray(resourceId);
+        return getContext().getResources().getStringArray(category.getUnitValueArrayResourceId());
     }
 
     private float getUnitValue(Category category) {

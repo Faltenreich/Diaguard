@@ -1,5 +1,6 @@
 > [!NOTE]  
-> This app is currently being redeveloped in Kotlin Multiplatform on branch [feature/multiplatform](https://github.com/Faltenreich/Diaguard/tree/feature/multiplatform) and pull request [#51](https://github.com/Faltenreich/Diaguard/pull/51)).
+> This app is currently being redeveloped in [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) to support additional platforms such as iOS.
+> You can follow its development on branch [feature/multiplatform](https://github.com/Faltenreich/Diaguard/tree/feature/multiplatform) and pull request [#51](https://github.com/Faltenreich/Diaguard/pull/51).
 > Therefore development for the native version on this branch has been slowed down but pull requests will be accepted nonetheless.
 
 # Diaguard

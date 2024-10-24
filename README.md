@@ -1,3 +1,6 @@
+> [!NOTE]  
+> This app is currently being redeveloped in Kotlin Multiplatform (see [branch](https://github.com/Faltenreich/Diaguard/tree/feature/multiplatform) or [pull request](https://github.com/Faltenreich/Diaguard/pull/51))
+
 # Diaguard
 
 [![version](https://img.shields.io/badge/Release-3.13.0-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)

@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.feature.preference.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -168,11 +167,7 @@ public class PreferenceStore {
     }
 
     public int[] getExtrema(Category category) {
-        int resourceIdExtrema = getContext().getResources().getIdentifier(category.name().toLowerCase() + "_extrema", "array", getContext().getPackageName());
-        if (resourceIdExtrema == 0) {
-            throw new Resources.NotFoundException("Resource \"category_extrema\" not found: IntArray with event value extrema");
-        }
-        return getContext().getResources().getIntArray(resourceIdExtrema);
+        return getContext().getResources().getIntArray(category.getExtremaArrayResourceId());
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
@@ -296,7 +291,7 @@ public class PreferenceStore {
 
     public void addInputQuery(String query) {
         String inputQueries = getInputQueriesString();
-        if (inputQueries.length() > 0) {
+        if (!inputQueries.isEmpty()) {
             inputQueries = inputQueries + INPUT_QUERIES_SEPARATOR;
         }
         inputQueries = inputQueries + query;
@@ -353,16 +348,40 @@ public class PreferenceStore {
 
     public int getMonthResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
-        String identifier = String.format(Locale.getDefault(), "bg_month_%d", monthOfYear - 1);
-        return getContext().getResources().getIdentifier(identifier,
-            "drawable", getContext().getPackageName());
+        switch (monthOfYear - 1) {
+            case 0: return R.drawable.bg_month_0;
+            case 1: return R.drawable.bg_month_1;
+            case 2: return R.drawable.bg_month_2;
+            case 3: return R.drawable.bg_month_3;
+            case 4: return R.drawable.bg_month_4;
+            case 5: return R.drawable.bg_month_5;
+            case 6: return R.drawable.bg_month_6;
+            case 7: return R.drawable.bg_month_7;
+            case 8: return R.drawable.bg_month_8;
+            case 9: return R.drawable.bg_month_9;
+            case 10: return R.drawable.bg_month_10;
+            case 11: return R.drawable.bg_month_11;
+            default: return 0;
+        }
     }
 
     public int getMonthSmallResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
-        String identifier = String.format(Locale.getDefault(), "bg_month_%d_small", monthOfYear - 1);
-        return getContext().getResources().getIdentifier(identifier,
-            "drawable", getContext().getPackageName());
+        switch (monthOfYear - 1) {
+            case 0: return R.drawable.bg_month_0_small;
+            case 1: return R.drawable.bg_month_1_small;
+            case 2: return R.drawable.bg_month_2_small;
+            case 3: return R.drawable.bg_month_3_small;
+            case 4: return R.drawable.bg_month_4_small;
+            case 5: return R.drawable.bg_month_5_small;
+            case 6: return R.drawable.bg_month_6_small;
+            case 7: return R.drawable.bg_month_7_small;
+            case 8: return R.drawable.bg_month_8_small;
+            case 9: return R.drawable.bg_month_9_small;
+            case 10: return R.drawable.bg_month_10_small;
+            case 11: return R.drawable.bg_month_11_small;
+            default: return 0;
+        }
     }
 
     public boolean isCategoryActive(Category category) {
@@ -431,10 +450,7 @@ public class PreferenceStore {
     // UNITS
 
     private String[] getUnitsNames(Category category) {
-        String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
-            "_units", "array", getContext().getPackageName());
-        return getContext().getResources().getStringArray(resourceIdUnits);
+        return getContext().getResources().getStringArray(category.getUnitNameArrayResourceId());
     }
 
     public String getUnitName(Category category) {
@@ -444,13 +460,12 @@ public class PreferenceStore {
     }
 
     private String[] getUnitsAcronyms(Category category) {
-        String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
-            "_units_acronyms", "array", getContext().getPackageName());
-        if (resourceIdUnits == 0)
+        int resourceId = category.getUnitNameAcronymArrayResourceId();
+        if (resourceId == 0) {
             return null;
-        else
-            return getContext().getResources().getStringArray(resourceIdUnits);
+        } else {
+            return getContext().getResources().getStringArray(resourceId);
+        }
     }
 
     public String getUnitAcronym(Category category) {
@@ -477,15 +492,8 @@ public class PreferenceStore {
         );
     }
 
-    private String[] getUnitsValues(String unitName) {
-        int resourceIdUnits = getContext().getResources().getIdentifier(unitName +
-            "_units_values", "array", getContext().getPackageName());
-        return getContext().getResources().getStringArray(resourceIdUnits);
-    }
-
     private String[] getUnitsValues(Category category) {
-        String categoryName = category.name().toLowerCase();
-        return getUnitsValues(categoryName);
+        return getContext().getResources().getStringArray(category.getUnitValueArrayResourceId());
     }
 
     private float getUnitValue(Category category) {

@@ -5,9 +5,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 
-actual class SqlDelightDriverFactory(private val context: Context) {
+class SqlDelightDiskDriverFactory(private val context: Context) : SqlDelightDriverFactory {
 
-    actual fun createDriver(): SqlDriver {
+    override fun createDriver(): SqlDriver {
         // SQLite is bundled with operating system and its version aligns with minSdk
         // https://developer.android.com/reference/android/database/sqlite/package-summary.html
         return AndroidSqliteDriver(

@@ -35,7 +35,7 @@ import org.koin.dsl.module
 
 fun databaseModule() = module {
     includes(sqliteModule())
-    includes(sqlDelightModule())
+    includes(sqlDelightModule(inMemory = false))
 
     singleOf(::SqlDelightDatabase)
 

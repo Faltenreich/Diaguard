@@ -67,9 +67,12 @@ kotlin {
                 implementation(libs.paging.android)
                 implementation(libs.paging.android.compose)
                 implementation(libs.sqldelight.android)
+                implementation(libs.sqldelight.jvm)
             }
         }
+        @Suppress("UnusedPrivateProperty")
         val androidUnitTest by getting
+        @Suppress("UnusedPrivateProperty")
         val androidInstrumentedTest by getting {
             dependencies {
                 implementation(libs.junit)

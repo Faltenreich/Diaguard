@@ -103,6 +103,7 @@ class MeasurementValueSqlDelightDao(
         minDateTime: DateTime,
         maxDateTime: DateTime,
     ): Flow<MeasurementValue.Average?> {
+        // FIXME: Throws NullPointerException in unit test with JDBC driver
         return queries.getAverageByPropertyKey(
             propertyKey = propertyKey.key,
             minDateTime = minDateTime.isoString,

@@ -7,7 +7,6 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 
 open class MeasurementValueFakeDao(
@@ -97,7 +96,7 @@ open class MeasurementValueFakeDao(
         val values = cache
             .filter { it.property.key == propertyKey }
             .takeIf(List<*>::isNotEmpty)
-            ?: return emptyFlow()
+            ?: return flowOf(null)
         val average = MeasurementValue.Average(
             value = values.map { it.value }.average(),
             property = values.first().property,

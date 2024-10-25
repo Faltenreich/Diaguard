@@ -8,6 +8,7 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 class DashboardViewModelTest : TestSuite {
 
@@ -25,7 +26,6 @@ class DashboardViewModelTest : TestSuite {
                 hbA1c = null,
                 trend = null,
             ),
-            // FIXME: Times out since introduction of GetCurrentHbA1cUseCase
             viewModel.state.first(),
         )
     }
@@ -39,7 +39,7 @@ class DashboardViewModelTest : TestSuite {
         assertNotNull(state.latestBloodSugar)
         assertNotNull(state.today)
         assertNotNull(state.average)
-        // TODO: assertNotNull(state.hbA1c)
-        // TODO: assertNotNull(state.trend)
+        assertNotNull(state.hbA1c)
+        assertNull(state.trend)
     }
 }

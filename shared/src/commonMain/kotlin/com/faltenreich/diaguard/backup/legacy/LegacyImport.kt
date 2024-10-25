@@ -29,25 +29,22 @@ class LegacyImport(
 
         val entries = legacyRepository.getEntries().associateWith { legacy ->
             val id = entryRepository.create(legacy)
-            Logger.info("Imported entry: $legacy")
             checkNotNull(entryRepository.getById(id))
         }
-        Logger.info("Imported ${entries.size} entries")
+        Logger.info("Imported ${entries.size} entries from legacy")
 
         val food = legacyRepository.getFood().associateWith { legacy ->
             // TODO: Skip redundant food by uuid/serverId
             val id = foodRepository.create(legacy)
-            Logger.info("Imported food: $legacy")
             checkNotNull(foodRepository.getById(id))
         }
-        Logger.info("Imported ${food.size} food")
+        Logger.info("Imported ${food.size} food from legacy")
 
         val tags = legacyRepository.getTags().associateWith { legacy ->
             val id = tagRepository.create(legacy)
-            Logger.info("Imported tag: $legacy")
             checkNotNull(tagRepository.getById(id))
         }
-        Logger.info("Imported ${tags.size} tags")
+        Logger.info("Imported ${tags.size} tags from legacy")
 
         val values = legacyRepository.getMeasurementValues()
         values.forEach { legacy ->
@@ -58,10 +55,11 @@ class LegacyImport(
                 it.key.id == legacy.entryId
             }?.value ?: error("No entry found for id ${legacy.entryId}")
             valueRepository.create(legacy)
-            Logger.info("Imported measurement value: $legacy")
         }
+        Logger.info("Imported ${values.size} values from legacy")
 
-        legacyRepository.getFoodEaten().forEach { legacy ->
+        val foodEaten = legacyRepository.getFoodEaten()
+        foodEaten.forEach { legacy ->
             legacy.food = food.entries.firstOrNull {
                 it.key.id == legacy.foodId
             }?.value ?: error("No food found for id ${legacy.foodId}")
@@ -73,10 +71,11 @@ class LegacyImport(
                 entry.key.id == value.entryId
             }?.value ?: error("No entry found for mealId ${legacy.mealId}")
             foodEatenRepository.create(legacy)
-            Logger.info("Imported food eaten: $legacy")
         }
+        Logger.info("Imported ${foodEaten.size} food eaten from legacy")
 
-        legacyRepository.getEntryTags().forEach { legacy ->
+        val entryTags = legacyRepository.getEntryTags()
+        entryTags.forEach { legacy ->
             legacy.entry = entries.entries.firstOrNull {
                 it.key.id == legacy.entryId
             }?.value ?: error("No entry found for id ${legacy.entryId}")
@@ -84,7 +83,7 @@ class LegacyImport(
                 it.key.id == legacy.entryId
             }?.value ?: error("No tag found for id ${legacy.tagId}")
             entryTagRepository.create(legacy)
-            Logger.info("Imported entry tag: $legacy")
         }
+        Logger.info("Imported ${entryTags.size} entry tags from legacy")
     }
 }

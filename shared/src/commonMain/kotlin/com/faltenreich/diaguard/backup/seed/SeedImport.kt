@@ -20,27 +20,28 @@ class SeedImport(
 ) {
 
     fun import() {
-        seedRepository.getMeasurementCategories().forEach { category ->
+        val measurements = seedRepository.getMeasurementCategories()
+        measurements.forEach { category ->
             val categoryId = categoryRepository.create(category)
-            Logger.info("Imported category: $category")
             category.properties.forEach { property ->
                 val propertyId = propertyRepository.create(property, categoryId)
-                Logger.info("Imported property: $property")
                 property.units.forEach { unit ->
                     unitRepository.create(unit, propertyId)
-                    Logger.info("Imported unit: $unit")
                 }
             }
         }
+        Logger.info("Imported ${measurements.size} categories from seed")
 
-        seedRepository.getFood().forEach { seed ->
-            foodRepository.create(seed)
-            Logger.info("Imported food: $seed")
+        val foods = seedRepository.getFood()
+        foods.forEach { food ->
+            foodRepository.create(food)
         }
+        Logger.info("Imported ${foods.size} foods from seed")
 
-        seedRepository.getTags().forEach { seed ->
-            tagRepository.create(seed)
-            Logger.info("Imported tag: $seed")
+        val tags = seedRepository.getTags()
+        tags.forEach { tag ->
+            tagRepository.create(tag)
         }
+        Logger.info("Imported ${tags.size} tags from seed")
     }
 }

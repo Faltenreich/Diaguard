@@ -16,7 +16,7 @@ interface Logger {
 
     companion object {
         
-        private val logger: Logger = inject()
+        private val logger = inject<Logger>()
 
         fun verbose(message: String, throwable: Throwable? = null) {
             logger.verbose(message, throwable)

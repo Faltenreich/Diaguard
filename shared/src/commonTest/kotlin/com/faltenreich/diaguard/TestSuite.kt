@@ -14,16 +14,14 @@ import kotlin.test.BeforeTest
 
 interface TestSuite : KoinTest {
 
+    val importSeed: SeedImportUseCase
+        get() = get()
+
     @BeforeTest
     @CallSuper
     fun beforeTest() {
         startKoin { modules(appModules() + testModules()) }
         Dispatchers.setMain(dispatcher = get())
-    }
-
-    fun importSeed() {
-        val import = get<SeedImportUseCase>()
-        import()
     }
 
     @AfterTest

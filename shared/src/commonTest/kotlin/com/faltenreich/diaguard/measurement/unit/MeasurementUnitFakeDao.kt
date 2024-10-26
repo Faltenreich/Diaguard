@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-open class MeasurementUnitFakeDao(
+class MeasurementUnitFakeDao(
     private val propertyDao: MeasurementPropertyDao = inject(),
 ) : MeasurementUnitDao {
 

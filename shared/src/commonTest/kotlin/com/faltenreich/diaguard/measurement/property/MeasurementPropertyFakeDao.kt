@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-open class MeasurementPropertyFakeDao(
+class MeasurementPropertyFakeDao(
     private val categoryDao: MeasurementCategoryDao = inject(),
 ) : MeasurementPropertyDao {
 

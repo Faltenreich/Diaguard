@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.shared.data.PagingPage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-open class EntryFakeDao : EntryDao {
+class EntryFakeDao : EntryDao {
 
     private val cache = mutableStateListOf<Entry.Local>()
 

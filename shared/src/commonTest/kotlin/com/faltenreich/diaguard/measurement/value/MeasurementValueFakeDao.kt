@@ -92,15 +92,12 @@ class MeasurementValueFakeDao(
         propertyKey: DatabaseKey.MeasurementProperty,
         minDateTime: DateTime,
         maxDateTime: DateTime
-    ): Flow<MeasurementValue.Average?> {
-        val values = cache
+    ): Flow<Double?> {
+        val average = cache
             .filter { it.property.key == propertyKey }
             .takeIf(List<*>::isNotEmpty)
-            ?: return flowOf(null)
-        val average = MeasurementValue.Average(
-            value = values.map { it.value }.average(),
-            property = values.first().property,
-        )
+            ?.map { it.value }
+            ?.average()
         return flowOf(average)
     }
 

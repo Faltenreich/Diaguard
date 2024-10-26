@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.backup.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.backup.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
+import com.faltenreich.diaguard.measurement.value.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.shared.database.databaseFakeModule
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.keyvalue.FakeKeyValueStore
@@ -19,6 +20,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import kotlin.coroutines.CoroutineContext
 
@@ -57,4 +59,6 @@ fun testModules() = module {
             localization = FakeLocalization(),
         )
     }
+
+    singleOf(::StoreMeasurementValueUseCase)
 }

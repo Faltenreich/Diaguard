@@ -2,6 +2,7 @@ package com.faltenreich.diaguard
 
 import androidx.annotation.CallSuper
 import com.faltenreich.diaguard.backup.seed.SeedImportUseCase
+import com.faltenreich.diaguard.measurement.value.StoreMeasurementValueUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
@@ -15,6 +16,9 @@ import kotlin.test.BeforeTest
 interface TestSuite : KoinTest {
 
     val importSeed: SeedImportUseCase
+        get() = get()
+
+    val storeValue: StoreMeasurementValueUseCase
         get() = get()
 
     @BeforeTest

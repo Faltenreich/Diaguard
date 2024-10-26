@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.tag.TagRepository
 /**
  * Import from database of previous app version
  */
-class LegacyImport(
+class LegacyImportUseCase(
     private val legacyRepository: LegacyRepository,
     private val entryRepository: EntryRepository,
     private val propertyRepository: MeasurementPropertyRepository,
@@ -24,7 +24,7 @@ class LegacyImport(
     private val entryTagRepository: EntryTagRepository,
 ) {
 
-    fun import() {
+    operator fun invoke() {
         val properties = propertyRepository.getAll()
 
         val entries = legacyRepository.getEntries().associateWith { legacy ->

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.main
 
-import com.faltenreich.diaguard.backup.ImportUseCase
+import com.faltenreich.diaguard.backup.legacy.LegacyImportUseCase
+import com.faltenreich.diaguard.backup.seed.SeedImportUseCase
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
@@ -25,7 +26,8 @@ class MainViewModel(
     getBottomSheet: GetBottomSheetUseCase,
     getModal: GetModalUseCase,
     private val hasData: HasDataUseCase,
-    private val importData: ImportUseCase,
+    private val importSeed: SeedImportUseCase,
+    private val importLegacy: LegacyImportUseCase,
     private val openBottomSheet: OpenBottomSheetUseCase,
     private val closeBottomSheet: CloseBottomSheetUseCase,
 ) : ViewModel<MainState, MainIntent, Unit>() {
@@ -62,7 +64,9 @@ class MainViewModel(
             hasData().collect { hasData ->
                 // FIXME: Violates unique constraints if executed redundantly
                 if (!hasData) {
-                    importData()
+                    importSeed()
+                    // Attention: Must be executed second because it relies on seed data
+                    importLegacy()
                 }
             }
         }

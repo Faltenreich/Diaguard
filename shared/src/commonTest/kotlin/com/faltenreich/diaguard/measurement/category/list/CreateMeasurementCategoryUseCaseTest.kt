@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.category.list
 
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.backup.ImportUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import org.koin.test.inject
 import kotlin.test.BeforeTest
@@ -10,14 +9,12 @@ import kotlin.test.assertEquals
 
 class CreateMeasurementCategoryUseCaseTest : TestSuite {
 
-    private val import: ImportUseCase by inject()
-
     private val createCategory: CreateMeasurementCategoryUseCase by inject()
 
     @BeforeTest
     override fun beforeTest() {
         super.beforeTest()
-        import()
+        importSeed()
     }
 
     @Test

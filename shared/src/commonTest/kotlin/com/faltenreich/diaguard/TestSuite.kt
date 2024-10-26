@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard
 
 import androidx.annotation.CallSuper
+import com.faltenreich.diaguard.backup.seed.SeedImportUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
@@ -18,6 +19,11 @@ interface TestSuite : KoinTest {
     fun beforeTest() {
         startKoin { modules(appModules() + testModules()) }
         Dispatchers.setMain(dispatcher = get())
+    }
+
+    fun importSeed() {
+        val import = get<SeedImportUseCase>()
+        import()
     }
 
     @AfterTest

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.backup.ImportUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -14,7 +13,6 @@ import kotlin.test.assertNull
 // FIXME: MeasurementValueQueries.getAverageByPropertyKey throws NullPointerException with JDBC driver
 class DashboardViewModelTest : TestSuite {
 
-    private val import: ImportUseCase by inject()
     private val viewModel: DashboardViewModel by inject()
 
     @Test
@@ -35,7 +33,7 @@ class DashboardViewModelTest : TestSuite {
     @Test
     @Ignore
     fun `state contains content if seed data is available`() = runTest {
-        import()
+        importSeed()
 
         val state = viewModel.state.first()
 

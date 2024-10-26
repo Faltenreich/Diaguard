@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.main
 
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.backup.ImportUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -11,12 +10,12 @@ import kotlin.test.assertTrue
 
 class HasDataUseCaseTest : TestSuite {
 
-    private val import: ImportUseCase by inject()
     private val hasData: HasDataUseCase by inject()
 
     @Test
     fun `returns true if there are categories`() = runTest {
-        import()
+        importSeed()
+
         val result = hasData().first()
         assertTrue(result)
     }

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.category.list
 
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.backup.ImportUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -14,14 +13,12 @@ import kotlin.test.assertTrue
 
 class MeasurementCategoryListViewModelTest : TestSuite {
 
-    private val import: ImportUseCase by inject()
-
     private val viewModel: MeasurementCategoryListViewModel by inject()
 
     @BeforeTest
     override fun beforeTest() {
         super.beforeTest()
-        import()
+        importSeed()
     }
 
     @Test

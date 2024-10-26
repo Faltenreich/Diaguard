@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.tag.TagRepository
 /**
  * Import from files bundled with the app
  */
-class SeedImport(
+class SeedImportUseCase(
     private val seedRepository: SeedRepository,
     private val categoryRepository: MeasurementCategoryRepository,
     private val propertyRepository: MeasurementPropertyRepository,
@@ -19,7 +19,7 @@ class SeedImport(
     private val tagRepository: TagRepository,
 ) {
 
-    fun import() {
+    operator fun invoke() {
         val measurements = seedRepository.getMeasurementCategories()
         measurements.forEach { category ->
             val categoryId = categoryRepository.create(category)

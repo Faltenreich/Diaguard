@@ -20,8 +20,14 @@ class SeedImportUseCase(
 ) {
 
     operator fun invoke() {
-        val measurements = seedRepository.getMeasurementCategories()
-        measurements.forEach { category ->
+        importCategories()
+        importFood()
+        importTags()
+    }
+
+    private fun importCategories() {
+        val categories = seedRepository.getMeasurementCategories()
+        categories.forEach { category ->
             val categoryId = categoryRepository.create(category)
             category.properties.forEach { property ->
                 val propertyId = propertyRepository.create(property, categoryId)
@@ -30,18 +36,18 @@ class SeedImportUseCase(
                 }
             }
         }
-        Logger.info("Imported ${measurements.size} categories from seed")
+        Logger.info("Imported ${categories.size} categories from seed")
+    }
 
-        val foods = seedRepository.getFood()
-        foods.forEach { food ->
-            foodRepository.create(food)
-        }
-        Logger.info("Imported ${foods.size} foods from seed")
+    private fun importFood() {
+        val food = seedRepository.getFood()
+        food.forEach(foodRepository::create)
+        Logger.info("Imported ${food.size} foods from seed")
+    }
 
+    private fun importTags() {
         val tags = seedRepository.getTags()
-        tags.forEach { tag ->
-            tagRepository.create(tag)
-        }
+        tags.forEach(tagRepository::create)
         Logger.info("Imported ${tags.size} tags from seed")
     }
 }

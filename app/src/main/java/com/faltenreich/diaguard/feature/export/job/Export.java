@@ -29,7 +29,7 @@ public class Export {
     private static final String TAG = Export.class.getSimpleName();
 
     public static final String BACKUP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private static final String FILE_BACKUP_1_3_PREFIX = "diaguard_backup_";
+    private static final String FILE_BACKUP_1_3_PREFIX = "Diaguard_Backup_";
     private static final String FILE_BACKUP_1_3_DATE_FORMAT = "yyyyMMddHHmmss";
 
     private static final String EXPORT_FILE_NAME_PREFIX = "Diaguard";

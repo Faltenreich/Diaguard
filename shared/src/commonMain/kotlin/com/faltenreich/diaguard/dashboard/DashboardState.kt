@@ -8,9 +8,9 @@ import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 data class DashboardState(
     val latestBloodSugar: LatestBloodSugar?,
     val today: Today,
-    val average: Average?,
-    val hbA1c: HbA1c?,
-    val trend: Trend?,
+    val average: Average,
+    val hbA1c: HbA1c,
+    val trend: Trend,
 ) {
 
     data class LatestBloodSugar(
@@ -34,8 +34,8 @@ data class DashboardState(
 
     data class HbA1c(
         val label: String,
-        val value: MeasurementValue.Localized,
-        val onClick: suspend () -> Unit,
+        val value: MeasurementValue.Localized?,
+        val onClick: (suspend () -> Unit)?,
     )
 
     data class Trend(

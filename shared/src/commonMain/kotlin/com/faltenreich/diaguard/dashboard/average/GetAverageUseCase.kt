@@ -23,12 +23,18 @@ class GetAverageUseCase(
     private val getPreference: GetPreferenceUseCase,
 ) {
 
-    operator fun invoke(): Flow<DashboardState.Average?> {
+    operator fun invoke(): Flow<DashboardState.Average> {
         val today = getToday()
         val todayAtEndOfDay = today.atEndOfDay()
 
         return categoryRepository.observeBloodSugar().flatMapLatest { category ->
-            val categoryId = category?.id ?: return@flatMapLatest flowOf(null)
+            val categoryId = category?.id ?: return@flatMapLatest flowOf(
+                DashboardState.Average(
+                    day = null,
+                    week = null,
+                    month = null,
+                )
+            )
             combine(
                 propertyRepository.observeByCategoryId(categoryId),
                 valueRepository.observeAverageByCategoryId(
@@ -48,7 +54,11 @@ class GetAverageUseCase(
                 ),
                 getPreference(DecimalPlaces),
             ) { properties, averageOfDay, averageOfWeek, averageOfMonth, decimalPlaces ->
-                val unit = properties.firstOrNull()?.selectedUnit ?: return@combine null
+                val unit = properties.firstOrNull()?.selectedUnit ?: return@combine DashboardState.Average(
+                    day = null,
+                    week = null,
+                    month = null,
+                )
                 DashboardState.Average(
                     day = averageOfDay?.let {
                         mapValue(

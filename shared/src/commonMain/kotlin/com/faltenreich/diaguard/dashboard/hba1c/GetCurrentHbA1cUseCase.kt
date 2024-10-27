@@ -29,7 +29,7 @@ class GetCurrentHbA1cUseCase(
     private val showSnackbar: ShowSnackbarUseCase,
 ) {
 
-    operator fun invoke(): Flow<DashboardState.HbA1c?> {
+    operator fun invoke(): Flow<DashboardState.HbA1c> {
         return combine(
             getLatestHbA1c(),
             getEstimatedHbA1c(),
@@ -39,7 +39,11 @@ class GetCurrentHbA1cUseCase(
                 latestHbA1c != null -> getLatestHbA1c(latestHbA1c, decimalPlaces)
                 averageBloodSugar != null -> getEstimatedHbA1c(averageBloodSugar, decimalPlaces)
                 else -> null
-            }
+            } ?: DashboardState.HbA1c(
+                label = localization.getString(Res.string.hba1c_latest),
+                value = null,
+                onClick = null,
+            )
         }
     }
 

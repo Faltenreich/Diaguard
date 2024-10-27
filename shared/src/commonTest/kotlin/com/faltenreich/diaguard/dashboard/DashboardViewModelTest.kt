@@ -8,27 +8,39 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class DashboardViewModelTest : TestSuite {
 
     private val viewModel: DashboardViewModel by inject()
 
     @Test
-    fun `state contains null content if no data is available`() = runTest {
+    fun `state contains empty content if no data is available`() = runTest {
+        val state = viewModel.state.first()
+
         assertEquals(
-            DashboardState(
+            expected = DashboardState(
                 latestBloodSugar = null,
                 today = DashboardState.Today(
                     totalCount = 0,
                     hypoCount = 0,
                     hyperCount = 0,
                 ),
-                average = null,
-                hbA1c = null,
-                trend = null,
+                average = DashboardState.Average(
+                    day = null,
+                    week = null,
+                    month = null,
+                ),
+                hbA1c = DashboardState.HbA1c(
+                    label = "hba1c_latest",
+                    value = null,
+                    onClick = null,
+                ),
+                trend = DashboardState.Trend(
+                    values = emptyMap(),
+                ),
             ),
-            viewModel.state.first(),
+            actual = state,
         )
     }
 
@@ -40,9 +52,15 @@ class DashboardViewModelTest : TestSuite {
         val state = viewModel.state.first()
 
         assertNotNull(state.latestBloodSugar)
-        assertNotNull(state.today)
-        assertNotNull(state.average)
-        assertNotNull(state.hbA1c)
-        assertNull(state.trend)
+
+        assertTrue(state.today.totalCount > 0)
+
+        assertNotNull(state.average.day)
+        assertNotNull(state.average.week)
+        assertNotNull(state.average.month)
+
+        assertNotNull(state.hbA1c.value)
+
+        // TODO: assertTrue(state.trend.values.isNotEmpty())
     }
 }

@@ -5,6 +5,7 @@ import org.koin.dsl.module
 
 fun mainModule() = module {
     singleOf(::HasDataUseCase)
+    singleOf(::SetupUseCase)
 
     singleOf(::MainViewModel)
 }

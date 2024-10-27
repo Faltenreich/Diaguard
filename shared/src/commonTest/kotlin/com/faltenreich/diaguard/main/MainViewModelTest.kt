@@ -12,10 +12,21 @@ class MainViewModelTest : TestSuite {
     private val viewModel: MainViewModel by inject()
 
     @Test
-    fun `is loading on start`() = runTest {
+    fun `shows loading on first start`() = runTest {
         viewModel.state.test {
             assertTrue(awaitItem() is MainState.FirstStart)
             assertTrue(awaitItem() is MainState.SubsequentStart)
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `shows content if seed has been imported`() = runTest {
+        importSeed()
+
+        viewModel.state.test {
+            assertTrue(awaitItem() is MainState.SubsequentStart)
+            ensureAllEventsConsumed()
         }
     }
 }

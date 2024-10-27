@@ -16,7 +16,7 @@ class GetTodayUseCase(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    operator fun invoke(): Flow<DashboardState.Today?> {
+    operator fun invoke(): Flow<DashboardState.Today> {
         val today = dateTimeFactory.today()
         return categoryRepository.observeBloodSugar().flatMapLatest { category ->
             val categoryId = category?.id ?: return@flatMapLatest flowOf(

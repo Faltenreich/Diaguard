@@ -1,27 +1,29 @@
 package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
-// FIXME: MeasurementValueQueries.getAverageByPropertyKey throws NullPointerException with JDBC driver
 class DashboardViewModelTest : TestSuite {
 
     private val viewModel: DashboardViewModel by inject()
 
     @Test
-    @Ignore
     fun `state contains null content if no data is available`() = runTest {
         assertEquals(
             DashboardState(
                 latestBloodSugar = null,
-                today = null,
+                today = DashboardState.Today(
+                    totalCount = 0,
+                    hypoCount = 0,
+                    hyperCount = 0,
+                ),
                 average = null,
                 hbA1c = null,
                 trend = null,
@@ -31,9 +33,9 @@ class DashboardViewModelTest : TestSuite {
     }
 
     @Test
-    @Ignore
-    fun `state contains content if seed data is available`() = runTest {
+    fun `state contains content if data is available`() = runTest {
         importSeed()
+        storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         val state = viewModel.state.first()
 

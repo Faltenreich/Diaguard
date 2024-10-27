@@ -8,6 +8,7 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class DashboardViewModelTest : TestSuite {
@@ -18,42 +19,35 @@ class DashboardViewModelTest : TestSuite {
     fun `state contains empty content if no data is available`() = runTest {
         val state = viewModel.state.first()
 
-        assertEquals(
-            expected = DashboardState(
-                latestBloodSugar = null,
-                today = DashboardState.Today(
-                    totalCount = 0,
-                    hypoCount = 0,
-                    hyperCount = 0,
-                ),
-                average = DashboardState.Average(
-                    day = null,
-                    week = null,
-                    month = null,
-                ),
-                hbA1c = DashboardState.HbA1c(
-                    label = "hba1c_latest",
-                    value = null,
-                    onClick = null,
-                ),
-                trend = DashboardState.Trend(
-                    values = emptyMap(),
-                ),
-            ),
-            actual = state,
-        )
+        assertNull(state.latestBloodSugar)
+
+        assertEquals(expected = 0, actual = state.today.totalCount)
+        assertEquals(expected = 0, actual = state.today.hypoCount)
+        assertEquals(expected = 0, actual = state.today.hyperCount)
+
+        assertNull(state.average.day)
+        assertNull(state.average.week)
+        assertNull(state.average.month)
+
+        assertNull(state.hbA1c.value)
+
+        assertTrue(state.trend.values.isEmpty())
     }
 
     @Test
     fun `state contains content if data is available`() = runTest {
         importSeed()
+        storeValue(value = 50.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
         storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        storeValue(value = 190.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         val state = viewModel.state.first()
 
         assertNotNull(state.latestBloodSugar)
 
-        assertTrue(state.today.totalCount > 0)
+        assertEquals(expected = 3, actual = state.today.totalCount)
+        assertEquals(expected = 1, actual = state.today.hypoCount)
+        assertEquals(expected = 1, actual = state.today.hyperCount)
 
         assertNotNull(state.average.day)
         assertNotNull(state.average.week)

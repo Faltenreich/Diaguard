@@ -61,6 +61,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.junit.ktx)
+    androidTestImplementation(platform(libs.koin.bom))
     androidTestImplementation(libs.koin.test)
 
     implementation(libs.activity.compose)

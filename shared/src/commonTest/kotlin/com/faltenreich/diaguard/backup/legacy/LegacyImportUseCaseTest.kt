@@ -8,7 +8,7 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class LegacyImportTest : TestSuite {
+class LegacyImportUseCaseTest : TestSuite {
 
     private val importLegacy: LegacyImportUseCase by inject()
     private val entryRepository: EntryRepository by inject()

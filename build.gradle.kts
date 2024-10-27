@@ -21,6 +21,17 @@ allprojects {
         config.setFrom("$rootDir/config/detekt.yml")
     }
 
+    kover {
+        reports {
+            filters {
+                excludes {
+                    annotatedBy("androidx.compose.runtime.Composable")
+                    classes("*Screen")
+                }
+            }
+        }
+    }
+
     tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
         exclude {
             it.file.relativeTo(projectDir).startsWith(project.layout.buildDirectory.asFile.get().relativeTo(projectDir))

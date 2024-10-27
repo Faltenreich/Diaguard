@@ -53,6 +53,7 @@ kotlin {
                 implementation(libs.koin.test)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.ktor.mock)
+                implementation(libs.turbine)
             }
         }
         androidMain {

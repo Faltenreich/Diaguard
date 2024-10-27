@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.architecture.combine
 import com.faltenreich.diaguard.timeline.TimelineScreen
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -54,7 +55,7 @@ class MainViewModel(
         } else {
             MainState.FirstStart
         }
-    }
+    }.distinctUntilChanged()
 
     init {
         scope.launch { setup() }

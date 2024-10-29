@@ -27,6 +27,7 @@ allprojects {
                 excludes {
                     annotatedBy("androidx.compose.runtime.Composable")
                     classes("*Screen*")
+                    classes("diaguard.shared.generated.resources.*")
                 }
             }
         }

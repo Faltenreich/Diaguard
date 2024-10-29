@@ -23,7 +23,7 @@ class GetEstimatedHbA1cUseCase(
                 minDateTime = now.date.minus(1, DateUnit.QUARTER).atStartOfDay(),
                 maxDateTime = now,
             ),
-            propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.HBA1C.key),
+            propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.HBA1C),
         ) { bloodSugarAverage, hbA1cProperty ->
             if (bloodSugarAverage != null && hbA1cProperty != null) {
                 MeasurementValue.Average(

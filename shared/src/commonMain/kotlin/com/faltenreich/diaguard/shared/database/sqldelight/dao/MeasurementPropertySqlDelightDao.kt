@@ -65,8 +65,8 @@ class MeasurementPropertySqlDelightDao(
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
-    override fun observeByKey(key: String): Flow<MeasurementProperty.Local?> {
-        return queries.getByKey(key, mapper::map).asFlow().mapToOneOrNull(dispatcher)
+    override fun observeByKey(key: DatabaseKey): Flow<MeasurementProperty.Local?> {
+        return queries.getByKey(key.key, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }
 
     override fun getByCategoryId(categoryId: Long): List<MeasurementProperty.Local> {

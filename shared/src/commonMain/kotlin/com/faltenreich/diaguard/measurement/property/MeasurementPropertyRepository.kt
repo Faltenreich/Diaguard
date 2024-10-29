@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.property
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementPropertyRepository(
@@ -45,7 +46,7 @@ class MeasurementPropertyRepository(
         return dao.getById(id)
     }
 
-    fun observeByKey(key: String): Flow<MeasurementProperty.Local?> {
+    fun observeByKey(key: DatabaseKey): Flow<MeasurementProperty.Local?> {
         return dao.observeByKey(key)
     }
 

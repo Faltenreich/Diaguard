@@ -31,7 +31,7 @@ class StoreMeasurementValueUseCase(
         )
         val entry = entryRepository.getById(entryId)!!
 
-        val property = propertyRepository.observeByKey(propertyKey.key).first()!!
+        val property = propertyRepository.observeByKey(propertyKey).first()!!
 
         valueRepository.create(
             MeasurementValue.User(

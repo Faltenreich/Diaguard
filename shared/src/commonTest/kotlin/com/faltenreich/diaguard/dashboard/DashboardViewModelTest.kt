@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -79,7 +80,7 @@ class DashboardViewModelTest : TestSuite {
 
         assertNotNull(state.hbA1c)
         assertEquals(expected = "hba1c_latest", actual = state.hbA1c.label)
-        // FIXME: assertEquals(expected = MeasurementValue.Localized("6"), actual = state.hbA1c.value)
+        assertEquals(expected = MeasurementValue.Localized("6"), actual = state.hbA1c.value)
     }
 
     @Test
@@ -91,6 +92,6 @@ class DashboardViewModelTest : TestSuite {
 
         assertNotNull(state.hbA1c)
         assertEquals(expected = "hba1c_estimated", actual = state.hbA1c.label)
-        // FIXME: assertEquals(expected = MeasurementValue.Localized("6"), actual = state.hbA1c.value)
+        assertEquals(expected = MeasurementValue.Localized("6.1"), actual = state.hbA1c.value)
     }
 }

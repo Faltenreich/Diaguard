@@ -36,7 +36,9 @@ class MeasurementUnitFakeDao(
             isSelected = isSelected,
             property = propertyDao.getById(propertyId)!!,
         ).also { unit ->
-            (propertyDao as MeasurementPropertyFakeDao).updateSelectedUnit(unit)
+            if (isSelected) {
+                (propertyDao as MeasurementPropertyFakeDao).updateSelectedUnit(unit)
+            }
         }
     }
 

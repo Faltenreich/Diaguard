@@ -29,7 +29,6 @@ class GetCurrentHbA1cUseCase(
     private val showSnackbar: ShowSnackbarUseCase,
 ) {
 
-    // FIXME: Does not update, e.g. when creating new blood sugar
     operator fun invoke(): Flow<DashboardState.HbA1c> {
         return combine(
             getLatestHbA1c(),

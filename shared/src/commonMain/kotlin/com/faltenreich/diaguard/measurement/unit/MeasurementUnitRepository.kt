@@ -41,10 +41,6 @@ class MeasurementUnitRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun getByKey(key: String): MeasurementUnit.Local {
-        return checkNotNull(dao.getByKey(key))
-    }
-
     fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit.Local>> {
         return dao.observeByPropertyId(propertyId)
     }

@@ -50,10 +50,6 @@ class MeasurementUnitFakeDao(
         return flowOf(cache.firstOrNull { it.id == id })
     }
 
-    override fun getByKey(key: String): MeasurementUnit.Local? {
-        return cache.firstOrNull { it.key?.key == key }
-    }
-
     override fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit.Local>> {
         return flowOf(cache.filter { it.property.id == propertyId })
     }

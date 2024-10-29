@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.backup.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.measurement.value.StoreMeasurementValueUseCase
-import com.faltenreich.diaguard.shared.database.databaseFakeModule
+import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.keyvalue.FakeKeyValueStore
 import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
@@ -25,7 +25,7 @@ import org.koin.dsl.module
 import kotlin.coroutines.CoroutineContext
 
 fun testModules() = module {
-    includes(databaseFakeModule())
+    includes(sqlDelightModule(inMemory = true))
 
     single<CoroutineDispatcher> { StandardTestDispatcher() }
     single<CoroutineContext> { StandardTestDispatcher() }

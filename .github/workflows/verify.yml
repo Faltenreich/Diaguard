@@ -31,7 +31,7 @@ jobs:
         with:
           path: ${{ github.workspace }}/shared/build/reports/kover/report.xml
           title: Code Coverage
-          update-comment: false
+          update-comment: true
           min-coverage-changed-files: 80
 
       - name: Upload

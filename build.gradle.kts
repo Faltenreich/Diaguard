@@ -26,7 +26,7 @@ allprojects {
             filters {
                 excludes {
                     annotatedBy("androidx.compose.runtime.Composable")
-                    classes("*Screen")
+                    classes("*Screen*")
                 }
             }
         }

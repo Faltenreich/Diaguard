@@ -35,10 +35,10 @@ class GetCurrentHbA1cUseCase(
             getLatestHbA1c(),
             getEstimatedHbA1c(),
             getPreference(DecimalPlaces),
-        ) { latestHbA1c, averageBloodSugar, decimalPlaces ->
+        ) { latestHbA1c, estimatedHbA1c, decimalPlaces ->
             when {
                 latestHbA1c != null -> getLatestHbA1c(latestHbA1c, decimalPlaces)
-                averageBloodSugar != null -> getEstimatedHbA1c(averageBloodSugar, decimalPlaces)
+                estimatedHbA1c != null -> getEstimatedHbA1c(estimatedHbA1c, decimalPlaces)
                 else -> null
             } ?: DashboardState.HbA1c(
                 label = localization.getString(Res.string.hba1c_estimated),
@@ -64,8 +64,7 @@ class GetCurrentHbA1cUseCase(
     private fun getEstimatedHbA1c(
         value: MeasurementValue.Average,
         decimalPlaces: Int,
-    ): DashboardState.HbA1c? {
-        value.value ?: return null
+    ): DashboardState.HbA1c {
         return DashboardState.HbA1c(
             label = localization.getString(Res.string.hba1c_estimated),
             value = measurementValueMapper(

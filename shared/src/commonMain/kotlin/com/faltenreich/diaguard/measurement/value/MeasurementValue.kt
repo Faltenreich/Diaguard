@@ -56,7 +56,7 @@ sealed interface MeasurementValue {
     ) : MeasurementValue, DatabaseEntity
 
     data class Average(
-        val value: Double?,
+        val value: Double,
         val property: MeasurementProperty.Local,
     )
 

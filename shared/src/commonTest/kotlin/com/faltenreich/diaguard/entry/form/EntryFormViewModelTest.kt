@@ -42,8 +42,7 @@ class EntryFormViewModelTest : TestSuite {
     @Test
     fun `opens food search when selecting food`() = runTest {
         viewModel.handleIntent(EntryFormIntent.SelectFood)
-        // TODO: Test NavController
-        // assertTrue(navigation.currentScreen.value is FoodSearchScreen)
+        // TODO: assertTrue(navigation.currentScreen.value is FoodSearchScreen)
     }
 
     @Test

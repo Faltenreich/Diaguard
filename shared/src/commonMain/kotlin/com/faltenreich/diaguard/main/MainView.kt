@@ -30,8 +30,11 @@ import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryLis
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
+import com.faltenreich.diaguard.navigation.bar.snack.AndroidxSnackbarNavigation
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.screen
+import com.faltenreich.diaguard.navigation.screen.AndroidxScreenNavigation
+import com.faltenreich.diaguard.navigation.screen.ScreenNavigation
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
@@ -62,10 +65,18 @@ fun MainView(
     val scope = rememberCoroutineScope()
 
     val navController = rememberNavController()
-    SideEffect { navigation.navController = navController }
-
+    // TODO: Get rid off side effects
+    SideEffect {
+        (inject<ScreenNavigation>() as? AndroidxScreenNavigation)?.let {
+            it.navController = navController
+        }
+    }
     val snackbarHostState = remember { SnackbarHostState() }
-    SideEffect { navigation.snackbarState = snackbarHostState }
+    SideEffect {
+        (inject<ScreenNavigation>() as? AndroidxSnackbarNavigation)?.let {
+            it.snackbarState = snackbarHostState
+        }
+    }
 
     val viewModelStoreOwner = rememberViewModelStoreOwner()
 

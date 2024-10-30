@@ -7,7 +7,6 @@ import com.faltenreich.diaguard.navigation.bottomsheet.GetBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.modal.GetModalUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
-import com.faltenreich.diaguard.navigation.screen.GetCurrentScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -19,7 +18,6 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     getPreference: GetPreferenceUseCase,
-    getCurrentScreen: GetCurrentScreenUseCase,
     getTopAppBarStyle: GetTopAppBarStyleUseCase,
     getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
     getBottomSheet: GetBottomSheetUseCase,
@@ -33,12 +31,11 @@ class MainViewModel(
     override val state = combine(
         hasData(),
         getPreference(StartScreen.Preference),
-        getCurrentScreen(),
         getTopAppBarStyle(),
         getBottomAppBarStyle(),
         getBottomSheet(),
         getModal(),
-    ) { hasData, startScreen, currentScreen, topAppBarStyle, bottomAppBarStyle, bottomSheet, modal ->
+    ) { hasData, startScreen, topAppBarStyle, bottomAppBarStyle, bottomSheet, modal ->
         if (hasData) {
             MainState.SubsequentStart(
                 startScreen = when (startScreen) {
@@ -46,7 +43,6 @@ class MainViewModel(
                     StartScreen.TIMELINE -> TimelineScreen
                     StartScreen.LOG -> LogScreen
                 },
-                currentScreen = currentScreen,
                 topAppBarStyle = topAppBarStyle,
                 bottomAppBarStyle = bottomAppBarStyle,
                 bottomSheet = bottomSheet,

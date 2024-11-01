@@ -14,20 +14,17 @@ import com.faltenreich.diaguard.navigation.modal.GetModalUseCase
 import com.faltenreich.diaguard.navigation.modal.ModalNavigation
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.modal.StateFlowModalNavigation
-import com.faltenreich.diaguard.navigation.screen.AndroidxScreenNavigation
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetCurrentScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.GetLatestScreenResultUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.ScreenNavigation
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun navigationModule() = module {
-    singleOf<ScreenNavigation>(::AndroidxScreenNavigation)
     singleOf<BottomSheetNavigation>(::StateFlowBottomSheetNavigation)
     singleOf<ModalNavigation>(::StateFlowModalNavigation)
     singleOf<SnackbarNavigation>(::AndroidxSnackbarNavigation)

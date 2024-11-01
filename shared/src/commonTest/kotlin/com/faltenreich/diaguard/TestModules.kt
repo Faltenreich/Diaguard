@@ -7,8 +7,6 @@ import com.faltenreich.diaguard.backup.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.measurement.value.StoreMeasurementValueUseCase
-import com.faltenreich.diaguard.navigation.screen.FakeScreenNavigation
-import com.faltenreich.diaguard.navigation.screen.ScreenNavigation
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.keyvalue.FakeKeyValueStore
@@ -63,6 +61,4 @@ fun testModules() = module {
     }
 
     singleOf(::StoreMeasurementValueUseCase)
-
-    singleOf<ScreenNavigation>(::FakeScreenNavigation)
 }

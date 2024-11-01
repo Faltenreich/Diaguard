@@ -10,10 +10,13 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.faltenreich.diaguard.dashboard.DashboardScreen
@@ -29,8 +32,11 @@ import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFor
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.snack.AndroidxSnackbarNavigation
+import com.faltenreich.diaguard.navigation.bar.snack.SnackbarNavigation
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.navigation.screen.AndroidxScreenNavigation
@@ -57,6 +63,7 @@ import org.jetbrains.compose.resources.painterResource
 fun MainView(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = inject(),
+    navigationViewModel: NavigationViewModel = inject(),
     navigation: Navigation = inject(),
 ) {
     val state = viewModel.collectState()
@@ -73,8 +80,36 @@ fun MainView(
     }
     val snackbarHostState = remember { SnackbarHostState() }
     SideEffect {
-        (inject<ScreenNavigation>() as? AndroidxSnackbarNavigation)?.let {
+        (inject<SnackbarNavigation>() as? AndroidxSnackbarNavigation)?.let {
             it.snackbarState = snackbarHostState
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        navigationViewModel.collectEvents { event ->
+            when (event) {
+                is NavigationEvent.PushScreen -> {
+                    navController.navigate(
+                        route = event.screen,
+                        navOptions = NavOptions.Builder()
+                            .run {
+                                if (event.popHistory) setPopUpTo(
+                                    route = navController.graph.findStartDestination().route,
+                                    inclusive = true,
+                                )
+                                else this
+                            }
+                            .build()
+                    )
+                }
+                is NavigationEvent.PopScreen -> {
+                    event.result?.let { (key, value) ->
+                        val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle ?: return@let
+                        savedStateHandle[key] = value
+                    }
+                    navController.popBackStack()
+                }
+            }
         }
     }
 

@@ -56,5 +56,6 @@ fun navigationModule() = module {
 
     singleOf(::ShowSnackbarUseCase)
 
+    viewModelOf(::NavigationViewModel)
     viewModelOf<MainMenuViewModel>(::MainMenuViewModel)
 }

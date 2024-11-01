@@ -1,9 +1,7 @@
 package com.faltenreich.diaguard.navigation
 
 import com.faltenreich.diaguard.main.menu.MainMenuViewModel
-import com.faltenreich.diaguard.navigation.bar.snack.AndroidxSnackbarNavigation
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
-import com.faltenreich.diaguard.navigation.bar.snack.SnackbarNavigation
 import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.GetBottomSheetUseCase
@@ -27,7 +25,6 @@ import org.koin.dsl.module
 fun navigationModule() = module {
     singleOf<BottomSheetNavigation>(::StateFlowBottomSheetNavigation)
     singleOf<ModalNavigation>(::StateFlowModalNavigation)
-    singleOf<SnackbarNavigation>(::AndroidxSnackbarNavigation)
     singleOf(::Navigation)
 
     singleOf(::GetCurrentScreenUseCase)

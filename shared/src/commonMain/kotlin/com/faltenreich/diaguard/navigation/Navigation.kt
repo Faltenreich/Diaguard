@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.navigation
 
 import androidx.navigation.NavController
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bar.snack.SnackbarNavigation
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.modal.ModalNavigation
@@ -19,11 +18,7 @@ class Navigation(
     private val dispatcher: CoroutineDispatcher,
     private val bottomSheetNavigation: BottomSheetNavigation,
     private val modalNavigation: ModalNavigation,
-    private val snackbarNavigation: SnackbarNavigation,
-) : BottomSheetNavigation by bottomSheetNavigation,
-    ModalNavigation by modalNavigation,
-    SnackbarNavigation by snackbarNavigation
-{
+) : BottomSheetNavigation by bottomSheetNavigation, ModalNavigation by modalNavigation {
 
     private val events = MutableSharedFlow<NavigationEvent>()
 

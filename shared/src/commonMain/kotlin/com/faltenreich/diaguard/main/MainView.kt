@@ -13,6 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
@@ -33,8 +34,6 @@ import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFor
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
-import com.faltenreich.diaguard.navigation.bar.snack.AndroidxSnackbarNavigation
-import com.faltenreich.diaguard.navigation.bar.snack.SnackbarNavigation
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
@@ -52,6 +51,7 @@ import com.faltenreich.diaguard.timeline.TimelineScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.navigate_back
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -63,17 +63,13 @@ fun MainView(
     val state = viewModel.collectState()
     if (state !is MainState.SubsequentStart) return
 
+    val scope = rememberCoroutineScope()
+
     val navController = rememberNavController()
-    // TODO: Get rid off side effects
-    SideEffect {
-        navigation.navController = navController
-    }
+    // TODO: Get rid off side effect
+    SideEffect { navigation.navController = navController }
+
     val snackbarHostState = remember { SnackbarHostState() }
-    SideEffect {
-        (inject<SnackbarNavigation>() as? AndroidxSnackbarNavigation)?.let {
-            it.snackbarState = snackbarHostState
-        }
-    }
 
     LaunchedEffect(Unit) {
         viewModel.collectNavigationEvents { event ->
@@ -98,6 +94,11 @@ fun MainView(
                         savedStateHandle[key] = value
                     }
                     navController.popBackStack()
+                }
+                is NavigationEvent.ShowSnackbar -> scope.launch {
+                    with(event) {
+                        snackbarHostState.showSnackbar(message, actionLabel, withDismissAction, duration)
+                    }
                 }
             }
         }

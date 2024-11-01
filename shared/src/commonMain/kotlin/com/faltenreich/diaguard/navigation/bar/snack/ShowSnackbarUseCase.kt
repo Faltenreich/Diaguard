@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.navigation.bar.snack
 
 import androidx.compose.material3.SnackbarDuration
 import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 
 class ShowSnackbarUseCase(
     private val navigation: Navigation,
@@ -15,6 +16,6 @@ class ShowSnackbarUseCase(
             if (actionLabel == null) SnackbarDuration.Short
             else SnackbarDuration.Indefinite,
     ) {
-        navigation.showSnackbar(message, actionLabel, withDismissAction, duration)
+        navigation.postEvent(NavigationEvent.ShowSnackbar(message, actionLabel, withDismissAction, duration))
     }
 }

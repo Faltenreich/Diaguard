@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -23,7 +23,7 @@ class MeasurementCategoryFormViewModel(
     getProperties: GetMeasurementPropertiesUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
-    private val navigateBack: NavigateBackUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
     private val localization: Localization = inject(),
@@ -67,7 +67,7 @@ class MeasurementCategoryFormViewModel(
             isActive = isActive.value,
         )
         updateCategory(category)
-        navigateBack()
+        popScreen()
     }
 
     private fun deleteCategory() {
@@ -78,7 +78,7 @@ class MeasurementCategoryFormViewModel(
                     onConfirmRequest = {
                         deleteCategory(category)
                         closeModal()
-                        scope.launch { navigateBack() }
+                        scope.launch { popScreen() }
                     }
                 )
             )

@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFor
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -17,7 +17,7 @@ class MeasurementCategoryListViewModel(
     getCategories: GetAllMeasurementCategoriesUseCase,
     private val updateCategory: UpdateMeasurementCategoryUseCase,
     private val createCategory: CreateMeasurementCategoryUseCase,
-    private val navigateToScreen: NavigateToScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val openModal: OpenModalUseCase,
     private val closeModal: CloseModalUseCase,
 ) : ViewModel<MeasurementCategoryListState, MeasurementCategoryListIntent, Unit>() {
@@ -52,7 +52,7 @@ class MeasurementCategoryListViewModel(
     }
 
     private suspend fun editCategory(category: MeasurementCategory.Local) {
-        navigateToScreen(MeasurementCategoryFormScreen(category))
+        pushScreen(MeasurementCategoryFormScreen(category))
     }
 
     private suspend fun createCategory() {

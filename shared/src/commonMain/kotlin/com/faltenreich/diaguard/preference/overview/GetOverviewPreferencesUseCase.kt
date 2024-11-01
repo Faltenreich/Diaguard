@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.preference.overview
 
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
@@ -58,7 +58,7 @@ class GetOverviewPreferencesUseCase(
     private val getPreference: GetPreferenceUseCase,
     private val setPreference: SetPreferenceUseCase,
     private val getAppVersion: GetAppVersionUseCase,
-    private val navigateToScreen: NavigateToScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val openBottomSheet: OpenBottomSheetUseCase,
 ) {
 
@@ -101,15 +101,15 @@ class GetOverviewPreferencesUseCase(
                 }
                 action {
                     title = Res.string.measurement_categories
-                    onClick = { navigateToScreen(MeasurementCategoryListScreen) }
+                    onClick = { pushScreen(MeasurementCategoryListScreen) }
                 }
                 action {
                     title = Res.string.tags
-                    onClick = { navigateToScreen(TagListScreen) }
+                    onClick = { pushScreen(TagListScreen) }
                 }
                 action {
                     title = Res.string.food
-                    onClick = { navigateToScreen(FoodPreferenceScreen) }
+                    onClick = { pushScreen(FoodPreferenceScreen) }
                 }
                 category {
                     title = Res.string.contact
@@ -141,7 +141,7 @@ class GetOverviewPreferencesUseCase(
                 }
                 action {
                     title = Res.string.licenses
-                    onClick = { navigateToScreen(LicenseListScreen) }
+                    onClick = { pushScreen(LicenseListScreen) }
                 }
                 action {
                     title = Res.string.privacy_policy

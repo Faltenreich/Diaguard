@@ -9,8 +9,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.form.FoodFormScreen
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.FoodPreference
 import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -28,8 +28,8 @@ class FoodSearchViewModel(
     private val mode: FoodSearchMode,
     getPreference: GetPreferenceUseCase = inject(),
     private val searchFood: SearchFoodUseCase = inject(),
-    private val navigateBack: NavigateBackUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<FoodSearchState, FoodSearchIntent, Unit>() {
 
     var query: String by mutableStateOf("")
@@ -53,17 +53,17 @@ class FoodSearchViewModel(
 
     override suspend fun handleIntent(intent: FoodSearchIntent) = with(intent) {
         when (this) {
-            is FoodSearchIntent.Close -> navigateBack()
-            is FoodSearchIntent.Create -> navigateToScreen(FoodFormScreen())
+            is FoodSearchIntent.Close -> popScreen()
+            is FoodSearchIntent.Create -> pushScreen(FoodFormScreen())
             is FoodSearchIntent.Select -> selectFood(food)
-            is FoodSearchIntent.OpenPreferences -> navigateToScreen(FoodPreferenceScreen)
+            is FoodSearchIntent.OpenPreferences -> pushScreen(FoodPreferenceScreen)
         }
     }
 
     private suspend fun selectFood(food: Food.Local) {
         when (mode) {
-            FoodSearchMode.STROLL -> navigateToScreen(FoodFormScreen(food))
-            FoodSearchMode.FIND -> navigateBack(result = KEY_SELECTED_FOOD_ID to food.id)
+            FoodSearchMode.STROLL -> pushScreen(FoodFormScreen(food))
+            FoodSearchMode.FIND -> popScreen(result = KEY_SELECTED_FOOD_ID to food.id)
         }
     }
 

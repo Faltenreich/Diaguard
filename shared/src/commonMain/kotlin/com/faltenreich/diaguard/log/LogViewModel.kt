@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
 import com.faltenreich.diaguard.log.item.LogItemState
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.combine
 class LogViewModel(
     getToday: GetTodayUseCase,
     private val invalidateStickyHeaderInfo: InvalidateLogDayStickyHeaderInfoUseCase,
-    private val navigateToScreen: NavigateToScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val showModal: OpenModalUseCase,
     private val closeModal: CloseModalUseCase,
 ) : ViewModel<LogState, LogIntent, Unit>() {
@@ -64,9 +64,9 @@ class LogViewModel(
                     nextItems = nextItems,
                 )
             }
-            is LogIntent.CreateEntry -> navigateToScreen(EntryFormScreen(date = date))
-            is LogIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = entry))
-            is LogIntent.OpenEntrySearch -> navigateToScreen(EntrySearchScreen(query))
+            is LogIntent.CreateEntry -> pushScreen(EntryFormScreen(date = date))
+            is LogIntent.OpenEntry -> pushScreen(EntryFormScreen(entry = entry))
+            is LogIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
             is LogIntent.SelectDate -> selectDate()
             is LogIntent.SetDate -> setDate(date)
         }

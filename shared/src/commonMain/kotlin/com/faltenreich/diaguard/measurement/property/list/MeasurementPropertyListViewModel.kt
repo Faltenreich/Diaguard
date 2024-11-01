@@ -9,8 +9,8 @@ import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFor
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 class MeasurementPropertyListViewModel(
     private val createProperty: CreateMeasurementPropertyUseCase,
     private val updateProperty: UpdateMeasurementPropertyUseCase,
-    private val navigateToScreen: NavigateToScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val openModal: OpenModalUseCase,
     private val closeModal: CloseModalUseCase,
 ) : ViewModel<Unit, MeasurementPropertyListIntent, Unit>() {
@@ -57,7 +57,7 @@ class MeasurementPropertyListViewModel(
     }
 
     private suspend fun editProperty(property: MeasurementProperty.Local) {
-        navigateToScreen(MeasurementPropertyFormScreen(property))
+        pushScreen(MeasurementPropertyFormScreen(property))
     }
 
     private fun createProperty(
@@ -89,7 +89,7 @@ class MeasurementPropertyListViewModel(
                     )
                     closeModal()
                     scope.launch {
-                        navigateToScreen (MeasurementPropertyFormScreen(property))
+                        pushScreen (MeasurementPropertyFormScreen(property))
                     }
                 }
             )

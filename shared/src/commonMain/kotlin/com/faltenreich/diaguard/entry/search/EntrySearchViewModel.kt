@@ -8,7 +8,7 @@ import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.debounce
@@ -21,7 +21,7 @@ import kotlin.time.Duration.Companion.seconds
 class EntrySearchViewModel(
     query: String = "",
     searchEntries: SearchEntriesUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
 ) : ViewModel<Unit, EntrySearchIntent, Unit>() {
 
     override val state = emptyFlow<Unit>()
@@ -51,7 +51,7 @@ class EntrySearchViewModel(
 
     override suspend fun handleIntent(intent: EntrySearchIntent) {
         when (intent) {
-            is EntrySearchIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry = intent.entry))
+            is EntrySearchIntent.OpenEntry -> pushScreen(EntryFormScreen(entry = intent.entry))
         }
     }
 }

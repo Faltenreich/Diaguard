@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.modal.GetModalUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -28,7 +28,7 @@ class MainViewModel(
     hasData: HasDataUseCase,
     private val setup: SetupUseCase,
     private val navigation: Navigation,
-    private val popScreen: NavigateBackUseCase,
+    private val popScreen: PopScreenUseCase,
     private val openBottomSheet: OpenBottomSheetUseCase,
     private val closeBottomSheet: CloseBottomSheetUseCase,
 ) : ViewModel<MainState, MainIntent, Unit>() {

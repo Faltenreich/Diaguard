@@ -28,8 +28,8 @@ import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.GetLatestScreenResultUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
@@ -58,8 +58,8 @@ class EntryFormViewModel(
     getFoodEatenInputState: GetFoodEatenInputStateUseCase = inject(),
     getTagsOfEntry: GetTagsOfEntry = inject(),
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
-    private val navigateBack: NavigateBackUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
     private val getLatestScreenResult: GetLatestScreenResultUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
@@ -191,7 +191,7 @@ class EntryFormViewModel(
         when (val result = validate(input)) {
             is ValidationResult.Success -> {
                 storeEntry(input)
-                navigateBack()
+                popScreen()
             }
             is ValidationResult.Failure -> {
                 measurements = result.data.measurements
@@ -209,17 +209,17 @@ class EntryFormViewModel(
                     onConfirmRequest = {
                         deleteEntry(entry)
                         closeModal()
-                        scope.launch { navigateBack() }
+                        scope.launch { popScreen() }
                     },
                 )
             )
         } else {
-            navigateBack()
+            popScreen()
         }
     }
 
     private suspend fun selectFood() {
-        navigateToScreen(FoodSearchScreen(mode = FoodSearchMode.FIND))
+        pushScreen(FoodSearchScreen(mode = FoodSearchMode.FIND))
     }
 
     private suspend fun addFoodIfSelected() {

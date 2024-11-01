@@ -26,7 +26,7 @@ import org.jetbrains.compose.resources.painterResource
 fun FoodSearchField(
     query: String,
     onQueryChange: (String) -> Unit,
-    onNavigateBack: () -> Unit,
+    popScreen: () -> Unit,
     onOpenPreferences: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -37,7 +37,7 @@ fun FoodSearchField(
         placeholder = getString(Res.string.food_search_prompt),
         onQueryChange = onQueryChange,
         leadingIcon = {
-            IconButton(onClick = onNavigateBack) {
+            IconButton(onClick = popScreen) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_arrow_back),
                     contentDescription = null,

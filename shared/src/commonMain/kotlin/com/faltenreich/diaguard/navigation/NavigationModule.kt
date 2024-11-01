@@ -19,8 +19,8 @@ import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetCurrentScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.GetLatestScreenResultUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.ScreenNavigation
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -36,8 +36,8 @@ fun navigationModule() = module {
     singleOf(::GetCurrentScreenUseCase)
     singleOf(::GetTopAppBarStyleUseCase)
     singleOf(::GetBottomAppBarStyleUseCase)
-    singleOf(::NavigateToScreenUseCase)
-    singleOf(::NavigateBackUseCase)
+    singleOf(::PushScreenUseCase)
+    singleOf(::PopScreenUseCase)
     singleOf(::GetLatestScreenResultUseCase)
 
     singleOf(::GetBottomSheetUseCase)

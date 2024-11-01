@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -25,7 +25,7 @@ class GetCurrentHbA1cUseCase(
     private val localization: Localization,
     private val dateTimeFormatter: DateTimeFormatter,
     private val measurementValueMapper: MeasurementValueMapper,
-    private val navigateToScreen: NavigateToScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val showSnackbar: ShowSnackbarUseCase,
 ) {
 
@@ -56,7 +56,7 @@ class GetCurrentHbA1cUseCase(
                 dateTimeFormatter.formatDate(value.entry.dateTime.date)
             ),
             value = measurementValueMapper(value, decimalPlaces),
-            onClick = { navigateToScreen(EntryFormScreen(entry = value.entry)) },
+            onClick = { pushScreen(EntryFormScreen(entry = value.entry)) },
         )
     }
 

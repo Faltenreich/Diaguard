@@ -10,8 +10,8 @@ import com.faltenreich.diaguard.entry.list.EntryListPagingSource
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
@@ -31,8 +31,8 @@ class TagDetailViewModel(
     private val deleteTag: DeleteTagUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
-    private val navigateBack: NavigateBackUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<Unit, TagDetailIntent, Unit>() {
 
     override val state = emptyFlow<Unit>()
@@ -53,8 +53,8 @@ class TagDetailViewModel(
         when (this) {
             is TagDetailIntent.UpdateTag -> updateTag()
             is TagDetailIntent.DeleteTag -> deleteTag()
-            is TagDetailIntent.OpenEntry -> navigateToScreen(EntryFormScreen(entry))
-            is TagDetailIntent.OpenEntrySearch -> navigateToScreen(EntrySearchScreen(query))
+            is TagDetailIntent.OpenEntry -> pushScreen(EntryFormScreen(entry))
+            is TagDetailIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
         }
     }
 
@@ -63,7 +63,7 @@ class TagDetailViewModel(
         when (val result = validateTag(tag)) {
             is ValidationResult.Success -> {
                 storeTag(tag)
-                navigateBack()
+                popScreen()
             }
             is ValidationResult.Failure -> {
                 error = result.error
@@ -78,7 +78,7 @@ class TagDetailViewModel(
                 onConfirmRequest = {
                     deleteTag(tag)
                     closeModal()
-                    scope.launch { navigateBack() }
+                    scope.launch { popScreen() }
                 },
             )
         )

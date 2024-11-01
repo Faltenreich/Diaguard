@@ -9,8 +9,8 @@ import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -25,8 +25,8 @@ class FoodFormViewModel(
     private val validateInput: ValidateFoodInputUseCase = inject(),
     private val storeFood: StoreFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
-    private val navigateBack: NavigateBackUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
     private val formatNumber: NumberFormatter = inject(),
     private val localization: Localization = inject(),
@@ -85,7 +85,7 @@ class FoodFormViewModel(
     override suspend fun handleIntent(intent: FoodFormIntent) {
         when (intent) {
             is FoodFormIntent.EditNutrient -> editNutrient(intent.data)
-            is FoodFormIntent.OpenFoodEaten -> navigateToScreen(FoodEatenListScreen(intent.food))
+            is FoodFormIntent.OpenFoodEaten -> pushScreen(FoodEatenListScreen(intent.food))
             is FoodFormIntent.Submit -> submit()
             is FoodFormIntent.Delete -> delete()
         }
@@ -133,7 +133,7 @@ class FoodFormViewModel(
         when (val result = validateInput(input, food)) {
             is ValidationResult.Success -> {
                 storeFood(result.data)
-                navigateBack()
+                popScreen()
             }
             is ValidationResult.Failure -> {
                 showSnackbar(result.error)
@@ -144,7 +144,7 @@ class FoodFormViewModel(
     private suspend fun delete() {
         val food = food ?: return
         deleteFood(food)
-        navigateBack()
+        popScreen()
     }
 
     companion object {

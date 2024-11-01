@@ -8,8 +8,8 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -25,7 +25,7 @@ class TimelineViewModel(
     getPreference: GetPreferenceUseCase,
     getValues: GetMeasurementValuesAroundDateUseCase,
     getData: GetTimelineDataUseCase,
-    private val navigateToScreen: NavigateToScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val showModal: OpenModalUseCase,
     private val closeModal: CloseModalUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
@@ -47,8 +47,8 @@ class TimelineViewModel(
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
-            is TimelineIntent.CreateEntry -> navigateToScreen(EntryFormScreen())
-            is TimelineIntent.SearchEntries -> navigateToScreen(EntrySearchScreen())
+            is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
+            is TimelineIntent.SearchEntries -> pushScreen(EntrySearchScreen())
             is TimelineIntent.ShowDatePicker -> showDatePicker()
             is TimelineIntent.MoveDayBack -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
             is TimelineIntent.MoveDayForward -> selectDate(currentDate.value.plus(1, DateUnit.DAY))

@@ -5,9 +5,9 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListItemState
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -33,7 +33,7 @@ class MeasurementPropertyFormViewModel(
     private val updateUnit: UpdateMeasurementUnitUseCase = inject(),
     private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
-    private val navigateBack: NavigateBackUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
     private val localization: Localization = inject(),
@@ -115,7 +115,7 @@ class MeasurementPropertyFormViewModel(
         // TODO: Switch isSelected
         updateUnit(selectedUnit.value.copy(name = unitName.value))
 
-        navigateBack()
+        popScreen()
     }
 
     private fun deleteProperty() {
@@ -126,7 +126,7 @@ class MeasurementPropertyFormViewModel(
                     onConfirmRequest = {
                         deleteProperty(property)
                         closeModal()
-                        scope.launch { navigateBack() }
+                        scope.launch { popScreen() }
                     }
                 )
             )

@@ -36,8 +36,8 @@ fun MainMenu(
     val state = viewModel.collectState() ?: return
     val currentScreen = state.currentScreen
 
-    val navigateTo = { screen: Screen, popHistory: Boolean ->
-        viewModel.dispatchIntent(MainMenuIntent.NavigateTo(screen, popHistory))
+    val pushScreen = { screen: Screen, popHistory: Boolean ->
+        viewModel.dispatchIntent(MainMenuIntent.PushScreen(screen, popHistory))
     }
 
     Column(modifier = modifier) {
@@ -45,19 +45,19 @@ fun MainMenu(
             label = Res.string.dashboard,
             icon = Res.drawable.ic_dashboard,
             isActive = currentScreen is DashboardScreen,
-            onClick = { navigateTo(DashboardScreen, true) },
+            onClick = { pushScreen(DashboardScreen, true) },
         )
         MainMenuItem(
             label = Res.string.timeline,
             icon = Res.drawable.ic_timeline,
             isActive = currentScreen is TimelineScreen,
-            onClick = { navigateTo(TimelineScreen, true) },
+            onClick = { pushScreen(TimelineScreen, true) },
         )
         MainMenuItem(
             label = Res.string.log,
             icon = Res.drawable.ic_log,
             isActive = currentScreen is LogScreen,
-            onClick = { navigateTo(LogScreen, true) },
+            onClick = { pushScreen(LogScreen, true) },
         )
 
         Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
@@ -66,25 +66,25 @@ fun MainMenu(
             label = Res.string.food,
             icon = null,
             isActive = currentScreen is FoodSearchScreen,
-            onClick = { navigateTo(FoodSearchScreen(mode = FoodSearchMode.STROLL), false) },
+            onClick = { pushScreen(FoodSearchScreen(mode = FoodSearchMode.STROLL), false) },
         )
         MainMenuItem(
             label = Res.string.statistic,
             icon = null,
             isActive = currentScreen is StatisticScreen,
-            onClick = { navigateTo(StatisticScreen, false) },
+            onClick = { pushScreen(StatisticScreen, false) },
         )
         MainMenuItem(
             label = Res.string.export,
             icon = null,
             isActive = currentScreen is ExportFormScreen,
-            onClick = { navigateTo(ExportFormScreen, false) },
+            onClick = { pushScreen(ExportFormScreen, false) },
         )
         MainMenuItem(
             label = Res.string.preferences,
             icon = null,
             isActive = currentScreen is OverviewPreferenceScreen,
-            onClick = { navigateTo(OverviewPreferenceScreen, false) },
+            onClick = { pushScreen(OverviewPreferenceScreen, false) },
         )
     }
 }

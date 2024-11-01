@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.navigation
 import androidx.navigation.NavController
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.screen.Screen
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,9 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 
-class Navigation(
-    private val bottomSheetNavigation: BottomSheetNavigation
-) : BottomSheetNavigation by bottomSheetNavigation {
+class Navigation {
 
     private val events = MutableSharedFlow<NavigationEvent>()
 

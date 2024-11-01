@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
-import com.faltenreich.diaguard.navigation.bottomsheet.GetBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
@@ -22,7 +21,6 @@ class MainViewModel(
     getPreference: GetPreferenceUseCase,
     getTopAppBarStyle: GetTopAppBarStyleUseCase,
     getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
-    getBottomSheet: GetBottomSheetUseCase,
     hasData: HasDataUseCase,
     private val setup: SetupUseCase,
     private val navigation: Navigation,
@@ -36,8 +34,7 @@ class MainViewModel(
         getPreference(StartScreen.Preference),
         getTopAppBarStyle(),
         getBottomAppBarStyle(),
-        getBottomSheet(),
-    ) { hasData, startScreen, topAppBarStyle, bottomAppBarStyle, bottomSheet ->
+    ) { hasData, startScreen, topAppBarStyle, bottomAppBarStyle ->
         if (hasData) {
             MainState.SubsequentStart(
                 startScreen = when (startScreen) {
@@ -47,7 +44,6 @@ class MainViewModel(
                 },
                 topAppBarStyle = topAppBarStyle,
                 bottomAppBarStyle = bottomAppBarStyle,
-                bottomSheet = bottomSheet,
             )
         } else {
             MainState.FirstStart

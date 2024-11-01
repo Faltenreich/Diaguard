@@ -12,6 +12,5 @@ sealed interface MainState {
         val startScreen: Screen,
         val topAppBarStyle: TopAppBarStyle,
         val bottomAppBarStyle: BottomAppBarStyle,
-        val bottomSheet: Screen?,
     ) : MainState
 }

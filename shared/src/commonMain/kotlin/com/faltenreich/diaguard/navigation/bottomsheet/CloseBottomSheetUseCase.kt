@@ -1,12 +1,11 @@
 package com.faltenreich.diaguard.navigation.bottomsheet
 
 import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 
-class CloseBottomSheetUseCase(
-    private val navigation: Navigation,
-) {
+class CloseBottomSheetUseCase(private val navigation: Navigation) {
 
-    operator fun invoke() {
-        navigation.closeBottomSheet()
+    suspend operator fun invoke() {
+        navigation.postEvent(NavigationEvent.CloseBottomSheet)
     }
 }

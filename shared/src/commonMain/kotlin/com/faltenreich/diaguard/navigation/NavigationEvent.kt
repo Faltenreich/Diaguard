@@ -10,6 +10,10 @@ sealed interface NavigationEvent {
 
     data class PopScreen(val result: Pair<String, Any>?) : NavigationEvent
 
+    data class OpenBottomSheet(val bottomSheet: Screen) : NavigationEvent
+
+    data object CloseBottomSheet : NavigationEvent
+
     data class OpenModal(val modal: Modal) : NavigationEvent
 
     data object CloseModal : NavigationEvent

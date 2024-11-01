@@ -11,7 +11,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +33,6 @@ import com.faltenreich.diaguard.main.menu.MainMenuScreen
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
-import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
@@ -63,7 +61,6 @@ import org.jetbrains.compose.resources.painterResource
 fun MainView(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = inject(),
-    navigation: Navigation = inject(),
 ) {
     val state = viewModel.collectState()
     if (state !is MainState.SubsequentStart) return
@@ -71,13 +68,8 @@ fun MainView(
     val scope = rememberCoroutineScope()
 
     val navController = rememberNavController()
-    // TODO: Get rid off side effect
-    SideEffect { navigation.navController = navController }
-
     val snackbarHostState = remember { SnackbarHostState() }
-
     var bottomSheet by remember { mutableStateOf<Screen?>(null) }
-
     var modal by remember { mutableStateOf<Modal?>(null) }
 
     LaunchedEffect(Unit) {

@@ -1,13 +1,11 @@
 package com.faltenreich.diaguard.navigation
 
-import androidx.navigation.NavController
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 
 class Navigation {
@@ -41,13 +39,5 @@ class Navigation {
 
     fun setBottomAppBarStyle(bottomAppBarStyle: BottomAppBarStyle) {
         _bottomAppBarStyle.update { bottomAppBarStyle }
-    }
-
-    // TODO: Remove navController
-    lateinit var navController: NavController
-
-    suspend fun <T> collectLatestScreenResult(key: String, default: T?): T? {
-        val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle ?: return null
-        return savedStateHandle.getStateFlow(key, default).firstOrNull()
     }
 }

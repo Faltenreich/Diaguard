@@ -26,7 +26,6 @@ import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
-import com.faltenreich.diaguard.navigation.screen.GetLatestScreenResultUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -59,7 +58,6 @@ class EntryFormViewModel(
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
-    private val getLatestScreenResult: GetLatestScreenResultUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),

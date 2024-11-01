@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
+import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.tag.Tag
 
@@ -18,7 +19,7 @@ sealed interface EntryFormIntent {
 
     data object SelectFood : EntryFormIntent
 
-    data object AddFoodIfSelected : EntryFormIntent
+    data class AddFood(val food: Food.Local) : EntryFormIntent
 
     data class EditFood(val food: FoodEatenInputState) : EntryFormIntent
 

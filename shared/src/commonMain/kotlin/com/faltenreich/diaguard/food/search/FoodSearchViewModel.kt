@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
-    private val mode: FoodSearchMode,
+    val mode: FoodSearchMode,
     getPreference: GetPreferenceUseCase = inject(),
     private val searchFood: SearchFoodUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
@@ -55,20 +55,8 @@ class FoodSearchViewModel(
         when (this) {
             is FoodSearchIntent.Close -> popScreen()
             is FoodSearchIntent.Create -> pushScreen(FoodFormScreen())
-            is FoodSearchIntent.Select -> selectFood(food)
+            is FoodSearchIntent.OpenFood -> pushScreen(FoodFormScreen(food))
             is FoodSearchIntent.OpenPreferences -> pushScreen(FoodPreferenceScreen)
         }
-    }
-
-    private suspend fun selectFood(food: Food.Local) {
-        when (mode) {
-            FoodSearchMode.STROLL -> pushScreen(FoodFormScreen(food))
-            FoodSearchMode.FIND -> popScreen(result = KEY_SELECTED_FOOD_ID to food.id)
-        }
-    }
-
-    companion object {
-
-        const val KEY_SELECTED_FOOD_ID = "selectedFoodId"
     }
 }

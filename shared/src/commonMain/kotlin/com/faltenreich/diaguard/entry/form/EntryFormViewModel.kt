@@ -23,7 +23,6 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
-import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
@@ -136,7 +135,7 @@ class EntryFormViewModel(
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> delete()
             is EntryFormIntent.SelectFood -> selectFood()
-            is EntryFormIntent.AddFoodIfSelected -> addFoodIfSelected()
+            is EntryFormIntent.AddFood -> addFood(food)
             is EntryFormIntent.EditFood -> editFood(food)
             is EntryFormIntent.RemoveFood -> removeFood(food)
             is EntryFormIntent.AddTag -> addTag(tag)
@@ -224,10 +223,8 @@ class EntryFormViewModel(
         pushScreen(FoodSearchScreen(mode = FoodSearchMode.FIND))
     }
 
-    private suspend fun addFoodIfSelected() {
-        val selectedFoodId = getLatestScreenResult<Long>(FoodSearchViewModel.KEY_SELECTED_FOOD_ID) ?: return
-        val selectedFood = getFoodById(selectedFoodId) ?: return
-        foodEaten += FoodEatenInputState(selectedFood)
+    private fun addFood(food: Food.Local) {
+        foodEaten += FoodEatenInputState(food)
     }
 
     private fun editFood(food: FoodEatenInputState) {

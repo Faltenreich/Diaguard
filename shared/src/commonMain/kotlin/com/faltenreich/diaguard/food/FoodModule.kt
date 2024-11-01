@@ -14,9 +14,11 @@ import com.faltenreich.diaguard.food.form.StoreFoodUseCase
 import com.faltenreich.diaguard.food.form.ValidateFoodInputUseCase
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchViewModel
+import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.food.search.SearchFoodUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun foodModule() = module {
@@ -35,6 +37,7 @@ fun foodModule() = module {
     singleOf(::StoreFoodEatenUseCase)
 
     viewModel { (mode: FoodSearchMode) -> FoodSearchViewModel(mode) }
+    viewModelOf(::FoodSelectionViewModel)
     viewModel { (foodId: Long?) -> FoodFormViewModel(foodId) }
     viewModel { (foodId: Long) -> FoodEatenListViewModel(foodId) }
 }

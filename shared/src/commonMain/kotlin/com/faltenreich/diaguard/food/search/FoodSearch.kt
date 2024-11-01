@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.shared.view.rememberLifecycleState
 fun FoodSearch(
     modifier: Modifier = Modifier,
     viewModel: FoodSearchViewModel,
+    selectionViewModel: FoodSelectionViewModel,
 ) {
     val state = viewModel.collectState() ?: return
     val items = state.pagingData.collectAsLazyPagingItems()
@@ -59,7 +60,15 @@ fun FoodSearch(
         } else {
             FoodList(
                 items = items,
-                onSelect = { food -> viewModel.dispatchIntent(FoodSearchIntent.Select(food)) },
+                onSelect = { food ->
+                    when (viewModel.mode) {
+                        FoodSearchMode.STROLL -> viewModel.dispatchIntent(FoodSearchIntent.OpenFood(food))
+                        FoodSearchMode.FIND -> {
+                            selectionViewModel.postEvent(FoodSelectionEvent.Select(food))
+                            viewModel.dispatchIntent(FoodSearchIntent.Close)
+                        }
+                    }
+                },
             )
         }
     }

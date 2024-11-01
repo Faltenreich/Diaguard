@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.sharedViewModel
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
@@ -87,6 +88,9 @@ data class EntryFormScreen(
                     foodId.takeIf { it >= 0 })
             },
         )
-        EntryForm(viewModel = viewModel)
+        EntryForm(
+            viewModel = viewModel,
+            foodSelectionViewModel = sharedViewModel(),
+        )
     }
 }

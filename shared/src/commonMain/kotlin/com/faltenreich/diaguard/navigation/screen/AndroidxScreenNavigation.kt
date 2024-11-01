@@ -11,8 +11,4 @@ class AndroidxScreenNavigation : ScreenNavigation {
         val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle ?: return null
         return savedStateHandle.getStateFlow(key, default).firstOrNull()
     }
-
-    override fun canPopScreen(): Boolean {
-        return navController.previousBackStackEntry != null
-    }
 }

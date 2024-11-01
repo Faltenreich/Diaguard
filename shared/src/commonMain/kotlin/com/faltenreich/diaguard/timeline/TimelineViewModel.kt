@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class TimelineViewModel(
     getToday: GetTodayUseCase,
@@ -56,13 +57,13 @@ class TimelineViewModel(
         }
     }
 
-    private fun showDatePicker() {
+    private fun showDatePicker() = scope.launch {
         showModal(
             DatePickerModal(
                 date = currentDate.value,
                 onPick = { date ->
                     selectDate(date)
-                    closeModal()
+                    scope.launch { closeModal() }
                 },
             )
         )

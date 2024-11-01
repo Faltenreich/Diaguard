@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.tag.StoreTagUseCase
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.ValidateTagUseCase
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.launch
 
 class TagFormViewModel(
     private val validateTag: ValidateTagUseCase,
@@ -33,9 +34,9 @@ class TagFormViewModel(
         val tag = Tag.User(name)
         when (val result = validateTag(tag)) {
             is ValidationResult.Success -> {
-                createTag(tag)
-                closeModal()
                 error = null
+                createTag(tag)
+                scope.launch { closeModal() }
             }
             is ValidationResult.Failure -> {
                 error = result.error

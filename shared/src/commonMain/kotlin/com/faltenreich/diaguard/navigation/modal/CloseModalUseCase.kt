@@ -1,12 +1,11 @@
 package com.faltenreich.diaguard.navigation.modal
 
 import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 
-class CloseModalUseCase(
-    private val navigation: Navigation,
-) {
+class CloseModalUseCase(private val navigation: Navigation) {
 
-    operator fun invoke() {
-        navigation.closeModal()
+    suspend operator fun invoke() {
+        navigation.postEvent(NavigationEvent.CloseModal)
     }
 }

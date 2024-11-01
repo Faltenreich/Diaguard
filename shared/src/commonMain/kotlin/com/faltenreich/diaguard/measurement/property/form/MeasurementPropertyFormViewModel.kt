@@ -118,22 +118,24 @@ class MeasurementPropertyFormViewModel(
         popScreen()
     }
 
-    private fun deleteProperty() {
+    private fun deleteProperty() = scope.launch {
         if (property.isUserGenerated) {
             openModal(
                 DeleteModal(
-                    onDismissRequest = closeModal::invoke,
+                    onDismissRequest = { scope.launch { closeModal() } },
                     onConfirmRequest = {
                         deleteProperty(property)
-                        closeModal()
-                        scope.launch { popScreen() }
+                        scope.launch {
+                            closeModal()
+                            popScreen()
+                        }
                     }
                 )
             )
         } else {
             openModal(
                 AlertModal(
-                    onDismissRequest = closeModal::invoke,
+                    onDismissRequest = { scope.launch { closeModal() } },
                     title = localization.getString(Res.string.delete_title),
                     text = localization.getString(Res.string.delete_error_property),
                 )

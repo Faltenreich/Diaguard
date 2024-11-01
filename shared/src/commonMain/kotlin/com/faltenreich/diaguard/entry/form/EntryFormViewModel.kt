@@ -155,25 +155,25 @@ class EntryFormViewModel(
         }
     }
 
-    private fun selectDate() {
+    private fun selectDate() = scope.launch {
         showModal(
             DatePickerModal(
                 date = date,
                 onPick = {
                     date = it
-                    closeModal()
+                    scope.launch { closeModal() }
                 },
             )
         )
     }
 
-    private fun selectTime() {
+    private fun selectTime() = scope.launch {
         showModal(
             TimePickerModal(
                 time = time,
                 onPick = {
                     time = it
-                    closeModal()
+                    scope.launch { closeModal() }
                 },
             )
         )
@@ -205,11 +205,13 @@ class EntryFormViewModel(
         if (entry != null) {
             showModal(
                 DeleteModal(
-                    onDismissRequest = closeModal::invoke,
+                    onDismissRequest = { scope.launch { closeModal() } },
                     onConfirmRequest = {
                         deleteEntry(entry)
-                        closeModal()
-                        scope.launch { popScreen() }
+                        scope.launch {
+                            closeModal()
+                            popScreen()
+                        }
                     },
                 )
             )

@@ -47,13 +47,13 @@ class MeasurementCategoryFormViewModel(
         }
     }
 
-    private fun openIconPicker() {
+    private fun openIconPicker() = scope.launch {
         openModal(
             EmojiModal(
-                onDismissRequest = closeModal::invoke,
+                onDismissRequest = { scope.launch { closeModal() } },
                 onEmojiPicked = {
                     icon.value = it
-                    closeModal()
+                    scope.launch { closeModal() }
                 },
             )
         )
@@ -70,22 +70,24 @@ class MeasurementCategoryFormViewModel(
         popScreen()
     }
 
-    private fun deleteCategory() {
+    private fun deleteCategory() = scope.launch {
         if (category.isUserGenerated) {
             openModal(
                 DeleteModal(
-                    onDismissRequest = closeModal::invoke,
+                    onDismissRequest = { scope.launch { closeModal() } },
                     onConfirmRequest = {
                         deleteCategory(category)
-                        closeModal()
-                        scope.launch { popScreen() }
+                        scope.launch {
+                            closeModal()
+                            popScreen()
+                        }
                     }
                 )
             )
         } else {
             openModal(
                 AlertModal(
-                    onDismissRequest = closeModal::invoke,
+                    onDismissRequest = { scope.launch { closeModal() } },
                     title = localization.getString(Res.string.delete_title),
                     text = localization.getString(Res.string.delete_error_property),
                 )

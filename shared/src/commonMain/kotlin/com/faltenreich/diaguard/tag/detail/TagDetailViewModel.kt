@@ -49,12 +49,14 @@ class TagDetailViewModel(
         },
     ).flow.cachedIn(scope)
 
-    override suspend fun handleIntent(intent: TagDetailIntent) = with(intent) {
-        when (this) {
-            is TagDetailIntent.UpdateTag -> updateTag()
-            is TagDetailIntent.DeleteTag -> deleteTag()
-            is TagDetailIntent.OpenEntry -> pushScreen(EntryFormScreen(entry))
-            is TagDetailIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
+    override suspend fun handleIntent(intent: TagDetailIntent) {
+        with(intent) {
+            when (this) {
+                is TagDetailIntent.UpdateTag -> updateTag()
+                is TagDetailIntent.DeleteTag -> deleteTag()
+                is TagDetailIntent.OpenEntry -> pushScreen(EntryFormScreen(entry))
+                is TagDetailIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
+            }
         }
     }
 
@@ -71,14 +73,16 @@ class TagDetailViewModel(
         }
     }
 
-    private fun deleteTag() {
+    private fun deleteTag() = scope.launch {
         openModal(
             DeleteModal(
-                onDismissRequest = closeModal::invoke,
+                onDismissRequest = { scope.launch { closeModal() } },
                 onConfirmRequest = {
                     deleteTag(tag)
-                    closeModal()
-                    scope.launch { popScreen() }
+                    scope.launch {
+                        closeModal()
+                        popScreen()
+                    }
                 },
             )
         )

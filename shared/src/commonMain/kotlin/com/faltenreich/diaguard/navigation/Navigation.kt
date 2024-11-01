@@ -4,25 +4,20 @@ import androidx.navigation.NavController
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigation
-import com.faltenreich.diaguard.navigation.modal.ModalNavigation
 import com.faltenreich.diaguard.navigation.screen.Screen
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.withContext
 
 class Navigation(
-    private val dispatcher: CoroutineDispatcher,
-    private val bottomSheetNavigation: BottomSheetNavigation,
-    private val modalNavigation: ModalNavigation,
-) : BottomSheetNavigation by bottomSheetNavigation, ModalNavigation by modalNavigation {
+    private val bottomSheetNavigation: BottomSheetNavigation
+) : BottomSheetNavigation by bottomSheetNavigation {
 
     private val events = MutableSharedFlow<NavigationEvent>()
 
-    suspend fun postEvent(event: NavigationEvent) = withContext(dispatcher) {
+    suspend fun postEvent(event: NavigationEvent) {
         events.emit(event)
     }
 

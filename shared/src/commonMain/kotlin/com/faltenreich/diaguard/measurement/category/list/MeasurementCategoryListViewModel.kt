@@ -59,7 +59,7 @@ class MeasurementCategoryListViewModel(
         val within = state.firstOrNull()?.categories ?: return
         openModal(
             MeasurementCategoryFormModal(
-                onDismissRequest = closeModal::invoke,
+                onDismissRequest = { scope.launch { closeModal() } },
                 onConfirmRequest = { name ->
                     val category = createCategory(
                         MeasurementCategory.User(
@@ -69,8 +69,8 @@ class MeasurementCategoryListViewModel(
                             isActive = true,
                         )
                     )
-                    closeModal()
                     scope.launch {
+                        closeModal()
                         editCategory(category)
                     }
                 }

@@ -7,15 +7,14 @@ import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.GetBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
-import com.faltenreich.diaguard.navigation.modal.GetModalUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.architecture.combine
 import com.faltenreich.diaguard.timeline.TimelineScreen
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
@@ -24,7 +23,6 @@ class MainViewModel(
     getTopAppBarStyle: GetTopAppBarStyleUseCase,
     getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
     getBottomSheet: GetBottomSheetUseCase,
-    getModal: GetModalUseCase,
     hasData: HasDataUseCase,
     private val setup: SetupUseCase,
     private val navigation: Navigation,
@@ -39,8 +37,7 @@ class MainViewModel(
         getTopAppBarStyle(),
         getBottomAppBarStyle(),
         getBottomSheet(),
-        getModal(),
-    ) { hasData, startScreen, topAppBarStyle, bottomAppBarStyle, bottomSheet, modal ->
+    ) { hasData, startScreen, topAppBarStyle, bottomAppBarStyle, bottomSheet ->
         if (hasData) {
             MainState.SubsequentStart(
                 startScreen = when (startScreen) {
@@ -51,7 +48,6 @@ class MainViewModel(
                 topAppBarStyle = topAppBarStyle,
                 bottomAppBarStyle = bottomAppBarStyle,
                 bottomSheet = bottomSheet,
-                modal = modal,
             )
         } else {
             MainState.FirstStart

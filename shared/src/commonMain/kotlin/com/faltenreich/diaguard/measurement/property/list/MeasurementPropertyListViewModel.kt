@@ -60,13 +60,13 @@ class MeasurementPropertyListViewModel(
         pushScreen(MeasurementPropertyFormScreen(property))
     }
 
-    private fun createProperty(
+    private suspend fun createProperty(
         category: MeasurementCategory.Local,
         properties: List<MeasurementProperty.Local>,
     ) {
         openModal(
             MeasurementPropertyFormModal(
-                onDismissRequest = closeModal::invoke,
+                onDismissRequest = { scope.launch { closeModal() } },
                 onConfirmRequest = { propertyName, unitName ->
                     val property = createProperty(
                         propertyName = propertyName,
@@ -87,8 +87,8 @@ class MeasurementPropertyListViewModel(
                         unitName = unitName,
                         unitIsSelected = true,
                     )
-                    closeModal()
                     scope.launch {
+                        closeModal()
                         pushScreen (MeasurementPropertyFormScreen(property))
                     }
                 }

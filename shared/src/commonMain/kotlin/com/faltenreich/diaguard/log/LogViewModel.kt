@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 
 class LogViewModel(
     getToday: GetTodayUseCase,
@@ -50,35 +51,37 @@ class LogViewModel(
         ::LogState,
     )
 
-    override suspend fun handleIntent(intent: LogIntent) = with(intent) {
-        when (this) {
-            is LogIntent.CacheMonthHeaderSize -> monthHeaderSize.value = size
-            is LogIntent.CacheDayHeaderSize -> dayHeaderSize.value = size
-            is LogIntent.OnScroll -> {
-                currentDate.value = firstItem.date
-                stickyHeaderInfo.value = invalidateStickyHeaderInfo(
-                    stickyHeaderInfo = stickyHeaderInfo.value,
-                    monthHeaderSize = monthHeaderSize.value,
-                    dayHeaderSize = dayHeaderSize.value,
-                    firstItem = firstItem,
-                    nextItems = nextItems,
-                )
+    override suspend fun handleIntent(intent: LogIntent) {
+        with(intent) {
+            when (this) {
+                is LogIntent.CacheMonthHeaderSize -> monthHeaderSize.value = size
+                is LogIntent.CacheDayHeaderSize -> dayHeaderSize.value = size
+                is LogIntent.OnScroll -> {
+                    currentDate.value = firstItem.date
+                    stickyHeaderInfo.value = invalidateStickyHeaderInfo(
+                        stickyHeaderInfo = stickyHeaderInfo.value,
+                        monthHeaderSize = monthHeaderSize.value,
+                        dayHeaderSize = dayHeaderSize.value,
+                        firstItem = firstItem,
+                        nextItems = nextItems,
+                    )
+                }
+                is LogIntent.CreateEntry -> pushScreen(EntryFormScreen(date = date))
+                is LogIntent.OpenEntry -> pushScreen(EntryFormScreen(entry = entry))
+                is LogIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
+                is LogIntent.SelectDate -> selectDate()
+                is LogIntent.SetDate -> setDate(date)
             }
-            is LogIntent.CreateEntry -> pushScreen(EntryFormScreen(date = date))
-            is LogIntent.OpenEntry -> pushScreen(EntryFormScreen(entry = entry))
-            is LogIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
-            is LogIntent.SelectDate -> selectDate()
-            is LogIntent.SetDate -> setDate(date)
         }
     }
 
-    private fun selectDate() {
+    private fun selectDate() = scope.launch {
         showModal(
             DatePickerModal(
                 date = currentDate.value,
                 onPick = {
                     dispatchIntent(LogIntent.SetDate(it))
-                    closeModal()
+                    scope.launch { closeModal() }
                 },
             )
         )

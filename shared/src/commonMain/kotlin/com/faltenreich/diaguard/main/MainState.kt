@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.main
 
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.navigation.screen.Screen
 
 sealed interface MainState {
@@ -14,6 +13,5 @@ sealed interface MainState {
         val topAppBarStyle: TopAppBarStyle,
         val bottomAppBarStyle: BottomAppBarStyle,
         val bottomSheet: Screen?,
-        val modal: Modal?,
     ) : MainState
 }

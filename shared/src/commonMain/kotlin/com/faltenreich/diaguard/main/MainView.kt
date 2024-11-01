@@ -12,8 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
@@ -35,6 +38,7 @@ import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
+import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
@@ -71,6 +75,8 @@ fun MainView(
 
     val snackbarHostState = remember { SnackbarHostState() }
 
+    var modal by remember { mutableStateOf<Modal?>(null) }
+
     LaunchedEffect(Unit) {
         viewModel.collectNavigationEvents { event ->
             when (event) {
@@ -95,6 +101,8 @@ fun MainView(
                     }
                     navController.popBackStack()
                 }
+                is NavigationEvent.OpenModal -> modal = event.modal
+                is NavigationEvent.CloseModal -> modal = null
                 is NavigationEvent.ShowSnackbar -> scope.launch {
                     with(event) {
                         snackbarHostState.showSnackbar(message, actionLabel, withDismissAction, duration)
@@ -166,7 +174,7 @@ fun MainView(
                     }
                 }
 
-                state.modal?.Content()
+                modal?.Content()
             },
             bottomBar = {
                 BottomAppBar(

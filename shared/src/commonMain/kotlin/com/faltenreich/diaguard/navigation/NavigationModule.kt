@@ -8,10 +8,7 @@ import com.faltenreich.diaguard.navigation.bottomsheet.GetBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.StateFlowBottomSheetNavigation
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.modal.GetModalUseCase
-import com.faltenreich.diaguard.navigation.modal.ModalNavigation
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
-import com.faltenreich.diaguard.navigation.modal.StateFlowModalNavigation
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetCurrentScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.GetLatestScreenResultUseCase
@@ -24,7 +21,6 @@ import org.koin.dsl.module
 
 fun navigationModule() = module {
     singleOf<BottomSheetNavigation>(::StateFlowBottomSheetNavigation)
-    singleOf<ModalNavigation>(::StateFlowModalNavigation)
     singleOf(::Navigation)
 
     singleOf(::GetCurrentScreenUseCase)
@@ -38,7 +34,6 @@ fun navigationModule() = module {
     singleOf(::OpenBottomSheetUseCase)
     singleOf(::CloseBottomSheetUseCase)
 
-    singleOf(::GetModalUseCase)
     singleOf(::OpenModalUseCase)
     singleOf(::CloseModalUseCase)
 

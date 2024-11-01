@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.map
 
 class MainMenuViewModel(
     getCurrentScreen: GetCurrentScreenUseCase = inject(),
-    private val navigateToScreen: NavigateToScreenUseCase = inject(),
     private val closeBottomSheet: CloseBottomSheetUseCase = inject(),
+    private val navigateToScreen: NavigateToScreenUseCase = inject(),
 ) : ViewModel<MainMenuState, MainMenuIntent, Unit>() {
 
     override val state = getCurrentScreen().map(::MainMenuState)
@@ -19,7 +19,6 @@ class MainMenuViewModel(
         when (this) {
             is MainMenuIntent.NavigateTo -> {
                 closeBottomSheet()
-                // Attention: Must be executed at last to not break FoodSearchMode
                 navigateToScreen(screen, popHistory)
             }
         }

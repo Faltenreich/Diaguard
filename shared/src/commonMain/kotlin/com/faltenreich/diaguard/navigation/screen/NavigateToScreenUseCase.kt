@@ -1,12 +1,13 @@
 package com.faltenreich.diaguard.navigation.screen
 
 import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 
 class NavigateToScreenUseCase(
     private val navigation: Navigation,
 ) {
 
     suspend operator fun invoke(screen: Screen, popHistory: Boolean = false) {
-        navigation.pushScreen(screen, popHistory)
+        navigation.postEvent(NavigationEvent.PushScreen(screen, popHistory))
     }
 }

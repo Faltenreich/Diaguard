@@ -13,7 +13,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
@@ -31,9 +30,7 @@ import com.faltenreich.diaguard.main.menu.MainMenuScreen
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
-import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.navigation.NavigationViewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.snack.AndroidxSnackbarNavigation
 import com.faltenreich.diaguard.navigation.bar.snack.SnackbarNavigation
@@ -56,20 +53,15 @@ import com.faltenreich.diaguard.timeline.TimelineScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.navigate_back
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun MainView(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = inject(),
-    navigationViewModel: NavigationViewModel = inject(),
-    navigation: Navigation = inject(),
 ) {
     val state = viewModel.collectState()
     if (state !is MainState.SubsequentStart) return
-
-    val scope = rememberCoroutineScope()
 
     val navController = rememberNavController()
     // TODO: Get rid off side effects
@@ -86,7 +78,7 @@ fun MainView(
     }
 
     LaunchedEffect(Unit) {
-        navigationViewModel.collectEvents { event ->
+        viewModel.collectNavigationEvents { event ->
             when (event) {
                 is NavigationEvent.PushScreen -> {
                     navController.navigate(
@@ -125,8 +117,8 @@ fun MainView(
                 TopAppBar(
                     style = state.topAppBarStyle,
                     navigationIcon = {
-                        if (navigation.canPopScreen()) {
-                            IconButton(onClick = { scope.launch { navigation.popScreen() } }) {
+                        if (navController.previousBackStackEntry != null) {
+                            IconButton(onClick = { viewModel.dispatchIntent(MainIntent.PopScreen) }) {
                                 Icon(
                                     painter = painterResource(Res.drawable.ic_arrow_back),
                                     contentDescription = getString(Res.string.navigate_back),

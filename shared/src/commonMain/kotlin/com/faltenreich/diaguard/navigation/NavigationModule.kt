@@ -15,7 +15,6 @@ import com.faltenreich.diaguard.navigation.modal.ModalNavigation
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.modal.StateFlowModalNavigation
 import com.faltenreich.diaguard.navigation.screen.AndroidxScreenNavigation
-import com.faltenreich.diaguard.navigation.screen.CanNavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetCurrentScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.GetLatestScreenResultUseCase
@@ -23,16 +22,12 @@ import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.ScreenNavigation
-import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun navigationModule() = module {
-    single<ScreenNavigation> {
-        // Attention: Navigation Components require Main Thread
-        AndroidxScreenNavigation(dispatcher = Dispatchers.Main)
-    }
+    singleOf<ScreenNavigation>(::AndroidxScreenNavigation)
     singleOf<BottomSheetNavigation>(::StateFlowBottomSheetNavigation)
     singleOf<ModalNavigation>(::StateFlowModalNavigation)
     singleOf<SnackbarNavigation>(::AndroidxSnackbarNavigation)
@@ -43,7 +38,6 @@ fun navigationModule() = module {
     singleOf(::GetBottomAppBarStyleUseCase)
     singleOf(::NavigateToScreenUseCase)
     singleOf(::NavigateBackUseCase)
-    singleOf(::CanNavigateBackUseCase)
     singleOf(::GetLatestScreenResultUseCase)
 
     singleOf(::GetBottomSheetUseCase)
@@ -56,6 +50,5 @@ fun navigationModule() = module {
 
     singleOf(::ShowSnackbarUseCase)
 
-    viewModelOf(::NavigationViewModel)
     viewModelOf<MainMenuViewModel>(::MainMenuViewModel)
 }

@@ -7,11 +7,15 @@ import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheetNavigation
 import com.faltenreich.diaguard.navigation.modal.ModalNavigation
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.navigation.screen.ScreenNavigation
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withContext
 
 class Navigation(
+    private val dispatcher: CoroutineDispatcher,
     private val screenNavigation: ScreenNavigation,
     private val bottomSheetNavigation: BottomSheetNavigation,
     private val modalNavigation: ModalNavigation,
@@ -21,6 +25,16 @@ class Navigation(
     ModalNavigation by modalNavigation,
     SnackbarNavigation by snackbarNavigation
 {
+
+    private val events = MutableSharedFlow<NavigationEvent>()
+
+    suspend fun postEvent(event: NavigationEvent) = withContext(dispatcher) {
+        events.emit(event)
+    }
+
+    suspend fun collectEvents(onEvent: (NavigationEvent) -> Unit) {
+        events.collect(onEvent)
+    }
 
     private val _currentScreen = MutableStateFlow<Screen?>(null)
     val currentScreen = _currentScreen.asStateFlow()

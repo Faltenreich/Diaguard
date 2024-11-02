@@ -9,22 +9,16 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
-import com.faltenreich.diaguard.shared.di.inject
 import java.io.File
 import java.io.FileOutputStream
 import android.graphics.pdf.PdfDocument as AndroidPdfDocument
 
-actual class PdfRepository {
+class AndroidPdfExport(private val context: Context) : PdfExport {
 
-    private val context = inject<Context>()
-
-    actual fun export(pdfDocument: PdfDocument) {
+    override fun export(pdfDocument: PdfDocument) {
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
         val file = File(directory, "export.pdf")
-        export(file)
-    }
 
-    fun export(file: File) {
         val outputStream = FileOutputStream(file)
         val document = AndroidPdfDocument()
 
@@ -32,6 +26,7 @@ actual class PdfRepository {
         val pageInfo = AndroidPdfDocument.PageInfo.Builder(PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT, pageNumber).create()
         val page = document.startPage(pageInfo)
 
+        // TODO: Pass content of PdfDocument
         page.canvas.drawText("Hello, World!", 100f, 100f, Paint().apply { color = Color.BLACK })
 
         document.finishPage(page)

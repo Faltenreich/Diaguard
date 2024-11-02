@@ -4,13 +4,12 @@ import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.GetCurrentScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.map
 
 class MainMenuViewModel(
-    getCurrentScreen: GetCurrentScreenUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
-    private val closeBottomSheet: CloseBottomSheetUseCase = inject(),
+    getCurrentScreen: GetCurrentScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
+    private val closeBottomSheet: CloseBottomSheetUseCase,
 ) : ViewModel<MainMenuState, MainMenuIntent, Unit>() {
 
     override val state = getCurrentScreen().map(::MainMenuState)

@@ -15,6 +15,7 @@ import org.koin.test.get
 import org.koin.test.inject
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -76,20 +77,87 @@ class FoodFormViewModelTest : TestSuite {
     }
 
     @Test
+    fun `show nutrients matching input in correct order`() = runTest {
+        viewModel = get(parameters = { parametersOf(food.id) })
+
+        assertContentEquals(
+            expected = listOf(
+                FoodNutrientData(
+                    nutrient = FoodNutrient.CARBOHYDRATES,
+                    per100g = "20",
+                    isLast = false,
+                ),
+                FoodNutrientData(
+                    nutrient = FoodNutrient.SUGAR,
+                    per100g = "8",
+                    isLast = false,
+                ),
+                FoodNutrientData(
+                    nutrient = FoodNutrient.ENERGY,
+                    per100g = "1",
+                    isLast = false,
+                ),
+                FoodNutrientData(
+                    nutrient = FoodNutrient.FAT,
+                    per100g = "2",
+                    isLast = false,
+                ),
+                FoodNutrientData(
+                    nutrient = FoodNutrient.FAT_SATURATED,
+                    per100g = "3",
+                    isLast = false,
+                ),
+                FoodNutrientData(
+                    nutrient = FoodNutrient.FIBER,
+                    per100g = "4",
+                    isLast = false,
+                ),
+                FoodNutrientData(
+                    nutrient = FoodNutrient.PROTEINS,
+                    per100g = "5",
+                    isLast = false,
+                ),
+                FoodNutrientData(
+                    nutrient = FoodNutrient.SALT,
+                    per100g = "6",
+                    isLast = false,
+                ),
+                FoodNutrientData(
+                    nutrient = FoodNutrient.SODIUM,
+                    per100g = "7",
+                    isLast = true,
+                ),
+            ),
+            actual = viewModel.nutrientData,
+        )
+    }
+
+    @Test
     fun `edit nutrient`() = runTest {
         viewModel = get(parameters = { parametersOf(food.id) })
 
-        val data = FoodNutrientData(
-            nutrient = FoodNutrient.CARBOHYDRATES,
-            per100g = "100",
-            isLast = false,
-        )
-        viewModel.handleIntent(FoodFormIntent.EditNutrient(data))
+        FoodNutrient.entries.forEachIndexed { index, nutrient ->
+            val per100g = index.toString()
+            val data = viewModel.nutrientData
+                .first { it.nutrient == nutrient }
+                .copy(per100g = per100g)
+            viewModel.handleIntent(FoodFormIntent.EditNutrient(data))
 
-        assertEquals(
-            expected = data.per100g,
-            actual = viewModel.carbohydrates,
-        )
+            assertEquals(
+                expected = data.per100g,
+                actual = when (nutrient) {
+                    FoodNutrient.CARBOHYDRATES -> viewModel.carbohydrates
+                    FoodNutrient.ENERGY -> viewModel.energy
+                    FoodNutrient.FAT -> viewModel.fat
+                    FoodNutrient.FAT_SATURATED-> viewModel.fatSaturated
+                    FoodNutrient.FIBER -> viewModel.fiber
+                    FoodNutrient.PROTEINS -> viewModel.proteins
+                    FoodNutrient.SALT -> viewModel.salt
+                    FoodNutrient.SODIUM -> viewModel.sodium
+                    FoodNutrient.SUGAR -> viewModel.sugar
+                },
+            )
+        }
     }
 
     @Test

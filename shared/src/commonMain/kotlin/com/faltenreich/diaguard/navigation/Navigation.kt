@@ -12,14 +12,6 @@ class Navigation {
 
     private val events = MutableSharedFlow<NavigationEvent>()
 
-    suspend fun postEvent(event: NavigationEvent) {
-        events.emit(event)
-    }
-
-    suspend fun collectEvents(onEvent: (NavigationEvent) -> Unit) {
-        events.collect(onEvent)
-    }
-
     private val _currentScreen = MutableStateFlow<Screen?>(null)
     val currentScreen = _currentScreen.asStateFlow()
 
@@ -28,6 +20,14 @@ class Navigation {
 
     private val _bottomAppBarStyle = MutableStateFlow<BottomAppBarStyle>(BottomAppBarStyle.Visible())
     val bottomAppBarStyle = _bottomAppBarStyle.asStateFlow()
+
+    suspend fun postEvent(event: NavigationEvent) {
+        events.emit(event)
+    }
+
+    suspend fun collectEvents(onEvent: (NavigationEvent) -> Unit) {
+        events.collect(onEvent)
+    }
 
     fun setCurrentScreen(screen: Screen) {
         _currentScreen.update { screen }

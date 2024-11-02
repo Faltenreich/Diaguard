@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
@@ -32,7 +33,7 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `returns data with seed categories for timeline`() = runTest {
+    fun `returns data with seed categories`() = runTest {
         importSeed()
 
         viewModel.state.test {
@@ -155,6 +156,38 @@ class TimelineViewModelTest : TestSuite {
                     ),
                 ),
                 actual = awaitItem().data,
+            )
+        }
+    }
+
+    @Test
+    fun `returns chart data with values of blood sugar`() = runTest {
+        importSeed()
+
+        storeValue(120.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        storeValue(20.0, DatabaseKey.MeasurementProperty.ACTIVITY)
+
+        viewModel.state.test {
+            assertEquals(
+                expected = 1,
+                actual = awaitItem().data.chart.values.size,
+            )
+        }
+    }
+
+    @Test
+    fun `returns table data with values other than blood sugar`() = runTest {
+        importSeed()
+
+        storeValue(120.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        storeValue(20.0, DatabaseKey.MeasurementProperty.ACTIVITY)
+
+        viewModel.state.test {
+            assertEquals(
+                expected = 1,
+                actual = awaitItem().data.table
+                    .categories.first { it.properties.any { it.name == "activity" } }
+                    .properties.first().values.size,
             )
         }
     }

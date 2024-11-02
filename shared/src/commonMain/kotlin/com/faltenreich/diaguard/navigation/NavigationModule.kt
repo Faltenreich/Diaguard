@@ -18,6 +18,7 @@ import org.koin.dsl.module
 fun navigationModule() = module {
     singleOf(::Navigation)
 
+    singleOf(::CollectNavigationEventsUseCase)
     singleOf(::GetCurrentScreenUseCase)
     singleOf(::GetTopAppBarStyleUseCase)
     singleOf(::GetBottomAppBarStyleUseCase)

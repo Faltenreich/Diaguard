@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.main
 
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.CollectNavigationEventsUseCase
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
@@ -23,7 +23,7 @@ class MainViewModel(
     getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
     hasData: HasDataUseCase,
     private val setup: SetupUseCase,
-    private val navigation: Navigation,
+    private val collectNavigationEvents: CollectNavigationEventsUseCase,
     private val popScreen: PopScreenUseCase,
     private val openBottomSheet: OpenBottomSheetUseCase,
     private val closeBottomSheet: CloseBottomSheetUseCase,
@@ -54,7 +54,7 @@ class MainViewModel(
         scope.launch {
             setup()
             // Delegate navigation events
-            navigation.events.collect(::postEvent)
+            collectNavigationEvents(::postEvent)
         }
     }
 

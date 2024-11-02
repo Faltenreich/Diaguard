@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.timeline
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
@@ -17,7 +18,146 @@ import kotlin.test.assertTrue
 class TimelineViewModelTest : TestSuite {
 
     private val viewModel: TimelineViewModel by inject()
+    private val dateTimeFactory: DateTimeFactory by inject()
     private val navigation: Navigation by inject()
+
+    @Test
+    fun `launches with current date of today`() = runTest {
+        viewModel.state.test {
+            assertEquals(
+                expected = dateTimeFactory.today(),
+                actual = awaitItem().currentDate,
+            )
+        }
+    }
+
+    @Test
+    fun `returns data with seed categories for timeline`() = runTest {
+        importSeed()
+
+        viewModel.state.test {
+            assertEquals(
+                expected = TimelineData(
+                    chart = TimelineData.Chart(
+                        values = emptyList(),
+                    ),
+                    table = TimelineData.Table(
+                        categories = listOf(
+                            TimelineData.Table.Category(
+                                properties = listOf(
+                                    TimelineData.Table.Category.Property(
+                                        icon ="🩸",
+                                        name = "blood_sugar",
+                                        unit = "blood_sugar",
+                                        values = emptyList()
+                                    ),
+                                ),
+                            ),
+                            TimelineData.Table.Category(
+                                properties = listOf(
+                                    TimelineData.Table.Category.Property(
+                                        icon = "💉",
+                                        name = "insulin",
+                                        unit = "bolus",
+                                        values = emptyList()
+                                    ),
+                                    TimelineData.Table.Category.Property(
+                                        icon = "💉",
+                                        name = "insulin",
+                                        unit = "correction",
+                                        values = emptyList(),
+                                    ),
+                                    TimelineData.Table.Category.Property(
+                                        icon = "💉",
+                                        name = "insulin",
+                                        unit = "basal",
+                                        values = emptyList(),
+                                    ),
+                                ),
+                            ),
+                            TimelineData.Table.Category(
+                                properties = listOf(
+                                    TimelineData.Table.Category.Property(
+                                        icon = "🍞",
+                                        name = "meal",
+                                        unit = "meal",
+                                        values = emptyList(),
+                                    ),
+                                ),
+                            ),
+                            TimelineData.Table.Category(
+                                properties = listOf(
+                                    TimelineData.Table.Category.Property(
+                                        icon = "🏃",
+                                        name = "activity",
+                                        unit = "activity",
+                                        values = emptyList(),
+                                    ),
+                                ),
+                            ),
+                            TimelineData.Table.Category(
+                                properties = listOf(
+                                    TimelineData.Table.Category.Property(
+                                        icon = "%",
+                                        name = "hba1c",
+                                        unit = "hba1c",
+                                        values = emptyList(),
+                                    ),
+                                ),
+                            ),
+                            TimelineData.Table.Category(
+                                properties = listOf(
+                                    TimelineData.Table.Category.Property(
+                                        icon = "🏋",
+                                        name = "weight",
+                                        unit = "weight",
+                                        values = emptyList(),
+                                    ),
+                                ),
+                            ),
+                            TimelineData.Table.Category(
+                                properties = listOf(
+                                    TimelineData.Table.Category.Property(
+                                        icon = "💚",
+                                        name = "pulse",
+                                        unit = "pulse",
+                                        values = emptyList(),
+                                    ),
+                                ),
+                            ),
+                            TimelineData.Table.Category(
+                                properties = listOf(
+                                    TimelineData.Table.Category.Property(
+                                        icon = "⛽",
+                                        name = "blood_pressure",
+                                        unit = "systolic",
+                                        values = emptyList(),
+                                    ),
+                                    TimelineData.Table.Category.Property(
+                                        icon = "⛽",
+                                        name = "blood_pressure",
+                                        unit = "diastolic",
+                                        values = emptyList(),
+                                    ),
+                                ),
+                            ),
+                            TimelineData.Table.Category(
+                                properties = listOf(
+                                    TimelineData.Table.Category.Property(
+                                        icon = "O²",
+                                        name = "oxygen_saturation",
+                                        unit = "oxygen_saturation",
+                                        values = emptyList(),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                actual = awaitItem().data,
+            )
+        }
+    }
 
     @Test
     fun `forwards previous date when intending to move day back`() = runTest {

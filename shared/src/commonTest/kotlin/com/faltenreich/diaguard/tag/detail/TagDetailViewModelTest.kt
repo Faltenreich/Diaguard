@@ -53,7 +53,7 @@ class TagDetailViewModelTest : TestSuite {
     }
 
     @Test
-    fun `opens modal when intending to delete`() = runTest {
+    fun `open modal when intending to delete`() = runTest {
         navigation.events.test {
             viewModel.handleIntent(TagDetailIntent.DeleteTag)
 

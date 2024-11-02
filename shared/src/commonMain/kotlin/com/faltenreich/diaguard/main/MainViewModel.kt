@@ -27,7 +27,7 @@ class MainViewModel(
     private val popScreen: PopScreenUseCase,
     private val openBottomSheet: OpenBottomSheetUseCase,
     private val closeBottomSheet: CloseBottomSheetUseCase,
-) : ViewModel<MainState, MainIntent, Unit>() {
+) : ViewModel<MainState, MainIntent, NavigationEvent>() {
 
     override val state = combine(
         hasData(),
@@ -51,7 +51,11 @@ class MainViewModel(
     }.distinctUntilChanged()
 
     init {
-        scope.launch { setup() }
+        scope.launch {
+            setup()
+            // Delegate navigation events
+            navigation.collectEvents(::postEvent)
+        }
     }
 
     override suspend fun handleIntent(intent: MainIntent) = with(intent) {
@@ -60,9 +64,5 @@ class MainViewModel(
             is MainIntent.OpenBottomSheet -> openBottomSheet(screen)
             is MainIntent.CloseBottomSheet -> closeBottomSheet()
         }
-    }
-
-    suspend fun collectNavigationEvents(onEvent: (NavigationEvent) -> Unit) {
-        navigation.collectEvents(onEvent)
     }
 }

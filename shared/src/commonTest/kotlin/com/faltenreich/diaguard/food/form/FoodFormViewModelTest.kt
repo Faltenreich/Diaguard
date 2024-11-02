@@ -37,6 +37,24 @@ class FoodFormViewModelTest : TestSuite {
     }
 
     @Test
+    fun `launch with data for passed food`() = runTest {
+        assertEquals(expected = "name", viewModel.name)
+        assertEquals(expected = "brand", viewModel.brand)
+        assertEquals(expected = "ingredients", viewModel.ingredients)
+        assertEquals(expected = "labels", viewModel.labels)
+
+        assertEquals(expected = "20", viewModel.carbohydrates)
+        assertEquals(expected = "1", viewModel.energy)
+        assertEquals(expected = "2", viewModel.fat)
+        assertEquals(expected = "3", viewModel.fatSaturated)
+        assertEquals(expected = "4", viewModel.fiber)
+        assertEquals(expected = "5", viewModel.proteins)
+        assertEquals(expected = "6", viewModel.salt)
+        assertEquals(expected = "7", viewModel.sodium)
+        assertEquals(expected = "8", viewModel.sugar)
+    }
+
+    @Test
     fun `edit nutrient`() = runTest {
         val data = FoodNutrientData(
             nutrient = FoodNutrient.CARBOHYDRATES,
@@ -63,6 +81,34 @@ class FoodFormViewModelTest : TestSuite {
     }
 
     @Test
+    fun `update food and pop screen when intending to submit and succeeding`() = runTest {
+        navigation.events.test {
+            val name = "update"
+            viewModel.name = name
+
+            viewModel.handleIntent(FoodFormIntent.Submit)
+
+            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+            assertEquals(
+                expected = name,
+                actual = foodRepository.getById(food.id)?.name,
+            )
+        }
+    }
+
+    @Test
+    fun `show snackbar when intending to submit and failing`() = runTest {
+        navigation.events.test {
+            val name = ""
+            viewModel.name = name
+
+            viewModel.handleIntent(FoodFormIntent.Submit)
+
+            assertTrue(awaitItem() is NavigationEvent.ShowSnackbar)
+        }
+    }
+
+    @Test
     fun `delete food pop screen when intending to delete food`() = runTest {
         navigation.events.test {
             viewModel.handleIntent(FoodFormIntent.Delete)
@@ -77,18 +123,18 @@ class FoodFormViewModelTest : TestSuite {
 
         private val FOOD_BY_USER = Food.User(
             name = "name",
-            brand = null,
-            ingredients = null,
-            labels = null,
-            carbohydrates = 0.0,
-            energy = null,
-            fat = null,
-            fatSaturated = null,
-            fiber = null,
-            proteins = null,
-            salt = null,
-            sodium = null,
-            sugar = null,
+            brand = "brand",
+            ingredients = "ingredients",
+            labels = "labels",
+            carbohydrates = 20.0,
+            energy = 1.0,
+            fat = 2.0,
+            fatSaturated = 3.0,
+            fiber = 4.0,
+            proteins = 5.0,
+            salt = 6.0,
+            sodium = 7.0,
+            sugar = 8.0,
         )
     }
 }

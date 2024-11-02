@@ -160,11 +160,25 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
+    fun `updates date when intending to setting current date`() = runTest {
+        viewModel.state.test {
+            val date = dateTimeFactory.date(1970, 1, 1)
+
+            viewModel.handleIntent(TimelineIntent.SetCurrentDate(date))
+
+            assertEquals(
+                expected = date,
+                actual = awaitItem().currentDate,
+            )
+        }
+    }
+
+    @Test
     fun `forwards previous date when intending to move day back`() = runTest {
         viewModel.state.test {
             val currentDate = awaitItem().currentDate
 
-            viewModel.dispatchIntent(TimelineIntent.MoveDayBack)
+            viewModel.handleIntent(TimelineIntent.MoveDayBack)
 
             viewModel.events.test {
                 val event = awaitItem()
@@ -182,7 +196,7 @@ class TimelineViewModelTest : TestSuite {
         viewModel.state.test {
             val currentDate = awaitItem().currentDate
 
-            viewModel.dispatchIntent(TimelineIntent.MoveDayForward)
+            viewModel.handleIntent(TimelineIntent.MoveDayForward)
 
             viewModel.events.test {
                 val event = awaitItem()

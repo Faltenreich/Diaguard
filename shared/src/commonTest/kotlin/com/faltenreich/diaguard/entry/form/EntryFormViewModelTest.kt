@@ -49,12 +49,6 @@ class EntryFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `opens food search when selecting food`() = runTest {
-        viewModel.handleIntent(EntryFormIntent.SelectFood)
-        // TODO: assertTrue(navigation.currentScreen.value is FoodSearchScreen)
-    }
-
-    @Test
     fun `suggests tags`() = runTest {
         viewModel.state.test {
             val state = awaitItem()

@@ -51,11 +51,8 @@ class MainViewModel(
     }.distinctUntilChanged()
 
     init {
-        scope.launch {
-            setup()
-            // Delegate navigation events
-            collectNavigationEvents(::postEvent)
-        }
+        scope.launch { setup() }
+        scope.launch { collectNavigationEvents(::postEvent) }
     }
 
     override suspend fun handleIntent(intent: MainIntent) = with(intent) {

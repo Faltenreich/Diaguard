@@ -27,6 +27,7 @@ class FoodFormViewModelTest : TestSuite {
     @BeforeTest
     override fun beforeTest() {
         super.beforeTest()
+
         val foodId = foodRepository.create(FOOD_BY_USER)
         food = requireNotNull(foodRepository.getById(foodId))
         viewModel = get(parameters = { parametersOf(foodId) })

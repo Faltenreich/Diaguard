@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.tag.TagRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
+import org.koin.test.get
 import org.koin.test.inject
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -22,20 +23,26 @@ import kotlin.test.assertTrue
 
 class TagDetailViewModelTest : TestSuite {
 
-    private val viewModel: TagDetailViewModel by inject(parameters = { parametersOf(1L) })
     private val navigation: Navigation by inject()
     private val entryRepository: EntryRepository by inject()
     private val tagRepository: TagRepository by inject()
 
+    private lateinit var viewModel: TagDetailViewModel
+    private lateinit var tag: Tag.Local
+
     @BeforeTest
     override fun beforeTest() {
         super.beforeTest()
+
         importSeed()
-        tagRepository.create(TAG)
+
+        val tagId = tagRepository.create(TAG_BY_USER)
+        tag = checkNotNull(tagRepository.getById(tagId))
+        viewModel = get(parameters = { parametersOf(tagId) })
     }
 
     @Test
-    fun `pop screen tag when intending to update tag and succeeding`() = runTest {
+    fun `pop screen tag when intending to update tag with new and unique name`() = runTest {
         navigation.events.test {
             viewModel.name = "update"
             viewModel.handleIntent(TagDetailIntent.UpdateTag)
@@ -45,8 +52,20 @@ class TagDetailViewModelTest : TestSuite {
     }
 
     @Test
-    fun `show error when intending to update tag and failing`() = runTest {
-        viewModel.name = TAG.name
+    fun `pop screen tag when intending to update tag with same but unique name`() = runTest {
+        navigation.events.test {
+            viewModel.handleIntent(TagDetailIntent.UpdateTag)
+
+            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+        }
+    }
+
+    @Test
+    fun `show error when intending to update tag with same name but redundant name`() = runTest {
+        val name = "update"
+        tagRepository.create(Tag.User(name = name))
+
+        viewModel.name = name
         viewModel.handleIntent(TagDetailIntent.UpdateTag)
 
         assertNotNull(viewModel.error)
@@ -90,6 +109,6 @@ class TagDetailViewModelTest : TestSuite {
 
     companion object {
 
-        private val TAG = Tag.User(name = "name")
+        private val TAG_BY_USER = Tag.User(name = "name")
     }
 }

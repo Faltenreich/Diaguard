@@ -33,11 +33,32 @@ class FoodFormViewModelTest : TestSuite {
 
         val foodId = foodRepository.create(FOOD_BY_USER)
         food = requireNotNull(foodRepository.getById(foodId))
-        viewModel = get(parameters = { parametersOf(foodId) })
     }
 
     @Test
-    fun `launch with data for passed food`() = runTest {
+    fun `show empty input when launching without food`() {
+        viewModel = get(parameters = { parametersOf(null) })
+
+        assertEquals(expected = "", viewModel.name)
+        assertEquals(expected = "", viewModel.brand)
+        assertEquals(expected = "", viewModel.ingredients)
+        assertEquals(expected = "", viewModel.labels)
+
+        assertEquals(expected = "", viewModel.carbohydrates)
+        assertEquals(expected = "", viewModel.energy)
+        assertEquals(expected = "", viewModel.fat)
+        assertEquals(expected = "", viewModel.fatSaturated)
+        assertEquals(expected = "", viewModel.fiber)
+        assertEquals(expected = "", viewModel.proteins)
+        assertEquals(expected = "", viewModel.salt)
+        assertEquals(expected = "", viewModel.sodium)
+        assertEquals(expected = "", viewModel.sugar)
+        }
+
+    @Test
+    fun `show input when launching with food`() = runTest {
+        viewModel = get(parameters = { parametersOf(food.id) })
+
         assertEquals(expected = "name", viewModel.name)
         assertEquals(expected = "brand", viewModel.brand)
         assertEquals(expected = "ingredients", viewModel.ingredients)
@@ -56,6 +77,8 @@ class FoodFormViewModelTest : TestSuite {
 
     @Test
     fun `edit nutrient`() = runTest {
+        viewModel = get(parameters = { parametersOf(food.id) })
+
         val data = FoodNutrientData(
             nutrient = FoodNutrient.CARBOHYDRATES,
             per100g = "100",
@@ -71,6 +94,8 @@ class FoodFormViewModelTest : TestSuite {
 
     @Test
     fun `push screen when intending to open food eaten`() = runTest {
+        viewModel = get(parameters = { parametersOf(food.id) })
+
         navigation.events.test {
             viewModel.handleIntent(FoodFormIntent.OpenFoodEaten(food))
 
@@ -82,6 +107,8 @@ class FoodFormViewModelTest : TestSuite {
 
     @Test
     fun `update food and pop screen when intending to submit and succeeding`() = runTest {
+        viewModel = get(parameters = { parametersOf(food.id) })
+
         navigation.events.test {
             val name = "update"
             viewModel.name = name
@@ -98,6 +125,8 @@ class FoodFormViewModelTest : TestSuite {
 
     @Test
     fun `show snackbar when intending to submit and failing`() = runTest {
+        viewModel = get(parameters = { parametersOf(food.id) })
+
         navigation.events.test {
             val name = ""
             viewModel.name = name
@@ -110,6 +139,8 @@ class FoodFormViewModelTest : TestSuite {
 
     @Test
     fun `delete food pop screen when intending to delete food`() = runTest {
+        viewModel = get(parameters = { parametersOf(food.id) })
+
         navigation.events.test {
             viewModel.handleIntent(FoodFormIntent.Delete)
 

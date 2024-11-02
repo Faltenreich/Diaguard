@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.main.menu.MainMenuScreen
 import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.timeline.TimelineScreen
@@ -13,7 +14,6 @@ import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class MainViewModelTest : TestSuite {
@@ -81,21 +81,27 @@ class MainViewModelTest : TestSuite {
 
     @Test
     fun `opens bottom sheet`() = runTest {
-        val screen = MainMenuScreen
+        navigation.events.test {
+            val screen = MainMenuScreen
+            viewModel.handleIntent(MainIntent.OpenBottomSheet(screen))
 
-        viewModel.handleIntent(MainIntent.OpenBottomSheet(screen))
-
-        assertEquals(
-            expected = screen,
-            actual = navigation.bottomSheet.value,
-        )
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.OpenBottomSheet)
+            assertEquals(
+                expected = screen,
+                actual = event.bottomSheet,
+            )
+        }
     }
 
     @Test
     fun `closes bottom sheet`() = runTest {
-        viewModel.handleIntent(MainIntent.OpenBottomSheet(MainMenuScreen))
-        viewModel.handleIntent(MainIntent.CloseBottomSheet)
+        navigation.events.test {
+            viewModel.handleIntent(MainIntent.OpenBottomSheet(MainMenuScreen))
+            viewModel.handleIntent(MainIntent.CloseBottomSheet)
 
-        assertNull(navigation.bottomSheet.value)
+            assertTrue(awaitItem() is NavigationEvent.OpenBottomSheet)
+            assertTrue(awaitItem() is NavigationEvent.CloseBottomSheet)
+        }
     }
 }

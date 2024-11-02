@@ -54,7 +54,7 @@ class MainViewModel(
         scope.launch {
             setup()
             // Delegate navigation events
-            navigation.collectEvents(::postEvent)
+            navigation.events.collect(::postEvent)
         }
     }
 

@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.datetime.picker.TimePickerModal
 import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
@@ -30,13 +31,21 @@ class EntryFormViewModelTest : TestSuite {
     @Test
     fun `opens dialog when selecting date`() = runTest {
         viewModel.handleIntent(EntryFormIntent.SelectDate)
-        assertTrue(navigation.modal.value is DatePickerModal)
+        navigation.events.test {
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.OpenModal)
+            assertTrue(event.modal is DatePickerModal)
+        }
     }
 
     @Test
     fun `opens dialog when selecting time`() = runTest {
         viewModel.handleIntent(EntryFormIntent.SelectTime)
-        assertTrue(navigation.modal.value is TimePickerModal)
+        navigation.events.test {
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.OpenModal)
+            assertTrue(event.modal is TimePickerModal)
+        }
     }
 
     @Test

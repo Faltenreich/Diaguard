@@ -34,6 +34,7 @@ fun MainMenu(
     viewModel: MainMenuViewModel = inject(),
 ) {
     val state = viewModel.collectState() ?: return
+    // TODO: Find simpler way to select current screen in order to remove it from Navigation
     val currentScreen = state.currentScreen
 
     val pushScreen = { screen: Screen, popHistory: Boolean ->

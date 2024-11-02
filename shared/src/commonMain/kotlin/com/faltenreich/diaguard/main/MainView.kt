@@ -177,11 +177,7 @@ fun MainView(
                 BottomAppBar(
                     style = state.bottomAppBarStyle,
                     onMenuClick = {
-                        viewModel.dispatchIntent(
-                            MainIntent.OpenBottomSheet(
-                                MainMenuScreen
-                            )
-                        )
+                        viewModel.dispatchIntent(MainIntent.OpenBottomSheet(MainMenuScreen))
                     },
                 )
             },

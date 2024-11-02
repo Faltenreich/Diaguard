@@ -73,7 +73,7 @@ fun MainView(
     var modal by remember { mutableStateOf<Modal?>(null) }
 
     LaunchedEffect(Unit) {
-        viewModel.collectEvents { event ->
+        viewModel.collectNavigationEvents { event ->
             when (event) {
                 is NavigationEvent.PushScreen -> {
                     navController.navigate(

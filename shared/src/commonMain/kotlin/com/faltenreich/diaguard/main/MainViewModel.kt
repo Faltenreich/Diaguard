@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.main
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.CollectNavigationEventsUseCase
-import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
@@ -23,11 +22,11 @@ class MainViewModel(
     getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
     hasData: HasDataUseCase,
     private val setup: SetupUseCase,
-    private val collectNavigationEvents: CollectNavigationEventsUseCase,
     private val popScreen: PopScreenUseCase,
     private val openBottomSheet: OpenBottomSheetUseCase,
     private val closeBottomSheet: CloseBottomSheetUseCase,
-) : ViewModel<MainState, MainIntent, NavigationEvent>() {
+    val collectNavigationEvents: CollectNavigationEventsUseCase,
+) : ViewModel<MainState, MainIntent, Unit>() {
 
     override val state = combine(
         hasData(),
@@ -52,7 +51,6 @@ class MainViewModel(
 
     init {
         scope.launch { setup() }
-        scope.launch { collectNavigationEvents(::postEvent) }
     }
 
     override suspend fun handleIntent(intent: MainIntent) = with(intent) {

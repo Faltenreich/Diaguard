@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.food.form
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
@@ -32,7 +33,7 @@ class FoodFormViewModelTest : TestSuite {
     override fun beforeTest() {
         super.beforeTest()
 
-        val foodId = foodRepository.create(FOOD_BY_USER)
+        val foodId = foodRepository.create(FoodFactory.createByUser())
         food = requireNotNull(foodRepository.getById(foodId))
     }
 
@@ -226,24 +227,5 @@ class FoodFormViewModelTest : TestSuite {
             viewModel.handleIntent(FoodFormIntent.Delete)
             ensureAllEventsConsumed()
         }
-    }
-
-    companion object {
-
-        private val FOOD_BY_USER = Food.User(
-            name = "name",
-            brand = "brand",
-            ingredients = "ingredients",
-            labels = "labels",
-            carbohydrates = 20.0,
-            energy = 1.0,
-            fat = 2.0,
-            fatSaturated = 3.0,
-            fiber = 4.0,
-            proteins = 5.0,
-            salt = 6.0,
-            sodium = 7.0,
-            sugar = 8.0,
-        )
     }
 }

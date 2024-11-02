@@ -26,6 +26,7 @@ allprojects {
             filters {
                 excludes {
                     annotatedBy("androidx.compose.runtime.Composable")
+                    classes("*.*ComposableSingletons*")
                     classes("*Screen*")
                     classes("diaguard.shared.generated.resources.*")
                 }

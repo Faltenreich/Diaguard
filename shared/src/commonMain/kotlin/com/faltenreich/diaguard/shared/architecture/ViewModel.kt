@@ -35,7 +35,7 @@ abstract class ViewModel<State, Intent, Event>(
         )
     }
 
-    private val events = MutableSharedFlow<Event>(replay = 1)
+    val events = MutableSharedFlow<Event>(replay = 1)
 
     @Composable
     fun collectState(): State? {

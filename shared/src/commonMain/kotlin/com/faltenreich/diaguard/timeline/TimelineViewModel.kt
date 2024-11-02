@@ -57,7 +57,7 @@ class TimelineViewModel(
         }
     }
 
-    private fun showDatePicker() = scope.launch {
+    private suspend fun showDatePicker() {
         showModal(
             DatePickerModal(
                 date = currentDate.value,

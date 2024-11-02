@@ -1,19 +1,26 @@
 package com.faltenreich.diaguard.export
 
+import androidx.compose.runtime.snapshotFlow
+import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.export.pdf.PdfLayout
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
+import kotlin.test.Ignore
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class ExportFormViewModelTest : TestSuite {
 
     private val viewModel: ExportFormViewModel by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
+    private val categoryRepository: MeasurementCategoryRepository by inject()
 
     @BeforeTest
     override fun beforeTest() {
@@ -92,5 +99,25 @@ class ExportFormViewModelTest : TestSuite {
             expected = true,
             actual = viewModel.includeDaysWithoutEntries,
         )
+    }
+
+    @Test
+    @Ignore
+    fun `launch with all categories enabled`() = runTest {
+        val categories = categoryRepository.observeAll().first()
+        val exportCategories = categories.map { category ->
+            ExportFormMeasurementCategory(
+                category = category,
+                isExported = true,
+                isMerged = false,
+            )
+        }
+        // FIXME: Convert mutableStateOf into state
+        snapshotFlow { viewModel.categories }.test {
+            assertContentEquals(
+                expected = exportCategories,
+                actual = awaitItem(),
+            )
+        }
     }
 }

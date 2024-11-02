@@ -23,7 +23,7 @@ class TimelineViewModelTest : TestSuite {
     private val navigation: Navigation by inject()
 
     @Test
-    fun `launches with current date of today`() = runTest {
+    fun `launch with current date of today`() = runTest {
         viewModel.state.test {
             assertEquals(
                 expected = dateTimeFactory.today(),
@@ -33,7 +33,7 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `returns data with seed categories`() = runTest {
+    fun `return data with seed categories`() = runTest {
         importSeed()
 
         viewModel.state.test {
@@ -161,7 +161,7 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `returns chart data with values of blood sugar`() = runTest {
+    fun `return chart data with values of blood sugar`() = runTest {
         importSeed()
 
         storeValue(120.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
@@ -176,7 +176,7 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `returns table data with values other than blood sugar`() = runTest {
+    fun `return table data with values other than blood sugar`() = runTest {
         importSeed()
 
         storeValue(120.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
@@ -193,7 +193,7 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `updates date when intending to setting current date`() = runTest {
+    fun `update date when intending to setting current date`() = runTest {
         viewModel.state.test {
             val date = dateTimeFactory.date(1970, 1, 1)
 
@@ -207,7 +207,7 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `forwards previous date when intending to move day back`() = runTest {
+    fun `forward previous date when intending to move day back`() = runTest {
         viewModel.state.test {
             val currentDate = awaitItem().currentDate
 
@@ -225,7 +225,7 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `forwards next date when intending to move day forward`() = runTest {
+    fun `forward next date when intending to move day forward`() = runTest {
         viewModel.state.test {
             val currentDate = awaitItem().currentDate
 
@@ -243,7 +243,7 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `opens screen when intending to create entry`() = runTest {
+    fun `open screen when intending to create entry`() = runTest {
         navigation.events.test {
             viewModel.handleIntent(TimelineIntent.CreateEntry)
 
@@ -254,7 +254,7 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `opens screen when intending to search entries`() = runTest {
+    fun `open screen when intending to search entries`() = runTest {
         navigation.events.test {
             viewModel.handleIntent(TimelineIntent.SearchEntries)
 
@@ -265,7 +265,7 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `opens modal when intending to show date picker`() = runTest {
+    fun `open modal when intending to show date picker`() = runTest {
         navigation.events.test {
             viewModel.handleIntent(TimelineIntent.ShowDatePicker)
 

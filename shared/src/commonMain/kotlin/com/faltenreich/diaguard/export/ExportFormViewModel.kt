@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategor
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -21,10 +21,9 @@ class ExportFormViewModel(
     private val export: ExportUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
     private val localization: Localization,
-) : ViewModel<Nothing, ExportFormIntent, Unit>() {
+) : ViewModel<Unit, ExportFormIntent, Unit>() {
 
-    override val state: Flow<Nothing>
-        get() = throw UnsupportedOperationException()
+    override val state = emptyFlow<Unit>()
 
     private val initialDateRange = getToday().let { today ->
         today.minus(1, DateUnit.WEEK) .. today

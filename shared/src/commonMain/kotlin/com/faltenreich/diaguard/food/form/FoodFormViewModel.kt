@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import com.faltenreich.diaguard.shared.validation.ValidationResult
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 
 class FoodFormViewModel(
@@ -30,12 +30,11 @@ class FoodFormViewModel(
     private val showSnackbar: ShowSnackbarUseCase = inject(),
     private val formatNumber: NumberFormatter = inject(),
     private val localization: Localization = inject(),
-) : ViewModel<Nothing, FoodFormIntent, Unit>() {
+) : ViewModel<Unit, FoodFormIntent, Unit>() {
+
+    override val state = emptyFlow<Unit>()
 
     val food = foodId?.let(getFoodById::invoke)
-
-    override val state: Flow<Nothing>
-        get() = throw UnsupportedOperationException()
 
     var name: String by mutableStateOf(food?.name ?: "")
     var brand: String by mutableStateOf(food?.brand ?: "")

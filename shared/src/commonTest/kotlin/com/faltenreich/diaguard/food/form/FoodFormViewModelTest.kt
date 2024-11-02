@@ -206,7 +206,7 @@ class FoodFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `delete food pop screen when intending to delete food`() = runTest {
+    fun `pop screen when intending to delete food`() = runTest {
         viewModel = get(parameters = { parametersOf(food.id) })
 
         navigation.events.test {
@@ -215,6 +215,16 @@ class FoodFormViewModelTest : TestSuite {
             val event = awaitItem()
             assertTrue(event is NavigationEvent.PopScreen)
             assertNull(foodRepository.getById(food.id))
+        }
+    }
+
+    @Test
+    fun `do nothing when intending to delete nothing`() = runTest {
+        viewModel = get(parameters = { parametersOf(null) })
+
+        navigation.events.test {
+            viewModel.handleIntent(FoodFormIntent.Delete)
+            ensureAllEventsConsumed()
         }
     }
 

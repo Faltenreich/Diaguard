@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.export
 import com.faltenreich.diaguard.export.pdf.PdfExport
 import com.faltenreich.diaguard.export.pdf.document
 
-class ExportUseCase(private val pdfExport: PdfExport) {
+class ExportUseCase(private val exportPdf: PdfExport) {
 
     operator fun invoke(data: ExportData) {
         when (data) {
@@ -13,7 +13,7 @@ class ExportUseCase(private val pdfExport: PdfExport) {
     }
 
     private fun exportPdf(data: ExportData) {
-        pdfExport.export(
+        exportPdf(
             document {
                 page {
                     header {

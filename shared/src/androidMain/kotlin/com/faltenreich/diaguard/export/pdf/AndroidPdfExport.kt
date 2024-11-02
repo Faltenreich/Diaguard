@@ -15,7 +15,7 @@ import android.graphics.pdf.PdfDocument as AndroidPdfDocument
 
 class AndroidPdfExport(private val context: Context) : PdfExport {
 
-    override fun export(pdfDocument: PdfDocument) {
+    override operator fun invoke(pdfDocument: PdfDocument) {
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
         val file = File(directory, "export.pdf")
 

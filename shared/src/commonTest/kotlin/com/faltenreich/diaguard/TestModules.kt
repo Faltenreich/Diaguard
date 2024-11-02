@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.backup.legacy.LegacyDao
 import com.faltenreich.diaguard.backup.legacy.LegacyFakeDao
 import com.faltenreich.diaguard.backup.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.backup.seed.query.tag.TagSeedQueries
+import com.faltenreich.diaguard.export.pdf.PdfExport
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.measurement.value.StoreMeasurementValueUseCase
@@ -34,6 +35,8 @@ fun testModules() = module {
     single<Logger> { ConsoleLogger() }
 
     single<KeyValueStore> { FakeKeyValueStore() }
+
+    single<PdfExport> { PdfExport {} }
 
     single<FoodApi> {
         OpenFoodFactsApi(

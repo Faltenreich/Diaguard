@@ -80,6 +80,14 @@ class MainViewModelTest : TestSuite {
     }
 
     @Test
+    fun `closes screen`() = runTest {
+        navigation.events.test {
+            viewModel.handleIntent(MainIntent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+        }
+    }
+
+    @Test
     fun `opens bottom sheet`() = runTest {
         navigation.events.test {
             val screen = MainMenuScreen

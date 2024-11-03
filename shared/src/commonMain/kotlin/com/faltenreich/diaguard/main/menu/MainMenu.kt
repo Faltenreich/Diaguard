@@ -31,12 +31,10 @@ import kotlin.reflect.KClass
 
 @Composable
 fun MainMenu(
+    currentDestination: String?,
     modifier: Modifier = Modifier,
     viewModel: MainMenuViewModel = inject(),
 ) {
-    val state = viewModel.collectState() ?: return
-    val currentDestination = state.currentDestination
-
     val pushScreen = { screen: Screen, popHistory: Boolean ->
         viewModel.dispatchIntent(MainMenuIntent.PushScreen(screen, popHistory))
     }

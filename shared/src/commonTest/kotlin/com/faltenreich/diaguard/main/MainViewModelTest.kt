@@ -90,7 +90,7 @@ class MainViewModelTest : TestSuite {
     @Test
     fun `opens bottom sheet`() = runTest {
         navigation.events.test {
-            val screen = MainMenuScreen
+            val screen = MainMenuScreen(currentDestination = "")
             viewModel.handleIntent(MainIntent.OpenBottomSheet(screen))
 
             val event = awaitItem()
@@ -105,7 +105,8 @@ class MainViewModelTest : TestSuite {
     @Test
     fun `closes bottom sheet`() = runTest {
         navigation.events.test {
-            viewModel.handleIntent(MainIntent.OpenBottomSheet(MainMenuScreen))
+            val screen = MainMenuScreen(currentDestination = "")
+            viewModel.handleIntent(MainIntent.OpenBottomSheet(screen))
             viewModel.handleIntent(MainIntent.CloseBottomSheet)
 
             assertTrue(awaitItem() is NavigationEvent.OpenBottomSheet)

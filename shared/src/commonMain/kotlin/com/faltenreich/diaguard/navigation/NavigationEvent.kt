@@ -8,7 +8,7 @@ sealed interface NavigationEvent {
 
     data class PushScreen(val screen: Screen, val popHistory: Boolean) : NavigationEvent
 
-    data class PopScreen(val result: Pair<String, Any>?) : NavigationEvent
+    data object PopScreen : NavigationEvent
 
     data class OpenBottomSheet(val bottomSheet: Screen) : NavigationEvent
 

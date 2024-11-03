@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.navigation.NavigationEvent
 
 class PopScreenUseCase(private val navigation: Navigation) {
 
-    suspend operator fun invoke(result: Pair<String, Any>? = null) {
-        navigation.postEvent(NavigationEvent.PopScreen(result))
+    suspend operator fun invoke() {
+        navigation.postEvent(NavigationEvent.PopScreen)
     }
 }

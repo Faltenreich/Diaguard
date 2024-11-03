@@ -17,8 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.faltenreich.diaguard.dashboard.DashboardScreen
@@ -37,6 +35,7 @@ import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.modal.Modal
+import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
@@ -75,35 +74,22 @@ fun MainView(
     LaunchedEffect(Unit) {
         viewModel.collectNavigationEvents { event ->
             when (event) {
-                is NavigationEvent.PushScreen -> {
-                    navController.navigate(
-                        route = event.screen,
-                        navOptions = NavOptions.Builder()
-                            .run {
-                                if (event.popHistory) setPopUpTo(
-                                    route = navController.graph.findStartDestination().route,
-                                    inclusive = true,
-                                )
-                                else this
-                            }
-                            .build()
-                    )
-                }
-                is NavigationEvent.PopScreen -> {
-                    event.result?.let { (key, value) ->
-                        val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle ?: return@let
-                        savedStateHandle[key] = value
-                    }
-                    navController.popBackStack()
-                }
+                is NavigationEvent.PushScreen -> navController.navigate(
+                    screen = event.screen,
+                    popHistory = event.popHistory,
+                )
+                is NavigationEvent.PopScreen -> navController.popBackStack()
                 is NavigationEvent.OpenBottomSheet -> bottomSheet = event.bottomSheet
                 is NavigationEvent.CloseBottomSheet -> bottomSheet = null
                 is NavigationEvent.OpenModal -> modal = event.modal
                 is NavigationEvent.CloseModal -> modal = null
                 is NavigationEvent.ShowSnackbar -> scope.launch {
-                    with(event) {
-                        snackbarHostState.showSnackbar(message, actionLabel, withDismissAction, duration)
-                    }
+                    snackbarHostState.showSnackbar(
+                        message = event.message,
+                        actionLabel = event.actionLabel,
+                        withDismissAction = event.withDismissAction,
+                        duration = event.duration,
+                    )
                 }
             }
         }

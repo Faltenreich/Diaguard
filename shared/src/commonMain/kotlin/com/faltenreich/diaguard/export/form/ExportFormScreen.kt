@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export
+package com.faltenreich.diaguard.export.form
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text

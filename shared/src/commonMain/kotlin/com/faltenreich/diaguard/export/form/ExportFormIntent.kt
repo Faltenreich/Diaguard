@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export
+package com.faltenreich.diaguard.export.form
 
 sealed interface ExportFormIntent {
 

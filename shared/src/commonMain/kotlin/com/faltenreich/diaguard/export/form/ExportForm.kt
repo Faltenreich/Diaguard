@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export
+package com.faltenreich.diaguard.export.form
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

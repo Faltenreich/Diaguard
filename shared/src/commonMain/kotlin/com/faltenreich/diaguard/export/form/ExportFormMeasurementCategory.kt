@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export
+package com.faltenreich.diaguard.export.form
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 

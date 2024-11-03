@@ -5,13 +5,14 @@ import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.export.form.ExportFormMeasurementCategory
+import com.faltenreich.diaguard.export.form.ExportFormViewModel
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -32,7 +33,7 @@ class ExportFormViewModelTest : TestSuite {
     fun `launch with export type of pdf`() = runTest {
         assertEquals(
             expected = ExportType.PDF,
-            actual = viewModel.exportType,
+            actual = viewModel.exportTypeSelected,
         )
     }
 
@@ -49,7 +50,7 @@ class ExportFormViewModelTest : TestSuite {
     fun `launch with pdf layout of table`() = runTest {
         assertEquals(
             expected = PdfLayout.TABLE,
-            actual = viewModel.pdfLayout,
+            actual = viewModel.pdfLayoutSelected,
         )
     }
 
@@ -102,7 +103,6 @@ class ExportFormViewModelTest : TestSuite {
     }
 
     @Test
-    @Ignore
     fun `launch with all categories enabled`() = runTest {
         val categories = categoryRepository.observeAll().first()
         val exportCategories = categories.map { category ->
@@ -112,7 +112,6 @@ class ExportFormViewModelTest : TestSuite {
                 isMerged = false,
             )
         }
-        // FIXME: Convert mutableStateOf into state
         snapshotFlow { viewModel.categories }.test {
             assertContentEquals(
                 expected = exportCategories,

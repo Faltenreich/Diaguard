@@ -51,6 +51,7 @@ fun ExportForm(
     modifier: Modifier = Modifier,
     viewModel: ExportFormViewModel = inject(),
 ) {
+    val state = viewModel.collectState() ?: return
     var showDateRangePicker by remember { mutableStateOf(false) }
 
     Column(
@@ -59,7 +60,7 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
             TextButton(onClick = { showDateRangePicker = true }) {
                 Text(
-                    text = viewModel.dateRangeLocalized,
+                    text = state.date.dateRangeLocalized,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
@@ -67,9 +68,11 @@ fun ExportForm(
         Divider()
         FormRow(icon = { ResourceIcon(Res.drawable.ic_document) }) {
             DropdownButton(
-                text = getString(viewModel.exportType.title),
-                items = viewModel.exportTypes.map { property ->
-                    getString(property.title) to { viewModel.exportType = property }
+                text = getString(state.type.selection.title),
+                items = state.type.options.map { type ->
+                    getString(type.title) to {
+                        viewModel.dispatchIntent(ExportFormIntent.SelectType(type))
+                    }
                 }
             )
         }
@@ -77,9 +80,11 @@ fun ExportForm(
         TextDivider(getString(Res.string.layout))
         FormRow(icon = { ResourceIcon(Res.drawable.ic_layout) }) {
             DropdownButton(
-                text = getString(viewModel.pdfLayout.title),
-                items = viewModel.pdfLayouts.map { layout ->
-                    getString(layout.title) to { viewModel.pdfLayout = layout }
+                text = getString(state.layout.selection.title),
+                items = state.layout.options.map { layout ->
+                    getString(layout.title) to {
+                        viewModel.dispatchIntent(ExportFormIntent.SelectLayout(layout))
+                    }
                 },
             )
         }
@@ -87,8 +92,10 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(Res.drawable.ic_position_top_left) }) {
             TextCheckbox(
                 title = getString(Res.string.calendar_week),
-                checked = viewModel.includeCalendarWeek,
-                onCheckedChange = { viewModel.includeCalendarWeek = it },
+                checked = state.date.includeCalendarWeek,
+                onCheckedChange = { isChecked ->
+                    viewModel.dispatchIntent(ExportFormIntent.SetIncludeCalendarWeek(isChecked))
+                },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -96,8 +103,10 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(Res.drawable.ic_position_bottom_left) }) {
             TextCheckbox(
                 title = getString(Res.string.date_of_export),
-                checked = viewModel.includeDateOfExport,
-                onCheckedChange = { viewModel.includeDateOfExport = it },
+                checked = state.date.includeDateOfExport,
+                onCheckedChange = { isChecked ->
+                    viewModel.dispatchIntent(ExportFormIntent.SetIncludeDateOfExport(isChecked))
+                },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -105,8 +114,10 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(Res.drawable.ic_position_bottom_right) }) {
             TextCheckbox(
                 title = getString(Res.string.page_number),
-                checked = viewModel.includePageNumber,
-                onCheckedChange = { viewModel.includePageNumber = it },
+                checked = state.layout.includePageNumber,
+                onCheckedChange = { isChecked ->
+                    viewModel.dispatchIntent(ExportFormIntent.SetIncludePageNumber(isChecked))
+                },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -115,8 +126,10 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
             TextCheckbox(
                 title = getString(Res.string.notes),
-                checked = viewModel.includeNotes,
-                onCheckedChange = { viewModel.includeNotes = it },
+                checked = state.content.includeNotes,
+                onCheckedChange = { isChecked ->
+                    viewModel.dispatchIntent(ExportFormIntent.SetIncludeNotes(isChecked))
+                },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -124,8 +137,10 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(Res.drawable.ic_tag) }) {
             TextCheckbox(
                 title = getString(Res.string.tags),
-                checked = viewModel.includeTags,
-                onCheckedChange = { viewModel.includeTags = it },
+                checked = state.content.includeTags,
+                onCheckedChange = { isChecked ->
+                    viewModel.dispatchIntent(ExportFormIntent.SetIncludeTags(isChecked))
+                },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -133,14 +148,16 @@ fun ExportForm(
         FormRow(icon = { ResourceIcon(Res.drawable.ic_skip) }) {
             TextCheckbox(
                 title = getString(Res.string.days_without_entries),
-                checked = viewModel.includeDaysWithoutEntries,
-                onCheckedChange = { viewModel.includeDaysWithoutEntries = it },
+                checked = state.layout.includeDaysWithoutEntries,
+                onCheckedChange = { isChecked ->
+                    viewModel.dispatchIntent(ExportFormIntent.SetIncludeDaysWithoutEntries(isChecked))
+                },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
 
         TextDivider(getString(Res.string.measurement_categories))
-        viewModel.categories.forEach { category ->
+        state.content.categories.forEach { category ->
             FormRow(icon = { MeasurementCategoryIcon(category.category) }) {
                 TextCheckbox(
                     title = category.category.name,
@@ -167,10 +184,10 @@ fun ExportForm(
         exit = fadeOut(),
     ) {
         DateRangePicker(
-            dateRange = viewModel.dateRange,
+            dateRange = state.date.dateRange,
             onPick = { dateRange ->
                 showDateRangePicker = false
-                viewModel.dateRange = dateRange
+                viewModel.dispatchIntent(ExportFormIntent.SetDateRange(dateRange))
             }
         )
     }

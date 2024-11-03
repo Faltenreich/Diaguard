@@ -1,8 +1,5 @@
 package com.faltenreich.diaguard.export.form
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
@@ -13,7 +10,11 @@ import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -22,35 +23,59 @@ class ExportFormViewModel(
     getCategories: GetActiveMeasurementCategoriesUseCase,
     private val export: ExportUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
-) : ViewModel<Unit, ExportFormIntent, Unit>() {
-
-    override val state = emptyFlow<Unit>()
+) : ViewModel<ExportFormState, ExportFormIntent, Unit>() {
 
     private val initialDateRange = getToday().let { today ->
         today.minus(1, DateUnit.WEEK) .. today
     }
 
+    private val dateRange = MutableStateFlow(initialDateRange)
+    private val dateRangeLocalized = dateRange.map(dateTimeFormatter::formatDateRange)
+
+    private val exportTypes = listOf(ExportType.PDF, ExportType.CSV)
+    private var exportTypeSelected = MutableStateFlow(exportTypes.first())
+
+    private val pdfLayouts = listOf(PdfLayout.TABLE, PdfLayout.TIMELINE, PdfLayout.LOG)
+    private var pdfLayoutSelected = MutableStateFlow(pdfLayouts.first())
+
+    private val includeCalendarWeek = MutableStateFlow(true)
+    private val includeDateOfExport = MutableStateFlow(true)
+    private val includePageNumber = MutableStateFlow(true)
+    private val includeNotes = MutableStateFlow(true)
+    private val includeTags = MutableStateFlow(true)
+    private val includeDaysWithoutEntries = MutableStateFlow(true)
+
+    private val categories = MutableStateFlow(emptyList<ExportFormMeasurementCategory>())
+
     // TODO: Read initial values from preferences
-
-    var dateRange by mutableStateOf(initialDateRange)
-    val dateRangeLocalized: String
-        get() = dateTimeFormatter.formatDateRange(dateRange)
-
-    var exportType by mutableStateOf(ExportType.PDF)
-    val exportTypes = listOf(ExportType.PDF, ExportType.CSV)
-
-    var pdfLayout by mutableStateOf(PdfLayout.TABLE)
-    val pdfLayouts = listOf(PdfLayout.TABLE, PdfLayout.TIMELINE, PdfLayout.LOG)
-
-    var includeCalendarWeek by mutableStateOf(true)
-    var includeDateOfExport by mutableStateOf(true)
-    var includePageNumber by mutableStateOf(true)
-
-    var includeNotes by mutableStateOf(true)
-    var includeTags by mutableStateOf(true)
-    var includeDaysWithoutEntries by mutableStateOf(true)
-
-    var categories by mutableStateOf(emptyList<ExportFormMeasurementCategory>())
+    override val state = combine(
+        combine(
+            dateRange,
+            dateRangeLocalized,
+            includeCalendarWeek,
+            includeDateOfExport,
+            ExportFormState::Date,
+        ),
+        combine(
+            exportTypeSelected,
+            flowOf(exportTypes),
+            ExportFormState::Type,
+        ),
+        combine(
+            pdfLayoutSelected,
+            flowOf(pdfLayouts),
+            includePageNumber,
+            includeDaysWithoutEntries,
+            ExportFormState::Layout,
+        ),
+        combine(
+            categories,
+            includeNotes,
+            includeTags,
+            ExportFormState::Content,
+        ),
+        ::ExportFormState,
+    )
 
     init {
         scope.launch {
@@ -63,7 +88,7 @@ class ExportFormViewModel(
                     )
                 }.sortedBy { it.category.sortIndex }
                 withContext(Dispatchers.Main) {
-                    this@ExportFormViewModel.categories = exportCategories
+                    this@ExportFormViewModel.categories.update { exportCategories }
                 }
             }
         }
@@ -71,35 +96,46 @@ class ExportFormViewModel(
 
     override suspend fun handleIntent(intent: ExportFormIntent) {
         when (intent) {
+            is ExportFormIntent.SetDateRange -> dateRange.update { intent.dateRange }
+            is ExportFormIntent.SelectType -> exportTypeSelected.update { intent.type }
+            is ExportFormIntent.SelectLayout -> pdfLayoutSelected.update { intent.layout }
+            is ExportFormIntent.SetIncludeCalendarWeek -> includeCalendarWeek.update { intent.includeCalendarWeek }
+            is ExportFormIntent.SetIncludeDateOfExport -> includeDateOfExport.update { intent.includeDateOfExport }
+            is ExportFormIntent.SetIncludePageNumber -> includePageNumber.update { intent.includePageNumber }
+            is ExportFormIntent.SetIncludeNotes -> includeNotes.update { intent.includeNotes }
+            is ExportFormIntent.SetIncludeTags -> includeTags.update { intent.includeTags }
+            is ExportFormIntent.SetIncludeDaysWithoutEntries -> includeDaysWithoutEntries.update { intent.includeDaysWithoutEntries }
             is ExportFormIntent.SetCategory -> setCategory(intent.category)
             is ExportFormIntent.Submit -> submit()
         }
     }
 
     fun setCategory(category: ExportFormMeasurementCategory) {
-        categories = categories
-            .filter { it.category != category.category }
-            .plus(category)
-            .sortedBy { it.category.sortIndex }
+        categories.update { categories ->
+            categories
+                .filter { it.category != category.category }
+                .plus(category)
+                .sortedBy { it.category.sortIndex }
+        }
     }
 
     fun submit() {
-        val data = when (exportType) {
+        val data = when (exportTypeSelected.value) {
             ExportType.PDF -> ExportData.Pdf(
-                dateRange = dateRange,
-                includeNotes = includeNotes,
-                includeTags = includeTags,
-                includeDaysWithoutEntries = includeDaysWithoutEntries,
-                layout = pdfLayout,
-                includeCalendarWeek = includeCalendarWeek,
-                includeDateOfExport = includeDateOfExport,
-                includePageNumber = includePageNumber,
+                dateRange = dateRange.value,
+                includeNotes = includeNotes.value,
+                includeTags = includeTags.value,
+                includeDaysWithoutEntries = includeDaysWithoutEntries.value,
+                layout = pdfLayoutSelected.value,
+                includeCalendarWeek = includeCalendarWeek.value,
+                includeDateOfExport = includeDateOfExport.value,
+                includePageNumber = includePageNumber.value,
             )
             ExportType.CSV -> ExportData.Csv(
-                dateRange = dateRange,
-                includeNotes = includeNotes,
-                includeTags = includeTags,
-                includeDaysWithoutEntries = includeDaysWithoutEntries,
+                dateRange = dateRange.value,
+                includeNotes = includeNotes.value,
+                includeTags = includeTags.value,
+                includeDaysWithoutEntries = includeDaysWithoutEntries.value,
             )
         }
         export(data)

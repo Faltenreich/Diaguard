@@ -163,7 +163,8 @@ fun MainView(
                 BottomAppBar(
                     style = state.bottomAppBarStyle,
                     onMenuClick = {
-                        viewModel.dispatchIntent(MainIntent.OpenBottomSheet(MainMenuScreen))
+                        val currentDestination = navController.currentDestination?.route
+                        viewModel.dispatchIntent(MainIntent.OpenBottomSheet(MainMenuScreen(currentDestination)))
                     },
                 )
             },

@@ -23,7 +23,7 @@ import org.jetbrains.compose.resources.painterResource
 fun MainMenuItem(
     label: StringResource,
     icon: DrawableResource?,
-    isActive: Boolean,
+    isSelected: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -39,7 +39,7 @@ fun MainMenuItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val onPrimaryColor =
-            if (isActive) AppTheme.colors.scheme.primary
+            if (isSelected) AppTheme.colors.scheme.primary
             else AppTheme.colors.scheme.onBackground
         icon?.let {
             Image(

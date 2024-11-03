@@ -27,6 +27,7 @@ import diaguard.shared.generated.resources.log
 import diaguard.shared.generated.resources.preferences
 import diaguard.shared.generated.resources.statistic
 import diaguard.shared.generated.resources.timeline
+import kotlin.reflect.KClass
 
 @Composable
 fun MainMenu(
@@ -34,8 +35,7 @@ fun MainMenu(
     viewModel: MainMenuViewModel = inject(),
 ) {
     val state = viewModel.collectState() ?: return
-    // TODO: Find simpler way to select current screen in order to remove it from Navigation
-    val currentScreen = state.currentScreen
+    val currentDestination = state.currentDestination
 
     val pushScreen = { screen: Screen, popHistory: Boolean ->
         viewModel.dispatchIntent(MainMenuIntent.PushScreen(screen, popHistory))
@@ -45,19 +45,19 @@ fun MainMenu(
         MainMenuItem(
             label = Res.string.dashboard,
             icon = Res.drawable.ic_dashboard,
-            isActive = currentScreen is DashboardScreen,
+            isSelected = currentDestination.isSelecting(DashboardScreen::class),
             onClick = { pushScreen(DashboardScreen, true) },
         )
         MainMenuItem(
             label = Res.string.timeline,
             icon = Res.drawable.ic_timeline,
-            isActive = currentScreen is TimelineScreen,
+            isSelected = currentDestination.isSelecting(TimelineScreen::class),
             onClick = { pushScreen(TimelineScreen, true) },
         )
         MainMenuItem(
             label = Res.string.log,
             icon = Res.drawable.ic_log,
-            isActive = currentScreen is LogScreen,
+            isSelected = currentDestination.isSelecting(LogScreen::class),
             onClick = { pushScreen(LogScreen, true) },
         )
 
@@ -66,26 +66,31 @@ fun MainMenu(
         MainMenuItem(
             label = Res.string.food,
             icon = null,
-            isActive = currentScreen is FoodSearchScreen,
+            isSelected = currentDestination.isSelecting(FoodSearchScreen::class),
             onClick = { pushScreen(FoodSearchScreen(mode = FoodSearchMode.STROLL), false) },
         )
         MainMenuItem(
             label = Res.string.statistic,
             icon = null,
-            isActive = currentScreen is StatisticScreen,
+            isSelected = currentDestination.isSelecting(StatisticScreen::class),
             onClick = { pushScreen(StatisticScreen, false) },
         )
         MainMenuItem(
             label = Res.string.export,
             icon = null,
-            isActive = currentScreen is ExportFormScreen,
+            isSelected = currentDestination.isSelecting(ExportFormScreen::class),
             onClick = { pushScreen(ExportFormScreen, false) },
         )
         MainMenuItem(
             label = Res.string.preferences,
             icon = null,
-            isActive = currentScreen is OverviewPreferenceScreen,
+            isSelected = currentDestination.isSelecting(OverviewPreferenceScreen::class),
             onClick = { pushScreen(OverviewPreferenceScreen, false) },
         )
     }
+}
+
+private fun String?.isSelecting(kClass: KClass<*>): Boolean {
+    val className = kClass.simpleName ?: return false
+    return this?.contains(className) ?: false
 }

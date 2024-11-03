@@ -12,7 +12,6 @@ import com.faltenreich.diaguard.export.ExportUseCase
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
@@ -23,7 +22,6 @@ class ExportFormViewModel(
     getCategories: GetActiveMeasurementCategoriesUseCase,
     private val export: ExportUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
-    private val localization: Localization,
 ) : ViewModel<Unit, ExportFormIntent, Unit>() {
 
     override val state = emptyFlow<Unit>()
@@ -31,21 +29,19 @@ class ExportFormViewModel(
     private val initialDateRange = getToday().let { today ->
         today.minus(1, DateUnit.WEEK) .. today
     }
+
+    // TODO: Read initial values from preferences
+
     var dateRange by mutableStateOf(initialDateRange)
     val dateRangeLocalized: String
         get() = dateTimeFormatter.formatDateRange(dateRange)
 
     var exportType by mutableStateOf(ExportType.PDF)
-    val exportPropertyLocalized: String
-        get() = localization.getString(exportType.title)
-    val exportProperties = listOf(ExportType.PDF, ExportType.CSV)
-
-    // TODO: Read initial values from preferences
+    val exportTypes = listOf(ExportType.PDF, ExportType.CSV)
 
     var pdfLayout by mutableStateOf(PdfLayout.TABLE)
-    val pdfLayoutLocalized: String
-        get() = localization.getString(pdfLayout.title)
     val pdfLayouts = listOf(PdfLayout.TABLE, PdfLayout.TIMELINE, PdfLayout.LOG)
+
     var includeCalendarWeek by mutableStateOf(true)
     var includeDateOfExport by mutableStateOf(true)
     var includePageNumber by mutableStateOf(true)

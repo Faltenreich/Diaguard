@@ -67,8 +67,8 @@ fun ExportForm(
         Divider()
         FormRow(icon = { ResourceIcon(Res.drawable.ic_document) }) {
             DropdownButton(
-                text = viewModel.exportPropertyLocalized,
-                items = viewModel.exportProperties.map { property ->
+                text = getString(viewModel.exportType.title),
+                items = viewModel.exportTypes.map { property ->
                     getString(property.title) to { viewModel.exportType = property }
                 }
             )
@@ -77,7 +77,7 @@ fun ExportForm(
         TextDivider(getString(Res.string.layout))
         FormRow(icon = { ResourceIcon(Res.drawable.ic_layout) }) {
             DropdownButton(
-                text = viewModel.pdfLayoutLocalized,
+                text = getString(viewModel.pdfLayout.title),
                 items = viewModel.pdfLayouts.map { layout ->
                     getString(layout.title) to { viewModel.pdfLayout = layout }
                 },

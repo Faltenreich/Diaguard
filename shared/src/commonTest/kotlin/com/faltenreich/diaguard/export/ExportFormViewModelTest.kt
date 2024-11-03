@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -121,7 +120,6 @@ class ExportFormViewModelTest : TestSuite {
     }
 
     @Test
-    @Ignore
     fun `launch with all categories enabled`() = runTest {
         val categories = categoryRepository.observeAll().first()
         val exportCategories = categories.map { category ->
@@ -132,6 +130,10 @@ class ExportFormViewModelTest : TestSuite {
             )
         }
         viewModel.state.test {
+            assertContentEquals(
+                expected = emptyList(),
+                actual = awaitItem().content.categories,
+            )
             assertContentEquals(
                 expected = exportCategories,
                 actual = awaitItem().content.categories,

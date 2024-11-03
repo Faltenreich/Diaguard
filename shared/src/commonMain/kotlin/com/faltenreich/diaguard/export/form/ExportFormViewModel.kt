@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -77,7 +78,7 @@ class ExportFormViewModel(
 
     init {
         scope.launch {
-            getCategories().collect { categories ->
+            getCategories().collectLatest { categories ->
                 val exportCategories = categories.map { category ->
                     ExportFormMeasurementCategory(
                         category = category,

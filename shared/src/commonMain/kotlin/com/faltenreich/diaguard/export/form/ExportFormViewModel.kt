@@ -101,7 +101,8 @@ class ExportFormViewModel(
             is ExportFormIntent.SetIncludePageNumber -> includePageNumber.update { intent.includePageNumber }
             is ExportFormIntent.SetIncludeNotes -> includeNotes.update { intent.includeNotes }
             is ExportFormIntent.SetIncludeTags -> includeTags.update { intent.includeTags }
-            is ExportFormIntent.SetIncludeDaysWithoutEntries -> includeDaysWithoutEntries.update { intent.includeDaysWithoutEntries }
+            is ExportFormIntent.SetIncludeDaysWithoutEntries ->
+                includeDaysWithoutEntries.update { intent.includeDaysWithoutEntries }
             is ExportFormIntent.SetCategory -> setCategory(intent.category)
             is ExportFormIntent.Submit -> submit()
         }

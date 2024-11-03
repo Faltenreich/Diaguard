@@ -9,14 +9,12 @@ import com.faltenreich.diaguard.export.ExportUseCase
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ExportFormViewModel(
     getToday: GetTodayUseCase,
@@ -87,9 +85,7 @@ class ExportFormViewModel(
                         isMerged = false,
                     )
                 }.sortedBy { it.category.sortIndex }
-                withContext(Dispatchers.Main) {
-                    this@ExportFormViewModel.categories.update { exportCategories }
-                }
+                this@ExportFormViewModel.categories.update { exportCategories }
             }
         }
     }

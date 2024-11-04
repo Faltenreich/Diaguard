@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.export.form.ExportFormIntent
-import com.faltenreich.diaguard.export.form.ExportFormMeasurementCategory
+import com.faltenreich.diaguard.export.form.ExportFormState
 import com.faltenreich.diaguard.export.form.ExportFormViewModel
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
@@ -16,6 +16,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class ExportFormViewModelTest : TestSuite {
 
@@ -124,7 +125,7 @@ class ExportFormViewModelTest : TestSuite {
     fun `launch with all categories enabled`() = runTest {
         val categories = categoryRepository.observeAll().first()
         val exportCategories = categories.map { category ->
-            ExportFormMeasurementCategory(
+            ExportFormState.Content.Category(
                 category = category,
                 isExported = true,
                 isMerged = false,
@@ -258,6 +259,29 @@ class ExportFormViewModelTest : TestSuite {
             assertEquals(
                 expected = includeDaysWithoutEntries,
                 actual = awaitItem().layout.includeDaysWithoutEntries,
+            )
+        }
+    }
+
+    @Test
+    fun `update state when intending to set category exported`() = runTest {
+        viewModel.state.test {
+            // Skip initial empty content
+            awaitItem()
+
+            val before = awaitItem().content.categories
+            val change = before.first().copy(isExported = false, isMerged = false)
+
+            viewModel.dispatchIntent(ExportFormIntent.SetCategory(change))
+
+            val after = awaitItem().content.categories
+            assertTrue(before != after)
+
+            val update = before.map { if (it.category == change.category) change else it }
+
+            assertEquals(
+                expected = update,
+                actual = after,
             )
         }
     }

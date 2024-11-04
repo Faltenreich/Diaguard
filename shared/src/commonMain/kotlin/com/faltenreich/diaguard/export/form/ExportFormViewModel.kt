@@ -44,7 +44,7 @@ class ExportFormViewModel(
     private val includeTags = MutableStateFlow(true)
     private val includeDaysWithoutEntries = MutableStateFlow(true)
 
-    private val categories = MutableStateFlow(emptyList<ExportFormMeasurementCategory>())
+    private val categories = MutableStateFlow(emptyList<ExportFormState.Content.Category>())
 
     // TODO: Read initial values from preferences
     override val state = combine(
@@ -80,7 +80,7 @@ class ExportFormViewModel(
         scope.launch {
             getCategories().collectLatest { categories ->
                 val exportCategories = categories.map { category ->
-                    ExportFormMeasurementCategory(
+                    ExportFormState.Content.Category(
                         category = category,
                         isExported = true,
                         isMerged = false,
@@ -108,7 +108,7 @@ class ExportFormViewModel(
         }
     }
 
-    private fun updateCategory(update: ExportFormMeasurementCategory) {
+    private fun updateCategory(update: ExportFormState.Content.Category) {
         categories.update { categories ->
             categories.map { category ->
                 if (category.category == update.category) update

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.export.form
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.export.pdf.PdfLayout
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 
 data class ExportFormState(
     val date: Date,
@@ -31,8 +32,15 @@ data class ExportFormState(
     )
 
     data class Content(
-        val categories: List<ExportFormMeasurementCategory>,
+        val categories: List<Category>,
         val includeNotes: Boolean,
         val includeTags: Boolean,
-    )
+    ) {
+
+        data class Category(
+            val category: MeasurementCategory,
+            val isExported: Boolean,
+            val isMerged: Boolean,
+        )
+    }
 }

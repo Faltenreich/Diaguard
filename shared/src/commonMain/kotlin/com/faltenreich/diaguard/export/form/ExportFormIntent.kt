@@ -24,7 +24,7 @@ sealed interface ExportFormIntent {
 
     data class SetIncludeDaysWithoutEntries(val includeDaysWithoutEntries: Boolean) : ExportFormIntent
 
-    data class SetCategory(val category: ExportFormMeasurementCategory) : ExportFormIntent
+    data class SetCategory(val category: ExportFormState.Content.Category) : ExportFormIntent
 
     data object Submit : ExportFormIntent
 }

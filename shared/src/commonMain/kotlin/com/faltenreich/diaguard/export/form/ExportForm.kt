@@ -162,14 +162,20 @@ fun ExportForm(
                 TextCheckbox(
                     title = category.category.name,
                     checked = category.isExported,
-                    onCheckedChange = { viewModel.setCategory(category.copy(isExported = !category.isExported)) },
+                    onCheckedChange = {
+                        val intent = ExportFormIntent.SetCategory(category.copy(isExported = !category.isExported))
+                        viewModel.dispatchIntent(intent)
+                    },
                     modifier = Modifier.weight(1f),
                 )
                 if (true) { // TODO: category.category.properties.size > 1) {
                     TextCheckbox(
                         title = getString(Res.string.merge_values),
                         checked = category.isMerged,
-                        onCheckedChange = { viewModel.setCategory(category.copy(isMerged = !category.isMerged)) },
+                        onCheckedChange = {
+                            val intent = ExportFormIntent.SetCategory(category.copy(isMerged = !category.isMerged))
+                            viewModel.dispatchIntent(intent)
+                        },
                         modifier = Modifier.weight(1f),
                     )
                 }

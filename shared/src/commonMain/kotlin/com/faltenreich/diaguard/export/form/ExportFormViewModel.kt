@@ -103,17 +103,17 @@ class ExportFormViewModel(
             is ExportFormIntent.SetIncludeTags -> includeTags.update { intent.includeTags }
             is ExportFormIntent.SetIncludeDaysWithoutEntries ->
                 includeDaysWithoutEntries.update { intent.includeDaysWithoutEntries }
-            is ExportFormIntent.SetCategory -> setCategory(intent.category)
+            is ExportFormIntent.SetCategory -> updateCategory(intent.category)
             is ExportFormIntent.Submit -> submit()
         }
     }
 
-    fun setCategory(category: ExportFormMeasurementCategory) {
+    private fun updateCategory(update: ExportFormMeasurementCategory) {
         categories.update { categories ->
-            categories
-                .filter { it.category != category.category }
-                .plus(category)
-                .sortedBy { it.category.sortIndex }
+            categories.map { category ->
+                if (category.category == update.category) update
+                else category
+            }
         }
     }
 

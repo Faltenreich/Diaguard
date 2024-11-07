@@ -132,12 +132,13 @@ fun EntryForm(
             }
         }
 
+        val measurements = viewModel.measurements
         AnimatedVisibility(
-            visible = viewModel.measurements.isNotEmpty(),
+            visible = measurements.isNotEmpty(),
             enter = fadeIn(),
         ) {
             Column {
-                viewModel.measurements.forEach { measurement ->
+                measurements.forEach { measurement ->
                     MeasurementCategoryInput(
                         state = measurement,
                         foodState = viewModel.foodEaten,

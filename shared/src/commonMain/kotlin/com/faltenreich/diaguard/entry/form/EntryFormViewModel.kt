@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.Time
-import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.datetime.picker.TimePickerModal
@@ -38,7 +37,6 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -95,7 +93,7 @@ class EntryFormViewModel(
     var tagQuery = MutableStateFlow("")
     var tagSelection = MutableStateFlow(emptyList<Tag>())
     private val tagSuggestions = combine(
-        tagQuery.debounce(DateTimeConstants.INPUT_DEBOUNCE),
+        tagQuery,
         tagSelection,
     ) { tagQuery, tagsSelected -> tagQuery to tagsSelected }
         .flatMapLatest { (tagQuery, tagsSelected) ->
@@ -105,9 +103,11 @@ class EntryFormViewModel(
     override val state = tagSuggestions.map(::EntryFormState)
 
     init {
-        scope.launch {
+        scope.launch(Dispatchers.IO) {
             getMeasurementCategoryInputState(editing).collectLatest { measurements ->
-                this@EntryFormViewModel.measurements += measurements
+                withContext(Dispatchers.Main) {
+                    this@EntryFormViewModel.measurements += measurements
+                }
             }
         }
         scope.launch(Dispatchers.IO) {

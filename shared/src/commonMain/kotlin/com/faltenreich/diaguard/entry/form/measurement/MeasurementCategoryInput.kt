@@ -28,7 +28,7 @@ import diaguard.shared.generated.resources.ic_search
 @Composable
 fun MeasurementCategoryInput(
     state: MeasurementCategoryInputState,
-    foodState: List<FoodEatenInputState>,
+    foodEaten: List<FoodEatenInputState>,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -65,7 +65,7 @@ fun MeasurementCategoryInput(
             }
         }
         if (state.category.isMeal) {
-            foodState.forEach { data ->
+            foodEaten.forEach { data ->
                 Divider()
                 FormRow(
                     modifier = modifier.background(AppTheme.colors.scheme.surfaceVariant),

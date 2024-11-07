@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.Time
-import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.datetime.picker.TimePickerModal
@@ -35,13 +34,11 @@ import com.faltenreich.diaguard.shared.view.DeleteModal
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -89,32 +86,37 @@ class EntryFormViewModel(
 
     var alarmDelayInMinutes: Int? by mutableStateOf(null)
 
-    var measurements by mutableStateOf(emptyList<MeasurementCategoryInputState>())
+    private val measurements = MutableStateFlow(emptyList<MeasurementCategoryInputState>())
 
-    var foodEaten by mutableStateOf(listOfNotNull(food?.let(::FoodEatenInputState)))
+    private val foodEaten = MutableStateFlow(listOfNotNull(food?.let(::FoodEatenInputState)))
 
     var tagQuery = MutableStateFlow("")
     var tagSelection = MutableStateFlow(emptyList<Tag>())
     private val tagSuggestions = combine(
-        tagQuery.debounce(DateTimeConstants.INPUT_DEBOUNCE),
+        tagQuery,
         tagSelection,
     ) { tagQuery, tagsSelected -> tagQuery to tagsSelected }
         .flatMapLatest { (tagQuery, tagsSelected) ->
             getTagsByQuery(tagQuery, tagsSelected)
         }
 
-    override val state: Flow<EntryFormState> = tagSuggestions.map(::EntryFormState)
+    override val state = combine(
+        measurements,
+        foodEaten,
+        tagSuggestions,
+        ::EntryFormState,
+    )
 
     init {
         scope.launch {
             getMeasurementCategoryInputState(editing).collectLatest { measurements ->
-                this@EntryFormViewModel.measurements += measurements
+                this@EntryFormViewModel.measurements.update { it + measurements }
             }
         }
         scope.launch(Dispatchers.IO) {
             val foodEaten = getFoodEatenInputState(editing)
             withContext(Dispatchers.Main) {
-                this@EntryFormViewModel.foodEaten += foodEaten
+                this@EntryFormViewModel.foodEaten.update { it + foodEaten }
             }
         }
         scope.launch(Dispatchers.IO) {
@@ -142,13 +144,15 @@ class EntryFormViewModel(
     }
 
     private fun edit(update: MeasurementPropertyInputState) {
-        measurements = measurements.map { category ->
-            category.copy(propertyInputStates = category.propertyInputStates.map { legacy ->
-                when (legacy.property) {
-                    update.property -> update
-                    else -> legacy
-                }
-            })
+        measurements.update { measurements ->
+            measurements.map { category ->
+                category.copy(propertyInputStates = category.propertyInputStates.map { legacy ->
+                    when (legacy.property) {
+                        update.property -> update
+                        else -> legacy
+                    }
+                })
+            }
         }
     }
 
@@ -180,10 +184,10 @@ class EntryFormViewModel(
         val input = EntryFormInput(
             entry = editing,
             dateTime = dateTime,
-            measurements = measurements,
+            measurements = measurements.value,
             tags = tagSelection.value,
             note = note.takeIf(String::isNotBlank),
-            foodEaten = foodEaten,
+            foodEaten = foodEaten.value,
         )
         when (val result = validate(input)) {
             is ValidationResult.Success -> {
@@ -191,7 +195,7 @@ class EntryFormViewModel(
                 popScreen()
             }
             is ValidationResult.Failure -> {
-                measurements = result.data.measurements
+                measurements.value = result.data.measurements
                 showSnackbar(message = result.error)
             }
         }
@@ -222,20 +226,22 @@ class EntryFormViewModel(
     }
 
     private fun addFood(food: Food.Local) {
-        foodEaten += FoodEatenInputState(food)
+        foodEaten.update { foodEaten -> foodEaten + FoodEatenInputState(food) }
     }
 
     private fun editFood(food: FoodEatenInputState) {
-        foodEaten = foodEaten.map { legacy ->
-            when (legacy.food) {
-                food.food -> food
-                else -> legacy
+        foodEaten.update { foodEaten ->
+            foodEaten.map { legacy ->
+                when (legacy.food) {
+                    food.food -> food
+                    else -> legacy
+                }
             }
         }
     }
 
     private fun removeFood(food: FoodEatenInputState) {
-        foodEaten -= food
+        foodEaten.update { foodEaten -> foodEaten - food }
     }
 
     private fun addTag(tag: Tag) {

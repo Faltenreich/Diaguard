@@ -35,7 +35,6 @@ import com.faltenreich.diaguard.shared.view.DeleteModal
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -103,7 +102,7 @@ class EntryFormViewModel(
             getTagsByQuery(tagQuery, tagsSelected)
         }
 
-    override val state: Flow<EntryFormState> = tagSuggestions.map(::EntryFormState)
+    override val state = tagSuggestions.map(::EntryFormState)
 
     init {
         scope.launch {

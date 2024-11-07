@@ -18,11 +18,9 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
     val mode: FoodSearchMode,
@@ -36,7 +34,8 @@ class FoodSearchViewModel(
 
     private val pagingData: Flow<PagingData<Food.Local>> = combine(
         snapshotFlow { query }
-            .debounce(1.seconds)
+            // FIXME: Debounce without delaying the whole state
+            //  .debounce(1.seconds)
             .distinctUntilChanged(),
         getPreference(FoodPreference.ShowCommonFood),
         getPreference(FoodPreference.ShowCustomFood),

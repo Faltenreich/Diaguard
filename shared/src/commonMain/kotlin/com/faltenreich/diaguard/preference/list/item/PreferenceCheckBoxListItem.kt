@@ -6,10 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.StringResource
 
 class PreferenceCheckBoxListItem(
-    title: StringResource,
+    title: String,
     subtitle: String?,
     private val isChecked: Boolean,
     private val onCheckedChange: suspend (isChecked: Boolean) -> Unit,
@@ -31,7 +30,7 @@ class PreferenceCheckBoxListItem(
 
     class Builder {
 
-        lateinit var title: StringResource
+        lateinit var title: String
         var subtitle: String? = null
         var isChecked: Boolean = false
         lateinit var onCheckedChange: suspend (isChecked: Boolean) -> Unit

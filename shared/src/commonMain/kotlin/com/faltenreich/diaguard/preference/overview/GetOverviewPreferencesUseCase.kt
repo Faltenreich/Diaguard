@@ -70,7 +70,7 @@ class GetOverviewPreferencesUseCase(
         ) { colorScheme, startScreen, appVersion ->
             preferences {
                 list {
-                    title = Res.string.color_scheme
+                    title = localization.getString(Res.string.color_scheme)
                     subtitle = localization.getString(colorScheme.labelResource)
                     options = ColorScheme.entries.map { value ->
                         PreferenceListListItem.Option(
@@ -81,7 +81,7 @@ class GetOverviewPreferencesUseCase(
                     }
                 }
                 list {
-                    title = Res.string.start_screen
+                    title = localization.getString(Res.string.start_screen)
                     subtitle = localization.getString(startScreen.labelResource)
                     options = StartScreen.entries.map { value ->
                         PreferenceListListItem.Option(
@@ -92,67 +92,67 @@ class GetOverviewPreferencesUseCase(
                     }
                 }
                 category {
-                    title = Res.string.data
+                    title = localization.getString(Res.string.data)
                     icon = Res.drawable.ic_data
                 }
                 action {
-                    title = Res.string.decimal_places
+                    title = localization.getString(Res.string.decimal_places)
                     onClick = { openBottomSheet(DecimalPlacesFormScreen) }
                 }
                 action {
-                    title = Res.string.measurement_categories
+                    title = localization.getString(Res.string.measurement_categories)
                     onClick = { pushScreen(MeasurementCategoryListScreen) }
                 }
                 action {
-                    title = Res.string.tags
+                    title = localization.getString(Res.string.tags)
                     onClick = { pushScreen(TagListScreen) }
                 }
                 action {
-                    title = Res.string.food
+                    title = localization.getString(Res.string.food)
                     onClick = { pushScreen(FoodPreferenceScreen) }
                 }
                 category {
-                    title = Res.string.contact
+                    title = localization.getString(Res.string.contact)
                     icon = Res.drawable.ic_contact
                 }
                 action {
-                    title = Res.string.homepage
+                    title = localization.getString(Res.string.homepage)
                     subtitle = localization.getString(Res.string.homepage_url_short)
                     onClick = { urlOpener.open(localization.getString(Res.string.homepage_url)) }
                 }
                 action {
-                    title = Res.string.mail
+                    title = localization.getString(Res.string.mail)
                     subtitle = localization.getString(Res.string.mail_url_short)
                     onClick = { urlOpener.open(localization.getString(Res.string.mail_url)) }
                 }
                 action {
-                    title = Res.string.facebook
+                    title = localization.getString(Res.string.facebook)
                     subtitle = localization.getString(Res.string.facebook_url_short)
                     onClick = { urlOpener.open(localization.getString(Res.string.facebook_url)) }
                 }
                 category {
-                    title = Res.string.about
+                    title = localization.getString(Res.string.about)
                     icon = Res.drawable.ic_about
                 }
                 action {
-                    title = Res.string.source_code
+                    title = localization.getString(Res.string.source_code)
                     subtitle = localization.getString(Res.string.source_code_url_short)
                     onClick = { urlOpener.open(localization.getString(Res.string.source_code_url)) }
                 }
                 action {
-                    title = Res.string.licenses
+                    title = localization.getString(Res.string.licenses)
                     onClick = { pushScreen(LicenseListScreen) }
                 }
                 action {
-                    title = Res.string.privacy_policy
+                    title = localization.getString(Res.string.privacy_policy)
                     onClick = { urlOpener.open(localization.getString(Res.string.privacy_policy_url)) }
                 }
                 action {
-                    title = Res.string.terms_and_conditions
+                    title = localization.getString(Res.string.terms_and_conditions)
                     onClick = { urlOpener.open(localization.getString(Res.string.terms_and_conditions_url)) }
                 }
                 action {
-                    title = Res.string.version
+                    title = localization.getString(Res.string.version)
                     subtitle = appVersion
                     onClick = {}
                 }

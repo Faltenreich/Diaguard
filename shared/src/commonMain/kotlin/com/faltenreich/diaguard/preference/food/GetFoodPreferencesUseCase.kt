@@ -40,40 +40,40 @@ class GetFoodPreferencesUseCase(
         ) { showCustomFood, showCommonFood, showBrandedFood ->
             preferences {
                 category {
-                    title = Res.string.food_custom
+                    title = localization.getString(Res.string.food_custom)
                 }
                 checkbox {
-                    title = Res.string.food_custom_show
+                    title = localization.getString(Res.string.food_custom_show)
                     subtitle = localization.getString(Res.string.food_custom_show_desc)
                     isChecked = showCustomFood
                     onCheckedChange = { setPreference(FoodPreference.ShowCustomFood, it) }
                 }
                 category {
-                    title = Res.string.food_common
+                    title = localization.getString(Res.string.food_common)
                 }
                 action {
-                    title = Res.string.food_source_common_provider
+                    title = localization.getString(Res.string.food_source_common_provider)
                     subtitle = localization.getString(Res.string.food_source_powered_by)
                     onClick =
                         { urlOpener.open(localization.getString(Res.string.food_source_common_url)) }
                 }
                 checkbox {
-                    title = Res.string.food_common_show
+                    title = localization.getString(Res.string.food_common_show)
                     subtitle = localization.getString(Res.string.food_common_show_desc)
                     isChecked = showCommonFood
                     onCheckedChange = { setPreference(FoodPreference.ShowCommonFood, it) }
                 }
                 category {
-                    title = Res.string.food_branded
+                    title = localization.getString(Res.string.food_branded)
                 }
                 action {
-                    title = Res.string.food_source_branded_provider
+                    title = localization.getString(Res.string.food_source_branded_provider)
                     subtitle = localization.getString(Res.string.food_source_powered_by)
                     onClick =
                         { urlOpener.open(localization.getString(Res.string.food_source_branded_url)) }
                 }
                 checkbox {
-                    title = Res.string.food_branded_show
+                    title = localization.getString(Res.string.food_branded_show)
                     subtitle = localization.getString(Res.string.food_branded_show_desc)
                     isChecked = showBrandedFood
                     onCheckedChange = { setPreference(FoodPreference.ShowBrandedFood, it) }

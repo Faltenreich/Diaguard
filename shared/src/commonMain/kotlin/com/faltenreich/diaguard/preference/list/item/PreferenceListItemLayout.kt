@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable
 fun PreferenceListItemLayout(
@@ -30,7 +29,7 @@ fun PreferenceListItemLayout(
         Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ListOffsetWidth))
 
         Column(modifier = Modifier.weight(1f)) {
-            Text(getString(preference.title))
+            Text(preference.title)
             preference.subtitle?.let { subtitle ->
                 Text(
                     text = subtitle,

@@ -5,10 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.StringResource
 
 class PreferenceActionListItem(
-    title: StringResource,
+    title: String,
     subtitle: String?,
     private val action: suspend () -> Unit,
 ) : PreferenceListItem(title, subtitle) {
@@ -24,7 +23,7 @@ class PreferenceActionListItem(
 
     class Builder {
 
-        lateinit var title: StringResource
+        lateinit var title: String
         var subtitle: String? = null
         lateinit var onClick: suspend () -> Unit
 

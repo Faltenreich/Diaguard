@@ -11,10 +11,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.StringResource
 
 class PreferenceListListItem(
-    title: StringResource,
+    title: String,
     subtitle: String?,
     private val options: List<Option>,
 ) : PreferenceListItem(title, subtitle) {
@@ -46,7 +45,7 @@ class PreferenceListListItem(
 
     class Builder {
 
-        lateinit var title: StringResource
+        lateinit var title: String
         var subtitle: String? = null
         lateinit var options: List<Option>
 

@@ -2,10 +2,9 @@ package com.faltenreich.diaguard.preference.list.item
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.StringResource
 
 sealed class PreferenceListItem(
-    val title: StringResource,
+    val title: String,
     val subtitle: String?,
 ) {
 

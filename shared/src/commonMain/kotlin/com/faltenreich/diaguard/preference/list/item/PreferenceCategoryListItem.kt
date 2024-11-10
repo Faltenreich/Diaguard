@@ -14,14 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 
 class PreferenceCategoryListItem(
-    title: StringResource,
+    title: String,
     private val icon: DrawableResource?,
 ) : PreferenceListItem(title, null) {
 
@@ -50,7 +48,7 @@ class PreferenceCategoryListItem(
                     }
                 }
                 Text(
-                    text = getString(title),
+                    text = title,
                     color = AppTheme.colors.scheme.primary,
                     fontWeight = FontWeight.Bold,
                 )
@@ -60,7 +58,7 @@ class PreferenceCategoryListItem(
 
     class Builder {
 
-        lateinit var title: StringResource
+        lateinit var title: String
         var icon: DrawableResource? = null
 
         fun build(): PreferenceCategoryListItem {

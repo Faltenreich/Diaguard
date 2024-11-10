@@ -8,6 +8,8 @@ import com.faltenreich.diaguard.export.pdf.PdfExport
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.measurement.value.StoreMeasurementValueUseCase
+import com.faltenreich.diaguard.shared.config.BuildConfig
+import com.faltenreich.diaguard.shared.config.FakeBuildConfig
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.keyvalue.FakeKeyValueStore
@@ -31,6 +33,8 @@ fun testModules() = module {
     single<CoroutineDispatcher> { StandardTestDispatcher() }
     single<CoroutineContext> { StandardTestDispatcher() }
     single<CoroutineScope> { TestScope(context = get()) }
+
+    single<BuildConfig> { FakeBuildConfig() }
 
     single<Logger> { ConsoleLogger() }
 

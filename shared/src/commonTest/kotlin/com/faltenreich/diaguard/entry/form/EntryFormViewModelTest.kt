@@ -6,6 +6,9 @@ import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.datetime.picker.TimePickerModal
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
+import com.faltenreich.diaguard.food.FoodFactory
+import com.faltenreich.diaguard.food.FoodRepository
+import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
@@ -27,6 +30,7 @@ class EntryFormViewModelTest : TestSuite {
     private val navigation: Navigation by inject()
     private val entryRepository: EntryTagRepository by inject()
     private val valueRepository: MeasurementValueRepository by inject()
+    private val foodRepository: FoodRepository by inject()
 
     private lateinit var viewModel: EntryFormViewModel
 
@@ -193,6 +197,72 @@ class EntryFormViewModelTest : TestSuite {
         navigation.events.test {
             viewModel.handleIntent(EntryFormIntent.Delete)
             assertTrue(awaitItem() is NavigationEvent.PopScreen)
+        }
+    }
+
+    @Test
+    fun `open food search when selecting food`() = runTest {
+        viewModel = get(parameters = { parametersOf(null, null, null) })
+
+        navigation.events.test {
+            viewModel.handleIntent(EntryFormIntent.SelectFood)
+
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.PushScreen)
+            assertTrue(event.screen is FoodSearchScreen)
+        }
+    }
+
+    @Test
+    fun `update food eaten when adding food`() = runTest {
+        viewModel = get(parameters = { parametersOf(null, null, null) })
+
+        viewModel.state.test {
+            val foodId = foodRepository.create(FoodFactory.createByUser())
+            val food = requireNotNull(foodRepository.getById(foodId))
+            viewModel.handleIntent(EntryFormIntent.AddFood(food))
+
+            assertEquals(
+                expected = food,
+                actual = awaitItem().foodEaten.first().food,
+            )
+        }
+    }
+
+    @Test
+    fun `update food eaten when editing food`() = runTest {
+        viewModel = get(parameters = { parametersOf(null, null, null) })
+
+        viewModel.state.test {
+            val foodId = foodRepository.create(FoodFactory.createByUser())
+            val food = requireNotNull(foodRepository.getById(foodId))
+            viewModel.handleIntent(EntryFormIntent.AddFood(food))
+
+            val update = awaitItem().foodEaten.first().copy(amountInGrams = 10.0)
+
+            viewModel.handleIntent(EntryFormIntent.EditFood(update))
+
+            assertEquals(
+                expected = update,
+                actual = awaitItem().foodEaten.first(),
+            )
+        }
+    }
+
+    @Test
+    fun `update food eaten when removing food`() = runTest {
+        viewModel = get(parameters = { parametersOf(null, null, null) })
+
+        viewModel.state.test {
+            val foodId = foodRepository.create(FoodFactory.createByUser())
+            val food = requireNotNull(foodRepository.getById(foodId))
+            viewModel.handleIntent(EntryFormIntent.AddFood(food))
+
+            val foodInput = awaitItem().foodEaten.first()
+
+            viewModel.handleIntent(EntryFormIntent.RemoveFood(foodInput))
+
+            assertTrue(awaitItem().foodEaten.isEmpty())
         }
     }
 }

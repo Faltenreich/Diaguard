@@ -32,15 +32,12 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.shared.view.DeleteModal
 import com.faltenreich.diaguard.tag.Tag
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class EntryFormViewModel(
     entryId: Long? = null,
@@ -103,24 +100,16 @@ class EntryFormViewModel(
     override val state = tagSuggestions.map(::EntryFormState)
 
     init {
-        scope.launch(Dispatchers.IO) {
-            getMeasurementCategoryInputState(editing).collectLatest { measurements ->
-                withContext(Dispatchers.Main) {
-                    this@EntryFormViewModel.measurements += measurements
-                }
+        scope.launch {
+            getMeasurementCategoryInputState(editing).collectLatest {
+                measurements += it
             }
         }
-        scope.launch(Dispatchers.IO) {
-            val foodEaten = getFoodEatenInputState(editing)
-            withContext(Dispatchers.Main) {
-                this@EntryFormViewModel.foodEaten += foodEaten
-            }
+        scope.launch {
+            foodEaten += getFoodEatenInputState(editing)
         }
-        scope.launch(Dispatchers.IO) {
-            val tagsOfEntry = getTagsOfEntry(editing)
-            withContext(Dispatchers.Main) {
-                this@EntryFormViewModel.tagSelection.value += tagsOfEntry
-            }
+        scope.launch {
+            tagSelection.value += getTagsOfEntry(editing)
         }
     }
 

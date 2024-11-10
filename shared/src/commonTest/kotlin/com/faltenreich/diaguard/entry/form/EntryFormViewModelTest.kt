@@ -5,6 +5,8 @@ import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.datetime.picker.TimePickerModal
+import com.faltenreich.diaguard.entry.tag.EntryTagRepository
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.tag.Tag
@@ -23,6 +25,8 @@ class EntryFormViewModelTest : TestSuite {
         parameters = { parametersOf(null, null, null) },
     )
     private val navigation: Navigation by inject()
+    private val entryRepository: EntryTagRepository by inject()
+    private val valueRepository: MeasurementValueRepository by inject()
 
     @BeforeTest
     override fun beforeTest() {
@@ -47,8 +51,9 @@ class EntryFormViewModelTest : TestSuite {
 
     @Test
     fun `open dialog when selecting date`() = runTest {
-        viewModel.handleIntent(EntryFormIntent.SelectDate)
         navigation.events.test {
+            viewModel.handleIntent(EntryFormIntent.SelectDate)
+
             val event = awaitItem()
             assertTrue(event is NavigationEvent.OpenModal)
             assertTrue(event.modal is DatePickerModal)
@@ -57,8 +62,9 @@ class EntryFormViewModelTest : TestSuite {
 
     @Test
     fun `open dialog when selecting time`() = runTest {
-        viewModel.handleIntent(EntryFormIntent.SelectTime)
         navigation.events.test {
+            viewModel.handleIntent(EntryFormIntent.SelectTime)
+
             val event = awaitItem()
             assertTrue(event is NavigationEvent.OpenModal)
             assertTrue(event.modal is TimePickerModal)
@@ -71,8 +77,7 @@ class EntryFormViewModelTest : TestSuite {
         viewModel.handleIntent(EntryFormIntent.AddTag(tag))
 
         viewModel.tagSelection.test {
-            val tags = awaitItem()
-            assertTrue(tags.contains(tag))
+            assertTrue(awaitItem().contains(tag))
         }
     }
 
@@ -83,8 +88,7 @@ class EntryFormViewModelTest : TestSuite {
         viewModel.handleIntent(EntryFormIntent.RemoveTag(tag))
 
         viewModel.tagSelection.test {
-            val tags = awaitItem()
-            assertFalse(tags.contains(tag))
+            assertFalse(awaitItem().contains(tag))
         }
     }
 
@@ -107,7 +111,7 @@ class EntryFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `pop screen when submitting with success`() = runTest {
+    fun `store entry and pop screen when submitting with success`() = runTest {
         turbineScope {
             val state = viewModel.state.testIn(backgroundScope)
             val navigation = navigation.events.testIn(backgroundScope)
@@ -124,15 +128,20 @@ class EntryFormViewModelTest : TestSuite {
 
             viewModel.handleIntent(EntryFormIntent.Submit)
 
+            val values = valueRepository.getByEntryId(entryRepository.getLastId()!!)
+            assertEquals(
+                expected = 10.0,
+                actual = values.first().value,
+            )
             assertTrue(navigation.awaitItem() is NavigationEvent.PopScreen)
         }
     }
 
     @Test
     fun `show error in snackbar when missing input`() = runTest {
-        viewModel.handleIntent(EntryFormIntent.Submit)
-
         navigation.events.test {
+            viewModel.handleIntent(EntryFormIntent.Submit)
+
             val event = awaitItem()
             assertTrue(event is NavigationEvent.ShowSnackbar)
             assertEquals(

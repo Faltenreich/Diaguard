@@ -4,5 +4,5 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 actual fun configModule(): Module = module {
-    single { BuildConfig() }
+    single<BuildConfig> { TODO("Not yet implemented") }
 }

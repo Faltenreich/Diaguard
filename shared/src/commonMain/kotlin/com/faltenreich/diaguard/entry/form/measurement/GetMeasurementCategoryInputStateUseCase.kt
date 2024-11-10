@@ -7,10 +7,13 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.withContext
 
 class GetMeasurementCategoryInputStateUseCase(
+    private val dispatcher: CoroutineDispatcher,
     private val getCategories: GetActiveMeasurementCategoriesUseCase,
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
@@ -18,8 +21,10 @@ class GetMeasurementCategoryInputStateUseCase(
     private val mapValue: MeasurementValueMapper,
 ) {
 
-    operator fun invoke(entry: Entry.Local?): Flow<List<MeasurementCategoryInputState>> {
-        return combine(
+    suspend operator fun invoke(
+        entry: Entry.Local?,
+    ): Flow<List<MeasurementCategoryInputState>> = withContext(dispatcher) {
+        combine(
             getCategories(),
             getPreference(DecimalPlaces),
         ) { categories, decimalPlaces ->

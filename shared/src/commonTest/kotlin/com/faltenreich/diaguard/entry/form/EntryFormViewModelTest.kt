@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry.form
 
+import androidx.compose.runtime.snapshotFlow
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
@@ -12,6 +13,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.test.inject
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -29,7 +31,26 @@ class EntryFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `opens dialog when selecting date`() = runTest {
+    fun `launch with categories`() = runTest {
+        snapshotFlow { viewModel.measurements }.test {
+            assertEquals(
+                expected = emptyList(),
+                actual = awaitItem(),
+            )
+            assertTrue(awaitItem().isNotEmpty())
+        }
+    }
+
+    @Test
+    fun `launch with tags`() = runTest {
+        viewModel.state.test {
+            val state = awaitItem()
+            assertTrue(state.tags.isNotEmpty())
+        }
+    }
+
+    @Test
+    fun `open dialog when selecting date`() = runTest {
         viewModel.handleIntent(EntryFormIntent.SelectDate)
         navigation.events.test {
             val event = awaitItem()
@@ -39,7 +60,7 @@ class EntryFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `opens dialog when selecting time`() = runTest {
+    fun `open dialog when selecting time`() = runTest {
         viewModel.handleIntent(EntryFormIntent.SelectTime)
         navigation.events.test {
             val event = awaitItem()
@@ -49,15 +70,7 @@ class EntryFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `suggests tags`() = runTest {
-        viewModel.state.test {
-            val state = awaitItem()
-            assertTrue(state.tags.isNotEmpty())
-        }
-    }
-
-    @Test
-    fun `adds tag to selection`() = runTest {
+    fun `update tag selection when adding tag`() = runTest {
         val tag = Tag.User(name = "tag")
         viewModel.handleIntent(EntryFormIntent.AddTag(tag))
 
@@ -68,7 +81,7 @@ class EntryFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `removes tag from selection`() = runTest {
+    fun `update tag selection when removing tag`() = runTest {
         val tag = Tag.User(name = "tag")
         viewModel.handleIntent(EntryFormIntent.AddTag(tag))
         viewModel.handleIntent(EntryFormIntent.RemoveTag(tag))
@@ -76,6 +89,42 @@ class EntryFormViewModelTest : TestSuite {
         viewModel.tagSelection.test {
             val tags = awaitItem()
             assertFalse(tags.contains(tag))
+        }
+    }
+
+    @Test
+    fun `store entry and pop screen when submitting with success`() = runTest {
+        snapshotFlow { viewModel.measurements }.test {
+            assertEquals(
+                expected = emptyList(),
+                actual = awaitItem(),
+            )
+            assertTrue(awaitItem().isNotEmpty())
+
+            val input = viewModel
+                .measurements.first()
+                .propertyInputStates.first()
+                .copy(input = "10")
+            viewModel.handleIntent(EntryFormIntent.Edit(input))
+            viewModel.handleIntent(EntryFormIntent.Submit)
+
+            navigation.events.test {
+                assertTrue(awaitItem() is NavigationEvent.PopScreen)
+            }
+        }
+    }
+
+    @Test
+    fun `show error in snackbar when missing input`() = runTest {
+        viewModel.handleIntent(EntryFormIntent.Submit)
+
+        navigation.events.test {
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.ShowSnackbar)
+            assertEquals(
+                expected = "entry_form_error_missing_input",
+                actual = event.message,
+            )
         }
     }
 }

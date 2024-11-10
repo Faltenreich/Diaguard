@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.entry.form
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.datetime.picker.TimePickerModal
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
@@ -20,6 +21,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.test.get
 import org.koin.test.inject
 import kotlin.test.BeforeTest
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -31,6 +33,7 @@ class EntryFormViewModelTest : TestSuite {
     private val entryRepository: EntryTagRepository by inject()
     private val valueRepository: MeasurementValueRepository by inject()
     private val foodRepository: FoodRepository by inject()
+    private val dateTimeFactory: DateTimeFactory by inject()
 
     private lateinit var viewModel: EntryFormViewModel
 
@@ -38,6 +41,34 @@ class EntryFormViewModelTest : TestSuite {
     override fun beforeTest() {
         super.beforeTest()
         importSeed()
+    }
+
+    // TODO: Set locale
+    @Test
+    @Ignore
+    fun `format date`() {
+        viewModel = get(parameters = { parametersOf(null, null, null) })
+
+        val date = dateTimeFactory.date(1979, 1, 1)
+        viewModel.date = date
+
+        assertEquals(
+            expected = "01.01.1979",
+            actual = viewModel.dateFormatted,
+        )
+    }
+
+    @Test
+    fun `format time`() {
+        viewModel = get(parameters = { parametersOf(null, null, null) })
+
+        val time = dateTimeFactory.time(12, 12, 12)
+        viewModel.time = time
+
+        assertEquals(
+            expected = "12:12",
+            actual = viewModel.timeFormatted,
+        )
     }
 
     @Test

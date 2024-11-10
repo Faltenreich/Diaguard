@@ -6,11 +6,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
 
-class PreferenceActionListItem(
-    title: String,
-    subtitle: String?,
+data class PreferenceActionListItem(
+    override val title: String,
+    override val subtitle: String?,
     private val action: suspend () -> Unit,
-) : PreferenceListItem(title, subtitle) {
+) : PreferenceListItem {
 
     @Composable
     override fun Content(modifier: Modifier) {

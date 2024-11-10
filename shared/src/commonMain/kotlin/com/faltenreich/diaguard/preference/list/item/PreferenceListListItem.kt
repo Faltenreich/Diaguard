@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
 import kotlinx.coroutines.launch
 
-class PreferenceListListItem(
-    title: String,
-    subtitle: String?,
+data class PreferenceListListItem(
+    override val title: String,
+    override val subtitle: String?,
     private val options: List<Option>,
-) : PreferenceListItem(title, subtitle) {
+) : PreferenceListItem {
 
     @Composable
     override fun Content(modifier: Modifier) {

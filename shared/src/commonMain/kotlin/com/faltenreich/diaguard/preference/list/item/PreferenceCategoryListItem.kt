@@ -18,10 +18,10 @@ import com.faltenreich.diaguard.shared.view.Divider
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
-class PreferenceCategoryListItem(
-    title: String,
+data class PreferenceCategoryListItem(
+    override val title: String,
     private val icon: DrawableResource?,
-) : PreferenceListItem(title, null) {
+) : PreferenceListItem {
 
     @Composable
     override fun Content(modifier: Modifier) {

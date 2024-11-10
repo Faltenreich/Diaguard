@@ -7,12 +7,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
 
-class PreferenceCheckBoxListItem(
-    title: String,
-    subtitle: String?,
+data class PreferenceCheckBoxListItem(
+    override val title: String,
+    override val subtitle: String?,
     private val isChecked: Boolean,
     private val onCheckedChange: suspend (isChecked: Boolean) -> Unit,
-) : PreferenceListItem(title, subtitle) {
+) : PreferenceListItem {
 
     @Composable
     override fun Content(modifier: Modifier) {

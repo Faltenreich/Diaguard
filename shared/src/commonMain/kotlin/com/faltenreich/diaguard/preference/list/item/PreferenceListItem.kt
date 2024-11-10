@@ -3,13 +3,14 @@ package com.faltenreich.diaguard.preference.list.item
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-sealed class PreferenceListItem(
-    val title: String,
-    val subtitle: String?,
-) {
+sealed interface PreferenceListItem {
+
+    val title: String
+    val subtitle: String?
+        get() = null
 
     @Composable
-    abstract fun Content(modifier: Modifier)
+    fun Content(modifier: Modifier)
 
     class Builder {
 

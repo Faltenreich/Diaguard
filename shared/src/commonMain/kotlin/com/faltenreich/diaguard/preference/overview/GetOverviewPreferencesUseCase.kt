@@ -15,7 +15,6 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
-import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.networking.UrlOpener
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import diaguard.shared.generated.resources.Res
@@ -74,7 +73,7 @@ class GetOverviewPreferencesUseCase(
                     subtitle = localization.getString(colorScheme.labelResource)
                     options = ColorScheme.entries.map { value ->
                         PreferenceListListItem.Option(
-                            label = { getString(value.labelResource) },
+                            label = localization.getString(value.labelResource),
                             isSelected = value == colorScheme,
                             onSelected = { setPreference(ColorScheme.Preference, value) },
                         )
@@ -85,7 +84,7 @@ class GetOverviewPreferencesUseCase(
                     subtitle = localization.getString(startScreen.labelResource)
                     options = StartScreen.entries.map { value ->
                         PreferenceListListItem.Option(
-                            label = { getString(value.labelResource) },
+                            label = localization.getString(value.labelResource),
                             isSelected = value == startScreen,
                             onSelected = { setPreference(StartScreen.Preference, value) },
                         )

@@ -31,14 +31,14 @@ data class PreferenceListListItem(
                 expanded = isExpanded,
                 onDismissRequest = { isExpanded = false },
                 items = options.map { option ->
-                    option.label() to { scope.launch { option.onSelected() } }
+                    option.label to { scope.launch { option.onSelected() } }
                 }
             )
         }
     }
 
     data class Option(
-        val label: @Composable () -> String,
+        val label: String,
         val isSelected: Boolean,
         val onSelected: suspend () -> Unit,
     )

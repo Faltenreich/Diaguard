@@ -27,6 +27,7 @@ import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.food.search.FoodSelectionEvent
 import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
@@ -48,6 +49,7 @@ fun EntryForm(
     viewModel: EntryFormViewModel,
     foodSelectionViewModel: FoodSelectionViewModel,
 ) {
+    Logger.error("EntryForm updated")
     val state = viewModel.collectState()
 
     LaunchedEffect(Unit) {
@@ -132,7 +134,7 @@ fun EntryForm(
             }
         }
 
-        val measurements = viewModel.measurements
+        val measurements = state?.measurements ?: emptyList()
         AnimatedVisibility(
             visible = measurements.isNotEmpty(),
             enter = fadeIn(),
@@ -141,7 +143,7 @@ fun EntryForm(
                 measurements.forEach { measurement ->
                     MeasurementCategoryInput(
                         state = measurement,
-                        foodState = viewModel.foodEaten,
+                        foodEaten = state?.foodEaten ?: emptyList(),
                         onIntent = viewModel::dispatchIntent,
                     )
                     Divider()

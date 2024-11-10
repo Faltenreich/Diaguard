@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
-import androidx.compose.runtime.snapshotFlow
 import app.cash.turbine.test
+import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.datetime.picker.TimePickerModal
@@ -31,21 +31,17 @@ class EntryFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `launch with categories`() = runTest {
-        snapshotFlow { viewModel.measurements }.test {
-            assertEquals(
-                expected = emptyList(),
-                actual = awaitItem(),
-            )
-            assertTrue(awaitItem().isNotEmpty())
+    fun `launch with no and then some categories`() = runTest {
+        viewModel.state.test {
+            assertTrue(awaitItem().measurements.isEmpty())
+            assertTrue(awaitItem().measurements.isNotEmpty())
         }
     }
 
     @Test
     fun `launch with tags`() = runTest {
         viewModel.state.test {
-            val state = awaitItem()
-            assertTrue(state.tags.isNotEmpty())
+            assertTrue(awaitItem().tags.isNotEmpty())
         }
     }
 
@@ -93,24 +89,42 @@ class EntryFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `store entry and pop screen when submitting with success`() = runTest {
-        snapshotFlow { viewModel.measurements }.test {
-            assertEquals(
-                expected = emptyList(),
-                actual = awaitItem(),
-            )
-            assertTrue(awaitItem().isNotEmpty())
+    fun `update measurements when editing input`() = runTest {
+        viewModel.state.test {
+            awaitItem()
 
-            val input = viewModel
+            val input = awaitItem()
                 .measurements.first()
                 .propertyInputStates.first()
                 .copy(input = "10")
             viewModel.handleIntent(EntryFormIntent.Edit(input))
+
+            assertEquals(
+                expected = input,
+                actual = awaitItem().measurements.first().propertyInputStates.first(),
+            )
+        }
+    }
+
+    @Test
+    fun `pop screen when submitting with success`() = runTest {
+        turbineScope {
+            val state = viewModel.state.testIn(backgroundScope)
+            val navigation = navigation.events.testIn(backgroundScope)
+
+            state.awaitItem()
+
+            val input = state.awaitItem()
+                .measurements.first()
+                .propertyInputStates.first()
+                .copy(input = "10")
+            viewModel.handleIntent(EntryFormIntent.Edit(input))
+
+            state.awaitItem()
+
             viewModel.handleIntent(EntryFormIntent.Submit)
 
-            navigation.events.test {
-                assertTrue(awaitItem() is NavigationEvent.PopScreen)
-            }
+            assertTrue(navigation.awaitItem() is NavigationEvent.PopScreen)
         }
     }
 

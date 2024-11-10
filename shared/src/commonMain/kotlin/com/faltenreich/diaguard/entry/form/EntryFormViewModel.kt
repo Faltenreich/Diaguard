@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class EntryFormViewModel(
@@ -83,9 +83,9 @@ class EntryFormViewModel(
 
     var alarmDelayInMinutes: Int? by mutableStateOf(null)
 
-    var measurements by mutableStateOf(emptyList<MeasurementCategoryInputState>())
+    private val measurements = MutableStateFlow((emptyList<MeasurementCategoryInputState>()))
 
-    var foodEaten by mutableStateOf(listOfNotNull(food?.let(::FoodEatenInputState)))
+    private val foodEaten = MutableStateFlow(listOfNotNull(food?.let(::FoodEatenInputState)))
 
     var tagQuery = MutableStateFlow("")
     var tagSelection = MutableStateFlow(emptyList<Tag>())
@@ -97,16 +97,21 @@ class EntryFormViewModel(
             getTagsByQuery(tagQuery, tagsSelected)
         }
 
-    override val state = tagSuggestions.map(::EntryFormState)
+    override val state = combine(
+        measurements,
+        foodEaten,
+        tagSuggestions,
+        ::EntryFormState,
+    )
 
     init {
         scope.launch {
             getMeasurementCategoryInputState(editing).collectLatest {
-                measurements += it
+                measurements.value += it
             }
         }
         scope.launch {
-            foodEaten += getFoodEatenInputState(editing)
+            foodEaten.value += getFoodEatenInputState(editing)
         }
         scope.launch {
             tagSelection.value += getTagsOfEntry(editing)
@@ -130,17 +135,19 @@ class EntryFormViewModel(
     }
 
     private fun edit(update: MeasurementPropertyInputState) {
-        measurements = measurements.map { category ->
-            category.copy(propertyInputStates = category.propertyInputStates.map { legacy ->
-                when (legacy.property) {
-                    update.property -> update
-                    else -> legacy
-                }
-            })
+        measurements.update { measurements ->
+            measurements.map { category ->
+                category.copy(propertyInputStates = category.propertyInputStates.map { legacy ->
+                    when (legacy.property) {
+                        update.property -> update
+                        else -> legacy
+                    }
+                })
+            }
         }
     }
 
-    private fun selectDate() = scope.launch {
+    private suspend fun selectDate() {
         showModal(
             DatePickerModal(
                 date = date,
@@ -152,7 +159,7 @@ class EntryFormViewModel(
         )
     }
 
-    private fun selectTime() = scope.launch {
+    private suspend fun selectTime() {
         showModal(
             TimePickerModal(
                 time = time,
@@ -164,14 +171,14 @@ class EntryFormViewModel(
         )
     }
 
-    private fun submit() = scope.launch {
+    private suspend fun submit() {
         val input = EntryFormInput(
             entry = editing,
             dateTime = dateTime,
-            measurements = measurements,
+            measurements = measurements.value,
             tags = tagSelection.value,
             note = note.takeIf(String::isNotBlank),
-            foodEaten = foodEaten,
+            foodEaten = foodEaten.value,
         )
         when (val result = validate(input)) {
             is ValidationResult.Success -> {
@@ -179,7 +186,7 @@ class EntryFormViewModel(
                 popScreen()
             }
             is ValidationResult.Failure -> {
-                measurements = result.data.measurements
+                measurements.value = result.data.measurements
                 showSnackbar(message = result.error)
             }
         }
@@ -210,20 +217,22 @@ class EntryFormViewModel(
     }
 
     private fun addFood(food: Food.Local) {
-        foodEaten += FoodEatenInputState(food)
+        foodEaten.update { foodEaten -> foodEaten + FoodEatenInputState(food) }
     }
 
     private fun editFood(food: FoodEatenInputState) {
-        foodEaten = foodEaten.map { legacy ->
-            when (legacy.food) {
-                food.food -> food
-                else -> legacy
+        foodEaten.update { foodEaten ->
+            foodEaten.map { legacy ->
+                when (legacy.food) {
+                    food.food -> food
+                    else -> legacy
+                }
             }
         }
     }
 
     private fun removeFood(food: FoodEatenInputState) {
-        foodEaten -= food
+        foodEaten.update { foodEaten -> foodEaten - food }
     }
 
     private fun addTag(tag: Tag) {

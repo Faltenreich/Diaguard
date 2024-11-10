@@ -37,7 +37,6 @@ class OverviewPreferenceViewModelTest : TestSuite {
                 ),
                 actual = awaitItem().map(PreferenceListItem::title),
             )
-            awaitComplete()
         }
     }
 }

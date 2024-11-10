@@ -2,10 +2,11 @@ package com.faltenreich.diaguard.preference.overview
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
-import kotlin.test.assertEquals
+import kotlin.test.assertContentEquals
 
 class OverviewPreferenceViewModelTest : TestSuite {
 
@@ -14,10 +15,29 @@ class OverviewPreferenceViewModelTest : TestSuite {
     @Test
     fun `show preferences`() = runTest {
         viewModel.state.test {
-            assertEquals(
-                expected = listOf(),
-                actual = awaitItem(),
+            assertContentEquals(
+                expected = listOf(
+                    "color_scheme",
+                    "start_screen",
+                    "data",
+                    "decimal_places",
+                    "measurement_categories",
+                    "tags",
+                    "food",
+                    "contact",
+                    "homepage",
+                    "mail",
+                    "facebook",
+                    "about",
+                    "source_code",
+                    "licenses",
+                    "privacy_policy",
+                    "terms_and_conditions",
+                    "version",
+                ),
+                actual = awaitItem().map(PreferenceListItem::title),
             )
+            awaitComplete()
         }
     }
 }

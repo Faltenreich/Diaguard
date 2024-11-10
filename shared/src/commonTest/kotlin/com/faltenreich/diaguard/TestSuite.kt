@@ -24,6 +24,8 @@ interface TestSuite : KoinTest {
     @BeforeTest
     @CallSuper
     fun beforeTest() {
+        // FIXME: KoinApplication has not been started
+        //  https://insert-koin.io/docs/reference/koin-android/instrumented-testing/#override-production-modules-with-a-test-rule
         startKoin { modules(appModules() + testModules()) }
         Dispatchers.setMain(dispatcher = get())
     }

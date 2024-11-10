@@ -23,16 +23,14 @@ class DecimalPlacesFormViewModelTest : TestSuite {
                 ),
                 actual = awaitItem(),
             )
-            awaitComplete()
         }
     }
 
     @Test
-    fun `disable decrease button when reaching 0 decimal places`() = runTest {
-        viewModel.state.test {
-            viewModel.handleIntent(DecimalPlacesFormIntent.Update(decimalPlaces = 0))
+    fun `disable decrease button when updating decimal places to 0`() = runTest {
+        viewModel.handleIntent(DecimalPlacesFormIntent.Update(decimalPlaces = 0))
 
-            // FIXME: FakeKeyValueStore does not publish update
+        viewModel.state.test {
             assertEquals(
                 expected = DecimalPlacesFormState(
                     decimalPlaces = 0,
@@ -42,7 +40,40 @@ class DecimalPlacesFormViewModelTest : TestSuite {
                 ),
                 actual = awaitItem(),
             )
-            awaitComplete()
+        }
+    }
+
+    @Test
+    fun `disable increase button when updating decimal places to 3`() = runTest {
+        viewModel.handleIntent(DecimalPlacesFormIntent.Update(decimalPlaces = 3))
+
+        viewModel.state.test {
+            assertEquals(
+                expected = DecimalPlacesFormState(
+                    decimalPlaces = 3,
+                    illustration = "decimal_places_illustration",
+                    enableDecreaseButton = true,
+                    enableIncreaseButton = false,
+                ),
+                actual = awaitItem(),
+            )
+        }
+    }
+
+    @Test
+    fun `do nothing when updating decimal places to 4`() = runTest {
+        viewModel.handleIntent(DecimalPlacesFormIntent.Update(decimalPlaces = 4))
+
+        viewModel.state.test {
+            assertEquals(
+                expected = DecimalPlacesFormState(
+                    decimalPlaces = 1,
+                    illustration = "decimal_places_illustration",
+                    enableDecreaseButton = true,
+                    enableIncreaseButton = true,
+                ),
+                actual = awaitItem(),
+            )
         }
     }
 }

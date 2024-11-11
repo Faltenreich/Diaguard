@@ -80,7 +80,7 @@ class FoodEatenListViewModelTest : TestSuite {
     }
 
     @Test
-    fun `open entry form when creating entry`() = runTest {
+    fun `push screen when creating entry`() = runTest {
         navigation.events.test {
             viewModel.handleIntent(FoodEatenListIntent.CreateEntry)
 
@@ -91,7 +91,7 @@ class FoodEatenListViewModelTest : TestSuite {
     }
 
     @Test
-    fun `open entry form when opening entry`() = runTest {
+    fun `push screen when opening entry`() = runTest {
         navigation.events.test {
             viewModel.handleIntent(FoodEatenListIntent.OpenEntry(entry))
 

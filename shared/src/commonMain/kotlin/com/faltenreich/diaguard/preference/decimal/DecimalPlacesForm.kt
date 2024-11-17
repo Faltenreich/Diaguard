@@ -21,6 +21,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.decimal_places
+import diaguard.shared.generated.resources.decimal_places_description
 import diaguard.shared.generated.resources.decimal_places_update
 import diaguard.shared.generated.resources.ic_remove
 import org.jetbrains.compose.resources.painterResource
@@ -36,19 +37,17 @@ fun DecimalPlacesForm(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = AppTheme.dimensions.padding.P_3),
+            .padding(horizontal = AppTheme.dimensions.padding.P_3_5),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = getString(Res.string.decimal_places),
             style = AppTheme.typography.titleLarge,
         )
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
+        Text(getString(Res.string.decimal_places_description))
 
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3_5))
-
-        Text(state.illustration)
-
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
 
         Row(
             modifier = Modifier.background(
@@ -95,6 +94,10 @@ fun DecimalPlacesForm(
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
+
+        Text(state.illustration)
 
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_4_5))
     }

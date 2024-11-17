@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryLis
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.ColorScheme
+import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
@@ -65,8 +66,9 @@ class GetOverviewPreferencesUseCase(
         return combine(
             getPreference(ColorScheme.Preference),
             getPreference(StartScreen.Preference),
+            getPreference(DecimalPlaces),
             getAppVersion(),
-        ) { colorScheme, startScreen, appVersion ->
+        ) { colorScheme, startScreen, decimalPlaces, appVersion ->
             preferences {
                 list {
                     title = localization.getString(Res.string.color_scheme)
@@ -90,13 +92,14 @@ class GetOverviewPreferencesUseCase(
                         )
                     }
                 }
+                action {
+                    title = localization.getString(Res.string.decimal_places)
+                    subtitle = decimalPlaces.toString()
+                    onClick = { openBottomSheet(DecimalPlacesFormScreen) }
+                }
                 category {
                     title = localization.getString(Res.string.data)
                     icon = Res.drawable.ic_data
-                }
-                action {
-                    title = localization.getString(Res.string.decimal_places)
-                    onClick = { openBottomSheet(DecimalPlacesFormScreen) }
                 }
                 action {
                     title = localization.getString(Res.string.measurement_categories)

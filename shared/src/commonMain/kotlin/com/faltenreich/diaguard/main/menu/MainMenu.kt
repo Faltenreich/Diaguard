@@ -11,22 +11,17 @@ import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceScreen
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.dashboard
 import diaguard.shared.generated.resources.export
 import diaguard.shared.generated.resources.food
-import diaguard.shared.generated.resources.ic_dashboard
-import diaguard.shared.generated.resources.ic_log
-import diaguard.shared.generated.resources.ic_timeline
-import diaguard.shared.generated.resources.log
 import diaguard.shared.generated.resources.preferences
 import diaguard.shared.generated.resources.statistic
-import diaguard.shared.generated.resources.timeline
 import kotlin.reflect.KClass
 
 @Composable
@@ -41,20 +36,20 @@ fun MainMenu(
 
     Column(modifier = modifier) {
         MainMenuItem(
-            label = Res.string.dashboard,
-            icon = Res.drawable.ic_dashboard,
+            label = StartScreen.DASHBOARD.labelResource,
+            icon = StartScreen.DASHBOARD.iconResource,
             isSelected = currentDestination.isSelecting(DashboardScreen::class),
             onClick = { pushScreen(DashboardScreen, true) },
         )
         MainMenuItem(
-            label = Res.string.timeline,
-            icon = Res.drawable.ic_timeline,
+            label = StartScreen.TIMELINE.labelResource,
+            icon = StartScreen.TIMELINE.iconResource,
             isSelected = currentDestination.isSelecting(TimelineScreen::class),
             onClick = { pushScreen(TimelineScreen, true) },
         )
         MainMenuItem(
-            label = Res.string.log,
-            icon = Res.drawable.ic_log,
+            label = StartScreen.LOG.labelResource,
+            icon = StartScreen.LOG.iconResource,
             isSelected = currentDestination.isSelecting(LogScreen::class),
             onClick = { pushScreen(LogScreen, true) },
         )

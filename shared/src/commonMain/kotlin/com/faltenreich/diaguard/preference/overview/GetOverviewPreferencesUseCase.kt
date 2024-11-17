@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.preferences
 import com.faltenreich.diaguard.preference.screen.StartScreenFormScreen
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.networking.UrlOpener
@@ -55,12 +54,11 @@ import kotlinx.coroutines.flow.combine
 
 class GetOverviewPreferencesUseCase(
     private val localization: Localization,
-    private val urlOpener: UrlOpener,
     private val getPreference: GetPreferenceUseCase,
-    private val setPreference: SetPreferenceUseCase,
     private val getAppVersion: GetAppVersionUseCase,
     private val pushScreen: PushScreenUseCase,
     private val openBottomSheet: OpenBottomSheetUseCase,
+    private val urlOpener: UrlOpener,
 ) {
 
     operator fun invoke(): Flow<List<PreferenceListItem>> {

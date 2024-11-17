@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategoryReposito
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -52,7 +52,7 @@ class GetAverageUseCase(
                     minDateTime = today.minus(1, DateUnit.MONTH).atStartOfDay(),
                     maxDateTime = todayAtEndOfDay,
                 ),
-                getPreference(DecimalPlaces),
+                getPreference(DecimalPlacesPreference),
             ) { properties, averageOfDay, averageOfWeek, averageOfMonth, decimalPlaces ->
                 val unit = properties.firstOrNull()?.selectedUnit ?: return@combine DashboardState.Average(
                     day = null,

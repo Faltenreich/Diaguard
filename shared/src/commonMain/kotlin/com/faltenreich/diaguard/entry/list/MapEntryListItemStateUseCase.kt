@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
@@ -27,7 +27,7 @@ class MapEntryListItemStateUseCase(
 ) {
 
     suspend operator fun invoke(entry: Entry.Local): EntryListItemState {
-        val decimalPlaces = getPreference(DecimalPlaces).firstOrNull() ?: DecimalPlaces.default
+        val decimalPlaces = getPreference(DecimalPlacesPreference).firstOrNull() ?: DecimalPlacesPreference.default
         return EntryListItemState(
             entry = entry.apply {
                 values = valueRepository.getByEntryId(entry.id)

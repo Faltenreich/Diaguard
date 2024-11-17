@@ -11,8 +11,10 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.preference.FoodPreference
 import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
+import com.faltenreich.diaguard.preference.food.ShowBrandedFoodPreference
+import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
+import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -37,9 +39,9 @@ class FoodSearchViewModel(
             // FIXME: Debounce without delaying the whole state
             //  .debounce(1.seconds)
             .distinctUntilChanged(),
-        getPreference(FoodPreference.ShowCommonFood),
-        getPreference(FoodPreference.ShowCustomFood),
-        getPreference(FoodPreference.ShowBrandedFood),
+        getPreference(ShowCommonFoodPreference),
+        getPreference(ShowCustomFoodPreference),
+        getPreference(ShowBrandedFoodPreference),
         ::FoodSearchParams,
     ).flatMapLatest { params ->
         Pager(

@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategor
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +26,7 @@ class GetMeasurementCategoryInputStateUseCase(
     ): Flow<List<MeasurementCategoryInputState>> = withContext(dispatcher) {
         combine(
             getCategories(),
-            getPreference(DecimalPlaces),
+            getPreference(DecimalPlacesPreference),
         ) { categories, decimalPlaces ->
             categories.mapIndexed { categoryIndex, category ->
                 val properties = propertyRepository.getByCategoryId(category.id)

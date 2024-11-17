@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.format
@@ -33,7 +33,7 @@ class GetCurrentHbA1cUseCase(
         return combine(
             getLatestHbA1c(),
             getEstimatedHbA1c(),
-            getPreference(DecimalPlaces),
+            getPreference(DecimalPlacesPreference),
         ) { latestHbA1c, estimatedHbA1c, decimalPlaces ->
             when {
                 latestHbA1c != null -> getLatestHbA1c(latestHbA1c, decimalPlaces)

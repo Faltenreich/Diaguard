@@ -8,7 +8,8 @@ import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.preference.StartScreen
+import com.faltenreich.diaguard.preference.screen.StartScreen
+import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.timeline.TimelineScreen
@@ -30,7 +31,7 @@ class MainViewModel(
 
     override val state = combine(
         hasData(),
-        getPreference(StartScreen.Preference),
+        getPreference(StartScreenPreference),
         getTopAppBarStyle(),
         getBottomAppBarStyle(),
     ) { hasData, startScreen, topAppBarStyle, bottomAppBarStyle ->

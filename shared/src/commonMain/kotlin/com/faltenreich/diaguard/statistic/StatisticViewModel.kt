@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +32,7 @@ class StatisticViewModel(
 
     override val state = combine(
         getCategories(),
-        getPreference(DecimalPlaces),
+        getPreference(DecimalPlacesPreference),
         selectedCategory,
     ) { categories, decimalPlaces, selectedCategory ->
         val category = selectedCategory ?: categories.first()

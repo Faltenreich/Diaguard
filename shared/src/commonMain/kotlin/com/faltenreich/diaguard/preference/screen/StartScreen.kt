@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference
+package com.faltenreich.diaguard.preference.screen
 
 import diaguard.shared.generated.resources.*
 import org.jetbrains.compose.resources.DrawableResource
@@ -25,12 +25,4 @@ enum class StartScreen(
         labelResource = Res.string.log,
         iconResource = Res.drawable.ic_log,
     ),
-    ;
-
-    data object Preference : com.faltenreich.diaguard.preference.Preference<Int, StartScreen>(
-        key = Res.string.preference_start_screen,
-        default = DASHBOARD,
-        onRead = { stableId -> entries.firstOrNull { it.stableId == stableId } },
-        onWrite = StartScreen::stableId,
-    )
 }

@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
-import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
@@ -25,7 +25,7 @@ class GetFoodEatenForFoodUseCase(
     operator fun invoke(food: Food.Local): Flow<List<FoodEaten.Localized>> {
         return combine(
             foodEatenRepository.observeByFoodId(food.id),
-            getPreference(DecimalPlaces),
+            getPreference(DecimalPlacesPreference),
         ) { foodList, decimalPlaces ->
             foodList.map { food ->
                 FoodEaten.Localized(

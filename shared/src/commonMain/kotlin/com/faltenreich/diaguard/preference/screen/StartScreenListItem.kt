@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.shared.localization.getString
 import org.jetbrains.compose.resources.painterResource
 

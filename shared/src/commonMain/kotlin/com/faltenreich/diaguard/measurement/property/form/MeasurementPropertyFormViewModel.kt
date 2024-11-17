@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -58,7 +58,7 @@ class MeasurementPropertyFormViewModel(
     private val units = combine(
         getUnits(property),
         selectedUnit,
-        getPreference(DecimalPlaces),
+        getPreference(DecimalPlacesPreference),
     ) { units, selectedUnit, decimalPlaces ->
         if (property.isUserGenerated) emptyList() else units.map { unit ->
             MeasurementUnitListItemState(

@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
-import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +26,7 @@ class GetLatestBloodSugarUseCase(
             valueRepository.observeLatestByProperty(
                 key = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
             ),
-            getPreference(DecimalPlaces),
+            getPreference(DecimalPlacesPreference),
         ) { value, decimalPlaces ->
             when (value) {
                 null -> null

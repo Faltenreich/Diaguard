@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference
+package com.faltenreich.diaguard.preference.color
 
 import diaguard.shared.generated.resources.*
 import org.jetbrains.compose.resources.StringResource
@@ -19,12 +19,4 @@ enum class ColorScheme(
         stableId = 2,
         labelResource = Res.string.color_scheme_dark,
     ),
-    ;
-
-    data object Preference : com.faltenreich.diaguard.preference.Preference<Int, ColorScheme>(
-        key = Res.string.preference_theme,
-        default = SYSTEM,
-        onRead = { stableId -> entries.firstOrNull { it.stableId == stableId } },
-        onWrite = ColorScheme::stableId,
-    )
 }

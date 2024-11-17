@@ -6,7 +6,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.main.MainView
-import com.faltenreich.diaguard.preference.ColorScheme
+import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.theme.ThemeViewModel
 import com.faltenreich.diaguard.shared.view.keyboardPadding

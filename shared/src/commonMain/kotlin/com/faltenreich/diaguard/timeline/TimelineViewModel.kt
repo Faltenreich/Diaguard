@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategor
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.preference.DecimalPlaces
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +35,7 @@ class TimelineViewModel(
     private val currentDate = MutableStateFlow(initialDate.value)
     private val categories = getCategories()
     private val values = currentDate.flatMapLatest(getValues::invoke)
-    private val decimalPlaces = getPreference(DecimalPlaces)
+    private val decimalPlaces = getPreference(DecimalPlacesPreference)
     private val data = combine(categories, values, decimalPlaces, getData::invoke)
 
     override val state = combine(

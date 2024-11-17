@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.main.menu.MainMenuScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.preference.StartScreen
+import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import kotlinx.coroutines.test.runTest

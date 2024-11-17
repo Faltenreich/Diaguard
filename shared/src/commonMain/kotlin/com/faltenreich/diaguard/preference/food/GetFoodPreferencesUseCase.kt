@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.preference.food
 
-import com.faltenreich.diaguard.preference.FoodPreference
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.preferences
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -34,9 +33,9 @@ class GetFoodPreferencesUseCase(
 
     operator fun invoke(): Flow<List<PreferenceListItem>> {
         return combine(
-            getPreference(FoodPreference.ShowCustomFood),
-            getPreference(FoodPreference.ShowCommonFood),
-            getPreference(FoodPreference.ShowBrandedFood),
+            getPreference(ShowCustomFoodPreference),
+            getPreference(ShowCommonFoodPreference),
+            getPreference(ShowBrandedFoodPreference),
         ) { showCustomFood, showCommonFood, showBrandedFood ->
             preferences {
                 category {
@@ -46,7 +45,7 @@ class GetFoodPreferencesUseCase(
                     title = localization.getString(Res.string.food_custom_show)
                     subtitle = localization.getString(Res.string.food_custom_show_desc)
                     isChecked = showCustomFood
-                    onCheckedChange = { setPreference(FoodPreference.ShowCustomFood, it) }
+                    onCheckedChange = { setPreference(ShowCustomFoodPreference, it) }
                 }
                 category {
                     title = localization.getString(Res.string.food_common)
@@ -61,7 +60,7 @@ class GetFoodPreferencesUseCase(
                     title = localization.getString(Res.string.food_common_show)
                     subtitle = localization.getString(Res.string.food_common_show_desc)
                     isChecked = showCommonFood
-                    onCheckedChange = { setPreference(FoodPreference.ShowCommonFood, it) }
+                    onCheckedChange = { setPreference(ShowCommonFoodPreference, it) }
                 }
                 category {
                     title = localization.getString(Res.string.food_branded)
@@ -76,7 +75,7 @@ class GetFoodPreferencesUseCase(
                     title = localization.getString(Res.string.food_branded_show)
                     subtitle = localization.getString(Res.string.food_branded_show_desc)
                     isChecked = showBrandedFood
-                    onCheckedChange = { setPreference(FoodPreference.ShowBrandedFood, it) }
+                    onCheckedChange = { setPreference(ShowBrandedFoodPreference, it) }
                 }
             }
         }

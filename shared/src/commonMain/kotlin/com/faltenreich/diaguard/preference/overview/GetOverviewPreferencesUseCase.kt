@@ -3,16 +3,16 @@ package com.faltenreich.diaguard.preference.overview
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.preference.ColorScheme
-import com.faltenreich.diaguard.preference.DecimalPlaces
-import com.faltenreich.diaguard.preference.StartScreen
 import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
+import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
+import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.preferences
 import com.faltenreich.diaguard.preference.screen.StartScreenFormScreen
+import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -63,9 +63,9 @@ class GetOverviewPreferencesUseCase(
 
     operator fun invoke(): Flow<List<PreferenceListItem>> {
         return combine(
-            getPreference(ColorScheme.Preference),
-            getPreference(StartScreen.Preference),
-            getPreference(DecimalPlaces),
+            getPreference(ColorSchemePreference),
+            getPreference(StartScreenPreference),
+            getPreference(DecimalPlacesPreference),
             getAppVersion(),
         ) { colorScheme, startScreen, decimalPlaces, appVersion ->
             preferences {

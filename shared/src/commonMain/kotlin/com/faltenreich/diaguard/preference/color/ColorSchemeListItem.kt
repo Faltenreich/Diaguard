@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.shared.localization.getString
 
 @Composable

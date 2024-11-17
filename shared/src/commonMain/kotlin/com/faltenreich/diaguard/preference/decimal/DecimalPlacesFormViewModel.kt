@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.preference.decimal
 
-import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -13,7 +12,7 @@ class DecimalPlacesFormViewModel(
     private val illustrateDecimalPlaces: IllustrateDecimalPlacesUseCase,
 ) : ViewModel<DecimalPlacesFormState, DecimalPlacesFormIntent, Unit>() {
 
-    private val decimalPlaces = getPreference(DecimalPlaces)
+    private val decimalPlaces = getPreference(DecimalPlacesPreference)
     private val illustration = decimalPlaces.map(illustrateDecimalPlaces::invoke)
     private val enableDecreaseButton = decimalPlaces.map { it > decimalPlacesRange.first }
     private val enableIncreaseButton = decimalPlaces.map { it < decimalPlacesRange.last }
@@ -34,7 +33,7 @@ class DecimalPlacesFormViewModel(
 
     private suspend fun updateIfValid(decimalPlaces: Int) {
         if (decimalPlaces in decimalPlacesRange) {
-            setPreference(DecimalPlaces, decimalPlaces)
+            setPreference(DecimalPlacesPreference, decimalPlaces)
         }
     }
 

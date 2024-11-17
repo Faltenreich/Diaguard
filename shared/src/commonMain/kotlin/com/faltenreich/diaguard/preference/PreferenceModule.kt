@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.preference.license.GetLicensesUseCase
 import com.faltenreich.diaguard.preference.license.LicenseListViewModel
 import com.faltenreich.diaguard.preference.overview.GetOverviewPreferencesUseCase
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceViewModel
+import com.faltenreich.diaguard.preference.screen.StartScreenFormViewModel
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.PreferenceStore
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
@@ -26,6 +27,8 @@ fun preferenceModule() = module {
     singleOf(::GetAppVersionUseCase)
 
     viewModelOf(::ColorSchemeFormViewModel)
+
+    viewModelOf(::StartScreenFormViewModel)
 
     singleOf(::IllustrateDecimalPlacesUseCase)
     viewModelOf(::DecimalPlacesFormViewModel)

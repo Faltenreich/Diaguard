@@ -19,8 +19,8 @@ class OverviewPreferenceViewModelTest : TestSuite {
                 expected = listOf(
                     "color_scheme",
                     "start_screen",
-                    "data",
                     "decimal_places",
+                    "data",
                     "measurement_categories",
                     "tags",
                     "food",

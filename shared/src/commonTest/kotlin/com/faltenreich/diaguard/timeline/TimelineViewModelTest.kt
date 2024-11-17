@@ -45,109 +45,93 @@ class TimelineViewModelTest : TestSuite {
                     table = TimelineData.Table(
                         categories = listOf(
                             TimelineData.Table.Category(
+                                icon = "💉",
+                                name = "insulin",
                                 properties = listOf(
                                     TimelineData.Table.Category.Property(
-                                        icon ="🩸",
-                                        name = "blood_sugar",
-                                        unit = "blood_sugar",
-                                        values = emptyList()
-                                    ),
-                                ),
-                            ),
-                            TimelineData.Table.Category(
-                                properties = listOf(
-                                    TimelineData.Table.Category.Property(
-                                        icon = "💉",
-                                        name = "insulin",
-                                        unit = "bolus",
+                                        name = "bolus",
                                         values = emptyList()
                                     ),
                                     TimelineData.Table.Category.Property(
-                                        icon = "💉",
-                                        name = "insulin",
-                                        unit = "correction",
+                                        name = "correction",
                                         values = emptyList(),
                                     ),
                                     TimelineData.Table.Category.Property(
-                                        icon = "💉",
-                                        name = "insulin",
-                                        unit = "basal",
+                                        name = "basal",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
                             TimelineData.Table.Category(
+                                icon = "🍞",
+                                name = "meal",
                                 properties = listOf(
                                     TimelineData.Table.Category.Property(
-                                        icon = "🍞",
                                         name = "meal",
-                                        unit = "meal",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
                             TimelineData.Table.Category(
+                                icon = "🏃",
+                                name = "activity",
                                 properties = listOf(
                                     TimelineData.Table.Category.Property(
-                                        icon = "🏃",
                                         name = "activity",
-                                        unit = "activity",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
                             TimelineData.Table.Category(
+                                icon = "%",
+                                name = "hba1c",
                                 properties = listOf(
                                     TimelineData.Table.Category.Property(
-                                        icon = "%",
                                         name = "hba1c",
-                                        unit = "hba1c",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
                             TimelineData.Table.Category(
+                                icon = "🏋",
+                                name = "weight",
                                 properties = listOf(
                                     TimelineData.Table.Category.Property(
-                                        icon = "🏋",
                                         name = "weight",
-                                        unit = "weight",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
                             TimelineData.Table.Category(
+                                icon = "💚",
+                                name = "pulse",
                                 properties = listOf(
                                     TimelineData.Table.Category.Property(
-                                        icon = "💚",
                                         name = "pulse",
-                                        unit = "pulse",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
                             TimelineData.Table.Category(
+                                icon = "⛽",
+                                name = "blood_pressure",
                                 properties = listOf(
                                     TimelineData.Table.Category.Property(
-                                        icon = "⛽",
-                                        name = "blood_pressure",
-                                        unit = "systolic",
+                                        name = "systolic",
                                         values = emptyList(),
                                     ),
                                     TimelineData.Table.Category.Property(
-                                        icon = "⛽",
-                                        name = "blood_pressure",
-                                        unit = "diastolic",
+                                        name = "diastolic",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
                             TimelineData.Table.Category(
+                                icon = "O²",
+                                name = "oxygen_saturation",
                                 properties = listOf(
                                     TimelineData.Table.Category.Property(
-                                        icon = "O²",
                                         name = "oxygen_saturation",
-                                        unit = "oxygen_saturation",
                                         values = emptyList(),
                                     ),
                                 ),

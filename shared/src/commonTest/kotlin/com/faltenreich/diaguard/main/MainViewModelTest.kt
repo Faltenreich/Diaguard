@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.main.menu.MainMenuScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.preference.screen.StartScreen
+import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import kotlinx.coroutines.test.runTest
@@ -56,7 +57,7 @@ class MainViewModelTest : TestSuite {
     @Test
     fun `shows timeline as start screen if selected`() = runTest {
         importSeed()
-        setPreference(StartScreen.Preference, StartScreen.TIMELINE)
+        setPreference(StartScreenPreference, StartScreen.TIMELINE)
 
         viewModel.state.test {
             val state = awaitItem()
@@ -69,7 +70,7 @@ class MainViewModelTest : TestSuite {
     @Test
     fun `shows log as start screen if selected`() = runTest {
         importSeed()
-        setPreference(StartScreen.Preference, StartScreen.LOG)
+        setPreference(StartScreenPreference, StartScreen.LOG)
 
         viewModel.state.test {
             val state = awaitItem()

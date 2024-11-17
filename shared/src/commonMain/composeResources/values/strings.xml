@@ -40,7 +40,7 @@
     <string name="date_of_export">Date of export</string>
     <string name="days_without_entries">Days without entries</string>
     <string name="decimal_places">Decimal places</string>
-    <string name="decimal_places_description">Number of digits for the fractional part of floating point numbers</string>
+    <string name="decimal_places_description">This will set the number of digits for the fractional part of floating point numbers.</string>
     <string name="decimal_places_illustration">"%1$s" will be shown as "%2$s"</string>
     <string name="decimal_places_update">Set decimal places to %1$d</string>
     <string name="delete">Delete</string>

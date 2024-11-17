@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.ColorScheme
 import com.faltenreich.diaguard.preference.DecimalPlaces
 import com.faltenreich.diaguard.preference.StartScreen
+import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
@@ -70,16 +71,10 @@ class GetOverviewPreferencesUseCase(
             getAppVersion(),
         ) { colorScheme, startScreen, decimalPlaces, appVersion ->
             preferences {
-                list {
+                action {
                     title = localization.getString(Res.string.color_scheme)
                     subtitle = localization.getString(colorScheme.labelResource)
-                    options = ColorScheme.entries.map { value ->
-                        PreferenceListListItem.Option(
-                            label = localization.getString(value.labelResource),
-                            isSelected = value == colorScheme,
-                            onSelected = { setPreference(ColorScheme.Preference, value) },
-                        )
-                    }
+                    onClick = { openBottomSheet(ColorSchemeFormScreen) }
                 }
                 list {
                     title = localization.getString(Res.string.start_screen)

@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.decimal_places
@@ -30,7 +29,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun DecimalPlacesForm(
     modifier: Modifier = Modifier,
-    viewModel: DecimalPlacesFormViewModel = inject(),
+    viewModel: DecimalPlacesFormViewModel,
 ) {
     val state = viewModel.collectState() ?: return
 

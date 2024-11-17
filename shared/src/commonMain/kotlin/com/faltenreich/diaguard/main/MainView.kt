@@ -38,6 +38,7 @@ import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
@@ -139,6 +140,7 @@ fun MainView(
                     screen<ExportFormScreen>()
 
                     screen<OverviewPreferenceScreen>()
+                    screen<ColorSchemeFormScreen>()
                     screen<DecimalPlacesFormScreen>()
                     screen<MeasurementCategoryListScreen>()
                     screen<MeasurementCategoryFormScreen>()

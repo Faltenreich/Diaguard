@@ -1,10 +1,21 @@
 package com.faltenreich.diaguard.preference.color
 
+import com.faltenreich.diaguard.preference.ColorScheme
+import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
+import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class ColorSchemeFormViewModel : ViewModel<Unit, Unit, Unit>() {
+class ColorSchemeFormViewModel(
+    getPreference: GetPreferenceUseCase,
+    private val setPreference: SetPreferenceUseCase,
+) : ViewModel<ColorSchemeFormState, ColorSchemeFormIntent, Unit>() {
 
-    override val state: Flow<Unit>
-        get() = TODO("Not yet implemented")
+    override val state = getPreference(ColorScheme.Preference).map(::ColorSchemeFormState)
+
+    override suspend fun handleIntent(intent: ColorSchemeFormIntent) = with(intent) {
+        when (this) {
+            is ColorSchemeFormIntent.Select -> setPreference(ColorScheme.Preference, colorScheme)
+        }
+    }
 }

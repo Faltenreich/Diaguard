@@ -12,8 +12,8 @@ class GetTimelineDataUseCase(
 ) {
 
     operator fun invoke(
-        categories: List<MeasurementCategory>,
-        values: List<MeasurementValue>,
+        categories: List<MeasurementCategory.Local>,
+        values: List<MeasurementValue.Local>,
         decimalPlaces: Int,
     ): TimelineData {
         val valuesForChart = values
@@ -29,14 +29,16 @@ class GetTimelineDataUseCase(
         return TimelineData(
             chart = TimelineData.Chart(valuesForChart),
             table = TimelineData.Table(
-                categories = categories.map { category ->
+                categories = categories
+                    .filterNot { it.isBloodSugar }
+                    .map { category ->
                     val propertiesOfCategory = properties.filter { it.category == category }
                     TimelineData.Table.Category(
+                        icon = category.icon,
+                        name = category.name,
                         properties = propertiesOfCategory.map { property ->
                             TimelineData.Table.Category.Property(
-                                icon = category.icon,
-                                name = category.name,
-                                unit = property.name.takeIf { propertiesOfCategory.isNotEmpty() },
+                                name = property.name,
                                 values = valuesForTable
                                     .filter { it.property == property }
                                     .groupBy { value ->

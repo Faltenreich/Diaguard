@@ -44,39 +44,36 @@ fun DrawScope.TimelineTable(
 
             val iconSize = rowHeight
 
-            // TODO: Remove takeIf
-            property.unit?.let { label ->
-                val labelSize = textMeasurer.measure(label)
+            val labelSize = textMeasurer.measure(property.name)
 
-                // Label background
-                val path = Path()
-                val rect = RoundRect(
-                    rect = Rect(
-                        left = x + config.padding / 2,
-                        top = y + config.fontSize - labelSize.size.height + config.padding / 2,
-                        right = x + iconSize + labelSize.size.width + config.padding * 2,
-                        bottom = y + config.fontSize + config.padding + config.padding / 2,
-                    ),
-                    cornerRadius = config.cornerRadius,
-                )
-                path.addRoundRect(rect)
-                drawPath(
-                    path = path,
-                    color = config.backgroundColor,
-                )
+            // Label background
+            val path = Path()
+            val rect = RoundRect(
+                rect = Rect(
+                    left = x + config.padding / 2,
+                    top = y + config.fontSize - labelSize.size.height + config.padding / 2,
+                    right = x + iconSize + labelSize.size.width + config.padding * 2,
+                    bottom = y + config.fontSize + config.padding + config.padding / 2,
+                ),
+                cornerRadius = config.cornerRadius,
+            )
+            path.addRoundRect(rect)
+            drawPath(
+                path = path,
+                color = config.backgroundColor,
+            )
 
-                // Label
-                drawText(
-                    text = label,
-                    x = x + iconSize,
-                    y = y + config.fontSize + config.padding - 2, // TODO: Remove magic offset
-                    size = config.fontSize,
-                    paint = config.fontPaint,
-                )
-            }
+            // Label
+            drawText(
+                text = property.name,
+                x = x + iconSize,
+                y = y + config.fontSize + config.padding - 2, // TODO: Remove magic offset
+                size = config.fontSize,
+                paint = config.fontPaint,
+            )
 
             MeasurementCategoryIcon(
-                icon = property.icon,
+                icon = category.icon,
                 fallback = property.name,
                 position = Offset(x, y),
                 size = Size(width = iconSize, height = iconSize),

@@ -35,7 +35,7 @@ class MeasurementValueRepository(
     fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
-    ): Flow<List<MeasurementValue>> {
+    ): Flow<List<MeasurementValue.Local>> {
         return dao.observeByDateRange(startDateTime, endDateTime)
     }
 

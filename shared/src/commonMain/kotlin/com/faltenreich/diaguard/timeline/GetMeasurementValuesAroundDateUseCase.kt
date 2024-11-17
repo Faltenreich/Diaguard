@@ -10,7 +10,7 @@ class GetMeasurementValuesAroundDateUseCase(
     private val valueRepository: MeasurementValueRepository,
 ) {
 
-    operator fun invoke(date: Date): Flow<List<MeasurementValue>> {
+    operator fun invoke(date: Date): Flow<List<MeasurementValue.Local>> {
         return valueRepository.observeByDateRange(
             startDateTime = date.minus(2, DateUnit.DAY).atStartOfDay(),
             endDateTime = date.plus(2, DateUnit.DAY).atEndOfDay(),

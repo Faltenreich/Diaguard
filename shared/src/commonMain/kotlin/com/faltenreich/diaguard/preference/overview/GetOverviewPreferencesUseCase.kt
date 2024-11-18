@@ -22,6 +22,7 @@ import com.faltenreich.diaguard.tag.list.TagListScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.about
 import diaguard.shared.generated.resources.backup
+import diaguard.shared.generated.resources.backup_description
 import diaguard.shared.generated.resources.color_scheme
 import diaguard.shared.generated.resources.contact
 import diaguard.shared.generated.resources.data
@@ -92,6 +93,7 @@ class GetOverviewPreferencesUseCase(
                 }
                 action {
                     title = localization.getString(Res.string.backup)
+                    subtitle = localization.getString(Res.string.backup_description)
                     onClick = { pushScreen(BackupFormScreen) }
                 }
                 action {

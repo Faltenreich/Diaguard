@@ -10,6 +10,11 @@
     <string name="app_name">Diaguard</string>
     <string name="average">Average</string>
     <string name="backup">Backup</string>
+    <string name="backup_description">Transfer data between installations, devices or apps</string>
+    <string name="backup_read">Restore backup</string>
+    <string name="backup_read_description">Restore data from a previously created backup file</string>
+    <string name="backup_write">Create backup</string>
+    <string name="backup_write_description">Store data in a backup file on a storage of your choice (No data will be sent automatically to external services)</string>
     <string name="basal">Basal</string>
     <string name="beats_per_minute">Beats per minute</string>
     <string name="beats_per_minute_abbreviation">Bpm</string>

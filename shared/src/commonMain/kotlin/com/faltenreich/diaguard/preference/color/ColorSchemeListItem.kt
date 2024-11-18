@@ -17,9 +17,10 @@ fun ColorSchemeListItem(
     colorScheme: ColorScheme,
     selection: ColorScheme,
     onClick: (ColorScheme) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .selectable(
                 selected = selection == colorScheme,
                 onClick = { onClick(colorScheme) },

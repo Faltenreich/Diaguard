@@ -42,6 +42,6 @@ fun StartScreenForm(
             }
         }
 
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
     }
 }

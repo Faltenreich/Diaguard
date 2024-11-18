@@ -43,8 +43,20 @@ fun DecimalPlacesForm(
             text = getString(Res.string.decimal_places),
             style = AppTheme.typography.titleLarge,
         )
+
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
+
+        Text(
+            text = getString(Res.string.decimal_places_description),
+            modifier = Modifier.fillMaxWidth(),
+        )
+
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
-        Text(getString(Res.string.decimal_places_description))
+
+        Text(
+            text = state.illustration,
+            modifier = Modifier.fillMaxWidth(),
+        )
 
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3_5))
 
@@ -94,10 +106,6 @@ fun DecimalPlacesForm(
             }
         }
 
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
-
-        Text(state.illustration)
-
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_4_5))
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_4))
     }
 }

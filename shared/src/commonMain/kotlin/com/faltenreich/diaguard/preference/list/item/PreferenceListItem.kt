@@ -28,10 +28,6 @@ sealed interface PreferenceListItem {
             preferences += PreferenceActionListItem.Builder().apply(init).build()
         }
 
-        fun list(init: PreferenceListListItem.Builder.() -> Unit) {
-            preferences += PreferenceListListItem.Builder().apply(init).build()
-        }
-
         fun build(): List<PreferenceListItem> {
             return preferences.toList()
         }

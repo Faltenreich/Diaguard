@@ -21,6 +21,7 @@ class OverviewPreferenceViewModelTest : TestSuite {
                     "start_screen",
                     "decimal_places",
                     "data",
+                    "backup",
                     "measurement_categories",
                     "tags",
                     "food",

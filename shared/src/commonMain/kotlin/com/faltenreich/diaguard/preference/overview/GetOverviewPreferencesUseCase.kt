@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.preference.overview
 
+import com.faltenreich.diaguard.backup.user.BackupFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
@@ -20,6 +21,7 @@ import com.faltenreich.diaguard.shared.networking.UrlOpener
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.about
+import diaguard.shared.generated.resources.backup
 import diaguard.shared.generated.resources.color_scheme
 import diaguard.shared.generated.resources.contact
 import diaguard.shared.generated.resources.data
@@ -87,6 +89,10 @@ class GetOverviewPreferencesUseCase(
                 category {
                     title = localization.getString(Res.string.data)
                     icon = Res.drawable.ic_data
+                }
+                action {
+                    title = localization.getString(Res.string.backup)
+                    onClick = { pushScreen(BackupFormScreen) }
                 }
                 action {
                     title = localization.getString(Res.string.measurement_categories)

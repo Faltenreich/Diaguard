@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.preference.overview
 
-import com.faltenreich.diaguard.backup.user.BackupFormScreen
+import com.faltenreich.diaguard.backup.user.read.ReadBackupFormScreen
+import com.faltenreich.diaguard.backup.user.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
@@ -114,12 +115,12 @@ class GetOverviewPreferencesUseCase(
                 action {
                     title = localization.getString(Res.string.backup_write)
                     subtitle = localization.getString(Res.string.backup_write_description)
-                    onClick = { pushScreen(BackupFormScreen) }
+                    onClick = { pushScreen(WriteBackupFormScreen) }
                 }
                 action {
                     title = localization.getString(Res.string.backup_read)
                     subtitle = localization.getString(Res.string.backup_read_description)
-                    onClick = { pushScreen(BackupFormScreen) }
+                    onClick = { pushScreen(ReadBackupFormScreen) }
                 }
                 category {
                     title = localization.getString(Res.string.contact)

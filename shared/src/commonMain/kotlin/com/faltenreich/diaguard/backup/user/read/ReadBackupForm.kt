@@ -18,9 +18,9 @@ fun ReadBackupForm(
     viewModel: ReadBackupFormViewModel,
 ) {
     Column(
-        modifier = modifier.padding(all = AppTheme.dimensions.padding.P_4),
-        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.padding(all = AppTheme.dimensions.padding.P_3),
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(stringResource(Res.string.backup_read_description))
     }

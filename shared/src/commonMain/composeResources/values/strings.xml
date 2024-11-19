@@ -10,7 +10,6 @@
     <string name="app_name">Diaguard</string>
     <string name="average">Average</string>
     <string name="backup">Backup</string>
-    <string name="backup_description">Transfer data between installations, devices or apps</string>
     <string name="backup_read">Restore backup</string>
     <string name="backup_read_description">Restore data from a previously created backup file</string>
     <string name="backup_write">Create backup</string>
@@ -202,6 +201,7 @@
     <string name="tag_new">Create new tag</string>
     <string name="terms_and_conditions">Terms and conditions</string>
     <string name="terms_and_conditions_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>
+    <string name="therapy">Therapy</string>
     <string name="timeline">Timeline</string>
     <string name="time_select">Select time</string>
     <string name="today">Today</string>

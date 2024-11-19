@@ -22,10 +22,12 @@ import com.faltenreich.diaguard.tag.list.TagListScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.about
 import diaguard.shared.generated.resources.backup
-import diaguard.shared.generated.resources.backup_description
+import diaguard.shared.generated.resources.backup_read
+import diaguard.shared.generated.resources.backup_read_description
+import diaguard.shared.generated.resources.backup_write
+import diaguard.shared.generated.resources.backup_write_description
 import diaguard.shared.generated.resources.color_scheme
 import diaguard.shared.generated.resources.contact
-import diaguard.shared.generated.resources.data
 import diaguard.shared.generated.resources.decimal_places
 import diaguard.shared.generated.resources.facebook
 import diaguard.shared.generated.resources.facebook_url
@@ -37,6 +39,7 @@ import diaguard.shared.generated.resources.homepage_url_short
 import diaguard.shared.generated.resources.ic_about
 import diaguard.shared.generated.resources.ic_contact
 import diaguard.shared.generated.resources.ic_data
+import diaguard.shared.generated.resources.ic_user
 import diaguard.shared.generated.resources.licenses
 import diaguard.shared.generated.resources.mail
 import diaguard.shared.generated.resources.mail_url
@@ -51,6 +54,7 @@ import diaguard.shared.generated.resources.start_screen
 import diaguard.shared.generated.resources.tags
 import diaguard.shared.generated.resources.terms_and_conditions
 import diaguard.shared.generated.resources.terms_and_conditions_url
+import diaguard.shared.generated.resources.therapy
 import diaguard.shared.generated.resources.version
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -88,13 +92,8 @@ class GetOverviewPreferencesUseCase(
                     onClick = { openBottomSheet(DecimalPlacesFormScreen) }
                 }
                 category {
-                    title = localization.getString(Res.string.data)
-                    icon = Res.drawable.ic_data
-                }
-                action {
-                    title = localization.getString(Res.string.backup)
-                    subtitle = localization.getString(Res.string.backup_description)
-                    onClick = { pushScreen(BackupFormScreen) }
+                    title = localization.getString(Res.string.therapy)
+                    icon = Res.drawable.ic_user
                 }
                 action {
                     title = localization.getString(Res.string.measurement_categories)
@@ -107,6 +106,20 @@ class GetOverviewPreferencesUseCase(
                 action {
                     title = localization.getString(Res.string.food)
                     onClick = { pushScreen(FoodPreferenceScreen) }
+                }
+                category {
+                    title = localization.getString(Res.string.backup)
+                    icon = Res.drawable.ic_data
+                }
+                action {
+                    title = localization.getString(Res.string.backup_write)
+                    subtitle = localization.getString(Res.string.backup_write_description)
+                    onClick = { pushScreen(BackupFormScreen) }
+                }
+                action {
+                    title = localization.getString(Res.string.backup_read)
+                    subtitle = localization.getString(Res.string.backup_read_description)
+                    onClick = { pushScreen(BackupFormScreen) }
                 }
                 category {
                     title = localization.getString(Res.string.contact)

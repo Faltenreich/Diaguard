@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import com.faltenreich.diaguard.AppTheme
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.completed
+import diaguard.shared.generated.resources.ic_check
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WizardStepListItem(
@@ -22,18 +28,13 @@ fun WizardStepListItem(
     label: String,
     state: WizardStepState,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
 ) {
+    val alpha = if (state == WizardStepState.UPCOMING) .5f else 1f
+
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .alpha(
-                when (state) {
-                    WizardStepState.UPCOMING -> 0f
-                    WizardStepState.CURRENT -> 1f
-                    WizardStepState.COMPLETED -> .5f
-                }
-            ),
+            .alpha(alpha),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -48,10 +49,17 @@ fun WizardStepListItem(
         ) {
             Text((index + 1).toString())
         }
+
         Text(label)
 
         Spacer(modifier = Modifier.weight(1f))
 
-        content()
+        if (state == WizardStepState.COMPLETED) {
+            Icon(
+                painter = painterResource(Res.drawable.ic_check),
+                contentDescription = stringResource(Res.string.completed),
+                tint = AppTheme.colors.Green,
+            )
+        }
     }
 }

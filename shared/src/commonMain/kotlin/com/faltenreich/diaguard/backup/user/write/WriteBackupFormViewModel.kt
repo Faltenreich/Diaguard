@@ -15,12 +15,13 @@ class WriteBackupFormViewModel : ViewModel<WriteBackupFormState, WriteBackupForm
         when (intent) {
             is WriteBackupFormIntent.Start -> start()
             is WriteBackupFormIntent.Store -> TODO()
+            is WriteBackupFormIntent.Restart -> state.update { WriteBackupFormState.Idle }
         }
     }
 
     private suspend fun start() {
         state.update { WriteBackupFormState.Loading }
         delay(1.toDuration(DurationUnit.SECONDS))
-        state.update { WriteBackupFormState.Complete }
+        state.update { WriteBackupFormState.Completed }
     }
 }

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.backup.user.write
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -13,10 +14,12 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.wizard.WizardStepListItem
 import com.faltenreich.diaguard.shared.wizard.WizardStepState
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.backup_write_complete
+import diaguard.shared.generated.resources.backup_write_completed
 import diaguard.shared.generated.resources.backup_write_description
-import diaguard.shared.generated.resources.backup_write_progress
-import diaguard.shared.generated.resources.backup_write_start
+import diaguard.shared.generated.resources.backup_write_idle
+import diaguard.shared.generated.resources.backup_write_loading
+import diaguard.shared.generated.resources.restart
+import diaguard.shared.generated.resources.retry
 import diaguard.shared.generated.resources.start
 import diaguard.shared.generated.resources.store
 import org.jetbrains.compose.resources.stringResource
@@ -40,46 +43,51 @@ fun WriteBackupForm(
 
         WizardStepListItem(
             index = 0,
-            label = stringResource(Res.string.backup_write_start),
+            label = stringResource(Res.string.backup_write_idle),
             state =
                 if (state == WriteBackupFormState.Idle) WizardStepState.CURRENT
                 else WizardStepState.COMPLETED,
-        ) {
-            Button(
-                onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Start) },
-                enabled = state == WriteBackupFormState.Idle,
-            ) {
-                Text(stringResource(Res.string.start))
-            }
-        }
+        )
 
         WizardStepListItem(
             index = 1,
-            label = stringResource(Res.string.backup_write_progress),
+            label = stringResource(Res.string.backup_write_loading),
             state = when (state) {
                 WriteBackupFormState.Idle -> WizardStepState.UPCOMING
                 WriteBackupFormState.Loading -> WizardStepState.CURRENT
-                WriteBackupFormState.Complete,
+                WriteBackupFormState.Completed,
                 WriteBackupFormState.Error -> WizardStepState.COMPLETED
             },
-        ) {
-            if (state == WriteBackupFormState.Loading) {
-                CircularProgressIndicator()
-            }
-        }
+        )
 
         WizardStepListItem(
             index = 2,
-            label = stringResource(Res.string.backup_write_complete),
+            label = stringResource(Res.string.backup_write_completed),
             state = when (state) {
                 WriteBackupFormState.Idle,
                 WriteBackupFormState.Loading -> WizardStepState.UPCOMING
-                WriteBackupFormState.Complete,
+                WriteBackupFormState.Completed,
                 WriteBackupFormState.Error -> WizardStepState.CURRENT
             },
-        ) {
-            Button(onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Store) }) {
-                Text(stringResource(Res.string.store))
+        )
+
+        when (state) {
+            is WriteBackupFormState.Idle -> Button(
+                onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Start) },
+            ) {
+                Text(stringResource(Res.string.start))
+            }
+            is WriteBackupFormState.Loading -> CircularProgressIndicator()
+            is WriteBackupFormState.Completed -> Row {
+                Button(onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Restart) }) {
+                    Text(stringResource(Res.string.restart))
+                }
+                Button(onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Store) }) {
+                    Text(stringResource(Res.string.store))
+                }
+            }
+            is WriteBackupFormState.Error -> Button(onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Store) }) {
+                Text(stringResource(Res.string.retry))
             }
         }
     }

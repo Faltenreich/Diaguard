@@ -6,7 +6,7 @@ sealed interface WriteBackupFormState {
 
     data object Loading : WriteBackupFormState
 
-    data object Complete : WriteBackupFormState
+    data object Completed : WriteBackupFormState
 
     data object Error : WriteBackupFormState
 }

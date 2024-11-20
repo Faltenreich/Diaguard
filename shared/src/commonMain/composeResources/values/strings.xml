@@ -14,9 +14,10 @@
     <string name="backup_read_description">Restore data from a previously created backup file</string>
     <string name="backup_write">Create backup</string>
     <string name="backup_write_description">Store data in a backup file on a storage of your choice (No data will be sent automatically to external services)</string>
-    <string name="backup_write_start">Create backup</string>
-    <string name="backup_write_progress">Generating backup&#8230;</string>
-    <string name="backup_write_complete">Backup is complete</string>
+    <string name="backup_write_idle">Start backup</string>
+    <string name="backup_write_loading">Generating backup</string>
+    <string name="backup_write_completed">Store backup</string>
+    <string name="backup_write_error">Backup has failed: %s</string>
     <string name="basal">Basal</string>
     <string name="beats_per_minute">Beats per minute</string>
     <string name="beats_per_minute_abbreviation">Bpm</string>
@@ -40,6 +41,7 @@
     <string name="color_scheme_dark">Dark</string>
     <string name="color_scheme_system">System default</string>
     <string name="color_scheme_time_of_day">Based on time of day</string>
+    <string name="completed">Completed</string>
     <string name="contact">Contact</string>
     <string name="correction">Correction</string>
     <string name="create">Create</string>
@@ -183,6 +185,8 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="privacy_policy_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_EN.md</string>
     <string name="pulse">Pulse</string>
+    <string name="restart">Restart</string>
+    <string name="retry">Retry</string>
     <string name="salt">Salt</string>
     <string name="save">Save</string>
     <string name="search_open">Open search</string>

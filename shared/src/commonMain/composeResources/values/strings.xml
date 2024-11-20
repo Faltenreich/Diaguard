@@ -14,6 +14,9 @@
     <string name="backup_read_description">Restore data from a previously created backup file</string>
     <string name="backup_write">Create backup</string>
     <string name="backup_write_description">Store data in a backup file on a storage of your choice (No data will be sent automatically to external services)</string>
+    <string name="backup_write_start">Create backup</string>
+    <string name="backup_write_progress">Generating backup&#8230;</string>
+    <string name="backup_write_complete">Backup is complete</string>
     <string name="basal">Basal</string>
     <string name="beats_per_minute">Beats per minute</string>
     <string name="beats_per_minute_abbreviation">Bpm</string>
@@ -189,6 +192,7 @@
     <string name="source_code_url_short" translatable="false">github.com/Faltenreich/Diaguard</string>
     <string name="start_screen">Start screen</string>
     <string name="statistic">Statistic</string>
+    <string name="store">Store</string>
     <string name="sugar">Sugar</string>
     <string name="navigate_back">Go back</string>
     <string name="start">Start</string>

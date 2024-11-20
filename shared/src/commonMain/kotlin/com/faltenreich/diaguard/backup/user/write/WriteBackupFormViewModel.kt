@@ -9,7 +9,8 @@ class WriteBackupFormViewModel : ViewModel<Unit, WriteBackupFormIntent, Unit>() 
 
     override suspend fun handleIntent(intent: WriteBackupFormIntent) {
         when (intent) {
-            is WriteBackupFormIntent.Confirm -> TODO()
+            is WriteBackupFormIntent.Start -> TODO()
+            is WriteBackupFormIntent.Store -> TODO()
         }
     }
 }

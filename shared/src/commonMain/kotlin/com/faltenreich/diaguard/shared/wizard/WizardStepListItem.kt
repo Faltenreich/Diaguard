@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.backup.user
+package com.faltenreich.diaguard.shared.wizard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 
 @Composable
-fun BackupStepListItem(
+fun WizardStepListItem(
     index: Int,
     label: String,
     modifier: Modifier = Modifier,
@@ -31,7 +31,7 @@ fun BackupStepListItem(
             modifier = Modifier
                 .size(AppTheme.dimensions.size.ImageLarge)
                 .background(
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
                     shape = CircleShape,
                 ),
             contentAlignment = Alignment.Center,

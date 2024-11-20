@@ -13,17 +13,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import com.faltenreich.diaguard.AppTheme
 
 @Composable
 fun WizardStepListItem(
     index: Int,
     label: String,
+    state: WizardStepState,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .alpha(
+                when (state) {
+                    WizardStepState.UPCOMING -> 0f
+                    WizardStepState.CURRENT -> 1f
+                    WizardStepState.COMPLETED -> .5f
+                }
+            ),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         verticalAlignment = Alignment.CenterVertically,
     ) {

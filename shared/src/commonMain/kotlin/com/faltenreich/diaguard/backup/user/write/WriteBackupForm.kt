@@ -2,10 +2,7 @@ package com.faltenreich.diaguard.backup.user.write
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,10 +15,6 @@ import diaguard.shared.generated.resources.backup_write_completed
 import diaguard.shared.generated.resources.backup_write_description
 import diaguard.shared.generated.resources.backup_write_idle
 import diaguard.shared.generated.resources.backup_write_loading
-import diaguard.shared.generated.resources.restart
-import diaguard.shared.generated.resources.retry
-import diaguard.shared.generated.resources.start
-import diaguard.shared.generated.resources.store
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -70,25 +63,5 @@ fun WriteBackupForm(
                 WriteBackupFormState.Error -> WizardStepState.CURRENT
             },
         )
-
-        when (state) {
-            is WriteBackupFormState.Idle -> Button(
-                onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Start) },
-            ) {
-                Text(stringResource(Res.string.start))
-            }
-            is WriteBackupFormState.Loading -> CircularProgressIndicator()
-            is WriteBackupFormState.Completed -> Row {
-                Button(onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Restart) }) {
-                    Text(stringResource(Res.string.restart))
-                }
-                Button(onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Store) }) {
-                    Text(stringResource(Res.string.store))
-                }
-            }
-            is WriteBackupFormState.Error -> Button(onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Store) }) {
-                Text(stringResource(Res.string.retry))
-            }
-        }
     }
 }

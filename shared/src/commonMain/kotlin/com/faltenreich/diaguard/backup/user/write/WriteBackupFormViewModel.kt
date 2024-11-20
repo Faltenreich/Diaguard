@@ -15,7 +15,6 @@ class WriteBackupFormViewModel : ViewModel<WriteBackupFormState, WriteBackupForm
         when (intent) {
             is WriteBackupFormIntent.Start -> start()
             is WriteBackupFormIntent.Store -> TODO()
-            is WriteBackupFormIntent.Restart -> state.update { WriteBackupFormState.Idle }
         }
     }
 

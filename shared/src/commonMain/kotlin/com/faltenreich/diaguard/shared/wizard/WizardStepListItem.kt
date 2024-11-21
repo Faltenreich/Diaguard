@@ -28,6 +28,7 @@ fun WizardStepListItem(
     label: String,
     state: WizardStepState,
     modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
 ) {
     val alpha = if (state == WizardStepState.UPCOMING) .5f else 1f
 
@@ -54,8 +55,10 @@ fun WizardStepListItem(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        if (state == WizardStepState.COMPLETED) {
-            Icon(
+        when (state) {
+            WizardStepState.UPCOMING -> Unit
+            WizardStepState.CURRENT -> content()
+            WizardStepState.COMPLETED -> Icon(
                 painter = painterResource(Res.drawable.ic_check),
                 contentDescription = stringResource(Res.string.completed),
                 tint = AppTheme.colors.Green,

@@ -17,9 +17,9 @@ import com.faltenreich.diaguard.shared.wizard.WizardStepListItem
 import com.faltenreich.diaguard.shared.wizard.WizardStepState
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.backup_write_completed
-import diaguard.shared.generated.resources.backup_write_description
 import diaguard.shared.generated.resources.backup_write_idle
 import diaguard.shared.generated.resources.backup_write_loading
+import diaguard.shared.generated.resources.backup_write_summary
 import diaguard.shared.generated.resources.retry
 import diaguard.shared.generated.resources.start
 import diaguard.shared.generated.resources.store
@@ -42,7 +42,7 @@ fun WriteBackupForm(
         verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_4),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(stringResource(Res.string.backup_write_description))
+        Text(stringResource(Res.string.backup_write_summary))
 
         WizardStepListItem(
             index = 0,

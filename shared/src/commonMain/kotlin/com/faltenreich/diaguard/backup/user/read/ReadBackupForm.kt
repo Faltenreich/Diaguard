@@ -17,12 +17,15 @@ import com.faltenreich.diaguard.shared.wizard.WizardStepListItem
 import com.faltenreich.diaguard.shared.wizard.WizardStepState
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.backup_read_completed
-import diaguard.shared.generated.resources.backup_read_description
+import diaguard.shared.generated.resources.backup_read_confirm
 import diaguard.shared.generated.resources.backup_read_idle
 import diaguard.shared.generated.resources.backup_read_loading
+import diaguard.shared.generated.resources.backup_read_preview
 import diaguard.shared.generated.resources.backup_read_start
+import diaguard.shared.generated.resources.backup_read_summary
 import diaguard.shared.generated.resources.select
 import diaguard.shared.generated.resources.start
+import diaguard.shared.generated.resources.store
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -42,7 +45,7 @@ fun ReadBackupForm(
         verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_4),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(stringResource(Res.string.backup_read_description))
+        Text(stringResource(Res.string.backup_read_summary))
 
         WizardStepListItem(
             index = 0,
@@ -59,26 +62,17 @@ fun ReadBackupForm(
         WizardStepListItem(
             index = 1,
             label = stringResource(Res.string.backup_read_start),
-            state = when (state) {
-                is ReadBackupFormState.Idle -> WizardStepState.UPCOMING
-                is ReadBackupFormState.Ready -> WizardStepState.CURRENT
-                else -> WizardStepState.COMPLETED
-            },
+            state = WizardStepState.UPCOMING,
         ) {
-            Button(onClick = { viewModel.dispatchIntent(ReadBackupFormIntent.Start) }) {
+            Button(onClick = { viewModel.dispatchIntent(ReadBackupFormIntent.Read) }) {
                 Text(stringResource(Res.string.start))
             }
         }
 
         WizardStepListItem(
-            index = 1,
+            index = 2,
             label = stringResource(Res.string.backup_read_loading),
-            state = when (state) {
-                is ReadBackupFormState.Idle,
-                is ReadBackupFormState.Ready -> WizardStepState.UPCOMING
-                is ReadBackupFormState.Loading -> WizardStepState.CURRENT
-                else -> WizardStepState.COMPLETED
-            },
+            state = WizardStepState.UPCOMING,
         ) {
             CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -86,13 +80,29 @@ fun ReadBackupForm(
         }
 
         WizardStepListItem(
-            index = 1,
+            index = 3,
+            label = stringResource(Res.string.backup_read_preview),
+            state = WizardStepState.UPCOMING,
+        ) {
+            Button(onClick = { viewModel.dispatchIntent(ReadBackupFormIntent.Check) }) {
+                Text(stringResource(Res.string.start))
+            }
+        }
+
+        WizardStepListItem(
+            index = 4,
+            label = stringResource(Res.string.backup_read_confirm),
+            state = WizardStepState.UPCOMING,
+        ) {
+            Button(onClick = { viewModel.dispatchIntent(ReadBackupFormIntent.Store) }) {
+                Text(stringResource(Res.string.store))
+            }
+        }
+
+        WizardStepListItem(
+            index = 5,
             label = stringResource(Res.string.backup_read_completed),
-            state = when (state) {
-                is ReadBackupFormState.Completed,
-                is ReadBackupFormState.Error -> WizardStepState.CURRENT
-                else -> WizardStepState.UPCOMING
-            },
+            state = WizardStepState.UPCOMING,
         ) {}
     }
 }

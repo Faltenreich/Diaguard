@@ -14,16 +14,28 @@ class ReadBackupFormViewModel : ViewModel<ReadBackupFormState, ReadBackupFormInt
     override suspend fun handleIntent(intent: ReadBackupFormIntent) {
         when (intent) {
             is ReadBackupFormIntent.Select -> select()
-            is ReadBackupFormIntent.Start -> start()
+            is ReadBackupFormIntent.Read -> read()
+            is ReadBackupFormIntent.Check -> check()
+            is ReadBackupFormIntent.Store -> store()
         }
     }
 
     private fun select() {
+        state.update { ReadBackupFormState.Selected }
+    }
+
+    private suspend fun read() {
+        state.update { ReadBackupFormState.Reading }
+        delay(1.toDuration(DurationUnit.SECONDS))
         state.update { ReadBackupFormState.Ready }
     }
 
-    private suspend fun start() {
-        state.update { ReadBackupFormState.Loading }
+    private fun check() {
+        state.update { ReadBackupFormState.Checked }
+    }
+
+    private suspend fun store() {
+        state.update { ReadBackupFormState.Storing }
         delay(1.toDuration(DurationUnit.SECONDS))
         state.update { ReadBackupFormState.Completed }
     }

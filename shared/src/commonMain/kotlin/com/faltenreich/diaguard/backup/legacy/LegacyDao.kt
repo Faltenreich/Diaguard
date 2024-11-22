@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.tag.Tag
 
 interface LegacyDao {
 
-    suspend fun getPreferences(): Map<String, String>
+    suspend fun getPreferences(): List<LegacyPreference>
 
     suspend fun getEntries(): List<Entry.Legacy>
 

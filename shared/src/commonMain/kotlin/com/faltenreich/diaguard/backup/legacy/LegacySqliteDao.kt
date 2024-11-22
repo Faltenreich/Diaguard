@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.tag.Tag
 
 expect class LegacySqliteDao : LegacyDao {
 
-    override suspend fun getPreferences(): Map<String, String>
+    override suspend fun getPreferences(): List<LegacyPreference>
 
     override suspend fun getEntries(): List<Entry.Legacy>
 

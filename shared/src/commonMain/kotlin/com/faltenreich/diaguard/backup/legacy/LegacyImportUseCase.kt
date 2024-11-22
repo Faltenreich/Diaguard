@@ -7,6 +7,8 @@ import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
+import com.faltenreich.diaguard.shared.keyvalue.write
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.tag.TagRepository
 
@@ -15,6 +17,7 @@ import com.faltenreich.diaguard.tag.TagRepository
  */
 class LegacyImportUseCase(
     private val legacyRepository: LegacyRepository,
+    private val keyValueStore: KeyValueStore,
     private val entryRepository: EntryRepository,
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
@@ -26,6 +29,30 @@ class LegacyImportUseCase(
 
     suspend operator fun invoke() {
         val preferences = legacyRepository.getPreferences()
+        preferences.forEach { preference ->
+            when (preference) {
+                is LegacyPreference.Boolean -> keyValueStore.write(
+                    key = preference.key,
+                    value = preference.value,
+                )
+                is LegacyPreference.Int -> keyValueStore.write(
+                    key = preference.key,
+                    value = preference.value,
+                )
+                is LegacyPreference.Long -> keyValueStore.write(
+                    key = preference.key,
+                    value = preference.value,
+                )
+                is LegacyPreference.Float -> keyValueStore.write(
+                    key = preference.key,
+                    value = preference.value,
+                )
+                is LegacyPreference.String -> keyValueStore.write(
+                    key = preference.key,
+                    value = preference.value,
+                )
+            }
+        }
         print(preferences)
 
         return

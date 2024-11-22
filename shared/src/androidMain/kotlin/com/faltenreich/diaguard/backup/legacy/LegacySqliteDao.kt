@@ -26,9 +26,14 @@ actual class LegacySqliteDao(
     private val entryTagQueries: EntryTagLegacyQueries,
 ) : LegacyDao {
 
-    actual override suspend fun getPreferences(): Map<String, String> {
-        val theme = keyValueStore.read<String>("theme").first() ?: ""
-        return mapOf("theme" to theme)
+    actual override suspend fun getPreferences(): List<LegacyPreference> {
+        val preferences = listOf(
+            LegacyPreference.String(
+                key = "theme",
+                value = keyValueStore.read<String>("theme").first(),
+            )
+        )
+        return preferences
     }
 
     actual override suspend fun getEntries(): List<Entry.Legacy> {

@@ -13,7 +13,7 @@ class LegacyFakeDao : LegacyDao {
 
     private val dateTimeFactory = KotlinxDateTimeFactory()
 
-    override suspend fun getPreferences(): Map<String, String> {
+    override suspend fun getPreferences(): List<LegacyPreference> {
         TODO("Not yet implemented")
     }
 

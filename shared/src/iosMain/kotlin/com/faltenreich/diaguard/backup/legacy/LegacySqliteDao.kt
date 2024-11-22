@@ -12,8 +12,8 @@ import com.faltenreich.diaguard.tag.Tag
  */
 actual class LegacySqliteDao : LegacyDao {
 
-    actual override suspend fun getPreferences(): Map<String, String> {
-        return emptyMap()
+    actual override suspend fun getPreferences(): List<LegacyPreference> {
+        return emptyList()
     }
 
     actual override suspend fun getEntries(): List<Entry.Legacy> {

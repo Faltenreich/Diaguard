@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.tag.Tag
 
 class LegacyRepository(private val dao: LegacyDao) {
 
-    suspend fun getPreferences(): Map<String, String> {
+    suspend fun getPreferences(): List<LegacyPreference> {
         return dao.getPreferences()
     }
 

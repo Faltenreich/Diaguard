@@ -62,6 +62,7 @@ kotlin {
                 implementation(libs.androidx.compose.material3)
                 implementation(libs.androidx.emojipicker)
                 implementation(libs.androidx.lifecycle.compose)
+                implementation(libs.androidx.preferences)
                 implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.android)
                 implementation(libs.ktor.android)

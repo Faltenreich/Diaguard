@@ -24,7 +24,12 @@ class LegacyImportUseCase(
     private val entryTagRepository: EntryTagRepository,
 ) {
 
-    operator fun invoke() {
+    suspend operator fun invoke() {
+        val preferences = legacyRepository.getPreferences()
+        print(preferences)
+
+        return
+
         val properties = propertyRepository.getAll()
 
         val entries = legacyRepository.getEntries().associateWith { legacy ->

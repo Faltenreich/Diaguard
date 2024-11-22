@@ -9,27 +9,31 @@ import com.faltenreich.diaguard.tag.Tag
 
 class LegacyRepository(private val dao: LegacyDao) {
 
-    fun getEntries(): List<Entry.Legacy> {
+    suspend fun getPreferences(): Map<String, String> {
+        return dao.getPreferences()
+    }
+
+    suspend fun getEntries(): List<Entry.Legacy> {
         return dao.getEntries()
     }
 
-    fun getMeasurementValues(): List<MeasurementValue.Legacy> {
+    suspend fun getMeasurementValues(): List<MeasurementValue.Legacy> {
         return dao.getMeasurementValues()
     }
 
-    fun getFood(): List<Food.Legacy> {
+    suspend fun getFood(): List<Food.Legacy> {
         return dao.getFood()
     }
 
-    fun getFoodEaten(): List<FoodEaten.Legacy> {
+    suspend fun getFoodEaten(): List<FoodEaten.Legacy> {
         return dao.getFoodEaten()
     }
 
-    fun getTags(): List<Tag.Legacy> {
+    suspend fun getTags(): List<Tag.Legacy> {
         return dao.getTags()
     }
 
-    fun getEntryTags(): List<EntryTag.Legacy> {
+    suspend fun getEntryTags(): List<EntryTag.Legacy> {
         return dao.getEntryTags()
     }
 }

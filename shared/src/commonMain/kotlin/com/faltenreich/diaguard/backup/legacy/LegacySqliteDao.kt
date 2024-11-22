@@ -9,15 +9,17 @@ import com.faltenreich.diaguard.tag.Tag
 
 expect class LegacySqliteDao : LegacyDao {
 
-    override fun getEntries(): List<Entry.Legacy>
+    override suspend fun getPreferences(): Map<String, String>
 
-    override fun getMeasurementValues(): List<MeasurementValue.Legacy>
+    override suspend fun getEntries(): List<Entry.Legacy>
 
-    override fun getFood(): List<Food.Legacy>
+    override suspend fun getMeasurementValues(): List<MeasurementValue.Legacy>
 
-    override fun getFoodEaten(): List<FoodEaten.Legacy>
+    override suspend fun getFood(): List<Food.Legacy>
 
-    override fun getTags(): List<Tag.Legacy>
+    override suspend fun getFoodEaten(): List<FoodEaten.Legacy>
 
-    override fun getEntryTags(): List<EntryTag.Legacy>
+    override suspend fun getTags(): List<Tag.Legacy>
+
+    override suspend fun getEntryTags(): List<EntryTag.Legacy>
 }

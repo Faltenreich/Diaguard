@@ -15,7 +15,9 @@ import com.faltenreich.diaguard.backup.legacy.query.measurement.MealLegacyQuerie
 import com.faltenreich.diaguard.backup.legacy.query.measurement.OxygenSaturationLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.measurement.PulseLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.measurement.WeightLegacyQueries
+import com.faltenreich.diaguard.shared.keyvalue.KEY_VALUE_STORE_LEGACY
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual fun legacyDaoModule() = module {
@@ -43,6 +45,7 @@ actual fun legacyDaoModule() = module {
 
     single<LegacyDao> {
         LegacySqliteDao(
+            keyValueStore = get(named(KEY_VALUE_STORE_LEGACY)),
             entryQueries = get(),
             measurementValueQueries = get(),
             foodQueries = get(),

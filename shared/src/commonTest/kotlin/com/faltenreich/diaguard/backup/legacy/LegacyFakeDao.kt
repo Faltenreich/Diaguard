@@ -13,7 +13,11 @@ class LegacyFakeDao : LegacyDao {
 
     private val dateTimeFactory = KotlinxDateTimeFactory()
 
-    override fun getEntries(): List<Entry.Legacy> {
+    override suspend fun getPreferences(): Map<String, String> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getEntries(): List<Entry.Legacy> {
         return listOf(
             Entry.Legacy(
                 id = 1,
@@ -39,7 +43,7 @@ class LegacyFakeDao : LegacyDao {
         )
     }
 
-    override fun getMeasurementValues(): List<MeasurementValue.Legacy> {
+    override suspend fun getMeasurementValues(): List<MeasurementValue.Legacy> {
         return listOf(
             MeasurementValue.Legacy(
                 id = 1,
@@ -149,7 +153,7 @@ class LegacyFakeDao : LegacyDao {
     }
 
 
-    override fun getFood(): List<Food.Legacy> {
+    override suspend fun getFood(): List<Food.Legacy> {
         return listOf(
             Food.Legacy(
                 id = 1,
@@ -192,7 +196,7 @@ class LegacyFakeDao : LegacyDao {
         )
     }
 
-    override fun getFoodEaten(): List<FoodEaten.Legacy> {
+    override suspend fun getFoodEaten(): List<FoodEaten.Legacy> {
         return listOf(
             FoodEaten.Legacy(
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198225),
@@ -204,7 +208,7 @@ class LegacyFakeDao : LegacyDao {
         )
     }
 
-    override fun getTags(): List<Tag.Legacy> {
+    override suspend fun getTags(): List<Tag.Legacy> {
         return listOf(
             Tag.Legacy(
                 id = 1,
@@ -257,7 +261,7 @@ class LegacyFakeDao : LegacyDao {
         )
     }
 
-    override fun getEntryTags(): List<EntryTag.Legacy> {
+    override suspend fun getEntryTags(): List<EntryTag.Legacy> {
         return listOf(
             EntryTag.Legacy(
                 createdAt = dateTimeFactory.dateTime(millis = 1717865198200),

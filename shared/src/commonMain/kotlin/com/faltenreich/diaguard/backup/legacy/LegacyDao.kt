@@ -9,15 +9,17 @@ import com.faltenreich.diaguard.tag.Tag
 
 interface LegacyDao {
 
-    fun getEntries(): List<Entry.Legacy>
+    suspend fun getPreferences(): Map<String, String>
 
-    fun getMeasurementValues(): List<MeasurementValue.Legacy>
+    suspend fun getEntries(): List<Entry.Legacy>
 
-    fun getFood(): List<Food.Legacy>
+    suspend fun getMeasurementValues(): List<MeasurementValue.Legacy>
 
-    fun getFoodEaten(): List<FoodEaten.Legacy>
+    suspend fun getFood(): List<Food.Legacy>
 
-    fun getTags(): List<Tag.Legacy>
+    suspend fun getFoodEaten(): List<FoodEaten.Legacy>
 
-    fun getEntryTags(): List<EntryTag.Legacy>
+    suspend fun getTags(): List<Tag.Legacy>
+
+    suspend fun getEntryTags(): List<EntryTag.Legacy>
 }

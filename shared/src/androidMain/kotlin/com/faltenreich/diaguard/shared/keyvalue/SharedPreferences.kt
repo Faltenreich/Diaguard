@@ -11,12 +11,12 @@ class SharedPreferences(context: Context) : KeyValueStore {
     private val defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     override fun <T : Any> read(kClass: KClass<T>, key: String): Flow<T?> {
-        val value = when (kClass::class) {
+        val value = when (kClass) {
             Boolean::class -> defaultSharedPreferences.getBoolean(key, false)
             String::class -> defaultSharedPreferences.getString(key, null)
-            Int::class -> defaultSharedPreferences.getInt(key, -1)
-            Long::class -> defaultSharedPreferences.getLong(key, -1L)
-            Float::class -> defaultSharedPreferences.getFloat(key, -1f)
+            Int::class -> defaultSharedPreferences.getInt(key, -1).takeIf { it >= 0 }
+            Long::class -> defaultSharedPreferences.getLong(key, -1L).takeIf { it >= 0L }
+            Float::class -> defaultSharedPreferences.getFloat(key, -1f).takeIf { it >= 0f }
             else -> IllegalArgumentException("Unsupported type: ${kClass.simpleName}")
         }
         @Suppress("UNCHECKED_CAST")

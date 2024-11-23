@@ -18,6 +18,7 @@ class KeyValueLegacyQueries(
             "versionCode".let { key ->
                 LegacyPreference.Int(
                     key = key,
+                    // TODO: Handle null-values
                     value = getPreference(key)!!,
                 )
             },

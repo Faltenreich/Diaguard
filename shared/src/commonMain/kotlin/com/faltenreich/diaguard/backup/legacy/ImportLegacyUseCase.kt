@@ -32,23 +32,23 @@ class ImportLegacyUseCase(
         preferences.forEach { preference ->
             when (preference) {
                 is LegacyPreference.Boolean -> keyValueStore.write(
-                    key = preference.key,
+                    key = preference.key.key,
                     value = preference.value,
                 )
                 is LegacyPreference.Int -> keyValueStore.write(
-                    key = preference.key,
+                    key = preference.key.key,
                     value = preference.value,
                 )
                 is LegacyPreference.Long -> keyValueStore.write(
-                    key = preference.key,
+                    key = preference.key.key,
                     value = preference.value,
                 )
                 is LegacyPreference.Float -> keyValueStore.write(
-                    key = preference.key,
+                    key = preference.key.key,
                     value = preference.value,
                 )
                 is LegacyPreference.String -> keyValueStore.write(
-                    key = preference.key,
+                    key = preference.key.key,
                     value = preference.value,
                 )
             }

@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.backup.legacy.query.EntryLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.EntryTagLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.FoodEatenLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.FoodLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.KeyValueLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.MeasurementValueLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.TagLegacyQueries
 import com.faltenreich.diaguard.entry.Entry
@@ -11,13 +12,10 @@ import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
-import com.faltenreich.diaguard.shared.keyvalue.read
 import com.faltenreich.diaguard.tag.Tag
-import kotlinx.coroutines.flow.first
 
 class AndroidLegacyDao(
-    private val keyValueStore: KeyValueStore,
+    private val keyValueQueries: KeyValueLegacyQueries,
     private val entryQueries: EntryLegacyQueries,
     private val measurementValueQueries: MeasurementValueLegacyQueries,
     private val foodQueries: FoodLegacyQueries,
@@ -26,27 +24,8 @@ class AndroidLegacyDao(
     private val entryTagQueries: EntryTagLegacyQueries,
 ) : LegacyDao {
 
-    private suspend inline fun <reified T: Any> getPreference(key: String): T? {
-        return keyValueStore.read<T>(key).first()
-    }
-
     override suspend fun getPreferences(): List<LegacyPreference> {
-        val preferences = listOf(
-            "versionCode".let { key ->
-                LegacyPreference.Int(
-                    key = key,
-                    value = getPreference(key)!!,
-                )
-            },
-            "theme".let { key ->
-                LegacyPreference.String(
-                    key = key,
-                    value = getPreference(key)!!,
-                )
-            },
-            // TODO: Add all legacy preferences
-        )
-        return preferences
+        return keyValueQueries.getPreferences()
     }
 
     override suspend fun getEntries(): List<Entry.Legacy> {

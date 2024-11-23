@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.backup.legacy.query.EntryLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.EntryTagLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.FoodEatenLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.FoodLegacyQueries
+import com.faltenreich.diaguard.backup.legacy.query.KeyValueLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.MeasurementValueLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.TagLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.measurement.ActivityLegacyQueries
@@ -16,36 +17,38 @@ import com.faltenreich.diaguard.backup.legacy.query.measurement.OxygenSaturation
 import com.faltenreich.diaguard.backup.legacy.query.measurement.PulseLegacyQueries
 import com.faltenreich.diaguard.backup.legacy.query.measurement.WeightLegacyQueries
 import com.faltenreich.diaguard.shared.keyvalue.KEY_VALUE_STORE_LEGACY
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual fun legacyDaoModule() = module {
-    singleOf(::EntryLegacyQueries)
+    factory { KeyValueLegacyQueries(keyValueStore = get(named(KEY_VALUE_STORE_LEGACY))) }
 
-    singleOf(::BloodSugarLegacyQueries)
-    singleOf(::InsulinLegacyQueries)
-    singleOf(::MealLegacyQueries)
-    singleOf(::ActivityLegacyQueries)
-    singleOf(::HbA1cLegacyQueries)
-    singleOf(::WeightLegacyQueries)
-    singleOf(::PulseLegacyQueries)
-    singleOf(::BloodPressureLegacyQueries)
-    singleOf(::OxygenSaturationLegacyQueries)
+    factoryOf(::EntryLegacyQueries)
 
-    singleOf(::MeasurementValueLegacyQueries)
+    factoryOf(::BloodSugarLegacyQueries)
+    factoryOf(::InsulinLegacyQueries)
+    factoryOf(::MealLegacyQueries)
+    factoryOf(::ActivityLegacyQueries)
+    factoryOf(::HbA1cLegacyQueries)
+    factoryOf(::WeightLegacyQueries)
+    factoryOf(::PulseLegacyQueries)
+    factoryOf(::BloodPressureLegacyQueries)
+    factoryOf(::OxygenSaturationLegacyQueries)
 
-    singleOf(::FoodLegacyQueries)
+    factoryOf(::MeasurementValueLegacyQueries)
 
-    singleOf(::FoodEatenLegacyQueries)
+    factoryOf(::FoodLegacyQueries)
 
-    singleOf(::TagLegacyQueries)
+    factoryOf(::FoodEatenLegacyQueries)
 
-    singleOf(::EntryTagLegacyQueries)
+    factoryOf(::TagLegacyQueries)
 
-    single<LegacyDao> {
+    factoryOf(::EntryTagLegacyQueries)
+
+    factory<LegacyDao> {
         AndroidLegacyDao(
-            keyValueStore = get(named(KEY_VALUE_STORE_LEGACY)),
+            keyValueQueries = get(),
             entryQueries = get(),
             measurementValueQueries = get(),
             foodQueries = get(),

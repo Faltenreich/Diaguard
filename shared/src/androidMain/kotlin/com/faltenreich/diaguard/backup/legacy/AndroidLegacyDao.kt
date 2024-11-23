@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.shared.keyvalue.read
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.flow.first
 
-actual class LegacySqliteDao(
+class AndroidLegacyDao(
     private val keyValueStore: KeyValueStore,
     private val entryQueries: EntryLegacyQueries,
     private val measurementValueQueries: MeasurementValueLegacyQueries,
@@ -26,37 +26,50 @@ actual class LegacySqliteDao(
     private val entryTagQueries: EntryTagLegacyQueries,
 ) : LegacyDao {
 
-    actual override suspend fun getPreferences(): List<LegacyPreference> {
+    private suspend inline fun <reified T: Any> getPreference(key: String): T? {
+        return keyValueStore.read<T>(key).first()
+    }
+
+    override suspend fun getPreferences(): List<LegacyPreference> {
         val preferences = listOf(
-            LegacyPreference.String(
-                key = "theme",
-                value = keyValueStore.read<String>("theme").first(),
-            )
+            "versionCode".let { key ->
+                LegacyPreference.Int(
+                    key = key,
+                    value = getPreference(key)!!,
+                )
+            },
+            "theme".let { key ->
+                LegacyPreference.String(
+                    key = key,
+                    value = getPreference(key)!!,
+                )
+            },
+            // TODO: Add all legacy preferences
         )
         return preferences
     }
 
-    actual override suspend fun getEntries(): List<Entry.Legacy> {
+    override suspend fun getEntries(): List<Entry.Legacy> {
         return entryQueries.getAll()
     }
 
-    actual override suspend fun getMeasurementValues(): List<MeasurementValue.Legacy> {
+    override suspend fun getMeasurementValues(): List<MeasurementValue.Legacy> {
         return measurementValueQueries.getAll()
     }
 
-    actual override suspend fun getFood(): List<Food.Legacy> {
+    override suspend fun getFood(): List<Food.Legacy> {
         return foodQueries.getAll()
     }
 
-    actual override suspend fun getFoodEaten(): List<FoodEaten.Legacy> {
+    override suspend fun getFoodEaten(): List<FoodEaten.Legacy> {
         return foodEatenQueries.getAll()
     }
 
-    actual override suspend fun getTags(): List<Tag.Legacy> {
+    override suspend fun getTags(): List<Tag.Legacy> {
         return tagQueries.getAll()
     }
 
-    actual override suspend fun getEntryTags(): List<EntryTag.Legacy> {
+    override suspend fun getEntryTags(): List<EntryTag.Legacy> {
         return entryTagQueries.getAll()
     }
 }

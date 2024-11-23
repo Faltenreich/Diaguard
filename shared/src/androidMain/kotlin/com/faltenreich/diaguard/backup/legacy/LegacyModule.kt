@@ -44,7 +44,7 @@ actual fun legacyDaoModule() = module {
     singleOf(::EntryTagLegacyQueries)
 
     single<LegacyDao> {
-        LegacySqliteDao(
+        AndroidLegacyDao(
             keyValueStore = get(named(KEY_VALUE_STORE_LEGACY)),
             entryQueries = get(),
             measurementValueQueries = get(),

@@ -9,21 +9,21 @@ sealed interface LegacyPreference {
 
     data class Int(
         val key: kotlin.String,
-        val value: kotlin.Int?,
+        val value: kotlin.Int,
     ) : LegacyPreference
 
     data class Long(
         val key: kotlin.String,
-        val value: kotlin.Long?,
+        val value: kotlin.Long,
     ) : LegacyPreference
 
     data class Float(
         val key: kotlin.String,
-        val value: kotlin.Float?,
+        val value: kotlin.Float,
     ) : LegacyPreference
 
     data class String(
         val key: kotlin.String,
-        val value: kotlin.String?,
+        val value: kotlin.String,
     ) : LegacyPreference
 }

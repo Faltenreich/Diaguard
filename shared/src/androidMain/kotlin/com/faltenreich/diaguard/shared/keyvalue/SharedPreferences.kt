@@ -10,7 +10,7 @@ class SharedPreferences(context: Context) : KeyValueStore {
 
     private val defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    override fun <T : Any> read(kClass: KClass<T>, key: String): Flow<T?> {
+    override fun <T: Any> read(kClass: KClass<T>, key: String): Flow<T?> {
         val value = when (kClass) {
             Boolean::class -> defaultSharedPreferences.getBoolean(key, false)
             Int::class -> defaultSharedPreferences.getInt(key, -1).takeIf { it >= 0 }
@@ -23,7 +23,7 @@ class SharedPreferences(context: Context) : KeyValueStore {
         return flowOf(value as? T)
     }
 
-    override suspend fun <T : Any> write(kClass: KClass<T>, key: String, value: T) {
+    override suspend fun <T: Any> write(kClass: KClass<T>, key: String, value: T) {
         with(defaultSharedPreferences.edit()) {
             when (kClass::class) {
                 Boolean::class -> putBoolean(key, value as Boolean)

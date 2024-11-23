@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.tag.TagRepository
 /**
  * Import from database of previous app version
  */
-class LegacyImportUseCase(
+class ImportLegacyUseCase(
     private val legacyRepository: LegacyRepository,
     private val keyValueStore: KeyValueStore,
     private val entryRepository: EntryRepository,

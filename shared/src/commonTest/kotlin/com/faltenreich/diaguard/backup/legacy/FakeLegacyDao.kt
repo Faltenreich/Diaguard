@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.tag.Tag
 
-class LegacyFakeDao : LegacyDao {
+class FakeLegacyDao : LegacyDao {
 
     private val dateTimeFactory = KotlinxDateTimeFactory()
 

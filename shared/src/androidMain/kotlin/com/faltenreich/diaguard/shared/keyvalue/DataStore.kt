@@ -50,7 +50,7 @@ class DataStore(
         return read { preferences -> preferences[preferencesKey] }
     }
 
-    override suspend fun <T: Any> write(kClass: KClass<T>, key: String, value: T?) {
+    override suspend fun <T: Any> write(kClass: KClass<T>, key: String, value: T) {
         val preferencesKey = getKey(kClass, key)
         write { preferences -> preferences[preferencesKey] = value }
     }

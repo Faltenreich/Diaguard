@@ -16,5 +16,5 @@ expect fun legacyDaoModule(): Module
 fun legacyModule() = module {
     includes(legacyDaoModule())
     singleOf(::LegacyRepository)
-    singleOf(::LegacyImportUseCase)
+    singleOf(::ImportLegacyUseCase)
 }

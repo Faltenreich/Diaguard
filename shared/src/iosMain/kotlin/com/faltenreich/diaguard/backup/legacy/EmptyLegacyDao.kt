@@ -10,33 +10,33 @@ import com.faltenreich.diaguard.tag.Tag
 /**
  * Implementation is stubbed since there is no legacy on iOS to import from
  */
-actual class LegacySqliteDao : LegacyDao {
+class EmptyLegacyDao : LegacyDao {
 
-    actual override suspend fun getPreferences(): List<LegacyPreference> {
+    override suspend fun getPreferences(): List<LegacyPreference> {
         return emptyList()
     }
 
-    actual override suspend fun getEntries(): List<Entry.Legacy> {
+    override suspend fun getEntries(): List<Entry.Legacy> {
         return emptyList()
     }
 
-    actual override suspend fun getMeasurementValues(): List<MeasurementValue.Legacy> {
+    override suspend fun getMeasurementValues(): List<MeasurementValue.Legacy> {
         return emptyList()
     }
 
-    actual override suspend fun getFood(): List<Food.Legacy> {
+    override suspend fun getFood(): List<Food.Legacy> {
         return emptyList()
     }
 
-    actual override suspend fun getFoodEaten(): List<FoodEaten.Legacy> {
+    override suspend fun getFoodEaten(): List<FoodEaten.Legacy> {
         return emptyList()
     }
 
-    actual override suspend fun getTags(): List<Tag.Legacy> {
+    override suspend fun getTags(): List<Tag.Legacy> {
         return emptyList()
     }
 
-    actual override suspend fun getEntryTags(): List<EntryTag.Legacy> {
+    override suspend fun getEntryTags(): List<EntryTag.Legacy> {
         return emptyList()
     }
 }

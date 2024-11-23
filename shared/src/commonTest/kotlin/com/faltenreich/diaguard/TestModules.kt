@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard
 
 import com.faltenreich.diaguard.backup.legacy.LegacyDao
-import com.faltenreich.diaguard.backup.legacy.LegacyFakeDao
+import com.faltenreich.diaguard.backup.legacy.FakeLegacyDao
 import com.faltenreich.diaguard.backup.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.backup.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.export.pdf.PdfExport
@@ -48,7 +48,7 @@ fun testModules() = module {
         )
     }
 
-    single<LegacyDao> { LegacyFakeDao() }
+    single<LegacyDao> { FakeLegacyDao() }
 
     single<Localization> { FakeLocalization() }
 

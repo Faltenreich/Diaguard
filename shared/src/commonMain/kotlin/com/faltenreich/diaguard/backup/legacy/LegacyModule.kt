@@ -19,5 +19,6 @@ fun legacyModule() = module {
     factoryOf(::LegacyRepository)
 
     factoryOf(::ImportLegacyPreferencesUseCase)
+    factoryOf(::ImportLegacyDatabaseUseCase)
     factoryOf(::ImportLegacyUseCase)
 }

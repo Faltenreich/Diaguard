@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.preference.Preference
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.tag.Tag
 
@@ -13,7 +14,7 @@ class FakeLegacyDao : LegacyDao {
 
     private val dateTimeFactory = KotlinxDateTimeFactory()
 
-    override suspend fun getPreferences(): List<LegacyPreference> {
+    override suspend fun <Store, Domain> getPreference(preference: Preference<Store, Domain>): Domain? {
         TODO("Not yet implemented")
     }
 

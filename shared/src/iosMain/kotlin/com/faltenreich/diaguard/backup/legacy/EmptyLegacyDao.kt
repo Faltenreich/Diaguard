@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.preference.Preference
 import com.faltenreich.diaguard.tag.Tag
 
 /**
@@ -12,8 +13,8 @@ import com.faltenreich.diaguard.tag.Tag
  */
 class EmptyLegacyDao : LegacyDao {
 
-    override suspend fun getPreferences(): List<LegacyPreference> {
-        return emptyList()
+    override suspend fun <Store, Domain> getPreference(preference: Preference<Store, Domain>): Domain? {
+        return null
     }
 
     override suspend fun getEntries(): List<Entry.Legacy> {

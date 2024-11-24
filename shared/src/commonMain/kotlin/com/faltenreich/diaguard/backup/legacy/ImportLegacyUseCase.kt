@@ -6,18 +6,13 @@ import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.preference.color.ColorSchemePreference
-import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.tag.TagRepository
 
-/**
- * Import from database of previous app version
- */
 class ImportLegacyUseCase(
+    private val importPreferences: ImportLegacyPreferencesUseCase,
     private val legacyRepository: LegacyRepository,
-    private val setPreference: SetPreferenceUseCase,
     private val entryRepository: EntryRepository,
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
@@ -28,11 +23,7 @@ class ImportLegacyUseCase(
 ) {
 
     suspend operator fun invoke() {
-        val theme = legacyRepository.getPreference(ColorSchemePreference)
-        if (theme != null) {
-            setPreference(ColorSchemePreference, theme)
-        }
-
+        importPreferences()
         return
 
         val properties = propertyRepository.getAll()

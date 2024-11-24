@@ -7,7 +7,7 @@
 package com.faltenreich.diaguard.backup.legacy
 
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 import kotlin.jvm.JvmName
 
@@ -15,6 +15,9 @@ expect fun legacyDaoModule(): Module
 
 fun legacyModule() = module {
     includes(legacyDaoModule())
-    singleOf(::LegacyRepository)
-    singleOf(::ImportLegacyUseCase)
+
+    factoryOf(::LegacyRepository)
+
+    factoryOf(::ImportLegacyPreferencesUseCase)
+    factoryOf(::ImportLegacyUseCase)
 }

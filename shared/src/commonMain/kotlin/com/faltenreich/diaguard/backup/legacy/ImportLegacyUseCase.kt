@@ -6,9 +6,9 @@ import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.preference.color.ColorSchemePreference
+import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
-import com.faltenreich.diaguard.shared.keyvalue.write
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.tag.TagRepository
 
@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.tag.TagRepository
  */
 class ImportLegacyUseCase(
     private val legacyRepository: LegacyRepository,
-    private val keyValueStore: KeyValueStore,
+    private val setPreference: SetPreferenceUseCase,
     private val entryRepository: EntryRepository,
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
@@ -28,32 +28,10 @@ class ImportLegacyUseCase(
 ) {
 
     suspend operator fun invoke() {
-        val preferences = legacyRepository.getPreferences()
-        preferences.forEach { preference ->
-            when (preference) {
-                is LegacyPreference.Boolean -> keyValueStore.write(
-                    key = preference.key.key,
-                    value = preference.value,
-                )
-                is LegacyPreference.Int -> keyValueStore.write(
-                    key = preference.key.key,
-                    value = preference.value,
-                )
-                is LegacyPreference.Long -> keyValueStore.write(
-                    key = preference.key.key,
-                    value = preference.value,
-                )
-                is LegacyPreference.Float -> keyValueStore.write(
-                    key = preference.key.key,
-                    value = preference.value,
-                )
-                is LegacyPreference.String -> keyValueStore.write(
-                    key = preference.key.key,
-                    value = preference.value,
-                )
-            }
+        val theme = legacyRepository.getPreference(ColorSchemePreference)
+        if (theme != null) {
+            setPreference(ColorSchemePreference, theme)
         }
-        print(preferences)
 
         return
 

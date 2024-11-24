@@ -5,12 +5,13 @@ import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.preference.Preference
 import com.faltenreich.diaguard.tag.Tag
 
 class LegacyRepository(private val dao: LegacyDao) {
 
-    suspend fun getPreferences(): List<LegacyPreference> {
-        return dao.getPreferences()
+    suspend fun <Store, Domain> getPreference(preference: Preference<Store, Domain>): Domain? {
+        return dao.getPreference(preference)
     }
 
     suspend fun getEntries(): List<Entry.Legacy> {

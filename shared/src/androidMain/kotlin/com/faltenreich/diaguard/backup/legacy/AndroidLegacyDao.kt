@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.preference.Preference
 import com.faltenreich.diaguard.tag.Tag
 
 class AndroidLegacyDao(
@@ -24,8 +25,8 @@ class AndroidLegacyDao(
     private val entryTagQueries: EntryTagLegacyQueries,
 ) : LegacyDao {
 
-    override suspend fun getPreferences(): List<LegacyPreference> {
-        return keyValueQueries.getPreferences()
+    override suspend fun <Store, Domain> getPreference(preference: Preference<Store, Domain>): Domain? {
+        return keyValueQueries.getPreference(preference)
     }
 
     override suspend fun getEntries(): List<Entry.Legacy> {

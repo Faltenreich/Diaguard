@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
+import com.faltenreich.diaguard.preference.version.VersionCodePreference
 import com.faltenreich.diaguard.shared.keyvalue.FakeKeyValueStore
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -84,5 +85,18 @@ class KeyValueLegacyQueriesTest {
                 queries.getPreference(StartScreenPreference),
             )
         }
+    }
+
+    @Test
+    fun readVersionCode() = runTest {
+        val versionCode = 1337
+
+        val keyValueStore = FakeKeyValueStore("versionCode" to versionCode)
+        val queries = KeyValueLegacyQueries(keyValueStore)
+
+        Assert.assertEquals(
+            versionCode,
+            queries.getPreference(VersionCodePreference),
+        )
     }
 }

@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
+import com.faltenreich.diaguard.preference.version.VersionCodePreference
 import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.shared.keyvalue.read
 import kotlinx.coroutines.flow.first
@@ -45,6 +46,7 @@ class KeyValueLegacyQueries(
                     else -> null
                 }
             }
+            is VersionCodePreference -> getPreference<Int>("versionCode")
             else -> throw IllegalStateException("Requesting unhandled preference: $preference")
         } as? Domain
     }

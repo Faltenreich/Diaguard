@@ -9,10 +9,10 @@ import org.junit.Test
 
 class KeyValueLegacyQueriesTest {
 
-    private val queries = KeyValueLegacyQueries(keyValueStore = FakeKeyValueStore())
-
     @Test
-    fun readPreferences() = runTest {
+    fun readTheme() = runTest {
+        val keyValueStore = FakeKeyValueStore("theme" to "1")
+        val queries = KeyValueLegacyQueries(keyValueStore)
         Assert.assertEquals(
             ColorScheme.DARK,
             queries.getPreference(ColorSchemePreference),

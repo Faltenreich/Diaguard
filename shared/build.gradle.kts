@@ -72,15 +72,17 @@ kotlin {
                 implementation(libs.sqldelight.jvm)
             }
         }
-        @Suppress("UnusedPrivateProperty")
+        @Suppress("unused")
         val androidUnitTest by getting
-        @Suppress("UnusedPrivateProperty")
+        @Suppress("unused")
         val androidInstrumentedTest by getting {
             dependencies {
                 implementation(libs.junit)
                 implementation(libs.androidx.test.runner)
                 implementation(libs.androidx.test.junit)
                 implementation(libs.androidx.test.junit.ktx)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.turbine)
             }
         }
         iosMain

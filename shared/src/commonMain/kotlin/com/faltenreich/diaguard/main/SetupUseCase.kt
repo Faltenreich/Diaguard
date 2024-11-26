@@ -15,7 +15,7 @@ class SetupUseCase(
     suspend operator fun invoke() = withContext(dispatcher) {
         hasData().collect { hasData ->
             if (!hasData) {
-                // importSeed()
+                importSeed()
                 importLegacy()
             }
         }

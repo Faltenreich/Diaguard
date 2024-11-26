@@ -22,7 +22,6 @@ class ImportLegacyDatabaseUseCase(
 ) {
 
     suspend operator fun invoke() {
-
         val properties = propertyRepository.getAll()
 
         val entries = legacyRepository.getEntries().associateWith { legacy ->

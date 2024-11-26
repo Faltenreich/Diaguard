@@ -7,8 +7,6 @@ class ImportLegacyUseCase(
 
     suspend operator fun invoke() {
         importPreferences()
-        // TODO: Re-enable
-        return
         importDatabase()
     }
 }

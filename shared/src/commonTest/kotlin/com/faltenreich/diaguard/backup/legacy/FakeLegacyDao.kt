@@ -15,7 +15,7 @@ class FakeLegacyDao : LegacyDao {
     private val dateTimeFactory = KotlinxDateTimeFactory()
 
     override suspend fun <Store, Domain> getPreference(preference: Preference<Store, Domain>): Domain? {
-        TODO("Not yet implemented")
+        return null
     }
 
     override suspend fun getEntries(): List<Entry.Legacy> {

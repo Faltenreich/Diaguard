@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.tag.TagRepository
 /**
  * Import from files bundled with the app
  */
-class SeedImportUseCase(
+class ImportSeedUseCase(
     private val seedRepository: SeedRepository,
     private val categoryRepository: MeasurementCategoryRepository,
     private val propertyRepository: MeasurementPropertyRepository,

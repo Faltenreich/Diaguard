@@ -55,5 +55,5 @@ fun seedModule() = module {
 
     singleOf(::SeedRepository)
 
-    singleOf(::SeedImportUseCase)
+    singleOf(::ImportSeedUseCase)
 }

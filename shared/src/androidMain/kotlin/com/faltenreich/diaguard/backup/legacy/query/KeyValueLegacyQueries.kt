@@ -17,7 +17,7 @@ class KeyValueLegacyQueries(
     @PublishedApi internal val keyValueStore: KeyValueStore,
 ) {
 
-    suspend inline fun <reified T: Any> getPreference(key: String): T? {
+    private suspend inline fun <reified T: Any> getPreference(key: String): T? {
         return keyValueStore.read<T>(key).first()
     }
 

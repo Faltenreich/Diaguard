@@ -33,7 +33,7 @@ class SharedPreferences(context: Context) : KeyValueStore {
                 String::class -> putString(key, value as String)
                 else -> IllegalArgumentException("Unsupported type: ${kClass.simpleName}")
             }
-            apply()
+            commit()
         }
     }
 }

@@ -22,7 +22,7 @@ class MainViewModel(
     getTopAppBarStyle: GetTopAppBarStyleUseCase,
     getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
     hasData: HasDataUseCase,
-    private val setup: SetupUseCase,
+    private val migrateData: MigrateDataUseCase,
     private val popScreen: PopScreenUseCase,
     private val openBottomSheet: OpenBottomSheetUseCase,
     private val closeBottomSheet: CloseBottomSheetUseCase,
@@ -51,7 +51,7 @@ class MainViewModel(
     }.distinctUntilChanged()
 
     init {
-        scope.launch { setup() }
+        scope.launch { migrateData() }
     }
 
     override suspend fun handleIntent(intent: MainIntent) = with(intent) {

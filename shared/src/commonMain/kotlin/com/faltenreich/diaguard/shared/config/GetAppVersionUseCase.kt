@@ -12,7 +12,7 @@ class GetAppVersionUseCase(
         return flowOf(
             "%s (%d)".format(
                 buildConfig.getVersionName(),
-                buildConfig.getBuildNumber(),
+                buildConfig.getVersionCode(),
             )
         )
     }

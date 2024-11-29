@@ -2,7 +2,7 @@
 
 object Constants {
 
-    const val VersionCode = 62
+    const val VersionCode = 63
     const val VersionName = "4.0.0"
     const val NameSpace = "com.faltenreich.diaguard"
 

@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.config
 
 interface BuildConfig {
 
-    fun getBuildNumber(): Long
+    fun getVersionCode(): Long
 
     fun getVersionName(): String
 }

@@ -11,14 +11,11 @@ import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.navigation.system.OpenNotificationSettingsUseCase
-import com.faltenreich.diaguard.navigation.system.systemSettingsModule
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun navigationModule() = module {
-    includes(systemSettingsModule())
-
     singleOf(::Navigation)
 
     singleOf(::CollectNavigationEventsUseCase)

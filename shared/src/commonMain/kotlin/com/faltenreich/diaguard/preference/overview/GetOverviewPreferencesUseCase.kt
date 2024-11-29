@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.backup.user.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.navigation.system.SystemSettings
+import com.faltenreich.diaguard.shared.system.SystemSettings
 import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen

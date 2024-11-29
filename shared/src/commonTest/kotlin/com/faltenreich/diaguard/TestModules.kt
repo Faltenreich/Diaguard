@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard
 
-import com.faltenreich.diaguard.backup.legacy.LegacyDao
 import com.faltenreich.diaguard.backup.legacy.FakeLegacyDao
+import com.faltenreich.diaguard.backup.legacy.LegacyDao
 import com.faltenreich.diaguard.backup.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.backup.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.export.pdf.PdfExport
@@ -19,6 +19,8 @@ import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.ConsoleLogger
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.serialization.Serialization
+import com.faltenreich.diaguard.shared.system.FakeSystemSettings
+import com.faltenreich.diaguard.shared.system.SystemSettings
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -33,6 +35,8 @@ fun testModules() = module {
     single<CoroutineDispatcher> { StandardTestDispatcher() }
     single<CoroutineContext> { StandardTestDispatcher() }
     single<CoroutineScope> { TestScope(context = get()) }
+
+    factory<SystemSettings> { FakeSystemSettings() }
 
     single<BuildConfig> { FakeBuildConfig() }
 

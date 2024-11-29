@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.system
+package com.faltenreich.diaguard.shared.system
 
 import android.content.Context
 import android.content.Intent

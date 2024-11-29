@@ -20,6 +20,7 @@ class OverviewPreferenceViewModelTest : TestSuite {
                     "color_scheme",
                     "start_screen",
                     "decimal_places",
+                    "reminders",
                     "therapy",
                     "measurement_categories",
                     "tags",

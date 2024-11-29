@@ -24,6 +24,7 @@ import com.faltenreich.diaguard.shared.logging.loggerModule
 import com.faltenreich.diaguard.shared.networking.networkingModule
 import com.faltenreich.diaguard.shared.primitive.primitiveModule
 import com.faltenreich.diaguard.shared.serialization.serializationModule
+import com.faltenreich.diaguard.shared.system.systemSettingsModule
 import com.faltenreich.diaguard.shared.theme.themeModule
 import com.faltenreich.diaguard.statistic.statisticModule
 import com.faltenreich.diaguard.tag.tagModule
@@ -43,6 +44,7 @@ fun appModules() = listOf(
     databaseModule(),
     networkingModule(),
     dateTimeModule(),
+    systemSettingsModule(),
     // Feature
     themeModule(),
     seedModule(),

@@ -3,12 +3,12 @@ package com.faltenreich.diaguard.food.form
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
-import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -16,7 +16,11 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import com.faltenreich.diaguard.shared.validation.ValidationResult
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FoodFormViewModel(
@@ -27,12 +31,11 @@ class FoodFormViewModel(
     private val deleteFood: DeleteFoodUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
-    private val showSnackbar: ShowSnackbarUseCase = inject(),
     private val formatNumber: NumberFormatter = inject(),
     private val localization: Localization = inject(),
-) : ViewModel<Unit, FoodFormIntent, Unit>() {
+) : ViewModel<FoodFormState, FoodFormIntent, Unit>() {
 
-    override val state = emptyFlow<Unit>()
+    private val error = MutableStateFlow<String?>(null)
 
     val food = foodId?.let(getFoodById::invoke)
 
@@ -81,6 +84,19 @@ class FoodFormViewModel(
             )
         }
 
+    override val state = error.map(::FoodFormState)
+
+    init {
+        scope.launch {
+            combine(
+                snapshotFlow { name },
+                snapshotFlow { carbohydrates },
+            ) { /* Observe any user input */ }.collectLatest {
+                error.update { null }
+            }
+        }
+    }
+
     override suspend fun handleIntent(intent: FoodFormIntent) {
         when (intent) {
             is FoodFormIntent.EditNutrient -> editNutrient(intent.data)
@@ -113,6 +129,8 @@ class FoodFormViewModel(
     }
 
     private fun submit() = scope.launch {
+        error.update { null }
+
         val input = Food.Input(
             name = name,
             brand = brand,
@@ -135,7 +153,7 @@ class FoodFormViewModel(
                 popScreen()
             }
             is ValidationResult.Failure -> {
-                showSnackbar(result.error)
+                error.update { result.error }
             }
         }
     }

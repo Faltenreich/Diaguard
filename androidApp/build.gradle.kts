@@ -46,6 +46,11 @@ android {
         compose = true
     }
 
+    compileOptions {
+        // Support for java.time on API 25 and older
+        isCoreLibraryDesugaringEnabled = true
+    }
+
     packagingOptions.resources.excludes += "META-INF/versions/9/previous-compilation-data.bin"
 }
 
@@ -55,6 +60,8 @@ kotlin {
 
 dependencies {
     implementation(project(":shared"))
+
+    coreLibraryDesugaring(libs.android.desugar)
 
     testImplementation(libs.junit)
 

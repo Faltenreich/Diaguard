@@ -8,5 +8,5 @@ data class EntryFormState(
     val measurements: List<MeasurementCategoryInputState>,
     val foodEaten: List<FoodEatenInputState>,
     val tags: List<Tag>,
-    val inputError: String? = null,
+    val error: String?,
 )

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.Time
@@ -22,7 +23,6 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
-import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
@@ -54,7 +54,6 @@ class EntryFormViewModel(
     private val pushScreen: PushScreenUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
-    private val showSnackbar: ShowSnackbarUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
     private val storeEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
@@ -97,10 +96,13 @@ class EntryFormViewModel(
             getTagsByQuery(tagQuery, tagsSelected)
         }
 
+    private val error = MutableStateFlow<String?>(null)
+
     override val state = combine(
         measurements,
         foodEaten,
         tagSuggestions,
+        error,
         ::EntryFormState,
     )
 
@@ -115,6 +117,16 @@ class EntryFormViewModel(
         }
         scope.launch {
             tagSelection.value += getTagsOfEntry(editing)
+        }
+        scope.launch {
+            combine(
+                snapshotFlow { note },
+                measurements,
+                foodEaten,
+                tagQuery,
+            ) { /* Observe any user input */ }.collectLatest {
+                error.update { null }
+            }
         }
     }
 
@@ -180,6 +192,7 @@ class EntryFormViewModel(
             note = note.takeIf(String::isNotBlank),
             foodEaten = foodEaten.value,
         )
+        error.update { null }
         when (val result = validate(input)) {
             is ValidationResult.Success -> {
                 storeEntry(input)
@@ -187,7 +200,7 @@ class EntryFormViewModel(
             }
             is ValidationResult.Failure -> {
                 measurements.value = result.data.measurements
-                showSnackbar(message = result.error)
+                error.update { result.error }
             }
         }
     }

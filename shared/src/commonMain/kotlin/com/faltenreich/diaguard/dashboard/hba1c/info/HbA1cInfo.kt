@@ -13,9 +13,10 @@ import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.estimated
 import diaguard.shared.generated.resources.hba1c
-import diaguard.shared.generated.resources.hba1c_estimated_formula
+import diaguard.shared.generated.resources.hba1c_estimated_description
 import diaguard.shared.generated.resources.latest
 import diaguard.shared.generated.resources.placeholder
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HbA1cInfo(
@@ -57,6 +58,14 @@ fun HbA1cInfo(
             style = AppTheme.typography.bodyLarge,
         )
 
-        Text(getString(Res.string.hba1c_estimated_formula))
+        state?.estimated?.let { estimated ->
+            Text(
+                stringResource(
+                    Res.string.hba1c_estimated_description,
+                    estimated.valueCount.toString(),
+                    estimated.dateTimeRangeStart,
+                )
+            )
+        }
     }
 }

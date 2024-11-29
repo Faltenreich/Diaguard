@@ -15,7 +15,7 @@ data class HbA1cInfoState(
 
     data class Estimated(
         val value: String,
-        val dateRange: String,
+        val dateTimeRangeStart: String,
         val valueCount: Int,
         val tint: MeasurementValueTint,
     )

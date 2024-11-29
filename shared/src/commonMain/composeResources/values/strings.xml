@@ -122,7 +122,7 @@
     <string name="grams_abbreviation">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
-    <string name="hba1c_estimated_formula">0,031 * Ø 3-month blood sugar + 2,393</string>
+    <string name="hba1c_estimated_description">Calculated on the basis of %d measurements since %s (formula: 0,031 * Ø 3-month blood sugar + 2,393)</string>
     <string name="hba1c_latest">HbA1c on %s</string>
     <string name="homepage">Homepage</string>
     <string name="homepage_url">http://www.diaguard.wordpress.com</string>

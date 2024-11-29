@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
+import com.faltenreich.diaguard.preference.version.VersionCodePreference
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -34,6 +35,7 @@ class MainViewModelTest : TestSuite {
 
     @Test
     fun `shows content if seed has been imported`() = runTest {
+        setPreference(VersionCodePreference, 1)
         importSeed()
 
         viewModel.state.test {
@@ -44,6 +46,7 @@ class MainViewModelTest : TestSuite {
 
     @Test
     fun `shows dashboard as start screen by default`() = runTest {
+        setPreference(VersionCodePreference, 1)
         importSeed()
 
         viewModel.state.test {
@@ -56,6 +59,7 @@ class MainViewModelTest : TestSuite {
 
     @Test
     fun `shows timeline as start screen if selected`() = runTest {
+        setPreference(VersionCodePreference, 1)
         importSeed()
         setPreference(StartScreenPreference, StartScreen.TIMELINE)
 
@@ -69,6 +73,7 @@ class MainViewModelTest : TestSuite {
 
     @Test
     fun `shows log as start screen if selected`() = runTest {
+        setPreference(VersionCodePreference, 1)
         importSeed()
         setPreference(StartScreenPreference, StartScreen.LOG)
 

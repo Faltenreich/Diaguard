@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.preference.version.VersionCodePreference
 import com.faltenreich.diaguard.shared.config.BuildConfig
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 
 class MigrateDataUseCase(
@@ -19,12 +20,11 @@ class MigrateDataUseCase(
 ) {
 
     suspend operator fun invoke() = withContext(dispatcher) {
-        getPreference(VersionCodePreference).collect { versionCode ->
-            if (versionCode <= 0) {
-                importSeed()
-                importLegacy()
-                setPreference(VersionCodePreference, buildConfig.getVersionCode())
-            }
+        val versionCode = getPreference(VersionCodePreference).first()
+        if (versionCode <= 0) {
+            importSeed()
+            importLegacy()
+            setPreference(VersionCodePreference, buildConfig.getVersionCode())
         }
     }
 }

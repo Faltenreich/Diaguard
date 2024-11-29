@@ -1,11 +1,12 @@
 package com.faltenreich.diaguard.dashboard.hba1c
 
 import com.faltenreich.diaguard.dashboard.DashboardState
+import com.faltenreich.diaguard.dashboard.hba1c.info.HbA1cInfoBottomSheet
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
-import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
+import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -13,7 +14,6 @@ import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.format
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hba1c_estimated
-import diaguard.shared.generated.resources.hba1c_formula
 import diaguard.shared.generated.resources.hba1c_latest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -26,7 +26,7 @@ class GetCurrentHbA1cUseCase(
     private val dateTimeFormatter: DateTimeFormatter,
     private val measurementValueMapper: MeasurementValueMapper,
     private val pushScreen: PushScreenUseCase,
-    private val showSnackbar: ShowSnackbarUseCase,
+    private val openBottomSheet: OpenBottomSheetUseCase,
 ) {
 
     operator fun invoke(): Flow<DashboardState.HbA1c> {
@@ -42,7 +42,7 @@ class GetCurrentHbA1cUseCase(
             } ?: DashboardState.HbA1c(
                 label = localization.getString(Res.string.hba1c_estimated),
                 value = null,
-                onClick = { showSnackbar.invoke(localization.getString(Res.string.hba1c_formula)) },
+                onClick = { openBottomSheet(HbA1cInfoBottomSheet) },
             )
         }
     }
@@ -71,7 +71,7 @@ class GetCurrentHbA1cUseCase(
                 unit = value.property.selectedUnit,
                 decimalPlaces = decimalPlaces,
             ),
-            onClick = { showSnackbar.invoke(localization.getString(Res.string.hba1c_formula)) },
+            onClick = { openBottomSheet(HbA1cInfoBottomSheet) },
         )
     }
 }

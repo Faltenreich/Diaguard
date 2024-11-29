@@ -21,9 +21,9 @@ class MigrateDataUseCase(
     suspend operator fun invoke() = withContext(dispatcher) {
         getPreference(VersionCodePreference).collect { versionCode ->
             if (versionCode <= 0) {
-                // TODO: importSeed()
+                importSeed()
                 importLegacy()
-                // TODO: setPreference(VersionCodePreference, buildConfig.getVersionCode())
+                setPreference(VersionCodePreference, buildConfig.getVersionCode())
             }
         }
     }

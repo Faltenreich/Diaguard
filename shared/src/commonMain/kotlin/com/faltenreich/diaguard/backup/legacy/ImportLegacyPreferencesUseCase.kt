@@ -16,23 +16,21 @@ class ImportLegacyPreferencesUseCase(
 ) {
 
     suspend operator fun invoke() {
-        Logger.debug("Importing legacy preferences")
         importPreference(ColorSchemePreference)
         importPreference(DecimalPlacesPreference)
         importPreference(ShowBrandedFoodPreference)
         importPreference(ShowCommonFoodPreference)
         importPreference(ShowCustomFoodPreference)
         importPreference(StartScreenPreference)
-        Logger.debug("Imported legacy preferences")
     }
 
     private suspend inline fun <reified Store: Any, Domain> importPreference(preference: Preference<Store, Domain>) {
         val import = legacyRepository.getPreference(preference)
         if (import != null) {
             setPreference(preference, import)
-            Logger.debug("Imported legacy for $preference: $import")
+            Logger.info("Imported legacy for $preference: $import")
         } else {
-            Logger.debug("Imported nothing for $preference")
+            Logger.info("Imported legacy for $preference: nothing found")
         }
     }
 }

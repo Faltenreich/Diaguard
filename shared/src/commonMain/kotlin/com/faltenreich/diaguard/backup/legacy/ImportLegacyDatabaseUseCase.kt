@@ -28,20 +28,20 @@ class ImportLegacyDatabaseUseCase(
             val id = entryRepository.create(legacy)
             checkNotNull(entryRepository.getById(id))
         }
-        Logger.info("Imported ${entries.size} entries from legacy")
+        Logger.info("Imported legacy for ${entries.size} entries")
 
         val food = legacyRepository.getFood().associateWith { legacy ->
             // TODO: Skip redundant food by uuid/serverId
             val id = foodRepository.create(legacy)
             checkNotNull(foodRepository.getById(id))
         }
-        Logger.info("Imported ${food.size} food from legacy")
+        Logger.info("Imported legacy for ${food.size} food")
 
         val tags = legacyRepository.getTags().associateWith { legacy ->
             val id = tagRepository.create(legacy)
             checkNotNull(tagRepository.getById(id))
         }
-        Logger.info("Imported ${tags.size} tags from legacy")
+        Logger.info("Imported legacy for ${tags.size} tags")
 
         val values = legacyRepository.getMeasurementValues()
         values.forEach { legacy ->
@@ -53,7 +53,7 @@ class ImportLegacyDatabaseUseCase(
             }?.value ?: error("No entry found for id ${legacy.entryId}")
             valueRepository.create(legacy)
         }
-        Logger.info("Imported ${values.size} values from legacy")
+        Logger.info("Imported legacy for ${values.size} values")
 
         val foodEaten = legacyRepository.getFoodEaten()
         foodEaten.forEach { legacy ->
@@ -69,7 +69,7 @@ class ImportLegacyDatabaseUseCase(
             }?.value ?: error("No entry found for mealId ${legacy.mealId}")
             foodEatenRepository.create(legacy)
         }
-        Logger.info("Imported ${foodEaten.size} food eaten from legacy")
+        Logger.info("Imported legacy for ${foodEaten.size} food eaten")
 
         val entryTags = legacyRepository.getEntryTags()
         entryTags.forEach { legacy ->
@@ -81,6 +81,6 @@ class ImportLegacyDatabaseUseCase(
             }?.value ?: error("No tag found for id ${legacy.tagId}")
             entryTagRepository.create(legacy)
         }
-        Logger.info("Imported ${entryTags.size} entry tags from legacy")
+        Logger.info("Imported legacy for ${entryTags.size} entry tags")
     }
 }

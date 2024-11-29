@@ -194,6 +194,7 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="privacy_policy_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_EN.md</string>
     <string name="pulse">Pulse</string>
+    <string name="reminders">Reminders</string>
     <string name="restart">Restart</string>
     <string name="retry">Retry</string>
     <string name="salt">Salt</string>

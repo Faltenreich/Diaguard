@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.backup.user.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
+import com.faltenreich.diaguard.navigation.system.SystemSettings
 import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
@@ -48,6 +49,7 @@ import diaguard.shared.generated.resources.mail_url_short
 import diaguard.shared.generated.resources.measurement_categories
 import diaguard.shared.generated.resources.privacy_policy
 import diaguard.shared.generated.resources.privacy_policy_url
+import diaguard.shared.generated.resources.reminders
 import diaguard.shared.generated.resources.source_code
 import diaguard.shared.generated.resources.source_code_url
 import diaguard.shared.generated.resources.source_code_url_short
@@ -67,6 +69,7 @@ class GetOverviewPreferencesUseCase(
     private val pushScreen: PushScreenUseCase,
     private val openBottomSheet: OpenBottomSheetUseCase,
     private val urlOpener: UrlOpener,
+    private val systemSettings: SystemSettings,
 ) {
 
     operator fun invoke(): Flow<List<PreferenceListItem>> {
@@ -91,6 +94,10 @@ class GetOverviewPreferencesUseCase(
                     title = localization.getString(Res.string.decimal_places)
                     subtitle = decimalPlaces.toString()
                     onClick = { openBottomSheet(DecimalPlacesFormScreen) }
+                }
+                action {
+                    title = localization.getString(Res.string.reminders)
+                    onClick = { systemSettings.openNotificationSettings() }
                 }
                 category {
                     title = localization.getString(Res.string.therapy)

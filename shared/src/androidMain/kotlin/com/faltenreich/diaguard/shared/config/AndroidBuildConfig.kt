@@ -11,6 +11,10 @@ class AndroidBuildConfig(private val context: Context) : BuildConfig {
         return context.packageManager.getPackageInfo(context.packageName, 0)
     }
 
+    override fun getPackageName(): String {
+        return getPackageInfo().packageName
+    }
+
     override fun getVersionCode(): Long {
         return PackageInfoCompat.getLongVersionCode(getPackageInfo())
     }

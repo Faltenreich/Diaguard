@@ -2,8 +2,6 @@ package com.faltenreich.diaguard.entry.form
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +13,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.InputChipDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -33,6 +30,8 @@ import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.shared.view.NoticeBar
+import com.faltenreich.diaguard.shared.view.NoticeBarStyle
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
@@ -163,22 +162,10 @@ fun EntryForm(
             }
         }
 
-        AnimatedVisibility(
-            visible = state?.error != null,
-            enter = slideInVertically(initialOffsetY = { it / 2 }),
-            exit = slideOutVertically(targetOffsetY = { it / 2 }),
-        ) {
-            Text(
-                text = state?.error ?: "",
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.errorContainer)
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = AppTheme.dimensions.padding.P_3,
-                        vertical = AppTheme.dimensions.padding.P_2,
-                    ),
-                color = MaterialTheme.colorScheme.onErrorContainer,
-            )
-        }
+        NoticeBar(
+            text = state?.error ?: "",
+            isVisible = state?.error != null,
+            style = NoticeBarStyle.ERROR,
+        )
     }
 }

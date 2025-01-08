@@ -17,6 +17,7 @@ object Colors {
     val Green = Color(0xff478063)
     val Red = Color(0xffdd6050)
     val Yellow = Color(0xffFBC02D)
+    val YellowDark = Color(0xffad892d)
     val Blue = Color(0xff5771cd)
     val Transparent = Color.Transparent
 

@@ -111,7 +111,7 @@
     <string name="food_info">Info</string>
     <string name="food_new">New food</string>
     <string name="food_nutrient_list">Nutrients</string>
-    <string name="food_preferences_none_selected">All food is currently hidden because no category is selected</string>
+    <string name="food_preferences_none_selected">Food is currently hidden as long as not at least one category is checked</string>
     <string name="food_preferences_open">Open food preferences</string>
     <string name="food_search_empty_title">No results</string>
     <string name="food_search_empty_description">Try another query or</string>

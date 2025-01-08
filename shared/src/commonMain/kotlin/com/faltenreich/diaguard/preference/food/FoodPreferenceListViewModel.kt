@@ -1,11 +1,16 @@
 package com.faltenreich.diaguard.preference.food
 
-import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import kotlinx.coroutines.flow.combine
 
 class FoodPreferenceListViewModel(
     getPreferences: GetFoodPreferencesUseCase,
-) : ViewModel<List<PreferenceListItem>, Unit, Unit>() {
+    showAnyFood: ShowAnyFoodUseCase,
+) : ViewModel<FoodPreferenceListState, Unit, Unit>() {
 
-    override val state = getPreferences()
+    override val state = combine(
+        getPreferences(),
+        showAnyFood(),
+        ::FoodPreferenceListState,
+    )
 }

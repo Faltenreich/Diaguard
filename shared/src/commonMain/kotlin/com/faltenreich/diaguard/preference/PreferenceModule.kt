@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormViewModel
 import com.faltenreich.diaguard.preference.decimal.IllustrateDecimalPlacesUseCase
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListViewModel
 import com.faltenreich.diaguard.preference.food.GetFoodPreferencesUseCase
+import com.faltenreich.diaguard.preference.food.ShowAnyFoodUseCase
 import com.faltenreich.diaguard.preference.license.GetLicensesUseCase
 import com.faltenreich.diaguard.preference.license.LicenseListViewModel
 import com.faltenreich.diaguard.preference.overview.GetOverviewPreferencesUseCase
@@ -42,5 +43,6 @@ fun preferenceModule() = module {
     viewModelOf(::OverviewPreferenceViewModel)
 
     singleOf(::GetFoodPreferencesUseCase)
+    singleOf(::ShowAnyFoodUseCase)
     viewModelOf(::FoodPreferenceListViewModel)
 }

@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.faltenreich.diaguard.backup.user.read.ReadBackupFormScreen
 import com.faltenreich.diaguard.backup.user.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.dashboard.DashboardScreen
+import com.faltenreich.diaguard.dashboard.hba1c.info.HbA1cInfoScreen
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.export.form.ExportFormScreen
@@ -124,6 +125,7 @@ fun MainView(
                     screen<FoodEatenListScreen>()
                     screen<FoodPreferenceScreen>()
 
+                    screen<HbA1cInfoScreen>()
                     screen<StatisticScreen>()
                     screen<ExportFormScreen>()
 

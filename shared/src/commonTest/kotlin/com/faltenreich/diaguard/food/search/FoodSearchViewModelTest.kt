@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
+import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
 import org.koin.test.inject
@@ -60,7 +60,7 @@ class FoodSearchViewModelTest : TestSuite {
 
             val event = awaitItem()
             assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is FoodPreferenceScreen)
+            assertTrue(event.screen is FoodPreferenceListScreen)
         }
     }
 }

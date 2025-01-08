@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
+import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.food.ShowBrandedFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
@@ -57,7 +57,7 @@ class FoodSearchViewModel(
             is FoodSearchIntent.Close -> popScreen()
             is FoodSearchIntent.Create -> pushScreen(FoodFormScreen())
             is FoodSearchIntent.OpenFood -> pushScreen(FoodFormScreen(food))
-            is FoodSearchIntent.OpenPreferences -> pushScreen(FoodPreferenceScreen)
+            is FoodSearchIntent.OpenPreferences -> pushScreen(FoodPreferenceListScreen)
         }
     }
 }

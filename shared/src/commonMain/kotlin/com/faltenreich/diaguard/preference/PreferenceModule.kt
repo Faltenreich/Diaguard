@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.preference
 import com.faltenreich.diaguard.preference.color.ColorSchemeFormViewModel
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormViewModel
 import com.faltenreich.diaguard.preference.decimal.IllustrateDecimalPlacesUseCase
-import com.faltenreich.diaguard.preference.food.FoodPreferenceViewModel
+import com.faltenreich.diaguard.preference.food.FoodPreferenceListViewModel
 import com.faltenreich.diaguard.preference.food.GetFoodPreferencesUseCase
 import com.faltenreich.diaguard.preference.license.GetLicensesUseCase
 import com.faltenreich.diaguard.preference.license.LicenseListViewModel
@@ -42,5 +42,5 @@ fun preferenceModule() = module {
     viewModelOf(::OverviewPreferenceViewModel)
 
     singleOf(::GetFoodPreferencesUseCase)
-    viewModelOf(::FoodPreferenceViewModel)
+    viewModelOf(::FoodPreferenceListViewModel)
 }

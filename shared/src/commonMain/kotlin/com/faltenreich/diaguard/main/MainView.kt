@@ -40,7 +40,7 @@ import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
-import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
+import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenFormScreen
@@ -123,7 +123,7 @@ fun MainView(
                     screen<FoodFormScreen>()
                     screen<FoodSearchScreen>()
                     screen<FoodEatenListScreen>()
-                    screen<FoodPreferenceScreen>()
+                    screen<FoodPreferenceListScreen>()
 
                     screen<HbA1cInfoScreen>()
                     screen<StatisticScreen>()

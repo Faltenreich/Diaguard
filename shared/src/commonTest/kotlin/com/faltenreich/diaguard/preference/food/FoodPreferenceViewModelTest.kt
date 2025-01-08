@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 class FoodPreferenceViewModelTest : TestSuite {
 
-    private val viewModel: FoodPreferenceViewModel by inject()
+    private val viewModel: FoodPreferenceListViewModel by inject()
 
     @Test
     fun `show preferences`() = runTest {

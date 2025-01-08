@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
-import com.faltenreich.diaguard.preference.food.FoodPreferenceScreen
+import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.preferences
@@ -113,7 +113,7 @@ class GetOverviewPreferencesUseCase(
                 }
                 action {
                     title = localization.getString(Res.string.food)
-                    onClick = { pushScreen(FoodPreferenceScreen) }
+                    onClick = { pushScreen(FoodPreferenceListScreen) }
                 }
                 category {
                     title = localization.getString(Res.string.backup)

@@ -48,7 +48,7 @@ class GetCurrentHbA1cUseCase(
     }
 
     private fun getLatestHbA1c(
-        value: MeasurementValue,
+        value: MeasurementValue.Local,
         decimalPlaces: Int,
     ): DashboardState.HbA1c {
         return DashboardState.HbA1c(

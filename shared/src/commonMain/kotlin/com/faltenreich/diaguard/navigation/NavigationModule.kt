@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.navigation
 
 import com.faltenreich.diaguard.main.menu.MainMenuViewModel
-import com.faltenreich.diaguard.navigation.bar.snack.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
@@ -30,8 +29,6 @@ fun navigationModule() = module {
 
     singleOf(::OpenModalUseCase)
     singleOf(::CloseModalUseCase)
-
-    singleOf(::ShowSnackbarUseCase)
 
     viewModelOf(::MainMenuViewModel)
 }

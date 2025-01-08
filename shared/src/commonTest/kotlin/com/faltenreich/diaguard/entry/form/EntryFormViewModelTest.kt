@@ -194,14 +194,14 @@ class EntryFormViewModelTest : TestSuite {
     fun `show error in snackbar when missing input`() = runTest {
         viewModel = get(parameters = { parametersOf(null, null, null) })
 
-        navigation.events.test {
+        viewModel.state.test {
             viewModel.handleIntent(EntryFormIntent.Submit)
 
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.ShowSnackbar)
+            awaitItem()
+
             assertEquals(
                 expected = "entry_form_error_missing_input",
-                actual = event.message,
+                actual = awaitItem().error,
             )
         }
     }

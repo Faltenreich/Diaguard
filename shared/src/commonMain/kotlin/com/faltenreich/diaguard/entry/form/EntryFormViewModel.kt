@@ -192,7 +192,6 @@ class EntryFormViewModel(
             note = note.takeIf(String::isNotBlank),
             foodEaten = foodEaten.value,
         )
-        error.update { null }
         when (val result = validate(input)) {
             is ValidationResult.Success -> {
                 storeEntry(input)

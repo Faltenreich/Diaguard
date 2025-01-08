@@ -196,13 +196,20 @@ class FoodFormViewModelTest : TestSuite {
     fun `show snackbar when intending to submit and failing`() = runTest {
         viewModel = get(parameters = { parametersOf(food.id) })
 
-        navigation.events.test {
+        viewModel.state.test {
             val name = ""
             viewModel.name = name
 
             viewModel.handleIntent(FoodFormIntent.Submit)
 
-            assertTrue(awaitItem() is NavigationEvent.ShowSnackbar)
+            awaitItem()
+
+            assertEquals(
+                expected = "food_form_missing_input",
+                actual = awaitItem().error,
+            )
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 

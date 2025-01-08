@@ -129,8 +129,6 @@ class FoodFormViewModel(
     }
 
     private fun submit() = scope.launch {
-        error.update { null }
-
         val input = Food.Input(
             name = name,
             brand = brand,

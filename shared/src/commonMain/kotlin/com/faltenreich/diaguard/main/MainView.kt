@@ -5,8 +5,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -14,7 +12,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -57,7 +54,6 @@ import com.faltenreich.diaguard.timeline.TimelineScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.navigate_back
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -68,10 +64,7 @@ fun MainView(
     val state = viewModel.collectState()
     if (state !is MainState.SubsequentStart) return
 
-    val scope = rememberCoroutineScope()
-
     val navController = rememberNavController()
-    val snackbarHostState = remember { SnackbarHostState() }
     var bottomSheet by remember { mutableStateOf<Screen?>(null) }
     var modal by remember { mutableStateOf<Modal?>(null) }
 
@@ -87,14 +80,6 @@ fun MainView(
                 is NavigationEvent.CloseBottomSheet -> bottomSheet = null
                 is NavigationEvent.OpenModal -> modal = event.modal
                 is NavigationEvent.CloseModal -> modal = null
-                is NavigationEvent.ShowSnackbar -> scope.launch {
-                    snackbarHostState.showSnackbar(
-                        message = event.message,
-                        actionLabel = event.actionLabel,
-                        withDismissAction = event.withDismissAction,
-                        duration = event.duration,
-                    )
-                }
             }
         }
     }
@@ -176,7 +161,6 @@ fun MainView(
                     },
                 )
             },
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.dashboard.today
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -28,34 +29,33 @@ fun TodayDashboardItem(
         onClick = onClick,
         modifier = modifier,
     ) {
-        Column(
-            modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3),
-            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
-        ) {
-            Text(
-                text = getString(Res.string.today),
-                style = AppTheme.typography.labelMedium,
-            )
-            Row {
+        Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
+            Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(
-                    text = getString(Res.string.measurements),
-                    modifier = Modifier.weight(1f),
+                    text = getString(Res.string.today),
+                    style = AppTheme.typography.labelMedium,
                 )
-                Text(data?.totalCount?.toString() ?: getString(Res.string.placeholder))
-            }
-            Row {
-                Text(
-                    text = getString(Res.string.hypo),
-                    modifier = Modifier.weight(1f),
-                )
-                Text(data?.hypoCount?.toString() ?: getString(Res.string.placeholder))
-            }
-            Row {
-                Text(
-                    text = getString(Res.string.hyper),
-                    modifier = Modifier.weight(1f),
-                )
-                Text(data?.hyperCount?.toString() ?: getString(Res.string.placeholder))
+                Row {
+                    Text(
+                        text = getString(Res.string.measurements),
+                        modifier = Modifier.weight(1f),
+                    )
+                    Text(data?.totalCount?.toString() ?: getString(Res.string.placeholder))
+                }
+                Row {
+                    Text(
+                        text = getString(Res.string.hypo),
+                        modifier = Modifier.weight(1f),
+                    )
+                    Text(data?.hypoCount?.toString() ?: getString(Res.string.placeholder))
+                }
+                Row {
+                    Text(
+                        text = getString(Res.string.hyper),
+                        modifier = Modifier.weight(1f),
+                    )
+                    Text(data?.hyperCount?.toString() ?: getString(Res.string.placeholder))
+                }
             }
         }
     }

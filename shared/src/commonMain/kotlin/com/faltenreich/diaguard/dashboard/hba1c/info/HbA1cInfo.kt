@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.shared.view.TextDivider
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hba1c_estimated_description
 import diaguard.shared.generated.resources.hba1c_estimation
-import diaguard.shared.generated.resources.hba1c_latest
+import diaguard.shared.generated.resources.hba1c_latest_entries
 import diaguard.shared.generated.resources.placeholder
 
 @Composable
@@ -46,7 +46,7 @@ fun HbA1cInfo(
             )
         }
 
-        TextDivider(getString(Res.string.hba1c_latest))
+        TextDivider(getString(Res.string.hba1c_latest_entries))
 
         Column(modifier = Modifier.padding(AppTheme.dimensions.padding.P_3)) {
             Text(

@@ -56,7 +56,7 @@ fun FoodSearch(
         if (items.loadState.refresh == LoadState.Loading) {
             FoodListSkeleton()
         } else if (isAtTheEnd && items.itemCount == 0) {
-            FoodListEmpty(onIntent = viewModel::dispatchIntent)
+            FoodListEmpty()
         } else {
             FoodList(
                 items = items,

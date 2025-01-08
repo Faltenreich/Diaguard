@@ -57,7 +57,8 @@ fun EntryForm(
     LaunchedEffect(Unit) {
         foodSelectionViewModel.collectEvents { event ->
             when (event) {
-                is FoodSelectionEvent.Select -> viewModel.dispatchIntent(EntryFormIntent.AddFood(event.food))
+                is FoodSelectionEvent.Select ->
+                    viewModel.dispatchIntent(EntryFormIntent.AddFood(event.food))
             }
         }
     }
@@ -71,13 +72,17 @@ fun EntryForm(
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
                     TextButton(
                         onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectDate) },
-                        colors = ButtonDefaults.textButtonColors(contentColor = AppTheme.colors.scheme.onSurfaceVariant),
+                        colors = ButtonDefaults.textButtonColors(
+                            contentColor = AppTheme.colors.scheme.onSurfaceVariant,
+                        ),
                     ) {
                         Text(viewModel.dateFormatted)
                     }
                     TextButton(
                         onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectTime) },
-                        colors = ButtonDefaults.textButtonColors(contentColor = AppTheme.colors.scheme.onSurfaceVariant),
+                        colors = ButtonDefaults.textButtonColors(
+                            contentColor = AppTheme.colors.scheme.onSurfaceVariant,
+                        ),
                     ) {
                         Text(viewModel.timeFormatted)
                     }

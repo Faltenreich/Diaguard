@@ -30,7 +30,9 @@ fun WizardStepListItem(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    val alpha = if (state == WizardStepState.UPCOMING) .5f else 1f
+    val alpha =
+        if (state == WizardStepState.UPCOMING) AppTheme.dimensions.alpha.SemiTransparent
+        else AppTheme.dimensions.alpha.Visible
 
     Row(
         modifier = modifier

@@ -1,18 +1,14 @@
 package com.faltenreich.diaguard.dashboard.hba1c.info
 
-import com.faltenreich.diaguard.dashboard.hba1c.GetCurrentHbA1cUseCase
 import com.faltenreich.diaguard.dashboard.hba1c.GetEstimatedHbA1cUseCase
 import com.faltenreich.diaguard.dashboard.hba1c.GetLatestHbA1cUseCase
-import com.faltenreich.diaguard.dashboard.latest.GetLatestBloodSugarUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
-import com.faltenreich.diaguard.preference.Preference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.emptyFlow
 
 class HbA1cInfoViewModel(
     getLatestHbA1c: GetLatestHbA1cUseCase,
@@ -38,7 +34,11 @@ class HbA1cInfoViewModel(
             },
             estimated = estimatedHbA1c?.let {
                 HbA1cInfoState.Estimated(
-                    value = valueMapper(estimatedHbA1c.value, estimatedHbA1c.property.selectedUnit, decimalPlaces).value,
+                    value = valueMapper(
+                        value = estimatedHbA1c.value,
+                        unit = estimatedHbA1c.property.selectedUnit,
+                        decimalPlaces = decimalPlaces,
+                    ).value,
                     dateTimeRangeStart = "",
                     valueCount = 0,
                     tint = getValueColor(estimatedHbA1c),

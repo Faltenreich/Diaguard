@@ -33,8 +33,8 @@ data class DashboardState(
     )
 
     data class HbA1c(
-        val label: String,
-        val value: MeasurementValue.Localized?,
+        val estimation: MeasurementValue.Localized?,
+        val latest: MeasurementValue.Localized?,
         val onClick: (suspend () -> Unit)?,
     )
 

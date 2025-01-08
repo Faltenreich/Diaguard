@@ -125,8 +125,7 @@
     <string name="hba1c_estimated">Estimated HbA1c</string>
     <string name="hba1c_estimated_description">The estimated HbA1c is calculated using the following formula: 0,031 * Ø 3-month blood sugar + 2,393. This is an approximation. Consult a diabetologist for an exact indication.</string>
     <string name="hba1c_estimation">Estimation</string>
-    <string name="hba1c_latest">HbA1c on %s</string>
-    <string name="hba1c_latest_entries">Latest entries</string>
+    <string name="hba1c_latest">Latest entry</string>
     <string name="homepage">Homepage</string>
     <string name="homepage_url">http://www.diaguard.wordpress.com</string>
     <string name="homepage_url_short">diaguard.wordpress.com</string>

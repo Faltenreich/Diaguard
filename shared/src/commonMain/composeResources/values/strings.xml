@@ -123,7 +123,7 @@
     <string name="grams_abbreviation">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
-    <string name="hba1c_estimated_description">The estimated HbA1c is calculated using the following formula: 0,031 * Ø 3-month blood sugar + 2,393. This is an approximation. Consult a diabetologist for an exact indication.</string>
+    <string name="hba1c_estimated_description">The estimated HbA1c is calculated using the following formula:\n\n0,031 * Ø 3-month blood sugar + 2,393.\n\nThis is an approximation. Consult a diabetologist for an exact indication.</string>
     <string name="hba1c_estimation">Estimation</string>
     <string name="hba1c_latest">HbA1c on %s</string>
     <string name="hba1c_latest_entries">Latest entries</string>

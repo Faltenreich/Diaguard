@@ -84,7 +84,6 @@
     <string name="entry_search_placeholder">Enter query to start search</string>
     <string name="entry_search_prompt">Search for entries&#8230;</string>
     <string name="error_unknown">Something went wrong, please try again</string>
-    <string name="estimated">Estimated</string>
     <string name="export">Export</string>
     <string name="facebook">Facebook</string>
     <string name="facebook_url">http://www.facebook.com/diaguard.de</string>
@@ -124,8 +123,10 @@
     <string name="grams_abbreviation">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
-    <string name="hba1c_estimated_description">Calculated on the basis of %d measurements since %s (formula: 0,031 * Ø 3-month blood sugar + 2,393)</string>
+    <string name="hba1c_estimated_description">The estimated HbA1c is calculated using the following formula: 0,031 * Ø 3-month blood sugar + 2,393. This is an approximation. Consult a diabetologist for an exact indication.</string>
+    <string name="hba1c_estimation">Estimation</string>
     <string name="hba1c_latest">HbA1c on %s</string>
+    <string name="hba1c_latest_entries">Latest entries</string>
     <string name="homepage">Homepage</string>
     <string name="homepage_url">http://www.diaguard.wordpress.com</string>
     <string name="homepage_url_short">diaguard.wordpress.com</string>
@@ -138,7 +139,6 @@
     <string name="insulin_units_abbreviation">IU</string>
     <string name="kilograms">Kilograms</string>
     <string name="kilograms_abbreviation">kg</string>
-    <string name="latest">Latest</string>
     <string name="layout">Layout</string>
     <string name="licenses">Open-source licenses</string>
     <string name="log">Log</string>

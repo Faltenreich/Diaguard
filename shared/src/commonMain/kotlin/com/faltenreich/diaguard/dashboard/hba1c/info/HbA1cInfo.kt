@@ -1,22 +1,23 @@
 package com.faltenreich.diaguard.dashboard.hba1c.info
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.TextDivider
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.estimated
-import diaguard.shared.generated.resources.hba1c
 import diaguard.shared.generated.resources.hba1c_estimated_description
-import diaguard.shared.generated.resources.latest
+import diaguard.shared.generated.resources.hba1c_estimation
+import diaguard.shared.generated.resources.hba1c_latest_entries
 import diaguard.shared.generated.resources.placeholder
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HbA1cInfo(
@@ -26,45 +27,31 @@ fun HbA1cInfo(
     val state = viewModel.collectState()
 
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = getString(Res.string.hba1c),
-            style = AppTheme.typography.titleLarge,
-        )
+        TextDivider(getString(Res.string.hba1c_estimation))
 
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
-
-        Text(
-            text = getString(Res.string.latest),
-            style = AppTheme.typography.titleMedium,
-        )
-
-        Text(
-            text = state?.latest?.value ?: getString(Res.string.placeholder),
-            style = AppTheme.typography.bodyLarge,
-        )
-
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
-
-        Text(
-            text = getString(Res.string.estimated),
-            style = AppTheme.typography.titleMedium,
-        )
-
-        Text(
-            text = state?.estimated?.value ?: getString(Res.string.placeholder),
-            style = AppTheme.typography.bodyLarge,
-        )
-
-        state?.estimated?.let { estimated ->
+        Column(modifier = Modifier.padding(AppTheme.dimensions.padding.P_3)) {
             Text(
-                stringResource(
-                    Res.string.hba1c_estimated_description,
-                    estimated.valueCount.toString(),
-                    estimated.dateTimeRangeStart,
-                )
+                text = state?.estimated?.value ?: getString(Res.string.placeholder),
+                style = AppTheme.typography.bodyLarge,
+            )
+            Text(
+                text = getString(Res.string.hba1c_estimated_description),
+                textAlign = TextAlign.Justify,
+                style = AppTheme.typography.bodyLarge,
+            )
+        }
+
+        TextDivider(getString(Res.string.hba1c_latest_entries))
+
+        Column(modifier = Modifier.padding(AppTheme.dimensions.padding.P_3)) {
+            Text(
+                text = state?.latest?.value ?: getString(Res.string.placeholder),
+                style = AppTheme.typography.bodyLarge,
             )
         }
     }

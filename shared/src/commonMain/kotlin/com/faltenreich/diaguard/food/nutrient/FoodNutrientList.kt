@@ -5,15 +5,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import com.faltenreich.diaguard.shared.view.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.food.form.FoodFormIntent
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.Divider
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.nutrient
+import diaguard.shared.generated.resources.per_100g
 
 @Composable
 fun FoodNutrientList(
@@ -22,6 +24,7 @@ fun FoodNutrientList(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
+        // TODO: Replace with TextDivider
         Row(
             modifier = Modifier
                 .background(AppTheme.colors.scheme.surfaceVariant)

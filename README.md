@@ -1,7 +1,7 @@
 # Diaguard
 
-[![version](https://img.shields.io/badge/Release-4.0.0-478063.svg)](https://github.com/Faltenreich/Diaguard/releases)
-[![pipeline](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml/badge.svg)](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml)
+![version](https://img.shields.io/badge/Release-4.0.0-478063.svg)
+![pipeline](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml/badge.svg?branch=feature/multiplatform)
 
 <img src="./resource/image/marketing/showcase.png" width="750"> 
 
@@ -136,7 +136,7 @@ Additionally to the permissions, conditions and limitations of the GPLv3, the pe
 
 #### License
 
-    Copyright (C) 2013-2024 Philipp Fahlteich
+    Copyright (C) 2013-2025 Philipp Fahlteich
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

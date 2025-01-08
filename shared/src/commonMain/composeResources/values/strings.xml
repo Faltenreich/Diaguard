@@ -100,6 +100,7 @@
     <string name="food_common">Common food</string>
     <string name="food_common_show">Show common food</string>
     <string name="food_common_show_desc">Includes hundreds of basic edibles bundled with the app</string>
+    <string name="food_create">Create food</string>
     <string name="food_custom">Custom food</string>
     <string name="food_custom_show">Show custom food</string>
     <string name="food_custom_show_desc">Includes every food that has been added manually by the user</string>
@@ -112,7 +113,7 @@
     <string name="food_nutrient_list">Nutrients</string>
     <string name="food_preferences_open">Open food preferences</string>
     <string name="food_search_empty_title">No results</string>
-    <string name="food_search_empty_description">Reset or try another query</string>
+    <string name="food_search_empty_description">Try another query or</string>
     <string name="food_search_prompt">Search for food&#8230;</string>
     <string name="food_source_branded_provider">Open Food Facts</string>
     <string name="food_source_branded_url">http://world.openfoodfacts.org</string>

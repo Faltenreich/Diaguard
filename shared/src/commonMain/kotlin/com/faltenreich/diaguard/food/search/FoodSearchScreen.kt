@@ -15,6 +15,7 @@ import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
+// FIXME: Always empty
 @Serializable
 data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
 

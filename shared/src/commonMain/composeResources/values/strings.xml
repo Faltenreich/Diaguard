@@ -110,9 +110,9 @@
     <string name="food_info">Info</string>
     <string name="food_new">New food</string>
     <string name="food_nutrient_list">Nutrients</string>
-    <string name="food_preferences_none_selected">Food is currently hidden as long as not at least one category is checked</string>
+    <string name="food_preferences_none_selected">Food is currently hidden until at least one category is checked.</string>
     <string name="food_preferences_open">Open food preferences</string>
-    <string name="food_search_empty_title">No results</string>
+    <string name="food_search_empty_title">Nothing found</string>
     <string name="food_search_empty_description">Try another query, check your settings or create a new food.</string>
     <string name="food_search_prompt">Search for food&#8230;</string>
     <string name="food_source_branded_provider">Open Food Facts</string>

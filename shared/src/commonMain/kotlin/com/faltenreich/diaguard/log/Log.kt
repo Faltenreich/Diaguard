@@ -164,7 +164,7 @@ fun Log(
                             this@drawWithContent.drawContent()
                         }
                     }
-                    .background(AppTheme.colors.scheme.surface)
+                    .background(AppTheme.colors.scheme.background)
                     .padding(all = AppTheme.dimensions.padding.P_3)
             )
         }

@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.backup.user.read.ReadBackupFormScreen
 import com.faltenreich.diaguard.backup.user.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.dashboard.DashboardScreen
@@ -145,6 +146,8 @@ fun MainView(
                     ModalBottomSheet(
                         onDismissRequest = { viewModel.dispatchIntent(MainIntent.CloseBottomSheet) },
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+                        containerColor = AppTheme.colors.scheme.background,
+                        contentColor = AppTheme.colors.scheme.onBackground,
                     ) {
                         bottomSheet.Content()
                     }

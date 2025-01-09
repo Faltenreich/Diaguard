@@ -82,7 +82,7 @@ object Colors {
     val onErrorDark = Color(0xFF660704)
     val errorContainerDark = Color(0xFFC44E3F)
     val onErrorContainerDark = Color(0xFFFFFFFF)
-    val backgroundDark = Color(0xFF111412)
+    val backgroundDark = Color(0xFF313131)
     val onBackgroundDark = Color(0xFFE1E3DF)
     val surfaceDark = Color(0xFF141313)
     val onSurfaceDark = Color(0xFFE5E2E1)
@@ -100,5 +100,5 @@ object Colors {
     val surfaceContainerLowDark = Color(0xFF1C1B1B)
     val surfaceContainerDark = Color(0xFF201F1F)
     val surfaceContainerHighDark = Color(0xFF2A2A2A)
-    val surfaceContainerHighestDark = Color(0xFF353434)
+    val surfaceContainerHighestDark = Color(0xFF424242)
 }

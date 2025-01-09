@@ -8,14 +8,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hba1c_estimated
 import diaguard.shared.generated.resources.hba1c_estimated_description
-import diaguard.shared.generated.resources.hba1c_estimated_disclaimer
 import diaguard.shared.generated.resources.hba1c_estimated_formula
 
 @Composable
@@ -33,23 +32,13 @@ fun EstimatedHbA1cInfo(modifier: Modifier = Modifier) {
         )
 
         Text(
-            text = getString(Res.string.hba1c_estimated_description),
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Justify,
-            style = AppTheme.typography.bodyLarge,
-        )
-
-        Text(
             text = getString(Res.string.hba1c_estimated_formula),
-            fontWeight = FontWeight.Bold,
-            style = AppTheme.typography.bodyLarge,
+            fontStyle = FontStyle.Italic,
         )
 
         Text(
-            text = getString(Res.string.hba1c_estimated_disclaimer),
-            modifier = Modifier.fillMaxWidth(),
+            text = getString(Res.string.hba1c_estimated_description),
             textAlign = TextAlign.Justify,
-            style = AppTheme.typography.bodyLarge,
         )
     }
 }

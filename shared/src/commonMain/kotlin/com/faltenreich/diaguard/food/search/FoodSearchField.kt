@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.food.search
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -16,10 +15,8 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.ClearButton
 import com.faltenreich.diaguard.shared.view.SearchField
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.food_preferences_open
 import diaguard.shared.generated.resources.food_search_prompt
 import diaguard.shared.generated.resources.ic_arrow_back
-import diaguard.shared.generated.resources.ic_preferences
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -27,7 +24,6 @@ fun FoodSearchField(
     query: String,
     onQueryChange: (String) -> Unit,
     popScreen: () -> Unit,
-    onOpenPreferences: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
@@ -45,25 +41,17 @@ fun FoodSearchField(
             }
         },
         trailingIcon = {
-            Row {
-                AnimatedVisibility(
-                    visible = query.isNotEmpty(),
-                    enter = fadeIn(),
-                    exit = fadeOut(),
-                ) {
-                    ClearButton(
-                        onClick = {
-                            onQueryChange("")
-                            focusManager.clearFocus()
-                        },
-                    )
-                }
-                IconButton(onClick = onOpenPreferences) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_preferences),
-                        contentDescription = getString(Res.string.food_preferences_open),
-                    )
-                }
+            AnimatedVisibility(
+                visible = query.isNotEmpty(),
+                enter = fadeIn(),
+                exit = fadeOut(),
+            ) {
+                ClearButton(
+                    onClick = {
+                        onQueryChange("")
+                        focusManager.clearFocus()
+                    },
+                )
             }
         },
         modifier = modifier

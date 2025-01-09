@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.food.search
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.di.sharedViewModel
@@ -10,7 +11,9 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_new
+import diaguard.shared.generated.resources.food_preferences_open
 import diaguard.shared.generated.resources.ic_add
+import diaguard.shared.generated.resources.ic_preferences
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
@@ -28,6 +31,13 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
             },
         )
         return BottomAppBarStyle.Visible(
+            actions = {
+                BottomAppBarItem(
+                    painter = painterResource(Res.drawable.ic_preferences),
+                    contentDescription = Res.string.food_preferences_open,
+                    onClick = { viewModel.dispatchIntent(FoodSearchIntent.OpenPreferences) },
+                )
+            },
             floatingActionButton = {
                 FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) }) {
                     Icon(

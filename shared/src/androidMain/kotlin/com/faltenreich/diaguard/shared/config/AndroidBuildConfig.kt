@@ -20,6 +20,6 @@ class AndroidBuildConfig(private val context: Context) : BuildConfig {
     }
 
     override fun getVersionName(): String {
-        return getPackageInfo().versionName
+        return getPackageInfo().versionName ?: "-"
     }
 }

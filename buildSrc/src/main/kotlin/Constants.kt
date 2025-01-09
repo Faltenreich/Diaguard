@@ -7,8 +7,8 @@ object Constants {
     const val NameSpace = "com.faltenreich.diaguard"
 
     const val MinSdk = 21
-    const val TargetSdk = 34
-    const val CompileSdk = 34
+    const val TargetSdk = 35
+    const val CompileSdk = 35
 
     const val JavaVersion = 21
 }

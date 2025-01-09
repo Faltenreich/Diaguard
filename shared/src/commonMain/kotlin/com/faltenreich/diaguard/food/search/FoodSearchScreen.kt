@@ -1,13 +1,17 @@
 package com.faltenreich.diaguard.food.search
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.Icon
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
@@ -40,23 +44,21 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
             },
         )
         return TopAppBarStyle.Custom {
-            Column(
+            Box(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .background(AppTheme.colors.scheme.primary)
-                    .padding(WindowInsets.statusBars.asPaddingValues()),
+                    .padding(WindowInsets.statusBars.asPaddingValues())
+                    .padding(horizontal = AppTheme.dimensions.padding.P_2)
+                    // Prevent jumping layout
+                    .defaultMinSize(minHeight = TopAppBarDefaults.MediumAppBarCollapsedHeight),
+                contentAlignment = Alignment.Center,
             ) {
                 FoodSearchField(
                     query = viewModel.query,
                     onQueryChange = { viewModel.query = it },
                     popScreen = { viewModel.dispatchIntent(FoodSearchIntent.Close) },
-                )
-                FoodSearchHeader(
-                    modifier = Modifier
-                        .padding(
-                            start = AppTheme.dimensions.padding.P_3,
-                            end = AppTheme.dimensions.padding.P_3,
-                            bottom = AppTheme.dimensions.padding.P_2,
-                        ),
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         }

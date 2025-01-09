@@ -3,14 +3,11 @@ package com.faltenreich.diaguard.food.search
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.ClearButton
 import com.faltenreich.diaguard.shared.view.SearchField
@@ -54,8 +51,6 @@ fun FoodSearchField(
                 )
             }
         },
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(all = AppTheme.dimensions.padding.P_2),
+        modifier = modifier,
     )
 }

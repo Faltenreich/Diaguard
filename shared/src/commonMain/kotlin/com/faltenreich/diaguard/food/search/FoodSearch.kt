@@ -1,11 +1,14 @@
 package com.faltenreich.diaguard.food.search
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.search.list.FoodList
 import com.faltenreich.diaguard.food.search.list.FoodListEmpty
 import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
@@ -29,6 +32,14 @@ fun FoodSearch(
     }
 
     Column(modifier = modifier) {
+        FoodSearchHeader(
+            modifier = Modifier
+                .background(AppTheme.colors.scheme.primary)
+                .padding(
+                    horizontal = AppTheme.dimensions.padding.P_3,
+                    vertical = AppTheme.dimensions.padding.P_2,
+                ),
+        )
 
         val isAtTheEnd = items.loadState.refresh !is LoadState.Loading
             && items.loadState.prepend !is LoadState.Loading

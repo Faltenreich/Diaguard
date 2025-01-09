@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,7 +24,13 @@ import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextInput
-import diaguard.shared.generated.resources.*
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.brand
+import diaguard.shared.generated.resources.ic_brand
+import diaguard.shared.generated.resources.ic_food
+import diaguard.shared.generated.resources.ic_note
+import diaguard.shared.generated.resources.ingredients
+import diaguard.shared.generated.resources.name
 
 @Composable
 fun FoodForm(
@@ -89,13 +94,13 @@ fun FoodForm(
             Text(
                 text = state?.error ?: "",
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.errorContainer)
+                    .background(AppTheme.colors.scheme.errorContainer)
                     .fillMaxWidth()
                     .padding(
                         horizontal = AppTheme.dimensions.padding.P_3,
                         vertical = AppTheme.dimensions.padding.P_2,
                     ),
-                color = MaterialTheme.colorScheme.onErrorContainer,
+                color = AppTheme.colors.scheme.onErrorContainer,
             )
         }
     }

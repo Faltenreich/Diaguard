@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +39,7 @@ actual fun TimePickerDialog(
         ),
     ) {
         Surface(
-            shape = MaterialTheme.shapes.extraLarge,
+            shape = AppTheme.shapes.extraLarge,
             tonalElevation = 6.dp,
             modifier = modifier
                 .width(IntrinsicSize.Min)
@@ -59,7 +58,7 @@ actual fun TimePickerDialog(
                         .fillMaxWidth()
                         .padding(bottom = 20.dp),
                     text = getString(Res.string.time_select),
-                    style = MaterialTheme.typography.labelMedium
+                    style = AppTheme.typography.labelMedium
                 )
                 content()
                 Row(

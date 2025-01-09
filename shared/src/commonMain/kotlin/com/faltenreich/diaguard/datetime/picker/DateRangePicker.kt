@@ -17,14 +17,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import diaguard.shared.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.material3.DateRangePicker as MaterialDateRangePicker
 
+// TODO: Open in (full-screen?) modal
 @Composable
 fun DateRangePicker(
     dateRange: ClosedRange<Date>,

@@ -22,5 +22,6 @@ fun TopAppBar(
                 actionIconContentColor = AppTheme.colors.scheme.onPrimary,
             ),
         )
+        is TopAppBarStyle.Custom -> style.content()
     }
 }

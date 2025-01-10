@@ -19,7 +19,6 @@ import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.*
 import androidx.compose.material3.DateRangePicker as MaterialDateRangePicker
 
-// TODO: Open in (full-screen?) modal
 @Composable
 fun DateRangePicker(
     dateRange: ClosedRange<Date>,

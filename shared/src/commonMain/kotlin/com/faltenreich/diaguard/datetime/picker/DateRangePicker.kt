@@ -1,17 +1,18 @@
 package com.faltenreich.diaguard.datetime.picker
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DatePickerDefaults.dateFormatter
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DateRangePickerDefaults
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
@@ -53,14 +54,38 @@ fun DateRangePicker(
             }
         },
     ) {
+        val dateFormatter = remember { dateFormatter() }
         MaterialDateRangePicker(
             state = state,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(500.dp)
-                // FIXME: Padding is off
-                //  see https://issuetracker.google.com/issues/325309575
-                .padding(top = AppTheme.dimensions.padding.P_3),
+            // Workaround: Force align paddings to DatePickerDialog
+            // see https://issuetracker.google.com/issues/325309575
+            title = {
+                DateRangePickerDefaults.DateRangePickerTitle(
+                    displayMode = state.displayMode,
+                    modifier = Modifier.padding(
+                        PaddingValues(
+                            start = 24.dp,
+                            end = 12.dp,
+                            top = 16.dp,
+                        ),
+                    ),
+                )
+            },
+            headline = {
+                DateRangePickerDefaults.DateRangePickerHeadline(
+                    selectedStartDateMillis = state.selectedStartDateMillis,
+                    selectedEndDateMillis = state.selectedEndDateMillis,
+                    displayMode = state.displayMode,
+                    dateFormatter = dateFormatter,
+                    modifier = Modifier.padding(
+                        PaddingValues(
+                            start = 24.dp,
+                            end = 12.dp,
+                            bottom = 12.dp,
+                        ),
+                    ),
+                )
+            }
         )
     }
 }

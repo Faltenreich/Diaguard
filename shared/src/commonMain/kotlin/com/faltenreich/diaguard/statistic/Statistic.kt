@@ -40,7 +40,7 @@ fun Statistic(
             DropdownButton(
                 text = state.selectedCategory.name,
                 items = state.categories.map { category ->
-                    category.name to { viewModel.dispatchIntent(StatisticIntent.Select(category)) }
+                    category.name to { viewModel.dispatchIntent(StatisticIntent.SetCategory(category)) }
                 }
             )
         }

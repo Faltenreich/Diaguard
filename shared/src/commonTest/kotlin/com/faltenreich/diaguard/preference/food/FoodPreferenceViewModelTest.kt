@@ -26,7 +26,7 @@ class FoodPreferenceViewModelTest : TestSuite {
                     "food_source_branded_provider",
                     "food_branded_show",
                 ),
-                actual = awaitItem().map(PreferenceListItem::title),
+                actual = awaitItem().preferences.map(PreferenceListItem::title),
             )
         }
     }

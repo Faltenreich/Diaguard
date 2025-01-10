@@ -53,7 +53,7 @@ class StatisticViewModel(
 
     override suspend fun handleIntent(intent: StatisticIntent) {
         when (intent) {
-            is StatisticIntent.Select -> selectedCategory.value = intent.category
+            is StatisticIntent.SetCategory -> selectedCategory.value = intent.category
             is StatisticIntent.OpenDateRangePicker -> openDateRangePicker()
         }
     }

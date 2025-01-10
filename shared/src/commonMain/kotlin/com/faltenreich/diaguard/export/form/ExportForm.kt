@@ -1,8 +1,5 @@
 package com.faltenreich.diaguard.export.form
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
@@ -11,13 +8,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.picker.DateRangePicker
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -54,14 +46,13 @@ fun ExportForm(
     viewModel: ExportFormViewModel = inject(),
 ) {
     val state = viewModel.collectState() ?: return
-    var showDateRangePicker by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
         FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
             TextButton(
-                onClick = { showDateRangePicker = true },
+                onClick = { viewModel.dispatchIntent(ExportFormIntent.OpenDateRangePicker) },
                 colors = ButtonDefaults.textButtonColors(
                     contentColor = AppTheme.colors.scheme.onSurfaceVariant,
                 ),
@@ -189,19 +180,5 @@ fun ExportForm(
             }
             Divider()
         }
-    }
-
-    AnimatedVisibility(
-        visible = showDateRangePicker,
-        enter = fadeIn(),
-        exit = fadeOut(),
-    ) {
-        DateRangePicker(
-            dateRange = state.date.dateRange,
-            onPick = { dateRange ->
-                showDateRangePicker = false
-                viewModel.dispatchIntent(ExportFormIntent.SetDateRange(dateRange))
-            }
-        )
     }
 }

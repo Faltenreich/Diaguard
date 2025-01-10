@@ -1,28 +1,22 @@
 package com.faltenreich.diaguard.datetime.picker
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DisplayMode
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.*
-import org.jetbrains.compose.resources.painterResource
 import androidx.compose.material3.DateRangePicker as MaterialDateRangePicker
 
 // TODO: Open in (full-screen?) modal
@@ -30,7 +24,6 @@ import androidx.compose.material3.DateRangePicker as MaterialDateRangePicker
 fun DateRangePicker(
     dateRange: ClosedRange<Date>,
     onPick: (ClosedRange<Date>) -> Unit,
-    modifier: Modifier = Modifier,
     dateTimeFactory: DateTimeFactory = inject(),
 ) {
     val state = rememberDateRangePickerState(
@@ -38,25 +31,9 @@ fun DateRangePicker(
         initialSelectedEndDateMillis = dateRange.endInclusive.atStartOfDay().millisSince1970,
         initialDisplayMode = DisplayMode.Picker,
     )
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(AppTheme.colors.scheme.surface),
-        verticalArrangement = Arrangement.Top,
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = AppTheme.dimensions.padding.P_2_5),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            IconButton(onClick = { onPick(dateRange) }) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_clear),
-                    contentDescription = getString(Res.string.close),
-                )
-            }
+    DatePickerDialog(
+        onDismissRequest = { onPick(dateRange) },
+        confirmButton = {
             TextButton(
                 onClick = {
                     val start = state.selectedStartDateMillis
@@ -67,14 +44,24 @@ fun DateRangePicker(
                         ?: dateRange.endInclusive
                     onPick(start..end)
                 },
-                enabled = state.selectedEndDateMillis != null,
             ) {
-                Text(getString(Res.string.save))
+                Text(getString(Res.string.ok))
             }
-        }
+        },
+        dismissButton = {
+            TextButton(onClick = { onPick(dateRange) }) {
+                Text(getString(Res.string.cancel))
+            }
+        },
+    ) {
         MaterialDateRangePicker(
             state = state,
-            modifier = Modifier.padding(top = AppTheme.dimensions.padding.P_3),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(500.dp)
+                // FIXME: Padding is off
+                //  see https://issuetracker.google.com/issues/325309575
+                .padding(top = AppTheme.dimensions.padding.P_3),
         )
     }
 }

@@ -3,6 +3,10 @@ package com.faltenreich.diaguard.entry.form.measurement
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -16,9 +20,12 @@ fun MeasurementPropertyInput(
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var input by remember { mutableStateOf(data.input) }
+
     TextInput(
-        input = data.input,
-        onInputChange = { input ->
+        input = input,
+        onInputChange = {
+            input = it
             onIntent(EntryFormIntent.Edit(data.copy(input = input)))
         },
         modifier = modifier,

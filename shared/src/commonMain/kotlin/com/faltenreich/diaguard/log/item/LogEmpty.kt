@@ -34,6 +34,7 @@ fun LogEmpty(
         ) {
             Text(
                 text = getString(Res.string.no_entries),
+                // FIXME: Set lighter text color and check dark mode
                 color = AppTheme.colors.scheme.outline,
                 modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3),
             )

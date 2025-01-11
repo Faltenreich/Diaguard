@@ -89,7 +89,7 @@ fun EntryForm(
                     }
                 }
 
-                Divider(modifier = Modifier.background(AppTheme.colors.scheme.onSurfaceVariant))
+                Divider()
 
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_tag) }) {
                     Column {
@@ -117,7 +117,7 @@ fun EntryForm(
                     }
                 }
 
-                Divider(modifier = Modifier.background(AppTheme.colors.scheme.onSurfaceVariant))
+                Divider()
 
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
                     TextInput(
@@ -129,7 +129,7 @@ fun EntryForm(
                     )
                 }
 
-                Divider(modifier = Modifier.background(AppTheme.colors.scheme.onSurfaceVariant))
+                Divider()
 
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_alarm) }) {
                     TextInput(

@@ -59,7 +59,9 @@ fun FoodForm(
                         ),
                     )
                 }
+
                 Divider()
+
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_brand) }) {
                     TextInput(
                         input = viewModel.brand,
@@ -71,7 +73,9 @@ fun FoodForm(
                         ),
                     )
                 }
+
                 Divider()
+
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
                     TextInput(
                         input = viewModel.ingredients,
@@ -84,6 +88,7 @@ fun FoodForm(
                     )
                 }
             }
+
             FoodNutrientList(
                 data = viewModel.nutrientData,
                 onIntent = viewModel::dispatchIntent,

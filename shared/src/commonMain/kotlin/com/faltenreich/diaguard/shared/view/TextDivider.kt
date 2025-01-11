@@ -18,7 +18,7 @@ fun TextDivider(
         style = AppTheme.typography.bodyMedium,
         modifier = modifier
             .fillMaxWidth()
-            .background(AppTheme.colors.scheme.surfaceVariant)
+            .background(AppTheme.colors.scheme.surfaceContainerLow)
             .padding(all = AppTheme.dimensions.padding.P_3),
     )
 }

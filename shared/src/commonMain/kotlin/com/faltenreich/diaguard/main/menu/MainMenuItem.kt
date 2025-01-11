@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.main.menu
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -8,11 +7,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
 import org.jetbrains.compose.resources.DrawableResource
@@ -42,11 +41,11 @@ fun MainMenuItem(
             if (isSelected) AppTheme.colors.scheme.primary
             else AppTheme.colors.scheme.onBackground
         icon?.let {
-            Image(
+            Icon(
                 painter = painterResource(icon),
                 contentDescription = null,
                 modifier = Modifier.size(AppTheme.dimensions.padding.P_4),
-                colorFilter = ColorFilter.tint(onPrimaryColor),
+                tint = onPrimaryColor,
             )
         } ?: Spacer(modifier = Modifier.size(AppTheme.dimensions.padding.P_4))
         Text(

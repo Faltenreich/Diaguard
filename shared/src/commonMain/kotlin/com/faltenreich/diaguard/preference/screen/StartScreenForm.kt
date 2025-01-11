@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.color_scheme
+import diaguard.shared.generated.resources.start_screen
 
 @Composable
 fun StartScreenForm(
@@ -26,7 +26,7 @@ fun StartScreenForm(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = getString(Res.string.color_scheme),
+            text = getString(Res.string.start_screen),
             style = AppTheme.typography.titleLarge,
         )
 

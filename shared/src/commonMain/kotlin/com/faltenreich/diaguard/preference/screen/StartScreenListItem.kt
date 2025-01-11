@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.preference.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +33,7 @@ fun StartScreenListItem(
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3_5),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
+        Icon(
             painter = painterResource(startScreen.iconResource),
             contentDescription = null,
             modifier = Modifier.size(AppTheme.dimensions.padding.P_4),

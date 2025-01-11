@@ -28,19 +28,31 @@ fun EntryListItem(
 ) {
     Card(
         onClick = onClick,
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.padding(AppTheme.dimensions.padding.P_3),
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         ) {
             DateTime(state)
-
             MeasurementValues(state)
-
             EntryTags(state, onTagClick)
+        }
 
-            Footer(state)
+        val note = state.entry.note?.takeIf(String::isNotBlank)
+        val foodEaten = state.entry.foodEaten
+
+        if (note != null || foodEaten.isNotEmpty()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(AppTheme.colors.scheme.surfaceContainerLow)
+                    .padding(AppTheme.dimensions.padding.P_3),
+                verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+            ) {
+                Note(state)
+                FoodEaten(state)
+            }
         }
     }
 }
@@ -49,11 +61,6 @@ fun EntryListItem(
 private fun DateTime(state: EntryListItemState) {
     Text(
         text = state.dateTimeLocalized,
-        modifier = Modifier.padding(
-            start = AppTheme.dimensions.padding.P_3,
-            top = AppTheme.dimensions.padding.P_3,
-            end = AppTheme.dimensions.padding.P_3,
-        ),
         fontWeight = FontWeight.Normal,
         style = AppTheme.typography.titleMedium,
     )
@@ -61,17 +68,16 @@ private fun DateTime(state: EntryListItemState) {
 
 @Composable
 private fun MeasurementValues(state: EntryListItemState) {
-    FlowRow(
-        modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_3),
-        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-    ) {
-        state.values.forEach { value ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                MeasurementCategoryIcon(value.category)
-                Text(value.valueLocalized)
+    if (state.values.isNotEmpty()) {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2)) {
+            state.values.forEach { value ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    MeasurementCategoryIcon(value.category)
+                    Text(value.valueLocalized)
+                }
             }
         }
     }
@@ -79,29 +85,11 @@ private fun MeasurementValues(state: EntryListItemState) {
 
 @Composable
 private fun EntryTags(state: EntryListItemState, onTagClick: (Tag) -> Unit) {
-    EntryTagList(
-        tags = state.entry.entryTags.map(EntryTag::tag),
-        onTagClick = onTagClick,
-        modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_3),
-    )
-}
-
-@Composable
-private fun Footer(state: EntryListItemState) {
-    val note = state.entry.note?.takeIf(String::isNotBlank)
-    val foodEaten = state.entry.foodEaten
-
-    if (note != null || foodEaten.isNotEmpty()) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(AppTheme.colors.scheme.surfaceContainerLow)
-                .padding(AppTheme.dimensions.padding.P_3),
-            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
-        ) {
-            Note(state)
-            FoodEaten(state)
-        }
+    if (state.entry.entryTags.isNotEmpty()) {
+        EntryTagList(
+            tags = state.entry.entryTags.map(EntryTag::tag),
+            onTagClick = onTagClick,
+        )
     }
 }
 

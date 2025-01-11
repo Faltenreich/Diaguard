@@ -51,18 +51,11 @@ fun DecimalPlacesForm(
             modifier = Modifier.fillMaxWidth(),
         )
 
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
-
-        Text(
-            text = state.illustration,
-            modifier = Modifier.fillMaxWidth(),
-        )
-
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3_5))
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
 
         Row(
             modifier = Modifier.background(
-                color = AppTheme.colors.scheme.primaryContainer,
+                color = AppTheme.colors.scheme.surfaceContainerHighest,
                 shape = AppTheme.shapes.medium,
             ),
             horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
@@ -86,7 +79,7 @@ fun DecimalPlacesForm(
 
             Text(
                 text = state.decimalPlaces.toString(),
-                color = AppTheme.colors.scheme.onPrimary,
+                color = AppTheme.colors.scheme.onSurface,
             )
 
             IconButton(
@@ -105,6 +98,13 @@ fun DecimalPlacesForm(
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
+
+        Text(
+            text = state.illustration,
+            modifier = Modifier.fillMaxWidth(),
+        )
 
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_4))
     }

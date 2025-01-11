@@ -24,6 +24,7 @@ fun SearchField(
         placeholder = placeholder?.let { { Text(placeholder) } },
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
+        singleLine = true,
         shape = AppTheme.shapes.small,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = AppTheme.colors.scheme.background,

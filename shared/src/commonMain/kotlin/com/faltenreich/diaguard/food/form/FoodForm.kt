@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
@@ -45,40 +47,42 @@ fun FoodForm(
                 .verticalScroll(rememberScrollState())
                 .weight(1f),
         ) {
-            FormRow(icon = { ResourceIcon(Res.drawable.ic_food) }) {
-                TextInput(
-                    input = viewModel.name,
-                    onInputChange = { viewModel.name = it },
-                    label = getString(Res.string.name),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next,
-                    ),
-                )
-            }
-            Divider()
-            FormRow(icon = { ResourceIcon(Res.drawable.ic_brand) }) {
-                TextInput(
-                    input = viewModel.brand,
-                    onInputChange = { viewModel.brand = it },
-                    label = getString(Res.string.brand),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next,
-                    ),
-                )
-            }
-            Divider()
-            FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
-                TextInput(
-                    input = viewModel.ingredients,
-                    onInputChange = { viewModel.ingredients = it },
-                    label = getString(Res.string.ingredients),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next,
-                    ),
-                )
+            Card(shape = RectangleShape) {
+                FormRow(icon = { ResourceIcon(Res.drawable.ic_food) }) {
+                    TextInput(
+                        input = viewModel.name,
+                        onInputChange = { viewModel.name = it },
+                        label = getString(Res.string.name),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next,
+                        ),
+                    )
+                }
+                Divider()
+                FormRow(icon = { ResourceIcon(Res.drawable.ic_brand) }) {
+                    TextInput(
+                        input = viewModel.brand,
+                        onInputChange = { viewModel.brand = it },
+                        label = getString(Res.string.brand),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next,
+                        ),
+                    )
+                }
+                Divider()
+                FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
+                    TextInput(
+                        input = viewModel.ingredients,
+                        onInputChange = { viewModel.ingredients = it },
+                        label = getString(Res.string.ingredients),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next,
+                        ),
+                    )
+                }
             }
             FoodNutrientList(
                 data = viewModel.nutrientData,

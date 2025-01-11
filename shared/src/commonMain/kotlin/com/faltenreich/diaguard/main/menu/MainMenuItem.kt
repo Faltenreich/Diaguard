@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.main.menu
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
 import org.jetbrains.compose.resources.DrawableResource
@@ -31,8 +33,18 @@ fun MainMenuItem(
             .fillMaxWidth()
             .clickable(onClick = onClick)
             .padding(
-                horizontal = AppTheme.dimensions.padding.P_3_5,
-                vertical = AppTheme.dimensions.padding.P_3,
+                horizontal = AppTheme.dimensions.padding.P_2,
+                vertical = AppTheme.dimensions.padding.P_1,
+            )
+            .background(
+                color =
+                    if (isSelected && icon != null) AppTheme.colors.scheme.surfaceContainerLow
+                    else Color.Transparent,
+                shape = AppTheme.shapes.large,
+            )
+            .padding(
+                horizontal = AppTheme.dimensions.padding.P_3,
+                vertical = AppTheme.dimensions.padding.P_2_5,
             ),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3_5),
         verticalAlignment = Alignment.CenterVertically,

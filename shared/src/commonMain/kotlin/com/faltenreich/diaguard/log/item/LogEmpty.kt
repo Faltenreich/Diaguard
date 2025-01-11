@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
@@ -34,8 +35,7 @@ fun LogEmpty(
         ) {
             Text(
                 text = getString(Res.string.no_entries),
-                // FIXME: Set lighter text color and check dark mode
-                color = AppTheme.colors.scheme.outline,
+                color = TextFieldDefaults.colors().disabledLabelColor,
                 modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3),
             )
         }

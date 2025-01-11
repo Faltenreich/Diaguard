@@ -95,7 +95,7 @@ private fun Footer(state: EntryListItemState) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(AppTheme.colors.scheme.surfaceContainer)
+                .background(AppTheme.colors.scheme.surfaceContainerLow)
                 .padding(AppTheme.dimensions.padding.P_3),
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         ) {

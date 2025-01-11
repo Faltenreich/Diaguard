@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.log.item
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,7 +20,9 @@ fun LogEntry(
         LogDay(
             date = state.date,
             style = state.style,
-            modifier = Modifier.width(AppTheme.dimensions.size.LogDayWidth),
+            modifier = Modifier
+                .padding(top = AppTheme.dimensions.padding.P_2)
+                .width(AppTheme.dimensions.size.LogDayWidth),
         )
         EntryListItem(
             state = state.entryState,

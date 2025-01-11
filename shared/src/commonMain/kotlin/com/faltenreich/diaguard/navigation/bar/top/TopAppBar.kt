@@ -18,7 +18,7 @@ fun TopAppBar(
     Box(
         modifier = modifier
             .animateContentSize()
-            // Limits animation to y-axis
+            // Prevent animation on x-axis
             .fillMaxWidth(),
     ) {
         when (style) {

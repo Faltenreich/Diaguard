@@ -81,8 +81,9 @@
     <string name="entry_form_error_missing_input">Entry does not contain any information</string>
     <string name="entry_form_error_unrealistic_value">Value must be within %1$s and %2$s</string>
     <string name="entry_new_description">Create new entry</string>
+    <string name="entry_search">Search entries</string>
     <string name="entry_search_placeholder">Enter query to start search</string>
-    <string name="entry_search_prompt">Search for entries&#8230;</string>
+    <string name="entry_search_prompt">Notes, tags, &#8230;</string>
     <string name="error_unknown">Something went wrong, please try again</string>
     <string name="export">Export</string>
     <string name="facebook">Facebook</string>

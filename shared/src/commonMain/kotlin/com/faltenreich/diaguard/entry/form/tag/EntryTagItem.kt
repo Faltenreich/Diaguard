@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.entry.form.tag
 
-import androidx.compose.material3.AssistChip
+import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +13,7 @@ fun EntryTagItem(
     trailingIcon: @Composable (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    AssistChip(
+    ElevatedAssistChip(
         onClick = { onClick(tag) },
         label = { Text(tag.name) },
         modifier = modifier,

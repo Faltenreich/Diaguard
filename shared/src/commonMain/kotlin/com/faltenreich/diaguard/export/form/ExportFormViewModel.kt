@@ -118,8 +118,7 @@ class ExportFormViewModel(
             DateRangePickerModal(
                 dateRange = dateRange.value,
                 onPick = {
-                    // FIXME: StateFlow does not get updated, but mutableStateOf does
-                    dateRange.update { it }
+                    dateRange.value = it
                     scope.launch { closeModal() }
                 },
             ),

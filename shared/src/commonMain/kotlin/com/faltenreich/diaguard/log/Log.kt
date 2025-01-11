@@ -75,9 +75,9 @@ fun Log(
         }
     }
 
-    Box {
+    Box(modifier = modifier) {
         LazyColumn(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .alpha(alpha),
             state = listState,

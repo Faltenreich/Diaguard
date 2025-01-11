@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.main
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -109,6 +110,8 @@ fun MainView(
                     },
                 )
             },
+            // Support edge-to-edge content, e.g. in Log
+            contentWindowInsets = WindowInsets(top = 0),
             content = { padding ->
                 NavHost(
                     navController = navController,

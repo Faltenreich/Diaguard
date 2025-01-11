@@ -2,8 +2,11 @@ package com.faltenreich.diaguard.log.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,7 +27,13 @@ fun LogMonth(
         modifier = modifier
             .aspectRatio(ASPECT_RATIO)
             .background(AppTheme.colors.scheme.primary)
-            .padding(all = AppTheme.dimensions.padding.P_3),
+            .padding(
+                start = AppTheme.dimensions.padding.P_3,
+                top = WindowInsets.systemBars.asPaddingValues().calculateTopPadding()
+                    + AppTheme.dimensions.padding.P_3,
+                end = AppTheme.dimensions.padding.P_3,
+                bottom = AppTheme.dimensions.padding.P_3,
+            ),
         contentAlignment = Alignment.BottomStart,
     ) {
         Text(

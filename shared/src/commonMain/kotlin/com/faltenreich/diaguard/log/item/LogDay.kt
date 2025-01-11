@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
@@ -29,6 +30,7 @@ fun LogDay(
                 color =
                     if (style.isHighlighted) AppTheme.colors.scheme.primary
                     else AppTheme.colors.scheme.onBackground,
+                fontWeight = if (style.isHighlighted) FontWeight.Bold else FontWeight.Normal,
                 style = AppTheme.typography.headlineSmall,
             )
             Text(

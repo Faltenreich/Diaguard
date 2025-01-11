@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.entry.tag.EntryTag
@@ -53,6 +54,7 @@ private fun DateTime(state: EntryListItemState) {
             top = AppTheme.dimensions.padding.P_3,
             end = AppTheme.dimensions.padding.P_3,
         ),
+        fontWeight = FontWeight.Normal,
         style = AppTheme.typography.titleMedium,
     )
 }

@@ -24,6 +24,6 @@ class GetEntriesOfTagUseCase(
                 entryTags = entryTagRepository.getByEntryId(id)
                 foodEaten = foodEatenRepository.getByEntryId(id)
             }
-        }.map { entry -> mapEntryListItemState(entry) }
+        }.map { entry -> mapEntryListItemState(entry, includeDate = true) }
     }
 }

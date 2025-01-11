@@ -62,7 +62,7 @@ class LogPagingSource(
             val entriesOfDate = entries.filter { it.dateTime.date == date }
             val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
                 LogItemState.EntryContent(
-                    entryState = mapEntryListItemState(entry),
+                    entryState = mapEntryListItemState(entry, includeDate = false),
                     style = LogDayStyle(
                         isVisible = entry == entriesOfDate.first(),
                         isHighlighted = entry.dateTime.date == today,

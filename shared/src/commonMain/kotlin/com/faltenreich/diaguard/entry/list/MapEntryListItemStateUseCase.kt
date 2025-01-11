@@ -26,7 +26,10 @@ class MapEntryListItemStateUseCase(
     private val localization: Localization,
 ) {
 
-    suspend operator fun invoke(entry: Entry.Local): EntryListItemState {
+    suspend operator fun invoke(
+        entry: Entry.Local,
+        includeDate: Boolean,
+    ): EntryListItemState {
         val decimalPlaces = getPreference(DecimalPlacesPreference).firstOrNull() ?: DecimalPlacesPreference.default
         return EntryListItemState(
             entry = entry.apply {
@@ -34,10 +37,13 @@ class MapEntryListItemStateUseCase(
                 entryTags = entryTagRepository.getByEntryId(entry.id)
                 foodEaten = foodEatenRepository.getByEntryId(entry.id)
             },
-            dateTimeLocalized = "%s, %s".format(
-                dateTimeFormatter.formatMonth(entry.dateTime.date.month, abbreviated = true),
-                dateTimeFormatter.formatDateTime(entry.dateTime),
-            ),
+            dateTimeLocalized = dateTimeFormatter.run {
+                if (includeDate) "%s, %s".format(
+                    formatMonth(entry.dateTime.date.month, abbreviated = true),
+                    formatDateTime(entry.dateTime),
+                )
+                else formatTime(entry.dateTime.time)
+            },
             foodEatenLocalized = entry.foodEaten.map { foodEaten ->
                 "%s %s %s".format(
                     numberFormatter(

@@ -13,8 +13,10 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.SetIsAppearanceLightStatusBars
 import kotlin.jvm.JvmSuppressWildcards
 import kotlin.reflect.KType
 
@@ -44,7 +46,11 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
         sizeTransform,
     ) { backStackEntry ->
         val screen = backStackEntry.toRoute<T>()
-        navigation.setTopAppBarStyle(screen.TopAppBar())
+        val topAppBarStyle = screen.TopAppBar()
+        SetIsAppearanceLightStatusBars(
+            isAppearanceLightStatusBars = (topAppBarStyle as? TopAppBarStyle.Hidden)?.isAppearanceLightStatusBars == true,
+        )
+        navigation.setTopAppBarStyle(topAppBarStyle)
         navigation.setBottomAppBarStyle(screen.BottomAppBar())
         screen.Content()
     }

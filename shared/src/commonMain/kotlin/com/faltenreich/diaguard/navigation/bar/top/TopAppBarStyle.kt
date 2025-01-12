@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 
 sealed interface TopAppBarStyle {
 
-    data object Hidden : TopAppBarStyle
+    data class Hidden(val isAppearanceLightStatusBars: Boolean = false) : TopAppBarStyle
 
     data class CenterAligned(val content: @Composable () -> Unit) : TopAppBarStyle
 

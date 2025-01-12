@@ -13,7 +13,7 @@ class Navigation {
     private val _events = MutableSharedFlow<NavigationEvent>()
     val events = _events.asSharedFlow()
 
-    private val _topAppBarStyle = MutableStateFlow<TopAppBarStyle>(TopAppBarStyle.Hidden)
+    private val _topAppBarStyle = MutableStateFlow<TopAppBarStyle>(TopAppBarStyle.Hidden())
     val topAppBarStyle = _topAppBarStyle.asStateFlow()
 
     private val _bottomAppBarStyle = MutableStateFlow<BottomAppBarStyle>(BottomAppBarStyle.Visible())

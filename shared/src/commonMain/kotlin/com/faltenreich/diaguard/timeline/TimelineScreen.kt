@@ -4,6 +4,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
@@ -18,6 +19,12 @@ import org.jetbrains.compose.resources.painterResource
 
 @Serializable
 data object TimelineScreen : Screen {
+
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        // TODO: && !isDarkMode
+        return TopAppBarStyle.Hidden(isAppearanceLightStatusBars = true)
+    }
 
     @Composable
     override fun BottomAppBar(): BottomAppBarStyle {

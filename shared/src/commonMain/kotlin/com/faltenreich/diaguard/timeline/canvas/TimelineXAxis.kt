@@ -12,8 +12,6 @@ import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
-private const val GRADIENT_WIDTH = 32f
-
 @Suppress("FunctionName")
 fun DrawScope.TimelineXAxis(
     coordinates: TimelineCoordinates,
@@ -61,20 +59,14 @@ private fun DrawScope.drawDateIndicator(
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
 ) {
-    // TODO: Add vertical gradient, like in drawHour()
     drawLine(
-        brush = Brush.horizontalGradient(
-            colorStops = arrayOf(
-                .0f to Color.Transparent,
-                .5f to config.gridShadowColor,
-                1f to Color.Transparent,
-            ),
-            startX = x - GRADIENT_WIDTH / 2,
-            endX = x + GRADIENT_WIDTH / 2,
+        brush = Brush.verticalGradient(
+            0f to Color.Transparent,
+            .025f to config.gridStrokeColor,
         ),
         start = Offset(x = x, y = 0f),
         end = Offset(x = x, y = coordinates.canvas.bottom - coordinates.time.height),
-        strokeWidth = GRADIENT_WIDTH,
+        strokeWidth = config.gridStrokeWidth * 2,
     )
 }
 
@@ -91,7 +83,7 @@ private fun DrawScope.drawHour(
     drawLine(
         brush = Brush.verticalGradient(
             0f to Color.Transparent,
-            .05f to config.gridStrokeColor,
+            .025f to config.gridStrokeColor,
         ),
         start = Offset(x = x, y = 0f),
         end = Offset(x = x, y = coordinates.canvas.bottom - coordinates.time.height),

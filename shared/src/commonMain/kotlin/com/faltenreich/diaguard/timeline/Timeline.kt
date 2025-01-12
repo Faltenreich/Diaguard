@@ -1,10 +1,8 @@
 package com.faltenreich.diaguard.timeline
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvas
 
@@ -25,7 +23,6 @@ fun Timeline(
         TimelineDateBar(
             label = state.currentDateLabel,
             onIntent = viewModel::dispatchIntent,
-            modifier = Modifier.height(AppTheme.dimensions.size.TouchSizeLarge),
         )
     }
 }

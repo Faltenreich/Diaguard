@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,7 +26,11 @@ fun TimelineDateBar(
     onIntent: (TimelineIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Row(modifier = modifier.background(AppTheme.colors.scheme.primaryContainer)) {
+    Row(
+        modifier = modifier
+            .background(AppTheme.colors.scheme.surfaceContainerLow)
+            .height(AppTheme.dimensions.size.TouchSizeLarge),
+    ) {
         IconButton(
             onClick = { onIntent(TimelineIntent.MoveDayBack) },
             modifier = Modifier
@@ -35,7 +40,7 @@ fun TimelineDateBar(
             Icon(
                 painter = painterResource(Res.drawable.ic_chevron_back),
                 contentDescription = stringResource(Res.string.timeline),
-                tint = AppTheme.colors.scheme.onPrimary,
+                tint = AppTheme.colors.scheme.onSurface,
             )
         }
 
@@ -47,7 +52,7 @@ fun TimelineDateBar(
         ) {
             Text(
                 text = label,
-                color = AppTheme.colors.scheme.onPrimary,
+                color = AppTheme.colors.scheme.onSurface,
             )
         }
 
@@ -62,7 +67,7 @@ fun TimelineDateBar(
             Icon(
                 painter = painterResource(Res.drawable.ic_chevron_forward),
                 contentDescription = stringResource(Res.string.timeline),
-                tint = AppTheme.colors.scheme.onPrimary,
+                tint = AppTheme.colors.scheme.onSurface,
             )
         }
     }

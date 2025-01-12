@@ -48,8 +48,10 @@ fun Log(
     val listState = rememberLazyListState()
 
     LaunchedEffect(state.monthHeaderSize.height) {
-        // FIXME: Leads to jump when switching back to Log
-        listState.scrollBy(-state.monthHeaderSize.height.toFloat())
+        // Avoid scrolling on resume
+        if (listState.firstVisibleItemScrollOffset == 0) {
+            listState.scrollBy(-state.monthHeaderSize.height.toFloat())
+        }
     }
 
     val lifecycleState = rememberLifecycleState()

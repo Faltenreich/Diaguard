@@ -4,7 +4,13 @@ import androidx.compose.runtime.Composable
 
 sealed interface TopAppBarStyle {
 
-    data class Hidden(val isAppearanceLightStatusBars: Boolean = false) : TopAppBarStyle
+    // Dark by default as content should be white, e.g. on TopAppBar with green primary color
+    val statusBarStyle: StatusBarStyle
+        get() = StatusBarStyle.Dark
+
+    data class Hidden(
+        override val statusBarStyle: StatusBarStyle = StatusBarStyle.Dark,
+    ) : TopAppBarStyle
 
     data class CenterAligned(val content: @Composable () -> Unit) : TopAppBarStyle
 

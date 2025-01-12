@@ -5,6 +5,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.StatusBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.color.ColorScheme
@@ -28,7 +29,8 @@ data object TimelineScreen : Screen {
         val themeViewModel = viewModel<ThemeViewModel>()
         val colorScheme = themeViewModel.collectState()
         val isLightMode = colorScheme == ColorScheme.LIGHT || !isSystemInDarkTheme()
-        return TopAppBarStyle.Hidden(isAppearanceLightStatusBars = isLightMode)
+        val statusBarStyle = if (isLightMode) StatusBarStyle.Light else StatusBarStyle.Dark
+        return TopAppBarStyle.Hidden(statusBarStyle = statusBarStyle)
     }
 
     @Composable

@@ -1,13 +1,16 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.theme.ThemeViewModel
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_new_description
@@ -22,8 +25,10 @@ data object TimelineScreen : Screen {
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
-        // TODO: && !isDarkMode
-        return TopAppBarStyle.Hidden(isAppearanceLightStatusBars = true)
+        val themeViewModel = viewModel<ThemeViewModel>()
+        val colorScheme = themeViewModel.collectState()
+        val isLightMode = colorScheme == ColorScheme.LIGHT || !isSystemInDarkTheme()
+        return TopAppBarStyle.Hidden(isAppearanceLightStatusBars = isLightMode)
     }
 
     @Composable

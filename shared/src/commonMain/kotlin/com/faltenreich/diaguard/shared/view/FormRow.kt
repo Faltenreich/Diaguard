@@ -18,8 +18,11 @@ fun FormRow(
 ) {
     Row(
         modifier = modifier
-            .defaultMinSize(minHeight = AppTheme.dimensions.size.TouchSizeLarge)
-            .padding(AppTheme.dimensions.padding.P_3),
+            .defaultMinSize(minHeight = AppTheme.dimensions.size.TouchSizeMedium)
+            .padding(
+                horizontal = AppTheme.dimensions.padding.P_3,
+                vertical = AppTheme.dimensions.padding.P_2,
+            ),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         verticalAlignment = Alignment.CenterVertically,
     ) {

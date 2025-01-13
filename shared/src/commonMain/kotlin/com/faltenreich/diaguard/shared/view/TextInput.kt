@@ -28,6 +28,7 @@ fun TextInput(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
+    // TODO: Remove additional padding, e.g. via contentPadding or TextFieldDecorationBox
     OutlinedTextField(
         value = input,
         onValueChange = onInputChange,
@@ -47,7 +48,6 @@ fun TextInput(
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         // Workaround: Removes borders but leaves additional bottom padding
-        // TODO: Remove additional padding, e.g. via TextFieldDecorationBox
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,

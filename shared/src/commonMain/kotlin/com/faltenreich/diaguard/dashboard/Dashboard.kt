@@ -22,8 +22,8 @@ import com.faltenreich.diaguard.dashboard.trend.TrendDashboardItem
 
 @Composable
 fun Dashboard(
-    modifier: Modifier = Modifier,
     viewModel: DashboardViewModel,
+    modifier: Modifier = Modifier,
 ) {
     when (val state = viewModel.collectState()) {
         null -> Box(

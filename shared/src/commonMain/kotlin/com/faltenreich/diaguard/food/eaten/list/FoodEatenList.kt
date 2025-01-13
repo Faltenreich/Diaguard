@@ -16,8 +16,8 @@ import diaguard.shared.generated.resources.no_entries
 
 @Composable
 fun FoodEatenList(
-    modifier: Modifier = Modifier,
     viewModel: FoodEatenListViewModel,
+    modifier: Modifier = Modifier,
 ) {
     when (val state = viewModel.collectState()) {
         null -> Unit

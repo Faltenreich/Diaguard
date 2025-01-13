@@ -26,8 +26,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WriteBackupForm(
-    modifier: Modifier = Modifier,
     viewModel: WriteBackupFormViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: WriteBackupFormState.Idle
 

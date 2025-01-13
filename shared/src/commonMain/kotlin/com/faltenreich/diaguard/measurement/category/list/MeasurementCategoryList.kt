@@ -7,12 +7,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.shared.di.inject
 
 @Composable
 fun MeasurementCategoryList(
+    viewModel: MeasurementCategoryListViewModel,
     modifier: Modifier = Modifier,
-    viewModel: MeasurementCategoryListViewModel = inject(),
 ) {
     val state = viewModel.collectState()
 

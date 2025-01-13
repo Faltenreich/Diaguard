@@ -16,8 +16,8 @@ import diaguard.shared.generated.resources.color_scheme
 
 @Composable
 fun ColorSchemeForm(
-    modifier: Modifier = Modifier,
     viewModel: ColorSchemeFormViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
 

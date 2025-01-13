@@ -13,8 +13,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FoodPreferenceList(
-    modifier: Modifier = Modifier,
     viewModel: FoodPreferenceListViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
 

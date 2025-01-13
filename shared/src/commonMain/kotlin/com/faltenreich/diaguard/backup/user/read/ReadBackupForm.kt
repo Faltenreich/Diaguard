@@ -29,8 +29,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ReadBackupForm(
-    modifier: Modifier = Modifier,
     viewModel: ReadBackupFormViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
 

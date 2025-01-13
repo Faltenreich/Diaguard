@@ -17,9 +17,9 @@ import com.faltenreich.diaguard.shared.view.rememberLifecycleState
 
 @Composable
 fun FoodSearch(
-    modifier: Modifier = Modifier,
     viewModel: FoodSearchViewModel,
     selectionViewModel: FoodSelectionViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
     val items = state.pagingData.collectAsLazyPagingItems()

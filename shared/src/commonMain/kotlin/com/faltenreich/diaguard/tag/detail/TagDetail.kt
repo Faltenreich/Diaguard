@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -18,8 +17,8 @@ import diaguard.shared.generated.resources.name
 
 @Composable
 fun TagDetail(
+    viewModel: TagDetailViewModel,
     modifier: Modifier = Modifier,
-    viewModel: TagDetailViewModel = inject(),
 ) {
     val items = viewModel.pagingData.collectAsLazyPagingItems()
 

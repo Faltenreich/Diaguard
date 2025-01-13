@@ -20,7 +20,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientList
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -36,8 +35,8 @@ import diaguard.shared.generated.resources.name
 
 @Composable
 fun FoodForm(
+    viewModel: FoodFormViewModel,
     modifier: Modifier = Modifier,
-    viewModel: FoodFormViewModel = inject(),
 ) {
     val state = viewModel.collectState()
 

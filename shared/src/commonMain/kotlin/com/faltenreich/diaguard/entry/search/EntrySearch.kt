@@ -7,13 +7,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.launch
 
 @Composable
 fun EntrySearch(
+    viewModel: EntrySearchViewModel,
     modifier: Modifier = Modifier,
-    viewModel: EntrySearchViewModel = inject(),
 ) {
     val items = viewModel.pagingData.collectAsLazyPagingItems()
     val scope = rememberCoroutineScope()

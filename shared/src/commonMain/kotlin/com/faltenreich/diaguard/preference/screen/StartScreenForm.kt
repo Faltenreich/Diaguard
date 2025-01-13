@@ -16,8 +16,8 @@ import diaguard.shared.generated.resources.start_screen
 
 @Composable
 fun StartScreenForm(
-    modifier: Modifier = Modifier,
     viewModel: StartScreenFormViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
 

@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeForm
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.DropdownButton
@@ -29,8 +28,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeasurementPropertyForm(
+    viewModel: MeasurementPropertyFormViewModel,
     modifier: Modifier = Modifier,
-    viewModel: MeasurementPropertyFormViewModel = inject(),
 ) {
     val state = viewModel.collectState()
 

@@ -12,7 +12,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.TextCheckbox
@@ -34,8 +33,8 @@ import diaguard.shared.generated.resources.value_range_target_description
 @Composable
 fun MeasurementValueRangeForm(
     unitName: String,
+    viewModel: MeasurementPropertyFormViewModel,
     modifier: Modifier = Modifier,
-    viewModel: MeasurementPropertyFormViewModel = inject(),
 ) {
     Column(modifier = modifier) {
         TextCheckbox(

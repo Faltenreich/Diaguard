@@ -42,8 +42,8 @@ import diaguard.shared.generated.resources.tags
 
 @Composable
 fun ExportForm(
+    viewModel: ExportFormViewModel,
     modifier: Modifier = Modifier,
-    viewModel: ExportFormViewModel = inject(),
 ) {
     val state = viewModel.collectState() ?: return
 

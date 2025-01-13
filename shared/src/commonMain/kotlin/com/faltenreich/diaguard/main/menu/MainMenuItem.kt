@@ -25,8 +25,8 @@ fun MainMenuItem(
     label: StringResource,
     icon: DrawableResource?,
     isSelected: Boolean,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier

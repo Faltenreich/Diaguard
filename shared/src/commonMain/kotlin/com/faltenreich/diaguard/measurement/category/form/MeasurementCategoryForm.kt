@@ -20,7 +20,6 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
 import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.TextCheckbox
@@ -35,8 +34,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeasurementCategoryForm(
+    viewModel: MeasurementCategoryFormViewModel,
     modifier: Modifier = Modifier,
-    viewModel: MeasurementCategoryFormViewModel = inject(),
 ) {
     val state = viewModel.collectState()
     val name = viewModel.name.collectAsStateWithLifecycle().value

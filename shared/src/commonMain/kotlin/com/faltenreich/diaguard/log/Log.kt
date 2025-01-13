@@ -31,7 +31,6 @@ import com.faltenreich.diaguard.log.item.LogEntry
 import com.faltenreich.diaguard.log.item.LogItemState
 import com.faltenreich.diaguard.log.item.LogLoadingIndicator
 import com.faltenreich.diaguard.log.item.LogMonth
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.LifecycleState
 import com.faltenreich.diaguard.shared.view.Skeleton
 import com.faltenreich.diaguard.shared.view.rememberLifecycleState
@@ -40,8 +39,8 @@ import kotlinx.coroutines.flow.filterNotNull
 
 @Composable
 fun Log(
+    viewModel: LogViewModel,
     modifier: Modifier = Modifier,
-    viewModel: LogViewModel = inject(),
 ) {
     val state = viewModel.collectState() ?: return
     val items = viewModel.pagingData.collectAsLazyPagingItems()

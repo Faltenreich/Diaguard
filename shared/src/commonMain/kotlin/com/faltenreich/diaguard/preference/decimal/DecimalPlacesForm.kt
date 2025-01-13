@@ -28,8 +28,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun DecimalPlacesForm(
-    modifier: Modifier = Modifier,
     viewModel: DecimalPlacesFormViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
 

@@ -7,14 +7,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.tag.Tag
 
 @Composable
 fun TagList(
+    viewModel: TagListViewModel,
     modifier: Modifier = Modifier,
-    viewModel: TagListViewModel = inject(),
 ) {
     when (val viewState = viewModel.collectState()) {
         null -> Unit

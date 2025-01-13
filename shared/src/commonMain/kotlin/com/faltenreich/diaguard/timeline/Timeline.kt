@@ -11,13 +11,12 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvas
 
 @Composable
 fun Timeline(
+    viewModel: TimelineViewModel,
     modifier: Modifier = Modifier,
-    viewModel: TimelineViewModel = inject(),
 ) {
     val state = viewModel.collectState() ?: return
 

@@ -7,7 +7,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
@@ -19,8 +18,8 @@ import diaguard.shared.generated.resources.tag
 
 @Composable
 fun TagFormDialog(
+    viewModel: TagFormViewModel,
     modifier: Modifier = Modifier,
-    viewModel: TagFormViewModel = inject(),
 ) {
     val focusRequester = rememberFocusRequester(requestFocus = true)
 

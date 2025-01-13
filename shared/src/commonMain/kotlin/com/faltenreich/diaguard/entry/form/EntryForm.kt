@@ -146,6 +146,8 @@ fun EntryForm(
                 }
             }
 
+            Divider()
+
             val measurements = state?.measurements ?: emptyList()
             AnimatedVisibility(
                 visible = measurements.isNotEmpty(),

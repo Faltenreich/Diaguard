@@ -85,6 +85,14 @@ class MeasurementValueRepository(
         return dao.getAverageByPropertyId(propertyId, minDateTime, maxDateTime)
     }
 
+    fun observeAveragesByCategoryId(
+        categoryId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<List<MeasurementValue.Average>> {
+        return dao.observeAveragesByCategoryId(categoryId, minDateTime, maxDateTime)
+    }
+
     fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
         return dao.observeCountByPropertyId(propertyId)
     }

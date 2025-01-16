@@ -122,6 +122,19 @@ class MeasurementValueSqlDelightDao(
         ).executeAsOneOrNull()?.AVG
     }
 
+    override fun observeAveragesByCategoryId(
+        categoryId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime
+    ): Flow<List<MeasurementValue.Average>> {
+        return queries.getAveragesByCategory(
+            categoryId = categoryId,
+            minDateTime = minDateTime.isoString,
+            maxDateTime = maxDateTime.isoString,
+            mapper = mapper::map,
+        ).asFlow().mapToList(dispatcher)
+    }
+
     override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
         return queries.countByProperty(propertyId).asFlow().mapToOne(dispatcher)
     }

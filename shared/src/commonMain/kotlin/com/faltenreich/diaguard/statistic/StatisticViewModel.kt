@@ -24,10 +24,7 @@ class StatisticViewModel(
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val selectedCategory = MutableStateFlow<MeasurementCategory.Local?>(null)
-    private val initialDateRange = getToday().let { today ->
-        today.minus(1, DateUnit.WEEK) .. today
-    }
-    private val dateRange = MutableStateFlow(initialDateRange)
+    private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
 
     override val state = combine(
         getCategories(),

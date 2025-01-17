@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 class StatisticViewModel(
     getToday: GetTodayUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
-    getPreference: GetPreferenceUseCase,
     private val getAverage: GetAverageUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
     private val openModal: OpenModalUseCase,
@@ -38,16 +37,15 @@ class StatisticViewModel(
 
     override val state = combine(
         getCategories(),
-        getPreference(DecimalPlacesPreference),
         selectedCategory,
-    ) { categories, decimalPlaces, selectedCategory ->
+    ) { categories, selectedCategory ->
         val category = selectedCategory ?: categories.first()
         StatisticState(
             categories = categories,
             selectedCategory = category,
             dateRange = dateRange,
             dateRangeLocalized = dateRangeLocalized,
-            average = getAverage(category, dateRange, decimalPlaces),
+            average = getAverage(category, dateRange),
         )
     }
 

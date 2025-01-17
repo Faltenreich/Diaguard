@@ -52,7 +52,7 @@ fun Statistic(
                 ),
             ) {
                 Text(
-                    text = viewModel.dateRangeLocalized,
+                    text = state.dateRangeLocalized,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

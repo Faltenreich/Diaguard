@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.statistic
 
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.datetime.picker.DateRangePickerModal
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
@@ -17,23 +17,23 @@ import kotlinx.coroutines.launch
 class StatisticViewModel(
     getToday: GetTodayUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
-    private val dateTimeFormatter: DateTimeFormatter,
+    private val formatDateRange: FormatDateTimeUseCase,
     private val getAverage: GetAverageUseCase,
     private val openModal: OpenModalUseCase,
     private val closeModal: CloseModalUseCase,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
-    private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
     private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
+    private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
 
     override val state = combine(
-        getCategories(),
-        category,
         dateRange,
-    ) { categories, selectedCategory, dateRange ->
-        val category = selectedCategory ?: categories.first()
+        category,
+        getCategories(),
+    ) { dateRange, category, categories ->
+        val category = category ?: categories.first()
         StatisticState(
-            dateRange = dateTimeFormatter.formatDateRange(dateRange),
+            dateRange = formatDateRange(dateRange),
             category = category,
             categories = categories,
             average = getAverage(category, dateRange).first(), // TODO: Handle Flow

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.datetime.format
 
 import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.Time
 
@@ -16,5 +17,9 @@ class FormatDateTimeUseCase(private val dateTimeFormatter: DateTimeFormatter) {
 
     operator fun invoke(time: Time): String {
         return dateTimeFormatter.formatTime(time)
+    }
+
+    operator fun invoke(dateRange: DateRange): String {
+        return dateTimeFormatter.formatDateRange(dateRange)
     }
 }

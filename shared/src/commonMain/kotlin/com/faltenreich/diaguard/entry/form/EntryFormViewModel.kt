@@ -183,6 +183,7 @@ class EntryFormViewModel(
         )
     }
 
+    // FIXME: Prevents entries without input for every property
     private suspend fun submit() {
         val input = EntryFormInput(
             entry = editing,

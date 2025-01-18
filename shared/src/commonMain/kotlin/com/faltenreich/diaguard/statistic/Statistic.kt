@@ -35,9 +35,9 @@ fun Statistic(
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
-        FormRow(icon = { MeasurementCategoryIcon(state.selectedCategory) }) {
+        FormRow(icon = { MeasurementCategoryIcon(state.category) }) {
             DropdownButton(
-                text = state.selectedCategory.name,
+                text = state.category.name,
                 items = state.categories.map { category ->
                     category.name to { viewModel.dispatchIntent(StatisticIntent.SetCategory(category)) }
                 }
@@ -52,7 +52,7 @@ fun Statistic(
                 ),
             ) {
                 Text(
-                    text = state.dateRangeLocalized,
+                    text = state.dateRange,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

@@ -17,33 +17,32 @@ import kotlinx.coroutines.launch
 class StatisticViewModel(
     getToday: GetTodayUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
-    private val getAverage: GetAverageUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
+    private val getAverage: GetAverageUseCase,
     private val openModal: OpenModalUseCase,
     private val closeModal: CloseModalUseCase,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
-    private val selectedCategory = MutableStateFlow<MeasurementCategory.Local?>(null)
+    private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
     private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
 
     override val state = combine(
         getCategories(),
-        selectedCategory,
+        category,
         dateRange,
     ) { categories, selectedCategory, dateRange ->
         val category = selectedCategory ?: categories.first()
         StatisticState(
+            dateRange = dateTimeFormatter.formatDateRange(dateRange),
+            category = category,
             categories = categories,
-            selectedCategory = category,
-            dateRange = dateRange,
-            dateRangeLocalized = dateTimeFormatter.formatDateRange(dateRange),
             average = getAverage(category, dateRange).first(), // TODO: Handle Flow
         )
     }
 
     override suspend fun handleIntent(intent: StatisticIntent) {
         when (intent) {
-            is StatisticIntent.SetCategory -> selectedCategory.value = intent.category
+            is StatisticIntent.SetCategory -> category.value = intent.category
             is StatisticIntent.OpenDateRangePicker -> openDateRangePicker()
         }
     }

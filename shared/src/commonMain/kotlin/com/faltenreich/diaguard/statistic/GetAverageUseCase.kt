@@ -9,7 +9,6 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.primitive.format
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
 
 class GetAverageUseCase(
     private val repository: MeasurementValueRepository,
@@ -27,8 +26,7 @@ class GetAverageUseCase(
                 minDateTime = dateRange.start.atStartOfDay(),
                 maxDateTime = dateRange.endInclusive.atEndOfDay(),
             ),
-            // TODO: Convert to Flow
-            flowOf(repository.countByCategoryId(category.id)),
+            repository.observeCountByCategoryId(category.id),
             getPreference(DecimalPlacesPreference),
         ) { averages, countPerDay, decimalPlaces ->
             StatisticState.Average(

@@ -97,10 +97,6 @@ class MeasurementValueRepository(
         return dao.observeCountByPropertyId(propertyId)
     }
 
-    fun countByCategoryId(categoryId: Long): Long {
-        return dao.countByCategoryId(categoryId)
-    }
-
     fun update(value: MeasurementValue.Local) {
         dao.update(
             id = value.id,

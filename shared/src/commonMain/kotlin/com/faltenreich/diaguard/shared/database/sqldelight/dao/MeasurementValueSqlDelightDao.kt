@@ -139,10 +139,6 @@ class MeasurementValueSqlDelightDao(
         return queries.countByProperty(propertyId).asFlow().mapToOne(dispatcher)
     }
 
-    override fun countByCategoryId(categoryId: Long): Long {
-        return queries.countByCategory(categoryId).executeAsOne()
-    }
-
     override fun update(
         id: Long,
         updatedAt: DateTime,

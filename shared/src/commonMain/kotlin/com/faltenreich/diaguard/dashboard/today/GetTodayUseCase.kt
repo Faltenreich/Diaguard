@@ -15,7 +15,7 @@ class GetTodayUseCase(
 
     operator fun invoke(): Flow<DashboardState.Today> {
         val today = dateTimeFactory.today()
-        return repository.observeByCategoryKeyAndDateRange(
+        return repository.observeByCategory(
             categoryKey = DatabaseKey.MeasurementCategory.BLOOD_SUGAR,
             minDateTime = today.atStartOfDay(),
             maxDateTime = today.atEndOfDay(),

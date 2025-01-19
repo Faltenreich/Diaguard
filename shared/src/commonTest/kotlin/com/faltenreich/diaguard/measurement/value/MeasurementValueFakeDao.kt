@@ -41,7 +41,7 @@ class MeasurementValueFakeDao(
         return cache.filter { it.entry.id == entryId }
     }
 
-    override fun observeByCategoryId(
+    override fun observeByCategory(
         categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime

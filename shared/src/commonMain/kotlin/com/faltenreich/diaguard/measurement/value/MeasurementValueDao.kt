@@ -18,13 +18,7 @@ interface MeasurementValueDao {
 
     fun getByEntryId(entryId: Long): List<MeasurementValue.Local>
 
-    fun observeByCategoryId(
-        categoryId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ) : Flow<List<MeasurementValue.Local>>
-
-    fun observeByCategoryKeyAndDateRange(
+    fun observeByCategory(
         categoryKey: DatabaseKey.MeasurementCategory,
         minDateTime: DateTime,
         maxDateTime: DateTime,

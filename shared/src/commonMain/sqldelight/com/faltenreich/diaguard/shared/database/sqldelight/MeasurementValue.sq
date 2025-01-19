@@ -43,17 +43,7 @@ WHERE MeasurementProperty.key == :key
 ORDER BY Entry.dateTime DESC
 LIMIT 1;
 
-getCategoryAndDateTime:
-SELECT * FROM MeasurementValue
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE MeasurementProperty.categoryId == :categoryId
-AND Entry.dateTime >= :minDateTime
-AND Entry.dateTime <= :maxDateTime;
-
-getByCategoryAndDateRange:
+getByCategory:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
 INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1

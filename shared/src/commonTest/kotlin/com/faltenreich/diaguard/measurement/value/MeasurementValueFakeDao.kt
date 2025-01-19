@@ -37,18 +37,6 @@ class MeasurementValueFakeDao(
         return cache.lastOrNull()?.id
     }
 
-    override fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {
-        return cache.filter { it.entry.id == entryId }
-    }
-
-    override fun observeByCategory(
-        categoryId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime
-    ): Flow<List<MeasurementValue.Local>> {
-        return flowOf(cache.filter { it.property.category.id == categoryId })
-    }
-
     override fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime
@@ -68,6 +56,18 @@ class MeasurementValueFakeDao(
                 .sortedByDescending { it.entry.dateTime }
                 .firstOrNull { it.property.key == key }
         )
+    }
+
+    override fun observeByCategory(
+        categoryKey: DatabaseKey.MeasurementCategory,
+        minDateTime: DateTime,
+        maxDateTime: DateTime
+    ): Flow<List<MeasurementValue.Local>> {
+        return flowOf(cache.filter { it.property.category.key == categoryKey })
+    }
+
+    override fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {
+        return cache.filter { it.entry.id == entryId }
     }
 
     override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {

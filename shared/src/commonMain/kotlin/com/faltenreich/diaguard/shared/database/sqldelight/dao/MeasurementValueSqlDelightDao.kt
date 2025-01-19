@@ -45,23 +45,6 @@ class MeasurementValueSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {
-        return queries.getByEntry(entryId, mapper::map).executeAsList()
-    }
-
-    override fun observeByCategory(
-        categoryKey: DatabaseKey.MeasurementCategory,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ): Flow<List<MeasurementValue.Local>> {
-        return queries.getByCategory(
-            categoryKey = categoryKey.key,
-            minDateTime = minDateTime.isoString,
-            maxDateTime= maxDateTime.isoString,
-            mapper = mapper::map,
-        ).asFlow().mapToList(dispatcher)
-    }
-
     override fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
@@ -80,6 +63,23 @@ class MeasurementValueSqlDelightDao(
             key = key.key,
             mapper = mapper::map,
         ).asFlow().mapToOneOrNull(dispatcher)
+    }
+
+    override fun observeByCategory(
+        categoryKey: DatabaseKey.MeasurementCategory,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<List<MeasurementValue.Local>> {
+        return queries.getByCategory(
+            categoryKey = categoryKey.key,
+            minDateTime = minDateTime.isoString,
+            maxDateTime= maxDateTime.isoString,
+            mapper = mapper::map,
+        ).asFlow().mapToList(dispatcher)
+    }
+
+    override fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {
+        return queries.getByEntry(entryId, mapper::map).executeAsList()
     }
 
     override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {

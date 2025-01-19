@@ -16,7 +16,12 @@ interface MeasurementValueDao {
 
     fun getLastId(): Long?
 
-    fun getByEntryId(entryId: Long): List<MeasurementValue.Local>
+    fun observeByDateRange(
+        startDateTime: DateTime,
+        endDateTime: DateTime,
+    ): Flow<List<MeasurementValue.Local>>
+
+    fun observeLatestByProperty(key: DatabaseKey.MeasurementProperty): Flow<MeasurementValue.Local?>
 
     fun observeByCategory(
         categoryKey: DatabaseKey.MeasurementCategory,
@@ -24,12 +29,7 @@ interface MeasurementValueDao {
         maxDateTime: DateTime,
     ) : Flow<List<MeasurementValue.Local>>
 
-    fun observeByDateRange(
-        startDateTime: DateTime,
-        endDateTime: DateTime,
-    ): Flow<List<MeasurementValue.Local>>
-
-    fun observeLatestByProperty(key: DatabaseKey.MeasurementProperty): Flow<MeasurementValue.Local?>
+    fun getByEntryId(entryId: Long): List<MeasurementValue.Local>
 
     fun observeCountByPropertyId(propertyId: Long): Flow<Long>
 

@@ -77,14 +77,6 @@ class MeasurementValueRepository(
         return dao.observeAverageByPropertyKey(propertyKey, minDateTime, maxDateTime)
     }
 
-    fun getAverageByPropertyId(
-        propertyId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ): Double? {
-        return dao.getAverageByPropertyId(propertyId, minDateTime, maxDateTime)
-    }
-
     fun observeAveragesByCategoryId(
         categoryId: Long,
         minDateTime: DateTime,

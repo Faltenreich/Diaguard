@@ -109,14 +109,6 @@ class MeasurementValueFakeDao(
         TODO("Not yet implemented")
     }
 
-    override fun getAverageByPropertyId(
-        propertyId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime
-    ): Double? {
-        TODO("Not yet implemented")
-    }
-
     override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
         return flowOf(cache.count { it.property.id == propertyId }.toLong())
     }

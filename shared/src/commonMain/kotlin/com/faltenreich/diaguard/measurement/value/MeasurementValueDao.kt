@@ -45,12 +45,6 @@ interface MeasurementValueDao {
         maxDateTime: DateTime
     ): Flow<Double?>
 
-    fun getAverageByPropertyId(
-        propertyId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ): Double?
-
     fun observeAveragesByCategoryId(
         categoryId: Long,
         minDateTime: DateTime,

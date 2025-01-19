@@ -78,13 +78,6 @@ WHERE MeasurementProperty.key == :propertyKey
 AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;
 
-getAverageByProperty:
-SELECT AVG(MeasurementValue.value) FROM MeasurementValue
-INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE MeasurementValue.propertyId == :propertyId
-AND Entry.dateTime >= :minDateTime
-AND Entry.dateTime <= :maxDateTime;
-
 getAveragesByCategory:
 SELECT AVG(MeasurementValue.value), MeasurementProperty.*, MeasurementUnit.*, MeasurementCategory.* FROM MeasurementValue
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId

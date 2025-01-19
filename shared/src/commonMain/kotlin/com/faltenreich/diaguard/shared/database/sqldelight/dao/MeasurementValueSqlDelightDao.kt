@@ -110,18 +110,6 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
     }
 
-    override fun getAverageByPropertyId(
-        propertyId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ): Double? {
-        return queries.getAverageByProperty(
-            propertyId = propertyId,
-            minDateTime = minDateTime.isoString,
-            maxDateTime = maxDateTime.isoString,
-        ).executeAsOneOrNull()?.AVG
-    }
-
     override fun observeAveragesByCategoryId(
         categoryId: Long,
         minDateTime: DateTime,

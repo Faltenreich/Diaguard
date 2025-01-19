@@ -32,6 +32,18 @@ class MeasurementValueRepository(
         return checkNotNull(dao.getLastId())
     }
 
+    fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {
+        return dao.getByEntryId(entryId)
+    }
+
+    fun observeByCategoryId(
+        categoryId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<List<MeasurementValue.Local>> {
+        return dao.observeByCategoryId(categoryId, minDateTime, maxDateTime)
+    }
+
     fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
@@ -45,28 +57,12 @@ class MeasurementValueRepository(
         return dao.observeLatestByProperty(key = key)
     }
 
-    fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {
-        return dao.getByEntryId(entryId)
+    fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
+        return dao.observeCountByPropertyId(propertyId)
     }
 
     fun observeCountByCategoryId(categoryId: Long): Flow<Long> {
         return dao.observeCountByCategoryId(categoryId)
-    }
-
-    fun observeByCategoryId(
-        categoryId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ): Flow<List<MeasurementValue.Local>> {
-        return dao.observeByCategoryId(categoryId, minDateTime, maxDateTime)
-    }
-
-    fun observeAverageByCategoryId(
-        categoryId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ): Flow<Double?> {
-        return dao.observeAverageByCategoryId(categoryId, minDateTime, maxDateTime)
     }
 
     fun observeAverageByPropertyKey(
@@ -77,16 +73,20 @@ class MeasurementValueRepository(
         return dao.observeAverageByPropertyKey(propertyKey, minDateTime, maxDateTime)
     }
 
+    fun observeAverageByCategoryId(
+        categoryId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Double?> {
+        return dao.observeAverageByCategoryId(categoryId, minDateTime, maxDateTime)
+    }
+
     fun observeAveragesByCategoryId(
         categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime,
     ): Flow<List<MeasurementValue.Average>> {
         return dao.observeAveragesByCategoryId(categoryId, minDateTime, maxDateTime)
-    }
-
-    fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
-        return dao.observeCountByPropertyId(propertyId)
     }
 
     fun update(value: MeasurementValue.Local) {

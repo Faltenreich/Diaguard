@@ -49,6 +49,19 @@ class MeasurementValueSqlDelightDao(
         return queries.getByEntry(entryId, mapper::map).executeAsList()
     }
 
+    override fun observeByCategoryId(
+        categoryId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<List<MeasurementValue.Local>> {
+        return queries.getCategoryAndDateTime(
+            categoryId = categoryId,
+            minDateTime = minDateTime.isoString,
+            maxDateTime= maxDateTime.isoString,
+            mapper = mapper::map,
+        ).asFlow().mapToList(dispatcher)
+    }
+
     override fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
@@ -69,21 +82,12 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToOneOrNull(dispatcher)
     }
 
-    override fun observeCountByCategoryId(categoryId: Long): Flow<Long> {
-        return queries.countByCategory(categoryId).asFlow().mapToOne(dispatcher)
+    override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
+        return queries.countByProperty(propertyId).asFlow().mapToOne(dispatcher)
     }
 
-    override fun observeByCategoryId(
-        categoryId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ): Flow<List<MeasurementValue.Local>> {
-        return queries.getCategoryAndDateTime(
-            categoryId = categoryId,
-            minDateTime = minDateTime.isoString,
-            maxDateTime= maxDateTime.isoString,
-            mapper = mapper::map,
-        ).asFlow().mapToList(dispatcher)
+    override fun observeCountByCategoryId(categoryId: Long): Flow<Long> {
+        return queries.countByCategory(categoryId).asFlow().mapToOne(dispatcher)
     }
 
     override fun observeAverageByCategoryId(
@@ -121,10 +125,6 @@ class MeasurementValueSqlDelightDao(
             maxDateTime = maxDateTime.isoString,
             mapper = mapper::map,
         ).asFlow().mapToList(dispatcher)
-    }
-
-    override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
-        return queries.countByProperty(propertyId).asFlow().mapToOne(dispatcher)
     }
 
     override fun update(

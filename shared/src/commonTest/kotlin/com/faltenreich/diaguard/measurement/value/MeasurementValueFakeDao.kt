@@ -41,6 +41,14 @@ class MeasurementValueFakeDao(
         return cache.filter { it.entry.id == entryId }
     }
 
+    override fun observeByCategoryId(
+        categoryId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime
+    ): Flow<List<MeasurementValue.Local>> {
+        return flowOf(cache.filter { it.property.category.id == categoryId })
+    }
+
     override fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime
@@ -62,16 +70,25 @@ class MeasurementValueFakeDao(
         )
     }
 
+    override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
+        return flowOf(cache.count { it.property.id == propertyId }.toLong())
+    }
+
     override fun observeCountByCategoryId(categoryId: Long): Flow<Long> {
         return flowOf(cache.size.toLong())
     }
 
-    override fun observeByCategoryId(
-        categoryId: Long,
+    override fun observeAverageByPropertyKey(
+        propertyKey: DatabaseKey.MeasurementProperty,
         minDateTime: DateTime,
         maxDateTime: DateTime
-    ): Flow<List<MeasurementValue.Local>> {
-        return flowOf(cache.filter { it.property.category.id == categoryId })
+    ): Flow<Double?> {
+        val average = cache
+            .filter { it.property.key == propertyKey }
+            .takeIf(List<*>::isNotEmpty)
+            ?.map { it.value }
+            ?.average()
+        return flowOf(average)
     }
 
     override fun observeAverageByCategoryId(
@@ -88,29 +105,12 @@ class MeasurementValueFakeDao(
         )
     }
 
-    override fun observeAverageByPropertyKey(
-        propertyKey: DatabaseKey.MeasurementProperty,
-        minDateTime: DateTime,
-        maxDateTime: DateTime
-    ): Flow<Double?> {
-        val average = cache
-            .filter { it.property.key == propertyKey }
-            .takeIf(List<*>::isNotEmpty)
-            ?.map { it.value }
-            ?.average()
-        return flowOf(average)
-    }
-
     override fun observeAveragesByCategoryId(
         categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime
     ): Flow<List<MeasurementValue.Average>> {
         TODO("Not yet implemented")
-    }
-
-    override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
-        return flowOf(cache.count { it.property.id == propertyId }.toLong())
     }
 
     override fun update(id: Long, updatedAt: DateTime, value: Double) {

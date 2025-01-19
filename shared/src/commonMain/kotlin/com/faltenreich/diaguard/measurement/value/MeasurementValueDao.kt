@@ -18,6 +18,12 @@ interface MeasurementValueDao {
 
     fun getByEntryId(entryId: Long): List<MeasurementValue.Local>
 
+    fun observeByCategoryId(
+        categoryId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ) : Flow<List<MeasurementValue.Local>>
+
     fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
@@ -25,19 +31,9 @@ interface MeasurementValueDao {
 
     fun observeLatestByProperty(key: DatabaseKey.MeasurementProperty): Flow<MeasurementValue.Local?>
 
+    fun observeCountByPropertyId(propertyId: Long): Flow<Long>
+
     fun observeCountByCategoryId(categoryId: Long): Flow<Long>
-
-    fun observeByCategoryId(
-        categoryId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ) : Flow<List<MeasurementValue.Local>>
-
-    fun observeAverageByCategoryId(
-        categoryId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ): Flow<Double?>
 
     fun observeAverageByPropertyKey(
         propertyKey: DatabaseKey.MeasurementProperty,
@@ -45,13 +41,17 @@ interface MeasurementValueDao {
         maxDateTime: DateTime
     ): Flow<Double?>
 
+    fun observeAverageByCategoryId(
+        categoryId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Double?>
+
     fun observeAveragesByCategoryId(
         categoryId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime,
     ): Flow<List<MeasurementValue.Average>>
-
-    fun observeCountByPropertyId(propertyId: Long): Flow<Long>
 
     fun update(
         id: Long,

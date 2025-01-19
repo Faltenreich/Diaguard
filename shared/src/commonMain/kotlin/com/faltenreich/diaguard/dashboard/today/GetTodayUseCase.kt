@@ -2,41 +2,29 @@ package com.faltenreich.diaguard.dashboard.today
 
 import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class GetTodayUseCase(
-    private val categoryRepository: MeasurementCategoryRepository,
-    private val valueRepository: MeasurementValueRepository,
+    private val repository: MeasurementValueRepository,
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
     operator fun invoke(): Flow<DashboardState.Today> {
         val today = dateTimeFactory.today()
-        return categoryRepository.observeBloodSugar().flatMapLatest { category ->
-            val categoryId = category?.id ?: return@flatMapLatest flowOf(
-                DashboardState.Today(
-                    totalCount = 0,
-                    hypoCount = 0,
-                    hyperCount = 0,
-                )
+        return repository.observeByCategoryKeyAndDateRange(
+            categoryKey = DatabaseKey.MeasurementCategory.BLOOD_SUGAR,
+            minDateTime = today.atStartOfDay(),
+            maxDateTime = today.atEndOfDay(),
+        ).map { values ->
+            DashboardState.Today(
+                totalCount = values.size,
+                hypoCount = values.count(MeasurementValue::isTooLow),
+                hyperCount = values.count(MeasurementValue::isTooHigh),
             )
-            valueRepository.observeByCategoryId(
-                categoryId = categoryId,
-                minDateTime = today.atStartOfDay(),
-                maxDateTime = today.atEndOfDay(),
-            ).map { values ->
-                DashboardState.Today(
-                    totalCount = values.size,
-                    hypoCount = values.count(MeasurementValue::isTooLow),
-                    hyperCount = values.count(MeasurementValue::isTooHigh),
-                )
-            }
         }
     }
 }

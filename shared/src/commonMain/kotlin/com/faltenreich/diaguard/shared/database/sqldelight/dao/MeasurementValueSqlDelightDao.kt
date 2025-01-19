@@ -62,6 +62,19 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToList(dispatcher)
     }
 
+    override fun observeByCategoryKeyAndDateRange(
+        categoryKey: DatabaseKey.MeasurementCategory,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<List<MeasurementValue.Local>> {
+        return queries.getByCategoryAndDateRange(
+            categoryKey = categoryKey.key,
+            minDateTime = minDateTime.isoString,
+            maxDateTime= maxDateTime.isoString,
+            mapper = mapper::map,
+        ).asFlow().mapToList(dispatcher)
+    }
+
     override fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,

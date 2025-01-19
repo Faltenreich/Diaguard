@@ -53,6 +53,16 @@ WHERE MeasurementProperty.categoryId == :categoryId
 AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;
 
+getByCategoryAndDateRange:
+SELECT * FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE MeasurementCategory.key == :categoryKey
+AND Entry.dateTime >= :minDateTime
+AND Entry.dateTime <= :maxDateTime;
+
 getAverageByCategory:
 SELECT AVG(MeasurementValue.value) FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId

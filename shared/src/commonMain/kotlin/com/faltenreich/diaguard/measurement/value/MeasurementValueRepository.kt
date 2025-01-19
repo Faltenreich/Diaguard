@@ -44,6 +44,14 @@ class MeasurementValueRepository(
         return dao.observeByCategoryId(categoryId, minDateTime, maxDateTime)
     }
 
+    fun observeByCategoryKeyAndDateRange(
+        categoryKey: DatabaseKey.MeasurementCategory,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<List<MeasurementValue.Local>> {
+        return dao.observeByCategoryKeyAndDateRange(categoryKey, minDateTime, maxDateTime)
+    }
+
     fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,

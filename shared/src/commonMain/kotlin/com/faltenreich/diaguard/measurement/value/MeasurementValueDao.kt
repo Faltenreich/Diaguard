@@ -24,6 +24,12 @@ interface MeasurementValueDao {
         maxDateTime: DateTime,
     ) : Flow<List<MeasurementValue.Local>>
 
+    fun observeByCategoryKeyAndDateRange(
+        categoryKey: DatabaseKey.MeasurementCategory,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ) : Flow<List<MeasurementValue.Local>>
+
     fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,

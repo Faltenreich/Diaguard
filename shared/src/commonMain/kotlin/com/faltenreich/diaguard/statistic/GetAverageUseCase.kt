@@ -9,6 +9,8 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.primitive.format
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 
 class GetAverageUseCase(
     private val repository: MeasurementValueRepository,
@@ -21,11 +23,18 @@ class GetAverageUseCase(
         dateRange: ClosedRange<Date>,
     ): Flow<StatisticState.Average> {
         return combine(
-            repository.observeAveragesByCategoryId(
-                categoryId = category.id,
-                minDateTime = dateRange.start.atStartOfDay(),
-                maxDateTime = dateRange.endInclusive.atEndOfDay(),
-            ),
+            repository.observeCountByCategoryId(category.id).flatMapLatest { valueCount ->
+                // Workaround: Avoid NullPointerException when calculating average for empty table
+                if (valueCount == 0L) {
+                    flowOf(emptyList())
+                } else {
+                    repository.observeAveragesByCategoryId(
+                        categoryId = category.id,
+                        minDateTime = dateRange.start.atStartOfDay(),
+                        maxDateTime = dateRange.endInclusive.atEndOfDay(),
+                    )
+                }
+            },
             repository.observeCountByCategoryId(category.id),
             getPreference(DecimalPlacesPreference),
         ) { averages, countPerDay, decimalPlaces ->

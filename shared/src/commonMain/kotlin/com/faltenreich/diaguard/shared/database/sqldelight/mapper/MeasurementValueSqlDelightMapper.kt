@@ -144,11 +144,8 @@ class MeasurementValueSqlDelightMapper(
         categorySortIndex: Long,
         categoryIsActive: Long,
     ): MeasurementValue.Average {
-        // TODO: Handle null
-        average ?: throw IllegalStateException()
-
         return MeasurementValue.Average(
-            value = average,
+            value = average ?: throw IllegalStateException("Average must not be null"),
             property = propertyMapper.map(
                 propertyId = propertyId,
                 propertyCreatedAt = propertyCreatedAt,

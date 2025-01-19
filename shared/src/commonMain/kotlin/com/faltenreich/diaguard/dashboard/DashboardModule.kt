@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.dashboard
 
-import com.faltenreich.diaguard.dashboard.average.GetAverageUseCase
+import com.faltenreich.diaguard.dashboard.average.GetAverageBloodSugarUseCase
 import com.faltenreich.diaguard.dashboard.hba1c.GetCurrentHbA1cUseCase
 import com.faltenreich.diaguard.dashboard.hba1c.GetEstimatedHbA1cUseCase
 import com.faltenreich.diaguard.dashboard.hba1c.GetLatestHbA1cUseCase
@@ -14,7 +14,7 @@ import org.koin.dsl.module
 fun dashboardModule() = module {
     factoryOf(::GetLatestBloodSugarUseCase)
     factoryOf(::GetTodayUseCase)
-    factoryOf(::GetAverageUseCase)
+    factoryOf(::GetAverageBloodSugarUseCase)
     factoryOf(::GetEstimatedHbA1cUseCase)
     factoryOf(::GetLatestHbA1cUseCase)
     factoryOf(::GetCurrentHbA1cUseCase)

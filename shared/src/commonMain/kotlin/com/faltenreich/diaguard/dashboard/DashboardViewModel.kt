@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.dashboard
 
-import com.faltenreich.diaguard.dashboard.average.GetAverageUseCase
+import com.faltenreich.diaguard.dashboard.average.GetAverageBloodSugarUseCase
 import com.faltenreich.diaguard.dashboard.hba1c.GetCurrentHbA1cUseCase
 import com.faltenreich.diaguard.dashboard.latest.GetLatestBloodSugarUseCase
 import com.faltenreich.diaguard.dashboard.today.GetTodayUseCase
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.combine
 class DashboardViewModel(
     getLatestBloodSugar: GetLatestBloodSugarUseCase,
     getToday: GetTodayUseCase,
-    getAverage: GetAverageUseCase,
+    getAverage: GetAverageBloodSugarUseCase,
     getCurrentHbA1c: GetCurrentHbA1cUseCase,
     getTrend: GetTrendUseCase,
     private val pushScreen: PushScreenUseCase,

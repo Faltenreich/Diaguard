@@ -31,7 +31,7 @@ class StatisticViewModelTest : TestSuite {
             val state = awaitItem()
             assertEquals(
                 expected = state.categories.first(),
-                actual = state.selectedCategory,
+                actual = state.category,
             )
         }
     }
@@ -55,7 +55,7 @@ class StatisticViewModelTest : TestSuite {
 
             assertEquals(
                 expected = category,
-                actual = awaitItem().selectedCategory,
+                actual = awaitItem().category,
             )
         }
     }

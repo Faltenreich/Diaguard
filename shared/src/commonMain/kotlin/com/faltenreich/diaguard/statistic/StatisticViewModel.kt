@@ -27,7 +27,6 @@ class StatisticViewModel(
     private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
     private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
 
-    // FIXME: Crashes when selecting category without entries
     override val state = combine(
         category,
         dateRange,

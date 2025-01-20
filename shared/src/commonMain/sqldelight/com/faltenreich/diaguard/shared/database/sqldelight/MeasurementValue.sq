@@ -16,14 +16,6 @@ VALUES (?, ?, ?, ?, ?);
 getLastId:
 SELECT last_insert_rowid();
 
-getByEntry:
-SELECT * FROM MeasurementValue
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE entryId = ?;
-
 getByDateRange:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
@@ -53,14 +45,17 @@ WHERE MeasurementCategory.key == :categoryKey
 AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;
 
-getAverageByCategory:
-SELECT AVG(MeasurementValue.value) FROM MeasurementValue
+getByEntry:
+SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE MeasurementProperty.categoryId == :categoryId
-AND Entry.dateTime >= :minDateTime
-AND Entry.dateTime <= :maxDateTime;
+WHERE entryId = ?;
+
+countByProperty:
+SELECT COUNT(*) FROM MeasurementValue
+WHERE propertyId == :propertyId;
 
 countByCategory:
 SELECT COUNT(*) FROM MeasurementValue
@@ -78,6 +73,15 @@ WHERE MeasurementProperty.key == :propertyKey
 AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;
 
+getAverageByCategory:
+SELECT AVG(MeasurementValue.value) FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE MeasurementProperty.categoryId == :categoryId
+AND Entry.dateTime >= :minDateTime
+AND Entry.dateTime <= :maxDateTime;
+
 getAveragesByCategory:
 SELECT AVG(MeasurementValue.value), MeasurementProperty.*, MeasurementUnit.*, MeasurementCategory.* FROM MeasurementValue
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
@@ -87,10 +91,6 @@ INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.
 WHERE MeasurementProperty.categoryId == :categoryId
 AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;
-
-countByProperty:
-SELECT COUNT(*) FROM MeasurementValue
-WHERE propertyId == :propertyId;
 
 update:
 UPDATE MeasurementValue SET updatedAt = ?, value = ? WHERE id = ?;

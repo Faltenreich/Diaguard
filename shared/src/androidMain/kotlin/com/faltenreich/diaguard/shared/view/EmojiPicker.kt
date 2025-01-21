@@ -16,6 +16,7 @@ actual fun EmojiPicker(
     AndroidView(
         factory = { context ->
             // FIXME: Apply colorControlNormal and colorAccent
+            //  https://stackoverflow.com/questions/79375575
             EmojiPickerView(context).apply {
                 emojiGridColumns = columns
                 layoutParams = ViewGroup.LayoutParams(

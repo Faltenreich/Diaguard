@@ -27,7 +27,7 @@ class DeleteModal(
                 TextButton(onClick = onConfirmRequest) {
                     Text(
                         text = getString(Res.string.delete),
-                        color = AppTheme.colors.scheme.onBackground,
+                        color = AppTheme.colors.scheme.onErrorContainer,
                     )
                 }
             },
@@ -35,12 +35,16 @@ class DeleteModal(
                 TextButton(onClick = onDismissRequest) {
                     Text(
                         text = getString(Res.string.cancel),
-                        color = AppTheme.colors.scheme.onBackground,
+                        color = AppTheme.colors.scheme.onErrorContainer,
                     )
                 }
             },
             title = { Text(getString(Res.string.delete_title)) },
             text = { Text(getString(Res.string.delete_description)) },
+            containerColor = AppTheme.colors.scheme.errorContainer,
+            iconContentColor = AppTheme.colors.scheme.onErrorContainer,
+            titleContentColor = AppTheme.colors.scheme.onErrorContainer,
+            textContentColor = AppTheme.colors.scheme.onErrorContainer,
         )
     }
 }

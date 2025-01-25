@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.view
 
-import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -24,17 +23,12 @@ actual fun EmojiPicker(
         factory = { context ->
             EmojiPickerView(ContextThemeWrapper(context, style)).apply {
                 emojiGridColumns = columns
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    // FIXME: Breaks scrolling of container
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                )
                 isNestedScrollingEnabled = true
                 setOnEmojiPickedListener { item ->
                     onEmojiPicked(item.emoji)
                 }
             }
         },
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().then(modifier),
     )
 }

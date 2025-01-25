@@ -110,7 +110,6 @@
     <string name="food_form_missing_input">Name and carbohydrates must not be empty</string>
     <string name="food_info">Info</string>
     <string name="food_new">New food</string>
-    <string name="food_nutrient_list">Nutrients</string>
     <string name="food_preferences_none_selected">Food is currently hidden until at least one category is checked.</string>
     <string name="food_preferences_open">Open food preferences</string>
     <string name="food_search_empty_title">Nothing found</string>
@@ -182,11 +181,10 @@
     <string name="no_entries">No entries available</string>
     <string name="note">Note</string>
     <string name="notes">Notes</string>
-    <string name="nutrient">Nutrient</string>
+    <string name="nutrients_per_100g">Nutrients per 100g</string>
     <string name="ok">OK</string>
     <string name="oxygen_saturation">Oxygen saturation</string>
     <string name="page_number">Page number</string>
-    <string name="per_100g">per 100g</string>
     <string name="percent">Percent</string>
     <string name="percent_abbreviation">%%</string>
     <string name="placeholder">-</string>

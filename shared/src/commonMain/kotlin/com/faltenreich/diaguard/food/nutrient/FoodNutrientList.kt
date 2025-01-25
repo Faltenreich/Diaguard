@@ -1,21 +1,14 @@
 package com.faltenreich.diaguard.food.nutrient
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.form.FoodFormIntent
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.TextDivider
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.nutrient
-import diaguard.shared.generated.resources.per_100g
+import diaguard.shared.generated.resources.nutrients_per_100g
 
 @Composable
 fun FoodNutrientList(
@@ -24,26 +17,8 @@ fun FoodNutrientList(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        // TODO: Replace with TextDivider
-        Row(
-            modifier = Modifier
-                .background(AppTheme.colors.scheme.surfaceVariant)
-                .padding(all = AppTheme.dimensions.padding.P_3),
-            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = getString(Res.string.nutrient),
-                modifier = Modifier.weight(1f),
-                color = AppTheme.colors.scheme.onSurfaceVariant,
-                style = AppTheme.typography.bodyMedium,
-            )
-            Text(
-                text = getString(Res.string.per_100g),
-                color = AppTheme.colors.scheme.onSurfaceVariant,
-                style = AppTheme.typography.bodyMedium,
-            )
-        }
+        TextDivider(getString(Res.string.nutrients_per_100g))
+
         data.forEach { data ->
             FoodNutrientListItem(
                 data = data,

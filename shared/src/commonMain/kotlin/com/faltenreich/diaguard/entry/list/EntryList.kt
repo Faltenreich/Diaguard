@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,14 +16,12 @@ import app.cash.paging.compose.LazyPagingItems
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.log.item.LogLoadingIndicator
-import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.tag.Tag
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.entry_search_placeholder
 
 @Composable
 fun EntryList(
     items: LazyPagingItems<EntryListItemState>,
+    emptyContent: @Composable () -> Unit,
     onEntryClick: (Entry.Local) -> Unit,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
@@ -43,7 +40,7 @@ fun EntryList(
                     CircularProgressIndicator()
                 }
             } else {
-                Text(getString(Res.string.entry_search_placeholder))
+                emptyContent()
             }
         } else {
             LazyColumn(

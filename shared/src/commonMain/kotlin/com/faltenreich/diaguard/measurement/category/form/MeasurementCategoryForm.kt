@@ -23,12 +23,12 @@ import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.TextCheckbox
+import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.icon
 import diaguard.shared.generated.resources.measurement_category_active
-import diaguard.shared.generated.resources.measurement_category_active_disabled
-import diaguard.shared.generated.resources.measurement_category_active_enabled
+import diaguard.shared.generated.resources.measurement_category_visibility
 import diaguard.shared.generated.resources.name
 import org.jetbrains.compose.resources.stringResource
 
@@ -40,7 +40,6 @@ fun MeasurementCategoryForm(
     val state = viewModel.collectState()
     val name = viewModel.name.collectAsStateWithLifecycle().value
     val icon = viewModel.icon.collectAsStateWithLifecycle().value
-    val isActive = viewModel.isActive.collectAsStateWithLifecycle().value
 
     Column(
         modifier = modifier
@@ -79,14 +78,10 @@ fun MeasurementCategoryForm(
             )
         }
 
-        Divider()
+        TextDivider(getString(Res.string.measurement_category_visibility))
 
         TextCheckbox(
             title = stringResource(Res.string.measurement_category_active),
-            subtitle = stringResource(
-                if (isActive) Res.string.measurement_category_active_enabled
-                else Res.string.measurement_category_active_disabled
-            ),
             checked = viewModel.isActive.collectAsState().value,
             onCheckedChange = { viewModel.isActive.value = it },
         )

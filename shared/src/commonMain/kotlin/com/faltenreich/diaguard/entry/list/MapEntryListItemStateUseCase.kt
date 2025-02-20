@@ -57,7 +57,7 @@ class MapEntryListItemStateUseCase(
             },
             values = entry.values.map { value ->
                 EntryListItemState.Value(
-                    category = value.property.category,
+                    property = value.property,
                     valueLocalized = measurementValueMapper(value, decimalPlaces).value,
                 )
             },

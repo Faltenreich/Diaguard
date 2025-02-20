@@ -75,8 +75,9 @@ private fun MeasurementValues(state: EntryListItemState) {
                     horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    MeasurementCategoryIcon(value.category)
+                    MeasurementCategoryIcon(value.property.category)
                     Text(value.valueLocalized)
+                    Text(value.property.selectedUnit.abbreviation)
                 }
             }
         }

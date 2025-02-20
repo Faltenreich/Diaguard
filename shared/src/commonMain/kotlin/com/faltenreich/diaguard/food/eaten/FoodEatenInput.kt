@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.shared.view.ClearButton
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.carbohydrates_per_100g
+import diaguard.shared.generated.resources.grams_abbreviation
 
 @Composable
 fun FoodEatenInput(
@@ -28,6 +29,7 @@ fun FoodEatenInput(
         label = data.food.name,
         modifier = modifier,
         trailingIcon = { ClearButton { onIntent(EntryFormIntent.RemoveFood(data)) } },
+        suffix = { Text(getString(Res.string.grams_abbreviation)) },
         supportingText = {
             Text(
                 "%.2f %s".format(

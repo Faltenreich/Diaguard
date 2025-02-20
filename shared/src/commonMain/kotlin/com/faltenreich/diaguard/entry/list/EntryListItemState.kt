@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry.list
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 
 data class EntryListItemState(
     val entry: Entry.Local,
@@ -11,7 +11,7 @@ data class EntryListItemState(
 ) {
 
     data class Value(
-        val category: MeasurementCategory,
+        val property: MeasurementProperty.Local,
         val valueLocalized: String,
     )
 }

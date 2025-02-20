@@ -3,13 +3,13 @@ package com.faltenreich.diaguard.entry.list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
@@ -68,22 +68,27 @@ private fun DateTime(state: EntryListItemState) {
 @Composable
 private fun MeasurementValues(state: EntryListItemState) {
     if (state.categories.isNotEmpty()) {
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+        Column(
+            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         ) {
             state.categories.forEach { category ->
-                MeasurementCategoryIcon(category.category)
+                Row(horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
+                    MeasurementCategoryIcon(category.category)
 
-                category.values.forEach { value ->
-                    val showPropertyName = true // TODO: If category has more than one property
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-                    ) {
-                        Text(value.valueLocalized)
-                        Text(value.property.selectedUnit.abbreviation)
-                        if (showPropertyName) {
-                            Text("(${value.property.name})")
+                    Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2)) {
+                        category.values.forEachIndexed { index, value ->
+                            Row(
+                                modifier = Modifier.padding(top = AppTheme.dimensions.padding.P_1),
+                                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(value.valueLocalized)
+                                Text(value.property.selectedUnit.abbreviation)
+
+                                if (value.property.name != category.category.name) {
+                                    Text(value.property.name)
+                                }
+                            }
                         }
                     }
                 }

@@ -64,7 +64,7 @@ class MeasurementPropertyFormViewModel(
             MeasurementUnitListItemState(
                 unit = unit,
                 title = unit.name,
-                subtitle = unit.takeIf(MeasurementUnit::isDefault)
+                subtitle = unit.takeUnless(MeasurementUnit::isDefault)
                     ?.run {
                         localization.getString(
                             Res.string.measurement_unit_factor_description,

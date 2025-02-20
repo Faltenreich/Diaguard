@@ -55,17 +55,22 @@ class MapEntryListItemStateUseCase(
                     foodEaten.food.name,
                 )
             },
-            categories = entry.values.groupBy { it.property.category }.map { (category, values) ->
-                EntryListItemState.Category(
-                    category = category,
-                    values = values.map { value ->
-                        EntryListItemState.Value(
-                            property = value.property,
-                            valueLocalized = measurementValueMapper(value, decimalPlaces).value,
-                        )
-                    },
-                )
-            },
+            categories = entry.values
+                .sortedBy { it.property.category.sortIndex }
+                .groupBy { it.property.category }
+                .map { (category, values) ->
+                    EntryListItemState.Category(
+                        category = category,
+                        values = values
+                            .sortedBy { it.property.sortIndex }
+                            .map { value ->
+                                EntryListItemState.Value(
+                                    property = value.property,
+                                    valueLocalized = measurementValueMapper(value, decimalPlaces).value,
+                                )
+                            },
+                    )
+                },
         )
     }
 }

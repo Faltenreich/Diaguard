@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
@@ -68,16 +67,25 @@ private fun DateTime(state: EntryListItemState) {
 
 @Composable
 private fun MeasurementValues(state: EntryListItemState) {
-    if (state.values.isNotEmpty()) {
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2)) {
-            state.values.forEach { value ->
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    MeasurementCategoryIcon(value.property.category)
-                    Text(value.valueLocalized)
-                    Text(value.property.selectedUnit.abbreviation)
+    if (state.categories.isNotEmpty()) {
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+        ) {
+            state.categories.forEach { category ->
+                MeasurementCategoryIcon(category.category)
+
+                category.values.forEach { value ->
+                    val showPropertyName = true // TODO: If category has more than one property
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+                    ) {
+                        Text(value.valueLocalized)
+                        Text(value.property.selectedUnit.abbreviation)
+                        if (showPropertyName) {
+                            Text("(${value.property.name})")
+                        }
+                    }
                 }
             }
         }

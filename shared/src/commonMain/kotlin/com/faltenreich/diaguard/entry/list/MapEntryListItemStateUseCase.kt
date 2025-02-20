@@ -55,10 +55,15 @@ class MapEntryListItemStateUseCase(
                     foodEaten.food.name,
                 )
             },
-            values = entry.values.map { value ->
-                EntryListItemState.Value(
-                    property = value.property,
-                    valueLocalized = measurementValueMapper(value, decimalPlaces).value,
+            categories = entry.values.groupBy { it.property.category }.map { (category, values) ->
+                EntryListItemState.Category(
+                    category = category,
+                    values = values.map { value ->
+                        EntryListItemState.Value(
+                            property = value.property,
+                            valueLocalized = measurementValueMapper(value, decimalPlaces).value,
+                        )
+                    },
                 )
             },
         )

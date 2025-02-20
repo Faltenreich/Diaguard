@@ -53,11 +53,13 @@ fun MeasurementPropertyForm(
             )
 
             if (state.units.isNotEmpty()) {
+                TextDivider(getString(Res.string.measurement_unit))
                 MeasurementUnitList(
                     items = state.units,
                     onIntent = { intent -> viewModel.dispatchIntent(intent) },
                 )
             } else {
+                Divider()
                 TextInput(
                     input = viewModel.unitName.collectAsState().value,
                     onInputChange = { viewModel.unitName.value = it },

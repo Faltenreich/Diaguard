@@ -22,6 +22,7 @@ import diaguard.shared.generated.resources.delete_title
 import diaguard.shared.generated.resources.measurement_unit_factor_description
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
@@ -112,8 +113,15 @@ class MeasurementPropertyFormViewModel(
             )
         )
 
-        // TODO: Switch isSelected
-        updateUnit(selectedUnit.value.copy(name = unitName.value))
+        val units = units.first().map(MeasurementUnitListItemState::unit)
+        units.forEach { unit ->
+            updateUnit(
+                unit.copy(
+                    name = if (property.isUserGenerated) unitName.value else unit.name,
+                    isSelected = property.isUserGenerated || unit.id == selectedUnit.value.id,
+                ),
+            )
+        }
 
         popScreen()
     }

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.unit
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class GetMeasurementUnitsOfPropertyUseCase(
     private val repository: MeasurementUnitRepository,
@@ -9,5 +10,11 @@ class GetMeasurementUnitsOfPropertyUseCase(
 
     operator fun invoke(property: MeasurementProperty.Local): Flow<List<MeasurementUnit.Local>> {
         return repository.observeByPropertyId(property.id)
+            .map { units ->
+                units.sortedWith(
+                    compareByDescending<MeasurementUnit> { it.factor == MeasurementUnit.FACTOR_DEFAULT }
+                        .thenBy(MeasurementUnit::name)
+                )
+            }
     }
 }

@@ -1,18 +1,22 @@
 package com.faltenreich.diaguard.measurement.property.list
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
 import diaguard.shared.generated.resources.Res
@@ -58,13 +62,23 @@ fun MeasurementPropertyList(
             )
         }
 
-        FormRow {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(AppTheme.dimensions.padding.P_1),
+            contentAlignment = Alignment.Center,
+        ) {
             SuggestionChip(
                 onClick = {
                     viewModel.dispatchIntent(MeasurementPropertyListIntent.CreateProperty(category, properties))
                 },
                 label = { Text(getString(Res.string.measurement_property_add)) },
-                icon = { ResourceIcon(Res.drawable.ic_add) },
+                icon = {
+                    ResourceIcon(
+                        icon = Res.drawable.ic_add,
+                        modifier = modifier.size(AppTheme.dimensions.size.ImageSmaller),
+                    )
+                },
             )
         }
     }

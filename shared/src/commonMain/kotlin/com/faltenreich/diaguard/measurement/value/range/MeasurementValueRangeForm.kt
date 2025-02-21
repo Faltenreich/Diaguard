@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
@@ -37,12 +38,14 @@ fun MeasurementValueRangeForm(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        TextCheckbox(
-            title = getString(Res.string.value_range_highlighted),
-            subtitle = getString(Res.string.value_range_highlighted_description),
-            checked = viewModel.isValueRangeHighlighted.collectAsState().value,
-            onCheckedChange = { viewModel.isValueRangeHighlighted.value = it },
-        )
+        FormRow {
+            TextCheckbox(
+                title = getString(Res.string.value_range_highlighted),
+                subtitle = getString(Res.string.value_range_highlighted_description),
+                checked = viewModel.isValueRangeHighlighted.collectAsState().value,
+                onCheckedChange = { viewModel.isValueRangeHighlighted.value = it },
+            )
+        }
 
         Divider()
 

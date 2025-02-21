@@ -22,12 +22,15 @@ import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyLis
 import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.NoticeBar
+import com.faltenreich.diaguard.shared.view.NoticeBarStyle
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.icon
 import diaguard.shared.generated.resources.measurement_category_active
+import diaguard.shared.generated.resources.measurement_category_active_info
 import diaguard.shared.generated.resources.measurement_category_visibility
 import diaguard.shared.generated.resources.name
 import org.jetbrains.compose.resources.stringResource
@@ -40,61 +43,70 @@ fun MeasurementCategoryForm(
     val state = viewModel.collectState()
     val name = viewModel.name.collectAsStateWithLifecycle().value
     val icon = viewModel.icon.collectAsStateWithLifecycle().value
+    val isActive = viewModel.isActive.collectAsState().value
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-    ) {
-        TextInput(
-            input = name,
-            onInputChange = { viewModel.name.value = it },
-            label = getString(Res.string.name),
+    Column(modifier = modifier.fillMaxSize()) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = AppTheme.dimensions.padding.P_1,
-                    vertical = AppTheme.dimensions.padding.P_3,
-                ),
-        )
-
-        Divider()
-
-        Row(
-            modifier = Modifier
-                .clickable { viewModel.dispatchIntent(MeasurementCategoryFormIntent.OpenIconPicker) }
-                .fillMaxWidth()
-                .padding(all = AppTheme.dimensions.padding.P_3),
-            verticalAlignment = Alignment.CenterVertically,
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
         ) {
-            Text(
-                text = stringResource(Res.string.icon),
-                modifier = Modifier.weight(1f),
+            TextInput(
+                input = name,
+                onInputChange = { viewModel.name.value = it },
+                label = getString(Res.string.name),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = AppTheme.dimensions.padding.P_1,
+                        vertical = AppTheme.dimensions.padding.P_3,
+                    ),
             )
-            MeasurementCategoryIcon(
-                icon = icon,
-                fallback = name,
-                modifier = Modifier.minimumInteractiveComponentSize(),
+
+            Divider()
+
+            Row(
+                modifier = Modifier
+                    .clickable { viewModel.dispatchIntent(MeasurementCategoryFormIntent.OpenIconPicker) }
+                    .fillMaxWidth()
+                    .padding(all = AppTheme.dimensions.padding.P_3),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(Res.string.icon),
+                    modifier = Modifier.weight(1f),
+                )
+                MeasurementCategoryIcon(
+                    icon = icon,
+                    fallback = name,
+                    modifier = Modifier.minimumInteractiveComponentSize(),
+                )
+            }
+
+            TextDivider(getString(Res.string.measurement_category_visibility))
+
+            TextCheckbox(
+                title = stringResource(Res.string.measurement_category_active),
+                checked = isActive,
+                onCheckedChange = { viewModel.isActive.value = it },
             )
+
+            AnimatedVisibility(
+                visible = state != null,
+                enter = fadeIn(),
+            ) {
+                val properties = state?.properties ?: emptyList()
+                MeasurementPropertyList(
+                    category = viewModel.category,
+                    properties = properties,
+                )
+            }
         }
 
-        TextDivider(getString(Res.string.measurement_category_visibility))
-
-        TextCheckbox(
-            title = stringResource(Res.string.measurement_category_active),
-            checked = viewModel.isActive.collectAsState().value,
-            onCheckedChange = { viewModel.isActive.value = it },
+        NoticeBar(
+            text = stringResource(Res.string.measurement_category_active_info),
+            isVisible = !isActive,
+            style = NoticeBarStyle.WARNING,
         )
-
-        AnimatedVisibility(
-            visible = state != null,
-            enter = fadeIn(),
-        ) {
-            val properties = state?.properties ?: emptyList()
-            MeasurementPropertyList(
-                category = viewModel.category,
-                properties = properties,
-            )
-        }
     }
 }

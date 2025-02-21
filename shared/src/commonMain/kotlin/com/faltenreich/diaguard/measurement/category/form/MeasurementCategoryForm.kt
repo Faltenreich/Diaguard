@@ -13,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
@@ -43,7 +42,7 @@ fun MeasurementCategoryForm(
     val state = viewModel.collectState()
     val name = viewModel.name.collectAsStateWithLifecycle().value
     val icon = viewModel.icon.collectAsStateWithLifecycle().value
-    val isActive = viewModel.isActive.collectAsState().value
+    val isActive = viewModel.isActive.collectAsStateWithLifecycle().value
 
     Column(modifier = modifier.fillMaxSize()) {
         Column(

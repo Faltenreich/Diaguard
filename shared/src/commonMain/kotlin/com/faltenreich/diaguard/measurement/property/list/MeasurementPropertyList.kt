@@ -13,8 +13,10 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.measurement_properties
 import diaguard.shared.generated.resources.measurement_property_add
 
@@ -29,6 +31,9 @@ fun MeasurementPropertyList(
         TextDivider(getString(Res.string.measurement_properties))
 
         properties.forEachIndexed { index, property ->
+            if (index != 0) {
+                Divider()
+            }
             MeasurementPropertyListItem(
                 property = property,
                 onArrowUp = {
@@ -51,7 +56,6 @@ fun MeasurementPropertyList(
                     }
                     .fillMaxWidth(),
             )
-            Divider()
         }
 
         FormRow {
@@ -60,6 +64,7 @@ fun MeasurementPropertyList(
                     viewModel.dispatchIntent(MeasurementPropertyListIntent.CreateProperty(category, properties))
                 },
                 label = { Text(getString(Res.string.measurement_property_add)) },
+                icon = { ResourceIcon(Res.drawable.ic_add) },
             )
         }
     }

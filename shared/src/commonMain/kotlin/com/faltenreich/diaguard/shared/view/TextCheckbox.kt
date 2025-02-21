@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.view
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Switch
@@ -19,6 +20,7 @@ fun TextCheckbox(
 ) {
     Row(
         modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {

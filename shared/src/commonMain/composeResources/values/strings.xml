@@ -149,9 +149,9 @@
     <string name="meal">Meal</string>
     <string name="measurement_categories">Categories</string>
     <string name="measurement_category">Category</string>
-    <string name="measurement_category_visibility">Visibility</string>
-    <string name="measurement_category_active">Show category</string>
-    <string name="measurement_category_active_info">Category is currently hidden and will not be displayed in any other screen.</string>
+    <string name="measurement_category_visibility">Visible</string>
+    <string name="measurement_category_visibility_visible">Category will be displayed in every screen</string>
+    <string name="measurement_category_visibility_hidden">Category will not be displayed in any other screen</string>
     <string name="measurement_category_delete">Delete category</string>
     <string name="measurement_category_delete_description">This will irrevocably delete this category and all of its associated measurements</string>
     <string name="measurement_category_new">New category</string>

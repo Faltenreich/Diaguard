@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.property.form
 
+import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.unit.GetMeasurementUnitsOfPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
@@ -34,6 +35,7 @@ class MeasurementPropertyFormViewModel(
     private val updateUnit: UpdateMeasurementUnitUseCase = inject(),
     private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
+    private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
@@ -122,6 +124,8 @@ class MeasurementPropertyFormViewModel(
                 ),
             )
         }
+
+        updateCategory(property.category)
 
         popScreen()
     }

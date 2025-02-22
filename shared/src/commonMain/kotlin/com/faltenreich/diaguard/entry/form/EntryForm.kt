@@ -43,7 +43,7 @@ import diaguard.shared.generated.resources.ic_clear
 import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ic_tag
 import diaguard.shared.generated.resources.ic_time
-import diaguard.shared.generated.resources.minutes_until
+import diaguard.shared.generated.resources.minutes_until_notification
 import diaguard.shared.generated.resources.note
 import diaguard.shared.generated.resources.tag_remove_description
 
@@ -123,7 +123,7 @@ fun EntryForm(
                     TextInput(
                         input = viewModel.note,
                         onInputChange = { viewModel.note = it },
-                        label = getString(Res.string.note),
+                        placeholder = { Text(getString(Res.string.note)) },
                         modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
                     )
@@ -135,8 +135,8 @@ fun EntryForm(
                     TextInput(
                         input = viewModel.alarmDelayInMinutes?.toString() ?: "",
                         onInputChange = { viewModel.alarmDelayInMinutes = it.toIntOrNull() },
-                        label = getString(Res.string.alarm),
-                        suffix = { Text(getString(Res.string.minutes_until)) },
+                        placeholder = { Text(getString(Res.string.alarm)) },
+                        suffix = { if (viewModel.alarmDelayInMinutes != null) Text(getString(Res.string.minutes_until_notification)) },
                         modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,

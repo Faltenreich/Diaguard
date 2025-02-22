@@ -174,7 +174,7 @@
     <string name="millimoles_per_mole_abbreviation">mmol/mol</string>
     <string name="minutes">Minutes</string>
     <string name="minutes_abbreviation">min</string>
-    <string name="minutes_until">Minutes until</string>
+    <string name="minutes_until_notification">Minutes until notification</string>
     <string name="millimeters_of_mercury">Millimeters of mercury</string>
     <string name="millimeters_of_mercury_abbreviation">mmHg</string>
     <string name="month">Month</string>

@@ -29,6 +29,7 @@ fun EntryTagInput(
     modifier: Modifier = Modifier,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
+
     ExposedDropdownMenuBox(
         expanded = isExpanded,
         onExpandedChange = { isExpanded = it },
@@ -36,25 +37,29 @@ fun EntryTagInput(
         TextInput(
             input = input,
             onInputChange = onInputChange,
-            label = getString(Res.string.tag),
+            placeholder = { Text(getString(Res.string.tag)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
             modifier = modifier
                 .fillMaxWidth()
                 .menuAnchor(type = MenuAnchorType.PrimaryEditable),
+            maxLines = 1,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
         )
-        ExposedDropdownMenu(
-            expanded = isExpanded,
-            onDismissRequest = { isExpanded = false },
-        ) {
-            suggestions.forEach { suggestion ->
-                DropdownMenuItem(
-                    text = { Text(suggestion.name) },
-                    onClick = {
-                        onSuggestionSelected(suggestion)
-                        isExpanded = false
-                    },
-                )
+
+        if (suggestions.isNotEmpty()) {
+            ExposedDropdownMenu(
+                expanded = isExpanded,
+                onDismissRequest = { isExpanded = false },
+            ) {
+                suggestions.forEach { suggestion ->
+                    DropdownMenuItem(
+                        text = { Text(suggestion.name) },
+                        onClick = {
+                            onSuggestionSelected(suggestion)
+                            isExpanded = false
+                        },
+                    )
+                }
             }
         }
     }

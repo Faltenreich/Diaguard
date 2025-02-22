@@ -28,7 +28,6 @@ fun TextInput(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
-    // TODO: Remove additional padding, e.g. via contentPadding or TextFieldDecorationBox
     OutlinedTextField(
         value = input,
         onValueChange = onInputChange,

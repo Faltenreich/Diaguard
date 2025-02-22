@@ -16,7 +16,7 @@ fun EntryTagList(
 ) {
     FlowRow(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
     ) {
         tags.forEach { tag ->
             EntryTagItem(

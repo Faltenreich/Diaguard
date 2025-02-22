@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -76,7 +77,7 @@ fun MeasurementPropertyList(
                 icon = {
                     ResourceIcon(
                         icon = Res.drawable.ic_add,
-                        modifier = modifier.size(AppTheme.dimensions.size.ImageSmaller),
+                        modifier = modifier.size(InputChipDefaults.AvatarSize),
                     )
                 },
             )

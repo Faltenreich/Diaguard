@@ -4,10 +4,13 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -54,6 +57,7 @@ fun EntryForm(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState()
+    val tags = viewModel.tagSelection.collectAsState().value
 
     LaunchedEffect(Unit) {
         foodSelectionViewModel.collectEvents { event ->
@@ -92,29 +96,37 @@ fun EntryForm(
                 Divider()
 
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_tag) }) {
-                    Column {
-                        EntryTagInput(
-                            input = viewModel.tagQuery.collectAsState().value,
-                            onInputChange = { viewModel.tagQuery.value = it },
-                            suggestions = state?.tags ?: emptyList(),
-                            onSuggestionSelected = { tag ->
-                                viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
-                                viewModel.tagQuery.value = ""
-                            }
-                        )
-                        EntryTagList(
-                            tags = viewModel.tagSelection.collectAsState().value,
-                            onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
-                            trailingIcon = { tag ->
-                                ResourceIcon(
-                                    icon = Res.drawable.ic_clear,
-                                    contentDescription = getString(Res.string.tag_remove_description, tag.name),
-                                    modifier = Modifier.size(InputChipDefaults.AvatarSize),
-                                )
-                            },
-                            modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_3),
-                        )
-                    }
+                    EntryTagInput(
+                        input = viewModel.tagQuery.collectAsState().value,
+                        onInputChange = { viewModel.tagQuery.value = it },
+                        suggestions = state?.tags ?: emptyList(),
+                        onSuggestionSelected = { tag ->
+                            viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
+                            viewModel.tagQuery.value = ""
+                        }
+                    )
+                }
+
+                if (tags.isNotEmpty()) {
+                    EntryTagList(
+                        tags = tags,
+                        onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
+                        trailingIcon = { tag ->
+                            ResourceIcon(
+                                icon = Res.drawable.ic_clear,
+                                contentDescription = getString(Res.string.tag_remove_description, tag.name),
+                                modifier = Modifier.size(InputChipDefaults.AvatarSize),
+                            )
+                        },
+                        modifier = Modifier.padding(
+                            start = AppTheme.dimensions.padding.P_3 +
+                                AppTheme.dimensions.padding.P_3 +
+                                AppTheme.dimensions.padding.P_3 +
+                                AppTheme.dimensions.size.ImageMedium,
+                            end = AppTheme.dimensions.padding.P_3,
+                            bottom = AppTheme.dimensions.padding.P_2,
+                        ),
+                    )
                 }
 
                 Divider()

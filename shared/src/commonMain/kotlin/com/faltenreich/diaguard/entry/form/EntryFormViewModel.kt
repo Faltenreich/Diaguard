@@ -174,13 +174,13 @@ class EntryFormViewModel(
         )
     }
 
-    // FIXME: Prevents entries without input for every property
     private suspend fun submit() {
+        val missingTag = tagQuery.value.takeIf(String::isNotBlank)?.let { Tag.User(it) }
         val input = EntryFormInput(
             entry = editing,
             dateTime = dateTime,
             measurements = measurements.value,
-            tags = tagSelection.value,
+            tags = tagSelection.value + listOfNotNull(missingTag),
             note = note.takeIf(String::isNotBlank),
             foodEaten = foodEaten.value,
         )

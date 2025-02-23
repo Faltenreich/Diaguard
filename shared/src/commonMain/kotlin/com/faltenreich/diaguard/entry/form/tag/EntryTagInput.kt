@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.entry.form.tag
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -43,7 +44,10 @@ fun EntryTagInput(
                 .fillMaxWidth()
                 .menuAnchor(type = MenuAnchorType.PrimaryEditable),
             maxLines = 1,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send ),
+            keyboardActions = KeyboardActions(
+                onSend = { onSuggestionSelected(Tag.User(name = input)) },
+            )
         )
 
         if (suggestions.isNotEmpty()) {

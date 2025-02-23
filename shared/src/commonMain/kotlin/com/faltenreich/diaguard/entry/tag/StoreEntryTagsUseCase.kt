@@ -2,14 +2,18 @@ package com.faltenreich.diaguard.entry.tag
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.tag.TagRepository
 
-class StoreEntryTagsUseCase(private val repository: EntryTagRepository) {
+class StoreEntryTagsUseCase(
+    private val tagRepository: TagRepository,
+    private val entryTagRepository: EntryTagRepository,
+) {
 
     operator fun invoke(
         tags: List<Tag>,
         entry: Entry.Local,
     ) {
-        val entryTagsFromBefore = repository.getByEntryId(entry.id)
+        val entryTagsFromBefore = entryTagRepository.getByEntryId(entry.id)
         createMissingEntryTags(tags, entry, entryTagsFromBefore)
         deleteObsoleteEntryTags(tags, entryTagsFromBefore)
     }
@@ -19,14 +23,20 @@ class StoreEntryTagsUseCase(private val repository: EntryTagRepository) {
         entry: Entry.Local,
         entryTagsFromBefore: List<EntryTag>,
     ) {
-        val missingTags = tags.filterIsInstance<Tag.Local>().filter { tag ->
+        val tagsByLocal = tags.filterIsInstance<Tag.Local>()
+        val tagsByUser = tags.filterIsInstance<Tag.User>().map { tag ->
+            tagsByLocal.firstOrNull { it.name == tag.name }
+                ?: tagRepository.getByName(tag.name)
+                ?: requireNotNull(tagRepository.create(tag).let(tagRepository::getById))
+        }
+        val missingTags = (tagsByLocal + tagsByUser).filter { tag ->
             entryTagsFromBefore.filterIsInstance<EntryTag.Local>().none { entryTag ->
                 entryTag.tag.id == tag.id
             }
         }
         missingTags.forEach { tag ->
             val entryTag = EntryTag.Intermediate(entry, tag)
-            repository.create(entryTag)
+            entryTagRepository.create(entryTag)
         }
     }
 
@@ -40,7 +50,7 @@ class StoreEntryTagsUseCase(private val repository: EntryTagRepository) {
             }
         }
         obsoleteEntryTags.forEach { entryTag ->
-            repository.deleteById(entryTag.id)
+            entryTagRepository.deleteById(entryTag.id)
         }
     }
 }

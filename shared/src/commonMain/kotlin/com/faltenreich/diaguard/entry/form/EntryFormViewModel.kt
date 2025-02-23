@@ -149,12 +149,17 @@ class EntryFormViewModel(
     private fun edit(update: MeasurementPropertyInputState) {
         measurements.update { measurements ->
             measurements.map { category ->
-                category.copy(propertyInputStates = category.propertyInputStates.map { legacy ->
-                    when (legacy.property) {
-                        update.property -> update
-                        else -> legacy
-                    }
-                })
+                category.copy(
+                    propertyInputStates = category.propertyInputStates.map { legacy ->
+                        when (legacy.property) {
+                            update.property -> update.copy(
+                                // Reset error on changing input
+                                error = null,
+                            )
+                            else -> legacy
+                        }
+                    },
+                )
             }
         }
     }

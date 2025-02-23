@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
@@ -18,6 +19,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry
 import diaguard.shared.generated.resources.entry_delete
 import diaguard.shared.generated.resources.ic_check
+import diaguard.shared.generated.resources.ic_clear
 import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.save
 import kotlinx.serialization.Serializable
@@ -59,6 +61,8 @@ data class EntryFormScreen(
                     foodId.takeIf { it >= 0 })
             },
         )
+        val hasError = viewModel.collectState()?.hasError == true
+
         return BottomAppBarStyle.Visible(
             actions = {
                 BottomAppBarItem(
@@ -68,9 +72,20 @@ data class EntryFormScreen(
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) }) {
+                FloatingActionButton(
+                    onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) },
+                    containerColor =
+                        if (hasError) AppTheme.colors.scheme.errorContainer
+                        else AppTheme.colors.scheme.onPrimary,
+                    contentColor =
+                        if (hasError) AppTheme.colors.scheme.onErrorContainer
+                        else AppTheme.colors.scheme.primary,
+                ) {
                     Icon(
-                        painter = painterResource(Res.drawable.ic_check),
+                        painter = painterResource(
+                            if (hasError) Res.drawable.ic_clear
+                            else Res.drawable.ic_check
+                        ),
                         contentDescription = getString(Res.string.save),
                     )
                 }

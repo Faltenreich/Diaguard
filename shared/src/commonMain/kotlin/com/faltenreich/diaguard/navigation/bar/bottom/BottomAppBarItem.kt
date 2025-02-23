@@ -14,6 +14,9 @@ fun BottomAppBarItem(
     onClick: () -> Unit,
 ){
     IconButton(onClick = onClick) {
-        Icon(painter, getString(contentDescription))
+        Icon(
+            painter = painter,
+            contentDescription = getString(contentDescription),
+        )
     }
 }

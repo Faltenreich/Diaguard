@@ -9,4 +9,7 @@ data class EntryFormState(
     val foodEaten: List<FoodEatenInputState>,
     val tags: List<Tag>,
     val error: String?,
-)
+) {
+
+    val hasError: Boolean = error != null || measurements.any { it.hasError }
+}

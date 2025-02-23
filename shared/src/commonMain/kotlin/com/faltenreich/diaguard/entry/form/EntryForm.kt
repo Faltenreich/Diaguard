@@ -73,125 +73,114 @@ fun EntryForm(
         }
     }
 
-    Column(modifier = modifier.fillMaxSize()) {
-        Column(modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .weight(1f),
+    Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+        Card(
+            modifier = Modifier.animateContentSize(),
+            shape = RectangleShape,
         ) {
-            Card(
-                modifier = Modifier.animateContentSize(),
-                shape = RectangleShape,
-            ) {
-                FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
-                    TextButton(
-                        onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectDate) },
-                        colors = ButtonDefaults.textButtonColors(
-                            contentColor = AppTheme.colors.scheme.onSurfaceVariant,
-                        ),
-                    ) {
-                        Text(viewModel.dateFormatted)
-                    }
-                    TextButton(
-                        onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectTime) },
-                        colors = ButtonDefaults.textButtonColors(
-                            contentColor = AppTheme.colors.scheme.onSurfaceVariant,
-                        ),
-                    ) {
-                        Text(viewModel.timeFormatted)
-                    }
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
+                TextButton(
+                    onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectDate) },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = AppTheme.colors.scheme.onSurfaceVariant,
+                    ),
+                ) {
+                    Text(viewModel.dateFormatted)
                 }
-
-                Divider()
-
-                FormRow(icon = { ResourceIcon(Res.drawable.ic_tag) }) {
-                    EntryTagInput(
-                        input = viewModel.tagQuery.collectAsState().value,
-                        onInputChange = { viewModel.tagQuery.value = it },
-                        suggestions = state?.tags ?: emptyList(),
-                        onSuggestionSelected = { tag ->
-                            viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
-                            viewModel.tagQuery.value = ""
-                        }
-                    )
-                }
-
-                if (tags.isNotEmpty()) {
-                    EntryTagList(
-                        tags = tags,
-                        onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
-                        trailingIcon = { tag ->
-                            ResourceIcon(
-                                icon = Res.drawable.ic_clear,
-                                contentDescription = getString(Res.string.tag_remove_description, tag.name),
-                                modifier = Modifier.size(InputChipDefaults.AvatarSize),
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = AppTheme.dimensions.padding.P_3 +
-                                    AppTheme.dimensions.padding.P_3 +
-                                    AppTheme.dimensions.padding.P_3 +
-                                    AppTheme.dimensions.size.ImageMedium,
-                                end = AppTheme.dimensions.padding.P_3,
-                                bottom = AppTheme.dimensions.padding.P_2,
-                            ),
-                    )
-                }
-
-                Divider()
-
-                FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
-                    TextInput(
-                        input = viewModel.note,
-                        onInputChange = { viewModel.note = it },
-                        placeholder = { Text(getString(Res.string.note)) },
-                        modifier = Modifier.fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
-                    )
-                }
-
-                Divider()
-
-                FormRow(icon = { ResourceIcon(Res.drawable.ic_alarm) }) {
-                    TextInput(
-                        input = viewModel.alarmDelayInMinutes?.toString() ?: "",
-                        onInputChange = { viewModel.alarmDelayInMinutes = it.toIntOrNull() },
-                        placeholder = { Text(getString(Res.string.alarm)) },
-                        suffix = { if (viewModel.alarmDelayInMinutes != null) Text(getString(Res.string.minutes_until_notification)) },
-                        modifier = Modifier.fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Number,
-                            imeAction = ImeAction.Next,
-                        ),
-                    )
+                TextButton(
+                    onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectTime) },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = AppTheme.colors.scheme.onSurfaceVariant,
+                    ),
+                ) {
+                    Text(viewModel.timeFormatted)
                 }
             }
 
-            val measurements = state?.measurements ?: emptyList()
-            AnimatedVisibility(
-                visible = measurements.isNotEmpty(),
-                enter = fadeIn(),
-            ) {
-                Column(
-                    modifier = Modifier.padding(AppTheme.dimensions.padding.P_2_5),
-                    verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2_5),
-                ) {
-                    measurements.forEach { measurement ->
-                        MeasurementCategoryInput(
-                            state = measurement,
-                            foodEaten = state?.foodEaten ?: emptyList(),
-                            onIntent = viewModel::dispatchIntent,
-                        )
+            Divider()
+
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_tag) }) {
+                EntryTagInput(
+                    input = viewModel.tagQuery.collectAsState().value,
+                    onInputChange = { viewModel.tagQuery.value = it },
+                    suggestions = state?.tags ?: emptyList(),
+                    onSuggestionSelected = { tag ->
+                        viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
+                        viewModel.tagQuery.value = ""
                     }
-                }
+                )
+            }
+
+            if (tags.isNotEmpty()) {
+                EntryTagList(
+                    tags = tags,
+                    onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
+                    trailingIcon = { tag ->
+                        ResourceIcon(
+                            icon = Res.drawable.ic_clear,
+                            contentDescription = getString(Res.string.tag_remove_description, tag.name),
+                            modifier = Modifier.size(InputChipDefaults.AvatarSize),
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = AppTheme.dimensions.padding.P_3 +
+                                AppTheme.dimensions.padding.P_3 +
+                                AppTheme.dimensions.padding.P_3 +
+                                AppTheme.dimensions.size.ImageMedium,
+                            end = AppTheme.dimensions.padding.P_3,
+                            bottom = AppTheme.dimensions.padding.P_2,
+                        ),
+                )
+            }
+
+            Divider()
+
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
+                TextInput(
+                    input = viewModel.note,
+                    onInputChange = { viewModel.note = it },
+                    placeholder = { Text(getString(Res.string.note)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
+                )
+            }
+
+            Divider()
+
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_alarm) }) {
+                TextInput(
+                    input = viewModel.alarmDelayInMinutes?.toString() ?: "",
+                    onInputChange = { viewModel.alarmDelayInMinutes = it.toIntOrNull() },
+                    placeholder = { Text(getString(Res.string.alarm)) },
+                    suffix = { if (viewModel.alarmDelayInMinutes != null) Text(getString(Res.string.minutes_until_notification)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next,
+                    ),
+                )
             }
         }
 
-        NoticeBar(
-            text = state?.error ?: "",
-            isVisible = state?.error != null,
-            style = NoticeBarStyle.ERROR,
-        )
+        val measurements = state?.measurements ?: emptyList()
+        AnimatedVisibility(
+            visible = measurements.isNotEmpty(),
+            enter = fadeIn(),
+        ) {
+            Column(
+                modifier = Modifier.padding(AppTheme.dimensions.padding.P_2_5),
+                verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2_5),
+            ) {
+                measurements.forEach { measurement ->
+                    MeasurementCategoryInput(
+                        state = measurement,
+                        foodEaten = state?.foodEaten ?: emptyList(),
+                        onIntent = viewModel::dispatchIntent,
+                    )
+                }
+            }
+        }
     }
 }

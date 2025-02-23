@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.Time
@@ -96,13 +95,10 @@ class EntryFormViewModel(
             getTagsByQuery(tagQuery, tagsSelected)
         }
 
-    private val error = MutableStateFlow<String?>(null)
-
     override val state = combine(
         measurements,
         foodEaten,
         tagSuggestions,
-        error,
         ::EntryFormState,
     )
 
@@ -117,16 +113,6 @@ class EntryFormViewModel(
         }
         scope.launch {
             tagSelection.value += getTagsOfEntry(editing)
-        }
-        scope.launch {
-            combine(
-                snapshotFlow { note },
-                measurements,
-                foodEaten,
-                tagQuery,
-            ) { /* Observe any user input */ }.collectLatest {
-                error.update { null }
-            }
         }
     }
 
@@ -205,7 +191,6 @@ class EntryFormViewModel(
             }
             is ValidationResult.Failure -> {
                 measurements.value = result.data.measurements
-                error.update { result.error }
             }
         }
     }

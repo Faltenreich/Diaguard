@@ -39,7 +39,6 @@ fun entryModule() = module {
         ValidateEntryFormInputUseCase(
             dispatcher = get(),
             ruleForEntryFormInput = ValidEntryFormInputRule(),
-            rulesForCategories = listOf(),
             rulesForProperties = listOf(RealisticMeasurementValueRule()),
         )
     }

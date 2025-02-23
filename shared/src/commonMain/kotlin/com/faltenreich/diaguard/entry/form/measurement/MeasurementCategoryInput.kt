@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -31,7 +32,7 @@ fun MeasurementCategoryInput(
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Card(modifier = modifier) {
+    Card(modifier = modifier.animateContentSize()) {
         Row(
             modifier = Modifier
                 .background(AppTheme.colors.scheme.surfaceContainerHigh)
@@ -67,6 +68,18 @@ fun MeasurementCategoryInput(
                 },
                 onIntent = onIntent,
             )
+            property.error?.let { error ->
+                Text(
+                    text = error,
+                    modifier = Modifier.padding(
+                        start = AppTheme.dimensions.padding.P_3,
+                        end = AppTheme.dimensions.padding.P_3,
+                        bottom = AppTheme.dimensions.padding.P_2,
+                    ),
+                    style = AppTheme.typography.bodySmall,
+                    color = AppTheme.colors.scheme.error,
+                )
+            }
         }
         if (state.category.isMeal) {
             foodEaten.forEach { data ->

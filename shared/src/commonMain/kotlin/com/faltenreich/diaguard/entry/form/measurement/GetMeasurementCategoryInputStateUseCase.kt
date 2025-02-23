@@ -45,7 +45,6 @@ class GetMeasurementCategoryInputStateUseCase(
                             decimalPlaces = decimalPlaces,
                         )
                     },
-                    error = null,
                 )
             }
         }

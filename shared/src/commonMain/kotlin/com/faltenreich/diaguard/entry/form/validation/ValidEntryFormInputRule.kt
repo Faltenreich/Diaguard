@@ -37,10 +37,6 @@ class ValidEntryFormInputRule(
     }
 
     private fun hasError(input: EntryFormInput): Boolean {
-        return input.measurements.any { category ->
-            category.error != null || category.propertyInputStates.any { property ->
-                property.error != null
-            }
-        }
+        return input.measurements.any { it.hasError }
     }
 }

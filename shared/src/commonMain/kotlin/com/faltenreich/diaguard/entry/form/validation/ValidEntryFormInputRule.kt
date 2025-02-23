@@ -30,7 +30,7 @@ class ValidEntryFormInputRule(
             input.note.isNullOrBlank() &&
             input.foodEaten.none { it.amountInGrams != null && it.amountInGrams > 0 } &&
             input.measurements.none { category ->
-                category.propertyInputStates.none { property ->
+                category.propertyInputStates.isNotEmpty() && category.propertyInputStates.none { property ->
                     property.input.isBlank()
                 }
             }

@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.tag.Tag
 
 @Composable
-fun EntryTagItem(
+fun EntryTagListItem(
     tag: Tag,
     onClick: (Tag) -> Unit,
     trailingIcon: @Composable (Tag) -> Unit,

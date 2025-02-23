@@ -19,7 +19,7 @@ fun EntryTagList(
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
     ) {
         tags.forEach { tag ->
-            EntryTagItem(
+            EntryTagListItem(
                 tag = tag,
                 onClick = onTagClick,
                 trailingIcon = trailingIcon,

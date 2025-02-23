@@ -21,6 +21,7 @@ fun FoodEatenInput(
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // TODO: Improve design
     TextInput(
         input = data.amountInGrams?.toString() ?: "",
         onInputChange = { input ->

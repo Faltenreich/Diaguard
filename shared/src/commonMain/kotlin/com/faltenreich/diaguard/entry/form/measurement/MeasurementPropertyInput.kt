@@ -16,7 +16,6 @@ import com.faltenreich.diaguard.shared.view.TextInput
 @Composable
 fun MeasurementPropertyInput(
     data: MeasurementPropertyInputState,
-    action: @Composable (() -> Unit)? = null,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -30,7 +29,6 @@ fun MeasurementPropertyInput(
         },
         modifier = modifier,
         placeholder = { Text(data.property.selectedUnit.abbreviation) },
-        trailingIcon = action,
         suffix = {
             if (data.property.name != data.property.category.name) {
                 Text(data.property.name)

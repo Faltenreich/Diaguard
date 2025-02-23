@@ -4,10 +4,8 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -20,10 +18,11 @@ import com.faltenreich.diaguard.food.eaten.FoodEatenInput
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.food_add
 import diaguard.shared.generated.resources.ic_search
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeasurementCategoryInput(
@@ -52,22 +51,28 @@ fun MeasurementCategoryInput(
             if (index != 0) {
                 Divider()
             }
-            MeasurementPropertyInput(
-                data = property,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(AppTheme.dimensions.padding.P_0_5),
-                action = if (state.category.isMeal) {
-                    {
-                        IconButton(onClick = { onIntent(EntryFormIntent.SelectFood) }) {
-                            ResourceIcon(Res.drawable.ic_search)
-                        }
+            Row(
+                modifier = Modifier.padding(AppTheme.dimensions.padding.P_0_5),
+                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                MeasurementPropertyInput(
+                    data = property,
+                    modifier = Modifier.weight(1f),
+                    onIntent = onIntent,
+                )
+                if (state.category.isMeal) {
+                    IconButton(
+                        onClick = { onIntent(EntryFormIntent.SelectFood) },
+                        modifier = Modifier.padding(end = AppTheme.dimensions.padding.P_1),
+                    ) {
+                        ResourceIcon(
+                            icon = Res.drawable.ic_search,
+                            contentDescription = stringResource(Res.string.food_add),
+                        )
                     }
-                } else {
-                    null
-                },
-                onIntent = onIntent,
-            )
+                }
+            }
             property.error?.let { error ->
                 Text(
                     text = error,
@@ -82,18 +87,15 @@ fun MeasurementCategoryInput(
             }
         }
         if (state.category.isMeal) {
-            foodEaten.forEach { data ->
+            foodEaten.forEachIndexed { index, data ->
                 Divider()
-                FormRow(
-                    modifier = Modifier.background(AppTheme.colors.scheme.surfaceVariant),
-                    icon = { Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ImageMedium)) }
-                ) {
-                    FoodEatenInput(
-                        data = data,
-                        modifier = Modifier.fillMaxWidth(),
-                        onIntent = onIntent,
-                    )
-                }
+                FoodEatenInput(
+                    data = data,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(AppTheme.dimensions.padding.P_1),
+                    onIntent = onIntent,
+                )
             }
         }
     }

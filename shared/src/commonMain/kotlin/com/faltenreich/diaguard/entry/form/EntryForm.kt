@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -77,7 +78,10 @@ fun EntryForm(
             .verticalScroll(rememberScrollState())
             .weight(1f),
         ) {
-            Card(shape = RectangleShape) {
+            Card(
+                modifier = Modifier.animateContentSize(),
+                shape = RectangleShape,
+            ) {
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
                     TextButton(
                         onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectDate) },
@@ -122,14 +126,16 @@ fun EntryForm(
                                 modifier = Modifier.size(InputChipDefaults.AvatarSize),
                             )
                         },
-                        modifier = Modifier.padding(
-                            start = AppTheme.dimensions.padding.P_3 +
-                                AppTheme.dimensions.padding.P_3 +
-                                AppTheme.dimensions.padding.P_3 +
-                                AppTheme.dimensions.size.ImageMedium,
-                            end = AppTheme.dimensions.padding.P_3,
-                            bottom = AppTheme.dimensions.padding.P_2,
-                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = AppTheme.dimensions.padding.P_3 +
+                                    AppTheme.dimensions.padding.P_3 +
+                                    AppTheme.dimensions.padding.P_3 +
+                                    AppTheme.dimensions.size.ImageMedium,
+                                end = AppTheme.dimensions.padding.P_3,
+                                bottom = AppTheme.dimensions.padding.P_2,
+                            ),
                     )
                 }
 

@@ -29,9 +29,13 @@ fun MeasurementPropertyInput(
             onIntent(EntryFormIntent.Edit(data.copy(input = input)))
         },
         modifier = modifier,
-        label = data.property.name,
+        placeholder = { Text(data.property.selectedUnit.abbreviation) },
         trailingIcon = action,
-        suffix = { Text(data.property.selectedUnit.abbreviation) },
+        suffix = {
+            if (data.property.name != data.property.category.name) {
+                Text(data.property.name)
+            }
+        },
         supportingText = data.error?.let { error -> { Text(error) } },
         isError = data.error != null,
         maxLines = 1,

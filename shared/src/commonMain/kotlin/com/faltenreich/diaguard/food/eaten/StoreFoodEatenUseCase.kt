@@ -19,7 +19,7 @@ class StoreFoodEatenUseCase(private val repository: FoodEatenRepository) {
         entry: Entry.Local,
     ) {
         foodEaten.forEach { now ->
-            val amountInGrams = now.amountInGrams ?: return@forEach
+            val amountInGrams = now.amountInGrams.toDoubleOrNull() ?: return@forEach
             val legacy = foodEatenBefore.firstOrNull { before -> before.food.id == now.food.id }
             when (legacy) {
                 null -> repository.create(

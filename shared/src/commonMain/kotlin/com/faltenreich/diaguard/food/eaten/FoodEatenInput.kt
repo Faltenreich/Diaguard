@@ -28,10 +28,9 @@ fun FoodEatenInput(
     modifier: Modifier = Modifier,
 ) {
     TextInput(
-        // TODO: Format via ViewModel
-        input = data.amountInGrams?.toString() ?: "",
+        input = data.amountInGrams,
         onInputChange = { input ->
-            onIntent(EntryFormIntent.EditFood(data.copy(amountInGrams = input.toDoubleOrNull())))
+            onIntent(EntryFormIntent.EditFood(data.copy(amountInGrams = input)))
         },
         label = data.food.name,
         modifier = modifier.padding(vertical = AppTheme.dimensions.padding.P_1),

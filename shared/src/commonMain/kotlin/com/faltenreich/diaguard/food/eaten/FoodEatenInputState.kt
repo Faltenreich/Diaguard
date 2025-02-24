@@ -4,5 +4,5 @@ import com.faltenreich.diaguard.food.Food
 
 data class FoodEatenInputState(
     val food: Food.Local,
-    val amountInGrams: Double? = null,
+    val amountInGrams: String = "",
 )

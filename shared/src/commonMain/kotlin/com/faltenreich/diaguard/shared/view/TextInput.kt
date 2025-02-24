@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +28,13 @@ fun TextInput(
     maxLines: Int = Int.MAX_VALUE,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    // Removes borders but leaves additional bottom padding
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
+        focusedBorderColor = Color.Transparent,
+        unfocusedBorderColor = Color.Transparent,
+        disabledBorderColor = Color.Transparent,
+        errorBorderColor = Color.Transparent,
+    ),
 ) {
     OutlinedTextField(
         value = input,
@@ -46,12 +54,6 @@ fun TextInput(
         singleLine = maxLines == 1,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
-        // Workaround: Removes borders but leaves additional bottom padding
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.Transparent,
-            unfocusedBorderColor = Color.Transparent,
-            disabledBorderColor = Color.Transparent,
-            errorBorderColor = Color.Transparent,
-        ),
+        colors = colors,
     )
 }

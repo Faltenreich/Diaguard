@@ -25,6 +25,7 @@ fun FoodSearchHeader(modifier: Modifier = Modifier) {
             color = AppTheme.colors.scheme.onPrimary,
             style = AppTheme.typography.bodyMedium,
         )
+        // TODO: Convert into selected unit
         Text(
             text = getString(Res.string.carbohydrates_per_100g),
             color = AppTheme.colors.scheme.onPrimary,

@@ -109,6 +109,7 @@
     <string name="food_edit">Edit food</string>
     <string name="food_form_missing_input">Name and carbohydrates must not be empty</string>
     <string name="food_info">Info</string>
+    <string name="food_input_value_per_100g">%s %s per 100 g</string>
     <string name="food_new">New food</string>
     <string name="food_preferences_none_selected">Food is currently hidden until at least one category is checked.</string>
     <string name="food_preferences_open">Open food preferences</string>

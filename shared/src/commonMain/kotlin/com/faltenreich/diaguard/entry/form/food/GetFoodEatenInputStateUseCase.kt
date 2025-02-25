@@ -11,13 +11,14 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
-import kotlinx.coroutines.CoroutineDispatcher
+import com.faltenreich.diaguard.shared.primitive.format
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.food_input_value_per_100g
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.map
 
 class GetFoodEatenInputStateUseCase(
-    private val dispatcher: CoroutineDispatcher,
     private val getFoodEatenForEntry: GetFoodEatenForEntryUseCase,
     private val propertyRepository: MeasurementPropertyRepository,
     private val getPreference: GetPreferenceUseCase,
@@ -26,19 +27,22 @@ class GetFoodEatenInputStateUseCase(
     private val localization: Localization,
 ) {
 
-    suspend operator fun invoke(entry: Entry.Local): Flow<List<FoodEatenInputState>> = withContext(dispatcher) {
-        combine(
+    operator fun invoke(entry: Entry.Local): Flow<List<FoodEatenInputState>> {
+        // TODO: Reuse getAmountPer100g
+        return combine(
             propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.MEAL),
             getPreference(DecimalPlacesPreference),
         ) { property, decimalPlaces ->
             getFoodEatenForEntry(entry).map { foodEaten ->
+                val amountPer100g = valueMapper(
+                    value = foodEaten.food.carbohydrates,
+                    unit = requireNotNull(property).selectedUnit,
+                    decimalPlaces = decimalPlaces,
+                ).value
                 FoodEatenInputState(
                     food = foodEaten.food,
-                    amountPer100g = valueMapper(
-                        value = foodEaten.food.carbohydrates,
-                        unit = requireNotNull(property).selectedUnit,
-                        decimalPlaces = decimalPlaces,
-                    ).value,
+                    amountPer100g = localization.getString(Res.string.food_input_value_per_100g)
+                        .format(amountPer100g, property.selectedUnit.abbreviation),
                     amountInGrams = numberFormatter(
                         number = foodEaten.amountInGrams,
                         scale = decimalPlaces,
@@ -49,20 +53,28 @@ class GetFoodEatenInputStateUseCase(
         }
     }
 
-    suspend operator fun invoke(food: Food.Local): Flow<FoodEatenInputState> = withContext(dispatcher) {
-        combine(
+    operator fun invoke(food: Food.Local): Flow<FoodEatenInputState> {
+        return getAmountPer100g(food.carbohydrates).map { amountPer100g ->
+            FoodEatenInputState(
+                food = food,
+                amountPer100g = amountPer100g,
+                amountInGrams = "",
+            )
+        }
+    }
+
+    private fun getAmountPer100g(carbohydrates: Double): Flow<String> {
+        return combine(
             propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.MEAL),
             getPreference(DecimalPlacesPreference),
         ) { property, decimalPlaces ->
-            FoodEatenInputState(
-                food = food,
-                amountPer100g = valueMapper(
-                    value = food.carbohydrates,
-                    unit = requireNotNull(property).selectedUnit,
-                    decimalPlaces = decimalPlaces,
-                ).value,
-                amountInGrams = "",
-            )
+            val valueLocalized = valueMapper(
+                value = carbohydrates,
+                unit = requireNotNull(property).selectedUnit,
+                decimalPlaces = decimalPlaces,
+            ).value
+            localization.getString(Res.string.food_input_value_per_100g)
+                .format(valueLocalized, property.selectedUnit.abbreviation)
         }
     }
 }

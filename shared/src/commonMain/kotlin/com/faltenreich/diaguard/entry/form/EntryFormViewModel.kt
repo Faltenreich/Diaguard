@@ -44,11 +44,11 @@ class EntryFormViewModel(
     foodId: Long? = null,
     getEntryById: GetEntryByIdUseCase = inject(),
     private val getFoodById: GetFoodByIdUseCase = inject(),
-    getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
+    private val getFoodEatenInputState: GetFoodEatenInputStateUseCase = inject(),
     getMeasurementCategoryInputState: GetMeasurementCategoryInputStateUseCase = inject(),
-    getFoodEatenInputState: GetFoodEatenInputStateUseCase = inject(),
     getTagsOfEntry: GetTagsOfEntry = inject(),
     getTagsByQuery: GetTagsByQueryUseCase = inject(),
+    getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
     private val showModal: OpenModalUseCase = inject(),
@@ -83,7 +83,7 @@ class EntryFormViewModel(
 
     private val measurements = MutableStateFlow((emptyList<MeasurementCategoryInputState>()))
 
-    private val foodEaten = MutableStateFlow(listOfNotNull(food?.let(::FoodEatenInputState)))
+    private val foodEaten = MutableStateFlow(emptyList<FoodEatenInputState>())
 
     var tagQuery = MutableStateFlow("")
     var tagSelection = MutableStateFlow(emptyList<Tag>())
@@ -109,7 +109,18 @@ class EntryFormViewModel(
             }
         }
         scope.launch {
-            foodEaten.value += getFoodEatenInputState(editing)
+            editing?.let { food ->
+                getFoodEatenInputState(food).collectLatest {
+                    foodEaten.value += it
+                }
+            }
+        }
+        scope.launch {
+            food?.let { food ->
+                getFoodEatenInputState(food).collectLatest {
+                    foodEaten.value += it
+                }
+            }
         }
         scope.launch {
             tagSelection.value += getTagsOfEntry(editing)
@@ -219,8 +230,10 @@ class EntryFormViewModel(
         pushScreen(FoodSearchScreen(mode = FoodSearchMode.FIND))
     }
 
-    private fun addFood(food: Food.Local) {
-        foodEaten.update { foodEaten -> foodEaten + FoodEatenInputState(food) }
+    private suspend fun addFood(food: Food.Local) {
+        getFoodEatenInputState(food).collectLatest {
+            foodEaten.update { foodEaten -> foodEaten + it }
+        }
     }
 
     private fun editFood(food: FoodEatenInputState) {

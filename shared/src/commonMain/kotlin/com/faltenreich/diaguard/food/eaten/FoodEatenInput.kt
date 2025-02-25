@@ -45,10 +45,9 @@ fun FoodEatenInput(
         },
         supportingText = {
             Text(
-                "%.2f %s".format(
-                    // TODO: Convert into selected unit
-                    // valueFormatter.formatValue(data.food.carbohydrates, factor)
-                    data.food.carbohydrates,
+                "%s %s".format(
+                    data.amountPer100g,
+                    // TODO: Format with selected unit
                     getString(Res.string.carbohydrates_per_100g)
                 ),
             )

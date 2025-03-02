@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 public class DatePicker {
 
@@ -29,7 +30,7 @@ public class DatePicker {
             .build();
         if (callback != null) {
             picker.addOnNegativeButtonClickListener(view -> callback.accept(null));
-            picker.addOnPositiveButtonClickListener(selection -> callback.accept(new DateTime(selection)));
+            picker.addOnPositiveButtonClickListener(selection -> callback.accept(new DateTime(selection, DateTimeZone.UTC)));
         }
         picker.show(fragmentManager, null);
     }

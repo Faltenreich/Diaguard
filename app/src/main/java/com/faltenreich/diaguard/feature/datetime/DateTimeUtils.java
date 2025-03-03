@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.R;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
 import org.joda.time.IllegalFieldValueException;
 import org.joda.time.format.DateTimeFormat;
 
@@ -22,6 +23,15 @@ public class DateTimeUtils {
             // Fixes IllegalFieldValueException on Motorola Moto G6 Play
             return dateTime;
         }
+    }
+
+    /**
+     * Removes offset to prevent divergent day for negative time zones,
+     * e.g. when converting UTC- to local date time from MaterialDate(Range)Picker
+     */
+    public static DateTime atStartOfDayWithoutTimeZoneOffset(DateTime dateTime) {
+        int offsetInMillis = DateTimeZone.getDefault().getOffset(dateTime);
+        return dateTime.minusMillis(offsetInMillis);
     }
 
     public static DateTime atEndOfDay(DateTime dateTime) {

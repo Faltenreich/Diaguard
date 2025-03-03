@@ -3,8 +3,8 @@ package com.faltenreich.diaguard.shared.view
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 
 @Composable
 actual fun rememberLifecycleState(): LifecycleState {

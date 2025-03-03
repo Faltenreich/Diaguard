@@ -3,16 +3,11 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -37,10 +32,7 @@ import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
-import com.faltenreich.diaguard.shared.view.NoticeBar
-import com.faltenreich.diaguard.shared.view.NoticeBarStyle
 import com.faltenreich.diaguard.shared.view.ResourceIcon
-import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.alarm
@@ -52,8 +44,6 @@ import diaguard.shared.generated.resources.ic_time
 import diaguard.shared.generated.resources.minutes_until_notification
 import diaguard.shared.generated.resources.note
 import diaguard.shared.generated.resources.tag_remove_description
-import diaguard.shared.generated.resources.values
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun EntryForm(

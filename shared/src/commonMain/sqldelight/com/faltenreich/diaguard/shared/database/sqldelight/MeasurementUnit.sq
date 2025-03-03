@@ -24,12 +24,6 @@ INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 WHERE MeasurementUnit.id = ?;
 
-getByKey:
-SELECT * FROM MeasurementUnit
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
- WHERE MeasurementUnit.key = ?;
-
 getByProperty:
 SELECT * FROM MeasurementUnit
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId

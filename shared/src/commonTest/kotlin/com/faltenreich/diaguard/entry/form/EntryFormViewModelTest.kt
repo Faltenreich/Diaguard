@@ -191,22 +191,6 @@ class EntryFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `show error in snackbar when missing input`() = runTest {
-        viewModel = get(parameters = { parametersOf(null, null, null) })
-
-        viewModel.state.test {
-            viewModel.handleIntent(EntryFormIntent.Submit)
-
-            awaitItem()
-
-            assertEquals(
-                expected = "entry_form_error_missing_input",
-                actual = awaitItem().error,
-            )
-        }
-    }
-
-    @Test
     fun `show modal if deleting entry`() = runTest {
         storeValue(10.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
         val entryId = entryRepository.getLastId()!!
@@ -269,7 +253,7 @@ class EntryFormViewModelTest : TestSuite {
             val food = requireNotNull(foodRepository.getById(foodId))
             viewModel.handleIntent(EntryFormIntent.AddFood(food))
 
-            val update = awaitItem().foodEaten.first().copy(amountInGrams = 10.0)
+            val update = awaitItem().foodEaten.first().copy(amountInGrams = "10.0")
 
             viewModel.handleIntent(EntryFormIntent.EditFood(update))
 

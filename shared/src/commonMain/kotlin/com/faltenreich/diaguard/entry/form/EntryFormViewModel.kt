@@ -109,17 +109,8 @@ class EntryFormViewModel(
             }
         }
         scope.launch {
-            editing?.let { food ->
-                getFoodEatenInputState(food).collectLatest {
-                    foodEaten.value += it
-                }
-            }
-        }
-        scope.launch {
-            food?.let { food ->
-                getFoodEatenInputState(food).collectLatest {
-                    foodEaten.value += it
-                }
+            getFoodEatenInputState(entry = editing, food = food).collectLatest {
+                foodEaten.value += it
             }
         }
         scope.launch {

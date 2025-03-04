@@ -29,7 +29,7 @@ class InvalidateLogDayStickyHeaderInfoUseCase {
         val offset = when (nextItem?.key) {
             is LogKey.Header -> -dayHeaderSize.height
             is LogKey.Item -> min(monthHeaderSize.height, nextItem.offset - dayHeaderSize.height)
-            else -> -dayHeaderSize.height
+            else -> monthHeaderSize.height
         }
 
         val overlap = -(offset - monthHeaderSize.height)

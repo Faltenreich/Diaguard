@@ -28,7 +28,7 @@ SELECT * FROM FoodEaten
 INNER JOIN Food ON Food.id == FoodEaten.foodId
 INNER JOIN Entry ON Entry.id == FoodEaten.entryId
 WHERE FoodEaten.entryId = ?
-ORDER BY FoodEaten.updatedAt DESC;
+ORDER BY Food.name ASC;
 
 update:
 UPDATE FoodEaten

@@ -29,6 +29,7 @@ class LogPagingSource(
     private val today = getTodayUseCase()
 
     override fun getRefreshKey(state: PagingState<Date, LogItemState>): Date? {
+        // FIXME: Jumps sometimes to previous month
         return state.closestItemToPosition(0)?.date
     }
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormIntent
+import com.faltenreich.diaguard.shared.view.Divider
 
 @Composable
 fun MeasurementUnitList(
@@ -13,7 +14,10 @@ fun MeasurementUnitList(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        items.forEach { item ->
+        items.forEachIndexed { index, item ->
+            if (index != 0) {
+                Divider()
+            }
             MeasurementUnitListItem(
                 state = item,
                 modifier = Modifier.clickable {

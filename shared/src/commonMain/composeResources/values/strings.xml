@@ -4,6 +4,7 @@
     <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="aggregation_style">Aggregation</string>
+    <string name="aggregation_style_description">How multiple values are added together</string>
     <string name="aggregation_style_cumulative">Cumulative</string>
     <string name="aggregation_style_average">Average</string>
     <string name="alarm">Alarm</string>

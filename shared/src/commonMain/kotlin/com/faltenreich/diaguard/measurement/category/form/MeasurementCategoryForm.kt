@@ -9,11 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
@@ -46,51 +44,49 @@ fun MeasurementCategoryForm(
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
-        Card(shape = RectangleShape) {
-            TextInput(
-                input = name,
-                onInputChange = { viewModel.name.value = it },
-                label = getString(Res.string.name),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = AppTheme.dimensions.padding.P_0,
-                        top = AppTheme.dimensions.padding.P_3,
-                        end = AppTheme.dimensions.padding.P_0,
-                        bottom = AppTheme.dimensions.padding.P_0,
-                    ),
+        TextInput(
+            input = name,
+            onInputChange = { viewModel.name.value = it },
+            label = getString(Res.string.name),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = AppTheme.dimensions.padding.P_0,
+                    top = AppTheme.dimensions.padding.P_3,
+                    end = AppTheme.dimensions.padding.P_0,
+                    bottom = AppTheme.dimensions.padding.P_0,
+                ),
+        )
+
+        Divider()
+
+        FormRow(
+            modifier = Modifier
+                .clickable { viewModel.dispatchIntent(MeasurementCategoryFormIntent.OpenIconPicker) }
+                .fillMaxWidth(),
+        ) {
+            Text(
+                text = stringResource(Res.string.icon),
+                modifier = Modifier.weight(1f),
             )
+            MeasurementCategoryIcon(
+                icon = icon,
+                fallback = name,
+            )
+        }
 
-            Divider()
+        Divider()
 
-            FormRow(
-                modifier = Modifier
-                    .clickable { viewModel.dispatchIntent(MeasurementCategoryFormIntent.OpenIconPicker) }
-                    .fillMaxWidth(),
-            ) {
-                Text(
-                    text = stringResource(Res.string.icon),
-                    modifier = Modifier.weight(1f),
-                )
-                MeasurementCategoryIcon(
-                    icon = icon,
-                    fallback = name,
-                )
-            }
-
-            Divider()
-
-            FormRow {
-                TextCheckbox(
-                    title = stringResource(Res.string.measurement_category_visibility),
-                    subtitle = stringResource(
-                        if (isActive) Res.string.measurement_category_visibility_visible
-                        else Res.string.measurement_category_visibility_hidden
-                    ),
-                    checked = isActive,
-                    onCheckedChange = { viewModel.isActive.value = it },
-                )
-            }
+        FormRow {
+            TextCheckbox(
+                title = stringResource(Res.string.measurement_category_visibility),
+                subtitle = stringResource(
+                    if (isActive) Res.string.measurement_category_visibility_visible
+                    else Res.string.measurement_category_visibility_hidden
+                ),
+                checked = isActive,
+                onCheckedChange = { viewModel.isActive.value = it },
+            )
         }
 
         AnimatedVisibility(

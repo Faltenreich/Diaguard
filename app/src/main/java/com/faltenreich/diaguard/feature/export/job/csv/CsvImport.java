@@ -29,7 +29,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryDeprecated;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.opencsv.CSVParserBuilder;
+import com.opencsv.RFC4180ParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
@@ -71,7 +71,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         try {
             CSVReader reader = new CSVReaderBuilder(new InputStreamReader(inputStream))
-                .withCSVParser(new CSVParserBuilder()
+                .withCSVParser(new RFC4180ParserBuilder()
                     .withSeparator(CsvMeta.CSV_DELIMITER)
                     .build())
                 .build();

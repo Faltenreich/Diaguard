@@ -81,9 +81,6 @@ def retrofit = "2.9.0"
 dependencies {
     implementation project(":pdfjet")
 
-    // Workaround: Fix duplicate class caused by dependencies using different Kotlin versions
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.20"))
-
     testImplementation "junit:junit:4.13.2"
     testImplementation "androidx.test.ext:junit:1.2.1"
     testImplementation "androidx.test.espresso:espresso-core:$espresso"
@@ -99,18 +96,15 @@ dependencies {
     androidTestImplementation "androidx.test:runner:1.6.2"
     androidTestUtil "androidx.test:orchestrator:1.5.1"
 
-    // Workaround: Force updated version to fix build error on archiving
-    // https://stackoverflow.com/questions/69817925/problem-duplicate-class-androidx-lifecycle-viewmodel-found-in-modules
-    implementation "androidx.appcompat:appcompat:1.6.1"
-    implementation "com.google.android.material:material:1.9.0"
+    implementation "com.google.android.material:material:1.12.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "androidx.constraintlayout:constraintlayout:2.2.1"
     implementation "androidx.preference:preference:1.2.1"
 
     implementation "com.j256.ormlite:ormlite-core:$ormLite"
     implementation "com.j256.ormlite:ormlite-android:$ormLite"
     implementation "net.danlew:android.joda:$jodaTime"
-    implementation "org.greenrobot:eventbus:3.2.0"
+    implementation "org.greenrobot:eventbus:3.3.1"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     // Workaround: Force obsolete version of OkHttp to fix crash on Android 4
@@ -118,15 +112,17 @@ dependencies {
     // noinspection GradleDependency
     implementation("com.squareup.okhttp3:okhttp") { version { strictly "3.12.8" } }
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-    implementation "com.google.code.gson:gson:2.8.9"
+    implementation "com.google.code.gson:gson:2.10.1"
 
+    // Newer versions do not support XML views
+    // noinspection GradleDependency
     implementation "com.mikepenz:aboutlibraries-core:$aboutLibrariesVersion"
     implementation "com.mikepenz:aboutlibraries:$aboutLibrariesVersion"
 
     implementation "org.apache.commons:commons-text:1.10.0"
     // Workaround: Versioning is currently broken
     // https://github.com/square/picasso/issues/2179
-    //noinspection GradleDependency
+    // noinspection GradleDependency
     implementation "com.squareup.picasso:picasso:2.8"
     implementation "com.opencsv:opencsv:5.8"
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"

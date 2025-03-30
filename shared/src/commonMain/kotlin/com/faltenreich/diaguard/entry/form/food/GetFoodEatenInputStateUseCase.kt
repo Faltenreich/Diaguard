@@ -34,7 +34,7 @@ class GetFoodEatenInputStateUseCase(
         food: Food.Local?,
     ): Flow<List<FoodEatenInputState>> {
         return combine(
-            propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.MEAL).map(::requireNotNull),
+            propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.MEAL).map(::checkNotNull),
             getPreference(DecimalPlacesPreference),
         ) { property, decimalPlaces ->
             val foodInputForEntry = entry?.let {
@@ -71,7 +71,7 @@ class GetFoodEatenInputStateUseCase(
 
     operator fun invoke(food: Food.Local): Flow<FoodEatenInputState> {
         return combine(
-            propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.MEAL).map(::requireNotNull),
+            propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.MEAL).map(::checkNotNull),
             getPreference(DecimalPlacesPreference),
         ) { property, decimalPlaces ->
             FoodEatenInputState(
@@ -93,7 +93,7 @@ class GetFoodEatenInputStateUseCase(
     ): String {
         val valueLocalized = valueMapper(
             value = carbohydrates,
-            unit = requireNotNull(property).selectedUnit,
+            unit = property.selectedUnit,
             decimalPlaces = decimalPlaces,
         ).value
         return localization

@@ -37,7 +37,7 @@ class TagDetailViewModel(
 
     override val state = emptyFlow<Unit>()
 
-    private val tag: Tag.Local = requireNotNull(getTagById(tagId))
+    private val tag: Tag.Local = checkNotNull(getTagById(tagId))
 
     var name: String by mutableStateOf(tag.name)
     var error: String? by mutableStateOf(null)

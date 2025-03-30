@@ -144,7 +144,11 @@ fun EntryForm(
                     input = viewModel.alarmDelayInMinutes?.toString() ?: "",
                     onInputChange = { viewModel.alarmDelayInMinutes = it.toIntOrNull() },
                     placeholder = { Text(getString(Res.string.alarm)) },
-                    suffix = { if (viewModel.alarmDelayInMinutes != null) Text(getString(Res.string.minutes_until_notification)) },
+                    suffix = {
+                        if (viewModel.alarmDelayInMinutes != null) {
+                            Text(getString(Res.string.minutes_until_notification))
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,

@@ -50,7 +50,7 @@ class TagListViewModelTest : TestSuite {
 
     @Test
     fun `push screen when intending to open tag`() = runTest {
-        val tag = requireNotNull(tagRepository.getByName(TAG.name))
+        val tag = checkNotNull(tagRepository.getByName(TAG.name))
 
         navigation.events.test {
             viewModel.handleIntent(TagListIntent.OpenTag(tag))

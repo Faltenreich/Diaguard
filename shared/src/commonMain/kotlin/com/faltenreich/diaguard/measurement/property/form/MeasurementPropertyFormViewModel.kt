@@ -43,7 +43,7 @@ class MeasurementPropertyFormViewModel(
     private val numberFormatter: NumberFormatter = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
-    private val property = requireNotNull(getPropertyByIdUseCase(propertyId))
+    private val property = checkNotNull(getPropertyByIdUseCase(propertyId))
 
     var propertyName = MutableStateFlow(property.name)
     var selectedUnit = MutableStateFlow(property.selectedUnit)

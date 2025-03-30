@@ -29,7 +29,7 @@ class MeasurementCategoryFormViewModel(
     private val localization: Localization = inject(),
 ) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
 
-    val category: MeasurementCategory.Local = requireNotNull(getCategoryBdId(categoryId))
+    val category: MeasurementCategory.Local = checkNotNull(getCategoryBdId(categoryId))
 
     var icon = MutableStateFlow(category.icon)
     var name = MutableStateFlow(category.name)

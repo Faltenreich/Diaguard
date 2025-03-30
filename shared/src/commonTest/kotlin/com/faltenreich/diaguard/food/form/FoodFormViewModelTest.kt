@@ -34,7 +34,7 @@ class FoodFormViewModelTest : TestSuite {
         super.beforeTest()
 
         val foodId = foodRepository.create(FoodFactory.createByUser())
-        food = requireNotNull(foodRepository.getById(foodId))
+        food = checkNotNull(foodRepository.getById(foodId))
     }
 
     @Test

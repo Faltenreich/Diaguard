@@ -15,7 +15,7 @@ class FoodEatenListViewModel(
     private val pushScreen: PushScreenUseCase = inject(),
 ) : ViewModel<FoodEatenListState, FoodEatenListIntent, Unit>() {
 
-    val food: Food.Local = requireNotNull(getFoodById(foodId))
+    val food: Food.Local = checkNotNull(getFoodById(foodId))
 
     override val state = getFoodEaten(food).map { results ->
         when {

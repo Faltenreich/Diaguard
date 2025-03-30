@@ -42,7 +42,7 @@ class FoodSearchViewModelTest : TestSuite {
     @Test
     fun `push screen when intending to open food`() = runTest {
         val foodId = foodRepository.create(FoodFactory.createByUser())
-        val food = requireNotNull(foodRepository.getById(foodId))
+        val food = checkNotNull(foodRepository.getById(foodId))
 
         navigation.events.test {
             viewModel.handleIntent(FoodSearchIntent.OpenFood(food))

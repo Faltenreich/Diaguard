@@ -234,7 +234,7 @@ class EntryFormViewModelTest : TestSuite {
 
         viewModel.state.test {
             val foodId = foodRepository.create(FoodFactory.createByUser())
-            val food = requireNotNull(foodRepository.getById(foodId))
+            val food = checkNotNull(foodRepository.getById(foodId))
             viewModel.handleIntent(EntryFormIntent.AddFood(food))
 
             assertEquals(
@@ -250,7 +250,7 @@ class EntryFormViewModelTest : TestSuite {
 
         viewModel.state.test {
             val foodId = foodRepository.create(FoodFactory.createByUser())
-            val food = requireNotNull(foodRepository.getById(foodId))
+            val food = checkNotNull(foodRepository.getById(foodId))
             viewModel.handleIntent(EntryFormIntent.AddFood(food))
 
             val update = awaitItem().foodEaten.first().copy(amountInGrams = "10.0")
@@ -270,7 +270,7 @@ class EntryFormViewModelTest : TestSuite {
 
         viewModel.state.test {
             val foodId = foodRepository.create(FoodFactory.createByUser())
-            val food = requireNotNull(foodRepository.getById(foodId))
+            val food = checkNotNull(foodRepository.getById(foodId))
             viewModel.handleIntent(EntryFormIntent.AddFood(food))
 
             val foodInput = awaitItem().foodEaten.first()

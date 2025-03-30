@@ -27,7 +27,7 @@ class StoreEntryTagsUseCase(
         val tagsByUser = tags.filterIsInstance<Tag.User>().map { tag ->
             tagsByLocal.firstOrNull { it.name == tag.name }
                 ?: tagRepository.getByName(tag.name)
-                ?: requireNotNull(tagRepository.create(tag).let(tagRepository::getById))
+                ?: checkNotNull(tagRepository.create(tag).let(tagRepository::getById))
         }
         val missingTags = (tagsByLocal + tagsByUser).filter { tag ->
             entryTagsFromBefore.filterIsInstance<EntryTag.Local>().none { entryTag ->

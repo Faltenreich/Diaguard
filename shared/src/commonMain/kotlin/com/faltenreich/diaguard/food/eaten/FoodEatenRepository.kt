@@ -35,6 +35,10 @@ class FoodEatenRepository(
         return dao.observeByFoodId(foodId)
     }
 
+    fun observeByEntryId(entryId: Long): Flow<List<FoodEaten.Local>> {
+        return dao.observeByEntryId(entryId)
+    }
+
     fun getByEntryId(entryId: Long): List<FoodEaten.Local> {
         return dao.getByEntryId(entryId)
     }

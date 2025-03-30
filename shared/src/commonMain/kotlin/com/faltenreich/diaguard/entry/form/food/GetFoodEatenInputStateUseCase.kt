@@ -17,6 +17,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_input_value_per_100g
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 // TODO: Prevent redundant fetch of MeasurementProperty and DecimalPlaces
@@ -34,26 +35,25 @@ class GetFoodEatenInputStateUseCase(
         food: Food.Local?,
     ): Flow<List<FoodEatenInputState>> {
         return combine(
+            entry?.let(getFoodEatenForEntry::invoke) ?: flowOf(emptyList()),
             propertyRepository.observeByKey(DatabaseKey.MeasurementProperty.MEAL).map(::checkNotNull),
             getPreference(DecimalPlacesPreference),
-        ) { property, decimalPlaces ->
-            val foodInputForEntry = entry?.let {
-                getFoodEatenForEntry(entry).map { foodEaten ->
-                    FoodEatenInputState(
-                        food = foodEaten.food,
-                        amountPer100g = getAmountPer100g(
-                            carbohydrates = foodEaten.food.carbohydrates,
-                            property = property,
-                            decimalPlaces = decimalPlaces,
-                        ),
-                        amountInGrams = numberFormatter(
-                            number = foodEaten.amountInGrams,
-                            scale = decimalPlaces,
-                            locale = localization.getLocale(),
-                        ),
-                    )
-                }
-            } ?: emptyList()
+        ) { foodEatenForEntry, property, decimalPlaces ->
+            val foodInputForEntry = foodEatenForEntry.map { foodEaten ->
+                FoodEatenInputState(
+                    food = foodEaten.food,
+                    amountPer100g = getAmountPer100g(
+                        carbohydrates = foodEaten.food.carbohydrates,
+                        property = property,
+                        decimalPlaces = decimalPlaces,
+                    ),
+                    amountInGrams = numberFormatter(
+                        number = foodEaten.amountInGrams,
+                        scale = decimalPlaces,
+                        locale = localization.getLocale(),
+                    ),
+                )
+            }
             val foodInputForFood = food?.let {
                 FoodEatenInputState(
                     food = food,

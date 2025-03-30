@@ -86,7 +86,8 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-core:$espresso"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
     testImplementation "joda-time:joda-time:$jodaTime"
-    debugImplementation "androidx.fragment:fragment-testing:1.8.6"
+    debugImplementation "androidx.fragment:fragment-testing-manifest:1.8.6"
+    androidTestImplementation "androidx.fragment:fragment-testing:1.8.6"
 
     androidTestImplementation "com.google.guava:guava:32.1.2-android"
     androidTestImplementation "junit:junit:4.13.2"

@@ -4,16 +4,19 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitList
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
@@ -23,9 +26,12 @@ import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.aggregation_style
 import diaguard.shared.generated.resources.aggregation_style_description
+import diaguard.shared.generated.resources.ic_check
 import diaguard.shared.generated.resources.measurement_unit
+import diaguard.shared.generated.resources.measurement_unit_selected_description
 import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.values
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -58,22 +64,12 @@ fun MeasurementPropertyForm(
 
             if (state.units.isNotEmpty()) {
                 TextDivider(getString(Res.string.measurement_unit))
-                MeasurementUnitList(
-                    items = state.units,
-                    onIntent = { intent -> viewModel.dispatchIntent(intent) },
-                )
+                UnitList(state, onIntent = viewModel::dispatchIntent)
             } else {
                 Divider()
-                TextInput(
+                UnitInput(
                     input = viewModel.unitName.collectAsState().value,
                     onInputChange = { viewModel.unitName.value = it },
-                    label = getString(Res.string.measurement_unit),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = AppTheme.dimensions.padding.P_1,
-                            vertical = AppTheme.dimensions.padding.P_3,
-                        ),
                 )
             }
 
@@ -98,4 +94,65 @@ fun MeasurementPropertyForm(
             )
         }
     }
+}
+
+@Composable
+private fun UnitList(
+    state: MeasurementPropertyFormState,
+    onIntent: (MeasurementPropertyFormIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
+        state.units.forEachIndexed { index, item ->
+            if (index != 0) {
+                Divider()
+            }
+            FormRow(
+                modifier = modifier.clickable {
+                    onIntent(MeasurementPropertyFormIntent.SelectUnit(item.unit))
+                },
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(item.title)
+                        item.subtitle?.let { subtitle ->
+                            Text(
+                                text = subtitle,
+                                style = AppTheme.typography.bodySmall,
+                            )
+                        }
+                    }
+                    AnimatedVisibility(visible = item.isSelected) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_check),
+                            contentDescription = getString(
+                                Res.string.measurement_unit_selected_description
+                            ),
+                            modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
+                            tint = AppTheme.colors.scheme.primary,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun UnitInput(
+    input: String,
+    onInputChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TextInput(
+        input = input,
+        onInputChange = onInputChange,
+        label = getString(Res.string.measurement_unit),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = AppTheme.dimensions.padding.P_1,
+                vertical = AppTheme.dimensions.padding.P_3,
+            ),
+    )
 }

@@ -4,7 +4,6 @@ import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCateg
 import com.faltenreich.diaguard.measurement.unit.GetMeasurementUnitsOfPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
-import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListItemState
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
@@ -64,7 +63,7 @@ class MeasurementPropertyFormViewModel(
         getPreference(DecimalPlacesPreference),
     ) { units, selectedUnit, decimalPlaces ->
         if (property.isUserGenerated) emptyList() else units.map { unit ->
-            MeasurementUnitListItemState(
+            MeasurementPropertyFormState.Unit(
                 unit = unit,
                 title = unit.name,
                 subtitle = unit.takeUnless(MeasurementUnit::isDefault)
@@ -115,7 +114,7 @@ class MeasurementPropertyFormViewModel(
             )
         )
 
-        val units = units.first().map(MeasurementUnitListItemState::unit)
+        val units = units.first().map(MeasurementPropertyFormState.Unit::unit)
         units.forEach { unit ->
             updateUnit(
                 unit.copy(

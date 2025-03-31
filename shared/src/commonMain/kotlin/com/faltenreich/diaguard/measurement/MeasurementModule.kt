@@ -22,9 +22,11 @@ import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyLis
 import com.faltenreich.diaguard.measurement.unit.GetMeasurementUnitsOfPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
-import com.faltenreich.diaguard.measurement.value.StoreMeasurementValuesUseCase
+import com.faltenreich.diaguard.measurement.unit.list.GetMeasurementUnitsUseCase
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListViewModel
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.measurement.value.StoreMeasurementValuesUseCase
 import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
@@ -47,6 +49,7 @@ fun measurementModule() = module {
     singleOf(::UpdateMeasurementCategoryUseCase)
     singleOf(::DeleteMeasurementCategoryUseCase)
     singleOf(::CreateMeasurementPropertyUseCase)
+    singleOf(::GetMeasurementUnitsUseCase)
     singleOf(::GetMeasurementUnitsOfPropertyUseCase)
     singleOf(::GetMeasurementPropertyBdIdUseCase)
     singleOf(::GetMeasurementPropertiesUseCase)
@@ -61,4 +64,5 @@ fun measurementModule() = module {
     viewModel { (categoryId: Long) -> MeasurementCategoryFormViewModel(categoryId) }
     viewModelOf(::MeasurementPropertyListViewModel)
     viewModel { (propertyId: Long) -> MeasurementPropertyFormViewModel(propertyId) }
+    viewModelOf(::MeasurementUnitListViewModel)
 }

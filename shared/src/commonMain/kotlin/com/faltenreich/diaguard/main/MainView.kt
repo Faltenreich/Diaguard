@@ -33,6 +33,7 @@ import com.faltenreich.diaguard.main.menu.MainMenuScreen
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
@@ -141,6 +142,7 @@ fun MainView(
                     screen<MeasurementCategoryListScreen>()
                     screen<MeasurementCategoryFormScreen>()
                     screen<MeasurementPropertyFormScreen>()
+                    screen<MeasurementUnitListScreen>()
                     screen<TagListScreen>()
                     screen<TagDetailScreen>()
                     screen<LicenseListScreen>()

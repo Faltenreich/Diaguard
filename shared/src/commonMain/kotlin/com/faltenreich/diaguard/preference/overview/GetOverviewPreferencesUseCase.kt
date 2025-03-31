@@ -3,9 +3,9 @@ package com.faltenreich.diaguard.preference.overview
 import com.faltenreich.diaguard.backup.user.read.ReadBackupFormScreen
 import com.faltenreich.diaguard.backup.user.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.shared.system.SystemSettings
 import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.networking.UrlOpener
+import com.faltenreich.diaguard.shared.system.SystemSettings
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.about
@@ -47,6 +48,7 @@ import diaguard.shared.generated.resources.mail
 import diaguard.shared.generated.resources.mail_url
 import diaguard.shared.generated.resources.mail_url_short
 import diaguard.shared.generated.resources.measurement_categories
+import diaguard.shared.generated.resources.measurement_units
 import diaguard.shared.generated.resources.privacy_policy
 import diaguard.shared.generated.resources.privacy_policy_url
 import diaguard.shared.generated.resources.reminders
@@ -106,6 +108,10 @@ class GetOverviewPreferencesUseCase(
                 action {
                     title = localization.getString(Res.string.measurement_categories)
                     onClick = { pushScreen(MeasurementCategoryListScreen) }
+                }
+                action {
+                    title = localization.getString(Res.string.measurement_units)
+                    onClick = { pushScreen(MeasurementUnitListScreen) }
                 }
                 action {
                     title = localization.getString(Res.string.tags)

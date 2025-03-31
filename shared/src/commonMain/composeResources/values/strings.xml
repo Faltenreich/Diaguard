@@ -160,6 +160,7 @@
     <string name="measurement_property_add">Add property</string>
     <string name="measurement_properties">Properties</string>
     <string name="measurement_unit">Unit</string>
+    <string name="measurement_units">Units</string>
     <string name="measurement_unit_factor_description">equals %1$s %2$s</string>
     <string name="measurement_unit_selected_description">Selected unit</string>
     <string name="measurement_value">Value</string>

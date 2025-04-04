@@ -1,10 +1,11 @@
 package com.faltenreich.diaguard.measurement.unit.list
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.shared.view.Divider
 
 @Composable
 fun MeasurementUnitList(
@@ -13,8 +14,13 @@ fun MeasurementUnitList(
 ) {
     val units = viewModel.collectState()?.units ?: return
     LazyColumn(modifier = modifier) {
-        items(units, key = MeasurementUnit.Local::id) { unit ->
-            MeasurementUnitListItem(unit = unit)
+        itemsIndexed(units, key = { _, item -> item.id }) { index, unit ->
+            Column {
+                if (index != 0) {
+                    Divider()
+                }
+                MeasurementUnitListItem(unit = unit)
+            }
         }
     }
 }

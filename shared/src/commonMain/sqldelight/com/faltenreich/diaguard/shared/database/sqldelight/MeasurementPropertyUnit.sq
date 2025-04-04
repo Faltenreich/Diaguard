@@ -16,7 +16,11 @@ getLastId:
 SELECT last_insert_rowid();
 
 getById:
-SELECT * FROM MeasurementPropertyUnit WHERE id = ?;
+SELECT * FROM MeasurementPropertyUnit
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementPropertyUnit.measurementPropertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementPropertyUnit.measurementUnitId
+WHERE MeasurementPropertyUnit.id = ?;
 
 deleteById:
 DELETE FROM MeasurementPropertyUnit WHERE id = ?;

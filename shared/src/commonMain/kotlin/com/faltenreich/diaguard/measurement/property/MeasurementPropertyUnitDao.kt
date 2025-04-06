@@ -7,7 +7,6 @@ interface MeasurementPropertyUnitDao {
     fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
-        factor: Double,
         propertyId: Long,
         unitId: Long,
     )

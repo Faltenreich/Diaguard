@@ -19,14 +19,12 @@ class MeasurementPropertyUnitSqlDelightDao(
     override fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
-        factor: Double,
         propertyId: Long,
         unitId: Long,
     ) {
         queries.create(
             createdAt = createdAt.isoString,
             updatedAt = updatedAt.isoString,
-            factor = factor,
             propertyId = propertyId,
             unitId = unitId,
         )

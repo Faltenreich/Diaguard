@@ -13,6 +13,7 @@ class MeasurementPropertyUnitSqlDelightMapper(
         propertyUnitId: Long,
         propertyUnitCreatedAt: String,
         propertyUnitUpdatedAt: String,
+        propertyUnitFactor: Double,
         @Suppress("UNUSED_PARAMETER") propertyUnitPropertyId: Long,
         @Suppress("UNUSED_PARAMETER") propertyUnitUnitId: Long,
 
@@ -54,6 +55,7 @@ class MeasurementPropertyUnitSqlDelightMapper(
             id = propertyUnitId,
             createdAt = dateTimeFactory.dateTime(isoString = propertyUnitCreatedAt),
             updatedAt = dateTimeFactory.dateTime(isoString = propertyUnitUpdatedAt),
+            factor = propertyUnitFactor,
             property = propertyMapper.map(
                 propertyId = propertyId,
                 propertyCreatedAt = propertyCreatedAt,

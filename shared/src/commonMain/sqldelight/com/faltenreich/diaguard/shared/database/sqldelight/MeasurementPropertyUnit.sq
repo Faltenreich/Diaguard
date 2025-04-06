@@ -2,24 +2,25 @@ CREATE TABLE MeasurementPropertyUnit (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     createdAt TEXT NOT NULL,
     updatedAt TEXT NOT NULL,
-    measurementPropertyId INTEGER NOT NULL,
-    measurementUnitId INTEGER NOT NULL,
-    FOREIGN KEY(measurementPropertyId) REFERENCES MeasurementProperty(id) ON DELETE CASCADE,
-    FOREIGN KEY(measurementUnitId) REFERENCES MeasurementUnit(id) ON DELETE CASCADE
+    factor REAL NOT NULL,
+    propertyId INTEGER NOT NULL,
+    unitId INTEGER NOT NULL,
+    FOREIGN KEY(propertyId) REFERENCES MeasurementProperty(id) ON DELETE CASCADE,
+    FOREIGN KEY(unitId) REFERENCES MeasurementUnit(id) ON DELETE CASCADE
 );
 
 create:
-INSERT INTO MeasurementPropertyUnit(createdAt, updatedAt, measurementPropertyId, measurementUnitId)
-VALUES (?, ?, ?, ?);
+INSERT INTO MeasurementPropertyUnit(createdAt, updatedAt, factor, propertyId, unitId)
+VALUES (?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
 
 getById:
 SELECT * FROM MeasurementPropertyUnit
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementPropertyUnit.measurementPropertyId
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementPropertyUnit.propertyId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementPropertyUnit.measurementUnitId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementPropertyUnit.unitId
 WHERE MeasurementPropertyUnit.id = ?;
 
 deleteById:

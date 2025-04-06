@@ -12,6 +12,7 @@ class MeasurementPropertyUnitRepository(
         dao.create(
             createdAt = now,
             updatedAt = now,
+            factor = factor,
             propertyId = property.id,
             unitId = unit.id,
         )

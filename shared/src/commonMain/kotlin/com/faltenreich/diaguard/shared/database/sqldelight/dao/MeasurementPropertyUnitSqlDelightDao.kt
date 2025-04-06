@@ -7,10 +7,8 @@ import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementPropertyUn
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertyUnitSqlDelightMapper
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.CoroutineDispatcher
 
 class MeasurementPropertyUnitSqlDelightDao(
-    private val dispatcher: CoroutineDispatcher = inject(),
     private val mapper: MeasurementPropertyUnitSqlDelightMapper = inject(),
 ) : MeasurementPropertyUnitDao, SqlDelightDao<MeasurementPropertyUnitQueries> {
 
@@ -21,14 +19,16 @@ class MeasurementPropertyUnitSqlDelightDao(
     override fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
+        factor: Double,
         propertyId: Long,
         unitId: Long,
     ) {
         queries.create(
             createdAt = createdAt.isoString,
             updatedAt = updatedAt.isoString,
-            measurementPropertyId = propertyId,
-            measurementUnitId = unitId,
+            factor = factor,
+            propertyId = propertyId,
+            unitId = unitId,
         )
     }
 

@@ -9,6 +9,11 @@ sealed interface MeasurementPropertyUnit {
     val property: MeasurementProperty.Local
     val unit: MeasurementUnit.Local
 
+    data class User(
+        override val property: MeasurementProperty.Local,
+        override val unit: MeasurementUnit.Local,
+    ) : MeasurementPropertyUnit
+
     data class Local(
         override val id: Long,
         override val createdAt: DateTime,

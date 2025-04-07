@@ -15,7 +15,8 @@ sealed interface MeasurementUnit {
     val factor: Double
     val isSelected: Boolean
 
-    val isDefault: Boolean = factor == FACTOR_DEFAULT
+    val isDefault: Boolean
+        get() = factor == FACTOR_DEFAULT
 
     data class Seed(
         override val name: String,

@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.backup.seed.query.measurement.HbA1cSeedQueries
 import com.faltenreich.diaguard.backup.seed.query.measurement.InsulinSeedQueries
 import com.faltenreich.diaguard.backup.seed.query.measurement.MealSeedQueries
 import com.faltenreich.diaguard.backup.seed.query.measurement.MeasurementCategorySeedQueries
+import com.faltenreich.diaguard.backup.seed.query.measurement.MeasurementUnitSeedQueries
 import com.faltenreich.diaguard.backup.seed.query.measurement.OxygenSaturationSeedQueries
 import com.faltenreich.diaguard.backup.seed.query.measurement.PulseSeedQueries
 import com.faltenreich.diaguard.backup.seed.query.measurement.WeightSeedQueries
@@ -27,6 +28,7 @@ fun seedModule() = module {
     singleOf(::BloodPressureSeedQueries)
     singleOf(::OxygenSaturationSeedQueries)
 
+    singleOf(::MeasurementUnitSeedQueries)
     singleOf(::MeasurementCategorySeedQueries)
 
     single {
@@ -47,6 +49,7 @@ fun seedModule() = module {
 
     single<SeedDao> {
         SeedBundleDao(
+            unitQueries = get(),
             categoryQueries = get(),
             foodQueries = get(),
             tagQueries = get(),

@@ -15,8 +15,7 @@ sealed interface MeasurementUnit {
     val factor: Double
     val isSelected: Boolean
 
-    val isDefault: Boolean
-        get() = factor == FACTOR_DEFAULT
+    val isDefault: Boolean = factor == FACTOR_DEFAULT
 
     data class Seed(
         override val name: String,
@@ -31,7 +30,6 @@ sealed interface MeasurementUnit {
         override val abbreviation: String,
         override val factor: Double,
         override val isSelected: Boolean,
-        val propertyId: Long,
     ) : MeasurementUnit
 
     data class Local(
@@ -43,7 +41,6 @@ sealed interface MeasurementUnit {
         override val factor: Double,
         override val isSelected: Boolean,
         val key: DatabaseKey.MeasurementUnit?,
-        val property: MeasurementProperty.Local,
     ) : MeasurementUnit, DatabaseEntity
 
     companion object {

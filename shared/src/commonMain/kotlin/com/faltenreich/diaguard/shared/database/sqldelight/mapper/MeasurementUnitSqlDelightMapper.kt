@@ -7,7 +7,6 @@ import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.
 
 class MeasurementUnitSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
-    private val propertyMapper: MeasurementPropertySqlDelightMapper,
 ) {
 
     fun map(
@@ -19,32 +18,6 @@ class MeasurementUnitSqlDelightMapper(
         unitAbbreviation: String,
         unitFactor: Double,
         unitIsSelected: Long,
-        unitPropertyId: Long,
-
-        propertyId: Long,
-        propertyCreatedAt: String,
-        propertyUpdatedAt: String,
-        propertyKey: String?,
-        propertyName: String,
-        propertySortIndex: Long,
-        propertyAggregationStyle: Long,
-        propertyValueRangeMinimum: Double,
-        propertyValueRangeLow: Double?,
-        propertyValueRangeTarget: Double?,
-        propertyValueRangeHigh: Double?,
-        propertyValueRangeMaximum: Double,
-        propertyIsValueRangeHighlighted: Long,
-        propertyCategoryId: Long,
-        propertyUnitId: Long,
-
-        categoryId: Long,
-        categoryCreatedAt: String,
-        categoryUpdatedAt: String,
-        categoryKey: String?,
-        categoryName: String,
-        categoryIcon: String?,
-        categorySortIndex: Long,
-        categoryIsActive: Long,
     ): MeasurementUnit.Local {
         return MeasurementUnit.Local(
             id = unitId,
@@ -55,42 +28,6 @@ class MeasurementUnitSqlDelightMapper(
             abbreviation = unitAbbreviation,
             factor = unitFactor,
             isSelected = unitIsSelected.toSqlLiteBoolean(),
-            property = propertyMapper.map(
-                propertyId = propertyId,
-                propertyCreatedAt = propertyCreatedAt,
-                propertyUpdatedAt = propertyUpdatedAt,
-                propertyKey = propertyKey,
-                propertyName = propertyName,
-                propertySortIndex = propertySortIndex,
-                propertyAggregationStyle = propertyAggregationStyle,
-                propertyValueRangeMinimum = propertyValueRangeMinimum,
-                propertyValueRangeLow = propertyValueRangeLow,
-                propertyValueRangeTarget = propertyValueRangeTarget,
-                propertyValueRangeHigh = propertyValueRangeHigh,
-                propertyValueRangeMaximum = propertyValueRangeMaximum,
-                propertyIsValueRangeHighlighted = propertyIsValueRangeHighlighted,
-                propertyCategoryId = propertyCategoryId,
-                propertyUnitId = propertyUnitId,
-
-                unitId = unitId,
-                unitCreatedAt = unitCreatedAt,
-                unitUpdatedAt = unitUpdatedAt,
-                unitKey = unitKey,
-                unitName = unitName,
-                unitAbbreviation = unitAbbreviation,
-                unitFactor = unitFactor,
-                unitIsSelected = unitIsSelected,
-                unitPropertyId = unitPropertyId,
-
-                categoryId = categoryId,
-                categoryCreatedAt = categoryCreatedAt,
-                categoryUpdatedAt = categoryUpdatedAt,
-                categoryKey = categoryKey,
-                categoryName = categoryName,
-                categoryIcon = categoryIcon,
-                categorySortIndex = categorySortIndex,
-                categoryIsActive = categoryIsActive,
-            ),
         )
     }
 }

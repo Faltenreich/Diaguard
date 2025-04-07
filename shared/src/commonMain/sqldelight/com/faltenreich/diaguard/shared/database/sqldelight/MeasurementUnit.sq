@@ -6,43 +6,21 @@ CREATE TABLE MeasurementUnit (
     name TEXT NOT NULL,
     abbreviation TEXT NOT NULL,
     factor REAL NOT NULL,
-    isSelected INTEGER NOT NULL,
-    propertyId INTEGER NOT NULL,
-    FOREIGN KEY(propertyId) REFERENCES MeasurementProperty(id) ON DELETE CASCADE
+    isSelected INTEGER NOT NULL
 );
 
 create:
-INSERT INTO MeasurementUnit(createdAt, updatedAt, key, name, abbreviation, factor, isSelected, propertyId)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO MeasurementUnit(createdAt, updatedAt, key, name, abbreviation, factor, isSelected)
+VALUES (?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
 
 getById:
-SELECT * FROM MeasurementUnit
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-WHERE MeasurementUnit.id = ?;
-
-getByProperty:
-SELECT * FROM MeasurementUnit
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-WHERE MeasurementUnit.propertyId = ?
-ORDER BY MeasurementUnit.createdAt ASC;
-
-getByCategoryId:
-SELECT * FROM MeasurementUnit
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-WHERE MeasurementProperty.categoryId = ?
-ORDER BY MeasurementUnit.createdAt ASC;
+SELECT * FROM MeasurementUnit WHERE MeasurementUnit.id = ?;
 
 getAll:
-SELECT * FROM MeasurementUnit
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == propertyId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-ORDER BY MeasurementUnit.createdAt ASC;
+SELECT * FROM MeasurementUnit;
 
 update:
 UPDATE MeasurementUnit

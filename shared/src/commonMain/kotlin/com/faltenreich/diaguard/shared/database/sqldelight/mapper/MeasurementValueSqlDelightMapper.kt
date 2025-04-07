@@ -50,7 +50,6 @@ class MeasurementValueSqlDelightMapper(
         unitAbbreviation: String,
         unitFactor: Double,
         unitIsSelected: Long,
-        unitPropertyId: Long,
 
         entryId: Long,
         entryCreatedAt: String,
@@ -88,7 +87,6 @@ class MeasurementValueSqlDelightMapper(
                 unitAbbreviation = unitAbbreviation,
                 unitFactor = unitFactor,
                 unitIsSelected = unitIsSelected,
-                unitPropertyId = unitPropertyId,
 
                 categoryId = categoryId,
                 categoryCreatedAt = categoryCreatedAt,
@@ -145,7 +143,6 @@ class MeasurementValueSqlDelightMapper(
         unitAbbreviation: String,
         unitFactor: Double,
         unitIsSelected: Long,
-        unitPropertyId: Long,
     ): MeasurementValue.Average {
         return MeasurementValue.Average(
             value = requireNotNull(average),
@@ -174,7 +171,6 @@ class MeasurementValueSqlDelightMapper(
                 unitAbbreviation = unitAbbreviation,
                 unitFactor = unitFactor,
                 unitIsSelected = unitIsSelected,
-                unitPropertyId = unitPropertyId,
 
                 categoryId = categoryId,
                 categoryCreatedAt = categoryCreatedAt,

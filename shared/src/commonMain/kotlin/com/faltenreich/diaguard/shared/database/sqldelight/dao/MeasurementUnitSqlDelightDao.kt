@@ -32,7 +32,6 @@ class MeasurementUnitSqlDelightDao(
         abbreviation: String,
         factor: Double,
         isSelected: Boolean,
-        propertyId: Long,
     ) {
         queries.create(
             createdAt = createdAt.isoString,
@@ -42,7 +41,6 @@ class MeasurementUnitSqlDelightDao(
             abbreviation = abbreviation,
             factor = factor,
             isSelected = isSelected.toSqlLiteLong(),
-            propertyId = propertyId,
         )
     }
 
@@ -56,14 +54,6 @@ class MeasurementUnitSqlDelightDao(
 
     override fun observeById(id: Long): Flow<MeasurementUnit.Local?> {
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
-    }
-
-    override fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit.Local>> {
-        return queries.getByProperty(propertyId, mapper::map).asFlow().mapToList(dispatcher)
-    }
-
-    override fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit.Local>> {
-        return queries.getByCategoryId(categoryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun observeAll(): Flow<List<MeasurementUnit.Local>> {

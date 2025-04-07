@@ -49,7 +49,6 @@ class MeasurementPropertyUnitSqlDelightMapper(
         unitAbbreviation: String,
         unitFactor: Double,
         unitIsSelected: Long,
-        unitPropertyId: Long,
     ): MeasurementPropertyUnit.Local {
         return MeasurementPropertyUnit.Local(
             id = propertyUnitId1,
@@ -80,7 +79,6 @@ class MeasurementPropertyUnitSqlDelightMapper(
                 unitAbbreviation = unitAbbreviation,
                 unitFactor = unitFactor,
                 unitIsSelected = unitIsSelected,
-                unitPropertyId = unitPropertyId,
 
                 categoryId = categoryId,
                 categoryCreatedAt = categoryCreatedAt,
@@ -100,32 +98,6 @@ class MeasurementPropertyUnitSqlDelightMapper(
                 unitAbbreviation = unitAbbreviation,
                 unitFactor = unitFactor,
                 unitIsSelected = unitIsSelected,
-                unitPropertyId = unitPropertyId,
-
-                propertyId = propertyId,
-                propertyCreatedAt = propertyCreatedAt,
-                propertyUpdatedAt = propertyUpdatedAt,
-                propertyKey = propertyKey,
-                propertyName = propertyName,
-                propertySortIndex = propertySortIndex,
-                propertyAggregationStyle = propertyAggregationStyle,
-                propertyValueRangeMinimum = propertyValueRangeMinimum,
-                propertyValueRangeLow = propertyValueRangeLow,
-                propertyValueRangeTarget = propertyValueRangeTarget,
-                propertyValueRangeHigh = propertyValueRangeHigh,
-                propertyValueRangeMaximum = propertyValueRangeMaximum,
-                propertyIsValueRangeHighlighted = propertyIsValueRangeHighlighted,
-                propertyCategoryId = propertyCategoryId,
-                propertyUnitId = propertyUnitId,
-
-                categoryId = categoryId,
-                categoryCreatedAt = categoryCreatedAt,
-                categoryUpdatedAt = categoryUpdatedAt,
-                categoryKey = categoryKey,
-                categoryName = categoryName,
-                categoryIcon = categoryIcon,
-                categorySortIndex = categorySortIndex,
-                categoryIsActive = categoryIsActive,
             ),
         )
     }

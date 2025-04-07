@@ -8,10 +8,7 @@ class MeasurementUnitRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(
-        unit: MeasurementUnit.Seed,
-        propertyId: Long,
-    ): Long = with(unit) {
+    fun create(unit: MeasurementUnit.Seed): Long = with(unit) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -21,7 +18,6 @@ class MeasurementUnitRepository(
             abbreviation = abbreviation,
             factor = factor,
             isSelected = isSelected,
-            propertyId = propertyId,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -36,21 +32,12 @@ class MeasurementUnitRepository(
             abbreviation = abbreviation,
             factor = factor,
             isSelected = isSelected,
-            propertyId = propertyId,
         )
         return checkNotNull(dao.getLastId())
     }
 
     fun getById(id: Long): MeasurementUnit.Local? {
         return dao.getById(id)
-    }
-
-    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit.Local>> {
-        return dao.observeByPropertyId(propertyId)
-    }
-
-    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit.Local>> {
-        return dao.observeByCategoryId(categoryId)
     }
 
     fun observeAll(): Flow<List<MeasurementUnit.Local>> {

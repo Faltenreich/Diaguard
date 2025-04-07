@@ -47,7 +47,6 @@ class MeasurementPropertySqlDelightMapper(
         unitAbbreviation: String,
         unitFactor: Double,
         unitIsSelected: Long,
-        @Suppress("UNUSED_PARAMETER") unitPropertyId: Long,
     ): MeasurementProperty.Local {
         return MeasurementProperty.Local(
             id = propertyId,
@@ -84,7 +83,6 @@ class MeasurementPropertySqlDelightMapper(
                 abbreviation = unitAbbreviation,
                 factor = unitFactor,
                 isSelected = unitIsSelected.toSqlLiteBoolean(),
-                property = TODO(),
             ),
         )
     }

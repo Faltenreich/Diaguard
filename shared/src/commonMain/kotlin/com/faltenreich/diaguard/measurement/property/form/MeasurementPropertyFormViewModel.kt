@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
-import com.faltenreich.diaguard.measurement.unit.GetMeasurementUnitsOfPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
@@ -13,13 +12,11 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
-import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import com.faltenreich.diaguard.shared.view.AlertModal
 import com.faltenreich.diaguard.shared.view.DeleteModal
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.delete_error_property
 import diaguard.shared.generated.resources.delete_title
-import diaguard.shared.generated.resources.measurement_unit_factor_description
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -30,7 +27,6 @@ class MeasurementPropertyFormViewModel(
     propertyId: Long,
     getPropertyByIdUseCase: GetMeasurementPropertyBdIdUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
-    getUnits: GetMeasurementUnitsOfPropertyUseCase = inject(),
     private val updateUnit: UpdateMeasurementUnitUseCase = inject(),
     private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
@@ -39,7 +35,6 @@ class MeasurementPropertyFormViewModel(
     private val openModal: OpenModalUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
     private val localization: Localization = inject(),
-    private val numberFormatter: NumberFormatter = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
     private val property = checkNotNull(getPropertyByIdUseCase(propertyId))
@@ -58,29 +53,10 @@ class MeasurementPropertyFormViewModel(
     var unitName = MutableStateFlow(property.unit.abbreviation)
 
     private val units = combine(
-        getUnits(property),
         selectedUnit,
         getPreference(DecimalPlacesPreference),
-    ) { units, selectedUnit, decimalPlaces ->
-        if (property.isUserGenerated) emptyList() else units.map { unit ->
-            MeasurementPropertyFormState.Unit(
-                unit = unit,
-                title = unit.name,
-                subtitle = unit.takeUnless(MeasurementUnit::isDefault)
-                    ?.run {
-                        localization.getString(
-                            Res.string.measurement_unit_factor_description,
-                            numberFormatter(
-                                number = unit.factor,
-                                scale = decimalPlaces,
-                                locale = localization.getLocale(),
-                            ),
-                            units.first(MeasurementUnit::isDefault).name,
-                        )
-                    },
-                isSelected = selectedUnit.id == unit.id,
-            )
-        }
+    ) { selectedUnit, decimalPlaces ->
+        emptyList<MeasurementPropertyFormState.Unit>()
     }
 
     override val state = combine(

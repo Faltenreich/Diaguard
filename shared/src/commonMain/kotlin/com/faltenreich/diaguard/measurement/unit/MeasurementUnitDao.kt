@@ -14,7 +14,6 @@ interface MeasurementUnitDao {
         abbreviation: String,
         factor: Double,
         isSelected: Boolean,
-        propertyId: Long,
     )
 
     fun getLastId(): Long?
@@ -22,10 +21,6 @@ interface MeasurementUnitDao {
     fun getById(id: Long): MeasurementUnit.Local?
 
     fun observeById(id: Long): Flow<MeasurementUnit.Local?>
-
-    fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit.Local>>
-
-    fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementUnit.Local>>
 
     fun observeAll(): Flow<List<MeasurementUnit.Local>>
 

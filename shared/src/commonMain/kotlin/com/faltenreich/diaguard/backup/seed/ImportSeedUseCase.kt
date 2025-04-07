@@ -27,7 +27,7 @@ class ImportSeedUseCase(
 
     private fun importCategories() {
         val unitsBySeed = seedRepository.getUnits().map { seed ->
-            val unitId = unitRepository.create(seed, 1L) // TODO
+            val unitId = unitRepository.create(seed)
             val unit = checkNotNull(unitRepository.getById(unitId))
             seed to unit
         }

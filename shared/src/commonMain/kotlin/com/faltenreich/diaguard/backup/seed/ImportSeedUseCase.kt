@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.backup.seed
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.tag.TagRepository
@@ -37,8 +36,8 @@ class ImportSeedUseCase(
         categories.forEach { category ->
             val categoryId = categoryRepository.create(category)
             category.properties.forEach { property ->
-                val selection = property.units.first(MeasurementUnit.Seed::isSelected)
-                val unit = unitsBySeed.first { (seed, _) -> seed.key == selection.key }.second
+                val selection = property.units.first()
+                val unit = unitsBySeed.first { (seed, _) -> seed.key == selection }.second
                 propertyRepository.create(
                     property = property,
                     categoryId = categoryId,

@@ -3,15 +3,12 @@ package com.faltenreich.diaguard.backup.seed.query.measurement
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.blood_pressure
 import diaguard.shared.generated.resources.diastolic
-import diaguard.shared.generated.resources.millimeters_of_mercury
-import diaguard.shared.generated.resources.millimeters_of_mercury_abbreviation
 import diaguard.shared.generated.resources.systolic
 
 class BloodPressureSeedQueries(
@@ -39,15 +36,7 @@ class BloodPressureSeedQueries(
                         maximum = 300.0,
                         isHighlighted = true,
                     ),
-                    units = listOf(
-                        MeasurementUnit.Seed(
-                            key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_SYSTOLIC,
-                            name = localization.getString(Res.string.millimeters_of_mercury),
-                            abbreviation = localization.getString(Res.string.millimeters_of_mercury_abbreviation),
-                            factor = 1.0,
-                            isSelected = true,
-                        )
-                    ),
+                    units = listOf(DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY),
                 ),
                 MeasurementProperty.Seed(
                     key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC,
@@ -62,15 +51,7 @@ class BloodPressureSeedQueries(
                         maximum = 300.0,
                         isHighlighted = true,
                     ),
-                    units = listOf(
-                        MeasurementUnit.Seed(
-                            key = DatabaseKey.MeasurementUnit.BLOOD_PRESSURE_DIASTOLIC,
-                            name = localization.getString(Res.string.millimeters_of_mercury),
-                            abbreviation = localization.getString(Res.string.millimeters_of_mercury_abbreviation),
-                            factor = 1.0,
-                            isSelected = true,
-                        )
-                    ),
+                    units = listOf(DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY),
                 ),
             ),
         )

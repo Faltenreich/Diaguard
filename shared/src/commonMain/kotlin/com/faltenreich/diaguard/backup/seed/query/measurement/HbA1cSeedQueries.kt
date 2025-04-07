@@ -3,16 +3,11 @@ package com.faltenreich.diaguard.backup.seed.query.measurement
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hba1c
-import diaguard.shared.generated.resources.millimoles_per_mole
-import diaguard.shared.generated.resources.millimoles_per_mole_abbreviation
-import diaguard.shared.generated.resources.percent
-import diaguard.shared.generated.resources.percent_abbreviation
 
 class HbA1cSeedQueries(
     private val localization: Localization,
@@ -40,20 +35,8 @@ class HbA1cSeedQueries(
                         isHighlighted = true,
                     ),
                     units = listOf(
-                        MeasurementUnit.Seed(
-                            key = DatabaseKey.MeasurementUnit.HBA1C_PERCENT,
-                            name = localization.getString(Res.string.percent),
-                            abbreviation = localization.getString(Res.string.percent_abbreviation),
-                            factor = 1.0,
-                            isSelected = true,
-                        ),
-                        MeasurementUnit.Seed(
-                            key = DatabaseKey.MeasurementUnit.HBA1C_MILLIMOLES_PER_MOLES,
-                            name = localization.getString(Res.string.millimoles_per_mole),
-                            abbreviation = localization.getString(Res.string.millimoles_per_mole_abbreviation),
-                            factor = 0.00001,
-                            isSelected = false,
-                        ),
+                        DatabaseKey.MeasurementUnit.PERCENT,
+                        DatabaseKey.MeasurementUnit.MILLIMOLES_PER_MOLE,
                     ),
                 ),
             ),

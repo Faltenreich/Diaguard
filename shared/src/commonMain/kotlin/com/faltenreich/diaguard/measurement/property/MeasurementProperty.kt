@@ -23,7 +23,7 @@ sealed interface MeasurementProperty {
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
         val key: DatabaseKey.MeasurementProperty?,
-        val units: List<MeasurementUnit.Seed>,
+        val units: List<DatabaseKey.MeasurementUnit>,
     ) : MeasurementProperty
 
     data class User(

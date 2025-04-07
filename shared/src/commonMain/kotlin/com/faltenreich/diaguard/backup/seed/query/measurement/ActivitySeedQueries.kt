@@ -3,14 +3,11 @@ package com.faltenreich.diaguard.backup.seed.query.measurement
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.activity
-import diaguard.shared.generated.resources.minutes
-import diaguard.shared.generated.resources.minutes_abbreviation
 
 class ActivitySeedQueries(
     private val localization: Localization,
@@ -37,15 +34,7 @@ class ActivitySeedQueries(
                         maximum = 1000.0,
                         isHighlighted = false,
                     ),
-                    units = listOf(
-                        MeasurementUnit.Seed(
-                            key = DatabaseKey.MeasurementUnit.ACTIVITY,
-                            name = localization.getString(Res.string.minutes),
-                            abbreviation = localization.getString(Res.string.minutes_abbreviation),
-                            factor = 1.0,
-                            isSelected = true,
-                        )
-                    ),
+                    units = listOf(DatabaseKey.MeasurementUnit.MINUTES),
                 ),
             ),
         )

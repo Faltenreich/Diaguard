@@ -52,28 +52,21 @@ interface DatabaseKey {
         }
     }
 
-    enum class MeasurementUnit(val id: String, property: MeasurementProperty) : DatabaseKey {
+    enum class MeasurementUnit(override val key: String) : DatabaseKey {
 
-        BLOOD_SUGAR_MILLIGRAMS_PER_DECILITER("milligrams_per_deciliter", MeasurementProperty.BLOOD_SUGAR),
-        BLOOD_SUGAR_MILLIMOLES_PER_LITER("millimoles_per_liter", MeasurementProperty.BLOOD_SUGAR),
-        INSULIN_BOLUS("insulin_units", MeasurementProperty.INSULIN_BOLUS),
-        INSULIN_CORRECTION("insulin_units", MeasurementProperty.INSULIN_CORRECTION),
-        INSULIN_BASAL( "insulin_units", MeasurementProperty.INSULIN_BASAL),
-        MEAL_CARBOHYDRATES("carbohydrates", MeasurementProperty.MEAL),
-        MEAL_CARBOHYDRATE_UNITS("carbohydrate_units", MeasurementProperty.MEAL),
-        MEAL_BREAD_UNITS("bread_units", MeasurementProperty.MEAL),
-        ACTIVITY("minutes", MeasurementProperty.ACTIVITY),
-        HBA1C_PERCENT("percent", MeasurementProperty.HBA1C),
-        HBA1C_MILLIMOLES_PER_MOLES("millimoles_per_mole", MeasurementProperty.HBA1C),
-        WEIGHT_KILOGRAMS("kilograms", MeasurementProperty.WEIGHT),
-        WEIGHT_POUNDS("pounds", MeasurementProperty.WEIGHT),
-        PULSE("beats_per_minute", MeasurementProperty.PULSE),
-        BLOOD_PRESSURE_SYSTOLIC("millimeters_of_mercury", MeasurementProperty.BLOOD_PRESSURE_SYSTOLIC),
-        BLOOD_PRESSURE_DIASTOLIC("millimeters_of_mercury", MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC),
-        OXYGEN_SATURATION("percent", MeasurementProperty.OXYGEN_SATURATION),
-        ;
-
-        override val key: String = property.key + DELIMITER + id
+        BEATS_PER_MINUTE("beats_per_minute"),
+        BREAD_UNITS("bread_units"),
+        CARBOHYDRATES("carbohydrates"),
+        CARBOHYDRATE_UNITS("carbohydrate_units"),
+        INSULIN_UNITS("insulin_units"),
+        KILOGRAMS("kilograms"),
+        MILLIGRAMS_PER_DECILITER("milligrams_per_deciliter"),
+        MILLIMETERS_OF_MERCURY("millimeters_of_mercury"),
+        MILLIMOLES_PER_LITER("millimoles_per_liter"),
+        MILLIMOLES_PER_MOLE("millimoles_per_mole"),
+        MINUTES("minutes"),
+        PERCENT("percent"),
+        POUNDS("pounds");
 
         companion object {
 

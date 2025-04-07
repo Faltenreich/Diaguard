@@ -26,6 +26,7 @@ class ImportSeedUseCase(
     }
 
     private fun importCategories() {
+        // FIXME: NoSuchElementException
         val unitsBySeed = seedRepository.getUnits().map { seed ->
             val unitId = unitRepository.create(seed)
             val unit = checkNotNull(unitRepository.getById(unitId))

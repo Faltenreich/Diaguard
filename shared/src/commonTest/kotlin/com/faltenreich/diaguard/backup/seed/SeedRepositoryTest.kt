@@ -13,12 +13,12 @@ class SeedRepositoryTest : TestSuite {
 
     @Test
     fun `Seed categories can be read`() {
-        assertTrue(seedRepository.getMeasurementCategories().isNotEmpty())
+        assertTrue(seedRepository.getCategories().isNotEmpty())
     }
 
     @Test
     fun `Seed categories have unique keys`() {
-        val categories = seedRepository.getMeasurementCategories()
+        val categories = seedRepository.getCategories()
         assertEquals(
             expected = categories,
             actual = categories.distinctBy(MeasurementCategory.Seed::key),

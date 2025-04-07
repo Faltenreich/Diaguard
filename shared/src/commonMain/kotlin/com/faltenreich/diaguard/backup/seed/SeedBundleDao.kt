@@ -8,13 +8,13 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.tag.Tag
 
 class SeedBundleDao(
-    private val measurementCategoryQueries: MeasurementCategorySeedQueries,
+    private val categoryQueries: MeasurementCategorySeedQueries,
     private val foodQueries: FoodSeedQueries,
     private val tagQueries: TagSeedQueries,
 ) : SeedDao {
 
-    override fun getMeasurementCategories(): List<MeasurementCategory.Seed> {
-        return measurementCategoryQueries.getAll()
+    override fun getCategories(): List<MeasurementCategory.Seed> {
+        return categoryQueries.getAll()
     }
 
     override fun getFood(): List<Food.Seed> {

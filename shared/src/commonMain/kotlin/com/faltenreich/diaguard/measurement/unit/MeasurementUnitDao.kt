@@ -19,6 +19,8 @@ interface MeasurementUnitDao {
 
     fun getLastId(): Long?
 
+    fun getById(id: Long): MeasurementUnit.Local?
+
     fun observeById(id: Long): Flow<MeasurementUnit.Local?>
 
     fun observeByPropertyId(propertyId: Long): Flow<List<MeasurementUnit.Local>>

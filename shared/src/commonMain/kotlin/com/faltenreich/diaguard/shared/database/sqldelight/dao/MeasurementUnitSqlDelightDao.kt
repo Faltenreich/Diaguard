@@ -50,6 +50,10 @@ class MeasurementUnitSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
+    override fun getById(id: Long): MeasurementUnit.Local? {
+        return queries.getById(id, mapper::map).executeAsOneOrNull()
+    }
+
     override fun observeById(id: Long): Flow<MeasurementUnit.Local?> {
         return queries.getById(id, mapper::map).asFlow().mapToOneOrNull(dispatcher)
     }

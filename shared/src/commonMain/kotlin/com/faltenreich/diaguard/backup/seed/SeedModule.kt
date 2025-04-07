@@ -47,7 +47,7 @@ fun seedModule() = module {
 
     single<SeedDao> {
         SeedBundleDao(
-            measurementCategoryQueries = get(),
+            categoryQueries = get(),
             foodQueries = get(),
             tagQueries = get(),
         )

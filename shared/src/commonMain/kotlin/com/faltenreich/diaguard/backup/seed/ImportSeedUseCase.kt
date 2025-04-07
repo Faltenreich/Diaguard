@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.seed
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.tag.TagRepository
@@ -26,14 +27,23 @@ class ImportSeedUseCase(
     }
 
     private fun importCategories() {
-        val categories = seedRepository.getMeasurementCategories()
+        val unitsBySeed = seedRepository.getUnits().map { seed ->
+            val unitId = unitRepository.create(seed, 1L) // TODO
+            val unit = checkNotNull(unitRepository.getById(unitId))
+            seed to unit
+        }
+
+        val categories = seedRepository.getCategories()
         categories.forEach { category ->
             val categoryId = categoryRepository.create(category)
             category.properties.forEach { property ->
-                val propertyId = propertyRepository.create(property, categoryId)
-                property.units.forEach { unit ->
-                    unitRepository.create(unit, propertyId)
-                }
+                val selection = property.units.first(MeasurementUnit.Seed::isSelected)
+                val unit = unitsBySeed.first { (seed, _) -> seed.key == selection.key }.second
+                propertyRepository.create(
+                    property = property,
+                    categoryId = categoryId,
+                    unitId = unit.id,
+                )
             }
         }
         Logger.info("Imported ${categories.size} categories from seed")

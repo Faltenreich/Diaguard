@@ -62,7 +62,7 @@ sealed interface MeasurementValue {
     data class Localized(
         /**
          * [MeasurementValue.value] to display to user,
-         * converted via [MeasurementUnit.factor] of [MeasurementProperty.Local.selectedUnit],
+         * converted via [MeasurementUnit.factor] of [MeasurementProperty.Local.unit],
          * formatted according to current [Locale]
          */
         val value: String,

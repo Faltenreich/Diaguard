@@ -15,7 +15,7 @@ class RealisticMeasurementValueRule(
 ) : ValidationRule<MeasurementPropertyInputState> {
 
     override fun check(input: MeasurementPropertyInputState): ValidationResult<MeasurementPropertyInputState> {
-        val unit = input.property.selectedUnit
+        val unit = input.property.unit
         val value = mapValue(
             value = input.input,
             unit = unit,

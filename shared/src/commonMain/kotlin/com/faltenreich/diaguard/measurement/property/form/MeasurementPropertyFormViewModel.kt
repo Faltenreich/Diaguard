@@ -45,7 +45,7 @@ class MeasurementPropertyFormViewModel(
     private val property = checkNotNull(getPropertyByIdUseCase(propertyId))
 
     var propertyName = MutableStateFlow(property.name)
-    var selectedUnit = MutableStateFlow(property.selectedUnit)
+    var selectedUnit = MutableStateFlow(property.unit)
     var aggregationStyle = MutableStateFlow(property.aggregationStyle)
     // TODO: Format via MeasurementValueMapper
     var valueRangeMinimum = MutableStateFlow(property.range.minimum.toString())
@@ -55,7 +55,7 @@ class MeasurementPropertyFormViewModel(
     var valueRangeMaximum = MutableStateFlow(property.range.maximum.toString())
     var isValueRangeHighlighted = MutableStateFlow(property.range.isHighlighted)
 
-    var unitName = MutableStateFlow(property.selectedUnit.abbreviation)
+    var unitName = MutableStateFlow(property.unit.abbreviation)
 
     private val units = combine(
         getUnits(property),

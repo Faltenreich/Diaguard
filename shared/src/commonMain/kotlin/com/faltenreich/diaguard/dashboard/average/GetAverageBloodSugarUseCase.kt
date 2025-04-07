@@ -54,7 +54,7 @@ class GetAverageBloodSugarUseCase(
                 ),
                 getPreference(DecimalPlacesPreference),
             ) { properties, averageOfDay, averageOfWeek, averageOfMonth, decimalPlaces ->
-                val unit = properties.firstOrNull()?.selectedUnit ?: return@combine DashboardState.Average(
+                val unit = properties.firstOrNull()?.unit ?: return@combine DashboardState.Average(
                     day = null,
                     week = null,
                     month = null,

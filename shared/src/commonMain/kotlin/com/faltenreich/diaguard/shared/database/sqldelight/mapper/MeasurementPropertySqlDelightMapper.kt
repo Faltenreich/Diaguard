@@ -77,7 +77,7 @@ class MeasurementPropertySqlDelightMapper(
             ),
         ).apply {
             // We avoid recursion by initializing late and without mapper
-            selectedUnit = MeasurementUnit.Local(
+            unit = MeasurementUnit.Local(
                 id = unitId,
                 createdAt = dateTimeFactory.dateTime(isoString = unitCreatedAt),
                 updatedAt = dateTimeFactory.dateTime(isoString = unitUpdatedAt),

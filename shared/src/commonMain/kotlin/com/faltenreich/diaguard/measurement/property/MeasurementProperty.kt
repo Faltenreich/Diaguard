@@ -32,6 +32,7 @@ sealed interface MeasurementProperty {
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
         val category: MeasurementCategory.Local,
+        val unit: MeasurementUnit.Local,
     ) : MeasurementProperty
 
     data class Local(
@@ -44,11 +45,9 @@ sealed interface MeasurementProperty {
         override val range: MeasurementValueRange,
         val key: DatabaseKey.MeasurementProperty?,
         val category: MeasurementCategory.Local,
+        val unit: MeasurementUnit.Local,
     ) : MeasurementProperty, DatabaseEntity {
 
-        lateinit var selectedUnit: MeasurementUnit.Local
-
-        val isUserGenerated: Boolean
-            get() = key == null
+        val isUserGenerated: Boolean = key == null
     }
 }

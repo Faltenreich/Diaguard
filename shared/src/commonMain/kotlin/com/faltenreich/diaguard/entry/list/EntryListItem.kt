@@ -83,7 +83,7 @@ private fun MeasurementValues(state: EntryListItemState) {
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(value.valueLocalized)
-                                Text(value.property.selectedUnit.abbreviation)
+                                Text(value.property.unit.abbreviation)
 
                                 if (value.property.name != category.category.name) {
                                     Text(value.property.name)

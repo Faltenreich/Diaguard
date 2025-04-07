@@ -44,10 +44,10 @@ class GetAverageUseCase(
                         "%s %s".format(
                             mapValue(
                                 value = average.value,
-                                unit = average.property.selectedUnit,
+                                unit = average.property.unit,
                                 decimalPlaces = decimalPlaces,
                             ).value,
-                            average.property.selectedUnit.abbreviation,
+                            average.property.unit.abbreviation,
                         )
                 },
                 countPerDay = countPerDay.toString(),

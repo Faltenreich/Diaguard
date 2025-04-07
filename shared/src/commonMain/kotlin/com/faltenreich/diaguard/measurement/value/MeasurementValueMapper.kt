@@ -29,7 +29,7 @@ class MeasurementValueMapper(
     ): MeasurementValue.Localized {
         return invoke(
             value = value.value,
-            unit = value.property.selectedUnit,
+            unit = value.property.unit,
             decimalPlaces = decimalPlaces,
         )
     }

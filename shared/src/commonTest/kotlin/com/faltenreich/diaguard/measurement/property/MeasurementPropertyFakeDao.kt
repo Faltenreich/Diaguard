@@ -91,7 +91,7 @@ class MeasurementPropertyFakeDao(
     }
 
     fun updateSelectedUnit(unit: MeasurementUnit.Local) {
-        cache.first { it.id == unit.property.id }.selectedUnit = unit
+        cache.first { it.id == unit.property.id }.unit = unit
     }
 
     override fun deleteById(id: Long) {

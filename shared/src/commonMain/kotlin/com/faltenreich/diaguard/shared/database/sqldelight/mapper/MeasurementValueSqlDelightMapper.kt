@@ -31,6 +31,7 @@ class MeasurementValueSqlDelightMapper(
         propertyValueRangeMaximum: Double,
         propertyIsValueRangeHighlighted: Long,
         propertyCategoryId: Long,
+        propertyUnitId: Long,
 
         unitId: Long,
         unitCreatedAt: String,
@@ -77,6 +78,7 @@ class MeasurementValueSqlDelightMapper(
                 propertyValueRangeMaximum = propertyValueRangeMaximum,
                 propertyIsValueRangeHighlighted = propertyIsValueRangeHighlighted,
                 propertyCategoryId = propertyCategoryId,
+                propertyUnitId = propertyUnitId,
 
                 unitId = unitId,
                 unitCreatedAt = unitCreatedAt,
@@ -124,6 +126,7 @@ class MeasurementValueSqlDelightMapper(
         propertyValueRangeMaximum: Double,
         propertyIsValueRangeHighlighted: Long,
         propertyCategoryId: Long,
+        propertyUnitId: Long,
 
         unitId: Long,
         unitCreatedAt: String,
@@ -161,6 +164,7 @@ class MeasurementValueSqlDelightMapper(
                 propertyValueRangeMaximum = propertyValueRangeMaximum,
                 propertyIsValueRangeHighlighted = propertyIsValueRangeHighlighted,
                 propertyCategoryId = propertyCategoryId,
+                propertyUnitId = propertyUnitId,
 
                 unitId = unitId,
                 unitCreatedAt = unitCreatedAt,

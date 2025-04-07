@@ -35,6 +35,7 @@ class MeasurementUnitSqlDelightMapper(
         propertyValueRangeMaximum: Double,
         propertyIsValueRangeHighlighted: Long,
         propertyCategoryId: Long,
+        propertyUnitId: Long,
 
         categoryId: Long,
         categoryCreatedAt: String,
@@ -69,6 +70,7 @@ class MeasurementUnitSqlDelightMapper(
                 propertyValueRangeMaximum = propertyValueRangeMaximum,
                 propertyIsValueRangeHighlighted = propertyIsValueRangeHighlighted,
                 propertyCategoryId = propertyCategoryId,
+                propertyUnitId = propertyUnitId,
 
                 unitId = unitId,
                 unitCreatedAt = unitCreatedAt,

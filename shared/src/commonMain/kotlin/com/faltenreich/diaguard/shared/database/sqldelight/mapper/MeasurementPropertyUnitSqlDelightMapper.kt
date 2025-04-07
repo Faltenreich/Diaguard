@@ -10,7 +10,7 @@ class MeasurementPropertyUnitSqlDelightMapper(
 ) {
 
     fun map(
-        propertyUnitId: Long,
+        propertyUnitId1: Long,
         propertyUnitCreatedAt: String,
         propertyUnitUpdatedAt: String,
         @Suppress("UNUSED_PARAMETER") propertyUnitPropertyId: Long,
@@ -30,6 +30,7 @@ class MeasurementPropertyUnitSqlDelightMapper(
         propertyValueRangeMaximum: Double,
         propertyIsValueRangeHighlighted: Long,
         propertyCategoryId: Long,
+        propertyUnitId: Long,
 
         categoryId: Long,
         categoryCreatedAt: String,
@@ -51,7 +52,7 @@ class MeasurementPropertyUnitSqlDelightMapper(
         unitPropertyId: Long,
     ): MeasurementPropertyUnit.Local {
         return MeasurementPropertyUnit.Local(
-            id = propertyUnitId,
+            id = propertyUnitId1,
             createdAt = dateTimeFactory.dateTime(isoString = propertyUnitCreatedAt),
             updatedAt = dateTimeFactory.dateTime(isoString = propertyUnitUpdatedAt),
             property = propertyMapper.map(
@@ -69,6 +70,7 @@ class MeasurementPropertyUnitSqlDelightMapper(
                 propertyValueRangeMaximum = propertyValueRangeMaximum,
                 propertyIsValueRangeHighlighted = propertyIsValueRangeHighlighted,
                 propertyCategoryId = propertyCategoryId,
+                propertyUnitId = propertyUnitId,
 
                 unitId = unitId,
                 unitCreatedAt = unitCreatedAt,
@@ -114,6 +116,7 @@ class MeasurementPropertyUnitSqlDelightMapper(
                 propertyValueRangeMaximum = propertyValueRangeMaximum,
                 propertyIsValueRangeHighlighted = propertyIsValueRangeHighlighted,
                 propertyCategoryId = propertyCategoryId,
+                propertyUnitId = propertyUnitId,
 
                 categoryId = categoryId,
                 categoryCreatedAt = categoryCreatedAt,

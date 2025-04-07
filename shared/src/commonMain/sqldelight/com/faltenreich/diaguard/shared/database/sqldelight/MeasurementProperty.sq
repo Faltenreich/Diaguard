@@ -13,7 +13,9 @@ CREATE TABLE MeasurementProperty (
     valueRangeMaximum REAL NOT NULL,
     isValueRangeHighlighted INTEGER NOT NULL,
     categoryId INTEGER NOT NULL,
-    FOREIGN KEY(categoryId) REFERENCES MeasurementCategory(id) ON DELETE CASCADE
+    unitId INTEGER NOT NULL,
+    FOREIGN KEY(categoryId) REFERENCES MeasurementCategory(id) ON DELETE CASCADE,
+    FOREIGN KEY(unitId) REFERENCES MeasurementUnit(id) ON DELETE CASCADE
 );
 
 create:
@@ -30,9 +32,10 @@ INSERT INTO MeasurementProperty(
     valueRangeHigh,
     valueRangeMaximum,
     isValueRangeHighlighted,
-    categoryId
+    categoryId,
+    unitId
 )
-VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
@@ -73,7 +76,8 @@ SET updatedAt = ?,
     valueRangeTarget = ?,
     valueRangeHigh = ?,
     valueRangeMaximum = ?,
-    isValueRangeHighlighted = ?
+    isValueRangeHighlighted = ?,
+    unitId = ?
 WHERE id = ?;
 
 deleteById:

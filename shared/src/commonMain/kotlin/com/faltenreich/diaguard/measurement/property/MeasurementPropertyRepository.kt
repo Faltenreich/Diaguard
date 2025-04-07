@@ -12,6 +12,7 @@ class MeasurementPropertyRepository(
     fun create(
         property: MeasurementProperty.Seed,
         categoryId: Long,
+        unitId: Long,
     ): Long = with(property) {
         val now = dateTimeFactory.now()
         dao.create(
@@ -23,6 +24,7 @@ class MeasurementPropertyRepository(
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
             categoryId = categoryId,
+            unitId = unitId,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -38,6 +40,7 @@ class MeasurementPropertyRepository(
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
             categoryId = category.id,
+            unitId = unit.id,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -74,6 +77,7 @@ class MeasurementPropertyRepository(
             range = range,
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
+            unitId = unit.id,
         )
     }
 

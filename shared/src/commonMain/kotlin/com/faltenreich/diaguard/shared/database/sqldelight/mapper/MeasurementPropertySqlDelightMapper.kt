@@ -28,6 +28,7 @@ class MeasurementPropertySqlDelightMapper(
         propertyValueRangeMaximum: Double,
         propertyIsValueRangeHighlighted: Long,
         @Suppress("UNUSED_PARAMETER") propertyCategoryId: Long,
+        @Suppress("UNUSED_PARAMETER") propertyUnitId: Long,
 
         unitId: Long,
         unitCreatedAt: String,

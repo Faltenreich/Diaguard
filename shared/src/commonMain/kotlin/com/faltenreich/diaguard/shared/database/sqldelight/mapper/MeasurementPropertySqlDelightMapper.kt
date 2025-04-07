@@ -30,6 +30,15 @@ class MeasurementPropertySqlDelightMapper(
         @Suppress("UNUSED_PARAMETER") propertyCategoryId: Long,
         @Suppress("UNUSED_PARAMETER") propertyUnitId: Long,
 
+        categoryId: Long,
+        categoryCreatedAt: String,
+        categoryUpdatedAt: String,
+        categoryKey: String?,
+        categoryName: String,
+        categoryIcon: String?,
+        categorySortIndex: Long,
+        categoryIsActive: Long,
+
         unitId: Long,
         unitCreatedAt: String,
         unitUpdatedAt: String,
@@ -39,15 +48,6 @@ class MeasurementPropertySqlDelightMapper(
         unitFactor: Double,
         unitIsSelected: Long,
         @Suppress("UNUSED_PARAMETER") unitPropertyId: Long,
-
-        categoryId: Long,
-        categoryCreatedAt: String,
-        categoryUpdatedAt: String,
-        categoryKey: String?,
-        categoryName: String,
-        categoryIcon: String?,
-        categorySortIndex: Long,
-        categoryIsActive: Long,
     ): MeasurementProperty.Local {
         return MeasurementProperty.Local(
             id = propertyId,
@@ -84,7 +84,7 @@ class MeasurementPropertySqlDelightMapper(
                 abbreviation = unitAbbreviation,
                 factor = unitFactor,
                 isSelected = unitIsSelected.toSqlLiteBoolean(),
-                property = this,
+                property = TODO(),
             ),
         )
     }

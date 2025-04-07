@@ -19,8 +19,8 @@ SELECT last_insert_rowid();
 getByDateRange:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime
 ORDER BY Entry.dateTime;
@@ -28,8 +28,8 @@ ORDER BY Entry.dateTime;
 getLatestByProperty:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.key == :key
 ORDER BY Entry.dateTime DESC
@@ -38,8 +38,8 @@ LIMIT 1;
 getByCategory:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementCategory.key == :categoryKey
 AND Entry.dateTime >= :minDateTime
@@ -48,8 +48,8 @@ AND Entry.dateTime <= :maxDateTime;
 getByEntry:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE entryId = ?;
 
@@ -67,7 +67,7 @@ WHERE MeasurementProperty.categoryId == :categoryId;
 getAverageByPropertyKey:
 SELECT AVG(MeasurementValue.value) FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.key == :propertyKey
 AND Entry.dateTime >= :minDateTime
@@ -83,11 +83,11 @@ AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;
 
 getAveragesByCategory:
-SELECT AVG(MeasurementValue.value), MeasurementProperty.*, MeasurementUnit.*, MeasurementCategory.* FROM MeasurementValue
+SELECT AVG(MeasurementValue.value), MeasurementProperty.*, MeasurementCategory.*, MeasurementUnit.* FROM MeasurementValue
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 WHERE MeasurementProperty.categoryId == :categoryId
 AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;

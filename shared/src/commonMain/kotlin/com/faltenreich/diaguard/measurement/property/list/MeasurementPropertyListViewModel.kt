@@ -84,8 +84,7 @@ class MeasurementPropertyListViewModel(
                             isHighlighted = false,
                         ),
                         category = category,
-                        unitName = unitName,
-                        unitIsSelected = true,
+                        unit = TODO(),
                     )
                     scope.launch {
                         closeModal()

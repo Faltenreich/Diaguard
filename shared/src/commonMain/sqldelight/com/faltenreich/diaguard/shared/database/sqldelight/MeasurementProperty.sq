@@ -42,27 +42,27 @@ SELECT last_insert_rowid();
 
 getById:
 SELECT * FROM MeasurementProperty
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 WHERE MeasurementProperty.id = ?;
 
 getByKey:
 SELECT * FROM MeasurementProperty
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 WHERE MeasurementProperty.key = ?;
 
 getByCategory:
 SELECT * FROM MeasurementProperty
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 WHERE MeasurementProperty.categoryId = ?
 ORDER BY MeasurementProperty.sortIndex ASC;
 
 getAll:
 SELECT * FROM MeasurementProperty
-INNER JOIN MeasurementUnit ON MeasurementUnit.propertyId == MeasurementProperty.id AND MeasurementUnit.isSelected == 1
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 ORDER BY MeasurementProperty.sortIndex ASC;
 
 update:

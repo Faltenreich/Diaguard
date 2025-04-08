@@ -30,6 +30,7 @@ class ImportSeedUseCase(
         val unitsBySeed = seedRepository.getUnits().map { seed ->
             val unitId = unitRepository.create(seed)
             val unit = checkNotNull(unitRepository.getById(unitId))
+            Logger.debug("Imported unit ${unit.key} from seed")
             seed to unit
         }
 
@@ -44,6 +45,7 @@ class ImportSeedUseCase(
                     categoryId = categoryId,
                     unitId = unit.id,
                 )
+                Logger.debug("Imported property ${property.key} from seed")
             }
         }
         Logger.info("Imported ${categories.size} categories from seed")
@@ -51,13 +53,19 @@ class ImportSeedUseCase(
 
     private fun importFood() {
         val food = seedRepository.getFood()
-        food.forEach(foodRepository::create)
+        food.forEach { seed ->
+            foodRepository.create(seed)
+            Logger.debug("Imported food ${seed.name} from seed")
+        }
         Logger.info("Imported ${food.size} foods from seed")
     }
 
     private fun importTags() {
         val tags = seedRepository.getTags()
-        tags.forEach(tagRepository::create)
+        tags.forEach { seed ->
+            tagRepository.create(seed)
+            Logger.debug("Imported tag ${seed.name} from seed")
+        }
         Logger.info("Imported ${tags.size} tags from seed")
     }
 }

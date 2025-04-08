@@ -13,6 +13,8 @@ import diaguard.shared.generated.resources.carbohydrate_units
 import diaguard.shared.generated.resources.carbohydrate_units_abbreviation
 import diaguard.shared.generated.resources.carbohydrates
 import diaguard.shared.generated.resources.carbohydrates_abbreviation
+import diaguard.shared.generated.resources.insulin_units
+import diaguard.shared.generated.resources.insulin_units_abbreviation
 import diaguard.shared.generated.resources.kilograms
 import diaguard.shared.generated.resources.kilograms_abbreviation
 import diaguard.shared.generated.resources.milligrams_per_deciliter
@@ -63,6 +65,13 @@ class MeasurementUnitSeedQueries(
                 abbreviation = localization.getString(Res.string.carbohydrate_units_abbreviation),
                 factor = 0.1,
                 isSelected = false,
+            ),
+            MeasurementUnit.Seed(
+                key = DatabaseKey.MeasurementUnit.INSULIN_UNITS,
+                name = localization.getString(Res.string.insulin_units),
+                abbreviation = localization.getString(Res.string.insulin_units_abbreviation),
+                factor = 1.0,
+                isSelected = true,
             ),
             MeasurementUnit.Seed(
                 key = DatabaseKey.MeasurementUnit.KILOGRAMS,

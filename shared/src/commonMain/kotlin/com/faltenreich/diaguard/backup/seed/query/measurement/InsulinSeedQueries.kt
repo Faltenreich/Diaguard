@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.seed.query.measurement
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -37,7 +38,13 @@ class InsulinSeedQueries(
                         maximum = 100.0,
                         isHighlighted = false,
                     ),
-                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.INSULIN_UNITS),
+                    unitSuggestions = listOf(
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.INSULIN_UNITS,
+                            isDefault = true,
+                        ),
+                    ),
                 ),
                 MeasurementProperty.Seed(
                     key = DatabaseKey.MeasurementProperty.INSULIN_CORRECTION,
@@ -52,7 +59,13 @@ class InsulinSeedQueries(
                         maximum = 100.0,
                         isHighlighted = false,
                     ),
-                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.INSULIN_UNITS),
+                    unitSuggestions = listOf(
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.INSULIN_UNITS,
+                            isDefault = true,
+                        ),
+                    ),
                 ),
                 MeasurementProperty.Seed(
                     key = DatabaseKey.MeasurementProperty.INSULIN_BASAL,
@@ -67,7 +80,13 @@ class InsulinSeedQueries(
                         maximum = 100.0,
                         isHighlighted = false,
                     ),
-                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.INSULIN_UNITS),
+                    unitSuggestions = listOf(
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.INSULIN_UNITS,
+                            isDefault = true,
+                        ),
+                    ),
                 ),
             ),
         )

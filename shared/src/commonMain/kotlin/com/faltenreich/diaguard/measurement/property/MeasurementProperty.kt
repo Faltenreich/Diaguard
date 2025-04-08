@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.measurement.property
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -23,7 +24,7 @@ sealed interface MeasurementProperty {
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
         val key: DatabaseKey.MeasurementProperty?,
-        val unitSuggestions: List<DatabaseKey.MeasurementUnit>,
+        val unitSuggestions: List<MeasurementUnitSuggestion.Seed>,
     ) : MeasurementProperty
 
     data class User(

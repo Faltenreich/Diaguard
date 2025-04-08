@@ -4,17 +4,16 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 sealed interface MeasurementUnitSuggestion {
 
     val factor: Double
-    val property: MeasurementProperty.Local
-    val unit: MeasurementUnit.Local
 
     data class Seed(
         override val factor: Double,
-        override val property: MeasurementProperty.Local,
-        override val unit: MeasurementUnit.Local,
+        val unit: DatabaseKey.MeasurementUnit,
+        val isDefault: Boolean,
     ) : MeasurementUnitSuggestion
 
     data class Local(
@@ -22,7 +21,12 @@ sealed interface MeasurementUnitSuggestion {
         override val createdAt: DateTime,
         override val updatedAt: DateTime,
         override val factor: Double,
-        override val property: MeasurementProperty.Local,
-        override val unit: MeasurementUnit.Local,
+        val property: MeasurementProperty.Local,
+        val unit: MeasurementUnit.Local,
     ) : MeasurementUnitSuggestion, DatabaseEntity
+
+    companion object {
+
+        const val FACTOR_DEFAULT = 1.0
+    }
 }

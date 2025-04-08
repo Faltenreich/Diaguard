@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.seed.query.measurement
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -36,7 +37,13 @@ class BloodPressureSeedQueries(
                         maximum = 300.0,
                         isHighlighted = true,
                     ),
-                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY),
+                    unitSuggestions = listOf(
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY,
+                            isDefault = true,
+                        ),
+                    ),
                 ),
                 MeasurementProperty.Seed(
                     key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC,
@@ -51,7 +58,13 @@ class BloodPressureSeedQueries(
                         maximum = 300.0,
                         isHighlighted = true,
                     ),
-                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY),
+                    unitSuggestions = listOf(
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY,
+                            isDefault = true,
+                        ),
+                    ),
                 ),
             ),
         )

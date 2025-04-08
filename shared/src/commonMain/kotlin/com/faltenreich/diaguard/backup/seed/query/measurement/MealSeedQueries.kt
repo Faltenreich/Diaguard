@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.seed.query.measurement
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -35,9 +36,21 @@ class MealSeedQueries(
                         isHighlighted = false,
                     ),
                     unitSuggestions = listOf(
-                        DatabaseKey.MeasurementUnit.CARBOHYDRATES,
-                        DatabaseKey.MeasurementUnit.CARBOHYDRATE_UNITS,
-                        DatabaseKey.MeasurementUnit.BREAD_UNITS,
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.CARBOHYDRATES,
+                            isDefault = true,
+                        ),
+                        MeasurementUnitSuggestion.Seed(
+                            factor = 0.1,
+                            unit = DatabaseKey.MeasurementUnit.CARBOHYDRATE_UNITS,
+                            isDefault = false,
+                        ),
+                        MeasurementUnitSuggestion.Seed(
+                            factor = 0.0833,
+                            unit = DatabaseKey.MeasurementUnit.BREAD_UNITS,
+                            isDefault = false,
+                        ),
                     ),
                 ),
             ),

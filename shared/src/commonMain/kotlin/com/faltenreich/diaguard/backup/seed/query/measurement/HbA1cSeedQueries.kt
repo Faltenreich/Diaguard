@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.seed.query.measurement
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -35,8 +36,16 @@ class HbA1cSeedQueries(
                         isHighlighted = true,
                     ),
                     unitSuggestions = listOf(
-                        DatabaseKey.MeasurementUnit.PERCENT,
-                        DatabaseKey.MeasurementUnit.MILLIMOLES_PER_MOLE,
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.PERCENT,
+                            isDefault = true,
+                        ),
+                        MeasurementUnitSuggestion.Seed(
+                            factor = 0.00001,
+                            unit = DatabaseKey.MeasurementUnit.MILLIMOLES_PER_MOLE,
+                            isDefault = false,
+                        ),
                     ),
                 ),
             ),

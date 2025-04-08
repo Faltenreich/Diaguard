@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.seed.query.measurement
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -35,8 +36,16 @@ class BloodSugarSeedQueries(
                         isHighlighted = true,
                     ),
                     unitSuggestions = listOf(
-                        DatabaseKey.MeasurementUnit.MILLIGRAMS_PER_DECILITER,
-                        DatabaseKey.MeasurementUnit.MILLIMOLES_PER_LITER,
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.MILLIGRAMS_PER_DECILITER,
+                            isDefault = true,
+                        ),
+                        MeasurementUnitSuggestion.Seed(
+                            factor = 0.0555,
+                            unit = DatabaseKey.MeasurementUnit.MILLIMOLES_PER_LITER,
+                            isDefault = false,
+                        ),
                     ),
                 )
             ),

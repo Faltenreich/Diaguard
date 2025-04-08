@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.backup.seed.query.measurement
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -34,7 +35,13 @@ class ActivitySeedQueries(
                         maximum = 1000.0,
                         isHighlighted = false,
                     ),
-                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.MINUTES),
+                    unitSuggestions = listOf(
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.MINUTES,
+                            isDefault = true,
+                        ),
+                    ),
                 ),
             ),
         )

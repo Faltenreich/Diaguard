@@ -7,14 +7,18 @@ class MeasurementUnitSuggestionRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(propertyUnit: MeasurementUnitSuggestion.Seed): Long = with(propertyUnit) {
+    fun create(
+        unitSuggestion: MeasurementUnitSuggestion.Seed,
+        propertyId: Long,
+        unitId: Long,
+    ): Long = with(unitSuggestion) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
             updatedAt = now,
             factor = factor,
-            propertyId = property.id,
-            unitId = unit.id,
+            propertyId = propertyId,
+            unitId = unitId,
         )
         return checkNotNull(dao.getLastId())
     }

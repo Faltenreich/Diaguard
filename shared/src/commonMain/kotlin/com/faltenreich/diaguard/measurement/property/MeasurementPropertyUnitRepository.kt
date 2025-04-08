@@ -7,11 +7,12 @@ class MeasurementPropertyUnitRepository(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(propertyUnit: MeasurementPropertyUnit.User): Long = with(propertyUnit) {
+    fun create(propertyUnit: MeasurementPropertyUnit.Seed): Long = with(propertyUnit) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
             updatedAt = now,
+            factor = factor,
             propertyId = property.id,
             unitId = unit.id,
         )
@@ -20,9 +21,5 @@ class MeasurementPropertyUnitRepository(
 
     fun getById(id: Long): MeasurementPropertyUnit.Local? {
         return dao.getById(id)
-    }
-
-    fun delete(propertyUnit: MeasurementPropertyUnit.Local) {
-        dao.deleteById(propertyUnit.id)
     }
 }

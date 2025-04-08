@@ -19,12 +19,14 @@ class MeasurementPropertyUnitSqlDelightDao(
     override fun create(
         createdAt: DateTime,
         updatedAt: DateTime,
+        factor: Double,
         propertyId: Long,
         unitId: Long,
     ) {
         queries.create(
             createdAt = createdAt.isoString,
             updatedAt = updatedAt.isoString,
+            factor = factor,
             propertyId = propertyId,
             unitId = unitId,
         )
@@ -36,9 +38,5 @@ class MeasurementPropertyUnitSqlDelightDao(
 
     override fun getById(id: Long): MeasurementPropertyUnit.Local? {
         return queries.getById(id, mapper::map).executeAsOneOrNull()
-    }
-
-    override fun deleteById(id: Long) {
-        queries.deleteById(id)
     }
 }

@@ -1,16 +1,11 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestionDao
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementUnitSuggestionQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSuggestionSqlDelightMapper
-import com.faltenreich.diaguard.shared.di.inject
 
-class MeasurementUnitSuggestionSqlDelightDao(
-    private val mapper: MeasurementUnitSuggestionSqlDelightMapper = inject(),
-) : MeasurementUnitSuggestionDao, SqlDelightDao<MeasurementUnitSuggestionQueries> {
+class MeasurementUnitSuggestionSqlDelightDao : MeasurementUnitSuggestionDao, SqlDelightDao<MeasurementUnitSuggestionQueries> {
 
     override fun getQueries(api: SqlDelightApi): MeasurementUnitSuggestionQueries {
         return api.measurementUnitSuggestionQueries
@@ -34,9 +29,5 @@ class MeasurementUnitSuggestionSqlDelightDao(
 
     override fun getLastId(): Long? {
         return queries.getLastId().executeAsOneOrNull()
-    }
-
-    override fun getById(id: Long): MeasurementUnitSuggestion.Local? {
-        return queries.getById(id, mapper::map).executeAsOneOrNull()
     }
 }

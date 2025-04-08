@@ -47,6 +47,7 @@ sealed interface MeasurementProperty {
         val key: DatabaseKey.MeasurementProperty?,
         val category: MeasurementCategory.Local,
         val unit: MeasurementUnit.Local,
+        val valueFactor: Double,
     ) : MeasurementProperty, DatabaseEntity {
 
         val isUserGenerated: Boolean = key == null

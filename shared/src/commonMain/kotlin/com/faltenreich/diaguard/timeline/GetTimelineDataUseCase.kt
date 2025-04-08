@@ -63,7 +63,7 @@ class GetTimelineDataUseCase(
                                             // TODO: Decimal places may take up too much space
                                             value = mapValue(
                                                 value = value,
-                                                unit = property.unit,
+                                                property = property,
                                                 decimalPlaces = decimalPlaces,
                                             ).value,
                                         )

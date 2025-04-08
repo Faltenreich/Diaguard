@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.value
 
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 
@@ -12,14 +11,12 @@ class MeasurementValueMapper(
 
     operator fun invoke(
         value: Double,
-        unit: MeasurementUnit,
+        property: MeasurementProperty.Local,
         decimalPlaces: Int,
-        // TODO:
-        suggestion: MeasurementUnitSuggestion? = null,
     ): MeasurementValue.Localized {
         return MeasurementValue.Localized(
             value = formatNumber(
-                number = value * (suggestion?.let(MeasurementUnitSuggestion::factor) ?: 1.0),
+                number = value * property.valueFactor,
                 scale = decimalPlaces,
                 locale = localization.getLocale(),
             ),
@@ -32,20 +29,16 @@ class MeasurementValueMapper(
     ): MeasurementValue.Localized {
         return invoke(
             value = value.value,
-            unit = value.property.unit,
-            // TODO:
-            suggestion = null,
+            property = value.property,
             decimalPlaces = decimalPlaces,
         )
     }
 
     operator fun invoke(
         value: String,
-        unit: MeasurementUnit,
-        // TODO:
-        suggestion: MeasurementUnitSuggestion? = null,
+        property: MeasurementProperty.Local,
     ): Double? {
         val number = value.toDoubleOrNull() ?: return null
-        return number / (suggestion?.let(MeasurementUnitSuggestion::factor) ?: 1.0)
+        return number / property.valueFactor
     }
 }

@@ -13,6 +13,4 @@ interface MeasurementUnitSuggestionDao {
     )
 
     fun getLastId(): Long?
-
-    fun getById(id: Long): MeasurementUnitSuggestion.Local?
 }

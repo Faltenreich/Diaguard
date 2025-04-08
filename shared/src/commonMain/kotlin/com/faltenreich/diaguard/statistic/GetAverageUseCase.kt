@@ -44,7 +44,7 @@ class GetAverageUseCase(
                         "%s %s".format(
                             mapValue(
                                 value = average.value,
-                                unit = average.property.unit,
+                                property = average.property,
                                 decimalPlaces = decimalPlaces,
                             ).value,
                             average.property.unit.abbreviation,

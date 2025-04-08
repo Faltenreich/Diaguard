@@ -49,6 +49,13 @@ class MeasurementValueSqlDelightMapper(
         unitName: String,
         unitAbbreviation: String,
 
+        unitSuggestionId: Long,
+        unitSuggestionCreatedAt: String,
+        unitSuggestionUpdatedAt: String,
+        unitSuggestionFactor: Double,
+        unitSuggestionPropertyId: Long,
+        unitSuggestionUnitId: Long,
+
         entryId: Long,
         entryCreatedAt: String,
         entryUpdatedAt: String,
@@ -77,13 +84,6 @@ class MeasurementValueSqlDelightMapper(
                 propertyCategoryId = propertyCategoryId,
                 propertyUnitId = propertyUnitId,
 
-                unitId = unitId,
-                unitCreatedAt = unitCreatedAt,
-                unitUpdatedAt = unitUpdatedAt,
-                unitKey = unitKey,
-                unitName = unitName,
-                unitAbbreviation = unitAbbreviation,
-
                 categoryId = categoryId,
                 categoryCreatedAt = categoryCreatedAt,
                 categoryUpdatedAt = categoryUpdatedAt,
@@ -92,6 +92,20 @@ class MeasurementValueSqlDelightMapper(
                 categoryIcon = categoryIcon,
                 categorySortIndex = categorySortIndex,
                 categoryIsActive = categoryIsActive,
+
+                unitId = unitId,
+                unitCreatedAt = unitCreatedAt,
+                unitUpdatedAt = unitUpdatedAt,
+                unitKey = unitKey,
+                unitName = unitName,
+                unitAbbreviation = unitAbbreviation,
+
+                unitSuggestionId = unitSuggestionId,
+                unitSuggestionCreatedAt = unitSuggestionCreatedAt,
+                unitSuggestionUpdatedAt = unitSuggestionUpdatedAt,
+                unitSuggestionFactor = unitSuggestionFactor,
+                unitSuggestionPropertyId = unitSuggestionPropertyId,
+                unitSuggestionUnitId = unitSuggestionUnitId,
             ),
             entry = entryMapper.map(
                 id = entryId,
@@ -137,6 +151,13 @@ class MeasurementValueSqlDelightMapper(
         unitKey: String?,
         unitName: String,
         unitAbbreviation: String,
+
+        unitSuggestionId: Long,
+        unitSuggestionCreatedAt: String,
+        unitSuggestionUpdatedAt: String,
+        unitSuggestionFactor: Double,
+        unitSuggestionPropertyId: Long,
+        unitSuggestionUnitId: Long,
     ): MeasurementValue.Average {
         return MeasurementValue.Average(
             value = requireNotNull(average),
@@ -157,13 +178,6 @@ class MeasurementValueSqlDelightMapper(
                 propertyCategoryId = propertyCategoryId,
                 propertyUnitId = propertyUnitId,
 
-                unitId = unitId,
-                unitCreatedAt = unitCreatedAt,
-                unitUpdatedAt = unitUpdatedAt,
-                unitKey = unitKey,
-                unitName = unitName,
-                unitAbbreviation = unitAbbreviation,
-
                 categoryId = categoryId,
                 categoryCreatedAt = categoryCreatedAt,
                 categoryUpdatedAt = categoryUpdatedAt,
@@ -172,6 +186,20 @@ class MeasurementValueSqlDelightMapper(
                 categoryIcon = categoryIcon,
                 categorySortIndex = categorySortIndex,
                 categoryIsActive = categoryIsActive,
+
+                unitId = unitId,
+                unitCreatedAt = unitCreatedAt,
+                unitUpdatedAt = unitUpdatedAt,
+                unitKey = unitKey,
+                unitName = unitName,
+                unitAbbreviation = unitAbbreviation,
+
+                unitSuggestionId = unitSuggestionId,
+                unitSuggestionCreatedAt = unitSuggestionCreatedAt,
+                unitSuggestionUpdatedAt = unitSuggestionUpdatedAt,
+                unitSuggestionFactor = unitSuggestionFactor,
+                unitSuggestionPropertyId = unitSuggestionPropertyId,
+                unitSuggestionUnitId = unitSuggestionUnitId,
             ),
         )
     }

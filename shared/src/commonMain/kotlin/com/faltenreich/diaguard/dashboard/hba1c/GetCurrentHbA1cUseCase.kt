@@ -68,7 +68,7 @@ class GetCurrentHbA1cUseCase(
             label = localization.getString(Res.string.hba1c_estimated),
             value = measurementValueMapper(
                 value = value.value,
-                unit = value.property.unit,
+                property = value.property,
                 decimalPlaces = decimalPlaces,
             ),
             onClick = { openBottomSheet(EstimatedHbA1cInfoBottomSheet) },

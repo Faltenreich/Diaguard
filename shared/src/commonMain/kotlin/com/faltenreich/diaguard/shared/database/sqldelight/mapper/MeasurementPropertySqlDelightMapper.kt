@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
@@ -45,6 +46,13 @@ class MeasurementPropertySqlDelightMapper(
         unitKey: String?,
         unitName: String,
         unitAbbreviation: String,
+
+        unitSuggestionId: Long,
+        unitSuggestionCreatedAt: String,
+        unitSuggestionUpdatedAt: String,
+        unitSuggestionFactor: Double,
+        unitSuggestionPropertyId: Long,
+        unitSuggestionUnitId: Long,
     ): MeasurementProperty.Local {
         return MeasurementProperty.Local(
             id = propertyId,
@@ -80,6 +88,7 @@ class MeasurementPropertySqlDelightMapper(
                 name = unitName,
                 abbreviation = unitAbbreviation,
             ),
+            valueFactor = unitSuggestionFactor ?: MeasurementUnitSuggestion.FACTOR_DEFAULT,
         )
     }
 }

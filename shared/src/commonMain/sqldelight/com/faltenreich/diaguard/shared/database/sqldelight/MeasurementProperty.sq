@@ -44,18 +44,21 @@ getById:
 SELECT * FROM MeasurementProperty
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+INNER JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 WHERE MeasurementProperty.id = ?;
 
 getByKey:
 SELECT * FROM MeasurementProperty
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+INNER JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 WHERE MeasurementProperty.key = ?;
 
 getByCategory:
 SELECT * FROM MeasurementProperty
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+INNER JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 WHERE MeasurementProperty.categoryId = ?
 ORDER BY MeasurementProperty.sortIndex ASC;
 
@@ -63,6 +66,7 @@ getAll:
 SELECT * FROM MeasurementProperty
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+INNER JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 ORDER BY MeasurementProperty.sortIndex ASC;
 
 update:

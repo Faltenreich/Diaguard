@@ -22,8 +22,4 @@ class MeasurementUnitSuggestionRepository(
         )
         return checkNotNull(dao.getLastId())
     }
-
-    fun getById(id: Long): MeasurementUnitSuggestion.Local? {
-        return dao.getById(id)
-    }
 }

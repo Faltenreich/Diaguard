@@ -15,10 +15,10 @@ class RealisticMeasurementValueRule(
 ) : ValidationRule<MeasurementPropertyInputState> {
 
     override fun check(input: MeasurementPropertyInputState): ValidationResult<MeasurementPropertyInputState> {
-        val unit = input.property.unit
+        val property = input.property
         val value = mapValue(
             value = input.input,
-            unit = unit,
+            property = property,
         )
         val (minimumValue, maximumValue) = input.property.range.minimum to input.property.range.maximum
         return when (value) {
@@ -30,12 +30,12 @@ class RealisticMeasurementValueRule(
                     Res.string.entry_form_error_unrealistic_value,
                     mapValue(
                         value = minimumValue,
-                        unit = unit,
+                        property = property,
                         decimalPlaces = input.decimalPlaces,
                     ).value,
                     mapValue(
                         value = maximumValue,
-                        unit = unit,
+                        property = property,
                         decimalPlaces = input.decimalPlaces,
                     ).value,
                 ),

@@ -93,7 +93,7 @@ class GetFoodEatenInputStateUseCase(
     ): String {
         val valueLocalized = valueMapper(
             value = carbohydrates,
-            unit = property.unit,
+            property = property,
             decimalPlaces = decimalPlaces,
         ).value
         return localization

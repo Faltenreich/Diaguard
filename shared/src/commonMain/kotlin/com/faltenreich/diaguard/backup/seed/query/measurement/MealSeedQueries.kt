@@ -34,7 +34,7 @@ class MealSeedQueries(
                         maximum = 1000.0,
                         isHighlighted = false,
                     ),
-                    units = listOf(
+                    unitSuggestions = listOf(
                         DatabaseKey.MeasurementUnit.CARBOHYDRATES,
                         DatabaseKey.MeasurementUnit.CARBOHYDRATE_UNITS,
                         DatabaseKey.MeasurementUnit.BREAD_UNITS,

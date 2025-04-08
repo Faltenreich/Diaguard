@@ -34,7 +34,7 @@ class HbA1cSeedQueries(
                         maximum = 25.0,
                         isHighlighted = true,
                     ),
-                    units = listOf(
+                    unitSuggestions = listOf(
                         DatabaseKey.MeasurementUnit.PERCENT,
                         DatabaseKey.MeasurementUnit.MILLIMOLES_PER_MOLE,
                     ),

@@ -34,7 +34,7 @@ class OxygenSaturationSeedQueries(
                         maximum = 100.0,
                         isHighlighted = true,
                     ),
-                    units = listOf(DatabaseKey.MeasurementUnit.PERCENT),
+                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.PERCENT),
                 ),
             ),
         )

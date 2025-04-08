@@ -36,7 +36,7 @@ class BloodPressureSeedQueries(
                         maximum = 300.0,
                         isHighlighted = true,
                     ),
-                    units = listOf(DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY),
+                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY),
                 ),
                 MeasurementProperty.Seed(
                     key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC,
@@ -51,7 +51,7 @@ class BloodPressureSeedQueries(
                         maximum = 300.0,
                         isHighlighted = true,
                     ),
-                    units = listOf(DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY),
+                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY),
                 ),
             ),
         )

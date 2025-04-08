@@ -34,7 +34,7 @@ class BloodSugarSeedQueries(
                         maximum = 1000.0,
                         isHighlighted = true,
                     ),
-                    units = listOf(
+                    unitSuggestions = listOf(
                         DatabaseKey.MeasurementUnit.MILLIGRAMS_PER_DECILITER,
                         DatabaseKey.MeasurementUnit.MILLIMOLES_PER_LITER,
                     ),

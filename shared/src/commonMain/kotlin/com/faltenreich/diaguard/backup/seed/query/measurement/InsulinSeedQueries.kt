@@ -37,7 +37,7 @@ class InsulinSeedQueries(
                         maximum = 100.0,
                         isHighlighted = false,
                     ),
-                    units = listOf(DatabaseKey.MeasurementUnit.INSULIN_UNITS),
+                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.INSULIN_UNITS),
                 ),
                 MeasurementProperty.Seed(
                     key = DatabaseKey.MeasurementProperty.INSULIN_CORRECTION,
@@ -52,7 +52,7 @@ class InsulinSeedQueries(
                         maximum = 100.0,
                         isHighlighted = false,
                     ),
-                    units = listOf(DatabaseKey.MeasurementUnit.INSULIN_UNITS),
+                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.INSULIN_UNITS),
                 ),
                 MeasurementProperty.Seed(
                     key = DatabaseKey.MeasurementProperty.INSULIN_BASAL,
@@ -67,7 +67,7 @@ class InsulinSeedQueries(
                         maximum = 100.0,
                         isHighlighted = false,
                     ),
-                    units = listOf(DatabaseKey.MeasurementUnit.INSULIN_UNITS),
+                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.INSULIN_UNITS),
                 ),
             ),
         )

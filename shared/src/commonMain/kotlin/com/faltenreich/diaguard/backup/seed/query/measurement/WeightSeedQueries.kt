@@ -34,7 +34,7 @@ class WeightSeedQueries(
                         maximum = 1400.0,
                         isHighlighted = false,
                     ),
-                    units = listOf(
+                    unitSuggestions = listOf(
                         DatabaseKey.MeasurementUnit.KILOGRAMS,
                         DatabaseKey.MeasurementUnit.POUNDS,
                     ),

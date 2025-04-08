@@ -37,7 +37,8 @@ class ImportSeedUseCase(
         categories.forEach { category ->
             val categoryId = categoryRepository.create(category)
             category.properties.forEach { property ->
-                val selection = property.units.firstOrNull()
+                // TODO: Mark pre-selected unit
+                val selection = property.unitSuggestions.firstOrNull()
                     ?: error("Property contains no units: $property ")
                 val unit = unitsBySeed.firstOrNull { (seed, _) -> seed.key == selection }?.second
                     ?: error("Property with unknown unit: $property")

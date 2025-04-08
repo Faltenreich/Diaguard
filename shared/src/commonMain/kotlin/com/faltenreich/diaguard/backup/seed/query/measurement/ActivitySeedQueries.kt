@@ -34,7 +34,7 @@ class ActivitySeedQueries(
                         maximum = 1000.0,
                         isHighlighted = false,
                     ),
-                    units = listOf(DatabaseKey.MeasurementUnit.MINUTES),
+                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.MINUTES),
                 ),
             ),
         )

@@ -34,7 +34,7 @@ class PulseSeedQueries(
                         maximum = 200.0,
                         isHighlighted = true,
                     ),
-                    units = listOf(DatabaseKey.MeasurementUnit.BEATS_PER_MINUTE),
+                    unitSuggestions = listOf(DatabaseKey.MeasurementUnit.BEATS_PER_MINUTE),
                 ),
             ),
         )

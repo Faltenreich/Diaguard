@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="app_name" translatable="false">Diaguard</string>
+    <string name="app_facebook" translatable="false">http://www.facebook.com/diaguard.de</string>
+    <string name="app_facebook_short" translatable="false">facebook.com/diaguard.de</string>
+    <string name="app_homepage" translatable="false">http://www.diaguard.wordpress.com</string>
+    <string name="app_homepage_short" translatable="false">diaguard.wordpress.com</string>
+    <string name="app_mail" translatable="false">mailto:diaguard.de@gmail.com</string>
+    <string name="app_mail_short" translatable="false">diaguard.de@gmail.com</string>
+    <string name="app_sourcecode" translatable="false">https://github.com/Faltenreich/Diaguard</string>
+    <string name="app_sourcecode_short" translatable="false">github.com/Faltenreich/Diaguard</string>
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_EN.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>
+
+    <string name="food_source_common_provider" translatable="false">Schweizer Nährwertdatenbank</string>
+    <string name="food_source_common_url" translatable="false">https://www.naehrwertdaten.ch</string>
+    <string name="food_source_common_url_short" translatable="false">naehrwertdaten.ch</string>
+
+    <string name="food_source_branded_provider" translatable="false">Open Food Facts</string>
+    <string name="food_source_branded_url" translatable="false">http://world.openfoodfacts.org</string>
+    <string name="food_source_branded_url_short" translatable="false">openfoodfacts.org</string>
+
+    <!-- GENERAL -->
+
+    <string name="about">Hakkında</string>
+    <string name="active">aktif</string>
+    <string name="activity">Aktivite</string>
+    <string name="all">Tümü</string>
+    <string name="alarm">Kan şekerini ölç</string>
+    <string name="alarm_delete">Hatırlatıcıyı kaldır</string>
+    <string name="alarm_deleted">Hatırlatıcı kaldırıldı</string>
+    <string name="alarm_desc">Son ölçüme göre %s geçti</string>
+    <string name="alarm_desc_first">Henüz düşündün mü?</string>
+    <string name="alarm_reminder">Hatırlatıcı</string>
+    <string name="alarm_reminder_none">Hatırlatıcı yok</string>
+    <string name="alarm_reminder_in">Hatırlatıcı şu kadar süre sonra:</string>
+    <string name="amount">Miktar &#8230;</string>
+    <string name="average">Ortalama</string>
+    <string name="average_symbol" translatable="false">Ø</string>
+    <string name="back">Geri</string>
+    <string name="backup_create">Yedek oluştur</string>
+    <string name="backup_complete">Yedekleme tamamlandı</string>
+    <string name="backup_import">Yedeği içe aktar</string>
+    <string name="backup_import_progress">Yedek geri yükleniyor &#8230;</string>
+    <string name="backup_store">Yedeği sakla</string>
+    <string name="backup_title">Yedek seç</string>
+    <string name="basal">Bazal</string>
+    <string name="bloodsugar">Kan Şekeri</string>
+    <string name="bloodsugar_acronym">Kan Şekeri</string>
+    <string name="bolus">Bolus</string>
+    <string name="bolus_no1">Bolus enjeksiyonu yapılması önerilmez.</string>
+    <string name="bolus_no2">Bunun yerine kan şekeri seviyesinin düşmesini önlemek için karbonhidrat ağırlıklı ürünler tüketilmelidir.</string>
+    <string name="brand">Marka</string>
+    <string name="calculator">Hesaplayıcı</string>
+    <string name="cancel">İptal</string>
+    <string name="categories">Kategoriler</string>
+    <string name="category">Kategori</string>
+    <string name="category_pin">Kategoriyi sabitle</string>
+    <string name="category_pin_confirm">%s sabitlendi</string>
+    <string name="category_unpin_confirm">%s sabitlemesi kaldırıldı</string>
+    <string name="cleanup">Temizle</string>
+    <string name="cleanup_desc">Bu işlem, seçilen tarihe kadar olan tüm verileri kalıcı olarak silecektir.</string>
+    <string name="contact">İletişim</string>
+    <string name="correction">Düzeltme</string>
+    <string name="correction_value">Düzeltme faktörü</string>
+    <string name="correction_value_desc">1 IE insülin ile kan şekeri düşüşü</string>
+    <string name="data">Veri</string>
+    <string name="date_select">Tarih seç</string>
+    <string name="day_next">Sonraki gün</string>
+    <string name="day_previous">Önceki gün</string>
+    <string name="delete">Sil</string>
+    <string name="diastolic">Diyastolik</string>
+    <string name="diastolic_acronym">diyast.</string>
+    <string name="distribution">Dağılım</string>
+    <string name="drawer_close">Gezgini kapat</string>
+    <string name="drawer_open">Gezgini aç</string>
+    <string name="edit">Düzenle</string>
+    <string name="empty_days_skip">Giriş olmayan günleri atla</string>
+    <string name="energy_acronym">kcal</string>
+    <string name="energy_acronym_2">kJ</string>
+    <string name="entries">Girişler</string>
+    <string name="entry">Giriş</string>
+    <string name="entry_added">Giriş eklendi</string>
+    <string name="entry_count_per_day">Günlük giriş sayısı</string>
+    <string name="entry_edit">Girişi düzenle</string>
+    <string name="entry_delete">Girişi sil</string>
+    <string name="entry_deleted">Giriş silindi</string>
+    <string name="entry_new">Yeni giriş</string>
+    <string name="export">Dışa aktar</string>
+    <string name="export_complete">%s konumuna kaydedildi</string>
+    <string name="export_progress">PDF oluşturuluyor</string>
+    <string name="export_page">Sayfa %d</string>
+    <string name="export_stamp">Rapor şu tarihte oluşturuldu:</string>
+    <string name="facebook" translatable="false">Facebook</string>
+    <string name="first_visit">İlk ziyaret mi?</string>
+    <string name="first_visit_desc">İlk değerini gir</string>
+    <string name="food">Yiyecek</string>
+    <string name="food_add">Yiyecek ekle</string>
+    <string name="food_add_desc">Yiyecek ekle</string>
+    <string name="food_common">Genel yiyecek</string>
+    <string name="food_delete">Yiyeceği sil</string>
+    <string name="food_deleted">Yiyecek silindi</string>
+    <string name="food_eaten_placeholder">%d yenmiş yemek etkilenecek</string>
+    <string name="food_edit">Yiyeceği düzenle</string>
+    <string name="food_new">Yeni yiyecek</string>
+    <string name="food_search">Yiyecek ara</string>
+    <string name="format">Biçim</string>
+    <string name="general">Genel</string>
+    <string name="grams_acronym">g</string>
+    <string name="milligrams_acronym">mg</string>
+    <string name="grams_milliliters_acronym">g</string>
+    <string name="hba1c">HbA1c</string>
+    <string name="hba1c_estimated">Tahmini HbA1c</string>
+    <string name="hba1c_on">%s tarihindeki HbA1c</string>
+    <string name="hba1c_formula" translatable="false">HbA1c = 0,031 * %s 3-%s-%s + 2,393</string>
+    <string name="home">Ana Sayfa</string>
+    <string name="homepage">Web Sitesi</string>
+    <string name="hyper">Hiper</string>
+    <string name="hyper_per_day">Günlük hiperler</string>
+    <string name="hyphen" translatable="false">-</string>
+    <string name="hypo">Hipo</string>
+    <string name="hypo_per_day">Günlük hipolar</string>
+    <string name="in">içinde</string>
+    <string name="info">Bilgi</string>
+    <string name="ingredients">İçindekiler</string>
+    <string name="insulin">İnsülin</string>
+    <string name="interval">Aralık</string>
+    <string name="latest">[değer] [birim] önce</string>
+    <string name="latest_moments">Kısa süre önce</string>
+    <string name="licenses">Açık Kaynak Lisansları</string>
+    <string name="log">Günlük</string>
+    <string name="mail">E-Posta</string>
+    <string name="meal">Yemek</string>
+    <string name="meal_optional">Yemek (İsteğe Bağlı)</string>
+    <string name="measurement_add">Ölçüm ekle</string>
+    <string name="measurement_latest">Son</string>
+    <string name="measurements">Ölçülen</string>
+    <string name="name">İsim</string>
+    <string name="no_data">Veri yok</string>
+    <string name="note">Not</string>
+    <string name="notes">Notlar</string>
+    <string name="nutriments">Besinler</string>
+    <string name="nutriments_per_100g">100 g başına besinler</string>
+    <string name="ok">Tamam</string>
+    <string name="overview">Genel Bakış</string>
+    <string name="per">başına</string>
+    <string name="per_day">gün başına</string>
+    <string name="placeholder" translatable="false">-</string>
+    <string name="pressure">Kan Basıncı</string>
+    <string name="pressure_acronym">Kan Bas.</string>
+    <string name="pulse">Nabız</string>
+    <string name="remove_placeholder">%s kaldır</string>
+    <string name="settings">Ayarlar</string>
+    <string name="sound">Ses</string>
+    <string name="startscreen">Başlangıç ekranı</string>
+    <string name="statistics">İstatistikler</string>
+    <string name="store_values">Kaydet</string>
+    <string name="systolic">Sistolik</string>
+    <string name="systolic_acronym">sist.</string>
+    <string name="target_area">Hedef alan</string>
+    <string name="timeline">Zaman Çizelgesi</string>
+    <string name="to">kadar</string>
+    <string name="today">Bugün</string>
+    <string name="trend">Eğilim</string>
+    <string name="try_again">Tekrar dene</string>
+    <string name="undo">Geri al</string>
+    <string name="units">Birimler</string>
+    <string name="weight">Ağırlık</string>
+    <string name="version">Sürüm</string>
+    <string name="vibration">Titreşim</string>
+    <string name="change_none">Sabit</string>
+    <string name="change_every_six_hours">Gün içinde her altı saatte bir değişir</string>
+    <string name="change_every_four_hours">Her dört saatte bir değişir</string>
+    <string name="change_every_second_hour">Her iki saatte bir değişir</string>
+    <string name="change_every_hour">Her saatte değişir</string>
+
+    <string name="carbohydrates">Karbonhidratlar</string>
+    <string name="carbohydrates_per_100g">100 g başına karbonhidratlar</string>
+    <string name="energy">Enerji</string>
+    <string name="fat">Yağ</string>
+    <string name="fat_saturated">Doymuş yağ</string>
+    <string name="fiber">Lif</string>
+    <string name="proteins">Proteinler</string>
+    <string name="salt">Tuz</string>
+    <string name="sodium">Sodyum</string>
+    <string name="sugar">Şeker</string>
+
+    <string-array name="time_rhythm" translatable="false">
+        <item>@string/change_none</item>
+        <item>@string/change_every_six_hours</item>
+        <item>@string/change_every_four_hours</item>
+        <item>@string/change_every_second_hour</item>
+        <item>@string/change_every_hour</item>
+    </string-array>
+
+    <string-array name="startscreens" translatable="false">
+        <item>@string/home</item>
+        <item>@string/timeline</item>
+        <item>@string/log</item>
+    </string-array>
+    <string-array name="startscreens_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <!-- DATE -->
+
+    <string name="calendarweek">Takvim haftası</string>
+    <string name="dateend">Bitiş tarihi</string>
+    <string name="dateformat">Tarih biçimi</string>
+    <string name="datestart">Başlangıç tarihi</string>
+    <string name="minute">Dakika</string>
+    <string name="minutes">Dakikalar</string>
+    <string name="hour">Saat</string>
+    <string name="hours">Saatler</string>
+    <string name="day">Gün</string>
+    <string name="days">Günler</string>
+    <string name="week">Hafta</string>
+    <string name="month">Ay</string>
+    <string name="months">Aylar</string>
+    <string name="quarter">Çeyrek</string>
+    <string name="year">Yıl</string>
+    <string name="morning">Sabah</string>
+    <string name="noon">Öğle</string>
+    <string name="evening">Akşam</string>
+    <string name="night">Gece</string>
+
+    <!-- EXPORT -->
+
+    <string-array name="formats" translatable="false">
+        <item>PDF</item>
+        <item>CSV</item>
+    </string-array>
+
+    <string-array name="styles" translatable="false">
+        <item>@string/table</item>
+        <item>@string/timeline</item>
+        <item>@string/log</item>
+    </string-array>
+
+    <!-- CATEGORIES -->
+
+    <string name="bloodsugar_units_default">mmol/L</string>
+    <string-array name="bloodsugar_units">
+        <item>mg/dL</item>
+        <item>mmol/L</item>
+    </string-array>
+    <string-array name="bloodsugar_units_values" translatable="false">
+        <item>1</item>
+        <item>0.0555</item>
+    </string-array>
+    <integer-array name="bloodsugar_extrema">
+        <item name="minimum">1</item>
+        <item name="maximum">1000</item>
+    </integer-array>
+
+    <string name="insulin_units_default">İnsülin Birimi</string>
+    <string-array name="insulin_units">
+        <item>İnsülin Birimi</item>
+    </string-array>
+    <string-array name="insulin_units_acronyms">
+        <item>IB</item>
+    </string-array>
+    <string-array name="insulin_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="insulin_extrema" translatable="false">
+        <item name="minimum">0</item>
+        <item name="maximum">100</item>
+    </integer-array>
+
+    <string name="meal_units_default">Karbonhidratlar</string>
+    <string-array name="meal_units">
+        <item>Karbonhidratlar</item>
+        <item>Karbonhidrat Birimi</item>
+        <item>Ekmek Birimi</item>
+    </string-array>
+    <string-array name="meal_units_acronyms">
+        <item>CHO</item>
+        <item>KB</item>
+        <item>EB</item>
+    </string-array>
+    <string-array name="meal_units_values" translatable="false">
+        <item>1</item>
+        <item>0.1</item>
+        <item>0.0833</item>
+    </string-array>
+    <integer-array name="meal_extrema">
+        <item name="minimum">0</item>
+        <item name="maximum">1000</item>
+    </integer-array>
+
+    <string name="activity_units_default">Dakikalar</string>
+    <string-array name="activity_units">
+        <item>Dakikalar</item>
+    </string-array>
+    <string-array name="activity_units_acronyms">
+        <item>dk</item>
+    </string-array>
+    <string-array name="activity_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="activity_extrema" translatable="false">
+        <item name="minimum">1</item>
+        <item name="maximum">1000</item>
+    </integer-array>
+
+    <string name="hba1c_units_default">Yüzde</string>
+    <string-array name="hba1c_units">
+        <item>Yüzde</item>
+        <item>mmol/mol</item>
+    </string-array>
+    <string-array name="hba1c_units_acronyms" translatable="false">
+        <item>%</item>
+    </string-array>
+    <string-array name="hba1c_units_values" translatable="false">
+        <item>1</item>
+        <item>0.00001</item>
+    </string-array>
+    <integer-array name="hba1c_extrema" translatable="false">
+        <item name="minimum">1</item>
+        <item name="maximum">25</item>
+    </integer-array>
+
+    <string name="weight_units_default">Pound</string>
+    <string-array name="weight_units">
+        <item>Kilogram</item>
+        <item>Pound</item>
+    </string-array>
+    <string-array name="weight_units_acronyms">
+        <item>kg</item>
+        <item>lb</item>
+    </string-array>
+    <string-array name="weight_units_values" translatable="false">
+        <item>1</item>
+        <item>2.20462262185</item>
+    </string-array>
+    <integer-array name="weight_extrema" translatable="false">
+        <item name="minimum">0</item>
+        <item name="maximum">1400</item>
+    </integer-array>
+
+    <string name="pulse_units_default">Dakika Başına Atım</string>
+    <string-array name="pulse_units">
+        <item>Dakika Başına Atım</item>
+    </string-array>
+    <string-array name="pulse_units_acronyms">
+        <item>nbz</item>
+    </string-array>
+    <string-array name="pulse_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="pulse_extrema" translatable="false">
+        <item name="minimum">10</item>
+        <item name="maximum">200</item>
+    </integer-array>
+
+    <string name="pressure_units_default">Milimetre Cıva</string>
+    <string-array name="pressure_units">
+        <item>Milimetre Cıva</item>
+    </string-array>
+    <string-array name="pressure_units_acronyms">
+        <item>mm Hg</item>
+    </string-array>
+    <string-array name="pressure_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="pressure_extrema" translatable="false">
+        <item name="minimum">10</item>
+        <item name="maximum">300</item>
+    </integer-array>
+
+    <string name="oxygen_saturation_units_default" translatable="false">@string/oxygen_saturation</string>
+    <string-array name="oxygen_saturation_units" translatable="false">
+        <item>@string/oxygen_saturation_units_default</item>
+    </string-array>
+    <string-array name="oxygen_saturation_units_acronyms" translatable="false">
+        <item>SpO2</item>
+    </string-array>
+    <string-array name="oxygen_saturation_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="oxygen_saturation_extrema" translatable="false">
+        <item name="minimum">50</item>
+        <item name="maximum">100</item>
+    </integer-array>
+
+    <!-- VALIDATORS -->
+    <string name="validator_value_number">Yalnızca sayılar kullanılabilir</string>
+    <string name="validator_value_infuture">Etkinlik gelecekte gerçekleşemez</string>
+    <string name="validator_value_empty">Lütfen bir değer girin</string>
+    <string name="validator_value_empty_list">En az bir kategori seçilmelidir</string>
+    <string name="validator_value_none">Girişte etkinlik yok</string>
+    <string name="validator_value_unrealistic">Gerçekçi olmayan değer</string>
+
+    <!-- ERRORS -->
+    <string name="error_unexpected">Bir şeyler ters gitti</string>
+    <string name="error_no_connection">Bağlantı yok mu?</string>
+    <string name="error_no_connection_desc">Daha fazla bilgi almak için çevrimiçi ol</string>
+    <string name="error_no_data">Boşluk mu var?</string>
+    <string name="error_no_data_desc">Sonuçlarını iyileştirmek için başka bir sorgu dene veya</string>
+    <string name="error_no_data_settings_desc">Daha fazla sonuç için ayarları değiştir</string>
+    <string name="error_no_mail">E-posta göndermek için uygulama bulunamadı</string>
+    <string name="error_no_app">Dosyayı açmak için uygulama bulunamadı</string>
+    <string name="error_sd_card">SD kart kullanılamıyor</string>
+    <string name="error_no_backups">Şurada yedek bulunamadı:</string>
+    <string name="error_import">Geçersiz dosya biçimi</string>
+    <string name="error_missing_permission">Bu özelliğin çalışması için izin verilmelidir</string>
+
+    <!-- SETTINGS -->
+    <string name="pref_factor" translatable="false">pref_factor</string>
+    <string name="pref_therapy_targets">Hedef değerler</string>
+    <string name="pref_therapy_targets_target">Hedef değer</string>
+    <string name="pref_therapy_targets_target_default" translatable="false">120.0</string>
+    <string name="pref_therapy_limits">Sınırlar</string>
+    <string name="pref_therapy_targets_highlight">Sınırları vurgula?</string>
+    <string name="pref_therapy_targets_highlight_desc">Hiperglisemiyi kırmızı, hipoglisemiyi mavi ile vurgular</string>
+    <string name="pref_therapy_targets_hyperclycemia">Hiperglisemi sınırı</string>
+    <string name="pref_therapy_targets_hyperclycemia_default" translatable="false">180.0</string>
+    <string name="pref_therapy_targets_hypoclycemia">Hipoglisemi sınırı</string>
+    <string name="pref_therapy_targets_hypoclycemia_default" translatable="false">60.0</string>
+
+    <string name="privacy_policy">Gizlilik Politikası</string>
+    <string name="terms_and_conditions">Şartlar ve Koşullar</string>
+
+    <string name="oxygen_saturation">Oksijen doygunluğu</string>
+    <string name="oxygen_saturation_acronym">Oksijen doy.</string>
+
+    <string name="meal_factor">Yemek-bolus faktörü</string>
+    <string name="meal_factors">Yemek-bolus faktörleri</string>
+    <string name="meal_factor_desc">Yemek için gerekli insülin miktarı</string>
+    <string name="unit_factor_carbohydrates_unit">KB faktörü</string>
+    <string name="unit_factor_bread_unit">EB faktörü</string>
+
+    <string-array name="meal_factor_units_entries">
+        <item>@string/unit_factor_carbohydrates_unit</item>
+        <item>@string/unit_factor_bread_unit</item>
+    </string-array>
+    <string-array name="meal_factor_units_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string name="tag">Etiket</string>
+    <string name="tags">Etiketler</string>
+    <string name="search">Ara</string>
+    <string name="search_hint">Notlar, etiketler, …</string>
+    <string name="no_results_found">Sonuç bulunamadı</string>
+    <string name="tag_delete">Etiketi sil</string>
+    <string name="tag_delete_confirmation">%d giriş bu etiketi kaybedecek</string>
+    <string name="tag_new">Yeni etiket</string>
+    <string name="tag_duplicate">Etiket zaten mevcut</string>
+    <string name="food_append">Yiyecek ekle</string>
+    <string name="available_placeholder">%d mevcut</string>
+    <string name="backup_desc">Verileri seçtiğiniz bir depolama alanında yedek dosyasına kaydedin (Veriler otomatik olarak harici servislere gönderilmeyecektir)</string>
+    <string name="import_desc">Daha önce oluşturulmuş bir yedek dosyasından verileri geri yükleyin</string>
+    <string name="show_branded_food">Markalı yiyecekleri ara</string>
+    <string name="show_branded_food_desc">Ağ üzerinden talep edilen binlerce paketlenmiş ürünü içerir (Farklı üreticilerden aynı ürün gibi tekrarlara yol açabilir)</string>
+    <string name="search_prompt">Yazmaya başlayarak aramaya başla</string>
+    <string name="pinned">sabitlendi</string>
+    <string name="change_now">Şimdi değiştir</string>
+    <string name="help">Yardım</string>
+    <string name="category_preference_desc">Aktif:\nKategori görüntülenir\n\nSabit:\nKategori yeni girişler için otomatik olarak önceden seçilir\n\nSırala:\nAltı noktalı sembolü basılı tutun ve yukarı veya aşağı sürükleyin</string>
+    <string name="insulin_split">Bolus, düzeltme ve bazal olarak ayır</string>
+    <string name="highlight_limits">Sınırları vurgula</string>
+
+    <string name="theme">Renk teması</string>
+    <string name="theme_light">Açık</string>
+    <string name="theme_dark">Koyu</string>
+    <string name="theme_time_based">Günün saatine göre</string>
+    <string name="theme_system">Sistem ayarı</string>
+    <string name="table">Tablo</string>
+    <string name="export_date">Dışa aktarma tarihi</string>
+    <string name="page_number">Sayfa numarası</string>
+    <string name="export_history">Dışa aktarma geçmişi</string>
+    <string name="share">Paylaş</string>
+    <string name="open">Aç</string>
+    <string name="export_delete">Dışa aktarmayı sil</string>
+    <string name="export_delete_desc">Bu işlem dosyayı cihazınızdan geri alınamaz şekilde silecektir</string>
+    <string name="export_share">Dışa aktarmayı paylaş</string>
+    <string name="actions">Eylemler</string>
+    <string name="week_current">Mevcut hafta</string>
+    <string name="weeks_two">Son iki hafta</string>
+    <string name="weeks_four">Son dört hafta</string>
+    <string name="month_current">Mevcut ay</string>
+    <string name="quarter_current">Mevcut çeyrek</string>
+    <string name="therapy">Terapi</string>
+    <string name="powered_by">Destekleyen</string>
+    <string name="sourcecode">Kaynak kodu</string>
+    <string name="query_clear">Sorguyu temizle</string>
+    <string name="menu_open">Menüyü aç</string>
+    <string name="food_branded">Markalı yiyecek</string>
+    <string name="show_common_food">Genel yiyecekleri göster</string>
+    <string name="show_common_food_desc">Uygulama ile birlikte gelen yüzlerce temel yiyeceği içerir</string>
+    <string name="food_preferences">Yiyecek ayarları</string>
+    <string name="food_custom">Özel yiyecek</string>
+    <string name="show_custom_food">Özel yiyecekleri göster</string>
+    <string name="show_custom_food_desc">Kullanıcı tarafından manuel olarak eklenen her yiyeceği içerir</string>
+    <string name="factors">Faktörler</string>
+    <string name="close">Kapat</string>
+    <string name="basal_rate">Bazal oran</string>
+    <string name="basal_rate_desc">Temel insülin ihtiyacı</string>
+    <string name="settings_open">Ayarları aç</string>
+    <string name="decimal_places">Ondalık basamaklar</string>
+    <string name="decimal_places_desc">Kayan noktalı sayıların ondalık kısmı için basamak sayısı</string>
+    <string name="decimal_places_example">%s şu şekilde gösterilecektir: %s</string>
+    <string name="timeline_show_dots">Noktaları göster</string>
+    <string name="timeline_show_dots_desc">Ölçümleri noktalarla işaretle (Bunu devre dışı bırakmak sınırları vurgulamayı durdurur)</string>
+    <string name="timeline_show_lines">Çizgileri göster</string>
+    <string name="timeline_show_lines_desc">Ölçümleri çizgilerle birleştir</string>
+    <string name="layout">Düzen</string>
+
+</resources>

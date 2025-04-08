@@ -26,7 +26,6 @@ class ImportSeedUseCase(
     }
 
     private fun importCategories() {
-        // FIXME: NoSuchElementException
         val unitsBySeed = seedRepository.getUnits().map { seed ->
             val unitId = unitRepository.create(seed)
             val unit = checkNotNull(unitRepository.getById(unitId))
@@ -38,8 +37,10 @@ class ImportSeedUseCase(
         categories.forEach { category ->
             val categoryId = categoryRepository.create(category)
             category.properties.forEach { property ->
-                val selection = property.units.first()
-                val unit = unitsBySeed.first { (seed, _) -> seed.key == selection }.second
+                val selection = property.units.firstOrNull()
+                    ?: error("Property contains no units: $property ")
+                val unit = unitsBySeed.firstOrNull { (seed, _) -> seed.key == selection }?.second
+                    ?: error("Property with unknown unit: $property")
                 propertyRepository.create(
                     property = property,
                     categoryId = categoryId,

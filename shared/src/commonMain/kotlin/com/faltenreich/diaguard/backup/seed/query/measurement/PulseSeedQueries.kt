@@ -39,7 +39,6 @@ class PulseSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.BEATS_PER_MINUTE,
-                            isDefault = true,
                         ),
                     ),
                 ),

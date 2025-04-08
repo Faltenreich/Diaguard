@@ -16,8 +16,6 @@ class MeasurementUnitRepository(
             key = key,
             name = name,
             abbreviation = abbreviation,
-            factor = factor,
-            isSelected = isSelected,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -30,8 +28,6 @@ class MeasurementUnitRepository(
             key = null,
             name = name,
             abbreviation = abbreviation,
-            factor = factor,
-            isSelected = isSelected,
         )
         return checkNotNull(dao.getLastId())
     }
@@ -50,7 +46,6 @@ class MeasurementUnitRepository(
             updatedAt = dateTimeFactory.now(),
             name = name,
             abbreviation = abbreviation,
-            isSelected = isSelected,
         )
     }
 

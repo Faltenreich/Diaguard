@@ -41,7 +41,6 @@ class BloodPressureSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY,
-                            isDefault = true,
                         ),
                     ),
                 ),
@@ -62,7 +61,6 @@ class BloodPressureSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY,
-                            isDefault = true,
                         ),
                     ),
                 ),

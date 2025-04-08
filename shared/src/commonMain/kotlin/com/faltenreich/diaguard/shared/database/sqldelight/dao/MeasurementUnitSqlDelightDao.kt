@@ -30,8 +30,6 @@ class MeasurementUnitSqlDelightDao(
         key: DatabaseKey.MeasurementUnit?,
         name: String,
         abbreviation: String,
-        factor: Double,
-        isSelected: Boolean,
     ) {
         queries.create(
             createdAt = createdAt.isoString,
@@ -39,8 +37,6 @@ class MeasurementUnitSqlDelightDao(
             key = key?.key,
             name = name,
             abbreviation = abbreviation,
-            factor = factor,
-            isSelected = isSelected.toSqlLiteLong(),
         )
     }
 
@@ -65,13 +61,11 @@ class MeasurementUnitSqlDelightDao(
         updatedAt: DateTime,
         name: String,
         abbreviation: String,
-        isSelected: Boolean,
     ) {
         queries.update(
             updatedAt = updatedAt.isoString,
             name = name,
             abbreviation = abbreviation,
-            isSelected = isSelected.toSqlLiteLong(),
             id = id,
         )
     }

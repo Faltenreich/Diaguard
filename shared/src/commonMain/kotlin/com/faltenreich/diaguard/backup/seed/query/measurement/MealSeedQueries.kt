@@ -39,17 +39,14 @@ class MealSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.CARBOHYDRATES,
-                            isDefault = true,
                         ),
                         MeasurementUnitSuggestion.Seed(
                             factor = 0.1,
                             unit = DatabaseKey.MeasurementUnit.CARBOHYDRATE_UNITS,
-                            isDefault = false,
                         ),
                         MeasurementUnitSuggestion.Seed(
                             factor = 0.0833,
                             unit = DatabaseKey.MeasurementUnit.BREAD_UNITS,
-                            isDefault = false,
                         ),
                     ),
                 ),

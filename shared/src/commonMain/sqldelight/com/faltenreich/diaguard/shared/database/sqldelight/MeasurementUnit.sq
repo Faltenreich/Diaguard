@@ -4,14 +4,12 @@ CREATE TABLE MeasurementUnit (
     updatedAt TEXT NOT NULL,
     key TEXT UNIQUE,
     name TEXT NOT NULL,
-    abbreviation TEXT NOT NULL,
-    factor REAL NOT NULL,
-    isSelected INTEGER NOT NULL
+    abbreviation TEXT NOT NULL
 );
 
 create:
-INSERT INTO MeasurementUnit(createdAt, updatedAt, key, name, abbreviation, factor, isSelected)
-VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT INTO MeasurementUnit(createdAt, updatedAt, key, name, abbreviation)
+VALUES (?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
@@ -24,7 +22,7 @@ SELECT * FROM MeasurementUnit;
 
 update:
 UPDATE MeasurementUnit
-SET updatedAt = ?, name = ?, abbreviation = ?, isSelected = ?
+SET updatedAt = ?, name = ?, abbreviation = ?
 WHERE id = ?;
 
 deleteById:

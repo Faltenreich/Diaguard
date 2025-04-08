@@ -95,7 +95,7 @@ class MeasurementPropertyFormViewModel(
             updateUnit(
                 unit.copy(
                     name = if (property.isUserGenerated) unitName.value else unit.name,
-                    isSelected = property.isUserGenerated || unit.id == selectedUnit.value.id,
+                    // TODO: isSelected = property.isUserGenerated || unit.id == selectedUnit.value.id,
                 ),
             )
         }

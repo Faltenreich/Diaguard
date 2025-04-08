@@ -39,12 +39,10 @@ class BloodSugarSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.MILLIGRAMS_PER_DECILITER,
-                            isDefault = true,
                         ),
                         MeasurementUnitSuggestion.Seed(
                             factor = 0.0555,
                             unit = DatabaseKey.MeasurementUnit.MILLIMOLES_PER_LITER,
-                            isDefault = false,
                         ),
                     ),
                 )

@@ -12,8 +12,6 @@ interface MeasurementUnitDao {
         key: DatabaseKey.MeasurementUnit?,
         name: String,
         abbreviation: String,
-        factor: Double,
-        isSelected: Boolean,
     )
 
     fun getLastId(): Long?
@@ -29,7 +27,6 @@ interface MeasurementUnitDao {
         updatedAt: DateTime,
         name: String,
         abbreviation: String,
-        isSelected: Boolean,
     )
 
     fun deleteById(id: Long)

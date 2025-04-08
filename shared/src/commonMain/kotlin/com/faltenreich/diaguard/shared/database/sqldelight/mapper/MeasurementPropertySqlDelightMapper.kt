@@ -45,8 +45,6 @@ class MeasurementPropertySqlDelightMapper(
         unitKey: String?,
         unitName: String,
         unitAbbreviation: String,
-        unitFactor: Double,
-        unitIsSelected: Long,
     ): MeasurementProperty.Local {
         return MeasurementProperty.Local(
             id = propertyId,
@@ -81,8 +79,6 @@ class MeasurementPropertySqlDelightMapper(
                 key = unitKey?.let(DatabaseKey.MeasurementUnit::from),
                 name = unitName,
                 abbreviation = unitAbbreviation,
-                factor = unitFactor,
-                isSelected = unitIsSelected.toSqlLiteBoolean(),
             ),
         )
     }

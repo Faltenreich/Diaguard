@@ -6,14 +6,19 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 
+/**
+ * Entity representing a suggested unit of a seeded [MeasurementProperty]
+ */
 sealed interface MeasurementUnitSuggestion {
 
     val factor: Double
 
+    val isDefault: Boolean
+        get() = factor == FACTOR_DEFAULT
+
     data class Seed(
         override val factor: Double,
         val unit: DatabaseKey.MeasurementUnit,
-        val isDefault: Boolean,
     ) : MeasurementUnitSuggestion
 
     data class Local(

@@ -39,12 +39,10 @@ class WeightSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.KILOGRAMS,
-                            isDefault = true,
                         ),
                         MeasurementUnitSuggestion.Seed(
                             factor = 2.20462262185,
                             unit = DatabaseKey.MeasurementUnit.POUNDS,
-                            isDefault = false,
                         ),
                     ),
                 ),

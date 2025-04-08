@@ -39,7 +39,6 @@ class OxygenSaturationSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.PERCENT,
-                            isDefault = true,
                         ),
                     ),
                 ),

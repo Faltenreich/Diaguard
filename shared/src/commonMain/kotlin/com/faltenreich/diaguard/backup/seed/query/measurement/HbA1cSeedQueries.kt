@@ -39,12 +39,10 @@ class HbA1cSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.PERCENT,
-                            isDefault = true,
                         ),
                         MeasurementUnitSuggestion.Seed(
                             factor = 0.00001,
                             unit = DatabaseKey.MeasurementUnit.MILLIMOLES_PER_MOLE,
-                            isDefault = false,
                         ),
                     ),
                 ),

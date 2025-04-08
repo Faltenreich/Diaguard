@@ -42,7 +42,6 @@ class InsulinSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.INSULIN_UNITS,
-                            isDefault = true,
                         ),
                     ),
                 ),
@@ -63,7 +62,6 @@ class InsulinSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.INSULIN_UNITS,
-                            isDefault = true,
                         ),
                     ),
                 ),
@@ -84,7 +82,6 @@ class InsulinSeedQueries(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
                             unit = DatabaseKey.MeasurementUnit.INSULIN_UNITS,
-                            isDefault = true,
                         ),
                     ),
                 ),

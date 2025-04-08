@@ -48,8 +48,6 @@ class MeasurementUnitSuggestionSqlDelightMapper(
         unitKey: String?,
         unitName: String,
         unitAbbreviation: String,
-        unitFactor: Double,
-        unitIsSelected: Long,
     ): MeasurementUnitSuggestion.Local {
         return MeasurementUnitSuggestion.Local(
             id = unitSuggestionId,
@@ -79,8 +77,6 @@ class MeasurementUnitSuggestionSqlDelightMapper(
                 unitKey = unitKey,
                 unitName = unitName,
                 unitAbbreviation = unitAbbreviation,
-                unitFactor = unitFactor,
-                unitIsSelected = unitIsSelected,
 
                 categoryId = categoryId,
                 categoryCreatedAt = categoryCreatedAt,
@@ -98,8 +94,6 @@ class MeasurementUnitSuggestionSqlDelightMapper(
                 unitKey = unitKey,
                 unitName = unitName,
                 unitAbbreviation = unitAbbreviation,
-                unitFactor = unitFactor,
-                unitIsSelected = unitIsSelected,
             ),
         )
     }

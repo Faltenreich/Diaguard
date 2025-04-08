@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.measurement.property
+package com.faltenreich.diaguard.measurement.unit.suggestion
 
 import com.faltenreich.diaguard.datetime.DateTime
 
-interface MeasurementPropertyUnitDao {
+interface MeasurementUnitSuggestionDao {
 
     fun create(
         createdAt: DateTime,
@@ -14,5 +14,5 @@ interface MeasurementPropertyUnitDao {
 
     fun getLastId(): Long?
 
-    fun getById(id: Long): MeasurementPropertyUnit.Local?
+    fun getById(id: Long): MeasurementUnitSuggestion.Local?
 }

@@ -1,13 +1,13 @@
-package com.faltenreich.diaguard.measurement.property
+package com.faltenreich.diaguard.measurement.unit.suggestion
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
-class MeasurementPropertyUnitRepository(
-    private val dao: MeasurementPropertyUnitDao,
+class MeasurementUnitSuggestionRepository(
+    private val dao: MeasurementUnitSuggestionDao,
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    fun create(propertyUnit: MeasurementPropertyUnit.Seed): Long = with(propertyUnit) {
+    fun create(propertyUnit: MeasurementUnitSuggestion.Seed): Long = with(propertyUnit) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,
@@ -19,7 +19,7 @@ class MeasurementPropertyUnitRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun getById(id: Long): MeasurementPropertyUnit.Local? {
+    fun getById(id: Long): MeasurementUnitSuggestion.Local? {
         return dao.getById(id)
     }
 }

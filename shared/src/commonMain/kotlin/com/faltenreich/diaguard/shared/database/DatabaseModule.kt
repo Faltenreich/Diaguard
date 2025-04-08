@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.food.eaten.FoodEatenDao
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyUnitDao
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestionDao
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.measurement.value.MeasurementValueDao
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightDatabase
@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.shared.database.sqldelight.dao.FoodEatenSqlDelig
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.FoodSqlDelightDao
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementCategorySqlDelightDao
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementPropertySqlDelightDao
-import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementPropertyUnitSqlDelightDao
+import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementUnitSuggestionSqlDelightDao
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementUnitSqlDelightDao
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.MeasurementValueSqlDelightDao
 import com.faltenreich.diaguard.shared.database.sqldelight.dao.TagSqlDelightDao
@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodEatenSqlDe
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementCategorySqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertySqlDelightMapper
-import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertyUnitSqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSuggestionSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementValueSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.TagSqlDelightMapper
@@ -54,8 +54,8 @@ fun databaseModule() = module {
     singleOf(::MeasurementUnitSqlDelightMapper)
     single<MeasurementUnitDao> { MeasurementUnitSqlDelightDao() }
 
-    singleOf(::MeasurementPropertyUnitSqlDelightMapper)
-    single<MeasurementPropertyUnitDao> { MeasurementPropertyUnitSqlDelightDao() }
+    singleOf(::MeasurementUnitSuggestionSqlDelightMapper)
+    single<MeasurementUnitSuggestionDao> { MeasurementUnitSuggestionSqlDelightDao() }
 
     singleOf(::MeasurementValueSqlDelightMapper)
     single<MeasurementValueDao> { MeasurementValueSqlDelightDao() }

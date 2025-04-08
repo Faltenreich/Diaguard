@@ -1,21 +1,21 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyUnit
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 
-class MeasurementPropertyUnitSqlDelightMapper(
+class MeasurementUnitSuggestionSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
     private val propertyMapper: MeasurementPropertySqlDelightMapper,
     private val unitMapper: MeasurementUnitSqlDelightMapper,
 ) {
 
     fun map(
-        propertyUnitId1: Long,
-        propertyUnitCreatedAt: String,
-        propertyUnitUpdatedAt: String,
-        propertyUnitFactor: Double,
-        @Suppress("UNUSED_PARAMETER") propertyUnitPropertyId: Long,
-        @Suppress("UNUSED_PARAMETER") propertyUnitUnitId: Long,
+        unitSuggestionId: Long,
+        unitSuggestionCreatedAt: String,
+        unitSuggestionUpdatedAt: String,
+        unitSuggestionFactor: Double,
+        @Suppress("UNUSED_PARAMETER") unitSuggestionPropertyId: Long,
+        @Suppress("UNUSED_PARAMETER") unitSuggestionUnitId: Long,
 
         propertyId: Long,
         propertyCreatedAt: String,
@@ -50,12 +50,12 @@ class MeasurementPropertyUnitSqlDelightMapper(
         unitAbbreviation: String,
         unitFactor: Double,
         unitIsSelected: Long,
-    ): MeasurementPropertyUnit.Local {
-        return MeasurementPropertyUnit.Local(
-            id = propertyUnitId1,
-            createdAt = dateTimeFactory.dateTime(isoString = propertyUnitCreatedAt),
-            updatedAt = dateTimeFactory.dateTime(isoString = propertyUnitUpdatedAt),
-            factor = propertyUnitFactor,
+    ): MeasurementUnitSuggestion.Local {
+        return MeasurementUnitSuggestion.Local(
+            id = unitSuggestionId,
+            createdAt = dateTimeFactory.dateTime(isoString = unitSuggestionCreatedAt),
+            updatedAt = dateTimeFactory.dateTime(isoString = unitSuggestionUpdatedAt),
+            factor = unitSuggestionFactor,
             property = propertyMapper.map(
                 propertyId = propertyId,
                 propertyCreatedAt = propertyCreatedAt,

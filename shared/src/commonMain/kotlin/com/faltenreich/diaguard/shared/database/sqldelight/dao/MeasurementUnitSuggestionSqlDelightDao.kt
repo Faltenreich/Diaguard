@@ -1,19 +1,19 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyUnit
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyUnitDao
-import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementPropertyUnitQueries
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestionDao
+import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementUnitSuggestionQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertyUnitSqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSuggestionSqlDelightMapper
 import com.faltenreich.diaguard.shared.di.inject
 
-class MeasurementPropertyUnitSqlDelightDao(
-    private val mapper: MeasurementPropertyUnitSqlDelightMapper = inject(),
-) : MeasurementPropertyUnitDao, SqlDelightDao<MeasurementPropertyUnitQueries> {
+class MeasurementUnitSuggestionSqlDelightDao(
+    private val mapper: MeasurementUnitSuggestionSqlDelightMapper = inject(),
+) : MeasurementUnitSuggestionDao, SqlDelightDao<MeasurementUnitSuggestionQueries> {
 
-    override fun getQueries(api: SqlDelightApi): MeasurementPropertyUnitQueries {
-        return api.measurementPropertyUnitQueries
+    override fun getQueries(api: SqlDelightApi): MeasurementUnitSuggestionQueries {
+        return api.measurementUnitSuggestionQueries
     }
 
     override fun create(
@@ -36,7 +36,7 @@ class MeasurementPropertyUnitSqlDelightDao(
         return queries.getLastId().executeAsOneOrNull()
     }
 
-    override fun getById(id: Long): MeasurementPropertyUnit.Local? {
+    override fun getById(id: Long): MeasurementUnitSuggestion.Local? {
         return queries.getById(id, mapper::map).executeAsOneOrNull()
     }
 }

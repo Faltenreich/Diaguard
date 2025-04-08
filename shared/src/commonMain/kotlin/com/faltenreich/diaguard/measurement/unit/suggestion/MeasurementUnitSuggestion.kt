@@ -1,10 +1,11 @@
-package com.faltenreich.diaguard.measurement.property
+package com.faltenreich.diaguard.measurement.unit.suggestion
 
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.DatabaseEntity
 
-sealed interface MeasurementPropertyUnit {
+sealed interface MeasurementUnitSuggestion {
 
     val factor: Double
     val property: MeasurementProperty.Local
@@ -14,7 +15,7 @@ sealed interface MeasurementPropertyUnit {
         override val factor: Double,
         override val property: MeasurementProperty.Local,
         override val unit: MeasurementUnit.Local,
-    ) : MeasurementPropertyUnit
+    ) : MeasurementUnitSuggestion
 
     data class Local(
         override val id: Long,
@@ -23,5 +24,5 @@ sealed interface MeasurementPropertyUnit {
         override val factor: Double,
         override val property: MeasurementProperty.Local,
         override val unit: MeasurementUnit.Local,
-    ) : MeasurementPropertyUnit, DatabaseEntity
+    ) : MeasurementUnitSuggestion, DatabaseEntity
 }

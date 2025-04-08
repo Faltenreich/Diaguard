@@ -1,4 +1,4 @@
-CREATE TABLE MeasurementPropertyUnit (
+CREATE TABLE MeasurementUnitSuggestion (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     createdAt TEXT NOT NULL,
     updatedAt TEXT NOT NULL,
@@ -10,15 +10,15 @@ CREATE TABLE MeasurementPropertyUnit (
 );
 
 create:
-INSERT INTO MeasurementPropertyUnit(createdAt, updatedAt, factor, propertyId, unitId)
+INSERT INTO MeasurementUnitSuggestion(createdAt, updatedAt, factor, propertyId, unitId)
 VALUES (?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
 
 getById:
-SELECT * FROM MeasurementPropertyUnit
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementPropertyUnit.propertyId
+SELECT * FROM MeasurementUnitSuggestion
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementUnitSuggestion.propertyId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementPropertyUnit.unitId
-WHERE MeasurementPropertyUnit.id = ?;
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementUnitSuggestion.unitId
+WHERE MeasurementUnitSuggestion.id = ?;

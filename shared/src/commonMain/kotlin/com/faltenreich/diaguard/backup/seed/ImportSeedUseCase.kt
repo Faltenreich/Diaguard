@@ -32,7 +32,7 @@ class ImportSeedUseCase(
         val unitsBySeed = seedRepository.getUnits().map { seed ->
             val unitId = unitRepository.create(seed)
             val unit = checkNotNull(unitRepository.getById(unitId))
-            Logger.verbose("Imported unit ${unit.key} from seed")
+            Logger.verbose("Imported unit from seed: $unit")
             seed to unit
         }
 
@@ -49,14 +49,14 @@ class ImportSeedUseCase(
                     categoryId = categoryId,
                     unitId = unit.id,
                 )
-                Logger.verbose("Imported property ${property.key} from seed")
+                Logger.verbose("Imported property from seed: $property")
                 property.unitSuggestions.forEach { unitSuggestion ->
                     unitSuggestionRepository.create(
                         unitSuggestion = unitSuggestion,
                         propertyId = propertyId,
                         unitId = unit.id,
                     )
-                    Logger.verbose("Imported unit suggestion $unitSuggestion from seed")
+                    Logger.verbose("Imported unit suggestion from seed: $unitSuggestion")
                 }
             }
         }
@@ -67,7 +67,7 @@ class ImportSeedUseCase(
         val food = seedRepository.getFood()
         food.forEach { seed ->
             foodRepository.create(seed)
-            Logger.verbose("Imported food ${seed.name} from seed")
+            Logger.verbose("Imported food from seed: $seed")
         }
         Logger.info("Imported ${food.size} foods from seed")
     }
@@ -76,7 +76,7 @@ class ImportSeedUseCase(
         val tags = seedRepository.getTags()
         tags.forEach { seed ->
             tagRepository.create(seed)
-            Logger.verbose("Imported tag ${seed.name} from seed")
+            Logger.verbose("Imported tag from seed: $seed")
         }
         Logger.info("Imported ${tags.size} tags from seed")
     }

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.backup.seed
 
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -12,12 +13,26 @@ class SeedRepositoryTest : TestSuite {
     private val seedRepository: SeedRepository by inject()
 
     @Test
-    fun `Seed categories can be read`() {
+    fun `Units can be read`() {
+        assertTrue(seedRepository.getUnits().isNotEmpty())
+    }
+
+    @Test
+    fun `Units have unique keys`() {
+        val units = seedRepository.getUnits()
+        assertEquals(
+            expected = units,
+            actual = units.distinctBy(MeasurementUnit.Seed::key),
+        )
+    }
+
+    @Test
+    fun `Categories can be read`() {
         assertTrue(seedRepository.getCategories().isNotEmpty())
     }
 
     @Test
-    fun `Seed categories have unique keys`() {
+    fun `Categories have unique keys`() {
         val categories = seedRepository.getCategories()
         assertEquals(
             expected = categories,
@@ -26,12 +41,12 @@ class SeedRepositoryTest : TestSuite {
     }
 
     @Test
-    fun `Seed food can be read`() {
+    fun `Food can be read`() {
         assertTrue(seedRepository.getFood().isNotEmpty())
     }
 
     @Test
-    fun `Seed tags can be read`() {
+    fun `Tags can be read`() {
         assertTrue(seedRepository.getTags().isNotEmpty())
     }
 }

@@ -21,7 +21,7 @@ SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
-INNER JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime
 ORDER BY Entry.dateTime;
@@ -31,7 +31,7 @@ SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
-INNER JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.key == :key
 ORDER BY Entry.dateTime DESC
@@ -42,7 +42,7 @@ SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
-INNER JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementCategory.key == :categoryKey
 AND Entry.dateTime >= :minDateTime
@@ -53,7 +53,7 @@ SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
-INNER JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE entryId = ?;
 
@@ -92,7 +92,7 @@ INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
-INNER JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 WHERE MeasurementProperty.categoryId == :categoryId
 AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;

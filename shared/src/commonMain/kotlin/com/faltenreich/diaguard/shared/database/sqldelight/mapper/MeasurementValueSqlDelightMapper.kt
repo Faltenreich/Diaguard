@@ -49,12 +49,12 @@ class MeasurementValueSqlDelightMapper(
         unitName: String,
         unitAbbreviation: String,
 
-        unitSuggestionId: Long,
-        unitSuggestionCreatedAt: String,
-        unitSuggestionUpdatedAt: String,
-        unitSuggestionFactor: Double,
-        unitSuggestionPropertyId: Long,
-        unitSuggestionUnitId: Long,
+        unitSuggestionId: Long?,
+        unitSuggestionCreatedAt: String?,
+        unitSuggestionUpdatedAt: String?,
+        unitSuggestionFactor: Double?,
+        unitSuggestionPropertyId: Long?,
+        unitSuggestionUnitId: Long?,
 
         entryId: Long,
         entryCreatedAt: String,
@@ -152,12 +152,12 @@ class MeasurementValueSqlDelightMapper(
         unitName: String,
         unitAbbreviation: String,
 
-        unitSuggestionId: Long,
-        unitSuggestionCreatedAt: String,
-        unitSuggestionUpdatedAt: String,
-        unitSuggestionFactor: Double,
-        unitSuggestionPropertyId: Long,
-        unitSuggestionUnitId: Long,
+        unitSuggestionId: Long?,
+        unitSuggestionCreatedAt: String?,
+        unitSuggestionUpdatedAt: String?,
+        unitSuggestionFactor: Double?,
+        unitSuggestionPropertyId: Long?,
+        unitSuggestionUnitId: Long?,
     ): MeasurementValue.Average {
         return MeasurementValue.Average(
             value = requireNotNull(average),

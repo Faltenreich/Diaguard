@@ -47,12 +47,12 @@ class MeasurementPropertySqlDelightMapper(
         unitName: String,
         unitAbbreviation: String,
 
-        unitSuggestionId: Long,
-        unitSuggestionCreatedAt: String,
-        unitSuggestionUpdatedAt: String,
-        unitSuggestionFactor: Double,
-        unitSuggestionPropertyId: Long,
-        unitSuggestionUnitId: Long,
+        unitSuggestionId: Long?,
+        unitSuggestionCreatedAt: String?,
+        unitSuggestionUpdatedAt: String?,
+        unitSuggestionFactor: Double?,
+        unitSuggestionPropertyId: Long?,
+        unitSuggestionUnitId: Long?,
     ): MeasurementProperty.Local {
         return MeasurementProperty.Local(
             id = propertyId,

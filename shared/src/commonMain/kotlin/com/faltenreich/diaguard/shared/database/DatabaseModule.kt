@@ -34,6 +34,7 @@ import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.database.sqlite.sqliteModule
 import com.faltenreich.diaguard.tag.TagDao
 import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun databaseModule() = module {
@@ -43,32 +44,32 @@ fun databaseModule() = module {
     singleOf(::SqlDelightDatabase)
 
     singleOf(::EntrySqlDelightMapper)
-    single<EntryDao> { EntrySqlDelightDao() }
+    singleOf(::EntrySqlDelightDao) bind EntryDao::class
 
     singleOf(::MeasurementCategorySqlDelightMapper)
-    single<MeasurementCategoryDao> { MeasurementCategorySqlDelightDao() }
+    singleOf(::MeasurementCategorySqlDelightDao) bind MeasurementCategoryDao::class
 
     singleOf(::MeasurementPropertySqlDelightMapper)
-    single<MeasurementPropertyDao> { MeasurementPropertySqlDelightDao() }
+    singleOf(::MeasurementPropertySqlDelightDao) bind MeasurementPropertyDao::class
 
     singleOf(::MeasurementUnitSqlDelightMapper)
-    single<MeasurementUnitDao> { MeasurementUnitSqlDelightDao() }
+    singleOf(::MeasurementUnitSqlDelightDao) bind MeasurementUnitDao::class
 
     singleOf(::MeasurementUnitSuggestionSqlDelightMapper)
-    single<MeasurementUnitSuggestionDao> { MeasurementUnitSuggestionSqlDelightDao() }
+    singleOf(::MeasurementUnitSuggestionSqlDelightDao) bind MeasurementUnitSuggestionDao::class
 
     singleOf(::MeasurementValueSqlDelightMapper)
-    single<MeasurementValueDao> { MeasurementValueSqlDelightDao() }
+    singleOf(::MeasurementValueSqlDelightDao) bind MeasurementValueDao::class
 
     singleOf(::FoodSqlDelightMapper)
-    single<FoodDao> { FoodSqlDelightDao() }
+    singleOf(::FoodSqlDelightDao) bind FoodDao::class
 
     singleOf(::FoodEatenSqlDelightMapper)
-    single<FoodEatenDao> { FoodEatenSqlDelightDao() }
+    singleOf(::FoodEatenSqlDelightDao) bind FoodEatenDao::class
 
     singleOf(::TagSqlDelightMapper)
-    single<TagDao> { TagSqlDelightDao() }
+    singleOf(::TagSqlDelightDao) bind TagDao::class
 
     singleOf(::EntryTagSqlDelightMapper)
-    single<EntryTagDao> { EntryTagSqlDelightDao() }
+    singleOf(::EntryTagSqlDelightDao) bind EntryTagDao::class
 }

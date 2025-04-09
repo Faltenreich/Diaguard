@@ -8,10 +8,9 @@ import com.faltenreich.diaguard.shared.database.sqldelight.FoodQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
-import com.faltenreich.diaguard.shared.di.inject
 
 class FoodSqlDelightDao(
-    private val mapper: FoodSqlDelightMapper = inject(),
+    private val mapper: FoodSqlDelightMapper,
 ) : FoodDao, SqlDelightDao<FoodQueries> {
 
     override fun getQueries(api: SqlDelightApi): FoodQueries {

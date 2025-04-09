@@ -8,13 +8,12 @@ import com.faltenreich.diaguard.entry.tag.EntryTagDao
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryTagQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntryTagSqlDelightMapper
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 class EntryTagSqlDelightDao(
-    private val dispatcher: CoroutineDispatcher = inject(),
-    private val mapper: EntryTagSqlDelightMapper = inject(),
+    private val dispatcher: CoroutineDispatcher,
+    private val mapper: EntryTagSqlDelightMapper,
 ) : EntryTagDao, SqlDelightDao<EntryTagQueries> {
 
     override fun getQueries(api: SqlDelightApi): EntryTagQueries {

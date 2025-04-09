@@ -8,13 +8,12 @@ import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSugge
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementUnitSuggestionQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSuggestionSqlDelightMapper
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementUnitSuggestionSqlDelightDao(
-    private val dispatcher: CoroutineDispatcher = inject(),
-    private val mapper: MeasurementUnitSuggestionSqlDelightMapper = inject(),
+    private val dispatcher: CoroutineDispatcher,
+    private val mapper: MeasurementUnitSuggestionSqlDelightMapper,
 ) : MeasurementUnitSuggestionDao, SqlDelightDao<MeasurementUnitSuggestionQueries> {
 
     override fun getQueries(api: SqlDelightApi): MeasurementUnitSuggestionQueries {

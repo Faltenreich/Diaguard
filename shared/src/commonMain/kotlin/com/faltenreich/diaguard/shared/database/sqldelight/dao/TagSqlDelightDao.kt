@@ -6,15 +6,14 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.TagQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.TagSqlDelightMapper
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.TagDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 class TagSqlDelightDao(
-    private val dispatcher: CoroutineDispatcher = inject(),
-    private val mapper: TagSqlDelightMapper = inject(),
+    private val dispatcher: CoroutineDispatcher,
+    private val mapper: TagSqlDelightMapper,
 ) : TagDao, SqlDelightDao<TagQueries> {
 
     override fun getQueries(api: SqlDelightApi): TagQueries {

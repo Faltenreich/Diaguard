@@ -8,13 +8,12 @@ import com.faltenreich.diaguard.food.eaten.FoodEatenDao
 import com.faltenreich.diaguard.shared.database.sqldelight.FoodEatenQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodEatenSqlDelightMapper
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 class FoodEatenSqlDelightDao(
-    private val dispatcher: CoroutineDispatcher = inject(),
-    private val mapper: FoodEatenSqlDelightMapper = inject(),
+    private val dispatcher: CoroutineDispatcher,
+    private val mapper: FoodEatenSqlDelightMapper,
 ) : FoodEatenDao, SqlDelightDao<FoodEatenQueries> {
 
     override fun getQueries(api: SqlDelightApi): FoodEatenQueries {

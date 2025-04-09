@@ -11,14 +11,13 @@ import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementValueQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementValueSqlDelightMapper
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class MeasurementValueSqlDelightDao(
-    private val dispatcher: CoroutineDispatcher = inject(),
-    private val mapper: MeasurementValueSqlDelightMapper = inject(),
+    private val dispatcher: CoroutineDispatcher,
+    private val mapper: MeasurementValueSqlDelightMapper,
 ) : MeasurementValueDao, SqlDelightDao<MeasurementValueQueries> {
 
     override fun getQueries(api: SqlDelightApi): MeasurementValueQueries {

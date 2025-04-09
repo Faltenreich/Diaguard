@@ -11,13 +11,12 @@ import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.database.sqldelight.EntryQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntrySqlDelightMapper
-import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 class EntrySqlDelightDao(
-    private val dispatcher: CoroutineDispatcher = inject(),
-    private val mapper: EntrySqlDelightMapper = inject(),
+    private val dispatcher: CoroutineDispatcher,
+    private val mapper: EntrySqlDelightMapper,
 ) : EntryDao, SqlDelightDao<EntryQueries> {
 
     override fun getQueries(api: SqlDelightApi): EntryQueries {

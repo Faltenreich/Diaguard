@@ -7,6 +7,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -71,6 +73,7 @@ fun MainView(
     val navController = rememberNavController()
     var bottomSheet by remember { mutableStateOf<Screen?>(null) }
     var modal by remember { mutableStateOf<Modal?>(null) }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
         viewModel.collectNavigationEvents { event ->
@@ -84,6 +87,7 @@ fun MainView(
                 is NavigationEvent.CloseBottomSheet -> bottomSheet = null
                 is NavigationEvent.OpenModal -> modal = event.modal
                 is NavigationEvent.CloseModal -> modal = null
+                is NavigationEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.message)
             }
         }
     }
@@ -111,6 +115,7 @@ fun MainView(
                     },
                 )
             },
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             // Support edge-to-edge content, e.g. in Log
             contentWindowInsets = WindowInsets(top = 0),
             content = { padding ->

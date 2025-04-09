@@ -8,10 +8,13 @@ import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFor
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.CreateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
+import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.error_unknown
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
@@ -22,6 +25,7 @@ class MeasurementPropertyListViewModel(
     private val pushScreen: PushScreenUseCase,
     private val openModal: OpenModalUseCase,
     private val closeModal: CloseModalUseCase,
+    private val showSnackbar: ShowSnackbarUseCase,
 ) : ViewModel<Unit, MeasurementPropertyListIntent, Unit>() {
 
     override val state = flowOf(Unit)
@@ -35,18 +39,26 @@ class MeasurementPropertyListViewModel(
         }
     }
 
-    private fun decrementSortIndex(
+    private suspend fun decrementSortIndex(
         property: MeasurementProperty.Local,
         inProperties: List<MeasurementProperty.Local>,
     ) {
-        swapSortIndexes(first = property, second = inProperties.last { it.sortIndex < property.sortIndex })
+        val previous = inProperties.lastOrNull { it.sortIndex < property.sortIndex } ?: run {
+            showSnackbar(Res.string.error_unknown)
+            return
+        }
+        swapSortIndexes(first = property, second = previous)
     }
 
-    private fun incrementSortIndex(
+    private suspend fun incrementSortIndex(
         property: MeasurementProperty.Local,
         inProperties: List<MeasurementProperty.Local>,
     ) {
-        swapSortIndexes(first = property, second = inProperties.first { it.sortIndex > property.sortIndex })
+        val next = inProperties.firstOrNull { it.sortIndex > property.sortIndex } ?: run {
+            showSnackbar(Res.string.error_unknown)
+            return
+        }
+        swapSortIndexes(first = property, second = next)
     }
 
     private fun swapSortIndexes(

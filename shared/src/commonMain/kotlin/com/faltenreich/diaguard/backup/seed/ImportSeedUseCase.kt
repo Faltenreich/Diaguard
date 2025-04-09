@@ -56,7 +56,7 @@ class ImportSeedUseCase(
                 property.unitSuggestions.forEach { unitSuggestion ->
                     val unit = unitsBySeed
                         .firstOrNull { (seed, _) -> seed.key == unitSuggestion.unit }?.second
-                        ?: error("Property contains unknown unit: $property")
+                        ?: error("Unit suggestion contains unknown unit: $property")
                     unitSuggestionRepository.create(
                         unitSuggestion = unitSuggestion,
                         propertyId = propertyId,

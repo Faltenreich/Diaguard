@@ -23,6 +23,7 @@ class OverviewPreferenceViewModelTest : TestSuite {
                     "reminders",
                     "therapy",
                     "measurement_categories",
+                    "measurement_units",
                     "tags",
                     "food",
                     "backup",

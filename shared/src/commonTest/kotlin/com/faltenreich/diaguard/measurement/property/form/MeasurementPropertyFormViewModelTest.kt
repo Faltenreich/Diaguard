@@ -93,6 +93,7 @@ class MeasurementPropertyFormViewModelTest : TestSuite {
                 unit = unit,
             )
         )
+        // FIXME: Exception due to MeasurementPropertyDao.getById returning null within MeasurementPropertyFormViewModel
         viewModel = get(parameters = { parametersOf(propertyId) })
 
         navigation.events.test {

@@ -6,7 +6,6 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategoryReposito
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.Navigation
@@ -76,6 +75,7 @@ class MeasurementPropertyFormViewModelTest : TestSuite {
     @Test
     fun `open confirmation modal when intending to delete user-generated category`() = runTest {
         val category = categoryRepository.observeAll().first().first()
+        val unit = unitRepository.observeAll().first().first()
         val propertyId = propertyRepository.create(
             MeasurementProperty.User(
                 name = "name",
@@ -90,15 +90,7 @@ class MeasurementPropertyFormViewModelTest : TestSuite {
                     isHighlighted = true,
                 ),
                 category = category,
-            )
-        )
-        unitRepository.create(
-            MeasurementUnit.User(
-                name = "name",
-                abbreviation = "abbreviation",
-                factor = 1.0,
-                isSelected = true,
-                propertyId = propertyId,
+                unit = unit,
             )
         )
         viewModel = get(parameters = { parametersOf(propertyId) })

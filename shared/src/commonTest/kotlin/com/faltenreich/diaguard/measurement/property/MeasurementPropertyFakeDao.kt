@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.measurement.property
 import androidx.compose.runtime.mutableStateListOf
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryDao
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnitDao
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.di.inject
@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.flowOf
 
 class MeasurementPropertyFakeDao(
     private val categoryDao: MeasurementCategoryDao = inject(),
+    private val unitDao: MeasurementUnitDao = inject(),
 ) : MeasurementPropertyDao {
 
     private val cache = mutableStateListOf<MeasurementProperty.Local>()
@@ -24,7 +25,8 @@ class MeasurementPropertyFakeDao(
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
         range: MeasurementValueRange,
-        categoryId: Long
+        categoryId: Long,
+        unitId: Long,
     ) {
         cache += MeasurementProperty.Local(
             id = cache.size.toLong(),
@@ -36,6 +38,8 @@ class MeasurementPropertyFakeDao(
             aggregationStyle = aggregationStyle,
             range = range,
             category = categoryDao.getById(categoryId)!!,
+            unit = unitDao.getById(unitId)!!,
+            valueFactor = 1.0,
         )
     }
 
@@ -77,7 +81,8 @@ class MeasurementPropertyFakeDao(
         name: String,
         sortIndex: Long,
         aggregationStyle: MeasurementAggregationStyle,
-        range: MeasurementValueRange
+        range: MeasurementValueRange,
+        unitId: Long,
     ) {
         val entity = cache.firstOrNull { it.id == id } ?: return
         val index = cache.indexOf(entity)
@@ -87,11 +92,8 @@ class MeasurementPropertyFakeDao(
             sortIndex = sortIndex,
             aggregationStyle = aggregationStyle,
             range = range,
+            unit = unitDao.getById(unitId)!!,
         )
-    }
-
-    fun updateSelectedUnit(unit: MeasurementUnit.Local) {
-        cache.first { it.id == unit.property.id }.unit = unit
     }
 
     override fun deleteById(id: Long) {

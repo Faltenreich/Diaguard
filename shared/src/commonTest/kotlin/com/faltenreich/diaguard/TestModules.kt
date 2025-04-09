@@ -25,7 +25,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import kotlin.coroutines.CoroutineContext
 
@@ -36,13 +38,10 @@ fun testModules() = module {
     single<CoroutineContext> { StandardTestDispatcher() }
     single<CoroutineScope> { TestScope(context = get()) }
 
-    factory<SystemSettings> { FakeSystemSettings() }
-
-    single<BuildConfig> { FakeBuildConfig() }
-
-    single<Logger> { ConsoleLogger() }
-
-    single<KeyValueStore> { FakeKeyValueStore() }
+    factoryOf(::FakeSystemSettings) bind SystemSettings::class
+    singleOf(::FakeBuildConfig) bind BuildConfig::class
+    singleOf(::ConsoleLogger) bind Logger::class
+    singleOf(::FakeKeyValueStore) bind KeyValueStore::class
 
     single<PdfExport> { PdfExport {} }
 
@@ -52,7 +51,7 @@ fun testModules() = module {
         )
     }
 
-    single<LegacyDao> { FakeLegacyDao() }
+    singleOf(::FakeLegacyDao) bind LegacyDao::class
 
     single<Localization> { FakeLocalization() }
 

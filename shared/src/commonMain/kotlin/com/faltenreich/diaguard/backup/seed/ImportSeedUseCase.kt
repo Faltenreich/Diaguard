@@ -40,17 +40,23 @@ class ImportSeedUseCase(
         categories.forEach { category ->
             val categoryId = categoryRepository.create(category)
             category.properties.forEach { property ->
-                val selection = property.unitSuggestions.firstOrNull(MeasurementUnitSuggestion.Seed::isDefault)
+                val propertyUnitSuggestion = property.unitSuggestions
+                    .firstOrNull(MeasurementUnitSuggestion.Seed::isDefault)
                     ?: error("Property contains no units: $property ")
-                val unit = unitsBySeed.firstOrNull { (seed, _) -> seed.key == selection.unit }?.second
+                val propertyUnit = unitsBySeed
+                    .firstOrNull { (seed, _) -> seed.key == propertyUnitSuggestion.unit }?.second
                     ?: error("Property contains unknown unit: $property")
                 val propertyId = propertyRepository.create(
                     property = property,
                     categoryId = categoryId,
-                    unitId = unit.id,
+                    unitId = propertyUnit.id,
                 )
                 Logger.verbose("Imported property from seed: $property")
+
                 property.unitSuggestions.forEach { unitSuggestion ->
+                    val unit = unitsBySeed
+                        .firstOrNull { (seed, _) -> seed.key == unitSuggestion.unit }?.second
+                        ?: error("Property contains unknown unit: $property")
                     unitSuggestionRepository.create(
                         unitSuggestion = unitSuggestion,
                         propertyId = propertyId,
@@ -65,10 +71,7 @@ class ImportSeedUseCase(
 
     private fun importFood() {
         val food = seedRepository.getFood()
-        food.forEach { seed ->
-            foodRepository.create(seed)
-            Logger.verbose("Imported food from seed: $seed")
-        }
+        food.forEach(foodRepository::create)
         Logger.info("Imported ${food.size} foods from seed")
     }
 

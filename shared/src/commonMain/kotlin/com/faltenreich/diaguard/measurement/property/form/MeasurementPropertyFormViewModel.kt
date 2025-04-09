@@ -22,7 +22,6 @@ import diaguard.shared.generated.resources.delete_title
 import diaguard.shared.generated.resources.measurement_unit_factor_description
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
@@ -30,6 +29,7 @@ import kotlinx.coroutines.launch
 class MeasurementPropertyFormViewModel(
     propertyId: Long,
     getPropertyByIdUseCase: GetMeasurementPropertyBdIdUseCase = inject(),
+    getUnitSuggestions: GetMeasurementUnitSuggestionsUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
     private val updateUnit: UpdateMeasurementUnitUseCase = inject(),
     private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
@@ -43,7 +43,6 @@ class MeasurementPropertyFormViewModel(
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
     private val property = checkNotNull(getPropertyByIdUseCase(propertyId))
-    private val unitSuggestions = emptyFlow<List<MeasurementUnitSuggestion.Local>>()
 
     var propertyName = MutableStateFlow(property.name)
     var selectedUnit = MutableStateFlow(property.unit)
@@ -60,7 +59,7 @@ class MeasurementPropertyFormViewModel(
 
     private val units = combine(
         selectedUnit,
-        unitSuggestions,
+        getUnitSuggestions(propertyId),
         getPreference(DecimalPlacesPreference),
     ) { selectedUnit, unitSuggestions, decimalPlaces ->
         if (property.isUserGenerated) emptyList() else unitSuggestions.map { unitSuggestion ->

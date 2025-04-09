@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.unit.suggestion
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import kotlinx.coroutines.flow.Flow
 
 class MeasurementUnitSuggestionRepository(
     private val dao: MeasurementUnitSuggestionDao,
@@ -21,5 +22,9 @@ class MeasurementUnitSuggestionRepository(
             unitId = unitId,
         )
         return checkNotNull(dao.getLastId())
+    }
+
+    fun observeByProperty(propertyId: Long): Flow<List<MeasurementUnitSuggestion.Local>> {
+        return dao.observeByProperty(propertyId)
     }
 }

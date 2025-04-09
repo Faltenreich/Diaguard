@@ -15,3 +15,10 @@ VALUES (?, ?, ?, ?, ?);
 
 getLastId:
 SELECT last_insert_rowid();
+
+getByProperty:
+SELECT * FROM MeasurementUnitSuggestion
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementUnitSuggestion.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementUnitSuggestion.unitId
+WHERE MeasurementUnitSuggestion.propertyId = ?;

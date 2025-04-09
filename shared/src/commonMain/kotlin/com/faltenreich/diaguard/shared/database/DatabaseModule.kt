@@ -27,6 +27,7 @@ import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelight
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementCategorySqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertySqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSqlDelightMapper
+import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSuggestionSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementValueSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.TagSqlDelightMapper
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
@@ -53,6 +54,7 @@ fun databaseModule() = module {
     singleOf(::MeasurementUnitSqlDelightMapper)
     single<MeasurementUnitDao> { MeasurementUnitSqlDelightDao() }
 
+    singleOf(::MeasurementUnitSuggestionSqlDelightMapper)
     single<MeasurementUnitSuggestionDao> { MeasurementUnitSuggestionSqlDelightDao() }
 
     singleOf(::MeasurementValueSqlDelightMapper)

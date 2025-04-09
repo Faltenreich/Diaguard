@@ -9,20 +9,20 @@ class MeasurementUnitSqlDelightMapper(
 ) {
 
     fun map(
-        unitId: Long,
-        unitCreatedAt: String,
-        unitUpdatedAt: String,
-        unitKey: String?,
-        unitName: String,
-        unitAbbreviation: String,
+        id: Long,
+        createdAt: String,
+        updatedAt: String,
+        key: String?,
+        name: String,
+        abbreviation: String,
     ): MeasurementUnit.Local {
         return MeasurementUnit.Local(
-            id = unitId,
-            createdAt = dateTimeFactory.dateTime(isoString = unitCreatedAt),
-            updatedAt = dateTimeFactory.dateTime(isoString = unitUpdatedAt),
-            key = unitKey?.let(DatabaseKey.MeasurementUnit::from),
-            name = unitName,
-            abbreviation = unitAbbreviation,
+            id = id,
+            createdAt = dateTimeFactory.dateTime(isoString = createdAt),
+            updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
+            key = key?.let(DatabaseKey.MeasurementUnit::from),
+            name = name,
+            abbreviation = abbreviation,
         )
     }
 }

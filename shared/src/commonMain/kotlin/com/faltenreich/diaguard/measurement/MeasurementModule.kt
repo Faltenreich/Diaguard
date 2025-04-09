@@ -3,8 +3,6 @@ package com.faltenreich.diaguard.measurement
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.measurement.category.form.CountMeasurementValuesOfCategoryUseCase
-import com.faltenreich.diaguard.measurement.category.form.CreateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.category.form.DeleteMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryBdIdUseCase
 import com.faltenreich.diaguard.measurement.category.form.GetMeasurementPropertiesUseCase
@@ -13,17 +11,19 @@ import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCateg
 import com.faltenreich.diaguard.measurement.category.list.CreateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListViewModel
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestionRepository
 import com.faltenreich.diaguard.measurement.property.form.CountMeasurementValuesOfPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.DeleteMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.GetMeasurementPropertyBdIdUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.property.list.CreateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
+import com.faltenreich.diaguard.measurement.unit.CreateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.list.GetMeasurementUnitsUseCase
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListViewModel
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestionRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.StoreMeasurementValuesUseCase
@@ -54,10 +54,10 @@ fun measurementModule() = module {
     singleOf(::GetMeasurementPropertyBdIdUseCase)
     singleOf(::GetMeasurementPropertiesUseCase)
     singleOf(::StoreMeasurementValuesUseCase)
-    singleOf(::CountMeasurementValuesOfCategoryUseCase)
     singleOf(::CountMeasurementValuesOfPropertyUseCase)
     singleOf(::UpdateMeasurementPropertyUseCase)
     singleOf(::DeleteMeasurementPropertyUseCase)
+    singleOf(::CreateMeasurementUnitUseCase)
     singleOf(::UpdateMeasurementUnitUseCase)
 
     viewModelOf(::MeasurementCategoryListViewModel)

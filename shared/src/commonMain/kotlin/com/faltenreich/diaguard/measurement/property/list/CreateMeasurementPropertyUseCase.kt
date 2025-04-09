@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.category.form
+package com.faltenreich.diaguard.measurement.property.list
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
@@ -7,28 +7,26 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 
-class CreateMeasurementPropertyUseCase(
-    private val propertyRepository: MeasurementPropertyRepository,
-) {
+class CreateMeasurementPropertyUseCase(private val repository: MeasurementPropertyRepository) {
 
     operator fun invoke(
-        propertyName: String,
-        propertySortIndex: Long,
-        propertyAggregationStyle: MeasurementAggregationStyle,
-        propertyRange: MeasurementValueRange,
+        name: String,
+        sortIndex: Long,
+        aggregationStyle: MeasurementAggregationStyle,
+        range: MeasurementValueRange,
         category: MeasurementCategory.Local,
         unit: MeasurementUnit.Local,
     ): MeasurementProperty.Local {
-        val propertyId = propertyRepository.create(
+        val id = repository.create(
             MeasurementProperty.User(
-                name = propertyName,
-                sortIndex = propertySortIndex,
-                aggregationStyle = propertyAggregationStyle,
-                range = propertyRange,
+                name = name,
+                sortIndex = sortIndex,
+                aggregationStyle = aggregationStyle,
+                range = range,
                 category = category,
                 unit = unit,
             )
         )
-        return checkNotNull(propertyRepository.getById(propertyId))
+        return checkNotNull(repository.getById(id))
     }
 }

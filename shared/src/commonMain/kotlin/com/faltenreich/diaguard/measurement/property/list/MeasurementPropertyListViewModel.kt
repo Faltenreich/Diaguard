@@ -1,12 +1,12 @@
 package com.faltenreich.diaguard.measurement.property.list
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.category.form.CreateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormModal
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.unit.CreateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 
 class MeasurementPropertyListViewModel(
     private val createProperty: CreateMeasurementPropertyUseCase,
+    private val createUnit: CreateMeasurementUnitUseCase,
     private val updateProperty: UpdateMeasurementPropertyUseCase,
     private val pushScreen: PushScreenUseCase,
     private val openModal: OpenModalUseCase,
@@ -68,14 +69,19 @@ class MeasurementPropertyListViewModel(
             MeasurementPropertyFormModal(
                 onDismissRequest = { scope.launch { closeModal() } },
                 onConfirmRequest = { propertyName, unitName ->
+                    val unit = createUnit(
+                        name = unitName,
+                        // TODO: Make user-customizable
+                        abbreviation = unitName,
+                    )
                     val property = createProperty(
-                        propertyName = propertyName,
-                        propertySortIndex = properties.maxOfOrNull(MeasurementProperty::sortIndex)
+                        name = propertyName,
+                        sortIndex = properties.maxOfOrNull(MeasurementProperty::sortIndex)
                             ?.plus(1) ?: 0,
                         // TODO: Make user-customizable
-                        propertyAggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
+                        aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
                         // TODO: Make user-customizable
-                        propertyRange = MeasurementValueRange(
+                        range = MeasurementValueRange(
                             minimum = 0.0,
                             low = null,
                             target = null,
@@ -84,7 +90,7 @@ class MeasurementPropertyListViewModel(
                             isHighlighted = false,
                         ),
                         category = category,
-                        unit = TODO(),
+                        unit = unit,
                     )
                     scope.launch {
                         closeModal()

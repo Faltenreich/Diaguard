@@ -9,7 +9,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.view.AlertModal
 import com.faltenreich.diaguard.shared.view.DeleteModal
-import com.faltenreich.diaguard.shared.view.EmojiModal
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.delete_error_property
 import diaguard.shared.generated.resources.delete_title
@@ -41,22 +40,9 @@ class MeasurementCategoryFormViewModel(
 
     override suspend fun handleIntent(intent: MeasurementCategoryFormIntent) {
         when (intent) {
-            is MeasurementCategoryFormIntent.OpenIconPicker -> openIconPicker()
             is MeasurementCategoryFormIntent.UpdateCategory -> updateCategory()
             is MeasurementCategoryFormIntent.DeleteCategory -> deleteCategory()
         }
-    }
-
-    private fun openIconPicker() = scope.launch {
-        openModal(
-            EmojiModal(
-                onDismissRequest = { scope.launch { closeModal() } },
-                onEmojiPicked = {
-                    icon.value = it
-                    scope.launch { closeModal() }
-                },
-            )
-        )
     }
 
     // TODO: Validate

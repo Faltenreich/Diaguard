@@ -9,8 +9,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
@@ -18,6 +25,7 @@ import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyLis
 import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.EmojiPicker
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextInput
@@ -38,6 +46,8 @@ fun MeasurementCategoryForm(
     val name = viewModel.name.collectAsStateWithLifecycle().value
     val icon = viewModel.icon.collectAsStateWithLifecycle().value
     val isActive = viewModel.isActive.collectAsStateWithLifecycle().value
+
+    var showEmojiPicker by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -62,7 +72,7 @@ fun MeasurementCategoryForm(
 
         FormRow(
             modifier = Modifier
-                .clickable { viewModel.dispatchIntent(MeasurementCategoryFormIntent.OpenIconPicker) }
+                .clickable { showEmojiPicker = true }
                 .fillMaxWidth(),
         ) {
             Text(
@@ -97,6 +107,29 @@ fun MeasurementCategoryForm(
             MeasurementPropertyList(
                 category = viewModel.category,
                 properties = properties,
+            )
+        }
+    }
+
+    if (showEmojiPicker) {
+        val sheetState = rememberModalBottomSheetState()
+
+        ModalBottomSheet(
+            onDismissRequest = { showEmojiPicker = false },
+            sheetState = sheetState,
+        ) {
+            EmojiPicker(
+                onEmojiPicked = { icon ->
+                    showEmojiPicker = false
+                    viewModel.icon.value = icon
+                },
+                // Workaround: Fixes nested scroll
+                // FIXME: Lags after expanding bottom sheet
+                modifier = if (sheetState.currentValue == SheetValue.Expanded) {
+                    Modifier.verticalScroll(rememberScrollState())
+                } else {
+                    Modifier
+                }
             )
         }
     }

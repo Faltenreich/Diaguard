@@ -1,0 +1,63 @@
+package com.faltenreich.diaguard.food.search
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.paging.Pager
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.form.FoodFormScreen
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
+import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
+import com.faltenreich.diaguard.preference.food.ShowBrandedFoodPreference
+import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
+import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
+import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
+import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.shared.di.inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+
+class FoodSearchViewModel(
+    val mode: FoodSearchMode,
+    getPreference: GetPreferenceUseCase = inject(),
+    private val searchFood: SearchFoodUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
+) : ViewModel<FoodSearchState, FoodSearchIntent, Unit>() {
+
+    var query: String by mutableStateOf("")
+
+    private val pagingData: Flow<PagingData<Food.Local>> = combine(
+        snapshotFlow { query }
+            // FIXME: Debounce without delaying the whole state
+            //  .debounce(1.seconds)
+            .distinctUntilChanged(),
+        getPreference(ShowCommonFoodPreference),
+        getPreference(ShowCustomFoodPreference),
+        getPreference(ShowBrandedFoodPreference),
+        ::FoodSearchParams,
+    ).flatMapLatest { params ->
+        Pager(
+            config = FoodSearchSource.newConfig(),
+            pagingSourceFactory = { FoodSearchSource(params, searchFood) },
+        ).flow
+    }.cachedIn(scope)
+
+    override val state = flowOf(FoodSearchState(pagingData = pagingData))
+
+    override suspend fun handleIntent(intent: FoodSearchIntent) = with(intent) {
+        when (this) {
+            is FoodSearchIntent.Close -> popScreen()
+            is FoodSearchIntent.Create -> pushScreen(FoodFormScreen())
+            is FoodSearchIntent.OpenFood -> pushScreen(FoodFormScreen(food))
+            is FoodSearchIntent.OpenPreferences -> pushScreen(FoodPreferenceListScreen)
+        }
+    }
+}

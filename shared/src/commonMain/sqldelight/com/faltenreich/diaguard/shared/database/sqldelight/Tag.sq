@@ -1,0 +1,31 @@
+CREATE TABLE Tag (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    name TEXT NOT NULL
+);
+
+create:
+INSERT INTO Tag(createdAt, updatedAt, name)
+VALUES (?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getById:
+SELECT * FROM Tag WHERE id = ?;
+
+getAll:
+SELECT * FROM Tag ORDER BY name COLLATE NOCASE ASC;
+
+getByQuery:
+SELECT * FROM Tag WHERE name LIKE ('%' || :query || '%');
+
+getByName:
+SELECT * FROM Tag WHERE name = ? LIMIT 1;
+
+update:
+UPDATE Tag SET updatedAt = ?, name = ? WHERE id = ?;
+
+deleteById:
+DELETE FROM Tag WHERE id = ?;

@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.emptyFlow
 
 class MeasurementUnitFormViewModel(
-    unitId: Long,
+    unitId: Long?,
     getUnit: GetMeasurementUnitUseCase = inject(),
     private val storeUnit: StoreMeasurementUnitUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
@@ -19,7 +19,7 @@ class MeasurementUnitFormViewModel(
 
     override val state = emptyFlow<Unit>()
 
-    private val unit = getUnit(unitId)
+    private val unit = unitId?.let(getUnit::invoke)
 
     var name: String by mutableStateOf(unit?.name ?: "")
     var abbreviation: String by mutableStateOf(unit?.abbreviation ?: "")

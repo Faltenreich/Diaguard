@@ -11,6 +11,7 @@ data class MeasurementUnitFormModal(private val unitId: Long? = null) : Modal {
 
     @Composable
     override fun Content() {
+        // FIXME: ViewModel is reused and not re-instantiated with new unitId
         MeasurementUnitForm(viewModel = viewModel { parametersOf(unitId) })
     }
 }

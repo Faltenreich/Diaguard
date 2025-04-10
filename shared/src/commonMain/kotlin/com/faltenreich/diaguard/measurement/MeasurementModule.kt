@@ -68,5 +68,5 @@ fun measurementModule() = module {
     viewModelOf(::MeasurementPropertyListViewModel)
     viewModel { (propertyId: Long) -> MeasurementPropertyFormViewModel(propertyId) }
     viewModelOf(::MeasurementUnitListViewModel)
-    viewModel { (unitId: Long) -> MeasurementUnitFormViewModel(unitId) }
+    viewModel { (unitId: Long?) -> MeasurementUnitFormViewModel(unitId) }
 }

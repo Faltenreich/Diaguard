@@ -8,8 +8,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.datetime.picker.DateRangePicker
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
@@ -31,6 +36,7 @@ fun Statistic(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
+    var showDateRangePicker by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -46,7 +52,7 @@ fun Statistic(
         Divider()
         FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
             TextButton(
-                onClick = { viewModel.dispatchIntent(StatisticIntent.OpenDateRangePicker) },
+                onClick = { showDateRangePicker = true },
                 colors = ButtonDefaults.textButtonColors(
                     contentColor = AppTheme.colors.scheme.onSurfaceVariant,
                 ),
@@ -74,5 +80,15 @@ fun Statistic(
         TextDivider(getString(Res.string.trend))
 
         TextDivider(getString(Res.string.distribution))
+    }
+
+    if (showDateRangePicker) {
+        DateRangePicker(
+            dateRange = viewModel.dateRange.value,
+            onPick = {
+                showDateRangePicker = false
+                viewModel.dateRange.value = it
+            },
+        )
     }
 }

@@ -17,12 +17,15 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import diaguard.shared.generated.resources.*
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.cancel
+import diaguard.shared.generated.resources.ok
 import androidx.compose.material3.DateRangePicker as MaterialDateRangePicker
 
 @Composable
 fun DateRangePicker(
     dateRange: ClosedRange<Date>,
+    // FIXME: Offsets by minus one day
     onPick: (ClosedRange<Date>) -> Unit,
     dateTimeFactory: DateTimeFactory = inject(),
 ) {

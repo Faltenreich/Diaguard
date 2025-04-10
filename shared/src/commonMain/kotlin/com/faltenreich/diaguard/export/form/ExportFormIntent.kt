@@ -5,8 +5,6 @@ import com.faltenreich.diaguard.export.pdf.PdfLayout
 
 sealed interface ExportFormIntent {
 
-    data object OpenDateRangePicker : ExportFormIntent
-
     data class SelectType(val type: ExportType) : ExportFormIntent
 
     data class SelectLayout(val layout: PdfLayout) : ExportFormIntent

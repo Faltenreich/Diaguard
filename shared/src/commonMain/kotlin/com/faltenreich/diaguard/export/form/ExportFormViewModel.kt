@@ -3,14 +3,11 @@ package com.faltenreich.diaguard.export.form
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.datetime.picker.DateRangePickerModal
 import com.faltenreich.diaguard.export.ExportData
 import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.export.ExportUseCase
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
-import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -25,15 +22,13 @@ class ExportFormViewModel(
     getCategories: GetActiveMeasurementCategoriesUseCase,
     private val export: ExportUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
-    private val openModal: OpenModalUseCase,
-    private val closeModal: CloseModalUseCase,
 ) : ViewModel<ExportFormState, ExportFormIntent, Unit>() {
 
     private val initialDateRange = getToday().let { today ->
         today.minus(1, DateUnit.WEEK) .. today
     }
 
-    private val dateRange = MutableStateFlow(initialDateRange)
+    val dateRange = MutableStateFlow(initialDateRange)
     private val dateRangeLocalized = dateRange.map(dateTimeFormatter::formatDateRange)
 
     private val exportTypes = listOf(ExportType.PDF, ExportType.CSV)
@@ -98,7 +93,6 @@ class ExportFormViewModel(
 
     override suspend fun handleIntent(intent: ExportFormIntent) {
         when (intent) {
-            is ExportFormIntent.OpenDateRangePicker -> openDateRangePicker()
             is ExportFormIntent.SelectType -> exportTypeSelected.update { intent.type }
             is ExportFormIntent.SelectLayout -> pdfLayoutSelected.update { intent.layout }
             is ExportFormIntent.SetIncludeCalendarWeek -> includeCalendarWeek.update { intent.includeCalendarWeek }
@@ -111,18 +105,6 @@ class ExportFormViewModel(
             is ExportFormIntent.SetCategory -> updateCategory(intent.category)
             is ExportFormIntent.Submit -> submit()
         }
-    }
-
-    private suspend fun openDateRangePicker() {
-        openModal(
-            DateRangePickerModal(
-                dateRange = dateRange.value,
-                onPick = {
-                    dateRange.value = it
-                    scope.launch { closeModal() }
-                },
-            ),
-        )
     }
 
     private fun updateCategory(update: ExportFormState.Content.Category) {

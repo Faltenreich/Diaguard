@@ -169,6 +169,7 @@ fun MainView(
                     }
                 }
 
+                // FIXME: Leads to everlasting ViewModels, e.g. TagFormModal, MeasurementUnitFormModal
                 modal?.Content()
             },
             bottomBar = {

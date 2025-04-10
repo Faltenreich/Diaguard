@@ -4,5 +4,5 @@ sealed interface MeasurementUnitFormIntent {
 
     data object Close : MeasurementUnitFormIntent
 
-    data class Submit(val name: String, val abbreviation: String) : MeasurementUnitFormIntent
+    data object Submit : MeasurementUnitFormIntent
 }

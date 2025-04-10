@@ -12,9 +12,10 @@ class MeasurementUnitListViewModel(
 
     override val state = getUnits().map(::MeasurementUnitListState)
 
-    override suspend fun handleIntent(intent: MeasurementUnitListIntent) {
-        when (intent) {
-            is MeasurementUnitListIntent.Create -> openModal(MeasurementUnitFormModal)
+    override suspend fun handleIntent(intent: MeasurementUnitListIntent) = with(intent) {
+        when (this) {
+            is MeasurementUnitListIntent.Create -> openModal(MeasurementUnitFormModal())
+            is MeasurementUnitListIntent.Edit -> openModal(MeasurementUnitFormModal(unit.id))
         }
     }
 }

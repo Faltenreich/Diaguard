@@ -6,10 +6,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import com.faltenreich.diaguard.shared.localization.getString
@@ -30,17 +26,10 @@ fun MeasurementUnitForm(
     val focusRequester = rememberFocusRequester(requestFocus = true)
     val onDismissRequest = { viewModel.dispatchIntent(MeasurementUnitFormIntent.Close) }
 
-    var name by rememberSaveable { mutableStateOf("") }
-    var abbreviation by rememberSaveable { mutableStateOf("") }
-
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(
-                onClick = {
-                    viewModel.dispatchIntent(MeasurementUnitFormIntent.Submit(name, abbreviation))
-                },
-            ) {
+            TextButton(onClick = { viewModel.dispatchIntent(MeasurementUnitFormIntent.Submit) }) {
                 Text(getString(Res.string.create))
             }
         },
@@ -54,14 +43,14 @@ fun MeasurementUnitForm(
         text = {
             Column {
                 TextInput(
-                    input = name,
-                    onInputChange = { name = it },
+                    input = viewModel.name,
+                    onInputChange = { viewModel.name = it },
                     label = getString(Res.string.name),
                     modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
                 )
                 TextInput(
-                    input = abbreviation,
-                    onInputChange = { abbreviation = it },
+                    input = viewModel.abbreviation,
+                    onInputChange = { viewModel.abbreviation = it },
                     label = getString(Res.string.abbreviation),
                     modifier = Modifier.fillMaxWidth(),
                 )

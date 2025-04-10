@@ -1,19 +1,35 @@
 package com.faltenreich.diaguard.measurement.unit.form
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.emptyFlow
 
 class MeasurementUnitFormViewModel(
-    private val closeModal: CloseModalUseCase,
+    unitId: Long,
+    getUnit: GetMeasurementUnitUseCase = inject(),
+    private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<Unit, MeasurementUnitFormIntent, Unit>() {
 
     override val state = emptyFlow<Unit>()
 
+    private val unit = getUnit(unitId)
+
+    var name: String by mutableStateOf(unit?.name ?: "")
+    var abbreviation: String by mutableStateOf(unit?.abbreviation ?: "")
+
     override suspend fun handleIntent(intent: MeasurementUnitFormIntent) {
         when (intent) {
             is MeasurementUnitFormIntent.Close -> closeModal()
-            is MeasurementUnitFormIntent.Submit -> TODO()
+            is MeasurementUnitFormIntent.Submit -> submit()
         }
+    }
+
+    private suspend fun submit() {
+        // TODO: Create or update unit
+        closeModal()
     }
 }

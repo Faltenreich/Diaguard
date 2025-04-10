@@ -21,6 +21,7 @@ class PreferenceStore(
     }
 
     inline fun <reified Store, Domain> read(preference: Preference<Store, Domain>): Flow<Store?> {
+        // FIXME: Pass default value to SharedPreferences (and DataStore?)
         return keyValueStore.read(getKey(preference))
     }
 

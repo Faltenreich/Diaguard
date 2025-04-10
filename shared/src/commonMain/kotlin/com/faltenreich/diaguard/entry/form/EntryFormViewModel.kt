@@ -7,8 +7,6 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
-import com.faltenreich.diaguard.datetime.picker.DatePickerModal
-import com.faltenreich.diaguard.datetime.picker.TimePickerModal
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
@@ -121,8 +119,6 @@ class EntryFormViewModel(
     override suspend fun handleIntent(intent: EntryFormIntent): Unit = with(intent) {
         when (this) {
             is EntryFormIntent.Edit -> edit(data)
-            is EntryFormIntent.SelectDate -> selectDate()
-            is EntryFormIntent.SelectTime -> selectTime()
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> delete()
             is EntryFormIntent.SelectFood -> selectFood()
@@ -150,30 +146,6 @@ class EntryFormViewModel(
                 )
             }
         }
-    }
-
-    private suspend fun selectDate() {
-        showModal(
-            DatePickerModal(
-                date = date,
-                onPick = {
-                    date = it
-                    scope.launch { closeModal() }
-                },
-            )
-        )
-    }
-
-    private suspend fun selectTime() {
-        showModal(
-            TimePickerModal(
-                time = time,
-                onPick = {
-                    time = it
-                    scope.launch { closeModal() }
-                },
-            )
-        )
     }
 
     private suspend fun submit() {

@@ -9,10 +9,6 @@ sealed interface EntryFormIntent {
 
     data class Edit(val data: MeasurementPropertyInputState) : EntryFormIntent
 
-    data object SelectDate : EntryFormIntent
-
-    data object SelectTime : EntryFormIntent
-
     data object Submit : EntryFormIntent
 
     data object Delete : EntryFormIntent

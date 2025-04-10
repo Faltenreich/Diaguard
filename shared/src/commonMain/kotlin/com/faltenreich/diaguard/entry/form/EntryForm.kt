@@ -19,11 +19,17 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.datetime.picker.DatePicker
+import com.faltenreich.diaguard.datetime.picker.TimePicker
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
@@ -54,6 +60,9 @@ fun EntryForm(
     val state = viewModel.collectState()
     val tags = viewModel.tagSelection.collectAsState().value
 
+    var showDatePicker by remember { mutableStateOf(false) }
+    var showTimePicker by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         foodSelectionViewModel.collectEvents { event ->
             when (event) {
@@ -70,7 +79,7 @@ fun EntryForm(
         ) {
             FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
                 TextButton(
-                    onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectDate) },
+                    onClick = { showDatePicker = true },
                     colors = ButtonDefaults.textButtonColors(
                         contentColor = AppTheme.colors.scheme.onSurfaceVariant,
                     ),
@@ -78,7 +87,7 @@ fun EntryForm(
                     Text(viewModel.dateFormatted)
                 }
                 TextButton(
-                    onClick = { viewModel.dispatchIntent(EntryFormIntent.SelectTime) },
+                    onClick = { showTimePicker = true },
                     colors = ButtonDefaults.textButtonColors(
                         contentColor = AppTheme.colors.scheme.onSurfaceVariant,
                     ),
@@ -176,5 +185,25 @@ fun EntryForm(
                 }
             }
         }
+    }
+
+    if (showDatePicker) {
+        DatePicker(
+            date = viewModel.date,
+            onPick = { date ->
+                showDatePicker = false
+                viewModel.date = date
+            },
+        )
+    }
+
+    if (showTimePicker) {
+        TimePicker(
+            time = viewModel.time,
+            onPick = { date ->
+                showTimePicker = false
+                viewModel.time = date
+            },
+        )
     }
 }

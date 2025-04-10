@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.measurement.unit.form
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
@@ -11,6 +13,7 @@ import kotlinx.coroutines.flow.emptyFlow
 class MeasurementUnitFormViewModel(
     unitId: Long,
     getUnit: GetMeasurementUnitUseCase = inject(),
+    private val storeUnit: StoreMeasurementUnitUseCase = inject(),
     private val closeModal: CloseModalUseCase = inject(),
 ) : ViewModel<Unit, MeasurementUnitFormIntent, Unit>() {
 
@@ -29,7 +32,14 @@ class MeasurementUnitFormViewModel(
     }
 
     private suspend fun submit() {
-        // TODO: Create or update unit
+        val unit = unit?.copy(
+            name = name,
+            abbreviation = abbreviation,
+        ) ?: MeasurementUnit.User(
+            name = name,
+            abbreviation = abbreviation
+        )
+        storeUnit(unit)
         closeModal()
     }
 }

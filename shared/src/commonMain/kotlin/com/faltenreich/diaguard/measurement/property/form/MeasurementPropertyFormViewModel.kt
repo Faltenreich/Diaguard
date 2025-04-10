@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.measurement.unit.UpdateMeasurementUnitUseCase
+import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
@@ -31,7 +31,7 @@ class MeasurementPropertyFormViewModel(
     getPropertyByIdUseCase: GetMeasurementPropertyBdIdUseCase = inject(),
     getUnitSuggestions: GetMeasurementUnitSuggestionsUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
-    private val updateUnit: UpdateMeasurementUnitUseCase = inject(),
+    private val updateUnit: StoreMeasurementUnitUseCase = inject(),
     private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),

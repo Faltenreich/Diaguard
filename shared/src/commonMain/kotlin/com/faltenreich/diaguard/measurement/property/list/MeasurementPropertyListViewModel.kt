@@ -6,7 +6,8 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormModal
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.unit.CreateMeasurementUnitUseCase
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
@@ -20,7 +21,7 @@ import kotlinx.coroutines.launch
 
 class MeasurementPropertyListViewModel(
     private val createProperty: CreateMeasurementPropertyUseCase,
-    private val createUnit: CreateMeasurementUnitUseCase,
+    private val storeUnit: StoreMeasurementUnitUseCase,
     private val updateProperty: UpdateMeasurementPropertyUseCase,
     private val pushScreen: PushScreenUseCase,
     private val openModal: OpenModalUseCase,
@@ -81,10 +82,12 @@ class MeasurementPropertyListViewModel(
             MeasurementPropertyFormModal(
                 onDismissRequest = { scope.launch { closeModal() } },
                 onConfirmRequest = { propertyName, unitName ->
-                    val unit = createUnit(
-                        name = unitName,
-                        // TODO: Make user-customizable
-                        abbreviation = unitName,
+                    val unit = storeUnit(
+                        MeasurementUnit.User(
+                            name = unitName,
+                            // TODO: Make user-customizable
+                            abbreviation = unitName,
+                        )
                     )
                     val property = createProperty(
                         name = propertyName,

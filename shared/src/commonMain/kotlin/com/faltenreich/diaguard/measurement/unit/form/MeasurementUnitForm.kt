@@ -19,7 +19,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.abbreviation
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.create
-import diaguard.shared.generated.resources.measurement_property_add
+import diaguard.shared.generated.resources.measurement_unit
 import diaguard.shared.generated.resources.name
 
 @Composable
@@ -50,7 +50,7 @@ fun MeasurementUnitForm(
                 Text(getString(Res.string.cancel))
             }
         },
-        title = { Text(getString(Res.string.measurement_property_add)) },
+        title = { Text(getString(Res.string.measurement_unit)) },
         text = {
             Column {
                 TextInput(

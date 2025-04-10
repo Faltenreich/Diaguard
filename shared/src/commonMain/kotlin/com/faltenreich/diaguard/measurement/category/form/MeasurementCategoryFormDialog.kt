@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.shared.view.rememberFocusRequester
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.create
-import diaguard.shared.generated.resources.measurement_category_new
+import diaguard.shared.generated.resources.measurement_category
 import diaguard.shared.generated.resources.name
 
 @Composable
@@ -44,7 +44,7 @@ fun MeasurementCategoryFormDialog(
                 Text(getString(Res.string.cancel))
             }
         },
-        title = { Text(getString(Res.string.measurement_category_new)) },
+        title = { Text(getString(Res.string.measurement_category)) },
         text = {
             TextInput(
                 input = name,

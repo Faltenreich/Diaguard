@@ -12,10 +12,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import diaguard.shared.generated.resources.*
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.cancel
+import diaguard.shared.generated.resources.create
+import diaguard.shared.generated.resources.measurement_property
+import diaguard.shared.generated.resources.measurement_unit
+import diaguard.shared.generated.resources.name
 
 @Composable
 fun MeasurementPropertyFormDialog(
@@ -41,7 +46,7 @@ fun MeasurementPropertyFormDialog(
                 Text(getString(Res.string.cancel))
             }
         },
-        title = { Text(getString(Res.string.measurement_property_add)) },
+        title = { Text(getString(Res.string.measurement_property)) },
         text = {
             Column {
                 TextInput(

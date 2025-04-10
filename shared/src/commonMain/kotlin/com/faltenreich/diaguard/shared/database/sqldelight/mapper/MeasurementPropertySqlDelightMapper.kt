@@ -47,12 +47,12 @@ class MeasurementPropertySqlDelightMapper(
         unitName: String,
         unitAbbreviation: String,
 
-        unitSuggestionId: Long?,
-        unitSuggestionCreatedAt: String?,
-        unitSuggestionUpdatedAt: String?,
+        @Suppress("UNUSED_PARAMETER") unitSuggestionId: Long?,
+        @Suppress("UNUSED_PARAMETER") unitSuggestionCreatedAt: String?,
+        @Suppress("UNUSED_PARAMETER") unitSuggestionUpdatedAt: String?,
         unitSuggestionFactor: Double?,
-        unitSuggestionPropertyId: Long?,
-        unitSuggestionUnitId: Long?,
+        @Suppress("UNUSED_PARAMETER") unitSuggestionPropertyId: Long?,
+        @Suppress("UNUSED_PARAMETER") unitSuggestionUnitId: Long?,
     ): MeasurementProperty.Local {
         return MeasurementProperty.Local(
             id = propertyId,

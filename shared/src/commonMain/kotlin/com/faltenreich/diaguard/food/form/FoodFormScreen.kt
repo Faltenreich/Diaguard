@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.food.form
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
@@ -66,7 +67,7 @@ data class FoodFormScreen(private val foodId: Long) : Screen {
     }
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         FoodForm(viewModel = viewModel { parametersOf(foodId.takeIf { it >= 0 }) })
     }
 }

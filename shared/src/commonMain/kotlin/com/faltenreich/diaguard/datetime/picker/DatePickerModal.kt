@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.datetime.picker
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.navigation.modal.Modal
 
@@ -10,7 +11,7 @@ data class DatePickerModal(
 ) : Modal {
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         DatePicker(date, onPick)
     }
 }

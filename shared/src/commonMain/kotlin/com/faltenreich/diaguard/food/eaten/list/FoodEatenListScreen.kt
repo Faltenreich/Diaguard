@@ -5,6 +5,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
@@ -56,7 +57,7 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
     }
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         FoodEatenList(viewModel = viewModel { parametersOf(foodId) })
     }
 }

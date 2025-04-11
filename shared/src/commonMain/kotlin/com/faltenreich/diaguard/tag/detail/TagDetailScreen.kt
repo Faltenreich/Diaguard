@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.tag.detail
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
@@ -56,7 +57,7 @@ data class TagDetailScreen(private val tagId: Long) : Screen {
     }
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         TagDetail(viewModel = viewModel { parametersOf(tagId) })
     }
 }

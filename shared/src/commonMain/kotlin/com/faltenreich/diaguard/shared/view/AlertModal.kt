@@ -4,6 +4,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.shared.localization.getString
@@ -17,7 +18,7 @@ class AlertModal(
 ) : Modal {
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
             confirmButton = {

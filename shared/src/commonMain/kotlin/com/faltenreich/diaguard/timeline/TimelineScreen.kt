@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.timeline
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.StatusBarStyle
@@ -58,7 +59,7 @@ data object TimelineScreen : Screen {
     }
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         Timeline(viewModel = viewModel())
     }
 }

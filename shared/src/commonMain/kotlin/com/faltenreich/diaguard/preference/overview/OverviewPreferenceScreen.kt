@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.preference.overview
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.list.PreferenceList
@@ -22,7 +23,7 @@ data object OverviewPreferenceScreen : Screen {
     }
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         val viewModel = viewModel<OverviewPreferenceViewModel>()
         val items = viewModel.collectState() ?: emptyList()
         PreferenceList(items = items)

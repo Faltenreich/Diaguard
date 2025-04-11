@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.entry.search
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
@@ -36,7 +37,7 @@ data class EntrySearchScreen(private val query: String = "") : Screen {
     }
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         EntrySearch(viewModel = viewModel(parameters = { parametersOf(query) }))
     }
 }

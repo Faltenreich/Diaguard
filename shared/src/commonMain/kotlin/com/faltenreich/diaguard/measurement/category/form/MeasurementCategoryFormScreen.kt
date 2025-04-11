@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.measurement.category.form
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
@@ -58,7 +59,7 @@ data class MeasurementCategoryFormScreen(val categoryId: Long) : Screen {
     }
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         MeasurementCategoryForm(viewModel = viewModel { parametersOf(categoryId) })
     }
 }

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.navigation.screen
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 
@@ -13,5 +14,5 @@ interface Screen {
     fun BottomAppBar(): BottomAppBarStyle = BottomAppBarStyle.Visible()
 
     @Composable
-    fun Content()
+    fun Content(modifier: Modifier = Modifier)
 }

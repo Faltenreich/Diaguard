@@ -91,7 +91,7 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
     }
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         val viewModel = viewModel<FoodSearchViewModel>(
             parameters = {
                 parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })

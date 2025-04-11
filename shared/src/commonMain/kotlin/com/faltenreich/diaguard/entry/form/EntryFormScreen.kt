@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
@@ -94,7 +95,7 @@ data class EntryFormScreen(
     }
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         val viewModel = viewModel<EntryFormViewModel>(
             parameters = {
                 parametersOf(

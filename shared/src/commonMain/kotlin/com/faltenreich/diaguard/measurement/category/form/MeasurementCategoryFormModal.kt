@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.category.form
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.navigation.modal.Modal
 
 class MeasurementCategoryFormModal(
@@ -9,7 +10,7 @@ class MeasurementCategoryFormModal(
 ) : Modal {
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         MeasurementCategoryFormDialog(
             onDismissRequest = onDismissRequest,
             onConfirmRequest = onConfirmRequest,

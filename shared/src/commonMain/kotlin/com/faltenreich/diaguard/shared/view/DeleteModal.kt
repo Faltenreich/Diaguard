@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.view
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.navigation.modal.Modal
 
 class DeleteModal(
@@ -9,7 +10,7 @@ class DeleteModal(
 ) : Modal {
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         DeleteDialog(
             onDismissRequest = onDismissRequest,
             onConfirmRequest = onConfirmRequest,

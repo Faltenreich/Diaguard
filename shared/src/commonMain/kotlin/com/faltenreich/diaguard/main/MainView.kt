@@ -1,13 +1,9 @@
 package com.faltenreich.diaguard.main
 
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -26,10 +22,8 @@ import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryLis
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
@@ -53,9 +47,8 @@ fun MainView(
     if (state !is MainState.SubsequentStart) return
 
     val navController = rememberNavController()
-    var bottomSheet by remember { mutableStateOf<Screen?>(null) }
-    var modal by remember { mutableStateOf<Modal?>(null) }
-    val snackbarHostState = remember { SnackbarHostState() }
+    // Avoid recomposing Scaffold on changing preference
+    val startScreen = remember { state.startScreen }
 
     LaunchedEffect(Unit) {
         viewModel.collectNavigationEvents { event ->
@@ -65,19 +58,16 @@ fun MainView(
                     popHistory = event.popHistory,
                 )
                 is NavigationEvent.PopScreen -> navController.popBackStack()
-                is NavigationEvent.OpenBottomSheet -> bottomSheet = event.bottomSheet
-                is NavigationEvent.CloseBottomSheet -> bottomSheet = null
-                is NavigationEvent.OpenModal -> modal = event.modal
-                is NavigationEvent.CloseModal -> modal = null
-                is NavigationEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.message)
+                is NavigationEvent.OpenBottomSheet -> TODO("Remove")
+                is NavigationEvent.CloseBottomSheet -> TODO("Remove")
+                is NavigationEvent.OpenModal -> TODO("Remove")
+                is NavigationEvent.CloseModal -> TODO("Remove")
+                is NavigationEvent.ShowSnackbar -> TODO("Remove")
             }
         }
     }
 
     val viewModelStoreOwner = rememberViewModelStoreOwner()
-
-    // Avoid recomposing Scaffold on changing preference
-    val startScreen = remember { state.startScreen }
 
     CompositionLocalProvider(LocalSharedViewModelStoreOwner provides viewModelStoreOwner) {
         NavHost(

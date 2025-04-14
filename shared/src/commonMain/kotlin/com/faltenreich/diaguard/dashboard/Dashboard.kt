@@ -41,6 +41,7 @@ fun Dashboard(
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
+        modifier = modifier,
         topBar = { TopAppBar(title = { Text(getString(Res.string.app_name)) }) },
         bottomBar = {
             BottomAppBar(
@@ -67,7 +68,7 @@ fun Dashboard(
     ) { padding ->
         when (val state = viewModel.collectState()) {
             null -> Box(
-                modifier = modifier
+                modifier = Modifier
                     .padding(padding)
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center,
@@ -75,7 +76,7 @@ fun Dashboard(
                 CircularProgressIndicator()
             }
             else -> Column(
-                modifier = modifier
+                modifier = Modifier
                     .padding(padding)
                     .padding(AppTheme.dimensions.padding.P_3)
                     .verticalScroll(rememberScrollState()),
@@ -87,7 +88,7 @@ fun Dashboard(
                         val intent = entry?.let(DashboardIntent::EditEntry) ?: DashboardIntent.CreateEntry
                         viewModel.dispatchIntent(intent)
                     },
-                    modifier = modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),

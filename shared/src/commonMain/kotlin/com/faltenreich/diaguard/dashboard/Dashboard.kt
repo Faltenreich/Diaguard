@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,9 +22,18 @@ import com.faltenreich.diaguard.dashboard.hba1c.HbA1cDashboardItem
 import com.faltenreich.diaguard.dashboard.latest.LatestDashboardItem
 import com.faltenreich.diaguard.dashboard.today.TodayDashboardItem
 import com.faltenreich.diaguard.dashboard.trend.TrendDashboardItem
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.app_name
+import diaguard.shared.generated.resources.entry_new_description
+import diaguard.shared.generated.resources.ic_add
+import diaguard.shared.generated.resources.ic_search
+import diaguard.shared.generated.resources.search_open
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun Dashboard(
@@ -32,18 +41,47 @@ fun Dashboard(
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
-        topBar = { CenterAlignedTopAppBar(title = { Text(getString(Res.string.app_name)) }) },
-    ) {
+        topBar = { TopAppBar(title = { Text(getString(Res.string.app_name)) }) },
+        bottomBar = {
+            BottomAppBar(
+                onMenuClick = {
+                    TODO()
+                    // val currentDestination = navController.currentDestination?.route
+                    // viewModel.dispatchIntent(MainIntent.OpenBottomSheet(MainMenuScreen(currentDestination)))
+                },
+                actions = {
+                    BottomAppBarItem(
+                        painter = painterResource(Res.drawable.ic_search),
+                        contentDescription = Res.string.search_open,
+                        onClick = { viewModel.dispatchIntent(DashboardIntent.SearchEntries) },
+                    )
+                },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { viewModel.dispatchIntent(DashboardIntent.CreateEntry) },
+                    ) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_add),
+                            contentDescription = getString(Res.string.entry_new_description),
+                        )
+                    }
+                }
+            )
+        }
+    ) { padding ->
         when (val state = viewModel.collectState()) {
             null -> Box(
-                modifier = modifier.fillMaxSize(),
+                modifier = modifier
+                    .padding(padding)
+                    .fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator()
             }
             else -> Column(
                 modifier = modifier
-                    .padding(all = AppTheme.dimensions.padding.P_3)
+                    .padding(padding)
+                    .padding(AppTheme.dimensions.padding.P_3)
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
             ) {

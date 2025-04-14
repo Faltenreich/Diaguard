@@ -4,6 +4,8 @@ import com.faltenreich.diaguard.entry.Entry
 
 sealed interface DashboardIntent {
 
+    data object OpenMainMenu : DashboardIntent
+
     data object CreateEntry : DashboardIntent
 
     data class EditEntry(val entry: Entry.Local) : DashboardIntent

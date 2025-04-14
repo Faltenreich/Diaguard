@@ -44,11 +44,7 @@ fun Dashboard(
         topBar = { TopAppBar(title = { Text(getString(Res.string.app_name)) }) },
         bottomBar = {
             BottomAppBar(
-                onMenuClick = {
-                    TODO()
-                    // val currentDestination = navController.currentDestination?.route
-                    // viewModel.dispatchIntent(MainIntent.OpenBottomSheet(MainMenuScreen(currentDestination)))
-                },
+                onMenuClick = { viewModel.dispatchIntent(DashboardIntent.OpenMainMenu) },
                 actions = {
                     BottomAppBarItem(
                         painter = painterResource(Res.drawable.ic_search),

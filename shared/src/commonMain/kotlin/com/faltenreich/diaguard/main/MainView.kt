@@ -1,9 +1,13 @@
 package com.faltenreich.diaguard.main
 
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -17,11 +21,13 @@ import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
+import com.faltenreich.diaguard.main.menu.MainMenu
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.navigation.bottomsheet.BottomSheet
 import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
@@ -50,6 +56,8 @@ fun MainView(
     // Avoid recomposing Scaffold on changing preference
     val startScreen = remember { state.startScreen }
 
+    var showMainMenu by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         viewModel.collectNavigationEvents { event ->
             when (event) {
@@ -58,6 +66,7 @@ fun MainView(
                     popHistory = event.popHistory,
                 )
                 is NavigationEvent.PopScreen -> navController.popBackStack()
+                is NavigationEvent.OpenMainMenu -> showMainMenu = true
                 is NavigationEvent.OpenBottomSheet -> TODO("Remove")
                 is NavigationEvent.CloseBottomSheet -> TODO("Remove")
                 is NavigationEvent.OpenModal -> TODO("Remove")
@@ -102,6 +111,21 @@ fun MainView(
             screen<TagListScreen>()
             screen<TagDetailScreen>()
             screen<LicenseListScreen>()
+        }
+    }
+
+    if (showMainMenu) {
+        BottomSheet(
+            onDismissRequest = { showMainMenu = false },
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        ) {
+            MainMenu(
+                currentDestination = navController.currentDestination?.route,
+                onDestinationChange = { screen, popHistory ->
+                    showMainMenu = false
+                    viewModel.dispatchIntent(MainIntent.PushScreen(screen, popHistory))
+                }
+            )
         }
     }
 }

@@ -25,6 +25,8 @@ fun navigationModule() = module {
     singleOf(::PopScreenUseCase)
     singleOf(::OpenNotificationSettingsUseCase)
 
+    singleOf(::OpenMainMenuUseCase)
+
     singleOf(::OpenBottomSheetUseCase)
     singleOf(::CloseBottomSheetUseCase)
 

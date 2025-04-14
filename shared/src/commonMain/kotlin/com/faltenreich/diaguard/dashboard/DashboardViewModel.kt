@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.dashboard.today.GetTodayUseCase
 import com.faltenreich.diaguard.dashboard.trend.GetTrendUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
+import com.faltenreich.diaguard.navigation.OpenMainMenuUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.statistic.StatisticScreen
@@ -18,6 +19,7 @@ class DashboardViewModel(
     getAverage: GetAverageBloodSugarUseCase,
     getCurrentHbA1c: GetCurrentHbA1cUseCase,
     getTrend: GetTrendUseCase,
+    private val openMainMenu: OpenMainMenuUseCase,
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<DashboardState, DashboardIntent, Unit>() {
 
@@ -32,6 +34,7 @@ class DashboardViewModel(
 
     override suspend fun handleIntent(intent: DashboardIntent) {
         when (intent) {
+            is DashboardIntent.OpenMainMenu -> openMainMenu()
             is DashboardIntent.CreateEntry -> pushScreen(EntryFormScreen())
             is DashboardIntent.EditEntry -> pushScreen(EntryFormScreen(entry = intent.entry))
             is DashboardIntent.OpenStatistic -> pushScreen(StatisticScreen)

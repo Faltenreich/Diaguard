@@ -10,6 +10,8 @@ sealed interface NavigationEvent {
 
     data object PopScreen : NavigationEvent
 
+    data object OpenMainMenu : NavigationEvent
+
     data class OpenBottomSheet(val bottomSheet: Screen) : NavigationEvent
 
     data object CloseBottomSheet : NavigationEvent

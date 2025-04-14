@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.navigation.OpenMainMenuUseCase
 import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
 import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
@@ -26,6 +27,7 @@ class TimelineViewModel(
     getPreference: GetPreferenceUseCase,
     getValues: GetMeasurementValuesAroundDateUseCase,
     getData: GetTimelineDataUseCase,
+    private val openMainMenu: OpenMainMenuUseCase,
     private val pushScreen: PushScreenUseCase,
     private val showModal: OpenModalUseCase,
     private val closeModal: CloseModalUseCase,
@@ -48,6 +50,7 @@ class TimelineViewModel(
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
+            is TimelineIntent.OpenMainMenu -> openMainMenu()
             is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
             is TimelineIntent.SearchEntries -> pushScreen(EntrySearchScreen())
             is TimelineIntent.ShowDatePicker -> showDatePicker()

@@ -48,7 +48,7 @@ fun Timeline(
         },
         bottomBar = {
             BottomAppBar(
-                onMenuClick = {},
+                onMenuClick = { viewModel.dispatchIntent(TimelineIntent.OpenMainMenu) },
                 actions = {
                     BottomAppBarItem(
                         painter = painterResource(Res.drawable.ic_search),

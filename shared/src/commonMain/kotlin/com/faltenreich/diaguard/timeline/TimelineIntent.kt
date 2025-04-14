@@ -4,6 +4,8 @@ import com.faltenreich.diaguard.datetime.Date
 
 sealed interface TimelineIntent {
 
+    data object OpenMainMenu : TimelineIntent
+
     data object CreateEntry : TimelineIntent
 
     data object SearchEntries : TimelineIntent

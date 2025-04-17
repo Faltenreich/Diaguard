@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -159,11 +158,6 @@ fun MainView(
                         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
                         containerColor = AppTheme.colors.scheme.background,
                         contentColor = AppTheme.colors.scheme.onBackground,
-                        properties = ModalBottomSheetProperties(
-                            // Workaround: Force status bar content colors
-                            isAppearanceLightStatusBars = false,
-                            isAppearanceLightNavigationBars = false,
-                        ),
                     ) {
                         bottomSheet.Content()
                     }

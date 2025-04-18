@@ -1,0 +1,71 @@
+CREATE TABLE Food (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    uuid TEXT,
+    name TEXT NOT NULL,
+    brand TEXT,
+    ingredients TEXT,
+    labels TEXT,
+    carbohydrates REAL NOT NULL,
+    energy REAL,
+    fat REAL,
+    fatSaturated REAL,
+    fiber REAL,
+    proteins REAL,
+    salt REAL,
+    sodium REAL,
+    sugar REAL
+);
+
+create:
+INSERT INTO Food(createdAt, updatedAt, uuid, name, brand, ingredients, labels, carbohydrates, energy, fat, fatSaturated, fiber, proteins, salt, sodium, sugar)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getById:
+SELECT * FROM Food
+WHERE id = ?;
+
+getByUuid:
+SELECT * FROM Food
+WHERE uuid = ?
+LIMIT 1;
+
+getByUuids:
+SELECT uuid FROM Food
+WHERE uuid IN ?;
+
+getAll:
+SELECT * FROM Food
+WHERE (:showCommonFood == 1 AND uuid IS NULL AND labels IS NOT NULL)
+OR (:showCustomFood == 1 AND uuid IS NULL AND labels IS NULL)
+OR (:showBrandedFood == 1 AND uuid IS NOT NULL)
+ORDER BY name COLLATE NOCASE ASC
+LIMIT :limit OFFSET :offset;
+
+getByQuery:
+SELECT * FROM Food
+WHERE (
+    name LIKE ('%' || :query || '%')
+    OR brand LIKE ('%' || :query || '%')
+    OR ingredients LIKE ('%' || :query || '%')
+    OR labels LIKE ('%' || :query || '%')
+)
+AND (
+    (:showCommonFood == 1 AND uuid IS NULL AND labels IS NOT NULL)
+    OR (:showCustomFood == 1 AND uuid IS NULL AND labels IS NULL)
+    OR (:showBrandedFood == 1 AND uuid IS NOT NULL)
+)
+ORDER BY name COLLATE NOCASE ASC
+LIMIT :limit OFFSET :offset;
+
+update:
+UPDATE Food
+SET updatedAt = ?, name = ?, brand = ?, ingredients = ?, labels = ?, carbohydrates = ?, energy = ?, fat = ?, fatSaturated = ?, fiber = ?, proteins = ?, salt = ?, sodium = ?, sugar = ?
+WHERE id = ?;
+
+deleteById:
+DELETE FROM Food WHERE id = ?;

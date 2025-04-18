@@ -31,13 +31,17 @@ fun MeasurementUnitFormDialog(
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = rememberFocusRequester(requestFocus = true)
+
     var name by remember { mutableStateOf(unit?.name ?: "") }
     var abbreviation  by remember { mutableStateOf(unit?.abbreviation ?: "") }
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = { onConfirmRequest(name, abbreviation) }) {
+            TextButton(
+                onClick = { onConfirmRequest(name, abbreviation) },
+                enabled = name.isNotBlank(),
+            ) {
                 Text(getString(Res.string.create))
             }
         },

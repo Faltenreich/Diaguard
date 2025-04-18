@@ -28,12 +28,16 @@ fun TagFormDialog(
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = rememberFocusRequester(requestFocus = true)
+
     var name by remember { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = { onConfirmRequest(name) }) {
+            TextButton(
+                onClick = { onConfirmRequest(name) },
+                enabled = name.isNotBlank(),
+            ) {
                 Text(getString(Res.string.create))
             }
         },

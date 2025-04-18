@@ -4,13 +4,8 @@ import com.faltenreich.diaguard.tag.Tag
 
 data class TagListState(
     val tags: List<Tag.Local>,
-    val form: Form,
+    val formDialog: FormDialog?,
 ) {
 
-    sealed interface Form {
-
-        data object Hidden : Form
-
-        data class Shown(val error: String? = null) : Form
-    }
+    data class FormDialog(val error: String? = null)
 }

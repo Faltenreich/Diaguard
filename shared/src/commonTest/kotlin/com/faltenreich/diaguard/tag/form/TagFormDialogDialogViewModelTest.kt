@@ -13,7 +13,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class TagFormViewModelTest : TestSuite {
+class TagFormDialogDialogViewModelTest : TestSuite {
 
     private val viewModel: TagFormViewModel by inject()
     private val navigation: Navigation by inject()

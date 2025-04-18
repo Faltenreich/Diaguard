@@ -27,7 +27,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class EntryFormViewModelTest : TestSuite {
+class EntryFormDialogDialogViewModelTest : TestSuite {
 
     private val navigation: Navigation by inject()
     private val entryRepository: EntryTagRepository by inject()

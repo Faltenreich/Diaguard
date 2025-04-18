@@ -33,15 +33,14 @@ fun MeasurementUnitList(
         }
     }
 
-    when (val formState = state.formState) {
-        is MeasurementUnitListState.Form.Hidden -> Unit
-        is MeasurementUnitListState.Form.Shown -> MeasurementUnitFormDialog(
-            unit = formState.unit,
+    state.formDialog?.let { formDialog ->
+        MeasurementUnitFormDialog(
+            unit = formDialog.unit,
             onDismissRequest = { viewModel.dispatchIntent(MeasurementUnitListIntent.CloseFormDialog) },
             onConfirmRequest = { name, abbreviation ->
                 viewModel.dispatchIntent(
                     MeasurementUnitListIntent.StoreUnit(
-                        unit = formState.unit,
+                        unit = formDialog.unit,
                         name = name,
                         abbreviation = abbreviation,
                     )

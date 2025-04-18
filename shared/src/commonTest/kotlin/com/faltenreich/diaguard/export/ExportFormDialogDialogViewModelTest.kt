@@ -21,7 +21,7 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class ExportFormViewModelTest : TestSuite {
+class ExportFormDialogDialogViewModelTest : TestSuite {
 
     private val viewModel: ExportFormViewModel by inject()
     private val navigation: Navigation by inject()

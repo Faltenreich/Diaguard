@@ -19,17 +19,17 @@ class TagListViewModel(
 ) : ViewModel<TagListState, TagListIntent, Unit>() {
 
     private val tags = getTags()
-    private val form = MutableStateFlow<TagListState.Form>(TagListState.Form.Hidden)
+    private val formDialog = MutableStateFlow<TagListState.FormDialog?>(null)
     override val state = combine(
         tags,
-        form,
+        formDialog,
         ::TagListState,
     )
 
     override suspend fun handleIntent(intent: TagListIntent) = with(intent) {
         when (this) {
-            is TagListIntent.OpenFormDialog -> form.update { TagListState.Form.Shown() }
-            is TagListIntent.CloseFormDialog -> form.update { TagListState.Form.Hidden }
+            is TagListIntent.OpenFormDialog -> formDialog.update { TagListState.FormDialog() }
+            is TagListIntent.CloseFormDialog -> formDialog.update { null }
             is TagListIntent.OpenTag -> pushScreen(TagDetailScreen(tag))
             is TagListIntent.StoreTag -> createTagIfValid(this)
         }
@@ -39,10 +39,12 @@ class TagListViewModel(
         val tag = Tag.User(intent.name)
         when (val result = validateTag(tag)) {
             is ValidationResult.Success -> {
-                form.update { TagListState.Form.Hidden }
+                formDialog.update { null }
                 createTag(tag)
             }
-            is ValidationResult.Failure -> form.update { TagListState.Form.Shown(error = result.error) }
+            is ValidationResult.Failure -> {
+                formDialog.update { TagListState.FormDialog(error = result.error) }
+            }
         }
     }
 }

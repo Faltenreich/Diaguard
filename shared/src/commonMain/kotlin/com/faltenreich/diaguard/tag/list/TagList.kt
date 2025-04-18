@@ -34,12 +34,11 @@ fun TagList(
         }
     }
 
-    when (state.form) {
-        is TagListState.Form.Hidden -> Unit
-        is TagListState.Form.Shown -> TagFormDialog(
-            error = state.form.error,
+    state.formDialog?.let { formDialog ->
+        TagFormDialog(
+            error = formDialog.error,
             onDismissRequest = { viewModel.dispatchIntent(TagListIntent.CloseFormDialog) },
-            onConfirmRequest = { name -> viewModel.dispatchIntent(TagListIntent.StoreTag(name = name)) }
+            onConfirmRequest = { name -> viewModel.dispatchIntent(TagListIntent.StoreTag(name = name)) },
         )
     }
 }

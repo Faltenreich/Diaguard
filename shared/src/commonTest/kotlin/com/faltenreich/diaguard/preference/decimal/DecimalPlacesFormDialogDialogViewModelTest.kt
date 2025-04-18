@@ -7,7 +7,7 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DecimalPlacesFormViewModelTest : TestSuite {
+class DecimalPlacesFormDialogDialogViewModelTest : TestSuite {
 
     private val viewModel: DecimalPlacesFormViewModel by inject()
 

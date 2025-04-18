@@ -12,23 +12,25 @@ class MeasurementUnitListViewModel(
     private val storeUnit: StoreMeasurementUnitUseCase,
 ) : ViewModel<MeasurementUnitListState, MeasurementUnitListIntent, Unit>() {
 
-    private val form = MutableStateFlow<MeasurementUnitListState.Form>(MeasurementUnitListState.Form.Hidden)
+    private val formDialog = MutableStateFlow<MeasurementUnitListState.FormDialog?>(null)
 
     override val state = combine(
         getUnits(),
-        form,
+        formDialog,
         ::MeasurementUnitListState,
     )
 
-    override suspend fun handleIntent(intent: MeasurementUnitListIntent) = with(intent) {
-        when (this) {
-            is MeasurementUnitListIntent.OpenFormDialog -> form.update { MeasurementUnitListState.Form.Shown(unit) }
-            is MeasurementUnitListIntent.CloseFormDialog -> form.update { MeasurementUnitListState.Form.Hidden }
-            is MeasurementUnitListIntent.StoreUnit -> store(this)
+    override suspend fun handleIntent(intent: MeasurementUnitListIntent) {
+        when (intent) {
+            is MeasurementUnitListIntent.OpenFormDialog -> formDialog.update { MeasurementUnitListState.FormDialog(intent.unit) }
+            is MeasurementUnitListIntent.CloseFormDialog -> formDialog.update { null }
+            is MeasurementUnitListIntent.StoreUnit -> store(intent)
         }
     }
 
     private fun store(intent: MeasurementUnitListIntent.StoreUnit) = with(intent) {
+        formDialog.update { null }
+
         val unit = unit?.copy(
             name = name,
             abbreviation = abbreviation,
@@ -37,6 +39,5 @@ class MeasurementUnitListViewModel(
             abbreviation = abbreviation
         )
         storeUnit(unit)
-        form.update { MeasurementUnitListState.Form.Hidden }
     }
 }

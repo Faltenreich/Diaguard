@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.tag
+package com.faltenreich.diaguard.measurement.unit
 
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -7,12 +7,12 @@ import com.faltenreich.diaguard.shared.validation.ValidationRule
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.name_already_taken
 
-class UniqueTagRule(
-    private val repository: TagRepository = inject(),
+class UniqueMeasurementUnitRule(
+    private val repository: MeasurementUnitRepository = inject(),
     private val localization: Localization = inject(),
-) : ValidationRule<Tag> {
+) : ValidationRule<MeasurementUnit> {
 
-    override fun check(input: Tag): ValidationResult<Tag> {
+    override fun check(input: MeasurementUnit): ValidationResult<MeasurementUnit> {
         return when (repository.getByName(input.name)) {
             null -> ValidationResult.Success(input)
             input -> ValidationResult.Success(input)

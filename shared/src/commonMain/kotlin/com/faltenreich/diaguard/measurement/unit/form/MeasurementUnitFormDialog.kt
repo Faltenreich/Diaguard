@@ -26,6 +26,7 @@ import diaguard.shared.generated.resources.name
 @Composable
 fun MeasurementUnitFormDialog(
     unit: MeasurementUnit.Local?,
+    error: String?,
     onDismissRequest: () -> Unit,
     onConfirmRequest: (name: String, abbreviation: String) -> Unit,
     modifier: Modifier = Modifier,
@@ -59,6 +60,8 @@ fun MeasurementUnitFormDialog(
                     onInputChange = { name = it },
                     label = getString(Res.string.name),
                     modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+                    supportingText = error?.let { error -> { Text(error) } },
+                    isError = error != null,
                 )
                 TextInput(
                     input = abbreviation,

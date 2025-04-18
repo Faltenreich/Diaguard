@@ -182,6 +182,7 @@
     <string name="millimeters_of_mercury_abbreviation">mmHg</string>
     <string name="month">Month</string>
     <string name="name">Name</string>
+    <string name="name_already_taken">Name is already taken</string>
     <string name="no_entries">No entries available</string>
     <string name="note">Note</string>
     <string name="notes">Notes</string>
@@ -221,7 +222,6 @@
     <string name="table">Table</string>
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
-    <string name="tag_already_taken">Tag is already taken</string>
     <string name="tag_delete">Delete tag</string>
     <string name="tag_remove_description">Remove tag "%1$s"</string>
     <string name="tag_new">Create new tag</string>

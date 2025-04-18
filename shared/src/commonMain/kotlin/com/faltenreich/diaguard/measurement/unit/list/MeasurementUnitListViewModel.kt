@@ -2,13 +2,16 @@ package com.faltenreich.diaguard.measurement.unit.list
 
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
+import com.faltenreich.diaguard.measurement.unit.ValidateMeasurementUnitUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.shared.validation.ValidationResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 
 class MeasurementUnitListViewModel(
     getUnits: GetMeasurementUnitsUseCase,
+    private val validateUnit: ValidateMeasurementUnitUseCase,
     private val storeUnit: StoreMeasurementUnitUseCase,
 ) : ViewModel<MeasurementUnitListState, MeasurementUnitListIntent, Unit>() {
 
@@ -28,10 +31,7 @@ class MeasurementUnitListViewModel(
         }
     }
 
-    // TODO: Validate
     private fun store(intent: MeasurementUnitListIntent.StoreUnit) = with(intent) {
-        formDialog.update { null }
-
         val unit = unit?.copy(
             name = name,
             abbreviation = abbreviation,
@@ -39,6 +39,14 @@ class MeasurementUnitListViewModel(
             name = name,
             abbreviation = abbreviation
         )
-        storeUnit(unit)
+        when (val result = validateUnit(unit)) {
+            is ValidationResult.Success -> {
+                formDialog.update { null }
+                storeUnit(unit)
+            }
+            is ValidationResult.Failure -> {
+                formDialog.update { MeasurementUnitListState.FormDialog(error = result.error) }
+            }
+        }
     }
 }

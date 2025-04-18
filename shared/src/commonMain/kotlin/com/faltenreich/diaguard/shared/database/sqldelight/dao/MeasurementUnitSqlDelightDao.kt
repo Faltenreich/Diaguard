@@ -54,6 +54,10 @@ class MeasurementUnitSqlDelightDao(
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
+    override fun getByName(name: String): MeasurementUnit.Local? {
+        return queries.getByName(name, mapper::map).executeAsOneOrNull()
+    }
+
     override fun update(
         id: Long,
         updatedAt: DateTime,

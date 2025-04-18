@@ -40,6 +40,10 @@ class MeasurementUnitRepository(
         return dao.observeAll()
     }
 
+    fun getByName(name: String): MeasurementUnit.Local? {
+        return dao.getByName(name)
+    }
+
     fun update(unit: MeasurementUnit.Local) = with(unit) {
         dao.update(
             id = id,

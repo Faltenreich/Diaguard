@@ -17,6 +17,9 @@ SELECT last_insert_rowid();
 getById:
 SELECT * FROM MeasurementUnit WHERE MeasurementUnit.id = ?;
 
+getByName:
+SELECT * FROM MeasurementUnit WHERE MeasurementUnit.name = ?;
+
 getAll:
 SELECT * FROM MeasurementUnit;
 

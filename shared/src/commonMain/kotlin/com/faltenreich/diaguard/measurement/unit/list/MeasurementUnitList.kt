@@ -36,6 +36,7 @@ fun MeasurementUnitList(
     state.formDialog?.let { formDialog ->
         MeasurementUnitFormDialog(
             unit = formDialog.unit,
+            error = formDialog.error,
             onDismissRequest = { viewModel.dispatchIntent(MeasurementUnitListIntent.CloseFormDialog) },
             onConfirmRequest = { name, abbreviation ->
                 viewModel.dispatchIntent(

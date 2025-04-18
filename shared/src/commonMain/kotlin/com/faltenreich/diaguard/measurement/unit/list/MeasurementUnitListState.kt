@@ -7,5 +7,8 @@ data class MeasurementUnitListState(
     val formDialog: FormDialog?,
 ) {
 
-    data class FormDialog(val unit: MeasurementUnit.Local? = null)
+    data class FormDialog(
+        val unit: MeasurementUnit.Local? = null,
+        val error: String? = null,
+    )
 }

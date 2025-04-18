@@ -33,7 +33,7 @@ object MeasurementUnitListScreen : Screen {
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { viewModel.dispatchIntent(MeasurementUnitListIntent.Create) },
+                    onClick = { viewModel.dispatchIntent(MeasurementUnitListIntent.OpenFormDialog()) },
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),

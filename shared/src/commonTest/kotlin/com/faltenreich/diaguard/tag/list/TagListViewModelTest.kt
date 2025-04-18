@@ -40,7 +40,7 @@ class TagListViewModelTest : TestSuite {
     @Test
     fun `open modal when intending to create tag`() = runTest {
         navigation.events.test {
-            viewModel.handleIntent(TagListIntent.CreateTag)
+            viewModel.handleIntent(TagListIntent.OpenFormDialog)
 
             val event = awaitItem()
             assertTrue(event is NavigationEvent.OpenModal)

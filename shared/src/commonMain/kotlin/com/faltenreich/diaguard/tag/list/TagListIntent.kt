@@ -4,7 +4,11 @@ import com.faltenreich.diaguard.tag.Tag
 
 sealed interface TagListIntent {
 
-    data object CreateTag : TagListIntent
+    data object OpenFormDialog : TagListIntent
+
+    data object CloseFormDialog : TagListIntent
 
     data class OpenTag(val tag: Tag.Local) : TagListIntent
+
+    data class StoreTag(val name: String) : TagListIntent
 }

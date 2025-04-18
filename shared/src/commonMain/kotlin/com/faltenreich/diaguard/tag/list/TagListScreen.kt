@@ -31,7 +31,7 @@ data object TagListScreen : Screen {
         val viewModel = viewModel<TagListViewModel>()
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
-                FloatingActionButton(onClick = { viewModel.dispatchIntent(TagListIntent.CreateTag) }) {
+                FloatingActionButton(onClick = { viewModel.dispatchIntent(TagListIntent.OpenFormDialog) }) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),
                         contentDescription = getString(Res.string.tag_new),

@@ -23,6 +23,8 @@ data class PreferenceCategoryListItem(
     private val icon: DrawableResource?,
 ) : PreferenceListItem {
 
+    override val subtitle = null
+
     @Composable
     override fun Content(modifier: Modifier) {
         Column(modifier) {

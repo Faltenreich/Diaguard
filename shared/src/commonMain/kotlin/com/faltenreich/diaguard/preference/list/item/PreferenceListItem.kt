@@ -7,7 +7,6 @@ sealed interface PreferenceListItem {
 
     val title: String
     val subtitle: String?
-        get() = null
 
     @Composable
     fun Content(modifier: Modifier)

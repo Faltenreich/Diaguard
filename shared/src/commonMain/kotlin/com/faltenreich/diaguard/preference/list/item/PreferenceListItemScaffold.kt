@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 
 @Composable
-fun PreferenceListItemLayout(
+fun PreferenceListItemScaffold(
     preference: PreferenceListItem,
     modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)? = null,

@@ -17,7 +17,7 @@ data class PreferenceCheckBoxListItem(
     @Composable
     override fun Content(modifier: Modifier) {
         val scope = rememberCoroutineScope()
-        PreferenceListItemLayout(
+        PreferenceListItemScaffold(
             preference = this,
             modifier = modifier.clickable { scope.launch { onCheckedChange(!isChecked) } },
         ) {

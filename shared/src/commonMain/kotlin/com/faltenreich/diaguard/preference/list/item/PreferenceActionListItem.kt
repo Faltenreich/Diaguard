@@ -15,7 +15,7 @@ data class PreferenceActionListItem(
     @Composable
     override fun Content(modifier: Modifier) {
         val scope = rememberCoroutineScope()
-        PreferenceListItemLayout(
+        PreferenceListItemScaffold(
             preference = this,
             modifier = modifier.clickable { scope.launch { action() } },
         )

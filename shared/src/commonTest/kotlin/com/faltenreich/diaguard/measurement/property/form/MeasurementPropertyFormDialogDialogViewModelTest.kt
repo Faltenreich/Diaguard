@@ -2,13 +2,9 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.shared.view.AlertModal
-import com.faltenreich.diaguard.shared.view.DeleteModal
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
 import org.koin.test.get
@@ -17,14 +13,13 @@ import kotlin.test.BeforeTest
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
 
     private val navigation: Navigation by inject()
-    private val categoryRepository: MeasurementCategoryRepository by inject()
     private val propertyRepository: MeasurementPropertyRepository by inject()
-    private val unitRepository: MeasurementUnitRepository by inject()
 
     private lateinit var viewModel: MeasurementPropertyFormViewModel
 
@@ -78,12 +73,9 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
         // FIXME: Race condition, property has still a key
         viewModel = get(parameters = { parametersOf(property.id) })
 
-        navigation.events.test {
-            viewModel.handleIntent(MeasurementPropertyFormIntent.Delete)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is DeleteModal)
+        viewModel.state.test {
+            viewModel.handleIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = true))
+            assertNotNull(awaitItem().alertDialog)
         }
     }
 
@@ -92,12 +84,9 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
         val property = propertyRepository.getAll().first()
         viewModel = get(parameters = { parametersOf(property.id) })
 
-        navigation.events.test {
-            viewModel.handleIntent(MeasurementPropertyFormIntent.Delete)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is AlertModal)
+        viewModel.state.test {
+            viewModel.handleIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = true))
+            assertNotNull(awaitItem().alertDialog)
         }
     }
 }

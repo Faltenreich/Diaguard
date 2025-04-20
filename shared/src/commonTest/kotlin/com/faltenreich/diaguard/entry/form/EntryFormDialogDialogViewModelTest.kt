@@ -4,8 +4,6 @@ import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.datetime.picker.DatePickerModal
-import com.faltenreich.diaguard.datetime.picker.TimePickerModal
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.food.FoodRepository
@@ -14,7 +12,6 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.view.DeleteModal
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
@@ -25,6 +22,7 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class EntryFormDialogDialogViewModelTest : TestSuite {
@@ -87,32 +85,6 @@ class EntryFormDialogDialogViewModelTest : TestSuite {
 
         viewModel.state.test {
             assertTrue(awaitItem().tags.isNotEmpty())
-        }
-    }
-
-    @Test
-    fun `open dialog when selecting date`() = runTest {
-        viewModel = get(parameters = { parametersOf(null, null, null) })
-
-        navigation.events.test {
-            viewModel.handleIntent(EntryFormIntent.SelectDate)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is DatePickerModal)
-        }
-    }
-
-    @Test
-    fun `open dialog when selecting time`() = runTest {
-        viewModel = get(parameters = { parametersOf(null, null, null) })
-
-        navigation.events.test {
-            viewModel.handleIntent(EntryFormIntent.SelectTime)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is TimePickerModal)
         }
     }
 
@@ -196,12 +168,9 @@ class EntryFormDialogDialogViewModelTest : TestSuite {
         val entryId = entryRepository.getLastId()!!
         viewModel = get(parameters = { parametersOf(entryId, null, null) })
 
-        navigation.events.test {
-            viewModel.handleIntent(EntryFormIntent.Delete)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is DeleteModal)
+        viewModel.state.test {
+            viewModel.handleIntent(EntryFormIntent.Delete(needsConfirmation = true))
+            assertNotNull(awaitItem().deleteDialog)
         }
     }
 
@@ -210,7 +179,7 @@ class EntryFormDialogDialogViewModelTest : TestSuite {
         viewModel = get(parameters = { parametersOf(null, null, null) })
 
         navigation.events.test {
-            viewModel.handleIntent(EntryFormIntent.Delete)
+            viewModel.handleIntent(EntryFormIntent.Delete(needsConfirmation = true))
             assertTrue(awaitItem() is NavigationEvent.PopScreen)
         }
     }

@@ -6,9 +6,6 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.shared.view.AlertModal
-import com.faltenreich.diaguard.shared.view.DeleteModal
-import com.faltenreich.diaguard.shared.view.EmojiModal
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
@@ -17,6 +14,7 @@ import org.koin.test.inject
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
@@ -43,20 +41,6 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
 
         viewModel.state.test {
             assertTrue(awaitItem().properties.isNotEmpty())
-        }
-    }
-
-    @Test
-    fun `open modal when intending to open icon picker`() = runTest {
-        val category = categoryRepository.observeAll().first().first()
-        viewModel = get(parameters = { parametersOf(category.id) })
-
-        navigation.events.test {
-            viewModel.handleIntent(MeasurementCategoryFormIntent.OpenIconPicker)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is EmojiModal)
         }
     }
 
@@ -90,12 +74,9 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
         )
         viewModel = get(parameters = { parametersOf(categoryId) })
 
-        navigation.events.test {
-            viewModel.handleIntent(MeasurementCategoryFormIntent.Delete)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is DeleteModal)
+        viewModel.state.test {
+            viewModel.handleIntent(MeasurementCategoryFormIntent.Delete(needsConfirmation = true))
+            assertNotNull(awaitItem().deleteDialog)
         }
     }
 
@@ -104,12 +85,9 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
         val category = categoryRepository.observeAll().first().first()
         viewModel = get(parameters = { parametersOf(category.id) })
 
-        navigation.events.test {
-            viewModel.handleIntent(MeasurementCategoryFormIntent.Delete)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is AlertModal)
+        viewModel.state.test {
+            viewModel.handleIntent(MeasurementCategoryFormIntent.Delete(needsConfirmation = true))
+            assertNotNull(awaitItem().alertDialog)
         }
     }
 }

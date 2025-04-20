@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.Navigation
@@ -14,6 +13,7 @@ import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class TimelineViewModelTest : TestSuite {
@@ -250,12 +250,9 @@ class TimelineViewModelTest : TestSuite {
 
     @Test
     fun `open modal when intending to show date picker`() = runTest {
-        navigation.events.test {
-            viewModel.handleIntent(TimelineIntent.ShowDatePicker)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is DatePickerModal)
+        viewModel.state.test {
+            viewModel.handleIntent(TimelineIntent.OpenDateDialog)
+            assertNotNull(awaitItem().dateDialog)
         }
     }
 }

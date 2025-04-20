@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.measurement.category.list
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormModal
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
@@ -88,11 +87,11 @@ class MeasurementCategoryListViewModelTest : TestSuite {
     @Test
     fun `push screen when creating category`() = runTest {
         navigation.events.test {
-            viewModel.handleIntent(MeasurementCategoryListIntent.Create)
+            viewModel.handleIntent(MeasurementCategoryListIntent.Create(name = ""))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is MeasurementCategoryFormModal)
+            assertTrue(event is NavigationEvent.PushScreen)
+            assertTrue(event.screen is MeasurementCategoryFormScreen)
         }
     }
 }

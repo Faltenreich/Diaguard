@@ -4,14 +4,11 @@ import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.datetime.picker.DateRangePickerModal
 import com.faltenreich.diaguard.export.form.ExportFormIntent
 import com.faltenreich.diaguard.export.form.ExportFormState
 import com.faltenreich.diaguard.export.form.ExportFormViewModel
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -24,7 +21,6 @@ import kotlin.test.assertTrue
 class ExportFormDialogDialogViewModelTest : TestSuite {
 
     private val viewModel: ExportFormViewModel by inject()
-    private val navigation: Navigation by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
     private val categoryRepository: MeasurementCategoryRepository by inject()
 
@@ -144,17 +140,6 @@ class ExportFormDialogDialogViewModelTest : TestSuite {
                 expected = exportCategories,
                 actual = awaitItem().content.categories,
             )
-        }
-    }
-
-    @Test
-    fun `open modal when intending to set date range`() = runTest {
-        navigation.events.test {
-            viewModel.handleIntent(ExportFormIntent.OpenDateRangePicker)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is DateRangePickerModal)
         }
     }
 

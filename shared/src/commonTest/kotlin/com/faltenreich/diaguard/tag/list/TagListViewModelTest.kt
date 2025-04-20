@@ -7,12 +7,13 @@ import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.TagRepository
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
-import com.faltenreich.diaguard.tag.form.TagFormModal
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class TagListViewModelTest : TestSuite {
@@ -39,12 +40,9 @@ class TagListViewModelTest : TestSuite {
 
     @Test
     fun `open modal when intending to create tag`() = runTest {
-        navigation.events.test {
+        viewModel.state.test {
             viewModel.handleIntent(TagListIntent.OpenFormDialog)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is TagFormModal)
+            assertNotNull(awaitItem().formDialog)
         }
     }
 
@@ -58,6 +56,37 @@ class TagListViewModelTest : TestSuite {
             val event = awaitItem()
             assertTrue(event is NavigationEvent.PushScreen)
             assertTrue(event.screen is TagDetailScreen)
+        }
+    }
+    @Test
+    fun `close modal when intending to close`() = runTest {
+        viewModel.state.test {
+            viewModel.handleIntent(TagListIntent.OpenFormDialog)
+            viewModel.handleIntent(TagListIntent.CloseFormDialog)
+            assertNull(awaitItem().formDialog)
+        }
+    }
+
+    @Test
+    fun `close modal when intending to submit and succeeding`() = runTest {
+        val name = "name"
+
+        viewModel.handleIntent(TagListIntent.StoreTag(name))
+
+        viewModel.state.test {
+            assertNull(awaitItem().formDialog)
+        }
+    }
+
+    @Test
+    fun `show error when intending to submit the same tag twice`() = runTest {
+        val name = "name"
+
+        tagRepository.create(Tag.User(name = name))
+        viewModel.handleIntent(TagListIntent.StoreTag(name))
+
+        viewModel.state.test {
+            assertNotNull(awaitItem().formDialog!!.error)
         }
     }
 

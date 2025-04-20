@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.log
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.datetime.picker.DatePickerModal
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
@@ -13,6 +12,7 @@ import com.faltenreich.diaguard.navigation.NavigationEvent
 import kotlinx.coroutines.test.runTest
 import org.koin.core.component.inject
 import kotlin.test.Test
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class LogViewModelTest : TestSuite {
@@ -65,12 +65,9 @@ class LogViewModelTest : TestSuite {
 
     @Test
     fun `open modal when selecting date`() = runTest {
-        navigation.events.test {
-            viewModel.handleIntent(LogIntent.SelectDate)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is DatePickerModal)
+        viewModel.state.test {
+            viewModel.handleIntent(LogIntent.OpenDateDialog)
+            assertNotNull(awaitItem().dateDialog)
         }
     }
 }

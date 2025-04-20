@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.view.DeleteModal
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.TagRepository
 import kotlinx.coroutines.flow.first
@@ -69,17 +68,6 @@ class TagDetailViewModelTest : TestSuite {
         viewModel.handleIntent(TagDetailIntent.UpdateTag)
 
         assertNotNull(viewModel.error)
-    }
-
-    @Test
-    fun `open modal when intending to delete`() = runTest {
-        navigation.events.test {
-            viewModel.handleIntent(TagDetailIntent.DeleteTag)
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenModal)
-            assertTrue(event.modal is DeleteModal)
-        }
     }
 
     @Test

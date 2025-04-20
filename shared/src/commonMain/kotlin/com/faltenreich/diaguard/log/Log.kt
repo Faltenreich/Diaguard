@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.datetime.picker.DatePicker
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
 import com.faltenreich.diaguard.log.item.LogEntry
@@ -169,5 +170,15 @@ fun Log(
                     .padding(all = AppTheme.dimensions.padding.P_3)
             )
         }
+    }
+
+    state.dateDialog?.let { dateDialog ->
+        DatePicker(
+            date = dateDialog.date,
+            onPick = { date ->
+                viewModel.dispatchIntent(LogIntent.CloseDateDialog)
+                viewModel.dispatchIntent(LogIntent.SetDate(date))
+            },
+        )
     }
 }

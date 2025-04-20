@@ -34,7 +34,7 @@ data object LogScreen : Screen {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date_range),
                     contentDescription = Res.string.date_pick,
-                    onClick = { viewModel.dispatchIntent(LogIntent.SelectDate) },
+                    onClick = { viewModel.dispatchIntent(LogIntent.OpenDateDialog) },
                 )
             },
             floatingActionButton = {

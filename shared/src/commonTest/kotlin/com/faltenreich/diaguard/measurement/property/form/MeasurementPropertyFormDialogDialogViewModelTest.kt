@@ -79,7 +79,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
         viewModel = get(parameters = { parametersOf(property.id) })
 
         navigation.events.test {
-            viewModel.handleIntent(MeasurementPropertyFormIntent.DeleteProperty)
+            viewModel.handleIntent(MeasurementPropertyFormIntent.Delete)
 
             val event = awaitItem()
             assertTrue(event is NavigationEvent.OpenModal)
@@ -93,7 +93,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
         viewModel = get(parameters = { parametersOf(property.id) })
 
         navigation.events.test {
-            viewModel.handleIntent(MeasurementPropertyFormIntent.DeleteProperty)
+            viewModel.handleIntent(MeasurementPropertyFormIntent.Delete)
 
             val event = awaitItem()
             assertTrue(event is NavigationEvent.OpenModal)

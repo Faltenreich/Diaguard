@@ -33,7 +33,7 @@ import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.delete_error_property
+import diaguard.shared.generated.resources.delete_error_pre_defined
 import diaguard.shared.generated.resources.delete_title
 import diaguard.shared.generated.resources.icon
 import diaguard.shared.generated.resources.measurement_category_visibility
@@ -164,7 +164,7 @@ fun MeasurementCategoryForm(
                 }
             },
             title = { Text(stringResource(Res.string.delete_title)) },
-            text = { Text(stringResource(Res.string.delete_error_property)) },
+            text = { Text(stringResource(Res.string.delete_error_pre_defined)) },
         )
     }
 }

@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -19,6 +21,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextDivider
@@ -26,10 +29,13 @@ import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.aggregation_style
 import diaguard.shared.generated.resources.aggregation_style_description
+import diaguard.shared.generated.resources.delete_error_pre_defined
+import diaguard.shared.generated.resources.delete_title
 import diaguard.shared.generated.resources.ic_check
 import diaguard.shared.generated.resources.measurement_unit
 import diaguard.shared.generated.resources.measurement_unit_selected_description
 import diaguard.shared.generated.resources.name
+import diaguard.shared.generated.resources.ok
 import diaguard.shared.generated.resources.values
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -93,6 +99,34 @@ fun MeasurementPropertyForm(
                 viewModel = viewModel,
             )
         }
+    }
+
+    if (state?.deleteDialog != null) {
+        DeleteDialog(
+            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDeleteDialog) },
+            onConfirmRequest = {
+                viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDeleteDialog)
+                viewModel.dispatchIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = false))
+            }
+        )
+    }
+
+    if (state?.alertDialog != null) {
+        AlertDialog(
+            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseAlertDialog) },
+            confirmButton = {
+                TextButton(
+                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseAlertDialog) },
+                ) {
+                    Text(
+                        text = getString(Res.string.ok),
+                        color = AppTheme.colors.scheme.onBackground,
+                    )
+                }
+            },
+            title = { Text(stringResource(Res.string.delete_title)) },
+            text = { Text(stringResource(Res.string.delete_error_pre_defined)) },
+        )
     }
 }
 

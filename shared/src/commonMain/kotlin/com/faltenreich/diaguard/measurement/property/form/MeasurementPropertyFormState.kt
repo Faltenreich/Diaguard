@@ -6,6 +6,8 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 data class MeasurementPropertyFormState(
     val property: MeasurementProperty.Local,
     val units: List<Unit>,
+    val deleteDialog: DeleteDialog?,
+    val alertDialog: AlertDialog?,
 ) {
 
     data class Unit(
@@ -14,4 +16,8 @@ data class MeasurementPropertyFormState(
         val subtitle: String?,
         val isSelected: Boolean,
     )
+
+    data object DeleteDialog
+
+    data object AlertDialog
 }

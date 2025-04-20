@@ -5,8 +5,6 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
-import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -14,16 +12,13 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
-import com.faltenreich.diaguard.shared.view.AlertModal
-import com.faltenreich.diaguard.shared.view.DeleteModal
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.delete_error_property
-import diaguard.shared.generated.resources.delete_title
 import diaguard.shared.generated.resources.measurement_unit_factor_description
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MeasurementPropertyFormViewModel(
@@ -36,8 +31,6 @@ class MeasurementPropertyFormViewModel(
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
-    private val openModal: OpenModalUseCase = inject(),
-    private val closeModal: CloseModalUseCase = inject(),
     private val localization: Localization = inject(),
     private val numberFormatter: NumberFormatter = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
@@ -84,16 +77,25 @@ class MeasurementPropertyFormViewModel(
         }
     }
 
+    private val deleteDialog = MutableStateFlow<MeasurementPropertyFormState.DeleteDialog?>(null)
+    private val alertDialog = MutableStateFlow<MeasurementPropertyFormState.AlertDialog?>(null)
+
     override val state = combine(
         flowOf(property),
         units,
+        deleteDialog,
+        alertDialog,
         ::MeasurementPropertyFormState,
     )
 
     override suspend fun handleIntent(intent: MeasurementPropertyFormIntent) {
         when (intent) {
             is MeasurementPropertyFormIntent.UpdateProperty -> updateProperty()
-            is MeasurementPropertyFormIntent.DeleteProperty -> deleteProperty()
+            is MeasurementPropertyFormIntent.OpenDeleteDialog -> deleteDialog.update { MeasurementPropertyFormState.DeleteDialog }
+            is MeasurementPropertyFormIntent.CloseDeleteDialog -> deleteDialog.update { null }
+            is MeasurementPropertyFormIntent.OpenAlertDialog -> alertDialog.update { MeasurementPropertyFormState.AlertDialog }
+            is MeasurementPropertyFormIntent.CloseAlertDialog -> alertDialog.update { null }
+            is MeasurementPropertyFormIntent.Delete -> deleteProperty(intent)
             is MeasurementPropertyFormIntent.SelectUnit -> selectUnit(intent.unit)
         }
     }
@@ -130,28 +132,16 @@ class MeasurementPropertyFormViewModel(
         popScreen()
     }
 
-    private fun deleteProperty() = scope.launch {
+    private fun deleteProperty(intent: MeasurementPropertyFormIntent.Delete) = scope.launch {
         if (property.isUserGenerated) {
-            openModal(
-                DeleteModal(
-                    onDismissRequest = { scope.launch { closeModal() } },
-                    onConfirmRequest = {
-                        deleteProperty(property)
-                        scope.launch {
-                            closeModal()
-                            popScreen()
-                        }
-                    }
-                )
-            )
+            if (intent.needsConfirmation) {
+                deleteDialog.update { MeasurementPropertyFormState.DeleteDialog }
+            } else {
+                deleteProperty(property)
+                popScreen()
+            }
         } else {
-            openModal(
-                AlertModal(
-                    onDismissRequest = { scope.launch { closeModal() } },
-                    title = localization.getString(Res.string.delete_title),
-                    text = localization.getString(Res.string.delete_error_property),
-                )
-            )
+            alertDialog.update { MeasurementPropertyFormState.AlertDialog }
         }
     }
 

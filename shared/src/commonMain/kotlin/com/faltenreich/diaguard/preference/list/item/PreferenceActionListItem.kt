@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.preference.list.item
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -30,5 +31,20 @@ data class PreferenceActionListItem(
         fun build(): PreferenceActionListItem {
             return PreferenceActionListItem(title, subtitle, onClick)
         }
+    }
+}
+
+fun LazyListScope.action(
+    title: @Composable () -> String,
+    onClick: () -> Unit,
+    subtitle: @Composable (() -> String)? = null,
+    modifier: Modifier = Modifier,
+) {
+    item {
+        PreferenceListItemScaffold(
+            title = title() ,
+            subtitle = subtitle?.invoke(),
+            modifier = modifier.clickable { onClick() },
+        )
     }
 }

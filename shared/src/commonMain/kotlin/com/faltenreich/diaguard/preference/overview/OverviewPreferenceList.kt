@@ -10,7 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
-import com.faltenreich.diaguard.preference.list.action
+import com.faltenreich.diaguard.preference.list.item.action
 import com.faltenreich.diaguard.shared.di.viewModel
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.color_scheme

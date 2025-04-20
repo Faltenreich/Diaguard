@@ -8,9 +8,9 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 
-class OverviewPreferenceViewModelTest : TestSuite {
+class OverviewPreferenceListViewModelTest : TestSuite {
 
-    private val viewModel: OverviewPreferenceViewModel by inject()
+    private val viewModel: OverviewPreferenceListViewModel by inject()
 
     @Test
     fun `show preferences`() = runTest {
@@ -40,7 +40,7 @@ class OverviewPreferenceViewModelTest : TestSuite {
                     "terms_and_conditions",
                     "version",
                 ),
-                actual = awaitItem().map(PreferenceListItem::title),
+                actual = awaitItem().items.map(PreferenceListItem::title),
             )
         }
     }

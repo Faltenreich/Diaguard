@@ -44,7 +44,7 @@ import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
-import com.faltenreich.diaguard.preference.overview.OverviewPreferenceScreen
+import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenFormScreen
 import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.shared.di.inject
@@ -133,7 +133,7 @@ fun MainView(
                     screen<StatisticScreen>()
                     screen<ExportFormScreen>()
 
-                    screen<OverviewPreferenceScreen>()
+                    screen<OverviewPreferenceListScreen>()
                     screen<ColorSchemeFormScreen>()
                     screen<StartScreenFormScreen>()
                     screen<DecimalPlacesFormScreen>()

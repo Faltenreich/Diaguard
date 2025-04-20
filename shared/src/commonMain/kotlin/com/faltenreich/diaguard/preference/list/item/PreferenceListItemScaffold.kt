@@ -15,7 +15,8 @@ import com.faltenreich.diaguard.AppTheme
 
 @Composable
 fun PreferenceListItemScaffold(
-    preference: PreferenceListItem,
+    title: String,
+    subtitle: String?,
     modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)? = null,
 ) {
@@ -29,8 +30,8 @@ fun PreferenceListItemScaffold(
         Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ListOffsetWidth))
 
         Column(modifier = Modifier.weight(1f)) {
-            Text(preference.title)
-            preference.subtitle?.let { subtitle ->
+            Text(title)
+            if (subtitle != null) {
                 Text(
                     text = subtitle,
                     style = AppTheme.typography.bodySmall,
@@ -43,4 +44,18 @@ fun PreferenceListItemScaffold(
             content()
         }
     }
+}
+
+@Composable
+fun PreferenceListItemScaffold(
+    preference: PreferenceListItem,
+    modifier: Modifier = Modifier,
+    content: @Composable (() -> Unit)? = null,
+) {
+    PreferenceListItemScaffold(
+        title = preference.title,
+        subtitle = preference.subtitle,
+        modifier = modifier,
+        content = content,
+    )
 }

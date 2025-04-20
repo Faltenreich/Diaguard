@@ -10,11 +10,16 @@ import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormDialog
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
@@ -32,6 +37,8 @@ fun MeasurementPropertyList(
     modifier: Modifier = Modifier,
     viewModel: MeasurementPropertyListViewModel = inject(),
 ) {
+    var showFormDialog by remember { mutableStateOf(false) }
+
     Column(modifier = modifier) {
         TextDivider(getString(Res.string.measurement_properties))
 
@@ -70,9 +77,7 @@ fun MeasurementPropertyList(
             contentAlignment = Alignment.Center,
         ) {
             SuggestionChip(
-                onClick = {
-                    viewModel.dispatchIntent(MeasurementPropertyListIntent.CreateProperty(category, properties))
-                },
+                onClick = { showFormDialog = true },
                 label = { Text(getString(Res.string.measurement_property_add)) },
                 icon = {
                     ResourceIcon(
@@ -82,5 +87,15 @@ fun MeasurementPropertyList(
                 },
             )
         }
+    }
+
+    if (showFormDialog) {
+        MeasurementPropertyFormDialog(
+            onDismissRequest = { showFormDialog = false },
+            onConfirmRequest = { propertyName, unitName ->
+                showFormDialog = false
+                viewModel.dispatchIntent(MeasurementPropertyListIntent.Store(propertyName, unitName, category, properties))
+            },
+        )
     }
 }

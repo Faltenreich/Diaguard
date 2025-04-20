@@ -29,7 +29,7 @@ import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.main.menu.MainMenuScreen
+import com.faltenreich.diaguard.main.menu.MainMenu
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
@@ -70,6 +70,7 @@ fun MainView(
     val navController = rememberNavController()
     var bottomSheet by remember { mutableStateOf<Screen?>(null) }
     val snackbarHostState = remember { SnackbarHostState() }
+    var showMenu by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.collectNavigationEvents { event ->
@@ -159,12 +160,24 @@ fun MainView(
             bottomBar = {
                 BottomAppBar(
                     style = state.bottomAppBarStyle,
-                    onMenuClick = {
-                        val currentDestination = navController.currentDestination?.route
-                        viewModel.dispatchIntent(MainIntent.OpenBottomSheet(MainMenuScreen(currentDestination)))
-                    },
+                    onMenuClick = { showMenu = true },
                 )
             },
         )
+    }
+
+    if (showMenu) {
+        ModalBottomSheet(
+            onDismissRequest = { showMenu = false },
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        ) {
+            MainMenu(
+                currentDestination = navController.currentDestination?.route,
+                onItemClick = { screen, popHistory ->
+                    showMenu = false
+                    viewModel.dispatchIntent(MainIntent.PushScreen(screen, popHistory))
+                },
+            )
+        }
     }
 }

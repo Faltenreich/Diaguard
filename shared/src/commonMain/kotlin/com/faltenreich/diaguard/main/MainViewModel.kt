@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -23,6 +24,7 @@ class MainViewModel(
     getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
     hasData: HasDataUseCase,
     private val migrateData: MigrateDataUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val popScreen: PopScreenUseCase,
     private val openBottomSheet: OpenBottomSheetUseCase,
     private val closeBottomSheet: CloseBottomSheetUseCase,
@@ -56,6 +58,7 @@ class MainViewModel(
 
     override suspend fun handleIntent(intent: MainIntent) = with(intent) {
         when (this) {
+            is MainIntent.PushScreen -> pushScreen(screen, popHistory)
             is MainIntent.PopScreen -> popScreen()
             is MainIntent.OpenBottomSheet -> openBottomSheet(screen)
             is MainIntent.CloseBottomSheet -> closeBottomSheet()

@@ -11,7 +11,9 @@ sealed interface EntryFormIntent {
 
     data object Submit : EntryFormIntent
 
-    data object Delete : EntryFormIntent
+    data class Delete(val needsConfirmation: Boolean) : EntryFormIntent
+
+    data object CloseDeleteDialog : EntryFormIntent
 
     data object SelectFood : EntryFormIntent
 

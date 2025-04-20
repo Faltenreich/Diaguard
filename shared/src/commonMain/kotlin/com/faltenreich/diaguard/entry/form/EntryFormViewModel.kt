@@ -20,14 +20,11 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
-import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
-import com.faltenreich.diaguard.shared.view.DeleteModal
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -49,8 +46,6 @@ class EntryFormViewModel(
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
-    private val showModal: OpenModalUseCase = inject(),
-    private val closeModal: CloseModalUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
     private val storeEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
@@ -93,10 +88,13 @@ class EntryFormViewModel(
             getTagsByQuery(tagQuery, tagsSelected)
         }
 
+    private val deleteDialog = MutableStateFlow<EntryFormState.DeleteDialog?>(null)
+
     override val state = combine(
         measurements,
         foodEaten,
         tagSuggestions,
+        deleteDialog,
         ::EntryFormState,
     )
 
@@ -120,7 +118,8 @@ class EntryFormViewModel(
         when (this) {
             is EntryFormIntent.Edit -> edit(data)
             is EntryFormIntent.Submit -> submit()
-            is EntryFormIntent.Delete -> delete()
+            is EntryFormIntent.Delete -> delete(needsConfirmation)
+            is EntryFormIntent.CloseDeleteDialog -> deleteDialog.update { null }
             is EntryFormIntent.SelectFood -> selectFood()
             is EntryFormIntent.AddFood -> addFood(food)
             is EntryFormIntent.EditFood -> editFood(food)
@@ -169,21 +168,15 @@ class EntryFormViewModel(
         }
     }
 
-    private suspend fun delete() {
+    private suspend fun delete(needsConfirmation: Boolean) {
         val entry = editing
         if (entry != null) {
-            showModal(
-                DeleteModal(
-                    onDismissRequest = { scope.launch { closeModal() } },
-                    onConfirmRequest = {
-                        deleteEntry(entry)
-                        scope.launch {
-                            closeModal()
-                            popScreen()
-                        }
-                    },
-                )
-            )
+            if (needsConfirmation) {
+                deleteDialog.update { EntryFormState.DeleteDialog }
+            } else {
+                deleteEntry(entry)
+                popScreen()
+            }
         } else {
             popScreen()
         }

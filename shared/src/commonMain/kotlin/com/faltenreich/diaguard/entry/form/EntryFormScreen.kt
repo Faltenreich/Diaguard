@@ -68,7 +68,7 @@ data class EntryFormScreen(
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.entry_delete,
-                    onClick = { viewModel.dispatchIntent(EntryFormIntent.Delete) },
+                    onClick = { viewModel.dispatchIntent(EntryFormIntent.Delete(needsConfirmation = true)) },
                 )
             },
             floatingActionButton = {

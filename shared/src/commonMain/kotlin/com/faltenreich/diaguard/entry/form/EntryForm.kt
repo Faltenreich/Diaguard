@@ -36,6 +36,7 @@ import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.food.search.FoodSelectionEvent
 import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
@@ -203,6 +204,18 @@ fun EntryForm(
             onPick = { date ->
                 showTimePicker = false
                 viewModel.time = date
+            },
+        )
+    }
+
+    if (state?.deleteDialog != null) {
+        DeleteDialog(
+            onDismissRequest = {
+                viewModel.dispatchIntent(EntryFormIntent.CloseDeleteDialog)
+            },
+            onConfirmRequest = {
+                viewModel.dispatchIntent(EntryFormIntent.CloseDeleteDialog)
+                viewModel.dispatchIntent(EntryFormIntent.Delete(needsConfirmation = false))
             },
         )
     }

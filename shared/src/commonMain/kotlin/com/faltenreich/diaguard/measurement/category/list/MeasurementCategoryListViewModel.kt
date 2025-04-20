@@ -2,34 +2,38 @@ package com.faltenreich.diaguard.measurement.category.list
 
 import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormModal
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
-import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.update
 
 class MeasurementCategoryListViewModel(
     getCategories: GetAllMeasurementCategoriesUseCase,
     private val updateCategory: UpdateMeasurementCategoryUseCase,
     private val createCategory: CreateMeasurementCategoryUseCase,
     private val pushScreen: PushScreenUseCase,
-    private val openModal: OpenModalUseCase,
-    private val closeModal: CloseModalUseCase,
 ) : ViewModel<MeasurementCategoryListState, MeasurementCategoryListIntent, Unit>() {
 
-    override val state = getCategories().map(::MeasurementCategoryListState)
+    private val formDialog = MutableStateFlow<MeasurementCategoryListState.FormDialog?>(null)
+
+    override val state = combine(
+        getCategories(),
+        formDialog,
+        ::MeasurementCategoryListState,
+    )
 
     override suspend fun handleIntent(intent: MeasurementCategoryListIntent) = with(intent) {
         when (this) {
             is MeasurementCategoryListIntent.DecrementSortIndex -> decrementSortIndex(category)
             is MeasurementCategoryListIntent.IncrementSortIndex -> incrementSortIndex(category)
             is MeasurementCategoryListIntent.Edit -> editCategory(category)
-            is MeasurementCategoryListIntent.Create -> createCategory()
+            is MeasurementCategoryListIntent.OpenFormDialog -> formDialog.update { MeasurementCategoryListState.FormDialog }
+            is MeasurementCategoryListIntent.CloseFormDialog -> formDialog.update { null }
+            is MeasurementCategoryListIntent.Create -> createCategory(this)
         }
     }
 
@@ -55,26 +59,17 @@ class MeasurementCategoryListViewModel(
         pushScreen(MeasurementCategoryFormScreen(category))
     }
 
-    private suspend fun createCategory() {
-        val within = state.firstOrNull()?.categories ?: return
-        openModal(
-            MeasurementCategoryFormModal(
-                onDismissRequest = { scope.launch { closeModal() } },
-                onConfirmRequest = { name ->
-                    val category = createCategory(
-                        MeasurementCategory.User(
-                            name = name,
-                            icon = null,
-                            sortIndex = within.maxOf(MeasurementCategory::sortIndex) + 1,
-                            isActive = true,
-                        )
-                    )
-                    scope.launch {
-                        closeModal()
-                        editCategory(category)
-                    }
-                }
+    private suspend fun createCategory(intent: MeasurementCategoryListIntent.Create) {
+        // TODO: Harden
+        val within = checkNotNull(state.firstOrNull()?.categories)
+        val category = createCategory(
+            MeasurementCategory.User(
+                name = intent.name,
+                icon = null,
+                sortIndex = within.maxOf(MeasurementCategory::sortIndex) + 1,
+                isActive = true,
             )
         )
+        editCategory(category)
     }
 }

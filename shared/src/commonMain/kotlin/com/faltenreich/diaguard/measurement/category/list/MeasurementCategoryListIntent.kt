@@ -10,5 +10,9 @@ sealed interface MeasurementCategoryListIntent {
 
     data class Edit(val category: MeasurementCategory.Local) : MeasurementCategoryListIntent
 
-    data object Create : MeasurementCategoryListIntent
+    data object OpenFormDialog : MeasurementCategoryListIntent
+
+    data object CloseFormDialog : MeasurementCategoryListIntent
+
+    data class Create(val name: String) : MeasurementCategoryListIntent
 }

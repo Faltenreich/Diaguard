@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormDialog
 import com.faltenreich.diaguard.shared.view.Divider
 
 @Composable
@@ -42,5 +43,15 @@ fun MeasurementCategoryList(
                 }
             }
         }
+    }
+
+    if (state?.formDialog != null) {
+        MeasurementCategoryFormDialog(
+            onDismissRequest = { viewModel.dispatchIntent(MeasurementCategoryListIntent.CloseFormDialog) },
+            onConfirmRequest = { name ->
+                viewModel.dispatchIntent(MeasurementCategoryListIntent.CloseFormDialog)
+                viewModel.dispatchIntent(MeasurementCategoryListIntent.Create(name))
+            },
+        )
     }
 }

@@ -32,7 +32,7 @@ data object MeasurementCategoryListScreen : Screen {
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { viewModel.dispatchIntent(MeasurementCategoryListIntent.Create) },
+                    onClick = { viewModel.dispatchIntent(MeasurementCategoryListIntent.OpenFormDialog) },
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_add),

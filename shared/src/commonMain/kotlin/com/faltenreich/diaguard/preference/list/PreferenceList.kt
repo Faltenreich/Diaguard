@@ -22,16 +22,6 @@ fun PreferenceList(
     }
 }
 
-@Composable
-fun preferences(
-    modifier: Modifier = Modifier,
-    content: LazyListScope.() -> Unit,
-) {
-    LazyColumn(modifier = modifier.fillMaxSize()) {
-        content()
-    }
-}
-
 fun LazyListScope.action(
     title: @Composable () -> String,
     onClick: () -> Unit,

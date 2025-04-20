@@ -11,11 +11,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusRequester
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
-import com.faltenreich.diaguard.shared.view.rememberFocusRequester
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.abbreviation
 import diaguard.shared.generated.resources.cancel
@@ -31,8 +29,6 @@ fun MeasurementUnitFormDialog(
     onConfirmRequest: (name: String, abbreviation: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val focusRequester = rememberFocusRequester(requestFocus = true)
-
     var name by remember { mutableStateOf(unit?.name ?: "") }
     var abbreviation  by remember { mutableStateOf(unit?.abbreviation ?: "") }
 
@@ -59,7 +55,7 @@ fun MeasurementUnitFormDialog(
                     input = name,
                     onInputChange = { name = it },
                     label = getString(Res.string.name),
-                    modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+                    modifier = Modifier.fillMaxWidth(),
                     supportingText = error?.let { error -> { Text(error) } },
                     isError = error != null,
                 )

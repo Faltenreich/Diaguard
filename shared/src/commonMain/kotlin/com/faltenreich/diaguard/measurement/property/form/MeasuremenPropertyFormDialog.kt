@@ -36,7 +36,10 @@ fun MeasurementPropertyFormDialog(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = { onConfirmRequest(propertyName, unitName) }) {
+            TextButton(
+                onClick = { onConfirmRequest(propertyName, unitName) },
+                enabled = propertyName.isNotBlank() && unitName.isNotBlank(),
+            ) {
                 Text(getString(Res.string.create))
             }
         },

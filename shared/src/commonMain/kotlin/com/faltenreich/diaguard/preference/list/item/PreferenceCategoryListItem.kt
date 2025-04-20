@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -65,6 +66,43 @@ data class PreferenceCategoryListItem(
 
         fun build(): PreferenceCategoryListItem {
             return PreferenceCategoryListItem(title, icon)
+        }
+    }
+}
+
+fun LazyListScope.category(
+    title: @Composable () -> String,
+    icon: DrawableResource?,
+) {
+    item {
+        Column {
+            Divider()
+            Row(
+                modifier = Modifier
+                    .padding(
+                        start = AppTheme.dimensions.padding.P_3,
+                        top = AppTheme.dimensions.padding.P_3,
+                        end = AppTheme.dimensions.padding.P_3,
+                        bottom = AppTheme.dimensions.padding.P_2,
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(modifier = Modifier.width(AppTheme.dimensions.size.ListOffsetWidth)) {
+                    icon?.let {
+                        Image(
+                            painter = painterResource(icon),
+                            contentDescription = null,
+                            modifier = Modifier.size(AppTheme.dimensions.size.ImageSmall),
+                            colorFilter = ColorFilter.tint(AppTheme.colors.scheme.primary),
+                        )
+                    }
+                }
+                Text(
+                    text = title(),
+                    color = AppTheme.colors.scheme.primary,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
         }
     }
 }

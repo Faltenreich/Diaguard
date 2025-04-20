@@ -38,13 +38,12 @@ fun LazyListScope.action(
     title: @Composable () -> String,
     onClick: () -> Unit,
     subtitle: @Composable (() -> String)? = null,
-    modifier: Modifier = Modifier,
 ) {
     item {
         PreferenceListItemScaffold(
             title = title() ,
             subtitle = subtitle?.invoke(),
-            modifier = modifier.clickable { onClick() },
+            modifier = Modifier.clickable { onClick() },
         )
     }
 }

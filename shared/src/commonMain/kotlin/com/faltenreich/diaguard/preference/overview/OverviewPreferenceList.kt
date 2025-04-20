@@ -10,10 +10,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.list.item.action
+import com.faltenreich.diaguard.preference.list.item.category
 import com.faltenreich.diaguard.preference.list.preferences
 import com.faltenreich.diaguard.shared.di.viewModel
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.color_scheme
+import diaguard.shared.generated.resources.ic_user
+import diaguard.shared.generated.resources.therapy
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -30,6 +33,10 @@ fun OverviewPreferenceList(
             title = { stringResource(Res.string.color_scheme) },
             subtitle = { stringResource(state.colorScheme.labelResource) },
             onClick = { showColorSchemeForm = true },
+        )
+        category(
+            title = { stringResource(Res.string.therapy) },
+            icon = Res.drawable.ic_user,
         )
     }
 

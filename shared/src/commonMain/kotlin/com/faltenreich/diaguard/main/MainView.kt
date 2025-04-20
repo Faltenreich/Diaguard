@@ -38,7 +38,6 @@ import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
-import com.faltenreich.diaguard.navigation.modal.Modal
 import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.navigation.screen.Screen
@@ -71,7 +70,6 @@ fun MainView(
 
     val navController = rememberNavController()
     var bottomSheet by remember { mutableStateOf<Screen?>(null) }
-    var modal by remember { mutableStateOf<Modal?>(null) }
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
@@ -84,8 +82,6 @@ fun MainView(
                 is NavigationEvent.PopScreen -> navController.popBackStack()
                 is NavigationEvent.OpenBottomSheet -> bottomSheet = event.bottomSheet
                 is NavigationEvent.CloseBottomSheet -> bottomSheet = null
-                is NavigationEvent.OpenModal -> modal = event.modal
-                is NavigationEvent.CloseModal -> modal = null
                 is NavigationEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.message)
             }
         }
@@ -162,9 +158,6 @@ fun MainView(
                         bottomSheet.Content()
                     }
                 }
-
-                // FIXME: Leads to everlasting ViewModels, e.g. TagFormModal, MeasurementUnitFormModal
-                modal?.Content()
             },
             bottomBar = {
                 BottomAppBar(

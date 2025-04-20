@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.preference.overview
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.preference.list.PreferenceList
 
 @Composable
 fun OverviewPreferenceList(
@@ -10,8 +12,9 @@ fun OverviewPreferenceList(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState()
-    PreferenceList(
-        items = state?.items ?: emptyList(),
-        modifier = modifier,
-    )
+    LazyColumn(modifier = modifier.fillMaxSize()) {
+        items(state?.items ?: emptyList()) { preference ->
+            preference.Content(Modifier)
+        }
+    }
 }

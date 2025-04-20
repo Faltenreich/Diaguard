@@ -32,11 +32,18 @@ data class DashboardState(
         val month: MeasurementValue.Localized?,
     )
 
-    data class HbA1c(
-        val label: String,
-        val value: MeasurementValue.Localized?,
-        val onClick: (suspend () -> Unit)?,
-    )
+    sealed interface HbA1c {
+
+        data class Latest(
+            val entry: Entry.Local,
+            val dateTime: String,
+            val value: MeasurementValue.Localized,
+        ) : HbA1c
+
+        data class Estimated(val value: MeasurementValue.Localized) : HbA1c
+
+        data object Unknown : HbA1c
+    }
 
     data class Trend(
         val values: Map<Date, Int>,

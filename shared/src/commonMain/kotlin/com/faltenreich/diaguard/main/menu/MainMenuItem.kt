@@ -38,7 +38,7 @@ fun MainMenuItem(
             )
             .background(
                 color =
-                    if (isSelected && icon != null) AppTheme.colors.scheme.surfaceContainerLow
+                    if (isSelected && icon != null) AppTheme.colors.scheme.surfaceContainerLowest
                     else Color.Transparent,
                 shape = AppTheme.shapes.large,
             )

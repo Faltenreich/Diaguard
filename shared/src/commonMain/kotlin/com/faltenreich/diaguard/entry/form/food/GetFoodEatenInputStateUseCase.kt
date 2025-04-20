@@ -12,7 +12,6 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
-import com.faltenreich.diaguard.shared.primitive.format
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_input_value_per_100g
 import kotlinx.coroutines.flow.Flow
@@ -96,8 +95,10 @@ class GetFoodEatenInputStateUseCase(
             property = property,
             decimalPlaces = decimalPlaces,
         ).value
-        return localization
-            .getString(Res.string.food_input_value_per_100g)
-            .format(valueLocalized, property.unit.abbreviation)
+        return localization.getString(
+            Res.string.food_input_value_per_100g,
+            valueLocalized,
+            property.unit.abbreviation,
+        )
     }
 }

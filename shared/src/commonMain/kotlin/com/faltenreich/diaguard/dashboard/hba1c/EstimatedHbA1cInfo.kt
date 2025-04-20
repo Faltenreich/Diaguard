@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.dashboard.hba1c.info
+package com.faltenreich.diaguard.dashboard.hba1c
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -63,6 +63,7 @@ fun Dashboard(
             }
             HbA1cDashboardItem(
                 data = state.hbA1c,
+                onOpenEntry = { entry -> viewModel.dispatchIntent(DashboardIntent.EditEntry(entry = entry)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             TrendDashboardItem(

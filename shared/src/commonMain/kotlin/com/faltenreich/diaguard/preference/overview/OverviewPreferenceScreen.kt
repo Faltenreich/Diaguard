@@ -24,7 +24,7 @@ data object OverviewPreferenceScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel = viewModel<OverviewPreferenceViewModel>()
-        val items = viewModel.collectState() ?: emptyList()
+        val items = viewModel.collectState()?.items ?: emptyList()
         PreferenceList(items = items)
     }
 }

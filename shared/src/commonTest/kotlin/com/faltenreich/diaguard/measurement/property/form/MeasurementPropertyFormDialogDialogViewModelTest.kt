@@ -83,9 +83,9 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
     fun `open alert modal when intending to delete seed category`() = runTest {
         val property = propertyRepository.getAll().first()
         viewModel = get(parameters = { parametersOf(property.id) })
+        viewModel.handleIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = true))
 
         viewModel.state.test {
-            viewModel.handleIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = true))
             assertNotNull(awaitItem().alertDialog)
         }
     }

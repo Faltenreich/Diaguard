@@ -69,9 +69,7 @@ class TagListViewModelTest : TestSuite {
 
     @Test
     fun `close modal when intending to submit and succeeding`() = runTest {
-        val name = "name"
-
-        viewModel.handleIntent(TagListIntent.StoreTag(name))
+        viewModel.handleIntent(TagListIntent.StoreTag("a"))
 
         viewModel.state.test {
             assertNull(awaitItem().formDialog)
@@ -80,7 +78,7 @@ class TagListViewModelTest : TestSuite {
 
     @Test
     fun `show error when intending to submit the same tag twice`() = runTest {
-        val name = "name"
+        val name = "b"
 
         tagRepository.create(Tag.User(name = name))
         viewModel.handleIntent(TagListIntent.StoreTag(name))

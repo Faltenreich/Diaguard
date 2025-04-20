@@ -47,7 +47,7 @@ fun TimelineDateBar(
         Spacer(modifier = Modifier.weight(1f))
 
         TextButton(
-            onClick = { onIntent(TimelineIntent.ShowDatePicker) },
+            onClick = { onIntent(TimelineIntent.OpenDateDialog) },
             modifier = Modifier.fillMaxHeight(),
         ) {
             Text(

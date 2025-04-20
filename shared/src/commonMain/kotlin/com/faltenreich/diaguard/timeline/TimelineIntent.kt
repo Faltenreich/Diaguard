@@ -8,11 +8,13 @@ sealed interface TimelineIntent {
 
     data object SearchEntries : TimelineIntent
 
-    data object ShowDatePicker : TimelineIntent
-
     data object MoveDayBack : TimelineIntent
 
     data object MoveDayForward : TimelineIntent
+
+    data object OpenDateDialog : TimelineIntent
+
+    data object CloseDateDialog : TimelineIntent
 
     data class SetCurrentDate(val currentDate: Date) : TimelineIntent
 }

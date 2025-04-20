@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
@@ -25,6 +26,7 @@ fun TagDetail(
     viewModel: TagDetailViewModel,
     modifier: Modifier = Modifier,
 ) {
+    val state = viewModel.collectState() ?: return
     val items = viewModel.pagingData.collectAsLazyPagingItems()
 
     Column(modifier = modifier) {
@@ -48,6 +50,16 @@ fun TagDetail(
             emptyContent = { Text(getString(Res.string.entry_search_empty)) },
             onEntryClick = { entry -> viewModel.dispatchIntent(TagDetailIntent.OpenEntry(entry)) },
             onTagClick = { tag -> viewModel.dispatchIntent(TagDetailIntent.OpenEntrySearch(query = tag.name)) },
+        )
+    }
+
+    if (state.deleteDialog != null) {
+        DeleteDialog(
+            onDismissRequest = { viewModel.dispatchIntent(TagDetailIntent.CloseDeleteDialog) },
+            onConfirmRequest = {
+                viewModel.dispatchIntent(TagDetailIntent.CloseDeleteDialog)
+                viewModel.dispatchIntent(TagDetailIntent.DeleteTag)
+            }
         )
     }
 }

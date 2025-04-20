@@ -8,7 +8,10 @@ data class EntryFormState(
     val measurements: List<MeasurementCategoryInputState>,
     val foodEaten: List<FoodEatenInputState>,
     val tags: List<Tag>,
+    val deleteDialog: DeleteDialog?,
 ) {
 
     val hasError: Boolean = measurements.any { it.hasError }
+
+    data object DeleteDialog
 }

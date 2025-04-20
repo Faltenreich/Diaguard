@@ -8,19 +8,17 @@ import androidx.paging.cachedIn
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.navigation.modal.CloseModalUseCase
-import com.faltenreich.diaguard.navigation.modal.OpenModalUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
-import com.faltenreich.diaguard.shared.view.DeleteModal
 import com.faltenreich.diaguard.tag.StoreTagUseCase
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.ValidateTagUseCase
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 
 class TagDetailViewModel(
     tagId: Long,
@@ -29,15 +27,15 @@ class TagDetailViewModel(
     private val validateTag: ValidateTagUseCase = inject(),
     private val storeTag: StoreTagUseCase = inject(),
     private val deleteTag: DeleteTagUseCase = inject(),
-    private val openModal: OpenModalUseCase = inject(),
-    private val closeModal: CloseModalUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
-) : ViewModel<Unit, TagDetailIntent, Unit>() {
-
-    override val state = emptyFlow<Unit>()
+) : ViewModel<TagDetailState, TagDetailIntent, Unit>() {
 
     private val tag: Tag.Local = checkNotNull(getTagById(tagId))
+
+    private val deleteDialog = MutableStateFlow<TagDetailState.DeleteDialog?>(null)
+
+    override val state = deleteDialog.map(::TagDetailState)
 
     var name: String by mutableStateOf(tag.name)
     var error: String? by mutableStateOf(null)
@@ -53,6 +51,8 @@ class TagDetailViewModel(
         with(intent) {
             when (this) {
                 is TagDetailIntent.UpdateTag -> updateTag()
+                is TagDetailIntent.OpenDeleteDialog -> deleteDialog.update { TagDetailState.DeleteDialog }
+                is TagDetailIntent.CloseDeleteDialog -> deleteDialog.update { null }
                 is TagDetailIntent.DeleteTag -> deleteTag()
                 is TagDetailIntent.OpenEntry -> pushScreen(EntryFormScreen(entry))
                 is TagDetailIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
@@ -73,18 +73,8 @@ class TagDetailViewModel(
         }
     }
 
-    private fun deleteTag() = scope.launch {
-        openModal(
-            DeleteModal(
-                onDismissRequest = { scope.launch { closeModal() } },
-                onConfirmRequest = {
-                    deleteTag(tag)
-                    scope.launch {
-                        closeModal()
-                        popScreen()
-                    }
-                },
-            )
-        )
+    private suspend fun deleteTag() {
+        deleteTag(tag)
+        popScreen()
     }
 }

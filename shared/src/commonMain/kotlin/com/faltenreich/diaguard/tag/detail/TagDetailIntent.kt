@@ -6,6 +6,10 @@ sealed interface TagDetailIntent {
 
     data object UpdateTag : TagDetailIntent
 
+    data object OpenDeleteDialog : TagDetailIntent
+
+    data object CloseDeleteDialog : TagDetailIntent
+
     data object DeleteTag : TagDetailIntent
 
     data class OpenEntry(val entry: Entry.Local) : TagDetailIntent

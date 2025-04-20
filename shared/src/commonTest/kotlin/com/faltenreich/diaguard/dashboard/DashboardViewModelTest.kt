@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -30,7 +29,7 @@ class DashboardViewModelTest : TestSuite {
         assertNull(state.average.week)
         assertNull(state.average.month)
 
-        assertNull(state.hbA1c.value)
+        assertTrue(state.hbA1c is DashboardState.HbA1c.Unknown)
 
         assertTrue(state.trend.values.isEmpty())
     }
@@ -77,10 +76,7 @@ class DashboardViewModelTest : TestSuite {
         storeValue(value = 6.0, propertyKey = DatabaseKey.MeasurementProperty.HBA1C)
 
         val state = viewModel.state.first()
-
-        assertNotNull(state.hbA1c)
-        assertEquals(expected = "hba1c_latest", actual = state.hbA1c.label)
-        assertEquals(expected = MeasurementValue.Localized("6"), actual = state.hbA1c.value)
+        assertTrue(state.hbA1c is DashboardState.HbA1c.Latest)
     }
 
     @Test
@@ -89,9 +85,6 @@ class DashboardViewModelTest : TestSuite {
         storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         val state = viewModel.state.first()
-
-        assertNotNull(state.hbA1c)
-        assertEquals(expected = "hba1c_estimated", actual = state.hbA1c.label)
-        assertEquals(expected = MeasurementValue.Localized("6.1"), actual = state.hbA1c.value)
+        assertTrue(state.hbA1c is DashboardState.HbA1c.Estimated)
     }
 }

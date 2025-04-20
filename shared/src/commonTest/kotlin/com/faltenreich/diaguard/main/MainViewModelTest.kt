@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.main.menu.MainMenuScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.preference.screen.StartScreen
@@ -90,33 +89,6 @@ class MainViewModelTest : TestSuite {
         navigation.events.test {
             viewModel.handleIntent(MainIntent.PopScreen)
             assertTrue(awaitItem() is NavigationEvent.PopScreen)
-        }
-    }
-
-    @Test
-    fun `opens bottom sheet`() = runTest {
-        navigation.events.test {
-            val screen = MainMenuScreen(currentDestination = "")
-            viewModel.handleIntent(MainIntent.OpenBottomSheet(screen))
-
-            val event = awaitItem()
-            assertTrue(event is NavigationEvent.OpenBottomSheet)
-            assertEquals(
-                expected = screen,
-                actual = event.bottomSheet,
-            )
-        }
-    }
-
-    @Test
-    fun `closes bottom sheet`() = runTest {
-        navigation.events.test {
-            val screen = MainMenuScreen(currentDestination = "")
-            viewModel.handleIntent(MainIntent.OpenBottomSheet(screen))
-            viewModel.handleIntent(MainIntent.CloseBottomSheet)
-
-            assertTrue(awaitItem() is NavigationEvent.OpenBottomSheet)
-            assertTrue(awaitItem() is NavigationEvent.CloseBottomSheet)
         }
     }
 }

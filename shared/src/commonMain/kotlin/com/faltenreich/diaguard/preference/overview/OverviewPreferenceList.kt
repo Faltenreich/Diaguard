@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.preference.overview
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,6 +10,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.list.item.action
+import com.faltenreich.diaguard.preference.list.preferences
 import com.faltenreich.diaguard.shared.di.viewModel
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.color_scheme
@@ -25,7 +25,7 @@ fun OverviewPreferenceList(
 
     var showColorSchemeForm by remember { mutableStateOf(false) }
 
-    LazyColumn(modifier = modifier.fillMaxSize()) {
+    preferences(modifier = modifier.fillMaxSize()) {
         action(
             title = { stringResource(Res.string.color_scheme) },
             subtitle = { stringResource(state.colorScheme.labelResource) },

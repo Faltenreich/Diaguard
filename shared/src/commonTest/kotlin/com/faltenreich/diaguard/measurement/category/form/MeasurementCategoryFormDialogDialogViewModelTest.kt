@@ -68,7 +68,7 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
         viewModel.name.value = update
 
         navigation.events.test {
-            viewModel.handleIntent(MeasurementCategoryFormIntent.UpdateCategory)
+            viewModel.handleIntent(MeasurementCategoryFormIntent.Store)
 
             assertEquals(
                 expected = update,
@@ -91,7 +91,7 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
         viewModel = get(parameters = { parametersOf(categoryId) })
 
         navigation.events.test {
-            viewModel.handleIntent(MeasurementCategoryFormIntent.DeleteCategory)
+            viewModel.handleIntent(MeasurementCategoryFormIntent.Delete)
 
             val event = awaitItem()
             assertTrue(event is NavigationEvent.OpenModal)
@@ -105,7 +105,7 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
         viewModel = get(parameters = { parametersOf(category.id) })
 
         navigation.events.test {
-            viewModel.handleIntent(MeasurementCategoryFormIntent.DeleteCategory)
+            viewModel.handleIntent(MeasurementCategoryFormIntent.Delete)
 
             val event = awaitItem()
             assertTrue(event is NavigationEvent.OpenModal)

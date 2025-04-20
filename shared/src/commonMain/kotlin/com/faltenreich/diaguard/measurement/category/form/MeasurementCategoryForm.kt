@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,17 +26,21 @@ import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIco
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
 import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.EmojiPicker
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.delete_error_property
+import diaguard.shared.generated.resources.delete_title
 import diaguard.shared.generated.resources.icon
 import diaguard.shared.generated.resources.measurement_category_visibility
 import diaguard.shared.generated.resources.measurement_category_visibility_hidden
 import diaguard.shared.generated.resources.measurement_category_visibility_visible
 import diaguard.shared.generated.resources.name
+import diaguard.shared.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -132,5 +138,33 @@ fun MeasurementCategoryForm(
                 }
             )
         }
+    }
+
+    if (state?.deleteDialog != null) {
+        DeleteDialog(
+            onDismissRequest = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.CloseDeleteDialog) },
+            onConfirmRequest = {
+                viewModel.dispatchIntent(MeasurementCategoryFormIntent.CloseDeleteDialog)
+                viewModel.dispatchIntent(MeasurementCategoryFormIntent.Delete(needsConfirmation = false))
+            },
+        )
+    }
+
+    if (state?.alertDialog != null) {
+        AlertDialog(
+            onDismissRequest = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.CloseAlertDialog) },
+            confirmButton = {
+                TextButton(
+                    onClick = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.CloseAlertDialog) },
+                ) {
+                    Text(
+                        text = getString(Res.string.ok),
+                        color = AppTheme.colors.scheme.onBackground,
+                    )
+                }
+            },
+            title = { Text(stringResource(Res.string.delete_title)) },
+            text = { Text(stringResource(Res.string.delete_error_property)) },
+        )
     }
 }

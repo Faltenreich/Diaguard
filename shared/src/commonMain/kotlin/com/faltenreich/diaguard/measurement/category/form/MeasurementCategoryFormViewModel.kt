@@ -36,12 +36,18 @@ class MeasurementCategoryFormViewModel(
 
     override suspend fun handleIntent(intent: MeasurementCategoryFormIntent) = with(intent) {
         when (this) {
-            is MeasurementCategoryFormIntent.Store -> updateCategory()
-            is MeasurementCategoryFormIntent.Delete -> deleteCategory(needsConfirmation)
-            is MeasurementCategoryFormIntent.OpenDeleteDialog -> deleteDialog.update { MeasurementCategoryFormState.DeleteDialog }
-            is MeasurementCategoryFormIntent.CloseDeleteDialog -> deleteDialog.update { null }
-            is MeasurementCategoryFormIntent.OpenAlertDialog -> alertDialog.update { MeasurementCategoryFormState.AlertDialog }
-            is MeasurementCategoryFormIntent.CloseAlertDialog -> alertDialog.update { null }
+            is MeasurementCategoryFormIntent.Store ->
+                updateCategory()
+            is MeasurementCategoryFormIntent.Delete ->
+                deleteCategory(needsConfirmation)
+            is MeasurementCategoryFormIntent.OpenDeleteDialog ->
+                deleteDialog.update { MeasurementCategoryFormState.DeleteDialog }
+            is MeasurementCategoryFormIntent.CloseDeleteDialog ->
+                deleteDialog.update { null }
+            is MeasurementCategoryFormIntent.OpenAlertDialog ->
+                alertDialog.update { MeasurementCategoryFormState.AlertDialog }
+            is MeasurementCategoryFormIntent.CloseAlertDialog ->
+                alertDialog.update { null }
         }
     }
 

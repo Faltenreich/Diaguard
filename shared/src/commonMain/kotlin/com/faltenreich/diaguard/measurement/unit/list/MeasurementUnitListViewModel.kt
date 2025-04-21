@@ -25,9 +25,12 @@ class MeasurementUnitListViewModel(
 
     override suspend fun handleIntent(intent: MeasurementUnitListIntent) {
         when (intent) {
-            is MeasurementUnitListIntent.OpenFormDialog -> formDialog.update { MeasurementUnitListState.FormDialog(intent.unit) }
-            is MeasurementUnitListIntent.CloseFormDialog -> formDialog.update { null }
-            is MeasurementUnitListIntent.StoreUnit -> store(intent)
+            is MeasurementUnitListIntent.OpenFormDialog ->
+                formDialog.update { MeasurementUnitListState.FormDialog(intent.unit) }
+            is MeasurementUnitListIntent.CloseFormDialog ->
+                formDialog.update { null }
+            is MeasurementUnitListIntent.StoreUnit ->
+                store(intent)
         }
     }
 

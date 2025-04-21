@@ -28,12 +28,18 @@ class MeasurementCategoryListViewModel(
 
     override suspend fun handleIntent(intent: MeasurementCategoryListIntent) = with(intent) {
         when (this) {
-            is MeasurementCategoryListIntent.DecrementSortIndex -> decrementSortIndex(category)
-            is MeasurementCategoryListIntent.IncrementSortIndex -> incrementSortIndex(category)
-            is MeasurementCategoryListIntent.Edit -> editCategory(category)
-            is MeasurementCategoryListIntent.OpenFormDialog -> formDialog.update { MeasurementCategoryListState.FormDialog }
-            is MeasurementCategoryListIntent.CloseFormDialog -> formDialog.update { null }
-            is MeasurementCategoryListIntent.Create -> createCategory(this)
+            is MeasurementCategoryListIntent.DecrementSortIndex ->
+                decrementSortIndex(category)
+            is MeasurementCategoryListIntent.IncrementSortIndex ->
+                incrementSortIndex(category)
+            is MeasurementCategoryListIntent.Edit ->
+                editCategory(category)
+            is MeasurementCategoryListIntent.OpenFormDialog ->
+                formDialog.update { MeasurementCategoryListState.FormDialog }
+            is MeasurementCategoryListIntent.CloseFormDialog ->
+                formDialog.update { null }
+            is MeasurementCategoryListIntent.Create ->
+                createCategory(this)
         }
     }
 

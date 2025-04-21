@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.preference.list.item
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -73,8 +74,9 @@ data class PreferenceCategoryListItem(
 fun PreferenceCategoryListItem2(
     title: String,
     icon: DrawableResource?,
+    modifier: Modifier = Modifier,
 ) {
-    Column {
+    Column(modifier = modifier.background(AppTheme.colors.scheme.background)) {
         Divider()
         Row(
             modifier = Modifier

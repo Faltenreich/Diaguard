@@ -38,10 +38,11 @@ fun PreferenceActionListItem(
     title: String,
     onClick: () -> Unit,
     subtitle: String? = null,
+    modifier: Modifier = Modifier,
 ) {
     PreferenceListItemScaffold(
         title = title ,
         subtitle = subtitle,
-        modifier = Modifier.clickable { onClick() },
+        modifier = modifier.clickable { onClick() },
     )
 }

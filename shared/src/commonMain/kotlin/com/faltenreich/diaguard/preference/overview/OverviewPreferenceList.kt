@@ -102,7 +102,7 @@ fun OverviewPreferenceList(
                 onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.OpenNotificationSettings) },
             )
         }
-        item {
+        stickyHeader {
             PreferenceCategoryListItem2(
                 title = stringResource(Res.string.therapy),
                 icon = Res.drawable.ic_user,
@@ -140,7 +140,7 @@ fun OverviewPreferenceList(
                 },
             )
         }
-        item {
+        stickyHeader {
             PreferenceCategoryListItem2(
                 title = stringResource(Res.string.backup),
                 icon = Res.drawable.ic_data,
@@ -163,7 +163,7 @@ fun OverviewPreferenceList(
                 },
             )
         }
-        item {
+        stickyHeader {
             PreferenceCategoryListItem2(
                 title = stringResource(Res.string.contact),
                 icon = Res.drawable.ic_contact,
@@ -193,7 +193,7 @@ fun OverviewPreferenceList(
                 onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
             )
         }
-        item {
+        stickyHeader {
             PreferenceCategoryListItem2(
                 title = stringResource(Res.string.about),
                 icon = Res.drawable.ic_about,

@@ -3,10 +3,6 @@
 <resources>
 
     <string name="changelog">Qué hay de nuevo</string>
-    <string name="changelog_desc">
-        - Línea de tiempo: Hacer que los puntos y las líneas sean conmutables\n\n
-        - Alimentos: Resaltar los alimentos personalizados y de marca en la vista detallada\n\n
-        - Preferencias: Apoyo a los decimales dinámicos
-    </string>
+    <string name="changelog_desc"/>
 
 </resources>

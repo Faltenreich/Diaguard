@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.preference.food
 
+import com.faltenreich.diaguard.navigation.system.OpenUrlUseCase
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.combine
 class FoodPreferenceListViewModel(
     getPreference: GetPreferenceUseCase,
     private val setPreference: SetPreferenceUseCase,
+    private val openUrl: OpenUrlUseCase,
 ) : ViewModel<FoodPreferenceListState, FoodPreferenceListIntent, Unit>() {
 
     override val state = combine(
@@ -25,6 +27,8 @@ class FoodPreferenceListViewModel(
                 setPreference(ShowCommonFoodPreference, intent.showCommonFood)
             is FoodPreferenceListIntent.SetShowBrandedFood ->
                 setPreference(ShowBrandedFoodPreference, intent.showBrandedFood)
+            is FoodPreferenceListIntent.OpenUrl ->
+                openUrl(intent.url)
         }
     }
 }

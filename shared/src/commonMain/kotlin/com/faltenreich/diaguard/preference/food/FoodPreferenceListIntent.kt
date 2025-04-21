@@ -7,4 +7,6 @@ sealed interface FoodPreferenceListIntent {
     data class SetShowCommonFood(val showCommonFood: Boolean) : FoodPreferenceListIntent
 
     data class SetShowBrandedFood(val showBrandedFood: Boolean) : FoodPreferenceListIntent
+
+    data class OpenUrl(val url: String) : FoodPreferenceListIntent
 }

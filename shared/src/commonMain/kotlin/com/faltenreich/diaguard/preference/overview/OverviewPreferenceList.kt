@@ -19,6 +19,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.color_scheme
 import diaguard.shared.generated.resources.decimal_places
 import diaguard.shared.generated.resources.ic_user
+import diaguard.shared.generated.resources.reminders
 import diaguard.shared.generated.resources.start_screen
 import diaguard.shared.generated.resources.therapy
 import org.jetbrains.compose.resources.stringResource
@@ -54,6 +55,12 @@ fun OverviewPreferenceList(
                 title = stringResource(Res.string.decimal_places),
                 subtitle = state.decimalPlaces.toString(),
                 onClick = { showDecimalPlacesForm = true },
+            )
+        }
+        item {
+            PreferenceActionListItem(
+                title = stringResource(Res.string.reminders),
+                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.OpenNotificationSettings) },
             )
         }
         item {

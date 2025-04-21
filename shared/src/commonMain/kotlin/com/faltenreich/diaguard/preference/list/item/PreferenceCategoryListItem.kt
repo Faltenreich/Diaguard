@@ -73,8 +73,8 @@ data class PreferenceCategoryListItem(
 @Composable
 fun PreferenceCategoryListItem2(
     title: String,
-    icon: DrawableResource?,
     modifier: Modifier = Modifier,
+    icon: DrawableResource? = null,
 ) {
     Column(modifier = modifier.background(AppTheme.colors.scheme.background)) {
         Divider()

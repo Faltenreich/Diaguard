@@ -40,3 +40,23 @@ data class PreferenceCheckBoxListItem(
         }
     }
 }
+
+@Composable
+fun PreferenceCheckBoxListItem2(
+    title: String,
+    isChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    subtitle: String? = null,
+) {
+    PreferenceListItemScaffold(
+        title = title,
+        subtitle = subtitle,
+        modifier = modifier.clickable { onCheckedChange(!isChecked) },
+    ) {
+        Checkbox(
+            checked = isChecked,
+            onCheckedChange = { onCheckedChange(!isChecked) },
+        )
+    }
+}

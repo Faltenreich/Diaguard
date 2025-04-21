@@ -13,9 +13,6 @@ import diaguard.shared.generated.resources.food_branded_show_desc
 import diaguard.shared.generated.resources.food_common
 import diaguard.shared.generated.resources.food_common_show
 import diaguard.shared.generated.resources.food_common_show_desc
-import diaguard.shared.generated.resources.food_custom
-import diaguard.shared.generated.resources.food_custom_show
-import diaguard.shared.generated.resources.food_custom_show_desc
 import diaguard.shared.generated.resources.food_source_branded_provider
 import diaguard.shared.generated.resources.food_source_branded_url
 import diaguard.shared.generated.resources.food_source_common_provider
@@ -38,15 +35,6 @@ class GetFoodPreferencesUseCase(
             getPreference(ShowBrandedFoodPreference),
         ) { showCustomFood, showCommonFood, showBrandedFood ->
             preferences {
-                category {
-                    title = localization.getString(Res.string.food_custom)
-                }
-                checkbox {
-                    title = localization.getString(Res.string.food_custom_show)
-                    subtitle = localization.getString(Res.string.food_custom_show_desc)
-                    isChecked = showCustomFood
-                    onCheckedChange = { setPreference(ShowCustomFoodPreference, it) }
-                }
                 category {
                     title = localization.getString(Res.string.food_common)
                 }

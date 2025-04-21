@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.navigation
 
 import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
-import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
-import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
@@ -22,9 +20,6 @@ fun navigationModule() = module {
     singleOf(::PopScreenUseCase)
     singleOf(::OpenNotificationSettingsUseCase)
     singleOf(::OpenUrlUseCase)
-
-    singleOf(::OpenBottomSheetUseCase)
-    singleOf(::CloseBottomSheetUseCase)
 
     singleOf(::ShowSnackbarUseCase)
 }

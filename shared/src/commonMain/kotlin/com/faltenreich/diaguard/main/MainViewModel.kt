@@ -3,8 +3,6 @@ package com.faltenreich.diaguard.main
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.CollectNavigationEventsUseCase
-import com.faltenreich.diaguard.navigation.bottomsheet.CloseBottomSheetUseCase
-import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
@@ -26,8 +24,6 @@ class MainViewModel(
     private val migrateData: MigrateDataUseCase,
     private val pushScreen: PushScreenUseCase,
     private val popScreen: PopScreenUseCase,
-    private val openBottomSheet: OpenBottomSheetUseCase,
-    private val closeBottomSheet: CloseBottomSheetUseCase,
     val collectNavigationEvents: CollectNavigationEventsUseCase,
 ) : ViewModel<MainState, MainIntent, Unit>() {
 
@@ -60,8 +56,6 @@ class MainViewModel(
         when (this) {
             is MainIntent.PushScreen -> pushScreen(screen, popHistory)
             is MainIntent.PopScreen -> popScreen()
-            is MainIntent.OpenBottomSheet -> openBottomSheet(screen)
-            is MainIntent.CloseBottomSheet -> closeBottomSheet()
         }
     }
 }

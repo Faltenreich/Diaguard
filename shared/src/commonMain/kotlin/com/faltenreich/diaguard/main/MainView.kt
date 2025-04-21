@@ -39,7 +39,6 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
@@ -68,7 +67,6 @@ fun MainView(
     if (state !is MainState.SubsequentStart) return
 
     val navController = rememberNavController()
-    var bottomSheet by remember { mutableStateOf<Screen?>(null) }
     val snackbarHostState = remember { SnackbarHostState() }
     var showMenu by remember { mutableStateOf(false) }
 
@@ -80,8 +78,6 @@ fun MainView(
                     popHistory = event.popHistory,
                 )
                 is NavigationEvent.PopScreen -> navController.popBackStack()
-                is NavigationEvent.OpenBottomSheet -> bottomSheet = event.bottomSheet
-                is NavigationEvent.CloseBottomSheet -> bottomSheet = null
                 is NavigationEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.message)
             }
         }
@@ -146,15 +142,6 @@ fun MainView(
                     screen<TagListScreen>()
                     screen<TagDetailScreen>()
                     screen<LicenseListScreen>()
-                }
-
-                bottomSheet?.let { bottomSheet ->
-                    ModalBottomSheet(
-                        onDismissRequest = { viewModel.dispatchIntent(MainIntent.CloseBottomSheet) },
-                        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-                    ) {
-                        bottomSheet.Content()
-                    }
                 }
             },
             bottomBar = {

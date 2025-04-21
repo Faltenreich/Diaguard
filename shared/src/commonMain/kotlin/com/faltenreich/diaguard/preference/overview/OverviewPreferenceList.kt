@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.preference.decimal.DecimalPlacesForm
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceActionListItem
-import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem2
+import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
 import com.faltenreich.diaguard.preference.screen.StartScreenForm
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.tag.list.TagListScreen
@@ -104,7 +104,7 @@ fun OverviewPreferenceList(
         }
 
         stickyHeader {
-            PreferenceCategoryListItem2(
+            PreferenceCategoryListItem(
                 title = stringResource(Res.string.therapy),
                 icon = Res.drawable.ic_user,
             )
@@ -143,7 +143,7 @@ fun OverviewPreferenceList(
         }
 
         stickyHeader {
-            PreferenceCategoryListItem2(
+            PreferenceCategoryListItem(
                 title = stringResource(Res.string.backup),
                 icon = Res.drawable.ic_data,
             )
@@ -167,7 +167,7 @@ fun OverviewPreferenceList(
         }
 
         stickyHeader {
-            PreferenceCategoryListItem2(
+            PreferenceCategoryListItem(
                 title = stringResource(Res.string.contact),
                 icon = Res.drawable.ic_contact,
             )
@@ -198,7 +198,7 @@ fun OverviewPreferenceList(
         }
 
         stickyHeader {
-            PreferenceCategoryListItem2(
+            PreferenceCategoryListItem(
                 title = stringResource(Res.string.about),
                 icon = Res.drawable.ic_about,
             )

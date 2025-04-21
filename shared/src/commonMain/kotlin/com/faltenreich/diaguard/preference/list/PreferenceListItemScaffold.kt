@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list.item
+package com.faltenreich.diaguard.preference.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,18 +44,4 @@ fun PreferenceListItemScaffold(
             content()
         }
     }
-}
-
-@Composable
-fun PreferenceListItemScaffold(
-    preference: PreferenceListItem,
-    modifier: Modifier = Modifier,
-    content: @Composable (() -> Unit)? = null,
-) {
-    PreferenceListItemScaffold(
-        title = preference.title,
-        subtitle = preference.subtitle,
-        modifier = modifier,
-        content = content,
-    )
 }

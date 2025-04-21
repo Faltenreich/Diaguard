@@ -19,59 +19,8 @@ import com.faltenreich.diaguard.shared.view.Divider
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
-data class PreferenceCategoryListItem(
-    override val title: String,
-    private val icon: DrawableResource?,
-) : PreferenceListItem {
-
-    override val subtitle = null
-
-    @Composable
-    override fun Content(modifier: Modifier) {
-        Column(modifier) {
-            Divider()
-            Row(
-                modifier = Modifier
-                    .padding(
-                        start = AppTheme.dimensions.padding.P_3,
-                        top = AppTheme.dimensions.padding.P_3,
-                        end = AppTheme.dimensions.padding.P_3,
-                        bottom = AppTheme.dimensions.padding.P_2,
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Box(modifier = Modifier.width(AppTheme.dimensions.size.ListOffsetWidth)) {
-                    icon?.let {
-                        Image(
-                            painter = painterResource(icon),
-                            contentDescription = null,
-                            modifier = Modifier.size(AppTheme.dimensions.size.ImageSmall),
-                            colorFilter = ColorFilter.tint(AppTheme.colors.scheme.primary),
-                        )
-                    }
-                }
-                Text(
-                    text = title,
-                    color = AppTheme.colors.scheme.primary,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
-        }
-    }
-
-    class Builder {
-
-        lateinit var title: String
-        var icon: DrawableResource? = null
-
-        fun build(): PreferenceCategoryListItem {
-            return PreferenceCategoryListItem(title, icon)
-        }
-    }
-}
-
 @Composable
-fun PreferenceCategoryListItem2(
+fun PreferenceCategoryListItem(
     title: String,
     modifier: Modifier = Modifier,
     icon: DrawableResource? = null,

@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.preference.food.GetFoodPreferencesUseCase
 import com.faltenreich.diaguard.preference.food.ShowAnyFoodUseCase
 import com.faltenreich.diaguard.preference.license.GetLicensesUseCase
 import com.faltenreich.diaguard.preference.license.LicenseListViewModel
-import com.faltenreich.diaguard.preference.overview.GetOverviewPreferencesUseCase
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListViewModel
 import com.faltenreich.diaguard.preference.screen.StartScreenFormViewModel
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -39,7 +38,6 @@ fun preferenceModule() = module {
     single { GetLicensesUseCase(fileReader = ResourceFileReader("files/aboutlibraries.json")) }
     viewModelOf(::LicenseListViewModel)
 
-    singleOf(::GetOverviewPreferencesUseCase)
     viewModelOf(::OverviewPreferenceListViewModel)
 
     singleOf(::GetFoodPreferencesUseCase)

@@ -4,17 +4,13 @@ import com.faltenreich.diaguard.backup.user.read.ReadBackupFormScreen
 import com.faltenreich.diaguard.backup.user.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
-import com.faltenreich.diaguard.navigation.bottomsheet.OpenBottomSheetUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceListItem
 import com.faltenreich.diaguard.preference.list.item.preferences
-import com.faltenreich.diaguard.preference.screen.StartScreenFormScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
@@ -29,9 +25,7 @@ import diaguard.shared.generated.resources.backup_read
 import diaguard.shared.generated.resources.backup_read_description
 import diaguard.shared.generated.resources.backup_write
 import diaguard.shared.generated.resources.backup_write_description
-import diaguard.shared.generated.resources.color_scheme
 import diaguard.shared.generated.resources.contact
-import diaguard.shared.generated.resources.decimal_places
 import diaguard.shared.generated.resources.facebook
 import diaguard.shared.generated.resources.facebook_url
 import diaguard.shared.generated.resources.facebook_url_short
@@ -55,7 +49,6 @@ import diaguard.shared.generated.resources.reminders
 import diaguard.shared.generated.resources.source_code
 import diaguard.shared.generated.resources.source_code_url
 import diaguard.shared.generated.resources.source_code_url_short
-import diaguard.shared.generated.resources.start_screen
 import diaguard.shared.generated.resources.tags
 import diaguard.shared.generated.resources.terms_and_conditions
 import diaguard.shared.generated.resources.terms_and_conditions_url
@@ -69,7 +62,6 @@ class GetOverviewPreferencesUseCase(
     private val getPreference: GetPreferenceUseCase,
     private val getAppVersion: GetAppVersionUseCase,
     private val pushScreen: PushScreenUseCase,
-    private val openBottomSheet: OpenBottomSheetUseCase,
     private val urlOpener: UrlOpener,
     private val systemSettings: SystemSettings,
 ) {
@@ -82,21 +74,6 @@ class GetOverviewPreferencesUseCase(
             getAppVersion(),
         ) { colorScheme, startScreen, decimalPlaces, appVersion ->
             preferences {
-                action {
-                    title = localization.getString(Res.string.color_scheme)
-                    subtitle = localization.getString(colorScheme.labelResource)
-                    onClick = { openBottomSheet(ColorSchemeFormScreen) }
-                }
-                action {
-                    title = localization.getString(Res.string.start_screen)
-                    subtitle = localization.getString(startScreen.labelResource)
-                    onClick = { openBottomSheet(StartScreenFormScreen) }
-                }
-                action {
-                    title = localization.getString(Res.string.decimal_places)
-                    subtitle = decimalPlaces.toString()
-                    onClick = { openBottomSheet(DecimalPlacesFormScreen) }
-                }
                 action {
                     title = localization.getString(Res.string.reminders)
                     onClick = { systemSettings.openNotificationSettings() }

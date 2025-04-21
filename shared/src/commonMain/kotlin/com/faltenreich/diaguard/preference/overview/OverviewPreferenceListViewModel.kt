@@ -9,13 +9,11 @@ import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
 import kotlinx.coroutines.flow.combine
 
 class OverviewPreferenceListViewModel(
-    getPreferences: GetOverviewPreferencesUseCase,
     getPreference: GetPreferenceUseCase,
     getAppVersion: GetAppVersionUseCase,
 ) : ViewModel<OverviewPreferenceListState, Unit, Unit>() {
 
     override val state = combine(
-        getPreferences(),
         getPreference(ColorSchemePreference),
         getPreference(StartScreenPreference),
         getPreference(DecimalPlacesPreference),

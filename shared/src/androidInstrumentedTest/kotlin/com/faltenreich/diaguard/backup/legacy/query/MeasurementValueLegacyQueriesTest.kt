@@ -1,19 +1,20 @@
 package com.faltenreich.diaguard.backup.legacy.query
 
-import com.faltenreich.diaguard.backup.legacy.query.measurement.ActivityLegacyQueries
-import com.faltenreich.diaguard.backup.legacy.query.measurement.BloodPressureLegacyQueries
-import com.faltenreich.diaguard.backup.legacy.query.measurement.BloodSugarLegacyQueries
-import com.faltenreich.diaguard.backup.legacy.query.measurement.HbA1cLegacyQueries
-import com.faltenreich.diaguard.backup.legacy.query.measurement.InsulinLegacyQueries
-import com.faltenreich.diaguard.backup.legacy.query.measurement.MealLegacyQueries
-import com.faltenreich.diaguard.backup.legacy.query.measurement.OxygenSaturationLegacyQueries
-import com.faltenreich.diaguard.backup.legacy.query.measurement.PulseLegacyQueries
-import com.faltenreich.diaguard.backup.legacy.query.measurement.WeightLegacyQueries
+import com.faltenreich.diaguard.startup.legacy.query.measurement.ActivityLegacyQueries
+import com.faltenreich.diaguard.startup.legacy.query.measurement.BloodPressureLegacyQueries
+import com.faltenreich.diaguard.startup.legacy.query.measurement.BloodSugarLegacyQueries
+import com.faltenreich.diaguard.startup.legacy.query.measurement.HbA1cLegacyQueries
+import com.faltenreich.diaguard.startup.legacy.query.measurement.InsulinLegacyQueries
+import com.faltenreich.diaguard.startup.legacy.query.measurement.MealLegacyQueries
+import com.faltenreich.diaguard.startup.legacy.query.measurement.OxygenSaturationLegacyQueries
+import com.faltenreich.diaguard.startup.legacy.query.measurement.PulseLegacyQueries
+import com.faltenreich.diaguard.startup.legacy.query.measurement.WeightLegacyQueries
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
 import com.faltenreich.diaguard.shared.test.FileFactory
+import com.faltenreich.diaguard.startup.legacy.query.MeasurementValueLegacyQueries
 import org.junit.Assert
 import org.junit.Test
 

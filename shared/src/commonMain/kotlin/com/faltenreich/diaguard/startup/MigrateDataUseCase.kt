@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.startup
 
-import com.faltenreich.diaguard.backup.legacy.ImportLegacyUseCase
-import com.faltenreich.diaguard.backup.seed.ImportSeedUseCase
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.preference.version.VersionCodePreference
 import com.faltenreich.diaguard.shared.config.BuildConfig
+import com.faltenreich.diaguard.startup.legacy.ImportLegacyUseCase
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext

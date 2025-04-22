@@ -19,8 +19,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.faltenreich.diaguard.backup.user.read.ReadBackupFormScreen
-import com.faltenreich.diaguard.backup.user.write.WriteBackupFormScreen
+import com.faltenreich.diaguard.backup.read.ReadBackupFormScreen
+import com.faltenreich.diaguard.backup.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen

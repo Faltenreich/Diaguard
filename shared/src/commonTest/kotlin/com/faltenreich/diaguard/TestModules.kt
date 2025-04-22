@@ -1,9 +1,5 @@
 package com.faltenreich.diaguard
 
-import com.faltenreich.diaguard.backup.legacy.FakeLegacyDao
-import com.faltenreich.diaguard.backup.legacy.LegacyDao
-import com.faltenreich.diaguard.backup.seed.query.food.FoodSeedQueries
-import com.faltenreich.diaguard.backup.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.export.pdf.PdfExport
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
@@ -21,6 +17,10 @@ import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.shared.system.FakeSystemSettings
 import com.faltenreich.diaguard.shared.system.SystemSettings
+import com.faltenreich.diaguard.startup.legacy.FakeLegacyDao
+import com.faltenreich.diaguard.startup.legacy.LegacyDao
+import com.faltenreich.diaguard.startup.seed.query.food.FoodSeedQueries
+import com.faltenreich.diaguard.startup.seed.query.tag.TagSeedQueries
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.test.StandardTestDispatcher

@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard
 
-import com.faltenreich.diaguard.backup.legacy.legacyModule
-import com.faltenreich.diaguard.backup.seed.seedModule
-import com.faltenreich.diaguard.backup.user.backupModule
+import com.faltenreich.diaguard.backup.backupModule
 import com.faltenreich.diaguard.dashboard.dashboardModule
 import com.faltenreich.diaguard.datetime.dateTimeModule
 import com.faltenreich.diaguard.entry.entryModule
@@ -54,8 +52,6 @@ fun appModule() = module {
         windowModule(),
         // Feature
         startupModule(),
-        seedModule(),
-        legacyModule(),
         backupModule(),
         mainModule(),
         exportModule(),

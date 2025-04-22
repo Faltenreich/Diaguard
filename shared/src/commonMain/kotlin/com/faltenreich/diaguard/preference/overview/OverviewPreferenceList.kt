@@ -9,8 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.backup.user.read.ReadBackupFormScreen
-import com.faltenreich.diaguard.backup.user.write.WriteBackupFormScreen
+import com.faltenreich.diaguard.backup.read.ReadBackupFormScreen
+import com.faltenreich.diaguard.backup.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
@@ -153,7 +153,9 @@ fun OverviewPreferenceList(
                 title = stringResource(Res.string.backup_write),
                 subtitle = stringResource(Res.string.backup_write_description),
                 onClick = {
-                    viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(WriteBackupFormScreen))
+                    viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(
+                        WriteBackupFormScreen
+                    ))
                 },
             )
         }
@@ -161,7 +163,9 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.backup_read),
                 subtitle = stringResource(Res.string.backup_read_description),
-                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(ReadBackupFormScreen))
+                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(
+                    ReadBackupFormScreen
+                ))
                 },
             )
         }

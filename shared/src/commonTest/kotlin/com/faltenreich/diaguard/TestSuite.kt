@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard
 
 import androidx.annotation.CallSuper
-import com.faltenreich.diaguard.backup.seed.ImportSeedUseCase
 import com.faltenreich.diaguard.measurement.value.StoreMeasurementValueUseCase
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain

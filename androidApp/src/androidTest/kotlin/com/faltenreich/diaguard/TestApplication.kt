@@ -12,7 +12,7 @@ class TestApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(ApplicationProvider.getApplicationContext())
-            modules(appModules())
+            modules(appModule())
         }
     }
 

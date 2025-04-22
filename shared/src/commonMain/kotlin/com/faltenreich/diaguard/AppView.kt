@@ -7,18 +7,13 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.main.MainView
 import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.shared.di.viewModel
-import com.faltenreich.diaguard.shared.theme.ThemeViewModel
 import com.faltenreich.diaguard.shared.view.keyboardPadding
 
 @Composable
-fun AppView() {
-    val themeViewModel = viewModel<ThemeViewModel>()
-    val state = themeViewModel.collectState()
-    AppTheme(isDarkColorScheme = state.isDark()) {
-        Surface (
-            modifier = Modifier.fillMaxSize().keyboardPadding(),
-            color = AppTheme.colors.scheme.surface,
-        ) {
+fun AppView(viewModel: AppViewModel = viewModel()) {
+    val state = viewModel.collectState()
+    AppTheme(isDarkColorScheme = state?.colorScheme.isDark()) {
+        Surface(modifier = Modifier.fillMaxSize().keyboardPadding()) {
             MainView(viewModel = viewModel())
         }
     }

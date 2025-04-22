@@ -13,7 +13,7 @@ class MainApplication : Application() {
         startKoin {
             androidContext(this@MainApplication)
             androidLogger(if (BuildConfig.DEBUG) Level.INFO else Level.NONE)
-            modules(appModules())
+            modules(appModule())
         }
     }
 }

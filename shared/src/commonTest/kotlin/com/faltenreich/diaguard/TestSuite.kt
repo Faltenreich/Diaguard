@@ -24,7 +24,7 @@ interface TestSuite : KoinTest {
     @BeforeTest
     @CallSuper
     fun beforeTest() {
-        startKoin { modules(appModules() + testModules()) }
+        startKoin { modules(appModule() + testModules()) }
         Dispatchers.setMain(dispatcher = get())
     }
 

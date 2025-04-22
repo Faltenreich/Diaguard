@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import androidx.paging.LoadState
+import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.Date
@@ -79,74 +81,14 @@ fun Log(
     }
 
     Box(modifier = modifier) {
-        LazyColumn(
+        List(
+            state = listState,
+            items = items,
+            onIntent = viewModel::dispatchIntent,
             modifier = Modifier
                 .fillMaxSize()
                 .alpha(alpha),
-            state = listState,
-        ) {
-            if (items.loadState.prepend == LoadState.Loading) {
-                item {
-                    LogLoadingIndicator(modifier = Modifier.fillMaxWidth())
-                }
-            }
-
-            for (index in 0 until items.itemCount) {
-                when (val peek = items.peek(index)) {
-                    is LogItemState.MonthHeader -> stickyHeader(key = peek.key) {
-                        LogMonth(
-                            state = items[index] as LogItemState.MonthHeader,
-                            modifier = Modifier.onGloballyPositioned {
-                                viewModel.dispatchIntent(LogIntent.CacheMonthHeaderSize(it.size))
-                            },
-                        )
-                    }
-
-                    is LogItemState.EntryContent -> item(key = peek.key) {
-                        val item = items[index] as LogItemState.EntryContent
-                        LogEntry(
-                            state = item,
-                            onClick = {
-                                viewModel.dispatchIntent(LogIntent.OpenEntry(item.entryState.entry))
-                            },
-                            onTagClick = { tag ->
-                                viewModel.dispatchIntent(LogIntent.OpenEntrySearch(tag.name))
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    horizontal = AppTheme.dimensions.padding.P_3,
-                                    vertical = AppTheme.dimensions.padding.P_2,
-                                ),
-                        )
-                    }
-
-                    is LogItemState.EmptyContent -> item(key = peek.key) {
-                        LogEmpty(
-                            state = items[index] as LogItemState.EmptyContent,
-                            onIntent = viewModel::dispatchIntent,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(all = AppTheme.dimensions.padding.P_3),
-                        )
-                    }
-
-                    null -> item {
-                        Skeleton(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(AppTheme.dimensions.size.TouchSizeMedium),
-                        )
-                    }
-                }
-            }
-
-            if (items.loadState.append == LoadState.Loading) {
-                item {
-                    LogLoadingIndicator(modifier = Modifier.fillMaxWidth())
-                }
-            }
-        }
+        )
 
         StickyDay(
             state = state,
@@ -163,6 +105,77 @@ fun Log(
             viewModel.dispatchIntent(LogIntent.SetDate(date))
         },
     )
+}
+
+@Composable
+private fun List(
+    state: LazyListState,
+    items: LazyPagingItems<LogItemState>,
+    onIntent: (LogIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LazyColumn(
+        modifier = modifier,
+        state = state,
+    ) {
+        if (items.loadState.prepend == LoadState.Loading) {
+            item {
+                LogLoadingIndicator(modifier = Modifier.fillMaxWidth())
+            }
+        }
+
+        for (index in 0 until items.itemCount) {
+            when (val peek = items.peek(index)) {
+                is LogItemState.MonthHeader -> stickyHeader(key = peek.key) {
+                    LogMonth(
+                        state = items[index] as LogItemState.MonthHeader,
+                        modifier = Modifier.onGloballyPositioned { coordinates ->
+                            onIntent(LogIntent.CacheMonthHeaderSize(coordinates.size))
+                        },
+                    )
+                }
+
+                is LogItemState.EntryContent -> item(key = peek.key) {
+                    val item = items[index] as LogItemState.EntryContent
+                    LogEntry(
+                        state = item,
+                        onClick = { onIntent(LogIntent.OpenEntry(item.entryState.entry)) },
+                        onTagClick = { tag -> onIntent(LogIntent.OpenEntrySearch(tag.name)) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = AppTheme.dimensions.padding.P_3,
+                                vertical = AppTheme.dimensions.padding.P_2,
+                            ),
+                    )
+                }
+
+                is LogItemState.EmptyContent -> item(key = peek.key) {
+                    LogEmpty(
+                        state = items[index] as LogItemState.EmptyContent,
+                        onIntent = onIntent,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = AppTheme.dimensions.padding.P_3),
+                    )
+                }
+
+                null -> item {
+                    Skeleton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(AppTheme.dimensions.size.TouchSizeMedium),
+                    )
+                }
+            }
+        }
+
+        if (items.loadState.append == LoadState.Loading) {
+            item {
+                LogLoadingIndicator(modifier = Modifier.fillMaxWidth())
+            }
+        }
+    }
 }
 
 @Composable
@@ -194,7 +207,6 @@ private fun DateDialog(
     onPick: (Date) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
     state.dateDialog?.let { dateDialog ->
         DatePicker(
             date = dateDialog.date,

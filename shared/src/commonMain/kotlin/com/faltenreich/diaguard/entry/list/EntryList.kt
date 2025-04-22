@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,7 +16,6 @@ import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.log.item.LogLoadingIndicator
 import com.faltenreich.diaguard.tag.Tag
 
 @Composable
@@ -69,7 +69,7 @@ fun EntryList(
 
                 if (items.loadState.append == LoadState.Loading) {
                     item {
-                        LogLoadingIndicator(modifier = Modifier.fillMaxWidth())
+                        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                     }
                 }
             }

@@ -4,7 +4,7 @@ import androidx.compose.foundation.lazy.LazyListItemInfo
 import androidx.compose.ui.unit.IntSize
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.log.item.LogItemState
+import com.faltenreich.diaguard.log.list.item.LogItemState
 
 sealed interface LogIntent {
 

@@ -8,9 +8,9 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyInfoUseCase
-import com.faltenreich.diaguard.log.item.LogDayStickyInfo
-import com.faltenreich.diaguard.log.item.LogItemState
+import com.faltenreich.diaguard.log.list.LogListPagingSource
+import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
+import com.faltenreich.diaguard.log.list.item.LogItemState
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.logging.Logger
@@ -30,9 +30,9 @@ class LogViewModel(
     private val currentDate = MutableStateFlow(initialDate)
 
     val pagingData = Pager(
-        config = LogPagingSource.newConfig(),
+        config = LogListPagingSource.newConfig(),
         initialKey = initialDate,
-        pagingSourceFactory = { LogPagingSource().also { dataSource = it } },
+        pagingSourceFactory = { LogListPagingSource().also { dataSource = it } },
     ).flow.cachedIn(scope)
 
     private val monthHeaderSize = MutableStateFlow(IntSize.Zero)

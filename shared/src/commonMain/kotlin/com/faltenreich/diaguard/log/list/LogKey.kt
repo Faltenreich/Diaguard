@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.log
+package com.faltenreich.diaguard.log.list
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.shared.serialization.Serializable

@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.log.item
+package com.faltenreich.diaguard.log.list.item
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.list.EntryListItemState
-import com.faltenreich.diaguard.log.LogKey
+import com.faltenreich.diaguard.log.list.LogKey
 
 sealed interface LogItemState {
 

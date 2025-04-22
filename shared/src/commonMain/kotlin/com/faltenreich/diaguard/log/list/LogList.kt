@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.log
+package com.faltenreich.diaguard.log.list
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,11 +11,12 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.log.item.LogEmpty
-import com.faltenreich.diaguard.log.item.LogEntry
-import com.faltenreich.diaguard.log.item.LogItemState
-import com.faltenreich.diaguard.log.item.LogLoadingIndicator
-import com.faltenreich.diaguard.log.item.LogMonth
+import com.faltenreich.diaguard.log.LogIntent
+import com.faltenreich.diaguard.log.list.item.LogEmpty
+import com.faltenreich.diaguard.log.list.item.LogEntry
+import com.faltenreich.diaguard.log.list.item.LogItemState
+import com.faltenreich.diaguard.log.list.item.LogLoadingIndicator
+import com.faltenreich.diaguard.log.list.item.LogMonth
 import com.faltenreich.diaguard.shared.view.Skeleton
 
 @Composable

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.log.item
+package com.faltenreich.diaguard.log.list.item
 
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable

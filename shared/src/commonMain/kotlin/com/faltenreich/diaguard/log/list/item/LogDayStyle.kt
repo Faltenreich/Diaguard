@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.log.item
+package com.faltenreich.diaguard.log.list.item
 
 data class LogDayStyle(
     val isVisible: Boolean,

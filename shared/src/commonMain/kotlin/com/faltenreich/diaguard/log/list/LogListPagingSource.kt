@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.log
+package com.faltenreich.diaguard.log.list
 
 import app.cash.paging.PagingConfig
 import app.cash.paging.PagingSource
@@ -13,14 +13,14 @@ import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
-import com.faltenreich.diaguard.log.item.LogDayStyle
-import com.faltenreich.diaguard.log.item.LogItemState
+import com.faltenreich.diaguard.log.list.item.LogDayStyle
+import com.faltenreich.diaguard.log.list.item.LogItemState
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
 import com.faltenreich.diaguard.shared.view.isRefreshing
 
-class LogPagingSource(
+class LogListPagingSource(
     getTodayUseCase: GetTodayUseCase = inject(),
     private val entryRepository: EntryRepository = inject(),
     private val mapEntryListItemState: MapEntryListItemStateUseCase = inject(),

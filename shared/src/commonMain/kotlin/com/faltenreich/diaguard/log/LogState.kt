@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.log
 
 import androidx.compose.ui.unit.IntSize
 import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.log.item.LogDayStickyInfo
+import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 
 data class LogState(
     val monthHeaderSize: IntSize,

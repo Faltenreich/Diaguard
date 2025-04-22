@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.log.item
+package com.faltenreich.diaguard.log.list.item
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize

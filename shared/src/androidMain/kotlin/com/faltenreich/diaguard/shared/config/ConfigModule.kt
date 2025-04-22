@@ -1,9 +1,10 @@
 package com.faltenreich.diaguard.shared.config
 
-import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 actual fun configModule(): Module = module {
-    single<BuildConfig> { AndroidBuildConfig(androidContext()) }
+    factoryOf(::AndroidBuildConfig) bind BuildConfig::class
 }

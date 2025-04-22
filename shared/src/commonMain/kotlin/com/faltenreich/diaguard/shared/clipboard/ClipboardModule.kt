@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.shared.clipboard
 
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 fun clipboardModule() = module {
-    singleOf(::Clipboard)
+    factoryOf(::Clipboard)
 }

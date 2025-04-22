@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard
 
-import com.faltenreich.diaguard.main.HasDataUseCase
-import com.faltenreich.diaguard.main.MigrateDataUseCase
+import com.faltenreich.diaguard.startup.HasDataUseCase
+import com.faltenreich.diaguard.startup.MigrateDataUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel

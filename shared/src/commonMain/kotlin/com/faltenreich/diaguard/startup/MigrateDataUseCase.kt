@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.main
+package com.faltenreich.diaguard.startup
 
 import com.faltenreich.diaguard.backup.legacy.ImportLegacyUseCase
 import com.faltenreich.diaguard.backup.seed.ImportSeedUseCase

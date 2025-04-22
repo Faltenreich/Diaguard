@@ -26,6 +26,7 @@ import com.faltenreich.diaguard.shared.primitive.primitiveModule
 import com.faltenreich.diaguard.shared.serialization.serializationModule
 import com.faltenreich.diaguard.shared.system.systemSettingsModule
 import com.faltenreich.diaguard.shared.view.windowModule
+import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.statistic.statisticModule
 import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
@@ -52,6 +53,7 @@ fun appModule() = module {
         systemSettingsModule(),
         windowModule(),
         // Feature
+        startupModule(),
         seedModule(),
         legacyModule(),
         backupModule(),

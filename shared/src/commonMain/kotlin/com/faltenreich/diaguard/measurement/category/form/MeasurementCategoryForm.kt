@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
+import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
@@ -129,6 +130,9 @@ fun MeasurementCategoryForm(
                     showEmojiPicker = false
                     viewModel.icon.value = icon
                 },
+                // TODO: Adjust for smaller/larger screens
+                columns = 9,
+                isDarkColorScheme = state?.colorScheme.isDark(),
                 // Workaround: Fixes nested scroll
                 // FIXME: Lags after expanding bottom sheet
                 modifier = if (sheetState.currentValue == SheetValue.Expanded) {

@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.preference.color.ColorSchemePreference
+import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +14,7 @@ class MeasurementCategoryFormViewModel(
     categoryId: Long,
     getCategoryBdId: GetMeasurementCategoryBdIdUseCase = inject(),
     getProperties: GetMeasurementPropertiesUseCase = inject(),
+    getPreference: GetPreferenceUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
@@ -29,6 +32,7 @@ class MeasurementCategoryFormViewModel(
 
     override val state = combine(
         properties,
+        getPreference(ColorSchemePreference),
         deleteDialog,
         alertDialog,
         ::MeasurementCategoryFormState,

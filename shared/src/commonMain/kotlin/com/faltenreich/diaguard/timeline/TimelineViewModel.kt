@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
+import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -34,12 +35,13 @@ class TimelineViewModel(
     private val decimalPlaces = getPreference(DecimalPlacesPreference)
     private val data = combine(categories, values, decimalPlaces, getData::invoke)
 
-    override val state = combine(
+    override val state = com.faltenreich.diaguard.shared.architecture.combine(
         initialDate,
         currentDate,
         currentDate.map(formatDate::invoke),
         dateDialog,
         data,
+        getPreference(ColorSchemePreference),
         ::TimelineState,
     )
 

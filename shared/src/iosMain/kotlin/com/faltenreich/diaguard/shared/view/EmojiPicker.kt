@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 actual fun EmojiPicker(
     onEmojiPicked: (String) -> Unit,
     columns: Int,
+    isDarkColorScheme: Boolean,
     modifier: Modifier,
 ) {
     TODO("Not yet implemented")

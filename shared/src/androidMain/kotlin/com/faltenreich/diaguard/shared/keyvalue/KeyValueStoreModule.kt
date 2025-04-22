@@ -8,5 +8,5 @@ const val KEY_VALUE_STORE_LEGACY = "KEY_VALUE_STORE_LEGACY"
 
 actual fun keyValueStoreModule() = module {
     single<KeyValueStore> { DataStore(androidContext()) }
-    single<KeyValueStore>(named(KEY_VALUE_STORE_LEGACY)) { SharedPreferences(androidContext()) }
+    factory<KeyValueStore>(named(KEY_VALUE_STORE_LEGACY)) { SharedPreferences(androidContext()) }
 }

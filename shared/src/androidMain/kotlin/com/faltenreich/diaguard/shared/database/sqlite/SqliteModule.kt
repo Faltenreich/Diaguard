@@ -5,5 +5,5 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 actual fun sqliteModule(): Module = module {
-    single { SqliteDatabase(androidContext().getDatabasePath("diaguard.db")) }
+    factory { SqliteDatabase(androidContext().getDatabasePath("diaguard.db")) }
 }

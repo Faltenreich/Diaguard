@@ -33,6 +33,7 @@ import com.faltenreich.diaguard.shared.database.sqldelight.mapper.TagSqlDelightM
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.database.sqlite.sqliteModule
 import com.faltenreich.diaguard.tag.TagDao
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -43,33 +44,33 @@ fun databaseModule() = module {
 
     singleOf(::SqlDelightDatabase)
 
-    singleOf(::EntrySqlDelightMapper)
-    singleOf(::EntrySqlDelightDao) bind EntryDao::class
+    factoryOf(::EntrySqlDelightMapper)
+    factoryOf(::EntrySqlDelightDao) bind EntryDao::class
 
-    singleOf(::MeasurementCategorySqlDelightMapper)
-    singleOf(::MeasurementCategorySqlDelightDao) bind MeasurementCategoryDao::class
+    factoryOf(::MeasurementCategorySqlDelightMapper)
+    factoryOf(::MeasurementCategorySqlDelightDao) bind MeasurementCategoryDao::class
 
-    singleOf(::MeasurementPropertySqlDelightMapper)
-    singleOf(::MeasurementPropertySqlDelightDao) bind MeasurementPropertyDao::class
+    factoryOf(::MeasurementPropertySqlDelightMapper)
+    factoryOf(::MeasurementPropertySqlDelightDao) bind MeasurementPropertyDao::class
 
-    singleOf(::MeasurementUnitSqlDelightMapper)
-    singleOf(::MeasurementUnitSqlDelightDao) bind MeasurementUnitDao::class
+    factoryOf(::MeasurementUnitSqlDelightMapper)
+    factoryOf(::MeasurementUnitSqlDelightDao) bind MeasurementUnitDao::class
 
-    singleOf(::MeasurementUnitSuggestionSqlDelightMapper)
-    singleOf(::MeasurementUnitSuggestionSqlDelightDao) bind MeasurementUnitSuggestionDao::class
+    factoryOf(::MeasurementUnitSuggestionSqlDelightMapper)
+    factoryOf(::MeasurementUnitSuggestionSqlDelightDao) bind MeasurementUnitSuggestionDao::class
 
-    singleOf(::MeasurementValueSqlDelightMapper)
-    singleOf(::MeasurementValueSqlDelightDao) bind MeasurementValueDao::class
+    factoryOf(::MeasurementValueSqlDelightMapper)
+    factoryOf(::MeasurementValueSqlDelightDao) bind MeasurementValueDao::class
 
-    singleOf(::FoodSqlDelightMapper)
-    singleOf(::FoodSqlDelightDao) bind FoodDao::class
+    factoryOf(::FoodSqlDelightMapper)
+    factoryOf(::FoodSqlDelightDao) bind FoodDao::class
 
-    singleOf(::FoodEatenSqlDelightMapper)
-    singleOf(::FoodEatenSqlDelightDao) bind FoodEatenDao::class
+    factoryOf(::FoodEatenSqlDelightMapper)
+    factoryOf(::FoodEatenSqlDelightDao) bind FoodEatenDao::class
 
-    singleOf(::TagSqlDelightMapper)
-    singleOf(::TagSqlDelightDao) bind TagDao::class
+    factoryOf(::TagSqlDelightMapper)
+    factoryOf(::TagSqlDelightDao) bind TagDao::class
 
-    singleOf(::EntryTagSqlDelightMapper)
-    singleOf(::EntryTagSqlDelightDao) bind EntryTagDao::class
+    factoryOf(::EntryTagSqlDelightMapper)
+    factoryOf(::EntryTagSqlDelightDao) bind EntryTagDao::class
 }

@@ -30,38 +30,38 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.StoreMeasurementValuesUseCase
 import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun measurementModule() = module {
-    singleOf(::MeasurementValueMapper)
+    factoryOf(::MeasurementValueMapper)
 
-    singleOf(::MeasurementCategoryRepository)
-    singleOf(::MeasurementPropertyRepository)
-    singleOf(::MeasurementUnitRepository)
-    singleOf(::MeasurementUnitSuggestionRepository)
-    singleOf(::MeasurementValueRepository)
+    factoryOf(::MeasurementCategoryRepository)
+    factoryOf(::MeasurementPropertyRepository)
+    factoryOf(::MeasurementUnitRepository)
+    factoryOf(::MeasurementUnitSuggestionRepository)
+    factoryOf(::MeasurementValueRepository)
 
-    singleOf(::CreateMeasurementCategoryUseCase)
-    singleOf(::GetMeasurementValueTintUseCase)
-    singleOf(::GetActiveMeasurementCategoriesUseCase)
-    singleOf(::GetAllMeasurementCategoriesUseCase)
-    singleOf(::GetMeasurementCategoryBdIdUseCase)
-    singleOf(::UpdateMeasurementCategoryUseCase)
-    singleOf(::DeleteMeasurementCategoryUseCase)
-    singleOf(::CreateMeasurementPropertyUseCase)
-    singleOf(::GetMeasurementUnitsUseCase)
-    singleOf(::GetMeasurementPropertyBdIdUseCase)
-    singleOf(::GetMeasurementUnitSuggestionsUseCase)
-    singleOf(::GetMeasurementPropertiesUseCase)
-    singleOf(::StoreMeasurementValuesUseCase)
-    singleOf(::CountMeasurementValuesOfPropertyUseCase)
-    singleOf(::UpdateMeasurementPropertyUseCase)
-    singleOf(::DeleteMeasurementPropertyUseCase)
-    single { ValidateMeasurementUnitUseCase(rules = listOf(UniqueMeasurementUnitRule())) }
-    singleOf(::StoreMeasurementUnitUseCase)
+    factoryOf(::CreateMeasurementCategoryUseCase)
+    factoryOf(::GetMeasurementValueTintUseCase)
+    factoryOf(::GetActiveMeasurementCategoriesUseCase)
+    factoryOf(::GetAllMeasurementCategoriesUseCase)
+    factoryOf(::GetMeasurementCategoryBdIdUseCase)
+    factoryOf(::UpdateMeasurementCategoryUseCase)
+    factoryOf(::DeleteMeasurementCategoryUseCase)
+    factoryOf(::CreateMeasurementPropertyUseCase)
+    factoryOf(::GetMeasurementUnitsUseCase)
+    factoryOf(::GetMeasurementPropertyBdIdUseCase)
+    factoryOf(::GetMeasurementUnitSuggestionsUseCase)
+    factoryOf(::GetMeasurementPropertiesUseCase)
+    factoryOf(::StoreMeasurementValuesUseCase)
+    factoryOf(::CountMeasurementValuesOfPropertyUseCase)
+    factoryOf(::UpdateMeasurementPropertyUseCase)
+    factoryOf(::DeleteMeasurementPropertyUseCase)
+    factory { ValidateMeasurementUnitUseCase(rules = listOf(UniqueMeasurementUnitRule())) }
+    factoryOf(::StoreMeasurementUnitUseCase)
 
     viewModelOf(::MeasurementCategoryListViewModel)
     viewModel { (categoryId: Long) -> MeasurementCategoryFormViewModel(categoryId) }

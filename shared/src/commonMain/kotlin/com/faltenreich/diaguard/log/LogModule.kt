@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.log
 
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun logModule() = module {
-    singleOf(::InvalidateLogDayStickyInfoUseCase)
+    factoryOf(::InvalidateLogDayStickyInfoUseCase)
 
     viewModelOf(::LogViewModel)
 }

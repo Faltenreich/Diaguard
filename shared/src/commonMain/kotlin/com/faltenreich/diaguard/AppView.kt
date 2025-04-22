@@ -10,16 +10,14 @@ import com.faltenreich.diaguard.shared.theme.ThemeViewModel
 import com.faltenreich.diaguard.shared.view.keyboardPadding
 
 @Composable
-fun AppView(
-    modifier: Modifier = Modifier,
-    themeViewModel: ThemeViewModel = viewModel(),
-) {
+fun AppView() {
+    val themeViewModel = viewModel<ThemeViewModel>()
     AppTheme(isDarkColorScheme = themeViewModel.isDarkColorScheme()) {
         Surface (
-            modifier = modifier.fillMaxSize().keyboardPadding(),
+            modifier = Modifier.fillMaxSize().keyboardPadding(),
             color = AppTheme.colors.scheme.surface,
         ) {
-            MainView(modifier = modifier)
+            MainView(viewModel = viewModel())
         }
     }
 }

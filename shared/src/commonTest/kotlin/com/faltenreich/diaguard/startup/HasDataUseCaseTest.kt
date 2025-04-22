@@ -1,7 +1,6 @@
-package com.faltenreich.diaguard.main
+package com.faltenreich.diaguard.startup
 
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.startup.HasDataUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject

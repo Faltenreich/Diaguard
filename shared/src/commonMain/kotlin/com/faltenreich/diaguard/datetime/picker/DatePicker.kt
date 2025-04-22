@@ -5,17 +5,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import diaguard.shared.generated.resources.*
+import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.cancel
+import diaguard.shared.generated.resources.ok
 import androidx.compose.material3.DatePicker as MaterialDatePicker
 
 @Composable
 fun DatePicker(
     date: Date,
     onPick: (Date) -> Unit,
+    modifier: Modifier = Modifier,
     dateTimeFactory: DateTimeFactory = inject(),
 ) {
     val dateTime = date.atStartOfDay()
@@ -31,6 +35,7 @@ fun DatePicker(
                 Text(getString(Res.string.ok))
             }
         },
+        modifier = modifier,
         dismissButton = {
             TextButton(onClick = { onPick(date) }) {
                 Text(getString(Res.string.cancel))

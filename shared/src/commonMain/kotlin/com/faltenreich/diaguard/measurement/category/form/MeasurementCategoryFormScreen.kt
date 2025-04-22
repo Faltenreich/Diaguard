@@ -41,7 +41,9 @@ data class MeasurementCategoryFormScreen(val categoryId: Long) : Screen {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.measurement_category_delete,
-                    onClick = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.Delete(needsConfirmation = true)) },
+                    onClick = {
+                        viewModel.dispatchIntent(MeasurementCategoryFormIntent.Delete(needsConfirmation = true))
+                    },
                 )
             },
             floatingActionButton = {

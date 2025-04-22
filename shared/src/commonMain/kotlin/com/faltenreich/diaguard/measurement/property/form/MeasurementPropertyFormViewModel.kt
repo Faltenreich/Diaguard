@@ -90,13 +90,20 @@ class MeasurementPropertyFormViewModel(
 
     override suspend fun handleIntent(intent: MeasurementPropertyFormIntent) {
         when (intent) {
-            is MeasurementPropertyFormIntent.UpdateProperty -> updateProperty()
-            is MeasurementPropertyFormIntent.OpenDeleteDialog -> deleteDialog.update { MeasurementPropertyFormState.DeleteDialog }
-            is MeasurementPropertyFormIntent.CloseDeleteDialog -> deleteDialog.update { null }
-            is MeasurementPropertyFormIntent.OpenAlertDialog -> alertDialog.update { MeasurementPropertyFormState.AlertDialog }
-            is MeasurementPropertyFormIntent.CloseAlertDialog -> alertDialog.update { null }
-            is MeasurementPropertyFormIntent.Delete -> deleteProperty(intent)
-            is MeasurementPropertyFormIntent.SelectUnit -> selectUnit(intent.unit)
+            is MeasurementPropertyFormIntent.UpdateProperty ->
+                updateProperty()
+            is MeasurementPropertyFormIntent.OpenDeleteDialog ->
+                deleteDialog.update { MeasurementPropertyFormState.DeleteDialog }
+            is MeasurementPropertyFormIntent.CloseDeleteDialog ->
+                deleteDialog.update { null }
+            is MeasurementPropertyFormIntent.OpenAlertDialog ->
+                alertDialog.update { MeasurementPropertyFormState.AlertDialog }
+            is MeasurementPropertyFormIntent.CloseAlertDialog ->
+                alertDialog.update { null }
+            is MeasurementPropertyFormIntent.Delete ->
+                deleteProperty(intent)
+            is MeasurementPropertyFormIntent.SelectUnit ->
+                selectUnit(intent.unit)
         }
     }
 

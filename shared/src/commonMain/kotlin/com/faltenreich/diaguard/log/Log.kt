@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.picker.DatePicker
 import com.faltenreich.diaguard.log.item.LogDay
 import com.faltenreich.diaguard.log.item.LogEmpty
@@ -93,10 +94,8 @@ fun Log(
             for (index in 0 until items.itemCount) {
                 when (val peek = items.peek(index)) {
                     is LogItemState.MonthHeader -> stickyHeader(key = peek.key) {
-                        val item = items[index] as? LogItemState.MonthHeader
-                        checkNotNull(item)
                         LogMonth(
-                            state = item,
+                            state = items[index] as LogItemState.MonthHeader,
                             modifier = Modifier.onGloballyPositioned {
                                 viewModel.dispatchIntent(LogIntent.CacheMonthHeaderSize(it.size))
                             },
@@ -104,13 +103,14 @@ fun Log(
                     }
 
                     is LogItemState.EntryContent -> item(key = peek.key) {
-                        val item = items[index] as? LogItemState.EntryContent
-                        checkNotNull(item)
+                        val item = items[index] as LogItemState.EntryContent
                         LogEntry(
                             state = item,
-                            onClick = { viewModel.dispatchIntent(LogIntent.OpenEntry(item.entryState.entry)) },
+                            onClick = {
+                                viewModel.dispatchIntent(LogIntent.OpenEntry(item.entryState.entry))
+                            },
                             onTagClick = { tag ->
-                                viewModel.dispatchIntent(LogIntent.OpenEntrySearch(query = tag.name))
+                                viewModel.dispatchIntent(LogIntent.OpenEntrySearch(tag.name))
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -122,10 +122,8 @@ fun Log(
                     }
 
                     is LogItemState.EmptyContent -> item(key = peek.key) {
-                        val item = items[index] as? LogItemState.EmptyContent
-                        checkNotNull(item)
                         LogEmpty(
-                            state = item,
+                            state = items[index] as LogItemState.EmptyContent,
                             onIntent = viewModel::dispatchIntent,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -150,35 +148,58 @@ fun Log(
             }
         }
 
-        val stickyDate = state.stickyHeaderInfo.date
-        if (stickyDate != null) {
-            LogDay(
-                date = stickyDate,
-                style = state.stickyHeaderInfo.style,
-                modifier = Modifier
-                    .onGloballyPositioned {
-                        viewModel.dispatchIntent(LogIntent.CacheDayHeaderSize(it.size))
-                    }
-                    .alpha(alpha)
-                    .offset { state.stickyHeaderInfo.offset }
-                    .drawWithContent {
-                        clipRect(top = state.stickyHeaderInfo.clip) {
-                            this@drawWithContent.drawContent()
-                        }
-                    }
-                    .background(AppTheme.colors.scheme.background)
-                    .padding(all = AppTheme.dimensions.padding.P_3)
-            )
-        }
+        StickyDay(
+            state = state,
+            modifier = Modifier
+                .onGloballyPositioned { viewModel.dispatchIntent(LogIntent.CacheDayHeaderSize(it.size)) }
+                .alpha(alpha)
+        )
     }
+
+    DateDialog(
+        state = state,
+        onPick = { date ->
+            viewModel.dispatchIntent(LogIntent.CloseDateDialog)
+            viewModel.dispatchIntent(LogIntent.SetDate(date))
+        },
+    )
+}
+
+@Composable
+private fun StickyDay(
+    state: LogState,
+    modifier: Modifier = Modifier,
+) {
+    val stickyDate = state.stickyHeaderInfo.date
+    if (stickyDate != null) {
+        LogDay(
+            date = stickyDate,
+            style = state.stickyHeaderInfo.style,
+            modifier = modifier
+                .offset { state.stickyHeaderInfo.offset }
+                .drawWithContent {
+                    clipRect(top = state.stickyHeaderInfo.clip) {
+                        this@drawWithContent.drawContent()
+                    }
+                }
+                .background(AppTheme.colors.scheme.background)
+                .padding(all = AppTheme.dimensions.padding.P_3)
+        )
+    }
+}
+
+@Composable
+private fun DateDialog(
+    state: LogState,
+    onPick: (Date) -> Unit,
+    modifier: Modifier = Modifier,
+) {
 
     state.dateDialog?.let { dateDialog ->
         DatePicker(
             date = dateDialog.date,
-            onPick = { date ->
-                viewModel.dispatchIntent(LogIntent.CloseDateDialog)
-                viewModel.dispatchIntent(LogIntent.SetDate(date))
-            },
+            onPick = onPick,
+            modifier = modifier,
         )
     }
 }

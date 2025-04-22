@@ -94,7 +94,14 @@ fun MeasurementPropertyList(
             onDismissRequest = { showFormDialog = false },
             onConfirmRequest = { propertyName, unitName ->
                 showFormDialog = false
-                viewModel.dispatchIntent(MeasurementPropertyListIntent.Store(propertyName, unitName, category, properties))
+                viewModel.dispatchIntent(
+                    MeasurementPropertyListIntent.Store(
+                        propertyName,
+                        unitName,
+                        category,
+                        properties,
+                    )
+                )
             },
         )
     }

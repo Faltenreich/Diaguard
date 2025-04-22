@@ -8,8 +8,8 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyHeaderInfoUseCase
-import com.faltenreich.diaguard.log.item.LogDayStickyHeaderInfo
+import com.faltenreich.diaguard.log.item.InvalidateLogDayStickyInfoUseCase
+import com.faltenreich.diaguard.log.item.LogDayStickyInfo
 import com.faltenreich.diaguard.log.item.LogItemState
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.update
 
 class LogViewModel(
     getToday: GetTodayUseCase,
-    private val invalidateStickyHeaderInfo: InvalidateLogDayStickyHeaderInfoUseCase,
+    private val invalidateDayStickyInfo: InvalidateLogDayStickyInfoUseCase,
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<LogState, LogIntent, Unit>() {
 
@@ -37,13 +37,13 @@ class LogViewModel(
 
     private val monthHeaderSize = MutableStateFlow(IntSize.Zero)
     private val dayHeaderSize = MutableStateFlow(IntSize.Zero)
-    private val stickyHeaderInfo = MutableStateFlow(LogDayStickyHeaderInfo())
+    private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo())
     private val dateDialog = MutableStateFlow<LogState.DateDialog?>(null)
 
     override val state: Flow<LogState> = combine(
         monthHeaderSize,
         dayHeaderSize,
-        stickyHeaderInfo,
+        dayStickyInfo,
         dateDialog,
         ::LogState,
     )
@@ -55,8 +55,8 @@ class LogViewModel(
                 is LogIntent.CacheDayHeaderSize -> dayHeaderSize.value = size
                 is LogIntent.OnScroll -> {
                     currentDate.value = firstItem.date
-                    stickyHeaderInfo.value = invalidateStickyHeaderInfo(
-                        stickyHeaderInfo = stickyHeaderInfo.value,
+                    dayStickyInfo.value = invalidateDayStickyInfo(
+                        stickyHeaderInfo = dayStickyInfo.value,
                         monthHeaderSize = monthHeaderSize.value,
                         dayHeaderSize = dayHeaderSize.value,
                         firstItem = firstItem,

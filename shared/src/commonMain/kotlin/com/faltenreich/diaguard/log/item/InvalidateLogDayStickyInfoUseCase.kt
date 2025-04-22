@@ -6,15 +6,15 @@ import androidx.compose.ui.unit.IntSize
 import com.faltenreich.diaguard.log.LogKey
 import kotlin.math.min
 
-class InvalidateLogDayStickyHeaderInfoUseCase {
+class InvalidateLogDayStickyInfoUseCase {
 
     operator fun invoke(
-        stickyHeaderInfo: LogDayStickyHeaderInfo,
+        stickyHeaderInfo: LogDayStickyInfo,
         monthHeaderSize: IntSize,
         dayHeaderSize: IntSize,
         firstItem: LogItemState,
         nextItems: List<LazyListItemInfo>,
-    ): LogDayStickyHeaderInfo {
+    ): LogDayStickyInfo {
         if (firstItem is LogItemState.MonthHeader) {
             return stickyHeaderInfo.copy(offset = IntOffset(x = 0, y = -dayHeaderSize.height))
         }

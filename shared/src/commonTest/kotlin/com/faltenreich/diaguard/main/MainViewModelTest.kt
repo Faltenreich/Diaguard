@@ -24,33 +24,12 @@ class MainViewModelTest : TestSuite {
     private val navigation: Navigation by inject()
 
     @Test
-    fun `shows loading on first start`() = runTest {
-        viewModel.state.test {
-            assertTrue(awaitItem() is MainState.FirstStart)
-            assertTrue(awaitItem() is MainState.SubsequentStart)
-            ensureAllEventsConsumed()
-        }
-    }
-
-    @Test
-    fun `shows content if seed has been imported`() = runTest {
-        setPreference(VersionCodePreference, 1)
-        importSeed()
-
-        viewModel.state.test {
-            assertTrue(awaitItem() is MainState.SubsequentStart)
-            ensureAllEventsConsumed()
-        }
-    }
-
-    @Test
     fun `shows dashboard as start screen by default`() = runTest {
         setPreference(VersionCodePreference, 1)
         importSeed()
 
         viewModel.state.test {
             val state = awaitItem()
-            assertTrue(state is MainState.SubsequentStart)
             assertEquals(DashboardScreen, state.startScreen)
             ensureAllEventsConsumed()
         }
@@ -64,7 +43,6 @@ class MainViewModelTest : TestSuite {
 
         viewModel.state.test {
             val state = awaitItem()
-            assertTrue(state is MainState.SubsequentStart)
             assertEquals(TimelineScreen, state.startScreen)
             ensureAllEventsConsumed()
         }
@@ -78,7 +56,6 @@ class MainViewModelTest : TestSuite {
 
         viewModel.state.test {
             val state = awaitItem()
-            assertTrue(state is MainState.SubsequentStart)
             assertEquals(LogScreen, state.startScreen)
             ensureAllEventsConsumed()
         }

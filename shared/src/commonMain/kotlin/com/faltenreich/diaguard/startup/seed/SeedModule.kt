@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.startup.seed
 
+import com.faltenreich.diaguard.shared.file.ResourceFileReader
 import com.faltenreich.diaguard.startup.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.startup.seed.query.measurement.ActivitySeedQueries
 import com.faltenreich.diaguard.startup.seed.query.measurement.BloodPressureSeedQueries
@@ -13,25 +14,24 @@ import com.faltenreich.diaguard.startup.seed.query.measurement.OxygenSaturationS
 import com.faltenreich.diaguard.startup.seed.query.measurement.PulseSeedQueries
 import com.faltenreich.diaguard.startup.seed.query.measurement.WeightSeedQueries
 import com.faltenreich.diaguard.startup.seed.query.tag.TagSeedQueries
-import com.faltenreich.diaguard.shared.file.ResourceFileReader
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 fun seedModule() = module {
-    singleOf(::BloodSugarSeedQueries)
-    singleOf(::InsulinSeedQueries)
-    singleOf(::MealSeedQueries)
-    singleOf(::ActivitySeedQueries)
-    singleOf(::HbA1cSeedQueries)
-    singleOf(::WeightSeedQueries)
-    singleOf(::PulseSeedQueries)
-    singleOf(::BloodPressureSeedQueries)
-    singleOf(::OxygenSaturationSeedQueries)
+    factoryOf(::BloodSugarSeedQueries)
+    factoryOf(::InsulinSeedQueries)
+    factoryOf(::MealSeedQueries)
+    factoryOf(::ActivitySeedQueries)
+    factoryOf(::HbA1cSeedQueries)
+    factoryOf(::WeightSeedQueries)
+    factoryOf(::PulseSeedQueries)
+    factoryOf(::BloodPressureSeedQueries)
+    factoryOf(::OxygenSaturationSeedQueries)
 
-    singleOf(::MeasurementUnitSeedQueries)
-    singleOf(::MeasurementCategorySeedQueries)
+    factoryOf(::MeasurementUnitSeedQueries)
+    factoryOf(::MeasurementCategorySeedQueries)
 
-    single {
+    factory {
         FoodSeedQueries(
             fileReader = ResourceFileReader("files/food_common.csv"),
             serialization = get(),
@@ -39,7 +39,7 @@ fun seedModule() = module {
         )
     }
 
-    single {
+    factory {
         TagSeedQueries(
             fileReader = ResourceFileReader("files/tags.csv"),
             serialization = get(),
@@ -47,7 +47,7 @@ fun seedModule() = module {
         )
     }
 
-    single<SeedDao> {
+    factory<SeedDao> {
         SeedBundleDao(
             unitQueries = get(),
             categoryQueries = get(),
@@ -56,7 +56,7 @@ fun seedModule() = module {
         )
     }
 
-    singleOf(::SeedRepository)
+    factoryOf(::SeedRepository)
 
-    singleOf(::ImportSeedUseCase)
+    factoryOf(::ImportSeedUseCase)
 }

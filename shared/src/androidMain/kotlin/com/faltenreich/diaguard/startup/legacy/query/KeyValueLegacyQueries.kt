@@ -25,29 +25,37 @@ class KeyValueLegacyQueries(
     suspend fun <Store, Domain> getPreference(preference: Preference<Store, Domain>): Domain? {
         @Suppress("UNCHECKED_CAST")
         return when (preference) {
-            is ColorSchemePreference -> getPreference<String>("theme")?.let { value ->
-                when (value) {
-                    "0" -> ColorScheme.LIGHT
-                    "1" -> ColorScheme.DARK
-                    "2" -> ColorScheme.SYSTEM // was time-based which is now unsupported
-                    "3" -> ColorScheme.SYSTEM
-                    else -> null
-                }
-            }
+            is ColorSchemePreference -> getColorScheme()
             is DecimalPlacesPreference -> getPreference<Int>("Decimal places")
             is ShowBrandedFoodPreference -> getPreference<Boolean>("showBrandedFood")
             is ShowCommonFoodPreference -> getPreference<Boolean>("showCommonFood")
             is ShowCustomFoodPreference -> getPreference<Boolean>("showCustomFood")
-            is StartScreenPreference -> getPreference<String>("startscreen")?.let { value ->
-                when (value) {
-                    "0" -> StartScreen.DASHBOARD
-                    "1" -> StartScreen.TIMELINE
-                    "2" -> StartScreen.LOG
-                    else -> null
-                }
-            }
+            is StartScreenPreference -> getStartScreen()
             is VersionCodePreference -> getPreference<Int>("versionCode")
             else -> error("Requesting unhandled preference: $preference")
         } as? Domain
+    }
+
+    private suspend fun getColorScheme(): ColorScheme? {
+        return getPreference<String>("theme")?.let { value ->
+            when (value) {
+                "0" -> ColorScheme.LIGHT
+                "1" -> ColorScheme.DARK
+                "2" -> ColorScheme.SYSTEM // was time-based which is now unsupported
+                "3" -> ColorScheme.SYSTEM
+                else -> null
+            }
+        }
+    }
+
+    private suspend fun getStartScreen(): StartScreen? {
+        return getPreference<String>("startscreen")?.let { value ->
+            when (value) {
+                "0" -> StartScreen.DASHBOARD
+                "1" -> StartScreen.TIMELINE
+                "2" -> StartScreen.LOG
+                else -> null
+            }
+        }
     }
 }

@@ -11,10 +11,14 @@ import com.faltenreich.diaguard.shared.view.keyboardPadding
 
 @Composable
 fun AppView(viewModel: AppViewModel = viewModel()) {
-    val state = viewModel.collectState()
-    AppTheme(isDarkColorScheme = state?.colorScheme.isDark()) {
+    val state = viewModel.collectState() ?: return
+    AppTheme(isDarkColorScheme = state.colorScheme.isDark()) {
         Surface(modifier = Modifier.fillMaxSize().keyboardPadding()) {
-            MainView(viewModel = viewModel())
+            when (state) {
+                // TODO: Indicate setup
+                is AppState.FirstStart -> Unit
+                is AppState.SubsequentStart -> MainView(viewModel = viewModel())
+            }
         }
     }
 }

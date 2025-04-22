@@ -13,43 +13,30 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
 
 class MainViewModel(
     getPreference: GetPreferenceUseCase,
     getTopAppBarStyle: GetTopAppBarStyleUseCase,
     getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
-    hasData: HasDataUseCase,
-    private val migrateData: MigrateDataUseCase,
     private val pushScreen: PushScreenUseCase,
     private val popScreen: PopScreenUseCase,
     val collectNavigationEvents: CollectNavigationEventsUseCase,
 ) : ViewModel<MainState, MainIntent, Unit>() {
 
     override val state = combine(
-        hasData(),
         getPreference(StartScreenPreference),
         getTopAppBarStyle(),
         getBottomAppBarStyle(),
-    ) { hasData, startScreen, topAppBarStyle, bottomAppBarStyle ->
-        if (hasData) {
-            MainState.SubsequentStart(
-                startScreen = when (startScreen) {
-                    StartScreen.DASHBOARD -> DashboardScreen
-                    StartScreen.TIMELINE -> TimelineScreen
-                    StartScreen.LOG -> LogScreen
-                },
-                topAppBarStyle = topAppBarStyle,
-                bottomAppBarStyle = bottomAppBarStyle,
-            )
-        } else {
-            MainState.FirstStart
-        }
-    }.distinctUntilChanged()
-
-    init {
-        scope.launch { migrateData() }
+    ) { startScreen, topAppBarStyle, bottomAppBarStyle ->
+        MainState(
+            startScreen = when (startScreen) {
+                StartScreen.DASHBOARD -> DashboardScreen
+                StartScreen.TIMELINE -> TimelineScreen
+                StartScreen.LOG -> LogScreen
+            },
+            topAppBarStyle = topAppBarStyle,
+            bottomAppBarStyle = bottomAppBarStyle,
+        )
     }
 
     override suspend fun handleIntent(intent: MainIntent) = with(intent) {

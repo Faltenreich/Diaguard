@@ -62,8 +62,7 @@ fun MainView(
     viewModel: MainViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState()
-    if (state !is MainState.SubsequentStart) return
+    val state = viewModel.collectState() ?: return
 
     val navController = rememberNavController()
     val snackbarHostState = remember { SnackbarHostState() }

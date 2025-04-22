@@ -46,8 +46,8 @@ import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenFormScreen
 import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.di.rememberViewModelStoreOwner
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
@@ -61,7 +61,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun MainView(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = inject(),
+    viewModel: MainViewModel = viewModel(),
 ) {
     val state = viewModel.collectState()
     if (state !is MainState.SubsequentStart) return

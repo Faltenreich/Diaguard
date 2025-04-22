@@ -1,11 +1,12 @@
 package com.faltenreich.diaguard.main
 
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun mainModule() = module {
-    singleOf(::HasDataUseCase)
-    singleOf(::MigrateDataUseCase)
+    factoryOf(::HasDataUseCase)
+    factoryOf(::MigrateDataUseCase)
 
-    singleOf(::MainViewModel)
+    viewModelOf(::MainViewModel)
 }

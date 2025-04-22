@@ -5,14 +5,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.main.MainView
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.theme.ThemeViewModel
 import com.faltenreich.diaguard.shared.view.keyboardPadding
 
 @Composable
 fun AppView(
     modifier: Modifier = Modifier,
-    themeViewModel: ThemeViewModel = inject(),
+    themeViewModel: ThemeViewModel = viewModel(),
 ) {
     AppTheme(isDarkColorScheme = themeViewModel.isDarkColorScheme()) {
         Surface (

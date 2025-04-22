@@ -16,25 +16,26 @@ import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchViewModel
 import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.food.search.SearchFoodUseCase
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun foodModule() = module {
-    singleOf(::OpenFoodFactsMapper)
+    factoryOf(::OpenFoodFactsMapper)
 
-    single<FoodApi> { OpenFoodFactsApi() }
-    singleOf(::FoodRepository)
-    singleOf(::FoodEatenRepository)
+    factoryOf(::OpenFoodFactsApi) bind FoodApi::class
+    factoryOf(::FoodRepository)
+    factoryOf(::FoodEatenRepository)
 
-    singleOf(::ValidateFoodInputUseCase)
-    singleOf(::StoreFoodUseCase)
-    singleOf(::DeleteFoodUseCase)
-    singleOf(::SearchFoodUseCase)
-    singleOf(::GetFoodEatenForFoodUseCase)
-    singleOf(::GetFoodEatenForEntryUseCase)
-    singleOf(::StoreFoodEatenUseCase)
+    factoryOf(::ValidateFoodInputUseCase)
+    factoryOf(::StoreFoodUseCase)
+    factoryOf(::DeleteFoodUseCase)
+    factoryOf(::SearchFoodUseCase)
+    factoryOf(::GetFoodEatenForFoodUseCase)
+    factoryOf(::GetFoodEatenForEntryUseCase)
+    factoryOf(::StoreFoodEatenUseCase)
 
     viewModel { (mode: FoodSearchMode) -> FoodSearchViewModel(mode) }
     viewModelOf(::FoodSelectionViewModel)

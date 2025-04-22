@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.preference.store.PreferenceStore
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
 import com.faltenreich.diaguard.shared.file.ResourceFileReader
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -20,20 +21,20 @@ import org.koin.dsl.module
 fun preferenceModule() = module {
     singleOf(::PreferenceStore)
 
-    singleOf(::GetPreferenceUseCase)
-    singleOf(::SetPreferenceUseCase)
-    singleOf(::GetAppVersionUseCase)
+    factoryOf(::GetPreferenceUseCase)
+    factoryOf(::SetPreferenceUseCase)
+    factoryOf(::GetAppVersionUseCase)
 
     viewModelOf(::ColorSchemeFormViewModel)
 
     viewModelOf(::StartScreenFormViewModel)
 
-    singleOf(::IllustrateDecimalPlacesUseCase)
+    factoryOf(::IllustrateDecimalPlacesUseCase)
     viewModelOf(::DecimalPlacesFormViewModel)
 
     // TODO: Update automatically via command-line
     //  ./gradlew exportLibraryDefinitions -PexportPath=src/commonMain/composeResources/files/
-    single { GetLicensesUseCase(fileReader = ResourceFileReader("files/aboutlibraries.json")) }
+    factory { GetLicensesUseCase(fileReader = ResourceFileReader("files/aboutlibraries.json")) }
     viewModelOf(::LicenseListViewModel)
 
     viewModelOf(::OverviewPreferenceListViewModel)

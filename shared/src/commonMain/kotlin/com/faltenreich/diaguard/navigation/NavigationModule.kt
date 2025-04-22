@@ -7,19 +7,21 @@ import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.navigation.system.OpenNotificationSettingsUseCase
 import com.faltenreich.diaguard.navigation.system.OpenUrlUseCase
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 fun navigationModule() = module {
     singleOf(::Navigation)
 
-    singleOf(::CollectNavigationEventsUseCase)
-    singleOf(::GetTopAppBarStyleUseCase)
-    singleOf(::GetBottomAppBarStyleUseCase)
-    singleOf(::PushScreenUseCase)
-    singleOf(::PopScreenUseCase)
-    singleOf(::OpenNotificationSettingsUseCase)
-    singleOf(::OpenUrlUseCase)
+    factoryOf(::CollectNavigationEventsUseCase)
+    factoryOf(::GetTopAppBarStyleUseCase)
+    factoryOf(::GetBottomAppBarStyleUseCase)
 
-    singleOf(::ShowSnackbarUseCase)
+    factoryOf(::PushScreenUseCase)
+    factoryOf(::PopScreenUseCase)
+
+    factoryOf(::OpenNotificationSettingsUseCase)
+    factoryOf(::OpenUrlUseCase)
+    factoryOf(::ShowSnackbarUseCase)
 }

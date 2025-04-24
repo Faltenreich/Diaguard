@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.backup.read.ReadBackupFormScreen
 import com.faltenreich.diaguard.backup.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesForm
@@ -121,7 +122,11 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.measurement_units),
                 onClick = {
-                    viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(MeasurementUnitListScreen))
+                    viewModel.dispatchIntent(
+                        OverviewPreferenceListIntent.PushScreen(
+                            MeasurementUnitListScreen(mode = MeasurementUnitListMode.STROLL)
+                        )
+                    )
                 },
             )
         }

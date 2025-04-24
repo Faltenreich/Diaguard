@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.sharedViewModel
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
@@ -16,9 +17,12 @@ import diaguard.shared.generated.resources.measurement_units
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.core.parameter.parametersOf
 
 @Serializable
-object MeasurementUnitListScreen : Screen {
+data class MeasurementUnitListScreen(private val modeOrdinal: Int) : Screen {
+
+    constructor(mode: MeasurementUnitListMode) : this(modeOrdinal = mode.ordinal)
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
@@ -29,7 +33,11 @@ object MeasurementUnitListScreen : Screen {
 
     @Composable
     override fun BottomAppBar(): BottomAppBarStyle {
-        val viewModel = viewModel<MeasurementUnitListViewModel>()
+        val viewModel = viewModel<MeasurementUnitListViewModel>(
+            parameters = {
+                parametersOf(MeasurementUnitListMode.entries.first { it.ordinal == modeOrdinal })
+            },
+        )
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
                 FloatingActionButton(
@@ -46,6 +54,13 @@ object MeasurementUnitListScreen : Screen {
 
     @Composable
     override fun Content() {
-        MeasurementUnitList(viewModel = viewModel())
+        MeasurementUnitList(
+            viewModel = viewModel(
+                parameters = {
+                    parametersOf(MeasurementUnitListMode.entries.first { it.ordinal == modeOrdinal })
+                },
+            ),
+            selectionViewModel = sharedViewModel(),
+        )
     }
 }

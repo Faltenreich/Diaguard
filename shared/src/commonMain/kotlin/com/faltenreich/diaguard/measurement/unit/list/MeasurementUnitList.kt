@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.shared.view.Divider
 @Composable
 fun MeasurementUnitList(
     viewModel: MeasurementUnitListViewModel,
+    selectionViewModel: MeasurementUnitSelectionViewModel,
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
@@ -27,7 +28,17 @@ fun MeasurementUnitList(
                     unit = unit,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { viewModel.dispatchIntent(MeasurementUnitListIntent.OpenFormDialog(unit)) },
+                        .clickable {
+                            when (viewModel.mode) {
+                                MeasurementUnitListMode.STROLL -> {
+                                    viewModel.dispatchIntent(MeasurementUnitListIntent.OpenFormDialog(unit))
+                                }
+                                MeasurementUnitListMode.FIND -> {
+                                    selectionViewModel.postEvent(MeasurementUnitSelectionEvent.Select(unit))
+                                    viewModel.dispatchIntent(MeasurementUnitListIntent.Close)
+                                }
+                            }
+                        }
                 )
             }
         }

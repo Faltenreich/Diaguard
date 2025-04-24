@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
@@ -101,8 +102,7 @@ class MeasurementPropertyFormViewModel(
             is MeasurementPropertyFormIntent.Delete ->
                 deleteProperty(intent)
             is MeasurementPropertyFormIntent.OpenUnitSearch ->
-                // TODO: Pass mode for selection
-                pushScreen(MeasurementUnitListScreen)
+                pushScreen(MeasurementUnitListScreen(mode = MeasurementUnitListMode.FIND))
             is MeasurementPropertyFormIntent.SelectUnit ->
                 selectUnit(intent.unit)
         }

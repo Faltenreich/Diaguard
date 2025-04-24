@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.shared.di.sharedViewModel
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
@@ -61,6 +62,9 @@ data class MeasurementPropertyFormScreen(val propertyId: Long) : Screen {
 
     @Composable
     override fun Content() {
-        MeasurementPropertyForm(viewModel = viewModel { parametersOf(propertyId) })
+        MeasurementPropertyForm(
+            viewModel = viewModel { parametersOf(propertyId) },
+            unitSelectionViewModel = sharedViewModel(),
+        )
     }
 }

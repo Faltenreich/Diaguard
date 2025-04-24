@@ -15,11 +15,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionEvent
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionViewModel
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
@@ -44,9 +47,19 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MeasurementPropertyForm(
     viewModel: MeasurementPropertyFormViewModel,
+    unitSelectionViewModel: MeasurementUnitSelectionViewModel,
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState()
+
+    LaunchedEffect(Unit) {
+        unitSelectionViewModel.collectEvents { event ->
+            when (event) {
+                is MeasurementUnitSelectionEvent.Select ->
+                    viewModel.dispatchIntent(MeasurementPropertyFormIntent.SelectUnit(event.unit))
+            }
+        }
+    }
 
     AnimatedVisibility(
         visible = state != null,

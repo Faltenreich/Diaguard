@@ -3,16 +3,20 @@ package com.faltenreich.diaguard.measurement.unit.list
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.ValidateMeasurementUnitUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 
 class MeasurementUnitListViewModel(
-    getUnits: GetMeasurementUnitsUseCase,
-    private val validateUnit: ValidateMeasurementUnitUseCase,
-    private val storeUnit: StoreMeasurementUnitUseCase,
+    val mode: MeasurementUnitListMode,
+    getUnits: GetMeasurementUnitsUseCase = inject(),
+    private val validateUnit: ValidateMeasurementUnitUseCase = inject(),
+    private val storeUnit: StoreMeasurementUnitUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<MeasurementUnitListState, MeasurementUnitListIntent, Unit>() {
 
     private val formDialog = MutableStateFlow<MeasurementUnitListState.FormDialog?>(null)
@@ -25,6 +29,8 @@ class MeasurementUnitListViewModel(
 
     override suspend fun handleIntent(intent: MeasurementUnitListIntent) {
         when (intent) {
+            is MeasurementUnitListIntent.Close ->
+                popScreen()
             is MeasurementUnitListIntent.OpenFormDialog ->
                 formDialog.update { MeasurementUnitListState.FormDialog(intent.unit) }
             is MeasurementUnitListIntent.CloseFormDialog ->

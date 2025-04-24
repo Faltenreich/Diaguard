@@ -56,7 +56,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
         viewModel.propertyName.value = update
 
         navigation.events.test {
-            viewModel.handleIntent(MeasurementPropertyFormIntent.UpdateProperty)
+            viewModel.handleIntent(MeasurementPropertyFormIntent.Submit)
 
             assertEquals(
                 expected = update,

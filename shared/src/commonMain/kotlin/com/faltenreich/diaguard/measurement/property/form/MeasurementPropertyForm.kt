@@ -16,7 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
@@ -68,9 +71,13 @@ fun MeasurementPropertyForm(
         state ?: return@AnimatedVisibility
 
         Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+            var name by remember { mutableStateOf(state.property.name) }
             TextInput(
-                input = viewModel.propertyName.collectAsState().value,
-                onInputChange = { viewModel.propertyName.value = it },
+                input = name,
+                onInputChange = { input ->
+                    name = input
+                    viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateProperty(name = input))
+                },
                 label = getString(Res.string.name),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -103,15 +110,14 @@ fun MeasurementPropertyForm(
                         style = AppTheme.typography.bodySmall,
                     )
                 }
-                Text(stringResource(viewModel.aggregationStyle.collectAsState().value.labelResource))
+                Text(stringResource(state.property.aggregationStyle.labelResource))
             }
 
             Divider()
 
             MeasurementValueRangeForm(
-                unit = state.unit,
-                // TODO: Pass state and intent callback instead of ViewModel
-                viewModel = viewModel,
+                state = state.valueRange,
+                onUpdate = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateValueRange(it)) },
             )
         }
     }

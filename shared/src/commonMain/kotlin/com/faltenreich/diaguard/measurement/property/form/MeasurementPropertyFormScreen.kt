@@ -49,7 +49,7 @@ data class MeasurementPropertyFormScreen(val propertyId: Long) : Screen {
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateProperty) },
+                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.Submit) },
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_check),

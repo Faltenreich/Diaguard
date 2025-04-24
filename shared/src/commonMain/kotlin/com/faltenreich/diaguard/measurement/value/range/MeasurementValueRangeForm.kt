@@ -6,13 +6,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -34,25 +35,38 @@ import diaguard.shared.generated.resources.value_range_target_description
 
 @Composable
 fun MeasurementValueRangeForm(
-    unit: MeasurementUnit,
-    viewModel: MeasurementPropertyFormViewModel,
+    state: MeasurementValueRangeState,
+    onUpdate: (MeasurementValueRangeState) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var minimum by remember { mutableStateOf(state.minimum) }
+    var low by remember { mutableStateOf(state.low) }
+    var target by remember { mutableStateOf(state.target) }
+    var high by remember { mutableStateOf(state.high) }
+    var maximum by remember { mutableStateOf(state.maximum) }
+    var isHighlighted by remember { mutableStateOf(state.isHighlighted) }
+
     Column(modifier = modifier) {
         FormRow {
             TextCheckbox(
                 title = getString(Res.string.value_range_highlighted),
                 subtitle = getString(Res.string.value_range_highlighted_description),
-                checked = viewModel.isValueRangeHighlighted.collectAsState().value,
-                onCheckedChange = { viewModel.isValueRangeHighlighted.value = it },
+                checked = isHighlighted,
+                onCheckedChange = { isChecked ->
+                    isHighlighted = isChecked
+                    onUpdate(state.copy(isHighlighted = isChecked))
+                },
             )
         }
 
         Divider()
 
         TextInput(
-            input = viewModel.valueRangeMinimum.collectAsState().value,
-            onInputChange = { viewModel.valueRangeMinimum.value = it },
+            input = minimum,
+            onInputChange = { input ->
+                minimum = input
+                onUpdate(state.copy(minimum = input))
+            },
             label = getString(Res.string.value_range_minimum),
             modifier = Modifier
                 .fillMaxWidth()
@@ -60,7 +74,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unit.name) },
+            suffix = { Text(state.unit) },
             supportingText = { Text(getString(Res.string.value_range_minimum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -72,8 +86,11 @@ fun MeasurementValueRangeForm(
         Divider()
 
         TextInput(
-            input = viewModel.valueRangeLow.collectAsState().value,
-            onInputChange = { viewModel.valueRangeLow.value = it },
+            input = low,
+            onInputChange = { input ->
+                low = input
+                onUpdate(state.copy(low = input))
+            },
             label = getString(Res.string.value_range_low),
             modifier = Modifier
                 .fillMaxWidth()
@@ -81,7 +98,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unit.name) },
+            suffix = { Text(state.unit) },
             supportingText = { Text(getString(Res.string.value_range_low_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -93,8 +110,11 @@ fun MeasurementValueRangeForm(
         Divider()
 
         TextInput(
-            input = viewModel.valueRangeTarget.collectAsState().value,
-            onInputChange = { viewModel.valueRangeTarget.value = it },
+            input = target,
+            onInputChange = { input ->
+                target = input
+                onUpdate(state.copy(target = input))
+            },
             label = getString(Res.string.value_range_target),
             modifier = Modifier
                 .fillMaxWidth()
@@ -102,7 +122,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unit.name) },
+            suffix = { Text(state.unit) },
             supportingText = { Text(getString(Res.string.value_range_target_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -114,8 +134,11 @@ fun MeasurementValueRangeForm(
         Divider()
 
         TextInput(
-            input = viewModel.valueRangeHigh.collectAsState().value,
-            onInputChange = { viewModel.valueRangeHigh.value = it },
+            input = high,
+            onInputChange = { input ->
+                high = input
+                onUpdate(state.copy(high = input))
+            },
             label = getString(Res.string.value_range_high),
             modifier = Modifier
                 .fillMaxWidth()
@@ -123,7 +146,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unit.name) },
+            suffix = { Text(state.unit) },
             supportingText = { Text(getString(Res.string.value_range_high_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -135,8 +158,11 @@ fun MeasurementValueRangeForm(
         Divider()
 
         TextInput(
-            input = viewModel.valueRangeMaximum.collectAsState().value,
-            onInputChange = { viewModel.valueRangeMaximum.value = it },
+            input = maximum,
+            onInputChange = { input ->
+                maximum = input
+                onUpdate(state.copy(maximum = input))
+            },
             label = getString(Res.string.value_range_maximum),
             modifier = Modifier
                 .fillMaxWidth()
@@ -144,7 +170,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unit.name) },
+            suffix = { Text(state.unit) },
             supportingText = { Text(getString(Res.string.value_range_maximum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(

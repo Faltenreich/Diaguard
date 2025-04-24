@@ -7,5 +7,5 @@ data class MeasurementValueRangeState(
     val high: String,
     val maximum: String,
     val isHighlighted: Boolean,
-    val unit: String,
+    val unit: String?,
 )

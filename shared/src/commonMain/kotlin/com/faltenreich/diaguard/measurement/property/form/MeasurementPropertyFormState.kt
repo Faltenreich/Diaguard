@@ -5,9 +5,9 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeState
 
 data class MeasurementPropertyFormState(
-    val property: MeasurementProperty.Local,
+    val property: MeasurementProperty,
     val valueRange: MeasurementValueRangeState,
-    val unit: MeasurementUnit.Local,
+    val unit: MeasurementUnit.Local?,
     val unitSuggestions: List<UnitSuggestion>,
     val deleteDialog: DeleteDialog?,
     val alertDialog: AlertDialog?,

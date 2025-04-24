@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionEvent
@@ -40,6 +41,7 @@ import diaguard.shared.generated.resources.delete_error_pre_defined
 import diaguard.shared.generated.resources.delete_title
 import diaguard.shared.generated.resources.ic_check
 import diaguard.shared.generated.resources.measurement_unit
+import diaguard.shared.generated.resources.measurement_unit_select
 import diaguard.shared.generated.resources.measurement_unit_selected_description
 import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.ok
@@ -195,7 +197,7 @@ private fun UnitList(
 
 @Composable
 private fun UnitButton(
-    unit: MeasurementUnit,
+    unit: MeasurementUnit?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -208,13 +210,20 @@ private fun UnitButton(
             text = stringResource(Res.string.measurement_unit),
             modifier = Modifier.weight(1f),
         )
-        Column {
+        if (unit != null) {
+            Column {
+                Text(
+                    text = unit.name,
+                )
+                Text(
+                    text = unit.abbreviation,
+                    style = AppTheme.typography.bodySmall,
+                )
+            }
+        } else {
             Text(
-                text = unit.name,
-            )
-            Text(
-                text = unit.abbreviation,
-                style = AppTheme.typography.bodySmall,
+                text = stringResource(Res.string.measurement_unit_select),
+                fontStyle = FontStyle.Italic,
             )
         }
     }

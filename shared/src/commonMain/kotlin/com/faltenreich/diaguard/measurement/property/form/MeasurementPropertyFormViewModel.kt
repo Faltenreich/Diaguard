@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
@@ -18,10 +19,11 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.measurement_unit_factor_description
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 
 class MeasurementPropertyFormViewModel(
-    propertyId: Long,
+    propertyId: Long?,
     getPropertyByIdUseCase: GetMeasurementPropertyBdIdUseCase = inject(),
     getUnitSuggestions: GetMeasurementUnitSuggestionsUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
@@ -34,8 +36,10 @@ class MeasurementPropertyFormViewModel(
     private val numberFormatter: NumberFormatter = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
-    private val property = MutableStateFlow(checkNotNull(getPropertyByIdUseCase(propertyId)))
-    private val unit = MutableStateFlow(property.value.unit)
+    private val propertyLocal = propertyId?.let(getPropertyByIdUseCase::invoke)
+
+    private val property = MutableStateFlow(propertyLocal ?: TODO("MeasurementProperty.User"))
+    private val unit = MutableStateFlow((property.value as? MeasurementProperty.Local)?.unit)
     private val valueRange = combine(
         property,
         unit
@@ -47,35 +51,37 @@ class MeasurementPropertyFormViewModel(
             high = property.range.high?.toString() ?: "",
             maximum = property.range.maximum.toString(),
             isHighlighted = property.range.isHighlighted,
-            unit = unit.name,
+            unit = unit?.name,
         )
     }
 
-    private val unitSuggestions = combine(
-        unit,
-        getUnitSuggestions(propertyId),
-        getPreference(DecimalPlacesPreference),
-    ) { unit, unitSuggestions, decimalPlaces ->
-        if (property.value.isUserGenerated) emptyList() else unitSuggestions.map { unitSuggestion ->
-            MeasurementPropertyFormState.UnitSuggestion(
-                unit = unitSuggestion.unit,
-                title = unitSuggestion.unit.name,
-                subtitle = unitSuggestion.takeUnless(MeasurementUnitSuggestion::isDefault)
-                    ?.run {
-                        localization.getString(
-                            Res.string.measurement_unit_factor_description,
-                            numberFormatter(
-                                number = unitSuggestion.factor,
-                                scale = decimalPlaces,
-                                locale = localization.getLocale(),
-                            ),
-                            unitSuggestions.first(MeasurementUnitSuggestion::isDefault).unit.name,
-                        )
-                    },
-                isSelected = unit.id == unitSuggestion.unit.id,
-            )
+    private val unitSuggestions = propertyLocal?.let { property ->
+        combine(
+            unit,
+            getUnitSuggestions(property),
+            getPreference(DecimalPlacesPreference),
+        ) { unit, unitSuggestions, decimalPlaces ->
+            if (property.isUserGenerated) emptyList() else unitSuggestions.map { unitSuggestion ->
+                MeasurementPropertyFormState.UnitSuggestion(
+                    unit = unitSuggestion.unit,
+                    title = unitSuggestion.unit.name,
+                    subtitle = unitSuggestion.takeUnless(MeasurementUnitSuggestion::isDefault)
+                        ?.run {
+                            localization.getString(
+                                Res.string.measurement_unit_factor_description,
+                                numberFormatter(
+                                    number = unitSuggestion.factor,
+                                    scale = decimalPlaces,
+                                    locale = localization.getLocale(),
+                                ),
+                                unitSuggestions.first(MeasurementUnitSuggestion::isDefault).unit.name,
+                            )
+                        },
+                    isSelected = unit?.id == unitSuggestion.unit.id,
+                )
+            }
         }
-    }
+    } ?: flowOf(emptyList())
 
     private val deleteDialog = MutableStateFlow<MeasurementPropertyFormState.DeleteDialog?>(null)
     private val alertDialog = MutableStateFlow<MeasurementPropertyFormState.AlertDialog?>(null)
@@ -129,7 +135,9 @@ class MeasurementPropertyFormViewModel(
     // TODO: Validate
     private suspend fun submit() {
         val property = property.value
-        updateProperty(property.copy(unit = unit.value))
+        // TODO: Harden
+        val unit = checkNotNull(unit.value)
+        updateProperty(property.copy(unit = unit))
         updateCategory(property.category)
         popScreen()
     }

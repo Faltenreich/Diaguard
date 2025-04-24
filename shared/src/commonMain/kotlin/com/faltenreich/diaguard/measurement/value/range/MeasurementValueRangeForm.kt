@@ -45,6 +45,7 @@ fun MeasurementValueRangeForm(
     var high by remember { mutableStateOf(state.high) }
     var maximum by remember { mutableStateOf(state.maximum) }
     var isHighlighted by remember { mutableStateOf(state.isHighlighted) }
+    val unit = state.unit ?: ""
 
     Column(modifier = modifier) {
         FormRow {
@@ -74,7 +75,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(state.unit) },
+            suffix = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_minimum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -98,7 +99,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(state.unit) },
+            suffix = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_low_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -122,7 +123,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(state.unit) },
+            suffix = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_target_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -146,7 +147,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(state.unit) },
+            suffix = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_high_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -170,7 +171,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(state.unit) },
+            suffix = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_maximum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(

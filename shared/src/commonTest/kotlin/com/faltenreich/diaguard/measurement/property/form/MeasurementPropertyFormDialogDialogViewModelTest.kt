@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.measurement.property.form
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeState
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import kotlinx.coroutines.test.runTest
@@ -30,45 +31,65 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
     }
 
     @Test
-    fun `launch with category`() = runTest {
+    fun `launch with property`() = runTest {
         val property = propertyRepository.getAll().first()
         viewModel = get(parameters = { parametersOf(property.id) })
 
-        assertEquals(expected = property.name, actual = viewModel.propertyName.value)
-        assertEquals(expected = property.aggregationStyle, actual = viewModel.aggregationStyle.value)
-        assertEquals(expected = property.range.minimum.toString(), actual = viewModel.valueRangeMinimum.value)
-        assertEquals(expected = property.range.low?.toString(), actual = viewModel.valueRangeLow.value)
-        assertEquals(expected = property.range.target?.toString(), actual = viewModel.valueRangeTarget.value)
-        assertEquals(expected = property.range.high?.toString(), actual = viewModel.valueRangeHigh.value)
-        assertEquals(expected = property.range.maximum.toString(), actual = viewModel.valueRangeMaximum.value)
-        assertEquals(expected = property.range.isHighlighted, actual = viewModel.isValueRangeHighlighted.value)
-
         viewModel.state.test {
-            assertEquals(property.unit, awaitItem().unit)
+            val state = awaitItem()
+
+            assertEquals(expected = property.name, actual = state.property.name)
+            assertEquals(expected = property.aggregationStyle, actual = state.property.aggregationStyle)
+            assertEquals(expected = property.range.minimum.toString(), actual = state.valueRange.minimum)
+            assertEquals(expected = property.range.low?.toString(), actual = state.valueRange.low)
+            assertEquals(expected = property.range.target?.toString(), actual = state.valueRange.target)
+            assertEquals(expected = property.range.high?.toString(), actual = state.valueRange.high)
+            assertEquals(expected = property.range.maximum.toString(), actual = state.valueRange.maximum)
+            assertEquals(expected = property.range.isHighlighted, actual = state.valueRange.isHighlighted)
+
+            assertEquals(property.unit, state.unit)
         }
     }
 
     @Test
-    fun `store category and pop screen when updating category`() = runTest {
+    fun `store property and pop screen on submit`() = runTest {
         val property = propertyRepository.getAll().first()
-        val update = "test"
         viewModel = get(parameters = { parametersOf(property.id) })
-        viewModel.propertyName.value = update
 
         navigation.events.test {
+            val name = "test"
+            val valueRange = MeasurementValueRangeState(
+                minimum = "0.0",
+                low = "1.0",
+                target = "2.0",
+                high = "3.0",
+                maximum = "4.0",
+                isHighlighted = true,
+                unit = "",
+            )
+
+            viewModel.handleIntent(MeasurementPropertyFormIntent.UpdateProperty(name = name))
+            viewModel.handleIntent(MeasurementPropertyFormIntent.UpdateValueRange(valueRange = valueRange))
             viewModel.handleIntent(MeasurementPropertyFormIntent.Submit)
 
-            assertEquals(
-                expected = update,
-                actual = propertyRepository.getById(property.id)!!.name,
-            )
+            val update = propertyRepository.getById(property.id)
+            assertNotNull(update)
+
+            assertEquals(expected = name, actual = update.name)
+            assertEquals(expected = valueRange.minimum.toDouble(), actual = update.range.minimum)
+            assertEquals(expected = valueRange.low.toDouble(), actual = update.range.low)
+            assertEquals(expected = valueRange.target.toDouble(), actual = update.range.target)
+            assertEquals(expected = valueRange.high.toDouble(), actual = update.range.high)
+            assertEquals(expected = valueRange.maximum.toDouble(), actual = update.range.maximum)
+            assertEquals(expected = valueRange.isHighlighted, actual = update.range.isHighlighted)
+
             assertTrue(awaitItem() is NavigationEvent.PopScreen)
         }
     }
 
     @Ignore
     @Test
-    fun `open confirmation modal when intending to delete user-generated category`() = runTest {
+    fun `open confirmation modal when intending to delete user-generated property`() = runTest {
         val property = propertyRepository.getAll().first()
         propertyRepository.update(property.copy(key = null))
 
@@ -82,7 +103,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
     }
 
     @Test
-    fun `open alert modal when intending to delete seed category`() = runTest {
+    fun `open alert modal when intending to delete seed property`() = runTest {
         val property = propertyRepository.getAll().first()
         viewModel = get(parameters = { parametersOf(property.id) })
         viewModel.handleIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = true))

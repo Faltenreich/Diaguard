@@ -98,12 +98,12 @@ class MeasurementPropertyFormViewModel(
                 property.update {
                     it.copy(
                         range = MeasurementValueRange(
-                            minimum = intent.valueRangeState.minimum.toDoubleOrNull() ?: 0.0,
-                            low = intent.valueRangeState.low.toDoubleOrNull(),
-                            target = intent.valueRangeState.target.toDoubleOrNull(),
-                            high = intent.valueRangeState.high.toDoubleOrNull(),
-                            maximum = intent.valueRangeState.maximum.toDoubleOrNull() ?: Double.MAX_VALUE,
-                            isHighlighted = intent.valueRangeState.isHighlighted,
+                            minimum = intent.valueRange.minimum.toDoubleOrNull() ?: 0.0,
+                            low = intent.valueRange.low.toDoubleOrNull(),
+                            target = intent.valueRange.target.toDoubleOrNull(),
+                            high = intent.valueRange.high.toDoubleOrNull(),
+                            maximum = intent.valueRange.maximum.toDoubleOrNull() ?: Double.MAX_VALUE,
+                            isHighlighted = intent.valueRange.isHighlighted,
                         ),
                     )
                 }

@@ -7,7 +7,7 @@ sealed interface MeasurementPropertyFormIntent {
 
     data class UpdateProperty(val name: String) : MeasurementPropertyFormIntent
 
-    data class UpdateValueRange(val valueRangeState: MeasurementValueRangeState) : MeasurementPropertyFormIntent
+    data class UpdateValueRange(val valueRange: MeasurementValueRangeState) : MeasurementPropertyFormIntent
 
     data object OpenUnitSearch : MeasurementPropertyFormIntent
 

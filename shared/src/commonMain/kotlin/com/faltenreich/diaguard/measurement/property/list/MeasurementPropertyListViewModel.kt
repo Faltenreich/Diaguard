@@ -1,12 +1,8 @@
 package com.faltenreich.diaguard.measurement.property.list
 
-import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
-import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -15,8 +11,6 @@ import diaguard.shared.generated.resources.error_unknown
 import kotlinx.coroutines.flow.emptyFlow
 
 class MeasurementPropertyListViewModel(
-    private val createProperty: CreateMeasurementPropertyUseCase,
-    private val storeUnit: StoreMeasurementUnitUseCase,
     private val updateProperty: UpdateMeasurementPropertyUseCase,
     private val pushScreen: PushScreenUseCase,
     private val showSnackbar: ShowSnackbarUseCase,
@@ -29,7 +23,7 @@ class MeasurementPropertyListViewModel(
             is MeasurementPropertyListIntent.DecrementSortIndex -> decrementSortIndex(property, inProperties)
             is MeasurementPropertyListIntent.IncrementSortIndex -> incrementSortIndex(property, inProperties)
             is MeasurementPropertyListIntent.EditProperty -> editProperty(property)
-            is MeasurementPropertyListIntent.Store -> createProperty(this)
+            is MeasurementPropertyListIntent.AddProperty -> pushScreen(MeasurementPropertyFormScreen())
         }
     }
 
@@ -65,34 +59,5 @@ class MeasurementPropertyListViewModel(
 
     private suspend fun editProperty(property: MeasurementProperty.Local) {
         pushScreen(MeasurementPropertyFormScreen(property))
-    }
-
-    private suspend fun createProperty(intent: MeasurementPropertyListIntent.Store) {
-        val unit = storeUnit(
-            MeasurementUnit.User(
-                name = intent.unitName,
-                // TODO: Make user-customizable
-                abbreviation = intent.unitName,
-            )
-        )
-        val property = createProperty(
-            name = intent.propertyName,
-            sortIndex = intent.properties.maxOfOrNull(MeasurementProperty::sortIndex)
-                ?.plus(1) ?: 0,
-            // TODO: Make user-customizable
-            aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
-            // TODO: Make user-customizable
-            range = MeasurementValueRange(
-                minimum = 0.0,
-                low = null,
-                target = null,
-                high = null,
-                maximum = 10_000.0,
-                isHighlighted = false,
-            ),
-            category = intent.category,
-            unit = unit,
-        )
-        pushScreen (MeasurementPropertyFormScreen(property))
     }
 }

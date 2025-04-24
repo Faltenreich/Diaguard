@@ -23,9 +23,9 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class MeasurementPropertyFormScreen(val propertyId: Long) : Screen {
+data class MeasurementPropertyFormScreen(val propertyId: Long?) : Screen {
 
-    constructor(property: MeasurementProperty.Local) : this(propertyId = property.id)
+    constructor(property: MeasurementProperty.Local? = null) : this(propertyId = property?.id)
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {

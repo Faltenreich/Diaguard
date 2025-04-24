@@ -1,7 +1,10 @@
 package com.faltenreich.diaguard.measurement.property.form
 
+import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryBdIdUseCase
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
+import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.list.CreateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
@@ -24,9 +27,12 @@ import kotlinx.coroutines.flow.update
 
 class MeasurementPropertyFormViewModel(
     propertyId: Long?,
-    getPropertyByIdUseCase: GetMeasurementPropertyBdIdUseCase = inject(),
+    categoryId: Long,
+    getPropertyById: GetMeasurementPropertyBdIdUseCase = inject(),
+    getCategoryById: GetMeasurementCategoryBdIdUseCase = inject(),
     getUnitSuggestions: GetMeasurementUnitSuggestionsUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
+    private val createProperty: CreateMeasurementPropertyUseCase = inject(),
     private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
@@ -36,9 +42,30 @@ class MeasurementPropertyFormViewModel(
     private val numberFormatter: NumberFormatter = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
-    private val propertyLocal = propertyId?.let(getPropertyByIdUseCase::invoke)
+    private val propertyLocal = propertyId?.let(getPropertyById::invoke)
+    private val createProperty = {
+        MeasurementProperty.User(
+            name = "",
+            sortIndex = intent.properties.maxOfOrNull(MeasurementProperty::sortIndex)
+                ?.plus(1) ?: 0,
+            // TODO: Make user-customizable
+            aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
+            // TODO: Make user-customizable
+            range = MeasurementValueRange(
+                minimum = 0.0,
+                low = null,
+                target = null,
+                high = null,
+                maximum = 10_000.0,
+                isHighlighted = false,
+            ),
+            category = category,
+            unit = unit.value,
+        )
+    }
 
-    private val property = MutableStateFlow(propertyLocal ?: TODO("MeasurementProperty.User"))
+    private val category = checkNotNull(getCategoryById(categoryId))
+    private val property = MutableStateFlow<MeasurementProperty>(propertyLocal ?: createProperty())
     private val unit = MutableStateFlow((property.value as? MeasurementProperty.Local)?.unit)
     private val valueRange = combine(
         property,

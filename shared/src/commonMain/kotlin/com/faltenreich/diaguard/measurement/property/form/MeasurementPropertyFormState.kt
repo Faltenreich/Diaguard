@@ -5,12 +5,13 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 
 data class MeasurementPropertyFormState(
     val property: MeasurementProperty.Local,
-    val units: List<Unit>,
+    val unit: MeasurementUnit.Local,
+    val unitSuggestions: List<UnitSuggestion>,
     val deleteDialog: DeleteDialog?,
     val alertDialog: AlertDialog?,
 ) {
 
-    data class Unit(
+    data class UnitSuggestion(
         val unit: MeasurementUnit.Local,
         val title: String,
         val subtitle: String?,

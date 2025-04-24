@@ -36,9 +36,9 @@ class MeasurementPropertyFormViewModel(
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
     private val property = checkNotNull(getPropertyByIdUseCase(propertyId))
+    private val unit = MutableStateFlow(property.unit)
 
     var propertyName = MutableStateFlow(property.name)
-    var selectedUnit = MutableStateFlow(property.unit)
     var aggregationStyle = MutableStateFlow(property.aggregationStyle)
     // TODO: Format via MeasurementValueMapper
     var valueRangeMinimum = MutableStateFlow(property.range.minimum.toString())
@@ -48,16 +48,15 @@ class MeasurementPropertyFormViewModel(
     var valueRangeMaximum = MutableStateFlow(property.range.maximum.toString())
     var isValueRangeHighlighted = MutableStateFlow(property.range.isHighlighted)
 
-    private val units = combine(
-        selectedUnit,
+    private val unitSuggestions = combine(
+        unit,
         getUnitSuggestions(propertyId),
         getPreference(DecimalPlacesPreference),
-    ) { selectedUnit, unitSuggestions, decimalPlaces ->
+    ) { unit, unitSuggestions, decimalPlaces ->
         if (property.isUserGenerated) emptyList() else unitSuggestions.map { unitSuggestion ->
-            val unit = unitSuggestion.unit
-            MeasurementPropertyFormState.Unit(
-                unit = unit,
-                title = unit.name,
+            MeasurementPropertyFormState.UnitSuggestion(
+                unit = unitSuggestion.unit,
+                title = unitSuggestion.unit.name,
                 subtitle = unitSuggestion.takeUnless(MeasurementUnitSuggestion::isDefault)
                     ?.run {
                         localization.getString(
@@ -70,7 +69,7 @@ class MeasurementPropertyFormViewModel(
                             unitSuggestions.first(MeasurementUnitSuggestion::isDefault).unit.name,
                         )
                     },
-                isSelected = selectedUnit.id == unit.id,
+                isSelected = unit.id == unitSuggestion.unit.id,
             )
         }
     }
@@ -80,7 +79,8 @@ class MeasurementPropertyFormViewModel(
 
     override val state = combine(
         flowOf(property),
-        units,
+        unit,
+        unitSuggestions,
         deleteDialog,
         alertDialog,
         ::MeasurementPropertyFormState,
@@ -122,7 +122,7 @@ class MeasurementPropertyFormViewModel(
                     maximum = valueRangeMaximum.value.toDouble(),
                     isHighlighted = isValueRangeHighlighted.value,
                 ),
-                unit = selectedUnit.value,
+                unit = unit.value,
             )
         )
 
@@ -145,6 +145,6 @@ class MeasurementPropertyFormViewModel(
     }
 
     private fun selectUnit(unit: MeasurementUnit.Local) {
-        selectedUnit.value = unit
+        this.unit.value = unit
     }
 }

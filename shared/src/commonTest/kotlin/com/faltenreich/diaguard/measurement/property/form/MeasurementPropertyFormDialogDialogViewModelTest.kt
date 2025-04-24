@@ -35,7 +35,6 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
         viewModel = get(parameters = { parametersOf(property.id) })
 
         assertEquals(expected = property.name, actual = viewModel.propertyName.value)
-        assertEquals(expected = property.unit, actual = viewModel.selectedUnit.value)
         assertEquals(expected = property.aggregationStyle, actual = viewModel.aggregationStyle.value)
         assertEquals(expected = property.range.minimum.toString(), actual = viewModel.valueRangeMinimum.value)
         assertEquals(expected = property.range.low?.toString(), actual = viewModel.valueRangeLow.value)
@@ -43,7 +42,10 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
         assertEquals(expected = property.range.high?.toString(), actual = viewModel.valueRangeHigh.value)
         assertEquals(expected = property.range.maximum.toString(), actual = viewModel.valueRangeMaximum.value)
         assertEquals(expected = property.range.isHighlighted, actual = viewModel.isValueRangeHighlighted.value)
-        assertEquals(expected = property.unit.abbreviation, actual = viewModel.unitName.value)
+
+        viewModel.state.test {
+            assertEquals(property.unit, awaitItem().unit)
+        }
     }
 
     @Test

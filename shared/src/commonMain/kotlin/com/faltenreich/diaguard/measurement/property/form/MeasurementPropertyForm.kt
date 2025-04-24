@@ -47,8 +47,6 @@ fun MeasurementPropertyForm(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState()
-    // TODO: Merge into state
-    val unit = viewModel.selectedUnit.collectAsState().value
 
     AnimatedVisibility(
         visible = state != null,
@@ -71,13 +69,13 @@ fun MeasurementPropertyForm(
                     ),
             )
 
-            if (state.units.isNotEmpty()) {
+            if (state.unitSuggestions.isNotEmpty()) {
                 TextDivider(getString(Res.string.measurement_unit))
                 UnitList(state, onIntent = viewModel::dispatchIntent)
             } else {
                 Divider()
                 UnitButton(
-                    unit = unit,
+                    unit = state.unit,
                     onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.OpenUnitSearch) },
                 )
             }
@@ -98,7 +96,7 @@ fun MeasurementPropertyForm(
             Divider()
 
             MeasurementValueRangeForm(
-                unit = unit,
+                unit = state.unit,
                 // TODO: Pass state and intent callback instead of ViewModel
                 viewModel = viewModel,
             )
@@ -141,7 +139,7 @@ private fun UnitList(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        state.units.forEachIndexed { index, item ->
+        state.unitSuggestions.forEachIndexed { index, item ->
             if (index != 0) {
                 Divider()
             }

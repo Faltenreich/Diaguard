@@ -3,6 +3,7 @@ package com.faltenreich.diaguard
 import com.faltenreich.diaguard.export.pdf.PdfExport
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
+import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsMapper
 import com.faltenreich.diaguard.measurement.value.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.shared.config.BuildConfig
 import com.faltenreich.diaguard.shared.config.FakeBuildConfig
@@ -48,6 +49,11 @@ fun testModules() = module {
     single<FoodApi> {
         OpenFoodFactsApi(
             client = { SystemFileReader("src/commonTest/resources/networking/openfoodfacts.json").read() },
+            localization = FakeLocalization(),
+            serialization = Serialization(),
+            mapper = OpenFoodFactsMapper(
+                dateTimeFactory = get(),
+            ),
         )
     }
 

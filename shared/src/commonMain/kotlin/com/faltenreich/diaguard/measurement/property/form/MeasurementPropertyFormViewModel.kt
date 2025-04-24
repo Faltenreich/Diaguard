@@ -2,10 +2,11 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
@@ -16,7 +17,6 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.measurement_unit_factor_description
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -26,10 +26,10 @@ class MeasurementPropertyFormViewModel(
     getPropertyByIdUseCase: GetMeasurementPropertyBdIdUseCase = inject(),
     getUnitSuggestions: GetMeasurementUnitSuggestionsUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
-    private val updateUnit: StoreMeasurementUnitUseCase = inject(),
     private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
     private val localization: Localization = inject(),
     private val numberFormatter: NumberFormatter = inject(),
@@ -47,8 +47,6 @@ class MeasurementPropertyFormViewModel(
     var valueRangeHigh = MutableStateFlow(property.range.high?.toString() ?: "")
     var valueRangeMaximum = MutableStateFlow(property.range.maximum.toString())
     var isValueRangeHighlighted = MutableStateFlow(property.range.isHighlighted)
-
-    var unitName = MutableStateFlow(property.unit.abbreviation)
 
     private val units = combine(
         selectedUnit,
@@ -102,6 +100,9 @@ class MeasurementPropertyFormViewModel(
                 alertDialog.update { null }
             is MeasurementPropertyFormIntent.Delete ->
                 deleteProperty(intent)
+            is MeasurementPropertyFormIntent.OpenUnitSearch ->
+                // TODO: Pass mode for selection
+                pushScreen(MeasurementUnitListScreen)
             is MeasurementPropertyFormIntent.SelectUnit ->
                 selectUnit(intent.unit)
         }
@@ -121,18 +122,9 @@ class MeasurementPropertyFormViewModel(
                     maximum = valueRangeMaximum.value.toDouble(),
                     isHighlighted = isValueRangeHighlighted.value,
                 ),
+                unit = selectedUnit.value,
             )
         )
-
-        val units = units.first().map(MeasurementPropertyFormState.Unit::unit)
-        units.forEach { unit ->
-            updateUnit(
-                unit.copy(
-                    name = if (property.isUserGenerated) unitName.value else unit.name,
-                    // TODO: isSelected = property.isUserGenerated || unit.id == selectedUnit.value.id,
-                ),
-            )
-        }
 
         updateCategory(property.category)
 

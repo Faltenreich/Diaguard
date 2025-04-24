@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
@@ -46,6 +47,8 @@ fun MeasurementPropertyForm(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState()
+    // TODO: Merge into state
+    val unit = viewModel.selectedUnit.collectAsState().value
 
     AnimatedVisibility(
         visible = state != null,
@@ -73,9 +76,9 @@ fun MeasurementPropertyForm(
                 UnitList(state, onIntent = viewModel::dispatchIntent)
             } else {
                 Divider()
-                UnitInput(
-                    input = viewModel.unitName.collectAsState().value,
-                    onInputChange = { viewModel.unitName.value = it },
+                UnitButton(
+                    unit = unit,
+                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.OpenUnitSearch) },
                 )
             }
 
@@ -95,7 +98,8 @@ fun MeasurementPropertyForm(
             Divider()
 
             MeasurementValueRangeForm(
-                unitName = viewModel.unitName.collectAsState().value,
+                unit = unit,
+                // TODO: Pass state and intent callback instead of ViewModel
                 viewModel = viewModel,
             )
         }
@@ -173,20 +177,28 @@ private fun UnitList(
 }
 
 @Composable
-private fun UnitInput(
-    input: String,
-    onInputChange: (String) -> Unit,
+private fun UnitButton(
+    unit: MeasurementUnit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    TextInput(
-        input = input,
-        onInputChange = onInputChange,
-        label = getString(Res.string.measurement_unit),
+    FormRow(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = AppTheme.dimensions.padding.P_1,
-                vertical = AppTheme.dimensions.padding.P_3,
-            ),
-    )
+            .clickable { onClick() }
+            .fillMaxWidth(),
+    ) {
+        Text(
+            text = stringResource(Res.string.measurement_unit),
+            modifier = Modifier.weight(1f),
+        )
+        Column {
+            Text(
+                text = unit.name,
+            )
+            Text(
+                text = unit.abbreviation,
+                style = AppTheme.typography.bodySmall,
+            )
+        }
+    }
 }

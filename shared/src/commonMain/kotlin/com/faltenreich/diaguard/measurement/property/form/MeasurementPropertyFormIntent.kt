@@ -16,5 +16,7 @@ sealed interface MeasurementPropertyFormIntent {
 
     data object CloseAlertDialog : MeasurementPropertyFormIntent
 
+    data object OpenUnitSearch : MeasurementPropertyFormIntent
+
     data class SelectUnit(val unit: MeasurementUnit.Local) : MeasurementPropertyFormIntent
 }

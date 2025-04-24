@@ -12,6 +12,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -33,7 +34,7 @@ import diaguard.shared.generated.resources.value_range_target_description
 
 @Composable
 fun MeasurementValueRangeForm(
-    unitName: String,
+    unit: MeasurementUnit,
     viewModel: MeasurementPropertyFormViewModel,
     modifier: Modifier = Modifier,
 ) {
@@ -59,7 +60,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unitName) },
+            suffix = { Text(unit.name) },
             supportingText = { Text(getString(Res.string.value_range_minimum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -80,7 +81,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unitName) },
+            suffix = { Text(unit.name) },
             supportingText = { Text(getString(Res.string.value_range_low_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -101,7 +102,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unitName) },
+            suffix = { Text(unit.name) },
             supportingText = { Text(getString(Res.string.value_range_target_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -122,7 +123,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unitName) },
+            suffix = { Text(unit.name) },
             supportingText = { Text(getString(Res.string.value_range_high_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -143,7 +144,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unitName) },
+            suffix = { Text(unit.name) },
             supportingText = { Text(getString(Res.string.value_range_maximum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(

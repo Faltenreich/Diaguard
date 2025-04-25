@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.measurement.property.MeasurementPropertyReposito
 class GetMaximumSortIndexUseCase(private val propertyRepository: MeasurementPropertyRepository) {
 
     operator fun invoke(categoryId: Long): Long? {
-        TODO()
-        // propertiesOfCategory.maxOfOrNull(MeasurementProperty::sortIndex)?.plus(1) ?: 0
+        return propertyRepository.getMaximumSortIndex(categoryId)
     }
 }

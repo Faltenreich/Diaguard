@@ -73,6 +73,10 @@ class MeasurementPropertyRepository(
         return dao.observeAll()
     }
 
+    fun getMaximumSortIndex(categoryId: Long): Long? {
+        return dao.getMaximumSortIndex(categoryId)
+    }
+
     fun update(property: MeasurementProperty.Local) = with(property) {
         dao.update(
             id = id,

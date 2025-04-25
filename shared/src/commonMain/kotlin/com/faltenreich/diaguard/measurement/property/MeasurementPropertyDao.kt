@@ -35,6 +35,8 @@ interface MeasurementPropertyDao {
 
     fun observeAll(): Flow<List<MeasurementProperty.Local>>
 
+    fun getMaximumSortIndex(categoryId: Long): Long?
+
     fun update(
         id: Long,
         updatedAt: DateTime,

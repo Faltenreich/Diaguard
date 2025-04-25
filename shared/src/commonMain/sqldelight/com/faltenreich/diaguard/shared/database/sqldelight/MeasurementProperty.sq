@@ -69,6 +69,9 @@ INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 ORDER BY MeasurementProperty.sortIndex ASC;
 
+getMaximumSortIndex:
+SELECT sortIndex FROM MeasurementProperty WHERE categoryId = ?;
+
 update:
 UPDATE MeasurementProperty
 SET updatedAt = ?,

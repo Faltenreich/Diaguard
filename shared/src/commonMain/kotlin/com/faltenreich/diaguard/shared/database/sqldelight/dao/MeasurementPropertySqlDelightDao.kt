@@ -86,6 +86,10 @@ class MeasurementPropertySqlDelightDao(
         return queries.getAll(mapper::map).asFlow().mapToList(dispatcher)
     }
 
+    override fun getMaximumSortIndex(categoryId: Long): Long? {
+        return queries.getMaximumSortIndex(categoryId).executeAsOneOrNull()
+    }
+
     override fun update(
         id: Long,
         updatedAt: DateTime,

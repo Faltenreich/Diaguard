@@ -23,7 +23,7 @@ class MeasurementPropertyListViewModel(
             is MeasurementPropertyListIntent.DecrementSortIndex -> decrementSortIndex(property, inProperties)
             is MeasurementPropertyListIntent.IncrementSortIndex -> incrementSortIndex(property, inProperties)
             is MeasurementPropertyListIntent.EditProperty -> editProperty(property)
-            is MeasurementPropertyListIntent.AddProperty -> pushScreen(MeasurementPropertyFormScreen())
+            is MeasurementPropertyListIntent.AddProperty -> pushScreen(MeasurementPropertyFormScreen(category))
         }
     }
 

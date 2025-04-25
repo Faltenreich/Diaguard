@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.measurement.property.form
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
@@ -23,9 +24,20 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class MeasurementPropertyFormScreen(val propertyId: Long?) : Screen {
+data class MeasurementPropertyFormScreen(
+    val categoryId: Long,
+    val propertyId: Long?,
+) : Screen {
 
-    constructor(property: MeasurementProperty.Local? = null) : this(propertyId = property?.id)
+    constructor(category: MeasurementCategory.Local) : this(
+        categoryId = category.id,
+        propertyId = null,
+    )
+
+    constructor(property: MeasurementProperty.Local) : this(
+        categoryId = property.category.id,
+        propertyId = property.id,
+    )
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
@@ -36,7 +48,7 @@ data class MeasurementPropertyFormScreen(val propertyId: Long?) : Screen {
 
     @Composable
     override fun BottomAppBar(): BottomAppBarStyle {
-        val viewModel = viewModel<MeasurementPropertyFormViewModel> { parametersOf(propertyId) }
+        val viewModel = viewModel<MeasurementPropertyFormViewModel> { parametersOf(categoryId, propertyId) }
         return BottomAppBarStyle.Visible(
             actions = {
                 BottomAppBarItem(
@@ -63,7 +75,7 @@ data class MeasurementPropertyFormScreen(val propertyId: Long?) : Screen {
     @Composable
     override fun Content() {
         MeasurementPropertyForm(
-            viewModel = viewModel { parametersOf(propertyId) },
+            viewModel = viewModel { parametersOf(categoryId, propertyId) },
             unitSelectionViewModel = sharedViewModel(),
         )
     }

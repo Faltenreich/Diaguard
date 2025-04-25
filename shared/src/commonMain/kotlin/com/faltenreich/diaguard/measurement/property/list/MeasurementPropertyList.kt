@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -24,8 +25,10 @@ import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.measurement_properties
 import diaguard.shared.generated.resources.measurement_property_add
 
+// TODO: Simplify
 @Composable
 fun MeasurementPropertyList(
+    category: MeasurementCategory.Local,
     properties: List<MeasurementProperty.Local>,
     modifier: Modifier = Modifier,
     viewModel: MeasurementPropertyListViewModel = inject(),
@@ -68,7 +71,7 @@ fun MeasurementPropertyList(
             contentAlignment = Alignment.Center,
         ) {
             SuggestionChip(
-                onClick = { viewModel.dispatchIntent(MeasurementPropertyListIntent.AddProperty) },
+                onClick = { viewModel.dispatchIntent(MeasurementPropertyListIntent.AddProperty(category)) },
                 label = { Text(getString(Res.string.measurement_property_add)) },
                 icon = {
                     ResourceIcon(

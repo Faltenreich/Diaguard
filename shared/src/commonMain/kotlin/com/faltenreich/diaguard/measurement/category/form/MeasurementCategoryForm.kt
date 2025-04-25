@@ -110,7 +110,10 @@ fun MeasurementCategoryForm(
             visible = state != null,
             enter = fadeIn(),
         ) {
-            MeasurementPropertyList(properties = state?.properties ?: emptyList())
+            MeasurementPropertyList(
+                category = viewModel.category,
+                properties = state?.properties ?: emptyList(),
+            )
         }
     }
 

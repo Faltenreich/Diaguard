@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.property.list
 
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 
 sealed interface MeasurementPropertyListIntent {
@@ -16,5 +17,5 @@ sealed interface MeasurementPropertyListIntent {
 
     data class EditProperty(val property: MeasurementProperty.Local) : MeasurementPropertyListIntent
 
-    data object AddProperty : MeasurementPropertyListIntent
+    data class AddProperty(val category: MeasurementCategory.Local) : MeasurementPropertyListIntent
 }

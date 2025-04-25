@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.property
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
@@ -29,7 +30,10 @@ class MeasurementPropertyRepository(
         return checkNotNull(dao.getLastId())
     }
 
-    fun create(property: MeasurementProperty.User): Long = with(property) {
+    fun create(
+        property: MeasurementProperty.User,
+        unit: MeasurementUnit.Local,
+    ): Long = with(property) {
         val now = dateTimeFactory.now()
         dao.create(
             createdAt = now,

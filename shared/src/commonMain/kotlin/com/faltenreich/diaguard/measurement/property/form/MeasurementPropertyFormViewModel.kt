@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.property.form
 
-import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryBdIdUseCase
+import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
@@ -26,10 +26,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 
 class MeasurementPropertyFormViewModel(
-    propertyId: Long?,
     categoryId: Long,
+    propertyId: Long?,
     getPropertyById: GetMeasurementPropertyBdIdUseCase = inject(),
-    getCategoryById: GetMeasurementCategoryBdIdUseCase = inject(),
+    getMaximumSortIndex: GetMaximumSortIndexUseCase = inject(),
+    getCategoryById: GetMeasurementCategoryByIdUseCase = inject(),
     getUnitSuggestions: GetMeasurementUnitSuggestionsUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
     private val createProperty: CreateMeasurementPropertyUseCase = inject(),
@@ -43,11 +44,11 @@ class MeasurementPropertyFormViewModel(
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
     private val propertyLocal = propertyId?.let(getPropertyById::invoke)
-    private val createProperty = {
+    // TODO: Extract into use case
+    private val createUserProperty = {
         MeasurementProperty.User(
             name = "",
-            sortIndex = intent.properties.maxOfOrNull(MeasurementProperty::sortIndex)
-                ?.plus(1) ?: 0,
+            sortIndex = getMaximumSortIndex(categoryId)?.plus(1) ?: 0,
             // TODO: Make user-customizable
             aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
             // TODO: Make user-customizable
@@ -60,12 +61,11 @@ class MeasurementPropertyFormViewModel(
                 isHighlighted = false,
             ),
             category = category,
-            unit = unit.value,
         )
     }
 
     private val category = checkNotNull(getCategoryById(categoryId))
-    private val property = MutableStateFlow<MeasurementProperty>(propertyLocal ?: createProperty())
+    private val property = MutableStateFlow(propertyLocal ?: createUserProperty())
     private val unit = MutableStateFlow((property.value as? MeasurementProperty.Local)?.unit)
     private val valueRange = combine(
         property,
@@ -126,20 +126,9 @@ class MeasurementPropertyFormViewModel(
     override suspend fun handleIntent(intent: MeasurementPropertyFormIntent) {
         when (intent) {
             is MeasurementPropertyFormIntent.UpdateProperty ->
-                property.update { it.copy(name = intent.name) }
+                update(name = intent.name)
             is MeasurementPropertyFormIntent.UpdateValueRange ->
-                property.update {
-                    it.copy(
-                        range = MeasurementValueRange(
-                            minimum = intent.valueRange.minimum.toDoubleOrNull() ?: 0.0,
-                            low = intent.valueRange.low.toDoubleOrNull(),
-                            target = intent.valueRange.target.toDoubleOrNull(),
-                            high = intent.valueRange.high.toDoubleOrNull(),
-                            maximum = intent.valueRange.maximum.toDoubleOrNull() ?: Double.MAX_VALUE,
-                            isHighlighted = intent.valueRange.isHighlighted,
-                        ),
-                    )
-                }
+                update(valueRange = intent.valueRange)
             is MeasurementPropertyFormIntent.OpenUnitSearch ->
                 pushScreen(MeasurementUnitListScreen(mode = MeasurementUnitListMode.FIND))
             is MeasurementPropertyFormIntent.SelectUnit ->
@@ -155,31 +144,88 @@ class MeasurementPropertyFormViewModel(
             is MeasurementPropertyFormIntent.CloseAlertDialog ->
                 alertDialog.update { null }
             is MeasurementPropertyFormIntent.Delete ->
-                deleteProperty(intent)
+                delete(intent)
+        }
+    }
+
+    // TODO: Avoid redundant copy(), e.g. via interface method
+    private fun update(name: String) {
+        property.update { property ->
+            when (property) {
+                is MeasurementProperty.Seed -> property.copy(name = name)
+                is MeasurementProperty.User -> property.copy(name = name)
+                is MeasurementProperty.Local -> property.copy(name = name)
+            }
+        }
+    }
+
+    // TODO: Avoid redundant copy(), e.g. via interface method
+    private fun update(valueRange: MeasurementValueRangeState) {
+        property.update { property ->
+            when (property) {
+                is MeasurementProperty.Seed -> property.copy(
+                    range = MeasurementValueRange(
+                        minimum = valueRange.minimum.toDoubleOrNull() ?: 0.0,
+                        low = valueRange.low.toDoubleOrNull(),
+                        target = valueRange.target.toDoubleOrNull(),
+                        high = valueRange.high.toDoubleOrNull(),
+                        maximum = valueRange.maximum.toDoubleOrNull() ?: Double.MAX_VALUE,
+                        isHighlighted = valueRange.isHighlighted,
+                    ),
+                )
+                is MeasurementProperty.User -> property.copy(
+                    range = MeasurementValueRange(
+                        minimum = valueRange.minimum.toDoubleOrNull() ?: 0.0,
+                        low = valueRange.low.toDoubleOrNull(),
+                        target = valueRange.target.toDoubleOrNull(),
+                        high = valueRange.high.toDoubleOrNull(),
+                        maximum = valueRange.maximum.toDoubleOrNull() ?: Double.MAX_VALUE,
+                        isHighlighted = valueRange.isHighlighted,
+                    ),
+                )
+                is MeasurementProperty.Local -> property.copy(
+                    range = MeasurementValueRange(
+                        minimum = valueRange.minimum.toDoubleOrNull() ?: 0.0,
+                        low = valueRange.low.toDoubleOrNull(),
+                        target = valueRange.target.toDoubleOrNull(),
+                        high = valueRange.high.toDoubleOrNull(),
+                        maximum = valueRange.maximum.toDoubleOrNull() ?: Double.MAX_VALUE,
+                        isHighlighted = valueRange.isHighlighted,
+                    ),
+                )
+            }
         }
     }
 
     // TODO: Validate
     private suspend fun submit() {
-        val property = property.value
-        // TODO: Harden
+        // TODO: Harden and/or merge into property
         val unit = checkNotNull(unit.value)
-        updateProperty(property.copy(unit = unit))
-        updateCategory(property.category)
+        when (val property = property.value) {
+            is MeasurementProperty.Seed -> error("Seed cannot be submitted")
+            is MeasurementProperty.User -> createProperty(property, unit)
+            is MeasurementProperty.Local -> updateProperty(property)
+        }
+        updateCategory(category)
         popScreen()
     }
 
-    private suspend fun deleteProperty(intent: MeasurementPropertyFormIntent.Delete) {
-        val property = property.value
-        if (property.isUserGenerated) {
-            if (intent.needsConfirmation) {
-                deleteDialog.update { MeasurementPropertyFormState.DeleteDialog }
-            } else {
-                deleteProperty(property)
-                popScreen()
+    private suspend fun delete(intent: MeasurementPropertyFormIntent.Delete) {
+        when (val property = property.value) {
+            is MeasurementProperty.Seed,
+            is MeasurementProperty.User-> popScreen()
+            is MeasurementProperty.Local -> {
+                if (property.isUserGenerated) {
+                    if (intent.needsConfirmation) {
+                        deleteDialog.update { MeasurementPropertyFormState.DeleteDialog }
+                    } else {
+                        deleteProperty(property)
+                        popScreen()
+                    }
+                } else {
+                    alertDialog.update { MeasurementPropertyFormState.AlertDialog }
+                }
             }
-        } else {
-            alertDialog.update { MeasurementPropertyFormState.AlertDialog }
         }
     }
 }

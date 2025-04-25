@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategor
 import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.category.form.DeleteMeasurementCategoryUseCase
-import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryBdIdUseCase
+import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.category.form.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormViewModel
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
@@ -50,10 +50,11 @@ fun measurementModule() = module {
     factoryOf(::GetMeasurementValueTintUseCase)
     factoryOf(::GetActiveMeasurementCategoriesUseCase)
     factoryOf(::GetAllMeasurementCategoriesUseCase)
-    factoryOf(::GetMeasurementCategoryBdIdUseCase)
+    factoryOf(::GetMeasurementCategoryByIdUseCase)
     factoryOf(::UpdateMeasurementCategoryUseCase)
     factoryOf(::DeleteMeasurementCategoryUseCase)
     factoryOf(::CreateMeasurementPropertyUseCase)
+    factoryOf(::GetMeasurementPropertiesUseCase)
     factoryOf(::GetMeasurementUnitsUseCase)
     factoryOf(::GetMeasurementPropertyBdIdUseCase)
     factoryOf(::GetMeasurementUnitSuggestionsUseCase)
@@ -68,7 +69,7 @@ fun measurementModule() = module {
     viewModelOf(::MeasurementCategoryListViewModel)
     viewModel { (categoryId: Long) -> MeasurementCategoryFormViewModel(categoryId) }
     viewModelOf(::MeasurementPropertyListViewModel)
-    viewModel { (propertyId: Long?) -> MeasurementPropertyFormViewModel(propertyId) }
+    viewModel { (categoryId: Long, propertyId: Long?) -> MeasurementPropertyFormViewModel(categoryId, propertyId) }
     viewModel { (mode: MeasurementUnitListMode) -> MeasurementUnitListViewModel(mode) }
     viewModelOf(::MeasurementUnitSelectionViewModel)
 }

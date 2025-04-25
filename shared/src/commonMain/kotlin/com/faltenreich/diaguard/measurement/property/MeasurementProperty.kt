@@ -33,7 +33,6 @@ sealed interface MeasurementProperty {
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
         val category: MeasurementCategory.Local,
-        val unit: MeasurementUnit.Local,
     ) : MeasurementProperty
 
     data class Local(

@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.measurement.category.form
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 
-class GetMeasurementCategoryBdIdUseCase(
+class GetMeasurementCategoryByIdUseCase(
     private val repository: MeasurementCategoryRepository,
 ) {
 

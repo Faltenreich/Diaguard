@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 
 class MeasurementCategoryFormViewModel(
     categoryId: Long,
-    getCategoryBdId: GetMeasurementCategoryBdIdUseCase = inject(),
+    getCategoryBdId: GetMeasurementCategoryByIdUseCase = inject(),
     getProperties: GetMeasurementPropertiesUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),

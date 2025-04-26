@@ -1,12 +1,11 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeState
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 
 data class MeasurementPropertyFormState(
     val property: MeasurementProperty,
-    val valueRange: MeasurementValueRangeState,
+    val valueRange: ValueRange,
     val unitSuggestions: List<UnitSuggestion>,
     val errorBar: ErrorBar?,
     val deleteDialog: DeleteDialog?,
@@ -18,6 +17,16 @@ data class MeasurementPropertyFormState(
         val title: String,
         val subtitle: String?,
         val isSelected: Boolean,
+    )
+
+    data class ValueRange(
+        val minimum: String,
+        val low: String,
+        val target: String,
+        val high: String,
+        val maximum: String,
+        val isHighlighted: Boolean,
+        val unit: String?,
     )
 
     data object ErrorBar

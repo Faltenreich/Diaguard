@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormState
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -35,8 +36,8 @@ import diaguard.shared.generated.resources.value_range_target_description
 
 @Composable
 fun MeasurementValueRangeForm(
-    state: MeasurementValueRangeState,
-    onUpdate: (MeasurementValueRangeState) -> Unit,
+    state: MeasurementPropertyFormState.ValueRange,
+    onUpdate: (MeasurementPropertyFormState.ValueRange) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var minimum by remember { mutableStateOf(state.minimum) }

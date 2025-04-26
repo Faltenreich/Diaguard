@@ -6,7 +6,6 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
-import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeState
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
@@ -148,7 +147,7 @@ class MeasurementPropertyFormViewModel(
         }
     }
 
-    private fun update(valueRange: MeasurementValueRangeState) {
+    private fun update(valueRange: MeasurementPropertyFormState.ValueRange) {
         property.update { property ->
             val update = MeasurementValueRange(
                 minimum = valueRange.minimum.toDoubleOrNull() ?: 0.0,

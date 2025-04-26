@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeState
 import com.faltenreich.diaguard.shared.localization.NumberFormatter
 
 class MapMeasurementValueRangeStateUseCase(
@@ -11,8 +10,8 @@ class MapMeasurementValueRangeStateUseCase(
     operator fun invoke(
         property: MeasurementProperty,
         decimalPlaces: Int,
-    ): MeasurementValueRangeState {
-        return MeasurementValueRangeState(
+    ): MeasurementPropertyFormState.ValueRange {
+        return MeasurementPropertyFormState.ValueRange(
             minimum = property.range.minimum.let { number ->
                 numberFormatter(
                     number = number,

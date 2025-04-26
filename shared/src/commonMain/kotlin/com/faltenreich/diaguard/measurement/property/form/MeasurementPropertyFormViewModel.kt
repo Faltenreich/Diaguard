@@ -145,7 +145,6 @@ class MeasurementPropertyFormViewModel(
         }
     }
 
-    // TODO: Avoid redundant copy(), e.g. via interface method
     private fun update(name: String) {
         property.update { property ->
             when (property) {
@@ -156,40 +155,20 @@ class MeasurementPropertyFormViewModel(
         }
     }
 
-    // TODO: Avoid redundant copy(), e.g. via interface method
     private fun update(valueRange: MeasurementValueRangeState) {
         property.update { property ->
+            val update = MeasurementValueRange(
+                minimum = valueRange.minimum.toDoubleOrNull() ?: 0.0,
+                low = valueRange.low.toDoubleOrNull(),
+                target = valueRange.target.toDoubleOrNull(),
+                high = valueRange.high.toDoubleOrNull(),
+                maximum = valueRange.maximum.toDoubleOrNull() ?: Double.MAX_VALUE,
+                isHighlighted = valueRange.isHighlighted,
+            )
             when (property) {
-                is MeasurementProperty.Seed -> property.copy(
-                    range = MeasurementValueRange(
-                        minimum = valueRange.minimum.toDoubleOrNull() ?: 0.0,
-                        low = valueRange.low.toDoubleOrNull(),
-                        target = valueRange.target.toDoubleOrNull(),
-                        high = valueRange.high.toDoubleOrNull(),
-                        maximum = valueRange.maximum.toDoubleOrNull() ?: Double.MAX_VALUE,
-                        isHighlighted = valueRange.isHighlighted,
-                    ),
-                )
-                is MeasurementProperty.User -> property.copy(
-                    range = MeasurementValueRange(
-                        minimum = valueRange.minimum.toDoubleOrNull() ?: 0.0,
-                        low = valueRange.low.toDoubleOrNull(),
-                        target = valueRange.target.toDoubleOrNull(),
-                        high = valueRange.high.toDoubleOrNull(),
-                        maximum = valueRange.maximum.toDoubleOrNull() ?: Double.MAX_VALUE,
-                        isHighlighted = valueRange.isHighlighted,
-                    ),
-                )
-                is MeasurementProperty.Local -> property.copy(
-                    range = MeasurementValueRange(
-                        minimum = valueRange.minimum.toDoubleOrNull() ?: 0.0,
-                        low = valueRange.low.toDoubleOrNull(),
-                        target = valueRange.target.toDoubleOrNull(),
-                        high = valueRange.high.toDoubleOrNull(),
-                        maximum = valueRange.maximum.toDoubleOrNull() ?: Double.MAX_VALUE,
-                        isHighlighted = valueRange.isHighlighted,
-                    ),
-                )
+                is MeasurementProperty.Seed -> property.copy(range = update)
+                is MeasurementProperty.User -> property.copy(range = update)
+                is MeasurementProperty.Local -> property.copy(range = update)
             }
         }
     }

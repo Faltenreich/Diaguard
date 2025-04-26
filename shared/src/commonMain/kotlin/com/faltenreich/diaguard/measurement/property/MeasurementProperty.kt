@@ -41,7 +41,27 @@ sealed interface MeasurementProperty {
         override val range: MeasurementValueRange,
         override val category: MeasurementCategory.Local,
         override var unit: MeasurementUnit.Local?,
-    ) : MeasurementProperty
+    ) : MeasurementProperty {
+
+        constructor(
+            sortIndex: Long,
+            category: MeasurementCategory.Local,
+        ) : this(
+            name = "",
+            sortIndex = sortIndex,
+            aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
+            range = MeasurementValueRange(
+                minimum = 0.0,
+                low = null,
+                target = null,
+                high = null,
+                maximum = 10_000.0,
+                isHighlighted = false,
+            ),
+            category = category,
+            unit = null,
+        )
+    }
 
     data class Local(
         override val id: Long,

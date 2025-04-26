@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 class MeasurementPropertyFormViewModel(
@@ -37,6 +36,7 @@ class MeasurementPropertyFormViewModel(
     getCategoryById: GetMeasurementCategoryByIdUseCase = inject(),
     getUnitSuggestions: GetMeasurementUnitSuggestionsUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
+    private val mapValueRangeState: MapMeasurementValueRangeStateUseCase = inject(),
     private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
     private val storeCategory: StoreMeasurementCategoryUseCase = inject(),
@@ -47,42 +47,20 @@ class MeasurementPropertyFormViewModel(
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
     private val category = checkNotNull(getCategoryById(categoryId))
-    private val property = MutableStateFlow(propertyId?.let(getPropertyById::invoke)
-        ?: MeasurementProperty.User(
-            name = "",
-            sortIndex = getMaximumSortIndex(categoryId)?.plus(1) ?: 0,
-            // TODO: Make user-customizable
-            aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
-            // TODO: Make user-customizable
-            range = MeasurementValueRange(
-                minimum = 0.0,
-                low = null,
-                target = null,
-                high = null,
-                maximum = 10_000.0,
-                isHighlighted = false,
-            ),
-            category = category,
-            unit = null,
-        )
+    private val property = MutableStateFlow(
+        propertyId?.let(getPropertyById::invoke)
+            ?: MeasurementProperty.User(
+                sortIndex = getMaximumSortIndex(categoryId)?.plus(1) ?: 0,
+                category = category,
+            )
     )
-    private val valueRange = property.map { property ->
-        MeasurementValueRangeState(
-            minimum = property.range.minimum.toString(),
-            low = property.range.low?.toString() ?: "",
-            target = property.range.target?.toString() ?: "",
-            high = property.range.high?.toString() ?: "",
-            maximum = property.range.maximum.toString(),
-            isHighlighted = property.range.isHighlighted,
-            unit = property.unit?.abbreviation,
-        )
-    }
+    private val decimalPlaces = getPreference(DecimalPlacesPreference)
 
     private val unitSuggestions = property.flatMapLatest { property ->
         when (property) {
             is MeasurementProperty.Local -> combine(
                 getUnitSuggestions(property),
-                getPreference(DecimalPlacesPreference),
+                decimalPlaces,
             ) { unitSuggestions, decimalPlaces ->
                 if (property.isUserGenerated) emptyList() else unitSuggestions.map { unitSuggestion ->
                     MeasurementPropertyFormState.UnitSuggestion(
@@ -114,7 +92,7 @@ class MeasurementPropertyFormViewModel(
 
     override val state = com.faltenreich.diaguard.shared.architecture.combine(
         property,
-        valueRange,
+        combine(property, decimalPlaces, mapValueRangeState::invoke),
         unitSuggestions,
         errorBar,
         deleteDialog,

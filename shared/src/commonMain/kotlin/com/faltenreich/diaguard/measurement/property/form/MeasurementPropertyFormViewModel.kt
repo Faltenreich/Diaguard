@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategory
 import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
@@ -32,8 +33,7 @@ class MeasurementPropertyFormViewModel(
     getCategoryById: GetMeasurementCategoryByIdUseCase = inject(),
     getUnitSuggestions: GetMeasurementUnitSuggestionsUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
-    private val createProperty: CreateMeasurementPropertyUseCase = inject(),
-    private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
+    private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
@@ -202,8 +202,8 @@ class MeasurementPropertyFormViewModel(
         val unit = checkNotNull(unit.value)
         when (val property = property.value) {
             is MeasurementProperty.Seed -> error("Seed cannot be submitted")
-            is MeasurementProperty.User -> createProperty(property, unit)
-            is MeasurementProperty.Local -> updateProperty(property)
+            is MeasurementProperty.User -> storeProperty(property, unit)
+            is MeasurementProperty.Local -> storeProperty(property)
         }
         updateCategory(category)
         popScreen()

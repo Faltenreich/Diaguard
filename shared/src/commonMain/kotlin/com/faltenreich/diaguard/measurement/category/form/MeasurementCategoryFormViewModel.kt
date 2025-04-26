@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
-import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
@@ -23,8 +23,8 @@ class MeasurementCategoryFormViewModel(
     getProperties: GetMeasurementPropertiesUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
+    private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
-    private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
@@ -99,8 +99,8 @@ class MeasurementCategoryFormViewModel(
         first: MeasurementProperty.Local,
         second: MeasurementProperty.Local,
     ) {
-        updateProperty(first.copy(sortIndex = second.sortIndex))
-        updateProperty(second.copy(sortIndex = first.sortIndex))
+        storeProperty(first.copy(sortIndex = second.sortIndex))
+        storeProperty(second.copy(sortIndex = first.sortIndex))
     }
 
     private suspend fun editProperty(property: MeasurementProperty.Local) {

@@ -17,8 +17,7 @@ import com.faltenreich.diaguard.measurement.property.form.GetMaximumSortIndexUse
 import com.faltenreich.diaguard.measurement.property.form.GetMeasurementPropertyBdIdUseCase
 import com.faltenreich.diaguard.measurement.property.form.GetMeasurementUnitSuggestionsUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
-import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.form.CreateMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.UniqueMeasurementUnitRule
@@ -53,7 +52,7 @@ fun measurementModule() = module {
     factoryOf(::GetMeasurementCategoryByIdUseCase)
     factoryOf(::UpdateMeasurementCategoryUseCase)
     factoryOf(::DeleteMeasurementCategoryUseCase)
-    factoryOf(::CreateMeasurementPropertyUseCase)
+    factoryOf(::StoreMeasurementPropertyUseCase)
     factoryOf(::GetMaximumSortIndexUseCase)
     factoryOf(::GetMeasurementUnitsUseCase)
     factoryOf(::GetMeasurementPropertyBdIdUseCase)
@@ -61,7 +60,6 @@ fun measurementModule() = module {
     factoryOf(::GetMeasurementPropertiesUseCase)
     factoryOf(::StoreMeasurementValuesUseCase)
     factoryOf(::CountMeasurementValuesOfPropertyUseCase)
-    factoryOf(::UpdateMeasurementPropertyUseCase)
     factoryOf(::DeleteMeasurementPropertyUseCase)
     factory { ValidateMeasurementUnitUseCase(rules = listOf(UniqueMeasurementUnitRule())) }
     factoryOf(::StoreMeasurementUnitUseCase)

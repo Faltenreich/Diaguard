@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyleForm
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionEvent
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionViewModel
@@ -60,6 +62,7 @@ fun MeasurementPropertyForm(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
+    var showAggregationStyleForm by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         unitSelectionViewModel.collectEvents { event ->
@@ -107,7 +110,7 @@ fun MeasurementPropertyForm(
 
             TextDivider(getString(Res.string.values))
 
-            FormRow(modifier = Modifier.clickable { TODO() }) {
+            FormRow(modifier = Modifier.clickable { showAggregationStyleForm = true }) {
                 Column(modifier = Modifier.weight(AppTheme.dimensions.weight.W_1)) {
                     Text(stringResource(Res.string.aggregation_style))
                     Text(
@@ -171,6 +174,17 @@ fun MeasurementPropertyForm(
             title = { Text(stringResource(Res.string.delete_title)) },
             text = { Text(stringResource(Res.string.delete_error_pre_defined)) },
         )
+    }
+
+    if (showAggregationStyleForm) {
+        ModalBottomSheet(onDismissRequest = { showAggregationStyleForm = false }) {
+            MeasurementAggregationStyleForm(
+                selection = state.property.aggregationStyle,
+                onChange = { aggregationStyle ->
+                    viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateAggregationStyle(aggregationStyle))
+                },
+            )
+        }
     }
 }
 

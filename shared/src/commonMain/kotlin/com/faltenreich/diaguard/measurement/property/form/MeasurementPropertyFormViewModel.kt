@@ -126,6 +126,8 @@ class MeasurementPropertyFormViewModel(
         when (intent) {
             is MeasurementPropertyFormIntent.UpdateProperty ->
                 update(name = intent.name)
+            is MeasurementPropertyFormIntent.UpdateAggregationStyle ->
+                update(aggregationStyle = intent.aggregationStyle)
             is MeasurementPropertyFormIntent.UpdateValueRange ->
                 update(valueRange = intent.valueRange)
             is MeasurementPropertyFormIntent.OpenUnitSearch ->
@@ -156,6 +158,16 @@ class MeasurementPropertyFormViewModel(
             }
         }
         errorBar.update { null }
+    }
+
+    private fun update(aggregationStyle: MeasurementAggregationStyle) {
+        property.update { property ->
+            when (property) {
+                is MeasurementProperty.Seed -> property.copy(aggregationStyle = aggregationStyle)
+                is MeasurementProperty.User -> property.copy(aggregationStyle = aggregationStyle)
+                is MeasurementProperty.Local -> property.copy(aggregationStyle = aggregationStyle)
+            }
+        }
     }
 
     private fun update(valueRange: MeasurementValueRangeState) {

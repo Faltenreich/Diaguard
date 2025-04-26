@@ -13,7 +13,6 @@ import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +31,6 @@ class FoodFormViewModel(
     private val pushScreen: PushScreenUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
     private val formatNumber: NumberFormatter = inject(),
-    private val localization: Localization = inject(),
 ) : ViewModel<FoodFormState, FoodFormIntent, Unit>() {
 
     private val error = MutableStateFlow<String?>(null)
@@ -110,7 +108,6 @@ class FoodFormViewModel(
         return formatNumber(
             number = nutrient,
             scale = SCALE,
-            locale = localization.getLocale(),
         )
     }
 

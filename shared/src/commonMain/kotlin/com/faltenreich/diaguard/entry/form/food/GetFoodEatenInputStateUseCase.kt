@@ -49,7 +49,6 @@ class GetFoodEatenInputStateUseCase(
                     amountInGrams = numberFormatter(
                         number = foodEaten.amountInGrams,
                         scale = decimalPlaces,
-                        locale = localization.getLocale(),
                     ),
                 )
             }

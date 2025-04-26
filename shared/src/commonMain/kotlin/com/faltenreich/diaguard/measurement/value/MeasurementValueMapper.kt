@@ -1,12 +1,10 @@
 package com.faltenreich.diaguard.measurement.value
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
 
 class MeasurementValueMapper(
     private val formatNumber: NumberFormatter,
-    private val localization: Localization,
 ) {
 
     operator fun invoke(
@@ -18,7 +16,6 @@ class MeasurementValueMapper(
             value = formatNumber(
                 number = value * property.valueFactor,
                 scale = decimalPlaces,
-                locale = localization.getLocale(),
             ),
         )
     }

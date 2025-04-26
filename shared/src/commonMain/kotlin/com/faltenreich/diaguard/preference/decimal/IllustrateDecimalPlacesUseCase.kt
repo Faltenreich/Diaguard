@@ -16,12 +16,10 @@ class IllustrateDecimalPlacesUseCase(
             numberFormatter(
                 number = EXAMPLE_NUMBER,
                 scale = EXAMPLE_SCALE,
-                locale = localization.getLocale(),
             ),
             numberFormatter(
                 number = EXAMPLE_NUMBER,
                 scale = decimalPlaces,
-                locale = localization.getLocale(),
             ),
         )
     }

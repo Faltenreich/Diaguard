@@ -35,7 +35,6 @@ class GetFoodEatenForFoodUseCase(
                         numberFoodEaten(
                             number = food.amountInGrams,
                             scale = decimalPlaces,
-                            locale = localization.getLocale(),
                         ),
                         localization.getString(Res.string.grams_abbreviation),
                     )

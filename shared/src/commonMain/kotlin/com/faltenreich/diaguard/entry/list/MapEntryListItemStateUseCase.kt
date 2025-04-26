@@ -49,7 +49,6 @@ class MapEntryListItemStateUseCase(
                     numberFormatter(
                         number = foodEaten.amountInGrams,
                         scale = decimalPlaces,
-                        locale = localization.getLocale(),
                     ),
                     localization.getString(Res.string.grams_abbreviation),
                     foodEaten.food.name,

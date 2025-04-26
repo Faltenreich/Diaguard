@@ -95,7 +95,6 @@ class MeasurementPropertyFormViewModel(
                                     numberFormatter(
                                         number = unitSuggestion.factor,
                                         scale = decimalPlaces,
-                                        locale = localization.getLocale(),
                                     ),
                                     unitSuggestions.first(MeasurementUnitSuggestion::isDefault).unit.name,
                                 )

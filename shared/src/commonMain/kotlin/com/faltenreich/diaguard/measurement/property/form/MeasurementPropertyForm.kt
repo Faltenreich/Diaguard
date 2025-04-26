@@ -62,7 +62,6 @@ fun MeasurementPropertyForm(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
-    var showAggregationStyleForm by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         unitSelectionViewModel.collectEvents { event ->
@@ -110,7 +109,15 @@ fun MeasurementPropertyForm(
 
             TextDivider(getString(Res.string.values))
 
-            FormRow(modifier = Modifier.clickable { showAggregationStyleForm = true }) {
+            FormRow(
+                modifier = Modifier.clickable {
+                    viewModel.dispatchIntent(
+                        MeasurementPropertyFormIntent.OpenDialog(
+                            MeasurementPropertyFormState.Dialog.AggregationStyle
+                        )
+                    )
+                },
+            ) {
                 Column(modifier = Modifier.weight(AppTheme.dimensions.weight.W_1)) {
                     Text(stringResource(Res.string.aggregation_style))
                     Text(
@@ -171,11 +178,9 @@ fun MeasurementPropertyForm(
             title = { Text(stringResource(Res.string.delete_title)) },
             text = { Text(stringResource(Res.string.delete_error_pre_defined)) },
         )
-        null -> Unit
-    }
-
-    if (showAggregationStyleForm) {
-        ModalBottomSheet(onDismissRequest = { showAggregationStyleForm = false }) {
+        is MeasurementPropertyFormState.Dialog.AggregationStyle -> ModalBottomSheet(
+            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDialog) },
+        ) {
             MeasurementAggregationStyleForm(
                 selection = state.property.aggregationStyle,
                 onChange = { aggregationStyle ->
@@ -183,6 +188,7 @@ fun MeasurementPropertyForm(
                 },
             )
         }
+        null -> Unit
     }
 }
 

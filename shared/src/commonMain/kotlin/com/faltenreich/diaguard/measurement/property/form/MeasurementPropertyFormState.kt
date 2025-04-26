@@ -35,5 +35,7 @@ data class MeasurementPropertyFormState(
         data object Delete : Dialog
 
         data object Alert : Dialog
+
+        data object AggregationStyle : Dialog
     }
 }

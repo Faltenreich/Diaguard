@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,7 +13,8 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.color_scheme
+import diaguard.shared.generated.resources.aggregation_style
+import diaguard.shared.generated.resources.aggregation_style_description
 
 @Composable
 fun MeasurementAggregationStyleForm(
@@ -25,11 +27,20 @@ fun MeasurementAggregationStyleForm(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = getString(Res.string.color_scheme),
+            text = getString(Res.string.aggregation_style),
             style = AppTheme.typography.titleLarge,
         )
 
-        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
+
+        Text(
+            text = getString(Res.string.aggregation_style_description),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = AppTheme.dimensions.padding.P_3_5),
+        )
+
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
 
         Column(modifier = Modifier.selectableGroup()) {
             MeasurementAggregationStyle.entries.forEach { aggregationStyle ->

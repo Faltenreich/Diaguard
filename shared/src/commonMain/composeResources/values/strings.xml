@@ -7,7 +7,9 @@
     <string name="aggregation_style">Aggregation</string>
     <string name="aggregation_style_description">How multiple values are added together</string>
     <string name="aggregation_style_cumulative">Cumulative</string>
+    <string name="aggregation_style_cumulative_description">Multiple values are added up</string>
     <string name="aggregation_style_average">Average</string>
+    <string name="aggregation_style_average_description">Multiple values are added up and then divided</string>
     <string name="alarm">Alarm</string>
     <string name="app_name">Diaguard</string>
     <string name="average">Average</string>

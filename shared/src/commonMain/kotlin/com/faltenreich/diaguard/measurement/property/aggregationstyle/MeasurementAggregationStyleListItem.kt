@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement.property.aggregationstyle
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
@@ -10,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.localization.getString
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeasurementAggregationStyleListItem(
@@ -26,13 +27,19 @@ fun MeasurementAggregationStyleListItem(
                 onClick = { onClick() },
                 role = Role.RadioButton,
             )
-            .padding(all = AppTheme.dimensions.padding.P_3_5),
+            .padding(
+                horizontal = AppTheme.dimensions.padding.P_3_5,
+                vertical = AppTheme.dimensions.padding.P_3,
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = getString(aggregationStyle.labelResource),
-            modifier = Modifier.weight(1f),
-        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(stringResource(aggregationStyle.labelResource))
+            Text(
+                text = stringResource(aggregationStyle.descriptionResource),
+                style = AppTheme.typography.bodySmall,
+            )
+        }
         RadioButton(
             selected = isSelected,
             onClick = null,

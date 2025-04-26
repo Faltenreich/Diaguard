@@ -39,12 +39,9 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
-import com.faltenreich.diaguard.preference.color.ColorSchemeFormScreen
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormScreen
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
-import com.faltenreich.diaguard.preference.screen.StartScreenFormScreen
 import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.shared.di.rememberViewModelStoreOwner
 import com.faltenreich.diaguard.shared.localization.getString
@@ -128,9 +125,6 @@ fun MainView(
                     screen<ExportFormScreen>()
 
                     screen<OverviewPreferenceListScreen>()
-                    screen<ColorSchemeFormScreen>()
-                    screen<StartScreenFormScreen>()
-                    screen<DecimalPlacesFormScreen>()
                     screen<WriteBackupFormScreen>()
                     screen<ReadBackupFormScreen>()
                     screen<MeasurementCategoryListScreen>()

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.property
+package com.faltenreich.diaguard.measurement.property.aggregationstyle
 
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.aggregation_style_average

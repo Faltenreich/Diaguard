@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.category.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryByIdUseCase
-import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit

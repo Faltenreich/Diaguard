@@ -9,8 +9,8 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.localization.Localization
-import com.faltenreich.diaguard.shared.primitive.NumberFormatter
-import com.faltenreich.diaguard.shared.primitive.format
+import com.faltenreich.diaguard.shared.localization.NumberFormatter
+import com.faltenreich.diaguard.shared.localization.format
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.grams_abbreviation
 import kotlinx.coroutines.flow.firstOrNull

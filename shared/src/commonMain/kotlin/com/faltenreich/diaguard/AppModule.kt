@@ -20,7 +20,6 @@ import com.faltenreich.diaguard.shared.keyvalue.keyValueStoreModule
 import com.faltenreich.diaguard.shared.localization.localizationModule
 import com.faltenreich.diaguard.shared.logging.loggerModule
 import com.faltenreich.diaguard.shared.networking.networkingModule
-import com.faltenreich.diaguard.shared.primitive.primitiveModule
 import com.faltenreich.diaguard.shared.serialization.serializationModule
 import com.faltenreich.diaguard.shared.system.systemSettingsModule
 import com.faltenreich.diaguard.shared.view.windowModule
@@ -36,7 +35,6 @@ fun appModule() = module {
 
     includes(
         // Common
-        primitiveModule(),
         loggerModule(),
         coroutineModule(),
         configModule(),

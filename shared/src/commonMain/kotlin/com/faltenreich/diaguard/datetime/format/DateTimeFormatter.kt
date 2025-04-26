@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
 import com.faltenreich.diaguard.shared.localization.Localization
-import com.faltenreich.diaguard.shared.primitive.format
+import com.faltenreich.diaguard.shared.localization.format
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_time_ago_days
 import diaguard.shared.generated.resources.date_time_ago_hours

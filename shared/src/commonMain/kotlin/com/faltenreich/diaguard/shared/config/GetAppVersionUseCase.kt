@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.config
 
-import com.faltenreich.diaguard.shared.primitive.format
+import com.faltenreich.diaguard.shared.localization.format
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

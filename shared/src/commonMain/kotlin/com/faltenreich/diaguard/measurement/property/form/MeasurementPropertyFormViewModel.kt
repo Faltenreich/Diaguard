@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
-import com.faltenreich.diaguard.shared.primitive.NumberFormatter
+import com.faltenreich.diaguard.shared.localization.NumberFormatter
 import com.faltenreich.diaguard.shared.result.Result
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.measurement_unit_factor_description

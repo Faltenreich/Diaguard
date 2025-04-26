@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.primitive.NumberFormatter
+import com.faltenreich.diaguard.shared.localization.NumberFormatter
 
 @Composable
 fun FoodListItem(

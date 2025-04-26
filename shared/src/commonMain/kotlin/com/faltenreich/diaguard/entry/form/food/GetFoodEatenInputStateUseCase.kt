@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
-import com.faltenreich.diaguard.shared.primitive.NumberFormatter
+import com.faltenreich.diaguard.shared.localization.NumberFormatter
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_input_value_per_100g
 import kotlinx.coroutines.flow.Flow

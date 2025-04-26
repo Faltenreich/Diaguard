@@ -1,7 +1,6 @@
-package com.faltenreich.diaguard.shared.primitive
+package com.faltenreich.diaguard.shared.localization
 
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.localization.Localization
 import java.text.NumberFormat
 
 actual class NumberFormatter(private val localization: Localization) {

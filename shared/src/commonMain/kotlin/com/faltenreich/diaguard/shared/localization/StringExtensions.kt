@@ -1,3 +1,3 @@
-package com.faltenreich.diaguard.shared.primitive
+package com.faltenreich.diaguard.shared.localization
 
 expect fun String.format(vararg arguments: Any?): String

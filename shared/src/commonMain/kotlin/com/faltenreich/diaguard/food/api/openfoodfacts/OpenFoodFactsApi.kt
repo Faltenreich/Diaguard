@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
 import com.faltenreich.diaguard.shared.networking.NetworkingRequest
-import com.faltenreich.diaguard.shared.primitive.format
+import com.faltenreich.diaguard.shared.localization.format
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
 class OpenFoodFactsApi(

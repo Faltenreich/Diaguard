@@ -29,10 +29,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyleForm
+import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionEvent
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionViewModel
-import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider

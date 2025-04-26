@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeState
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeState
 
 data class MeasurementPropertyFormState(
     val property: MeasurementProperty,

@@ -2,15 +2,15 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.category.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryByIdUseCase
-import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
+import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
+import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeState
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
-import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRange
-import com.faltenreich.diaguard.measurement.value.range.MeasurementValueRangeState
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
@@ -74,7 +74,7 @@ class MeasurementPropertyFormViewModel(
             high = property.range.high?.toString() ?: "",
             maximum = property.range.maximum.toString(),
             isHighlighted = property.range.isHighlighted,
-            unit = property.unit?.name,
+            unit = property.unit?.abbreviation,
         )
     }
 

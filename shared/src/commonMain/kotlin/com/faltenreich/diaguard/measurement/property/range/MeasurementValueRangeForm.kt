@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.value.range
+package com.faltenreich.diaguard.measurement.property.range
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -75,7 +75,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unit) },
+            placeholder = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_minimum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -99,7 +99,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unit) },
+            placeholder = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_low_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -123,7 +123,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unit) },
+            placeholder = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_target_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -147,7 +147,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unit) },
+            placeholder = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_high_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
@@ -171,7 +171,7 @@ fun MeasurementValueRangeForm(
                     horizontal = AppTheme.dimensions.padding.P_1,
                     vertical = AppTheme.dimensions.padding.P_3,
                 ),
-            suffix = { Text(unit) },
+            placeholder = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_maximum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(

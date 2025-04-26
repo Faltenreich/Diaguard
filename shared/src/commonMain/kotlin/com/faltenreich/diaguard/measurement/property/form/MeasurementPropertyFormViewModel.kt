@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.property.form
 
+import com.faltenreich.diaguard.measurement.category.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryByIdUseCase
-import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
@@ -35,7 +35,7 @@ class MeasurementPropertyFormViewModel(
     getPreference: GetPreferenceUseCase = inject(),
     private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
-    private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
+    private val storeCategory: StoreMeasurementCategoryUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
     private val localization: Localization = inject(),
@@ -65,6 +65,7 @@ class MeasurementPropertyFormViewModel(
 
     private val category = checkNotNull(getCategoryById(categoryId))
     private val property = MutableStateFlow(propertyLocal ?: createUserProperty())
+    // TODO: Merge into property
     private val unit = MutableStateFlow((property.value as? MeasurementProperty.Local)?.unit)
     private val valueRange = combine(
         property,
@@ -196,16 +197,16 @@ class MeasurementPropertyFormViewModel(
         }
     }
 
-    // TODO: Validate
     private suspend fun submit() {
-        // TODO: Harden and/or merge into property
-        val unit = checkNotNull(unit.value)
-        when (val property = property.value) {
-            is MeasurementProperty.Seed -> error("Seed cannot be submitted")
-            is MeasurementProperty.User -> storeProperty(property, unit)
-            is MeasurementProperty.Local -> storeProperty(property)
+        // TODO: Validate
+        val unit = unit.value ?: return
+        val property = property.value.also { property ->
+            if (property is MeasurementProperty.User) {
+                property.unit = unit
+            }
         }
-        updateCategory(category)
+        storeProperty(property)
+        storeCategory(category)
         popScreen()
     }
 

@@ -39,6 +39,8 @@ class ImportSeedUseCase(
         val categories = seedRepository.getCategories()
         categories.forEach { category ->
             val categoryId = categoryRepository.create(category)
+            val propertyCategory = checkNotNull(categoryRepository.getById(categoryId))
+
             category.properties.forEach { property ->
                 val propertyUnitSuggestion = property.unitSuggestions
                     .firstOrNull(MeasurementUnitSuggestion.Seed::isDefault)
@@ -46,11 +48,11 @@ class ImportSeedUseCase(
                 val propertyUnit = unitsBySeed
                     .firstOrNull { (seed, _) -> seed.key == propertyUnitSuggestion.unit }?.second
                     ?: error("Property contains unknown unit: $property")
-                val propertyId = propertyRepository.create(
-                    property = property,
-                    categoryId = categoryId,
-                    unitId = propertyUnit.id,
-                )
+
+                property.category = propertyCategory
+                property.unit = propertyUnit
+
+                val propertyId = propertyRepository.create(property)
                 Logger.verbose("Imported property from seed: $property")
 
                 property.unitSuggestions.forEach { unitSuggestion ->

@@ -25,7 +25,11 @@ sealed interface MeasurementProperty {
         override val range: MeasurementValueRange,
         val key: DatabaseKey.MeasurementProperty?,
         val unitSuggestions: List<MeasurementUnitSuggestion.Seed>,
-    ) : MeasurementProperty
+    ) : MeasurementProperty {
+
+        lateinit var category: MeasurementCategory.Local
+        lateinit var unit: MeasurementUnit.Local
+    }
 
     data class User(
         override val name: String,
@@ -33,7 +37,10 @@ sealed interface MeasurementProperty {
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
         val category: MeasurementCategory.Local,
-    ) : MeasurementProperty
+    ) : MeasurementProperty {
+
+        lateinit var unit: MeasurementUnit.Local
+    }
 
     data class Local(
         override val id: Long,

@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.result.Result
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 
@@ -47,16 +48,14 @@ class MeasurementPropertyFormViewModel(
     )
 
     private val errorBar = MutableStateFlow<MeasurementPropertyFormState.ErrorBar?>(null)
-    private val deleteDialog = MutableStateFlow<MeasurementPropertyFormState.DeleteDialog?>(null)
-    private val alertDialog = MutableStateFlow<MeasurementPropertyFormState.AlertDialog?>(null)
+    private val dialog = MutableStateFlow<MeasurementPropertyFormState.Dialog?>(null)
 
-    override val state = com.faltenreich.diaguard.shared.architecture.combine(
+    override val state = combine(
         property,
         propertyLocal?.let(getUnitSuggestions::invoke) ?: flowOf(emptyList()),
         getPreference(DecimalPlacesPreference),
         errorBar,
-        deleteDialog,
-        alertDialog,
+        dialog,
         createState::invoke,
     )
 
@@ -74,14 +73,10 @@ class MeasurementPropertyFormViewModel(
                 update(intent.unit)
             is MeasurementPropertyFormIntent.Submit ->
                 submit()
-            is MeasurementPropertyFormIntent.OpenDeleteDialog ->
-                deleteDialog.update { MeasurementPropertyFormState.DeleteDialog }
-            is MeasurementPropertyFormIntent.CloseDeleteDialog ->
-                deleteDialog.update { null }
-            is MeasurementPropertyFormIntent.OpenAlertDialog ->
-                alertDialog.update { MeasurementPropertyFormState.AlertDialog }
-            is MeasurementPropertyFormIntent.CloseAlertDialog ->
-                alertDialog.update { null }
+            is MeasurementPropertyFormIntent.OpenDialog ->
+                dialog.update { intent.dialog }
+            is MeasurementPropertyFormIntent.CloseDialog ->
+                dialog.update { null }
             is MeasurementPropertyFormIntent.Delete ->
                 delete(intent)
         }
@@ -154,13 +149,13 @@ class MeasurementPropertyFormViewModel(
             is MeasurementProperty.Local -> {
                 if (property.isUserGenerated) {
                     if (intent.needsConfirmation) {
-                        deleteDialog.update { MeasurementPropertyFormState.DeleteDialog }
+                        dialog.update { MeasurementPropertyFormState.Dialog.Delete }
                     } else {
                         deleteProperty(property)
                         popScreen()
                     }
                 } else {
-                    alertDialog.update { MeasurementPropertyFormState.AlertDialog }
+                    dialog.update { MeasurementPropertyFormState.Dialog.Alert }
                 }
             }
         }

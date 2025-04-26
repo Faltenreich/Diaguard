@@ -17,13 +17,9 @@ sealed interface MeasurementPropertyFormIntent {
 
     data object Submit : MeasurementPropertyFormIntent
 
-    data object OpenDeleteDialog : MeasurementPropertyFormIntent
+    data class OpenDialog(val dialog: MeasurementPropertyFormState.Dialog) : MeasurementPropertyFormIntent
 
-    data object CloseDeleteDialog : MeasurementPropertyFormIntent
-
-    data object OpenAlertDialog : MeasurementPropertyFormIntent
-
-    data object CloseAlertDialog : MeasurementPropertyFormIntent
+    data object CloseDialog : MeasurementPropertyFormIntent
 
     data class Delete(val needsConfirmation: Boolean) : MeasurementPropertyFormIntent
 }

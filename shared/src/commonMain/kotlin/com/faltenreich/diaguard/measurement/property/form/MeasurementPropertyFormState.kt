@@ -8,8 +8,7 @@ data class MeasurementPropertyFormState(
     val valueRange: ValueRange,
     val unitSuggestions: List<UnitSuggestion>,
     val errorBar: ErrorBar?,
-    val deleteDialog: DeleteDialog?,
-    val alertDialog: AlertDialog?,
+    val dialog: Dialog?,
 ) {
 
     data class UnitSuggestion(
@@ -31,7 +30,10 @@ data class MeasurementPropertyFormState(
 
     data object ErrorBar
 
-    data object DeleteDialog
+    sealed interface Dialog {
 
-    data object AlertDialog
+        data object Delete : Dialog
+
+        data object Alert : Dialog
+    }
 }

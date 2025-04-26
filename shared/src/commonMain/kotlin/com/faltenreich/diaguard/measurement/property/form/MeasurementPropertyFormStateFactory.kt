@@ -17,16 +17,14 @@ class MeasurementPropertyFormStateFactory(
         unitSuggestions: List<MeasurementUnitSuggestion.Local>,
         decimalPlaces: Int,
         errorBar: MeasurementPropertyFormState.ErrorBar?,
-        deleteDialog: MeasurementPropertyFormState.DeleteDialog?,
-        alertDialog: MeasurementPropertyFormState.AlertDialog?,
+        dialog: MeasurementPropertyFormState.Dialog?,
     ): MeasurementPropertyFormState {
         return MeasurementPropertyFormState(
             property = property,
             valueRange = getValueRange(property, decimalPlaces),
             unitSuggestions = getUnitSuggestions(unitSuggestions, property, decimalPlaces),
             errorBar = errorBar,
-            deleteDialog = deleteDialog,
-            alertDialog = alertDialog,
+            dialog = dialog,
         )
     }
 

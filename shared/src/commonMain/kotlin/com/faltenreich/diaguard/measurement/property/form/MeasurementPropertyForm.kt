@@ -148,22 +148,19 @@ fun MeasurementPropertyForm(
         }
     }
 
-    if (state.deleteDialog != null) {
-        DeleteDialog(
-            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDeleteDialog) },
+    when (state.dialog) {
+        is MeasurementPropertyFormState.Dialog.Delete -> DeleteDialog(
+            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDialog) },
             onConfirmRequest = {
-                viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDeleteDialog)
+                viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDialog)
                 viewModel.dispatchIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = false))
             }
         )
-    }
-
-    if (state.alertDialog != null) {
-        AlertDialog(
-            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseAlertDialog) },
+        is MeasurementPropertyFormState.Dialog.Alert -> AlertDialog(
+            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDialog) },
             confirmButton = {
                 TextButton(
-                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseAlertDialog) },
+                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDialog) },
                 ) {
                     Text(
                         text = getString(Res.string.ok),
@@ -174,6 +171,7 @@ fun MeasurementPropertyForm(
             title = { Text(stringResource(Res.string.delete_title)) },
             text = { Text(stringResource(Res.string.delete_error_pre_defined)) },
         )
+        null -> Unit
     }
 
     if (showAggregationStyleForm) {

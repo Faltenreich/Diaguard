@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.category.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
@@ -22,7 +23,7 @@ class MeasurementCategoryFormViewModel(
     getCategoryBdId: GetMeasurementCategoryByIdUseCase = inject(),
     getProperties: GetMeasurementPropertiesUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
-    private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
+    private val storeCategory: StoreMeasurementCategoryUseCase = inject(),
     private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
@@ -114,7 +115,7 @@ class MeasurementCategoryFormViewModel(
             icon = icon.value?.takeIf(String::isNotBlank),
             isActive = isActive.value,
         )
-        updateCategory(category)
+        storeCategory(category)
         popScreen()
     }
 

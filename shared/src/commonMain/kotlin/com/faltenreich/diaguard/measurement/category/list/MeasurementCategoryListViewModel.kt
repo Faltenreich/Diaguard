@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.measurement.category.list
 
 import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.category.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
-import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +13,7 @@ import kotlinx.coroutines.flow.update
 
 class MeasurementCategoryListViewModel(
     getCategories: GetAllMeasurementCategoriesUseCase,
-    private val updateCategory: UpdateMeasurementCategoryUseCase,
-    private val createCategory: CreateMeasurementCategoryUseCase,
+    private val storeCategory: StoreMeasurementCategoryUseCase,
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<MeasurementCategoryListState, MeasurementCategoryListIntent, Unit>() {
 
@@ -57,8 +56,8 @@ class MeasurementCategoryListViewModel(
         first: MeasurementCategory.Local,
         second: MeasurementCategory.Local,
     ) {
-        updateCategory(first.copy(sortIndex = second.sortIndex))
-        updateCategory(second.copy(sortIndex = first.sortIndex))
+        storeCategory(first.copy(sortIndex = second.sortIndex))
+        storeCategory(second.copy(sortIndex = first.sortIndex))
     }
 
     private suspend fun editCategory(category: MeasurementCategory.Local) {
@@ -68,7 +67,7 @@ class MeasurementCategoryListViewModel(
     private suspend fun createCategory(intent: MeasurementCategoryListIntent.Create) {
         // TODO: Harden
         val within = checkNotNull(state.firstOrNull()?.categories)
-        val category = createCategory(
+        val category = storeCategory(
             MeasurementCategory.User(
                 name = intent.name,
                 icon = null,

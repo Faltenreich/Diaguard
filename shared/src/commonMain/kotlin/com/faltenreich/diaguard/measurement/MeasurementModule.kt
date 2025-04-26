@@ -3,21 +3,20 @@ package com.faltenreich.diaguard.measurement
 import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.measurement.category.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.form.DeleteMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.category.form.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormViewModel
-import com.faltenreich.diaguard.measurement.category.form.UpdateMeasurementCategoryUseCase
-import com.faltenreich.diaguard.measurement.category.list.CreateMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListViewModel
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.CountMeasurementValuesOfPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.DeleteMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.GetMaximumSortIndexUseCase
 import com.faltenreich.diaguard.measurement.property.form.GetMeasurementPropertyBdIdUseCase
 import com.faltenreich.diaguard.measurement.property.form.GetMeasurementUnitSuggestionsUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
-import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.UniqueMeasurementUnitRule
@@ -45,12 +44,11 @@ fun measurementModule() = module {
     factoryOf(::MeasurementUnitSuggestionRepository)
     factoryOf(::MeasurementValueRepository)
 
-    factoryOf(::CreateMeasurementCategoryUseCase)
+    factoryOf(::StoreMeasurementCategoryUseCase)
     factoryOf(::GetMeasurementValueTintUseCase)
     factoryOf(::GetActiveMeasurementCategoriesUseCase)
     factoryOf(::GetAllMeasurementCategoriesUseCase)
     factoryOf(::GetMeasurementCategoryByIdUseCase)
-    factoryOf(::UpdateMeasurementCategoryUseCase)
     factoryOf(::DeleteMeasurementCategoryUseCase)
     factoryOf(::StoreMeasurementPropertyUseCase)
     factoryOf(::GetMaximumSortIndexUseCase)

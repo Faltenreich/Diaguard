@@ -87,7 +87,7 @@ class MeasurementPropertySqlDelightDao(
     }
 
     override fun getMaximumSortIndex(categoryId: Long): Long? {
-        return queries.getMaximumSortIndex(categoryId).executeAsOneOrNull()
+        return queries.getMaximumSortIndex(categoryId).executeAsOneOrNull()?.MAX
     }
 
     override fun update(

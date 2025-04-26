@@ -111,8 +111,8 @@ fun MeasurementCategoryForm(
             enter = fadeIn(),
         ) {
             MeasurementPropertyList(
-                category = viewModel.category,
                 properties = state?.properties ?: emptyList(),
+                onIntent = viewModel::dispatchIntent,
             )
         }
     }

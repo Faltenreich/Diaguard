@@ -13,9 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormIntent
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.ResourceIcon
@@ -25,13 +24,11 @@ import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.measurement_properties
 import diaguard.shared.generated.resources.measurement_property_add
 
-// TODO: Simplify
 @Composable
 fun MeasurementPropertyList(
-    category: MeasurementCategory.Local,
     properties: List<MeasurementProperty.Local>,
+    onIntent: (MeasurementCategoryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MeasurementPropertyListViewModel = inject(),
 ) {
     Column(modifier = modifier) {
         TextDivider(getString(Res.string.measurement_properties))
@@ -43,23 +40,15 @@ fun MeasurementPropertyList(
             MeasurementPropertyListItem(
                 property = property,
                 onArrowUp = {
-                    viewModel.dispatchIntent(
-                        MeasurementPropertyListIntent.DecrementSortIndex(property, properties)
-                    )
+                    onIntent(MeasurementCategoryFormIntent.DecrementSortIndex(property, properties))
                 },
                 showArrowUp = index > 0,
                 onArrowDown = {
-                    viewModel.dispatchIntent(
-                        MeasurementPropertyListIntent.IncrementSortIndex(property, properties)
-                    )
+                    onIntent(MeasurementCategoryFormIntent.IncrementSortIndex(property, properties))
                 },
                 showArrowDown = index < properties.size - 1,
                 modifier = Modifier
-                    .clickable {
-                        viewModel.dispatchIntent(
-                            MeasurementPropertyListIntent.EditProperty(property)
-                        )
-                    }
+                    .clickable { onIntent(MeasurementCategoryFormIntent.EditProperty(property)) }
                     .fillMaxWidth(),
             )
         }
@@ -71,7 +60,7 @@ fun MeasurementPropertyList(
             contentAlignment = Alignment.Center,
         ) {
             SuggestionChip(
-                onClick = { viewModel.dispatchIntent(MeasurementPropertyListIntent.AddProperty(category)) },
+                onClick = { onIntent(MeasurementCategoryFormIntent.AddProperty) },
                 label = { Text(getString(Res.string.measurement_property_add)) },
                 icon = {
                     ResourceIcon(

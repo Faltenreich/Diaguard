@@ -18,8 +18,7 @@ import com.faltenreich.diaguard.measurement.property.form.GetMeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.GetMeasurementUnitSuggestionsUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
 import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.list.CreateMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyListViewModel
+import com.faltenreich.diaguard.measurement.property.form.CreateMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.UniqueMeasurementUnitRule
@@ -69,7 +68,6 @@ fun measurementModule() = module {
 
     viewModelOf(::MeasurementCategoryListViewModel)
     viewModel { (categoryId: Long) -> MeasurementCategoryFormViewModel(categoryId) }
-    viewModelOf(::MeasurementPropertyListViewModel)
     viewModel { (categoryId: Long, propertyId: Long?) -> MeasurementPropertyFormViewModel(categoryId, propertyId) }
     viewModel { (mode: MeasurementUnitListMode) -> MeasurementUnitListViewModel(mode) }
     viewModelOf(::MeasurementUnitSelectionViewModel)

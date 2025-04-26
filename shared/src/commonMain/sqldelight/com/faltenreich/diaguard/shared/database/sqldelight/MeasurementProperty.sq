@@ -70,7 +70,7 @@ LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == M
 ORDER BY MeasurementProperty.sortIndex ASC;
 
 getMaximumSortIndex:
-SELECT sortIndex FROM MeasurementProperty WHERE categoryId = ?;
+SELECT MAX(sortIndex) FROM MeasurementProperty WHERE categoryId = ?;
 
 update:
 UPDATE MeasurementProperty

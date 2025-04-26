@@ -1,6 +1,22 @@
 package com.faltenreich.diaguard.measurement.category.form
 
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+
 sealed interface MeasurementCategoryFormIntent {
+
+    data class DecrementSortIndex(
+        val property: MeasurementProperty.Local,
+        val inProperties: List<MeasurementProperty.Local>,
+    ) : MeasurementCategoryFormIntent
+
+    data class IncrementSortIndex(
+        val property: MeasurementProperty.Local,
+        val inProperties: List<MeasurementProperty.Local>,
+    ) : MeasurementCategoryFormIntent
+
+    data class EditProperty(val property: MeasurementProperty.Local) : MeasurementCategoryFormIntent
+
+    data object AddProperty : MeasurementCategoryFormIntent
 
     data object Store : MeasurementCategoryFormIntent
 

@@ -1,11 +1,18 @@
 package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
+import com.faltenreich.diaguard.measurement.property.form.UpdateMeasurementPropertyUseCase
+import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.error_unknown
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
@@ -17,7 +24,10 @@ class MeasurementCategoryFormViewModel(
     getPreference: GetPreferenceUseCase = inject(),
     private val updateCategory: UpdateMeasurementCategoryUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
+    private val updateProperty: UpdateMeasurementPropertyUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
+    private val showSnackbar: ShowSnackbarUseCase = inject(),
 ) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
 
     val category: MeasurementCategory.Local = checkNotNull(getCategoryBdId(categoryId))
@@ -40,6 +50,14 @@ class MeasurementCategoryFormViewModel(
 
     override suspend fun handleIntent(intent: MeasurementCategoryFormIntent) = with(intent) {
         when (this) {
+            is MeasurementCategoryFormIntent.DecrementSortIndex ->
+                decrementSortIndex(property, inProperties)
+            is MeasurementCategoryFormIntent.IncrementSortIndex ->
+                incrementSortIndex(property, inProperties)
+            is MeasurementCategoryFormIntent.EditProperty ->
+                editProperty(property)
+            is MeasurementCategoryFormIntent.AddProperty ->
+                pushScreen(MeasurementPropertyFormScreen(category))
             is MeasurementCategoryFormIntent.Store ->
                 updateCategory()
             is MeasurementCategoryFormIntent.Delete ->
@@ -53,6 +71,40 @@ class MeasurementCategoryFormViewModel(
             is MeasurementCategoryFormIntent.CloseAlertDialog ->
                 alertDialog.update { null }
         }
+    }
+
+    private suspend fun decrementSortIndex(
+        property: MeasurementProperty.Local,
+        inProperties: List<MeasurementProperty.Local>,
+    ) {
+        val previous = inProperties.lastOrNull { it.sortIndex < property.sortIndex } ?: run {
+            showSnackbar(Res.string.error_unknown)
+            return
+        }
+        swapSortIndexes(first = property, second = previous)
+    }
+
+    private suspend fun incrementSortIndex(
+        property: MeasurementProperty.Local,
+        inProperties: List<MeasurementProperty.Local>,
+    ) {
+        val next = inProperties.firstOrNull { it.sortIndex > property.sortIndex } ?: run {
+            showSnackbar(Res.string.error_unknown)
+            return
+        }
+        swapSortIndexes(first = property, second = next)
+    }
+
+    private fun swapSortIndexes(
+        first: MeasurementProperty.Local,
+        second: MeasurementProperty.Local,
+    ) {
+        updateProperty(first.copy(sortIndex = second.sortIndex))
+        updateProperty(second.copy(sortIndex = first.sortIndex))
+    }
+
+    private suspend fun editProperty(property: MeasurementProperty.Local) {
+        pushScreen(MeasurementPropertyFormScreen(property))
     }
 
     // TODO: Validate

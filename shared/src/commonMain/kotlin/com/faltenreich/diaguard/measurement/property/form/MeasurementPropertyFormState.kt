@@ -36,6 +36,6 @@ data class MeasurementPropertyFormState(
 
         data object Alert : Dialog
 
-        data object AggregationStyle : Dialog
+        data class AggregationStyle(val selection: MeasurementProperty) : Dialog
     }
 }

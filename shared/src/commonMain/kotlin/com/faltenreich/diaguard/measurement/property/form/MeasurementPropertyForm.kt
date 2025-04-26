@@ -113,7 +113,7 @@ fun MeasurementPropertyForm(
                 modifier = Modifier.clickable {
                     viewModel.dispatchIntent(
                         MeasurementPropertyFormIntent.OpenDialog(
-                            MeasurementPropertyFormState.Dialog.AggregationStyle
+                            MeasurementPropertyFormState.Dialog.AggregationStyle(state.property)
                         )
                     )
                 },
@@ -155,40 +155,11 @@ fun MeasurementPropertyForm(
         }
     }
 
-    when (state.dialog) {
-        is MeasurementPropertyFormState.Dialog.Delete -> DeleteDialog(
-            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDialog) },
-            onConfirmRequest = {
-                viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDialog)
-                viewModel.dispatchIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = false))
-            }
+    state.dialog?.let { dialog ->
+        Dialog(
+            state = dialog,
+            onIntent = viewModel::dispatchIntent,
         )
-        is MeasurementPropertyFormState.Dialog.Alert -> AlertDialog(
-            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDialog) },
-            confirmButton = {
-                TextButton(
-                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDialog) },
-                ) {
-                    Text(
-                        text = getString(Res.string.ok),
-                        color = AppTheme.colors.scheme.onBackground,
-                    )
-                }
-            },
-            title = { Text(stringResource(Res.string.delete_title)) },
-            text = { Text(stringResource(Res.string.delete_error_pre_defined)) },
-        )
-        is MeasurementPropertyFormState.Dialog.AggregationStyle -> ModalBottomSheet(
-            onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDialog) },
-        ) {
-            MeasurementAggregationStyleForm(
-                selection = state.property.aggregationStyle,
-                onChange = { aggregationStyle ->
-                    viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateAggregationStyle(aggregationStyle))
-                },
-            )
-        }
-        null -> Unit
     }
 }
 
@@ -263,6 +234,47 @@ private fun UnitButton(
             Text(
                 text = stringResource(Res.string.measurement_unit_select),
                 fontStyle = FontStyle.Italic,
+            )
+        }
+    }
+}
+
+@Composable
+private fun Dialog(
+    state: MeasurementPropertyFormState.Dialog,
+    onIntent: (MeasurementPropertyFormIntent) -> Unit,
+) {
+    when (state) {
+        is MeasurementPropertyFormState.Dialog.Delete -> DeleteDialog(
+            onDismissRequest = { onIntent(MeasurementPropertyFormIntent.CloseDialog) },
+            onConfirmRequest = {
+                onIntent(MeasurementPropertyFormIntent.CloseDialog)
+                onIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = false))
+            }
+        )
+        is MeasurementPropertyFormState.Dialog.Alert -> AlertDialog(
+            onDismissRequest = { onIntent(MeasurementPropertyFormIntent.CloseDialog) },
+            confirmButton = {
+                TextButton(
+                    onClick = { onIntent(MeasurementPropertyFormIntent.CloseDialog) },
+                ) {
+                    Text(
+                        text = getString(Res.string.ok),
+                        color = AppTheme.colors.scheme.onBackground,
+                    )
+                }
+            },
+            title = { Text(stringResource(Res.string.delete_title)) },
+            text = { Text(stringResource(Res.string.delete_error_pre_defined)) },
+        )
+        is MeasurementPropertyFormState.Dialog.AggregationStyle -> ModalBottomSheet(
+            onDismissRequest = { onIntent(MeasurementPropertyFormIntent.CloseDialog) },
+        ) {
+            MeasurementAggregationStyleForm(
+                selection = state.selection.aggregationStyle,
+                onChange = { aggregationStyle ->
+                    onIntent(MeasurementPropertyFormIntent.UpdateAggregationStyle(aggregationStyle))
+                },
             )
         }
     }

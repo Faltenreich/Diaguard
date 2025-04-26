@@ -33,7 +33,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
     @Test
     fun `launch with property`() = runTest {
         val property = propertyRepository.getAll().first()
-        viewModel = get(parameters = { parametersOf(property.id) })
+        viewModel = get(parameters = { parametersOf(property.category.id, property.id) })
 
         viewModel.state.test {
             val state = awaitItem()
@@ -47,14 +47,14 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
             assertEquals(expected = property.range.maximum.toString(), actual = state.valueRange.maximum)
             assertEquals(expected = property.range.isHighlighted, actual = state.valueRange.isHighlighted)
 
-            assertEquals(property.unit, state.unit)
+            assertEquals(property.unit, state.property.unit)
         }
     }
 
     @Test
     fun `store property and pop screen on submit`() = runTest {
         val property = propertyRepository.getAll().first()
-        viewModel = get(parameters = { parametersOf(property.id) })
+        viewModel = get(parameters = { parametersOf(property.category.id, property.id) })
 
         navigation.events.test {
             val name = "test"
@@ -94,7 +94,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
         propertyRepository.update(property.copy(key = null))
 
         // FIXME: Race condition, property has still a key
-        viewModel = get(parameters = { parametersOf(property.id) })
+        viewModel = get(parameters = { parametersOf(property.category.id, property.id) })
 
         viewModel.state.test {
             viewModel.handleIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = true))
@@ -105,7 +105,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
     @Test
     fun `open alert modal when intending to delete seed property`() = runTest {
         val property = propertyRepository.getAll().first()
-        viewModel = get(parameters = { parametersOf(property.id) })
+        viewModel = get(parameters = { parametersOf(property.category.id, property.id) })
         viewModel.handleIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = true))
 
         viewModel.state.test {

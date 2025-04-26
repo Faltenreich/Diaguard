@@ -159,6 +159,7 @@
     <string name="measurement_property">Property</string>
     <string name="measurement_property_delete">Delete property</string>
     <string name="measurement_property_add">Add property</string>
+    <string name="measurement_property_missing_input">Name and unit must not be empty</string>
     <string name="measurement_properties">Properties</string>
     <string name="measurement_unit">Unit</string>
     <string name="measurement_units">Units</string>

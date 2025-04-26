@@ -8,6 +8,7 @@ data class MeasurementPropertyFormState(
     val property: MeasurementProperty,
     val valueRange: MeasurementValueRangeState,
     val unitSuggestions: List<UnitSuggestion>,
+    val errorBar: ErrorBar?,
     val deleteDialog: DeleteDialog?,
     val alertDialog: AlertDialog?,
 ) {
@@ -18,6 +19,8 @@ data class MeasurementPropertyFormState(
         val subtitle: String?,
         val isSelected: Boolean,
     )
+
+    data object ErrorBar
 
     data object DeleteDialog
 

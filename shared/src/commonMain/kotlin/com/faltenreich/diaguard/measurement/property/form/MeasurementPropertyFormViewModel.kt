@@ -108,13 +108,15 @@ class MeasurementPropertyFormViewModel(
 
     }
 
+    private val errorBar = MutableStateFlow<MeasurementPropertyFormState.ErrorBar?>(null)
     private val deleteDialog = MutableStateFlow<MeasurementPropertyFormState.DeleteDialog?>(null)
     private val alertDialog = MutableStateFlow<MeasurementPropertyFormState.AlertDialog?>(null)
 
-    override val state = combine(
+    override val state = com.faltenreich.diaguard.shared.architecture.combine(
         property,
         valueRange,
         unitSuggestions,
+        errorBar,
         deleteDialog,
         alertDialog,
         ::MeasurementPropertyFormState,
@@ -153,6 +155,7 @@ class MeasurementPropertyFormViewModel(
                 is MeasurementProperty.Local -> property.copy(name = name)
             }
         }
+        errorBar.update { null }
     }
 
     private fun update(valueRange: MeasurementValueRangeState) {
@@ -181,6 +184,7 @@ class MeasurementPropertyFormViewModel(
                 is MeasurementProperty.Local -> property.copy(unit = unit)
             }
         }
+        errorBar.update { null }
     }
 
     private suspend fun submit() {
@@ -189,7 +193,7 @@ class MeasurementPropertyFormViewModel(
                 storeCategory(category)
                 popScreen()
             }
-            is Result.Failure -> TODO()
+            is Result.Failure -> errorBar.update { MeasurementPropertyFormState.ErrorBar }
         }
     }
 

@@ -1,10 +1,13 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -40,6 +43,7 @@ import diaguard.shared.generated.resources.aggregation_style_description
 import diaguard.shared.generated.resources.delete_error_pre_defined
 import diaguard.shared.generated.resources.delete_title
 import diaguard.shared.generated.resources.ic_check
+import diaguard.shared.generated.resources.measurement_property_missing_input
 import diaguard.shared.generated.resources.measurement_unit
 import diaguard.shared.generated.resources.measurement_unit_select
 import diaguard.shared.generated.resources.measurement_unit_selected_description
@@ -55,7 +59,7 @@ fun MeasurementPropertyForm(
     unitSelectionViewModel: MeasurementUnitSelectionViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState()
+    val state = viewModel.collectState() ?: return
 
     LaunchedEffect(Unit) {
         unitSelectionViewModel.collectEvents { event ->
@@ -66,13 +70,12 @@ fun MeasurementPropertyForm(
         }
     }
 
-    AnimatedVisibility(
-        visible = state != null,
-        enter = fadeIn(),
-    ) {
-        state ?: return@AnimatedVisibility
-
-        Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+    Column(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .weight(1f),
+        ) {
             var name by remember { mutableStateOf(state.property.name) }
             TextInput(
                 input = name,
@@ -122,9 +125,27 @@ fun MeasurementPropertyForm(
                 onUpdate = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateValueRange(it)) },
             )
         }
+
+        AnimatedVisibility(
+            visible = state.errorBar != null,
+            enter = slideInVertically(initialOffsetY = { it / 2 }),
+            exit = slideOutVertically(targetOffsetY = { it / 2 }),
+        ) {
+            Text(
+                text = stringResource(Res.string.measurement_property_missing_input),
+                modifier = Modifier
+                    .background(AppTheme.colors.scheme.errorContainer)
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = AppTheme.dimensions.padding.P_3,
+                        vertical = AppTheme.dimensions.padding.P_2,
+                    ),
+                color = AppTheme.colors.scheme.onErrorContainer,
+            )
+        }
     }
 
-    if (state?.deleteDialog != null) {
+    if (state.deleteDialog != null) {
         DeleteDialog(
             onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseDeleteDialog) },
             onConfirmRequest = {
@@ -134,7 +155,7 @@ fun MeasurementPropertyForm(
         )
     }
 
-    if (state?.alertDialog != null) {
+    if (state.alertDialog != null) {
         AlertDialog(
             onDismissRequest = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.CloseAlertDialog) },
             confirmButton = {

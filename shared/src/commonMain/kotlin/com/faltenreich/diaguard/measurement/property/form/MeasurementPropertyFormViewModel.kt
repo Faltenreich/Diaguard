@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
@@ -22,7 +23,9 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.measurement_unit_factor_description
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 class MeasurementPropertyFormViewModel(
@@ -42,10 +45,9 @@ class MeasurementPropertyFormViewModel(
     private val numberFormatter: NumberFormatter = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
-    private val propertyLocal = propertyId?.let(getPropertyById::invoke)
-    // TODO: Extract into use case
-    private val createUserProperty = {
-        MeasurementProperty.User(
+    private val category = checkNotNull(getCategoryById(categoryId))
+    private val property = MutableStateFlow(propertyId?.let(getPropertyById::invoke)
+        ?: MeasurementProperty.User(
             name = "",
             sortIndex = getMaximumSortIndex(categoryId)?.plus(1) ?: 0,
             // TODO: Make user-customizable
@@ -60,17 +62,10 @@ class MeasurementPropertyFormViewModel(
                 isHighlighted = false,
             ),
             category = category,
+            unit = null,
         )
-    }
-
-    private val category = checkNotNull(getCategoryById(categoryId))
-    private val property = MutableStateFlow(propertyLocal ?: createUserProperty())
-    // TODO: Merge into property
-    private val unit = MutableStateFlow((property.value as? MeasurementProperty.Local)?.unit)
-    private val valueRange = combine(
-        property,
-        unit
-    ) { property, unit ->
+    )
+    private val valueRange = property.map { property ->
         MeasurementValueRangeState(
             minimum = property.range.minimum.toString(),
             low = property.range.low?.toString() ?: "",
@@ -78,45 +73,47 @@ class MeasurementPropertyFormViewModel(
             high = property.range.high?.toString() ?: "",
             maximum = property.range.maximum.toString(),
             isHighlighted = property.range.isHighlighted,
-            unit = unit?.name,
+            unit = property.unit?.name,
         )
     }
 
-    private val unitSuggestions = propertyLocal?.let { property ->
-        combine(
-            unit,
-            getUnitSuggestions(property),
-            getPreference(DecimalPlacesPreference),
-        ) { unit, unitSuggestions, decimalPlaces ->
-            if (property.isUserGenerated) emptyList() else unitSuggestions.map { unitSuggestion ->
-                MeasurementPropertyFormState.UnitSuggestion(
-                    unit = unitSuggestion.unit,
-                    title = unitSuggestion.unit.name,
-                    subtitle = unitSuggestion.takeUnless(MeasurementUnitSuggestion::isDefault)
-                        ?.run {
-                            localization.getString(
-                                Res.string.measurement_unit_factor_description,
-                                numberFormatter(
-                                    number = unitSuggestion.factor,
-                                    scale = decimalPlaces,
-                                    locale = localization.getLocale(),
-                                ),
-                                unitSuggestions.first(MeasurementUnitSuggestion::isDefault).unit.name,
-                            )
-                        },
-                    isSelected = unit?.id == unitSuggestion.unit.id,
-                )
+    private val unitSuggestions = property.flatMapLatest { property ->
+        when (property) {
+            is MeasurementProperty.Local -> combine(
+                getUnitSuggestions(property),
+                getPreference(DecimalPlacesPreference),
+            ) { unitSuggestions, decimalPlaces ->
+                if (property.isUserGenerated) emptyList() else unitSuggestions.map { unitSuggestion ->
+                    MeasurementPropertyFormState.UnitSuggestion(
+                        unit = unitSuggestion.unit,
+                        title = unitSuggestion.unit.name,
+                        subtitle = unitSuggestion.takeUnless(MeasurementUnitSuggestion::isDefault)
+                            ?.run {
+                                localization.getString(
+                                    Res.string.measurement_unit_factor_description,
+                                    numberFormatter(
+                                        number = unitSuggestion.factor,
+                                        scale = decimalPlaces,
+                                        locale = localization.getLocale(),
+                                    ),
+                                    unitSuggestions.first(MeasurementUnitSuggestion::isDefault).unit.name,
+                                )
+                            },
+                        isSelected = property.unit.id == unitSuggestion.unit.id,
+                    )
+                }
             }
+            else -> flowOf(emptyList())
         }
-    } ?: flowOf(emptyList())
+
+    }
 
     private val deleteDialog = MutableStateFlow<MeasurementPropertyFormState.DeleteDialog?>(null)
     private val alertDialog = MutableStateFlow<MeasurementPropertyFormState.AlertDialog?>(null)
 
-    override val state = com.faltenreich.diaguard.shared.architecture.combine(
+    override val state = combine(
         property,
         valueRange,
-        unit,
         unitSuggestions,
         deleteDialog,
         alertDialog,
@@ -132,7 +129,7 @@ class MeasurementPropertyFormViewModel(
             is MeasurementPropertyFormIntent.OpenUnitSearch ->
                 pushScreen(MeasurementUnitListScreen(mode = MeasurementUnitListMode.FIND))
             is MeasurementPropertyFormIntent.SelectUnit ->
-                unit.update { intent.unit }
+                update(intent.unit)
             is MeasurementPropertyFormIntent.Submit ->
                 submit()
             is MeasurementPropertyFormIntent.OpenDeleteDialog ->
@@ -197,15 +194,18 @@ class MeasurementPropertyFormViewModel(
         }
     }
 
-    private suspend fun submit() {
-        // TODO: Validate
-        val unit = unit.value ?: return
-        val property = property.value.also { property ->
-            if (property is MeasurementProperty.User) {
-                property.unit = unit
+    private fun update(unit: MeasurementUnit.Local) {
+        property.update { property ->
+            when (property) {
+                is MeasurementProperty.Seed -> property.apply { this.unit = unit }
+                is MeasurementProperty.User -> property.apply { this.unit = unit }
+                is MeasurementProperty.Local -> property.copy(unit = unit)
             }
         }
-        storeProperty(property)
+    }
+
+    private suspend fun submit() {
+        storeProperty(property.value)
         storeCategory(category)
         popScreen()
     }

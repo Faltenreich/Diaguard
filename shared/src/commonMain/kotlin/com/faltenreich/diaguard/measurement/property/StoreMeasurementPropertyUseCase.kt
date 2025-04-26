@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.measurement.property
 
 class StoreMeasurementPropertyUseCase(private val repository: MeasurementPropertyRepository) {
 
+    // TODO: Return Result
     operator fun invoke(property: MeasurementProperty): MeasurementProperty.Local {
         val id = when (property) {
             is MeasurementProperty.Seed -> repository.create(property)

@@ -53,6 +53,7 @@ class ImportSeedUseCase(
                 property.unit = propertyUnit
 
                 val propertyId = propertyRepository.create(property)
+                    ?: error("Property could not be created: $property ")
                 Logger.verbose("Imported property from seed: $property")
 
                 property.unitSuggestions.forEach { unitSuggestion ->

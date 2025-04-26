@@ -97,7 +97,7 @@ fun MeasurementPropertyForm(
             } else {
                 Divider()
                 UnitButton(
-                    unit = state.unit,
+                    unit = state.property.unit,
                     onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.OpenUnitSearch) },
                 )
             }

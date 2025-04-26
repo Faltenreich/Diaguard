@@ -17,6 +17,8 @@ sealed interface MeasurementProperty {
     val sortIndex: Long
     val aggregationStyle: MeasurementAggregationStyle
     val range: MeasurementValueRange
+    val category: MeasurementCategory.Local?
+    val unit: MeasurementUnit.Local?
 
     data class Seed(
         override val name: String,
@@ -27,8 +29,8 @@ sealed interface MeasurementProperty {
         val unitSuggestions: List<MeasurementUnitSuggestion.Seed>,
     ) : MeasurementProperty {
 
-        lateinit var category: MeasurementCategory.Local
-        lateinit var unit: MeasurementUnit.Local
+        override lateinit var category: MeasurementCategory.Local
+        override lateinit var unit: MeasurementUnit.Local
     }
 
     data class User(
@@ -36,11 +38,9 @@ sealed interface MeasurementProperty {
         override val sortIndex: Long,
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
-        val category: MeasurementCategory.Local,
-    ) : MeasurementProperty {
-
-        lateinit var unit: MeasurementUnit.Local
-    }
+        override val category: MeasurementCategory.Local,
+        override var unit: MeasurementUnit.Local?,
+    ) : MeasurementProperty
 
     data class Local(
         override val id: Long,
@@ -50,9 +50,9 @@ sealed interface MeasurementProperty {
         override val sortIndex: Long,
         override val aggregationStyle: MeasurementAggregationStyle,
         override val range: MeasurementValueRange,
+        override val category: MeasurementCategory.Local,
+        override val unit: MeasurementUnit.Local,
         val key: DatabaseKey.MeasurementProperty?,
-        val category: MeasurementCategory.Local,
-        val unit: MeasurementUnit.Local,
         val valueFactor: Double,
     ) : MeasurementProperty, DatabaseEntity {
 

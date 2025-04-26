@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.primitive.NumberFormatter
+import com.faltenreich.diaguard.shared.result.Result
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.measurement_unit_factor_description
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -205,9 +206,13 @@ class MeasurementPropertyFormViewModel(
     }
 
     private suspend fun submit() {
-        storeProperty(property.value)
-        storeCategory(category)
-        popScreen()
+        when (storeProperty(property.value)) {
+            is Result.Success -> {
+                storeCategory(category)
+                popScreen()
+            }
+            is Result.Failure -> TODO()
+        }
     }
 
     private suspend fun delete(intent: MeasurementPropertyFormIntent.Delete) {

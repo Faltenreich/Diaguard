@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.category.form
+package com.faltenreich.diaguard.measurement.property.usecase
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty

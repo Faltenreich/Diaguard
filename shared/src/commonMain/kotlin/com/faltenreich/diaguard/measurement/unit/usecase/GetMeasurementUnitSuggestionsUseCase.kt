@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.property.usecase
+package com.faltenreich.diaguard.measurement.unit.usecase
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion

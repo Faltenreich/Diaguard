@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository

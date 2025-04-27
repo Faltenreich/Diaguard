@@ -1,18 +1,18 @@
 package com.faltenreich.diaguard.measurement.property.form
 
-import com.faltenreich.diaguard.measurement.category.StoreMeasurementCategoryUseCase
-import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryByIdUseCase
-import com.faltenreich.diaguard.measurement.property.usecase.DeleteMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.usecase.GetMaximumSortIndexUseCase
-import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertyBdIdUseCase
-import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementUnitSuggestionsUseCase
+import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
+import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
+import com.faltenreich.diaguard.measurement.property.usecase.DeleteMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.GetMaximumSortIndexOfMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertyBdIdUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
+import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSuggestionsUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
@@ -30,7 +30,7 @@ class MeasurementPropertyFormViewModel(
     propertyId: Long?,
     getCategoryById: GetMeasurementCategoryByIdUseCase = inject(),
     getPropertyById: GetMeasurementPropertyBdIdUseCase = inject(),
-    getMaximumSortIndex: GetMaximumSortIndexUseCase = inject(),
+    getMaximumSortIndexOfProperty: GetMaximumSortIndexOfMeasurementPropertyUseCase = inject(),
     getUnitSuggestions: GetMeasurementUnitSuggestionsUseCase = inject(),
     getPreference: GetPreferenceUseCase = inject(),
     private val createState: MeasurementPropertyFormStateFactory = inject(),
@@ -46,7 +46,7 @@ class MeasurementPropertyFormViewModel(
     private val property = MutableStateFlow(
         propertyLocal
             ?: MeasurementProperty.User(
-                sortIndex = getMaximumSortIndex(categoryId)?.plus(1) ?: 0,
+                sortIndex = getMaximumSortIndexOfProperty(categoryId)?.plus(1) ?: 0,
                 category = category,
             )
     )

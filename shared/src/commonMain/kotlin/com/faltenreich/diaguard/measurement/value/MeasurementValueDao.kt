@@ -31,8 +31,6 @@ interface MeasurementValueDao {
 
     fun getByEntryId(entryId: Long): List<MeasurementValue.Local>
 
-    fun observeCountByPropertyId(propertyId: Long): Flow<Long>
-
     fun observeCountByCategoryId(categoryId: Long): Flow<Long>
 
     fun observeAverageByPropertyKey(

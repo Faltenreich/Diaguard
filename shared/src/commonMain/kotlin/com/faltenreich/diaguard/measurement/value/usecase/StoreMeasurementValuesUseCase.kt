@@ -1,7 +1,9 @@
-package com.faltenreich.diaguard.measurement.value
+package com.faltenreich.diaguard.measurement.value.usecase
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 
 class StoreMeasurementValuesUseCase(private val repository: MeasurementValueRepository) {
 

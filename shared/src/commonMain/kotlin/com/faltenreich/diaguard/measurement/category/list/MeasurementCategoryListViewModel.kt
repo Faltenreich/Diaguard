@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.measurement.category.list
 
-import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.category.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
+import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 
 class MeasurementCategoryListViewModel(
-    getCategories: GetAllMeasurementCategoriesUseCase,
+    getCategories: GetMeasurementCategoriesUseCase,
     private val storeCategory: StoreMeasurementCategoryUseCase,
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<MeasurementCategoryListState, MeasurementCategoryListIntent, Unit>() {

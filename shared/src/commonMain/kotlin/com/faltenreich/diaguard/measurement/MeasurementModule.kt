@@ -1,35 +1,34 @@
 package com.faltenreich.diaguard.measurement
 
-import com.faltenreich.diaguard.measurement.category.GetActiveMeasurementCategoriesUseCase
-import com.faltenreich.diaguard.measurement.category.GetAllMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.measurement.category.StoreMeasurementCategoryUseCase
-import com.faltenreich.diaguard.measurement.category.form.DeleteMeasurementCategoryUseCase
-import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryByIdUseCase
-import com.faltenreich.diaguard.measurement.category.form.GetMeasurementPropertiesUseCase
+import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
+import com.faltenreich.diaguard.measurement.category.usecase.DeleteMeasurementCategoryUseCase
+import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormViewModel
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListViewModel
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.usecase.CountMeasurementValuesOfPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.usecase.DeleteMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.property.usecase.GetMaximumSortIndexUseCase
-import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertyBdIdUseCase
-import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementUnitSuggestionsUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormStateFactory
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormViewModel
+import com.faltenreich.diaguard.measurement.property.usecase.DeleteMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.GetMaximumSortIndexOfMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertyBdIdUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
-import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
+import com.faltenreich.diaguard.measurement.unit.usecase.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.UniqueMeasurementUnitRule
-import com.faltenreich.diaguard.measurement.unit.ValidateMeasurementUnitUseCase
-import com.faltenreich.diaguard.measurement.unit.list.GetMeasurementUnitsUseCase
+import com.faltenreich.diaguard.measurement.unit.usecase.ValidateMeasurementUnitUseCase
+import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitsUseCase
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListViewModel
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionViewModel
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestionRepository
+import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSuggestionsUseCase
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.measurement.value.StoreMeasurementValuesUseCase
+import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValuesUseCase
 import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel
@@ -48,18 +47,17 @@ fun measurementModule() = module {
     factoryOf(::StoreMeasurementCategoryUseCase)
     factoryOf(::GetMeasurementValueTintUseCase)
     factoryOf(::GetActiveMeasurementCategoriesUseCase)
-    factoryOf(::GetAllMeasurementCategoriesUseCase)
+    factoryOf(::GetMeasurementCategoriesUseCase)
     factoryOf(::GetMeasurementCategoryByIdUseCase)
     factoryOf(::DeleteMeasurementCategoryUseCase)
     factoryOf(::MeasurementPropertyFormStateFactory)
     factoryOf(::StoreMeasurementPropertyUseCase)
-    factoryOf(::GetMaximumSortIndexUseCase)
+    factoryOf(::GetMaximumSortIndexOfMeasurementPropertyUseCase)
     factoryOf(::GetMeasurementUnitsUseCase)
     factoryOf(::GetMeasurementPropertyBdIdUseCase)
     factoryOf(::GetMeasurementUnitSuggestionsUseCase)
     factoryOf(::GetMeasurementPropertiesUseCase)
     factoryOf(::StoreMeasurementValuesUseCase)
-    factoryOf(::CountMeasurementValuesOfPropertyUseCase)
     factoryOf(::DeleteMeasurementPropertyUseCase)
     factory { ValidateMeasurementUnitUseCase(rules = listOf(UniqueMeasurementUnitRule())) }
     factoryOf(::StoreMeasurementUnitUseCase)

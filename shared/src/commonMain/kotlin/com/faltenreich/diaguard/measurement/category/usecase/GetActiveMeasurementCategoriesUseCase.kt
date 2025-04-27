@@ -1,5 +1,7 @@
-package com.faltenreich.diaguard.measurement.category
+package com.faltenreich.diaguard.measurement.category.usecase
 
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetActiveMeasurementCategoriesUseCase(

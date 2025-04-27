@@ -1,5 +1,6 @@
-package com.faltenreich.diaguard.measurement.unit
+package com.faltenreich.diaguard.measurement.unit.usecase
 
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.shared.validation.ValidationRule
 

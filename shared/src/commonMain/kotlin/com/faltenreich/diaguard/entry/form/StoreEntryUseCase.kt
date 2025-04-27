@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.tag.StoreEntryTagsUseCase
 import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
-import com.faltenreich.diaguard.measurement.value.StoreMeasurementValuesUseCase
+import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValuesUseCase
 
 class StoreEntryUseCase(
     private val repository: EntryRepository,

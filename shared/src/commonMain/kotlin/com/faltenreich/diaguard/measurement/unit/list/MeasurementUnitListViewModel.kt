@@ -1,8 +1,9 @@
 package com.faltenreich.diaguard.measurement.unit.list
 
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.measurement.unit.StoreMeasurementUnitUseCase
-import com.faltenreich.diaguard.measurement.unit.ValidateMeasurementUnitUseCase
+import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitsUseCase
+import com.faltenreich.diaguard.measurement.unit.usecase.StoreMeasurementUnitUseCase
+import com.faltenreich.diaguard.measurement.unit.usecase.ValidateMeasurementUnitUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject

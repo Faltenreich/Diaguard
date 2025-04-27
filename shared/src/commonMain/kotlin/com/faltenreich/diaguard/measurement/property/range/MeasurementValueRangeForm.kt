@@ -1,24 +1,28 @@
 package com.faltenreich.diaguard.measurement.property.range
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormState
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.shared.view.FormRow
-import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.value_range_high
@@ -49,15 +53,33 @@ fun MeasurementValueRangeForm(
     val unit = state.unit ?: ""
 
     Column(modifier = modifier) {
-        FormRow {
-            TextCheckbox(
-                title = getString(Res.string.value_range_highlighted),
-                subtitle = getString(Res.string.value_range_highlighted_description),
+        Row(
+            modifier = Modifier
+                .toggleable(
+                    value = isHighlighted,
+                    role = Role.Checkbox,
+                    onValueChange = { isChecked ->
+                        isHighlighted = isChecked
+                        onUpdate(state.copy(isHighlighted = isChecked))
+                    },
+                )
+                .padding(
+                    horizontal = AppTheme.dimensions.padding.P_3,
+                    vertical = AppTheme.dimensions.padding.P_2,
+                ),
+            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(getString(Res.string.value_range_highlighted))
+                Text(
+                    text = getString(Res.string.value_range_highlighted_description),
+                    style = AppTheme.typography.bodySmall,
+                )
+            }
+            Switch(
                 checked = isHighlighted,
-                onCheckedChange = { isChecked ->
-                    isHighlighted = isChecked
-                    onUpdate(state.copy(isHighlighted = isChecked))
-                },
+                onCheckedChange = null,
             )
         }
 
@@ -74,7 +96,7 @@ fun MeasurementValueRangeForm(
                 .fillMaxWidth()
                 .padding(
                     horizontal = AppTheme.dimensions.padding.P_1,
-                    vertical = AppTheme.dimensions.padding.P_3,
+                    vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_minimum_description)) },
@@ -98,7 +120,7 @@ fun MeasurementValueRangeForm(
                 .fillMaxWidth()
                 .padding(
                     horizontal = AppTheme.dimensions.padding.P_1,
-                    vertical = AppTheme.dimensions.padding.P_3,
+                    vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_low_description)) },
@@ -122,7 +144,7 @@ fun MeasurementValueRangeForm(
                 .fillMaxWidth()
                 .padding(
                     horizontal = AppTheme.dimensions.padding.P_1,
-                    vertical = AppTheme.dimensions.padding.P_3,
+                    vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_target_description)) },
@@ -146,7 +168,7 @@ fun MeasurementValueRangeForm(
                 .fillMaxWidth()
                 .padding(
                     horizontal = AppTheme.dimensions.padding.P_1,
-                    vertical = AppTheme.dimensions.padding.P_3,
+                    vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_high_description)) },
@@ -170,7 +192,7 @@ fun MeasurementValueRangeForm(
                 .fillMaxWidth()
                 .padding(
                     horizontal = AppTheme.dimensions.padding.P_1,
-                    vertical = AppTheme.dimensions.padding.P_3,
+                    vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
             supportingText = { Text(getString(Res.string.value_range_maximum_description)) },

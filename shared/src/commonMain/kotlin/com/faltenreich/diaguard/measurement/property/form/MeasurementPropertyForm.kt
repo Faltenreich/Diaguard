@@ -1,9 +1,6 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,6 +34,8 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.shared.view.NoticeBar
+import com.faltenreich.diaguard.shared.view.NoticeBarStyle
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
@@ -97,6 +96,7 @@ fun MeasurementPropertyForm(
             )
 
             TextDivider(getString(Res.string.measurement_unit))
+
             if (state.unitSuggestions.isNotEmpty()) {
                 UnitList(state, onIntent = viewModel::dispatchIntent)
             } else {
@@ -135,23 +135,11 @@ fun MeasurementPropertyForm(
             )
         }
 
-        AnimatedVisibility(
-            visible = state.errorBar != null,
-            enter = slideInVertically(initialOffsetY = { it / 2 }),
-            exit = slideOutVertically(targetOffsetY = { it / 2 }),
-        ) {
-            Text(
-                text = stringResource(Res.string.measurement_property_missing_input),
-                modifier = Modifier
-                    .background(AppTheme.colors.scheme.errorContainer)
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = AppTheme.dimensions.padding.P_3,
-                        vertical = AppTheme.dimensions.padding.P_2,
-                    ),
-                color = AppTheme.colors.scheme.onErrorContainer,
-            )
-        }
+        NoticeBar(
+            text = stringResource(Res.string.measurement_property_missing_input),
+            isVisible = state.errorBar != null,
+            style = NoticeBarStyle.ERROR,
+        )
     }
 
     state.dialog?.let { dialog ->

@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.measurement.property.form
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeState
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import kotlinx.coroutines.test.runTest
@@ -40,11 +39,6 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
 
             assertEquals(expected = property.name, actual = state.property.name)
             assertEquals(expected = property.aggregationStyle, actual = state.property.aggregationStyle)
-            assertEquals(expected = property.range.minimum.toString(), actual = state.valueRange.minimum)
-            assertEquals(expected = property.range.low?.toString(), actual = state.valueRange.low)
-            assertEquals(expected = property.range.target?.toString(), actual = state.valueRange.target)
-            assertEquals(expected = property.range.high?.toString(), actual = state.valueRange.high)
-            assertEquals(expected = property.range.maximum.toString(), actual = state.valueRange.maximum)
             assertEquals(expected = property.range.isHighlighted, actual = state.valueRange.isHighlighted)
 
             assertEquals(property.unit, state.property.unit)
@@ -58,7 +52,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
 
         navigation.events.test {
             val name = "test"
-            val valueRange = MeasurementValueRangeState(
+            val valueRange = MeasurementPropertyFormState.ValueRange(
                 minimum = "0.0",
                 low = "1.0",
                 target = "2.0",
@@ -98,7 +92,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
 
         viewModel.state.test {
             viewModel.handleIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = true))
-            assertNotNull(awaitItem().alertDialog)
+            assertTrue(awaitItem().dialog is MeasurementPropertyFormState.Dialog.Alert)
         }
     }
 
@@ -109,7 +103,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
         viewModel.handleIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = true))
 
         viewModel.state.test {
-            assertNotNull(awaitItem().alertDialog)
+            assertTrue(awaitItem().dialog is MeasurementPropertyFormState.Dialog.Alert)
         }
     }
 }

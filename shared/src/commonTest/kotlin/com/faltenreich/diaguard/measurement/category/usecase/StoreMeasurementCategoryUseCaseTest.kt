@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.measurement.category
+package com.faltenreich.diaguard.measurement.category.usecase
 
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import org.koin.test.inject
 import kotlin.test.BeforeTest
 import kotlin.test.Test

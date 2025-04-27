@@ -96,11 +96,10 @@ fun MeasurementPropertyForm(
                     ),
             )
 
+            TextDivider(getString(Res.string.measurement_unit))
             if (state.unitSuggestions.isNotEmpty()) {
-                TextDivider(getString(Res.string.measurement_unit))
                 UnitList(state, onIntent = viewModel::dispatchIntent)
             } else {
-                Divider()
                 UnitButton(
                     unit = state.property.unit,
                     onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.OpenUnitSearch) },
@@ -216,10 +215,6 @@ private fun UnitButton(
             .clickable { onClick() }
             .fillMaxWidth(),
     ) {
-        Text(
-            text = stringResource(Res.string.measurement_unit),
-            modifier = Modifier.weight(1f),
-        )
         if (unit != null) {
             Column {
                 Text(

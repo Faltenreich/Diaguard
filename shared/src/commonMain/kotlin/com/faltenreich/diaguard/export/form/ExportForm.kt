@@ -19,11 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DateRangePicker
+import com.faltenreich.diaguard.export.pdf.layout.PdfLayoutForm
 import com.faltenreich.diaguard.export.type.ExportTypeForm
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.shared.view.DropdownButton
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextCheckbox
@@ -57,6 +57,7 @@ fun ExportForm(
     val state = viewModel.collectState() ?: return
     var showDateRangePicker by remember { mutableStateOf(false) }
     var showTypeForm by remember { mutableStateOf(false) }
+    var showPdfLayoutForm by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -86,14 +87,13 @@ fun ExportForm(
         }
 
         TextDivider(getString(Res.string.layout))
-        FormRow(icon = { ResourceIcon(Res.drawable.ic_layout) }) {
-            DropdownButton(
-                text = getString(state.layout.selection.title),
-                items = state.layout.options.map { layout ->
-                    getString(layout.title) to {
-                        viewModel.dispatchIntent(ExportFormIntent.SelectLayout(layout))
-                    }
-                },
+        FormRow(
+            icon = { ResourceIcon(Res.drawable.ic_layout) },
+            modifier = Modifier.clickable { showPdfLayoutForm = true },
+        ) {
+            Text(
+                text = stringResource(state.layout.selection.titleResource),
+                modifier = Modifier.fillMaxWidth(),
             )
         }
         Divider()
@@ -238,6 +238,18 @@ fun ExportForm(
                     showTypeForm = false
                     viewModel.dispatchIntent(ExportFormIntent.SelectType(type))
                 }
+            )
+        }
+    }
+
+    if (showPdfLayoutForm) {
+        ModalBottomSheet(onDismissRequest = { showPdfLayoutForm = false }) {
+            PdfLayoutForm(
+                selection = state.layout.selection,
+                onChange = { pdfLayout ->
+                    showPdfLayoutForm = false
+                    viewModel.dispatchIntent(ExportFormIntent.SelectLayout(pdfLayout))
+                },
             )
         }
     }

@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.ExportData
 import com.faltenreich.diaguard.export.type.ExportType
 import com.faltenreich.diaguard.export.ExportUseCase
-import com.faltenreich.diaguard.export.pdf.PdfLayout
+import com.faltenreich.diaguard.export.pdf.layout.PdfLayout
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

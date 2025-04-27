@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.export.form
 
 import com.faltenreich.diaguard.datetime.DateRange
-import com.faltenreich.diaguard.export.pdf.PdfLayout
+import com.faltenreich.diaguard.export.pdf.layout.PdfLayout
 import com.faltenreich.diaguard.export.type.ExportType
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 

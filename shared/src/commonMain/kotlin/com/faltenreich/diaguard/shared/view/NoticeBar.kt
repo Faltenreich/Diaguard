@@ -45,3 +45,8 @@ fun NoticeBar(
         )
     }
 }
+
+enum class NoticeBarStyle {
+    WARNING,
+    ERROR,
+}

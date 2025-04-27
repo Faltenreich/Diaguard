@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.export.form
 
-import com.faltenreich.diaguard.export.ExportType
+import com.faltenreich.diaguard.export.type.ExportType
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 
 sealed interface ExportFormIntent {

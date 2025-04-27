@@ -41,7 +41,6 @@ import diaguard.shared.generated.resources.ic_tag
 import diaguard.shared.generated.resources.ic_time
 import diaguard.shared.generated.resources.layout
 import diaguard.shared.generated.resources.measurement_categories
-import diaguard.shared.generated.resources.merge_values
 import diaguard.shared.generated.resources.notes
 import diaguard.shared.generated.resources.page_number
 import diaguard.shared.generated.resources.tags
@@ -192,41 +191,27 @@ fun ExportForm(
         }
 
         TextDivider(getString(Res.string.measurement_categories))
+
         state.content.categories.forEach { category ->
-            FormRow(icon = { MeasurementCategoryIcon(category.category) }) {
+            FormRow(
+                icon = { MeasurementCategoryIcon(category.category) },
+                modifier = Modifier.toggleable(
+                    value = category.isExported,
+                    role = Role.Checkbox,
+                    onValueChange = {
+                        val intent = ExportFormIntent.SetCategory(category.copy(isExported = !category.isExported))
+                        viewModel.dispatchIntent(intent)
+                    },
+                ),
+            ) {
                 TextCheckbox(
                     title = category.category.name,
                     checked = category.isExported,
                     onCheckedChange = null,
-                    modifier = Modifier
-                        .weight(1f)
-                        .toggleable(
-                            value = category.isExported,
-                            role = Role.Checkbox,
-                            onValueChange = {
-                                val intent = ExportFormIntent.SetCategory(category.copy(isExported = !category.isExported))
-                                viewModel.dispatchIntent(intent)
-                            },
-                        ),
+                    modifier = Modifier.fillMaxWidth(),
                 )
-                if (true) { // TODO: category.category.properties.size > 1) {
-                    TextCheckbox(
-                        title = getString(Res.string.merge_values),
-                        checked = category.isMerged,
-                        onCheckedChange = null,
-                        modifier = Modifier
-                            .weight(1f)
-                            .toggleable(
-                                value = category.isExported,
-                                role = Role.Checkbox,
-                                onValueChange = {
-                                    val intent = ExportFormIntent.SetCategory(category.copy(isMerged = !category.isMerged))
-                                    viewModel.dispatchIntent(intent)
-                                },
-                            ),
-                    )
-                }
             }
+
             Divider()
         }
     }

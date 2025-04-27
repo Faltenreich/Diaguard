@@ -83,7 +83,6 @@ class ExportFormViewModel(
                     ExportFormState.Content.Category(
                         category = category,
                         isExported = true,
-                        isMerged = false,
                     )
                 }.sortedBy { it.category.sortIndex }
                 this@ExportFormViewModel.categories.update { exportCategories }

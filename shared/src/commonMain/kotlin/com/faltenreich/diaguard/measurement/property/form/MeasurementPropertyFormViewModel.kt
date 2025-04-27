@@ -2,8 +2,12 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.category.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.form.GetMeasurementCategoryByIdUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.DeleteMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.GetMaximumSortIndexUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertyBdIdUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementUnitSuggestionsUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.property.StoreMeasurementPropertyUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit

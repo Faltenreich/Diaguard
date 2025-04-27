@@ -1,13 +1,13 @@
-package com.faltenreich.diaguard.measurement.property.form
+package com.faltenreich.diaguard.measurement.property.usecase
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 
-class GetMeasurementPropertyBdIdUseCase(
+class DeleteMeasurementPropertyUseCase(
     private val repository: MeasurementPropertyRepository,
 ) {
 
-    operator fun invoke(id: Long): MeasurementProperty.Local? {
-        return repository.getById(id)
+    operator fun invoke(property: MeasurementProperty.Local) {
+        repository.delete(property)
     }
 }

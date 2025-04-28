@@ -1,13 +1,11 @@
 package com.faltenreich.diaguard.export.form
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -19,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DateRangePicker
-import com.faltenreich.diaguard.export.type.ExportTypeForm
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
@@ -47,7 +44,6 @@ import diaguard.shared.generated.resources.measurement_categories
 import diaguard.shared.generated.resources.notes
 import diaguard.shared.generated.resources.page_number
 import diaguard.shared.generated.resources.tags
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ExportForm(
@@ -56,7 +52,6 @@ fun ExportForm(
 ) {
     val state = viewModel.collectState() ?: return
     var showDateRangePicker by remember { mutableStateOf(false) }
-    var showTypeForm by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -75,13 +70,14 @@ fun ExportForm(
             }
         }
         Divider()
-        FormRow(
-            icon = { ResourceIcon(Res.drawable.ic_document) },
-            modifier = Modifier.clickable { showTypeForm = true },
-        ) {
-            Text(
-                text = stringResource(state.type.selection.titleResource),
-                modifier = Modifier.fillMaxWidth(),
+        FormRow(icon = { ResourceIcon(Res.drawable.ic_document) }) {
+            DropdownButton(
+                text = getString(state.type.selection.title),
+                items = state.type.options.map { type ->
+                    getString(type.title) to {
+                        viewModel.dispatchIntent(ExportFormIntent.SelectType(type))
+                    }
+                }
             )
         }
 
@@ -228,17 +224,5 @@ fun ExportForm(
                 viewModel.dateRange.value = it
             },
         )
-    }
-
-    if (showTypeForm) {
-        ModalBottomSheet(onDismissRequest = { showTypeForm = false }) {
-            ExportTypeForm(
-                selection = state.type.selection,
-                onChange = { type ->
-                    showTypeForm = false
-                    viewModel.dispatchIntent(ExportFormIntent.SelectType(type))
-                }
-            )
-        }
     }
 }

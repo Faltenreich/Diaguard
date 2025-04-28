@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.export.form.ExportFormIntent
 import com.faltenreich.diaguard.export.form.ExportFormState
 import com.faltenreich.diaguard.export.form.ExportFormViewModel
 import com.faltenreich.diaguard.export.pdf.PdfLayout
-import com.faltenreich.diaguard.export.type.ExportType
 import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -129,6 +128,7 @@ class ExportFormDialogDialogViewModelTest : TestSuite {
             ExportFormState.Content.Category(
                 category = category,
                 isExported = true,
+                isMerged = false,
             )
         }
         viewModel.state.test {
@@ -254,7 +254,7 @@ class ExportFormDialogDialogViewModelTest : TestSuite {
             awaitItem()
 
             val before = awaitItem().content.categories
-            val change = before.first().copy(isExported = false)
+            val change = before.first().copy(isExported = false, isMerged = false)
 
             viewModel.dispatchIntent(ExportFormIntent.SetCategory(change))
 

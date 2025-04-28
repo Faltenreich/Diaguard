@@ -58,6 +58,7 @@
     <string name="contact">Contact</string>
     <string name="correction">Correction</string>
     <string name="create">Create</string>
+    <string name="csv">CSV</string>
     <string name="dashboard">Dashboard</string>
     <string name="date_of_export">Date of export</string>
     <string name="days_without_entries">Days without entries</string>
@@ -89,11 +90,6 @@
     <string name="entry_search_prompt">Notes, tags, &#8230;</string>
     <string name="error_unknown">Something went wrong, please try again</string>
     <string name="export">Export</string>
-    <string name="export_type">Export format</string>
-    <string name="export_type_pdf">PDF</string>
-    <string name="export_type_pdf_description">Read-only, open with pdf viewer or browser</string>
-    <string name="export_type_csv">CSV</string>
-    <string name="export_type_csv_description">Readable/writeable, open with spreadsheet editor</string>
     <string name="facebook">Facebook</string>
     <string name="facebook_url">http://www.facebook.com/diaguard.de</string>
     <string name="facebook_url_short">facebook.com/diaguard.de</string>
@@ -201,6 +197,7 @@
     <string name="percent">Percent</string>
     <string name="percent_abbreviation">%</string>
     <string name="placeholder">-</string>
+    <string name="pdf">PDF</string>
     <string name="pounds">Pounds</string>
     <string name="pounds_abbreviation">lbs</string>
     <string name="preferences">Preferences</string>

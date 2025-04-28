@@ -128,7 +128,6 @@ class ExportFormDialogDialogViewModelTest : TestSuite {
             ExportFormState.Content.Category(
                 category = category,
                 isExported = true,
-                isMerged = false,
             )
         }
         viewModel.state.test {
@@ -254,7 +253,7 @@ class ExportFormDialogDialogViewModelTest : TestSuite {
             awaitItem()
 
             val before = awaitItem().content.categories
-            val change = before.first().copy(isExported = false, isMerged = false)
+            val change = before.first().copy(isExported = false)
 
             viewModel.dispatchIntent(ExportFormIntent.SetCategory(change))
 

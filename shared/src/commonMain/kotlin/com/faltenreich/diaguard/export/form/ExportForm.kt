@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.export.form
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,12 +14,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DateRangePicker
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.shared.view.DropdownButton
+import com.faltenreich.diaguard.shared.view.DropdownTextMenu
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextCheckbox
@@ -44,6 +42,7 @@ import diaguard.shared.generated.resources.measurement_categories
 import diaguard.shared.generated.resources.notes
 import diaguard.shared.generated.resources.page_number
 import diaguard.shared.generated.resources.tags
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ExportForm(
@@ -56,35 +55,61 @@ fun ExportForm(
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
-        FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
-            TextButton(
-                onClick = { showDateRangePicker = true },
-                colors = ButtonDefaults.textButtonColors(
-                    contentColor = AppTheme.colors.scheme.onSurfaceVariant,
-                ),
-            ) {
-                Text(
-                    text = state.date.dateRangeLocalized,
-                    modifier = Modifier.fillMaxWidth(),
+        FormRow(
+            icon = { ResourceIcon(Res.drawable.ic_time) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { showDateRangePicker = true },
+        ) {
+            Text(state.date.dateRangeLocalized)
+
+            if (showDateRangePicker) {
+                DateRangePicker(
+                    dateRange = viewModel.dateRange.value,
+                    onPick = {
+                        showDateRangePicker = false
+                        viewModel.dateRange.value = it
+                    },
                 )
             }
         }
+
         Divider()
-        FormRow(icon = { ResourceIcon(Res.drawable.ic_document) }) {
-            DropdownButton(
-                text = getString(state.type.selection.title),
+
+        var expandDropdownForType by remember { mutableStateOf(false) }
+        FormRow(
+            icon = { ResourceIcon(Res.drawable.ic_document) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expandDropdownForType = true },
+        ) {
+            Text(stringResource(state.type.selection.title))
+
+            DropdownTextMenu(
+                expanded = expandDropdownForType,
+                onDismissRequest = { expandDropdownForType = false },
                 items = state.type.options.map { type ->
                     getString(type.title) to {
                         viewModel.dispatchIntent(ExportFormIntent.SelectType(type))
                     }
-                }
+                },
             )
         }
 
         TextDivider(getString(Res.string.layout))
-        FormRow(icon = { ResourceIcon(Res.drawable.ic_layout) }) {
-            DropdownButton(
-                text = getString(state.layout.selection.title),
+
+        var expandDropdownForPdfLayout by remember { mutableStateOf(false) }
+        FormRow(
+            icon = { ResourceIcon(Res.drawable.ic_layout) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expandDropdownForPdfLayout = true },
+        ) {
+            Text(stringResource(state.layout.selection.title))
+
+            DropdownTextMenu(
+                expanded = expandDropdownForPdfLayout,
+                onDismissRequest = { expandDropdownForPdfLayout = false },
                 items = state.layout.options.map { layout ->
                     getString(layout.title) to {
                         viewModel.dispatchIntent(ExportFormIntent.SelectLayout(layout))
@@ -92,7 +117,9 @@ fun ExportForm(
                 },
             )
         }
+
         Divider()
+
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_position_top_left) },
             modifier = Modifier.toggleable(
@@ -108,7 +135,9 @@ fun ExportForm(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
+
         Divider()
+
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_position_bottom_left) },
             modifier = Modifier.toggleable(
@@ -124,7 +153,9 @@ fun ExportForm(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
+
         Divider()
+
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_position_bottom_right) },
             modifier = Modifier.toggleable(
@@ -142,6 +173,7 @@ fun ExportForm(
         }
 
         TextDivider(getString(Res.string.data))
+
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_note) },
             modifier = Modifier.toggleable(
@@ -157,7 +189,9 @@ fun ExportForm(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
+
         Divider()
+
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_tag) },
             modifier = Modifier.toggleable(
@@ -173,7 +207,9 @@ fun ExportForm(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
+
         Divider()
+
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_skip) },
             modifier = Modifier.toggleable(
@@ -214,15 +250,5 @@ fun ExportForm(
 
             Divider()
         }
-    }
-
-    if (showDateRangePicker) {
-        DateRangePicker(
-            dateRange = viewModel.dateRange.value,
-            onPick = {
-                showDateRangePicker = false
-                viewModel.dateRange.value = it
-            },
-        )
     }
 }

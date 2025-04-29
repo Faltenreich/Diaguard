@@ -92,6 +92,8 @@ class ExportFormViewModel(
 
     override suspend fun handleIntent(intent: ExportFormIntent) {
         when (intent) {
+            is ExportFormIntent.SetDateRange -> dateRange.update { intent.dateRange }
+            is ExportFormIntent.SetDateRangeFromSelection -> TODO()
             is ExportFormIntent.SelectType -> exportTypeSelected.update { intent.type }
             is ExportFormIntent.SelectLayout -> pdfLayoutSelected.update { intent.layout }
             is ExportFormIntent.SetIncludeCalendarWeek -> includeCalendarWeek.update { intent.includeCalendarWeek }

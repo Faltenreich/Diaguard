@@ -1,9 +1,14 @@
 package com.faltenreich.diaguard.export.form
 
+import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 
 sealed interface ExportFormIntent {
+
+    data class SetDateRange(val dateRange: DateRange) : ExportFormIntent
+
+    data class SetDateRangeFromSelection(val dateRange: ExportDateRange) : ExportFormIntent
 
     data class SelectType(val type: ExportType) : ExportFormIntent
 

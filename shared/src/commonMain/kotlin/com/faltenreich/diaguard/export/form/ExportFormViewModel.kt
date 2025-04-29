@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.export.form
 
-import com.faltenreich.diaguard.datetime.DateUnit
-import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.ExportData
 import com.faltenreich.diaguard.export.ExportType
@@ -18,18 +16,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ExportFormViewModel(
-    getToday: GetTodayUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
     private val export: ExportUseCase,
     private val mapDateRange: MapDateRangeUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<ExportFormState, ExportFormIntent, Unit>() {
 
-    private val initialDateRange = getToday().let { today ->
-        today.minus(1, DateUnit.WEEK) .. today
-    }
-
-    val dateRange = MutableStateFlow(initialDateRange)
+    val dateRange = MutableStateFlow(mapDateRange(ExportDateRange.WEEK_CURRENT))
     private val dateRangeLocalized = dateRange.map(dateTimeFormatter::formatDateRange)
 
     private val exportTypes = listOf(ExportType.PDF, ExportType.CSV)

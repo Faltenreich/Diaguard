@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
 class MapDateRangeUseCase(private val dateTimeFactory: DateTimeFactory) {
 
+    @Suppress("MagicNumber")
     operator fun invoke(dateRange: ExportDateRange): DateRange {
         val today = dateTimeFactory.today()
         return when (dateRange) {

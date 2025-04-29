@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
@@ -24,9 +24,9 @@ import androidx.compose.material3.DateRangePicker as MaterialDateRangePicker
 
 @Composable
 fun DateRangePicker(
-    dateRange: ClosedRange<Date>,
+    dateRange: DateRange,
     // FIXME: Offsets by minus one day
-    onPick: (ClosedRange<Date>) -> Unit,
+    onPick: (DateRange) -> Unit,
     dateTimeFactory: DateTimeFactory = inject(),
 ) {
     val state = rememberDateRangePickerState(
@@ -45,7 +45,7 @@ fun DateRangePicker(
                     val end = state.selectedEndDateMillis
                         ?.let(dateTimeFactory::dateTime)?.date
                         ?: dateRange.endInclusive
-                    onPick(start..end)
+                    onPick(start .. end)
                 },
             ) {
                 Text(getString(Res.string.ok))

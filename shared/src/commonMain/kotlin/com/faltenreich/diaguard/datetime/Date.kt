@@ -88,5 +88,7 @@ interface Date : Serializable, Comparable<Date> {
         }
     }
 
+    operator fun rangeTo(that: Date): DateRange = DateRange(this, that)
+
     //endregion Comparable
 }

@@ -1,3 +1,6 @@
 package com.faltenreich.diaguard.datetime
 
-typealias DateRange = ClosedRange<Date>
+data class DateRange(
+    override val start: Date,
+    override val endInclusive: Date,
+) : ClosedRange<Date>

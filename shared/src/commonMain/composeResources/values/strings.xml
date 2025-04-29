@@ -92,6 +92,7 @@
     <string name="export">Export</string>
     <string name="export_date_range_picker_description">Open date range picker</string>
     <string name="export_date_range_dropdown_description">Open date range dropdown menu</string>
+    <string name="export_date_range_dropdown_week_today">Today</string>
     <string name="export_date_range_dropdown_week_current">Current week</string>
     <string name="export_date_range_dropdown_weeks_two">Last two weeks</string>
     <string name="export_date_range_dropdown_weeks_four">Last four weeks</string>

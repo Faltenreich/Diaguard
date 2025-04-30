@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.faltenreich.diaguard.datetime.DayOfWeek
-import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
+import com.faltenreich.diaguard.datetime.DateTimeConstants
 
 data class TimelineConfig(
     val daysOfWeek: Map<DayOfWeek, String>,

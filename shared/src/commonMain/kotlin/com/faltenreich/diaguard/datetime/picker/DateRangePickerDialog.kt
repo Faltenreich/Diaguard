@@ -23,11 +23,11 @@ import diaguard.shared.generated.resources.ok
 import androidx.compose.material3.DateRangePicker as MaterialDateRangePicker
 
 @Composable
-fun DateRangePicker(
+fun DateRangePickerDialog(
     dateRange: DateRange,
-    // FIXME: Offsets by minus one day
-    onPick: (DateRange) -> Unit,
-    dateTimeFactory: DateTimeFactory = inject(),
+    onDismissRequest: () -> Unit,
+    onConfirmRequest: (DateRange) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val state = rememberDateRangePickerState(
         initialSelectedStartDateMillis = dateRange.start.atStartOfDay().millisSince1970,
@@ -35,24 +35,26 @@ fun DateRangePicker(
         initialDisplayMode = DisplayMode.Picker,
     )
     DatePickerDialog(
-        onDismissRequest = { onPick(dateRange) },
+        onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(
                 onClick = {
+                    val dateTimeFactory = inject<DateTimeFactory>()
                     val start = state.selectedStartDateMillis
                         ?.let(dateTimeFactory::dateTime)?.date
                         ?: dateRange.start
                     val end = state.selectedEndDateMillis
                         ?.let(dateTimeFactory::dateTime)?.date
                         ?: dateRange.endInclusive
-                    onPick(start .. end)
+                    onConfirmRequest(start .. end)
                 },
             ) {
                 Text(getString(Res.string.ok))
             }
         },
+        modifier = modifier,
         dismissButton = {
-            TextButton(onClick = { onPick(dateRange) }) {
+            TextButton(onClick = onDismissRequest) {
                 Text(getString(Res.string.cancel))
             }
         },

@@ -203,9 +203,9 @@ fun EntryForm(
         TimePickerDialog(
             time = viewModel.time,
             onDismissRequest = { showTimePicker = false },
-            onConfirmRequest = { date ->
+            onConfirmRequest = { time ->
                 showTimePicker = false
-                viewModel.time = date
+                viewModel.time = time
             },
         )
     }

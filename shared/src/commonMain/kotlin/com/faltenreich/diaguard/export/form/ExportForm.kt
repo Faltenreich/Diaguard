@@ -17,7 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import com.faltenreich.diaguard.datetime.picker.DateRangePicker
+import com.faltenreich.diaguard.datetime.picker.DateRangePickerDialog
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
@@ -78,11 +78,12 @@ fun ExportForm(
             )
 
             if (showDateRangePicker) {
-                DateRangePicker(
+                DateRangePickerDialog(
                     dateRange = viewModel.dateRange.value,
-                    onPick = {
+                    onDismissRequest = { showDateRangePicker = false },
+                    onConfirmRequest = { dateRange ->
                         showDateRangePicker = false
-                        viewModel.dateRange.value = it
+                        viewModel.dateRange.value = dateRange
                     },
                 )
             }

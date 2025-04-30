@@ -99,20 +99,14 @@ interface Date : Serializable, Comparable<Date> {
             year: Int,
             monthNumber: Int,
             dayOfMonth: Int,
-        ): Date {
-            return KotlinxDate(
-                year,
-                monthNumber,
-                dayOfMonth,
-            )
-        }
+        ): Date = KotlinxDate(
+            year,
+            monthNumber,
+            dayOfMonth,
+        )
 
-        operator fun invoke(isoString: String): Date {
-            return KotlinxDate(isoString)
-        }
+        operator fun invoke(isoString: String): Date = KotlinxDate(isoString)
 
-        fun today(): Date {
-            return DateTime.now().date
-        }
+        fun today(): Date = DateTime.now().date
     }
 }

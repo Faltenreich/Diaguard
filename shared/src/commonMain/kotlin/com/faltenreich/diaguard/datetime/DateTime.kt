@@ -88,29 +88,21 @@ interface DateTime : Serializable, Comparable<DateTime> {
             secondOfMinute: Int,
             millisOfSecond: Int,
             nanosOfMilli: Int,
-        ): DateTime {
-            return KotlinxDateTime(
-                year,
-                monthNumber,
-                dayOfMonth,
-                hourOfDay,
-                minuteOfHour,
-                secondOfMinute,
-                millisOfSecond,
-                nanosOfMilli,
-            )
-        }
+        ): DateTime = KotlinxDateTime(
+            year,
+            monthNumber,
+            dayOfMonth,
+            hourOfDay,
+            minuteOfHour,
+            secondOfMinute,
+            millisOfSecond,
+            nanosOfMilli,
+        )
 
-        operator fun invoke(millis: Long): DateTime {
-            return KotlinxDateTime(millis)
-        }
+        operator fun invoke(millis: Long): DateTime = KotlinxDateTime(millis)
 
-        operator fun invoke(isoString: String): DateTime {
-            return KotlinxDateTime(isoString)
-        }
+        operator fun invoke(isoString: String): DateTime = KotlinxDateTime(isoString)
 
-        fun now(): DateTime {
-            return KotlinxDateTime.now()
-        }
+        fun now(): DateTime = KotlinxDateTime.now()
     }
 }

@@ -88,14 +88,12 @@ interface Time : Serializable, Comparable<Time> {
             secondOfMinute: Int = 0,
             millisOfSecond: Int = 0,
             nanosOfMilli: Int = 0,
-        ): Time {
-            return KotlinxTime(
-                hourOfDay,
-                minuteOfHour,
-                secondOfMinute,
-                millisOfSecond,
-                nanosOfMilli,
-            )
-        }
+        ): Time = KotlinxTime(
+            hourOfDay,
+            minuteOfHour,
+            secondOfMinute,
+            millisOfSecond,
+            nanosOfMilli,
+        )
     }
 }

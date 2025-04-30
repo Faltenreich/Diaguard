@@ -1,6 +1,4 @@
-package com.faltenreich.diaguard.datetime.factory
-
-import kotlin.time.Duration.Companion.seconds
+package com.faltenreich.diaguard.datetime
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 object DateTimeConstants {
@@ -28,6 +26,4 @@ object DateTimeConstants {
     const val NANOS_PER_MINUTE = NANOS_PER_SECOND * SECONDS_PER_MINUTE
     const val NANOS_PER_HOUR = NANOS_PER_MINUTE.toLong() * MINUTES_PER_HOUR.toLong()
     const val NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY.toLong()
-
-    val INPUT_DEBOUNCE = 1.seconds
 }

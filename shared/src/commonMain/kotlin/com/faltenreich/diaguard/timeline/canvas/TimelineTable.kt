@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.datetime.factory.DateTimeConstants
+import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig

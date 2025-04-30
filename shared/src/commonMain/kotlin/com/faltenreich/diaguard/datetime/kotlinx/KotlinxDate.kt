@@ -12,39 +12,26 @@ import kotlinx.datetime.daysUntil
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
-class KotlinxDate(
-    year: Int,
-    monthNumber: Int,
-    dayOfMonth: Int,
-) : Date {
+class KotlinxDate(private var delegate: LocalDate) : Date {
 
-    private var delegate = LocalDate(
-        year = year,
-        monthNumber = monthNumber,
-        dayOfMonth = dayOfMonth,
+    override val year: Int get() = delegate.year
+    override val monthNumber: Int get() = delegate.monthNumber
+    override val dayOfMonth: Int get() = delegate.dayOfMonth
+    override val dayOfWeek: DayOfWeek get() = delegate.dayOfWeek.toDomain()
+
+    constructor(
+        year: Int,
+        monthNumber: Int,
+        dayOfMonth: Int,
+    ) : this(
+        LocalDate(
+            year = year,
+            monthNumber = monthNumber,
+            dayOfMonth = dayOfMonth,
+        )
     )
 
-    override val year: Int
-        get() = delegate.year
-
-    override val monthNumber: Int
-        get() = delegate.monthNumber
-
-    override val dayOfMonth: Int
-        get() = delegate.dayOfMonth
-
-    override val dayOfWeek: DayOfWeek
-        get() = delegate.dayOfWeek.toDomain()
-
-    private constructor(localDate: LocalDate) : this(
-        year = localDate.year,
-        monthNumber = localDate.monthNumber,
-        dayOfMonth = localDate.dayOfMonth,
-    )
-
-    constructor(isoString: String) : this(
-        localDate = LocalDate.parse(isoString),
-    )
+    constructor(isoString: String) : this(LocalDate.parse(isoString))
 
     override fun atTime(time: Time): DateTime {
         return KotlinxDateTime(

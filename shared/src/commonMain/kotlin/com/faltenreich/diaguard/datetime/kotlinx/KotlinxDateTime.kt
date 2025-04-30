@@ -16,77 +16,47 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
 
-class KotlinxDateTime(
-    year: Int,
-    monthNumber: Int,
-    dayOfMonth: Int,
-    hourOfDay: Int,
-    minuteOfHour: Int,
-    secondOfMinute: Int,
-    millisOfSecond: Int,
-    nanosOfMilli: Int,
-) : DateTime {
+class KotlinxDateTime(private var delegate: LocalDateTime) : DateTime {
 
-    private var localDateTime = LocalDateTime(
-        year = year,
-        monthNumber = monthNumber,
-        dayOfMonth = dayOfMonth,
-        hour = hourOfDay,
-        minute = minuteOfHour,
-        second = secondOfMinute,
-        nanosecond = millisOfSecond * DateTimeConstants.NANOS_PER_SECOND + nanosOfMilli,
-    )
+    override val date: Date get() = KotlinxDate(delegate.date)
+    override val time: Time get() = KotlinxTime(delegate.time)
+    override val millisSince1970: Long get() = delegate.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
 
-    override val date: Date
-        get() = KotlinxDate(
-            year = localDateTime.year,
-            monthNumber = localDateTime.monthNumber,
-            dayOfMonth = localDateTime.dayOfMonth,
+    override val epochMilliseconds: Long get() = delegate.toInstant(TimeZone.UTC).toEpochMilliseconds()
+
+    override val isoString: String get() = delegate.toString()
+
+    constructor(
+        year: Int,
+        monthNumber: Int,
+        dayOfMonth: Int,
+        hourOfDay: Int,
+        minuteOfHour: Int,
+        secondOfMinute: Int,
+        millisOfSecond: Int,
+        nanosOfMilli: Int,
+    ) : this(
+        LocalDateTime(
+            year = year,
+            monthNumber = monthNumber,
+            dayOfMonth = dayOfMonth,
+            hour = hourOfDay,
+            minute = minuteOfHour,
+            second = secondOfMinute,
+            nanosecond = millisOfSecond * DateTimeConstants.NANOS_PER_SECOND + nanosOfMilli,
         )
-
-    override val time: Time
-        get() = KotlinxTime(
-            hourOfDay = localDateTime.hour,
-            minuteOfHour = localDateTime.minute,
-            secondOfMinute = localDateTime.second,
-            millisOfSecond = localDateTime.nanosecond / DateTimeConstants.NANOS_PER_SECOND,
-            nanosOfMilli = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
-        )
-
-    override val millisSince1970: Long
-        get() = localDateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
-
-    override val epochMilliseconds: Long
-        get() = localDateTime.toInstant(TimeZone.UTC).toEpochMilliseconds()
-
-    override val isoString: String
-        get() = localDateTime.toString()
-
-    private constructor(localDateTime: LocalDateTime) : this(
-        year = localDateTime.year,
-        monthNumber = localDateTime.monthNumber,
-        dayOfMonth = localDateTime.dayOfMonth,
-        hourOfDay = localDateTime.hour,
-        minuteOfHour = localDateTime.minute,
-        secondOfMinute = localDateTime.second,
-        millisOfSecond = localDateTime.nanosecond / DateTimeConstants.NANOS_PER_SECOND,
-        nanosOfMilli = localDateTime.nanosecond.mod(DateTimeConstants.NANOS_PER_SECOND),
     )
 
-    constructor(isoString: String) : this(
-        localDateTime = LocalDateTime.parse(isoString),
-    )
+    constructor(isoString: String) : this(LocalDateTime.parse(isoString))
 
     constructor(millis: Long) : this(
-        localDateTime = Instant
-            .fromEpochMilliseconds(millis)
-            .toLocalDateTime(TimeZone.currentSystemDefault()),
+        Instant.fromEpochMilliseconds(millis).toLocalDateTime(TimeZone.currentSystemDefault())
     )
 
     override fun minutesUntil(other: DateTime): Long {
         val timeZone = TimeZone.currentSystemDefault()
-        val instant = localDateTime.toInstant(timeZone)
-        val otherLocalDateTime = KotlinxDateTime(other.millisSince1970).localDateTime
+        val instant = delegate.toInstant(timeZone)
+        val otherLocalDateTime = KotlinxDateTime(other.millisSince1970).delegate
         val otherInstant = otherLocalDateTime.toInstant(timeZone)
         return instant.until(otherInstant, DateTimeUnit.MINUTE)
     }
@@ -131,7 +101,7 @@ class KotlinxDateTime(
     }
 
     override fun readObject(inputStream: ObjectInputStream) {
-        localDateTime = Instant
+        delegate = Instant
             .fromEpochMilliseconds(inputStream.readLong())
             .toLocalDateTime(TimeZone.currentSystemDefault())
     }

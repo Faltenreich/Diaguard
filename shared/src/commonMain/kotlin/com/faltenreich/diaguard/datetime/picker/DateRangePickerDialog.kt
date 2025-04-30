@@ -20,7 +20,6 @@ import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.ok
-import androidx.compose.material3.DateRangePicker as MaterialDateRangePicker
 
 @Composable
 fun DateRangePickerDialog(
@@ -40,13 +39,13 @@ fun DateRangePickerDialog(
             TextButton(
                 onClick = {
                     val dateTimeFactory = inject<DateTimeFactory>()
-                    val start = state.selectedStartDateMillis
-                        ?.let(dateTimeFactory::dateTime)?.date
-                        ?: dateRange.start
-                    val end = state.selectedEndDateMillis
-                        ?.let(dateTimeFactory::dateTime)?.date
-                        ?: dateRange.endInclusive
-                    onConfirmRequest(start .. end)
+                    val start = state.selectedStartDateMillis?.let(dateTimeFactory::dateTime)?.date
+                    val end = state.selectedEndDateMillis?.let(dateTimeFactory::dateTime)?.date
+                    if (start != null && end != null) {
+                        onConfirmRequest(start .. end)
+                    } else {
+                        onDismissRequest()
+                    }
                 },
             ) {
                 Text(getString(Res.string.ok))
@@ -60,7 +59,7 @@ fun DateRangePickerDialog(
         },
     ) {
         val dateFormatter = remember { dateFormatter() }
-        MaterialDateRangePicker(
+        androidx.compose.material3.DateRangePicker(
             state = state,
             // Workaround: Force align paddings to DatePickerDialog
             // see https://issuetracker.google.com/issues/325309575

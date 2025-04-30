@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.picker.DatePicker
+import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvas
 
 @Composable
@@ -41,9 +41,10 @@ fun Timeline(
     }
 
     state.dateDialog?.let { dateDialog ->
-        DatePicker(
+        DatePickerDialog(
             date = dateDialog.date,
-            onPick = { date ->
+            onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.CloseDateDialog) },
+            onConfirmRequest = { date ->
                 viewModel.dispatchIntent(TimelineIntent.CloseDateDialog)
                 viewModel.postEvent(TimelineEvent.DateSelected(date))
             },

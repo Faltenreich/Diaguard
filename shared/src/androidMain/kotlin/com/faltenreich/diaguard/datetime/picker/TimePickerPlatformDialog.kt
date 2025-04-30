@@ -24,8 +24,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.time_select
 
 @Composable
-@Deprecated("Replace with official solution when available")
-actual fun TimePickerDialog(
+actual fun TimePickerPlatformDialog(
     onDismissRequest: () -> Unit,
     confirmButton: @Composable () -> Unit,
     modifier: Modifier,

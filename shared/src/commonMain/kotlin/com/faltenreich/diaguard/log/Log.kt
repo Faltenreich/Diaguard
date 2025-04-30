@@ -15,9 +15,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import app.cash.paging.compose.collectAsLazyPagingItems
-import com.faltenreich.diaguard.datetime.picker.DatePicker
-import com.faltenreich.diaguard.log.list.item.LogDaySticky
+import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.log.list.LogList
+import com.faltenreich.diaguard.log.list.item.LogDaySticky
 import com.faltenreich.diaguard.shared.view.LifecycleState
 import com.faltenreich.diaguard.shared.view.rememberLifecycleState
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -82,9 +82,10 @@ fun Log(
     }
 
     state.dateDialog?.let { dateDialog ->
-        DatePicker(
+        DatePickerDialog(
             date = dateDialog.date,
-            onPick = { date ->
+            onDismissRequest = { viewModel.dispatchIntent(LogIntent.CloseDateDialog) },
+            onConfirmRequest = { date ->
                 viewModel.dispatchIntent(LogIntent.CloseDateDialog)
                 viewModel.dispatchIntent(LogIntent.SetDate(date))
             },

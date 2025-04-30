@@ -5,12 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-actual fun TimePickerPlatformDialog(
+expect fun TimePickerPlatformDialog(
     onDismissRequest: () -> Unit,
     confirmButton: @Composable () -> Unit,
-    modifier: Modifier,
-    dismissButton: @Composable (() -> Unit)?,
+    modifier: Modifier = Modifier,
+    dismissButton: @Composable (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
-) {
-    TODO("Not yet implemented")
-}
+)

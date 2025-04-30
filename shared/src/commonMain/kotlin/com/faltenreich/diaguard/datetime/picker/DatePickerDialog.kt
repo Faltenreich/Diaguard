@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.datetime.picker
 
-import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePicker
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -13,23 +13,27 @@ import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.ok
-import androidx.compose.material3.DatePicker as MaterialDatePicker
 
 @Composable
-fun DatePicker(
+fun DatePickerDialog(
     date: Date,
-    onPick: (Date) -> Unit,
+    onDismissRequest: () -> Unit,
+    onConfirmRequest: (Date) -> Unit,
     modifier: Modifier = Modifier,
-    dateTimeFactory: DateTimeFactory = inject(),
 ) {
-    val dateTime = date.atStartOfDay()
-    val state = rememberDatePickerState(initialSelectedDateMillis = dateTime.epochMilliseconds)
-    DatePickerDialog(
-        onDismissRequest = { onPick(date) },
+    val state = rememberDatePickerState(
+        initialSelectedDateMillis = date.atStartOfDay().epochMilliseconds,
+    )
+    androidx.compose.material3.DatePickerDialog(
+        onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(
                 onClick = {
-                    onPick(state.selectedDateMillis?.let(dateTimeFactory::dateTime)?.date ?: date)
+                    val dateTimeFactory = inject<DateTimeFactory>()
+                    when (val update = state.selectedDateMillis?.let(dateTimeFactory::dateTime)?.date) {
+                        null -> onDismissRequest()
+                        else -> onConfirmRequest(update)
+                    }
                 },
             ) {
                 Text(getString(Res.string.ok))
@@ -37,11 +41,11 @@ fun DatePicker(
         },
         modifier = modifier,
         dismissButton = {
-            TextButton(onClick = { onPick(date) }) {
+            TextButton(onClick = onDismissRequest) {
                 Text(getString(Res.string.cancel))
             }
         },
     ) {
-        MaterialDatePicker(state = state)
+        DatePicker(state = state)
     }
 }

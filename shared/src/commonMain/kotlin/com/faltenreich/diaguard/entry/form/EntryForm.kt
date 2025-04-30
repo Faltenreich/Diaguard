@@ -28,8 +28,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.picker.DatePicker
-import com.faltenreich.diaguard.datetime.picker.TimePicker
+import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
+import com.faltenreich.diaguard.datetime.picker.TimePickerDialog
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
@@ -189,9 +189,10 @@ fun EntryForm(
     }
 
     if (showDatePicker) {
-        DatePicker(
+        DatePickerDialog(
             date = viewModel.date,
-            onPick = { date ->
+            onDismissRequest = { showDatePicker = false },
+            onConfirmRequest = { date ->
                 showDatePicker = false
                 viewModel.date = date
             },
@@ -199,9 +200,10 @@ fun EntryForm(
     }
 
     if (showTimePicker) {
-        TimePicker(
+        TimePickerDialog(
             time = viewModel.time,
-            onPick = { date ->
+            onDismissRequest = { showTimePicker = false },
+            onConfirmRequest = { date ->
                 showTimePicker = false
                 viewModel.time = date
             },

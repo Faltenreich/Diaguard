@@ -57,7 +57,11 @@ interface Date : Serializable, Comparable<Date> {
         year: Int = this.year,
         monthNumber: Int = this.monthNumber,
         dayOfMonth: Int = this.dayOfMonth,
-    ): Date
+    ): Date = Date(
+        year = year,
+        monthNumber = monthNumber,
+        dayOfMonth = dayOfMonth,
+    )
 
     override fun equals(other: Any?): Boolean
 

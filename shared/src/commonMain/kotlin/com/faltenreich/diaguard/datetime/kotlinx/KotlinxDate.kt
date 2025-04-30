@@ -84,14 +84,6 @@ class KotlinxDate(private var delegate: LocalDate) : Date {
         return delegate.daysUntil(LocalDate(year = date.year, monthNumber = date.monthNumber, date.dayOfMonth))
     }
 
-    override fun copy(year: Int, monthNumber: Int, dayOfMonth: Int): Date {
-        return KotlinxDate(
-            year = year,
-            monthNumber = monthNumber,
-            dayOfMonth = dayOfMonth,
-        )
-    }
-
     override fun equals(other: Any?): Boolean {
         return other is Date &&
             year == other.year &&

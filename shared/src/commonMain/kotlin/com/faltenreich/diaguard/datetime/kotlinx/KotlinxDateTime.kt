@@ -61,28 +61,6 @@ class KotlinxDateTime(private var delegate: LocalDateTime) : DateTime {
         return instant.until(otherInstant, DateTimeUnit.MINUTE)
     }
 
-    override fun copy(
-        year: Int,
-        monthNumber: Int,
-        dayOfMonth: Int,
-        hourOfDay: Int,
-        minuteOfHour: Int,
-        secondOfMinute: Int,
-        millisOfSecond: Int,
-        nanosOfMilli: Int
-    ): DateTime {
-        return KotlinxDateTime(
-            year = year,
-            monthNumber = monthNumber,
-            dayOfMonth = dayOfMonth,
-            hourOfDay = hourOfDay,
-            minuteOfHour = minuteOfHour,
-            secondOfMinute = secondOfMinute,
-            millisOfSecond = millisOfSecond,
-            nanosOfMilli = nanosOfMilli,
-        )
-    }
-
     override fun equals(other: Any?): Boolean {
         return other is DateTime &&
             date == other.date &&

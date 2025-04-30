@@ -45,7 +45,16 @@ interface DateTime : Serializable, Comparable<DateTime> {
         secondOfMinute: Int = time.secondOfMinute,
         millisOfSecond: Int = time.millisOfSecond,
         nanosOfMilli: Int = time.nanosOfMilli,
-    ): DateTime
+    ): DateTime = DateTime(
+        year = year,
+        monthNumber = monthNumber,
+        dayOfMonth = dayOfMonth,
+        hourOfDay = hourOfDay,
+        minuteOfHour = minuteOfHour,
+        secondOfMinute = secondOfMinute,
+        millisOfSecond = millisOfSecond,
+        nanosOfMilli = nanosOfMilli,
+    )
 
     override fun equals(other: Any?): Boolean
 

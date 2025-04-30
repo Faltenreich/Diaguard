@@ -42,7 +42,13 @@ interface Time : Serializable, Comparable<Time> {
         secondOfMinute: Int = this.secondOfMinute,
         millisOfSecond: Int = this.millisOfSecond,
         nanosOfMilli: Int = this.nanosOfMilli,
-    ): Time
+    ): Time = Time(
+        hourOfDay = hourOfDay,
+        minuteOfHour = minuteOfHour,
+        secondOfMinute = secondOfMinute,
+        millisOfSecond = millisOfSecond,
+        nanosOfMilli = nanosOfMilli,
+    )
 
     override fun equals(other: Any?): Boolean
 

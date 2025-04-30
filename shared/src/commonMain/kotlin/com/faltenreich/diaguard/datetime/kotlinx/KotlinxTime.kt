@@ -44,16 +44,6 @@ class KotlinxTime(private var delegate: LocalTime) : Time {
         )
     }
 
-    override fun copy(
-        hourOfDay: Int,
-        minuteOfHour: Int,
-        secondOfMinute: Int,
-        millisOfSecond: Int,
-        nanosOfMilli: Int,
-    ): Time {
-        return KotlinxTime(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, nanosOfMilli)
-    }
-
     override fun equals(other: Any?): Boolean {
         return other is Time &&
             hourOfDay == other.hourOfDay &&

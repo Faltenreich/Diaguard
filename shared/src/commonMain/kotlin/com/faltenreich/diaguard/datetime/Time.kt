@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.datetime
 
+import com.faltenreich.diaguard.datetime.kotlinx.KotlinxTime
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.shared.serialization.Serializable
@@ -78,4 +79,23 @@ interface Time : Serializable, Comparable<Time> {
     }
 
     //endregion Comparable
+
+    companion object {
+
+        operator fun invoke(
+            hourOfDay: Int,
+            minuteOfHour: Int,
+            secondOfMinute: Int = 0,
+            millisOfSecond: Int = 0,
+            nanosOfMilli: Int = 0,
+        ): Time {
+            return KotlinxTime(
+                hourOfDay,
+                minuteOfHour,
+                secondOfMinute,
+                millisOfSecond,
+                nanosOfMilli,
+            )
+        }
+    }
 }

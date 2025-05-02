@@ -8,8 +8,6 @@ sealed interface ExportFormIntent {
 
     data class SetDateRange(val dateRange: DateRange) : ExportFormIntent
 
-    data class SetDateRangeFromSelection(val dateRange: ExportDateRange) : ExportFormIntent
-
     data class SelectType(val type: ExportType) : ExportFormIntent
 
     data class SelectLayout(val layout: PdfLayout) : ExportFormIntent

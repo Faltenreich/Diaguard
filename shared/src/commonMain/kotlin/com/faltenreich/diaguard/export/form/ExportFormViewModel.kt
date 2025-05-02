@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.export.form
 
+import com.faltenreich.diaguard.datetime.DateRange
+import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.ExportData
 import com.faltenreich.diaguard.export.ExportType
@@ -16,13 +18,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ExportFormViewModel(
+    getToday: GetTodayUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
     private val export: ExportUseCase,
-    private val mapDateRange: MapDateRangeUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<ExportFormState, ExportFormIntent, Unit>() {
 
-    val dateRange = MutableStateFlow(mapDateRange(ExportDateRange.WEEK_CURRENT))
+    val dateRange = MutableStateFlow(getToday().let(::DateRange))
     private val dateRangeLocalized = dateRange.map(dateTimeFormatter::formatDateRange)
 
     private val exportTypes = listOf(ExportType.PDF, ExportType.CSV)
@@ -87,7 +89,6 @@ class ExportFormViewModel(
     override suspend fun handleIntent(intent: ExportFormIntent) {
         when (intent) {
             is ExportFormIntent.SetDateRange -> dateRange.update { intent.dateRange }
-            is ExportFormIntent.SetDateRangeFromSelection -> dateRange.update { mapDateRange(intent.dateRange) }
             is ExportFormIntent.SelectType -> exportTypeSelected.update { intent.type }
             is ExportFormIntent.SelectLayout -> pdfLayoutSelected.update { intent.layout }
             is ExportFormIntent.SetIncludeCalendarWeek -> includeCalendarWeek.update { intent.includeCalendarWeek }

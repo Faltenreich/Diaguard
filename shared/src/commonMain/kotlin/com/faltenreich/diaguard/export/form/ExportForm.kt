@@ -1,14 +1,11 @@
 package com.faltenreich.diaguard.export.form
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,11 +28,9 @@ import diaguard.shared.generated.resources.calendar_week
 import diaguard.shared.generated.resources.data
 import diaguard.shared.generated.resources.date_of_export
 import diaguard.shared.generated.resources.days_without_entries
-import diaguard.shared.generated.resources.export_date_range_dropdown_description
 import diaguard.shared.generated.resources.export_date_range_picker_description
 import diaguard.shared.generated.resources.ic_document
 import diaguard.shared.generated.resources.ic_layout
-import diaguard.shared.generated.resources.ic_more
 import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ic_position_bottom_left
 import diaguard.shared.generated.resources.ic_position_bottom_right
@@ -48,7 +43,6 @@ import diaguard.shared.generated.resources.measurement_categories
 import diaguard.shared.generated.resources.notes
 import diaguard.shared.generated.resources.page_number
 import diaguard.shared.generated.resources.tags
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -76,7 +70,6 @@ fun ExportForm(
                 text = state.date.dateRangeLocalized,
                 modifier = Modifier.weight(1f),
             )
-
             if (showDateRangePicker) {
                 DateRangePickerDialog(
                     dateRange = viewModel.dateRange.value,
@@ -84,25 +77,6 @@ fun ExportForm(
                     onConfirmRequest = { dateRange ->
                         showDateRangePicker = false
                         viewModel.dateRange.value = dateRange
-                    },
-                )
-            }
-
-            Box {
-                var expanded by remember { mutableStateOf(false) }
-                IconButton(onClick = { expanded = true }) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_more),
-                        contentDescription = stringResource(Res.string.export_date_range_dropdown_description),
-                    )
-                }
-                DropdownTextMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                    items = ExportDateRange.entries.map { dateRange ->
-                        stringResource(dateRange.titleResource) to {
-                            viewModel.dispatchIntent(ExportFormIntent.SetDateRangeFromSelection(dateRange))
-                        }
                     },
                 )
             }

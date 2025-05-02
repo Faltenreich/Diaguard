@@ -26,24 +26,16 @@ import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextDivider
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.calendar_week
 import diaguard.shared.generated.resources.data
-import diaguard.shared.generated.resources.date_of_export
 import diaguard.shared.generated.resources.days_without_entries
 import diaguard.shared.generated.resources.export_date_range_picker_description
 import diaguard.shared.generated.resources.ic_document
-import diaguard.shared.generated.resources.ic_layout
 import diaguard.shared.generated.resources.ic_note
-import diaguard.shared.generated.resources.ic_position_bottom_left
-import diaguard.shared.generated.resources.ic_position_bottom_right
-import diaguard.shared.generated.resources.ic_position_top_left
 import diaguard.shared.generated.resources.ic_skip
 import diaguard.shared.generated.resources.ic_tag
 import diaguard.shared.generated.resources.ic_time
-import diaguard.shared.generated.resources.layout
 import diaguard.shared.generated.resources.measurement_categories
 import diaguard.shared.generated.resources.notes
-import diaguard.shared.generated.resources.page_number
 import diaguard.shared.generated.resources.tags
 import org.jetbrains.compose.resources.stringResource
 
@@ -105,83 +97,10 @@ fun ExportForm(
         }
 
         AnimatedVisibility(visible = state.type.selection == ExportType.PDF) {
-            Column {
-                TextDivider(getString(Res.string.layout))
-
-                var expandDropdownForPdfLayout by remember { mutableStateOf(false) }
-                FormRow(
-                    icon = { ResourceIcon(Res.drawable.ic_layout) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { expandDropdownForPdfLayout = true },
-                ) {
-                    Text(stringResource(state.layout.selection.title))
-
-                    DropdownTextMenu(
-                        expanded = expandDropdownForPdfLayout,
-                        onDismissRequest = { expandDropdownForPdfLayout = false },
-                        items = state.layout.options.map { layout ->
-                            getString(layout.title) to {
-                                viewModel.dispatchIntent(ExportFormIntent.SelectLayout(layout))
-                            }
-                        },
-                    )
-                }
-
-                Divider()
-
-                FormRow(
-                    icon = { ResourceIcon(Res.drawable.ic_position_top_left) },
-                    modifier = Modifier.toggleable(
-                        value = state.date.includeCalendarWeek,
-                        role = Role.Checkbox,
-                        onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludeCalendarWeek(it)) },
-                    ),
-                ) {
-                    TextCheckbox(
-                        title = getString(Res.string.calendar_week),
-                        checked = state.date.includeCalendarWeek,
-                        onCheckedChange = null,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-
-                Divider()
-
-                FormRow(
-                    icon = { ResourceIcon(Res.drawable.ic_position_bottom_left) },
-                    modifier = Modifier.toggleable(
-                        value = state.date.includeDateOfExport,
-                        role = Role.Checkbox,
-                        onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludeDateOfExport(it)) },
-                    ),
-                ) {
-                    TextCheckbox(
-                        title = getString(Res.string.date_of_export),
-                        checked = state.date.includeDateOfExport,
-                        onCheckedChange = null,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-
-                Divider()
-
-                FormRow(
-                    icon = { ResourceIcon(Res.drawable.ic_position_bottom_right) },
-                    modifier = Modifier.toggleable(
-                        value = state.layout.includePageNumber,
-                        role = Role.Checkbox,
-                        onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludePageNumber(it)) },
-                    ),
-                ) {
-                    TextCheckbox(
-                        title = getString(Res.string.page_number),
-                        checked = state.layout.includePageNumber,
-                        onCheckedChange = null,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-            }
+            ExportPdfLayoutForm(
+                state = state,
+                onIntent = viewModel::dispatchIntent,
+            )
         }
 
         TextDivider(getString(Res.string.data))

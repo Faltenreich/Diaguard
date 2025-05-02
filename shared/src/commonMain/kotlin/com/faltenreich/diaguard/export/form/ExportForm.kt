@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.export.form
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.datetime.picker.DateRangePickerDialog
+import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
@@ -52,9 +54,7 @@ fun ExportForm(
 ) {
     val state = viewModel.collectState() ?: return
 
-    Column(
-        modifier = modifier.verticalScroll(rememberScrollState()),
-    ) {
+    Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         var showDateRangePicker by remember { mutableStateOf(false) }
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_time) },
@@ -104,80 +104,84 @@ fun ExportForm(
             )
         }
 
-        TextDivider(getString(Res.string.layout))
+        AnimatedVisibility(visible = state.type.selection == ExportType.PDF) {
+            Column {
+                TextDivider(getString(Res.string.layout))
 
-        var expandDropdownForPdfLayout by remember { mutableStateOf(false) }
-        FormRow(
-            icon = { ResourceIcon(Res.drawable.ic_layout) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { expandDropdownForPdfLayout = true },
-        ) {
-            Text(stringResource(state.layout.selection.title))
+                var expandDropdownForPdfLayout by remember { mutableStateOf(false) }
+                FormRow(
+                    icon = { ResourceIcon(Res.drawable.ic_layout) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { expandDropdownForPdfLayout = true },
+                ) {
+                    Text(stringResource(state.layout.selection.title))
 
-            DropdownTextMenu(
-                expanded = expandDropdownForPdfLayout,
-                onDismissRequest = { expandDropdownForPdfLayout = false },
-                items = state.layout.options.map { layout ->
-                    getString(layout.title) to {
-                        viewModel.dispatchIntent(ExportFormIntent.SelectLayout(layout))
-                    }
-                },
-            )
-        }
+                    DropdownTextMenu(
+                        expanded = expandDropdownForPdfLayout,
+                        onDismissRequest = { expandDropdownForPdfLayout = false },
+                        items = state.layout.options.map { layout ->
+                            getString(layout.title) to {
+                                viewModel.dispatchIntent(ExportFormIntent.SelectLayout(layout))
+                            }
+                        },
+                    )
+                }
 
-        Divider()
+                Divider()
 
-        FormRow(
-            icon = { ResourceIcon(Res.drawable.ic_position_top_left) },
-            modifier = Modifier.toggleable(
-                value = state.date.includeCalendarWeek,
-                role = Role.Checkbox,
-                onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludeCalendarWeek(it)) },
-            ),
-        ) {
-            TextCheckbox(
-                title = getString(Res.string.calendar_week),
-                checked = state.date.includeCalendarWeek,
-                onCheckedChange = null,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
+                FormRow(
+                    icon = { ResourceIcon(Res.drawable.ic_position_top_left) },
+                    modifier = Modifier.toggleable(
+                        value = state.date.includeCalendarWeek,
+                        role = Role.Checkbox,
+                        onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludeCalendarWeek(it)) },
+                    ),
+                ) {
+                    TextCheckbox(
+                        title = getString(Res.string.calendar_week),
+                        checked = state.date.includeCalendarWeek,
+                        onCheckedChange = null,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
 
-        Divider()
+                Divider()
 
-        FormRow(
-            icon = { ResourceIcon(Res.drawable.ic_position_bottom_left) },
-            modifier = Modifier.toggleable(
-                value = state.date.includeDateOfExport,
-                role = Role.Checkbox,
-                onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludeDateOfExport(it)) },
-            ),
-        ) {
-            TextCheckbox(
-                title = getString(Res.string.date_of_export),
-                checked = state.date.includeDateOfExport,
-                onCheckedChange = null,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
+                FormRow(
+                    icon = { ResourceIcon(Res.drawable.ic_position_bottom_left) },
+                    modifier = Modifier.toggleable(
+                        value = state.date.includeDateOfExport,
+                        role = Role.Checkbox,
+                        onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludeDateOfExport(it)) },
+                    ),
+                ) {
+                    TextCheckbox(
+                        title = getString(Res.string.date_of_export),
+                        checked = state.date.includeDateOfExport,
+                        onCheckedChange = null,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
 
-        Divider()
+                Divider()
 
-        FormRow(
-            icon = { ResourceIcon(Res.drawable.ic_position_bottom_right) },
-            modifier = Modifier.toggleable(
-                value = state.layout.includePageNumber,
-                role = Role.Checkbox,
-                onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludePageNumber(it)) },
-            ),
-        ) {
-            TextCheckbox(
-                title = getString(Res.string.page_number),
-                checked = state.layout.includePageNumber,
-                onCheckedChange = null,
-                modifier = Modifier.fillMaxWidth(),
-            )
+                FormRow(
+                    icon = { ResourceIcon(Res.drawable.ic_position_bottom_right) },
+                    modifier = Modifier.toggleable(
+                        value = state.layout.includePageNumber,
+                        role = Role.Checkbox,
+                        onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludePageNumber(it)) },
+                    ),
+                ) {
+                    TextCheckbox(
+                        title = getString(Res.string.page_number),
+                        checked = state.layout.includePageNumber,
+                        onCheckedChange = null,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            }
         }
 
         TextDivider(getString(Res.string.data))

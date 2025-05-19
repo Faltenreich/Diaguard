@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -22,9 +20,11 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.decimal_places
 import diaguard.shared.generated.resources.decimal_places_description
 import diaguard.shared.generated.resources.decimal_places_update
+import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.ic_remove
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun DecimalPlacesForm(
@@ -90,7 +90,7 @@ fun DecimalPlacesForm(
                 enabled = state.enableIncreaseButton,
             ) {
                 Icon(
-                    imageVector = Icons.Default.Add,
+                    imageVector = vectorResource(Res.drawable.ic_add),
                     contentDescription = stringResource(
                         Res.string.decimal_places_update,
                         state.decimalPlaces + 1,

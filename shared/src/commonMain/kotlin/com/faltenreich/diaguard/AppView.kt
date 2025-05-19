@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.main.MainView
 import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.view.keyboardPadding
+import com.faltenreich.diaguard.startup.StartupView
 
 @Composable
 fun AppView(viewModel: AppViewModel = viewModel()) {
@@ -23,8 +24,7 @@ fun AppView(viewModel: AppViewModel = viewModel()) {
     AppTheme(isDarkColorScheme = state.colorScheme.isDark()) {
         Surface(modifier = Modifier.fillMaxSize().keyboardPadding()) {
             when (state) {
-                // TODO: Indicate first start
-                is AppState.FirstStart -> Unit
+                is AppState.FirstStart -> StartupView()
                 is AppState.SubsequentStart -> MainView(viewModel = viewModel())
             }
         }

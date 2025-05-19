@@ -28,6 +28,7 @@ fun DateRangePickerDialog(
     onConfirmRequest: (DateRange) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // FIXME: Offsets by one day
     val state = rememberDateRangePickerState(
         initialSelectedStartDateMillis = dateRange.start.atStartOfDay().millisSince1970,
         initialSelectedEndDateMillis = dateRange.endInclusive.atStartOfDay().millisSince1970,

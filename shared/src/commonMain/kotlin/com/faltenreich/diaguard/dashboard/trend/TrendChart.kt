@@ -34,6 +34,7 @@ fun TrendChart(
     Canvas(modifier = modifier.fillMaxSize()) {
         val widthPerDay = size.width / days.size
         days.forEachIndexed { index, day ->
+            // TODO: Span rectangle for each chart and label
             val rectangle = Rect(
                 offset = Offset(
                     x = index * widthPerDay,
@@ -52,6 +53,11 @@ fun TrendChart(
                 fontSize = fontSize,
                 fontPaint = fontPaint,
             )
+            drawTarget(
+                target = targetValue,
+                maximum = maximumValue,
+                rectangle = rectangle,
+            )
             day.average?.let { value ->
                 drawValue(
                     value = value,
@@ -62,6 +68,19 @@ fun TrendChart(
             }
         }
     }
+}
+
+private fun DrawScope.drawTarget(
+    target: Double,
+    maximum: Double,
+    rectangle: Rect,
+) {
+    val y = rectangle.height - (rectangle.height * (target / maximum).toFloat())
+    drawLine(
+        color = Color.Gray,
+        start = Offset(x = rectangle.left, y = y),
+        end = Offset(x = rectangle.right, y = y),
+    )
 }
 
 private fun DrawScope.drawValue(

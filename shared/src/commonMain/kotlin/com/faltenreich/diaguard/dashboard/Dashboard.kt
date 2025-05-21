@@ -56,7 +56,7 @@ fun Dashboard(
                     modifier = Modifier.weight(1f),
                 )
                 AverageDashboardItem(
-                    state = state.average,
+                    data = state.average,
                     onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
                     modifier = Modifier.weight(1f),
                 )

@@ -30,7 +30,7 @@ fun TrendDashboardItem(
             )
             TrendChart(
                 state = state,
-                modifier = Modifier.height(AppTheme.dimensions.size.DashboardTrendHeight),
+                modifier = Modifier.height(AppTheme.dimensions.size.TrendHeight),
             )
         }
     }

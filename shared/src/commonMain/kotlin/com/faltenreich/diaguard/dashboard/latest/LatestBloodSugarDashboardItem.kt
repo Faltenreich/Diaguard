@@ -19,12 +19,12 @@ import diaguard.shared.generated.resources.placeholder
 
 @Composable
 fun LatestDashboardItem(
-    data: DashboardState.LatestBloodSugar?,
+    state: DashboardState.LatestBloodSugar?,
     onClick: (Entry.Local?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
-        onClick = { onClick(data?.entry) },
+        onClick = { onClick(state?.entry) },
         modifier = modifier,
     ) {
         Column(
@@ -35,12 +35,12 @@ fun LatestDashboardItem(
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = data?.value?.value ?: getString(Res.string.placeholder),
+                    text = state?.value?.value ?: getString(Res.string.placeholder),
                     style = AppTheme.typography.displayLarge,
-                    color = data?.tint?.getColor() ?: Color.Unspecified,
+                    color = state?.tint?.getColor() ?: Color.Unspecified,
                 )
                 Text(
-                    text = data?.timePassed ?: getString(Res.string.entry_first_description),
+                    text = state?.timePassed ?: getString(Res.string.entry_first_description),
                     style = AppTheme.typography.bodyMedium,
                 )
             }

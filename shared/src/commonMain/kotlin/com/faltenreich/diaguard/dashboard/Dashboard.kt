@@ -39,7 +39,7 @@ fun Dashboard(
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         ) {
             LatestDashboardItem(
-                data = state.latestBloodSugar,
+                state = state.latestBloodSugar,
                 onClick = { entry ->
                     val intent = entry?.let(DashboardIntent::EditEntry) ?: DashboardIntent.CreateEntry
                     viewModel.dispatchIntent(intent)
@@ -51,23 +51,23 @@ fun Dashboard(
                 horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
             ) {
                 TodayDashboardItem(
-                    data = state.today,
+                    state = state.today,
                     onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
                     modifier = Modifier.weight(1f),
                 )
                 AverageDashboardItem(
-                    data = state.average,
+                    state = state.average,
                     onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
                     modifier = Modifier.weight(1f),
                 )
             }
             HbA1cDashboardItem(
-                data = state.hbA1c,
+                state = state.hbA1c,
                 onOpenEntry = { entry -> viewModel.dispatchIntent(DashboardIntent.EditEntry(entry = entry)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             TrendDashboardItem(
-                data = state.trend,
+                state = state.trend,
                 onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
                 modifier = Modifier.fillMaxWidth(),
             )

@@ -10,13 +10,11 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.placeholder
 import diaguard.shared.generated.resources.trend
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TrendDashboardItem(
-    data: DashboardState.Trend?,
+    state: DashboardState.Trend?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -29,8 +27,7 @@ fun TrendDashboardItem(
                 text = getString(Res.string.trend),
                 style = AppTheme.typography.labelMedium,
             )
-            // TODO
-            Text(data?.values?.size?.toString() ?: stringResource(Res.string.placeholder))
+            TrendChart(state)
         }
     }
 }

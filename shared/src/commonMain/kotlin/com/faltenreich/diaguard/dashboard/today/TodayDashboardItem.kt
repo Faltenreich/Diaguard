@@ -21,7 +21,7 @@ import diaguard.shared.generated.resources.today
 
 @Composable
 fun TodayDashboardItem(
-    data: DashboardState.Today?,
+    state: DashboardState.Today?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -40,21 +40,21 @@ fun TodayDashboardItem(
                         text = getString(Res.string.measurements),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.totalCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(state?.totalCount?.toString() ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
                         text = getString(Res.string.hypo),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.hypoCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(state?.hypoCount?.toString() ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
                         text = getString(Res.string.hyper),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.hyperCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(state?.hyperCount?.toString() ?: getString(Res.string.placeholder))
                 }
             }
         }

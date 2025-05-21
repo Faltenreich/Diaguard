@@ -24,7 +24,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HbA1cDashboardItem(
-    data: DashboardState.HbA1c,
+    state: DashboardState.HbA1c,
     onOpenEntry: (Entry.Local) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -32,8 +32,8 @@ fun HbA1cDashboardItem(
 
     Card(
         onClick = {
-            when (data) {
-                is DashboardState.HbA1c.Latest -> onOpenEntry(data.entry)
+            when (state) {
+                is DashboardState.HbA1c.Latest -> onOpenEntry(state.entry)
                 is DashboardState.HbA1c.Estimated,
                 is DashboardState.HbA1c.Unknown -> showEstimatedHbA1cBottomSheet = true
             }
@@ -45,8 +45,8 @@ fun HbA1cDashboardItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = when (data) {
-                    is DashboardState.HbA1c.Latest -> stringResource(Res.string.hba1c_latest, data.dateTime)
+                text = when (state) {
+                    is DashboardState.HbA1c.Latest -> stringResource(Res.string.hba1c_latest, state.dateTime)
                     is DashboardState.HbA1c.Estimated -> stringResource(Res.string.hba1c_estimated)
                     is DashboardState.HbA1c.Unknown -> stringResource(Res.string.hba1c)
                 },
@@ -54,9 +54,9 @@ fun HbA1cDashboardItem(
                 modifier = Modifier.weight(1f),
             )
             Text(
-                when (data) {
-                    is DashboardState.HbA1c.Latest -> data.value.value
-                    is DashboardState.HbA1c.Estimated -> data.value.value
+                when (state) {
+                    is DashboardState.HbA1c.Latest -> state.value.value
+                    is DashboardState.HbA1c.Estimated -> state.value.value
                     is DashboardState.HbA1c.Unknown -> stringResource(Res.string.placeholder)
                 }
             )

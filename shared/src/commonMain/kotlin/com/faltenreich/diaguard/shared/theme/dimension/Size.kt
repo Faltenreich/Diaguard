@@ -14,6 +14,7 @@ data class Size(
     val TouchSizeLarge: Dp = 64.dp,
     val ListItemHeightMinimum: Dp = 80.dp,
     val ListOffsetWidth: Dp = 60.dp,
+    val DashboardTrendHeight: Dp = 100.dp,
     val LogDayWidth: Dp = 60.dp,
     val TimelineTableRowHeight: Dp = 40.dp,
 )

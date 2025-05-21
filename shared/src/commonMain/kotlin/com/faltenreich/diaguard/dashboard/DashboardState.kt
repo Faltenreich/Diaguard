@@ -46,6 +46,12 @@ data class DashboardState(
     }
 
     data class Trend(
-        val values: Map<Date, MeasurementValue.Average?>,
-    )
+        val days: List<Day>,
+    ) {
+
+        data class Day(
+            val date: Date,
+            val average: MeasurementValue.Average?,
+        )
+    }
 }

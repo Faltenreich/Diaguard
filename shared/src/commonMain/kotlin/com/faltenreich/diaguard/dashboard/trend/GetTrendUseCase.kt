@@ -35,17 +35,17 @@ class GetTrendUseCase(
                 ).map { date to it }
             }
         ) { averagesByDate ->
-            averagesByDate
-                .toMap()
-                .mapValues { (_, average) ->
-                    average ?: return@mapValues null
-                    MeasurementValue.Average(
-                        value = average,
-                        property = property,
-                    )
-                }
-        }.map { values ->
-            DashboardState.Trend(values = values)
-        }
+            averagesByDate.map { (date, average) ->
+                DashboardState.Trend.Day(
+                    date = date,
+                    average = average?.let {
+                        MeasurementValue.Average(
+                            value = average,
+                            property = property,
+                        )
+                    },
+                )
+            }
+        }.map(DashboardState::Trend)
     }
 }

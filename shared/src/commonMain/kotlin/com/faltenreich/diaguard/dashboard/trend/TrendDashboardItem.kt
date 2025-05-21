@@ -10,7 +10,9 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.placeholder
 import diaguard.shared.generated.resources.trend
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TrendDashboardItem(
@@ -28,7 +30,7 @@ fun TrendDashboardItem(
                 style = AppTheme.typography.labelMedium,
             )
             // TODO
-            Text(data.toString())
+            Text(data?.values?.size?.toString() ?: stringResource(Res.string.placeholder))
         }
     }
 }

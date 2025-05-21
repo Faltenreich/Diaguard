@@ -6,7 +6,6 @@ import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
@@ -22,8 +21,6 @@ class GetTrendUseCase(
 
     operator fun invoke(): Flow<DashboardState.Trend> {
         val key = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
-        // TODO: Observe by key
-        val property = propertyRepository.getAll().first { it.key == key }
 
         val today = dateTimeFactory.today()
         val dateRange = today.minus(1, DateUnit.WEEK) .. today
@@ -39,16 +36,20 @@ class GetTrendUseCase(
         ) { averagesByDate ->
             averagesByDate.map { (date, average) ->
                 DashboardState.Trend.Day(
-                    date = date,
-                    dateLocalized = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true),
-                    average = average?.let {
-                        MeasurementValue.Average(
-                            value = average,
-                            property = property,
-                        )
-                    },
+                    date = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true),
+                    average = average,
                 )
             }
-        }.map(DashboardState::Trend)
+        }.map { days ->
+            DashboardState.Trend(
+                days = days,
+                // TODO: Use real values
+                targetValue = 120.0,
+                maximumValue = days
+                    .mapNotNull(DashboardState.Trend.Day::average)
+                    .maxOrNull()
+                    ?: 200.0,
+            )
+        }
     }
 }

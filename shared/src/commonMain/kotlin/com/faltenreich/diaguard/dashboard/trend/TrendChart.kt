@@ -17,7 +17,6 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.rememberTextMeasurer
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.DashboardState
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.view.drawText
 
 @Composable
@@ -56,6 +55,7 @@ fun TrendChart(
             day.average?.let { value ->
                 drawValue(
                     value = value,
+                    maximum = maximumValue,
                     rectangle = rectangle,
                     radius = valueDotRadius,
                 )
@@ -65,14 +65,14 @@ fun TrendChart(
 }
 
 private fun DrawScope.drawValue(
-    value: MeasurementValue.Average,
+    value: Double,
+    maximum: Double,
     rectangle: Rect,
     radius: Float,
 ) {
-    val maximum = 200f
     val position = Offset(
         x = rectangle.center.x,
-        y = rectangle.center.y, // TODO
+        y = rectangle.height - (rectangle.height * (value / maximum).toFloat()),
     )
     drawCircle(
         color = Color.White, // TODO
@@ -90,7 +90,7 @@ private fun DrawScope.drawDayOfWeek(
     fontSize: Float,
     fontPaint: Paint,
 ) {
-    val text = day.dateLocalized
+    val text = day.date
     val textSize = textMeasurer.measure(text).size
     val x = (widthPerDay * index) + (widthPerDay / 2) - (textSize.width / 2)
     val y = size.height - (textSize.height / 2)

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.dashboard
 
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
@@ -47,12 +46,13 @@ data class DashboardState(
 
     data class Trend(
         val days: List<Day>,
+        val targetValue: Double,
+        val maximumValue: Double,
     ) {
 
         data class Day(
-            val date: Date,
-            val dateLocalized: String,
-            val average: MeasurementValue.Average?,
+            val date: String,
+            val average: Double?,
         )
     }
 }

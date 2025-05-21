@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
@@ -16,6 +17,7 @@ class GetTrendUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
     private val dateTimeFactory: DateTimeFactory,
+    private val dateTimeFormatter: DateTimeFormatter,
 ) {
 
     operator fun invoke(): Flow<DashboardState.Trend> {
@@ -38,6 +40,7 @@ class GetTrendUseCase(
             averagesByDate.map { (date, average) ->
                 DashboardState.Trend.Day(
                     date = date,
+                    dateLocalized = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true),
                     average = average?.let {
                         MeasurementValue.Average(
                             value = average,

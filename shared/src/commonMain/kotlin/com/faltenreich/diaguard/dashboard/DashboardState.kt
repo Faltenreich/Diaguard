@@ -51,6 +51,7 @@ data class DashboardState(
 
         data class Day(
             val date: Date,
+            val dateLocalized: String,
             val average: MeasurementValue.Average?,
         )
     }

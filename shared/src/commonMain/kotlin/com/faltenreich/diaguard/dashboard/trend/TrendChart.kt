@@ -19,17 +19,18 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.shared.view.drawText
 
+const val VALUE_DOT_RADIUS = 8f
+
 @Composable
 fun TrendChart(
     state: DashboardState.Trend,
     modifier: Modifier = Modifier,
 ) = with(state) {
-    val textMeasurer = rememberTextMeasurer()
     val density = LocalDensity.current
-    val typography = AppTheme.typography
     val fontPaint = Paint().apply { color = colorScheme.onSurfaceVariant }
-    val fontSize = density.run { typography.bodyMedium.fontSize.toPx() }
-    val valueDotRadius = 8f
+    val fontSize = density.run { AppTheme.typography.bodyMedium.fontSize.toPx() }
+    val padding = density.run { AppTheme.dimensions.padding.P_2.toPx() }
+    val textMeasurer = rememberTextMeasurer()
 
     Canvas(modifier = modifier.fillMaxSize()) {
         val widthPerDay = size.width / days.size
@@ -58,11 +59,11 @@ fun TrendChart(
             val chartRectangle = Rect(
                 offset = Offset(
                     x = x,
-                    y = 0f,
+                    y = padding,
                 ),
                 size = Size(
                     width = widthPerDay,
-                    height = size.height - textHeight,
+                    height = size.height - textHeight - padding - padding,
                 ),
             )
             drawTarget(
@@ -75,7 +76,7 @@ fun TrendChart(
                     value = value,
                     maximum = maximumValue,
                     rectangle = chartRectangle,
-                    radius = valueDotRadius,
+                    radius = VALUE_DOT_RADIUS,
                 )
             }
         }
@@ -92,7 +93,7 @@ private fun DrawScope.drawLabel(
     val text = day.date
     val textSize = textMeasurer.measure(text).size
     val x = rectangle.center.x - (textSize.width / 2)
-    val y = size.height - (textSize.height / 2)
+    val y = rectangle.bottomCenter.y
     drawText(
         text = text,
         x = x,
@@ -123,7 +124,7 @@ private fun DrawScope.drawValue(
 ) {
     val position = Offset(
         x = rectangle.center.x,
-        y = rectangle.height - (rectangle.height * (value / maximum).toFloat()),
+        y = rectangle.top + rectangle.height - (rectangle.height * (value / maximum).toFloat()),
     )
     drawCircle(
         color = Color.White, // TODO

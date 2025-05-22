@@ -29,45 +29,77 @@ fun TrendChart(
     val typography = AppTheme.typography
     val fontPaint = Paint().apply { color = colorScheme.onSurfaceVariant }
     val fontSize = density.run { typography.bodyMedium.fontSize.toPx() }
-    val valueDotRadius = 12f
+    val valueDotRadius = 8f
 
     Canvas(modifier = modifier.fillMaxSize()) {
         val widthPerDay = size.width / days.size
         days.forEachIndexed { index, day ->
-            // TODO: Span rectangle for each chart and label
-            val rectangle = Rect(
+            val x = index * widthPerDay
+            val textSize = textMeasurer.measure("D")
+            val textHeight = textSize.size.height.toFloat()
+            val labelRectangle = Rect(
                 offset = Offset(
-                    x = index * widthPerDay,
+                    x = x,
+                    y = size.height - textHeight,
+                ),
+                size = Size(
+                    width = widthPerDay,
+                    height = textHeight,
+                ),
+            )
+            drawLabel(
+                day = day,
+                rectangle = labelRectangle,
+                fontSize = fontSize,
+                fontPaint = fontPaint,
+                textMeasurer = textMeasurer,
+            )
+
+            val chartRectangle = Rect(
+                offset = Offset(
+                    x = x,
                     y = 0f,
                 ),
                 size = Size(
                     width = widthPerDay,
-                    height = size.height,
+                    height = size.height - textHeight,
                 ),
-            )
-            drawDayOfWeek(
-                day = day,
-                index = index,
-                widthPerDay = widthPerDay,
-                textMeasurer = textMeasurer,
-                fontSize = fontSize,
-                fontPaint = fontPaint,
             )
             drawTarget(
                 target = targetValue,
                 maximum = maximumValue,
-                rectangle = rectangle,
+                rectangle = chartRectangle,
             )
             day.average?.let { value ->
                 drawValue(
                     value = value,
                     maximum = maximumValue,
-                    rectangle = rectangle,
+                    rectangle = chartRectangle,
                     radius = valueDotRadius,
                 )
             }
         }
     }
+}
+
+private fun DrawScope.drawLabel(
+    day: DashboardState.Trend.Day,
+    rectangle: Rect,
+    fontSize: Float,
+    fontPaint: Paint,
+    textMeasurer: TextMeasurer,
+) {
+    val text = day.date
+    val textSize = textMeasurer.measure(text).size
+    val x = rectangle.center.x - (textSize.width / 2)
+    val y = size.height - (textSize.height / 2)
+    drawText(
+        text = text,
+        x = x,
+        y = y,
+        size = fontSize,
+        paint = fontPaint,
+    )
 }
 
 private fun DrawScope.drawTarget(
@@ -98,26 +130,5 @@ private fun DrawScope.drawValue(
         radius = radius,
         center = position,
         style = Fill,
-    )
-}
-
-private fun DrawScope.drawDayOfWeek(
-    day: DashboardState.Trend.Day,
-    index: Int,
-    widthPerDay: Float,
-    textMeasurer: TextMeasurer,
-    fontSize: Float,
-    fontPaint: Paint,
-) {
-    val text = day.date
-    val textSize = textMeasurer.measure(text).size
-    val x = (widthPerDay * index) + (widthPerDay / 2) - (textSize.width / 2)
-    val y = size.height - (textSize.height / 2)
-    drawText(
-        text = text,
-        x = x,
-        y = y,
-        size = fontSize,
-        paint = fontPaint,
     )
 }

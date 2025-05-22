@@ -7,4 +7,10 @@ data class MeasurementValueRange(
     val high: Double?,
     val maximum: Double,
     val isHighlighted: Boolean,
-)
+) {
+
+    companion object {
+
+        const val BLOOD_SUGAR_TARGET_DEFAULT = 120.0
+    }
+}

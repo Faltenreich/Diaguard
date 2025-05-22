@@ -6,11 +6,13 @@ import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlin.math.max
 
 class GetTrendUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
@@ -24,6 +26,8 @@ class GetTrendUseCase(
 
         val today = dateTimeFactory.today()
         val dateRange = today.minus(1, DateUnit.WEEK) .. today
+        // TODO: Filter in database
+        val property = propertyRepository.getAll().first { it.key == key }
 
         return combine(
             DateProgression(dateRange.start, dateRange.endInclusive).map { date ->
@@ -41,14 +45,13 @@ class GetTrendUseCase(
                 )
             }
         }.map { days ->
+            val targetValue = property.range.target ?: MeasurementValueRange.BLOOD_SUGAR_TARGET_DEFAULT
+            val maximumValue = days.mapNotNull(DashboardState.Trend.Day::average).maxOrNull()
+            val maximumValueDefault = targetValue * 2
             DashboardState.Trend(
                 days = days,
-                // TODO: Use real values
-                targetValue = 120.0,
-                maximumValue = days
-                    .mapNotNull(DashboardState.Trend.Day::average)
-                    .maxOrNull()
-                    ?: 200.0,
+                targetValue = targetValue,
+                maximumValue = max(maximumValue ?: maximumValueDefault, maximumValueDefault),
             )
         }
     }

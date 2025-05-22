@@ -108,7 +108,7 @@ private fun DrawScope.drawTarget(
     maximum: Double,
     rectangle: Rect,
 ) {
-    val y = rectangle.height - (rectangle.height * (target / maximum).toFloat())
+    val y = rectangle.top + rectangle.height - (rectangle.height * (target / maximum).toFloat())
     drawLine(
         color = Color.Gray,
         start = Offset(x = rectangle.left, y = y),

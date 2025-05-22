@@ -13,58 +13,60 @@ import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUs
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlin.math.max
 
 class GetTrendUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
+    private val getValueTint: GetMeasurementValueTintUseCase,
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
-    private val getValueColor: GetMeasurementValueTintUseCase,
 ) {
 
     operator fun invoke(): Flow<DashboardState.Trend> {
-        val key = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
-
         val today = dateTimeFactory.today()
         val dateRange = today.minus(1, DateUnit.WEEK) .. today
-        // TODO: Filter in database
-        val property = propertyRepository.getAll().first { it.key == key }
+        val propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
 
-        return combine(
-            DateProgression(dateRange.start, dateRange.endInclusive).map { date ->
-                valueRepository.observeAverageByPropertyKey(
-                    propertyKey = key,
-                    minDateTime = date.atStartOfDay(),
-                    maxDateTime = date.atEndOfDay(),
-                ).map { date to it }
-            }
-        ) { averagesByDate ->
-            averagesByDate.map { (date, average) ->
-                DashboardState.Trend.Day(
-                    date = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true),
-                    average = average?.let {
-                        val value = MeasurementValue.Average(
-                            value = average,
-                            property = property,
-                        )
-                        DashboardState.Trend.Value(
-                            value = average,
-                            tint = getValueColor(value),
-                        )
-                    },
+        return propertyRepository.observeByKey(propertyKey).flatMapLatest { property ->
+            combine(
+                DateProgression(dateRange.start, dateRange.endInclusive).map { date ->
+                    valueRepository.observeAverageByPropertyKey(
+                        propertyKey = propertyKey,
+                        minDateTime = date.atStartOfDay(),
+                        maxDateTime = date.atEndOfDay(),
+                    ).map { date to it }
+                }
+            ) { averagesByDate ->
+                averagesByDate.map { (date, average) ->
+                    DashboardState.Trend.Day(
+                        date = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true),
+                        average = if (average != null && property != null) {
+                            val value = MeasurementValue.Average(
+                                value = average,
+                                property = property,
+                            )
+                            DashboardState.Trend.Value(
+                                value = average,
+                                tint = getValueTint(value),
+                            )
+                        } else {
+                            null
+                        },
+                    )
+                }
+            }.map { days ->
+                val targetValue = property?.range?.target ?: MeasurementValueRange.BLOOD_SUGAR_TARGET_DEFAULT
+                val maximumValue = days.mapNotNull { it.average?.value }.maxOrNull()
+                val maximumValueDefault = targetValue * 2
+                DashboardState.Trend(
+                    days = days,
+                    targetValue = targetValue,
+                    maximumValue = max(maximumValue ?: maximumValueDefault, maximumValueDefault),
                 )
             }
-        }.map { days ->
-            val targetValue = property.range.target ?: MeasurementValueRange.BLOOD_SUGAR_TARGET_DEFAULT
-            val maximumValue = days.mapNotNull { it.average?.value }.maxOrNull()
-            val maximumValueDefault = targetValue * 2
-            DashboardState.Trend(
-                days = days,
-                targetValue = targetValue,
-                maximumValue = max(maximumValue ?: maximumValueDefault, maximumValueDefault),
-            )
         }
     }
 }

@@ -52,7 +52,12 @@ data class DashboardState(
 
         data class Day(
             val date: String,
-            val average: Double?,
+            val average: Value?,
+        )
+
+        data class Value(
+            val value: Double,
+            val tint: MeasurementValueTint,
         )
     }
 }

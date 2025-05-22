@@ -7,7 +7,9 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -19,6 +21,7 @@ class GetTrendUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
+    private val getValueColor: GetMeasurementValueTintUseCase,
 ) {
 
     operator fun invoke(): Flow<DashboardState.Trend> {
@@ -41,12 +44,21 @@ class GetTrendUseCase(
             averagesByDate.map { (date, average) ->
                 DashboardState.Trend.Day(
                     date = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true),
-                    average = average,
+                    average = average?.let {
+                        val value = MeasurementValue.Average(
+                            value = average,
+                            property = property,
+                        )
+                        DashboardState.Trend.Value(
+                            value = average,
+                            tint = getValueColor(value),
+                        )
+                    },
                 )
             }
         }.map { days ->
             val targetValue = property.range.target ?: MeasurementValueRange.BLOOD_SUGAR_TARGET_DEFAULT
-            val maximumValue = days.mapNotNull(DashboardState.Trend.Day::average).maxOrNull()
+            val maximumValue = days.mapNotNull { it.average?.value }.maxOrNull()
             val maximumValueDefault = targetValue * 2
             DashboardState.Trend(
                 days = days,

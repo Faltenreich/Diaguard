@@ -17,9 +17,10 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.rememberTextMeasurer
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.DashboardState
+import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 import com.faltenreich.diaguard.shared.view.drawText
 
-const val VALUE_DOT_RADIUS = 8f
+const val VALUE_DOT_RADIUS = 12f
 
 @Composable
 fun TrendChart(
@@ -27,10 +28,23 @@ fun TrendChart(
     modifier: Modifier = Modifier,
 ) = with(state) {
     val density = LocalDensity.current
+    val textMeasurer = rememberTextMeasurer()
     val fontPaint = Paint().apply { color = colorScheme.onSurfaceVariant }
     val fontSize = density.run { AppTheme.typography.bodyMedium.fontSize.toPx() }
     val padding = density.run { AppTheme.dimensions.padding.P_2.toPx() }
-    val textMeasurer = rememberTextMeasurer()
+
+    val colorTintNone = AppTheme.colors.scheme.onPrimary
+    val colorTintLow = AppTheme.colors.ValueLow
+    val colorTintNormal = AppTheme.colors.ValueNormal
+    val colorTintHigh = AppTheme.colors.ValueHigh
+    val getColor = { tint: MeasurementValueTint ->
+        when (tint) {
+            MeasurementValueTint.NONE -> colorTintNone
+            MeasurementValueTint.LOW -> colorTintLow
+            MeasurementValueTint.NORMAL -> colorTintNormal
+            MeasurementValueTint.HIGH -> colorTintHigh
+        }
+    }
 
     Canvas(modifier = modifier.fillMaxSize()) {
         val widthPerDay = size.width / days.size
@@ -73,7 +87,8 @@ fun TrendChart(
             )
             day.average?.let { value ->
                 drawValue(
-                    value = value,
+                    value = value.value,
+                    color = getColor(value.tint),
                     maximum = maximumValue,
                     rectangle = chartRectangle,
                     radius = VALUE_DOT_RADIUS,
@@ -92,12 +107,10 @@ private fun DrawScope.drawLabel(
 ) {
     val text = day.date
     val textSize = textMeasurer.measure(text).size
-    val x = rectangle.center.x - (textSize.width / 2)
-    val y = rectangle.bottomCenter.y
     drawText(
         text = text,
-        x = x,
-        y = y,
+        x = rectangle.center.x - (textSize.width / 2),
+        y = rectangle.bottomCenter.y,
         size = fontSize,
         paint = fontPaint,
     )
@@ -118,18 +131,16 @@ private fun DrawScope.drawTarget(
 
 private fun DrawScope.drawValue(
     value: Double,
+    color: Color,
     maximum: Double,
     rectangle: Rect,
     radius: Float,
 ) {
-    val position = Offset(
-        x = rectangle.center.x,
-        y = rectangle.top + rectangle.height - (rectangle.height * (value / maximum).toFloat()),
-    )
+    val y = rectangle.top + rectangle.height - (rectangle.height * (value / maximum).toFloat())
     drawCircle(
-        color = Color.White, // TODO
+        color = color,
         radius = radius,
-        center = position,
+        center = Offset(x = rectangle.center.x, y = y),
         style = Fill,
     )
 }

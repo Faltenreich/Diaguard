@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.dashboard.trend
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -15,7 +16,7 @@ import diaguard.shared.generated.resources.trend
 
 @Composable
 fun TrendDashboardItem(
-    state: DashboardState.Trend,
+    state: DashboardState.Trend?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -28,10 +29,14 @@ fun TrendDashboardItem(
                 text = getString(Res.string.trend),
                 style = AppTheme.typography.labelMedium,
             )
-            TrendChart(
-                state = state,
-                modifier = Modifier.height(AppTheme.dimensions.size.TrendHeight),
-            )
+            if (state != null) {
+                TrendChart(
+                    state = state,
+                    modifier = Modifier.height(AppTheme.dimensions.size.TrendHeight),
+                )
+            } else {
+                Spacer(modifier = Modifier.height(AppTheme.dimensions.size.TrendHeight))
+            }
         }
     }
 }

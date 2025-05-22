@@ -24,7 +24,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HbA1cDashboardItem(
-    state: DashboardState.HbA1c,
+    state: DashboardState.HbA1c?,
     onOpenEntry: (Entry.Local) -> Unit,
     modifier: Modifier = Modifier,
 ) {

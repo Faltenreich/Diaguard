@@ -23,7 +23,7 @@ import com.faltenreich.diaguard.shared.view.drawText
 const val VALUE_DOT_RADIUS = 12f
 
 @Composable
-fun TrendChart(
+fun TrendDashboardChart(
     state: DashboardState.Trend,
     modifier: Modifier = Modifier,
 ) = with(state) {

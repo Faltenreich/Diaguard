@@ -30,7 +30,7 @@ fun TrendDashboardItem(
                 style = AppTheme.typography.labelMedium,
             )
             if (state != null) {
-                TrendChart(
+                TrendDashboardChart(
                     state = state,
                     modifier = Modifier.height(AppTheme.dimensions.size.TrendHeight),
                 )

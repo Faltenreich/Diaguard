@@ -1,9 +1,10 @@
 package com.faltenreich.diaguard.shared.theme.dimension
 
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-@Suppress("ConstructorParameterNaming", "PropertyName")
+@Suppress("ConstructorParameterNaming", "PropertyName", "MagicNumber")
 data class Size(
     val ImageSmaller: Dp = 18.dp,
     val ImageSmall: Dp = 24.dp,
@@ -17,4 +18,5 @@ data class Size(
     val TrendHeight: Dp = 100.dp,
     val LogDayWidth: Dp = 60.dp,
     val TimelineTableRowHeight: Dp = 40.dp,
+    val CornerRadius: CornerRadius = CornerRadius(x = 12f, y = 12f)
 )

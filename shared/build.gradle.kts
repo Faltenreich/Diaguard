@@ -46,7 +46,6 @@ kotlin {
                 implementation(libs.ktor.serialization)
                 implementation(libs.paging.common)
                 implementation(libs.paging.common.compose)
-                implementation(libs.shimmer)
                 implementation(libs.sqldelight.coroutines)
             }
         }

@@ -13,7 +13,6 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.skeleton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_first_description
 import diaguard.shared.generated.resources.placeholder
@@ -24,9 +23,8 @@ fun LatestDashboardItem(
     onClick: (Entry.Local?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val valueState = state as? DashboardState.LatestBloodSugar.Value
     Card(
-        onClick = { onClick(valueState?.entry) },
+        onClick = { onClick((state as? DashboardState.LatestBloodSugar.Value)?.entry) },
         modifier = modifier,
     ) {
         Column(
@@ -37,14 +35,24 @@ fun LatestDashboardItem(
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = valueState?.value?.value ?: getString(Res.string.placeholder),
-                    modifier = Modifier.skeleton(show = state == null),
-                    color = valueState?.tint?.getColor() ?: Color.Unspecified,
+                    text = when (state) {
+                        null -> ""
+                        is DashboardState.LatestBloodSugar.None -> getString(Res.string.placeholder)
+                        is DashboardState.LatestBloodSugar.Value -> state.value.value
+                    },
+                    color = when (state) {
+                        null,
+                        is DashboardState.LatestBloodSugar.None -> Color.Unspecified
+                        is DashboardState.LatestBloodSugar.Value -> state.tint.getColor()
+                    },
                     style = AppTheme.typography.displayLarge,
                 )
                 Text(
-                    text = valueState?.timePassed ?: getString(Res.string.entry_first_description),
-                    modifier = Modifier.skeleton(show = state == null),
+                    text = when (state) {
+                        null -> ""
+                        is DashboardState.LatestBloodSugar.None -> getString(Res.string.entry_first_description)
+                        is DashboardState.LatestBloodSugar.Value -> state.timePassed
+                    },
                     style = AppTheme.typography.bodyMedium,
                 )
             }

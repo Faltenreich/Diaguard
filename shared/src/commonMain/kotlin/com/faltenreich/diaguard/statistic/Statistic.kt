@@ -22,12 +22,12 @@ import com.faltenreich.diaguard.shared.view.DropdownButton
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
+import com.faltenreich.diaguard.statistic.average.StatisticAverage
+import com.faltenreich.diaguard.statistic.distribution.StatisticDistribution
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.average
 import diaguard.shared.generated.resources.distribution
-import diaguard.shared.generated.resources.entries_per_day
 import diaguard.shared.generated.resources.ic_time
-import diaguard.shared.generated.resources.placeholder
 import diaguard.shared.generated.resources.trend
 
 @Composable
@@ -65,21 +65,12 @@ fun Statistic(
         }
 
         TextDivider(getString(Res.string.average))
-        state.average.values.forEach { value ->
-            FormRow {
-                Text(value.first.name, modifier = Modifier.weight(1f))
-                Text(value.second ?: getString(Res.string.placeholder))
-            }
-            Divider()
-        }
-        FormRow {
-            Text(getString(Res.string.entries_per_day), modifier = Modifier.weight(1f))
-            Text(state.average.countPerDay)
-        }
+        StatisticAverage(state.average)
 
         TextDivider(getString(Res.string.trend))
 
         TextDivider(getString(Res.string.distribution))
+        StatisticDistribution(state.distribution)
     }
 
     if (showDateRangePicker) {

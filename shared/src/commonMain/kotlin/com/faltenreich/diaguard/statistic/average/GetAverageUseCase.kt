@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.statistic
+package com.faltenreich.diaguard.statistic.average
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.localization.format
+import com.faltenreich.diaguard.statistic.StatisticState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest

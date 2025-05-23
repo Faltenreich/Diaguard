@@ -21,16 +21,15 @@ class GetLatestBloodSugarUseCase(
     private val dateTimeFormatter: DateTimeFormatter,
 ) {
 
-    operator fun invoke(): Flow<DashboardState.LatestBloodSugar?> {
+    operator fun invoke(): Flow<DashboardState.LatestBloodSugar> {
+        val propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         return combine(
-            valueRepository.observeLatestByProperty(
-                key = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
-            ),
+            valueRepository.observeLatestByProperty(key = propertyKey),
             getPreference(DecimalPlacesPreference),
         ) { value, decimalPlaces ->
             when (value) {
-                null -> null
-                else -> DashboardState.LatestBloodSugar(
+                null -> DashboardState.LatestBloodSugar.None
+                else -> DashboardState.LatestBloodSugar.Value(
                     entry = value.entry,
                     value = valueMapper(
                         value = value,

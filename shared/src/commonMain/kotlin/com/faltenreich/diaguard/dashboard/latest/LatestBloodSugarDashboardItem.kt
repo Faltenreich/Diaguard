@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.skeleton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_first_description
 import diaguard.shared.generated.resources.placeholder
@@ -23,8 +24,9 @@ fun LatestDashboardItem(
     onClick: (Entry.Local?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val valueState = state as? DashboardState.LatestBloodSugar.Value
     Card(
-        onClick = { onClick(state?.entry) },
+        onClick = { onClick(valueState?.entry) },
         modifier = modifier,
     ) {
         Column(
@@ -35,12 +37,14 @@ fun LatestDashboardItem(
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = state?.value?.value ?: getString(Res.string.placeholder),
+                    text = valueState?.value?.value ?: getString(Res.string.placeholder),
+                    modifier = Modifier.skeleton(show = state == null),
+                    color = valueState?.tint?.getColor() ?: Color.Unspecified,
                     style = AppTheme.typography.displayLarge,
-                    color = state?.tint?.getColor() ?: Color.Unspecified,
                 )
                 Text(
-                    text = state?.timePassed ?: getString(Res.string.entry_first_description),
+                    text = valueState?.timePassed ?: getString(Res.string.entry_first_description),
+                    modifier = Modifier.skeleton(show = state == null),
                     style = AppTheme.typography.bodyMedium,
                 )
             }

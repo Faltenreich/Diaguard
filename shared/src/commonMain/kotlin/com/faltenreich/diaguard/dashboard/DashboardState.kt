@@ -12,12 +12,17 @@ data class DashboardState(
     val trend: Trend,
 ) {
 
-    data class LatestBloodSugar(
-        val entry: Entry.Local,
-        val value: MeasurementValue.Localized,
-        val tint: MeasurementValueTint,
-        val timePassed: String,
-    )
+    sealed interface LatestBloodSugar {
+
+        data object None : LatestBloodSugar
+
+        data class Value(
+            val entry: Entry.Local,
+            val value: MeasurementValue.Localized,
+            val tint: MeasurementValueTint,
+            val timePassed: String,
+        ) : LatestBloodSugar
+    }
 
     data class Today(
         val totalCount: Int,

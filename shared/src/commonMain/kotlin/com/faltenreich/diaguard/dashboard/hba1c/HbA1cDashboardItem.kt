@@ -35,7 +35,8 @@ fun HbA1cDashboardItem(
             when (state) {
                 is DashboardState.HbA1c.Latest -> onOpenEntry(state.entry)
                 is DashboardState.HbA1c.Estimated,
-                is DashboardState.HbA1c.Unknown -> showEstimatedHbA1cBottomSheet = true
+                is DashboardState.HbA1c.Unknown,
+                null-> showEstimatedHbA1cBottomSheet = true
             }
         },
         modifier = modifier,
@@ -48,7 +49,8 @@ fun HbA1cDashboardItem(
                 text = when (state) {
                     is DashboardState.HbA1c.Latest -> stringResource(Res.string.hba1c_latest, state.dateTime)
                     is DashboardState.HbA1c.Estimated -> stringResource(Res.string.hba1c_estimated)
-                    is DashboardState.HbA1c.Unknown -> stringResource(Res.string.hba1c)
+                    is DashboardState.HbA1c.Unknown,
+                    null -> stringResource(Res.string.hba1c)
                 },
                 style = AppTheme.typography.labelMedium,
                 modifier = Modifier.weight(1f),
@@ -57,7 +59,8 @@ fun HbA1cDashboardItem(
                 when (state) {
                     is DashboardState.HbA1c.Latest -> state.value.value
                     is DashboardState.HbA1c.Estimated -> state.value.value
-                    is DashboardState.HbA1c.Unknown -> stringResource(Res.string.placeholder)
+                    is DashboardState.HbA1c.Unknown,
+                    null -> stringResource(Res.string.placeholder)
                 }
             )
         }

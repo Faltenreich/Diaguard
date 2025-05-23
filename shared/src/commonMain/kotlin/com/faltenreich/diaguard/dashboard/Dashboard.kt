@@ -22,7 +22,6 @@ fun Dashboard(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState()
-    // TODO: Add skeletons for null
     Column(
         modifier = modifier
             .padding(all = AppTheme.dimensions.padding.P_3)

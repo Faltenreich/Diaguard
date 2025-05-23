@@ -16,5 +16,12 @@ data class StatisticState(
         val countPerDay: String,
     )
 
-    class Distribution
+    data class Distribution(
+        val targetCount: Int,
+        val lowCount: Int,
+        val highCount: Int,
+    ) {
+
+        val totalCount: Int = targetCount + lowCount + highCount
+    }
 }

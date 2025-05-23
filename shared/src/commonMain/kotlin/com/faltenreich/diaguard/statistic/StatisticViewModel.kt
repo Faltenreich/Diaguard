@@ -7,16 +7,17 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.statistic.average.GetAverageUseCase
+import com.faltenreich.diaguard.statistic.distribution.GetDistributionUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 
 class StatisticViewModel(
     getToday: GetTodayUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
     private val formatDateRange: FormatDateTimeUseCase,
     private val getAverage: GetAverageUseCase,
+    private val getDistribution: GetDistributionUseCase,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
@@ -30,13 +31,16 @@ class StatisticViewModel(
         Triple(category ?: categories.first(), dateRange, categories)
     }.flatMapLatest { (category, dateRange, categories) ->
         // FIXME: NullPointerException when changing dateRange
-        getAverage(category, dateRange).map { average ->
+        combine(
+            getAverage(category, dateRange),
+            getDistribution(category, dateRange),
+        ) { average, distribution ->
             StatisticState(
                 dateRange = formatDateRange(dateRange),
                 category = category,
                 categories = categories,
                 average = average,
-                distribution = StatisticState.Distribution(),
+                distribution = distribution,
             )
         }
     }

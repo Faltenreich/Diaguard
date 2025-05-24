@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.statistic
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 
 data class StatisticState(
     val category: MeasurementCategory.Local,
@@ -17,11 +18,12 @@ data class StatisticState(
     )
 
     data class Distribution(
-        val targetCount: Int,
-        val lowCount: Int,
-        val highCount: Int,
+        val parts: List<Part>,
     ) {
 
-        val totalCount: Int = targetCount + lowCount + highCount
+        data class Part(
+            val percentage: Float,
+            val tint: MeasurementValueTint,
+        )
     }
 }

@@ -46,7 +46,7 @@ class MeasurementPropertyRepository(
         return dao.getById(id)
     }
 
-    fun observeByKey(key: DatabaseKey): Flow<MeasurementProperty.Local?> {
+    fun observeByKey(key: DatabaseKey.MeasurementProperty): Flow<MeasurementProperty.Local?> {
         return dao.observeByKey(key)
     }
 
@@ -56,6 +56,12 @@ class MeasurementPropertyRepository(
 
     fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty.Local>> {
         return dao.observeByCategoryId(categoryId)
+    }
+
+    fun observeByCategoryKey(
+        categoryKey: DatabaseKey.MeasurementCategory,
+    ): Flow<List<MeasurementProperty.Local>> {
+        return dao.observeByCategoryKey(categoryKey)
     }
 
     fun getAll(): List<MeasurementProperty.Local> {

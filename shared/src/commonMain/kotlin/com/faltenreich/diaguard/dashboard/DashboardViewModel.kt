@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.statistic.StatisticScreen
 import kotlinx.coroutines.flow.combine
 
 class DashboardViewModel(
-    getLatestBloodSugar: GetDashboardLatestUseCase,
+    getLatest: GetDashboardLatestUseCase,
     getToday: GetDashboardTodayUseCase,
     getAverage: GetDashboardAverageUseCase,
     getCurrentHbA1c: GetDashboardHbA1cUseCase,
@@ -22,7 +22,7 @@ class DashboardViewModel(
 ) : ViewModel<DashboardState, DashboardIntent, Unit>() {
 
     override val state = combine(
-        getLatestBloodSugar(),
+        getLatest(),
         getToday(),
         getAverage(),
         getCurrentHbA1c(),

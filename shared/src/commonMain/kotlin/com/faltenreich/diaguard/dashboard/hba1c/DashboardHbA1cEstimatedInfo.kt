@@ -18,7 +18,7 @@ import diaguard.shared.generated.resources.hba1c_estimated_description
 import diaguard.shared.generated.resources.hba1c_estimated_formula
 
 @Composable
-fun EstimatedHbA1cInfo(modifier: Modifier = Modifier) {
+fun DashboardHbA1cEstimatedInfo(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()

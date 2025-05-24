@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-class GetEstimatedHbA1cUseCase(
+class GetDashboardHbA1cEstimatedUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val propertyRepository: MeasurementPropertyRepository,
     private val dateTimeFactory: DateTimeFactory,

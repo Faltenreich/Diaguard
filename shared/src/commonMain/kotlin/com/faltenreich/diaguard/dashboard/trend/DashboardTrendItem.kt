@@ -15,7 +15,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.trend
 
 @Composable
-fun TrendDashboardItem(
+fun DashboardTrendItem(
     state: DashboardState.Trend?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -30,7 +30,7 @@ fun TrendDashboardItem(
                 style = AppTheme.typography.labelMedium,
             )
             if (state != null) {
-                TrendDashboardChart(
+                DashboardTrendChart(
                     state = state,
                     modifier = Modifier.height(AppTheme.dimensions.size.TrendHeight),
                 )

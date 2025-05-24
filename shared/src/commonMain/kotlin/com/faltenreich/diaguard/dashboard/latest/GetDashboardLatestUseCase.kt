@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-class GetLatestBloodSugarUseCase(
+class GetDashboardLatestUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val valueMapper: MeasurementValueMapper,
     private val getValueColor: GetMeasurementValueTintUseCase,

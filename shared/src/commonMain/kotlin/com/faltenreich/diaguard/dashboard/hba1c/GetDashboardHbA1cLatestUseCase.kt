@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class GetLatestHbA1cUseCase(
+class GetDashboardHbA1cLatestUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val dateTimeFactory: DateTimeFactory,
 ) {

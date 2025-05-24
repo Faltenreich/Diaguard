@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.average.AverageDashboardItem
-import com.faltenreich.diaguard.dashboard.hba1c.HbA1cDashboardItem
-import com.faltenreich.diaguard.dashboard.latest.LatestDashboardItem
-import com.faltenreich.diaguard.dashboard.today.TodayDashboardItem
-import com.faltenreich.diaguard.dashboard.trend.TrendDashboardItem
+import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cItem
+import com.faltenreich.diaguard.dashboard.latest.DashboardLatestItem
+import com.faltenreich.diaguard.dashboard.today.DashboardTodayItem
+import com.faltenreich.diaguard.dashboard.trend.DashboardTrendItem
 
 @Composable
 fun Dashboard(
@@ -28,7 +28,7 @@ fun Dashboard(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
     ) {
-        LatestDashboardItem(
+        DashboardLatestItem(
             state = state?.latestBloodSugar,
             onClick = { entry ->
                 val intent = entry?.let(DashboardIntent::EditEntry) ?: DashboardIntent.CreateEntry
@@ -40,7 +40,7 @@ fun Dashboard(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
         ) {
-            TodayDashboardItem(
+            DashboardTodayItem(
                 state = state?.today,
                 onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
                 modifier = Modifier.weight(1f),
@@ -51,12 +51,12 @@ fun Dashboard(
                 modifier = Modifier.weight(1f),
             )
         }
-        HbA1cDashboardItem(
+        DashboardHbA1cItem(
             state = state?.hbA1c,
             onOpenEntry = { entry -> viewModel.dispatchIntent(DashboardIntent.EditEntry(entry = entry)) },
             modifier = Modifier.fillMaxWidth(),
         )
-        TrendDashboardItem(
+        DashboardTrendItem(
             state = state?.trend,
             onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
             modifier = Modifier.fillMaxWidth(),

@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class GetTodayUseCase(
+class GetDashboardTodayUseCase(
     private val repository: MeasurementValueRepository,
     private val dateTimeFactory: DateTimeFactory,
 ) {

@@ -8,9 +8,9 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-class GetCurrentHbA1cUseCase(
-    private val getLatestHbA1c: GetLatestHbA1cUseCase,
-    private val getEstimatedHbA1c: GetEstimatedHbA1cUseCase,
+class GetDashboardHbA1cCurrentUseCase(
+    private val getLatestHbA1c: GetDashboardHbA1cLatestUseCase,
+    private val getEstimatedHbA1c: GetDashboardHbA1cEstimatedUseCase,
     private val getPreference: GetPreferenceUseCase,
     private val measurementValueMapper: MeasurementValueMapper,
     private val dateTimeFormatter: DateTimeFormatter,

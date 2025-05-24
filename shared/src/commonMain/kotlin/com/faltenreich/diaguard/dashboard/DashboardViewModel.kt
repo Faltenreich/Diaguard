@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.dashboard
 
-import com.faltenreich.diaguard.dashboard.average.GetAverageBloodSugarUseCase
-import com.faltenreich.diaguard.dashboard.hba1c.GetCurrentHbA1cUseCase
-import com.faltenreich.diaguard.dashboard.latest.GetLatestBloodSugarUseCase
-import com.faltenreich.diaguard.dashboard.today.GetTodayUseCase
-import com.faltenreich.diaguard.dashboard.trend.GetTrendUseCase
+import com.faltenreich.diaguard.dashboard.average.GetDashboardAverageUseCase
+import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cCurrentUseCase
+import com.faltenreich.diaguard.dashboard.latest.GetDashboardLatestUseCase
+import com.faltenreich.diaguard.dashboard.today.GetDashboardTodayUseCase
+import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
@@ -13,11 +13,11 @@ import com.faltenreich.diaguard.statistic.StatisticScreen
 import kotlinx.coroutines.flow.combine
 
 class DashboardViewModel(
-    getLatestBloodSugar: GetLatestBloodSugarUseCase,
-    getToday: GetTodayUseCase,
-    getAverage: GetAverageBloodSugarUseCase,
-    getCurrentHbA1c: GetCurrentHbA1cUseCase,
-    getTrend: GetTrendUseCase,
+    getLatestBloodSugar: GetDashboardLatestUseCase,
+    getToday: GetDashboardTodayUseCase,
+    getAverage: GetDashboardAverageUseCase,
+    getCurrentHbA1c: GetDashboardHbA1cCurrentUseCase,
+    getTrend: GetDashboardTrendUseCase,
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<DashboardState, DashboardIntent, Unit>() {
 

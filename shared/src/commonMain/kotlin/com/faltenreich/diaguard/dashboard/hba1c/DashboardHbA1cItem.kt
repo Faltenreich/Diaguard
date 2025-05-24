@@ -23,7 +23,7 @@ import diaguard.shared.generated.resources.placeholder
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun HbA1cDashboardItem(
+fun DashboardHbA1cItem(
     state: DashboardState.HbA1c?,
     onOpenEntry: (Entry.Local) -> Unit,
     modifier: Modifier = Modifier,
@@ -70,7 +70,7 @@ fun HbA1cDashboardItem(
         ModalBottomSheet(
             onDismissRequest = { showEstimatedHbA1cBottomSheet = false },
         ) {
-            EstimatedHbA1cInfo()
+            DashboardHbA1cEstimatedInfo()
         }
     }
 }

@@ -1,24 +1,24 @@
 package com.faltenreich.diaguard.dashboard
 
-import com.faltenreich.diaguard.dashboard.average.GetAverageBloodSugarUseCase
-import com.faltenreich.diaguard.dashboard.hba1c.GetCurrentHbA1cUseCase
-import com.faltenreich.diaguard.dashboard.hba1c.GetEstimatedHbA1cUseCase
-import com.faltenreich.diaguard.dashboard.hba1c.GetLatestHbA1cUseCase
-import com.faltenreich.diaguard.dashboard.latest.GetLatestBloodSugarUseCase
-import com.faltenreich.diaguard.dashboard.today.GetTodayUseCase
-import com.faltenreich.diaguard.dashboard.trend.GetTrendUseCase
+import com.faltenreich.diaguard.dashboard.average.GetDashboardAverageUseCase
+import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cCurrentUseCase
+import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cEstimatedUseCase
+import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cLatestUseCase
+import com.faltenreich.diaguard.dashboard.latest.GetDashboardLatestUseCase
+import com.faltenreich.diaguard.dashboard.today.GetDashboardTodayUseCase
+import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun dashboardModule() = module {
-    factoryOf(::GetLatestBloodSugarUseCase)
-    factoryOf(::GetTodayUseCase)
-    factoryOf(::GetAverageBloodSugarUseCase)
-    factoryOf(::GetEstimatedHbA1cUseCase)
-    factoryOf(::GetLatestHbA1cUseCase)
-    factoryOf(::GetCurrentHbA1cUseCase)
-    factoryOf(::GetTrendUseCase)
+    factoryOf(::GetDashboardLatestUseCase)
+    factoryOf(::GetDashboardTodayUseCase)
+    factoryOf(::GetDashboardAverageUseCase)
+    factoryOf(::GetDashboardHbA1cEstimatedUseCase)
+    factoryOf(::GetDashboardHbA1cLatestUseCase)
+    factoryOf(::GetDashboardHbA1cCurrentUseCase)
+    factoryOf(::GetDashboardTrendUseCase)
 
     viewModelOf(::DashboardViewModel)
 }

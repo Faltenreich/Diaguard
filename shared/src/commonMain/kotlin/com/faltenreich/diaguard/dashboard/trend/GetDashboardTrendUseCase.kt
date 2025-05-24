@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlin.math.max
 
-class GetTrendUseCase(
+class GetDashboardTrendUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
     private val getValueTint: GetMeasurementValueTintUseCase,

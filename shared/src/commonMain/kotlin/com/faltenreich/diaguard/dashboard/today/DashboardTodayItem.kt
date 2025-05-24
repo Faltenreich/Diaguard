@@ -20,7 +20,7 @@ import diaguard.shared.generated.resources.placeholder
 import diaguard.shared.generated.resources.today
 
 @Composable
-fun TodayDashboardItem(
+fun DashboardTodayItem(
     state: DashboardState.Today?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,

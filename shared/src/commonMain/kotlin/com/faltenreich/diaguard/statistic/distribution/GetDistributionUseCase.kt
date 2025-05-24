@@ -62,10 +62,8 @@ class GetDistributionUseCase(
             ).map(Long::toFloat),
         ) { lowCount, targetCount, highCount ->
             val totalCount = lowCount + targetCount + highCount
-
-            StatisticState.Distribution.Property(
-                property = property,
-                parts = listOf(
+            val parts = if (totalCount > 0) {
+                listOf(
                     StatisticState.Distribution.Part(
                         percentage = targetCount / totalCount,
                         tint = MeasurementValueTint.NORMAL,
@@ -79,6 +77,12 @@ class GetDistributionUseCase(
                         tint = MeasurementValueTint.HIGH,
                     ),
                 )
+            } else {
+                emptyList()
+            }
+            StatisticState.Distribution.Property(
+                property = property,
+                parts = parts,
             )
         }
     }

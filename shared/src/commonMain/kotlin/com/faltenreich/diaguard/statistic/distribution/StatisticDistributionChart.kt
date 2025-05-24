@@ -17,7 +17,7 @@ private const val ANGLE_CIRCULAR = 360f
 
 @Composable
 fun StatisticDistributionChart(
-    state: StatisticState.Distribution,
+    state: StatisticState.Distribution.Property,
     modifier: Modifier = Modifier,
 ) {
     val colorDefault = AppTheme.colors.scheme.onBackground
@@ -26,23 +26,21 @@ fun StatisticDistributionChart(
     val chartSize = with(LocalDensity.current) { chartHeight.toPx().let { Size(it, it) } }
 
     Canvas(modifier = modifier.height(chartHeight)) {
-        state.properties.forEach { property ->
-            val chartTopLeft = Offset(
-                x = center.x - chartSize.width / 2,
-                y = 0f,
+        val chartTopLeft = Offset(
+            x = center.x - chartSize.width / 2,
+            y = 0f,
+        )
+        var startAngle = 0f
+        state.parts.forEach { part ->
+            val sweepAngle = part.percentage * ANGLE_CIRCULAR
+            drawValue(
+                startAngle = startAngle,
+                sweepAngle = sweepAngle,
+                color = colorByTint[part.tint] ?: colorDefault,
+                topLeft = chartTopLeft,
+                size = chartSize,
             )
-            var startAngle = 0f
-            property.parts.forEach { part ->
-                val sweepAngle = part.percentage * ANGLE_CIRCULAR
-                drawValue(
-                    startAngle = startAngle,
-                    sweepAngle = sweepAngle,
-                    color = colorByTint[part.tint] ?: colorDefault,
-                    topLeft = chartTopLeft,
-                    size = chartSize,
-                )
-                startAngle += sweepAngle
-            }
+            startAngle += sweepAngle
         }
     }
 }

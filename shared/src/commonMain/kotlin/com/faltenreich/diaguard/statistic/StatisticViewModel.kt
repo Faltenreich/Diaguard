@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.statistic.average.GetAverageUseCase
-import com.faltenreich.diaguard.statistic.distribution.GetDistributionUseCase
+import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
+import com.faltenreich.diaguard.statistic.distribution.GetStatisticDistributionUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -16,8 +16,8 @@ class StatisticViewModel(
     getToday: GetTodayUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
     private val formatDateRange: FormatDateTimeUseCase,
-    private val getAverage: GetAverageUseCase,
-    private val getDistribution: GetDistributionUseCase,
+    private val getAverage: GetStatisticAverageUseCase,
+    private val getDistribution: GetStatisticDistributionUseCase,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val category = MutableStateFlow<MeasurementCategory.Local?>(null)

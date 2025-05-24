@@ -4,9 +4,9 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyDao
+import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementPropertyQueries
@@ -71,11 +71,11 @@ class MeasurementPropertySqlDelightDao(
     }
 
     override fun getByCategoryId(categoryId: Long): List<MeasurementProperty.Local> {
-        return queries.getByCategory(categoryId, mapper::map).executeAsList()
+        return queries.getByCategoryId(categoryId, mapper::map).executeAsList()
     }
 
     override fun observeByCategoryId(categoryId: Long): Flow<List<MeasurementProperty.Local>> {
-        return queries.getByCategory(categoryId, mapper::map).asFlow().mapToList(dispatcher)
+        return queries.getByCategoryId(categoryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun getAll(): List<MeasurementProperty.Local> {

@@ -100,13 +100,13 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToOne(dispatcher)
     }
 
-    override fun observeAverageByCategoryId(
-        categoryId: Long,
+    override fun observeAverageByPropertyId(
+        propertyId: Long,
         minDateTime: DateTime,
         maxDateTime: DateTime,
     ): Flow<Double?> {
-        return queries.getAverageByCategory(
-            categoryId = categoryId,
+        return queries.getAverageByPropertyId(
+            propertyId = propertyId,
             minDateTime = minDateTime.isoString,
             maxDateTime = maxDateTime.isoString,
         ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
@@ -122,19 +122,6 @@ class MeasurementValueSqlDelightDao(
             minDateTime = minDateTime.isoString,
             maxDateTime = maxDateTime.isoString,
         ).asFlow().mapToOneOrNull(dispatcher).map { it?.AVG }
-    }
-
-    override fun observeAveragesByCategoryId(
-        categoryId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime
-    ): Flow<List<MeasurementValue.Average>> {
-        return queries.getAveragesByCategory(
-            categoryId = categoryId,
-            minDateTime = minDateTime.isoString,
-            maxDateTime = maxDateTime.isoString,
-            mapper = mapper::map,
-        ).asFlow().mapToList(dispatcher)
     }
 
     override fun update(

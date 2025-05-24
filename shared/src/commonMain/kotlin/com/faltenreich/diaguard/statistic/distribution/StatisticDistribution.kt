@@ -37,7 +37,9 @@ fun StatisticDistribution(
                 } else {
                     Text(
                         text = getString(Res.string.no_entries),
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(AppTheme.dimensions.padding.P_2),
                         textAlign = TextAlign.Center,
                     )
                 }

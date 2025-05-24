@@ -54,7 +54,7 @@ INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 WHERE MeasurementProperty.key = ?;
 
-getByCategory:
+getByCategoryId:
 SELECT * FROM MeasurementProperty
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId

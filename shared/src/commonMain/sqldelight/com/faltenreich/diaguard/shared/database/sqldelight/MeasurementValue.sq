@@ -75,32 +75,21 @@ AND Entry.dateTime <= :maxDateTime
 AND MeasurementValue.value >= :minimumValue
 AND MeasurementValue.value <= :maximumValue;
 
+getAverageByPropertyId:
+SELECT AVG(MeasurementValue.value) FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE MeasurementProperty.id == :propertyId
+AND Entry.dateTime >= :minDateTime
+AND Entry.dateTime <= :maxDateTime;
+
 getAverageByPropertyKey:
 SELECT AVG(MeasurementValue.value) FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.key == :propertyKey
-AND Entry.dateTime >= :minDateTime
-AND Entry.dateTime <= :maxDateTime;
-
-getAverageByCategory:
-SELECT AVG(MeasurementValue.value) FROM MeasurementValue
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE MeasurementProperty.categoryId == :categoryId
-AND Entry.dateTime >= :minDateTime
-AND Entry.dateTime <= :maxDateTime;
-
-getAveragesByCategory:
-SELECT AVG(MeasurementValue.value), MeasurementProperty.*, MeasurementCategory.*, MeasurementUnit.*, MeasurementUnitSuggestion.* FROM MeasurementValue
-INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
-LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
-WHERE MeasurementProperty.categoryId == :categoryId
 AND Entry.dateTime >= :minDateTime
 AND Entry.dateTime <= :maxDateTime;
 

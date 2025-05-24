@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -36,19 +37,20 @@ class GetAverageBloodSugarUseCase(
                 )
             )
             combine(
+                // TODO: Observe by CategoryKey to avoid previous fetch
                 propertyRepository.observeByCategoryId(categoryId),
-                valueRepository.observeAverageByCategoryId(
-                    categoryId = categoryId,
+                valueRepository.observeAverageByPropertyKey(
+                    propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
                     minDateTime = today.atStartOfDay(),
                     maxDateTime = todayAtEndOfDay,
                 ),
-                valueRepository.observeAverageByCategoryId(
-                    categoryId = categoryId,
+                valueRepository.observeAverageByPropertyKey(
+                    propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
                     minDateTime = today.minus(1, DateUnit.WEEK).atStartOfDay(),
                     maxDateTime = todayAtEndOfDay,
                 ),
-                valueRepository.observeAverageByCategoryId(
-                    categoryId = categoryId,
+                valueRepository.observeAverageByPropertyKey(
+                    propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
                     minDateTime = today.minus(1, DateUnit.MONTH).atStartOfDay(),
                     maxDateTime = todayAtEndOfDay,
                 ),

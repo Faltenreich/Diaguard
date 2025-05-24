@@ -70,28 +70,20 @@ class MeasurementValueRepository(
         return dao.observeCountByValueRange(range, propertyId, minDateTime, maxDateTime)
     }
 
+    fun observeAverageByPropertyId(
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime
+    ): Flow<Double?> {
+        return dao.observeAverageByPropertyId(propertyId, minDateTime, maxDateTime)
+    }
+
     fun observeAverageByPropertyKey(
         propertyKey: DatabaseKey.MeasurementProperty,
         minDateTime: DateTime,
         maxDateTime: DateTime,
     ): Flow<Double?> {
         return dao.observeAverageByPropertyKey(propertyKey, minDateTime, maxDateTime)
-    }
-
-    fun observeAverageByCategoryId(
-        categoryId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ): Flow<Double?> {
-        return dao.observeAverageByCategoryId(categoryId, minDateTime, maxDateTime)
-    }
-
-    fun observeAveragesByCategoryId(
-        categoryId: Long,
-        minDateTime: DateTime,
-        maxDateTime: DateTime,
-    ): Flow<List<MeasurementValue.Average>> {
-        return dao.observeAveragesByCategoryId(categoryId, minDateTime, maxDateTime)
     }
 
     fun update(value: MeasurementValue.Local) {

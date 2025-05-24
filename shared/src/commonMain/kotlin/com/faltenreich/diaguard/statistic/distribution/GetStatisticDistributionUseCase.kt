@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
-class GetDistributionUseCase(
+class GetStatisticDistributionUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
 ) {

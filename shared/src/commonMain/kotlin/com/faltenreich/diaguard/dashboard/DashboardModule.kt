@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.dashboard.average.GetDashboardAverageUseCase
-import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cCurrentUseCase
+import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cUseCase
 import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cEstimatedUseCase
 import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cLatestUseCase
 import com.faltenreich.diaguard.dashboard.latest.GetDashboardLatestUseCase
@@ -17,7 +17,7 @@ fun dashboardModule() = module {
     factoryOf(::GetDashboardAverageUseCase)
     factoryOf(::GetDashboardHbA1cEstimatedUseCase)
     factoryOf(::GetDashboardHbA1cLatestUseCase)
-    factoryOf(::GetDashboardHbA1cCurrentUseCase)
+    factoryOf(::GetDashboardHbA1cUseCase)
     factoryOf(::GetDashboardTrendUseCase)
 
     viewModelOf(::DashboardViewModel)

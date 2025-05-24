@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.dashboard.today
+package com.faltenreich.diaguard.dashboard.average
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,18 +10,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.hyper
-import diaguard.shared.generated.resources.hypo
-import diaguard.shared.generated.resources.measurements
+import diaguard.shared.generated.resources.average
+import diaguard.shared.generated.resources.day
+import diaguard.shared.generated.resources.month
 import diaguard.shared.generated.resources.placeholder
-import diaguard.shared.generated.resources.today
+import diaguard.shared.generated.resources.week
 
 @Composable
-fun DashboardTodayItem(
-    state: DashboardState.Today?,
+fun DashboardAverage(
+    data: DashboardAverageState?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -32,29 +31,29 @@ fun DashboardTodayItem(
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(
-                    text = getString(Res.string.today),
+                    text = getString(Res.string.average),
                     style = AppTheme.typography.labelMedium,
                 )
                 Row {
                     Text(
-                        text = getString(Res.string.measurements),
+                        text = getString(Res.string.day),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(state?.totalCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(data?.day?.value ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
-                        text = getString(Res.string.hypo),
+                        text = getString(Res.string.week),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(state?.hypoCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(data?.week?.value ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
-                        text = getString(Res.string.hyper),
+                        text = getString(Res.string.month),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(state?.hyperCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(data?.month?.value ?: getString(Res.string.placeholder))
                 }
             }
         }

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.dashboard.latest
 
-import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
@@ -21,15 +20,15 @@ class GetDashboardLatestUseCase(
     private val dateTimeFormatter: DateTimeFormatter,
 ) {
 
-    operator fun invoke(): Flow<DashboardState.LatestBloodSugar> {
+    operator fun invoke(): Flow<DashboardLatestState> {
         val propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         return combine(
             valueRepository.observeLatestByProperty(key = propertyKey),
             getPreference(DecimalPlacesPreference),
         ) { value, decimalPlaces ->
             when (value) {
-                null -> DashboardState.LatestBloodSugar.None
-                else -> DashboardState.LatestBloodSugar.Value(
+                null -> DashboardLatestState.None
+                else -> DashboardLatestState.Value(
                     entry = value.entry,
                     value = valueMapper(
                         value = value,

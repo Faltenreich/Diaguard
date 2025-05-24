@@ -16,7 +16,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.trend
 
 @Composable
-fun DashboardTrendItem(
+fun DashboardTrend(
     state: StatisticTrendState?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,

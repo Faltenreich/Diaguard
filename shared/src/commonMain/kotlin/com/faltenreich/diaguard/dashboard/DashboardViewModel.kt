@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.dashboard.average.GetDashboardAverageUseCase
-import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cCurrentUseCase
+import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cUseCase
 import com.faltenreich.diaguard.dashboard.latest.GetDashboardLatestUseCase
 import com.faltenreich.diaguard.dashboard.today.GetDashboardTodayUseCase
 import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
@@ -16,7 +16,7 @@ class DashboardViewModel(
     getLatestBloodSugar: GetDashboardLatestUseCase,
     getToday: GetDashboardTodayUseCase,
     getAverage: GetDashboardAverageUseCase,
-    getCurrentHbA1c: GetDashboardHbA1cCurrentUseCase,
+    getCurrentHbA1c: GetDashboardHbA1cUseCase,
     getTrend: GetDashboardTrendUseCase,
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<DashboardState, DashboardIntent, Unit>() {

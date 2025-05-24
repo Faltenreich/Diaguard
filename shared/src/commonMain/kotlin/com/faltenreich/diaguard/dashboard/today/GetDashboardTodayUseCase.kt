@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.dashboard.today
 
-import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
@@ -13,14 +12,14 @@ class GetDashboardTodayUseCase(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
-    operator fun invoke(): Flow<DashboardState.Today> {
+    operator fun invoke(): Flow<DashboardTodayState> {
         val today = dateTimeFactory.today()
         return repository.observeByCategory(
             categoryKey = DatabaseKey.MeasurementCategory.BLOOD_SUGAR,
             minDateTime = today.atStartOfDay(),
             maxDateTime = today.atEndOfDay(),
         ).map { values ->
-            DashboardState.Today(
+            DashboardTodayState(
                 totalCount = values.size,
                 hypoCount = values.count(MeasurementValue::isTooLow),
                 hyperCount = values.count(MeasurementValue::isTooHigh),

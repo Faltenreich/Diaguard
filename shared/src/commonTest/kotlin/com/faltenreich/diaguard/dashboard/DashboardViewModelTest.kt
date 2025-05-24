@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.dashboard
 
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -17,9 +18,10 @@ class DashboardViewModelTest : TestSuite {
 
     @Test
     fun `shows empty content if no data is available`() = runTest {
+        // FIXME: Does not complete
         val state = viewModel.state.first()
 
-        assertNull(state.latestBloodSugar)
+        assertNull(state.latest)
 
         assertEquals(expected = 0, actual = state.today.totalCount)
         assertEquals(expected = 0, actual = state.today.hypoCount)
@@ -29,9 +31,9 @@ class DashboardViewModelTest : TestSuite {
         assertNull(state.average.week)
         assertNull(state.average.month)
 
-        assertTrue(state.hbA1c is DashboardState.HbA1c.Unknown)
+        assertTrue(state.hbA1c is DashboardHbA1cState.Unknown)
 
-        assertTrue(state.trend.values.isEmpty())
+        assertTrue(state.trend.days.isEmpty())
     }
 
     @Test
@@ -41,7 +43,7 @@ class DashboardViewModelTest : TestSuite {
 
         val state = viewModel.state.first()
 
-        assertNotNull(state.latestBloodSugar)
+        assertNotNull(state.latest)
     }
 
     @Test
@@ -76,7 +78,7 @@ class DashboardViewModelTest : TestSuite {
         storeValue(value = 6.0, propertyKey = DatabaseKey.MeasurementProperty.HBA1C)
 
         val state = viewModel.state.first()
-        assertTrue(state.hbA1c is DashboardState.HbA1c.Latest)
+        assertTrue(state.hbA1c is DashboardHbA1cState.Latest)
     }
 
     @Test
@@ -85,6 +87,6 @@ class DashboardViewModelTest : TestSuite {
         storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         val state = viewModel.state.first()
-        assertTrue(state.hbA1c is DashboardState.HbA1c.Estimated)
+        assertTrue(state.hbA1c is DashboardHbA1cState.Estimated)
     }
 }

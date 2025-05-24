@@ -13,7 +13,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.entry.Entry
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hba1c
@@ -23,8 +22,8 @@ import diaguard.shared.generated.resources.placeholder
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun DashboardHbA1cItem(
-    state: DashboardState.HbA1c?,
+fun DashboardHbA1c(
+    state: DashboardHbA1cState?,
     onOpenEntry: (Entry.Local) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -33,9 +32,9 @@ fun DashboardHbA1cItem(
     Card(
         onClick = {
             when (state) {
-                is DashboardState.HbA1c.Latest -> onOpenEntry(state.entry)
-                is DashboardState.HbA1c.Estimated,
-                is DashboardState.HbA1c.Unknown,
+                is DashboardHbA1cState.Latest -> onOpenEntry(state.entry)
+                is DashboardHbA1cState.Estimated,
+                is DashboardHbA1cState.Unknown,
                 null-> showEstimatedHbA1cBottomSheet = true
             }
         },
@@ -47,9 +46,9 @@ fun DashboardHbA1cItem(
         ) {
             Text(
                 text = when (state) {
-                    is DashboardState.HbA1c.Latest -> stringResource(Res.string.hba1c_latest, state.dateTime)
-                    is DashboardState.HbA1c.Estimated -> stringResource(Res.string.hba1c_estimated)
-                    is DashboardState.HbA1c.Unknown,
+                    is DashboardHbA1cState.Latest -> stringResource(Res.string.hba1c_latest, state.dateTime)
+                    is DashboardHbA1cState.Estimated -> stringResource(Res.string.hba1c_estimated)
+                    is DashboardHbA1cState.Unknown,
                     null -> stringResource(Res.string.hba1c)
                 },
                 style = AppTheme.typography.labelMedium,
@@ -57,9 +56,9 @@ fun DashboardHbA1cItem(
             )
             Text(
                 when (state) {
-                    is DashboardState.HbA1c.Latest -> state.value.value
-                    is DashboardState.HbA1c.Estimated -> state.value.value
-                    is DashboardState.HbA1c.Unknown,
+                    is DashboardHbA1cState.Latest -> state.value.value
+                    is DashboardHbA1cState.Estimated -> state.value.value
+                    is DashboardHbA1cState.Unknown,
                     null -> stringResource(Res.string.placeholder)
                 }
             )
@@ -67,9 +66,7 @@ fun DashboardHbA1cItem(
     }
 
     if (showEstimatedHbA1cBottomSheet) {
-        ModalBottomSheet(
-            onDismissRequest = { showEstimatedHbA1cBottomSheet = false },
-        ) {
+        ModalBottomSheet(onDismissRequest = { showEstimatedHbA1cBottomSheet = false }) {
             DashboardHbA1cEstimatedInfo()
         }
     }

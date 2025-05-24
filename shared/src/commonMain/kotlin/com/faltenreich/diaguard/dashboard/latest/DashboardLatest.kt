@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
@@ -18,13 +17,13 @@ import diaguard.shared.generated.resources.entry_first_description
 import diaguard.shared.generated.resources.placeholder
 
 @Composable
-fun DashboardLatestItem(
-    state: DashboardState.LatestBloodSugar?,
+fun DashboardLatest(
+    state: DashboardLatestState?,
     onClick: (Entry.Local?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
-        onClick = { onClick((state as? DashboardState.LatestBloodSugar.Value)?.entry) },
+        onClick = { onClick((state as? DashboardLatestState.Value)?.entry) },
         modifier = modifier,
     ) {
         Column(
@@ -37,21 +36,21 @@ fun DashboardLatestItem(
                 Text(
                     text = when (state) {
                         null -> ""
-                        is DashboardState.LatestBloodSugar.None -> getString(Res.string.placeholder)
-                        is DashboardState.LatestBloodSugar.Value -> state.value.value
+                        is DashboardLatestState.None -> getString(Res.string.placeholder)
+                        is DashboardLatestState.Value -> state.value.value
                     },
                     color = when (state) {
                         null,
-                        is DashboardState.LatestBloodSugar.None -> Color.Unspecified
-                        is DashboardState.LatestBloodSugar.Value -> state.tint.getColor()
+                        is DashboardLatestState.None -> Color.Unspecified
+                        is DashboardLatestState.Value -> state.tint.getColor()
                     },
                     style = AppTheme.typography.displayLarge,
                 )
                 Text(
                     text = when (state) {
                         null -> ""
-                        is DashboardState.LatestBloodSugar.None -> getString(Res.string.entry_first_description)
-                        is DashboardState.LatestBloodSugar.Value -> state.timePassed
+                        is DashboardLatestState.None -> getString(Res.string.entry_first_description)
+                        is DashboardLatestState.Value -> state.timePassed
                     },
                     style = AppTheme.typography.bodyMedium,
                 )

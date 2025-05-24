@@ -1,52 +1,15 @@
 package com.faltenreich.diaguard.dashboard
 
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
+import com.faltenreich.diaguard.dashboard.average.DashboardAverageState
+import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
+import com.faltenreich.diaguard.dashboard.latest.DashboardLatestState
+import com.faltenreich.diaguard.dashboard.today.DashboardTodayState
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 
 data class DashboardState(
-    val latestBloodSugar: LatestBloodSugar?,
-    val today: Today,
-    val average: Average,
-    val hbA1c: HbA1c,
+    val latest: DashboardLatestState?,
+    val today: DashboardTodayState,
+    val average: DashboardAverageState,
+    val hbA1c: DashboardHbA1cState,
     val trend: StatisticTrendState,
-) {
-
-    sealed interface LatestBloodSugar {
-
-        data object None : LatestBloodSugar
-
-        data class Value(
-            val entry: Entry.Local,
-            val value: MeasurementValue.Localized,
-            val tint: MeasurementValueTint,
-            val timePassed: String,
-        ) : LatestBloodSugar
-    }
-
-    data class Today(
-        val totalCount: Int,
-        val hypoCount: Int,
-        val hyperCount: Int,
-    )
-
-    data class Average(
-        val day: MeasurementValue.Localized?,
-        val week: MeasurementValue.Localized?,
-        val month: MeasurementValue.Localized?,
-    )
-
-    sealed interface HbA1c {
-
-        data class Latest(
-            val entry: Entry.Local,
-            val dateTime: String,
-            val value: MeasurementValue.Localized,
-        ) : HbA1c
-
-        data class Estimated(val value: MeasurementValue.Localized) : HbA1c
-
-        data object Unknown : HbA1c
-    }
-}
+)

@@ -34,7 +34,7 @@ class StatisticViewModel(
     }.flatMapLatest { (category, dateRange, categories) ->
         combine(
             getAverage(category, dateRange),
-            getTrend(),
+            getTrend(category, dateRange),
             getDistribution(category, dateRange),
         ) { average, trend, distribution ->
             StatisticState(

@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.statistic.trend
 
+import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
-import com.faltenreich.diaguard.datetime.DateUnit
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
@@ -20,13 +20,13 @@ class GetStatisticTrendUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
     private val getValueTint: GetMeasurementValueTintUseCase,
-    private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
 ) {
 
-    operator fun invoke(): Flow<StatisticTrendState> {
-        val today = dateTimeFactory.today()
-        val dateRange = today.minus(1, DateUnit.WEEK) .. today
+    operator fun invoke(
+        category: MeasurementCategory.Local,
+        dateRange: ClosedRange<Date>,
+    ): Flow<StatisticTrendState> {
         val propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
 
         return propertyRepository.observeByKey(propertyKey).flatMapLatest { property ->

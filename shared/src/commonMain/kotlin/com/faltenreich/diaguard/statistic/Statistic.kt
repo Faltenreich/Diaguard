@@ -42,6 +42,8 @@ fun Statistic(
         DateRange(state, onIntent = viewModel::dispatchIntent)
         Divider()
         Category(state, onIntent = viewModel::dispatchIntent)
+        Divider()
+        Property(state, onIntent = viewModel::dispatchIntent)
 
         TextDivider(getString(Res.string.average))
         StatisticAverage(state.average)
@@ -112,6 +114,35 @@ private fun Category(
             onDismissRequest = { expandDropDown = false },
             items = state.categories.map { category ->
                 category.name to { onIntent(StatisticIntent.SetCategory(category)) }
+            }
+        )
+    }
+}
+
+@Composable
+private fun Property(
+    state: StatisticState,
+    onIntent: (StatisticIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var expandDropDown by remember { mutableStateOf(false) }
+
+    FormRow(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(
+                onClickLabel = stringResource(Res.string.date_range_picker_open),
+                role = Role.Button,
+                onClick = { expandDropDown = true },
+            ),
+    ) {
+        Text(state.property.name)
+
+        DropdownTextMenu(
+            expanded = expandDropDown,
+            onDismissRequest = { expandDropDown = false },
+            items = state.properties.map { property ->
+                property.name to { onIntent(StatisticIntent.SetProperty(property)) }
             }
         )
     }

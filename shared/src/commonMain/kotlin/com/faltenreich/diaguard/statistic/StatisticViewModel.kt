@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
 import com.faltenreich.diaguard.statistic.distribution.GetStatisticDistributionUseCase
@@ -22,26 +23,29 @@ class StatisticViewModel(
     private val getDistribution: GetStatisticDistributionUseCase,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
-    private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
     private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
+    private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
+    private val property = MutableStateFlow<MeasurementProperty.Local?>(null)
 
     override val state = combine(
-        category,
         dateRange,
         getCategories(),
-    ) { category, dateRange, categories ->
-        Triple(category ?: categories.first(), dateRange, categories)
-    }.flatMapLatest { (category, dateRange, categories) ->
+        category,
+    ) { dateRange, categories, category ->
+        Triple(dateRange, categories, category ?: categories.first())
+    }.flatMapLatest { (dateRange, categories, category) ->
         combine(
             getAverage(category, dateRange),
             getTrend(category, dateRange),
             getDistribution(category, dateRange),
         ) { average, trend, distribution ->
             StatisticState(
-                category = category,
                 dateRange = dateRange,
                 dateRangeLocalized = formatDateRange(dateRange),
                 categories = categories,
+                category = category,
+                properties = emptyList(),
+                property = TODO(),
                 average = average,
                 trend = trend,
                 distribution = distribution,
@@ -51,8 +55,9 @@ class StatisticViewModel(
 
     override suspend fun handleIntent(intent: StatisticIntent) {
         when (intent) {
-            is StatisticIntent.SetCategory -> category.value = intent.category
             is StatisticIntent.SetDateRange -> dateRange.value = intent.dateRange
+            is StatisticIntent.SetCategory -> category.value = intent.category
+            is StatisticIntent.SetProperty -> property.value = intent.property
         }
     }
 }

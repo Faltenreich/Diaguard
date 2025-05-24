@@ -72,7 +72,7 @@ class MeasurementValueSqlDelightDao(
         return queries.getByCategory(
             categoryKey = categoryKey.key,
             minDateTime = minDateTime.isoString,
-            maxDateTime= maxDateTime.isoString,
+            maxDateTime = maxDateTime.isoString,
             mapper = mapper::map,
         ).asFlow().mapToList(dispatcher)
     }
@@ -83,6 +83,21 @@ class MeasurementValueSqlDelightDao(
 
     override fun observeCountByCategoryId(categoryId: Long): Flow<Long> {
         return queries.countByCategory(categoryId).asFlow().mapToOne(dispatcher)
+    }
+
+    override fun observeCountByValueRange(
+        range: ClosedRange<Double>,
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Long> {
+        return queries.countByValueRange(
+            propertyId = propertyId,
+            minDateTime = minDateTime.isoString,
+            maxDateTime = maxDateTime.isoString,
+            minimumValue = range.start,
+            maximumValue = range.endInclusive,
+        ).asFlow().mapToOne(dispatcher)
     }
 
     override fun observeAverageByCategoryId(

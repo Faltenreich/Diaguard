@@ -33,6 +33,13 @@ interface MeasurementValueDao {
 
     fun observeCountByCategoryId(categoryId: Long): Flow<Long>
 
+    fun observeCountByValueRange(
+        range: ClosedRange<Double>,
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Long>
+
     fun observeAverageByPropertyKey(
         propertyKey: DatabaseKey.MeasurementProperty,
         minDateTime: DateTime,

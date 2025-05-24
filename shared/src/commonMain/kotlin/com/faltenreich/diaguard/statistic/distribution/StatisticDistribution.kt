@@ -23,7 +23,9 @@ fun StatisticDistribution(
                     state = property,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Text(property.property.name)
+                if (property.property.isNamedUniquely) {
+                    Text(property.property.name)
+                }
             }
             if (index != properties.lastIndex) {
                 Divider()

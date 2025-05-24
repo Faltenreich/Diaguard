@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.dashboard.trend
+package com.faltenreich.diaguard.statistic.trend
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,15 +16,14 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.rememberTextMeasurer
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 import com.faltenreich.diaguard.shared.view.drawText
 
 const val VALUE_DOT_RADIUS = 12f
 
 @Composable
-fun DashboardTrendChart(
-    state: DashboardState.Trend,
+fun StatisticTrendChart(
+    state: StatisticTrendState,
     modifier: Modifier = Modifier,
 ) = with(state) {
     val density = LocalDensity.current
@@ -99,7 +98,7 @@ fun DashboardTrendChart(
 }
 
 private fun DrawScope.drawLabel(
-    day: DashboardState.Trend.Day,
+    day: StatisticTrendState.Day,
     rectangle: Rect,
     fontSize: Float,
     fontPaint: Paint,

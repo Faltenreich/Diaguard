@@ -1,6 +1,5 @@
-package com.faltenreich.diaguard.dashboard.trend
+package com.faltenreich.diaguard.statistic.trend
 
-import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
@@ -17,7 +16,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlin.math.max
 
-class GetDashboardTrendUseCase(
+class GetStatisticTrendUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
     private val valueRepository: MeasurementValueRepository,
     private val getValueTint: GetMeasurementValueTintUseCase,
@@ -25,7 +24,7 @@ class GetDashboardTrendUseCase(
     private val dateTimeFormatter: DateTimeFormatter,
 ) {
 
-    operator fun invoke(): Flow<DashboardState.Trend> {
+    operator fun invoke(): Flow<StatisticTrendState> {
         val today = dateTimeFactory.today()
         val dateRange = today.minus(1, DateUnit.WEEK) .. today
         val propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
@@ -41,14 +40,14 @@ class GetDashboardTrendUseCase(
                 }
             ) { averagesByDate ->
                 averagesByDate.map { (date, average) ->
-                    DashboardState.Trend.Day(
+                    StatisticTrendState.Day(
                         date = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true),
                         average = if (average != null && property != null) {
                             val value = MeasurementValue.Average(
                                 value = average,
                                 property = property,
                             )
-                            DashboardState.Trend.Value(
+                            StatisticTrendState.Value(
                                 value = average,
                                 tint = getValueTint(value),
                             )
@@ -61,7 +60,7 @@ class GetDashboardTrendUseCase(
                 val targetValue = property?.range?.target ?: MeasurementValueRange.BLOOD_SUGAR_TARGET_DEFAULT
                 val maximumValue = days.mapNotNull { it.average?.value }.maxOrNull()
                 val maximumValueDefault = targetValue * 2
-                DashboardState.Trend(
+                StatisticTrendState(
                     days = days,
                     targetValue = targetValue,
                     maximumValue = max(maximumValue ?: maximumValueDefault, maximumValueDefault),

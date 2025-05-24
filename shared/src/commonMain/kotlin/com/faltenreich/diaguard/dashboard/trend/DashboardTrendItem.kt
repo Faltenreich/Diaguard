@@ -9,14 +9,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.statistic.trend.StatisticTrendChart
+import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.trend
 
 @Composable
 fun DashboardTrendItem(
-    state: DashboardState.Trend?,
+    state: StatisticTrendState?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -30,7 +31,7 @@ fun DashboardTrendItem(
                 style = AppTheme.typography.labelMedium,
             )
             if (state != null) {
-                DashboardTrendChart(
+                StatisticTrendChart(
                     state = state,
                     modifier = Modifier.height(AppTheme.dimensions.size.TrendHeight),
                 )

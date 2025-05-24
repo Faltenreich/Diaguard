@@ -5,15 +5,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.dashboard.DashboardState
-import com.faltenreich.diaguard.dashboard.trend.DashboardTrendChart
 
 @Composable
 fun StatisticTrend(
-    state: DashboardState.Trend,
+    state: StatisticTrendState,
     modifier: Modifier = Modifier,
 ) {
-    DashboardTrendChart(
+    StatisticTrendChart(
         state = state,
         modifier = modifier
             .height(AppTheme.dimensions.size.TrendHeight)

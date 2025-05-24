@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cEstimatedUseCas
 import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cLatestUseCase
 import com.faltenreich.diaguard.dashboard.latest.GetDashboardLatestUseCase
 import com.faltenreich.diaguard.dashboard.today.GetDashboardTodayUseCase
-import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
+import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -18,7 +18,7 @@ fun dashboardModule() = module {
     factoryOf(::GetDashboardHbA1cEstimatedUseCase)
     factoryOf(::GetDashboardHbA1cLatestUseCase)
     factoryOf(::GetDashboardHbA1cCurrentUseCase)
-    factoryOf(::GetDashboardTrendUseCase)
+    factoryOf(::GetStatisticTrendUseCase)
 
     viewModelOf(::DashboardViewModel)
 }

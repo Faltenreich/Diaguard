@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.statistic
 
-import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
+import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
@@ -18,7 +18,7 @@ class StatisticViewModel(
     getCategories: GetActiveMeasurementCategoriesUseCase,
     private val formatDateRange: FormatDateTimeUseCase,
     private val getAverage: GetStatisticAverageUseCase,
-    private val getTrend: GetDashboardTrendUseCase,
+    private val getTrend: GetStatisticTrendUseCase,
     private val getDistribution: GetStatisticDistributionUseCase,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 

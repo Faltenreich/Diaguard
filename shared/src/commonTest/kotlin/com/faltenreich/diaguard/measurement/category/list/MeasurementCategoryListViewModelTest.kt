@@ -1,12 +1,12 @@
 package com.faltenreich.diaguard.measurement.category.list
 
 import app.cash.turbine.test
+import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
@@ -74,11 +74,14 @@ class MeasurementCategoryListViewModelTest : TestSuite {
 
     @Test
     fun `push screen when editing category`() = runTest {
-        navigation.events.test {
-            val category = viewModel.state.first().categories.first()
+        turbineScope {
+            val state = viewModel.state.testIn(backgroundScope)
+            val navigation = navigation.events.testIn(backgroundScope)
+
+            val category = state.awaitItem().categories.first()
             viewModel.handleIntent(MeasurementCategoryListIntent.Edit(category))
 
-            val event = awaitItem()
+            val event = navigation.awaitItem()
             assertTrue(event is NavigationEvent.PushScreen)
             assertTrue(event.screen is MeasurementCategoryFormScreen)
         }

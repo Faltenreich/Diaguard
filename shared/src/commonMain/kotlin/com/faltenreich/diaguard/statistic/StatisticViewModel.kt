@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
 import com.faltenreich.diaguard.statistic.distribution.GetStatisticDistributionUseCase
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 class StatisticViewModel(
     getToday: GetTodayUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
+    getProperties: GetMeasurementPropertiesUseCase,
     private val formatDateRange: FormatDateTimeUseCase,
     private val getAverage: GetStatisticAverageUseCase,
     private val getTrend: GetStatisticTrendUseCase,
@@ -35,16 +37,17 @@ class StatisticViewModel(
         Triple(dateRange, categories, category ?: categories.first())
     }.flatMapLatest { (dateRange, categories, category) ->
         combine(
+            getProperties(category),
             getAverage(category, dateRange),
             getTrend(category, dateRange),
             getDistribution(category, dateRange),
-        ) { average, trend, distribution ->
+        ) { properties, average, trend, distribution ->
             StatisticState(
                 dateRange = dateRange,
                 dateRangeLocalized = formatDateRange(dateRange),
                 categories = categories,
                 category = category,
-                properties = emptyList(),
+                properties = properties,
                 property = TODO(),
                 average = average,
                 trend = trend,

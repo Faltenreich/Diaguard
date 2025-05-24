@@ -11,13 +11,12 @@ import androidx.compose.ui.text.style.TextAlign
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.statistic.StatisticState
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.no_entries
 
 @Composable
 fun StatisticDistribution(
-    state: StatisticState.Distribution,
+    state: StatisticDistributionState,
     modifier: Modifier = Modifier,
 ) = with(state) {
     Column(modifier = modifier) {

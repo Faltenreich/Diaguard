@@ -7,14 +7,13 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
-import com.faltenreich.diaguard.statistic.StatisticState
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entries_per_day
 import diaguard.shared.generated.resources.placeholder
 
 @Composable
 fun StatisticAverage(
-    state: StatisticState.Average,
+    state: StatisticAverageState,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {

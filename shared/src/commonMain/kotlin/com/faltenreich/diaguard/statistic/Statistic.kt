@@ -37,33 +37,10 @@ fun Statistic(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
-    var showDateRangePicker by remember { mutableStateOf(false) }
-
-    Column(
-        modifier = modifier.verticalScroll(rememberScrollState()),
-    ) {
-        FormRow(icon = { MeasurementCategoryIcon(state.category) }) {
-            DropdownButton(
-                text = state.category.name,
-                items = state.categories.map { category ->
-                    category.name to { viewModel.dispatchIntent(StatisticIntent.SetCategory(category)) }
-                }
-            )
-        }
+    Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+        Category(state, onIntent = viewModel::dispatchIntent)
         Divider()
-        FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
-            TextButton(
-                onClick = { showDateRangePicker = true },
-                colors = ButtonDefaults.textButtonColors(
-                    contentColor = AppTheme.colors.scheme.onSurfaceVariant,
-                ),
-            ) {
-                Text(
-                    text = state.dateRange,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-        }
+        DateRange(state, onIntent = viewModel::dispatchIntent)
 
         TextDivider(getString(Res.string.average))
         StatisticAverage(state.average)
@@ -74,14 +51,59 @@ fun Statistic(
         TextDivider(getString(Res.string.distribution))
         StatisticDistribution(state.distribution)
     }
+}
+
+@Composable
+private fun Category(
+    state: StatisticState,
+    onIntent: (StatisticIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    FormRow(
+        modifier = modifier,
+        icon = { MeasurementCategoryIcon(state.category) },
+    ) {
+        DropdownButton(
+            text = state.category.name,
+            items = state.categories.map { category ->
+                category.name to { onIntent(StatisticIntent.SetCategory(category)) }
+            }
+        )
+    }
+}
+
+@Composable
+private fun DateRange(
+    state: StatisticState,
+    onIntent: (StatisticIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var showDateRangePicker by remember { mutableStateOf(false) }
+
+    FormRow(
+        modifier = modifier,
+        icon = { ResourceIcon(Res.drawable.ic_time) },
+    ) {
+        TextButton(
+            onClick = { showDateRangePicker = true },
+            colors = ButtonDefaults.textButtonColors(
+                contentColor = AppTheme.colors.scheme.onSurfaceVariant,
+            ),
+        ) {
+            Text(
+                text = state.dateRangeLocalized,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+    }
 
     if (showDateRangePicker) {
         DateRangePickerDialog(
-            dateRange = viewModel.dateRange.value,
+            dateRange = state.dateRange,
             onDismissRequest = { showDateRangePicker = false },
             onConfirmRequest = { dateRange ->
                 showDateRangePicker = false
-                viewModel.dateRange.value = dateRange
+                onIntent(StatisticIntent.SetDateRange(dateRange))
             },
         )
     }

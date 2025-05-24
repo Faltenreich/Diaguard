@@ -11,13 +11,12 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalDensity
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
-import com.faltenreich.diaguard.statistic.StatisticState
 
 private const val ANGLE_CIRCULAR = 360f
 
 @Composable
 fun StatisticDistributionChart(
-    state: StatisticState.Distribution.Property,
+    state: StatisticDistributionState.Property,
     modifier: Modifier = Modifier,
 ) {
     val colorDefault = AppTheme.colors.scheme.onBackground

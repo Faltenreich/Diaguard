@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.statistic
 
-import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
@@ -9,6 +8,7 @@ import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasuremen
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
 import com.faltenreich.diaguard.statistic.distribution.GetStatisticDistributionUseCase
+import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -23,7 +23,7 @@ class StatisticViewModel(
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
-    val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
+    private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
 
     override val state = combine(
         category,
@@ -32,15 +32,15 @@ class StatisticViewModel(
     ) { category, dateRange, categories ->
         Triple(category ?: categories.first(), dateRange, categories)
     }.flatMapLatest { (category, dateRange, categories) ->
-        // FIXME: NullPointerException when changing dateRange
         combine(
             getAverage(category, dateRange),
             getTrend(),
             getDistribution(category, dateRange),
         ) { average, trend, distribution ->
             StatisticState(
-                dateRange = formatDateRange(dateRange),
                 category = category,
+                dateRange = dateRange,
+                dateRangeLocalized = formatDateRange(dateRange),
                 categories = categories,
                 average = average,
                 trend = trend,
@@ -52,6 +52,7 @@ class StatisticViewModel(
     override suspend fun handleIntent(intent: StatisticIntent) {
         when (intent) {
             is StatisticIntent.SetCategory -> category.value = intent.category
+            is StatisticIntent.SetDateRange -> dateRange.value = intent.dateRange
         }
     }
 }

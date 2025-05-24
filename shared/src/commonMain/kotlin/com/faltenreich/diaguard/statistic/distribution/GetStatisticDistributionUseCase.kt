@@ -6,7 +6,6 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
-import com.faltenreich.diaguard.statistic.StatisticState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -20,11 +19,11 @@ class GetStatisticDistributionUseCase(
     operator fun invoke(
         category: MeasurementCategory.Local,
         dateRange: ClosedRange<Date>,
-    ): Flow<StatisticState.Distribution> {
+    ): Flow<StatisticDistributionState> {
         return propertyRepository.observeByCategoryId(category.id).flatMapLatest { properties ->
             val observeProperties = properties.map { property -> invoke(property, dateRange) }
             combine(observeProperties) {
-                StatisticState.Distribution(properties = it.toList())
+                StatisticDistributionState(properties = it.toList())
             }
         }
     }
@@ -32,7 +31,7 @@ class GetStatisticDistributionUseCase(
     private fun invoke(
         property: MeasurementProperty.Local,
         dateRange: ClosedRange<Date>,
-    ): Flow<StatisticState.Distribution.Property> {
+    ): Flow<StatisticDistributionState.Property> {
         val minDateTime = dateRange.start.atStartOfDay()
         val maxDateTime = dateRange.endInclusive.atEndOfDay()
 
@@ -64,15 +63,15 @@ class GetStatisticDistributionUseCase(
             val totalCount = lowCount + targetCount + highCount
             val parts = if (totalCount > 0) {
                 listOf(
-                    StatisticState.Distribution.Part(
+                    StatisticDistributionState.Part(
                         percentage = targetCount / totalCount,
                         tint = MeasurementValueTint.NORMAL,
                     ),
-                    StatisticState.Distribution.Part(
+                    StatisticDistributionState.Part(
                         percentage = lowCount / totalCount,
                         tint = MeasurementValueTint.LOW,
                     ),
-                    StatisticState.Distribution.Part(
+                    StatisticDistributionState.Part(
                         percentage = highCount / totalCount,
                         tint = MeasurementValueTint.HIGH,
                     ),
@@ -80,7 +79,7 @@ class GetStatisticDistributionUseCase(
             } else {
                 emptyList()
             }
-            StatisticState.Distribution.Property(
+            StatisticDistributionState.Property(
                 property = property,
                 parts = parts,
             )

@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.localization.format
-import com.faltenreich.diaguard.statistic.StatisticState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -24,7 +23,7 @@ class GetStatisticAverageUseCase(
     operator fun invoke(
         category: MeasurementCategory.Local,
         dateRange: ClosedRange<Date>,
-    ): Flow<StatisticState.Average> {
+    ): Flow<StatisticAverageState> {
         return combine(
             propertyRepository.observeByCategoryId(category.id).flatMapLatest { properties ->
                 combine(
@@ -40,7 +39,7 @@ class GetStatisticAverageUseCase(
             valueRepository.observeCountByCategoryId(category.id),
             getPreference(DecimalPlacesPreference),
         ) { averages, countPerDay, decimalPlaces ->
-            StatisticState.Average(
+            StatisticAverageState(
                 values = averages.map { (property, average) ->
                     property to average?.let {
                         "%s %s".format(

@@ -18,6 +18,6 @@ data class Size(
     val TrendHeight: Dp = 100.dp,
     val LogDayWidth: Dp = 60.dp,
     val TimelineTableRowHeight: Dp = 40.dp,
-    val StatisticDistributionHeight: Dp = 200.dp,
+    val StatisticDistributionChartHeight: Dp = 200.dp,
     val CornerRadius: CornerRadius = CornerRadius(x = 12f, y = 12f),
 )

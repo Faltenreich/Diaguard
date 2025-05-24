@@ -1,12 +1,14 @@
 package com.faltenreich.diaguard.statistic.distribution
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.platform.LocalDensity
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 import com.faltenreich.diaguard.statistic.StatisticState
@@ -20,13 +22,11 @@ fun StatisticDistributionChart(
 ) {
     val colorDefault = AppTheme.colors.scheme.onBackground
     val colorByTint = MeasurementValueTint.entries.associateWith { it.getColor() }
+    val chartHeight = AppTheme.dimensions.size.StatisticDistributionChartHeight
+    val chartSize = with(LocalDensity.current) { chartHeight.toPx().let { Size(it, it) } }
 
-    Canvas(modifier = modifier) {
+    Canvas(modifier = modifier.height(chartHeight)) {
         state.properties.forEach { property ->
-            val chartSize = Size(
-                width = size.height,
-                height = size.height,
-            )
             val chartTopLeft = Offset(
                 x = center.x - chartSize.width / 2,
                 y = 0f,

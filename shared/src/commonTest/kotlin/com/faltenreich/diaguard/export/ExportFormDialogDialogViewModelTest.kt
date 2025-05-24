@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.export
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.export.form.ExportFormIntent
 import com.faltenreich.diaguard.export.form.ExportFormState
@@ -45,7 +44,7 @@ class ExportFormDialogDialogViewModelTest : TestSuite {
         viewModel.state.test {
             val today = dateTimeFactory.today()
             assertEquals(
-                expected = today.minus(1, DateUnit.WEEK) .. today,
+                expected = today .. today,
                 actual = awaitItem().date.dateRange,
             )
         }

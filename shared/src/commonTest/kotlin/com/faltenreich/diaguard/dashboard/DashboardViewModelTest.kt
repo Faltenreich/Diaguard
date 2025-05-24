@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.dashboard
 
+import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
@@ -18,22 +18,23 @@ class DashboardViewModelTest : TestSuite {
 
     @Test
     fun `shows empty content if no data is available`() = runTest {
-        // FIXME: Does not complete
-        val state = viewModel.state.first()
+        viewModel.state.test {
+            val state = awaitItem()
 
-        assertNull(state.latest)
+            assertNull(state.latest)
 
-        assertEquals(expected = 0, actual = state.today.totalCount)
-        assertEquals(expected = 0, actual = state.today.hypoCount)
-        assertEquals(expected = 0, actual = state.today.hyperCount)
+            assertEquals(expected = 0, actual = state.today.totalCount)
+            assertEquals(expected = 0, actual = state.today.hypoCount)
+            assertEquals(expected = 0, actual = state.today.hyperCount)
 
-        assertNull(state.average.day)
-        assertNull(state.average.week)
-        assertNull(state.average.month)
+            assertNull(state.average.day)
+            assertNull(state.average.week)
+            assertNull(state.average.month)
 
-        assertTrue(state.hbA1c is DashboardHbA1cState.Unknown)
+            assertTrue(state.hbA1c is DashboardHbA1cState.Unknown)
 
-        assertTrue(state.trend.days.isEmpty())
+            assertTrue(state.trend.days.isEmpty())
+        }
     }
 
     @Test
@@ -41,9 +42,11 @@ class DashboardViewModelTest : TestSuite {
         importSeed()
         storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
-        val state = viewModel.state.first()
+        viewModel.state.test {
+            val state = awaitItem()
 
-        assertNotNull(state.latest)
+            assertNotNull(state.latest)
+        }
     }
 
     @Test
@@ -53,11 +56,13 @@ class DashboardViewModelTest : TestSuite {
         storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
         storeValue(value = 190.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
-        val state = viewModel.state.first()
+        viewModel.state.test {
+            val state = awaitItem()
 
-        assertEquals(expected = 3, actual = state.today.totalCount)
-        assertEquals(expected = 1, actual = state.today.hypoCount)
-        assertEquals(expected = 1, actual = state.today.hyperCount)
+            assertEquals(expected = 3, actual = state.today.totalCount)
+            assertEquals(expected = 1, actual = state.today.hypoCount)
+            assertEquals(expected = 1, actual = state.today.hyperCount)
+        }
     }
 
     @Test
@@ -65,11 +70,13 @@ class DashboardViewModelTest : TestSuite {
         importSeed()
         storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
-        val state = viewModel.state.first()
+        viewModel.state.test {
+            val state = awaitItem()
 
-        assertNotNull(state.average.day)
-        assertNotNull(state.average.week)
-        assertNotNull(state.average.month)
+            assertNotNull(state.average.day)
+            assertNotNull(state.average.week)
+            assertNotNull(state.average.month)
+        }
     }
 
     @Test
@@ -77,8 +84,11 @@ class DashboardViewModelTest : TestSuite {
         importSeed()
         storeValue(value = 6.0, propertyKey = DatabaseKey.MeasurementProperty.HBA1C)
 
-        val state = viewModel.state.first()
-        assertTrue(state.hbA1c is DashboardHbA1cState.Latest)
+        viewModel.state.test {
+            val state = awaitItem()
+
+            assertTrue(state.hbA1c is DashboardHbA1cState.Latest)
+        }
     }
 
     @Test
@@ -86,7 +96,10 @@ class DashboardViewModelTest : TestSuite {
         importSeed()
         storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
-        val state = viewModel.state.first()
-        assertTrue(state.hbA1c is DashboardHbA1cState.Estimated)
+        viewModel.state.test {
+            val state = awaitItem()
+
+            assertTrue(state.hbA1c is DashboardHbA1cState.Estimated)
+        }
     }
 }

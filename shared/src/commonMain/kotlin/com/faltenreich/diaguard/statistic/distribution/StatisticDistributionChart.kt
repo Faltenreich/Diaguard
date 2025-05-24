@@ -22,25 +22,27 @@ fun StatisticDistributionChart(
     val colorByTint = MeasurementValueTint.entries.associateWith { it.getColor() }
 
     Canvas(modifier = modifier) {
-        val chartSize = Size(
-            width = size.height,
-            height = size.height,
-        )
-        val chartTopLeft = Offset(
-            x = center.x - chartSize.width / 2,
-            y = 0f,
-        )
-        var startAngle = 0f
-        state.parts.forEach { part ->
-            val sweepAngle = part.percentage * ANGLE_CIRCULAR
-            drawValue(
-                startAngle = startAngle,
-                sweepAngle = sweepAngle,
-                color = colorByTint[part.tint] ?: colorDefault,
-                topLeft = chartTopLeft,
-                size = chartSize,
+        state.properties.forEach { property ->
+            val chartSize = Size(
+                width = size.height,
+                height = size.height,
             )
-            startAngle += sweepAngle
+            val chartTopLeft = Offset(
+                x = center.x - chartSize.width / 2,
+                y = 0f,
+            )
+            var startAngle = 0f
+            property.parts.forEach { part ->
+                val sweepAngle = part.percentage * ANGLE_CIRCULAR
+                drawValue(
+                    startAngle = startAngle,
+                    sweepAngle = sweepAngle,
+                    color = colorByTint[part.tint] ?: colorDefault,
+                    topLeft = chartTopLeft,
+                    size = chartSize,
+                )
+                startAngle += sweepAngle
+            }
         }
     }
 }

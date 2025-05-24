@@ -18,8 +18,13 @@ data class StatisticState(
     )
 
     data class Distribution(
-        val parts: List<Part>,
+        val properties: List<Property>,
     ) {
+
+        data class Property(
+            val property: MeasurementProperty.Local,
+            val parts: List<Part>,
+        )
 
         data class Part(
             val percentage: Float,

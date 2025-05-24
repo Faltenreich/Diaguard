@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.statistic.distribution
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
@@ -21,55 +22,64 @@ class GetDistributionUseCase(
         dateRange: ClosedRange<Date>,
     ): Flow<StatisticState.Distribution> {
         return propertyRepository.observeByCategoryId(category.id).flatMapLatest { properties ->
-            // TODO
-            val property = properties.first()
-
-            val minDateTime = dateRange.start.atStartOfDay()
-            val maxDateTime = dateRange.endInclusive.atEndOfDay()
-
-            val minimum = property.range.minimum
-            val low = property.range.low ?: property.range.minimum
-            val high = property.range.high ?: property.range.maximum
-            val maximum = property.range.maximum
-
-            combine(
-                valueRepository.observeCountByValueRange(
-                    range = minimum .. low,
-                    propertyId = property.id,
-                    minDateTime = minDateTime,
-                    maxDateTime = maxDateTime,
-                ).map(Long::toFloat),
-                valueRepository.observeCountByValueRange(
-                    range = low .. high,
-                    propertyId = property.id,
-                    minDateTime = minDateTime,
-                    maxDateTime = maxDateTime,
-                ).map(Long::toFloat),
-                valueRepository.observeCountByValueRange(
-                    range = high .. maximum,
-                    propertyId = property.id,
-                    minDateTime = minDateTime,
-                    maxDateTime = maxDateTime,
-                ).map(Long::toFloat),
-            ) { lowCount, targetCount, highCount ->
-                val totalCount = lowCount + targetCount + highCount
-                StatisticState.Distribution(
-                    parts = listOf(
-                        StatisticState.Distribution.Part(
-                            percentage = targetCount / totalCount,
-                            tint = MeasurementValueTint.NORMAL,
-                        ),
-                        StatisticState.Distribution.Part(
-                            percentage = lowCount / totalCount,
-                            tint = MeasurementValueTint.LOW,
-                        ),
-                        StatisticState.Distribution.Part(
-                            percentage = highCount / totalCount,
-                            tint = MeasurementValueTint.HIGH,
-                        ),
-                    )
-                )
+            val observeProperties = properties.map { property -> invoke(property, dateRange) }
+            combine(observeProperties) {
+                StatisticState.Distribution(properties = it.toList())
             }
+        }
+    }
+
+    private fun invoke(
+        property: MeasurementProperty.Local,
+        dateRange: ClosedRange<Date>,
+    ): Flow<StatisticState.Distribution.Property> {
+        val minDateTime = dateRange.start.atStartOfDay()
+        val maxDateTime = dateRange.endInclusive.atEndOfDay()
+
+        val minimum = property.range.minimum
+        val low = property.range.low ?: property.range.minimum
+        val high = property.range.high ?: property.range.maximum
+        val maximum = property.range.maximum
+
+        return combine(
+            valueRepository.observeCountByValueRange(
+                range = minimum .. low,
+                propertyId = property.id,
+                minDateTime = minDateTime,
+                maxDateTime = maxDateTime,
+            ).map(Long::toFloat),
+            valueRepository.observeCountByValueRange(
+                range = low .. high,
+                propertyId = property.id,
+                minDateTime = minDateTime,
+                maxDateTime = maxDateTime,
+            ).map(Long::toFloat),
+            valueRepository.observeCountByValueRange(
+                range = high .. maximum,
+                propertyId = property.id,
+                minDateTime = minDateTime,
+                maxDateTime = maxDateTime,
+            ).map(Long::toFloat),
+        ) { lowCount, targetCount, highCount ->
+            val totalCount = lowCount + targetCount + highCount
+
+            StatisticState.Distribution.Property(
+                property = property,
+                parts = listOf(
+                    StatisticState.Distribution.Part(
+                        percentage = targetCount / totalCount,
+                        tint = MeasurementValueTint.NORMAL,
+                    ),
+                    StatisticState.Distribution.Part(
+                        percentage = lowCount / totalCount,
+                        tint = MeasurementValueTint.LOW,
+                    ),
+                    StatisticState.Distribution.Part(
+                        percentage = highCount / totalCount,
+                        tint = MeasurementValueTint.HIGH,
+                    ),
+                )
+            )
         }
     }
 }

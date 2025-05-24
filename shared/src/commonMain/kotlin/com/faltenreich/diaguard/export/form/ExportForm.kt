@@ -27,8 +27,8 @@ import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextDivider
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.data
+import diaguard.shared.generated.resources.date_range_picker_open
 import diaguard.shared.generated.resources.days_without_entries
-import diaguard.shared.generated.resources.export_date_range_picker_description
 import diaguard.shared.generated.resources.ic_document
 import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ic_skip
@@ -53,14 +53,14 @@ fun ExportForm(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable(
-                    onClickLabel = stringResource(Res.string.export_date_range_picker_description),
+                    onClickLabel = stringResource(Res.string.date_range_picker_open),
                     role = Role.Button,
                     onClick = { showDateRangePicker = true },
                 ),
         ) {
             Text(
                 text = state.date.dateRangeLocalized,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.fillMaxWidth(),
             )
             if (showDateRangePicker) {
                 DateRangePickerDialog(

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.statistic
 
+import com.faltenreich.diaguard.dashboard.DashboardState
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
@@ -9,6 +10,7 @@ data class StatisticState(
     val dateRange: String,
     val categories: List<MeasurementCategory.Local>,
     val average: Average,
+    val trend: DashboardState.Trend,
     val distribution: Distribution,
 ) {
 

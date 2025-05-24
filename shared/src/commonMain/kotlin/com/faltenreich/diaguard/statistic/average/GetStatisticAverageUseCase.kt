@@ -35,10 +35,7 @@ class GetStatisticAverageUseCase(
                             maxDateTime = dateRange.endInclusive.atEndOfDay(),
                         ).map { average -> property to average }
                     }
-                ) { averagesByProperty ->
-                    // TODO: Why is this needed?
-                    averagesByProperty
-                }
+                ) { it }
             },
             valueRepository.observeCountByCategoryId(category.id),
             getPreference(DecimalPlacesPreference),

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.statistic
 
+import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
@@ -17,6 +18,7 @@ class StatisticViewModel(
     getCategories: GetActiveMeasurementCategoriesUseCase,
     private val formatDateRange: FormatDateTimeUseCase,
     private val getAverage: GetStatisticAverageUseCase,
+    private val getTrend: GetDashboardTrendUseCase,
     private val getDistribution: GetStatisticDistributionUseCase,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
@@ -33,13 +35,15 @@ class StatisticViewModel(
         // FIXME: NullPointerException when changing dateRange
         combine(
             getAverage(category, dateRange),
+            getTrend(),
             getDistribution(category, dateRange),
-        ) { average, distribution ->
+        ) { average, trend, distribution ->
             StatisticState(
                 dateRange = formatDateRange(dateRange),
                 category = category,
                 categories = categories,
                 average = average,
+                trend = trend,
                 distribution = distribution,
             )
         }

@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.dashboard.trend
 
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
@@ -11,18 +11,18 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 
 class GetDashboardTrendUseCase(
-    private val categoryRepository: MeasurementCategoryRepository,
+    private val propertyRepository: MeasurementPropertyRepository,
     private val getStatisticTrend: GetStatisticTrendUseCase,
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
     operator fun invoke(): Flow<StatisticTrendState> {
-        val categoryKey = DatabaseKey.MeasurementCategory.BLOOD_SUGAR
+        val key = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         val today = dateTimeFactory.today()
-        return categoryRepository.observeByKey(categoryKey).flatMapLatest { category ->
-            if (category != null) {
+        return propertyRepository.observeByKey(key).flatMapLatest { property ->
+            if (property != null) {
                 getStatisticTrend(
-                    category = category,
+                    property = property,
                     dateRange = today.minus(1, DateUnit.WEEK) .. today,
                 )
             } else {

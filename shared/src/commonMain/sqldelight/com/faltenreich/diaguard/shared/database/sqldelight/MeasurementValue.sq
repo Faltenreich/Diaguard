@@ -66,8 +66,6 @@ AND Entry.dateTime <= :maxDateTime;
 
 countByValueRange:
 SELECT COUNT(*) FROM MeasurementValue
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementValue.propertyId == :propertyId
 AND Entry.dateTime >= :minDateTime
@@ -78,7 +76,6 @@ AND MeasurementValue.value <= :maximumValue;
 getAverageByPropertyId:
 SELECT AVG(MeasurementValue.value) FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.id == :propertyId
 AND Entry.dateTime >= :minDateTime
@@ -87,7 +84,6 @@ AND Entry.dateTime <= :maxDateTime;
 getAverageByPropertyKey:
 SELECT AVG(MeasurementValue.value) FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE MeasurementProperty.key == :propertyKey
 AND Entry.dateTime >= :minDateTime

@@ -30,39 +30,63 @@ class StatisticViewModel(
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
-    private val categories = getCategories()
+    private val categories = MutableStateFlow(emptyList<MeasurementCategory.Local>())
     private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
     private val properties = MutableStateFlow(emptyList<MeasurementProperty.Local>())
     private val property = MutableStateFlow<MeasurementProperty.Local?>(null)
 
-    override val state = getCategories().flatMapLatest { categories ->
-        category.flatMapLatest {
-            when (val category = it ?: categories.firstOrNull()) {
-                null -> emptyFlow()
-                else -> getProperties(category).flatMapLatest { properties ->
-                    property.flatMapLatest {
-                        when (val property = it ?: properties.firstOrNull()) {
-                            null -> emptyFlow()
-                            else -> dateRange.flatMapLatest { dateRange ->
-                                combine(
-                                    getProperties(category),
-                                    getAverage(category, dateRange),
-                                    getTrend(category, dateRange),
-                                    getDistribution(category, dateRange),
-                                ) { properties, average, trend, distribution ->
-                                    StatisticState(
-                                        dateRange = dateRange,
-                                        dateRangeLocalized = formatDateRange(dateRange),
-                                        categories = categories,
-                                        category = category,
-                                        properties = properties,
-                                        property = property,
-                                        average = average,
-                                        trend = trend,
-                                        distribution = distribution,
-                                    )
-                                }
-                            }
+    override val state = combine(
+        dateRange,
+        category,
+        property,
+    ) { dateRange, category, property ->
+        Triple(dateRange, category, property)
+    }.flatMapLatest { (dateRange, category, property) ->
+        if (category != null && property != null) {
+            combine(
+                categories,
+                properties,
+                getAverage(category, dateRange),
+                getTrend(category, dateRange),
+                getDistribution(category, dateRange),
+            ) { categories, properties, average, trend, distribution ->
+                StatisticState(
+                    dateRange = dateRange,
+                    dateRangeLocalized = formatDateRange(dateRange),
+                    categories = categories,
+                    category = category,
+                    properties = properties,
+                    property = property,
+                    average = average,
+                    trend = trend,
+                    distribution = distribution,
+                )
+            }
+        } else {
+            emptyFlow()
+        }
+    }
+
+    init {
+        scope.launch {
+            getCategories().collectLatest { categories ->
+                this@StatisticViewModel.categories.update { categories }
+                val category = categories.firstOrNull() ?: return@collectLatest
+                this@StatisticViewModel.category.update { category }
+
+            }
+        }
+        scope.launch {
+            category.collectLatest { category ->
+                when (category) {
+                    null -> {
+                        properties.update { emptyList() }
+                        property.update { null }
+                    }
+                    else -> {
+                        getProperties(category).collectLatest { properties ->
+                            this@StatisticViewModel.properties.update { properties }
+                            property.update { properties.firstOrNull() }
                         }
                     }
                 }

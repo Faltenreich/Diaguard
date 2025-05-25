@@ -44,21 +44,23 @@ class StatisticViewModel(
     ) { dateRange, category, property ->
         Triple(dateRange, category, property)
     }.flatMapLatest { (dateRange, category, property) ->
-        if (category != null && property != null) {
+        if (property != null) {
             combine(
                 categories,
                 properties,
-                getAverage(category, dateRange),
+                getAverage(property, dateRange),
                 getTrend(property, dateRange),
                 getDistribution(property, dateRange),
             ) { categories, properties, average, trend, distribution ->
                 StatisticState(
                     dateRange = dateRange,
                     dateRangeLocalized = formatDateRange(dateRange),
-                    category = StatisticCategoryState(
-                        categories = categories,
-                        selection = category,
-                    ),
+                    category = category?.let {
+                        StatisticCategoryState(
+                            categories = categories,
+                            selection = category,
+                        )
+                    },
                     property = StatisticPropertyState(
                         properties = properties,
                         selection = property,

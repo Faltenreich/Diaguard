@@ -17,13 +17,11 @@ fun StatisticAverage(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        state.values.forEach { value ->
-            FormRow {
-                Text(value.first.name, modifier = Modifier.weight(1f))
-                Text(value.second ?: getString(Res.string.placeholder))
-            }
-            Divider()
+        FormRow {
+            Text(state.property.name, modifier = Modifier.weight(1f))
+            Text(state.value ?: getString(Res.string.placeholder))
         }
+        Divider()
         FormRow {
             Text(getString(Res.string.entries_per_day), modifier = Modifier.weight(1f))
             Text(state.countPerDay)

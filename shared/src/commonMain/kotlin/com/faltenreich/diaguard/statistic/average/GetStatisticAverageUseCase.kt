@@ -23,20 +23,21 @@ class GetStatisticAverageUseCase(
         val minDateTime = dateRange.start.atStartOfDay()
         val maxDateTime = dateRange.endInclusive.atEndOfDay()
         return combine(
-            valueRepository.observeAverageByPropertyId(
-                propertyId = property.id,
-                minDateTime = minDateTime,
-                maxDateTime = maxDateTime,
-            ),
+            getPreference(DecimalPlacesPreference),
             valueRepository.observeCountByPropertyId(
                 propertyId = property.id,
                 minDateTime = minDateTime,
                 maxDateTime = maxDateTime,
             ),
-            getPreference(DecimalPlacesPreference),
-        ) { average, countPerDay, decimalPlaces ->
+            valueRepository.observeAverageByPropertyId(
+                propertyId = property.id,
+                minDateTime = minDateTime,
+                maxDateTime = maxDateTime,
+            ),
+        ) { decimalPlaces, countPerDay, average ->
             StatisticAverageState(
                 property = property,
+                countPerDay = countPerDay.toString(),
                 value = average?.let {
                     "%s %s".format(
                         mapValue(
@@ -47,7 +48,6 @@ class GetStatisticAverageUseCase(
                         property.unit.abbreviation,
                     )
                 },
-                countPerDay = countPerDay.toString(),
             )
         }
     }

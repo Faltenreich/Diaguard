@@ -9,7 +9,9 @@ import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entries_per_day
+import diaguard.shared.generated.resources.measurement_value
 import diaguard.shared.generated.resources.placeholder
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun StatisticAverage(
@@ -18,13 +20,19 @@ fun StatisticAverage(
 ) {
     Column(modifier = modifier) {
         FormRow {
-            Text(state.property.name, modifier = Modifier.weight(1f))
-            Text(state.value ?: getString(Res.string.placeholder))
+            Text(
+                text = getString(Res.string.entries_per_day),
+                modifier = Modifier.weight(1f),
+            )
+            Text(state.countPerDay)
         }
         Divider()
         FormRow {
-            Text(getString(Res.string.entries_per_day), modifier = Modifier.weight(1f))
-            Text(state.countPerDay)
+            Text(
+                text = stringResource(Res.string.measurement_value),
+                modifier = Modifier.weight(1f),
+            )
+            Text(state.value ?: getString(Res.string.placeholder))
         }
     }
 }

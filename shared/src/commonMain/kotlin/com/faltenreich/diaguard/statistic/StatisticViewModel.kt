@@ -61,10 +61,12 @@ class StatisticViewModel(
                             selection = category,
                         )
                     },
-                    property = StatisticPropertyState(
-                        properties = properties,
-                        selection = property,
-                    ),
+                    property = property.takeIf { properties.size > 1 || it.isNameUnique }?.let {
+                        StatisticPropertyState(
+                            properties = properties,
+                            selection = property,
+                        )
+                    },
                     average = average,
                     trend = trend,
                     distribution = distribution,

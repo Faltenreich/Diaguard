@@ -81,8 +81,16 @@ class MeasurementValueSqlDelightDao(
         return queries.getByEntry(entryId, mapper::map).executeAsList()
     }
 
-    override fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
-        return queries.countByProperty(propertyId).asFlow().mapToOne(dispatcher)
+    override fun observeCountByPropertyId(
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Long> {
+        return queries.countByProperty(
+            propertyId = propertyId,
+            minDateTime = minDateTime.isoString,
+            maxDateTime = maxDateTime.isoString,
+        ).asFlow().mapToOne(dispatcher)
     }
 
     override fun observeCountByValueRange(

@@ -57,8 +57,12 @@ class MeasurementValueRepository(
         return dao.getByEntryId(entryId)
     }
 
-    fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
-        return dao.observeCountByPropertyId(propertyId)
+    fun observeCountByPropertyId(
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Long> {
+        return dao.observeCountByPropertyId(propertyId, minDateTime, maxDateTime)
     }
 
     fun observeCountByValueRange(
@@ -73,7 +77,7 @@ class MeasurementValueRepository(
     fun observeAverageByPropertyId(
         propertyId: Long,
         minDateTime: DateTime,
-        maxDateTime: DateTime
+        maxDateTime: DateTime,
     ): Flow<Double?> {
         return dao.observeAverageByPropertyId(propertyId, minDateTime, maxDateTime)
     }

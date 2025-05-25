@@ -59,7 +59,10 @@ WHERE entryId = ?;
 
 countByProperty:
 SELECT COUNT(*) FROM MeasurementValue
-WHERE MeasurementValue.propertyId == :propertyId;
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE MeasurementValue.propertyId == :propertyId
+AND Entry.dateTime >= :minDateTime
+AND Entry.dateTime <= :maxDateTime;
 
 countByValueRange:
 SELECT COUNT(*) FROM MeasurementValue

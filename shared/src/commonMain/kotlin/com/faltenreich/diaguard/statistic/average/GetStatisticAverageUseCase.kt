@@ -20,13 +20,19 @@ class GetStatisticAverageUseCase(
         property: MeasurementProperty.Local,
         dateRange: ClosedRange<Date>,
     ): Flow<StatisticAverageState> {
+        val minDateTime = dateRange.start.atStartOfDay()
+        val maxDateTime = dateRange.endInclusive.atEndOfDay()
         return combine(
             valueRepository.observeAverageByPropertyId(
                 propertyId = property.id,
-                minDateTime = dateRange.start.atStartOfDay(),
-                maxDateTime = dateRange.endInclusive.atEndOfDay(),
+                minDateTime = minDateTime,
+                maxDateTime = maxDateTime,
             ),
-            valueRepository.observeCountByPropertyId(property.id),
+            valueRepository.observeCountByPropertyId(
+                propertyId = property.id,
+                minDateTime = minDateTime,
+                maxDateTime = maxDateTime,
+            ),
             getPreference(DecimalPlacesPreference),
         ) { average, countPerDay, decimalPlaces ->
             StatisticAverageState(

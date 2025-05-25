@@ -31,7 +31,11 @@ interface MeasurementValueDao {
 
     fun getByEntryId(entryId: Long): List<MeasurementValue.Local>
 
-    fun observeCountByPropertyId(propertyId: Long): Flow<Long>
+    fun observeCountByPropertyId(
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Long>
 
     fun observeCountByValueRange(
         range: ClosedRange<Double>,

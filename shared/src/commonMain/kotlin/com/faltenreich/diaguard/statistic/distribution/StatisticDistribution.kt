@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.statistic.distribution
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,13 +17,7 @@ fun StatisticDistribution(
     state: StatisticDistributionState,
     modifier: Modifier = Modifier,
 ) = with(state) {
-    Column(
-        modifier = modifier.padding(AppTheme.dimensions.padding.P_3),
-        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-    ) {
-        if (property.isNamedUniquely) {
-            Text(property.name)
-        }
+    Column(modifier = modifier.padding(AppTheme.dimensions.padding.P_3)) {
         if (parts.isNotEmpty()) {
             StatisticDistributionChart(
                 state = state,

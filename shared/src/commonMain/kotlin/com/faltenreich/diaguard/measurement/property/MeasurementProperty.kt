@@ -21,9 +21,6 @@ sealed interface MeasurementProperty {
     val category: MeasurementCategory.Local?
     val unit: MeasurementUnit.Local?
 
-    val isNamedUniquely: Boolean
-        get() = name != category?.name
-
     data class Seed(
         override val name: String,
         override val sortIndex: Long,

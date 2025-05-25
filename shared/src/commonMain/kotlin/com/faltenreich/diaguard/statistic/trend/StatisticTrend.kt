@@ -14,7 +14,7 @@ fun StatisticTrend(
     StatisticTrendChart(
         state = state,
         modifier = modifier
-            .height(AppTheme.dimensions.size.TrendHeight)
+            .height(AppTheme.dimensions.size.StatisticTrendHeight)
             .padding(AppTheme.dimensions.padding.P_3),
     )
 }

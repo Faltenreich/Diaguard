@@ -33,10 +33,10 @@ fun DashboardTrend(
             if (state != null) {
                 StatisticTrendChart(
                     state = state,
-                    modifier = Modifier.height(AppTheme.dimensions.size.TrendHeight),
+                    modifier = Modifier.height(AppTheme.dimensions.size.DashboardTrendHeight),
                 )
             } else {
-                Spacer(modifier = Modifier.height(AppTheme.dimensions.size.TrendHeight))
+                Spacer(modifier = Modifier.height(AppTheme.dimensions.size.DashboardTrendHeight))
             }
         }
     }

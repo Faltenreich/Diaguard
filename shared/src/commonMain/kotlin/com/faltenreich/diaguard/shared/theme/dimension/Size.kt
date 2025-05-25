@@ -15,9 +15,10 @@ data class Size(
     val TouchSizeLarge: Dp = 64.dp,
     val ListItemHeightMinimum: Dp = 80.dp,
     val ListOffsetWidth: Dp = 60.dp,
-    val TrendHeight: Dp = 100.dp,
+    val DashboardTrendHeight: Dp = 100.dp,
     val LogDayWidth: Dp = 60.dp,
     val TimelineTableRowHeight: Dp = 40.dp,
     val StatisticDistributionChartHeight: Dp = 200.dp,
+    val StatisticTrendHeight: Dp = 200.dp,
     val CornerRadius: CornerRadius = CornerRadius(x = 12f, y = 12f),
 )

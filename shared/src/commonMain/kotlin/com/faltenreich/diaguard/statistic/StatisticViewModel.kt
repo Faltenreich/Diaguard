@@ -9,13 +9,15 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
+import com.faltenreich.diaguard.statistic.category.StatisticCategoryState
 import com.faltenreich.diaguard.statistic.distribution.GetStatisticDistributionUseCase
+import com.faltenreich.diaguard.statistic.property.StatisticPropertyState
 import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -53,17 +55,26 @@ class StatisticViewModel(
                 StatisticState(
                     dateRange = dateRange,
                     dateRangeLocalized = formatDateRange(dateRange),
-                    categories = categories,
-                    category = category,
-                    properties = properties,
-                    property = property,
+                    category = StatisticCategoryState(
+                        categories = categories,
+                        selection = category,
+                    ),
+                    property = StatisticPropertyState(
+                        properties = properties,
+                        selection = property,
+                    ),
                     average = average,
                     trend = trend,
                     distribution = distribution,
                 )
             }
         } else {
-            emptyFlow()
+            flowOf(
+                StatisticState(
+                    dateRange = dateRange,
+                    dateRangeLocalized = formatDateRange(dateRange),
+                )
+            )
         }
     }
 

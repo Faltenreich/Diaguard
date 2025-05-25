@@ -14,15 +14,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.datetime.picker.DateRangePickerDialog
-import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.shared.view.DropdownTextMenu
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.statistic.average.StatisticAverage
+import com.faltenreich.diaguard.statistic.category.StatisticCategory
 import com.faltenreich.diaguard.statistic.distribution.StatisticDistribution
+import com.faltenreich.diaguard.statistic.property.StatisticProperty
 import com.faltenreich.diaguard.statistic.trend.StatisticTrend
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.average
@@ -40,19 +40,31 @@ fun Statistic(
     val state = viewModel.collectState() ?: return
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         DateRange(state, onIntent = viewModel::dispatchIntent)
-        Divider()
-        Category(state, onIntent = viewModel::dispatchIntent)
-        Divider()
-        Property(state, onIntent = viewModel::dispatchIntent)
 
-        TextDivider(getString(Res.string.average))
-        StatisticAverage(state.average)
+        state.category?.let { category ->
+            Divider()
+            StatisticCategory(category, onIntent = viewModel::dispatchIntent)
+        }
 
-        TextDivider(getString(Res.string.trend))
-        StatisticTrend(state.trend)
+        state.property?.let { property ->
+            Divider()
+            StatisticProperty(property, onIntent = viewModel::dispatchIntent)
+        }
 
-        TextDivider(getString(Res.string.distribution))
-        StatisticDistribution(state.distribution)
+        state.average?.let { average ->
+            TextDivider(getString(Res.string.average))
+            StatisticAverage(average)
+        }
+
+        state.trend?.let { trend ->
+            TextDivider(getString(Res.string.trend))
+            StatisticTrend(trend)
+        }
+
+        state.distribution?.let { distribution ->
+            TextDivider(getString(Res.string.distribution))
+            StatisticDistribution(distribution)
+        }
     }
 }
 
@@ -85,65 +97,6 @@ private fun DateRange(
                 showDateRangePicker = false
                 onIntent(StatisticIntent.SetDateRange(dateRange))
             },
-        )
-    }
-}
-
-@Composable
-private fun Category(
-    state: StatisticState,
-    onIntent: (StatisticIntent) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    var expandDropDown by remember { mutableStateOf(false) }
-
-    FormRow(
-        icon = { MeasurementCategoryIcon(state.category) },
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(
-                onClickLabel = stringResource(Res.string.date_range_picker_open),
-                role = Role.Button,
-                onClick = { expandDropDown = true },
-            ),
-    ) {
-        Text(state.category.name)
-
-        DropdownTextMenu(
-            expanded = expandDropDown,
-            onDismissRequest = { expandDropDown = false },
-            items = state.categories.map { category ->
-                category.name to { onIntent(StatisticIntent.SetCategory(category)) }
-            }
-        )
-    }
-}
-
-@Composable
-private fun Property(
-    state: StatisticState,
-    onIntent: (StatisticIntent) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    var expandDropDown by remember { mutableStateOf(false) }
-
-    FormRow(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(
-                onClickLabel = stringResource(Res.string.date_range_picker_open),
-                role = Role.Button,
-                onClick = { expandDropDown = true },
-            ),
-    ) {
-        Text(state.property.name)
-
-        DropdownTextMenu(
-            expanded = expandDropDown,
-            onDismissRequest = { expandDropDown = false },
-            items = state.properties.map { property ->
-                property.name to { onIntent(StatisticIntent.SetProperty(property)) }
-            }
         )
     }
 }

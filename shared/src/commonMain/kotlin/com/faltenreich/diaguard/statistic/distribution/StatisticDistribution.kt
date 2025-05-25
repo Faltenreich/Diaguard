@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.Divider
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.no_entries
 
@@ -19,33 +18,26 @@ fun StatisticDistribution(
     state: StatisticDistributionState,
     modifier: Modifier = Modifier,
 ) = with(state) {
-    Column(modifier = modifier) {
-        properties.forEachIndexed { index, property ->
-            Column(
-                modifier = Modifier.padding(AppTheme.dimensions.padding.P_3),
-                verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
-            ) {
-                if (property.property.isNamedUniquely) {
-                    Text(property.property.name)
-                }
-                if (property.parts.isNotEmpty()) {
-                    StatisticDistributionChart(
-                        state = property,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                } else {
-                    Text(
-                        text = getString(Res.string.no_entries),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(AppTheme.dimensions.padding.P_2),
-                        textAlign = TextAlign.Center,
-                    )
-                }
-            }
-            if (index != properties.lastIndex) {
-                Divider()
-            }
+    Column(
+        modifier = modifier.padding(AppTheme.dimensions.padding.P_3),
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
+    ) {
+        if (property.isNamedUniquely) {
+            Text(property.name)
+        }
+        if (parts.isNotEmpty()) {
+            StatisticDistributionChart(
+                state = state,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        } else {
+            Text(
+                text = getString(Res.string.no_entries),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(AppTheme.dimensions.padding.P_2),
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }

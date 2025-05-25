@@ -16,7 +16,7 @@ private const val ANGLE_CIRCULAR = 360f
 
 @Composable
 fun StatisticDistributionChart(
-    state: StatisticDistributionState.Property,
+    state: StatisticDistributionState,
     modifier: Modifier = Modifier,
 ) {
     val colorDefault = AppTheme.colors.scheme.onBackground

@@ -50,7 +50,7 @@ class StatisticViewModel(
                 properties,
                 getAverage(category, dateRange),
                 getTrend(category, dateRange),
-                getDistribution(category, dateRange),
+                getDistribution(property, dateRange),
             ) { categories, properties, average, trend, distribution ->
                 StatisticState(
                     dateRange = dateRange,

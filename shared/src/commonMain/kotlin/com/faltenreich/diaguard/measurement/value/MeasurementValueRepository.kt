@@ -57,8 +57,8 @@ class MeasurementValueRepository(
         return dao.getByEntryId(entryId)
     }
 
-    fun observeCountByCategoryId(categoryId: Long): Flow<Long> {
-        return dao.observeCountByCategoryId(categoryId)
+    fun observeCountByPropertyId(propertyId: Long): Flow<Long> {
+        return dao.observeCountByPropertyId(propertyId)
     }
 
     fun observeCountByValueRange(

@@ -57,12 +57,9 @@ LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == M
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE entryId = ?;
 
-countByCategory:
+countByProperty:
 SELECT COUNT(*) FROM MeasurementValue
-INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
-INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
-INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
-WHERE MeasurementProperty.categoryId == :categoryId;
+WHERE MeasurementValue.propertyId == :propertyId;
 
 countByValueRange:
 SELECT COUNT(*) FROM MeasurementValue

@@ -26,8 +26,7 @@ class GetStatisticAverageUseCase(
                 minDateTime = dateRange.start.atStartOfDay(),
                 maxDateTime = dateRange.endInclusive.atEndOfDay(),
             ),
-            // TODO: ByPropertyId
-            valueRepository.observeCountByCategoryId(property.id),
+            valueRepository.observeCountByPropertyId(property.id),
             getPreference(DecimalPlacesPreference),
         ) { average, countPerDay, decimalPlaces ->
             StatisticAverageState(

@@ -12,8 +12,12 @@ import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
 import com.faltenreich.diaguard.statistic.distribution.GetStatisticDistributionUseCase
 import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class StatisticViewModel(
     getToday: GetTodayUseCase,
@@ -26,33 +30,43 @@ class StatisticViewModel(
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
+    private val categories = getCategories()
     private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
+    private val properties = MutableStateFlow(emptyList<MeasurementProperty.Local>())
     private val property = MutableStateFlow<MeasurementProperty.Local?>(null)
 
-    override val state = combine(
-        dateRange,
-        getCategories(),
-        category,
-    ) { dateRange, categories, category ->
-        Triple(dateRange, categories, category ?: categories.first())
-    }.flatMapLatest { (dateRange, categories, category) ->
-        combine(
-            getProperties(category),
-            getAverage(category, dateRange),
-            getTrend(category, dateRange),
-            getDistribution(category, dateRange),
-        ) { properties, average, trend, distribution ->
-            StatisticState(
-                dateRange = dateRange,
-                dateRangeLocalized = formatDateRange(dateRange),
-                categories = categories,
-                category = category,
-                properties = properties,
-                property = TODO(),
-                average = average,
-                trend = trend,
-                distribution = distribution,
-            )
+    override val state = getCategories().flatMapLatest { categories ->
+        category.flatMapLatest {
+            when (val category = it ?: categories.firstOrNull()) {
+                null -> emptyFlow()
+                else -> getProperties(category).flatMapLatest { properties ->
+                    property.flatMapLatest {
+                        when (val property = it ?: properties.firstOrNull()) {
+                            null -> emptyFlow()
+                            else -> dateRange.flatMapLatest { dateRange ->
+                                combine(
+                                    getProperties(category),
+                                    getAverage(category, dateRange),
+                                    getTrend(category, dateRange),
+                                    getDistribution(category, dateRange),
+                                ) { properties, average, trend, distribution ->
+                                    StatisticState(
+                                        dateRange = dateRange,
+                                        dateRangeLocalized = formatDateRange(dateRange),
+                                        categories = categories,
+                                        category = category,
+                                        properties = properties,
+                                        property = property,
+                                        average = average,
+                                        trend = trend,
+                                        distribution = distribution,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

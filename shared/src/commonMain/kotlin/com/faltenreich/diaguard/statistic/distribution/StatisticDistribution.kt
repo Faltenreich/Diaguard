@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.statistic.distribution
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,11 +15,15 @@ import diaguard.shared.generated.resources.no_entries
 
 @Composable
 fun StatisticDistribution(
-    state: StatisticDistributionState,
+    state: StatisticDistributionState?,
     modifier: Modifier = Modifier,
-) = with(state) {
-    Column(modifier = modifier.padding(AppTheme.dimensions.padding.P_3)) {
-        if (parts.isNotEmpty()) {
+) {
+    Column(
+        modifier = modifier
+            .padding(AppTheme.dimensions.padding.P_3)
+            .animateContentSize(),
+    ) {
+        if (state?.parts?.isNotEmpty() == true) {
             StatisticDistributionChart(
                 state = state,
                 modifier = Modifier.fillMaxWidth(),

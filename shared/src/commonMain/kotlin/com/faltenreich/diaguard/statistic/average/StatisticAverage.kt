@@ -15,7 +15,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun StatisticAverage(
-    state: StatisticAverageState,
+    state: StatisticAverageState?,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -24,7 +24,9 @@ fun StatisticAverage(
                 text = getString(Res.string.entries_per_day),
                 modifier = Modifier.weight(1f),
             )
-            Text(state.countPerDay)
+            if (state != null) {
+                Text(state.countPerDay)
+            }
         }
         Divider()
         FormRow {
@@ -32,7 +34,9 @@ fun StatisticAverage(
                 text = stringResource(Res.string.measurement_value),
                 modifier = Modifier.weight(1f),
             )
-            Text(state.value ?: getString(Res.string.placeholder))
+            if (state != null) {
+                Text(state.value ?: getString(Res.string.placeholder))
+            }
         }
     }
 }

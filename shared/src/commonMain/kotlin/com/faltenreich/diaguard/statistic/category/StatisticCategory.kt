@@ -20,14 +20,18 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun StatisticCategory(
-    state: StatisticCategoryState,
+    state: StatisticCategoryState?,
     onIntent: (StatisticIntent) -> Unit,
     modifier: Modifier = Modifier,
-) = with(state) {
+) {
     var expandDropDown by remember { mutableStateOf(false) }
 
     FormRow(
-        icon = { MeasurementCategoryIcon(selection) },
+        icon = {
+            state?.selection?.let { category ->
+                MeasurementCategoryIcon(category)
+            }
+        },
         modifier = modifier
             .fillMaxWidth()
             .clickable(
@@ -36,12 +40,13 @@ fun StatisticCategory(
                 onClick = { expandDropDown = true },
             ),
     ) {
-        Text(selection.name)
+        state ?: return@FormRow
+        Text(state.selection.name)
 
         DropdownTextMenu(
             expanded = expandDropDown,
             onDismissRequest = { expandDropDown = false },
-            items = categories.map { category ->
+            items = state.categories.map { category ->
                 category.name to { onIntent(StatisticIntent.SetCategory(category)) }
             }
         )

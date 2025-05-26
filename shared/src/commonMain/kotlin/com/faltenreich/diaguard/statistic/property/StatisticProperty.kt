@@ -11,18 +11,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.statistic.StatisticIntent
 
 @Composable
 fun StatisticProperty(
-    state: StatisticPropertyState,
+    state: StatisticPropertyState?,
     onIntent: (StatisticIntent) -> Unit,
     modifier: Modifier = Modifier,
-) = with(state) {
-    Column(modifier = modifier.animateContentSize()) {
-        state.properties.forEach { property ->
-            val isSelected = property == selection
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .animateContentSize(),
+    ) {
+        val properties = state?.properties ?: emptyList()
+        if (properties.isNotEmpty()) {
+            Divider()
+        }
+        properties.forEach { property ->
+            val isSelected = property == state?.selection
             FormRow(
                 modifier = Modifier
                     .fillMaxWidth()

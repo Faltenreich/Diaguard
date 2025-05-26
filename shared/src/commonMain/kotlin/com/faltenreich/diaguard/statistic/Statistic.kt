@@ -38,34 +38,20 @@ fun Statistic(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
-    // TODO: Animate visibilities
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         DateRange(state, onIntent = viewModel::dispatchIntent)
+        Divider()
+        StatisticCategory(state.category, onIntent = viewModel::dispatchIntent)
+        StatisticProperty(state.property, onIntent = viewModel::dispatchIntent)
 
-        state.category?.let { category ->
-            Divider()
-            StatisticCategory(category, onIntent = viewModel::dispatchIntent)
-        }
+        TextDivider(getString(Res.string.average))
+        StatisticAverage(state.average)
 
-        state.property?.let { property ->
-            Divider()
-            StatisticProperty(property, onIntent = viewModel::dispatchIntent)
-        }
+        TextDivider(getString(Res.string.trend))
+        StatisticTrend(state.trend)
 
-        state.average?.let { average ->
-            TextDivider(getString(Res.string.average))
-            StatisticAverage(average)
-        }
-
-        state.trend?.let { trend ->
-            TextDivider(getString(Res.string.trend))
-            StatisticTrend(trend)
-        }
-
-        state.distribution?.let { distribution ->
-            TextDivider(getString(Res.string.distribution))
-            StatisticDistribution(distribution)
-        }
+        TextDivider(getString(Res.string.distribution))
+        StatisticDistribution(state.distribution)
     }
 }
 

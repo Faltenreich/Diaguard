@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.statistic
 
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
-import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
@@ -27,10 +27,10 @@ class StatisticViewModel(
     getToday: GetTodayUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
     getProperties: GetMeasurementPropertiesUseCase,
-    private val formatDateRange: FormatDateTimeUseCase,
     private val getAverage: GetStatisticAverageUseCase,
     private val getTrend: GetStatisticTrendUseCase,
     private val getDistribution: GetStatisticDistributionUseCase,
+    private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val dateRangeType = MutableStateFlow(StatisticDateRangeType.WEEK)
@@ -49,10 +49,16 @@ class StatisticViewModel(
         Triple(dateRange, category, property)
     }.flatMapLatest { (dateRange, category, property) ->
         val dateRangeState = StatisticDateRangeState(
-            type = dateRangeType.value, // TODO
+            type = dateRangeType.value,
             dateRange = dateRange,
-            dateRangeLocalized = formatDateRange(dateRange),
-            title = "dateRangeTitle",
+            dateRangeLocalized = dateTimeFormatter.formatDateRange(dateRange),
+            title = when (dateRangeType.value) { // TODO
+                StatisticDateRangeType.DAY -> dateTimeFormatter.formatDate(dateRange.start)
+                StatisticDateRangeType.WEEK -> "WEEK" // TODO
+                StatisticDateRangeType.QUARTER -> "QUARTER" // TODO
+                StatisticDateRangeType.YEAR -> dateRange.start.year.toString()
+                StatisticDateRangeType.CUSTOM -> dateTimeFormatter.formatDateRange(dateRange)
+            },
         )
         if (property != null) {
             combine(

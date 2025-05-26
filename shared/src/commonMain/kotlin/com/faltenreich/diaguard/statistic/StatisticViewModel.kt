@@ -10,6 +10,8 @@ import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPrope
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
 import com.faltenreich.diaguard.statistic.category.StatisticCategoryState
+import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeState
+import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeType
 import com.faltenreich.diaguard.statistic.distribution.GetStatisticDistributionUseCase
 import com.faltenreich.diaguard.statistic.property.StatisticPropertyState
 import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
@@ -31,6 +33,7 @@ class StatisticViewModel(
     private val getDistribution: GetStatisticDistributionUseCase,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
+    private val dateRangeType = MutableStateFlow(StatisticDateRangeType.WEEK)
     private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
     private val categories = MutableStateFlow(emptyList<MeasurementCategory.Local>())
     private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
@@ -38,12 +41,19 @@ class StatisticViewModel(
     private val property = MutableStateFlow<MeasurementProperty.Local?>(null)
 
     override val state = combine(
+        dateRangeType,
         dateRange,
         category,
         property,
-    ) { dateRange, category, property ->
+    ) { dateRangeType, dateRange, category, property ->
         Triple(dateRange, category, property)
     }.flatMapLatest { (dateRange, category, property) ->
+        val dateRangeState = StatisticDateRangeState(
+            type = dateRangeType.value, // TODO
+            dateRange = dateRange,
+            dateRangeLocalized = formatDateRange(dateRange),
+            title = "dateRangeTitle",
+        )
         if (property != null) {
             combine(
                 categories,
@@ -53,8 +63,7 @@ class StatisticViewModel(
                 getDistribution(property, dateRange),
             ) { categories, properties, average, trend, distribution ->
                 StatisticState(
-                    dateRange = dateRange,
-                    dateRangeLocalized = formatDateRange(dateRange),
+                    dateRange = dateRangeState,
                     category = category?.let {
                         StatisticCategoryState(
                             categories = categories,
@@ -73,12 +82,7 @@ class StatisticViewModel(
                 )
             }
         } else {
-            flowOf(
-                StatisticState(
-                    dateRange = dateRange,
-                    dateRangeLocalized = formatDateRange(dateRange),
-                )
-            )
+            flowOf(StatisticState(dateRangeState))
         }
     }
 
@@ -111,9 +115,10 @@ class StatisticViewModel(
 
     override suspend fun handleIntent(intent: StatisticIntent) {
         when (intent) {
-            is StatisticIntent.SetDateRange -> dateRange.value = intent.dateRange
-            is StatisticIntent.SetCategory -> category.value = intent.category
-            is StatisticIntent.SetProperty -> property.value = intent.property
+            is StatisticIntent.SetDateRangeType -> dateRangeType.update { intent.dateRangeType }
+            is StatisticIntent.SetDateRange -> dateRange.update { intent.dateRange }
+            is StatisticIntent.SetCategory -> category.update { intent.category }
+            is StatisticIntent.SetProperty -> property.update { intent.property }
         }
     }
 }

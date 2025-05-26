@@ -38,6 +38,7 @@ fun Statistic(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
+    // TODO: Animate visibilities
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         DateRange(state, onIntent = viewModel::dispatchIntent)
 

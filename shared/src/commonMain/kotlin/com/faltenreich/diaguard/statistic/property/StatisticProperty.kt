@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.statistic.property
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,7 +20,7 @@ fun StatisticProperty(
     onIntent: (StatisticIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) = with(state) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.animateContentSize()) {
         state.properties.forEach { property ->
             val isSelected = property == selection
             FormRow(

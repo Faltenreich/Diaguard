@@ -25,8 +25,8 @@ class StatisticViewModelTest : TestSuite {
         viewModel.state.test {
             val state = awaitItem()
             assertEquals(
-                expected = state.categories.first(),
-                actual = state.category,
+                expected = state.category?.categories?.first(),
+                actual = state.category?.selection,
             )
         }
     }
@@ -34,9 +34,11 @@ class StatisticViewModelTest : TestSuite {
     @Test
     fun `return average for zero values`() = runTest {
         viewModel.state.test {
+            awaitItem()
+            awaitItem()
             assertEquals(
                 expected = "0",
-                actual = awaitItem().average.countPerDay,
+                actual = awaitItem().average?.countPerDay,
             )
         }
     }
@@ -44,13 +46,15 @@ class StatisticViewModelTest : TestSuite {
     @Test
     fun `update selected category when intending to select category`() = runTest {
         viewModel.state.test {
-            val category = awaitItem().categories.last()
+            awaitItem()
+            awaitItem()
+            val category = awaitItem().category?.categories?.last()!!
 
             viewModel.handleIntent(StatisticIntent.SetCategory(category))
 
             assertEquals(
                 expected = category,
-                actual = awaitItem().category,
+                actual = awaitItem().category?.selection,
             )
         }
     }

@@ -53,10 +53,13 @@ class StatisticViewModel(
             dateRange = dateRange,
             dateRangeLocalized = dateTimeFormatter.formatDateRange(dateRange),
             title = when (dateRangeType.value) {
-                StatisticDateRangeType.WEEK -> "WEEK" // TODO
-                StatisticDateRangeType.MONTH -> "MONTH" // TODO
-                StatisticDateRangeType.QUARTER -> "QUARTER" // TODO
-                StatisticDateRangeType.YEAR -> dateRange.start.year.toString()
+                StatisticDateRangeType.WEEK -> dateTimeFormatter.formatWeek(dateRange.start)
+                StatisticDateRangeType.MONTH -> dateTimeFormatter.formatMonthOfYear(
+                    monthOfYear = dateRange.start.monthOfYear,
+                    abbreviated = false,
+                )
+                StatisticDateRangeType.QUARTER -> dateTimeFormatter.formatQuarter(dateRange.start)
+                StatisticDateRangeType.YEAR -> dateTimeFormatter.formatYear(dateRange.start)
             },
         )
         if (property != null) {
@@ -121,7 +124,8 @@ class StatisticViewModel(
     override suspend fun handleIntent(intent: StatisticIntent) {
         when (intent) {
             is StatisticIntent.SetDateRangeType -> dateRangeType.update { intent.dateRangeType }
-            is StatisticIntent.SetDateRange -> dateRange.update { intent.dateRange }
+            is StatisticIntent.MoveDateRangeBack -> TODO()
+            is StatisticIntent.MoveDateRangeForward -> TODO()
             is StatisticIntent.SetCategory -> category.update { intent.category }
             is StatisticIntent.SetProperty -> property.update { intent.property }
         }

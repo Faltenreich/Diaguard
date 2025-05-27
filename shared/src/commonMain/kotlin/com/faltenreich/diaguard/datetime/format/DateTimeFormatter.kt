@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.datetime.format
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.datetime.Month
 import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
-import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.format
 import diaguard.shared.generated.resources.Res
@@ -46,6 +46,10 @@ class DateTimeFormatter(
         }
     }
 
+    fun formatWeek(date: Date): String {
+        TODO()
+    }
+
     fun formatMonth(month: Month, abbreviated: Boolean): String {
         return month.run { localization.getString(if (abbreviated) abbreviation else label) }
     }
@@ -57,6 +61,14 @@ class DateTimeFormatter(
                 year,
             )
         }
+    }
+
+    fun formatQuarter(date: Date): String {
+        TODO()
+    }
+
+    fun formatYear(date: Date): String {
+        return date.year.toString()
     }
 
     fun formatDayOfMonth(date: Date): String {

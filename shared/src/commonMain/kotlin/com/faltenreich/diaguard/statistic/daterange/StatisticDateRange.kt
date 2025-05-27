@@ -66,7 +66,7 @@ fun StatisticDateRange(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        IconButton(onClick = {}) {
+        IconButton(onClick = { onIntent(StatisticIntent.MoveDateRangeBack) }) {
             Icon(
                 painter = painterResource(Res.drawable.ic_chevron_back),
                 contentDescription = stringResource(Res.string.day_previous),
@@ -78,7 +78,7 @@ fun StatisticDateRange(
             modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_2),
         )
 
-        IconButton(onClick = {}) {
+        IconButton(onClick = { onIntent(StatisticIntent.MoveDateRangeForward) }) {
             Icon(
                 painter = painterResource(Res.drawable.ic_chevron_forward),
                 contentDescription = stringResource(Res.string.day_next),

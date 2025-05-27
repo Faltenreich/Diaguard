@@ -52,12 +52,11 @@ class StatisticViewModel(
             type = dateRangeType.value,
             dateRange = dateRange,
             dateRangeLocalized = dateTimeFormatter.formatDateRange(dateRange),
-            title = when (dateRangeType.value) { // TODO
-                StatisticDateRangeType.DAY -> dateTimeFormatter.formatDate(dateRange.start)
+            title = when (dateRangeType.value) {
                 StatisticDateRangeType.WEEK -> "WEEK" // TODO
+                StatisticDateRangeType.MONTH -> "MONTH" // TODO
                 StatisticDateRangeType.QUARTER -> "QUARTER" // TODO
                 StatisticDateRangeType.YEAR -> dateRange.start.year.toString()
-                StatisticDateRangeType.CUSTOM -> dateTimeFormatter.formatDateRange(dateRange)
             },
         )
         if (property != null) {

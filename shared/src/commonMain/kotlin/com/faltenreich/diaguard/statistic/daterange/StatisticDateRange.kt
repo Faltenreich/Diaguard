@@ -1,9 +1,11 @@
 package com.faltenreich.diaguard.statistic.daterange
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -15,14 +17,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
-import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.statistic.StatisticIntent
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_range_picker_open
-import diaguard.shared.generated.resources.ic_arrow_back
-import diaguard.shared.generated.resources.ic_arrow_up
+import diaguard.shared.generated.resources.day_next
+import diaguard.shared.generated.resources.day_previous
+import diaguard.shared.generated.resources.ic_chevron_back
+import diaguard.shared.generated.resources.ic_chevron_forward
 import diaguard.shared.generated.resources.ic_time
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -33,29 +37,24 @@ fun StatisticDateRange(
     onIntent: (StatisticIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
-        Type(state, onIntent)
-        Value(state, onIntent)
-    }
-}
-
-@Composable
-private fun Type(
-    state: StatisticDateRangeState,
-    onIntent: (StatisticIntent) -> Unit,
-    modifier: Modifier = Modifier,
-) {
     var expandDropDown by remember { mutableStateOf(false) }
-    FormRow(
-        icon = { ResourceIcon(Res.drawable.ic_time) },
+
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable(
                 onClickLabel = stringResource(Res.string.date_range_picker_open),
                 role = Role.Button,
                 onClick = { expandDropDown = true },
-            ),
+            )
+            .padding(start = AppTheme.dimensions.padding.P_3)
+            .padding(vertical = AppTheme.dimensions.padding.P_2),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
+        ResourceIcon(Res.drawable.ic_time)
+
+        Spacer(modifier = Modifier.width(AppTheme.dimensions.padding.P_3))
+
         Text(stringResource(state.type.labelResource))
         DropdownTextMenu(
             expanded = expandDropDown,
@@ -64,30 +63,25 @@ private fun Type(
                 stringResource(it.labelResource) to { onIntent(StatisticIntent.SetDateRangeType(it)) }
             },
         )
-    }
-}
 
-@Composable
-private fun Value(
-    state: StatisticDateRangeState,
-    onIntent: (StatisticIntent) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
+        Spacer(modifier = Modifier.weight(1f))
+
         IconButton(onClick = {}) {
             Icon(
-                painter = painterResource(Res.drawable.ic_arrow_back),
-                contentDescription = null,
+                painter = painterResource(Res.drawable.ic_chevron_back),
+                contentDescription = stringResource(Res.string.day_previous),
             )
         }
-        Text(state.title)
+
+        Text(
+            text = state.title,
+            modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_2),
+        )
+
         IconButton(onClick = {}) {
             Icon(
-                painter = painterResource(Res.drawable.ic_arrow_up),
-                contentDescription = null,
+                painter = painterResource(Res.drawable.ic_chevron_forward),
+                contentDescription = stringResource(Res.string.day_next),
             )
         }
     }

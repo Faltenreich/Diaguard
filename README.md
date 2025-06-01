@@ -5,7 +5,7 @@
 
 # Diaguard
 
-![version](https://img.shields.io/badge/Release-3.13.3-478063.svg)
+![version](https://img.shields.io/badge/Release-3.14.0-478063.svg)
 ![pipeline](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml/badge.svg?branch=develop)
 
 <img src="./resource/image/marketing/showcase.png" width="750" alt=""> 

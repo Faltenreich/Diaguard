@@ -34,6 +34,7 @@ class StatisticViewModel(
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val dateRangeType = MutableStateFlow(StatisticDateRangeType.WEEK)
+    // TODO: Set to start of week
     private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
     private val categories = MutableStateFlow(emptyList<MeasurementCategory.Local>())
     private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
@@ -124,10 +125,29 @@ class StatisticViewModel(
     override suspend fun handleIntent(intent: StatisticIntent) {
         when (intent) {
             is StatisticIntent.SetDateRangeType -> dateRangeType.update { intent.dateRangeType }
-            is StatisticIntent.MoveDateRangeBack -> TODO()
-            is StatisticIntent.MoveDateRangeForward -> TODO()
+            is StatisticIntent.MoveDateRangeBack -> moveDateRange(value = -1)
+            is StatisticIntent.MoveDateRangeForward -> moveDateRange(value = 1)
             is StatisticIntent.SetCategory -> category.update { intent.category }
             is StatisticIntent.SetProperty -> property.update { intent.property }
+        }
+    }
+
+    private fun moveDateRange(value: Int) {
+        dateRange.update { dateRange ->
+            // TODO: Set to start of interval
+            val start = when (dateRangeType.value) {
+                StatisticDateRangeType.WEEK -> dateRange.start.plus(value, DateUnit.WEEK)
+                StatisticDateRangeType.MONTH -> dateRange.start.plus(value, DateUnit.MONTH)
+                StatisticDateRangeType.QUARTER -> dateRange.start.plus(value, DateUnit.QUARTER)
+                StatisticDateRangeType.YEAR -> dateRange.start.plus(value, DateUnit.YEAR)
+            }
+            val end = when (dateRangeType.value) {
+                StatisticDateRangeType.WEEK -> start.plus(1, DateUnit.WEEK).minus(1, DateUnit.DAY)
+                StatisticDateRangeType.MONTH -> start.plus(1, DateUnit.MONTH).minus(1, DateUnit.DAY)
+                StatisticDateRangeType.QUARTER -> start.plus(1, DateUnit.QUARTER).minus(1, DateUnit.DAY)
+                StatisticDateRangeType.YEAR -> start.plus(1, DateUnit.YEAR).minus(1, DateUnit.DAY)
+            }
+            dateRange.copy(start = start, endInclusive = end)
         }
     }
 }

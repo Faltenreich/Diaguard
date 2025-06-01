@@ -48,6 +48,25 @@ class DateTest {
     }
 
     @Test
+    fun `quarter is correct`() {
+        assertEquals(1, dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1).quarter)
+        assertEquals(1, dateTimeFactory.date(year = 5, monthNumber = 2, dayOfMonth = 1).quarter)
+        assertEquals(1, dateTimeFactory.date(year = 5, monthNumber = 3, dayOfMonth = 1).quarter)
+
+        assertEquals(2, dateTimeFactory.date(year = 5, monthNumber = 4, dayOfMonth = 1).quarter)
+        assertEquals(2, dateTimeFactory.date(year = 5, monthNumber = 5, dayOfMonth = 1).quarter)
+        assertEquals(2, dateTimeFactory.date(year = 5, monthNumber = 6, dayOfMonth = 1).quarter)
+
+        assertEquals(3, dateTimeFactory.date(year = 5, monthNumber = 7, dayOfMonth = 1).quarter)
+        assertEquals(3, dateTimeFactory.date(year = 5, monthNumber = 8, dayOfMonth = 1).quarter)
+        assertEquals(3, dateTimeFactory.date(year = 5, monthNumber = 9, dayOfMonth = 1).quarter)
+
+        assertEquals(4, dateTimeFactory.date(year = 5, monthNumber = 10, dayOfMonth = 1).quarter)
+        assertEquals(4, dateTimeFactory.date(year = 5, monthNumber = 11, dayOfMonth = 1).quarter)
+        assertEquals(4, dateTimeFactory.date(year = 5, monthNumber = 12, dayOfMonth = 1).quarter)
+    }
+
+    @Test
     fun `weekOfYear is 1 if first day of year`() {
         val date = dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1)
         assertEquals(WeekOfYear(weekNumber = 1, year = 5), date.weekOfYear)

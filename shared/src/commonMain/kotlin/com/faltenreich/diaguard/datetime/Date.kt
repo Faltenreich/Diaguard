@@ -12,6 +12,12 @@ interface Date : Serializable, Comparable<Date> {
     val year: Int
 
     /**
+     * Quarter-of-year ranging from 1 to 4
+     */
+    val quarter: Int
+        get() = ((monthNumber - 1) / 3) + 1
+
+    /**
      * Month-of-year as number ranging from 1 to 12
      */
     val monthNumber: Int

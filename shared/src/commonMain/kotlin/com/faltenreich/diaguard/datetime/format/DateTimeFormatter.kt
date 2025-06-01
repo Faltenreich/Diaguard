@@ -13,7 +13,6 @@ import diaguard.shared.generated.resources.date_time_ago_days
 import diaguard.shared.generated.resources.date_time_ago_hours
 import diaguard.shared.generated.resources.date_time_ago_minutes
 import diaguard.shared.generated.resources.date_time_ago_moments
-import diaguard.shared.generated.resources.week
 
 class DateTimeFormatter(
     private val localization: Localization,
@@ -48,9 +47,9 @@ class DateTimeFormatter(
     }
 
     fun formatWeek(date: Date): String {
-        return "%s %d".format(
-            localization.getString(Res.string.week),
+        return "%d %04d".format(
             date.weekOfYear.weekNumber,
+            date.year,
         )
     }
 
@@ -68,7 +67,10 @@ class DateTimeFormatter(
     }
 
     fun formatQuarter(date: Date): String {
-        TODO()
+        return "%d %04d".format(
+            date.quarter,
+            date.year,
+        )
     }
 
     fun formatYear(date: Date): String {

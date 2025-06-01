@@ -13,6 +13,7 @@ import diaguard.shared.generated.resources.date_time_ago_days
 import diaguard.shared.generated.resources.date_time_ago_hours
 import diaguard.shared.generated.resources.date_time_ago_minutes
 import diaguard.shared.generated.resources.date_time_ago_moments
+import diaguard.shared.generated.resources.week
 
 class DateTimeFormatter(
     private val localization: Localization,
@@ -47,8 +48,10 @@ class DateTimeFormatter(
     }
 
     fun formatWeek(date: Date): String {
-        // TODO: Add prefix for "Calendar week"
-        return date.weekOfYear.weekNumber.toString()
+        return "%s %d".format(
+            localization.getString(Res.string.week),
+            date.weekOfYear.weekNumber,
+        )
     }
 
     fun formatMonth(month: Month, abbreviated: Boolean): String {

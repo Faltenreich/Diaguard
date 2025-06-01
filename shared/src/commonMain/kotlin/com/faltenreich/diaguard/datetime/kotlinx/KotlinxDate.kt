@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.WeekOfYear
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.LocalDate
@@ -16,6 +17,7 @@ class KotlinxDate(private var delegate: LocalDate) : Date {
 
     override val year: Int get() = delegate.year
     override val monthNumber: Int get() = delegate.monthNumber
+    override val weekOfYear: WeekOfYear get() = delegate.weekOfYear
     override val dayOfMonth: Int get() = delegate.dayOfMonth
     override val dayOfWeek: DayOfWeek get() = delegate.dayOfWeek.toDomain()
 

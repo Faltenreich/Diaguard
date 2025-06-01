@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.shared.datetime
 
+import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.WeekOfYear
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import kotlin.test.Test
@@ -43,5 +45,25 @@ class DateTest {
                 <
                 dateTimeFactory.date(year = 5, monthNumber = 5, dayOfMonth = 5)
         )
+    }
+
+    @Test
+    fun `weekOfYear is 1 if first day of year`() {
+        val date = dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1)
+        assertEquals(WeekOfYear(weekNumber = 1, year = 5), date.weekOfYear)
+    }
+
+    @Test
+    fun `weekOfYear is 52 if last week of year`() {
+        val date = dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1)
+            .minus(1, DateUnit.WEEK)
+        assertEquals(WeekOfYear(weekNumber = 52, year = 4), date.weekOfYear)
+    }
+
+    @Test
+    fun `weekOfYear is 1 if last day of year`() {
+        val date = dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1)
+            .minus(1, DateUnit.DAY)
+        assertEquals(WeekOfYear(weekNumber = 1, year = 5), date.weekOfYear)
     }
 }

@@ -29,6 +29,11 @@ interface Date : Serializable, Comparable<Date> {
         get() = MonthOfYear(month, year)
 
     /**
+     * Week-of-year ranging from 1 to 52
+     */
+    val weekOfYear: WeekOfYear
+
+    /**
      * Day-of-month ranging from 1 to 31, depending on month
      */
     val dayOfMonth: Int

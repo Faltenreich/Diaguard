@@ -47,7 +47,8 @@ class DateTimeFormatter(
     }
 
     fun formatWeek(date: Date): String {
-        TODO()
+        // TODO: Add prefix for "Calendar week"
+        return date.weekOfYear.weekNumber.toString()
     }
 
     fun formatMonth(month: Month, abbreviated: Boolean): String {

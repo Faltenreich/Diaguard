@@ -53,7 +53,6 @@ class StatisticViewModel(
         val dateRangeState = StatisticDateRangeState(
             type = dateRangeType.value,
             dateRange = dateRange,
-            dateRangeLocalized = dateTimeFormatter.formatDateRange(dateRange),
             title = when (dateRangeType.value) {
                 StatisticDateRangeType.WEEK -> dateTimeFormatter.formatWeek(dateRange.start)
                 StatisticDateRangeType.MONTH -> dateTimeFormatter.formatMonthOfYear(
@@ -63,6 +62,7 @@ class StatisticViewModel(
                 StatisticDateRangeType.QUARTER -> dateTimeFormatter.formatQuarter(dateRange.start)
                 StatisticDateRangeType.YEAR -> dateTimeFormatter.formatYear(dateRange.start)
             },
+            subtitle = dateTimeFormatter.formatDateRange(dateRange),
         )
         if (property != null) {
             combine(

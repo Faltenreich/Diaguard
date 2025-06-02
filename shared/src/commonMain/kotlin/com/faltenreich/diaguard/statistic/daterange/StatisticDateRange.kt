@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.statistic.daterange
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -73,10 +74,16 @@ fun StatisticDateRange(
             )
         }
 
-        Text(
-            text = state.title,
+        Column(
             modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_2),
-        )
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(state.title)
+            Text(
+                text = state.subtitle,
+                style = AppTheme.typography.bodySmall,
+            )
+        }
 
         IconButton(onClick = { onIntent(StatisticIntent.MoveDateRangeForward) }) {
             Icon(

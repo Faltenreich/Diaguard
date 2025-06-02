@@ -55,6 +55,14 @@ interface Date : Serializable, Comparable<Date> {
 
     fun atEndOfDay(): DateTime
 
+    fun atStartOf(unit: DateUnit): Date
+
+    fun atEndOf(unit: DateUnit): Date {
+        return atStartOf(unit)
+            .plus(1, unit)
+            .minus(1, DateUnit.DAY)
+    }
+
     fun minus(value: Int, unit: DateUnit): Date
 
     fun plus(value: Int, unit: DateUnit): Date

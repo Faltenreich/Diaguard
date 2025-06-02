@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.faltenreich.diaguard.datetime.kotlinx
 
 import com.faltenreich.diaguard.datetime.Date
@@ -12,6 +14,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
+import kotlin.math.floor
 
 class KotlinxDate(private var delegate: LocalDate) : Date {
 
@@ -72,6 +75,40 @@ class KotlinxDate(private var delegate: LocalDate) : Date {
             millisOfSecond = 999,
             nanosOfMilli = 999,
         )
+    }
+
+    override fun atStartOf(unit: DateUnit): Date {
+        return when (unit) {
+            DateUnit.DAY -> this
+            DateUnit.WEEK -> {
+                var date = this as Date
+                // TODO: Localize start of week
+                while (date.dayOfWeek != DayOfWeek.MONDAY) {
+                    date = date.minus(1, DateUnit.DAY)
+                }
+                date
+            }
+            DateUnit.MONTH -> KotlinxDate(
+                year = year,
+                monthNumber = monthNumber,
+                dayOfMonth = 1,
+            )
+            DateUnit.QUARTER -> KotlinxDate(
+                year = year,
+                monthNumber = (((monthNumber - 1) / 3) * 3) + 1,
+                dayOfMonth = 1,
+            )
+            DateUnit.YEAR -> KotlinxDate(
+                year = year,
+                monthNumber = 1,
+                dayOfMonth = 1,
+            )
+            DateUnit.CENTURY -> KotlinxDate(
+                year = 100 * floor(year / 100.0).toInt(),
+                monthNumber = 1,
+                dayOfMonth = 1,
+            )
+        }
     }
 
     override fun minus(value: Int, unit: DateUnit): Date {

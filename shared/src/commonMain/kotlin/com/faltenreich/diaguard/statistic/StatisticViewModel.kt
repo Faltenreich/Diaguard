@@ -34,8 +34,9 @@ class StatisticViewModel(
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val dateRangeType = MutableStateFlow(StatisticDateRangeType.WEEK)
-    // TODO: Set to start of week
-    private val dateRange = MutableStateFlow(getToday().let { it.minus(1, DateUnit.WEEK) .. it })
+    private val dateRange = MutableStateFlow(
+        getToday().let { it.atStartOf(DateUnit.WEEK) .. it.atEndOf(DateUnit.WEEK) }
+    )
     private val categories = MutableStateFlow(emptyList<MeasurementCategory.Local>())
     private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
     private val properties = MutableStateFlow(emptyList<MeasurementProperty.Local>())

@@ -85,4 +85,45 @@ class DateTest {
             .minus(1, DateUnit.DAY)
         assertEquals(WeekOfYear(weekNumber = 1, year = 5), date.weekOfYear)
     }
+
+    @Test
+    fun `start of day is this`() {
+        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
+        assertEquals(date, date.atStartOf(DateUnit.DAY))
+    }
+
+    @Test
+    fun `start of week is Monday`() {
+        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
+        val expected = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 2)
+        assertEquals(expected, date.atStartOf(DateUnit.WEEK))
+    }
+
+    @Test
+    fun `start of month is first day of same month in same year`() {
+        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
+        val expected = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 1)
+        assertEquals(expected, date.atStartOf(DateUnit.MONTH))
+    }
+
+    @Test
+    fun `start of quarter is first day of three months in same year`() {
+        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
+        val expected = dateTimeFactory.date(year = 2025, monthNumber = 4, dayOfMonth = 1)
+        assertEquals(expected, date.atStartOf(DateUnit.QUARTER))
+    }
+
+    @Test
+    fun `start of year is first day of same year`() {
+        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
+        val expected = dateTimeFactory.date(year = 2025, monthNumber = 1, dayOfMonth = 1)
+        assertEquals(expected, date.atStartOf(DateUnit.YEAR))
+    }
+
+    @Test
+    fun `start of century is first day of same century`() {
+        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
+        val expected = dateTimeFactory.date(year = 2000, monthNumber = 1, dayOfMonth = 1)
+        assertEquals(expected, date.atStartOf(DateUnit.CENTURY))
+    }
 }

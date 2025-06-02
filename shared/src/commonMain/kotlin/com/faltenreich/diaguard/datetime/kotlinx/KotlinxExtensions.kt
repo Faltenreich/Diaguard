@@ -2,10 +2,7 @@ package com.faltenreich.diaguard.datetime.kotlinx
 
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.DayOfWeek
-import com.faltenreich.diaguard.datetime.WeekOfYear
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.plus
 import kotlinx.datetime.DayOfWeek as KotlinxDayOfWeek
 
 fun KotlinxDayOfWeek.toDomain(): DayOfWeek {
@@ -21,6 +18,18 @@ fun KotlinxDayOfWeek.toDomain(): DayOfWeek {
     }
 }
 
+fun DayOfWeek.fromDomain(): KotlinxDayOfWeek {
+    return when (this) {
+        DayOfWeek.MONDAY -> KotlinxDayOfWeek.MONDAY
+        DayOfWeek.TUESDAY -> KotlinxDayOfWeek.TUESDAY
+        DayOfWeek.WEDNESDAY -> KotlinxDayOfWeek.WEDNESDAY
+        DayOfWeek.THURSDAY -> KotlinxDayOfWeek.THURSDAY
+        DayOfWeek.FRIDAY -> KotlinxDayOfWeek.FRIDAY
+        DayOfWeek.SATURDAY -> KotlinxDayOfWeek.SATURDAY
+        DayOfWeek.SUNDAY -> KotlinxDayOfWeek.SUNDAY
+    }
+}
+
 fun DateUnit.fromDomain(): DateTimeUnit.DateBased {
     return when (this) {
         DateUnit.DAY -> DateTimeUnit.DAY
@@ -31,29 +40,3 @@ fun DateUnit.fromDomain(): DateTimeUnit.DateBased {
         DateUnit.CENTURY -> DateTimeUnit.CENTURY
     }
 }
-
-// TODO: Replace with official solution when ready
-//  https://github.com/Kotlin/kotlinx-datetime/issues/129
-val LocalDate.weekOfYear: WeekOfYear
-    get() {
-        var weekNumber = 1
-        var comparison = LocalDate(year = year, monthNumber = 1, dayOfMonth = 1)
-        // Start at end of week
-        // TODO: Localize end of week
-        while (comparison.dayOfWeek != KotlinxDayOfWeek.SUNDAY) {
-            comparison = comparison.plus(1 , DateTimeUnit.DAY)
-        }
-        // Stop when passing date
-        while (comparison <= this) {
-            comparison = comparison.plus(1, DateTimeUnit.WEEK)
-            weekNumber += 1
-        }
-        // Handle first week of next year that starts in this year
-        if (year != comparison.year) {
-            weekNumber = 1
-        }
-        return WeekOfYear(
-            weekNumber = weekNumber,
-            year = comparison.year,
-        )
-    }

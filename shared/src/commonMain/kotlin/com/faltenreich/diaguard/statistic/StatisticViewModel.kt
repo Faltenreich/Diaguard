@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.statistic
 
+import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
@@ -39,7 +40,6 @@ class StatisticViewModel(
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
-    // TODO: Update date range on change
     private val dateRangeType = MutableStateFlow(StatisticDateRangeType.WEEK)
     private val dateRange = MutableStateFlow(
         getToday().let { it.atStartOf(DateUnit.WEEK) .. it.atEndOf(DateUnit.WEEK) }
@@ -54,7 +54,7 @@ class StatisticViewModel(
         dateRange,
         category,
         property,
-    ) { dateRangeType, dateRange, category, property ->
+    ) { _, dateRange, category, property ->
         Triple(dateRange, category, property)
     }.flatMapLatest { (dateRange, category, property) ->
         val dateRangeState = StatisticDateRangeState(
@@ -134,6 +134,11 @@ class StatisticViewModel(
                 }
             }
         }
+        scope.launch {
+            dateRangeType.collectLatest {
+                invalidateDateRange(dateRange.value.start)
+            }
+        }
     }
 
     override suspend fun handleIntent(intent: StatisticIntent) {
@@ -147,19 +152,29 @@ class StatisticViewModel(
     }
 
     private fun moveDateRange(value: Int) {
+        val current = dateRange.value.start
+        val date = when (dateRangeType.value) {
+            StatisticDateRangeType.WEEK -> current.plus(value, DateUnit.WEEK)
+            StatisticDateRangeType.MONTH -> current.plus(value, DateUnit.MONTH)
+            StatisticDateRangeType.QUARTER -> current.plus(value, DateUnit.QUARTER)
+            StatisticDateRangeType.YEAR -> current.plus(value, DateUnit.YEAR)
+        }
+        invalidateDateRange(date)
+    }
+
+    private fun invalidateDateRange(date: Date) {
         dateRange.update { dateRange ->
-            // TODO: Set to start of interval
             val start = when (dateRangeType.value) {
-                StatisticDateRangeType.WEEK -> dateRange.start.plus(value, DateUnit.WEEK)
-                StatisticDateRangeType.MONTH -> dateRange.start.plus(value, DateUnit.MONTH)
-                StatisticDateRangeType.QUARTER -> dateRange.start.plus(value, DateUnit.QUARTER)
-                StatisticDateRangeType.YEAR -> dateRange.start.plus(value, DateUnit.YEAR)
+                StatisticDateRangeType.WEEK -> date.atStartOf(DateUnit.WEEK)
+                StatisticDateRangeType.MONTH -> date.atStartOf(DateUnit.MONTH)
+                StatisticDateRangeType.QUARTER -> date.atStartOf(DateUnit.QUARTER)
+                StatisticDateRangeType.YEAR -> date.atStartOf(DateUnit.YEAR)
             }
             val end = when (dateRangeType.value) {
-                StatisticDateRangeType.WEEK -> start.plus(1, DateUnit.WEEK).minus(1, DateUnit.DAY)
-                StatisticDateRangeType.MONTH -> start.plus(1, DateUnit.MONTH).minus(1, DateUnit.DAY)
-                StatisticDateRangeType.QUARTER -> start.plus(1, DateUnit.QUARTER).minus(1, DateUnit.DAY)
-                StatisticDateRangeType.YEAR -> start.plus(1, DateUnit.YEAR).minus(1, DateUnit.DAY)
+                StatisticDateRangeType.WEEK -> start.atEndOf(DateUnit.WEEK)
+                StatisticDateRangeType.MONTH -> start.atEndOf(DateUnit.MONTH)
+                StatisticDateRangeType.QUARTER -> start.atEndOf(DateUnit.QUARTER)
+                StatisticDateRangeType.YEAR -> start.atEndOf(DateUnit.YEAR)
             }
             dateRange.copy(start = start, endInclusive = end)
         }

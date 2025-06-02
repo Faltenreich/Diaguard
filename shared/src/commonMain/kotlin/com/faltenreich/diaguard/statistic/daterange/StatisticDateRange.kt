@@ -1,35 +1,21 @@
 package com.faltenreich.diaguard.statistic.daterange
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
+import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.statistic.StatisticIntent
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_range_picker_open
-import diaguard.shared.generated.resources.day_next
-import diaguard.shared.generated.resources.day_previous
-import diaguard.shared.generated.resources.ic_chevron_back
-import diaguard.shared.generated.resources.ic_chevron_forward
 import diaguard.shared.generated.resources.ic_time
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -40,23 +26,17 @@ fun StatisticDateRange(
 ) {
     var expandDropDown by remember { mutableStateOf(false) }
 
-    Row(
+    FormRow(
+        icon = { ResourceIcon(Res.drawable.ic_time) },
         modifier = modifier
-            .fillMaxWidth()
             .clickable(
                 onClickLabel = stringResource(Res.string.date_range_picker_open),
                 role = Role.Button,
                 onClick = { expandDropDown = true },
-            )
-            .padding(start = AppTheme.dimensions.padding.P_3)
-            .padding(vertical = AppTheme.dimensions.padding.P_2),
-        verticalAlignment = Alignment.CenterVertically,
+            ),
     ) {
-        ResourceIcon(Res.drawable.ic_time)
-
-        Spacer(modifier = Modifier.width(AppTheme.dimensions.padding.P_3))
-
         Text(stringResource(state.type.labelResource))
+
         DropdownTextMenu(
             expanded = expandDropDown,
             onDismissRequest = { expandDropDown = false },
@@ -64,32 +44,5 @@ fun StatisticDateRange(
                 stringResource(it.labelResource) to { onIntent(StatisticIntent.SetDateRangeType(it)) }
             },
         )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        IconButton(onClick = { onIntent(StatisticIntent.MoveDateRangeBack) }) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_chevron_back),
-                contentDescription = stringResource(Res.string.day_previous),
-            )
-        }
-
-        Column(
-            modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_2),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(state.title)
-            Text(
-                text = state.subtitle,
-                style = AppTheme.typography.bodySmall,
-            )
-        }
-
-        IconButton(onClick = { onIntent(StatisticIntent.MoveDateRangeForward) }) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_chevron_forward),
-                contentDescription = stringResource(Res.string.day_next),
-            )
-        }
     }
 }

@@ -47,10 +47,7 @@ class DateTimeFormatter(
     }
 
     fun formatWeek(date: Date): String {
-        return "%d %04d".format(
-            date.weekOfYear.weekNumber,
-            date.year,
-        )
+        return date.weekOfYear.weekNumber.toString()
     }
 
     fun formatMonth(month: Month, abbreviated: Boolean): String {
@@ -67,10 +64,7 @@ class DateTimeFormatter(
     }
 
     fun formatQuarter(date: Date): String {
-        return "%d %04d".format(
-            date.quarter,
-            date.year,
-        )
+        return date.quarter.toString()
     }
 
     fun formatYear(date: Date): String {

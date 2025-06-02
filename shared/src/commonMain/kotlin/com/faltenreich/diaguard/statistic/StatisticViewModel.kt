@@ -8,6 +8,8 @@ import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasuremen
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.shared.localization.format
 import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
 import com.faltenreich.diaguard.statistic.category.StatisticCategoryState
 import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeState
@@ -15,6 +17,9 @@ import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeType
 import com.faltenreich.diaguard.statistic.distribution.GetStatisticDistributionUseCase
 import com.faltenreich.diaguard.statistic.property.StatisticPropertyState
 import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.quarter
+import diaguard.shared.generated.resources.week
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -30,9 +35,11 @@ class StatisticViewModel(
     private val getAverage: GetStatisticAverageUseCase,
     private val getTrend: GetStatisticTrendUseCase,
     private val getDistribution: GetStatisticDistributionUseCase,
+    private val localization: Localization,
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
+    // TODO: Update date range on change
     private val dateRangeType = MutableStateFlow(StatisticDateRangeType.WEEK)
     private val dateRange = MutableStateFlow(
         getToday().let { it.atStartOf(DateUnit.WEEK) .. it.atEndOf(DateUnit.WEEK) }
@@ -54,12 +61,18 @@ class StatisticViewModel(
             type = dateRangeType.value,
             dateRange = dateRange,
             title = when (dateRangeType.value) {
-                StatisticDateRangeType.WEEK -> dateTimeFormatter.formatWeek(dateRange.start)
-                StatisticDateRangeType.MONTH -> dateTimeFormatter.formatMonthOfYear(
-                    monthOfYear = dateRange.start.monthOfYear,
+                StatisticDateRangeType.WEEK -> "%s %s".format(
+                    localization.getString(Res.string.week),
+                    dateTimeFormatter.formatWeek(dateRange.start),
+                )
+                StatisticDateRangeType.MONTH -> dateTimeFormatter.formatMonth(
+                    month = dateRange.start.month,
                     abbreviated = false,
                 )
-                StatisticDateRangeType.QUARTER -> dateTimeFormatter.formatQuarter(dateRange.start)
+                StatisticDateRangeType.QUARTER -> "%s %s".format(
+                    localization.getString(Res.string.quarter),
+                    dateTimeFormatter.formatQuarter(dateRange.start),
+                )
                 StatisticDateRangeType.YEAR -> dateTimeFormatter.formatYear(dateRange.start)
             },
             subtitle = dateTimeFormatter.formatDateRange(dateRange),

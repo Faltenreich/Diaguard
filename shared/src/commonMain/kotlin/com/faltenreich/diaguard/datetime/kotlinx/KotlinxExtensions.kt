@@ -32,18 +32,23 @@ fun DateUnit.fromDomain(): DateTimeUnit.DateBased {
     }
 }
 
-// FIXME: Respect (localized) start and end of week
 // TODO: Replace with official solution when ready
 //  https://github.com/Kotlin/kotlinx-datetime/issues/129
 val LocalDate.weekOfYear: WeekOfYear
     get() {
-        var weekNumber = 0
+        var weekNumber = 1
         var comparison = LocalDate(year = year, monthNumber = 1, dayOfMonth = 1)
+        // Start at end of week
+        // TODO: Localize end of week
+        while (comparison.dayOfWeek != KotlinxDayOfWeek.SUNDAY) {
+            comparison = comparison.plus(1 , DateTimeUnit.DAY)
+        }
+        // Stop when passing date
         while (comparison <= this) {
             comparison = comparison.plus(1, DateTimeUnit.WEEK)
             weekNumber += 1
         }
-        // End of year starts in first week of next year
+        // Handle first week of next year that starts in this year
         if (year != comparison.year) {
             weekNumber = 1
         }

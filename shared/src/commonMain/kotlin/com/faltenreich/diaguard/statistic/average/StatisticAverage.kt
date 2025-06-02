@@ -21,21 +21,21 @@ fun StatisticAverage(
     Column(modifier = modifier) {
         FormRow {
             Text(
-                text = getString(Res.string.entries_per_day),
-                modifier = Modifier.weight(1f),
-            )
-            if (state != null) {
-                Text(state.countPerDay)
-            }
-        }
-        Divider()
-        FormRow {
-            Text(
                 text = stringResource(Res.string.measurement_value),
                 modifier = Modifier.weight(1f),
             )
             if (state != null) {
                 Text(state.value ?: getString(Res.string.placeholder))
+            }
+        }
+        Divider()
+        FormRow {
+            Text(
+                text = getString(Res.string.entries_per_day),
+                modifier = Modifier.weight(1f),
+            )
+            if (state != null) {
+                Text(state.countPerDay)
             }
         }
     }

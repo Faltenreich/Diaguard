@@ -9,6 +9,7 @@ data class StatisticDistributionState(
 ) {
 
     data class Part(
+        val label: String,
         val percentage: Float,
         val tint: MeasurementValueTint,
     )

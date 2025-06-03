@@ -91,8 +91,10 @@ fun DrawScope.MeasurementCategoryIcon(
     // TODO: Remove magic offsets
     drawText(
         text = text,
-        x = position.x + size.width / 2 - textSize.size.width / 2,
-        y = position.y + size.height / 2 + textSize.size.height / 2 - 8,
+        bottomLeft = Offset(
+            x = position.x + size.width / 2 - textSize.size.width / 2,
+            y = position.y + size.height / 2 + textSize.size.height / 2 - 8,
+        ),
         size = textSize.size.height.toFloat() - padding / 2,
         paint = Paint().apply { color = Color.White },
     )

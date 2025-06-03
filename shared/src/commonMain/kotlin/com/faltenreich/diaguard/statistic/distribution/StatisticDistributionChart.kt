@@ -93,8 +93,10 @@ private fun DrawScope.drawValue(
 
     drawText(
         text = label,
-        x = x - textSize.size.center.x,
-        y = y + textSize.size.center.y,
+        bottomLeft = Offset(
+            x = x - textSize.size.center.x,
+            y = y + textSize.size.center.y,
+        ),
         size = fontSize,
         paint = fontPaint,
     )

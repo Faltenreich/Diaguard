@@ -55,8 +55,10 @@ fun DrawScope.TimelineYAxis(
             // Label
             drawText(
                 text = text,
-                x = x,
-                y = y - config.padding,
+                bottomLeft = Offset(
+                    x = x,
+                    y = y - config.padding,
+                ),
                 size = config.fontSize,
                 paint = config.fontPaint,
             )

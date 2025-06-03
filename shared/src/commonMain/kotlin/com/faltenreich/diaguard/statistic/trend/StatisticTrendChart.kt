@@ -108,8 +108,10 @@ private fun DrawScope.drawLabel(
     val textSize = textMeasurer.measure(text).size
     drawText(
         text = text,
-        x = rectangle.center.x - (textSize.width / 2),
-        y = rectangle.bottomCenter.y,
+        bottomLeft = Offset(
+            x = rectangle.center.x - (textSize.width / 2),
+            y = rectangle.bottomCenter.y,
+        ),
         size = fontSize,
         paint = fontPaint,
     )

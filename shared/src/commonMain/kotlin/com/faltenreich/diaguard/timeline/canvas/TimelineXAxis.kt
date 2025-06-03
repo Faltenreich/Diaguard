@@ -92,8 +92,10 @@ private fun DrawScope.drawHour(
 
     drawText(
         text = hour.toString(),
-        x = x - (textSize.size.width / 2),
-        y = coordinates.time.top + coordinates.time.height / 2 + (textSize.size.height / 2) - (config.padding / 3),
+        bottomLeft = Offset(
+            x = x - (textSize.size.width / 2),
+            y = coordinates.time.top + coordinates.time.height / 2 + (textSize.size.height / 2) - (config.padding / 3),
+        ),
         size = config.fontSize,
         paint = config.fontPaint,
     )

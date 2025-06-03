@@ -66,8 +66,10 @@ fun DrawScope.TimelineTable(
             // Label
             drawText(
                 text = property.name,
-                x = x + iconSize,
-                y = y + config.fontSize + config.padding - 2, // TODO: Remove magic offset
+                bottomLeft = Offset(
+                    x = x + iconSize,
+                    y = y + config.fontSize + config.padding - 2, // TODO: Remove magic offset
+                ),
                 size = config.fontSize,
                 paint = config.fontPaint,
             )
@@ -99,8 +101,10 @@ fun DrawScope.TimelineTable(
 
                 drawText(
                     text = text,
-                    x = valueX,
-                    y = valueY,
+                    bottomLeft = Offset(
+                        x = valueX,
+                        y = valueY,
+                    ),
                     size = config.fontSize,
                     paint = config.fontPaint,
                 )

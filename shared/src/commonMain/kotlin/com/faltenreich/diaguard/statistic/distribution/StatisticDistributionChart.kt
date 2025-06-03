@@ -18,8 +18,12 @@ import androidx.compose.ui.unit.center
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 import com.faltenreich.diaguard.shared.view.drawText
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 private const val ANGLE_CIRCULAR = 360f
+private const val LABEL_DISTANCE = .5f
 
 @Composable
 fun StatisticDistributionChart(
@@ -76,11 +80,21 @@ private fun DrawScope.drawValue(
         topLeft = topLeft,
         size = size,
     )
+
     val textSize = textMeasurer.measure(label)
+
+    val radius = size.width / 2
+    val centerX = topLeft.x + size.center.x
+    val centerY = topLeft.y + size.center.y
+    val textAngle = (startAngle + sweepAngle / 2) * (PI.toFloat() / (ANGLE_CIRCULAR / 2))
+
+    val x = (centerX + (radius * LABEL_DISTANCE * cos(textAngle.toDouble()))).toFloat()
+    val y = (centerY + (radius * LABEL_DISTANCE * sin(textAngle.toDouble()))).toFloat()
+
     drawText(
         text = label,
-        x = topLeft.x + size.center.x - textSize.size.center.x,
-        y = topLeft.y + size.center.y + textSize.size.center.y,
+        x = x - textSize.size.center.x,
+        y = y + textSize.size.center.y,
         size = fontSize,
         paint = fontPaint,
     )

@@ -5,10 +5,9 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.shared.localization.format
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.value_range_high
-import diaguard.shared.generated.resources.value_range_low
-import diaguard.shared.generated.resources.value_range_target
+import diaguard.shared.generated.resources.no_entries
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -53,29 +52,37 @@ class GetStatisticDistributionUseCase(
             val totalCount = lowCount + targetCount + highCount
             val parts = if (totalCount > 0) {
                 listOf(
-                    StatisticDistributionState.Part(
-                        label = localization.getString(Res.string.value_range_target),
-                        percentage = targetCount / totalCount,
-                        tint = MeasurementValueTint.NORMAL,
-                    ),
-                    StatisticDistributionState.Part(
-                        label = localization.getString(Res.string.value_range_low),
-                        percentage = lowCount / totalCount,
-                        tint = MeasurementValueTint.LOW,
-                    ),
-                    StatisticDistributionState.Part(
-                        label = localization.getString(Res.string.value_range_high),
-                        percentage = highCount / totalCount,
-                        tint = MeasurementValueTint.HIGH,
-                    ),
+                    getPart(lowCount, totalCount, MeasurementValueTint.LOW),
+                    getPart(targetCount, totalCount, MeasurementValueTint.NORMAL),
+                    getPart(highCount, totalCount, MeasurementValueTint.HIGH),
                 )
             } else {
-                emptyList()
+                listOf(
+                    StatisticDistributionState.Part(
+                        label = localization.getString(Res.string.no_entries),
+                        percentage = 1f,
+                        tint = MeasurementValueTint.NONE,
+                    )
+                )
             }
             StatisticDistributionState(
                 property = property,
                 parts = parts,
             )
         }
+    }
+
+    @Suppress("MagicNumber")
+    private fun getPart(
+        count: Float,
+        totalCount: Float,
+        tint: MeasurementValueTint,
+    ): StatisticDistributionState.Part {
+        val percentage = if (totalCount > 0f) count / totalCount else 1f
+        return StatisticDistributionState.Part(
+            label = "%.0f %%".format((percentage) * 100f),
+            percentage = percentage,
+            tint = tint,
+        )
     }
 }

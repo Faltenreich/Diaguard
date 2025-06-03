@@ -18,9 +18,6 @@ import androidx.compose.ui.unit.center
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 import com.faltenreich.diaguard.shared.view.drawText
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.no_entries
-import org.jetbrains.compose.resources.stringResource
 
 private const val ANGLE_CIRCULAR = 360f
 
@@ -33,10 +30,6 @@ fun StatisticDistributionChart(
     val textMeasurer = rememberTextMeasurer()
     val fontPaint = Paint().apply { color = colorScheme.onSurface }
     val fontSize = density.run { AppTheme.typography.bodyMedium.fontSize.toPx() }
-
-    val emptyLabel = stringResource(Res.string.no_entries)
-
-    val colorDefault = AppTheme.colors.scheme.surfaceContainerLow
     val colorByTint = MeasurementValueTint.entries.associateWith { it.getColor() }
 
     Canvas(modifier = modifier.fillMaxSize()) {
@@ -46,34 +39,20 @@ fun StatisticDistributionChart(
             y = 0f,
         )
         var startAngle = 0f
-        if (state.parts.isNotEmpty()) {
-            state.parts.forEach { part ->
-                val sweepAngle = part.percentage * ANGLE_CIRCULAR
-                drawValue(
-                    startAngle = startAngle,
-                    sweepAngle = sweepAngle,
-                    label = part.label,
-                    color = colorByTint[part.tint] ?: colorDefault,
-                    topLeft = chartTopLeft,
-                    size = chartSize,
-                    textMeasurer = textMeasurer,
-                    fontSize = fontSize,
-                    fontPaint = fontPaint,
-                )
-                startAngle += sweepAngle
-            }
-        } else {
+        state.parts.forEach { part ->
+            val sweepAngle = part.percentage * ANGLE_CIRCULAR
             drawValue(
                 startAngle = startAngle,
-                sweepAngle = ANGLE_CIRCULAR,
-                label = emptyLabel,
-                color = colorDefault,
+                sweepAngle = sweepAngle,
+                label = part.label,
+                color = colorByTint[part.tint] ?: Color.Transparent,
                 topLeft = chartTopLeft,
                 size = chartSize,
                 textMeasurer = textMeasurer,
                 fontSize = fontSize,
                 fontPaint = fontPaint,
             )
+            startAngle += sweepAngle
         }
     }
 }

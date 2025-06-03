@@ -14,7 +14,7 @@ enum class MeasurementValueTint {
     @Composable
     fun getColor(): Color {
         return when (this) {
-            NONE -> AppTheme.colors.scheme.onPrimary
+            NONE -> AppTheme.colors.scheme.surfaceContainerLow
             LOW -> AppTheme.colors.ValueLow
             NORMAL -> AppTheme.colors.ValueNormal
             HIGH -> AppTheme.colors.ValueHigh

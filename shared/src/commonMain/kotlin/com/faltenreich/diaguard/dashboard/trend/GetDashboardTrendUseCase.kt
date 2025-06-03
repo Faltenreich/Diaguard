@@ -24,8 +24,10 @@ class GetDashboardTrendUseCase(
             if (property != null) {
                 getStatisticTrend(
                     property = property,
-                    dateRange = today.minus(1, DateUnit.WEEK) .. today,
-                    type = StatisticDateRangeType.WEEK,
+                    dateRange = today
+                        .minus(1, DateUnit.WEEK)
+                        .plus(1, DateUnit.DAY) .. today,
+                    dateRangeType = StatisticDateRangeType.WEEK,
                 )
             } else {
                 emptyFlow()

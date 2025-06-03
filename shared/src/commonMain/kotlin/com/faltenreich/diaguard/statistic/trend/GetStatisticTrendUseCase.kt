@@ -1,8 +1,7 @@
 package com.faltenreich.diaguard.statistic.trend
 
-import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateRange
+import com.faltenreich.diaguard.datetime.DateRangeProgression
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
@@ -24,17 +23,24 @@ class GetStatisticTrendUseCase(
     operator fun invoke(
         property: MeasurementProperty.Local,
         dateRange: DateRange,
-        type: StatisticDateRangeType,
+        dateRangeType: StatisticDateRangeType,
     ): Flow<StatisticTrendState> {
         return combine(
-            DateProgression(dateRange.start, dateRange.endInclusive).map { date ->
-                observeAverage(property, date).map { date to it }
+            DateRangeProgression(
+                dateRange = dateRange,
+                intervalDateUnit = dateRangeType.intervalDateUnit,
+            ).map { intervalDateRange ->
+                observeAverage(property, intervalDateRange).map { intervalDateRange to it }
             }
-        ) { averagesByDate ->
-            averagesByDate.map { (date, average) ->
+        ) { averagesByInterval ->
+            averagesByInterval.map { (intervalDateRange, average) ->
                 StatisticTrendState.Interval(
-                    dateRange = date .. date,
-                    label = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true),
+                    dateRange = intervalDateRange,
+                    // TODO: Differentiate by StatisticDateRangeType
+                    label = dateTimeFormatter.formatDayOfWeek(
+                        date = intervalDateRange.start,
+                        abbreviated = true,
+                    ),
                     average = average?.let {
                         val value = MeasurementValue.Average(
                             value = average,
@@ -61,12 +67,12 @@ class GetStatisticTrendUseCase(
 
     private fun observeAverage(
         property: MeasurementProperty.Local,
-        date: Date,
+        dateRange: DateRange,
     ): Flow<Double?> {
         return valueRepository.observeAverageByPropertyId(
             propertyId = property.id,
-            minDateTime = date.atStartOfDay(),
-            maxDateTime = date.atEndOfDay(),
+            minDateTime = dateRange.start.atStartOfDay(),
+            maxDateTime = dateRange.endInclusive.atEndOfDay(),
         )
     }
 }

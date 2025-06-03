@@ -82,7 +82,7 @@ class StatisticViewModel(
                 categories,
                 properties,
                 getAverage(property, dateRange),
-                getTrend(property, dateRange),
+                getTrend(property, dateRange, dateRangeType.value),
                 getDistribution(property, dateRange),
             ) { categories, properties, average, trend, distribution ->
                 StatisticState(

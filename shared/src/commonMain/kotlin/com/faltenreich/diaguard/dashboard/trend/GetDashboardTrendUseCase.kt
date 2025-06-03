@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeType
 import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +25,7 @@ class GetDashboardTrendUseCase(
                 getStatisticTrend(
                     property = property,
                     dateRange = today.minus(1, DateUnit.WEEK) .. today,
+                    type = StatisticDateRangeType.WEEK,
                 )
             } else {
                 emptyFlow()

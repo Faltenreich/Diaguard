@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -30,8 +31,9 @@ fun StatisticDateRangeBar(
 ) {
     Row(
         modifier = modifier
-            .background(AppTheme.colors.scheme.surfaceContainerLow)
-            .height(AppTheme.dimensions.size.TouchSizeLarge),
+            .fillMaxWidth()
+            .height(AppTheme.dimensions.size.TouchSizeLarge)
+            .background(AppTheme.colors.scheme.surfaceContainerLow),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(

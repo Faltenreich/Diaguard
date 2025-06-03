@@ -36,11 +36,23 @@ class GetStatisticTrendUseCase(
             averagesByInterval.map { (intervalDateRange, average) ->
                 StatisticTrendState.Interval(
                     dateRange = intervalDateRange,
-                    // TODO: Differentiate by StatisticDateRangeType
-                    label = dateTimeFormatter.formatDayOfWeek(
-                        date = intervalDateRange.start,
-                        abbreviated = true,
-                    ),
+                    label = when (dateRangeType) {
+                        StatisticDateRangeType.WEEK -> dateTimeFormatter.formatDayOfWeek(
+                            date = intervalDateRange.start,
+                            abbreviated = true,
+                        )
+                        StatisticDateRangeType.MONTH -> dateTimeFormatter.formatWeek(
+                            date = intervalDateRange.start,
+                        )
+                        StatisticDateRangeType.QUARTER -> dateTimeFormatter.formatMonth(
+                            month = intervalDateRange.start.month,
+                            abbreviated = false,
+                        )
+                        StatisticDateRangeType.YEAR -> dateTimeFormatter.formatMonth(
+                            month = intervalDateRange.start.month,
+                            abbreviated = true,
+                        )
+                    },
                     average = average?.let {
                         val value = MeasurementValue.Average(
                             value = average,

@@ -26,7 +26,7 @@ enum class StatisticDateRangeType(
         labelResource = Res.string.quarter,
     ),
     YEAR(
-        intervalDateUnit = DateUnit.QUARTER,
+        intervalDateUnit = DateUnit.MONTH,
         labelResource = Res.string.year,
     ),
 }

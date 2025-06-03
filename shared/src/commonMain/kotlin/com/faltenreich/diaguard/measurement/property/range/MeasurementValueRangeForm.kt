@@ -25,18 +25,18 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.value_range_high
-import diaguard.shared.generated.resources.value_range_high_description
+import diaguard.shared.generated.resources.value_range_high_preference
+import diaguard.shared.generated.resources.value_range_high_preference_description
 import diaguard.shared.generated.resources.value_range_highlighted
 import diaguard.shared.generated.resources.value_range_highlighted_description
-import diaguard.shared.generated.resources.value_range_low
-import diaguard.shared.generated.resources.value_range_low_description
+import diaguard.shared.generated.resources.value_range_low_preference
+import diaguard.shared.generated.resources.value_range_low_preference_description
 import diaguard.shared.generated.resources.value_range_maximum
 import diaguard.shared.generated.resources.value_range_maximum_description
 import diaguard.shared.generated.resources.value_range_minimum
 import diaguard.shared.generated.resources.value_range_minimum_description
-import diaguard.shared.generated.resources.value_range_target
-import diaguard.shared.generated.resources.value_range_target_description
+import diaguard.shared.generated.resources.value_range_target_preference
+import diaguard.shared.generated.resources.value_range_target_preference_description
 
 @Composable
 fun MeasurementValueRangeForm(
@@ -115,7 +115,7 @@ fun MeasurementValueRangeForm(
                 low = input
                 onUpdate(state.copy(low = input))
             },
-            label = getString(Res.string.value_range_low),
+            label = getString(Res.string.value_range_low_preference),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -123,7 +123,7 @@ fun MeasurementValueRangeForm(
                     vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
-            supportingText = { Text(getString(Res.string.value_range_low_description)) },
+            supportingText = { Text(getString(Res.string.value_range_low_preference_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -139,7 +139,7 @@ fun MeasurementValueRangeForm(
                 target = input
                 onUpdate(state.copy(target = input))
             },
-            label = getString(Res.string.value_range_target),
+            label = getString(Res.string.value_range_target_preference),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -147,7 +147,7 @@ fun MeasurementValueRangeForm(
                     vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
-            supportingText = { Text(getString(Res.string.value_range_target_description)) },
+            supportingText = { Text(getString(Res.string.value_range_target_preference_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -163,7 +163,7 @@ fun MeasurementValueRangeForm(
                 high = input
                 onUpdate(state.copy(high = input))
             },
-            label = getString(Res.string.value_range_high),
+            label = getString(Res.string.value_range_high_preference),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -171,7 +171,7 @@ fun MeasurementValueRangeForm(
                     vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
-            supportingText = { Text(getString(Res.string.value_range_high_description)) },
+            supportingText = { Text(getString(Res.string.value_range_high_preference_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,

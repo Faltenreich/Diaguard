@@ -18,6 +18,7 @@ fun StatisticDistribution(
             .height(AppTheme.dimensions.size.StatisticTrendHeight)
             .padding(AppTheme.dimensions.padding.P_3),
     ) {
+        state ?: return
         StatisticDistributionChart(
             state = state,
             modifier = Modifier.fillMaxSize(),

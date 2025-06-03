@@ -15,12 +15,11 @@ private const val ANGLE_CIRCULAR = 360f
 
 @Composable
 fun StatisticDistributionChart(
-    state: StatisticDistributionState?,
+    state: StatisticDistributionState,
     modifier: Modifier = Modifier,
 ) {
     val colorDefault = AppTheme.colors.scheme.surfaceContainerLow
     val colorByTint = MeasurementValueTint.entries.associateWith { it.getColor() }
-    val parts = state?.parts ?: emptyList()
 
     Canvas(modifier = modifier.fillMaxSize()) {
         val chartSize = Size(size.height, size.height)
@@ -29,8 +28,8 @@ fun StatisticDistributionChart(
             y = 0f,
         )
         var startAngle = 0f
-        if (parts.isNotEmpty()) {
-            parts.forEach { part ->
+        if (state.parts.isNotEmpty()) {
+            state.parts.forEach { part ->
                 val sweepAngle = part.percentage * ANGLE_CIRCULAR
                 drawValue(
                     startAngle = startAngle,

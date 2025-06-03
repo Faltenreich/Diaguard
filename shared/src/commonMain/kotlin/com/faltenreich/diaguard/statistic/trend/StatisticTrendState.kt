@@ -1,15 +1,17 @@
 package com.faltenreich.diaguard.statistic.trend
 
+import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 
 data class StatisticTrendState(
-    val days: List<Day>,
+    val intervals: List<Interval>,
     val targetValue: Double,
     val maximumValue: Double,
 ) {
 
-    data class Day(
-        val date: String,
+    data class Interval(
+        val dateRange: DateRange,
+        val label: String,
         val average: Value?,
     )
 

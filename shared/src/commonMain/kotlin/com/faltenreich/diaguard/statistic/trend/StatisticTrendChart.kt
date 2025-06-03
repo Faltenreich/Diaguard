@@ -46,8 +46,8 @@ fun StatisticTrendChart(
     }
 
     Canvas(modifier = modifier.fillMaxSize()) {
-        val widthPerDay = size.width / days.size
-        days.forEachIndexed { index, day ->
+        val widthPerDay = size.width / intervals.size
+        intervals.forEachIndexed { index, day ->
             val x = index * widthPerDay
             val textSize = textMeasurer.measure("D")
             val textHeight = textSize.size.height.toFloat()
@@ -62,7 +62,7 @@ fun StatisticTrendChart(
                 ),
             )
             drawLabel(
-                day = day,
+                interval = day,
                 rectangle = labelRectangle,
                 fontSize = fontSize,
                 fontPaint = fontPaint,
@@ -98,13 +98,13 @@ fun StatisticTrendChart(
 }
 
 private fun DrawScope.drawLabel(
-    day: StatisticTrendState.Day,
+    interval: StatisticTrendState.Interval,
     rectangle: Rect,
     fontSize: Float,
     fontPaint: Paint,
     textMeasurer: TextMeasurer,
 ) {
-    val text = day.date
+    val text = interval.label
     val textSize = textMeasurer.measure(text).size
     drawText(
         text = text,

@@ -30,8 +30,9 @@ class GetStatisticTrendUseCase(
             }
         ) { averagesByDate ->
             averagesByDate.map { (date, average) ->
-                StatisticTrendState.Day(
-                    date = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true),
+                StatisticTrendState.Interval(
+                    dateRange = date .. date,
+                    label = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true),
                     average = average?.let {
                         val value = MeasurementValue.Average(
                             value = average,
@@ -49,7 +50,7 @@ class GetStatisticTrendUseCase(
             val maximumValue = days.mapNotNull { it.average?.value }.maxOrNull()
             val maximumValueDefault = targetValue * 2
             StatisticTrendState(
-                days = days,
+                intervals = days,
                 targetValue = targetValue,
                 maximumValue = max(maximumValue ?: maximumValueDefault, maximumValueDefault),
             )

@@ -36,7 +36,7 @@ class DashboardViewModelTest : TestSuite {
 
             assertTrue(state.hbA1c is DashboardHbA1cState.Unknown)
 
-            assertTrue(state.trend.days.isEmpty())
+            assertTrue(state.trend.intervals.isEmpty())
         }
     }
 

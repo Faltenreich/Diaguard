@@ -3,8 +3,7 @@ package com.faltenreich.diaguard.timeline
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,14 +32,10 @@ fun TimelineDateBar(
     Row(
         modifier = modifier
             .background(AppTheme.colors.scheme.surfaceContainerLow)
-            .height(AppTheme.dimensions.size.TouchSizeLarge),
+            .fillMaxWidth()
+            .padding(AppTheme.dimensions.padding.P_2),
     ) {
-        IconButton(
-            onClick = { onIntent(TimelineIntent.MoveDayBack) },
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(all = AppTheme.dimensions.padding.P_2),
-        ) {
+        IconButton(onClick = { onIntent(TimelineIntent.MoveDayBack) }) {
             Icon(
                 painter = painterResource(Res.drawable.ic_chevron_back),
                 contentDescription = stringResource(Res.string.day_previous),
@@ -53,14 +48,12 @@ fun TimelineDateBar(
         val onClickLabel = stringResource(Res.string.date_picker_open)
         TextButton(
             onClick = { onIntent(TimelineIntent.OpenDateDialog) },
-            modifier = Modifier
-                .fillMaxHeight()
-                .semantics {
-                    onClick(
-                        label = onClickLabel,
-                        action = { onIntent(TimelineIntent.OpenDateDialog); true },
-                    )
-                },
+            modifier = Modifier.semantics {
+                onClick(
+                    label = onClickLabel,
+                    action = { onIntent(TimelineIntent.OpenDateDialog); true },
+                )
+            },
         ) {
             Text(
                 text = label,
@@ -70,12 +63,7 @@ fun TimelineDateBar(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        IconButton(
-            onClick = { onIntent(TimelineIntent.MoveDayForward) },
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(all = AppTheme.dimensions.padding.P_2),
-        ) {
+        IconButton(onClick = { onIntent(TimelineIntent.MoveDayForward) }) {
             Icon(
                 painter = painterResource(Res.drawable.ic_chevron_forward),
                 contentDescription = stringResource(Res.string.day_next),

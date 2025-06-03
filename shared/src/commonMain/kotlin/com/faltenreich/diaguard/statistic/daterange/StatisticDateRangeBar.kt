@@ -3,9 +3,7 @@ package com.faltenreich.diaguard.statistic.daterange
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,17 +29,12 @@ fun StatisticDateRangeBar(
 ) {
     Row(
         modifier = modifier
+            .background(AppTheme.colors.scheme.surfaceContainerLow)
             .fillMaxWidth()
-            .height(AppTheme.dimensions.size.TouchSizeLarge)
-            .background(AppTheme.colors.scheme.surfaceContainerLow),
+            .padding(AppTheme.dimensions.padding.P_2),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        IconButton(
-            onClick = { onIntent(StatisticIntent.MoveDateRangeBack) },
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(all = AppTheme.dimensions.padding.P_2),
-        ) {
+        IconButton(onClick = { onIntent(StatisticIntent.MoveDateRangeBack) }) {
             Icon(
                 painter = painterResource(Res.drawable.ic_chevron_back),
                 contentDescription = stringResource(Res.string.day_previous),
@@ -60,12 +53,7 @@ fun StatisticDateRangeBar(
             )
         }
 
-        IconButton(
-            onClick = { onIntent(StatisticIntent.MoveDateRangeForward) },
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(all = AppTheme.dimensions.padding.P_2),
-        ) {
+        IconButton(onClick = { onIntent(StatisticIntent.MoveDateRangeForward) }) {
             Icon(
                 painter = painterResource(Res.drawable.ic_chevron_forward),
                 contentDescription = stringResource(Res.string.day_next),

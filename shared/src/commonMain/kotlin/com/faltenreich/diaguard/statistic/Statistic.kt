@@ -47,7 +47,6 @@ fun Statistic(
             TextDivider(getString(Res.string.distribution))
             StatisticDistribution(state.distribution)
         }
-        Divider()
         StatisticDateRangeBar(state.dateRange, onIntent = viewModel::dispatchIntent)
     }
 }

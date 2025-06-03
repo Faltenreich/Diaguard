@@ -21,8 +21,7 @@ fun StatisticTrend(
         state ?: return
         StatisticTrendChart(
             state = state,
-            modifier = modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

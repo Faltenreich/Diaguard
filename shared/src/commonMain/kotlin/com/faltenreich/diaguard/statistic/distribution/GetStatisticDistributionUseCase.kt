@@ -51,7 +51,7 @@ class GetStatisticDistributionUseCase(
         ) { lowCount, targetCount, highCount ->
             val totalCount = lowCount + targetCount + highCount
             val parts = if (totalCount > 0) {
-                listOf(
+                listOfNotNull(
                     getPart(lowCount, totalCount, MeasurementValueTint.LOW),
                     getPart(targetCount, totalCount, MeasurementValueTint.NORMAL),
                     getPart(highCount, totalCount, MeasurementValueTint.HIGH),
@@ -77,7 +77,8 @@ class GetStatisticDistributionUseCase(
         count: Float,
         totalCount: Float,
         tint: MeasurementValueTint,
-    ): StatisticDistributionState.Part {
+    ): StatisticDistributionState.Part? {
+        if (count == 0f) return null
         val percentage = if (totalCount > 0f) count / totalCount else 1f
         return StatisticDistributionState.Part(
             label = "%.0f %%".format((percentage) * 100f),

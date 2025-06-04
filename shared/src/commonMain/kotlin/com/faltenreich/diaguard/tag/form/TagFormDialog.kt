@@ -27,9 +27,8 @@ fun TagFormDialog(
     onConfirmRequest: (name: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val focusRequester = rememberFocusRequester(requestFocus = true)
-
     var name by remember { mutableStateOf("") }
+    val focusRequester = rememberFocusRequester(requestFocus = true)
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -51,10 +50,11 @@ fun TagFormDialog(
         text = {
             TextInput(
                 input = name,
-                // TODO: Reset error
                 onInputChange = { input -> name = input },
                 label = getString(Res.string.name),
-                modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
                 supportingText = error?.let { error -> { Text(error) } },
                 isError = error != null,
             )

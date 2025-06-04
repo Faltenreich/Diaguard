@@ -70,6 +70,8 @@ private fun DrawScope.drawValue(
     textPaint: Paint,
     textMeasurer: TextMeasurer,
 ) {
+    val radius = rectangle.size.center.x
+
     drawArc(
         color = color,
         startAngle = startAngle,
@@ -79,16 +81,19 @@ private fun DrawScope.drawValue(
         size = rectangle.size,
     )
 
-    val textLayoutSize = textMeasurer.measure(text, style = TextStyle(fontSize = textSize)).size
     val textAngle = (startAngle + sweepAngle / 2) * (PI.toFloat() / (ANGLE_CIRCULAR / 2))
-    val radius = rectangle.size.center.x
-
-    val x = rectangle.center.x + (radius * LABEL_DISTANCE * cos(textAngle)) - textLayoutSize.center.x
-    val y = rectangle.center.y + (radius * LABEL_DISTANCE * sin(textAngle)) + textLayoutSize.center.y
+    val textCenter = textMeasurer.measure(text, style = TextStyle(fontSize = textSize)).size.center
+    val textOffset = if (sweepAngle == ANGLE_CIRCULAR) Offset(
+        x = rectangle.center.x - textCenter.x,
+        y = rectangle.center.y + textCenter.y,
+    ) else Offset(
+        x = rectangle.center.x + (radius * LABEL_DISTANCE * cos(textAngle)) - textCenter.x,
+        y = rectangle.center.y + (radius * LABEL_DISTANCE * sin(textAngle)) + textCenter.y,
+    )
 
     drawText(
         text = text,
-        bottomLeft = Offset(x, y),
+        bottomLeft = textOffset,
         size = textSize.toPx(),
         paint = textPaint,
     )

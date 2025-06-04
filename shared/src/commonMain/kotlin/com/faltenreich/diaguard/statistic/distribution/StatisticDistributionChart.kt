@@ -6,14 +6,16 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.center
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
@@ -30,31 +32,28 @@ fun StatisticDistributionChart(
     state: StatisticDistributionState,
     modifier: Modifier = Modifier,
 ) {
-    val density = LocalDensity.current
     val textMeasurer = rememberTextMeasurer()
+    val fontSize = AppTheme.typography.bodyMedium.fontSize
     val fontPaint = Paint().apply { color = colorScheme.onSurface }
-    val fontSize = density.run { AppTheme.typography.bodyMedium.fontSize.toPx() }
     val colorByTint = MeasurementValueTint.entries.associateWith { it.getColor() }
 
     Canvas(modifier = modifier.fillMaxSize()) {
-        val chartSize = Size(size.height, size.height)
-        val chartTopLeft = Offset(
-            x = center.x - chartSize.width / 2,
-            y = 0f,
-        )
         var startAngle = 0f
         state.parts.forEach { part ->
             val sweepAngle = part.percentage * ANGLE_CIRCULAR
+            val size = Size(size.height, size.height)
             drawValue(
+                rectangle = Rect(
+                    offset = Offset(x = center.x - size.center.x, y = 0f),
+                    size = size,
+                ),
                 startAngle = startAngle,
                 sweepAngle = sweepAngle,
-                label = part.label,
                 color = colorByTint[part.tint] ?: Color.Transparent,
-                topLeft = chartTopLeft,
-                size = chartSize,
+                text = part.label,
+                textSize = fontSize,
+                textPaint = fontPaint,
                 textMeasurer = textMeasurer,
-                fontSize = fontSize,
-                fontPaint = fontPaint,
             )
             startAngle += sweepAngle
         }
@@ -62,42 +61,35 @@ fun StatisticDistributionChart(
 }
 
 private fun DrawScope.drawValue(
+    rectangle: Rect,
     startAngle: Float,
     sweepAngle: Float,
-    label: String,
     color: Color,
-    topLeft: Offset,
-    size: Size,
+    text: String,
+    textSize: TextUnit,
+    textPaint: Paint,
     textMeasurer: TextMeasurer,
-    fontSize: Float,
-    fontPaint: Paint,
 ) {
     drawArc(
         color = color,
         startAngle = startAngle,
         sweepAngle = sweepAngle,
         useCenter = true,
-        topLeft = topLeft,
-        size = size,
+        topLeft = rectangle.topLeft,
+        size = rectangle.size,
     )
 
-    val textSize = textMeasurer.measure(label)
-
-    val radius = size.width / 2
-    val centerX = topLeft.x + size.center.x
-    val centerY = topLeft.y + size.center.y
+    val textLayoutSize = textMeasurer.measure(text, style = TextStyle(fontSize = textSize)).size
     val textAngle = (startAngle + sweepAngle / 2) * (PI.toFloat() / (ANGLE_CIRCULAR / 2))
+    val radius = rectangle.size.center.x
 
-    val x = (centerX + (radius * LABEL_DISTANCE * cos(textAngle.toDouble()))).toFloat()
-    val y = (centerY + (radius * LABEL_DISTANCE * sin(textAngle.toDouble()))).toFloat()
+    val x = rectangle.center.x + (radius * LABEL_DISTANCE * cos(textAngle)) - textLayoutSize.center.x
+    val y = rectangle.center.y + (radius * LABEL_DISTANCE * sin(textAngle)) + textLayoutSize.center.y
 
     drawText(
-        text = label,
-        bottomLeft = Offset(
-            x = x - textSize.size.center.x,
-            y = y + textSize.size.center.y,
-        ),
-        size = fontSize,
-        paint = fontPaint,
+        text = text,
+        bottomLeft = Offset(x, y),
+        size = textSize.toPx(),
+        paint = textPaint,
     )
 }

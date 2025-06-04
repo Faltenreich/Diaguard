@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.statistic.average.StatisticAverage
 import com.faltenreich.diaguard.statistic.category.StatisticCategory
-import com.faltenreich.diaguard.statistic.daterange.StatisticDateRange
+import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeButton
 import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeBar
 import com.faltenreich.diaguard.statistic.distribution.StatisticDistribution
 import com.faltenreich.diaguard.statistic.property.StatisticProperty
@@ -33,7 +33,7 @@ fun Statistic(
                 .weight(1f)
                 .verticalScroll(rememberScrollState()),
         ) {
-            StatisticDateRange(state.dateRange, onIntent = viewModel::dispatchIntent)
+            StatisticDateRangeButton(state.dateRange, onIntent = viewModel::dispatchIntent)
             Divider()
             StatisticCategory(state.category, onIntent = viewModel::dispatchIntent)
             StatisticProperty(state.property, onIntent = viewModel::dispatchIntent)

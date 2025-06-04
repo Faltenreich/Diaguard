@@ -20,7 +20,7 @@ import diaguard.shared.generated.resources.ic_time
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun StatisticDateRange(
+fun StatisticDateRangeButton(
     state: StatisticDateRangeState,
     onIntent: (StatisticIntent) -> Unit,
     modifier: Modifier = Modifier,

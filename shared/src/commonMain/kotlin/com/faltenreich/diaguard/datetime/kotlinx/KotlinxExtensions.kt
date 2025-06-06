@@ -5,6 +5,9 @@ import com.faltenreich.diaguard.datetime.DayOfWeek
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek as KotlinxDayOfWeek
 
+// Workaround for 'when' is exhaustive so 'else' is redundant here.
+//  https://youtrack.jetbrains.com/issue/KT-72745/KMP-false-positive-when-expression-must-be-exhaustive-with-expect-actual-sealed-classes
+@Suppress("REDUNDANT_ELSE_IN_WHEN", "KotlinRedundantDiagnosticSuppress")
 fun KotlinxDayOfWeek.toDomain(): DayOfWeek {
     return when (this) {
         KotlinxDayOfWeek.MONDAY -> DayOfWeek.MONDAY
@@ -14,7 +17,7 @@ fun KotlinxDayOfWeek.toDomain(): DayOfWeek {
         KotlinxDayOfWeek.FRIDAY -> DayOfWeek.FRIDAY
         KotlinxDayOfWeek.SATURDAY -> DayOfWeek.SATURDAY
         KotlinxDayOfWeek.SUNDAY -> DayOfWeek.SUNDAY
-        else -> throw IllegalArgumentException("Unknown DayOfWeek: $this")
+        else -> error("Unknown DayOfWeek: $this")
     }
 }
 

@@ -6,7 +6,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,7 +42,7 @@ fun EntryTagInput(
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
             modifier = modifier
                 .fillMaxWidth()
-                .menuAnchor(type = MenuAnchorType.PrimaryEditable),
+                .menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryEditable),
             maxLines = 1,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send ),
             keyboardActions = KeyboardActions(

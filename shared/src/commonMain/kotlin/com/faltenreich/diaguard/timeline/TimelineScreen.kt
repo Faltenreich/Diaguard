@@ -25,6 +25,7 @@ data object TimelineScreen : Screen {
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
         val viewModel = viewModel<TimelineViewModel>()
+        // TODO: Colorize in MainView
         val isDarkMode = viewModel.collectState()?.colorScheme.isDark()
         val statusBarStyle = if (isDarkMode) StatusBarStyle.Dark else StatusBarStyle.Light
         return TopAppBarStyle.Hidden(statusBarStyle = statusBarStyle)

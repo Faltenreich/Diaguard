@@ -5,7 +5,6 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun timelineModule() = module {
-    factoryOf(::GetMeasurementValuesAroundDateUseCase)
     factoryOf(::GetTimelineDataUseCase)
     factoryOf(::FormatTimelineDateUseCase)
 

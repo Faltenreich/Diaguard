@@ -5,14 +5,11 @@ import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -20,9 +17,7 @@ import kotlinx.coroutines.flow.update
 class TimelineViewModel(
     getToday: GetTodayUseCase,
     formatDate: FormatTimelineDateUseCase,
-    getCategories: GetActiveMeasurementCategoriesUseCase,
     getPreference: GetPreferenceUseCase,
-    getValues: GetMeasurementValuesAroundDateUseCase,
     getData: GetTimelineDataUseCase,
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
@@ -30,10 +25,7 @@ class TimelineViewModel(
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
     private val dateDialog = MutableStateFlow<TimelineState.DateDialog?>(null)
-    private val categories = getCategories()
-    private val values = currentDate.flatMapLatest(getValues::invoke)
-    private val decimalPlaces = getPreference(DecimalPlacesPreference)
-    private val data = combine(categories, values, decimalPlaces, getData::invoke)
+    private val data = currentDate.flatMapLatest(getData::invoke)
 
     override val state = com.faltenreich.diaguard.shared.architecture.combine(
         initialDate,

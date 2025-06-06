@@ -78,21 +78,21 @@ fun OverviewPreferenceList(
         item {
             PreferenceActionListItem(
                 title = stringResource(Res.string.color_scheme),
-                subtitle = stringResource(state.colorScheme.labelResource),
+                subtitle = stringResource(state.colorScheme.selection.labelResource),
                 onClick = { showColorSchemeForm = true },
             )
         }
         item {
             PreferenceActionListItem(
                 title = stringResource(Res.string.start_screen),
-                subtitle = stringResource(state.startScreen.labelResource),
+                subtitle = stringResource(state.startScreen.selection.labelResource),
                 onClick = { showStartScreenForm = true },
             )
         }
         item {
             PreferenceActionListItem(
                 title = stringResource(Res.string.decimal_places),
-                subtitle = state.decimalPlaces.decimalPlaces.toString(),
+                subtitle = state.decimalPlaces.selection.toString(),
                 onClick = { showDecimalPlacesForm = true },
             )
         }
@@ -253,8 +253,8 @@ fun OverviewPreferenceList(
     if (showColorSchemeForm) {
         ModalBottomSheet(onDismissRequest = { showColorSchemeForm = false }) {
             ColorSchemeForm(
-                selection = state.colorScheme,
-                onSelect = { viewModel.dispatchIntent(OverviewPreferenceListIntent.SetColorScheme(it)) },
+                state = state.colorScheme,
+                onChange = { viewModel.dispatchIntent(OverviewPreferenceListIntent.SetColorScheme(it)) },
             )
         }
     }
@@ -262,8 +262,8 @@ fun OverviewPreferenceList(
     if (showStartScreenForm) {
         ModalBottomSheet(onDismissRequest = { showStartScreenForm = false }) {
             StartScreenForm(
-                selection = state.startScreen,
-                onSelect = { viewModel.dispatchIntent(OverviewPreferenceListIntent.SetStartScreen(it)) },
+                state = state.startScreen,
+                onChange = { viewModel.dispatchIntent(OverviewPreferenceListIntent.SetStartScreen(it)) },
             )
         }
     }

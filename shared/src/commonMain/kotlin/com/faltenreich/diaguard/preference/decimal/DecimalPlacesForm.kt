@@ -62,32 +62,32 @@ fun DecimalPlacesForm(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
-                onClick = { onChange(state.decimalPlaces - 1) },
+                onClick = { onChange(state.selection - 1) },
                 enabled = state.enableDecreaseButton,
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_remove),
                     contentDescription = stringResource(
                         Res.string.decimal_places_update,
-                        state.decimalPlaces - 1,
+                        state.selection - 1,
                     ),
                 )
             }
 
             Text(
-                text = state.decimalPlaces.toString(),
+                text = state.selection.toString(),
                 color = AppTheme.colors.scheme.onSurface,
             )
 
             IconButton(
-                onClick = { onChange(state.decimalPlaces + 1) },
+                onClick = { onChange(state.selection + 1) },
                 enabled = state.enableIncreaseButton,
             ) {
                 Icon(
                     imageVector = vectorResource(Res.drawable.ic_add),
                     contentDescription = stringResource(
                         Res.string.decimal_places_update,
-                        state.decimalPlaces + 1,
+                        state.selection + 1,
                     ),
                 )
             }

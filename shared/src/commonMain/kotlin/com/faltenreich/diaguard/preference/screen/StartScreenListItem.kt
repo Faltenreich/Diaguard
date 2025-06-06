@@ -19,14 +19,15 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun StartScreenListItem(
     startScreen: StartScreen,
-    selection: StartScreen,
-    onClick: (StartScreen) -> Unit,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .selectable(
-                selected = selection == startScreen,
-                onClick = { onClick(startScreen) },
+                selected = isSelected,
+                onClick = onClick,
                 role = Role.RadioButton,
             )
             .padding(all = AppTheme.dimensions.padding.P_3_5),
@@ -43,7 +44,7 @@ fun StartScreenListItem(
             modifier = Modifier.weight(1f),
         )
         RadioButton(
-            selected = selection == startScreen,
+            selected = isSelected,
             onClick = null,
         )
     }

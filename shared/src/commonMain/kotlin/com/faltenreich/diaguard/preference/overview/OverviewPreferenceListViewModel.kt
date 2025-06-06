@@ -32,6 +32,7 @@ class OverviewPreferenceListViewModel(
     override suspend fun handleIntent(intent: OverviewPreferenceListIntent) = with(intent) {
         when (this) {
             is OverviewPreferenceListIntent.SetColorScheme -> setPreference(ColorSchemePreference, colorScheme)
+            is OverviewPreferenceListIntent.SetStartScreen -> setPreference(StartScreenPreference, startScreen)
             is OverviewPreferenceListIntent.PushScreen -> pushScreen(screen)
             is OverviewPreferenceListIntent.OpenUrl -> openUrl(url)
             is OverviewPreferenceListIntent.OpenNotificationSettings -> openNotificationSettings()

@@ -251,8 +251,6 @@ fun OverviewPreferenceList(
         }
     }
 
-    // TODO: Migrate ViewModels into OverviewPreferenceListViewModel
-
     if (showColorSchemeForm) {
         ModalBottomSheet(onDismissRequest = { showColorSchemeForm = false }) {
             ColorSchemeForm(
@@ -264,7 +262,10 @@ fun OverviewPreferenceList(
 
     if (showStartScreenForm) {
         ModalBottomSheet(onDismissRequest = { showStartScreenForm = false }) {
-            StartScreenForm(viewModel = viewModel())
+            StartScreenForm(
+                selection = state.startScreen,
+                onSelect = { viewModel.dispatchIntent(OverviewPreferenceListIntent.SetStartScreen(it)) },
+            )
         }
     }
 

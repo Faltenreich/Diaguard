@@ -16,11 +16,10 @@ import diaguard.shared.generated.resources.start_screen
 
 @Composable
 fun StartScreenForm(
-    viewModel: StartScreenFormViewModel,
+    selection: StartScreen,
+    onSelect: (StartScreen) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
-
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -36,8 +35,8 @@ fun StartScreenForm(
             StartScreen.entries.forEach { startScreen ->
                 StartScreenListItem(
                     startScreen = startScreen,
-                    selection = state.selection,
-                    onClick = { viewModel.dispatchIntent(StartScreenFormIntent.Select(it)) },
+                    isSelected = selection == startScreen,
+                    onClick = { onSelect(startScreen) },
                 )
             }
         }

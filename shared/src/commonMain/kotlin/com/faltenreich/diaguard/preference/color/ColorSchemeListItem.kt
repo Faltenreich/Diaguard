@@ -15,15 +15,15 @@ import com.faltenreich.diaguard.shared.localization.getString
 @Composable
 fun ColorSchemeListItem(
     colorScheme: ColorScheme,
-    selection: ColorScheme,
-    onClick: (ColorScheme) -> Unit,
+    isSelected: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .selectable(
-                selected = selection == colorScheme,
-                onClick = { onClick(colorScheme) },
+                selected = isSelected,
+                onClick = onClick,
                 role = Role.RadioButton,
             )
             .padding(all = AppTheme.dimensions.padding.P_3_5),
@@ -34,7 +34,7 @@ fun ColorSchemeListItem(
             modifier = Modifier.weight(1f),
         )
         RadioButton(
-            selected = selection == colorScheme,
+            selected = isSelected,
             onClick = null,
         )
     }

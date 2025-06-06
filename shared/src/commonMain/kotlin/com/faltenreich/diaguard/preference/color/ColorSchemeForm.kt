@@ -16,11 +16,10 @@ import diaguard.shared.generated.resources.color_scheme
 
 @Composable
 fun ColorSchemeForm(
-    viewModel: ColorSchemeFormViewModel,
+    selection: ColorScheme,
+    onSelect: (ColorScheme) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
-
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -33,21 +32,13 @@ fun ColorSchemeForm(
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_2))
 
         Column(modifier = Modifier.selectableGroup()) {
-            ColorSchemeListItem(
-                colorScheme = ColorScheme.SYSTEM,
-                selection = state.selection,
-                onClick = { viewModel.dispatchIntent(ColorSchemeFormIntent.Select(it)) },
-            )
-            ColorSchemeListItem(
-                colorScheme = ColorScheme.LIGHT,
-                selection = state.selection,
-                onClick = { viewModel.dispatchIntent(ColorSchemeFormIntent.Select(it)) },
-            )
-            ColorSchemeListItem(
-                colorScheme = ColorScheme.DARK,
-                selection = state.selection,
-                onClick = { viewModel.dispatchIntent(ColorSchemeFormIntent.Select(it)) },
-            )
+            ColorScheme.entries.forEach { colorScheme ->
+                ColorSchemeListItem(
+                    colorScheme = colorScheme,
+                    isSelected = selection == colorScheme,
+                    onClick = { onSelect(colorScheme) },
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))

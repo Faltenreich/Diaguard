@@ -255,7 +255,10 @@ fun OverviewPreferenceList(
 
     if (showColorSchemeForm) {
         ModalBottomSheet(onDismissRequest = { showColorSchemeForm = false }) {
-            ColorSchemeForm(viewModel = viewModel())
+            ColorSchemeForm(
+                selection = state.colorScheme,
+                onSelect = { viewModel.dispatchIntent(OverviewPreferenceListIntent.SetColorScheme(it)) },
+            )
         }
     }
 

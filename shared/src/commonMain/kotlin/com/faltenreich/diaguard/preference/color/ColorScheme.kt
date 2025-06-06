@@ -12,6 +12,7 @@ enum class ColorScheme(
     val stableId: Int,
     val labelResource: StringResource,
 ) {
+
     SYSTEM(
         stableId = 0,
         labelResource = Res.string.color_scheme_system,

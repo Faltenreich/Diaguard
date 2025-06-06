@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.preference
 
-import com.faltenreich.diaguard.preference.color.ColorSchemeFormViewModel
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormViewModel
 import com.faltenreich.diaguard.preference.decimal.IllustrateDecimalPlacesUseCase
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListViewModel
@@ -24,8 +23,6 @@ fun preferenceModule() = module {
     factoryOf(::GetPreferenceUseCase)
     factoryOf(::SetPreferenceUseCase)
     factoryOf(::GetAppVersionUseCase)
-
-    viewModelOf(::ColorSchemeFormViewModel)
 
     viewModelOf(::StartScreenFormViewModel)
 

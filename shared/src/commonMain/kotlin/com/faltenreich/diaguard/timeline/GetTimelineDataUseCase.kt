@@ -2,7 +2,9 @@ package com.faltenreich.diaguard.timeline
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
-import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
@@ -12,26 +14,31 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 
 class GetTimelineDataUseCase(
-    private val valueRepository: MeasurementValueRepository,
+    private val categoryRepository: MeasurementCategoryRepository,
     private val propertyRepository: MeasurementPropertyRepository,
-    private val getActiveCategories: GetActiveMeasurementCategoriesUseCase,
+    private val valueRepository: MeasurementValueRepository,
     private val getPreference: GetPreferenceUseCase,
     private val mapValue: MeasurementValueMapper,
 ) {
 
     operator fun invoke(date: Date): Flow<TimelineData> {
         return combine(
-            getActiveCategories(),
+            getActiveCategoriesWithProperties(),
             getPreference(DecimalPlacesPreference),
             valueRepository.observeByDateRange(
                 startDateTime = date.minus(2, DateUnit.DAY).atStartOfDay(),
                 endDateTime = date.plus(2, DateUnit.DAY).atEndOfDay(),
             ),
-        ) { categories, decimalPlaces, values ->
-            val properties = propertyRepository.getAll()
-            val bloodSugarProperty = properties.first { it.key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR }
+        ) { categoriesWithProperties, decimalPlaces, values ->
+            val categories = categoriesWithProperties.keys
+            val properties = categoriesWithProperties.values.flatten()
+            val bloodSugarProperty = properties.first {
+                it.key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR
+            }
             val valuesForChart = values
                 .filter { value -> value.property.category.isBloodSugar }
                 .map { value ->
@@ -41,6 +48,7 @@ class GetTimelineDataUseCase(
                     )
                 }
             val valuesForTable = values.filterNot { value -> value.property.category.isBloodSugar }
+
             TimelineData(
                 chart = TimelineData.Chart(
                     valueLow = bloodSugarProperty.range.low,
@@ -62,7 +70,8 @@ class GetTimelineDataUseCase(
                                             .filter { it.property == property }
                                             .groupBy { value ->
                                                 val hour = value.entry.dateTime.time.hourOfDay
-                                                val hourNormalized = hour - (hour % TimelineConfig.STEP)
+                                                val hourNormalized =
+                                                    hour - (hour % TimelineConfig.STEP)
                                                 value.entry.dateTime.copy(
                                                     hourOfDay = hourNormalized,
                                                     minuteOfHour = 0,
@@ -92,6 +101,20 @@ class GetTimelineDataUseCase(
                             )
                         },
                 )
+            )
+        }
+    }
+
+    private fun getActiveCategoriesWithProperties():
+        Flow<Map<MeasurementCategory.Local, List<MeasurementProperty.Local>>> {
+        return categoryRepository.observeActive().flatMapLatest { categories ->
+            combine(
+                categories.map { category ->
+                    propertyRepository.observeByCategoryId(category.id).map { properties ->
+                        category to properties
+                    }
+                },
+                Array<Pair<MeasurementCategory.Local, List<MeasurementProperty.Local>>>::toMap,
             )
         }
     }

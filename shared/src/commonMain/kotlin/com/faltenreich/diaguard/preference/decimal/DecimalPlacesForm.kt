@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListState
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.decimal_places
@@ -28,11 +29,10 @@ import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun DecimalPlacesForm(
-    viewModel: DecimalPlacesFormViewModel,
+    state: OverviewPreferenceListState.DecimalPlaces,
+    onChange: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -62,10 +62,7 @@ fun DecimalPlacesForm(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
-                onClick = {
-                    val decimalPlaces = state.decimalPlaces - 1
-                    viewModel.dispatchIntent(DecimalPlacesFormIntent.Update(decimalPlaces))
-                },
+                onClick = { onChange(state.decimalPlaces - 1) },
                 enabled = state.enableDecreaseButton,
             ) {
                 Icon(
@@ -83,10 +80,7 @@ fun DecimalPlacesForm(
             )
 
             IconButton(
-                onClick = {
-                    val decimalPlaces = state.decimalPlaces + 1
-                    viewModel.dispatchIntent(DecimalPlacesFormIntent.Update(decimalPlaces))
-                },
+                onClick = { onChange(state.decimalPlaces + 1) },
                 enabled = state.enableIncreaseButton,
             ) {
                 Icon(

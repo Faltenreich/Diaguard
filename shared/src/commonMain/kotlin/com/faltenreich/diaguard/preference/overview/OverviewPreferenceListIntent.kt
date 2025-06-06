@@ -10,6 +10,8 @@ sealed interface OverviewPreferenceListIntent {
 
     data class SetStartScreen(val startScreen: StartScreen) : OverviewPreferenceListIntent
 
+    data class SetDecimalPlaces(val decimalPlaces: Int) : OverviewPreferenceListIntent
+
     data class PushScreen(val screen: Screen) : OverviewPreferenceListIntent
 
     data class OpenUrl(val url: String) : OverviewPreferenceListIntent

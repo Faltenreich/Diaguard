@@ -21,7 +21,6 @@ import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceActionListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
 import com.faltenreich.diaguard.preference.screen.StartScreenForm
-import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.about
@@ -93,7 +92,7 @@ fun OverviewPreferenceList(
         item {
             PreferenceActionListItem(
                 title = stringResource(Res.string.decimal_places),
-                subtitle = state.decimalPlaces.toString(),
+                subtitle = state.decimalPlaces.decimalPlaces.toString(),
                 onClick = { showDecimalPlacesForm = true },
             )
         }
@@ -271,7 +270,10 @@ fun OverviewPreferenceList(
 
     if (showDecimalPlacesForm) {
         ModalBottomSheet(onDismissRequest = { showDecimalPlacesForm = false }) {
-            DecimalPlacesForm(viewModel = viewModel())
+            DecimalPlacesForm(
+                state = state.decimalPlaces,
+                onChange = { viewModel.dispatchIntent(OverviewPreferenceListIntent.SetDecimalPlaces(it)) },
+            )
         }
     }
 }

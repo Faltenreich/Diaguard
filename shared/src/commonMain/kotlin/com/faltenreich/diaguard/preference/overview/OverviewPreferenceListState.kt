@@ -6,6 +6,14 @@ import com.faltenreich.diaguard.preference.screen.StartScreen
 data class OverviewPreferenceListState(
     val colorScheme: ColorScheme,
     val startScreen: StartScreen,
-    val decimalPlaces: Int,
+    val decimalPlaces: DecimalPlaces,
     val appVersion: String,
-)
+) {
+
+    data class DecimalPlaces(
+        val decimalPlaces: Int,
+        val illustration: String,
+        val enableDecreaseButton: Boolean,
+        val enableIncreaseButton: Boolean,
+    )
+}

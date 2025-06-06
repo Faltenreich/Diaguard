@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.preference
 
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesFormViewModel
 import com.faltenreich.diaguard.preference.decimal.IllustrateDecimalPlacesUseCase
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListViewModel
 import com.faltenreich.diaguard.preference.license.GetLicensesUseCase
@@ -22,9 +21,7 @@ fun preferenceModule() = module {
     factoryOf(::GetPreferenceUseCase)
     factoryOf(::SetPreferenceUseCase)
     factoryOf(::GetAppVersionUseCase)
-
     factoryOf(::IllustrateDecimalPlacesUseCase)
-    viewModelOf(::DecimalPlacesFormViewModel)
 
     // TODO: Update automatically via command-line
     //  ./gradlew exportLibraryDefinitions -PexportPath=src/commonMain/composeResources/files/

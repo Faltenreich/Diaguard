@@ -1,10 +1,11 @@
 package com.faltenreich.diaguard.timeline
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 
 class GetTimelineDataUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
@@ -16,6 +17,8 @@ class GetTimelineDataUseCase(
         values: List<MeasurementValue.Local>,
         decimalPlaces: Int,
     ): TimelineData {
+        val properties = propertyRepository.getAll()
+        val bloodSugarProperty = properties.first { it.key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR }
         val valuesForChart = values
             .filter { value -> value.property.category.isBloodSugar }
             .map { value ->
@@ -25,9 +28,13 @@ class GetTimelineDataUseCase(
                 )
             }
         val valuesForTable = values.filterNot { value -> value.property.category.isBloodSugar }
-        val properties = propertyRepository.getAll()
         return TimelineData(
-            chart = TimelineData.Chart(valuesForChart),
+            chart = TimelineData.Chart(
+                // TODO: Map to MeasurementValueForUser
+                thresholdLow = bloodSugarProperty.range.low?.toInt(),
+                thresholdHigh = bloodSugarProperty.range.high?.toInt(),
+                values = valuesForChart,
+            ),
             table = TimelineData.Table(
                 categories = categories
                     .filterNot { it.isBloodSugar }

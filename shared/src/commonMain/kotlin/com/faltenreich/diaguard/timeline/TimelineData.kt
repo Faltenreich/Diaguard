@@ -8,6 +8,8 @@ data class TimelineData(
 ) {
 
     data class Chart(
+        val thresholdLow: Int?,
+        val thresholdHigh: Int?,
         val values: List<Value>,
     ) {
 

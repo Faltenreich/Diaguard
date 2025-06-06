@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.timeline.canvas
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.datetime.Date
@@ -40,13 +41,23 @@ fun DrawScope.TimelineChart(
         Offset(x, y)
     }
 
+    val colorStops = mutableListOf<Pair<Float, Color>>()
+    config.yHigh?.let {
+        val yHighFraction = (config.yHigh - config.yMin).toFloat() / (config.yMax - config.yMin).toFloat()
+        colorStops.add(1 - yHighFraction to config.valueColorHigh)
+        colorStops.add(1 - yHighFraction to config.valueColorNormal)
+    }
+    config.yLow?.let {
+        val yLowFraction: Float = (config.yLow - config.yMin).toFloat() / (config.yMax - config.yMin).toFloat()
+        colorStops.add(1 - yLowFraction to config.valueColorNormal)
+        colorStops.add(1 - yLowFraction to config.valueColorLow)
+    }
+    if (colorStops.isEmpty()) {
+        colorStops.add(0f to config.valueColorNormal)
+        colorStops.add(1f to config.valueColorNormal)
+    }
     val brush = Brush.verticalGradient(
-        colorStops = arrayOf(
-            1 - config.yHighFraction to config.valueColorHigh,
-            1 - config.yHighFraction to config.valueColorNormal,
-            1 - config.yLowFraction to config.valueColorNormal,
-            1 - config.yLowFraction to config.valueColorLow,
-        ),
+        colorStops = colorStops.toTypedArray(),
         startY = coordinates.chart.topLeft.y,
         endY = coordinates.chart.topLeft.y + coordinates.chart.size.height,
     )

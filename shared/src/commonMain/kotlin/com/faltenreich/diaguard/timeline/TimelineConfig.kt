@@ -5,8 +5,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.datetime.DateTimeConstants
+import com.faltenreich.diaguard.datetime.DayOfWeek
 
 data class TimelineConfig(
     val daysOfWeek: Map<DayOfWeek, String>,
@@ -35,8 +35,8 @@ data class TimelineConfig(
 
     // TODO: Pass values
     val yMin: Int = 0,
-    val yLow: Int = 70,
-    val yHigh: Int = 180,
+    val yLow: Int?,
+    val yHigh: Int?,
     val yMax: Int = 250,
     private val yStep: Int = 50,
 ) {
@@ -48,8 +48,6 @@ data class TimelineConfig(
     private val yRange: IntRange = yMin .. yMax
     val yAxis: IntProgression = yRange step yStep
 
-    val yLowFraction: Float = (yLow - yMin).toFloat() / (yMax - yMin).toFloat()
-    val yHighFraction: Float = (yHigh - yMin).toFloat() / (yMax - yMin).toFloat()
     val valueStroke: Stroke = Stroke(width = valueStrokeWidth)
     val valuePath: Path = Path()
 

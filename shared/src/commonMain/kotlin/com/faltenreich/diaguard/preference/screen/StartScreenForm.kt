@@ -10,14 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListState
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.start_screen
 
 @Composable
 fun StartScreenForm(
-    state: OverviewPreferenceListState.StartScreen,
+    state: StartScreen,
     onChange: (StartScreen) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -36,7 +35,7 @@ fun StartScreenForm(
             StartScreen.entries.forEach { startScreen ->
                 StartScreenListItem(
                     startScreen = startScreen,
-                    isSelected = state.selection == startScreen,
+                    isSelected = state == startScreen,
                     onClick = { onChange(startScreen) },
                 )
             }

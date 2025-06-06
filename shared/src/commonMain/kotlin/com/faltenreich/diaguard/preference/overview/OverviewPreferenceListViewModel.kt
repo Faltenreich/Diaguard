@@ -31,7 +31,7 @@ class OverviewPreferenceListViewModel(
 
     override val state = combine(
         getAppVersion(),
-        getPreference(ColorSchemePreference).map(OverviewPreferenceListState::ColorScheme),
+        getPreference(ColorSchemePreference),
         combine(
             decimalPlaces,
             illustration,
@@ -39,7 +39,7 @@ class OverviewPreferenceListViewModel(
             enableIncreaseButton,
             OverviewPreferenceListState::DecimalPlaces,
         ),
-        getPreference(StartScreenPreference).map(OverviewPreferenceListState::StartScreen),
+        getPreference(StartScreenPreference),
         ::OverviewPreferenceListState,
     )
 

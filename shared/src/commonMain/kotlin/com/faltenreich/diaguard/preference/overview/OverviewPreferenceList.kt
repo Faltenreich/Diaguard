@@ -78,14 +78,14 @@ fun OverviewPreferenceList(
         item {
             PreferenceActionListItem(
                 title = stringResource(Res.string.color_scheme),
-                subtitle = stringResource(state.colorScheme.selection.labelResource),
+                subtitle = stringResource(state.colorScheme.labelResource),
                 onClick = { showColorSchemeForm = true },
             )
         }
         item {
             PreferenceActionListItem(
                 title = stringResource(Res.string.start_screen),
-                subtitle = stringResource(state.startScreen.selection.labelResource),
+                subtitle = stringResource(state.startScreen.labelResource),
                 onClick = { showStartScreenForm = true },
             )
         }

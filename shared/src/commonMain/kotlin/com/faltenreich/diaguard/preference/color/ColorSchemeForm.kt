@@ -10,14 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListState
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.color_scheme
 
 @Composable
 fun ColorSchemeForm(
-    state: OverviewPreferenceListState.ColorScheme,
+    state: ColorScheme,
     onChange: (ColorScheme) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -36,7 +35,7 @@ fun ColorSchemeForm(
             ColorScheme.entries.forEach { colorScheme ->
                 ColorSchemeListItem(
                     colorScheme = colorScheme,
-                    isSelected = state.selection == colorScheme,
+                    isSelected = state == colorScheme,
                     onClick = { onChange(colorScheme) },
                 )
             }

@@ -34,19 +34,19 @@ data class TimelineConfig(
     val xStep: Int = STEP,
 
     // TODO: Pass values
-    val yMin: Int = 0,
-    val yLow: Int?,
-    val yHigh: Int?,
-    val yMax: Int = 250,
-    private val yStep: Int = 50,
+    val yMin: Double = 0.0,
+    val yLow: Double?,
+    val yHigh: Double?,
+    val yMax: Double = 250.0,
+    val yStep: Double = 50.0,
 ) {
 
     private val xRange: IntRange = xMin .. xMax
     val xAxis: IntProgression = xRange step xStep
     val xAxisLabelCount: Int = xRange.last / xAxis.step
 
-    private val yRange: IntRange = yMin .. yMax
-    val yAxis: IntProgression = yRange step yStep
+    private val yRange: ClosedRange<Double> = yMin .. yMax
+    val yAxis: Iterable<Double> = yRange step yStep
 
     val valueStroke: Stroke = Stroke(width = valueStrokeWidth)
     val valuePath: Path = Path()
@@ -56,4 +56,17 @@ data class TimelineConfig(
         // TODO: Extract and make dynamic
         const val STEP = 2
     }
+}
+
+// TODO: Move and test or find other way
+private infix fun ClosedRange<Double>.step(step: Double): Iterable<Double> {
+    require(start.isFinite())
+    require(endInclusive.isFinite())
+    require(step > 0.0) { "Step must be positive, was: $step." }
+    val sequence = generateSequence(start) { previous ->
+        if (previous == Double.POSITIVE_INFINITY) return@generateSequence null
+        val next = previous + step
+        if (next > endInclusive) null else next
+    }
+    return sequence.asIterable()
 }

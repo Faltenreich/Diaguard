@@ -19,9 +19,8 @@ fun DrawScope.TimelineChart(
     config: TimelineConfig,
 ) {
     val values = data.values
-    if (values.isEmpty()) {
-        return
-    }
+    if (values.isEmpty()) return
+
     val dateTimeBase = initialDate.atStartOfDay()
     val coordinateList = values.map { value ->
         val dateTime = value.dateTime
@@ -33,10 +32,10 @@ fun DrawScope.TimelineChart(
         val offsetOfDateTime = (offsetInMinutes / config.xAxis.step) * widthPerMinute
         val x = coordinates.chart.topLeft.x + coordinates.scroll.x + offsetOfDateTime
 
-        val percentage = (value.value - config.yAxis.first) / (config.yAxis.last - config.yAxis.first)
+        val percentage = (value.value - config.yAxis.first()) / (config.yAxis.last() - config.yAxis.first())
         val y = coordinates.chart.topLeft.y +
-                coordinates.chart.size.height -
-                (percentage.toFloat() * coordinates.chart.size.height)
+            coordinates.chart.size.height -
+            (percentage.toFloat() * coordinates.chart.size.height)
 
         Offset(x, y)
     }

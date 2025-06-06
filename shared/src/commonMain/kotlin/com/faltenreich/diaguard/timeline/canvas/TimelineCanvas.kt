@@ -92,8 +92,8 @@ fun TimelineCanvas(
             valueColorNormal = colors.ValueNormal,
             valueColorLow = colors.ValueLow,
             valueColorHigh = colors.ValueHigh,
-            yLow = state.data.chart.thresholdLow,
-            yHigh = state.data.chart.thresholdHigh,
+            yLow = state.data.chart.valueLow,
+            yHigh = state.data.chart.valueHigh,
         )
         mutableStateOf(config)
     }

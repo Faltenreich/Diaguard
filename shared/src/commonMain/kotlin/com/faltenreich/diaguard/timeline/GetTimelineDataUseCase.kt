@@ -24,15 +24,14 @@ class GetTimelineDataUseCase(
             .map { value ->
                 TimelineData.Chart.Value(
                     dateTime = value.entry.dateTime,
-                    value = value.value, // TODO: Map to MeasurementValueForUser?
+                    value = value.value,
                 )
             }
         val valuesForTable = values.filterNot { value -> value.property.category.isBloodSugar }
         return TimelineData(
             chart = TimelineData.Chart(
-                // TODO: Map to MeasurementValueForUser
-                thresholdLow = bloodSugarProperty.range.low?.toInt(),
-                thresholdHigh = bloodSugarProperty.range.high?.toInt(),
+                valueLow = bloodSugarProperty.range.low,
+                valueHigh = bloodSugarProperty.range.high,
                 values = valuesForChart,
             ),
             table = TimelineData.Table(

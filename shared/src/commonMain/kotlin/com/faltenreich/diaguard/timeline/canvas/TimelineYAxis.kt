@@ -15,7 +15,7 @@ fun DrawScope.TimelineYAxis(
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
 ) {
-    val heightPerSection = coordinates.chart.size.height / (config.yAxis.last / config.yAxis.step)
+    val heightPerSection = (coordinates.chart.size.height / (config.yAxis.last() / config.yStep)).toInt()
     config.yAxis
         .drop(0)
         .dropLast(1)
@@ -32,6 +32,7 @@ fun DrawScope.TimelineYAxis(
                 strokeWidth = config.gridStrokeWidth,
             )
 
+            // TODO: Map to MeasurementValueForUser
             val text = value.toString()
             val textSize = textMeasurer.measure(text)
 

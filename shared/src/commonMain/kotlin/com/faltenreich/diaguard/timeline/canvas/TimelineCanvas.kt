@@ -40,11 +40,6 @@ import com.faltenreich.diaguard.timeline.TimelineState
 import com.faltenreich.diaguard.timeline.TimelineViewModel
 import kotlinx.coroutines.launch
 import kotlin.math.floor
-import kotlin.math.max
-
-private const val Y_AXIS_MIN = 0.0
-private const val Y_AXIS_STEP = 50.0
-private const val Y_AXIS_MAX_MIN = 250.0
 
 @Composable
 fun TimelineCanvas(
@@ -85,7 +80,6 @@ fun TimelineCanvas(
 
     var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
     val config by remember {
-        val yStep = Y_AXIS_STEP
         val config = TimelineConfig(
             daysOfWeek = daysOfWeek,
             padding = density.run { dimensions.padding.P_2.toPx() },
@@ -98,11 +92,6 @@ fun TimelineCanvas(
             valueColorNormal = colors.ValueNormal,
             valueColorLow = colors.ValueLow,
             valueColorHigh = colors.ValueHigh,
-            yMin = Y_AXIS_MIN,
-            yLow = state.data.chart.valueLow,
-            yHigh = state.data.chart.valueHigh,
-            yMax = max(Y_AXIS_MAX_MIN, state.data.chart.values.maxOf { it.value } + yStep),
-            yStep = yStep,
         )
         mutableStateOf(config)
     }
@@ -160,7 +149,7 @@ fun TimelineCanvas(
         coordinates?.let { coordinates ->
             TimelineXAxis(coordinates, config, textMeasurer)
             TimelineChart(state.data.chart, state.initialDate, coordinates, config)
-            TimelineYAxis(coordinates, config, textMeasurer)
+            TimelineYAxis(state.data.chart, coordinates, config, textMeasurer)
             TimelineTable(state.data.table, state.initialDate, coordinates, config, textMeasurer)
         }
     }

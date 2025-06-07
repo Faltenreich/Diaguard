@@ -22,6 +22,7 @@ fun DrawScope.TimelineChart(
     if (values.isEmpty()) return
 
     val dateTimeBase = initialDate.atStartOfDay()
+
     val coordinateList = values.map { value ->
         val dateTime = value.dateTime
 
@@ -32,7 +33,7 @@ fun DrawScope.TimelineChart(
         val offsetOfDateTime = (offsetInMinutes / config.xAxis.step) * widthPerMinute
         val x = coordinates.chart.topLeft.x + coordinates.scroll.x + offsetOfDateTime
 
-        val percentage = (value.value - config.yAxis.first()) / (config.yAxis.last() - config.yAxis.first())
+        val percentage = (value.value - data.axis.first()) / (data.axis.last() - data.axis.first())
         val y = coordinates.chart.topLeft.y +
             coordinates.chart.size.height -
             (percentage.toFloat() * coordinates.chart.size.height)
@@ -41,13 +42,13 @@ fun DrawScope.TimelineChart(
     }
 
     val colorStops = mutableListOf<Pair<Float, Color>>()
-    config.yHigh?.let {
-        val yHighFraction = (config.yHigh - config.yMin).toFloat() / (config.yMax - config.yMin).toFloat()
+    data.valueHigh?.let {
+        val yHighFraction = (data.valueHigh - data.valueMin).toFloat() / (data.valueMax - data.valueMin).toFloat()
         colorStops.add(1 - yHighFraction to config.valueColorHigh)
         colorStops.add(1 - yHighFraction to config.valueColorNormal)
     }
-    config.yLow?.let {
-        val yLowFraction: Float = (config.yLow - config.yMin).toFloat() / (config.yMax - config.yMin).toFloat()
+    data.valueLow?.let {
+        val yLowFraction: Float = (data.valueLow - data.valueMin).toFloat() / (data.valueMax - data.valueMin).toFloat()
         colorStops.add(1 - yLowFraction to config.valueColorNormal)
         colorStops.add(1 - yLowFraction to config.valueColorLow)
     }

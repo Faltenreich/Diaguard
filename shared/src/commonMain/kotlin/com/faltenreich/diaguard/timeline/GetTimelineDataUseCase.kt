@@ -16,6 +16,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlin.math.max
+
+private const val Y_AXIS_MIN = 0.0
+private const val Y_AXIS_STEP = 50.0
+private const val Y_AXIS_MAX_MIN = 250.0
 
 class GetTimelineDataUseCase(
     private val categoryRepository: MeasurementCategoryRepository,
@@ -48,12 +53,16 @@ class GetTimelineDataUseCase(
                     )
                 }
             val valuesForTable = values.filterNot { value -> value.property.category.isBloodSugar }
+            val valueForChartMax = valuesForChart.maxOfOrNull { it.value } ?: 0.0
 
             TimelineData(
                 chart = TimelineData.Chart(
+                    values = valuesForChart,
+                    valueMin = Y_AXIS_MIN,
                     valueLow = bloodSugarProperty.range.low,
                     valueHigh = bloodSugarProperty.range.high,
-                    values = valuesForChart,
+                    valueMax = max(Y_AXIS_MAX_MIN, valueForChartMax + Y_AXIS_STEP),
+                    valueStep = Y_AXIS_STEP,
                 ),
                 table = TimelineData.Table(
                     categories = categories

@@ -13,10 +13,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.faltenreich.diaguard.navigation.bar.top.StatusBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.WindowController
 import kotlin.jvm.JvmSuppressWildcards
 import kotlin.reflect.KType
 
@@ -34,7 +32,6 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
     noinline sizeTransform:
     (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards SizeTransform?)? = null,
     navigation: Navigation = inject(),
-    windowController: WindowController = inject(),
 ) {
     composable<T>(
         typeMap,
@@ -47,10 +44,7 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
     ) { backStackEntry ->
         val screen = backStackEntry.toRoute<T>()
 
-        val topAppBarStyle = screen.TopAppBar()
-        windowController.setIsAppearanceLightStatusBars(topAppBarStyle.statusBarStyle == StatusBarStyle.Light)
-        navigation.setTopAppBarStyle(topAppBarStyle)
-
+        navigation.setTopAppBarStyle(screen.TopAppBar())
         navigation.setBottomAppBarStyle(screen.BottomAppBar())
 
         screen.Content()

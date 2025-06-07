@@ -37,8 +37,8 @@ data class TimelineConfig(
     val yMin: Double = 0.0,
     val yLow: Double?,
     val yHigh: Double?,
-    val yMax: Double = 250.0,
-    val yStep: Double = 50.0,
+    val yMax: Double,
+    val yStep: Double,
 ) {
 
     private val xRange: IntRange = xMin .. xMax

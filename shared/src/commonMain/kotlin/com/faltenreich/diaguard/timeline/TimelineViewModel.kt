@@ -6,8 +6,6 @@ import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.preference.color.ColorSchemePreference
-import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartDataUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableDataUseCase
@@ -22,7 +20,6 @@ import kotlinx.coroutines.flow.update
 class TimelineViewModel(
     getToday: GetTodayUseCase,
     formatDate: FormatTimelineDateUseCase,
-    getPreference: GetPreferenceUseCase,
     private val getChart: GetTimelineChartDataUseCase,
     private val getTable: GetTimelineTableDataUseCase,
     private val pushScreen: PushScreenUseCase,
@@ -48,7 +45,6 @@ class TimelineViewModel(
         chart,
         table,
         date,
-        getPreference(ColorSchemePreference),
         ::TimelineState,
     )
 

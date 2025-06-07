@@ -8,12 +8,11 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.TimelineData
 import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineYAxis(
-    data: TimelineData.Chart,
+    data: TimelineChartState,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,

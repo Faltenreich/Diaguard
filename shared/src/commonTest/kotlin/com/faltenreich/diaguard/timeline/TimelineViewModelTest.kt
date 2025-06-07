@@ -9,6 +9,8 @@ import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChartState
+import com.faltenreich.diaguard.timeline.canvas.table.TimelineTableState
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
@@ -39,98 +41,103 @@ class TimelineViewModelTest : TestSuite {
         viewModel.state.test {
             assertEquals(
                 expected = TimelineData(
-                    chart = TimelineData.Chart(
+                    chart = TimelineChartState(
                         values = emptyList(),
+                        valueMin = 0.0,
+                        valueLow = null,
+                        valueHigh = null,
+                        valueMax = Double.MAX_VALUE,
+                        valueStep = 50.0,
                     ),
-                    table = TimelineData.Table(
+                    table = TimelineTableState(
                         categories = listOf(
-                            TimelineData.Table.Category(
+                            TimelineTableState.Category(
                                 icon = "💉",
                                 name = "insulin",
                                 properties = listOf(
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "bolus",
                                         values = emptyList()
                                     ),
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "correction",
                                         values = emptyList(),
                                     ),
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "basal",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
-                            TimelineData.Table.Category(
+                            TimelineTableState.Category(
                                 icon = "🍞",
                                 name = "meal",
                                 properties = listOf(
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "meal",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
-                            TimelineData.Table.Category(
+                            TimelineTableState.Category(
                                 icon = "🏃",
                                 name = "activity",
                                 properties = listOf(
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "activity",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
-                            TimelineData.Table.Category(
+                            TimelineTableState.Category(
                                 icon = "%",
                                 name = "hba1c",
                                 properties = listOf(
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "hba1c",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
-                            TimelineData.Table.Category(
+                            TimelineTableState.Category(
                                 icon = "🏋",
                                 name = "weight",
                                 properties = listOf(
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "weight",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
-                            TimelineData.Table.Category(
+                            TimelineTableState.Category(
                                 icon = "💚",
                                 name = "pulse",
                                 properties = listOf(
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "pulse",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
-                            TimelineData.Table.Category(
+                            TimelineTableState.Category(
                                 icon = "⛽",
                                 name = "blood_pressure",
                                 properties = listOf(
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "systolic",
                                         values = emptyList(),
                                     ),
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "diastolic",
                                         values = emptyList(),
                                     ),
                                 ),
                             ),
-                            TimelineData.Table.Category(
+                            TimelineTableState.Category(
                                 icon = "O²",
                                 name = "oxygen_saturation",
                                 properties = listOf(
-                                    TimelineData.Table.Category.Property(
+                                    TimelineTableState.Category.Property(
                                         name = "oxygen_saturation",
                                         values = emptyList(),
                                     ),

@@ -9,18 +9,16 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.view.bezierBetween
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.TimelineData
 import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChart(
-    data: TimelineData.Chart,
+    state: TimelineChartState,
     initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
-) {
-    val values = data.values
-    if (values.isEmpty()) return
+) = with(state) {
+    if (values.isEmpty()) return@with
 
     val dateTimeBase = initialDate.atStartOfDay()
 
@@ -34,7 +32,7 @@ fun DrawScope.TimelineChart(
         val offsetOfDateTime = (offsetInMinutes / config.xAxis.step) * widthPerMinute
         val x = coordinates.chart.topLeft.x + coordinates.scroll.x + offsetOfDateTime
 
-        val percentage = (value.value - data.axis.first()) / (data.axis.last() - data.axis.first())
+        val percentage = (value.value - axis.first()) / (axis.last() - axis.first())
         val y = coordinates.chart.topLeft.y +
             coordinates.chart.size.height -
             (percentage.toFloat() * coordinates.chart.size.height)
@@ -43,13 +41,13 @@ fun DrawScope.TimelineChart(
     }
 
     val colorStops = mutableListOf<Pair<Float, Color>>()
-    data.valueHigh?.let {
-        val yHighFraction = (data.valueHigh - data.valueMin).toFloat() / (data.valueMax - data.valueMin).toFloat()
+    valueHigh?.let {
+        val yHighFraction = (valueHigh - valueMin).toFloat() / (valueMax - valueMin).toFloat()
         colorStops.add(1 - yHighFraction to config.valueColorHigh)
         colorStops.add(1 - yHighFraction to config.valueColorNormal)
     }
-    data.valueLow?.let {
-        val yLowFraction: Float = (data.valueLow - data.valueMin).toFloat() / (data.valueMax - data.valueMin).toFloat()
+    valueLow?.let {
+        val yLowFraction: Float = (valueLow - valueMin).toFloat() / (valueMax - valueMin).toFloat()
         colorStops.add(1 - yLowFraction to config.valueColorNormal)
         colorStops.add(1 - yLowFraction to config.valueColorLow)
     }

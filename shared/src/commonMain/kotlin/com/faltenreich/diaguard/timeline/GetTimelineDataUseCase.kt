@@ -13,6 +13,8 @@ import com.faltenreich.diaguard.measurement.value.usecase.GetMeasurementValuesIn
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChartState
+import com.faltenreich.diaguard.timeline.canvas.table.TimelineTableState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlin.math.max
@@ -43,17 +45,17 @@ class GetTimelineDataUseCase(
     private fun getChartData(
         values: List<MeasurementValue.Local>,
         properties: List<MeasurementProperty.Local>,
-    ): TimelineData.Chart {
+    ): TimelineChartState {
         val property = properties.first { it.key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR }
         val valuesOfProperty = values
             .filter { it.property.category.isBloodSugar }
             .map { value ->
-                TimelineData.Chart.Value(
+                TimelineChartState.Value(
                     dateTime = value.entry.dateTime,
                     value = value.value,
                 )
             }
-        return TimelineData.Chart(
+        return TimelineChartState(
             values = valuesOfProperty,
             valueMin = Y_AXIS_MIN,
             valueLow = property.range.low,
@@ -71,9 +73,9 @@ class GetTimelineDataUseCase(
         properties: List<MeasurementProperty.Local>,
         categories: List<MeasurementCategory.Local>,
         decimalPlaces: Int,
-    ): TimelineData.Table {
+    ): TimelineTableState {
         val valuesForTable = values.filterNot { value -> value.property.category.isBloodSugar }
-        return TimelineData.Table(
+        return TimelineTableState(
             categories = categories
                 .filterNot { it.isBloodSugar }
                 .map { category ->
@@ -87,9 +89,9 @@ class GetTimelineDataUseCase(
         properties: List<MeasurementProperty.Local>,
         category: MeasurementCategory,
         decimalPlaces: Int,
-    ): TimelineData.Table.Category {
+    ): TimelineTableState.Category {
         val propertiesOfCategory = properties.filter { it.category == category }
-        return TimelineData.Table.Category(
+        return TimelineTableState.Category(
             icon = category.icon,
             name = category.name,
             properties = propertiesOfCategory.map { property ->
@@ -102,8 +104,8 @@ class GetTimelineDataUseCase(
         values: List<MeasurementValue.Local>,
         property: MeasurementProperty.Local,
         decimalPlaces: Int,
-    ): TimelineData.Table.Category.Property {
-        return TimelineData.Table.Category.Property(
+    ): TimelineTableState.Category.Property {
+        return TimelineTableState.Category.Property(
             name = property.name,
             values = values
                 .filter { it.property == property }
@@ -129,13 +131,13 @@ class GetTimelineDataUseCase(
         property: MeasurementProperty.Local,
         dateTime: DateTime,
         decimalPlaces: Int,
-    ): TimelineData.Table.Category.Value {
+    ): TimelineTableState.Category.Value {
         val sum = values.sumOf { it.value }
         val value = when (property.aggregationStyle) {
             MeasurementAggregationStyle.CUMULATIVE -> sum
             MeasurementAggregationStyle.AVERAGE -> sum / values.size
         }
-        return TimelineData.Table.Category.Value(
+        return TimelineTableState.Category.Value(
             dateTime = dateTime,
             // TODO: Decimal places may take up too much space
             value = mapValue(

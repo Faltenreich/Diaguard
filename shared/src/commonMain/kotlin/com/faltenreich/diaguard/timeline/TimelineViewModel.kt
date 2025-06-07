@@ -31,8 +31,8 @@ class TimelineViewModel(
         initialDate,
         currentDate,
         currentDate.map(formatDate::invoke),
-        dateDialog,
         data,
+        dateDialog,
         getPreference(ColorSchemePreference),
         ::TimelineState,
     )

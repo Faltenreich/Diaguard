@@ -12,12 +12,11 @@ import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.TimelineData
 import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineTable(
-    data: TimelineData.Table,
+    state: TimelineTableState,
     initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
@@ -28,7 +27,7 @@ fun DrawScope.TimelineTable(
     val x = coordinates.table.topLeft.x
     var y = coordinates.table.topLeft.y
 
-    data.categories.forEachIndexed { categoryIndex, category ->
+    state.categories.forEachIndexed { categoryIndex, category ->
         val rowHeight = config.tableRowHeight
 
         category.properties.forEachIndexed { propertyIndex, property ->

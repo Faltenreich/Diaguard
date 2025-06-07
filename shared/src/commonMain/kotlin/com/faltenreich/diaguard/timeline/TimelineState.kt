@@ -7,8 +7,8 @@ data class TimelineState(
     val initialDate: Date,
     val currentDate: Date,
     val currentDateLabel: String,
-    val dateDialog: DateDialog?,
     val data: TimelineData,
+    val dateDialog: DateDialog?,
     val colorScheme: ColorScheme?,
 ) {
 

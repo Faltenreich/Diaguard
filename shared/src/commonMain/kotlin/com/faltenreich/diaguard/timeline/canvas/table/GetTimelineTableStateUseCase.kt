@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-class GetTimelineTableDataUseCase(
+class GetTimelineTableStateUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val propertyRepository: MeasurementPropertyRepository,
     private val getPreference: GetPreferenceUseCase,

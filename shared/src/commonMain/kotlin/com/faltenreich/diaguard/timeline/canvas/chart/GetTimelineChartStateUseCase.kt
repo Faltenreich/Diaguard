@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlin.math.max
 
-class GetTimelineChartDataUseCase(
+class GetTimelineChartStateUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val propertyRepository: MeasurementPropertyRepository,
 ) {

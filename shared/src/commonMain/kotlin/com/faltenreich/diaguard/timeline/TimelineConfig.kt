@@ -33,8 +33,7 @@ data class TimelineConfig(
     private val xMax: Int = DateTimeConstants.HOURS_PER_DAY,
     val xStep: Int = STEP,
 
-    // TODO: Pass values
-    val yMin: Double = 0.0,
+    val yMin: Double,
     val yLow: Double?,
     val yHigh: Double?,
     val yMax: Double,

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvas
+import com.faltenreich.diaguard.timeline.date.TimelineDateBar
 
 @Composable
 fun Timeline(

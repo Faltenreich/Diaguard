@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.timeline
+package com.faltenreich.diaguard.timeline.date
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.timeline.TimelineIntent
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_picker_open
 import diaguard.shared.generated.resources.day_next

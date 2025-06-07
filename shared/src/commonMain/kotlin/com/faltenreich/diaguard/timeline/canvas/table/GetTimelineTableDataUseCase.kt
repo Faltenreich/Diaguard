@@ -3,8 +3,9 @@ package com.faltenreich.diaguard.timeline.canvas.table
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesWithPropertiesUseCase
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
@@ -15,10 +16,13 @@ import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.timeline.TimelineConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 
 class GetTimelineTableDataUseCase(
     private val valueRepository: MeasurementValueRepository,
-    private val getCategoriesWithProperties: GetActiveMeasurementCategoriesWithPropertiesUseCase,
+    private val propertyRepository: MeasurementPropertyRepository,
+    private val categoryRepository: MeasurementCategoryRepository,
     private val getPreference: GetPreferenceUseCase,
     private val mapValue: MeasurementValueMapper,
 ) {
@@ -30,7 +34,16 @@ class GetTimelineTableDataUseCase(
                 endDateTime = dateRange.endInclusive.atEndOfDay(),
                 excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
             ),
-            getCategoriesWithProperties(),
+            categoryRepository.observeActive().flatMapLatest { categories ->
+                combine(
+                    categories.map { category ->
+                        propertyRepository.observeByCategoryId(category.id).map { properties ->
+                            category to properties
+                        }
+                    },
+                    Array<Pair<MeasurementCategory.Local, List<MeasurementProperty.Local>>>::toMap,
+                )
+            },
             getPreference(DecimalPlacesPreference),
         ) { values, categoriesWithProperties, decimalPlaces ->
             val categories = categoriesWithProperties.keys.toList()

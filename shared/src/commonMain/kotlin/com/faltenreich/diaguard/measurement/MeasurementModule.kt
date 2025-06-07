@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFor
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListViewModel
 import com.faltenreich.diaguard.measurement.category.usecase.DeleteMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
-import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesWithPropertiesUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
@@ -48,7 +47,6 @@ fun measurementModule() = module {
     factoryOf(::StoreMeasurementCategoryUseCase)
     factoryOf(::GetMeasurementValueTintUseCase)
     factoryOf(::GetActiveMeasurementCategoriesUseCase)
-    factoryOf(::GetActiveMeasurementCategoriesWithPropertiesUseCase)
     factoryOf(::GetMeasurementCategoriesUseCase)
     factoryOf(::GetMeasurementCategoryByIdUseCase)
     factoryOf(::DeleteMeasurementCategoryUseCase)

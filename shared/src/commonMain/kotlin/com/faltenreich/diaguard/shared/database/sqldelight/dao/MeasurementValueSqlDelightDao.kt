@@ -57,12 +57,12 @@ class MeasurementValueSqlDelightDao(
         ).asFlow().mapToList(dispatcher)
     }
 
-    override fun observeByDateRangeIfActive(
+    override fun observeByDateRangeIfCategoryIsActive(
         startDateTime: DateTime,
         endDateTime: DateTime,
         excludedPropertyKey: DatabaseKey.MeasurementProperty,
     ): Flow<List<MeasurementValue.Local>> {
-        return queries.getByDateRangeIfActive(
+        return queries.getByDateRangeIfCategoryIsActive(
             startDateTime = startDateTime.isoString,
             endDateTime = endDateTime.isoString,
             excludedPropertyKey = excludedPropertyKey.key,

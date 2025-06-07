@@ -76,6 +76,7 @@ INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.
 INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 WHERE MeasurementCategory.isActive = 1
+AND MeasurementProperty.key != :excludedPropertyKey
 ORDER BY MeasurementProperty.sortIndex ASC;
 
 

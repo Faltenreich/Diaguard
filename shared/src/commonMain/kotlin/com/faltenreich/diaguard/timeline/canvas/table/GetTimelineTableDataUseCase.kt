@@ -24,13 +24,16 @@ class GetTimelineTableDataUseCase(
 ) {
 
     operator fun invoke(dateRange: DateRange): Flow<TimelineTableState> {
+        val excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         return combine(
-            valueRepository.observeByDateRangeIfActive(
+            valueRepository.observeByDateRangeIfCategoryIsActive(
                 startDateTime = dateRange.start.atStartOfDay(),
                 endDateTime = dateRange.endInclusive.atEndOfDay(),
-                excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
+                excludedPropertyKey = excludedPropertyKey,
             ),
-            propertyRepository.observeIfCategoryIsActive(),
+            propertyRepository.observeIfCategoryIsActive(
+                excludedPropertyKey = excludedPropertyKey,
+            ),
             getPreference(DecimalPlacesPreference),
         ) { values, properties, decimalPlaces ->
             val categories = properties
@@ -38,11 +41,9 @@ class GetTimelineTableDataUseCase(
                 .distinct()
                 .sortedBy(MeasurementCategory::sortIndex)
             TimelineTableState(
-                categories = categories
-                    .filterNot { it.isBloodSugar }
-                    .map { category ->
-                        getTableCategory(values, properties, category, decimalPlaces)
-                    },
+                categories = categories.map { category ->
+                    getTableCategory(values, properties, category, decimalPlaces)
+                },
             )
         }
     }

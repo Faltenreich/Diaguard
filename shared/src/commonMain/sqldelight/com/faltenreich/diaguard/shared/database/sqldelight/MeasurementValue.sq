@@ -27,7 +27,7 @@ WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime
 AND MeasurementProperty.key == :propertyKey
 ORDER BY Entry.dateTime;
 
-getByDateRangeIfActive:
+getByDateRangeIfCategoryIsActive:
 SELECT * FROM MeasurementValue
 INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId

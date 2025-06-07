@@ -34,7 +34,9 @@ interface MeasurementPropertyDao {
 
     fun observeByCategoryKey(categoryKey: DatabaseKey.MeasurementCategory): Flow<List<MeasurementProperty.Local>>
 
-    fun observeIfCategoryIsActive(): Flow<List<MeasurementProperty.Local>>
+    fun observeIfCategoryIsActive(
+        excludedPropertyKey: DatabaseKey.MeasurementProperty,
+    ): Flow<List<MeasurementProperty.Local>>
 
     fun getAll(): List<MeasurementProperty.Local>
 

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.decimal
+package com.faltenreich.diaguard.preference.overview
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
@@ -7,72 +7,72 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DecimalPlacesFormDialogDialogViewModelTest : TestSuite {
+class OverviewPreferenceListViewModelTest : TestSuite {
 
-    private val viewModel: DecimalPlacesFormViewModel by inject()
+    private val viewModel: OverviewPreferenceListViewModel by inject()
 
     @Test
     fun `launch with 1 decimal places and both buttons enabled`() = runTest {
         viewModel.state.test {
             assertEquals(
-                expected = DecimalPlacesFormState(
-                    decimalPlaces = 1,
+                expected = OverviewPreferenceListState.DecimalPlaces(
+                    selection = 1,
                     illustration = "decimal_places_illustration",
                     enableDecreaseButton = true,
                     enableIncreaseButton = true,
                 ),
-                actual = awaitItem(),
+                actual = awaitItem().decimalPlaces,
             )
         }
     }
 
     @Test
     fun `disable decrease button when updating decimal places to 0`() = runTest {
-        viewModel.handleIntent(DecimalPlacesFormIntent.Update(decimalPlaces = 0))
+        viewModel.handleIntent(OverviewPreferenceListIntent.SetDecimalPlaces(decimalPlaces = 0))
 
         viewModel.state.test {
             assertEquals(
-                expected = DecimalPlacesFormState(
-                    decimalPlaces = 0,
+                expected = OverviewPreferenceListState.DecimalPlaces(
+                    selection = 0,
                     illustration = "decimal_places_illustration",
                     enableDecreaseButton = false,
                     enableIncreaseButton = true,
                 ),
-                actual = awaitItem(),
+                actual = awaitItem().decimalPlaces,
             )
         }
     }
 
     @Test
     fun `disable increase button when updating decimal places to 3`() = runTest {
-        viewModel.handleIntent(DecimalPlacesFormIntent.Update(decimalPlaces = 3))
+        viewModel.handleIntent(OverviewPreferenceListIntent.SetDecimalPlaces(decimalPlaces = 3))
 
         viewModel.state.test {
             assertEquals(
-                expected = DecimalPlacesFormState(
-                    decimalPlaces = 3,
+                expected = OverviewPreferenceListState.DecimalPlaces(
+                    selection = 3,
                     illustration = "decimal_places_illustration",
                     enableDecreaseButton = true,
                     enableIncreaseButton = false,
                 ),
-                actual = awaitItem(),
+                actual = awaitItem().decimalPlaces,
             )
         }
     }
 
     @Test
     fun `do nothing when updating decimal places to 4`() = runTest {
-        viewModel.handleIntent(DecimalPlacesFormIntent.Update(decimalPlaces = 4))
+        viewModel.handleIntent(OverviewPreferenceListIntent.SetDecimalPlaces(decimalPlaces = 4))
 
         viewModel.state.test {
             assertEquals(
-                expected = DecimalPlacesFormState(
-                    decimalPlaces = 1,
+                expected = OverviewPreferenceListState.DecimalPlaces(
+                    selection = 1,
                     illustration = "decimal_places_illustration",
                     enableDecreaseButton = true,
                     enableIncreaseButton = true,
                 ),
-                actual = awaitItem(),
+                actual = awaitItem().decimalPlaces,
             )
         }
     }

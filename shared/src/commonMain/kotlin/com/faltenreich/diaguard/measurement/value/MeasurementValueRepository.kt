@@ -40,6 +40,14 @@ class MeasurementValueRepository(
         return dao.observeByDateRange(startDateTime, endDateTime, propertyKey)
     }
 
+    fun observeByDateRangeIfActive(
+        startDateTime: DateTime,
+        endDateTime: DateTime,
+        excludedPropertyKey: DatabaseKey.MeasurementProperty,
+    ): Flow<List<MeasurementValue.Local>> {
+        return dao.observeByDateRangeIfActive(startDateTime, endDateTime, excludedPropertyKey)
+    }
+
     fun observeLatestByProperty(
         key: DatabaseKey.MeasurementProperty,
     ): Flow<MeasurementValue.Local?> {

@@ -22,6 +22,12 @@ interface MeasurementValueDao {
         propertyKey: DatabaseKey.MeasurementProperty,
     ): Flow<List<MeasurementValue.Local>>
 
+    fun observeByDateRangeIfActive(
+        startDateTime: DateTime,
+        endDateTime: DateTime,
+        excludedPropertyKey: DatabaseKey.MeasurementProperty,
+    ): Flow<List<MeasurementValue.Local>>
+
     fun observeLatestByProperty(key: DatabaseKey.MeasurementProperty): Flow<MeasurementValue.Local?>
 
     fun observeByCategory(

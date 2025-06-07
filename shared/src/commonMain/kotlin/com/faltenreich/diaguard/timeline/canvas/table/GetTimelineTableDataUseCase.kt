@@ -8,15 +8,16 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
-import com.faltenreich.diaguard.measurement.value.usecase.GetMeasurementValuesInDateRangeUseCase
+import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
+import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.timeline.TimelineConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 class GetTimelineTableDataUseCase(
-    private val getValues: GetMeasurementValuesInDateRangeUseCase,
+    private val valueRepository: MeasurementValueRepository,
     private val getCategoriesWithProperties: GetActiveMeasurementCategoriesWithPropertiesUseCase,
     private val getPreference: GetPreferenceUseCase,
     private val mapValue: MeasurementValueMapper,
@@ -24,8 +25,11 @@ class GetTimelineTableDataUseCase(
 
     operator fun invoke(dateRange: DateRange): Flow<TimelineTableState> {
         return combine(
-            // TODO: Replace with custom fetch operation
-            getValues(dateRange),
+            valueRepository.observeByDateRangeIfActive(
+                startDateTime = dateRange.start.atStartOfDay(),
+                endDateTime = dateRange.endInclusive.atEndOfDay(),
+                excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
+            ),
             getCategoriesWithProperties(),
             getPreference(DecimalPlacesPreference),
         ) { values, categoriesWithProperties, decimalPlaces ->

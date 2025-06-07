@@ -30,7 +30,6 @@ import com.faltenreich.diaguard.measurement.unit.usecase.ValidateMeasurementUnit
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
-import com.faltenreich.diaguard.measurement.value.usecase.GetMeasurementValuesInDateRangeUseCase
 import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValuesUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel
@@ -64,7 +63,6 @@ fun measurementModule() = module {
     factoryOf(::DeleteMeasurementPropertyUseCase)
     factory { ValidateMeasurementUnitUseCase(rules = listOf(UniqueMeasurementUnitRule())) }
     factoryOf(::StoreMeasurementUnitUseCase)
-    factoryOf(::GetMeasurementValuesInDateRangeUseCase)
 
     viewModelOf(::MeasurementCategoryListViewModel)
     viewModel { (categoryId: Long) -> MeasurementCategoryFormViewModel(categoryId) }

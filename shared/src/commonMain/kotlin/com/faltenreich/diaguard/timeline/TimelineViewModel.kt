@@ -43,7 +43,7 @@ class TimelineViewModel(
     private val properties = categoriesWithProperties.map { it.values.flatten() }
     private val values = dateRange.flatMapLatest(getValues::invoke)
     private val decimalPlaces = getPreference(DecimalPlacesPreference)
-    private val chart = combine(values, properties, getChart::invoke)
+    private val chart = dateRange.flatMapLatest(getChart::invoke)
     private val table = combine(values, properties, categories, decimalPlaces, getTable::invoke)
     private val dateDialog = MutableStateFlow<TimelineState.DateDialog?>(null)
     private val date = combine(

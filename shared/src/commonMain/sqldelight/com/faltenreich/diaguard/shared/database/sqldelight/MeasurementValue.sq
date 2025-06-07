@@ -24,6 +24,7 @@ INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
 LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
 INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
 WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime
+AND MeasurementProperty.key == :propertyKey
 ORDER BY Entry.dateTime;
 
 getLatestByProperty:

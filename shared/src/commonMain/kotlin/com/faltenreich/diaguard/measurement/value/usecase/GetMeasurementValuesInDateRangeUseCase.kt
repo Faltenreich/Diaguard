@@ -13,6 +13,7 @@ class GetMeasurementValuesInDateRangeUseCase(
         return repository.observeByDateRange(
             startDateTime = dateRange.start.atStartOfDay(),
             endDateTime = dateRange.endInclusive.atEndOfDay(),
+            propertyKey = TODO(),
         )
     }
 }

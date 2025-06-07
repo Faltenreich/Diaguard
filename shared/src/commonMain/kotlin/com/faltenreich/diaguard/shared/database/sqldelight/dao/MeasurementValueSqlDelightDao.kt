@@ -47,10 +47,12 @@ class MeasurementValueSqlDelightDao(
     override fun observeByDateRange(
         startDateTime: DateTime,
         endDateTime: DateTime,
+        propertyKey: DatabaseKey.MeasurementProperty,
     ): Flow<List<MeasurementValue.Local>> {
         return queries.getByDateRange(
             startDateTime = startDateTime.isoString,
             endDateTime = endDateTime.isoString,
+            propertyKey = propertyKey.key,
             mapper = mapper::map,
         ).asFlow().mapToList(dispatcher)
     }

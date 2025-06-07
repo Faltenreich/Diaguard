@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 interface Screen {
 
     @Composable
-    fun TopAppBar(): TopAppBarStyle = TopAppBarStyle.Hidden()
+    fun TopAppBar(): TopAppBarStyle = TopAppBarStyle.Hidden
 
     @Composable
     fun BottomAppBar(): BottomAppBarStyle = BottomAppBarStyle.Visible()

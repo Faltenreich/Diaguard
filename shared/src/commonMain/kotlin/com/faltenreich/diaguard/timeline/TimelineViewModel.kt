@@ -32,12 +32,10 @@ class TimelineViewModel(
     }
     private val chart = dateRange.flatMapLatest(getChart::invoke)
     private val table = dateRange.flatMapLatest(getTable::invoke)
-    private val dateDialog = MutableStateFlow<TimelineState.DateDialog?>(null)
     private val date = combine(
         flowOf(initialDate),
         currentDate,
         currentDate.map(formatDate::invoke),
-        dateDialog,
         ::TimelineDateState,
     )
 

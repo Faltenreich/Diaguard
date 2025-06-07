@@ -4,14 +4,12 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChartState
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTableState
+import com.faltenreich.diaguard.timeline.date.TimelineDateState
 
 data class TimelineState(
-    val initialDate: Date,
-    val currentDate: Date,
-    val currentDateLabel: String,
     val chart: TimelineChartState,
     val table: TimelineTableState,
-    val dateDialog: DateDialog?,
+    val date: TimelineDateState,
     val colorScheme: ColorScheme?,
 ) {
 

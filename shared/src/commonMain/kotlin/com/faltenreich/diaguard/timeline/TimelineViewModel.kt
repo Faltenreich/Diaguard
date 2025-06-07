@@ -12,10 +12,11 @@ import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.architecture.combine
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartDataUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableDataUseCase
+import com.faltenreich.diaguard.timeline.date.TimelineDateState
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -41,17 +42,21 @@ class TimelineViewModel(
     private val properties = categoriesWithProperties.map { it.values.flatten() }
     private val values = dateRange.flatMapLatest(getValues::invoke)
     private val decimalPlaces = getPreference(DecimalPlacesPreference)
-    private val chartData = kotlinx.coroutines.flow.combine(values, properties, getChartData::invoke)
-    private val tableData = kotlinx.coroutines.flow.combine(values, properties, categories, decimalPlaces, getTableData::invoke)
+    private val chartData = combine(values, properties, getChartData::invoke)
+    private val tableData = combine(values, properties, categories, decimalPlaces, getTableData::invoke)
     private val dateDialog = MutableStateFlow<TimelineState.DateDialog?>(null)
-
-    override val state = combine(
+    private val date = combine(
         initialDate,
         currentDate,
         currentDate.map(formatDate::invoke),
+        dateDialog,
+        ::TimelineDateState,
+    )
+
+    override val state = combine(
         chartData,
         tableData,
-        dateDialog,
+        date,
         getPreference(ColorSchemePreference),
         ::TimelineState,
     )

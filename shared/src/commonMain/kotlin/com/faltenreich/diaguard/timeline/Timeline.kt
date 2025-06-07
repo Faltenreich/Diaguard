@@ -22,12 +22,12 @@ fun Timeline(
             modifier = Modifier.weight(1f),
         )
         TimelineDateBar(
-            label = state.currentDateLabel,
+            label = state.date.label,
             onIntent = viewModel::dispatchIntent,
         )
     }
 
-    state.dateDialog?.let { dateDialog ->
+    state.date.pickerDialog?.let { dateDialog ->
         DatePickerDialog(
             date = dateDialog.date,
             onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.CloseDateDialog) },

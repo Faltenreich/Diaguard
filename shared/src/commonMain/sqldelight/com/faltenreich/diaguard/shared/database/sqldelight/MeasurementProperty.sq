@@ -70,6 +70,15 @@ LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == M
 WHERE MeasurementCategory.key = ?
 ORDER BY MeasurementProperty.sortIndex ASC;
 
+getIfCategoryIsActive:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+WHERE MeasurementCategory.isActive = 1
+ORDER BY MeasurementProperty.sortIndex ASC;
+
+
 getAll:
 SELECT * FROM MeasurementProperty
 INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId

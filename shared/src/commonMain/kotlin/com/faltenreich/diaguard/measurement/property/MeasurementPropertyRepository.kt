@@ -64,6 +64,10 @@ class MeasurementPropertyRepository(
         return dao.observeByCategoryKey(categoryKey)
     }
 
+    fun observeIfCategoryIsActive(): Flow<List<MeasurementProperty.Local>> {
+        return dao.observeIfCategoryIsActive()
+    }
+
     fun getAll(): List<MeasurementProperty.Local> {
         return dao.getAll()
     }

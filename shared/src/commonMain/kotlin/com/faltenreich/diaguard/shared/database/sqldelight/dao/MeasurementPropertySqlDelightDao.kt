@@ -86,6 +86,10 @@ class MeasurementPropertySqlDelightDao(
         return queries.getByCategoryKey(categoryKey.key, mapper::map).asFlow().mapToList(dispatcher)
     }
 
+    override fun observeIfCategoryIsActive(): Flow<List<MeasurementProperty.Local>> {
+        return queries.getIfCategoryIsActive(mapper::map).asFlow().mapToList(dispatcher)
+    }
+
     override fun getAll(): List<MeasurementProperty.Local> {
         return queries.getAll(mapper::map).executeAsList()
     }

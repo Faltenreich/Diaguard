@@ -2,14 +2,19 @@ package com.faltenreich.diaguard.shared.view
 
 import android.app.Activity
 import androidx.core.view.WindowCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class AndroidWindowController(private val activity: Activity) : WindowController {
+class AndroidWindowController(activity: Activity) : WindowController {
 
-    override fun setIsAppearanceLightStatusBars(isAppearanceLightStatusBars: Boolean) {
-        val windowInsetsController = WindowCompat.getInsetsController(
-            activity.window,
-            activity.window.decorView,
-        )
+    private val windowInsetsController = WindowCompat.getInsetsController(
+        activity.window,
+        activity.window.decorView,
+    )
+
+    override suspend fun setIsAppearanceLightStatusBars(
+        isAppearanceLightStatusBars: Boolean,
+    ) = withContext(Dispatchers.Main) {
         windowInsetsController.isAppearanceLightStatusBars = isAppearanceLightStatusBars
     }
 }

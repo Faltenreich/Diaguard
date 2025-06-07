@@ -37,8 +37,10 @@ import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
+import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
@@ -76,6 +78,12 @@ fun MainView(
                 is NavigationEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.message)
             }
         }
+    }
+
+    val isDarkMode = state.colorScheme.isDark()
+    LaunchedEffect(state.topAppBarStyle) {
+        val isAppearanceLightStatusBars = state.topAppBarStyle is TopAppBarStyle.Hidden && !isDarkMode
+        viewModel.dispatchIntent(MainIntent.TintStatusBars(isAppearanceLightStatusBars))
     }
 
     val viewModelStoreOwner = rememberViewModelStoreOwner()

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.timeline.canvas.chart
 
-import com.faltenreich.diaguard.datetime.DateRange
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.database.DatabaseKey
@@ -13,7 +14,8 @@ class GetTimelineChartStateUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
 ) {
 
-    operator fun invoke(dateRange: DateRange): Flow<TimelineChartState> {
+    operator fun invoke(date: Date): Flow<TimelineChartState> {
+        val dateRange = date.minus(1, DateUnit.DAY) .. date.plus(1, DateUnit.DAY)
         val propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         return combine(
             valueRepository.observeByDateRange(

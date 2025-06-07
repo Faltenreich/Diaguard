@@ -26,19 +26,11 @@ class TimelineViewModel(
 
     private val initialDate = getToday()
     private val currentDate = MutableStateFlow(initialDate)
-    private val dateRange = currentDate.map { date ->
-        date.minus(2, DateUnit.DAY) .. date.plus(2, DateUnit.DAY)
-    }
-    private val chart = dateRange.flatMapLatest(getChart::invoke)
-    private val table = dateRange.flatMapLatest(getTable::invoke)
+    private val chart = currentDate.flatMapLatest(getChart::invoke)
+    private val table = currentDate.flatMapLatest(getTable::invoke)
     private val date = currentDate.map { getDate(initialDate, it) }
 
-    override val state = combine(
-        chart,
-        table,
-        date,
-        ::TimelineState,
-    )
+    override val state = combine(chart, table, date, ::TimelineState)
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {

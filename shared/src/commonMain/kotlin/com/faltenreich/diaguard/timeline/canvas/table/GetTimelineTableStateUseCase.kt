@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.timeline.canvas.table
 
-import com.faltenreich.diaguard.datetime.DateRange
+import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
@@ -23,7 +24,8 @@ class GetTimelineTableStateUseCase(
     private val mapValue: MeasurementValueMapper,
 ) {
 
-    operator fun invoke(dateRange: DateRange): Flow<TimelineTableState> {
+    operator fun invoke(date: Date): Flow<TimelineTableState> {
+        val dateRange = date.minus(1, DateUnit.DAY) .. date.plus(1, DateUnit.DAY)
         val excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         return combine(
             valueRepository.observeByDateRangeIfCategoryIsActive(

@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.timeline.TimelineIntent
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_picker_open
 import diaguard.shared.generated.resources.day_next
@@ -27,7 +26,9 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun TimelineDateBar(
     label: String,
-    onIntent: (TimelineIntent) -> Unit,
+    onBack: () -> Unit,
+    onPick: () -> Unit,
+    onForward: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -36,7 +37,7 @@ fun TimelineDateBar(
             .fillMaxWidth()
             .padding(AppTheme.dimensions.padding.P_2),
     ) {
-        IconButton(onClick = { onIntent(TimelineIntent.MoveDayBack) }) {
+        IconButton(onClick = onBack) {
             Icon(
                 painter = painterResource(Res.drawable.ic_chevron_back),
                 contentDescription = stringResource(Res.string.day_previous),
@@ -48,11 +49,11 @@ fun TimelineDateBar(
 
         val onClickLabel = stringResource(Res.string.date_picker_open)
         TextButton(
-            onClick = { onIntent(TimelineIntent.OpenDateDialog) },
+            onClick = onPick,
             modifier = Modifier.semantics {
                 onClick(
                     label = onClickLabel,
-                    action = { onIntent(TimelineIntent.OpenDateDialog); true },
+                    action = { onPick(); true },
                 )
             },
         ) {
@@ -64,7 +65,7 @@ fun TimelineDateBar(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        IconButton(onClick = { onIntent(TimelineIntent.MoveDayForward) }) {
+        IconButton(onClick = onForward) {
             Icon(
                 painter = painterResource(Res.drawable.ic_chevron_forward),
                 contentDescription = stringResource(Res.string.day_next),

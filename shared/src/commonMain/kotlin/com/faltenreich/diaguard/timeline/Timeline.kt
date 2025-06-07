@@ -2,6 +2,10 @@ package com.faltenreich.diaguard.timeline
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvas
@@ -13,6 +17,7 @@ fun Timeline(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
+    var showDatePicker by remember { mutableStateOf(false) }
 
     Column(modifier = modifier) {
         TimelineCanvas(
@@ -23,16 +28,18 @@ fun Timeline(
         )
         TimelineDateBar(
             label = state.date.label,
-            onIntent = viewModel::dispatchIntent,
+            onBack = { viewModel.dispatchIntent(TimelineIntent.MoveDayBack) },
+            onPick = { showDatePicker = true },
+            onForward = { viewModel.dispatchIntent(TimelineIntent.MoveDayForward) },
         )
     }
 
-    state.date.pickerDialog?.let { dateDialog ->
+    if (showDatePicker) {
         DatePickerDialog(
-            date = dateDialog.date,
-            onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.CloseDateDialog) },
+            date = state.date.current,
+            onDismissRequest = { showDatePicker = false },
             onConfirmRequest = { date ->
-                viewModel.dispatchIntent(TimelineIntent.CloseDateDialog)
+                showDatePicker = false
                 viewModel.postEvent(TimelineEvent.DateSelected(date))
             },
         )

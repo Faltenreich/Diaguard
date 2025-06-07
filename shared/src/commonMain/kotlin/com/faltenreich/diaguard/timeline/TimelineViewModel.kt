@@ -50,13 +50,11 @@ class TimelineViewModel(
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
-            is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
-            is TimelineIntent.SearchEntries -> pushScreen(EntrySearchScreen())
+            is TimelineIntent.SetCurrentDate -> currentDate.update { intent.currentDate }
             is TimelineIntent.MoveDayBack -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
             is TimelineIntent.MoveDayForward -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
-            is TimelineIntent.OpenDateDialog -> dateDialog.update { TimelineState.DateDialog(currentDate.value) }
-            is TimelineIntent.CloseDateDialog -> dateDialog.update { null }
-            is TimelineIntent.SetCurrentDate -> currentDate.update { intent.currentDate }
+            is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
+            is TimelineIntent.SearchEntries -> pushScreen(EntrySearchScreen())
         }
     }
 

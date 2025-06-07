@@ -4,17 +4,13 @@ import com.faltenreich.diaguard.datetime.Date
 
 sealed interface TimelineIntent {
 
-    data object CreateEntry : TimelineIntent
-
-    data object SearchEntries : TimelineIntent
+    data class SetCurrentDate(val currentDate: Date) : TimelineIntent
 
     data object MoveDayBack : TimelineIntent
 
     data object MoveDayForward : TimelineIntent
 
-    data object OpenDateDialog : TimelineIntent
+    data object CreateEntry : TimelineIntent
 
-    data object CloseDateDialog : TimelineIntent
-
-    data class SetCurrentDate(val currentDate: Date) : TimelineIntent
+    data object SearchEntries : TimelineIntent
 }

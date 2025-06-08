@@ -18,6 +18,8 @@ import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.shared.system.FakeSystemSettings
 import com.faltenreich.diaguard.shared.system.SystemSettings
+import com.faltenreich.diaguard.shared.view.FakeWindowController
+import com.faltenreich.diaguard.shared.view.WindowController
 import com.faltenreich.diaguard.startup.legacy.FakeLegacyDao
 import com.faltenreich.diaguard.startup.legacy.LegacyDao
 import com.faltenreich.diaguard.startup.seed.query.food.FoodSeedQueries
@@ -39,6 +41,7 @@ fun testModules() = module {
     single<CoroutineContext> { StandardTestDispatcher() }
     single<CoroutineScope> { TestScope(context = get()) }
 
+    factory<WindowController> { FakeWindowController() }
     factoryOf(::FakeSystemSettings) bind SystemSettings::class
     singleOf(::FakeBuildConfig) bind BuildConfig::class
     singleOf(::ConsoleLogger) bind Logger::class

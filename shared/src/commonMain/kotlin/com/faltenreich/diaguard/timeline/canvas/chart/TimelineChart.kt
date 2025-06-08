@@ -5,7 +5,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.shared.view.bezierBetween
 import com.faltenreich.diaguard.timeline.TimelineConfig
@@ -14,13 +13,10 @@ import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 @Suppress("FunctionName")
 fun DrawScope.TimelineChart(
     state: TimelineChartState,
-    initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
 ) = with(state) {
     if (values.isEmpty()) return@with
-
-    val dateTimeBase = initialDate.atStartOfDay()
 
     val coordinateList = values.map { value ->
         val dateTime = value.dateTime
@@ -28,7 +24,7 @@ fun DrawScope.TimelineChart(
         val widthPerDay = coordinates.chart.size.width
         val widthPerHour = widthPerDay / (config.xAxis.last / config.xAxis.step)
         val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
-        val offsetInMinutes = dateTimeBase.minutesUntil(dateTime)
+        val offsetInMinutes = initialDateTime.minutesUntil(dateTime)
         val offsetOfDateTime = (offsetInMinutes / config.xAxis.step) * widthPerMinute
         val x = coordinates.chart.topLeft.x + coordinates.scroll.x + offsetOfDateTime
 

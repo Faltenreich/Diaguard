@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.timeline.canvas.chart
 
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.timeline.date.TimelineDateState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlin.math.max
@@ -14,8 +14,9 @@ class GetTimelineChartStateUseCase(
     private val propertyRepository: MeasurementPropertyRepository,
 ) {
 
-    operator fun invoke(date: Date): Flow<TimelineChartState> {
-        val dateRange = date.minus(1, DateUnit.DAY) .. date.plus(1, DateUnit.DAY)
+    operator fun invoke(dateState: TimelineDateState): Flow<TimelineChartState> {
+        val dateRange = dateState.current.minus(1, DateUnit.DAY) ..
+            dateState.current.plus(1, DateUnit.DAY)
         val propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         return combine(
             valueRepository.observeByDateRange(
@@ -26,6 +27,7 @@ class GetTimelineChartStateUseCase(
             propertyRepository.observeByKey(propertyKey),
         ) { values, property ->
             TimelineChartState(
+                initialDateTime = dateState.initial.atStartOfDay(),
                 values = values.map { value ->
                     TimelineChartState.Value(
                         dateTime = value.entry.dateTime,

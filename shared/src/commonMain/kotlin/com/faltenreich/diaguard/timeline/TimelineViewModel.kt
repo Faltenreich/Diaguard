@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.timeline.date.GetTimelineDateStateUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 
 class TimelineViewModel(
@@ -26,9 +26,9 @@ class TimelineViewModel(
 
     private val initialDate = getToday()
     private val currentDate = MutableStateFlow(initialDate)
-    private val date = currentDate.map { getDate(initialDate, it) }
-    private val chart = currentDate.flatMapLatest(getChart::invoke)
-    private val table = currentDate.flatMapLatest(getTable::invoke)
+    private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
+    private val chart = date.flatMapLatest(getChart::invoke)
+    private val table = date.flatMapLatest(getTable::invoke)
 
     override val state = combine(date, chart, table, ::TimelineState)
 

@@ -151,9 +151,9 @@ fun TimelineCanvas(
     ) {
         coordinates?.let { coordinates ->
             TimelineXAxis(coordinates, config, textMeasurer)
-            TimelineChart(state.chart, state.date.initial, coordinates, config)
+            TimelineChart(state.chart, coordinates, config)
             TimelineYAxis(state.chart, coordinates, config, textMeasurer)
-            TimelineTable(state.table, state.date.initial, coordinates, config, textMeasurer)
+            TimelineTable(state.table, coordinates, config, textMeasurer)
         }
     }
 }

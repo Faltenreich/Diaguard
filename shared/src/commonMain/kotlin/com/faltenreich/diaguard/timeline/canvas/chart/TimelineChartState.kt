@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.timeline.canvas.chart
 import com.faltenreich.diaguard.datetime.DateTime
 
 data class TimelineChartState(
+    val initialDateTime: DateTime,
     val values: List<Value>,
     val valueMin: Double,
     val valueLow: Double?,

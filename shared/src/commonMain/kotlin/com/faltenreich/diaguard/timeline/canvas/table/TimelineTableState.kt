@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.timeline.canvas.table
 import com.faltenreich.diaguard.datetime.DateTime
 
 data class TimelineTableState(
+    val initialDateTime: DateTime,
     val categories: List<Category>,
 ) {
 

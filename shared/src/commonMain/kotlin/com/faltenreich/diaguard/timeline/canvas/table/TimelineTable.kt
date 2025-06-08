@@ -7,7 +7,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.drawText
@@ -17,17 +16,14 @@ import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 @Suppress("FunctionName")
 fun DrawScope.TimelineTable(
     state: TimelineTableState,
-    initialDate: Date,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
-) {
-    val initialDateTime = initialDate.atStartOfDay()
-
+) = with(state) {
     val x = coordinates.table.topLeft.x
     var y = coordinates.table.topLeft.y
 
-    state.categories.forEachIndexed { categoryIndex, category ->
+    categories.forEachIndexed { categoryIndex, category ->
         val rowHeight = config.tableRowHeight
 
         category.properties.forEachIndexed { propertyIndex, property ->

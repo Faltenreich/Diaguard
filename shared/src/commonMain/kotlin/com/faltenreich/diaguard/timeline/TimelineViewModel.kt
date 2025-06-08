@@ -26,17 +26,18 @@ class TimelineViewModel(
 
     private val initialDate = getToday()
     private val currentDate = MutableStateFlow(initialDate)
+    private val date = currentDate.map { getDate(initialDate, it) }
     private val chart = currentDate.flatMapLatest(getChart::invoke)
     private val table = currentDate.flatMapLatest(getTable::invoke)
-    private val date = currentDate.map { getDate(initialDate, it) }
 
-    override val state = combine(chart, table, date, ::TimelineState)
+    override val state = combine(date, chart, table, ::TimelineState)
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
             is TimelineIntent.SetCurrentDate -> currentDate.update { intent.currentDate }
-            is TimelineIntent.MoveDayBack -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
-            is TimelineIntent.MoveDayForward -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
+            is TimelineIntent.SelectDate -> selectDate(intent.date)
+            is TimelineIntent.SelectPreviousDate -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
+            is TimelineIntent.SelectNextDate -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
             is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
             is TimelineIntent.SearchEntries -> pushScreen(EntrySearchScreen())
         }

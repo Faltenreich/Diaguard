@@ -28,9 +28,9 @@ fun Timeline(
         )
         TimelineDateBar(
             label = state.date.label,
-            onBack = { viewModel.dispatchIntent(TimelineIntent.MoveDayBack) },
+            onBack = { viewModel.dispatchIntent(TimelineIntent.SelectPreviousDate) },
             onPick = { showDatePicker = true },
-            onForward = { viewModel.dispatchIntent(TimelineIntent.MoveDayForward) },
+            onForward = { viewModel.dispatchIntent(TimelineIntent.SelectNextDate) },
         )
     }
 
@@ -40,7 +40,7 @@ fun Timeline(
             onDismissRequest = { showDatePicker = false },
             onConfirmRequest = { date ->
                 showDatePicker = false
-                viewModel.postEvent(TimelineEvent.DateSelected(date))
+                viewModel.dispatchIntent(TimelineIntent.SelectDate(date))
             },
         )
     }

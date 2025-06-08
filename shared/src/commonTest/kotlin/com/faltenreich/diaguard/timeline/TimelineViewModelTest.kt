@@ -202,7 +202,7 @@ class TimelineViewModelTest : TestSuite {
         viewModel.state.test {
             val currentDate = awaitItem().currentDate
 
-            viewModel.handleIntent(TimelineIntent.MoveDayBack)
+            viewModel.handleIntent(TimelineIntent.SelectPreviousDate)
 
             viewModel.events.test {
                 val event = awaitItem()
@@ -220,7 +220,7 @@ class TimelineViewModelTest : TestSuite {
         viewModel.state.test {
             val currentDate = awaitItem().currentDate
 
-            viewModel.handleIntent(TimelineIntent.MoveDayForward)
+            viewModel.handleIntent(TimelineIntent.SelectNextDate)
 
             viewModel.events.test {
                 val event = awaitItem()

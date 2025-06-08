@@ -6,9 +6,11 @@ sealed interface TimelineIntent {
 
     data class SetCurrentDate(val currentDate: Date) : TimelineIntent
 
-    data object MoveDayBack : TimelineIntent
+    data class SelectDate(val date: Date) : TimelineIntent
 
-    data object MoveDayForward : TimelineIntent
+    data object SelectPreviousDate : TimelineIntent
+
+    data object SelectNextDate : TimelineIntent
 
     data object CreateEntry : TimelineIntent
 

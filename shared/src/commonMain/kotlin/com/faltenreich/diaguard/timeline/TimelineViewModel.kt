@@ -18,9 +18,9 @@ import kotlinx.coroutines.flow.update
 
 class TimelineViewModel(
     getToday: GetTodayUseCase,
+    private val getDate: GetTimelineDateStateUseCase,
     private val getChart: GetTimelineChartStateUseCase,
     private val getTable: GetTimelineTableStateUseCase,
-    private val getDate: GetTimelineDateStateUseCase,
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 

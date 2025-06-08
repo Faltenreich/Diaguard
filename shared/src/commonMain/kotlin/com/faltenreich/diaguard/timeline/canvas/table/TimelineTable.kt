@@ -64,7 +64,7 @@ fun DrawScope.TimelineTable(
                 text = property.name,
                 bottomLeft = Offset(
                     x = x + iconSize,
-                    y = y + config.fontSize + config.padding - 2, // TODO: Remove magic offset
+                    y = y + rowHeight / 2 + config.fontSize / 2,
                 ),
                 size = config.fontSize,
                 paint = config.fontPaint,
@@ -93,7 +93,7 @@ fun DrawScope.TimelineTable(
                 val textSize = textMeasurer.measure(text)
 
                 val valueX = offsetOfHour + widthPerHour / 2 - textSize.size.width / 2
-                val valueY = y + rowHeight / 2 + config.fontSize / 2
+                val valueY = y + rowHeight / 2 + textSize.size.height / 2
 
                 drawText(
                     text = text,

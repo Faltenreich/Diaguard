@@ -20,6 +20,7 @@ fun DatePickerDialog(
     onDismissRequest: () -> Unit,
     onConfirmRequest: (Date) -> Unit,
     modifier: Modifier = Modifier,
+    dateTimeFactory: DateTimeFactory = inject<DateTimeFactory>(),
 ) {
     val state = rememberDatePickerState(
         initialSelectedDateMillis = date.atStartOfDay().epochMilliseconds,
@@ -29,7 +30,6 @@ fun DatePickerDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    val dateTimeFactory = inject<DateTimeFactory>()
                     when (val update = state.selectedDateMillis?.let(dateTimeFactory::dateTime)?.date) {
                         null -> onDismissRequest()
                         else -> onConfirmRequest(update)

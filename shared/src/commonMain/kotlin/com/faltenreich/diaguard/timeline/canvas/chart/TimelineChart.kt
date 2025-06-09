@@ -18,7 +18,6 @@ fun DrawScope.TimelineChart(
         config = config,
     )
     TimelineChartLabels(
-        state = state,
         coordinates = coordinates,
         config = config,
         textMeasurer = textMeasurer,

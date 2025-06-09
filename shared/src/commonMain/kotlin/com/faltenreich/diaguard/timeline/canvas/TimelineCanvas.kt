@@ -111,6 +111,8 @@ fun TimelineCanvas(
             scrollOffset = Offset(x = scrollOffset.value, y = 0f),
             tableRowCount = state.table.rowCount,
             config = config,
+            property = state.chart.property,
+            values = state.chart.values,
         )
     }
 

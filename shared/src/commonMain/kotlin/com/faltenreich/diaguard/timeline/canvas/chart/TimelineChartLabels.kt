@@ -12,17 +12,17 @@ import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChartLabels(
-    state: TimelineChartState,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
-) = with(state) {
-    val heightPerSection = (coordinates.chart.size.height / (axis.last() / state.valueStep)).toInt()
-    axis
+) {
+    val heightPerSection = (coordinates.chart.size.height /
+        (coordinates.valueAxis.last() / coordinates.valueStep)).toInt()
+    coordinates.valueAxis
         .drop(0)
         .dropLast(1)
         .forEach { value ->
-            val index = axis.indexOf(value)
+            val index = coordinates.valueAxis.indexOf(value)
             val x = coordinates.canvas.topLeft.x + config.padding
             val y = coordinates.canvas.topLeft.y + coordinates.chart.size.height - (index * heightPerSection)
 

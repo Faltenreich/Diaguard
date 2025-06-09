@@ -2,18 +2,26 @@ package com.faltenreich.diaguard.timeline.canvas.chart
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import kotlin.math.max
+
+private const val Y_AXIS_MIN = 0.0
+private const val Y_AXIS_STEP = 50.0
+private const val Y_AXIS_MAX_MIN = 250.0
 
 data class TimelineChartState(
     val initialDateTime: DateTime,
     val property: MeasurementProperty,
     val values: List<Value>,
-    val valueMin: Double,
-    val valueLow: Double?,
-    val valueHigh: Double?,
-    val valueMax: Double,
-    val valueStep: Double,
 ) {
 
+    val valueMin = Y_AXIS_MIN
+    val valueLow = property.range.low
+    val valueHigh = property.range.high
+    val valueMax = max(
+        Y_AXIS_MAX_MIN,
+        (values.maxOfOrNull { it.value } ?: 0.0) + Y_AXIS_STEP,
+    )
+    val valueStep = Y_AXIS_STEP
     val axis = valueMin .. valueMax step valueStep
 
     data class Value(

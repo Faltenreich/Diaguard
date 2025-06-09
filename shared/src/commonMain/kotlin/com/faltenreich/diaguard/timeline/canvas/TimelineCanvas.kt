@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline.canvas
 
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FloatSpringSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.calculateTargetValue
@@ -14,8 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -61,20 +58,13 @@ fun TimelineCanvas(
 
     var canvasSize by remember { mutableStateOf(Size.Unspecified) }
 
-    val scrollOffset = rememberSaveable(
-        saver = Saver(
-            save = { it.value },
-            restore = { Animatable(initialValue = it) },
-        ),
-    ) { Animatable(0f) }
-
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
             when (event) {
                 is TimelineEvent.DateSelected -> scope.launch {
                     val daysBetween = state.date.current.daysBetween(event.date)
                     val offset = canvasSize.width * -1 * daysBetween
-                    scrollOffset.animateTo(offset)
+                    viewModel.scrollOffset.animateTo(offset)
                 }
             }
         }
@@ -98,9 +88,9 @@ fun TimelineCanvas(
         mutableStateOf(config)
     }
 
-    LaunchedEffect(scrollOffset.value, canvasSize) {
+    LaunchedEffect(viewModel.scrollOffset.value, canvasSize) {
         val widthPerDay = canvasSize.width
-        val threshold = (scrollOffset.value * -1) + (widthPerDay / 2f)
+        val threshold = (viewModel.scrollOffset.value * -1) + (widthPerDay / 2f)
         val offsetInDays = floor( threshold / widthPerDay)
         val currentDate = state.date.initial.plus(offsetInDays.toInt(), DateUnit.DAY)
 
@@ -108,7 +98,7 @@ fun TimelineCanvas(
 
         coordinates = TimelineCoordinates.from(
             size = canvasSize,
-            scrollOffset = Offset(x = scrollOffset.value, y = 0f),
+            scrollOffset = Offset(x = viewModel.scrollOffset.value, y = 0f),
             tableRowCount = state.table.rowCount,
             config = config,
             property = state.chart.property,
@@ -130,7 +120,7 @@ fun TimelineCanvas(
                 detectDragGestures(
                     onDrag = { change, dragAmount ->
                         scope.launch {
-                            scrollOffset.snapTo(scrollOffset.value + dragAmount.x)
+                            viewModel.scrollOffset.snapTo(viewModel.scrollOffset.value + dragAmount.x)
                             velocityTracker.addPosition(change.uptimeMillis, change.position)
                             change.consume()
                         }
@@ -138,8 +128,8 @@ fun TimelineCanvas(
                     onDragEnd = {
                         scope.launch {
                             val velocity = velocityTracker.calculateVelocity()
-                            val targetValueX = decay.calculateTargetValue(scrollOffset.value, velocity.x)
-                            scrollOffset.animateTo(
+                            val targetValueX = decay.calculateTargetValue(viewModel.scrollOffset.value, velocity.x)
+                            viewModel.scrollOffset.animateTo(
                                 targetValue = targetValueX,
                                 initialVelocity = velocity.x,
                                 animationSpec = animationSpec,

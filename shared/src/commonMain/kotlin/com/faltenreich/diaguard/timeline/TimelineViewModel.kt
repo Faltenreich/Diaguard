@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.animation.core.Animatable
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
@@ -29,6 +30,8 @@ class TimelineViewModel(
     private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
     private val chart = date.flatMapLatest(getChart::invoke)
     private val table = date.flatMapLatest(getTable::invoke)
+
+    val scrollOffset = Animatable(0f)
 
     override val state = combine(date, chart, table, ::TimelineState)
 

@@ -28,6 +28,7 @@ class GetTimelineChartStateUseCase(
         ) { values, property ->
             TimelineChartState(
                 initialDateTime = dateState.initial.atStartOfDay(),
+                property = property!!, // TODO: Handle null
                 values = values.map { value ->
                     TimelineChartState.Value(
                         dateTime = value.entry.dateTime,
@@ -35,8 +36,8 @@ class GetTimelineChartStateUseCase(
                     )
                 },
                 valueMin = Y_AXIS_MIN,
-                valueLow = property?.range?.low,
-                valueHigh = property?.range?.high,
+                valueLow = property.range.low,
+                valueHigh = property.range.high,
                 valueMax = max(
                     Y_AXIS_MAX_MIN,
                     (values.maxOfOrNull { it.value } ?: 0.0) + Y_AXIS_STEP,

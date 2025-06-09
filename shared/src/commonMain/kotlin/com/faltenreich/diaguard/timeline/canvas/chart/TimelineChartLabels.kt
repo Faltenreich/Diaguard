@@ -11,18 +11,18 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 
 @Suppress("FunctionName")
-fun DrawScope.TimelineYAxis(
-    data: TimelineChartState,
+fun DrawScope.TimelineChartLabels(
+    state: TimelineChartState,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
-) {
-    val heightPerSection = (coordinates.chart.size.height / (data.axis.last() / data.valueStep)).toInt()
-    data.axis
+) = with(state) {
+    val heightPerSection = (coordinates.chart.size.height / (axis.last() / state.valueStep)).toInt()
+    axis
         .drop(0)
         .dropLast(1)
         .forEach { value ->
-            val index = data.axis.indexOf(value)
+            val index = axis.indexOf(value)
             val x = coordinates.canvas.topLeft.x + config.padding
             val y = coordinates.canvas.topLeft.y + coordinates.chart.size.height - (index * heightPerSection)
 

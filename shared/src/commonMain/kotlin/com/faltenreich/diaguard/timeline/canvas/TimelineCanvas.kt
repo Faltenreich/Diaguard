@@ -39,7 +39,6 @@ import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineState
 import com.faltenreich.diaguard.timeline.TimelineViewModel
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChart
-import com.faltenreich.diaguard.timeline.canvas.chart.TimelineYAxis
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTable
 import kotlinx.coroutines.launch
 import kotlin.math.floor
@@ -150,10 +149,9 @@ fun TimelineCanvas(
             },
     ) {
         coordinates?.let { coordinates ->
-            TimelineXAxis(coordinates, config, textMeasurer)
-            TimelineChart(state.chart, coordinates, config)
-            TimelineYAxis(state.chart, coordinates, config, textMeasurer)
+            TimelineChart(state.chart, coordinates, config, textMeasurer)
             TimelineTable(state.table, coordinates, config, textMeasurer)
+            TimelineHours(coordinates, config, textMeasurer)
         }
     }
 }

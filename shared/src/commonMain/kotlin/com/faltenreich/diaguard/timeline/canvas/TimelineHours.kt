@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
-fun DrawScope.TimelineXAxis(
+fun DrawScope.TimelineHours(
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,

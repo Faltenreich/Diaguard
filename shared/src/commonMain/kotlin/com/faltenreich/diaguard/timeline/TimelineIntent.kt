@@ -1,8 +1,11 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 
 sealed interface TimelineIntent {
+
+    data class Setup(val canvasSize: Size) : TimelineIntent
 
     data class Invalidate(
         val scrollOffset: Float,

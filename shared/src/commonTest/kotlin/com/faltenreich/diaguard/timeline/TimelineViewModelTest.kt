@@ -208,7 +208,7 @@ class TimelineViewModelTest : TestSuite {
 
             viewModel.events.test {
                 val event = awaitItem()
-                assertTrue(event is TimelineEvent.DateSelected)
+                assertTrue(event is TimelineEvent.Scroll)
                 assertEquals(
                     expected = currentDate.minus(1, DateUnit.DAY),
                     actual = event.date,
@@ -226,7 +226,7 @@ class TimelineViewModelTest : TestSuite {
 
             viewModel.events.test {
                 val event = awaitItem()
-                assertTrue(event is TimelineEvent.DateSelected)
+                assertTrue(event is TimelineEvent.Scroll)
                 assertEquals(
                     expected = currentDate.plus(1, DateUnit.DAY),
                     actual = event.date,

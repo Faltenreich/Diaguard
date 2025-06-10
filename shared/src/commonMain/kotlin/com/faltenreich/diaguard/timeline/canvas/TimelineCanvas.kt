@@ -36,7 +36,6 @@ import com.faltenreich.diaguard.timeline.TimelineState
 import com.faltenreich.diaguard.timeline.TimelineViewModel
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChart
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTable
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @Composable
@@ -65,11 +64,7 @@ fun TimelineCanvas(
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
             when (event) {
-                is TimelineEvent.DateSelected -> scope.launch {
-                    val daysBetween = state.date.currentDate.daysBetween(event.date)
-                    val offset = viewModel.canvasSize.value.width * -1 * daysBetween
-                    scrollOffset.animateTo(offset)
-                }
+                is TimelineEvent.Scroll -> scope.launch { scrollOffset.animateTo(event.offset) }
             }
         }
     }
@@ -105,7 +100,7 @@ fun TimelineCanvas(
         modifier = modifier
             .fillMaxSize()
             .onGloballyPositioned { coordinates ->
-                viewModel.canvasSize.update { coordinates.size.toSize() }
+                viewModel.dispatchIntent(TimelineIntent.Setup(coordinates.size.toSize()))
             }
             .pointerInput(Unit) {
                 val decay = splineBasedDecay<Float>(this)

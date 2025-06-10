@@ -34,13 +34,14 @@ class TimelineViewModel(
     private val chart = date.flatMapLatest(getChart::invoke)
     private val table = date.flatMapLatest(getTable::invoke)
 
-    val canvasSize = MutableStateFlow(Size.Unspecified)
+    private val canvasSize = MutableStateFlow(Size.Unspecified)
     private val coordinates = MutableStateFlow<TimelineCoordinates?>(null)
 
     override val state = combine(date, chart, table, coordinates, ::TimelineState)
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
+            is TimelineIntent.Setup -> canvasSize.update { intent.canvasSize }
             is TimelineIntent.Invalidate -> {
                 val scrollOffset = intent.scrollOffset
                 val widthPerDay = canvasSize.value.width
@@ -71,6 +72,8 @@ class TimelineViewModel(
     }
 
     private fun selectDate(date: Date) {
-        postEvent(TimelineEvent.DateSelected(date))
+        val daysBetween = initialDate.daysBetween(date)
+        val offset = canvasSize.value.width * -1 * daysBetween
+        postEvent(TimelineEvent.Scroll(offset))
     }
 }

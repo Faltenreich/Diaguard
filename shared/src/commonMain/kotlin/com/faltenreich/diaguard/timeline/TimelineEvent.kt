@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
-import com.faltenreich.diaguard.datetime.Date
-
 sealed interface TimelineEvent {
 
-    data class DateSelected(val date: Date) : TimelineEvent
+    data class Scroll(val offset: Float) : TimelineEvent
 }

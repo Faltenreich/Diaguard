@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableStateUseCase
 import com.faltenreich.diaguard.timeline.date.GetTimelineDateStateUseCase
@@ -34,8 +35,9 @@ class TimelineViewModel(
 
     val canvasSize = MutableStateFlow(Size.Unspecified)
     val scrollOffset = Animatable(0f)
+    val coordinates = MutableStateFlow<TimelineCoordinates?>(null)
 
-    override val state = combine(date, chart, table, ::TimelineState)
+    override val state = combine(date, chart, table, coordinates, ::TimelineState)
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {

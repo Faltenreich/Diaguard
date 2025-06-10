@@ -13,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Paint
@@ -68,7 +67,6 @@ fun TimelineCanvas(
         }
     }
 
-    var coordinates by remember { mutableStateOf<TimelineCoordinates?>(null) }
     val config by remember {
         val config = TimelineConfig(
             daysOfWeek = daysOfWeek,
@@ -94,7 +92,7 @@ fun TimelineCanvas(
 
         onIntent(TimelineIntent.SetCurrentDate(currentDate))
 
-        coordinates = TimelineCoordinates.from(
+        viewModel.coordinates.value = TimelineCoordinates.from(
             size = viewModel.canvasSize.value,
             scrollOffset = Offset(x = viewModel.scrollOffset.value, y = 0f),
             tableRowCount = state.table.rowCount,
@@ -140,7 +138,7 @@ fun TimelineCanvas(
                 )
             },
     ) {
-        coordinates?.let { coordinates ->
+        state.coordinates?.let { coordinates ->
             TimelineChart(state.chart, coordinates, config, textMeasurer)
             TimelineTable(state.table, coordinates, config, textMeasurer)
             TimelineHours(coordinates, config, textMeasurer)

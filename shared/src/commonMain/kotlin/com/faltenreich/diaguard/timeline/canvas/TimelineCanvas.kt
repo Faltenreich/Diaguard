@@ -16,7 +16,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
@@ -37,6 +36,7 @@ import com.faltenreich.diaguard.timeline.TimelineState
 import com.faltenreich.diaguard.timeline.TimelineViewModel
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChart
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTable
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.math.floor
 
@@ -56,14 +56,12 @@ fun TimelineCanvas(
     val textMeasurer = rememberTextMeasurer()
     val daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) }
 
-    var canvasSize by remember { mutableStateOf(Size.Unspecified) }
-
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
             when (event) {
                 is TimelineEvent.DateSelected -> scope.launch {
                     val daysBetween = state.date.currentDate.daysBetween(event.date)
-                    val offset = canvasSize.width * -1 * daysBetween
+                    val offset = viewModel.canvasSize.value.width * -1 * daysBetween
                     viewModel.scrollOffset.animateTo(offset)
                 }
             }
@@ -88,8 +86,8 @@ fun TimelineCanvas(
         mutableStateOf(config)
     }
 
-    LaunchedEffect(viewModel.scrollOffset.value, canvasSize) {
-        val widthPerDay = canvasSize.width
+    LaunchedEffect(viewModel.scrollOffset.value, viewModel.canvasSize.value) {
+        val widthPerDay = viewModel.canvasSize.value.width
         val threshold = (viewModel.scrollOffset.value * -1) + (widthPerDay / 2f)
         val offsetInDays = floor( threshold / widthPerDay)
         val currentDate = state.date.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
@@ -97,7 +95,7 @@ fun TimelineCanvas(
         onIntent(TimelineIntent.SetCurrentDate(currentDate))
 
         coordinates = TimelineCoordinates.from(
-            size = canvasSize,
+            size = viewModel.canvasSize.value,
             scrollOffset = Offset(x = viewModel.scrollOffset.value, y = 0f),
             tableRowCount = state.table.rowCount,
             config = config,
@@ -109,7 +107,9 @@ fun TimelineCanvas(
     Canvas(
         modifier = modifier
             .fillMaxSize()
-            .onGloballyPositioned { canvasSize = it.size.toSize() }
+            .onGloballyPositioned { coordinates ->
+                viewModel.canvasSize.update { coordinates.size.toSize() }
+            }
             .pointerInput(Unit) {
                 val decay = splineBasedDecay<Float>(this)
                 val animationSpec = FloatSpringSpec(

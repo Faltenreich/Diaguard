@@ -190,7 +190,7 @@ class TimelineViewModelTest : TestSuite {
         viewModel.state.test {
             val date = dateTimeFactory.date(1970, 1, 1)
 
-            viewModel.handleIntent(TimelineIntent.SetCurrentDate(date))
+            viewModel.handleIntent(TimelineIntent.Invalidate(date))
 
             assertEquals(
                 expected = date,

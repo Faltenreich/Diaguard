@@ -90,9 +90,7 @@ fun TimelineCanvas(
         val offsetInDays = floor( threshold / widthPerDay)
         val currentDate = state.date.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
 
-        onIntent(TimelineIntent.SetCurrentDate(currentDate))
-
-        viewModel.coordinates.value = TimelineCoordinates.from(
+        val coordinates = TimelineCoordinates.from(
             size = viewModel.canvasSize.value,
             scrollOffset = Offset(x = viewModel.scrollOffset.value, y = 0f),
             tableRowCount = state.table.rowCount,
@@ -100,6 +98,8 @@ fun TimelineCanvas(
             property = state.chart.property,
             values = state.chart.values,
         )
+
+        onIntent(TimelineIntent.Invalidate(currentDate, coordinates))
     }
 
     Canvas(

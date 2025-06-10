@@ -35,13 +35,16 @@ class TimelineViewModel(
 
     val canvasSize = MutableStateFlow(Size.Unspecified)
     val scrollOffset = Animatable(0f)
-    val coordinates = MutableStateFlow<TimelineCoordinates?>(null)
+    private val coordinates = MutableStateFlow<TimelineCoordinates?>(null)
 
     override val state = combine(date, chart, table, coordinates, ::TimelineState)
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
-            is TimelineIntent.SetCurrentDate -> currentDate.update { intent.currentDate }
+            is TimelineIntent.Invalidate -> {
+                currentDate.update { intent.currentDate }
+                coordinates.update { intent.coordinates }
+            }
             is TimelineIntent.SelectDate -> selectDate(intent.date)
             is TimelineIntent.SelectPreviousDate -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
             is TimelineIntent.SelectNextDate -> selectDate(currentDate.value.plus(1, DateUnit.DAY))

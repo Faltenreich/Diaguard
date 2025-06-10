@@ -13,6 +13,13 @@ data class TimelineCanvasDimensions(
 
     companion object {
 
+        val Zero = TimelineCanvasDimensions(
+            canvas = Rect.Zero,
+            chart = Rect.Zero,
+            table = Rect.Zero,
+            time = Rect.Zero,
+        )
+
         fun from(
             size: Size,
             tableRowCount: Int,

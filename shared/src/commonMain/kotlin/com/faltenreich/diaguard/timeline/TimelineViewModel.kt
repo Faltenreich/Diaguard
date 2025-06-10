@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
+import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableStateUseCase
 import com.faltenreich.diaguard.timeline.date.GetTimelineDateStateUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +23,7 @@ import kotlin.math.floor
 
 class TimelineViewModel(
     getToday: GetTodayUseCase,
+    getProperties: GetTimelineTableMeasurementPropertiesUseCase,
     private val getDate: GetTimelineDateStateUseCase,
     private val getChart: GetTimelineChartStateUseCase,
     private val getTable: GetTimelineTableStateUseCase,
@@ -30,6 +32,7 @@ class TimelineViewModel(
 
     private val initialDate = getToday()
     private val currentDate = MutableStateFlow(initialDate)
+    private val properties = getProperties()
     private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
     private val chart = date.flatMapLatest(getChart::invoke)
     private val table = date.flatMapLatest(getTable::invoke)

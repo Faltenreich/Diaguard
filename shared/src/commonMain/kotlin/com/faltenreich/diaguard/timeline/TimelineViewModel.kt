@@ -48,9 +48,7 @@ class TimelineViewModel(
                 val threshold = (scrollOffset * -1) + (widthPerDay / 2f)
                 val offsetInDays = floor( threshold / widthPerDay)
 
-                currentDate.update {
-                    intent.state.date.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
-                }
+                currentDate.update { initialDate.plus(offsetInDays.toInt(), DateUnit.DAY) }
 
                 coordinates.update {
                     TimelineCoordinates.from(

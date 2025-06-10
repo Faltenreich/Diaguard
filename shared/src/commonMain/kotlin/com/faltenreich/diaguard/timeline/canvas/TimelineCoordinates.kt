@@ -75,7 +75,7 @@ data class TimelineCoordinates(
 }
 
 // TODO: Move and test or find other way
-private infix fun ClosedRange<Double>.step(step: Double): Iterable<Double> {
+infix fun ClosedRange<Double>.step(step: Double): Iterable<Double> {
     require(start.isFinite())
     require(endInclusive.isFinite())
     require(step > 0.0) { "Step must be positive, was: $step." }

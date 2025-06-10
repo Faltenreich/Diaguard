@@ -4,6 +4,7 @@ import androidx.compose.ui.geometry.Offset
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
+import com.faltenreich.diaguard.timeline.canvas.step
 import com.faltenreich.diaguard.timeline.date.TimelineDateState
 
 class GetTimelineChartStateUseCase {
@@ -13,7 +14,7 @@ class GetTimelineChartStateUseCase {
         values: List<MeasurementValue.Local>,
         dimensions: TimelineCanvasDimensions,
         scrollOffset: Float,
-        valueAxis: Iterable<Double> = emptyList(), // TODO: Pass parameter
+        valueAxis: Iterable<Double> = 0.0 .. 250.0 step 50.0, // TODO: Pass parameter
         xAxis: IntProgression = 0 .. 24 step 2, // TODO: Pass parameter
     ): TimelineChartState {
         return TimelineChartState(

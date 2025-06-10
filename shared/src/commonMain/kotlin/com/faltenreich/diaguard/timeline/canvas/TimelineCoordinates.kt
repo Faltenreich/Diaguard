@@ -72,7 +72,7 @@ data class TimelineCoordinates(
             val valueAxis = valueMin .. valueMax step valueStep
 
             return TimelineCoordinates(
-                canvas = Rect(offset = origin, size),
+                canvas = Rect(offset = origin, size = size),
                 chart = Rect(offset = origin, size = chartSize),
                 table = Rect(offset = tableOrigin, size = tableSize),
                 time = Rect(offset = timeOrigin, size = timeSize),

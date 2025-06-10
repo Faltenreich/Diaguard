@@ -3,10 +3,7 @@ package com.faltenreich.diaguard.timeline.canvas
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChartState
-import kotlin.math.max
 
 @Deprecated("Contents will move into states")
 data class TimelineCoordinates(
@@ -34,8 +31,6 @@ data class TimelineCoordinates(
             scrollOffset: Offset,
             tableRowCount: Int,
             config: TimelineConfig,
-            property: MeasurementProperty,
-            values: List<TimelineChartState.Value>,
         ): TimelineCoordinates {
             val origin = Offset.Zero
 
@@ -62,28 +57,18 @@ data class TimelineCoordinates(
                 y = origin.y + chartSize.height + tableSize.height,
             )
 
-            val valueMin = Y_AXIS_MIN
-            val valueLow = property.range.low
-            val valueHigh = property.range.high
-            val valueMax = max(
-                Y_AXIS_MAX_MIN,
-                (values.maxOfOrNull { it.value } ?: 0.0) + Y_AXIS_STEP,
-            )
-            val valueStep = Y_AXIS_STEP
-            val valueAxis = valueMin .. valueMax step valueStep
-
             return TimelineCoordinates(
                 canvas = Rect(offset = origin, size = size),
                 chart = Rect(offset = origin, size = chartSize),
                 table = Rect(offset = tableOrigin, size = tableSize),
                 time = Rect(offset = timeOrigin, size = timeSize),
                 scroll = scrollOffset,
-                valueMin = valueMin,
-                valueLow = valueLow,
-                valueHigh = valueHigh,
-                valueMax = valueMax,
-                valueStep = valueStep,
-                valueAxis = valueAxis,
+                valueMin = 0.0,
+                valueLow = 60.0,
+                valueHigh = 180.0,
+                valueMax = 250.0,
+                valueStep = 50.0,
+                valueAxis = 0.0 .. 250.0 step 50.0,
             )
         }
     }

@@ -68,8 +68,6 @@ class TimelineViewModel(
                         scrollOffset = Offset(x = scrollOffset, y = 0f),
                         tableRowCount = intent.state.table.rowCount,
                         config = intent.config,
-                        property = intent.state.chart.property,
-                        values = intent.state.chart.values,
                     )
                 }
             }

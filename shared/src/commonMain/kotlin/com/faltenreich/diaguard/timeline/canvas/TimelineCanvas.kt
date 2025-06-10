@@ -84,6 +84,7 @@ fun TimelineCanvas(
         mutableStateOf(config)
     }
 
+    // TODO: Observe Flows in ViewModel (and find a way to access config from there)
     LaunchedEffect(viewModel.scrollOffset.value, viewModel.canvasSize.value) {
         val widthPerDay = viewModel.canvasSize.value.width
         val threshold = (viewModel.scrollOffset.value * -1) + (widthPerDay / 2f)

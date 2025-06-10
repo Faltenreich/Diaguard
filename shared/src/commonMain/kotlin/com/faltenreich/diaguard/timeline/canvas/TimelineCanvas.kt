@@ -17,7 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
@@ -26,7 +25,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.theme.LocalDimensions
@@ -40,7 +38,6 @@ import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChart
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTable
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.math.floor
 
 @Composable
 fun TimelineCanvas(
@@ -94,23 +91,14 @@ fun TimelineCanvas(
         mutableStateOf(config)
     }
 
-    // TODO: Observe Flows in ViewModel (and find a way to access config from there)
-    LaunchedEffect(scrollOffset.value, viewModel.canvasSize.value) {
-        val widthPerDay = viewModel.canvasSize.value.width
-        val threshold = (scrollOffset.value * -1) + (widthPerDay / 2f)
-        val offsetInDays = floor( threshold / widthPerDay)
-        val currentDate = state.date.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
-
-        val coordinates = TimelineCoordinates.from(
-            size = viewModel.canvasSize.value,
-            scrollOffset = Offset(x = scrollOffset.value, y = 0f),
-            tableRowCount = state.table.rowCount,
-            config = config,
-            property = state.chart.property,
-            values = state.chart.values,
+    LaunchedEffect(scrollOffset.value) {
+        onIntent(
+            TimelineIntent.Invalidate(
+                scrollOffset = scrollOffset.value,
+                state = state,
+                config = config,
+            )
         )
-
-        onIntent(TimelineIntent.Invalidate(currentDate, coordinates))
     }
 
     Canvas(

@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.timeline
 
 import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 
 sealed interface TimelineIntent {
 
     data class Invalidate(
-        val currentDate: Date,
-        val coordinates: TimelineCoordinates,
+        val scrollOffset: Float,
+        val state: TimelineState,
+        val config: TimelineConfig,
     ) : TimelineIntent
 
     data class SelectDate(val date: Date) : TimelineIntent

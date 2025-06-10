@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
+import kotlin.math.floor
 
 class TimelineViewModel(
     getToday: GetTodayUseCase,
@@ -40,8 +42,25 @@ class TimelineViewModel(
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
             is TimelineIntent.Invalidate -> {
-                currentDate.update { intent.currentDate }
-                coordinates.update { intent.coordinates }
+                val scrollOffset = intent.scrollOffset
+                val widthPerDay = canvasSize.value.width
+                val threshold = (scrollOffset * -1) + (widthPerDay / 2f)
+                val offsetInDays = floor( threshold / widthPerDay)
+
+                currentDate.update {
+                    intent.state.date.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
+                }
+
+                coordinates.update {
+                    TimelineCoordinates.from(
+                        size = canvasSize.value,
+                        scrollOffset = Offset(x = scrollOffset, y = 0f),
+                        tableRowCount = intent.state.table.rowCount,
+                        config = intent.config,
+                        property = intent.state.chart.property,
+                        values = intent.state.chart.values,
+                    )
+                }
             }
             is TimelineIntent.SelectDate -> selectDate(intent.date)
             is TimelineIntent.SelectPreviousDate -> selectDate(currentDate.value.minus(1, DateUnit.DAY))

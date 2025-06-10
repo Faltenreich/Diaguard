@@ -14,6 +14,7 @@ class GetTimelineDateStateUseCase(
     ): TimelineDateState {
         return TimelineDateState(
             initialDate = initialDate,
+            initialDateTime = initialDate.atStartOfDay(),
             currentDate = currentDate,
             currentDateLocalized = "%s, %s".format(
                 dateTimeFormatter.formatDayOfWeek(currentDate, abbreviated = false),

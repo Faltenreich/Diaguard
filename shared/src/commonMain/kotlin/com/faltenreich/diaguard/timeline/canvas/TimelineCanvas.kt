@@ -100,7 +100,12 @@ fun TimelineCanvas(
         modifier = modifier
             .fillMaxSize()
             .onGloballyPositioned { coordinates ->
-                viewModel.dispatchIntent(TimelineIntent.Setup(coordinates.size.toSize()))
+                viewModel.dispatchIntent(
+                    TimelineIntent.Setup(
+                        canvasSize = coordinates.size.toSize(),
+                        tableRowHeight = config.tableRowHeight,
+                    )
+                )
             }
             .pointerInput(Unit) {
                 val decay = splineBasedDecay<Float>(this)

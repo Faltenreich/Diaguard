@@ -5,7 +5,10 @@ import com.faltenreich.diaguard.datetime.Date
 
 sealed interface TimelineIntent {
 
-    data class Setup(val canvasSize: Size) : TimelineIntent
+    data class Setup(
+        val canvasSize: Size,
+        val tableRowHeight: Float,
+    ) : TimelineIntent
 
     data class Invalidate(
         val scrollOffset: Float,

@@ -39,7 +39,7 @@ class TimelineViewModel(
     private val table = date.flatMapLatest(getTable::invoke)
 
     private val canvasSize = MutableStateFlow(Size.Unspecified)
-    private val tableRowHeight = flowOf(20f) // TODO
+    private val tableRowHeight = MutableStateFlow(0f)
     private val canvasDimensions = combine(canvasSize, tableRowHeight, properties, TimelineCanvasDimensions::from)
     private val coordinates = MutableStateFlow<TimelineCoordinates?>(null)
 
@@ -47,7 +47,10 @@ class TimelineViewModel(
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
-            is TimelineIntent.Setup -> canvasSize.update { intent.canvasSize }
+            is TimelineIntent.Setup -> {
+                canvasSize.update { intent.canvasSize }
+                tableRowHeight.update { intent.tableRowHeight }
+            }
             is TimelineIntent.Invalidate -> {
                 val scrollOffset = intent.scrollOffset
                 val widthPerDay = canvasSize.value.width

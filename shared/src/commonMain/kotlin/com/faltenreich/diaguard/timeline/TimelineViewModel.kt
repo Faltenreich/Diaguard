@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementPropertiesUseCase
@@ -38,6 +39,8 @@ class TimelineViewModel(
     private val table = date.flatMapLatest(getTable::invoke)
 
     private val canvasSize = MutableStateFlow(Size.Unspecified)
+    private val tableRowHeight = flowOf(20f) // TODO
+    private val canvasDimensions = combine(canvasSize, tableRowHeight, properties, TimelineCanvasDimensions::from)
     private val coordinates = MutableStateFlow<TimelineCoordinates?>(null)
 
     override val state = combine(date, chart, table, coordinates, ::TimelineState)

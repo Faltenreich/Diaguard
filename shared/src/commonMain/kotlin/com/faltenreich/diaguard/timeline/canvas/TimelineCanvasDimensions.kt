@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.timeline.canvas
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 
 data class TimelineCanvasDimensions(
     val canvas: Rect,
@@ -13,31 +14,24 @@ data class TimelineCanvasDimensions(
 
     companion object {
 
-        val Zero = TimelineCanvasDimensions(
-            canvas = Rect.Zero,
-            chart = Rect.Zero,
-            table = Rect.Zero,
-            time = Rect.Zero,
-        )
-
         fun from(
-            size: Size,
-            tableRowCount: Int,
+            canvasSize: Size,
             tableRowHeight: Float,
+            properties: List<MeasurementProperty>,
         ): TimelineCanvasDimensions {
             val origin = Offset.Zero
 
             val timeSize = Size(
-                width = size.width,
+                width = canvasSize.width,
                 height = tableRowHeight,
             )
             val tableSize = Size(
-                width = size.width,
-                height = tableRowHeight * tableRowCount,
+                width = canvasSize.width,
+                height = tableRowHeight * properties.size,
             )
             val chartSize = Size(
-                width = size.width,
-                height = size.height - tableSize.height - timeSize.height,
+                width = canvasSize.width,
+                height = canvasSize.height - tableSize.height - timeSize.height,
             )
 
             val tableOrigin = Offset(
@@ -50,7 +44,7 @@ data class TimelineCanvasDimensions(
             )
 
             return TimelineCanvasDimensions(
-                canvas = Rect(offset = origin, size = size),
+                canvas = Rect(offset = origin, size = canvasSize),
                 chart = Rect(offset = origin, size = chartSize),
                 table = Rect(offset = tableOrigin, size = tableSize),
                 time = Rect(offset = timeOrigin, size = timeSize),

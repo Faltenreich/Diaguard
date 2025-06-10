@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline
 
-import androidx.compose.animation.core.Animatable
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
@@ -34,7 +33,6 @@ class TimelineViewModel(
     private val table = date.flatMapLatest(getTable::invoke)
 
     val canvasSize = MutableStateFlow(Size.Unspecified)
-    val scrollOffset = Animatable(0f)
     private val coordinates = MutableStateFlow<TimelineCoordinates?>(null)
 
     override val state = combine(date, chart, table, coordinates, ::TimelineState)

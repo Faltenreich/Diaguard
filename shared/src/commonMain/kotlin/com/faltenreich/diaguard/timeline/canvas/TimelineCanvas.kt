@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.timeline.canvas
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FloatSpringSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.calculateTargetValue
@@ -13,6 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Paint
@@ -55,13 +58,20 @@ fun TimelineCanvas(
     val textMeasurer = rememberTextMeasurer()
     val daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) }
 
+    val scrollOffset = rememberSaveable(
+        saver = Saver(
+            save = { it.value },
+            restore = { Animatable(initialValue = it) },
+        ),
+    ) { Animatable(0f) }
+
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
             when (event) {
                 is TimelineEvent.DateSelected -> scope.launch {
                     val daysBetween = state.date.currentDate.daysBetween(event.date)
                     val offset = viewModel.canvasSize.value.width * -1 * daysBetween
-                    viewModel.scrollOffset.animateTo(offset)
+                    scrollOffset.animateTo(offset)
                 }
             }
         }
@@ -85,15 +95,15 @@ fun TimelineCanvas(
     }
 
     // TODO: Observe Flows in ViewModel (and find a way to access config from there)
-    LaunchedEffect(viewModel.scrollOffset.value, viewModel.canvasSize.value) {
+    LaunchedEffect(scrollOffset.value, viewModel.canvasSize.value) {
         val widthPerDay = viewModel.canvasSize.value.width
-        val threshold = (viewModel.scrollOffset.value * -1) + (widthPerDay / 2f)
+        val threshold = (scrollOffset.value * -1) + (widthPerDay / 2f)
         val offsetInDays = floor( threshold / widthPerDay)
         val currentDate = state.date.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
 
         val coordinates = TimelineCoordinates.from(
             size = viewModel.canvasSize.value,
-            scrollOffset = Offset(x = viewModel.scrollOffset.value, y = 0f),
+            scrollOffset = Offset(x = scrollOffset.value, y = 0f),
             tableRowCount = state.table.rowCount,
             config = config,
             property = state.chart.property,
@@ -119,7 +129,7 @@ fun TimelineCanvas(
                 detectDragGestures(
                     onDrag = { change, dragAmount ->
                         scope.launch {
-                            viewModel.scrollOffset.snapTo(viewModel.scrollOffset.value + dragAmount.x)
+                            scrollOffset.snapTo(scrollOffset.value + dragAmount.x)
                             velocityTracker.addPosition(change.uptimeMillis, change.position)
                             change.consume()
                         }
@@ -127,8 +137,8 @@ fun TimelineCanvas(
                     onDragEnd = {
                         scope.launch {
                             val velocity = velocityTracker.calculateVelocity()
-                            val targetValueX = decay.calculateTargetValue(viewModel.scrollOffset.value, velocity.x)
-                            viewModel.scrollOffset.animateTo(
+                            val targetValueX = decay.calculateTargetValue(scrollOffset.value, velocity.x)
+                            scrollOffset.animateTo(
                                 targetValue = targetValueX,
                                 initialVelocity = velocity.x,
                                 animationSpec = animationSpec,

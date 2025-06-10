@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChartState
 import kotlin.math.max
 
+@Deprecated("Contents will move into states")
 data class TimelineCoordinates(
     val canvas: Rect,
     val chart: Rect,

@@ -27,7 +27,7 @@ fun Timeline(
             modifier = Modifier.weight(1f),
         )
         TimelineDateBar(
-            label = state.date.label,
+            label = state.date.currentDateLocalized,
             onBack = { viewModel.dispatchIntent(TimelineIntent.SelectPreviousDate) },
             onPick = { showDatePicker = true },
             onForward = { viewModel.dispatchIntent(TimelineIntent.SelectNextDate) },
@@ -36,7 +36,7 @@ fun Timeline(
 
     if (showDatePicker) {
         DatePickerDialog(
-            date = state.date.current,
+            date = state.date.currentDate,
             onDismissRequest = { showDatePicker = false },
             onConfirmRequest = { date ->
                 showDatePicker = false

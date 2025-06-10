@@ -25,8 +25,8 @@ class GetTimelineTableStateUseCase(
 ) {
 
     operator fun invoke(dateState: TimelineDateState): Flow<TimelineTableState> {
-        val dateRange = dateState.current.minus(1, DateUnit.DAY) ..
-            dateState.current.plus(1, DateUnit.DAY)
+        val dateRange = dateState.currentDate.minus(1, DateUnit.DAY) ..
+            dateState.currentDate.plus(1, DateUnit.DAY)
         val excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         return combine(
             valueRepository.observeByDateRangeIfCategoryIsActive(
@@ -44,7 +44,7 @@ class GetTimelineTableStateUseCase(
                 .distinct()
                 .sortedBy(MeasurementCategory::sortIndex)
             TimelineTableState(
-                initialDateTime = dateState.initial.atStartOfDay(),
+                initialDateTime = dateState.initialDate.atStartOfDay(),
                 categories = categories.map { category ->
                     getTableCategory(values, properties, category, decimalPlaces)
                 },

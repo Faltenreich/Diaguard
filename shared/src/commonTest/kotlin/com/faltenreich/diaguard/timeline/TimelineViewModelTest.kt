@@ -28,7 +28,7 @@ class TimelineViewModelTest : TestSuite {
         viewModel.state.test {
             assertEquals(
                 expected = dateTimeFactory.today(),
-                actual = awaitItem().date.current,
+                actual = awaitItem().date.currentDate,
             )
         }
     }
@@ -194,7 +194,7 @@ class TimelineViewModelTest : TestSuite {
 
             assertEquals(
                 expected = date,
-                actual = awaitItem().date.current,
+                actual = awaitItem().date.currentDate,
             )
         }
     }
@@ -202,7 +202,7 @@ class TimelineViewModelTest : TestSuite {
     @Test
     fun `forward previous date when intending to move day back`() = runTest {
         viewModel.state.test {
-            val currentDate = awaitItem().date.current
+            val currentDate = awaitItem().date.currentDate
 
             viewModel.handleIntent(TimelineIntent.SelectPreviousDate)
 
@@ -220,7 +220,7 @@ class TimelineViewModelTest : TestSuite {
     @Test
     fun `forward next date when intending to move day forward`() = runTest {
         viewModel.state.test {
-            val currentDate = awaitItem().date.current
+            val currentDate = awaitItem().date.currentDate
 
             viewModel.handleIntent(TimelineIntent.SelectNextDate)
 

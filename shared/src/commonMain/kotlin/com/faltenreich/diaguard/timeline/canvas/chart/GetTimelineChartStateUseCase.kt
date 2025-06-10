@@ -14,8 +14,8 @@ class GetTimelineChartStateUseCase(
 ) {
 
     operator fun invoke(dateState: TimelineDateState): Flow<TimelineChartState> {
-        val dateRange = dateState.current.minus(1, DateUnit.DAY) ..
-            dateState.current.plus(1, DateUnit.DAY)
+        val dateRange = dateState.currentDate.minus(1, DateUnit.DAY) ..
+            dateState.currentDate.plus(1, DateUnit.DAY)
         val propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         return combine(
             valueRepository.observeByDateRange(
@@ -26,7 +26,7 @@ class GetTimelineChartStateUseCase(
             propertyRepository.observeByKey(propertyKey),
         ) { values, property ->
             TimelineChartState(
-                initialDateTime = dateState.initial.atStartOfDay(),
+                initialDateTime = dateState.initialDate.atStartOfDay(),
                 property = property!!, // TODO: Handle null
                 values = values.map { value ->
                     TimelineChartState.Value(

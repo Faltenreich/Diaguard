@@ -62,7 +62,7 @@ fun TimelineCanvas(
         viewModel.collectEvents { event ->
             when (event) {
                 is TimelineEvent.DateSelected -> scope.launch {
-                    val daysBetween = state.date.current.daysBetween(event.date)
+                    val daysBetween = state.date.currentDate.daysBetween(event.date)
                     val offset = canvasSize.width * -1 * daysBetween
                     viewModel.scrollOffset.animateTo(offset)
                 }
@@ -92,7 +92,7 @@ fun TimelineCanvas(
         val widthPerDay = canvasSize.width
         val threshold = (viewModel.scrollOffset.value * -1) + (widthPerDay / 2f)
         val offsetInDays = floor( threshold / widthPerDay)
-        val currentDate = state.date.initial.plus(offsetInDays.toInt(), DateUnit.DAY)
+        val currentDate = state.date.initialDate.plus(offsetInDays.toInt(), DateUnit.DAY)
 
         onIntent(TimelineIntent.SetCurrentDate(currentDate))
 

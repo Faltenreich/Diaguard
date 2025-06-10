@@ -33,18 +33,21 @@ class TimelineViewModel(
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
-    private val initialDate = getToday()
-    private val currentDate = MutableStateFlow(initialDate)
-    private val properties = getProperties()
-    private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
-    private val chart = date.flatMapLatest(getChart::invoke)
-    private val table = date.flatMapLatest(getTable::invoke)
-
     private val canvasSize = MutableStateFlow(Size.Unspecified)
     private val tableRowHeight = MutableStateFlow(0f)
+    private val properties = getProperties()
     private val canvasDimensions = combine(canvasSize, tableRowHeight, properties, TimelineCanvasDimensions::from)
-    private val values = date.flatMapLatest(getValues::invoke)
     private val coordinates = MutableStateFlow<TimelineCoordinates?>(null)
+    private val scrollOffset = MutableStateFlow(0f)
+
+    private val initialDate = getToday()
+    private val currentDate = MutableStateFlow(initialDate)
+    private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
+
+    private val values = date.flatMapLatest(getValues::invoke)
+    private val chart = combine(date, values, canvasDimensions, scrollOffset, getChart::invoke)
+    private val table = date.flatMapLatest(getTable::invoke)
+
 
     override val state = combine(date, chart, table, coordinates, ::TimelineState)
 
@@ -55,17 +58,17 @@ class TimelineViewModel(
                 tableRowHeight.update { intent.tableRowHeight }
             }
             is TimelineIntent.Invalidate -> {
-                val scrollOffset = intent.scrollOffset
                 val widthPerDay = canvasSize.value.width
-                val threshold = (scrollOffset * -1) + (widthPerDay / 2f)
+                val threshold = (intent.scrollOffset * -1) + (widthPerDay / 2f)
                 val offsetInDays = floor( threshold / widthPerDay)
 
+                scrollOffset.update { intent.scrollOffset }
                 currentDate.update { initialDate.plus(offsetInDays.toInt(), DateUnit.DAY) }
 
                 coordinates.update {
                     TimelineCoordinates.from(
                         size = canvasSize.value,
-                        scrollOffset = Offset(x = scrollOffset, y = 0f),
+                        scrollOffset = Offset(x = intent.scrollOffset, y = 0f),
                         tableRowCount = intent.state.table.rowCount,
                         config = intent.config,
                     )

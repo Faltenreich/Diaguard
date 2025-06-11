@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.timeline.canvas.chart
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.shared.view.bezierBetween
@@ -17,22 +16,12 @@ fun DrawScope.TimelineChartValues(
 ) = with(state) {
     if (values.isEmpty()) return@with
 
-    val colorStops = mutableListOf<Pair<Float, Color>>()
-    coordinates.valueHigh?.let {
-        val yHighFraction = (coordinates.valueHigh - coordinates.valueMin).toFloat() /
-            (coordinates.valueMax - coordinates.valueMin).toFloat()
-        colorStops.add(1 - yHighFraction to config.valueColorHigh)
-        colorStops.add(1 - yHighFraction to config.valueColorNormal)
-    }
-    coordinates.valueLow?.let {
-        val yLowFraction: Float = (coordinates.valueLow - coordinates.valueMin).toFloat() /
-            (coordinates.valueMax - coordinates.valueMin).toFloat()
-        colorStops.add(1 - yLowFraction to config.valueColorNormal)
-        colorStops.add(1 - yLowFraction to config.valueColorLow)
-    }
-    if (colorStops.isEmpty()) {
-        colorStops.add(0f to config.valueColorNormal)
-        colorStops.add(1f to config.valueColorNormal)
+    val colorStops = colorStops.map { (offset, type) ->
+        offset to when (type) {
+            TimelineChartState.ColorStop.Type.LOW -> config.valueColorLow
+            TimelineChartState.ColorStop.Type.NORMAL -> config.valueColorNormal
+            TimelineChartState.ColorStop.Type.HIGH -> config.valueColorHigh
+        }
     }
     val brush = Brush.verticalGradient(
         colorStops = colorStops.toTypedArray(),

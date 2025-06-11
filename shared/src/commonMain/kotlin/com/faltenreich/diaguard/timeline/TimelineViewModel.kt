@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline
 
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
@@ -10,7 +9,6 @@ import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
-import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
@@ -40,7 +38,6 @@ class TimelineViewModel(
     private val propertyForChart = getPropertyForChart()
     private val propertiesForTable = getPropertiesForTable()
     private val canvasDimensions = combine(canvasSize, tableRowHeight, propertiesForTable, TimelineCanvasDimensions::from)
-    private val coordinates = MutableStateFlow<TimelineCoordinates?>(null)
     private val scrollOffset = MutableStateFlow(0f)
 
     private val initialDate = getToday()
@@ -67,15 +64,6 @@ class TimelineViewModel(
 
                 scrollOffset.update { intent.scrollOffset }
                 currentDate.update { initialDate.plus(offsetInDays.toInt(), DateUnit.DAY) }
-
-                coordinates.update {
-                    TimelineCoordinates.from(
-                        size = canvasSize.value,
-                        scrollOffset = Offset(x = intent.scrollOffset, y = 0f),
-                        tableRowCount = intent.state.table.rowCount,
-                        config = intent.config,
-                    )
-                }
             }
             is TimelineIntent.SelectDate -> selectDate(intent.date)
             is TimelineIntent.SelectPreviousDate -> selectDate(currentDate.value.minus(1, DateUnit.DAY))

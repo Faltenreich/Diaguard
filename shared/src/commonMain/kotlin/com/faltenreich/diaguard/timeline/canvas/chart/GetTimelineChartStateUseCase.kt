@@ -48,11 +48,14 @@ class GetTimelineChartStateUseCase {
             values = values.takeIf { valueAxis.any() }?.map { value ->
                 val dateTime = value.entry.dateTime
 
+                val xAxisCount = dateState.hours.size
+                val xAxisStep = DateTimeConstants.HOURS_PER_DAY / xAxisCount
                 val widthPerDay = dimensions.chart.size.width
-                val widthPerHour = widthPerDay / (dateState.axis.progression.count())
+                // FIXME: ArithmeticException if hours are empty yet
+                val widthPerHour = widthPerDay / xAxisCount
                 val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
                 val offsetInMinutes = dateState.initialDateTime.minutesUntil(dateTime)
-                val offsetOfDateTime = (offsetInMinutes / dateState.axis.progression.step) * widthPerMinute
+                val offsetOfDateTime = (offsetInMinutes / xAxisStep) * widthPerMinute
                 val x = dimensions.chart.topLeft.x + scrollOffset + offsetOfDateTime
 
                 val percentage = (value.value - valueAxis.first()) /

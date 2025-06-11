@@ -10,7 +10,6 @@ data class TimelineDateState(
     val initialDateTime: DateTime,
     val currentDate: Date,
     val currentDateLocalized: String,
-    val axis: Axis,
     val hours: List<Hour>,
 ) {
 
@@ -18,13 +17,4 @@ data class TimelineDateState(
         val x: Float,
         val hour: Int,
     )
-
-    data class Axis(
-        private val minimum: Int,
-        private val maximum: Int,
-        private val step: Int,
-    ) {
-
-        val progression: IntProgression = minimum .. maximum step step
-    }
 }

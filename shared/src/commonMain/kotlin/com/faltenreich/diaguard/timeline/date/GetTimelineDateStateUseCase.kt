@@ -19,19 +19,16 @@ class GetTimelineDateStateUseCase(
     ): TimelineDateState {
         val rectangle = dimensions.time
 
-        val axis = TimelineDateState.Axis(
-            minimum = 0,
-            maximum = DateTimeConstants.HOURS_PER_DAY,
-            step = 2, // TODO: Adjust according to available screen estate
-        )
+        // TODO: Adjust according to available screen estate
+        val hourProgression = 0 .. DateTimeConstants.HOURS_PER_DAY step 2
 
         val hours = if (rectangle.size != Size.Zero) {
             val widthPerDay = rectangle.size.width
-            val widthPerHour = (widthPerDay / axis.progression.count()).toInt()
+            val widthPerHour = (widthPerDay / hourProgression.count()).toInt()
 
             val xOffset = scrollOffset.toInt()
             val xOfFirstHour = xOffset % widthPerHour
-            val xOfLastHour = xOfFirstHour + (axis.progression.count() * widthPerHour)
+            val xOfLastHour = xOfFirstHour + (hourProgression.count() * widthPerHour)
             // Paint one additional hour per side to support cut-off labels
             val (xStart, xEnd) = xOfFirstHour - widthPerHour to xOfLastHour + widthPerHour
             val xOfHours = xStart .. xEnd step widthPerHour
@@ -39,10 +36,10 @@ class GetTimelineDateStateUseCase(
             xOfHours.map { xOfLabel ->
                 val xAbsolute = -(xOffset - xOfLabel)
                 val xOffsetInHours = xAbsolute / widthPerHour
-                val xOffsetInHoursOfDay = ((xOffsetInHours % axis.progression.last) *
-                    axis.progression.step) % axis.progression.last
+                val xOffsetInHoursOfDay = ((xOffsetInHours % hourProgression.last) *
+                    hourProgression.step) % hourProgression.last
                 val hour = when {
-                    xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + axis.progression.last
+                    xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + hourProgression.last
                     else -> xOffsetInHoursOfDay
                 }
                 val x = xOfLabel.toFloat()
@@ -64,7 +61,6 @@ class GetTimelineDateStateUseCase(
                 dateTimeFormatter.formatDayOfWeek(currentDate, abbreviated = false),
                 dateTimeFormatter.formatDate(currentDate),
             ),
-            axis = axis,
             hours = hours,
         )
     }

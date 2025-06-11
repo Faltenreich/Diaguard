@@ -10,8 +10,6 @@ data class TimelineTableState(
     val scrollOffset: Float,
 ) {
 
-    val rowCount: Int = categories.sumOf { it.properties.size }
-
     data class Category(
         val icon: String?,
         val name: String,

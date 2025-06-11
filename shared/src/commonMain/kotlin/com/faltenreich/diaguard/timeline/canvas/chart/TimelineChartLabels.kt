@@ -12,25 +12,26 @@ import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChartLabels(
+    state: TimelineChartState,
     coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
-) {
-    val heightPerSection = (coordinates.chart.size.height /
+) = with(state) {
+    val heightPerSection = (rectangle.size.height /
         (coordinates.valueAxis.last() / coordinates.valueStep)).toInt()
     coordinates.valueAxis
         .drop(0)
         .dropLast(1)
         .forEach { value ->
             val index = coordinates.valueAxis.indexOf(value)
-            val x = coordinates.canvas.topLeft.x + config.padding
-            val y = coordinates.canvas.topLeft.y + coordinates.chart.size.height - (index * heightPerSection)
+            val x = rectangle.topLeft.x + config.padding
+            val y = rectangle.topLeft.y + rectangle.size.height - (index * heightPerSection)
 
             // Line
             drawLine(
                 color = config.gridStrokeColor,
-                start = Offset(x = coordinates.canvas.topLeft.x, y = y),
-                end = Offset(x = coordinates.canvas.topLeft.x + coordinates.chart.size.width, y = y),
+                start = Offset(x = rectangle.topLeft.x, y = y),
+                end = Offset(x = rectangle.topLeft.x + rectangle.size.width, y = y),
                 strokeWidth = config.gridStrokeWidth,
             )
 

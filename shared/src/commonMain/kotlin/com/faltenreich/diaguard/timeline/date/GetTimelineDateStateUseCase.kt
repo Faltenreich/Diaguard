@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.timeline.date
 
 import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.localization.format
 
@@ -20,6 +21,11 @@ class GetTimelineDateStateUseCase(
                 dateTimeFormatter.formatDayOfWeek(currentDate, abbreviated = false),
                 dateTimeFormatter.formatDate(currentDate),
             ),
+            axis = TimelineDateState.Axis(
+                minimum = 0,
+                maximum = DateTimeConstants.HOURS_PER_DAY,
+                step = 2, // TODO: Adjust according to available screen estate
+            )
         )
     }
 }

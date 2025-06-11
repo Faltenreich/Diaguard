@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
-import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 import com.faltenreich.diaguard.timeline.canvas.step
 import com.faltenreich.diaguard.timeline.date.TimelineDateState
 import kotlin.math.max
@@ -18,7 +17,6 @@ class GetTimelineChartStateUseCase {
         values: List<MeasurementValue.Local>,
         dimensions: TimelineCanvasDimensions,
         scrollOffset: Float,
-        coordinates: TimelineCoordinates?,
     ): TimelineChartState {
         val valueMin = Y_AXIS_MIN
         val valueLow = property.range.low
@@ -31,15 +29,13 @@ class GetTimelineChartStateUseCase {
         val valueAxis = valueMin .. valueMax step valueStep
 
         val colorStops = mutableListOf<TimelineChartState.ColorStop>()
-        coordinates?.valueHigh?.let {
-            val yHighFraction = (coordinates.valueHigh - coordinates.valueMin).toFloat() /
-                (coordinates.valueMax - coordinates.valueMin).toFloat()
+        valueHigh?.let {
+            val yHighFraction = (valueHigh - valueMin).toFloat() / (valueMax - valueMin).toFloat()
             colorStops.add(TimelineChartState.ColorStop(1 - yHighFraction, TimelineChartState.ColorStop.Type.HIGH))
             colorStops.add(TimelineChartState.ColorStop(1 - yHighFraction, TimelineChartState.ColorStop.Type.NORMAL))
         }
-        coordinates?.valueLow?.let {
-            val yLowFraction: Float = (coordinates.valueLow - coordinates.valueMin).toFloat() /
-                (coordinates.valueMax - coordinates.valueMin).toFloat()
+        valueLow?.let {
+            val yLowFraction = (valueLow - valueMin).toFloat() / (valueMax - valueMin).toFloat()
             colorStops.add(TimelineChartState.ColorStop(1 - yLowFraction, TimelineChartState.ColorStop.Type.NORMAL))
             colorStops.add(TimelineChartState.ColorStop(1 - yLowFraction, TimelineChartState.ColorStop.Type.LOW))
         }

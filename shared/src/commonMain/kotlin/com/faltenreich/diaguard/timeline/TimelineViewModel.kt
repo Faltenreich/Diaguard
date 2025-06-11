@@ -52,7 +52,7 @@ class TimelineViewModel(
     // TODO: Pass values to getTable
     private val table = combine(date, canvasDimensions, scrollOffset, ::Triple).flatMapLatest { (date, canvasDimensions, scrollOffset) -> getTable(date, canvasDimensions, scrollOffset)}
 
-    override val state = combine(date, chart, table, coordinates, ::TimelineState)
+    override val state = combine(date, chart, table, ::TimelineState)
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {

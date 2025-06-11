@@ -38,6 +38,7 @@ class GetTimelineChartStateUseCase {
         }
 
         return TimelineChartState(
+            rectangle = dimensions.chart,
             values = values.takeIf { valueAxis.any() }?.map { value ->
                 val dateTime = value.entry.dateTime
 

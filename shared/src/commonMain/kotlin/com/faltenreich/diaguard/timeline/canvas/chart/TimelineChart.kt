@@ -14,7 +14,6 @@ fun DrawScope.TimelineChart(
 ) {
     TimelineChartValues(
         state = state,
-        coordinates = coordinates,
         config = config,
     )
     TimelineChartLabels(

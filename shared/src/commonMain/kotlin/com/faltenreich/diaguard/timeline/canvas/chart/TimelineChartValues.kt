@@ -6,12 +6,10 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import com.faltenreich.diaguard.shared.view.bezierBetween
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChartValues(
     state: TimelineChartState,
-    coordinates: TimelineCoordinates,
     config: TimelineConfig,
 ) = with(state) {
     if (values.isEmpty()) return@with
@@ -25,8 +23,8 @@ fun DrawScope.TimelineChartValues(
     }
     val brush = Brush.verticalGradient(
         colorStops = colorStops.toTypedArray(),
-        startY = coordinates.chart.topLeft.y,
-        endY = coordinates.chart.topLeft.y + coordinates.chart.size.height,
+        startY = state.rectangle.topLeft.y,
+        endY = state.rectangle.topLeft.y + state.rectangle.size.height,
     )
 
     config.valuePath.reset()

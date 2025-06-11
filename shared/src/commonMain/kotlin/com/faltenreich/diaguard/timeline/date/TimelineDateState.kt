@@ -10,6 +10,7 @@ data class TimelineDateState(
     val initialDateTime: DateTime,
     val currentDate: Date,
     val currentDateLocalized: String,
+    // TODO: Extract into separate state (TimelineHoursState)
     val hours: List<Hour>,
 ) {
 

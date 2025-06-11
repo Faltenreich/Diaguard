@@ -43,15 +43,15 @@ class GetTimelineChartStateUseCase {
             colorStops.add(TimelineChartState.ColorStop(1f, TimelineChartState.ColorStop.Type.NORMAL))
         }
 
+        val rectangle = dimensions.chart
         return TimelineChartState(
-            rectangle = dimensions.chart,
-            values = values.takeIf { valueAxis.any() }?.map { value ->
+            rectangle = rectangle,
+            values = values.takeIf { valueAxis.any() && dateState.hours.isNotEmpty() }?.map { value ->
                 val dateTime = value.entry.dateTime
 
                 val xAxisCount = dateState.hours.size
                 val xAxisStep = DateTimeConstants.HOURS_PER_DAY / xAxisCount
                 val widthPerDay = dimensions.chart.size.width
-                // FIXME: ArithmeticException if hours are empty yet
                 val widthPerHour = widthPerDay / xAxisCount
                 val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
                 val offsetInMinutes = dateState.initialDateTime.minutesUntil(dateTime)

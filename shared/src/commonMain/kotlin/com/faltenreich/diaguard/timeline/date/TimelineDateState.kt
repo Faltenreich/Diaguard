@@ -11,8 +11,13 @@ data class TimelineDateState(
     val currentDate: Date,
     val currentDateLocalized: String,
     val axis: Axis,
-    val scrollOffset: Float,
+    val hours: List<Hour>,
 ) {
+
+    data class Hour(
+        val x: Float,
+        val hour: Int,
+    )
 
     data class Axis(
         private val minimum: Int,

@@ -25,30 +25,11 @@ fun DrawScope.TimelineHours(
         size = rectangle.size,
         style = Fill,
     )
-
-    val widthPerDay = rectangle.size.width
-    val widthPerHour = (widthPerDay / config.xAxisLabelCount).toInt()
-
-    val xOffset = scrollOffset.toInt()
-    val xOfFirstHour = xOffset % widthPerHour
-    val xOfLastHour = xOfFirstHour + (config.xAxisLabelCount * widthPerHour)
-    // Paint one additional hour per side to support cut-off labels
-    val (xStart, xEnd) = xOfFirstHour - widthPerHour to xOfLastHour + widthPerHour
-    val xOfHours = xStart .. xEnd step widthPerHour
-
-    xOfHours.forEach { xOfLabel ->
-        val xAbsolute = -(xOffset - xOfLabel)
-        val xOffsetInHours = xAbsolute / widthPerHour
-        val xOffsetInHoursOfDay = ((xOffsetInHours % config.xAxis.last) * config.xAxis.step) % config.xAxis.last
-        val hour = when {
-            xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + config.xAxis.last
-            else -> xOffsetInHoursOfDay
+    state.hours.forEach { hour ->
+        if (hour.hour == 0) {
+            drawDateIndicator(hour.x, rectangle, config)
         }
-        val x = xOfLabel.toFloat()
-        if (hour == config.xAxis.first) {
-            drawDateIndicator(x, rectangle, config)
-        }
-        drawHour(x, hour, rectangle, config, textMeasurer)
+        drawHour(hour.x, hour.hour, rectangle, config, textMeasurer)
     }
 }
 

@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.timeline.canvas.table
 
+import androidx.compose.ui.geometry.Rect
 import com.faltenreich.diaguard.datetime.DateTime
 
 data class TimelineTableState(
+    val rectangle: Rect,
     val initialDateTime: DateTime,
     val categories: List<Category>,
 ) {

@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.timeline.TimelineConfig
+import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.date.TimelineDateState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -24,7 +25,10 @@ class GetTimelineTableStateUseCase(
     private val mapValue: MeasurementValueMapper,
 ) {
 
-    operator fun invoke(dateState: TimelineDateState): Flow<TimelineTableState> {
+    operator fun invoke(
+        dateState: TimelineDateState,
+        dimensions: TimelineCanvasDimensions,
+    ): Flow<TimelineTableState> {
         val dateRange = dateState.currentDate.minus(1, DateUnit.DAY) ..
             dateState.currentDate.plus(1, DateUnit.DAY)
         val excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
@@ -44,6 +48,7 @@ class GetTimelineTableStateUseCase(
                 .distinct()
                 .sortedBy(MeasurementCategory::sortIndex)
             TimelineTableState(
+                rectangle = dimensions.table,
                 initialDateTime = dateState.initialDate.atStartOfDay(),
                 categories = categories.map { category ->
                     getTableCategory(values, properties, category, decimalPlaces)

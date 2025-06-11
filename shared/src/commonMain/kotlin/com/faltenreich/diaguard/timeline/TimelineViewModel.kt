@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
+import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementPropertiesUseCase
@@ -25,7 +26,8 @@ import kotlin.math.floor
 
 class TimelineViewModel(
     getToday: GetTodayUseCase,
-    getProperties: GetTimelineTableMeasurementPropertiesUseCase,
+    getPropertyForChart: GetTimelineChartMeasurementPropertyUseCase,
+    getPropertiesForTable: GetTimelineTableMeasurementPropertiesUseCase,
     getValues: GetTimelineChartMeasurementValuesUseCase,
     private val getDate: GetTimelineDateStateUseCase,
     private val getChart: GetTimelineChartStateUseCase,
@@ -35,8 +37,9 @@ class TimelineViewModel(
 
     private val canvasSize = MutableStateFlow(Size.Unspecified)
     private val tableRowHeight = MutableStateFlow(0f)
-    private val properties = getProperties()
-    private val canvasDimensions = combine(canvasSize, tableRowHeight, properties, TimelineCanvasDimensions::from)
+    private val propertyForChart = getPropertyForChart()
+    private val propertiesForTable = getPropertiesForTable()
+    private val canvasDimensions = combine(canvasSize, tableRowHeight, propertiesForTable, TimelineCanvasDimensions::from)
     private val coordinates = MutableStateFlow<TimelineCoordinates?>(null)
     private val scrollOffset = MutableStateFlow(0f)
 
@@ -45,7 +48,7 @@ class TimelineViewModel(
     private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
 
     private val values = date.flatMapLatest(getValues::invoke)
-    private val chart = combine(date, values, canvasDimensions, scrollOffset, coordinates, getChart::invoke)
+    private val chart = com.faltenreich.diaguard.shared.architecture.combine(date, propertyForChart, values, canvasDimensions, scrollOffset, coordinates, getChart::invoke)
     private val table = date.flatMapLatest(getTable::invoke)
 
     override val state = combine(date, chart, table, coordinates, ::TimelineState)

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
+import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementPropertiesUseCase
@@ -10,6 +11,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun timelineModule() = module {
+    factoryOf(::GetTimelineChartMeasurementPropertyUseCase)
     factoryOf(::GetTimelineTableMeasurementPropertiesUseCase)
     factoryOf(::GetTimelineChartMeasurementValuesUseCase)
     factoryOf(::GetTimelineChartStateUseCase)

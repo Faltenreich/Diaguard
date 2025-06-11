@@ -8,22 +8,19 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineChartLabels(
     state: TimelineChartState,
-    coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
 ) = with(state) {
-    val heightPerSection = (rectangle.size.height /
-        (coordinates.valueAxis.last() / coordinates.valueStep)).toInt()
-    coordinates.valueAxis
+    val heightPerSection = (rectangle.size.height / (valueAxis.last() / valueStep)).toInt()
+    valueAxis
         .drop(0)
         .dropLast(1)
         .forEach { value ->
-            val index = coordinates.valueAxis.indexOf(value)
+            val index = valueAxis.indexOf(value)
             val x = rectangle.topLeft.x + config.padding
             val y = rectangle.topLeft.y + rectangle.size.height - (index * heightPerSection)
 

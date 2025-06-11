@@ -22,10 +22,6 @@ data class TimelineCoordinates(
 
     companion object {
 
-        private const val Y_AXIS_MIN = 0.0
-        private const val Y_AXIS_STEP = 50.0
-        private const val Y_AXIS_MAX_MIN = 250.0
-
         fun from(
             size: Size,
             scrollOffset: Offset,

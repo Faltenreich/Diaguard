@@ -6,6 +6,12 @@ import androidx.compose.ui.geometry.Rect
 data class TimelineChartState(
     val rectangle: Rect,
     val values: List<Offset>,
+    val valueMin: Double,
+    val valueLow: Double?,
+    val valueHigh: Double?,
+    val valueMax: Double,
+    val valueStep: Double,
+    val valueAxis: Iterable<Double>,
     val colorStops: List<ColorStop>,
 ) {
 

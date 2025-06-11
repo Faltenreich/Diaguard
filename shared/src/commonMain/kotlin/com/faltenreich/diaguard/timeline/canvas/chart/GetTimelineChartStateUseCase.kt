@@ -2,23 +2,35 @@ package com.faltenreich.diaguard.timeline.canvas.chart
 
 import androidx.compose.ui.geometry.Offset
 import com.faltenreich.diaguard.datetime.DateTimeConstants
+import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 import com.faltenreich.diaguard.timeline.canvas.step
 import com.faltenreich.diaguard.timeline.date.TimelineDateState
+import kotlin.math.max
 
 class GetTimelineChartStateUseCase {
 
     operator fun invoke(
         dateState: TimelineDateState,
+        property: MeasurementProperty.Local,
         values: List<MeasurementValue.Local>,
         dimensions: TimelineCanvasDimensions,
         scrollOffset: Float,
         coordinates: TimelineCoordinates?,
-        valueAxis: Iterable<Double> = 0.0 .. 250.0 step 50.0, // TODO: Pass parameter
         xAxis: IntProgression = 0 .. 24 step 2, // TODO: Pass parameter
     ): TimelineChartState {
+        val valueMin = Y_AXIS_MIN
+        val valueLow = property.range.low
+        val valueHigh = property.range.high
+        val valueMax = max(
+            Y_AXIS_MAX_MIN,
+            (values.maxOfOrNull { it.value } ?: 0.0) + Y_AXIS_STEP,
+        )
+        val valueStep = Y_AXIS_STEP
+        val valueAxis = valueMin .. valueMax step valueStep
+
         val colorStops = mutableListOf<TimelineChartState.ColorStop>()
         coordinates?.valueHigh?.let {
             val yHighFraction = (coordinates.valueHigh - coordinates.valueMin).toFloat() /
@@ -57,7 +69,20 @@ class GetTimelineChartStateUseCase {
 
                 Offset(x, y)
             } ?: emptyList(),
+            valueMin = valueMin,
+            valueLow = valueLow,
+            valueHigh = valueHigh,
+            valueMax = valueMax,
+            valueStep = valueStep,
+            valueAxis = valueAxis,
             colorStops = colorStops,
         )
+    }
+
+    companion object {
+
+        private const val Y_AXIS_MIN = 0.0
+        private const val Y_AXIS_STEP = 50.0
+        private const val Y_AXIS_MAX_MIN = 250.0
     }
 }

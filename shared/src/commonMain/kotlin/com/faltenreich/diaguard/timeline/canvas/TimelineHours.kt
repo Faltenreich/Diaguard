@@ -3,7 +3,7 @@
 package com.faltenreich.diaguard.timeline.canvas
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -11,27 +11,25 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
+import com.faltenreich.diaguard.timeline.date.TimelineDateState
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineHours(
-    coordinates: TimelineCoordinates,
+    state: TimelineDateState,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
-) {
+) = with(state) {
     drawRect(
         color = config.gridShadowColor,
-        topLeft = coordinates.time.topLeft,
-        size = Size(
-            width = coordinates.time.size.width,
-            height = coordinates.time.size.height,
-        ),
+        topLeft = rectangle.topLeft,
+        size = rectangle.size,
         style = Fill,
     )
 
-    val widthPerDay = coordinates.canvas.size.width
+    val widthPerDay = rectangle.size.width
     val widthPerHour = (widthPerDay / config.xAxisLabelCount).toInt()
 
-    val xOffset = coordinates.scroll.x.toInt()
+    val xOffset = scrollOffset.toInt()
     val xOfFirstHour = xOffset % widthPerHour
     val xOfLastHour = xOfFirstHour + (config.xAxisLabelCount * widthPerHour)
     // Paint one additional hour per side to support cut-off labels
@@ -48,15 +46,15 @@ fun DrawScope.TimelineHours(
         }
         val x = xOfLabel.toFloat()
         if (hour == config.xAxis.first) {
-            drawDateIndicator(x, coordinates, config)
+            drawDateIndicator(x, rectangle, config)
         }
-        drawHour(x, hour, coordinates, config, textMeasurer)
+        drawHour(x, hour, rectangle, config, textMeasurer)
     }
 }
 
 private fun DrawScope.drawDateIndicator(
     x: Float,
-    coordinates: TimelineCoordinates,
+    rectangle: Rect,
     config: TimelineConfig,
 ) {
     drawLine(
@@ -65,7 +63,7 @@ private fun DrawScope.drawDateIndicator(
             .025f to config.gridStrokeColor,
         ),
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = coordinates.canvas.bottom - coordinates.time.height),
+        end = Offset(x = x, y = rectangle.bottom - rectangle.height),
         strokeWidth = config.gridStrokeWidth * 2,
     )
 }
@@ -73,7 +71,7 @@ private fun DrawScope.drawDateIndicator(
 private fun DrawScope.drawHour(
     x: Float,
     hour: Int,
-    coordinates: TimelineCoordinates,
+    rectangle: Rect,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
 ) {
@@ -86,7 +84,7 @@ private fun DrawScope.drawHour(
             .025f to config.gridStrokeColor,
         ),
         start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = coordinates.canvas.bottom - coordinates.time.height),
+        end = Offset(x = x, y = rectangle.bottom - rectangle.height),
         strokeWidth = config.gridStrokeWidth,
     )
 
@@ -94,7 +92,7 @@ private fun DrawScope.drawHour(
         text = hour.toString(),
         bottomLeft = Offset(
             x = x - (textSize.size.width / 2),
-            y = coordinates.time.top + coordinates.time.height / 2 + (textSize.size.height / 2) - (config.padding / 3),
+            y = rectangle.top + rectangle.height / 2 + (textSize.size.height / 2) - (config.padding / 3),
         ),
         size = config.fontSize,
         paint = config.fontPaint,

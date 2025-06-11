@@ -45,7 +45,7 @@ class TimelineViewModel(
 
     private val initialDate = getToday()
     private val currentDate = MutableStateFlow(initialDate)
-    private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
+    private val date = combine(flowOf(initialDate), currentDate, canvasDimensions, scrollOffset, getDate::invoke)
 
     private val values = date.flatMapLatest(getValues::invoke)
     private val chart = combine(date, propertyForChart, values, canvasDimensions, scrollOffset, getChart::invoke)

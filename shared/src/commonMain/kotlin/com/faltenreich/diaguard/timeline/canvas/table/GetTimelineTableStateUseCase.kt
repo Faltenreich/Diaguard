@@ -28,6 +28,7 @@ class GetTimelineTableStateUseCase(
     operator fun invoke(
         dateState: TimelineDateState,
         dimensions: TimelineCanvasDimensions,
+        scrollOffset: Float,
     ): Flow<TimelineTableState> {
         val dateRange = dateState.currentDate.minus(1, DateUnit.DAY) ..
             dateState.currentDate.plus(1, DateUnit.DAY)
@@ -53,6 +54,8 @@ class GetTimelineTableStateUseCase(
                 categories = categories.map { category ->
                     getTableCategory(values, properties, category, decimalPlaces)
                 },
+                // TODO: Replace with pre-calculated offsets
+                scrollOffset = scrollOffset,
             )
         }
     }

@@ -50,7 +50,7 @@ class TimelineViewModel(
     private val values = date.flatMapLatest(getValues::invoke)
     private val chart = combine(date, propertyForChart, values, canvasDimensions, scrollOffset, getChart::invoke)
     // TODO: Pass values to getTable
-    private val table = combine(date, canvasDimensions, ::Pair).flatMapLatest { (date, canvasDimensions) -> getTable(date, canvasDimensions)}
+    private val table = combine(date, canvasDimensions, scrollOffset, ::Triple).flatMapLatest { (date, canvasDimensions, scrollOffset) -> getTable(date, canvasDimensions, scrollOffset)}
 
     override val state = combine(date, chart, table, coordinates, ::TimelineState)
 

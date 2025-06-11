@@ -137,10 +137,8 @@ fun TimelineCanvas(
                 )
             },
     ) {
-        state.coordinates?.let { coordinates ->
-            TimelineChart(state.chart, config, textMeasurer)
-            TimelineTable(state.table, coordinates, config, textMeasurer)
-            TimelineHours(state.date, config, textMeasurer)
-        }
+        TimelineChart(state.chart, config, textMeasurer)
+        TimelineTable(state.table, config, textMeasurer)
+        TimelineHours(state.date, config, textMeasurer)
     }
 }

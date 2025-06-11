@@ -11,17 +11,15 @@ import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.canvas.TimelineCoordinates
 
 @Suppress("FunctionName")
 fun DrawScope.TimelineTable(
     state: TimelineTableState,
-    coordinates: TimelineCoordinates,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
 ) = with(state) {
-    val x = coordinates.table.topLeft.x
-    var y = coordinates.table.topLeft.y
+    val x = rectangle.topLeft.x
+    var y = rectangle.topLeft.y
 
     categories.forEachIndexed { categoryIndex, category ->
         val rowHeight = config.tableRowHeight
@@ -32,8 +30,11 @@ fun DrawScope.TimelineTable(
                 // Divider
                 drawLine(
                     color = config.gridStrokeColor,
-                    start = Offset(x = coordinates.table.topLeft.x, y = y),
-                    end = Offset(x = coordinates.table.topLeft.x + coordinates.table.size.width, y = y),
+                    start = Offset(x = x, y = y),
+                    end = Offset(
+                        x = x + rectangle.size.width,
+                        y = y,
+                    ),
                     strokeWidth = config.gridStrokeWidth,
                 )
             }
@@ -81,13 +82,13 @@ fun DrawScope.TimelineTable(
             property.values.forEach { value ->
                 val dateTime = value.dateTime
 
-                val widthPerDay = coordinates.table.size.width
+                val widthPerDay = rectangle.size.width
                 val widthPerHour = widthPerDay / (config.xAxis.last / config.xAxis.step)
                 val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
 
                 val offsetInMinutes = initialDateTime.minutesUntil(dateTime)
                 val offsetOfDateTime = (offsetInMinutes / config.xAxis.step) * widthPerMinute
-                val offsetOfHour = coordinates.table.topLeft.x + coordinates.scroll.x + offsetOfDateTime
+                val offsetOfHour = x + scrollOffset + offsetOfDateTime
 
                 val text = value.value
                 val textSize = textMeasurer.measure(text)

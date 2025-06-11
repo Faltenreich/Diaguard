@@ -7,6 +7,7 @@ data class TimelineTableState(
     val rectangle: Rect,
     val initialDateTime: DateTime,
     val categories: List<Category>,
+    val scrollOffset: Float,
 ) {
 
     val rowCount: Int = categories.sumOf { it.properties.size }

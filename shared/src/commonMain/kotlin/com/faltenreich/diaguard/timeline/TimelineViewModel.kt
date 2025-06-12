@@ -41,10 +41,12 @@ class TimelineViewModel(
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
-    private val canvasSize = MutableStateFlow<Size?>(null)
-    private val tableRowHeight = MutableStateFlow(0f)
     private val propertyForChart = getPropertyForChart()
     private val propertiesForTable = getPropertiesForTable()
+    private val decimalPlaces = getPreferenceUseCase(DecimalPlacesPreference)
+
+    private val canvasSize = MutableStateFlow<Size?>(null)
+    private val tableRowHeight = MutableStateFlow(0f)
     private val scrollOffset = MutableStateFlow(0f)
     private val canvasDimensions = combine(canvasSize, tableRowHeight, scrollOffset, propertiesForTable, TimelineCanvasDimensions::from)
 
@@ -53,13 +55,13 @@ class TimelineViewModel(
     private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
     private val time = combine(date, canvasDimensions, getTime::invoke)
 
-    private val decimalPlaces = getPreferenceUseCase(DecimalPlacesPreference)
     private val valuesForChart = currentDate.flatMapLatest(getValuesForChart::invoke)
     private val chart = combine(valuesForChart, propertyForChart, time, canvasDimensions, getChart::invoke)
+
     private val valuesForTable = currentDate.flatMapLatest(getValuesForTable::invoke)
     private val table = combine(valuesForTable, propertiesForTable, decimalPlaces, time, canvasDimensions, getTable::invoke)
+
     private val canvas = combine(time, chart, table) { time, chart, table ->
-        // TODO: Simplify null handling
         if (time != null && chart != null && table != null) TimelineCanvasState(time, chart, table)
         else null
     }

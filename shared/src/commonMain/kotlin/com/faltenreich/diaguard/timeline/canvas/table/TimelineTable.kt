@@ -18,9 +18,6 @@ fun DrawScope.TimelineTable(
     textMeasurer: TextMeasurer,
 ) = with(state) {
     categories.forEachIndexed { categoryIndex, category ->
-        // TODO: Replace with property.rectangle.height
-        val rowHeight = config.tableRowHeight
-
         category.properties.forEachIndexed { propertyIndex, property ->
             val isFirstRow = categoryIndex == 0 && propertyIndex == 0
             if (!isFirstRow) {
@@ -33,7 +30,7 @@ fun DrawScope.TimelineTable(
                 )
             }
 
-            val iconSize = rowHeight
+            val iconSize = property.rectangle.height
 
             val labelSize = textMeasurer.measure(property.name)
 
@@ -60,7 +57,7 @@ fun DrawScope.TimelineTable(
                 text = property.name,
                 bottomLeft = Offset(
                     x = property.rectangle.left + iconSize,
-                    y = property.rectangle.top + rowHeight / 2 + config.fontSize / 2,
+                    y = property.rectangle.top + property.rectangle.height / 2 + config.fontSize / 2,
                 ),
                 size = config.fontSize,
                 paint = config.fontPaint,

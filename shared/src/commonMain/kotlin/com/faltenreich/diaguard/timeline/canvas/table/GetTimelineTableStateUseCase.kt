@@ -56,8 +56,6 @@ class GetTimelineTableStateUseCase(
 
             TimelineTableState(
                 rectangle = dimensions.table,
-                initialDateTime = time.initialDateTime,
-                hourProgression = time.hourProgression,
                 categories = categories.map { category ->
                     val propertiesOfCategory = properties.filter { it.category == category }
                     TimelineTableState.Category(
@@ -133,8 +131,6 @@ class GetTimelineTableStateUseCase(
                         }
                     )
                 },
-                // TODO: Replace with pre-calculated offsets
-                scrollOffset = scrollOffset,
             )
         }
     }

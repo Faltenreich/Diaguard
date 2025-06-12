@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
+import com.faltenreich.diaguard.timeline.canvas.hours.GetTimelineHoursStateUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableStateUseCase
 import com.faltenreich.diaguard.timeline.date.GetTimelineDateStateUseCase
@@ -28,6 +29,7 @@ class TimelineViewModel(
     getPropertiesForTable: GetTimelineTableMeasurementPropertiesUseCase,
     getValues: GetTimelineChartMeasurementValuesUseCase,
     private val getDate: GetTimelineDateStateUseCase,
+    private val getHours: GetTimelineHoursStateUseCase,
     private val getChart: GetTimelineChartStateUseCase,
     private val getTable: GetTimelineTableStateUseCase,
     private val pushScreen: PushScreenUseCase,
@@ -42,14 +44,15 @@ class TimelineViewModel(
 
     private val initialDate = getToday()
     private val currentDate = MutableStateFlow(initialDate)
-    private val date = combine(flowOf(initialDate), currentDate, canvasDimensions, scrollOffset, getDate::invoke)
+    private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
+    private val hours = combine(flowOf(initialDate), canvasDimensions, scrollOffset, getHours::invoke)
 
     private val values = date.flatMapLatest(getValues::invoke)
-    private val chart = combine(date, propertyForChart, values, canvasDimensions, scrollOffset, getChart::invoke)
+    private val chart = combine(hours, propertyForChart, values, canvasDimensions, scrollOffset, getChart::invoke)
     // TODO: Pass values to getTable
     private val table = combine(date, canvasDimensions, scrollOffset, ::Triple).flatMapLatest { (date, canvasDimensions, scrollOffset) -> getTable(date, canvasDimensions, scrollOffset)}
 
-    override val state = combine(date, chart, table, ::TimelineState)
+    override val state = combine(date, hours, chart, table, ::TimelineState)
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {

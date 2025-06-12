@@ -35,6 +35,7 @@ import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineState
 import com.faltenreich.diaguard.timeline.TimelineViewModel
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChart
+import com.faltenreich.diaguard.timeline.canvas.hours.TimelineHours
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTable
 import kotlinx.coroutines.launch
 
@@ -139,6 +140,6 @@ fun TimelineCanvas(
     ) {
         TimelineChart(state.chart, config, textMeasurer)
         TimelineTable(state.table, config, textMeasurer)
-        TimelineHours(state.date, config, textMeasurer)
+        TimelineHours(state.hours, config, textMeasurer)
     }
 }

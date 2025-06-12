@@ -9,7 +9,7 @@ class GetTimelineTableMeasurementPropertiesUseCase(
     private val repository: MeasurementPropertyRepository,
 ) {
 
-    operator fun invoke(): Flow<List<MeasurementProperty>> {
+    operator fun invoke(): Flow<List<MeasurementProperty.Local>> {
         return repository.observeIfCategoryIsActive(
             excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
         )

@@ -10,19 +10,18 @@ data class TimelineTableState(
 
     data class Category(
         val properties: List<Property>,
-    ) {
+    )
 
-        data class Property(
-            val rectangle: Rect,
-            val icon: String,
-            val name: String,
-            val values: List<Value>,
-        )
+    data class Property(
+        val rectangle: Rect,
+        val icon: String,
+        val name: String,
+        val values: List<Value>,
+    )
 
-        data class Value(
-            val rectangle: Rect,
-            val value: String,
-            val dateTime: DateTime,
-        )
-    }
+    data class Value(
+        val rectangle: Rect,
+        val value: String,
+        val dateTime: DateTime,
+    )
 }

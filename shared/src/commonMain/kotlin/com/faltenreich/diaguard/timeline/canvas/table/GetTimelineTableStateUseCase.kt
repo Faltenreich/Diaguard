@@ -56,7 +56,7 @@ class GetTimelineTableStateUseCase(
                         // TODO: Simplify
                         rowIndex++
 
-                        TimelineTableState.Category.Property(
+                        TimelineTableState.Property(
                             rectangle = propertyRectangle,
                             // TODO: Merge logic with the one from MeasurementCategoryIcon
                             icon = category.icon ?: property.name.firstOrNull()?.toString() ?: "?",
@@ -78,12 +78,16 @@ class GetTimelineTableStateUseCase(
                                     val widthPerDay = rectangle.size.width
                                     val widthPerHour = widthPerDay /
                                         (time.hourProgression.last / time.hourProgression.step)
-                                    val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
+                                    val widthPerMinute =
+                                        widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
 
-                                    val offsetInMinutes = time.initialDateTime.minutesUntil(dateTime)
-                                    val offsetOfDateTime = (offsetInMinutes / time.hourProgression.step) *
-                                        widthPerMinute
-                                    val offsetOfHour = propertyRectangle.left + dimensions.scroll + offsetOfDateTime
+                                    val offsetInMinutes =
+                                        time.initialDateTime.minutesUntil(dateTime)
+                                    val offsetOfDateTime =
+                                        (offsetInMinutes / time.hourProgression.step) *
+                                            widthPerMinute
+                                    val offsetOfHour =
+                                        propertyRectangle.left + dimensions.scroll + offsetOfDateTime
                                     val valueRectangle = Rect(
                                         offset = Offset(
                                             x = offsetOfHour,
@@ -101,7 +105,7 @@ class GetTimelineTableStateUseCase(
                                         MeasurementAggregationStyle.AVERAGE -> sum / values.size
                                     }
 
-                                    TimelineTableState.Category.Value(
+                                    TimelineTableState.Value(
                                         rectangle = valueRectangle,
                                         dateTime = dateTime,
                                         // TODO: Decimal places may take up too much space

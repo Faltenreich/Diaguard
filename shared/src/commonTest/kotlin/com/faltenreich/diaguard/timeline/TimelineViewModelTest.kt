@@ -58,15 +58,15 @@ class TimelineViewModelTest : TestSuite {
                             icon = "💉",
                             name = "insulin",
                             properties = listOf(
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "bolus",
                                     values = emptyList()
                                 ),
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "correction",
                                     values = emptyList(),
                                 ),
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "basal",
                                     values = emptyList(),
                                 ),
@@ -76,7 +76,7 @@ class TimelineViewModelTest : TestSuite {
                             icon = "🍞",
                             name = "meal",
                             properties = listOf(
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "meal",
                                     values = emptyList(),
                                 ),
@@ -86,7 +86,7 @@ class TimelineViewModelTest : TestSuite {
                             icon = "🏃",
                             name = "activity",
                             properties = listOf(
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "activity",
                                     values = emptyList(),
                                 ),
@@ -96,7 +96,7 @@ class TimelineViewModelTest : TestSuite {
                             icon = "%",
                             name = "hba1c",
                             properties = listOf(
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "hba1c",
                                     values = emptyList(),
                                 ),
@@ -106,7 +106,7 @@ class TimelineViewModelTest : TestSuite {
                             icon = "🏋",
                             name = "weight",
                             properties = listOf(
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "weight",
                                     values = emptyList(),
                                 ),
@@ -116,7 +116,7 @@ class TimelineViewModelTest : TestSuite {
                             icon = "💚",
                             name = "pulse",
                             properties = listOf(
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "pulse",
                                     values = emptyList(),
                                 ),
@@ -126,11 +126,11 @@ class TimelineViewModelTest : TestSuite {
                             icon = "⛽",
                             name = "blood_pressure",
                             properties = listOf(
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "systolic",
                                     values = emptyList(),
                                 ),
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "diastolic",
                                     values = emptyList(),
                                 ),
@@ -140,7 +140,7 @@ class TimelineViewModelTest : TestSuite {
                             icon = "O²",
                             name = "oxygen_saturation",
                             properties = listOf(
-                                TimelineTableState.Category.Property(
+                                TimelineTableState.Property(
                                     name = "oxygen_saturation",
                                     values = emptyList(),
                                 ),

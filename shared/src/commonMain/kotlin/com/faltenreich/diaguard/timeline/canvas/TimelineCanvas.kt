@@ -22,8 +22,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.DayOfWeek
-import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.theme.LocalDimensions
 import com.faltenreich.diaguard.shared.theme.color.LocalColors
 import com.faltenreich.diaguard.shared.view.rememberAnimatable
@@ -51,8 +49,10 @@ fun TimelineCanvas(
     val dimensions = LocalDimensions.current
     val typography = AppTheme.typography
     val textMeasurer = rememberTextMeasurer()
-    val daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) }
     val scrollOffset = rememberAnimatable()
+    val tableRowHeight = density.run {
+        typography.bodyMedium.fontSize.toPx() + dimensions.padding.P_2.toPx() * 2
+    }
 
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
@@ -64,11 +64,9 @@ fun TimelineCanvas(
 
     val config by remember {
         val config = TimelineConfig(
-            daysOfWeek = daysOfWeek,
             padding = density.run { dimensions.padding.P_2.toPx() },
             fontPaint = Paint().apply { color = colorScheme.onBackground },
             fontSize = density.run { typography.bodyMedium.fontSize.toPx() },
-            tableRowHeight = density.run { typography.bodyMedium.fontSize.toPx() + dimensions.padding.P_2.toPx() * 2 },
             backgroundColor = colorScheme.background,
             gridStrokeColor = colorScheme.onSurface,
             gridShadowColor = colorScheme.surfaceContainerLowest,
@@ -96,7 +94,7 @@ fun TimelineCanvas(
                 viewModel.dispatchIntent(
                     TimelineIntent.Setup(
                         canvasSize = coordinates.size.toSize(),
-                        tableRowHeight = config.tableRowHeight,
+                        tableRowHeight = tableRowHeight,
                     )
                 )
             }

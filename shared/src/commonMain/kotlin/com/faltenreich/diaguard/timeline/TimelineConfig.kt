@@ -5,15 +5,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.faltenreich.diaguard.datetime.DayOfWeek
 
 data class TimelineConfig(
-    val daysOfWeek: Map<DayOfWeek, String>,
-
     val padding: Float,
     val fontPaint: Paint,
     val fontSize: Float,
-    val tableRowHeight: Float,
 
     val backgroundColor: Color,
     val cornerRadius: CornerRadius = CornerRadius(x = 20f, y = 20f),

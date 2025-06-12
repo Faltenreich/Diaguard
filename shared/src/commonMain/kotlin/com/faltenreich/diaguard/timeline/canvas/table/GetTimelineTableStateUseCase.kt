@@ -19,10 +19,14 @@ class GetTimelineTableStateUseCase(
     operator fun invoke(
         values: List<MeasurementValue.Local>,
         properties: List<MeasurementProperty.Local>,
-        time: TimelineTimeState,
         decimalPlaces: Int,
-        dimensions: TimelineCanvasDimensions,
-    ): TimelineTableState {
+        time: TimelineTimeState?,
+        dimensions: TimelineCanvasDimensions?,
+    ): TimelineTableState? {
+        if (time == null || dimensions == null) {
+            return null
+        }
+
         val categories = properties
             .mapNotNull(MeasurementProperty::category)
             .distinct()

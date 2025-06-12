@@ -9,9 +9,11 @@ class GetTimelineTimeStateUseCase {
 
     operator fun invoke(
         dateState: TimelineDateState,
-        dimensions: TimelineCanvasDimensions,
-    ): TimelineTimeState {
-        val rectangle = dimensions.time
+        dimensions: TimelineCanvasDimensions?,
+    ): TimelineTimeState? {
+        if (dimensions == null) {
+            return null
+        }
 
         val xMin = 0
         val xMax = DateTimeConstants.HOURS_PER_DAY
@@ -21,6 +23,7 @@ class GetTimelineTimeStateUseCase {
         val xAxis = xRange step xStep
         val xAxisLabelCount = xRange.last / xAxis.step
 
+        val rectangle = dimensions.time
         val hours = if (rectangle.size != Size.Zero) {
             val widthPerDay = rectangle.size.width
             val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()

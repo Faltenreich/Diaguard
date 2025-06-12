@@ -13,9 +13,13 @@ class GetTimelineChartStateUseCase {
     operator fun invoke(
         values: List<MeasurementValue.Local>,
         property: MeasurementProperty.Local,
-        time: TimelineTimeState,
-        dimensions: TimelineCanvasDimensions,
-    ): TimelineChartState {
+        time: TimelineTimeState?,
+        dimensions: TimelineCanvasDimensions?,
+    ): TimelineChartState? {
+        if (time == null || dimensions == null) {
+            return null
+        }
+
         val valueMin = Y_AXIS_MIN
         val valueLow = property.range.low
         val valueHigh = property.range.high

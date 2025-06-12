@@ -16,19 +16,13 @@ data class TimelineCanvasDimensions(
     companion object {
 
         fun from(
-            canvasSize: Size,
+            canvasSize: Size?,
             tableRowHeight: Float,
             scrollOffset: Float,
             properties: List<MeasurementProperty>,
-        ): TimelineCanvasDimensions {
-            if (canvasSize == Size.Unspecified) {
-                return TimelineCanvasDimensions(
-                    canvas = Rect.Zero,
-                    chart = Rect.Zero,
-                    table = Rect.Zero,
-                    time = Rect.Zero,
-                    scroll = 0f,
-                )
+        ): TimelineCanvasDimensions? {
+            if (canvasSize == null) {
+                return null
             }
 
             val origin = Offset.Zero

@@ -41,7 +41,7 @@ class TimelineViewModel(
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
-    private val canvasSize = MutableStateFlow(Size.Unspecified)
+    private val canvasSize = MutableStateFlow<Size?>(null)
     private val tableRowHeight = MutableStateFlow(0f)
     private val propertyForChart = getPropertyForChart()
     private val propertiesForTable = getPropertiesForTable()
@@ -57,8 +57,12 @@ class TimelineViewModel(
     private val valuesForChart = currentDate.flatMapLatest(getValuesForChart::invoke)
     private val chart = combine(valuesForChart, propertyForChart, time, canvasDimensions, getChart::invoke)
     private val valuesForTable = currentDate.flatMapLatest(getValuesForTable::invoke)
-    private val table = combine(valuesForTable, propertiesForTable, time, decimalPlaces, canvasDimensions, getTable::invoke)
-    private val canvas = combine(time, chart, table, ::TimelineCanvasState)
+    private val table = combine(valuesForTable, propertiesForTable, decimalPlaces, time, canvasDimensions, getTable::invoke)
+    private val canvas = combine(time, chart, table) { time, chart, table ->
+        // TODO: Simplify null handling
+        if (time != null && chart != null && table != null) TimelineCanvasState(time, chart, table)
+        else null
+    }
 
     override val state = combine(date, canvas, ::TimelineState)
 
@@ -69,7 +73,8 @@ class TimelineViewModel(
                 tableRowHeight.update { intent.tableRowHeight }
             }
             is TimelineIntent.Invalidate -> {
-                val widthPerDay = canvasSize.value.width
+                val canvasSize = canvasSize.value ?: return
+                val widthPerDay = canvasSize.width
                 val threshold = (intent.scrollOffset * -1) + (widthPerDay / 2f)
                 val offsetInDays = floor( threshold / widthPerDay)
 
@@ -85,8 +90,9 @@ class TimelineViewModel(
     }
 
     private fun selectDate(date: Date) {
+        val canvasSize = canvasSize.value ?: return
         val daysBetween = initialDate.daysBetween(date)
-        val offset = canvasSize.value.width * -1 * daysBetween
+        val offset = canvasSize.width * -1 * daysBetween
         postEvent(TimelineEvent.Scroll(offset))
     }
 }

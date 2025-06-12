@@ -12,8 +12,8 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
+import com.faltenreich.diaguard.timeline.canvas.hours.TimelineHoursState
 import com.faltenreich.diaguard.timeline.date.TimelineDateState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -27,6 +27,7 @@ class GetTimelineTableStateUseCase(
 
     operator fun invoke(
         dateState: TimelineDateState,
+        hoursState: TimelineHoursState,
         dimensions: TimelineCanvasDimensions,
         scrollOffset: Float,
     ): Flow<TimelineTableState> {
@@ -51,8 +52,9 @@ class GetTimelineTableStateUseCase(
             TimelineTableState(
                 rectangle = dimensions.table,
                 initialDateTime = dateState.initialDate.atStartOfDay(),
+                hourProgression = hoursState.hourProgression,
                 categories = categories.map { category ->
-                    getTableCategory(values, properties, category, decimalPlaces)
+                    getTableCategory(values, properties, category, hoursState, decimalPlaces)
                 },
                 // TODO: Replace with pre-calculated offsets
                 scrollOffset = scrollOffset,
@@ -64,6 +66,7 @@ class GetTimelineTableStateUseCase(
         values: List<MeasurementValue.Local>,
         properties: List<MeasurementProperty.Local>,
         category: MeasurementCategory,
+        hoursState: TimelineHoursState,
         decimalPlaces: Int,
     ): TimelineTableState.Category {
         val propertiesOfCategory = properties.filter { it.category == category }
@@ -71,7 +74,7 @@ class GetTimelineTableStateUseCase(
             icon = category.icon,
             name = category.name,
             properties = propertiesOfCategory.map { property ->
-                getTableProperty(values, property, decimalPlaces)
+                getTableProperty(values, property, hoursState, decimalPlaces)
             }
         )
     }
@@ -79,6 +82,7 @@ class GetTimelineTableStateUseCase(
     private fun getTableProperty(
         values: List<MeasurementValue.Local>,
         property: MeasurementProperty.Local,
+        hoursState: TimelineHoursState,
         decimalPlaces: Int,
     ): TimelineTableState.Category.Property {
         return TimelineTableState.Category.Property(
@@ -87,7 +91,7 @@ class GetTimelineTableStateUseCase(
                 .filter { it.property == property }
                 .groupBy { value ->
                     val hour = value.entry.dateTime.time.hourOfDay
-                    val hourNormalized = hour - (hour % TimelineConfig.STEP)
+                    val hourNormalized = hour - (hour % hoursState.hourProgression.step)
                     value.entry.dateTime.copy(
                         hourOfDay = hourNormalized,
                         minuteOfHour = 0,

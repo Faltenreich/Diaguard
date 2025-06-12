@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.timeline.canvas.hours
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTimeConstants
-import com.faltenreich.diaguard.timeline.TimelineConfig.Companion.STEP
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 
 class GetTimelineHoursStateUseCase {
@@ -58,5 +57,10 @@ class GetTimelineHoursStateUseCase {
             hourProgression = xAxis,
             hours = hours,
         )
+    }
+
+    companion object {
+
+        private const val STEP = 2
     }
 }

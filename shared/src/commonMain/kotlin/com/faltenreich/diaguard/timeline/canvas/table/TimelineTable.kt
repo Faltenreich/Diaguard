@@ -83,11 +83,11 @@ fun DrawScope.TimelineTable(
                 val dateTime = value.dateTime
 
                 val widthPerDay = rectangle.size.width
-                val widthPerHour = widthPerDay / (config.xAxis.last / config.xAxis.step)
+                val widthPerHour = widthPerDay / (hourProgression.last / hourProgression.step)
                 val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
 
                 val offsetInMinutes = initialDateTime.minutesUntil(dateTime)
-                val offsetOfDateTime = (offsetInMinutes / config.xAxis.step) * widthPerMinute
+                val offsetOfDateTime = (offsetInMinutes / hourProgression.step) * widthPerMinute
                 val offsetOfHour = x + scrollOffset + offsetOfDateTime
 
                 val text = value.value

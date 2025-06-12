@@ -54,9 +54,9 @@ class TimelineViewModel(
 
     private val decimalPlaces = getPreferenceUseCase(DecimalPlacesPreference)
     private val valuesForChart = currentDate.flatMapLatest(getValuesForChart::invoke)
-    private val chart = combine(time, propertyForChart, valuesForChart, canvasDimensions, scrollOffset, getChart::invoke)
+    private val chart = combine(valuesForChart, propertyForChart, time, canvasDimensions, scrollOffset, getChart::invoke)
     private val valuesForTable = currentDate.flatMapLatest(getValuesForTable::invoke)
-    private val table = com.faltenreich.diaguard.shared.architecture.combine(time, valuesForTable, propertiesForTable, decimalPlaces, canvasDimensions, scrollOffset, getTable::invoke)
+    private val table = combine(valuesForTable, propertiesForTable, time, decimalPlaces, canvasDimensions, scrollOffset, getTable::invoke)
 
     override val state = combine(date, time, chart, table, ::TimelineState)
 

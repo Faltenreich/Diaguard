@@ -17,9 +17,9 @@ class GetTimelineTableStateUseCase(
 ) {
 
     operator fun invoke(
-        time: TimelineTimeState,
         values: List<MeasurementValue.Local>,
         properties: List<MeasurementProperty.Local>,
+        time: TimelineTimeState,
         decimalPlaces: Int,
         dimensions: TimelineCanvasDimensions,
         scrollOffset: Float,

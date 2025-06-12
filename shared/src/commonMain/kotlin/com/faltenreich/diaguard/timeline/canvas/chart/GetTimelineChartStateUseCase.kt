@@ -11,9 +11,9 @@ import kotlin.math.max
 class GetTimelineChartStateUseCase {
 
     operator fun invoke(
-        time: TimelineTimeState,
-        property: MeasurementProperty.Local,
         values: List<MeasurementValue.Local>,
+        property: MeasurementProperty.Local,
+        time: TimelineTimeState,
         dimensions: TimelineCanvasDimensions,
         scrollOffset: Float,
     ): TimelineChartState {

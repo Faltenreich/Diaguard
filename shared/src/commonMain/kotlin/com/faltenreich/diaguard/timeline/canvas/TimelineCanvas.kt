@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline.canvas
 
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FloatSpringSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.calculateTargetValue
@@ -14,8 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
@@ -29,14 +26,15 @@ import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.theme.LocalDimensions
 import com.faltenreich.diaguard.shared.theme.color.LocalColors
+import com.faltenreich.diaguard.shared.view.rememberAnimatable
 import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.TimelineEvent
 import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineState
 import com.faltenreich.diaguard.timeline.TimelineViewModel
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChart
-import com.faltenreich.diaguard.timeline.canvas.time.TimelineTime
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTable
+import com.faltenreich.diaguard.timeline.canvas.time.TimelineTime
 import kotlinx.coroutines.launch
 
 @Composable
@@ -54,13 +52,7 @@ fun TimelineCanvas(
     val typography = AppTheme.typography
     val textMeasurer = rememberTextMeasurer()
     val daysOfWeek = DayOfWeek.entries.associateWith { getString(it.abbreviation) }
-
-    val scrollOffset = rememberSaveable(
-        saver = Saver(
-            save = { it.value },
-            restore = { Animatable(initialValue = it) },
-        ),
-    ) { Animatable(0f) }
+    val scrollOffset = rememberAnimatable()
 
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->

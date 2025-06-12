@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
-import com.faltenreich.diaguard.timeline.canvas.hours.TimelineHoursState
+import com.faltenreich.diaguard.timeline.canvas.time.TimelineTimeState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
@@ -25,21 +25,18 @@ class GetTimelineTableStateUseCase(
 ) {
 
     operator fun invoke(
-        hoursState: TimelineHoursState,
+        time: TimelineTimeState,
         dimensions: TimelineCanvasDimensions,
         scrollOffset: Float,
     ): Flow<TimelineTableState> {
-        val dateRange = hoursState.currentDate.minus(1, DateUnit.DAY) ..
-            hoursState.currentDate.plus(1, DateUnit.DAY)
-        val excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         return combine(
             valueRepository.observeByDateRangeIfCategoryIsActive(
-                startDateTime = dateRange.start.atStartOfDay(),
-                endDateTime = dateRange.endInclusive.atEndOfDay(),
-                excludedPropertyKey = excludedPropertyKey,
+                startDateTime = time.currentDate.minus(1, DateUnit.DAY).atStartOfDay(),
+                endDateTime = time.currentDate.plus(1, DateUnit.DAY).atEndOfDay(),
+                excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
             ),
             propertyRepository.observeIfCategoryIsActive(
-                excludedPropertyKey = excludedPropertyKey,
+                excludedPropertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
             ),
             getPreference(DecimalPlacesPreference),
         ) { values, properties, decimalPlaces ->
@@ -49,10 +46,10 @@ class GetTimelineTableStateUseCase(
                 .sortedBy(MeasurementCategory::sortIndex)
             TimelineTableState(
                 rectangle = dimensions.table,
-                initialDateTime = hoursState.initialDateTime,
-                hourProgression = hoursState.hourProgression,
+                initialDateTime = time.initialDateTime,
+                hourProgression = time.hourProgression,
                 categories = categories.map { category ->
-                    getTableCategory(values, properties, category, hoursState, decimalPlaces)
+                    getTableCategory(values, properties, category, time, decimalPlaces)
                 },
                 // TODO: Replace with pre-calculated offsets
                 scrollOffset = scrollOffset,
@@ -64,7 +61,7 @@ class GetTimelineTableStateUseCase(
         values: List<MeasurementValue.Local>,
         properties: List<MeasurementProperty.Local>,
         category: MeasurementCategory,
-        hoursState: TimelineHoursState,
+        time: TimelineTimeState,
         decimalPlaces: Int,
     ): TimelineTableState.Category {
         val propertiesOfCategory = properties.filter { it.category == category }
@@ -72,7 +69,7 @@ class GetTimelineTableStateUseCase(
             icon = category.icon,
             name = category.name,
             properties = propertiesOfCategory.map { property ->
-                getTableProperty(values, property, hoursState, decimalPlaces)
+                getTableProperty(values, property, time, decimalPlaces)
             }
         )
     }
@@ -80,7 +77,7 @@ class GetTimelineTableStateUseCase(
     private fun getTableProperty(
         values: List<MeasurementValue.Local>,
         property: MeasurementProperty.Local,
-        hoursState: TimelineHoursState,
+        time: TimelineTimeState,
         decimalPlaces: Int,
     ): TimelineTableState.Category.Property {
         return TimelineTableState.Category.Property(
@@ -89,7 +86,7 @@ class GetTimelineTableStateUseCase(
                 .filter { it.property == property }
                 .groupBy { value ->
                     val hour = value.entry.dateTime.time.hourOfDay
-                    val hourNormalized = hour - (hour % hoursState.hourProgression.step)
+                    val hourNormalized = hour - (hour % time.hourProgression.step)
                     value.entry.dateTime.copy(
                         hourOfDay = hourNormalized,
                         minuteOfHour = 0,

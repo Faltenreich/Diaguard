@@ -1,17 +1,17 @@
-package com.faltenreich.diaguard.timeline.canvas.hours
+package com.faltenreich.diaguard.timeline.canvas.time
 
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.date.TimelineDateState
 
-class GetTimelineHoursStateUseCase {
+class GetTimelineTimeStateUseCase {
 
     operator fun invoke(
         dateState: TimelineDateState,
         dimensions: TimelineCanvasDimensions,
         scrollOffset: Float,
-    ): TimelineHoursState {
+    ): TimelineTimeState {
         val rectangle = dimensions.time
 
         val xMin = 0
@@ -42,7 +42,7 @@ class GetTimelineHoursStateUseCase {
                     else -> xOffsetInHoursOfDay
                 }
                 val x = xOfLabel.toFloat()
-                TimelineHoursState.Hour(
+                TimelineTimeState.Hour(
                     x = x,
                     hour = hour,
                 )
@@ -51,7 +51,7 @@ class GetTimelineHoursStateUseCase {
             emptyList()
         }
 
-        return TimelineHoursState(
+        return TimelineTimeState(
             rectangle = rectangle,
             currentDate = dateState.currentDate,
             initialDateTime = dateState.initialDate.atStartOfDay(),

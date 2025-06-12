@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.timeline
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
-import com.faltenreich.diaguard.timeline.canvas.hours.GetTimelineHoursStateUseCase
+import com.faltenreich.diaguard.timeline.canvas.time.GetTimelineTimeStateUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableStateUseCase
 import com.faltenreich.diaguard.timeline.date.GetTimelineDateStateUseCase
@@ -16,7 +16,7 @@ fun timelineModule() = module {
     factoryOf(::GetTimelineTableMeasurementPropertiesUseCase)
     factoryOf(::GetTimelineChartMeasurementValuesUseCase)
     factoryOf(::GetTimelineDateStateUseCase)
-    factoryOf(::GetTimelineHoursStateUseCase)
+    factoryOf(::GetTimelineTimeStateUseCase)
     factoryOf(::GetTimelineChartStateUseCase)
     factoryOf(::GetTimelineTableStateUseCase)
 

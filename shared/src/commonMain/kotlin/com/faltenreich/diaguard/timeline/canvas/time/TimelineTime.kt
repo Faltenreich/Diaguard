@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber")
 
-package com.faltenreich.diaguard.timeline.canvas.hours
+package com.faltenreich.diaguard.timeline.canvas.time
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -13,8 +13,8 @@ import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
-fun DrawScope.TimelineHours(
-    state: TimelineHoursState,
+fun DrawScope.TimelineTime(
+    state: TimelineTimeState,
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
 ) = with(state) {

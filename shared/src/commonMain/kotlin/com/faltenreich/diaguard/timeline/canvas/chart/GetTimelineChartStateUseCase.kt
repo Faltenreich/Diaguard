@@ -5,13 +5,13 @@ import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
-import com.faltenreich.diaguard.timeline.canvas.hours.TimelineHoursState
+import com.faltenreich.diaguard.timeline.canvas.time.TimelineTimeState
 import kotlin.math.max
 
 class GetTimelineChartStateUseCase {
 
     operator fun invoke(
-        hoursState: TimelineHoursState,
+        time: TimelineTimeState,
         property: MeasurementProperty.Local,
         values: List<MeasurementValue.Local>,
         dimensions: TimelineCanvasDimensions,
@@ -44,7 +44,7 @@ class GetTimelineChartStateUseCase {
         }
 
         val rectangle = dimensions.chart
-        val stepCount = hoursState.hourProgression.last / hoursState.hourProgression.step
+        val stepCount = time.hourProgression.last / time.hourProgression.step
         return TimelineChartState(
             rectangle = rectangle,
             values = values.takeIf { valueAxis.any() }?.map { value ->
@@ -54,7 +54,7 @@ class GetTimelineChartStateUseCase {
                 val widthPerDay = dimensions.chart.size.width
                 val widthPerHour = widthPerDay / stepCount
                 val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
-                val offsetInMinutes = hoursState.initialDateTime.minutesUntil(dateTime)
+                val offsetInMinutes = time.initialDateTime.minutesUntil(dateTime)
                 val offsetOfDateTime = (offsetInMinutes / xAxisStep) * widthPerMinute
                 val x = dimensions.chart.topLeft.x + scrollOffset + offsetOfDateTime
 

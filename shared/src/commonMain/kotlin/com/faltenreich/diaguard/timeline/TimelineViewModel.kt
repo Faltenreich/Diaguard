@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
+import com.faltenreich.diaguard.timeline.canvas.GetTimelineCanvasDimensionsUseCase
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
@@ -29,6 +29,7 @@ import kotlin.math.floor
 
 class TimelineViewModel(
     getToday: GetTodayUseCase,
+    getCanvasDimensions: GetTimelineCanvasDimensionsUseCase,
     getPropertyForChart: GetTimelineChartMeasurementPropertyUseCase,
     getValuesForChart: GetTimelineChartMeasurementValuesUseCase,
     getPropertiesForTable: GetTimelineTableMeasurementPropertiesUseCase,
@@ -41,25 +42,40 @@ class TimelineViewModel(
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
-    private val propertyForChart = getPropertyForChart()
     private val propertiesForTable = getPropertiesForTable()
-    private val decimalPlaces = getPreferenceUseCase(DecimalPlacesPreference)
 
     private val canvasSize = MutableStateFlow<Size?>(null)
     private val tableRowHeight = MutableStateFlow(0f)
     private val scrollOffset = MutableStateFlow(0f)
-    private val canvasDimensions = combine(canvasSize, tableRowHeight, scrollOffset, propertiesForTable, TimelineCanvasDimensions::from)
+    private val canvasDimensions = combine(
+        canvasSize,
+        tableRowHeight,
+        scrollOffset,
+        propertiesForTable,
+        getCanvasDimensions::invoke,
+    )
 
     private val initialDate = getToday()
     private val currentDate = MutableStateFlow(initialDate)
     private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
     private val time = combine(date, canvasDimensions, getTime::invoke)
 
-    private val valuesForChart = currentDate.flatMapLatest(getValuesForChart::invoke)
-    private val chart = combine(valuesForChart, propertyForChart, time, canvasDimensions, getChart::invoke)
+    private val chart = combine(
+        currentDate.flatMapLatest(getValuesForChart::invoke),
+        getPropertyForChart(),
+        time,
+        canvasDimensions,
+        getChart::invoke,
+    )
 
-    private val valuesForTable = currentDate.flatMapLatest(getValuesForTable::invoke)
-    private val table = combine(valuesForTable, propertiesForTable, decimalPlaces, time, canvasDimensions, getTable::invoke)
+    private val table = combine(
+        currentDate.flatMapLatest(getValuesForTable::invoke),
+        propertiesForTable,
+        getPreferenceUseCase(DecimalPlacesPreference),
+        time,
+        canvasDimensions,
+        getTable::invoke,
+    )
 
     private val canvas = combine(time, chart, table) { time, chart, table ->
         if (time != null && chart != null && table != null) TimelineCanvasState(time, chart, table)

@@ -9,13 +9,12 @@ data class TimelineTableState(
 ) {
 
     data class Category(
-        val icon: String?,
-        val name: String,
         val properties: List<Property>,
     ) {
 
         data class Property(
             val rectangle: Rect,
+            val icon: String,
             val name: String,
             val values: List<Value>,
         )

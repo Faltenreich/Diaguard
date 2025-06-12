@@ -18,13 +18,15 @@ data class TimelineTableState(
     ) {
 
         data class Property(
+            val rectangle: Rect,
             val name: String,
             val values: List<Value>,
         )
 
         data class Value(
-            val dateTime: DateTime,
+            val rectangle: Rect,
             val value: String,
+            val dateTime: DateTime,
         )
     }
 }

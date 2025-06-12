@@ -7,7 +7,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
-import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
@@ -18,10 +17,8 @@ fun DrawScope.TimelineTable(
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
 ) = with(state) {
-    val x = rectangle.topLeft.x
-    var y = rectangle.topLeft.y
-
     categories.forEachIndexed { categoryIndex, category ->
+        // TODO: Replace with property.rectangle.height
         val rowHeight = config.tableRowHeight
 
         category.properties.forEachIndexed { propertyIndex, property ->
@@ -30,11 +27,8 @@ fun DrawScope.TimelineTable(
                 // Divider
                 drawLine(
                     color = config.gridStrokeColor,
-                    start = Offset(x = x, y = y),
-                    end = Offset(
-                        x = x + rectangle.size.width,
-                        y = y,
-                    ),
+                    start = property.rectangle.topLeft,
+                    end = property.rectangle.topRight,
                     strokeWidth = config.gridStrokeWidth,
                 )
             }
@@ -43,14 +37,15 @@ fun DrawScope.TimelineTable(
 
             val labelSize = textMeasurer.measure(property.name)
 
+            // FIXME: Not visible anymore, even though Rect seems correct
             // Label background
             val path = Path()
             val rect = RoundRect(
                 rect = Rect(
-                    left = x + config.padding / 2,
-                    top = y + config.fontSize - labelSize.size.height + config.padding / 2,
-                    right = x + iconSize + labelSize.size.width + config.padding * 2,
-                    bottom = y + config.fontSize + config.padding + config.padding / 2,
+                    left = property.rectangle.left + config.padding / 2,
+                    top = property.rectangle.top + config.fontSize - labelSize.size.height + config.padding / 2,
+                    right = property.rectangle.left + iconSize + labelSize.size.width + config.padding * 2,
+                    bottom = property.rectangle.top + config.fontSize + config.padding + config.padding / 2,
                 ),
                 cornerRadius = config.cornerRadius,
             )
@@ -64,8 +59,8 @@ fun DrawScope.TimelineTable(
             drawText(
                 text = property.name,
                 bottomLeft = Offset(
-                    x = x + iconSize,
-                    y = y + rowHeight / 2 + config.fontSize / 2,
+                    x = property.rectangle.left + iconSize,
+                    y = property.rectangle.top + rowHeight / 2 + config.fontSize / 2,
                 ),
                 size = config.fontSize,
                 paint = config.fontPaint,
@@ -74,28 +69,16 @@ fun DrawScope.TimelineTable(
             MeasurementCategoryIcon(
                 icon = category.icon,
                 fallback = property.name,
-                position = Offset(x, y),
+                position = property.rectangle.topLeft,
                 size = Size(width = iconSize, height = iconSize),
                 textMeasurer = textMeasurer,
             )
 
             property.values.forEach { value ->
-                val dateTime = value.dateTime
-
-                val widthPerDay = rectangle.size.width
-                val widthPerHour = widthPerDay / (hourProgression.last / hourProgression.step)
-                val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
-
-                val offsetInMinutes = initialDateTime.minutesUntil(dateTime)
-                val offsetOfDateTime = (offsetInMinutes / hourProgression.step) * widthPerMinute
-                val offsetOfHour = x + scrollOffset + offsetOfDateTime
-
                 val text = value.value
                 val textSize = textMeasurer.measure(text)
-
-                val valueX = offsetOfHour + widthPerHour / 2 - textSize.size.width / 2
-                val valueY = y + rowHeight / 2 + textSize.size.height / 2
-
+                val valueX = value.rectangle.center.x - textSize.size.width / 2
+                val valueY = value.rectangle.center.y + textSize.size.height / 2
                 drawText(
                     text = text,
                     bottomLeft = Offset(
@@ -106,7 +89,6 @@ fun DrawScope.TimelineTable(
                     paint = config.fontPaint,
                 )
             }
-            y += rowHeight
         }
     }
 }

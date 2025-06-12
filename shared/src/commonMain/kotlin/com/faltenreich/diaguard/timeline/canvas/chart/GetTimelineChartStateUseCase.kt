@@ -43,16 +43,16 @@ class GetTimelineChartStateUseCase {
             colorStops.add(TimelineChartState.ColorStop(1f, TimelineChartState.ColorStop.Type.NORMAL))
         }
 
-         val rectangle = dimensions.chart
+        val rectangle = dimensions.chart
+        val stepCount = hoursState.hourProgression.last / hoursState.hourProgression.step
         return TimelineChartState(
             rectangle = rectangle,
-            values = values.takeIf { valueAxis.any() && hoursState.hours.isNotEmpty() }?.map { value ->
+            values = values.takeIf { valueAxis.any() }?.map { value ->
                 val dateTime = value.entry.dateTime
 
-                val xAxisCount = hoursState.hours.size
-                val xAxisStep = DateTimeConstants.HOURS_PER_DAY / xAxisCount
+                val xAxisStep = DateTimeConstants.HOURS_PER_DAY / stepCount
                 val widthPerDay = dimensions.chart.size.width
-                val widthPerHour = widthPerDay / xAxisCount
+                val widthPerHour = widthPerDay / stepCount
                 val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
                 val offsetInMinutes = hoursState.initialDateTime.minutesUntil(dateTime)
                 val offsetOfDateTime = (offsetInMinutes / xAxisStep) * widthPerMinute

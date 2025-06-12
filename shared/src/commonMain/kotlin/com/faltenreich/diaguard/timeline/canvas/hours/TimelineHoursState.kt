@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 data class TimelineHoursState(
     val rectangle: Rect,
     val initialDateTime: DateTime,
+    val hourProgression: IntProgression,
     val hours: List<Hour>,
 ) {
 

@@ -128,8 +128,10 @@ fun TimelineCanvas(
                 )
             },
     ) {
-        TimelineChart(state.chart, config, textMeasurer)
-        TimelineTable(state.table, config, textMeasurer)
-        TimelineTime(state.time, config, textMeasurer)
+        state.canvas?.run {
+            TimelineChart(chart, config, textMeasurer)
+            TimelineTable(table, config, textMeasurer)
+            TimelineTime(time, config, textMeasurer)
+        }
     }
 }

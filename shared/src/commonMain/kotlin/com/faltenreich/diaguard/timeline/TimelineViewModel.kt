@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
+import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
@@ -57,8 +58,9 @@ class TimelineViewModel(
     private val chart = combine(valuesForChart, propertyForChart, time, canvasDimensions, getChart::invoke)
     private val valuesForTable = currentDate.flatMapLatest(getValuesForTable::invoke)
     private val table = combine(valuesForTable, propertiesForTable, time, decimalPlaces, canvasDimensions, getTable::invoke)
+    private val canvas = combine(time, chart, table, ::TimelineCanvasState)
 
-    override val state = combine(date, time, chart, table, ::TimelineState)
+    override val state = combine(date, canvas, ::TimelineState)
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {

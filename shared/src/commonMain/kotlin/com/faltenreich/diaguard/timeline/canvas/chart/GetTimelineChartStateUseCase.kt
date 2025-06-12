@@ -15,7 +15,6 @@ class GetTimelineChartStateUseCase {
         property: MeasurementProperty.Local,
         time: TimelineTimeState,
         dimensions: TimelineCanvasDimensions,
-        scrollOffset: Float,
     ): TimelineChartState {
         val valueMin = Y_AXIS_MIN
         val valueLow = property.range.low
@@ -56,7 +55,7 @@ class GetTimelineChartStateUseCase {
                 val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
                 val offsetInMinutes = time.initialDateTime.minutesUntil(dateTime)
                 val offsetOfDateTime = (offsetInMinutes / xAxisStep) * widthPerMinute
-                val x = dimensions.chart.topLeft.x + scrollOffset + offsetOfDateTime
+                val x = dimensions.chart.topLeft.x + dimensions.scroll + offsetOfDateTime
 
                 val percentage = (value.value - valueAxis.first()) /
                     (valueAxis.last() - valueAxis.first())

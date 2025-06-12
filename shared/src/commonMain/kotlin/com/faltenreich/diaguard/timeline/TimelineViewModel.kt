@@ -44,19 +44,19 @@ class TimelineViewModel(
     private val tableRowHeight = MutableStateFlow(0f)
     private val propertyForChart = getPropertyForChart()
     private val propertiesForTable = getPropertiesForTable()
-    private val canvasDimensions = combine(canvasSize, tableRowHeight, propertiesForTable, TimelineCanvasDimensions::from)
     private val scrollOffset = MutableStateFlow(0f)
+    private val canvasDimensions = combine(canvasSize, tableRowHeight, scrollOffset, propertiesForTable, TimelineCanvasDimensions::from)
 
     private val initialDate = getToday()
     private val currentDate = MutableStateFlow(initialDate)
     private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
-    private val time = combine(date, canvasDimensions, scrollOffset, getTime::invoke)
+    private val time = combine(date, canvasDimensions, getTime::invoke)
 
     private val decimalPlaces = getPreferenceUseCase(DecimalPlacesPreference)
     private val valuesForChart = currentDate.flatMapLatest(getValuesForChart::invoke)
-    private val chart = combine(valuesForChart, propertyForChart, time, canvasDimensions, scrollOffset, getChart::invoke)
+    private val chart = combine(valuesForChart, propertyForChart, time, canvasDimensions, getChart::invoke)
     private val valuesForTable = currentDate.flatMapLatest(getValuesForTable::invoke)
-    private val table = combine(valuesForTable, propertiesForTable, time, decimalPlaces, canvasDimensions, scrollOffset, getTable::invoke)
+    private val table = combine(valuesForTable, propertiesForTable, time, decimalPlaces, canvasDimensions, getTable::invoke)
 
     override val state = combine(date, time, chart, table, ::TimelineState)
 

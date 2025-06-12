@@ -22,7 +22,6 @@ class GetTimelineTableStateUseCase(
         time: TimelineTimeState,
         decimalPlaces: Int,
         dimensions: TimelineCanvasDimensions,
-        scrollOffset: Float,
     ): TimelineTableState {
         val categories = properties
             .mapNotNull(MeasurementProperty::category)
@@ -80,7 +79,7 @@ class GetTimelineTableStateUseCase(
                                     val offsetInMinutes = time.initialDateTime.minutesUntil(dateTime)
                                     val offsetOfDateTime = (offsetInMinutes / time.hourProgression.step) *
                                         widthPerMinute
-                                    val offsetOfHour = propertyRectangle.left + scrollOffset + offsetOfDateTime
+                                    val offsetOfHour = propertyRectangle.left + dimensions.scroll + offsetOfDateTime
                                     val valueRectangle = Rect(
                                         offset = Offset(
                                             x = offsetOfHour,

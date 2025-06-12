@@ -10,7 +10,6 @@ class GetTimelineTimeStateUseCase {
     operator fun invoke(
         dateState: TimelineDateState,
         dimensions: TimelineCanvasDimensions,
-        scrollOffset: Float,
     ): TimelineTimeState {
         val rectangle = dimensions.time
 
@@ -26,7 +25,7 @@ class GetTimelineTimeStateUseCase {
             val widthPerDay = rectangle.size.width
             val widthPerHour = (widthPerDay / xAxisLabelCount).toInt()
 
-            val xOffset = scrollOffset.toInt()
+            val xOffset = dimensions.scroll.toInt()
             val xOfFirstHour = xOffset % widthPerHour
             val xOfLastHour = xOfFirstHour + (xAxisLabelCount * widthPerHour)
             // Paint one additional hour per side to support cut-off labels

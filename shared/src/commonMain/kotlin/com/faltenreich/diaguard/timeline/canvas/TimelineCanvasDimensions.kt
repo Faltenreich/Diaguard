@@ -10,6 +10,7 @@ data class TimelineCanvasDimensions(
     val chart: Rect,
     val table: Rect,
     val time: Rect,
+    val scroll: Float,
 ) {
 
     companion object {
@@ -17,6 +18,7 @@ data class TimelineCanvasDimensions(
         fun from(
             canvasSize: Size,
             tableRowHeight: Float,
+            scrollOffset: Float,
             properties: List<MeasurementProperty>,
         ): TimelineCanvasDimensions {
             if (canvasSize == Size.Unspecified) {
@@ -25,6 +27,7 @@ data class TimelineCanvasDimensions(
                     chart = Rect.Zero,
                     table = Rect.Zero,
                     time = Rect.Zero,
+                    scroll = 0f,
                 )
             }
 
@@ -57,6 +60,7 @@ data class TimelineCanvasDimensions(
                 chart = Rect(offset = origin, size = chartSize),
                 table = Rect(offset = tableOrigin, size = tableSize),
                 time = Rect(offset = timeOrigin, size = timeSize),
+                scroll = scrollOffset,
             )
         }
     }

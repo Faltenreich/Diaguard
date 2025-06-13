@@ -17,6 +17,7 @@ data class TimelineChartState(
     ) {
 
         enum class Type {
+            NONE,
             LOW,
             NORMAL,
             HIGH,

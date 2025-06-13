@@ -25,13 +25,11 @@ class GetTimelineChartStateUseCase {
 
         val valueStep = Y_AXIS_STEP
         val valueMin = Y_AXIS_MIN
-        val valueLow = property.range.low
-        val valueHigh = property.range.high
         val valueMax = max(Y_AXIS_MAX_MIN, values.maxOfOrNull { it.value } ?: 0.0)
         val valueMaxPadded = valueMax + valueStep
         val valueAxis = valueMin .. valueMaxPadded step valueStep
 
-        val coordinates = values.takeIf { valueAxis.any() }?.map { value ->
+        val coordinates = values.map { value ->
             val dateTime = value.entry.dateTime
 
             val xAxisStep = DateTimeConstants.HOURS_PER_DAY / stepCount
@@ -42,16 +40,17 @@ class GetTimelineChartStateUseCase {
             val offsetOfDateTime = (offsetInMinutes / xAxisStep) * widthPerMinute
             val x = dimensions.chart.topLeft.x + dimensions.scroll + offsetOfDateTime
 
-            val percentage = (value.value - valueAxis.first()) /
-                (valueAxis.last() - valueAxis.first())
+            val percentage = (value.value - valueAxis.first()) / (valueAxis.last() - valueAxis.first())
             val y = dimensions.chart.topLeft.y +
                 dimensions.chart.size.height -
                 (percentage.toFloat() * dimensions.chart.size.height)
 
             Offset(x, y)
-        } ?: emptyList()
+        }
 
         val colorStops = mutableListOf<TimelineChartState.ColorStop>()
+        val valueLow = property.range.low?.takeIf { property.range.isHighlighted }
+        val valueHigh = property.range.high?.takeIf { property.range.isHighlighted }
         valueHigh?.let {
             val yHighFraction = (valueHigh - valueMin).toFloat() / (valueMax - valueMin).toFloat()
             colorStops.add(TimelineChartState.ColorStop(1 - yHighFraction, TimelineChartState.ColorStop.Type.HIGH))
@@ -63,8 +62,8 @@ class GetTimelineChartStateUseCase {
             colorStops.add(TimelineChartState.ColorStop(1 - yLowFraction, TimelineChartState.ColorStop.Type.LOW))
         }
         if (colorStops.isEmpty()) {
-            colorStops.add(TimelineChartState.ColorStop(0f, TimelineChartState.ColorStop.Type.NORMAL))
-            colorStops.add(TimelineChartState.ColorStop(1f, TimelineChartState.ColorStop.Type.NORMAL))
+            colorStops.add(TimelineChartState.ColorStop(0f, TimelineChartState.ColorStop.Type.NONE))
+            colorStops.add(TimelineChartState.ColorStop(1f, TimelineChartState.ColorStop.Type.NONE))
         }
 
         return TimelineChartState(

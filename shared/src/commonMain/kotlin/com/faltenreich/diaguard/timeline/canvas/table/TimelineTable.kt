@@ -1,10 +1,7 @@
 package com.faltenreich.diaguard.timeline.canvas.table
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
@@ -32,24 +29,18 @@ fun DrawScope.TimelineTable(
 
             val iconSize = property.rectangle.height
 
-            val labelSize = textMeasurer.measure(property.name)
-
             // Label background
-            // TODO: Reuse path
-            val path = Path()
-            val rect = RoundRect(
-                rect = Rect(
-                    left = property.rectangle.left + config.padding / 2,
-                    top = property.rectangle.top + config.padding / 2,
-                    right = property.rectangle.left + iconSize + labelSize.size.width + config.padding / 2,
-                    bottom = property.rectangle.bottom - config.padding / 2,
+            drawRoundRect(
+                color = config.backgroundColor,
+                topLeft = Offset(
+                    x = property.rectangle.left + config.padding / 2,
+                    y = property.rectangle.top + config.padding / 2,
+                ),
+                size = Size(
+                    width = iconSize + textMeasurer.measure(property.name).size.width + config.padding / 2,
+                    height = property.rectangle.height - config.padding,
                 ),
                 cornerRadius = config.cornerRadius,
-            )
-            path.addRoundRect(rect)
-            drawPath(
-                path = path,
-                color = config.backgroundColor,
             )
 
             MeasurementCategoryIcon(
@@ -65,7 +56,7 @@ fun DrawScope.TimelineTable(
                 text = property.name,
                 bottomLeft = Offset(
                     x = property.rectangle.left + iconSize,
-                    y = property.rectangle.top + property.rectangle.height / 2 + config.fontSize / 2,
+                    y = property.rectangle.center.y + config.fontSize / 2, // FIXME: Has small vertical offset
                 ),
                 size = config.fontSize,
                 paint = config.fontPaint,

@@ -70,10 +70,6 @@ class GetTimelineChartStateUseCase {
         return TimelineChartState(
             rectangle = rectangle,
             values = coordinates,
-            valueMin = valueMin,
-            valueLow = valueLow,
-            valueHigh = valueHigh,
-            valueMax = valueMax,
             valueStep = valueStep,
             valueAxis = valueAxis,
             colorStops = colorStops,

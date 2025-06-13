@@ -36,19 +36,22 @@ class GetTimelineChartStateUseCase {
 
         val valueStep = Y_AXIS_STEP
         val valueMin = Y_AXIS_MIN
-        // FIXME: Visible value should have precedence
-        val valueMaxValueWithX = valuesWithXCoordinate.maxByOrNull { (value, _) -> value.value }
-        val valueMaxValue = valueMaxValueWithX?.first?.value ?: 0.0
-        val valueMaxX = valueMaxValueWithX?.second
-        val valueMaxDistance =
-            if (valueMaxX == null) 0f
-            else if (valueMaxX < rectangle.left) rectangle.left - valueMaxX
-            else if (valueMaxX > rectangle.right) valueMaxX - rectangle.right
-            else 0f
-        // TODO: Find right distance to remove from valueMaxValue
-        val valueMax = max(Y_AXIS_MAX_MIN, valueMaxValue - valueMaxDistance)
-        val valueMaxPadded = valueMax + valueStep
-        val valueAxis = valueMin .. valueMaxPadded step valueStep
+        val valueMax = valuesWithXCoordinate.let {
+            // TODO: Let visible values take precedence
+            val valueMaxValueWithX = valuesWithXCoordinate.maxByOrNull { (value, _) -> value.value }
+            val valueMaxValue = valueMaxValueWithX?.first?.value ?: 0.0
+            val valueMaxX = valueMaxValueWithX?.second
+            val valueMaxDistance =
+                if (valueMaxX == null) 0f
+                else if (valueMaxX < rectangle.left) rectangle.left - valueMaxX
+                else if (valueMaxX > rectangle.right) valueMaxX - rectangle.right
+                else 0f
+            // TODO: Find right distance to remove from valueMaxValue
+            val valueMax = max(Y_AXIS_MAX_MIN, valueMaxValue - valueMaxDistance)
+            val valueMaxPadded = valueMax + valueStep
+            valueMaxPadded
+        }
+        val valueAxis = valueMin .. valueMax step valueStep
 
         val coordinates = valuesWithXCoordinate.map { (value, x) ->
             val percentage = (value.value - valueAxis.first()) / (valueAxis.last() - valueAxis.first())

@@ -45,7 +45,8 @@ class GetTimelineChartStateUseCase {
                         if (x < rectangle.left) rectangle.left - x
                         else if (x > rectangle.right) x - rectangle.right
                         else 0f
-                    // TODO: Find right distance to remove from valueMaxValue
+                    // FIXME: Distance jumps if maximum value is far away but high values are near
+                    // TODO: Calculate median of distance AND value
                     value.value - valueMaxDistance
                 } ?: 0.0
                 val valueMax = max(Y_AXIS_MAX_MIN, max(valueMaxValueVisible, valueMaxValueInvisible))

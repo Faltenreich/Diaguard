@@ -129,9 +129,9 @@ fun TimelineCanvas(
             },
     ) {
         state.canvas?.run {
+            TimelineTime(time, config, textMeasurer)
             TimelineChart(chart, config, textMeasurer)
             TimelineTable(table, config, textMeasurer)
-            TimelineTime(time, config, textMeasurer)
         }
     }
 }

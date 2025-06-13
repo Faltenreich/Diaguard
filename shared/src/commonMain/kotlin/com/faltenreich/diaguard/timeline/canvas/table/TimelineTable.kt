@@ -34,15 +34,15 @@ fun DrawScope.TimelineTable(
 
             val labelSize = textMeasurer.measure(property.name)
 
-            // FIXME: Not visible anymore, even though Rect seems correct
             // Label background
+            // TODO: Reuse path
             val path = Path()
             val rect = RoundRect(
                 rect = Rect(
                     left = property.rectangle.left + config.padding / 2,
-                    top = property.rectangle.top + config.fontSize - labelSize.size.height + config.padding / 2,
-                    right = property.rectangle.left + iconSize + labelSize.size.width + config.padding * 2,
-                    bottom = property.rectangle.top + config.fontSize + config.padding + config.padding / 2,
+                    top = property.rectangle.top + config.padding / 2,
+                    right = property.rectangle.left + iconSize + labelSize.size.width + config.padding / 2,
+                    bottom = property.rectangle.bottom - config.padding / 2,
                 ),
                 cornerRadius = config.cornerRadius,
             )
@@ -50,6 +50,14 @@ fun DrawScope.TimelineTable(
             drawPath(
                 path = path,
                 color = config.backgroundColor,
+            )
+
+            MeasurementCategoryIcon(
+                icon = property.icon,
+                fallback = property.name,
+                position = property.rectangle.topLeft,
+                size = Size(width = iconSize, height = iconSize),
+                textMeasurer = textMeasurer,
             )
 
             // Label
@@ -61,14 +69,6 @@ fun DrawScope.TimelineTable(
                 ),
                 size = config.fontSize,
                 paint = config.fontPaint,
-            )
-
-            MeasurementCategoryIcon(
-                icon = property.icon,
-                fallback = property.name,
-                position = property.rectangle.topLeft,
-                size = Size(width = iconSize, height = iconSize),
-                textMeasurer = textMeasurer,
             )
 
             property.values.forEach { value ->

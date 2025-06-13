@@ -36,21 +36,22 @@ class GetTimelineChartStateUseCase {
 
         val valueStep = Y_AXIS_STEP
         val valueMin = Y_AXIS_MIN
-        val valueMax = valuesWithXCoordinate.let {
-            // TODO: Let visible values take precedence
-            val valueMaxValueWithX = valuesWithXCoordinate.maxByOrNull { (value, _) -> value.value }
-            val valueMaxValue = valueMaxValueWithX?.first?.value ?: 0.0
-            val valueMaxX = valueMaxValueWithX?.second
-            val valueMaxDistance =
-                if (valueMaxX == null) 0f
-                else if (valueMaxX < rectangle.left) rectangle.left - valueMaxX
-                else if (valueMaxX > rectangle.right) valueMaxX - rectangle.right
-                else 0f
-            // TODO: Find right distance to remove from valueMaxValue
-            val valueMax = max(Y_AXIS_MAX_MIN, valueMaxValue - valueMaxDistance)
-            val valueMaxPadded = valueMax + valueStep
-            valueMaxPadded
-        }
+        val valueMax = valuesWithXCoordinate
+            .partition { (_, x) -> x in rectangle.left .. rectangle.right }
+            .let { (visible, invisible) ->
+                val valueMaxValueVisible = visible.maxOfOrNull { (value, _) -> value.value } ?: 0.0
+                val valueMaxValueInvisible = invisible.maxByOrNull { (value, _) -> value.value }?.let { (value, x) ->
+                    val valueMaxDistance =
+                        if (x < rectangle.left) rectangle.left - x
+                        else if (x > rectangle.right) x - rectangle.right
+                        else 0f
+                    // TODO: Find right distance to remove from valueMaxValue
+                    value.value - valueMaxDistance
+                } ?: 0.0
+                val valueMax = max(Y_AXIS_MAX_MIN, max(valueMaxValueVisible, valueMaxValueInvisible))
+                val valueMaxPadded = valueMax + valueStep
+                valueMaxPadded
+            }
         val valueAxis = valueMin .. valueMax step valueStep
 
         val coordinates = valuesWithXCoordinate.map { (value, x) ->

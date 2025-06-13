@@ -20,15 +20,36 @@ class GetTimelineChartStateUseCase {
             return null
         }
 
+        val rectangle = dimensions.chart
+        val stepCount = time.hourProgression.last / time.hourProgression.step
+
+        val valueStep = Y_AXIS_STEP
         val valueMin = Y_AXIS_MIN
         val valueLow = property.range.low
         val valueHigh = property.range.high
-        val valueMax = max(
-            Y_AXIS_MAX_MIN,
-            (values.maxOfOrNull { it.value } ?: 0.0) + Y_AXIS_STEP,
-        )
-        val valueStep = Y_AXIS_STEP
-        val valueAxis = valueMin .. valueMax step valueStep
+        val valueMax = max(Y_AXIS_MAX_MIN, values.maxOfOrNull { it.value } ?: 0.0)
+        val valueMaxPadded = valueMax + valueStep
+        val valueAxis = valueMin .. valueMaxPadded step valueStep
+
+        val coordinates = values.takeIf { valueAxis.any() }?.map { value ->
+            val dateTime = value.entry.dateTime
+
+            val xAxisStep = DateTimeConstants.HOURS_PER_DAY / stepCount
+            val widthPerDay = dimensions.chart.size.width
+            val widthPerHour = widthPerDay / stepCount
+            val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
+            val offsetInMinutes = time.initialDateTime.minutesUntil(dateTime)
+            val offsetOfDateTime = (offsetInMinutes / xAxisStep) * widthPerMinute
+            val x = dimensions.chart.topLeft.x + dimensions.scroll + offsetOfDateTime
+
+            val percentage = (value.value - valueAxis.first()) /
+                (valueAxis.last() - valueAxis.first())
+            val y = dimensions.chart.topLeft.y +
+                dimensions.chart.size.height -
+                (percentage.toFloat() * dimensions.chart.size.height)
+
+            Offset(x, y)
+        } ?: emptyList()
 
         val colorStops = mutableListOf<TimelineChartState.ColorStop>()
         valueHigh?.let {
@@ -46,29 +67,9 @@ class GetTimelineChartStateUseCase {
             colorStops.add(TimelineChartState.ColorStop(1f, TimelineChartState.ColorStop.Type.NORMAL))
         }
 
-        val rectangle = dimensions.chart
-        val stepCount = time.hourProgression.last / time.hourProgression.step
         return TimelineChartState(
             rectangle = rectangle,
-            values = values.takeIf { valueAxis.any() }?.map { value ->
-                val dateTime = value.entry.dateTime
-
-                val xAxisStep = DateTimeConstants.HOURS_PER_DAY / stepCount
-                val widthPerDay = dimensions.chart.size.width
-                val widthPerHour = widthPerDay / stepCount
-                val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
-                val offsetInMinutes = time.initialDateTime.minutesUntil(dateTime)
-                val offsetOfDateTime = (offsetInMinutes / xAxisStep) * widthPerMinute
-                val x = dimensions.chart.topLeft.x + dimensions.scroll + offsetOfDateTime
-
-                val percentage = (value.value - valueAxis.first()) /
-                    (valueAxis.last() - valueAxis.first())
-                val y = dimensions.chart.topLeft.y +
-                    dimensions.chart.size.height -
-                    (percentage.toFloat() * dimensions.chart.size.height)
-
-                Offset(x, y)
-            } ?: emptyList(),
+            values = coordinates,
             valueMin = valueMin,
             valueLow = valueLow,
             valueHigh = valueHigh,
@@ -96,6 +97,6 @@ class GetTimelineChartStateUseCase {
 
         private const val Y_AXIS_MIN = 0.0
         private const val Y_AXIS_STEP = 50.0
-        private const val Y_AXIS_MAX_MIN = 250.0
+        private const val Y_AXIS_MAX_MIN = 200.0
     }
 }

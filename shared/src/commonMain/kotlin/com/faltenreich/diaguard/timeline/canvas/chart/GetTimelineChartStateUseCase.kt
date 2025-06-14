@@ -40,16 +40,17 @@ class GetTimelineChartStateUseCase {
             .partition { (_, x) -> x in rectangle.left .. rectangle.right }
             .let { (visible, invisible) ->
                 val valueMaxValueVisible = visible.maxOfOrNull { (value, _) -> value.value } ?: 0.0
-                val valueMaxValueInvisible = invisible.maxByOrNull { (value, _) -> value.value }?.let { (value, x) ->
+                val valueNearestValueInvisible = listOfNotNull(
+                    invisible.filter { (_, x) -> x < rectangle.left }.maxByOrNull { (_, x) -> x },
+                    invisible.filter { (_, x) -> x > rectangle.right }.minByOrNull { (_, x) -> x },
+                ).maxByOrNull { (value, _) -> value.value }?.let { (value, x) ->
                     val valueMaxDistance =
                         if (x < rectangle.left) rectangle.left - x
                         else if (x > rectangle.right) x - rectangle.right
                         else 0f
-                    // FIXME: Distance jumps if maximum value is far away but high values are near
-                    // TODO: Calculate median of distance AND value
                     value.value - valueMaxDistance
                 } ?: 0.0
-                val valueMax = max(Y_AXIS_MAX_MIN, max(valueMaxValueVisible, valueMaxValueInvisible))
+                val valueMax = max(Y_AXIS_MAX_MIN, max(valueMaxValueVisible, valueNearestValueInvisible))
                 val valueMaxPadded = valueMax + valueStep
                 valueMaxPadded
             }

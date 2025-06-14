@@ -40,7 +40,7 @@ private fun DrawScope.drawDateIndicator(
     drawLine(
         brush = Brush.verticalGradient(
             0f to Color.Transparent,
-            .025f to config.gridStrokeColor,
+            .25f to config.gridStrokeColor, // TODO: Calculate stops for gradient
         ),
         start = Offset(x = x, y = 0f),
         end = Offset(x = x, y = rectangle.bottom - rectangle.height),
@@ -61,10 +61,16 @@ private fun DrawScope.drawHour(
     drawLine(
         brush = Brush.verticalGradient(
             0f to Color.Transparent,
-            .025f to config.gridStrokeColor,
+            .15f to config.gridStrokeColor, // TODO: Calculate stops for gradient
         ),
-        start = Offset(x = x, y = 0f),
-        end = Offset(x = x, y = rectangle.bottom - rectangle.height),
+        start = Offset(
+            x = x,
+            y = 0f,
+        ),
+        end = Offset(
+            x = x,
+            y = rectangle.bottom - rectangle.height,
+        ),
         strokeWidth = config.gridStrokeWidth,
     )
 

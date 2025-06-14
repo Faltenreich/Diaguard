@@ -53,6 +53,7 @@ class GetTimelineChartStateUseCase {
                     value.value - valueMaxDistance
                 } ?: 0.0
                 val valueMax = max(Y_AXIS_MAX_MIN, max(valueMaxValueVisible, valueNearestValueInvisible))
+                // TODO: Adjust padding according to top window inset
                 val valueMaxPadded = valueMax + valueStep
                 valueMaxPadded
             }

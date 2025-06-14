@@ -39,11 +39,13 @@ class GetTimelineChartStateUseCase {
         val valueMax = valuesWithXCoordinate
             .partition { (_, x) -> x in rectangle.left .. rectangle.right }
             .let { (visible, invisible) ->
+                // Scroll either to maximum value in viewport, nearest neighbour or Y_AXIS_MAX_MIN
                 val valueMaxValueVisible = visible.maxOfOrNull { (value, _) -> value.value } ?: 0.0
                 val valueNearestValueInvisible = listOfNotNull(
                     invisible.filter { (_, x) -> x < rectangle.left }.maxByOrNull { (_, x) -> x },
                     invisible.filter { (_, x) -> x > rectangle.right }.minByOrNull { (_, x) -> x },
                 ).maxByOrNull { (value, _) -> value.value }?.let { (value, x) ->
+                    // Transition to nearest neighbour via its distance to viewport
                     val valueMaxDistance =
                         if (x < rectangle.left) rectangle.left - x
                         else if (x > rectangle.right) x - rectangle.right

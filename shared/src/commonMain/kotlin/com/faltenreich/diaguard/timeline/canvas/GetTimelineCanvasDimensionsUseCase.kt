@@ -8,13 +8,11 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 class GetTimelineCanvasDimensionsUseCase {
 
     operator fun invoke(
-        canvasSize: Size?,
-        tableRowHeight: Float,
-        statusBarHeight: Int,
+        setup: TimelineCanvasSetup?,
         scrollOffset: Float,
         properties: List<MeasurementProperty>,
     ): TimelineCanvasDimensions? {
-        if (canvasSize == null) {
+        if (setup == null) {
             return null
         }
 
@@ -23,19 +21,19 @@ class GetTimelineCanvasDimensionsUseCase {
         val statusBar = Rect(
             offset = origin,
             size = Size(
-                width = canvasSize.width,
-                height = statusBarHeight.toFloat(),
+                width = setup.canvasSize.width,
+                height = setup.statusBarHeight.toFloat(),
             ),
         )
 
         val tableSize = Size(
-            width = canvasSize.width,
-            height = tableRowHeight * properties.size,
+            width = setup.canvasSize.width,
+            height = setup.tableRowHeight * properties.size,
         )
 
         val timeSize = Size(
-            width = canvasSize.width,
-            height = tableRowHeight,
+            width = setup.canvasSize.width,
+            height = setup.tableRowHeight,
         )
 
         val chart = Rect(
@@ -44,8 +42,8 @@ class GetTimelineCanvasDimensionsUseCase {
                 y = origin.y + statusBar.height,
             ),
             size = Size(
-                width = canvasSize.width,
-                height = canvasSize.height - statusBarHeight - tableSize.height - timeSize.height,
+                width = setup.canvasSize.width,
+                height = setup.canvasSize.height - setup.statusBarHeight - tableSize.height - timeSize.height,
             ),
         )
 
@@ -59,7 +57,7 @@ class GetTimelineCanvasDimensionsUseCase {
         )
 
         return TimelineCanvasDimensions(
-            canvas = Rect(offset = origin, size = canvasSize),
+            canvas = Rect(offset = origin, size = setup.canvasSize),
             statusBar = statusBar,
             chart = chart,
             table = Rect(offset = tableOrigin, size = tableSize),

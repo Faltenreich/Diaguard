@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline
 
-import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
@@ -11,6 +10,7 @@ import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.timeline.canvas.GetTimelineCanvasDimensionsUseCase
+import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasSetup
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
@@ -47,14 +47,10 @@ class TimelineViewModel(
 
     private val propertiesForTable = getPropertiesForTable()
 
-    private val canvasSize = MutableStateFlow<Size?>(null)
-    private val tableRowHeight = MutableStateFlow(0f)
-    private val statusBarHeight = MutableStateFlow(0)
+    private val setup = MutableStateFlow<TimelineCanvasSetup?>(null)
     private val scrollOffset = MutableStateFlow(0f)
     private val canvasDimensions = combine(
-        canvasSize,
-        tableRowHeight,
-        statusBarHeight,
+        setup,
         scrollOffset,
         propertiesForTable,
         getCanvasDimensions::invoke,
@@ -92,12 +88,16 @@ class TimelineViewModel(
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
             is TimelineIntent.Setup -> {
-                canvasSize.update { intent.canvasSize }
-                tableRowHeight.update { intent.tableRowHeight }
-                statusBarHeight.update { intent.statusBarHeight }
+                setup.update {
+                    TimelineCanvasSetup(
+                        canvasSize = intent.canvasSize,
+                        tableRowHeight = intent.tableRowHeight,
+                        statusBarHeight = intent.statusBarHeight,
+                    )
+                }
             }
             is TimelineIntent.Invalidate -> {
-                val canvasSize = canvasSize.value ?: return
+                val canvasSize = setup.value?.canvasSize ?: return
                 val widthPerDay = canvasSize.width
                 val threshold = (intent.scrollOffset * -1) + (widthPerDay / 2f)
                 val offsetInDays = floor( threshold / widthPerDay)
@@ -118,7 +118,7 @@ class TimelineViewModel(
     }
 
     private fun selectDate(date: Date) {
-        val canvasSize = canvasSize.value ?: return
+        val canvasSize = setup.value?.canvasSize ?: return
         val daysBetween = initialDate.daysBetween(date)
         val offset = canvasSize.width * -1 * daysBetween
         postEvent(TimelineEvent.Scroll(offset))

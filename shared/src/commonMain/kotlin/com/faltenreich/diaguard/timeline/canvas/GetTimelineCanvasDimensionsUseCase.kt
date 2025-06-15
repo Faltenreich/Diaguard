@@ -8,32 +8,28 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 class GetTimelineCanvasDimensionsUseCase {
 
     operator fun invoke(
-        setup: TimelineCanvasSetup?,
+        dimensions: TimelineCanvasDimensions.Positioned?,
         scrollOffset: Float,
         properties: List<MeasurementProperty>,
-    ): TimelineCanvasDimensions? {
-        if (setup == null) {
-            return null
-        }
-
+    ): TimelineCanvasDimensions.Calculated? = dimensions?.run {
         val origin = Offset.Zero
 
         val statusBar = Rect(
             offset = origin,
             size = Size(
-                width = setup.canvasSize.width,
-                height = setup.statusBarHeight.toFloat(),
+                width = canvasSize.width,
+                height = statusBarHeight.toFloat(),
             ),
         )
 
         val tableSize = Size(
-            width = setup.canvasSize.width,
-            height = setup.tableRowHeight * properties.size,
+            width = canvasSize.width,
+            height = tableRowHeight * properties.size,
         )
 
         val timeSize = Size(
-            width = setup.canvasSize.width,
-            height = setup.tableRowHeight,
+            width = canvasSize.width,
+            height = tableRowHeight,
         )
 
         val chart = Rect(
@@ -42,8 +38,8 @@ class GetTimelineCanvasDimensionsUseCase {
                 y = origin.y + statusBar.height,
             ),
             size = Size(
-                width = setup.canvasSize.width,
-                height = setup.canvasSize.height - setup.statusBarHeight - tableSize.height - timeSize.height,
+                width = canvasSize.width,
+                height = canvasSize.height - statusBarHeight - tableSize.height - timeSize.height,
             ),
         )
 
@@ -56,8 +52,8 @@ class GetTimelineCanvasDimensionsUseCase {
             y = tableOrigin.y + tableSize.height,
         )
 
-        return TimelineCanvasDimensions(
-            canvas = Rect(offset = origin, size = setup.canvasSize),
+        return TimelineCanvasDimensions.Calculated(
+            canvas = Rect(offset = origin, size = canvasSize),
             statusBar = statusBar,
             chart = chart,
             table = Rect(offset = tableOrigin, size = tableSize),

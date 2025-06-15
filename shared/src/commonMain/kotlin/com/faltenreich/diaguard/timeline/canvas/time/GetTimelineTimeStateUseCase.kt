@@ -9,7 +9,7 @@ class GetTimelineTimeStateUseCase {
 
     operator fun invoke(
         dateState: TimelineDateState,
-        dimensions: TimelineCanvasDimensions?,
+        dimensions: TimelineCanvasDimensions.Calculated?,
     ): TimelineTimeState? {
         if (dimensions == null) {
             return null

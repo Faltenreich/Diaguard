@@ -14,7 +14,7 @@ class GetTimelineChartStateUseCase {
         values: List<MeasurementValue.Local>,
         property: MeasurementProperty.Local,
         time: TimelineTimeState?,
-        dimensions: TimelineCanvasDimensions?,
+        dimensions: TimelineCanvasDimensions.Calculated?,
     ): TimelineChartState? {
         if (time == null || dimensions == null) {
             return null

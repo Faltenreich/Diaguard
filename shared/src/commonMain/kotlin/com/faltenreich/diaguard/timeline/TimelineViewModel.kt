@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.timeline.canvas.GetTimelineCanvasDimensionsUseCase
-import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasSetup
+import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
@@ -47,10 +47,10 @@ class TimelineViewModel(
 
     private val propertiesForTable = getPropertiesForTable()
 
-    private val setup = MutableStateFlow<TimelineCanvasSetup?>(null)
+    private val positions = MutableStateFlow<TimelineCanvasDimensions.Positioned?>(null)
     private val scrollOffset = MutableStateFlow(0f)
-    private val canvasDimensions = combine(
-        setup,
+    private val dimensions = combine(
+        positions,
         scrollOffset,
         propertiesForTable,
         getCanvasDimensions::invoke,
@@ -59,13 +59,13 @@ class TimelineViewModel(
     private val initialDate = getToday()
     private val currentDate = MutableStateFlow(initialDate)
     private val date = combine(flowOf(initialDate), currentDate, getDate::invoke)
-    private val time = combine(date, canvasDimensions, getTime::invoke)
+    private val time = combine(date, dimensions, getTime::invoke)
 
     private val chart = combine(
         currentDate.flatMapLatest(getValuesForChart::invoke),
         getPropertyForChart(),
         time,
-        canvasDimensions,
+        dimensions,
         getChart::invoke,
     )
 
@@ -74,7 +74,7 @@ class TimelineViewModel(
         propertiesForTable,
         getPreferenceUseCase(DecimalPlacesPreference),
         time,
-        canvasDimensions,
+        dimensions,
         getTable::invoke,
     )
 
@@ -88,8 +88,8 @@ class TimelineViewModel(
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
             is TimelineIntent.Setup -> {
-                setup.update {
-                    TimelineCanvasSetup(
+                positions.update {
+                    TimelineCanvasDimensions.Positioned(
                         canvasSize = intent.canvasSize,
                         tableRowHeight = intent.tableRowHeight,
                         statusBarHeight = intent.statusBarHeight,
@@ -97,7 +97,7 @@ class TimelineViewModel(
                 }
             }
             is TimelineIntent.Invalidate -> {
-                val canvasSize = setup.value?.canvasSize ?: return
+                val canvasSize = positions.value?.canvasSize ?: return
                 val widthPerDay = canvasSize.width
                 val threshold = (intent.scrollOffset * -1) + (widthPerDay / 2f)
                 val offsetInDays = floor( threshold / widthPerDay)
@@ -118,7 +118,7 @@ class TimelineViewModel(
     }
 
     private fun selectDate(date: Date) {
-        val canvasSize = setup.value?.canvasSize ?: return
+        val canvasSize = positions.value?.canvasSize ?: return
         val daysBetween = initialDate.daysBetween(date)
         val offset = canvasSize.width * -1 * daysBetween
         postEvent(TimelineEvent.Scroll(offset))

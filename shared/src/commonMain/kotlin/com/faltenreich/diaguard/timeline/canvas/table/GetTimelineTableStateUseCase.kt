@@ -21,7 +21,7 @@ class GetTimelineTableStateUseCase(
         properties: List<MeasurementProperty.Local>,
         decimalPlaces: Int,
         time: TimelineTimeState?,
-        dimensions: TimelineCanvasDimensions?,
+        dimensions: TimelineCanvasDimensions.Calculated?,
     ): TimelineTableState? {
         if (time == null || dimensions == null) {
             return null

@@ -10,6 +10,7 @@ class GetTimelineCanvasDimensionsUseCase {
     operator fun invoke(
         canvasSize: Size?,
         tableRowHeight: Float,
+        statusBarHeight: Int,
         scrollOffset: Float,
         properties: List<MeasurementProperty>,
     ): TimelineCanvasDimensions? {
@@ -19,31 +20,48 @@ class GetTimelineCanvasDimensionsUseCase {
 
         val origin = Offset.Zero
 
-        val timeSize = Size(
-            width = canvasSize.width,
-            height = tableRowHeight,
+        val statusBar = Rect(
+            offset = origin,
+            size = Size(
+                width = canvasSize.width,
+                height = statusBarHeight.toFloat(),
+            ),
         )
+
         val tableSize = Size(
             width = canvasSize.width,
             height = tableRowHeight * properties.size,
         )
-        val chartSize = Size(
+
+        val timeSize = Size(
             width = canvasSize.width,
-            height = canvasSize.height - tableSize.height - timeSize.height,
+            height = tableRowHeight,
+        )
+
+        val chart = Rect(
+            offset = Offset(
+                x = origin.x,
+                y = origin.y + statusBar.height,
+            ),
+            size = Size(
+                width = canvasSize.width,
+                height = canvasSize.height - statusBarHeight - tableSize.height - timeSize.height,
+            ),
         )
 
         val tableOrigin = Offset(
             x = origin.x,
-            y =  origin.y + chartSize.height,
+            y =  chart.top + chart.height,
         )
         val timeOrigin = Offset(
             x = origin.x,
-            y = origin.y + chartSize.height + tableSize.height,
+            y = tableOrigin.y + tableSize.height,
         )
 
         return TimelineCanvasDimensions(
             canvas = Rect(offset = origin, size = canvasSize),
-            chart = Rect(offset = origin, size = chartSize),
+            statusBar = statusBar,
+            chart = chart,
             table = Rect(offset = tableOrigin, size = tableSize),
             time = Rect(offset = timeOrigin, size = timeSize),
             scroll = scrollOffset,

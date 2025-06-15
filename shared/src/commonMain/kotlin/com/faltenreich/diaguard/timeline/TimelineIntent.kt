@@ -8,6 +8,7 @@ sealed interface TimelineIntent {
     data class Setup(
         val canvasSize: Size,
         val tableRowHeight: Float,
+        val statusBarHeight: Int,
     ) : TimelineIntent
 
     data class Invalidate(

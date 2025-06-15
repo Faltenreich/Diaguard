@@ -46,10 +46,12 @@ class TimelineViewModel(
 
     private val canvasSize = MutableStateFlow<Size?>(null)
     private val tableRowHeight = MutableStateFlow(0f)
+    private val statusBarHeight = MutableStateFlow(0)
     private val scrollOffset = MutableStateFlow(0f)
     private val canvasDimensions = combine(
         canvasSize,
         tableRowHeight,
+        statusBarHeight,
         scrollOffset,
         propertiesForTable,
         getCanvasDimensions::invoke,
@@ -89,6 +91,7 @@ class TimelineViewModel(
             is TimelineIntent.Setup -> {
                 canvasSize.update { intent.canvasSize }
                 tableRowHeight.update { intent.tableRowHeight }
+                statusBarHeight.update { intent.statusBarHeight }
             }
             is TimelineIntent.Invalidate -> {
                 val canvasSize = canvasSize.value ?: return

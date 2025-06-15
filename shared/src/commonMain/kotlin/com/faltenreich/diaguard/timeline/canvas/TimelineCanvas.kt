@@ -6,7 +6,9 @@ import androidx.compose.animation.core.calculateTargetValue
 import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,6 +55,7 @@ fun TimelineCanvas(
     val tableRowHeight = density.run {
         typography.bodyMedium.fontSize.toPx() + dimensions.padding.P_2.toPx() * 2
     }
+    val statusBarHeight = WindowInsets.statusBars.getTop(density)
 
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
@@ -95,6 +98,7 @@ fun TimelineCanvas(
                     TimelineIntent.Setup(
                         canvasSize = coordinates.size.toSize(),
                         tableRowHeight = tableRowHeight,
+                        statusBarHeight = statusBarHeight,
                     )
                 )
             }

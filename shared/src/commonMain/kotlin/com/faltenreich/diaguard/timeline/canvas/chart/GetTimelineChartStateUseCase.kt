@@ -34,7 +34,6 @@ class GetTimelineChartStateUseCase {
             value to dimensions.chart.topLeft.x + dimensions.scroll + offsetOfDateTime
         }
 
-        val valueStep = Y_AXIS_STEP
         val valueMin = Y_AXIS_MIN
         val valueMax = valuesWithXCoordinate
             .partition { (_, x) -> x in rectangle.left .. rectangle.right }
@@ -52,11 +51,13 @@ class GetTimelineChartStateUseCase {
                         else 0f
                     value.value - valueMaxDistance
                 } ?: 0.0
-                val valueMax = max(Y_AXIS_MAX_MIN, max(valueMaxValueVisible, valueNearestValueInvisible))
-                val valueMaxPadded = valueMax + valueStep
-                valueMaxPadded
+                max(Y_AXIS_MAX_MIN, max(valueMaxValueVisible, valueNearestValueInvisible))
             }
-        val valueAxis = valueMin .. valueMax step valueStep
+        val valueStep =
+            if (valueMax < Y_AXIS_VALUE_STEP_THRESHOLD) Y_AXIS_VALUE_STEP_DETAILED
+            else Y_AXIS_VALUE_STEP_ROUGH
+        val valueMaxPadded = valueMax + valueStep
+        val valueAxis = valueMin .. valueMaxPadded step valueStep
 
         val coordinates = valuesWithXCoordinate.map { (value, x) ->
             val percentage = (value.value - valueAxis.first()) / (valueAxis.last() - valueAxis.first())
@@ -108,8 +109,11 @@ class GetTimelineChartStateUseCase {
 
     companion object {
 
+        private const val Y_AXIS_VALUE_STEP_DETAILED = 50.0
+        private const val Y_AXIS_VALUE_STEP_ROUGH = 100.0
+        private const val Y_AXIS_VALUE_STEP_THRESHOLD = 400.0
+
         private const val Y_AXIS_MIN = 0.0
-        private const val Y_AXIS_STEP = 50.0
         private const val Y_AXIS_MAX_MIN = 200.0
     }
 }

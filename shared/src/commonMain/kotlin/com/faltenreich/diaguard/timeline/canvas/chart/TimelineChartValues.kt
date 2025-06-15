@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline.canvas.chart
 
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
@@ -12,7 +11,7 @@ fun DrawScope.TimelineChartValues(
     state: TimelineChartState,
     config: TimelineConfig,
 ) = with(state) {
-    if (values.isEmpty()) return@with
+    if (items.isEmpty()) return@with
 
     val colorStops = colorStops.map { (offset, type) ->
         offset to when (type) {
@@ -30,35 +29,35 @@ fun DrawScope.TimelineChartValues(
 
     config.valuePath.reset()
 
-    drawValue(values.first(), brush, config)
+    drawItem(items.first(), brush, config)
 
-    values.zipWithNext { start, end ->
-        connectValues(start, end, brush, config)
-        drawValue(end, brush, config)
+    items.zipWithNext { start, end ->
+        connectItems(start, end, brush, config)
+        drawItem(end, brush, config)
     }
 }
 
-private fun DrawScope.drawValue(
-    position: Offset,
+private fun DrawScope.drawItem(
+    item: TimelineChartState.Item,
     brush: Brush,
     config: TimelineConfig,
 ) {
     drawCircle(
         brush = brush,
         radius = config.valueDotRadius,
-        center = position,
+        center = item.position,
         style = Fill,
     )
 }
 
-private fun DrawScope.connectValues(
-    start: Offset,
-    end: Offset,
+private fun DrawScope.connectItems(
+    start: TimelineChartState.Item,
+    end: TimelineChartState.Item,
     brush: Brush,
     config: TimelineConfig,
 ) {
-    config.valuePath.moveTo(start.x, start.y)
-    config.valuePath.bezierBetween(start, end)
+    config.valuePath.moveTo(start.position.x, start.position.y)
+    config.valuePath.bezierBetween(start.position, end.position)
 
     drawPath(
         path = config.valuePath,

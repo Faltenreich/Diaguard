@@ -59,12 +59,15 @@ class GetTimelineChartStateUseCase {
         val valueMaxPadded = valueMax + valueStep
         val valueAxis = valueMin.toInt() .. valueMaxPadded.toInt() step valueStep.toInt()
 
-        val coordinates = valuesWithXCoordinate.map { (value, x) ->
+        val items = valuesWithXCoordinate.map { (value, x) ->
             val percentage = (value.value - valueAxis.first()) / (valueAxis.last() - valueAxis.first())
             val y = dimensions.chart.topLeft.y +
                 dimensions.chart.size.height -
                 (percentage.toFloat() * dimensions.chart.size.height)
-            Offset(x, y)
+            TimelineChartState.Item(
+                value = value,
+                position = Offset(x, y),
+            )
         }
 
         val colorStops = mutableListOf<TimelineChartState.ColorStop>()
@@ -87,10 +90,10 @@ class GetTimelineChartStateUseCase {
 
         return TimelineChartState(
             rectangle = rectangle,
-            values = coordinates,
+            items = items,
+            colorStops = colorStops,
             valueStep = valueStep,
             valueAxis = valueAxis,
-            colorStops = colorStops,
         )
     }
 

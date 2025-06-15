@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
@@ -102,6 +104,7 @@ class TimelineViewModel(
                 scrollOffset.update { intent.scrollOffset }
                 currentDate.update { initialDate.plus(offsetInDays.toInt(), DateUnit.DAY) }
             }
+            is TimelineIntent.TapCanvas -> tapCanvas(intent.position, intent.state)
             is TimelineIntent.SelectDate -> selectDate(intent.date)
             is TimelineIntent.SelectPreviousDate -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
             is TimelineIntent.SelectNextDate -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
@@ -115,5 +118,28 @@ class TimelineViewModel(
         val daysBetween = initialDate.daysBetween(date)
         val offset = canvasSize.width * -1 * daysBetween
         postEvent(TimelineEvent.Scroll(offset))
+    }
+
+    private suspend fun tapCanvas(
+        position: Offset,
+        state: TimelineState,
+    ) {
+        val canvas = state.canvas ?: return
+        // TODO: Extract
+        val touchAreaSize = Size(20f, 20f)
+        val touchArea = Rect(
+            offset = Offset(
+                x = position.x - touchAreaSize.width / 2,
+                y = position.y - touchAreaSize.height / 2,
+            ),
+            size = touchAreaSize,
+        )
+        if (touchArea.overlaps(canvas.chart.rectangle)) {
+            val value = canvas.chart.items.firstOrNull { touchArea.contains(it.position) }
+
+            value?.value?.entry?.let { pushScreen(EntryFormScreen(it)) }
+        } else if (touchArea.overlaps(canvas.table.rectangle)) {
+            // TODO
+        }
     }
 }

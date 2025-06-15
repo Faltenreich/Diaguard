@@ -6,6 +6,7 @@ import androidx.compose.animation.core.calculateTargetValue
 import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBars
@@ -103,6 +104,13 @@ fun TimelineCanvas(
                 )
             }
             .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { position ->
+                        viewModel.dispatchIntent(TimelineIntent.TapCanvas(position, state))
+                    },
+                )
+            }
+            .pointerInput(Unit) {
                 val decay = splineBasedDecay<Float>(this)
                 val animationSpec = FloatSpringSpec(
                     dampingRatio = Spring.DampingRatioNoBouncy,
@@ -128,7 +136,7 @@ fun TimelineCanvas(
                             )
                             velocityTracker.resetTracking()
                         }
-                    }
+                    },
                 )
             },
     ) {

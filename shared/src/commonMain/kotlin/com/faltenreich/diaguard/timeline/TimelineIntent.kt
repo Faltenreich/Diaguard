@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 
@@ -15,6 +16,11 @@ sealed interface TimelineIntent {
         val scrollOffset: Float,
         val state: TimelineState,
         val config: TimelineConfig,
+    ) : TimelineIntent
+
+    data class TapCanvas(
+        val position: Offset,
+        val state: TimelineState,
     ) : TimelineIntent
 
     data class SelectDate(val date: Date) : TimelineIntent

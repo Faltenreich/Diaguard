@@ -7,7 +7,7 @@ data class TimelineChartState(
     val rectangle: Rect,
     val values: List<Offset>,
     val valueStep: Double,
-    val valueAxis: Iterable<Double>,
+    val valueAxis: IntProgression,
     val colorStops: List<ColorStop>,
 ) {
 

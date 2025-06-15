@@ -57,7 +57,7 @@ class GetTimelineChartStateUseCase {
             if (valueMax < Y_AXIS_VALUE_STEP_THRESHOLD) Y_AXIS_VALUE_STEP_DETAILED
             else Y_AXIS_VALUE_STEP_ROUGH
         val valueMaxPadded = valueMax + valueStep
-        val valueAxis = valueMin .. valueMaxPadded step valueStep
+        val valueAxis = valueMin.toInt() .. valueMaxPadded.toInt() step valueStep.toInt()
 
         val coordinates = valuesWithXCoordinate.map { (value, x) ->
             val percentage = (value.value - valueAxis.first()) / (valueAxis.last() - valueAxis.first())
@@ -92,19 +92,6 @@ class GetTimelineChartStateUseCase {
             valueAxis = valueAxis,
             colorStops = colorStops,
         )
-    }
-
-    // TODO: Move and test or find other way
-    private infix fun ClosedRange<Double>.step(step: Double): Iterable<Double> {
-        require(start.isFinite())
-        require(endInclusive.isFinite())
-        require(step > 0.0) { "Step must be positive, was: $step." }
-        val sequence = generateSequence(start) { previous ->
-            if (previous == Double.POSITIVE_INFINITY) return@generateSequence null
-            val next = previous + step
-            if (next > endInclusive) null else next
-        }
-        return sequence.asIterable()
     }
 
     companion object {

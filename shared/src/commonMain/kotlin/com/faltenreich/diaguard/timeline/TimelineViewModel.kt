@@ -105,7 +105,7 @@ class TimelineViewModel(
                 scrollOffset.update { intent.scrollOffset }
                 currentDate.update { initialDate.plus(offsetInDays.toInt(), DateUnit.DAY) }
             }
-            is TimelineIntent.TapCanvas -> when (val result = tapChart(intent.position, intent.state)) {
+            is TimelineIntent.TapCanvas -> when (val result = tapChart(intent)) {
                 is TapTimelineChartResult.Chart -> pushScreen(EntryFormScreen(result.entry))
                 is TapTimelineChartResult.None -> Unit
             }

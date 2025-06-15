@@ -3,17 +3,17 @@ package com.faltenreich.diaguard.timeline.canvas.chart
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import com.faltenreich.diaguard.timeline.TimelineState
+import com.faltenreich.diaguard.timeline.TimelineIntent
 
 class TapTimelineChartUseCase {
 
-    operator fun invoke(
-        position: Offset,
-        state: TimelineState,
-    ): TapTimelineChartResult {
+    operator fun invoke(intent: TimelineIntent.TapCanvas): TapTimelineChartResult = with(intent) {
         val canvas = state.canvas ?: return TapTimelineChartResult.None
-        // TODO: Extract
-        val touchAreaSize = Size(20f, 20f)
+        // TODO: Find sweet spot
+        val touchAreaSize = Size(
+            width = 50f,
+            height = 50f,
+        )
         val touchArea = Rect(
             offset = Offset(
                 x = position.x - touchAreaSize.width / 2,
@@ -21,7 +21,7 @@ class TapTimelineChartUseCase {
             ),
             size = touchAreaSize,
         )
-        return if (touchArea.overlaps(canvas.chart.rectangle)) {
+        return if (canvas.chart.rectangle.contains(position)) {
             when (val item = canvas.chart.items.firstOrNull { touchArea.contains(it.position) }) {
                 null -> TapTimelineChartResult.None
                 else -> TapTimelineChartResult.Chart(item.value.entry)

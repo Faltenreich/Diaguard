@@ -20,6 +20,7 @@ sealed interface TimelineIntent {
 
     data class TapCanvas(
         val position: Offset,
+        val touchAreaSize: Size,
         val state: TimelineState,
     ) : TimelineIntent
 

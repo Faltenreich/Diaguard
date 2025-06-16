@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
@@ -57,6 +58,7 @@ fun TimelineCanvas(
         typography.bodyMedium.fontSize.toPx() + dimensions.padding.P_2.toPx() * 2
     }
     val statusBarHeight = WindowInsets.statusBars.getTop(density)
+    val touchAreaSize = density.run { dimensions.size.TouchSizeSmall.toPx().let { Size(it, it) } }
 
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
@@ -106,7 +108,9 @@ fun TimelineCanvas(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { position ->
-                        viewModel.dispatchIntent(TimelineIntent.TapCanvas(position, state))
+                        viewModel.dispatchIntent(
+                            TimelineIntent.TapCanvas(position, touchAreaSize, state),
+                        )
                     },
                 )
             }

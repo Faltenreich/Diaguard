@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.ui.geometry.Rect
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
@@ -42,105 +42,111 @@ class TimelineViewModelTest : TestSuite {
 
             assertEquals(
                 expected = TimelineChartState(
-                    values = emptyList(),
-                    valueMin = 0.0,
-                    valueLow = 60.0,
-                    valueHigh = 180.0,
-                    valueMax = 250.0,
+                    rectangle = Rect.Zero,
+                    items = emptyList(),
+                    colorStops = emptyList(),
                     valueStep = 50.0,
+                    valueAxis = 0 .. 250 step 50,
                 ),
-                actual = state.chart,
+                actual = state.canvas?.chart,
             )
             assertEquals(
                 expected = TimelineTableState(
+                    rectangle = Rect.Zero,
                     categories = listOf(
                         TimelineTableState.Category(
-                            icon = "💉",
-                            name = "insulin",
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "💉",
                                     name = "bolus",
                                     values = emptyList()
                                 ),
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "💉",
                                     name = "correction",
                                     values = emptyList(),
                                 ),
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "💉",
                                     name = "basal",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
-                            icon = "🍞",
-                            name = "meal",
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "🍞",
                                     name = "meal",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
-                            icon = "🏃",
-                            name = "activity",
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "🏃",
                                     name = "activity",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
-                            icon = "%",
-                            name = "hba1c",
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "%",
                                     name = "hba1c",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
-                            icon = "🏋",
-                            name = "weight",
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "🏋",
                                     name = "weight",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
-                            icon = "💚",
-                            name = "pulse",
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "💚",
                                     name = "pulse",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
-                            icon = "⛽",
-                            name = "blood_pressure",
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "⛽",
                                     name = "systolic",
                                     values = emptyList(),
                                 ),
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "⛽",
                                     name = "diastolic",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
-                            icon = "O²",
-                            name = "oxygen_saturation",
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    rectangle = Rect.Zero,
+                                    icon = "O²",
                                     name = "oxygen_saturation",
                                     values = emptyList(),
                                 ),
@@ -148,7 +154,7 @@ class TimelineViewModelTest : TestSuite {
                         ),
                     ),
                 ),
-                actual = state.table,
+                actual = state.canvas?.table,
             )
         }
     }
@@ -163,7 +169,7 @@ class TimelineViewModelTest : TestSuite {
         viewModel.state.test {
             assertEquals(
                 expected = 1,
-                actual = awaitItem().chart.values.size,
+                actual = awaitItem().canvas?.chart?.items?.size,
             )
         }
     }
@@ -178,9 +184,9 @@ class TimelineViewModelTest : TestSuite {
         viewModel.state.test {
             assertEquals(
                 expected = 1,
-                actual = awaitItem().table
-                    .categories.first { it.properties.any { it.name == "activity" } }
-                    .properties.first().values.size,
+                actual = awaitItem().canvas?.table
+                    ?.categories?.first { it.properties.any { it.name == "activity" } }
+                    ?.properties?.first()?.values?.size,
             )
         }
     }
@@ -188,9 +194,11 @@ class TimelineViewModelTest : TestSuite {
     @Test
     fun `update date when intending to setting current date`() = runTest {
         viewModel.state.test {
+            val scrollOffset = 0f
             val date = dateTimeFactory.date(1970, 1, 1)
+            val config = TODO()
 
-            viewModel.handleIntent(TimelineIntent.Invalidate(date))
+            // TODO viewModel.handleIntent(TimelineIntent.Invalidate(scrollOffset, date, config))
 
             assertEquals(
                 expected = date,
@@ -210,8 +218,8 @@ class TimelineViewModelTest : TestSuite {
                 val event = awaitItem()
                 assertTrue(event is TimelineEvent.Scroll)
                 assertEquals(
-                    expected = currentDate.minus(1, DateUnit.DAY),
-                    actual = event.date,
+                    expected = -1080f,
+                    actual = event.offset,
                 )
             }
         }
@@ -228,8 +236,8 @@ class TimelineViewModelTest : TestSuite {
                 val event = awaitItem()
                 assertTrue(event is TimelineEvent.Scroll)
                 assertEquals(
-                    expected = currentDate.plus(1, DateUnit.DAY),
-                    actual = event.date,
+                    expected = 1080f,
+                    actual = event.offset,
                 )
             }
         }

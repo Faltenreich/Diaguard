@@ -22,6 +22,7 @@ class TapTimelineChartUseCase {
             size = touchAreaSize,
         )
         return if (canvas.chart.rectangle.contains(position)) {
+            // FIXME: position is "off screen" if not in initial viewport
             when (val item = canvas.chart.items.firstOrNull { touchArea.contains(it.position) }) {
                 null -> TapTimelineChartResult.None
                 else -> TapTimelineChartResult.Chart(item.value.entry)

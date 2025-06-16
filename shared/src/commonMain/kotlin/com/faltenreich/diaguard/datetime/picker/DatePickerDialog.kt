@@ -30,7 +30,7 @@ fun DatePickerDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    when (val update = state.selectedDateMillis?.let(dateTimeFactory::dateTime)?.date) {
+                    when (val update = state.selectedDateMillis?.let(dateTimeFactory::dateTimeFromEpoch)?.date) {
                         null -> onDismissRequest()
                         else -> onConfirmRequest(update)
                     }

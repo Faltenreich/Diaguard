@@ -4,6 +4,12 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.offsetAt
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Duration.Companion.seconds
 
 class KotlinxDateTimeFactory : DateTimeFactory {
 
@@ -59,6 +65,16 @@ class KotlinxDateTimeFactory : DateTimeFactory {
 
     override fun dateTime(millis: Long): DateTime {
         return KotlinxDateTime(millis)
+    }
+
+    // TODO: Find a better way and test thoroughly
+    override fun dateTimeFromEpoch(epochMillis: Long): DateTime {
+        val instant = Instant.fromEpochMilliseconds(epochMillis)
+        val offset = TimeZone.currentSystemDefault().offsetAt(Clock.System.now())
+        val localDateTime = instant
+            .minus(offset.totalSeconds.seconds)
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+        return KotlinxDateTime(localDateTime)
     }
 
     override fun dateTime(isoString: String): DateTime {

@@ -39,8 +39,8 @@ fun DateRangePickerDialog(
             TextButton(
                 onClick = {
                     val dateTimeFactory = inject<DateTimeFactory>()
-                    val start = state.selectedStartDateMillis?.let(dateTimeFactory::dateTime)?.date
-                    val end = state.selectedEndDateMillis?.let(dateTimeFactory::dateTime)?.date
+                    val start = state.selectedStartDateMillis?.let(dateTimeFactory::dateTimeFromEpoch)?.date
+                    val end = state.selectedEndDateMillis?.let(dateTimeFactory::dateTimeFromEpoch)?.date
                     if (start != null && end != null) {
                         onConfirmRequest(start .. end)
                     } else {

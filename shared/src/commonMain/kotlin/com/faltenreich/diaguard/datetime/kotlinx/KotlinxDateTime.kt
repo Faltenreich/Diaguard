@@ -50,7 +50,7 @@ class KotlinxDateTime(private var delegate: LocalDateTime) : DateTime {
     constructor(isoString: String) : this(LocalDateTime.parse(isoString))
 
     constructor(millis: Long) : this(
-        Instant.fromEpochMilliseconds(millis).toLocalDateTime(TimeZone.UTC)
+        Instant.fromEpochMilliseconds(millis).toLocalDateTime(TimeZone.currentSystemDefault())
     )
 
     override fun minutesUntil(other: DateTime): Long {

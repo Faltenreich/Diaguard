@@ -33,6 +33,8 @@ interface DateTimeFactory {
 
     fun dateTime(millis: Long): DateTime
 
+    fun dateTimeFromEpoch(epochMillis: Long): DateTime
+
     fun dateTime(isoString: String): DateTime
 
     fun date(isoString: String): Date

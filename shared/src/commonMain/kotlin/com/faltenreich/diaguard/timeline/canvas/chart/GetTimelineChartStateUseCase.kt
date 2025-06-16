@@ -53,9 +53,7 @@ class GetTimelineChartStateUseCase {
                 } ?: 0.0
                 max(Y_AXIS_MAX_MIN, max(valueMaxValueVisible, valueNearestValueInvisible))
             }
-        val valueStep =
-            if (valueMax < Y_AXIS_VALUE_STEP_THRESHOLD) Y_AXIS_VALUE_STEP_DETAILED
-            else Y_AXIS_VALUE_STEP_ROUGH
+        val valueStep = Y_AXIS_VALUE_STEP
         val valueMaxPadded = valueMax + valueStep
         val valueAxis = valueMin.toInt() .. valueMaxPadded.toInt() step valueStep.toInt()
 
@@ -99,11 +97,8 @@ class GetTimelineChartStateUseCase {
 
     companion object {
 
-        private const val Y_AXIS_VALUE_STEP_DETAILED = 50.0
-        private const val Y_AXIS_VALUE_STEP_ROUGH = 100.0
-        private const val Y_AXIS_VALUE_STEP_THRESHOLD = 400.0
-
         private const val Y_AXIS_MIN = 0.0
         private const val Y_AXIS_MAX_MIN = 200.0
+        private const val Y_AXIS_VALUE_STEP = 50.0
     }
 }

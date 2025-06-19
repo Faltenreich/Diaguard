@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIco
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
+// FIXME: Text has vertical offset
 @Suppress("FunctionName")
 fun DrawScope.TimelineTable(
     state: TimelineTableState,
@@ -43,8 +44,6 @@ fun DrawScope.TimelineTable(
                 cornerRadius = config.cornerRadius,
             )
 
-            // FIXME: Icon and label have vertical offset
-
             MeasurementCategoryIcon(
                 category = category.category,
                 topLeft = property.rectangle.topLeft,
@@ -57,7 +56,7 @@ fun DrawScope.TimelineTable(
                 text = property.name,
                 bottomLeft = Offset(
                     x = property.rectangle.left + iconSize,
-                    y = property.rectangle.center.y + config.fontSize / 2, // FIXME: Has small vertical offset
+                    y = property.rectangle.center.y + config.fontSize / 2,
                 ),
                 size = config.fontSize,
                 paint = config.fontPaint,

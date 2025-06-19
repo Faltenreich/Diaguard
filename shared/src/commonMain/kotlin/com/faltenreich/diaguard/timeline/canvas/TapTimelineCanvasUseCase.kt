@@ -24,8 +24,15 @@ class TapTimelineCanvasUseCase {
                 else -> TapTimelineCanvasResult.Chart(item.value)
             }
         } else if (touchArea.overlaps(canvas.table.rectangle)) {
-            // TODO
-            TapTimelineCanvasResult.None
+            val values = canvas.table.categories.flatMap { category ->
+                category.properties.flatMap { property ->
+                    property.values
+                }
+            }
+            when (val item = values.firstOrNull { touchArea.overlaps(it.rectangle) }) {
+                null -> TapTimelineCanvasResult.None
+                else -> TapTimelineCanvasResult.Table(item.values)
+            }
         } else {
             TapTimelineCanvasResult.None
         }

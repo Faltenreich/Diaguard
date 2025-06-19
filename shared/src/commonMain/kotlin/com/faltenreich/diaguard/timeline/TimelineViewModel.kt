@@ -124,7 +124,9 @@ class TimelineViewModel(
         val canvas = canvas.firstOrNull() ?: return
         when (val result = tapCanvas(position, touchAreaSize, canvas)) {
             is TapTimelineCanvasResult.Chart -> pushScreen(EntryFormScreen(result.value.entry))
-            is TapTimelineCanvasResult.Table -> TODO()
+            is TapTimelineCanvasResult.Table ->
+                if (result.values.size == 1) pushScreen(EntryFormScreen(result.values.first().entry))
+                else TODO("Open list containing multiple entries")
             is TapTimelineCanvasResult.None -> Unit
         }
     }

@@ -53,13 +53,12 @@ class GetTimelineTableStateUseCase(
                             size = rowSize,
                         )
 
-                        // TODO: Simplify
                         rowIndex++
 
                         TimelineTableState.Property(
                             rectangle = propertyRectangle,
                             // TODO: Merge logic with the one from MeasurementCategoryIcon
-                            icon = category.icon ?: property.name.firstOrNull()?.toString() ?: "?",
+                            icon = category.icon ?: category.name.firstOrNull()?.toString() ?: "?",
                             name = property.name,
                             values = values
                                 .filter { it.property == property }
@@ -108,7 +107,6 @@ class GetTimelineTableStateUseCase(
                                     TimelineTableState.Value(
                                         rectangle = valueRectangle,
                                         dateTime = dateTime,
-                                        // TODO: Decimal places may take up too much space
                                         value = mapValue(
                                             value = value,
                                             property = property,

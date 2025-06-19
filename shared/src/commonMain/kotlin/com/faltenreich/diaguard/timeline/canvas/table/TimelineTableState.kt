@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.timeline.canvas.table
 
 import androidx.compose.ui.geometry.Rect
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 
 data class TimelineTableState(
@@ -10,12 +11,12 @@ data class TimelineTableState(
 ) {
 
     data class Category(
+        val category: MeasurementCategory.Local,
         val properties: List<Property>,
     )
 
     data class Property(
         val rectangle: Rect,
-        val icon: String,
         val name: String,
         val values: List<Value>,
     )

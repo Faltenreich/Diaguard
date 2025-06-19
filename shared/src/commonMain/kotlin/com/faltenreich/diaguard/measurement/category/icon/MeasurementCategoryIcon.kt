@@ -11,11 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.unit.center
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.shared.theme.color.asColor
@@ -60,18 +62,17 @@ fun MeasurementCategoryIcon(
 
 @Suppress("FunctionName", "MagicNumber")
 fun DrawScope.MeasurementCategoryIcon(
-    icon: String?,
-    fallback: String,
+    category: MeasurementCategory,
     position: Offset,
     size: Size,
     textMeasurer: TextMeasurer,
 ) {
-    val char = fallback.firstOrNull()?.uppercaseChar() ?: '?'
-    val text = icon ?: char.toString()
+    val char = category.name.firstOrNull()?.uppercaseChar() ?: '?'
+    val text = category.icon ?: char.toString()
     val textSize = textMeasurer.measure(text)
     val padding = 12f
 
-    val hasIcon = icon != null
+    val hasIcon = category.icon != null
 
     if (!hasIcon) {
         val path = Path()
@@ -88,12 +89,11 @@ fun DrawScope.MeasurementCategoryIcon(
         )
     }
 
-    // TODO: Remove magic offsets
     drawText(
         text = text,
         bottomLeft = Offset(
-            x = position.x + size.width / 2 - textSize.size.width / 2,
-            y = position.y + size.height / 2 + textSize.size.height / 2 - 8,
+            x = position.x + size.center.x - textSize.size.center.x,
+            y = position.y + size.center.y + textSize.size.center.y,
         ),
         size = textSize.size.height.toFloat() - padding / 2,
         paint = Paint().apply { color = Color.White },

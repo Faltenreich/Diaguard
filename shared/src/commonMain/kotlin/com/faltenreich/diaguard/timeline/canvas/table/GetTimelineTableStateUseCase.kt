@@ -44,6 +44,7 @@ class GetTimelineTableStateUseCase(
             categories = categories.map { category ->
                 val propertiesOfCategory = properties.filter { it.category == category }
                 TimelineTableState.Category(
+                    category = category,
                     properties = propertiesOfCategory.map { property ->
                         val propertyRectangle = Rect(
                             offset = Offset(
@@ -57,8 +58,6 @@ class GetTimelineTableStateUseCase(
 
                         TimelineTableState.Property(
                             rectangle = propertyRectangle,
-                            // TODO: Merge logic with the one from MeasurementCategoryIcon
-                            icon = category.icon ?: category.name.firstOrNull()?.toString() ?: "?",
                             name = property.name,
                             values = values
                                 .filter { it.property == property }

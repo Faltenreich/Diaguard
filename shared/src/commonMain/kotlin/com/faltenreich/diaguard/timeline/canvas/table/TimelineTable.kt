@@ -43,9 +43,10 @@ fun DrawScope.TimelineTable(
                 cornerRadius = config.cornerRadius,
             )
 
+            // FIXME: Icon and label have vertical offset
+
             MeasurementCategoryIcon(
-                icon = property.icon,
-                fallback = property.name,
+                category = category.category,
                 position = property.rectangle.topLeft,
                 size = Size(width = iconSize, height = iconSize),
                 textMeasurer = textMeasurer,

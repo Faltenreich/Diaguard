@@ -87,8 +87,10 @@ fun MeasurementCategoryForm(
                 modifier = Modifier.weight(1f),
             )
             MeasurementCategoryIcon(
-                icon = icon,
-                fallback = name,
+                category = viewModel.category.copy(
+                    icon = icon,
+                    name = name,
+                ),
             )
         }
 

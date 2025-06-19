@@ -50,24 +50,24 @@ fun MeasurementCategoryIcon(
 @Suppress("FunctionName", "MagicNumber")
 fun DrawScope.MeasurementCategoryIcon(
     category: MeasurementCategory,
-    position: Offset,
+    topLeft: Offset,
     size: Size,
     textMeasurer: TextMeasurer,
 ) {
     val char = category.name.firstOrNull()?.uppercaseChar() ?: '?'
     val text = category.icon ?: char.toString()
     val textSize = textMeasurer.measure(text)
-    val padding = 12f
+    val padding = 0f
 
     val hasIcon = category.icon != null
 
     if (!hasIcon) {
         val path = Path()
         val rect = Rect(
-            left = position.x + padding,
-            top = position.y + padding,
-            right = position.x + size.width - padding,
-            bottom = position.y + size.height - padding,
+            left = topLeft.x + padding,
+            top = topLeft.y + padding,
+            right = topLeft.x + size.width - padding,
+            bottom = topLeft.y + size.height - padding,
         )
         path.addOval(rect)
         drawPath(
@@ -79,8 +79,8 @@ fun DrawScope.MeasurementCategoryIcon(
     drawText(
         text = text,
         bottomLeft = Offset(
-            x = position.x + size.center.x - textSize.size.center.x,
-            y = position.y + size.center.y + textSize.size.center.y,
+            x = topLeft.x + size.center.x - textSize.size.center.x,
+            y = topLeft.y + size.center.y + textSize.size.center.y,
         ),
         size = textSize.size.height.toFloat() - padding / 2,
         paint = Paint().apply { color = Color.White },

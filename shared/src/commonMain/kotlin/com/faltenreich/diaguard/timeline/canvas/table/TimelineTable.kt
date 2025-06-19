@@ -47,7 +47,7 @@ fun DrawScope.TimelineTable(
 
             MeasurementCategoryIcon(
                 category = category.category,
-                position = property.rectangle.topLeft,
+                topLeft = property.rectangle.topLeft,
                 size = Size(width = iconSize, height = iconSize),
                 textMeasurer = textMeasurer,
             )

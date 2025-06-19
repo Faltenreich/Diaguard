@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
@@ -15,8 +17,8 @@ import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
+import com.faltenreich.diaguard.timeline.canvas.chart.TapTimelineCanvasUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.TapTimelineChartResult
-import com.faltenreich.diaguard.timeline.canvas.chart.TapTimelineChartUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableStateUseCase
@@ -24,6 +26,7 @@ import com.faltenreich.diaguard.timeline.canvas.time.GetTimelineTimeStateUseCase
 import com.faltenreich.diaguard.timeline.date.GetTimelineDateStateUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
@@ -41,7 +44,7 @@ class TimelineViewModel(
     private val getTime: GetTimelineTimeStateUseCase,
     private val getChart: GetTimelineChartStateUseCase,
     private val getTable: GetTimelineTableStateUseCase,
-    private val tapChart: TapTimelineChartUseCase,
+    private val tapCanvas: TapTimelineCanvasUseCase,
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
@@ -105,15 +108,23 @@ class TimelineViewModel(
                 scrollOffset.update { intent.scrollOffset }
                 currentDate.update { initialDate.plus(offsetInDays.toInt(), DateUnit.DAY) }
             }
-            is TimelineIntent.TapCanvas -> when (val result = tapChart(intent)) {
-                is TapTimelineChartResult.Chart -> pushScreen(EntryFormScreen(result.entry))
-                is TapTimelineChartResult.None -> Unit
-            }
+            is TimelineIntent.TapCanvas -> tapCanvas(intent.position, intent.touchAreaSize)
             is TimelineIntent.SelectDate -> selectDate(intent.date)
             is TimelineIntent.SelectPreviousDate -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
             is TimelineIntent.SelectNextDate -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
             is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
             is TimelineIntent.SearchEntries -> pushScreen(EntrySearchScreen())
+        }
+    }
+
+    private suspend fun tapCanvas(
+        position: Offset,
+        touchAreaSize: Size,
+    ) {
+        val canvas = canvas.firstOrNull() ?: return
+        when (val result = tapCanvas(position, touchAreaSize, canvas)) {
+            is TapTimelineChartResult.Chart -> pushScreen(EntryFormScreen(result.entry))
+            is TapTimelineChartResult.None -> Unit
         }
     }
 

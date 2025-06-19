@@ -108,9 +108,7 @@ fun TimelineCanvas(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { position ->
-                        viewModel.dispatchIntent(
-                            TimelineIntent.TapCanvas(position, touchAreaSize, state),
-                        )
+                        viewModel.dispatchIntent(TimelineIntent.TapCanvas(position, touchAreaSize))
                     },
                 )
             }

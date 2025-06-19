@@ -1,9 +1,8 @@
-package com.faltenreich.diaguard.timeline.canvas.chart
+package com.faltenreich.diaguard.timeline.canvas
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasState
 
 class TapTimelineCanvasUseCase {
 
@@ -11,7 +10,7 @@ class TapTimelineCanvasUseCase {
         position: Offset,
         touchAreaSize: Size,
         canvas: TimelineCanvasState,
-    ): TapTimelineChartResult {
+    ): TapTimelineCanvasResult {
         val touchArea = Rect(
             offset = Offset(
                 x = position.x - touchAreaSize.width / 2,
@@ -21,14 +20,14 @@ class TapTimelineCanvasUseCase {
         )
         return if (canvas.chart.rectangle.contains(position)) {
             when (val item = canvas.chart.items.firstOrNull { touchArea.contains(it.position) }) {
-                null -> TapTimelineChartResult.None
-                else -> TapTimelineChartResult.Chart(item.value.entry)
+                null -> TapTimelineCanvasResult.None
+                else -> TapTimelineCanvasResult.Chart(item.value)
             }
         } else if (touchArea.overlaps(canvas.table.rectangle)) {
             // TODO
-            TapTimelineChartResult.None
+            TapTimelineCanvasResult.None
         } else {
-            TapTimelineChartResult.None
+            TapTimelineCanvasResult.None
         }
     }
 }

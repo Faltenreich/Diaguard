@@ -114,6 +114,7 @@ class GetTimelineTableStateUseCase(
                                             property = property,
                                             decimalPlaces = decimalPlaces,
                                         ).value,
+                                        values = values,
                                     )
                                 },
                         )

@@ -12,13 +12,13 @@ import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.timeline.canvas.GetTimelineCanvasDimensionsUseCase
+import com.faltenreich.diaguard.timeline.canvas.TapTimelineCanvasResult
+import com.faltenreich.diaguard.timeline.canvas.TapTimelineCanvasUseCase
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
-import com.faltenreich.diaguard.timeline.canvas.chart.TapTimelineCanvasUseCase
-import com.faltenreich.diaguard.timeline.canvas.chart.TapTimelineChartResult
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableStateUseCase
@@ -123,8 +123,9 @@ class TimelineViewModel(
     ) {
         val canvas = canvas.firstOrNull() ?: return
         when (val result = tapCanvas(position, touchAreaSize, canvas)) {
-            is TapTimelineChartResult.Chart -> pushScreen(EntryFormScreen(result.entry))
-            is TapTimelineChartResult.None -> Unit
+            is TapTimelineCanvasResult.Chart -> pushScreen(EntryFormScreen(result.value.entry))
+            is TapTimelineCanvasResult.Table -> TODO()
+            is TapTimelineCanvasResult.None -> Unit
         }
     }
 

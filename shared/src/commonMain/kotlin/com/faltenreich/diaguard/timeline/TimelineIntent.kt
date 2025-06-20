@@ -4,7 +4,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 
 sealed interface TimelineIntent {
 
@@ -35,9 +35,9 @@ sealed interface TimelineIntent {
 
     data class OpenEntry(val entry: Entry.Local) : TimelineIntent
 
+    data class OpenEntryListBottomSheet(val entries: List<EntryListItemState>) : TimelineIntent
+
+    data object DismissEntryListBottomSheet : TimelineIntent
+
     data object SearchEntries : TimelineIntent
-
-    data class ShowValueBottomSheet(val values: List<MeasurementValue.Local>) : TimelineIntent
-
-    data object DismissValueBottomSheet : TimelineIntent
 }

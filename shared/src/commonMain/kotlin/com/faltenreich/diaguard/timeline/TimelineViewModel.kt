@@ -86,7 +86,7 @@ class TimelineViewModel(
         else null
     }
 
-    private val valueBottomSheet = MutableStateFlow<TimelineState.ValueBottomSheet?>(null)
+    private val valueBottomSheet = MutableStateFlow<TimelineState.EntryListBottomSheet?>(null)
 
     override val state = combine(date, canvas, valueBottomSheet, ::TimelineState)
 
@@ -116,10 +116,9 @@ class TimelineViewModel(
             is TimelineIntent.SelectNextDate -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
             is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
             is TimelineIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
-            is TimelineIntent.ShowValueBottomSheet -> valueBottomSheet.update {
-                TimelineState.ValueBottomSheet(values = intent.values)
-            }
-            is TimelineIntent.DismissValueBottomSheet -> valueBottomSheet.update { null }
+            is TimelineIntent.OpenEntryListBottomSheet ->
+                valueBottomSheet.update { TimelineState.EntryListBottomSheet(intent.entries) }
+            is TimelineIntent.DismissEntryListBottomSheet -> valueBottomSheet.update { null }
             is TimelineIntent.SearchEntries -> pushScreen(EntrySearchScreen())
         }
     }
@@ -130,10 +129,10 @@ class TimelineViewModel(
     ) {
         val canvas = canvas.firstOrNull() ?: return
         when (val result = tapCanvas(position, touchAreaSize, canvas)) {
-            is TapTimelineCanvasResult.Chart -> pushScreen(EntryFormScreen(result.value.entry))
+            is TapTimelineCanvasResult.Chart -> pushScreen(EntryFormScreen(result.entry.entry))
             is TapTimelineCanvasResult.Table ->
-                if (result.values.size == 1) pushScreen(EntryFormScreen(result.values.first().entry))
-                else dispatchIntent(TimelineIntent.ShowValueBottomSheet(result.values))
+                if (result.entries.size == 1) pushScreen(EntryFormScreen(result.entries.first().entry))
+                else dispatchIntent(TimelineIntent.OpenEntryListBottomSheet(result.entries))
             is TapTimelineCanvasResult.None -> Unit
         }
     }

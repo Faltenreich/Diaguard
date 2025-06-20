@@ -48,12 +48,16 @@ fun Timeline(
         )
     }
 
-    state.valueBottomSheet?.let { valueBottomSheet ->
+    state.entryListBottomSheet?.let { valueBottomSheet ->
         ModalBottomSheet(
-            onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.DismissValueBottomSheet) },
+            onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.DismissEntryListBottomSheet) },
             sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         ) {
-            TimelineEntryBottomSheet(values = valueBottomSheet.values)
+            TimelineEntryBottomSheet(
+                entries = valueBottomSheet.entries,
+                onEntryClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntry(it)) },
+                onTagClick = { TODO() },
+            )
         }
     }
 }

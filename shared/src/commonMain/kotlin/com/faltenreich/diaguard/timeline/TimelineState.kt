@@ -1,14 +1,14 @@
 package com.faltenreich.diaguard.timeline
 
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.date.TimelineDateState
 
 data class TimelineState(
     val date: TimelineDateState,
     val canvas: TimelineCanvasState?,
-    val valueBottomSheet: ValueBottomSheet?,
+    val entryListBottomSheet: EntryListBottomSheet?,
 ) {
 
-    data class ValueBottomSheet(val values: List<MeasurementValue.Local>)
+    data class EntryListBottomSheet(val entries: List<EntryListItemState>)
 }

@@ -29,19 +29,20 @@ fun DrawScope.TimelineTable(
             }
 
             val iconSize = property.rectangle.height
+            val showLabel = category.properties.size > 1
+            val labelWidth = textMeasurer.measure(property.name).size.width + config.padding / 2
 
             // Label background
-            drawRoundRect(
+            drawRect(
                 color = config.backgroundColor,
                 topLeft = Offset(
-                    x = property.rectangle.left + config.padding / 2,
-                    y = property.rectangle.top + config.padding / 2,
+                    x = property.rectangle.left,
+                    y = property.rectangle.top + config.gridStrokeWidth,
                 ),
                 size = Size(
-                    width = iconSize + textMeasurer.measure(property.name).size.width + config.padding / 2,
-                    height = property.rectangle.height - config.padding,
+                    width = iconSize + if (showLabel) labelWidth else 0f,
+                    height = property.rectangle.height - config.gridStrokeWidth * 2,
                 ),
-                cornerRadius = config.cornerRadius,
             )
 
             MeasurementCategoryIcon(
@@ -52,15 +53,17 @@ fun DrawScope.TimelineTable(
             )
 
             // Label
-            drawText(
-                text = property.name,
-                bottomLeft = Offset(
-                    x = property.rectangle.left + iconSize,
-                    y = property.rectangle.center.y + config.fontSize / 2,
-                ),
-                size = config.fontSize,
-                paint = config.fontPaint,
-            )
+            if (showLabel) {
+                drawText(
+                    text = property.name,
+                    bottomLeft = Offset(
+                        x = property.rectangle.left + iconSize,
+                        y = property.rectangle.center.y + config.fontSize / 2,
+                    ),
+                    size = config.fontSize,
+                    paint = config.fontPaint,
+                )
+            }
 
             property.values.forEach { value ->
                 val text = value.value

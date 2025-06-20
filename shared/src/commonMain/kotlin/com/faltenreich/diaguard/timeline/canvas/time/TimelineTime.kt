@@ -44,7 +44,7 @@ private fun DrawScope.drawDateIndicator(
         ),
         start = Offset(x = x, y = 0f),
         end = Offset(x = x, y = rectangle.bottom - rectangle.height),
-        strokeWidth = config.gridStrokeWidth * 12,
+        strokeWidth = config.gridStrokeWidth * 20,
     )
 }
 

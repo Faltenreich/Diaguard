@@ -53,12 +53,24 @@ class GetTimelineTimeStateUseCase {
             emptyList()
         }
 
+        val colorStops = listOf(
+            TimelineTimeState.ColorStop(
+                offset = 0f,
+                type = TimelineTimeState.ColorStop.Type.INVISIBLE,
+            ),
+            TimelineTimeState.ColorStop(
+                offset = .15f, // TODO: Calculate stops for gradient
+                type = TimelineTimeState.ColorStop.Type.VISIBLE,
+            ),
+        )
+
         return TimelineTimeState(
             dimensions = dimensions,
             currentDate = dateState.currentDate,
             initialDateTime = dateState.initialDate.atStartOfDay(),
             hourProgression = xAxis,
             hours = hours,
+            colorStops = colorStops,
         )
     }
 

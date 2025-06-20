@@ -20,9 +20,9 @@ fun DrawScope.TimelineChartValues(
             TimelineChartState.ColorStop.Type.NORMAL -> config.valueColorNormal
             TimelineChartState.ColorStop.Type.HIGH -> config.valueColorHigh
         }
-    }
+    }.toTypedArray()
     val brush = Brush.verticalGradient(
-        colorStops = colorStops.toTypedArray(),
+        colorStops = colorStops,
         startY = state.rectangle.topLeft.y,
         endY = state.rectangle.topLeft.y + state.rectangle.size.height,
     )

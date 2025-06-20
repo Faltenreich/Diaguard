@@ -29,8 +29,12 @@ fun DrawScope.TimelineTime(
         if (hour.hour == 0) {
             drawLine(
                 brush = Brush.verticalGradient(
-                    0f to Color.Transparent,
-                    .25f to config.gridShadowColor, // TODO: Calculate stops for gradient
+                    colorStops = colorStops.map { (offset, type) ->
+                        offset to when (type) {
+                            TimelineTimeState.ColorStop.Type.INVISIBLE -> Color.Transparent
+                            TimelineTimeState.ColorStop.Type.VISIBLE -> config.gridShadowColor
+                        }
+                    }.toTypedArray(),
                 ),
                 start = Offset(
                     x = hour.x,
@@ -46,8 +50,12 @@ fun DrawScope.TimelineTime(
 
         drawLine(
             brush = Brush.verticalGradient(
-                0f to Color.Transparent,
-                .15f to config.gridStrokeColor, // TODO: Calculate stops for gradient
+                colorStops = colorStops.map { (offset, type) ->
+                    offset to when (type) {
+                        TimelineTimeState.ColorStop.Type.INVISIBLE -> Color.Transparent
+                        TimelineTimeState.ColorStop.Type.VISIBLE -> config.gridStrokeColor
+                    }
+                }.toTypedArray(),
             ),
             start = Offset(
                 x = hour.x,

@@ -35,14 +35,19 @@ fun DrawScope.TimelineChartLabels(
         .dropLast(1)
         .forEach { value ->
             val index = valueAxis.indexOf(value)
-            val x = rectangle.topLeft.x + config.padding
-            val y = rectangle.topLeft.y + rectangle.size.height - (index * heightPerSection)
+            val y = rectangle.bottom - (index * heightPerSection)
 
             // Line
             drawLine(
                 color = config.gridStrokeColor,
-                start = Offset(x = rectangle.topLeft.x, y = y),
-                end = Offset(x = rectangle.topLeft.x + rectangle.size.width, y = y),
+                start = Offset(
+                    x = rectangle.left,
+                    y = y,
+                ),
+                end = Offset(
+                    x = rectangle.right,
+                    y = y,
+                ),
                 strokeWidth = config.gridStrokeWidth,
             )
 
@@ -54,9 +59,9 @@ fun DrawScope.TimelineChartLabels(
             val path = Path()
             val rect = RoundRect(
                 rect = Rect(
-                    left = x - config.padding / 2,
+                    left = rectangle.left + config.padding - config.padding / 2,
                     top = y - textSize.size.height - config.padding / 2,
-                    right = x + textSize.size.width + config.padding,
+                    right = rectangle.left + config.padding + textSize.size.width + config.padding,
                     bottom = y - config.padding / 2,
                 ),
                 cornerRadius = config.cornerRadius,
@@ -67,11 +72,11 @@ fun DrawScope.TimelineChartLabels(
                 color = config.backgroundColor,
             )
 
-            // Label
+            // Text
             drawText(
                 text = text,
                 bottomLeft = Offset(
-                    x = x,
+                    x = rectangle.left + config.padding,
                     y = y - config.padding,
                 ),
                 size = config.fontSize,

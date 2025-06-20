@@ -88,6 +88,7 @@ class GetTimelineChartStateUseCase {
 
         return TimelineChartState(
             rectangle = rectangle,
+            property = property,
             items = items,
             colorStops = colorStops,
             valueStep = valueStep,

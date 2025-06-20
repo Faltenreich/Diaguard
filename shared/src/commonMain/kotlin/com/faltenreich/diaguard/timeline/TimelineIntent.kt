@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.timeline
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 
 sealed interface TimelineIntent {
 
@@ -31,5 +33,11 @@ sealed interface TimelineIntent {
 
     data object CreateEntry : TimelineIntent
 
+    data class OpenEntry(val entry: Entry.Local) : TimelineIntent
+
     data object SearchEntries : TimelineIntent
+
+    data class ShowValueBottomSheet(val values: List<MeasurementValue.Local>) : TimelineIntent
+
+    data object DismissValueBottomSheet : TimelineIntent
 }

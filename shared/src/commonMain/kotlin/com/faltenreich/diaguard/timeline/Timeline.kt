@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.timeline
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +12,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvas
 import com.faltenreich.diaguard.timeline.date.TimelineDateBar
+import com.faltenreich.diaguard.timeline.entry.TimelineEntryBottomSheet
 
 @Composable
 fun Timeline(
@@ -43,5 +46,14 @@ fun Timeline(
                 viewModel.dispatchIntent(TimelineIntent.SelectDate(date))
             },
         )
+    }
+
+    state.valueBottomSheet?.let { valueBottomSheet ->
+        ModalBottomSheet(
+            onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.DismissValueBottomSheet) },
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        ) {
+            TimelineEntryBottomSheet(values = valueBottomSheet.values)
+        }
     }
 }

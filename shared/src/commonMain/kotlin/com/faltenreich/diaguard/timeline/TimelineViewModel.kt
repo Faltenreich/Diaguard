@@ -86,7 +86,9 @@ class TimelineViewModel(
         else null
     }
 
-    override val state = combine(date, canvas, ::TimelineState)
+    private val valueBottomSheet = MutableStateFlow<TimelineState.ValueBottomSheet?>(null)
+
+    override val state = combine(date, canvas, valueBottomSheet, ::TimelineState)
 
     override suspend fun handleIntent(intent: TimelineIntent) {
         when (intent) {
@@ -113,6 +115,11 @@ class TimelineViewModel(
             is TimelineIntent.SelectPreviousDate -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
             is TimelineIntent.SelectNextDate -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
             is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
+            is TimelineIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
+            is TimelineIntent.ShowValueBottomSheet -> valueBottomSheet.update {
+                TimelineState.ValueBottomSheet(values = intent.values)
+            }
+            is TimelineIntent.DismissValueBottomSheet -> valueBottomSheet.update { null }
             is TimelineIntent.SearchEntries -> pushScreen(EntrySearchScreen())
         }
     }
@@ -126,7 +133,7 @@ class TimelineViewModel(
             is TapTimelineCanvasResult.Chart -> pushScreen(EntryFormScreen(result.value.entry))
             is TapTimelineCanvasResult.Table ->
                 if (result.values.size == 1) pushScreen(EntryFormScreen(result.values.first().entry))
-                else TODO("Open list containing multiple entries")
+                else dispatchIntent(TimelineIntent.ShowValueBottomSheet(result.values))
             is TapTimelineCanvasResult.None -> Unit
         }
     }

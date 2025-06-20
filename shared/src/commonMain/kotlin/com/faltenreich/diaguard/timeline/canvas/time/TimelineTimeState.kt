@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.timeline.canvas.time
 
-import androidx.compose.ui.geometry.Rect
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 
 data class TimelineTimeState(
-    val rectangle: Rect,
+    val dimensions: TimelineCanvasDimensions.Calculated,
     val currentDate: Date,
     val initialDateTime: DateTime,
     val hourProgression: IntProgression,

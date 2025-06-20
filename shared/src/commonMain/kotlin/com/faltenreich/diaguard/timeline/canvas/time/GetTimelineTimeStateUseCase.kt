@@ -54,7 +54,7 @@ class GetTimelineTimeStateUseCase {
         }
 
         return TimelineTimeState(
-            rectangle = rectangle,
+            dimensions = dimensions,
             currentDate = dateState.currentDate,
             initialDateTime = dateState.initialDate.atStartOfDay(),
             hourProgression = xAxis,

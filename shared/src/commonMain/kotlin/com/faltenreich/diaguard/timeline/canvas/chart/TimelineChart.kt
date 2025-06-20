@@ -10,13 +10,13 @@ fun DrawScope.TimelineChart(
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
 ) {
-    TimelineChartValues(
-        state = state,
-        config = config,
-    )
     TimelineChartLabels(
         state = state,
         config = config,
         textMeasurer = textMeasurer,
+    )
+    TimelineChartValues(
+        state = state,
+        config = config,
     )
 }

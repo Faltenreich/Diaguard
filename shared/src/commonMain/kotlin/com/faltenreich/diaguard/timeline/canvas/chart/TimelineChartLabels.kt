@@ -17,7 +17,7 @@ fun DrawScope.TimelineChartLabels(
 ) = with(state) {
     val heightPerSection = (rectangle.size.height / (valueAxis.last() / valueStep)).toInt()
     valueAxis
-        .drop(0)
+        .drop(1)
         .dropLast(1)
         .forEach { value ->
             val index = valueAxis.indexOf(value)

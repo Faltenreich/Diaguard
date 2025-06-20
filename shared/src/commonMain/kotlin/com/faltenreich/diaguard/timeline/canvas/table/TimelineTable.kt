@@ -15,18 +15,15 @@ fun DrawScope.TimelineTable(
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
 ) = with(state) {
-    categories.forEachIndexed { categoryIndex, category ->
-        category.properties.forEachIndexed { propertyIndex, property ->
-            val isFirstRow = categoryIndex == 0 && propertyIndex == 0
-            if (!isFirstRow) {
-                // Divider
-                drawLine(
-                    color = config.gridStrokeColor,
-                    start = property.rectangle.topLeft,
-                    end = property.rectangle.topRight,
-                    strokeWidth = config.gridStrokeWidth,
-                )
-            }
+    categories.forEach { category ->
+        category.properties.forEach { property ->
+            // Divider
+            drawLine(
+                color = config.gridStrokeColor,
+                start = property.rectangle.topLeft,
+                end = property.rectangle.topRight,
+                strokeWidth = config.gridStrokeWidth,
+            )
 
             val iconSize = property.rectangle.height
             val showLabel = category.properties.size > 1

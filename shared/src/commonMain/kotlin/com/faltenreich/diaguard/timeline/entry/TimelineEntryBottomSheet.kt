@@ -19,7 +19,7 @@ fun TimelineEntryBottomSheet(
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(modifier = modifier.padding(bottom = AppTheme.dimensions.padding.P_2)) {
         items(entries) { entry ->
             EntryListItem(
                 state = entry,

@@ -3,8 +3,6 @@
 package com.faltenreich.diaguard.timeline.canvas.time
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.text.TextMeasurer
@@ -28,14 +26,7 @@ fun DrawScope.TimelineTime(
     state.hours.forEach { hour ->
         if (hour.hour == 0) {
             drawLine(
-                brush = Brush.verticalGradient(
-                    colorStops = colorStops.map { (offset, type) ->
-                        offset to when (type) {
-                            TimelineTimeState.ColorStop.Type.INVISIBLE -> Color.Transparent
-                            TimelineTimeState.ColorStop.Type.VISIBLE -> config.gridShadowColor
-                        }
-                    }.toTypedArray(),
-                ),
+                color = config.gridShadowColor,
                 start = Offset(
                     x = hour.x,
                     y = 0f,
@@ -49,14 +40,7 @@ fun DrawScope.TimelineTime(
         }
 
         drawLine(
-            brush = Brush.verticalGradient(
-                colorStops = colorStops.map { (offset, type) ->
-                    offset to when (type) {
-                        TimelineTimeState.ColorStop.Type.INVISIBLE -> Color.Transparent
-                        TimelineTimeState.ColorStop.Type.VISIBLE -> config.gridStrokeColor
-                    }
-                }.toTypedArray(),
-            ),
+            color = config.gridStrokeColor,
             start = Offset(
                 x = hour.x,
                 y = 0f,

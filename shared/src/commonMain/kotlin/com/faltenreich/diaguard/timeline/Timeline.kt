@@ -45,7 +45,7 @@ fun Timeline(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(WindowInsets.statusBars.asPaddingValues().calculateTopPadding())
-                    .background(AppTheme.colors.scheme.background.copy(alpha = .5f)),
+                    .background(AppTheme.colors.scheme.surfaceContainerLowest.copy(alpha = .6f)),
             )
         }
         TimelineDateBar(

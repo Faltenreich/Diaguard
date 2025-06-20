@@ -59,7 +59,7 @@ class GetTimelineTimeStateUseCase {
                 type = TimelineTimeState.ColorStop.Type.INVISIBLE,
             ),
             TimelineTimeState.ColorStop(
-                offset = .15f, // TODO: Calculate stops for gradient
+                offset = dimensions.statusBar.height / (dimensions.canvas.height - dimensions.time.height),
                 type = TimelineTimeState.ColorStop.Type.VISIBLE,
             ),
         )

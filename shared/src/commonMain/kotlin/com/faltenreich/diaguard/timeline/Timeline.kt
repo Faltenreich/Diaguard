@@ -56,7 +56,7 @@ fun Timeline(
             TimelineEntryBottomSheet(
                 entries = valueBottomSheet.entries,
                 onEntryClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntry(it)) },
-                onTagClick = { TODO() },
+                onTagClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntrySearch(it.name)) },
             )
         }
     }

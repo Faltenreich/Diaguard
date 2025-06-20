@@ -119,7 +119,7 @@ class TimelineViewModel(
             is TimelineIntent.OpenEntryListBottomSheet ->
                 valueBottomSheet.update { TimelineState.EntryListBottomSheet(intent.entries) }
             is TimelineIntent.DismissEntryListBottomSheet -> valueBottomSheet.update { null }
-            is TimelineIntent.SearchEntries -> pushScreen(EntrySearchScreen())
+            is TimelineIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen())
         }
     }
 

@@ -39,5 +39,5 @@ sealed interface TimelineIntent {
 
     data object DismissEntryListBottomSheet : TimelineIntent
 
-    data object SearchEntries : TimelineIntent
+    data class OpenEntrySearch(val query: String = "") : TimelineIntent
 }

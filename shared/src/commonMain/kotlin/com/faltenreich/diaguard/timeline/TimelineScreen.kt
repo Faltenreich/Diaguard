@@ -27,7 +27,7 @@ data object TimelineScreen : Screen {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_search),
                     contentDescription = Res.string.search_open,
-                    onClick = { viewModel.dispatchIntent(TimelineIntent.SearchEntries) },
+                    onClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntrySearch()) },
                 )
             },
             floatingActionButton = {

@@ -1,14 +1,11 @@
 package com.faltenreich.diaguard.timeline.canvas.chart
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
-import androidx.compose.ui.unit.center
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.timeline.TimelineConfig
@@ -62,23 +59,20 @@ fun DrawScope.TimelineChartLabels(
 
             // TODO: Map to MeasurementValueForUser
             val text = value.toString()
-            val textSize = textMeasurer.measure(text, config.textStyle)
+            val textSize = textMeasurer.measure(text, config.textStyle).size.toSize()
 
             // Background
-            val path = Path()
-            val rect = RoundRect(
-                rect = Rect(
-                    left = chartRectangle.left + config.padding - config.padding / 2,
-                    top = y - textSize.size.center.y - config.padding / 2,
-                    right = chartRectangle.left + config.padding + textSize.size.width + config.padding,
-                    bottom = y + textSize.size.center.y + config.padding / 2,
+            drawRoundRect(
+                color = config.backgroundColor,
+                topLeft = Offset(
+                    x = chartRectangle.left + config.padding - config.padding / 2,
+                    y = y - textSize.center.y - config.padding / 2,
+                ),
+                size = Size(
+                    width = textSize.width + config.padding,
+                    height = textSize.height + config.padding,
                 ),
                 cornerRadius = config.cornerRadius,
-            )
-            path.addRoundRect(rect)
-            drawPath(
-                path = path,
-                color = config.backgroundColor,
             )
 
             // Text
@@ -87,10 +81,10 @@ fun DrawScope.TimelineChartLabels(
                 text = text,
                 topLeft = Offset(
                     x = chartRectangle.left + config.padding,
-                    y = y - textSize.size.center.y,
+                    y = y - textSize.center.y,
                 ),
                 style = config.textStyle,
-                size = textSize.size.toSize(),
+                size = textSize,
             )
         }
 }

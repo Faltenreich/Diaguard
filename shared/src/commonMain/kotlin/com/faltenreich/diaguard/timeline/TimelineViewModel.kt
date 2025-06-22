@@ -116,7 +116,7 @@ class TimelineViewModel(
             is TimelineIntent.SelectDate -> selectDate(intent.date)
             is TimelineIntent.SelectPreviousDate -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
             is TimelineIntent.SelectNextDate -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
-            is TimelineIntent.SelectToday -> TODO()
+            is TimelineIntent.SelectToday -> selectDate(initialDate)
             is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
             is TimelineIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
             is TimelineIntent.OpenEntryListBottomSheet ->

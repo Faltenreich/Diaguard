@@ -21,6 +21,7 @@ class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListIt
             ),
             size = touchAreaSize,
         )
+        // TODO: Reduce computations by merging interactive rectangles before traversal
         return if (canvas.chart.chartRectangle.contains(position)) {
             val items = canvas.chart.items.filter { touchArea.contains(it.position) }
             if (items.isEmpty()) {
@@ -29,15 +30,18 @@ class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListIt
                 TapTimelineCanvasResult.Chart(items.map { it.value.toEntryListItemState() })
             }
         } else if (touchArea.overlaps(canvas.table.rectangle)) {
-            val values = canvas.table.categories.flatMap { category ->
-                category.properties.flatMap { property ->
-                    property.values
+            val properties = canvas.table.categories.flatMap { it.properties }
+            when (val property = properties.firstOrNull { touchArea.overlaps(it.iconRectangle) }) {
+                null -> {
+                    val values = properties.flatMap { it.values }
+                    when (val item = values.firstOrNull { touchArea.overlaps(it.rectangle) }) {
+                        null -> TapTimelineCanvasResult.None
+                        else -> TapTimelineCanvasResult.Table(item.values.map { it.toEntryListItemState() })
+                    }
                 }
+                else -> TapTimelineCanvasResult.Icon(property.property)
             }
-            when (val item = values.firstOrNull { touchArea.overlaps(it.rectangle) }) {
-                null -> TapTimelineCanvasResult.None
-                else -> TapTimelineCanvasResult.Table(item.values.map { it.toEntryListItemState() })
-            }
+
         } else {
             TapTimelineCanvasResult.None
         }

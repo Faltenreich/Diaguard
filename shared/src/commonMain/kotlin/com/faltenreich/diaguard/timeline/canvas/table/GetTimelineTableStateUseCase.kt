@@ -68,6 +68,7 @@ class GetTimelineTableStateUseCase(
                         rowIndex++
 
                         TimelineTableState.Property(
+                            property = property,
                             rectangle = propertyRectangle,
                             iconRectangle = iconRectangle,
                             name = property.name,

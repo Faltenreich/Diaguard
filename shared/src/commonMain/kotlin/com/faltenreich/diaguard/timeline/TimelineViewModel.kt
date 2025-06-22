@@ -133,6 +133,7 @@ class TimelineViewModel(
     ) {
         val canvas = canvas.firstOrNull() ?: return
         when (val result = tapCanvas(position, touchAreaSize, canvas)) {
+            is TapTimelineCanvasResult.Icon -> TODO()
             is TapTimelineCanvasResult.Chart -> openEntryOrList(result.entries)
             is TapTimelineCanvasResult.Table -> openEntryOrList(result.entries)
             is TapTimelineCanvasResult.None -> Unit

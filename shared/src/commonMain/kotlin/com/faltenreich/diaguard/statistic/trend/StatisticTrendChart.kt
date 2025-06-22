@@ -49,10 +49,11 @@ fun StatisticTrendChart(
 
     Canvas(modifier = modifier.fillMaxSize()) {
         val widthPerDay = size.width / intervals.size
+        val textSize = textMeasurer.measure("D", textStyle)
+        val textHeight = textSize.size.height.toFloat()
+
         intervals.forEachIndexed { index, day ->
             val x = index * widthPerDay
-            val textSize = textMeasurer.measure("D", textStyle)
-            val textHeight = textSize.size.height.toFloat()
             val labelRectangle = Rect(
                 offset = Offset(
                     x = x,

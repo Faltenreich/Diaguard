@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.timeline.canvas.chart
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
@@ -86,8 +88,20 @@ class GetTimelineChartStateUseCase {
             colorStops.add(TimelineChartState.ColorStop(1f, TimelineChartState.ColorStop.Type.NONE))
         }
 
+        val iconRectangle = Rect(
+            offset = Offset(
+                x = rectangle.left,
+                y = rectangle.bottom - dimensions.tableRowHeight,
+            ),
+            size = Size(
+                width = dimensions.tableRowHeight,
+                height = dimensions.tableRowHeight,
+            ),
+        )
+
         return TimelineChartState(
-            rectangle = rectangle,
+            chartRectangle = rectangle,
+            iconRectangle = iconRectangle,
             property = property,
             items = items,
             colorStops = colorStops,

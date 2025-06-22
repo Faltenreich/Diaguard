@@ -16,6 +16,7 @@ sealed interface TimelineCanvasDimensions {
         val statusBar: Rect,
         val chart: Rect,
         val table: Rect,
+        val tableRowHeight: Float,
         val time: Rect,
         val scroll: Float,
     ) : TimelineCanvasDimensions

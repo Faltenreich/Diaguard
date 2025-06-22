@@ -17,35 +17,41 @@ fun DrawScope.TimelineChartLabels(
     config: TimelineConfig,
     textMeasurer: TextMeasurer,
 ) = with(state) {
-    val iconSize = 80f // TODO: Get from single source of truth, e.g. TimelineConfig
-    // TODO: Add background and encapsulate for TimelineTable
+    drawRect(
+        color = config.backgroundColor,
+        topLeft = iconRectangle.topLeft,
+        size = iconRectangle.size,
+    )
     MeasurementCategoryIcon(
         category = property.category,
         topLeft = Offset(
-            x = rectangle.left,
-            y = rectangle.bottom - iconSize - config.padding / 2,
+            x = iconRectangle.left + config.padding / 2,
+            y = iconRectangle.top + config.padding / 2,
         ),
-        size = Size(width = iconSize, height = iconSize),
+        size = Size(
+            width = iconRectangle.width - config.padding,
+            height = iconRectangle.height - config.padding,
+        ),
         textMeasurer = textMeasurer,
     )
 
-    val heightPerSection = (rectangle.size.height / (valueAxis.last() / valueStep)).toInt()
+    val heightPerSection = (chartRectangle.size.height / (valueAxis.last() / valueStep)).toInt()
     valueAxis
         .drop(1)
         .dropLast(1)
         .forEach { value ->
             val index = valueAxis.indexOf(value)
-            val y = rectangle.bottom - (index * heightPerSection)
+            val y = chartRectangle.bottom - (index * heightPerSection)
 
             // Line
             drawLine(
                 color = config.gridStrokeColor,
                 start = Offset(
-                    x = rectangle.left,
+                    x = chartRectangle.left,
                     y = y,
                 ),
                 end = Offset(
-                    x = rectangle.right,
+                    x = chartRectangle.right,
                     y = y,
                 ),
                 strokeWidth = config.gridStrokeWidth,
@@ -59,9 +65,9 @@ fun DrawScope.TimelineChartLabels(
             val path = Path()
             val rect = RoundRect(
                 rect = Rect(
-                    left = rectangle.left + config.padding - config.padding / 2,
+                    left = chartRectangle.left + config.padding - config.padding / 2,
                     top = y - textSize.size.height - config.padding / 2,
-                    right = rectangle.left + config.padding + textSize.size.width + config.padding,
+                    right = chartRectangle.left + config.padding + textSize.size.width + config.padding,
                     bottom = y - config.padding / 2,
                 ),
                 cornerRadius = config.cornerRadius,
@@ -76,7 +82,7 @@ fun DrawScope.TimelineChartLabels(
             drawText(
                 text = text,
                 bottomLeft = Offset(
-                    x = rectangle.left + config.padding,
+                    x = chartRectangle.left + config.padding,
                     y = y - config.padding,
                 ),
                 size = config.fontSize,

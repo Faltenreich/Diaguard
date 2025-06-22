@@ -21,7 +21,7 @@ class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListIt
             ),
             size = touchAreaSize,
         )
-        return if (canvas.chart.rectangle.contains(position)) {
+        return if (canvas.chart.chartRectangle.contains(position)) {
             when (val item = canvas.chart.items.firstOrNull { touchArea.contains(it.position) }) {
                 null -> TapTimelineCanvasResult.None
                 else -> TapTimelineCanvasResult.Chart(item.value.toEntryListItemState())

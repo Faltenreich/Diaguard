@@ -42,7 +42,7 @@ class TimelineViewModelTest : TestSuite {
 
             assertEquals(
                 expected = TimelineChartState(
-                    rectangle = Rect.Zero,
+                    chartRectangle = Rect.Zero,
                     items = emptyList(),
                     colorStops = emptyList(),
                     valueStep = 50.0,

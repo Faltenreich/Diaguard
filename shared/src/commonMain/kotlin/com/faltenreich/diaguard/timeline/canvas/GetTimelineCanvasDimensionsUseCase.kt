@@ -57,6 +57,7 @@ class GetTimelineCanvasDimensionsUseCase {
             statusBar = statusBar,
             chart = chart,
             table = Rect(offset = tableOrigin, size = tableSize),
+            tableRowHeight = tableRowHeight,
             time = Rect(offset = timeOrigin, size = timeSize),
             scroll = scrollOffset,
         )

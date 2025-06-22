@@ -23,8 +23,8 @@ fun DrawScope.TimelineChartValues(
     }.toTypedArray()
     val brush = Brush.verticalGradient(
         colorStops = colorStops,
-        startY = state.rectangle.topLeft.y,
-        endY = state.rectangle.topLeft.y + state.rectangle.size.height,
+        startY = state.chartRectangle.topLeft.y,
+        endY = state.chartRectangle.topLeft.y + state.chartRectangle.size.height,
     )
 
     config.valuePath.reset()

@@ -6,7 +6,8 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 
 data class TimelineChartState(
-    val rectangle: Rect,
+    val chartRectangle: Rect,
+    val iconRectangle: Rect,
     val property: MeasurementProperty.Local,
     val items: List<Item>,
     val colorStops: List<ColorStop>,

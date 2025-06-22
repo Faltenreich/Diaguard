@@ -7,15 +7,20 @@ import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
@@ -61,6 +66,12 @@ fun TimelineCanvas(
     val statusBarHeight = WindowInsets.statusBars.getTop(density)
     val touchAreaSize = density.run { dimensions.size.TouchSizeSmall.toPx().let { Size(it, it) } }
 
+    val interactionSource = remember { MutableInteractionSource() }
+    val indication = ripple(
+        // TODO: Determine ripple radius
+        radius = AppTheme.dimensions.size.TouchSizeLarge,
+    )
+
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
             when (event) {
@@ -95,6 +106,7 @@ fun TimelineCanvas(
 
     Canvas(
         modifier = modifier
+            .indication(interactionSource, indication)
             .fillMaxSize()
             .onGloballyPositioned { coordinates ->
                 viewModel.dispatchIntent(
@@ -106,10 +118,21 @@ fun TimelineCanvas(
                 )
             }
             .pointerInput(Unit) {
+                var press by mutableStateOf<PressInteraction.Press?>(null)
                 detectTapGestures(
                     onTap = { position ->
                         viewModel.dispatchIntent(TimelineIntent.TapCanvas(position, touchAreaSize))
+                        // TODO: Move to "onRelease", e.g. via awaitEachGesture
+                        scope.launch { press?.let { interactionSource.emit(PressInteraction.Release(it)) } }
                     },
+                    onPress = { position ->
+                        scope.launch {
+                            // FIXME: Position does not translate to ripple
+                            val interaction = PressInteraction.Press(position)
+                            press = interaction
+                            interactionSource.emit(interaction)
+                        }
+                    }
                 )
             }
             .pointerInput(Unit) {

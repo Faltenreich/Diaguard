@@ -11,8 +11,10 @@ import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_new_description
 import diaguard.shared.generated.resources.ic_add
+import diaguard.shared.generated.resources.ic_date_today
 import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
+import diaguard.shared.generated.resources.today_select
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 
@@ -28,6 +30,11 @@ data object TimelineScreen : Screen {
                     painter = painterResource(Res.drawable.ic_search),
                     contentDescription = Res.string.search_open,
                     onClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntrySearch()) },
+                )
+                BottomAppBarItem(
+                    painter = painterResource(Res.drawable.ic_date_today),
+                    contentDescription = Res.string.today_select,
+                    onClick = { viewModel.dispatchIntent(TimelineIntent.SelectToday) },
                 )
             },
             floatingActionButton = {

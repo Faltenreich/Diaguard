@@ -31,6 +31,8 @@ sealed interface TimelineIntent {
 
     data object SelectNextDate : TimelineIntent
 
+    data object SelectToday : TimelineIntent
+
     data object CreateEntry : TimelineIntent
 
     data class OpenEntry(val entry: Entry.Local) : TimelineIntent

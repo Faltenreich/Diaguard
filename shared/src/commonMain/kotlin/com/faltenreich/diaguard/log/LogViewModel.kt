@@ -69,6 +69,7 @@ class LogViewModel(
                 is LogIntent.OpenDateDialog -> dateDialog.update { LogState.DateDialog(currentDate.value) }
                 is LogIntent.CloseDateDialog -> dateDialog.update { null }
                 is LogIntent.SetDate -> setDate(date)
+                is LogIntent.SetToday -> TODO()
             }
         }
     }

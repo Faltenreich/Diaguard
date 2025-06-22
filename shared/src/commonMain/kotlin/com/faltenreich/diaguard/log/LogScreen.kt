@@ -9,12 +9,12 @@ import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.date_pick
 import diaguard.shared.generated.resources.entry_new_description
 import diaguard.shared.generated.resources.ic_add
-import diaguard.shared.generated.resources.ic_date_range
+import diaguard.shared.generated.resources.ic_date_today
 import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
+import diaguard.shared.generated.resources.today_select
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 
@@ -32,9 +32,9 @@ data object LogScreen : Screen {
                     onClick = { viewModel.dispatchIntent(LogIntent.OpenEntrySearch()) },
                 )
                 BottomAppBarItem(
-                    painter = painterResource(Res.drawable.ic_date_range),
-                    contentDescription = Res.string.date_pick,
-                    onClick = { viewModel.dispatchIntent(LogIntent.OpenDateDialog) },
+                    painter = painterResource(Res.drawable.ic_date_today),
+                    contentDescription = Res.string.today_select,
+                    onClick = { viewModel.dispatchIntent(LogIntent.SetToday) },
                 )
             },
             floatingActionButton = {

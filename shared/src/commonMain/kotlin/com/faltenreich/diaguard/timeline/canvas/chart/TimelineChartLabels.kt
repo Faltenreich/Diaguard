@@ -36,18 +36,13 @@ fun DrawScope.TimelineChartLabels(
     )
 
     labels.forEach { label ->
-        val y = label.y
-
         // Line
         drawLine(
             color = config.gridStrokeColor,
-            start = Offset(
-                x = chartRectangle.left,
-                y = y,
-            ),
+            start = label.position,
             end = Offset(
                 x = chartRectangle.right,
-                y = y,
+                y = label.position.y,
             ),
             strokeWidth = config.gridStrokeWidth,
         )
@@ -61,7 +56,7 @@ fun DrawScope.TimelineChartLabels(
             color = config.backgroundColor,
             topLeft = Offset(
                 x = chartRectangle.left + config.padding,
-                y = y - textSize.center.y,
+                y = label.position.y - textSize.center.y,
             ),
             size = Size(
                 width = textSize.width,
@@ -76,7 +71,7 @@ fun DrawScope.TimelineChartLabels(
             text = text,
             topLeft = Offset(
                 x = chartRectangle.left + config.padding,
-                y = y - textSize.center.y,
+                y = label.position.y - textSize.center.y,
             ),
             style = config.textStyle,
             size = textSize,

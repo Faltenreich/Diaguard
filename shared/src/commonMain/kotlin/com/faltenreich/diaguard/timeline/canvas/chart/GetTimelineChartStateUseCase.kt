@@ -67,7 +67,10 @@ class GetTimelineChartStateUseCase {
                 val index = valueAxis.indexOf(value)
                 val y = rectangle.bottom - (index * heightPerSection)
                 TimelineChartState.Label(
-                    y = y,
+                    position = Offset(
+                        x = rectangle.left,
+                        y = y,
+                    ),
                     // TODO: Map to MeasurementValueForUser
                     text = value.toString(),
                 )

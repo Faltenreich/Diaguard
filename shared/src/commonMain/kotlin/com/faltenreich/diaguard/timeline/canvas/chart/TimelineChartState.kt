@@ -15,7 +15,7 @@ data class TimelineChartState(
 ) {
 
     data class Label(
-        val y: Float,
+        val position: Offset,
         val text: String,
     )
 

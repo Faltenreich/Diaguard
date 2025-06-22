@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
-import androidx.compose.ui.unit.center
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
@@ -58,7 +57,7 @@ fun DrawScope.MeasurementCategoryIcon(
 ) {
     val char = category.name.firstOrNull()?.uppercaseChar() ?: '?'
     val text = category.icon ?: char.toString()
-    val textSize = textMeasurer.measure(text, textStyle)
+    val textSize = textMeasurer.measure(text, textStyle).size.toSize()
     val padding = 0f
 
     val hasIcon = category.icon != null
@@ -82,10 +81,10 @@ fun DrawScope.MeasurementCategoryIcon(
         textMeasurer = textMeasurer,
         text = text,
         topLeft = Offset(
-            x = topLeft.x + size.center.x - textSize.size.center.x,
-            y = topLeft.y + size.center.y - textSize.size.center.y,
+            x = topLeft.x + size.center.x - textSize.center.x,
+            y = topLeft.y + size.center.y - textSize.center.y,
         ),
         style = textStyle,
-        size = textSize.size.toSize(),
+        size = textSize,
     )
 }

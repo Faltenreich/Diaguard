@@ -16,7 +16,6 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
@@ -32,6 +31,7 @@ fun StatisticTrendChart(
     val textMeasurer = rememberTextMeasurer()
     val fontColor = colorScheme.onSurfaceVariant
     val fontSize = AppTheme.typography.bodyMedium.fontSize
+    val textStyle = TextStyle(fontSize = fontSize, color = fontColor)
     val padding = density.run { AppTheme.dimensions.padding.P_2.toPx() }
 
     val colorTintNone = AppTheme.colors.scheme.onPrimary
@@ -51,7 +51,7 @@ fun StatisticTrendChart(
         val widthPerDay = size.width / intervals.size
         intervals.forEachIndexed { index, day ->
             val x = index * widthPerDay
-            val textSize = textMeasurer.measure("D")
+            val textSize = textMeasurer.measure("D", textStyle)
             val textHeight = textSize.size.height.toFloat()
             val labelRectangle = Rect(
                 offset = Offset(
@@ -66,8 +66,7 @@ fun StatisticTrendChart(
             drawLabel(
                 interval = day,
                 rectangle = labelRectangle,
-                fontSize = fontSize,
-                fontColor = fontColor,
+                textStyle = textStyle,
                 textMeasurer = textMeasurer,
             )
 
@@ -102,12 +101,10 @@ fun StatisticTrendChart(
 private fun DrawScope.drawLabel(
     interval: StatisticTrendState.Interval,
     rectangle: Rect,
-    fontSize: TextUnit,
-    fontColor: Color,
+    textStyle: TextStyle,
     textMeasurer: TextMeasurer,
 ) {
     val text = interval.label
-    val textStyle = TextStyle(fontSize = fontSize, color = fontColor)
     val textSize = textMeasurer.measure(text, textStyle).size.toSize()
     drawText(
         textMeasurer = textMeasurer,

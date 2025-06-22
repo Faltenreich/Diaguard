@@ -4,8 +4,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.unit.center
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
-import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 // FIXME: Text has vertical offset
@@ -27,7 +28,7 @@ fun DrawScope.TimelineTable(
 
             val iconSize = property.rectangle.height
             val showLabel = category.properties.size > 1
-            val labelWidth = textMeasurer.measure(property.name).size.width + config.padding / 2
+            val labelSize = textMeasurer.measure(property.name, config.textStyle).size
 
             // Label background
             drawRect(
@@ -37,45 +38,43 @@ fun DrawScope.TimelineTable(
                     y = property.rectangle.top + config.gridStrokeWidth,
                 ),
                 size = Size(
-                    width = iconSize + if (showLabel) labelWidth else 0f,
+                    width = iconSize + if (showLabel) labelSize.width + config.padding / 2 else 0f,
                     height = property.rectangle.height - config.gridStrokeWidth * 2,
                 ),
             )
 
             MeasurementCategoryIcon(
+                textMeasurer = textMeasurer,
                 category = category.category,
                 topLeft = property.rectangle.topLeft,
                 size = Size(width = iconSize, height = iconSize),
                 textStyle = config.textStyle,
-                textMeasurer = textMeasurer,
             )
 
             // Label
             if (showLabel) {
                 drawText(
+                    textMeasurer = textMeasurer,
                     text = property.name,
-                    bottomLeft = Offset(
+                    topLeft = Offset(
                         x = property.rectangle.left + iconSize,
-                        y = property.rectangle.center.y + config.fontSizePx / 2,
+                        y = property.rectangle.center.y - labelSize.center.y,
                     ),
-                    size = config.fontSizePx,
-                    paint = config.fontPaint,
+                    style = config.textStyle,
                 )
             }
 
             property.values.forEach { value ->
                 val text = value.value
-                val textSize = textMeasurer.measure(text)
-                val valueX = value.rectangle.center.x - textSize.size.width / 2
-                val valueY = value.rectangle.center.y + textSize.size.height / 2
+                val textSize = textMeasurer.measure(text, config.textStyle)
                 drawText(
+                    textMeasurer = textMeasurer,
                     text = text,
-                    bottomLeft = Offset(
-                        x = valueX,
-                        y = valueY,
+                    topLeft = Offset(
+                        x = value.rectangle.center.x - textSize.size.center.x,
+                        y = value.rectangle.center.y - textSize.size.center.y,
                     ),
-                    size = config.fontSizePx,
-                    paint = config.fontPaint,
+                    style = config.textStyle,
                 )
             }
         }

@@ -49,11 +49,11 @@ fun MeasurementCategoryIcon(
 
 @Suppress("FunctionName", "MagicNumber")
 fun DrawScope.MeasurementCategoryIcon(
+    textMeasurer: TextMeasurer,
     category: MeasurementCategory,
     topLeft: Offset,
     size: Size,
     textStyle: TextStyle,
-    textMeasurer: TextMeasurer,
 ) {
     val char = category.name.firstOrNull()?.uppercaseChar() ?: '?'
     val text = category.icon ?: char.toString()

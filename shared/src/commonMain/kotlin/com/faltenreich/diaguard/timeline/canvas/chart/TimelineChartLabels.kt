@@ -25,6 +25,7 @@ fun DrawScope.TimelineChartLabels(
         size = iconRectangle.size,
     )
     MeasurementCategoryIcon(
+        textMeasurer = textMeasurer,
         category = property.category,
         topLeft = Offset(
             x = iconRectangle.left + config.padding / 2,
@@ -35,7 +36,6 @@ fun DrawScope.TimelineChartLabels(
             height = iconRectangle.height - config.padding,
         ),
         textStyle = config.textStyle,
-        textMeasurer = textMeasurer,
     )
 
     val heightPerSection = (chartRectangle.size.height / (valueAxis.last() / valueStep)).toInt()

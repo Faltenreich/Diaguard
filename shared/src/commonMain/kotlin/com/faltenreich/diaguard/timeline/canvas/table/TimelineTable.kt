@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
-// FIXME: Text has vertical offset
 @Suppress("FunctionName")
 fun DrawScope.TimelineTable(
     state: TimelineTableState,

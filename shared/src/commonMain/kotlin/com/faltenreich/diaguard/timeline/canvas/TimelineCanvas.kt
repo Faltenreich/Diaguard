@@ -18,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -74,9 +73,6 @@ fun TimelineCanvas(
         val config = TimelineConfig(
             padding = density.run { dimensions.padding.P_2.toPx() },
             textStyle = TextStyle(fontSize = fontSize, color = colorScheme.onBackground),
-            fontPaint = Paint().apply { color = colorScheme.onBackground },
-            fontSize = fontSize,
-            fontSizePx = density.run { fontSize.toPx() },
             backgroundColor = colorScheme.background,
             gridStrokeColor = colorScheme.onSurface,
             gridShadowColor = colorScheme.surfaceContainerLowest,

@@ -15,7 +15,7 @@ fun DrawScope.TimelineChartValues(
 
     val colorStops = colorStops.map { (offset, type) ->
         offset to when (type) {
-            TimelineChartState.ColorStop.Type.NONE -> config.fontPaint.color
+            TimelineChartState.ColorStop.Type.NONE -> config.textStyle.color
             TimelineChartState.ColorStop.Type.LOW -> config.valueColorLow
             TimelineChartState.ColorStop.Type.NORMAL -> config.valueColorNormal
             TimelineChartState.ColorStop.Type.HIGH -> config.valueColorHigh

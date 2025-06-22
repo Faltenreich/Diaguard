@@ -7,10 +7,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.center
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
-import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
@@ -62,7 +61,7 @@ fun DrawScope.TimelineChartLabels(
 
             // TODO: Map to MeasurementValueForUser
             val text = value.toString()
-            val textSize = textMeasurer.measure(text, style = TextStyle(fontSize = config.fontSize))
+            val textSize = textMeasurer.measure(text, config.textStyle)
 
             // Background
             val path = Path()
@@ -83,13 +82,13 @@ fun DrawScope.TimelineChartLabels(
 
             // Text
             drawText(
+                textMeasurer = textMeasurer,
                 text = text,
-                bottomLeft = Offset(
+                topLeft = Offset(
                     x = chartRectangle.left + config.padding,
-                    y = y + textSize.size.center.y,
+                    y = y - textSize.size.center.y,
                 ),
-                size = config.fontSizePx,
-                paint = config.fontPaint,
+                style = config.textStyle,
             )
         }
 }

@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
 
-private const val ASPECT_RATIO = 32f / 9f
+private const val ASPECT_RATIO = 24f / 9f
 
 @Composable
 fun LogMonth(

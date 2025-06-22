@@ -27,7 +27,7 @@ fun LogDaySticky(
                     }
                 }
                 .background(AppTheme.colors.scheme.background)
-                .padding(all = AppTheme.dimensions.padding.P_3)
+                .padding(all = AppTheme.dimensions.padding.P_3),
         )
     }
 }

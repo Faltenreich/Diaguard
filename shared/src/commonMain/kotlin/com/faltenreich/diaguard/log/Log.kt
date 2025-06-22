@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.log
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -77,7 +78,7 @@ fun Log(
                 .onGloballyPositioned { coordinates ->
                     viewModel.dispatchIntent(LogIntent.CacheDayHeaderSize(coordinates.size))
                 }
-                .alpha(alpha)
+                .alpha(alpha),
         )
     }
 

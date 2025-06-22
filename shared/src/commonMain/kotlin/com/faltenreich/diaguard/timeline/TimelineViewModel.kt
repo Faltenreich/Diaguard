@@ -132,7 +132,9 @@ class TimelineViewModel(
     ) {
         val canvas = canvas.firstOrNull() ?: return
         when (val result = tapCanvas(position, touchAreaSize, canvas)) {
-            is TapTimelineCanvasResult.Chart -> pushScreen(EntryFormScreen(result.entry.entry))
+            is TapTimelineCanvasResult.Chart ->
+                if (result.entries.size == 1) pushScreen(EntryFormScreen(result.entries.first().entry))
+                else dispatchIntent(TimelineIntent.OpenEntryListBottomSheet(result.entries))
             is TapTimelineCanvasResult.Table ->
                 if (result.entries.size == 1) pushScreen(EntryFormScreen(result.entries.first().entry))
                 else dispatchIntent(TimelineIntent.OpenEntryListBottomSheet(result.entries))

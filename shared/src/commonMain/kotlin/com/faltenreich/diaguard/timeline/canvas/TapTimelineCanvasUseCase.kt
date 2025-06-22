@@ -22,9 +22,11 @@ class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListIt
             size = touchAreaSize,
         )
         return if (canvas.chart.chartRectangle.contains(position)) {
-            when (val item = canvas.chart.items.firstOrNull { touchArea.contains(it.position) }) {
-                null -> TapTimelineCanvasResult.None
-                else -> TapTimelineCanvasResult.Chart(item.value.toEntryListItemState())
+            val items = canvas.chart.items.filter { touchArea.contains(it.position) }
+            if (items.isEmpty()) {
+                TapTimelineCanvasResult.None
+            } else {
+                TapTimelineCanvasResult.Chart(items.map { it.value.toEntryListItemState() })
             }
         } else if (touchArea.overlaps(canvas.table.rectangle)) {
             val values = canvas.table.categories.flatMap { category ->

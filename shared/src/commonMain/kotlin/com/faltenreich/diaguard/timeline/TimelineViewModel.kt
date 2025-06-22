@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
@@ -132,13 +133,17 @@ class TimelineViewModel(
     ) {
         val canvas = canvas.firstOrNull() ?: return
         when (val result = tapCanvas(position, touchAreaSize, canvas)) {
-            is TapTimelineCanvasResult.Chart ->
-                if (result.entries.size == 1) pushScreen(EntryFormScreen(result.entries.first().entry))
-                else dispatchIntent(TimelineIntent.OpenEntryListBottomSheet(result.entries))
-            is TapTimelineCanvasResult.Table ->
-                if (result.entries.size == 1) pushScreen(EntryFormScreen(result.entries.first().entry))
-                else dispatchIntent(TimelineIntent.OpenEntryListBottomSheet(result.entries))
+            is TapTimelineCanvasResult.Chart -> openEntryOrList(result.entries)
+            is TapTimelineCanvasResult.Table -> openEntryOrList(result.entries)
             is TapTimelineCanvasResult.None -> Unit
+        }
+    }
+
+    private suspend fun openEntryOrList(entries: List<EntryListItemState>) {
+        if (entries.size == 1) {
+            pushScreen(EntryFormScreen(entries.first().entry))
+        } else {
+            dispatchIntent(TimelineIntent.OpenEntryListBottomSheet(entries))
         }
     }
 

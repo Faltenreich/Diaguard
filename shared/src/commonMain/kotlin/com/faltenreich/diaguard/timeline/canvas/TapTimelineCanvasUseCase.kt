@@ -44,9 +44,6 @@ class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListIt
     }
 
     private suspend fun MeasurementValue.Local.toEntryListItemState(): EntryListItemState {
-        return mapEntryListItemState(
-            entry = entry,
-            includeDate = false,
-        )
+        return mapEntryListItemState(entry, includeDate = false)
     }
 }

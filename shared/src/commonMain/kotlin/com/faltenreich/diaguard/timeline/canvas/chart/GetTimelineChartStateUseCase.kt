@@ -25,6 +25,18 @@ class GetTimelineChartStateUseCase(private val mapValue: MeasurementValueMapper)
         }
 
         val rectangle = dimensions.chart
+
+        val iconRectangle = Rect(
+            offset = Offset(
+                x = rectangle.left,
+                y = rectangle.bottom - dimensions.tableRowHeight,
+            ),
+            size = Size(
+                width = dimensions.tableRowHeight,
+                height = dimensions.tableRowHeight,
+            ),
+        )
+
         val stepCount = time.hourProgression.last / time.hourProgression.step
 
         val valuesWithXCoordinate = values.map { value ->
@@ -109,17 +121,6 @@ class GetTimelineChartStateUseCase(private val mapValue: MeasurementValueMapper)
             colorStops.add(TimelineChartState.ColorStop(0f, TimelineChartState.ColorStop.Type.NONE))
             colorStops.add(TimelineChartState.ColorStop(1f, TimelineChartState.ColorStop.Type.NONE))
         }
-
-        val iconRectangle = Rect(
-            offset = Offset(
-                x = rectangle.left,
-                y = rectangle.bottom - dimensions.tableRowHeight,
-            ),
-            size = Size(
-                width = dimensions.tableRowHeight,
-                height = dimensions.tableRowHeight,
-            ),
-        )
 
         return TimelineChartState(
             chartRectangle = rectangle,

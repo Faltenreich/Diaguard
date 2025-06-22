@@ -17,6 +17,7 @@ data class TimelineTableState(
 
     data class Property(
         val rectangle: Rect,
+        val iconRectangle: Rect,
         val name: String,
         val values: List<Value>,
     )

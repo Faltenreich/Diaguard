@@ -43,6 +43,7 @@ class GetTimelineTableStateUseCase(
             rectangle = dimensions.table,
             categories = categories.map { category ->
                 val propertiesOfCategory = properties.filter { it.category == category }
+
                 TimelineTableState.Category(
                     category = category,
                     properties = propertiesOfCategory.map { property ->
@@ -53,11 +54,22 @@ class GetTimelineTableStateUseCase(
                             ),
                             size = rowSize,
                         )
+                        val iconRectangle = Rect(
+                            offset = Offset(
+                                x = propertyRectangle.left,
+                                y = propertyRectangle.bottom - dimensions.tableRowHeight,
+                            ),
+                            size = Size(
+                                width = dimensions.tableRowHeight,
+                                height = dimensions.tableRowHeight,
+                            ),
+                        )
 
                         rowIndex++
 
                         TimelineTableState.Property(
                             rectangle = propertyRectangle,
+                            iconRectangle = iconRectangle,
                             name = property.name,
                             values = values
                                 .filter { it.property == property }

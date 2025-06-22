@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
+import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
@@ -133,7 +134,7 @@ class TimelineViewModel(
     ) {
         val canvas = canvas.firstOrNull() ?: return
         when (val result = tapCanvas(position, touchAreaSize, canvas)) {
-            is TapTimelineCanvasResult.Icon -> TODO()
+            is TapTimelineCanvasResult.Icon -> pushScreen(MeasurementPropertyFormScreen(result.property))
             is TapTimelineCanvasResult.Chart -> openEntryOrList(result.entries)
             is TapTimelineCanvasResult.Table -> openEntryOrList(result.entries)
             is TapTimelineCanvasResult.None -> Unit

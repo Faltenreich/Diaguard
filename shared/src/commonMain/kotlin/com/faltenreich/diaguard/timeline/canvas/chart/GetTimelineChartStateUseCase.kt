@@ -59,6 +59,20 @@ class GetTimelineChartStateUseCase {
         val valueMaxPadded = valueMax + valueStep
         val valueAxis = valueMin.toInt() .. valueMaxPadded.toInt() step valueStep.toInt()
 
+        val heightPerSection = (rectangle.size.height / (valueAxis.last() / valueStep)).toInt()
+        val labels = valueAxis
+            .drop(1)
+            .dropLast(1)
+            .map { value ->
+                val index = valueAxis.indexOf(value)
+                val y = rectangle.bottom - (index * heightPerSection)
+                TimelineChartState.Label(
+                    y = y,
+                    // TODO: Map to MeasurementValueForUser
+                    text = value.toString(),
+                )
+            }
+
         val items = valuesWithXCoordinate.map { (value, x) ->
             val percentage = (value.value - valueAxis.first()) / (valueAxis.last() - valueAxis.first())
             val y = dimensions.chart.topLeft.y +
@@ -107,6 +121,7 @@ class GetTimelineChartStateUseCase {
             colorStops = colorStops,
             valueStep = valueStep,
             valueAxis = valueAxis,
+            labels = labels,
         )
     }
 

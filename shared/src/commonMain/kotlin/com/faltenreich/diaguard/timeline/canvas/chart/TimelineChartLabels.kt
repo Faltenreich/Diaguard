@@ -35,56 +35,51 @@ fun DrawScope.TimelineChartLabels(
         textStyle = config.textStyle,
     )
 
-    val heightPerSection = (chartRectangle.size.height / (valueAxis.last() / valueStep)).toInt()
-    valueAxis
-        .drop(1)
-        .dropLast(1)
-        .forEach { value ->
-            val index = valueAxis.indexOf(value)
-            val y = chartRectangle.bottom - (index * heightPerSection)
+    labels.forEach { label ->
+        val y = label.y
 
-            // Line
-            drawLine(
-                color = config.gridStrokeColor,
-                start = Offset(
-                    x = chartRectangle.left,
-                    y = y,
-                ),
-                end = Offset(
-                    x = chartRectangle.right,
-                    y = y,
-                ),
-                strokeWidth = config.gridStrokeWidth,
-            )
+        // Line
+        drawLine(
+            color = config.gridStrokeColor,
+            start = Offset(
+                x = chartRectangle.left,
+                y = y,
+            ),
+            end = Offset(
+                x = chartRectangle.right,
+                y = y,
+            ),
+            strokeWidth = config.gridStrokeWidth,
+        )
 
-            // TODO: Map to MeasurementValueForUser
-            val text = value.toString()
-            val textSize = textMeasurer.measure(text, config.textStyle).size.toSize()
+        // TODO: Map to MeasurementValueForUser
+        val text = label.text
+        val textSize = textMeasurer.measure(text, config.textStyle).size.toSize()
 
-            // Background
-            drawRoundRect(
-                color = config.backgroundColor,
-                topLeft = Offset(
-                    x = chartRectangle.left + config.padding,
-                    y = y - textSize.center.y,
-                ),
-                size = Size(
-                    width = textSize.width,
-                    height = textSize.height,
-                ),
-                cornerRadius = config.cornerRadius,
-            )
+        // Background
+        drawRoundRect(
+            color = config.backgroundColor,
+            topLeft = Offset(
+                x = chartRectangle.left + config.padding,
+                y = y - textSize.center.y,
+            ),
+            size = Size(
+                width = textSize.width,
+                height = textSize.height,
+            ),
+            cornerRadius = config.cornerRadius,
+        )
 
-            // Text
-            drawText(
-                textMeasurer = textMeasurer,
-                text = text,
-                topLeft = Offset(
-                    x = chartRectangle.left + config.padding,
-                    y = y - textSize.center.y,
-                ),
-                style = config.textStyle,
-                size = textSize,
-            )
-        }
+        // Text
+        drawText(
+            textMeasurer = textMeasurer,
+            text = text,
+            topLeft = Offset(
+                x = chartRectangle.left + config.padding,
+                y = y - textSize.center.y,
+            ),
+            style = config.textStyle,
+            size = textSize,
+        )
+    }
 }

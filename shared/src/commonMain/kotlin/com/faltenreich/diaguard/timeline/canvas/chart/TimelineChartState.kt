@@ -13,7 +13,13 @@ data class TimelineChartState(
     val colorStops: List<ColorStop>,
     val valueStep: Double,
     val valueAxis: IntProgression,
+    val labels: List<Label>,
 ) {
+
+    data class Label(
+        val y: Float,
+        val text: String,
+    )
 
     data class Item(
         val value: MeasurementValue.Local,

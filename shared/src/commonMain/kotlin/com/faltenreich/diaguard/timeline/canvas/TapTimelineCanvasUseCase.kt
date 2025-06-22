@@ -22,7 +22,6 @@ class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListIt
             size = touchAreaSize,
         )
         // TODO: Reduce computations by merging interactive rectangles before traversal
-        // TODO: Search for largest overlap to avoid miss-taps due to large touch area
         return if (canvas.chart.chartRectangle.contains(position)) {
             if (touchArea.overlaps(canvas.chart.iconRectangle)) {
                 TapTimelineCanvasResult.Icon(canvas.chart.property)
@@ -36,7 +35,17 @@ class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListIt
             }
         } else if (touchArea.overlaps(canvas.table.rectangle)) {
             val properties = canvas.table.categories.flatMap { it.properties }
-            when (val property = properties.firstOrNull { touchArea.overlaps(it.iconRectangle) }) {
+            val property = properties
+                .mapNotNull { property ->
+                    val intersection = touchArea.intersectComparable(property.iconRectangle)
+                        ?: return@mapNotNull null
+                    property to intersection
+                }
+                .maxByOrNull { (_, intersection) -> intersection }
+                ?.first
+
+
+            when (property) {
                 null -> {
                     val values = properties.flatMap { it.values }
                     when (val item = values.firstOrNull { touchArea.overlaps(it.rectangle) }) {
@@ -50,6 +59,12 @@ class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListIt
         } else {
             TapTimelineCanvasResult.None
         }
+    }
+
+    private fun Rect.intersectComparable(other: Rect): Float? {
+        return intersect(other)
+            .takeUnless(Rect::isEmpty)
+            ?.run { width + height }
     }
 
     private suspend fun MeasurementValue.Local.toEntryListItemState(): EntryListItemState {

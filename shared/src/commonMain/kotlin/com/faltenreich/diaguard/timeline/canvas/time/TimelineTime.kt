@@ -62,8 +62,8 @@ fun DrawScope.TimelineTime(
                 x = hour.x - textSize.size.center.x,
                 y = dimensions.time.center.y - textSize.size.center.y,
             ),
-            size = textSize.size.toSize(),
             style = config.textStyle,
+            size = textSize.size.toSize(),
         )
     }
 }

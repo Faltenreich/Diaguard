@@ -2,10 +2,12 @@ package com.faltenreich.diaguard.timeline.canvas.table
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.center
+import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
@@ -28,7 +30,7 @@ fun DrawScope.TimelineTable(
 
             val iconSize = property.rectangle.height
             val showLabel = category.properties.size > 1
-            val labelSize = textMeasurer.measure(property.name, config.textStyle).size
+            val labelSize = textMeasurer.measure(property.name, config.textStyle).size.toSize()
 
             // Label background
             drawRect(
@@ -61,6 +63,7 @@ fun DrawScope.TimelineTable(
                         y = property.rectangle.center.y - labelSize.center.y,
                     ),
                     style = config.textStyle,
+                    size = labelSize,
                 )
             }
 
@@ -75,6 +78,7 @@ fun DrawScope.TimelineTable(
                         y = value.rectangle.center.y - textSize.size.center.y,
                     ),
                     style = config.textStyle,
+                    size = textSize.size.toSize(),
                 )
             }
         }

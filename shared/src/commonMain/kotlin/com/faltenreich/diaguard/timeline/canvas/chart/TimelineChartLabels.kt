@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.center
+import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
@@ -89,6 +90,7 @@ fun DrawScope.TimelineChartLabels(
                     y = y - textSize.size.center.y,
                 ),
                 style = config.textStyle,
+                size = textSize.size.toSize(),
             )
         }
 }

@@ -19,6 +19,7 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.center
+import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.shared.theme.color.asColor
@@ -85,5 +86,6 @@ fun DrawScope.MeasurementCategoryIcon(
             y = topLeft.y + size.center.y - textSize.size.center.y,
         ),
         style = textStyle,
+        size = textSize.size.toSize(),
     )
 }

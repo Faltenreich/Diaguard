@@ -11,8 +11,6 @@ data class TimelineChartState(
     val property: MeasurementProperty.Local,
     val items: List<Item>,
     val colorStops: List<ColorStop>,
-    val valueStep: Double,
-    val valueAxis: IntProgression,
     val labels: List<Label>,
 ) {
 

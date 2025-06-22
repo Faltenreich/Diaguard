@@ -119,8 +119,6 @@ class GetTimelineChartStateUseCase {
             property = property,
             items = items,
             colorStops = colorStops,
-            valueStep = valueStep,
-            valueAxis = valueAxis,
             labels = labels,
         )
     }

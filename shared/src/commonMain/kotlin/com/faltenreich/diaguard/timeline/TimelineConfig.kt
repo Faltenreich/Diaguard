@@ -5,12 +5,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 
 data class TimelineConfig(
     val padding: Float,
+    val textStyle: TextStyle,
+    @Deprecated("Replace with textStyle")
     val fontPaint: Paint,
+    @Deprecated("Replace with textStyle")
     val fontSize: TextUnit,
+    @Deprecated("Replace with textStyle")
     val fontSizePx: Float,
 
     val backgroundColor: Color,

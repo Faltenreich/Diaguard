@@ -34,6 +34,7 @@ fun DrawScope.TimelineChartLabels(
             width = iconRectangle.width - config.padding,
             height = iconRectangle.height - config.padding,
         ),
+        textStyle = config.textStyle,
         textMeasurer = textMeasurer,
     )
 

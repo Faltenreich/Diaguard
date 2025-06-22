@@ -46,6 +46,7 @@ fun DrawScope.TimelineTable(
                 category = category.category,
                 topLeft = property.rectangle.topLeft,
                 size = Size(width = iconSize, height = iconSize),
+                textStyle = config.textStyle,
                 textMeasurer = textMeasurer,
             )
 

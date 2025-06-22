@@ -6,7 +6,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.text.TextMeasurer
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.center
 import androidx.compose.ui.unit.toSize
@@ -55,8 +54,7 @@ fun DrawScope.TimelineTime(
         )
 
         val text = hour.hour.toString()
-        val textStyle = TextStyle(fontSize = config.fontSize, color = config.fontPaint.color)
-        val textSize = textMeasurer.measure(text, style = textStyle)
+        val textSize = textMeasurer.measure(text, config.textStyle)
         drawText(
             textMeasurer = textMeasurer,
             text = text,
@@ -65,7 +63,7 @@ fun DrawScope.TimelineTime(
                 y = dimensions.time.center.y - textSize.size.center.y,
             ),
             size = textSize.size.toSize(),
-            style = textStyle,
+            style = config.textStyle,
         )
     }
 }

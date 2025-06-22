@@ -23,6 +23,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
@@ -72,6 +73,7 @@ fun TimelineCanvas(
     val config by remember {
         val config = TimelineConfig(
             padding = density.run { dimensions.padding.P_2.toPx() },
+            textStyle = TextStyle(fontSize = fontSize, color = colorScheme.onBackground),
             fontPaint = Paint().apply { color = colorScheme.onBackground },
             fontSize = fontSize,
             fontSizePx = density.run { fontSize.toPx() },

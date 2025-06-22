@@ -13,15 +13,15 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.center
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.shared.theme.color.asColor
-import com.faltenreich.diaguard.shared.view.drawText
 
 @Composable
 fun MeasurementCategoryIcon(
@@ -52,11 +52,12 @@ fun DrawScope.MeasurementCategoryIcon(
     category: MeasurementCategory,
     topLeft: Offset,
     size: Size,
+    textStyle: TextStyle,
     textMeasurer: TextMeasurer,
 ) {
     val char = category.name.firstOrNull()?.uppercaseChar() ?: '?'
     val text = category.icon ?: char.toString()
-    val textSize = textMeasurer.measure(text)
+    val textSize = textMeasurer.measure(text, textStyle)
     val padding = 0f
 
     val hasIcon = category.icon != null
@@ -77,12 +78,12 @@ fun DrawScope.MeasurementCategoryIcon(
     }
 
     drawText(
+        textMeasurer = textMeasurer,
         text = text,
-        bottomLeft = Offset(
+        topLeft = Offset(
             x = topLeft.x + size.center.x - textSize.size.center.x,
-            y = topLeft.y + size.center.y + textSize.size.center.y,
+            y = topLeft.y + size.center.y - textSize.size.center.y,
         ),
-        size = textSize.size.height.toFloat() - padding / 2,
-        paint = Paint().apply { color = Color.White },
+        style = textStyle,
     )
 }

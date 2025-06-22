@@ -49,6 +49,7 @@ class TimelineViewModel(
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
     private val propertiesForTable = getPropertiesForTable()
+    private val decimalPlaces = getPreferenceUseCase(DecimalPlacesPreference)
 
     private val positions = MutableStateFlow<TimelineCanvasDimensions.Positioned?>(null)
     private val scrollOffset = MutableStateFlow(0f)
@@ -67,6 +68,7 @@ class TimelineViewModel(
     private val chart = combine(
         currentDate.flatMapLatest(getValuesForChart::invoke),
         getPropertyForChart(),
+        decimalPlaces,
         time,
         dimensions,
         getChart::invoke,
@@ -75,7 +77,7 @@ class TimelineViewModel(
     private val table = combine(
         currentDate.flatMapLatest(getValuesForTable::invoke),
         propertiesForTable,
-        getPreferenceUseCase(DecimalPlacesPreference),
+        decimalPlaces,
         time,
         dimensions,
         getTable::invoke,

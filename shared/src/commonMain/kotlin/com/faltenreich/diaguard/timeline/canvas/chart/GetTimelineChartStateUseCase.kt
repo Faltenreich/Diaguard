@@ -6,15 +6,17 @@ import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.canvas.time.TimelineTimeState
 import kotlin.math.max
 
-class GetTimelineChartStateUseCase {
+class GetTimelineChartStateUseCase(private val mapValue: MeasurementValueMapper) {
 
     operator fun invoke(
         values: List<MeasurementValue.Local>,
         property: MeasurementProperty.Local,
+        decimalPlaces: Int,
         time: TimelineTimeState?,
         dimensions: TimelineCanvasDimensions.Calculated?,
     ): TimelineChartState? {
@@ -71,8 +73,11 @@ class GetTimelineChartStateUseCase {
                         x = rectangle.left,
                         y = y,
                     ),
-                    // TODO: Map to MeasurementValueForUser
-                    text = value.toString(),
+                    text = mapValue(
+                        value = value.toDouble(),
+                        property = property,
+                        decimalPlaces = decimalPlaces,
+                    ).value,
                 )
             }
 

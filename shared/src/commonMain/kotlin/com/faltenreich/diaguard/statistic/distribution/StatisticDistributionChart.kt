@@ -10,16 +10,15 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.center
+import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
-import com.faltenreich.diaguard.shared.view.drawText
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -34,7 +33,7 @@ fun StatisticDistributionChart(
 ) {
     val textMeasurer = rememberTextMeasurer()
     val fontSize = AppTheme.typography.bodyMedium.fontSize
-    val fontPaint = Paint().apply { color = colorScheme.onSurface }
+    val fontColor = colorScheme.onSurface
     val colorByTint = MeasurementValueTint.entries.associateWith { it.getColor() }
 
     Canvas(modifier = modifier.fillMaxSize()) {
@@ -51,8 +50,8 @@ fun StatisticDistributionChart(
                 sweepAngle = sweepAngle,
                 color = colorByTint[part.tint] ?: Color.Transparent,
                 text = part.label,
-                textSize = fontSize,
-                textPaint = fontPaint,
+                fontSize = fontSize,
+                fontColor = fontColor,
                 textMeasurer = textMeasurer,
             )
             startAngle += sweepAngle
@@ -66,8 +65,8 @@ private fun DrawScope.drawValue(
     sweepAngle: Float,
     color: Color,
     text: String,
-    textSize: TextUnit,
-    textPaint: Paint,
+    fontSize: TextUnit,
+    fontColor: Color,
     textMeasurer: TextMeasurer,
 ) {
     val radius = rectangle.size.center.x
@@ -82,19 +81,22 @@ private fun DrawScope.drawValue(
     )
 
     val textAngle = (startAngle + sweepAngle / 2) * (PI.toFloat() / (ANGLE_CIRCULAR / 2))
-    val textCenter = textMeasurer.measure(text, style = TextStyle(fontSize = textSize)).size.center
+    val textStyle = TextStyle(fontSize = fontSize, color = fontColor)
+    val textSize = textMeasurer.measure(text, textStyle).size.toSize()
+    val textCenter = textSize.center
     val textOffset = if (sweepAngle == ANGLE_CIRCULAR) Offset(
         x = rectangle.center.x - textCenter.x,
-        y = rectangle.center.y + textCenter.y,
+        y = rectangle.center.y - textCenter.y,
     ) else Offset(
         x = rectangle.center.x + (radius * LABEL_DISTANCE * cos(textAngle)) - textCenter.x,
-        y = rectangle.center.y + (radius * LABEL_DISTANCE * sin(textAngle)) + textCenter.y,
+        y = rectangle.center.y + (radius * LABEL_DISTANCE * sin(textAngle)) - textCenter.y,
     )
 
     drawText(
+        textMeasurer = textMeasurer,
         text = text,
-        bottomLeft = textOffset,
-        size = textSize.toPx(),
-        paint = textPaint,
+        topLeft = textOffset,
+        style = textStyle,
+        size = textSize,
     )
 }

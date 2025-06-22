@@ -55,9 +55,9 @@ fun DrawScope.TimelineTable(
                     text = property.name,
                     bottomLeft = Offset(
                         x = property.rectangle.left + iconSize,
-                        y = property.rectangle.center.y + config.fontSize / 2,
+                        y = property.rectangle.center.y + config.fontSizePx / 2,
                     ),
-                    size = config.fontSize,
+                    size = config.fontSizePx,
                     paint = config.fontPaint,
                 )
             }
@@ -73,7 +73,7 @@ fun DrawScope.TimelineTable(
                         x = valueX,
                         y = valueY,
                     ),
-                    size = config.fontSize,
+                    size = config.fontSizePx,
                     paint = config.fontPaint,
                 )
             }

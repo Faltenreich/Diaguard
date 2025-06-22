@@ -5,11 +5,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.unit.TextUnit
 
 data class TimelineConfig(
     val padding: Float,
     val fontPaint: Paint,
-    val fontSize: Float,
+    val fontSize: TextUnit,
+    val fontSizePx: Float,
 
     val backgroundColor: Color,
     val cornerRadius: CornerRadius = CornerRadius(x = 20f, y = 20f),

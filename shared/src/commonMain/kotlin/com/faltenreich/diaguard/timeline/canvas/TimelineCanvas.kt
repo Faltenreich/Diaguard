@@ -52,6 +52,7 @@ fun TimelineCanvas(
     val colorScheme = colors.scheme
     val dimensions = LocalDimensions.current
     val typography = AppTheme.typography
+    val fontSize = typography.bodyMedium.fontSize
     val textMeasurer = rememberTextMeasurer()
     val scrollOffset = rememberAnimatable()
     val tableRowHeight = density.run {
@@ -72,7 +73,8 @@ fun TimelineCanvas(
         val config = TimelineConfig(
             padding = density.run { dimensions.padding.P_2.toPx() },
             fontPaint = Paint().apply { color = colorScheme.onBackground },
-            fontSize = density.run { typography.bodyMedium.fontSize.toPx() },
+            fontSize = fontSize,
+            fontSizePx = density.run { fontSize.toPx() },
             backgroundColor = colorScheme.background,
             gridStrokeColor = colorScheme.onSurface,
             gridShadowColor = colorScheme.surfaceContainerLowest,

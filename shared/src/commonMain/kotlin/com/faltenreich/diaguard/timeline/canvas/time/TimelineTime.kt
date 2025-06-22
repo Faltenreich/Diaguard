@@ -6,8 +6,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.center
-import com.faltenreich.diaguard.shared.view.drawText
+import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")
@@ -53,15 +55,17 @@ fun DrawScope.TimelineTime(
         )
 
         val text = hour.hour.toString()
-        val textSize = textMeasurer.measure(text)
+        val textStyle = TextStyle(fontSize = config.fontSize, color = config.fontPaint.color)
+        val textSize = textMeasurer.measure(text, style = textStyle)
         drawText(
+            textMeasurer = textMeasurer,
             text = text,
-            bottomLeft = Offset(
+            topLeft = Offset(
                 x = hour.x - textSize.size.center.x,
-                y = dimensions.time.bottom - textSize.size.center.y,
+                y = dimensions.time.center.y - textSize.size.center.y,
             ),
-            size = config.fontSize,
-            paint = config.fontPaint,
+            size = textSize.size.toSize(),
+            style = textStyle,
         )
     }
 }

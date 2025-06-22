@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.nativeCanvas
 
+@Deprecated("Replace with androidx.compose.ui.text.TextPainter.drawText which fixes offset")
 actual fun DrawScope.drawText(
     text: String,
     bottomLeft: Offset,

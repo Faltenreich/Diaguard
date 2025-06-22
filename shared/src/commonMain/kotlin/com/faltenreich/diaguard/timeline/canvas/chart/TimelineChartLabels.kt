@@ -65,12 +65,12 @@ fun DrawScope.TimelineChartLabels(
             drawRoundRect(
                 color = config.backgroundColor,
                 topLeft = Offset(
-                    x = chartRectangle.left + config.padding - config.padding / 2,
-                    y = y - textSize.center.y - config.padding / 2,
+                    x = chartRectangle.left + config.padding,
+                    y = y - textSize.center.y,
                 ),
                 size = Size(
-                    width = textSize.width + config.padding,
-                    height = textSize.height + config.padding,
+                    width = textSize.width,
+                    height = textSize.height,
                 ),
                 cornerRadius = config.cornerRadius,
             )

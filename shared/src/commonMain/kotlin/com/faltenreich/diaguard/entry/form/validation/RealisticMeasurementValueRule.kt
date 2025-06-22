@@ -16,10 +16,7 @@ class RealisticMeasurementValueRule(
 
     override fun check(input: MeasurementPropertyInputState): ValidationResult<MeasurementPropertyInputState> {
         val property = input.property
-        val value = mapValue(
-            value = input.input,
-            property = property,
-        )
+        val value = mapValue(input.input, property)
         val (minimumValue, maximumValue) = input.property.range.minimum to input.property.range.maximum
         return when (value) {
             null -> ValidationResult.Success(input)

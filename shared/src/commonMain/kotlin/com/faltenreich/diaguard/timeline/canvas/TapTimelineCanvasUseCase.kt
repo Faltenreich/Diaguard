@@ -44,13 +44,20 @@ class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListIt
                 .maxByOrNull { (_, intersection) -> intersection }
                 ?.first
 
-
             when (property) {
                 null -> {
                     val values = properties.flatMap { it.values }
-                    when (val item = values.firstOrNull { touchArea.overlaps(it.rectangle) }) {
+                    val value = values
+                        .mapNotNull { value ->
+                            val intersection = touchArea.intersectComparable(value.rectangle)
+                                ?: return@mapNotNull null
+                            value to intersection
+                        }
+                        .maxByOrNull { (_, intersection) -> intersection }
+                        ?.first
+                    when (value) {
                         null -> TapTimelineCanvasResult.None
-                        else -> TapTimelineCanvasResult.Table(item.values.map { it.toEntryListItemState() })
+                        else -> TapTimelineCanvasResult.Table(value.values.map { it.toEntryListItemState() })
                     }
                 }
                 else -> TapTimelineCanvasResult.Icon(property.property)

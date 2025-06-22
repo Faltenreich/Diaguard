@@ -7,6 +7,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.unit.center
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.drawText
 import com.faltenreich.diaguard.timeline.TimelineConfig
@@ -66,9 +67,9 @@ fun DrawScope.TimelineChartLabels(
             val rect = RoundRect(
                 rect = Rect(
                     left = chartRectangle.left + config.padding - config.padding / 2,
-                    top = y - textSize.size.height - config.padding / 2,
+                    top = y - textSize.size.center.y - config.padding / 2,
                     right = chartRectangle.left + config.padding + textSize.size.width + config.padding,
-                    bottom = y - config.padding / 2,
+                    bottom = y + textSize.size.center.y + config.padding / 2,
                 ),
                 cornerRadius = config.cornerRadius,
             )
@@ -83,7 +84,7 @@ fun DrawScope.TimelineChartLabels(
                 text = text,
                 bottomLeft = Offset(
                     x = chartRectangle.left + config.padding,
-                    y = y - config.padding,
+                    y = y + textSize.size.center.y,
                 ),
                 size = config.fontSize,
                 paint = config.fontPaint,

@@ -71,7 +71,7 @@ fun TimelineCanvas(
     val indication = ripple(
         // FIXME: Position does not translate to ripple
         bounded = true,
-        radius = touchArea,
+        radius = touchArea / 2,
     )
 
     LaunchedEffect(Unit) {
@@ -108,7 +108,6 @@ fun TimelineCanvas(
 
     Canvas(
         modifier = modifier
-            .indication(interactionSource, indication)
             .fillMaxSize()
             .onGloballyPositioned { coordinates ->
                 viewModel.dispatchIntent(
@@ -119,6 +118,7 @@ fun TimelineCanvas(
                     )
                 )
             }
+            .indication(interactionSource, indication)
             .pointerInput(Unit) {
                 var press by mutableStateOf<PressInteraction.Press?>(null)
                 detectTapGestures(

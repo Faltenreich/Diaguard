@@ -125,14 +125,12 @@ fun TimelineCanvas(
                     onTap = { position ->
                         viewModel.dispatchIntent(TimelineIntent.TapCanvas(position, touchAreaSize))
                         // TODO: Move to "onRelease", e.g. via awaitEachGesture
-                        scope.launch { press?.let { interactionSource.emit(PressInteraction.Release(it)) } }
+                        press?.let { interactionSource.tryEmit(PressInteraction.Release(it)) }
                     },
                     onPress = { position ->
-                        scope.launch {
-                            val interaction = PressInteraction.Press(position)
-                            press = interaction
-                            interactionSource.emit(interaction)
-                        }
+                        val interaction = PressInteraction.Press(position)
+                        press = interaction
+                        interactionSource.tryEmit(interaction)
                     }
                 )
             }

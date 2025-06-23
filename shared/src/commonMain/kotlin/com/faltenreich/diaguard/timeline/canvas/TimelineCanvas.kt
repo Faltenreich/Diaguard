@@ -64,12 +64,14 @@ fun TimelineCanvas(
         typography.bodyMedium.fontSize.toPx() + dimensions.padding.P_2.toPx() * 2
     }
     val statusBarHeight = WindowInsets.statusBars.getTop(density)
-    val touchAreaSize = density.run { dimensions.size.TouchSizeSmall.toPx().let { Size(it, it) } }
+    val touchArea = dimensions.size.TouchSizeSmall
+    val touchAreaSize = density.run { touchArea.toPx().let { Size(it, it) } }
 
     val interactionSource = remember { MutableInteractionSource() }
     val indication = ripple(
-        // TODO: Determine ripple radius
-        radius = AppTheme.dimensions.size.TouchSizeLarge,
+        // FIXME: Position does not translate to ripple
+        bounded = true,
+        radius = touchArea,
     )
 
     LaunchedEffect(Unit) {
@@ -127,7 +129,6 @@ fun TimelineCanvas(
                     },
                     onPress = { position ->
                         scope.launch {
-                            // FIXME: Position does not translate to ripple
                             val interaction = PressInteraction.Press(position)
                             press = interaction
                             interactionSource.emit(interaction)

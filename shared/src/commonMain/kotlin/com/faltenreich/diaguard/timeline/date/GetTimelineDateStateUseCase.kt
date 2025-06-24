@@ -11,7 +11,7 @@ class GetTimelineDateStateUseCase(
     operator fun invoke(
         initialDate: Date,
         currentDate: Date,
-        pickerDialog: TimelineDateState.PickerDialog?,
+        datePickerDialog: TimelineDateState.DatePickerDialog?,
     ): TimelineDateState {
         return TimelineDateState(
             initialDate = initialDate,
@@ -20,7 +20,7 @@ class GetTimelineDateStateUseCase(
                 dateTimeFormatter.formatDayOfWeek(currentDate, abbreviated = false),
                 dateTimeFormatter.formatDate(currentDate),
             ),
-            pickerDialog = pickerDialog,
+            datePickerDialog = datePickerDialog,
         )
     }
 }

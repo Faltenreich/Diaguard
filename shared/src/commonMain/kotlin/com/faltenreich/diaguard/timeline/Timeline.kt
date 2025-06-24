@@ -50,12 +50,12 @@ fun Timeline(
         )
     }
 
-    state.date.pickerDialog?.let { dateDialog ->
+    state.date.datePickerDialog?.let { datePickerDialog ->
         DatePickerDialog(
-            date = dateDialog.date,
-            onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.DismissDatePicker) },
+            date = datePickerDialog.date,
+            onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.CloseDatePickerDialog) },
             onConfirmRequest = { date ->
-                viewModel.dispatchIntent(TimelineIntent.DismissDatePicker)
+                viewModel.dispatchIntent(TimelineIntent.CloseDatePickerDialog)
                 viewModel.dispatchIntent(TimelineIntent.SelectDate(date))
             },
         )

@@ -33,9 +33,9 @@ sealed interface TimelineIntent {
 
     data object SelectToday : TimelineIntent
 
-    data object OpenDatePicker : TimelineIntent
+    data object OpenDatePickerDialog : TimelineIntent
 
-    data object DismissDatePicker : TimelineIntent
+    data object CloseDatePickerDialog : TimelineIntent
 
     data object CreateEntry : TimelineIntent
 

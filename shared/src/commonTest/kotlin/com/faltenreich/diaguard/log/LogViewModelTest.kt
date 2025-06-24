@@ -65,9 +65,9 @@ class LogViewModelTest : TestSuite {
 
     @Test
     fun `open modal when selecting date`() = runTest {
-        viewModel.handleIntent(LogIntent.OpenDateDialog)
+        viewModel.handleIntent(LogIntent.OpenDatePickerDialog)
         viewModel.state.test {
-            assertNotNull(awaitItem().dateDialog)
+            assertNotNull(awaitItem().datePickerDialog)
         }
     }
 }

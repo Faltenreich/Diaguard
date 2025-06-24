@@ -36,7 +36,7 @@ data object LogScreen : Screen {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date_picker),
                     contentDescription = Res.string.date_picker_open,
-                    onClick = { viewModel.dispatchIntent(LogIntent.OpenDateDialog) },
+                    onClick = { viewModel.dispatchIntent(LogIntent.OpenDatePickerDialog) },
                 )
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date_today),

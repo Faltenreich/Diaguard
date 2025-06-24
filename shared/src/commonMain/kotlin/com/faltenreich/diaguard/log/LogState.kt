@@ -8,8 +8,8 @@ data class LogState(
     val monthHeaderSize: IntSize,
     val dayHeaderSize: IntSize,
     val dayStickyInfo: LogDayStickyInfo,
-    val dateDialog: DateDialog?,
+    val datePickerDialog: DatePickerDialog?,
 ) {
 
-    data class DateDialog(val date: Date)
+    data class DatePickerDialog(val date: Date)
 }

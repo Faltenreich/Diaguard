@@ -38,13 +38,13 @@ class LogViewModel(
     private val monthHeaderSize = MutableStateFlow(IntSize.Zero)
     private val dayHeaderSize = MutableStateFlow(IntSize.Zero)
     private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo())
-    private val dateDialog = MutableStateFlow<LogState.DateDialog?>(null)
+    private val datePickerDialog = MutableStateFlow<LogState.DatePickerDialog?>(null)
 
     override val state: Flow<LogState> = combine(
         monthHeaderSize,
         dayHeaderSize,
         dayStickyInfo,
-        dateDialog,
+        datePickerDialog,
         ::LogState,
     )
 
@@ -66,8 +66,9 @@ class LogViewModel(
                 is LogIntent.CreateEntry -> pushScreen(EntryFormScreen(date = date))
                 is LogIntent.OpenEntry -> pushScreen(EntryFormScreen(entry = entry))
                 is LogIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
-                is LogIntent.OpenDateDialog -> dateDialog.update { LogState.DateDialog(currentDate.value) }
-                is LogIntent.CloseDateDialog -> dateDialog.update { null }
+                is LogIntent.OpenDatePickerDialog ->
+                    datePickerDialog.update { LogState.DatePickerDialog(currentDate.value) }
+                is LogIntent.CloseDatePickerDialog -> datePickerDialog.update { null }
                 is LogIntent.SetDate -> setDate(date)
                 is LogIntent.SetToday -> setDate(initialDate)
             }

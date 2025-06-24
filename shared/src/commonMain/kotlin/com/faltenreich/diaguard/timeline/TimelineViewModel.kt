@@ -65,7 +65,7 @@ class TimelineViewModel(
 
     private val initialDate = getToday()
     private val currentDate = MutableStateFlow(initialDate)
-    private val datePickerDialog = MutableStateFlow<TimelineDateState.PickerDialog?>(null)
+    private val datePickerDialog = MutableStateFlow<TimelineDateState.DatePickerDialog?>(null)
     private val date = combine(flowOf(initialDate), currentDate, datePickerDialog, getDate::invoke)
     private val time = combine(date, dimensions, getTime::invoke)
 
@@ -121,9 +121,9 @@ class TimelineViewModel(
             is TimelineIntent.SelectPreviousDate -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
             is TimelineIntent.SelectNextDate -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
             is TimelineIntent.SelectToday -> selectDate(initialDate)
-            is TimelineIntent.OpenDatePicker ->
-                datePickerDialog.update { TimelineDateState.PickerDialog(currentDate.value) }
-            is TimelineIntent.DismissDatePicker -> datePickerDialog.update { null }
+            is TimelineIntent.OpenDatePickerDialog ->
+                datePickerDialog.update { TimelineDateState.DatePickerDialog(currentDate.value) }
+            is TimelineIntent.CloseDatePickerDialog -> datePickerDialog.update { null }
             is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
             is TimelineIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
             is TimelineIntent.OpenEntryListBottomSheet ->

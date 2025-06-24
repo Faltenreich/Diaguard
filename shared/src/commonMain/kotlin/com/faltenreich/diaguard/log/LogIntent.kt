@@ -20,9 +20,9 @@ sealed interface LogIntent {
 
     data class OpenEntrySearch(val query: String = "") : LogIntent
 
-    data object OpenDateDialog : LogIntent
+    data object OpenDatePickerDialog : LogIntent
 
-    data object CloseDateDialog : LogIntent
+    data object CloseDatePickerDialog : LogIntent
 
     data class SetDate(val date: Date) : LogIntent
 

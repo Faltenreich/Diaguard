@@ -36,7 +36,7 @@ data object TimelineScreen : Screen {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date_picker),
                     contentDescription = Res.string.date_picker_open,
-                    onClick = { viewModel.dispatchIntent(TimelineIntent.OpenDatePicker) },
+                    onClick = { viewModel.dispatchIntent(TimelineIntent.OpenDatePickerDialog) },
                 )
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date_today),

@@ -70,7 +70,6 @@ class LogViewModel(
                     datePickerDialog.update { LogState.DatePickerDialog(currentDate.value) }
                 is LogIntent.CloseDatePickerDialog -> datePickerDialog.update { null }
                 is LogIntent.SetDate -> setDate(date)
-                is LogIntent.SetToday -> setDate(initialDate)
             }
         }
     }

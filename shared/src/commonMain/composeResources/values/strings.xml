@@ -240,7 +240,6 @@
     <string name="timeline">Timeline</string>
     <string name="time_select">Select time</string>
     <string name="today">Today</string>
-    <string name="today_select">Jump to today</string>
     <string name="trend">Trend</string>
     <string name="date_time_ago_moments">Moments ago</string>
     <string name="date_time_ago_minutes">%1$d minutes ago</string>

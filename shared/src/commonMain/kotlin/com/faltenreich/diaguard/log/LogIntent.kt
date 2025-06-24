@@ -25,6 +25,4 @@ sealed interface LogIntent {
     data object CloseDatePickerDialog : LogIntent
 
     data class SetDate(val date: Date) : LogIntent
-
-    data object SetToday : LogIntent
 }

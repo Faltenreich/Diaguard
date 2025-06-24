@@ -120,7 +120,6 @@ class TimelineViewModel(
             is TimelineIntent.SelectDate -> selectDate(intent.date)
             is TimelineIntent.SelectPreviousDate -> selectDate(currentDate.value.minus(1, DateUnit.DAY))
             is TimelineIntent.SelectNextDate -> selectDate(currentDate.value.plus(1, DateUnit.DAY))
-            is TimelineIntent.SelectToday -> selectDate(initialDate)
             is TimelineIntent.OpenDatePickerDialog ->
                 datePickerDialog.update { TimelineDateState.DatePickerDialog(currentDate.value) }
             is TimelineIntent.CloseDatePickerDialog -> datePickerDialog.update { null }

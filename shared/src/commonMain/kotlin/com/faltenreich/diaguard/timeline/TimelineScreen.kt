@@ -12,11 +12,9 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_picker_open
 import diaguard.shared.generated.resources.entry_new_description
 import diaguard.shared.generated.resources.ic_add
-import diaguard.shared.generated.resources.ic_date_picker
-import diaguard.shared.generated.resources.ic_date_today
+import diaguard.shared.generated.resources.ic_date
 import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
-import diaguard.shared.generated.resources.today_select
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 
@@ -34,14 +32,9 @@ data object TimelineScreen : Screen {
                     onClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntrySearch()) },
                 )
                 BottomAppBarItem(
-                    painter = painterResource(Res.drawable.ic_date_picker),
+                    painter = painterResource(Res.drawable.ic_date),
                     contentDescription = Res.string.date_picker_open,
                     onClick = { viewModel.dispatchIntent(TimelineIntent.OpenDatePickerDialog) },
-                )
-                BottomAppBarItem(
-                    painter = painterResource(Res.drawable.ic_date_today),
-                    contentDescription = Res.string.today_select,
-                    onClick = { viewModel.dispatchIntent(TimelineIntent.SelectToday) },
                 )
             },
             floatingActionButton = {

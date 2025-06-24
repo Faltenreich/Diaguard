@@ -11,8 +11,11 @@ import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
@@ -21,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
@@ -29,6 +33,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.theme.LocalDimensions
@@ -69,10 +75,11 @@ fun TimelineCanvas(
 
     val interactionSource = remember { MutableInteractionSource() }
     val indication = ripple(
-        // FIXME: Position does not translate to ripple
-        bounded = true,
+        bounded = false,
         radius = touchArea / 2,
     )
+    // ripple does not support positioning, so we place the indication by ourselves
+    var indicationPosition by remember { mutableStateOf(IntOffset.Zero) }
 
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
@@ -106,69 +113,77 @@ fun TimelineCanvas(
         )
     }
 
-    Canvas(
-        modifier = modifier
-            .fillMaxSize()
-            .onGloballyPositioned { coordinates ->
-                viewModel.dispatchIntent(
-                    TimelineIntent.Setup(
-                        canvasSize = coordinates.size.toSize(),
-                        tableRowHeight = tableRowHeight,
-                        statusBarHeight = statusBarHeight,
+    Box(modifier = modifier.fillMaxSize()) {
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+                .onGloballyPositioned { coordinates ->
+                    viewModel.dispatchIntent(
+                        TimelineIntent.Setup(
+                            canvasSize = coordinates.size.toSize(),
+                            tableRowHeight = tableRowHeight,
+                            statusBarHeight = statusBarHeight,
+                        )
                     )
-                )
-            }
-            .indication(interactionSource, indication)
-            .pointerInput(Unit) {
-                while (true) {
-                    awaitPointerEventScope {
-                        val down = awaitFirstDown()
+                }
+                .pointerInput(Unit) {
+                    while (true) {
+                        awaitPointerEventScope {
+                            val down = awaitFirstDown()
 
-                        val interaction = PressInteraction.Press(down.position)
-                        interactionSource.tryEmit(interaction)
+                            val interaction = PressInteraction.Press(down.position)
+                            indicationPosition = down.position.let { IntOffset(it.x.toInt(), it.y.toInt()) }
+                            interactionSource.tryEmit(interaction)
 
-                        waitForUpOrCancellation()?.let { up ->
-                            viewModel.dispatchIntent(TimelineIntent.TapCanvas(up.position, touchAreaSize))
+                            waitForUpOrCancellation()?.let { up ->
+                                viewModel.dispatchIntent(TimelineIntent.TapCanvas(up.position, touchAreaSize))
+                            }
+
+                            interactionSource.tryEmit(PressInteraction.Release(interaction))
                         }
-
-                        interactionSource.tryEmit(PressInteraction.Release(interaction))
                     }
                 }
+                .pointerInput(Unit) {
+                    val decay = splineBasedDecay<Float>(this)
+                    val animationSpec = FloatSpringSpec(
+                        dampingRatio = Spring.DampingRatioNoBouncy,
+                        stiffness = Spring.StiffnessVeryLow,
+                    )
+                    val velocityTracker = VelocityTracker()
+                    detectDragGestures(
+                        onDrag = { change, dragAmount ->
+                            scope.launch {
+                                scrollOffset.snapTo(scrollOffset.value + dragAmount.x)
+                                velocityTracker.addPosition(change.uptimeMillis, change.position)
+                                change.consume()
+                            }
+                        },
+                        onDragEnd = {
+                            scope.launch {
+                                val velocity = velocityTracker.calculateVelocity()
+                                val targetValueX = decay.calculateTargetValue(scrollOffset.value, velocity.x)
+                                scrollOffset.animateTo(
+                                    targetValue = targetValueX,
+                                    initialVelocity = velocity.x,
+                                    animationSpec = animationSpec,
+                                )
+                                velocityTracker.resetTracking()
+                            }
+                        },
+                    )
+                },
+        ) {
+            state.canvas?.run {
+                TimelineTime(time, config, textMeasurer)
+                TimelineChart(chart, config, textMeasurer)
+                TimelineTable(table, config, textMeasurer)
             }
-            .pointerInput(Unit) {
-                val decay = splineBasedDecay<Float>(this)
-                val animationSpec = FloatSpringSpec(
-                    dampingRatio = Spring.DampingRatioNoBouncy,
-                    stiffness = Spring.StiffnessVeryLow,
-                )
-                val velocityTracker = VelocityTracker()
-                detectDragGestures(
-                    onDrag = { change, dragAmount ->
-                        scope.launch {
-                            scrollOffset.snapTo(scrollOffset.value + dragAmount.x)
-                            velocityTracker.addPosition(change.uptimeMillis, change.position)
-                            change.consume()
-                        }
-                    },
-                    onDragEnd = {
-                        scope.launch {
-                            val velocity = velocityTracker.calculateVelocity()
-                            val targetValueX = decay.calculateTargetValue(scrollOffset.value, velocity.x)
-                            scrollOffset.animateTo(
-                                targetValue = targetValueX,
-                                initialVelocity = velocity.x,
-                                animationSpec = animationSpec,
-                            )
-                            velocityTracker.resetTracking()
-                        }
-                    },
-                )
-            },
-    ) {
-        state.canvas?.run {
-            TimelineTime(time, config, textMeasurer)
-            TimelineChart(chart, config, textMeasurer)
-            TimelineTable(table, config, textMeasurer)
         }
+        Box(
+            modifier = Modifier
+                .size(1.dp)
+                .offset { indicationPosition }
+                .indication(interactionSource, indication),
+        )
     }
 }

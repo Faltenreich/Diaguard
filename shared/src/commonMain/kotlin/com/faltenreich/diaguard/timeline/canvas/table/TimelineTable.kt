@@ -18,7 +18,7 @@ fun DrawScope.TimelineTable(
     textMeasurer: TextMeasurer,
 ) = with(state) {
     categories.forEach { category ->
-        category.properties.forEach { property ->
+        category.properties.forEachIndexed { propertyIndex, property ->
             // Divider
             drawLine(
                 color = config.gridStrokeColor,
@@ -27,6 +27,7 @@ fun DrawScope.TimelineTable(
                 strokeWidth = config.gridStrokeWidth,
             )
 
+            val showIcon = propertyIndex == 0
             val showLabel = category.properties.size > 1
             val labelSize = textMeasurer.measure(property.name, config.textStyle).size.toSize()
 
@@ -43,13 +44,15 @@ fun DrawScope.TimelineTable(
                 ),
             )
 
-            MeasurementCategoryIcon(
-                textMeasurer = textMeasurer,
-                category = category.category,
-                topLeft = property.iconRectangle.topLeft,
-                size = property.iconRectangle.size,
-                textStyle = config.textStyle,
-            )
+            if (showIcon) {
+                MeasurementCategoryIcon(
+                    textMeasurer = textMeasurer,
+                    category = category.category,
+                    topLeft = property.iconRectangle.topLeft,
+                    size = property.iconRectangle.size,
+                    textStyle = config.textStyle,
+                )
+            }
 
             // Label
             if (showLabel) {

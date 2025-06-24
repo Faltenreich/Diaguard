@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.canvas.time.TimelineTimeState
+import kotlin.math.ceil
 import kotlin.math.max
 
 class GetTimelineChartStateUseCase(private val mapValue: MeasurementValueMapper) {
@@ -70,7 +71,7 @@ class GetTimelineChartStateUseCase(private val mapValue: MeasurementValueMapper)
                 max(Y_AXIS_MAX_MIN, max(valueMaxValueVisible, valueNearestValueInvisible))
             }
         val valueStep = Y_AXIS_VALUE_STEP
-        val valueMaxPadded = valueMax + valueStep
+        val valueMaxPadded = ceil((valueMax + valueStep) / valueStep) * valueStep
         val valueAxis = valueMin.toInt() .. valueMaxPadded.toInt() step valueStep.toInt()
 
         val heightPerSection = (rectangle.size.height / (valueAxis.last() / valueStep)).toInt()
@@ -135,7 +136,7 @@ class GetTimelineChartStateUseCase(private val mapValue: MeasurementValueMapper)
     companion object {
 
         private const val Y_AXIS_MIN = 0.0
-        private const val Y_AXIS_MAX_MIN = 200.0
+        private const val Y_AXIS_MAX_MIN = 150.0
         private const val Y_AXIS_VALUE_STEP = 50.0
     }
 }

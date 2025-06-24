@@ -47,7 +47,6 @@ fun DrawScope.TimelineChartLabels(
             strokeWidth = config.gridStrokeWidth,
         )
 
-        // TODO: Map to MeasurementValueForUser
         val text = label.text
         val textSize = textMeasurer.measure(text, config.textStyle).size.toSize()
 

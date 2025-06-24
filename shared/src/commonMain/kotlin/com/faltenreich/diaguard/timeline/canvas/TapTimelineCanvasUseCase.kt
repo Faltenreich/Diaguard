@@ -21,7 +21,6 @@ class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListIt
             ),
             size = touchAreaSize,
         )
-        // TODO: Reduce computations by merging interactive rectangles before traversal
         return if (canvas.chart.chartRectangle.contains(position)) {
             if (touchArea.overlaps(canvas.chart.iconRectangle)) {
                 TapTimelineCanvasResult.Icon(canvas.chart.property)

@@ -17,7 +17,6 @@ class GetTimelineTimeStateUseCase {
 
         val xMin = 0
         val xMax = DateTimeConstants.HOURS_PER_DAY
-        // TODO: Adjust step according to available screen estate
         val xStep = STEP
         val xRange = xMin .. xMax
         val xAxis = xRange step xStep

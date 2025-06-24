@@ -8,14 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.onClick
-import androidx.compose.ui.semantics.semantics
 import com.faltenreich.diaguard.AppTheme
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.date_picker_open
 import diaguard.shared.generated.resources.day_next
 import diaguard.shared.generated.resources.day_previous
 import diaguard.shared.generated.resources.ic_chevron_back
@@ -27,7 +24,6 @@ import org.jetbrains.compose.resources.stringResource
 fun TimelineDateBar(
     label: String,
     onBack: () -> Unit,
-    onPick: () -> Unit,
     onForward: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -36,6 +32,7 @@ fun TimelineDateBar(
             .background(AppTheme.colors.scheme.surfaceContainerLow)
             .fillMaxWidth()
             .padding(AppTheme.dimensions.padding.P_2),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(onClick = onBack) {
             Icon(
@@ -47,21 +44,10 @@ fun TimelineDateBar(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        val onClickLabel = stringResource(Res.string.date_picker_open)
-        TextButton(
-            onClick = onPick,
-            modifier = Modifier.semantics {
-                onClick(
-                    label = onClickLabel,
-                    action = { onPick(); true },
-                )
-            },
-        ) {
-            Text(
-                text = label,
-                color = AppTheme.colors.scheme.onSurface,
-            )
-        }
+        Text(
+            text = label,
+            color = AppTheme.colors.scheme.onSurface,
+        )
 
         Spacer(modifier = Modifier.weight(1f))
 

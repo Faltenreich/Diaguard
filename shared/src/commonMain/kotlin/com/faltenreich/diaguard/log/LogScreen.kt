@@ -9,8 +9,10 @@ import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.date_picker_open
 import diaguard.shared.generated.resources.entry_new_description
 import diaguard.shared.generated.resources.ic_add
+import diaguard.shared.generated.resources.ic_date_picker
 import diaguard.shared.generated.resources.ic_date_today
 import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
@@ -30,6 +32,11 @@ data object LogScreen : Screen {
                     painter = painterResource(Res.drawable.ic_search),
                     contentDescription = Res.string.search_open,
                     onClick = { viewModel.dispatchIntent(LogIntent.OpenEntrySearch()) },
+                )
+                BottomAppBarItem(
+                    painter = painterResource(Res.drawable.ic_date_picker),
+                    contentDescription = Res.string.date_picker_open,
+                    onClick = { viewModel.dispatchIntent(LogIntent.OpenDateDialog) },
                 )
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date_today),

@@ -6,4 +6,8 @@ data class TimelineDateState(
     val initialDate: Date,
     val currentDate: Date,
     val currentDateLocalized: String,
-)
+    val pickerDialog: PickerDialog?,
+) {
+
+    data class PickerDialog(val date: Date)
+}

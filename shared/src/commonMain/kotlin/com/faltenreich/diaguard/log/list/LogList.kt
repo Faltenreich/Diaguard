@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.log.list
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -42,11 +41,9 @@ fun LogList(
                 is LogItemState.MonthHeader -> stickyHeader(key = peek.key) {
                     LogMonth(
                         state = items[index] as LogItemState.MonthHeader,
-                        modifier = Modifier
-                            .onGloballyPositioned { coordinates ->
-                                onIntent(LogIntent.CacheMonthHeaderSize(coordinates.size))
-                            }
-                            .clickable { onIntent(LogIntent.OpenDateDialog) },
+                        modifier = Modifier.onGloballyPositioned { coordinates ->
+                            onIntent(LogIntent.CacheMonthHeaderSize(coordinates.size))
+                        },
                     )
                 }
 

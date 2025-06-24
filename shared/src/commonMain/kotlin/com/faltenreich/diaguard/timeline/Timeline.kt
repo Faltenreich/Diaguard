@@ -12,10 +12,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
@@ -29,7 +25,6 @@ fun Timeline(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
-    var showDatePicker by remember { mutableStateOf(false) }
 
     Column(modifier = modifier) {
         Box(
@@ -51,17 +46,16 @@ fun Timeline(
         TimelineDateBar(
             label = state.date.currentDateLocalized,
             onBack = { viewModel.dispatchIntent(TimelineIntent.SelectPreviousDate) },
-            onPick = { showDatePicker = true },
             onForward = { viewModel.dispatchIntent(TimelineIntent.SelectNextDate) },
         )
     }
 
-    if (showDatePicker) {
+    state.date.pickerDialog?.let { dateDialog ->
         DatePickerDialog(
-            date = state.date.currentDate,
-            onDismissRequest = { showDatePicker = false },
+            date = dateDialog.date,
+            onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.DismissDatePicker) },
             onConfirmRequest = { date ->
-                showDatePicker = false
+                viewModel.dispatchIntent(TimelineIntent.DismissDatePicker)
                 viewModel.dispatchIntent(TimelineIntent.SelectDate(date))
             },
         )

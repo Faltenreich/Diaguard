@@ -5,8 +5,9 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.calculateTargetValue
 import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -20,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
@@ -120,19 +120,20 @@ fun TimelineCanvas(
             }
             .indication(interactionSource, indication)
             .pointerInput(Unit) {
-                var press by mutableStateOf<PressInteraction.Press?>(null)
-                detectTapGestures(
-                    onTap = { position ->
-                        viewModel.dispatchIntent(TimelineIntent.TapCanvas(position, touchAreaSize))
-                        // TODO: Move to "onRelease", e.g. via awaitEachGesture
-                        press?.let { interactionSource.tryEmit(PressInteraction.Release(it)) }
-                    },
-                    onPress = { position ->
-                        val interaction = PressInteraction.Press(position)
-                        press = interaction
+                while (true) {
+                    awaitPointerEventScope {
+                        val down = awaitFirstDown()
+
+                        val interaction = PressInteraction.Press(down.position)
                         interactionSource.tryEmit(interaction)
+
+                        waitForUpOrCancellation()?.let { up ->
+                            viewModel.dispatchIntent(TimelineIntent.TapCanvas(up.position, touchAreaSize))
+                        }
+
+                        interactionSource.tryEmit(PressInteraction.Release(interaction))
                     }
-                )
+                }
             }
             .pointerInput(Unit) {
                 val decay = splineBasedDecay<Float>(this)

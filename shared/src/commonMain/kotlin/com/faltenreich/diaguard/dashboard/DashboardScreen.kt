@@ -56,6 +56,9 @@ data object DashboardScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel = viewModel<DashboardViewModel>()
-        Dashboard(viewModel = viewModel)
+        Dashboard(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

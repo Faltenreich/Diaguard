@@ -15,13 +15,15 @@ import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1c
 import com.faltenreich.diaguard.dashboard.latest.DashboardLatest
 import com.faltenreich.diaguard.dashboard.today.DashboardToday
 import com.faltenreich.diaguard.dashboard.trend.DashboardTrend
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 
 @Composable
 fun Dashboard(
-    viewModel: DashboardViewModel,
+    state: DashboardState?,
+    onIntent: (DashboardIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState()
     Column(
         modifier = modifier
             .padding(all = AppTheme.dimensions.padding.P_3)
@@ -31,8 +33,7 @@ fun Dashboard(
         DashboardLatest(
             state = state?.latest,
             onClick = { entry ->
-                val intent = entry?.let(DashboardIntent::EditEntry) ?: DashboardIntent.CreateEntry
-                viewModel.dispatchIntent(intent)
+                onIntent(entry?.let(DashboardIntent::EditEntry) ?: DashboardIntent.CreateEntry)
             },
             modifier = modifier.fillMaxWidth(),
         )
@@ -42,24 +43,36 @@ fun Dashboard(
         ) {
             DashboardToday(
                 state = state?.today,
-                onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
+                onClick = { onIntent(DashboardIntent.OpenStatistic) },
                 modifier = Modifier.weight(1f),
             )
             DashboardAverage(
                 data = state?.average,
-                onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
+                onClick = { onIntent(DashboardIntent.OpenStatistic) },
                 modifier = Modifier.weight(1f),
             )
         }
         DashboardHbA1c(
             state = state?.hbA1c,
-            onOpenEntry = { entry -> viewModel.dispatchIntent(DashboardIntent.EditEntry(entry = entry)) },
+            onOpenEntry = { entry -> onIntent(DashboardIntent.EditEntry(entry = entry)) },
             modifier = Modifier.fillMaxWidth(),
         )
         DashboardTrend(
             state = state?.trend,
-            onClick = { viewModel.dispatchIntent(DashboardIntent.OpenStatistic) },
+            onClick = { onIntent(DashboardIntent.OpenStatistic) },
             modifier = Modifier.fillMaxWidth(),
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview(
+    @PreviewParameter(DashboardState.Preview::class)
+    state: DashboardState,
+) {
+    Dashboard(
+        state = state,
+        onIntent = {},
+    )
 }

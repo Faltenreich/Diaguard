@@ -19,7 +19,7 @@ data class DashboardState(
 
         override val values = sequenceOf(
             DashboardState(
-                latest = null,
+                latest = DashboardLatestState.None,
                 today = DashboardTodayState(
                     totalCount = 0,
                     hypoCount = 0,

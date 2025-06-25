@@ -15,6 +15,8 @@ import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_first_description
 import diaguard.shared.generated.resources.placeholder
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 
 @Composable
 fun DashboardLatest(
@@ -57,4 +59,16 @@ fun DashboardLatest(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview(
+    @PreviewParameter(DashboardLatestState.Preview::class)
+    state: DashboardLatestState,
+) {
+    DashboardLatest(
+        state = state,
+        onClick = {},
+    )
 }

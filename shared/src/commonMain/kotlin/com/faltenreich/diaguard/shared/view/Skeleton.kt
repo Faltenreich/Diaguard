@@ -8,6 +8,7 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Skeleton(
@@ -31,4 +32,10 @@ fun Modifier.skeleton(show: Boolean): Modifier {
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    Skeleton()
 }

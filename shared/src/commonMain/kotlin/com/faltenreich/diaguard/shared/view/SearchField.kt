@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.view
 
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -7,6 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_arrow_back
+import diaguard.shared.generated.resources.ic_preferences
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SearchField(
@@ -35,5 +41,27 @@ fun SearchField(
             disabledIndicatorColor = Color.Transparent,
             errorIndicatorColor = Color.Transparent,
         )
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    SearchField(
+        query = "Query",
+        placeholder = "Placeholder",
+        leadingIcon = {
+            Icon(
+                painter = painterResource(Res.drawable.ic_arrow_back),
+                contentDescription = null,
+            )
+        },
+        trailingIcon = {
+            Icon(
+                painter = painterResource(Res.drawable.ic_preferences),
+                contentDescription = null,
+            )
+        },
+        onQueryChange = {},
     )
 }

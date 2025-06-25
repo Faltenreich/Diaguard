@@ -3,8 +3,10 @@
 package com.faltenreich.diaguard.shared.view
 
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.VerticalDivider
@@ -12,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import com.faltenreich.diaguard.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Divider(
@@ -60,4 +64,14 @@ fun RowScope.Divider(
         thickness = thickness,
         color = color,
     )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.size.TouchSizeSmall)) {
+        items(count = 10) {
+            Divider(orientation = Orientation.Vertical)
+        }
+    }
 }

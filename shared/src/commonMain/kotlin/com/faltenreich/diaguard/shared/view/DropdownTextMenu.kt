@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 import com.faltenreich.diaguard.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DropdownTextMenu(
@@ -34,4 +35,17 @@ fun DropdownTextMenu(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    DropdownTextMenu(
+        expanded = true,
+        onDismissRequest = {},
+        items = listOf(
+            "One" to {},
+            "Two" to {},
+        )
+    )
 }

@@ -11,6 +11,7 @@ import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.delete
 import diaguard.shared.generated.resources.delete_description
 import diaguard.shared.generated.resources.delete_title
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DeleteDialog(
@@ -42,5 +43,14 @@ fun DeleteDialog(
         iconContentColor = AppTheme.colors.scheme.onErrorContainer,
         titleContentColor = AppTheme.colors.scheme.onErrorContainer,
         textContentColor = AppTheme.colors.scheme.onErrorContainer,
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    DeleteDialog(
+        onDismissRequest = {},
+        onConfirmRequest = {},
     )
 }

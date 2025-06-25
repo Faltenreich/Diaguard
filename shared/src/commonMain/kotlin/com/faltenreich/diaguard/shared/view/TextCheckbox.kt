@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TextCheckbox(
@@ -37,4 +38,15 @@ fun TextCheckbox(
             onCheckedChange = onCheckedChange,
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    TextCheckbox(
+        title = "Title",
+        subtitle = "Subtitle",
+        checked = true,
+        onCheckedChange = {},
+    )
 }

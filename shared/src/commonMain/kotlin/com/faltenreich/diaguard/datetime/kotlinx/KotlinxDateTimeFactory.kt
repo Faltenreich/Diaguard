@@ -4,12 +4,12 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Instant
 
 class KotlinxDateTimeFactory : DateTimeFactory {
 

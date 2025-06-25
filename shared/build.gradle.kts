@@ -97,6 +97,7 @@ kotlin {
                 optIn("androidx.compose.material3.ExperimentalMaterial3Api")
                 optIn("androidx.compose.animation.ExperimentalAnimationApi")
                 optIn("androidx.compose.ui.text.ExperimentalTextApi")
+                optIn("kotlin.time.ExperimentalTime")
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 optIn("kotlinx.coroutines.FlowPreview")
                 optIn("kotlinx.serialization.ExperimentalSerializationApi")

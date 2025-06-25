@@ -8,9 +8,9 @@ import net.mamoe.yamlkt.Yaml
 
 class KotlinxSerialization {
 
-    @PublishedApi internal val csv = CSVFormat(
-        separator = ";",
-    )
+    @PublishedApi internal val csv = CSVFormat {
+        separator = ';'
+    }
 
     @PublishedApi internal val json = Json {
         ignoreUnknownKeys = true

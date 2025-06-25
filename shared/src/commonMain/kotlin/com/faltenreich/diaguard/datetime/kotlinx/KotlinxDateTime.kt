@@ -7,14 +7,14 @@ import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.shared.localization.format
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 class KotlinxDateTime(private var delegate: LocalDateTime) : DateTime {
 
@@ -38,8 +38,8 @@ class KotlinxDateTime(private var delegate: LocalDateTime) : DateTime {
     ) : this(
         LocalDateTime(
             year = year,
-            monthNumber = monthNumber,
-            dayOfMonth = dayOfMonth,
+            month = monthNumber,
+            day = dayOfMonth,
             hour = hourOfDay,
             minute = minuteOfHour,
             second = secondOfMinute,

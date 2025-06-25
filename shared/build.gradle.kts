@@ -23,9 +23,6 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.foundation)
                 implementation(compose.material3)
-                // TODO: Wait for stable support, introduced with Android Studio Canary 5
-                //  https://youtrack.jetbrains.com/issue/CMP-2045
-                //  https://youtrack.jetbrains.com/issue/KTIJ-32720
                 implementation(compose.components.uiToolingPreview)
                 implementation(compose.runtime)
                 implementation(libs.compose.navigation)
@@ -63,6 +60,7 @@ kotlin {
             dependencies {
                 implementation(libs.activity.compose)
                 implementation(libs.androidx.compose.material3)
+                implementation(libs.androidx.compose.ui.tooling)
                 implementation(libs.androidx.emojipicker)
                 implementation(libs.androidx.lifecycle.compose)
                 implementation(libs.androidx.preferences)

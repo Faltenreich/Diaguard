@@ -17,7 +17,6 @@ import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,8 +32,6 @@ import com.faltenreich.diaguard.datetime.picker.TimePickerDialog
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
-import com.faltenreich.diaguard.food.search.FoodSelectionEvent
-import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
@@ -55,7 +52,6 @@ import diaguard.shared.generated.resources.tag_remove_description
 @Composable
 fun EntryForm(
     viewModel: EntryFormViewModel,
-    foodSelectionViewModel: FoodSelectionViewModel,
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState()
@@ -64,14 +60,6 @@ fun EntryForm(
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        foodSelectionViewModel.collectEvents { event ->
-            when (event) {
-                is FoodSelectionEvent.Select ->
-                    viewModel.dispatchIntent(EntryFormIntent.AddFood(event.food))
-            }
-        }
-    }
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         Card(

@@ -3,10 +3,13 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.search.FoodSelectionEvent
+import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
@@ -103,9 +106,15 @@ data class EntryFormScreen(
                     foodId.takeIf { it >= 0 })
             },
         )
-        EntryForm(
-            viewModel = viewModel,
-            foodSelectionViewModel = sharedViewModel(),
-        )
+        val foodSelectionViewModel = sharedViewModel<FoodSelectionViewModel>()
+        LaunchedEffect(Unit) {
+            foodSelectionViewModel.collectEvents { event ->
+                when (event) {
+                    is FoodSelectionEvent.Select ->
+                        viewModel.dispatchIntent(EntryFormIntent.AddFood(event.food))
+                }
+            }
+        }
+        EntryForm(viewModel = viewModel)
     }
 }

@@ -16,7 +16,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,8 +27,6 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyleForm
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionEvent
-import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionViewModel
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
@@ -57,19 +54,9 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MeasurementPropertyForm(
     viewModel: MeasurementPropertyFormViewModel,
-    unitSelectionViewModel: MeasurementUnitSelectionViewModel,
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
-
-    LaunchedEffect(Unit) {
-        unitSelectionViewModel.collectEvents { event ->
-            when (event) {
-                is MeasurementUnitSelectionEvent.Select ->
-                    viewModel.dispatchIntent(MeasurementPropertyFormIntent.SelectUnit(event.unit))
-            }
-        }
-    }
 
     Column(modifier = modifier.fillMaxSize()) {
         Column(

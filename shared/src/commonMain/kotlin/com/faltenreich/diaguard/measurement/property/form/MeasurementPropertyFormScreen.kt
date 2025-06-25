@@ -3,8 +3,11 @@ package com.faltenreich.diaguard.measurement.property.form
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionEvent
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionViewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
@@ -74,9 +77,18 @@ data class MeasurementPropertyFormScreen(
 
     @Composable
     override fun Content() {
-        MeasurementPropertyForm(
-            viewModel = viewModel { parametersOf(categoryId, propertyId) },
-            unitSelectionViewModel = sharedViewModel(),
-        )
+        val viewModel = viewModel<MeasurementPropertyFormViewModel> {
+            parametersOf(categoryId, propertyId)
+        }
+        val unitSelectionViewModel = sharedViewModel<MeasurementUnitSelectionViewModel>()
+        LaunchedEffect(Unit) {
+            unitSelectionViewModel.collectEvents { event ->
+                when (event) {
+                    is MeasurementUnitSelectionEvent.Select ->
+                        viewModel.dispatchIntent(MeasurementPropertyFormIntent.SelectUnit(event.unit))
+                }
+            }
+        }
+        MeasurementPropertyForm(viewModel)
     }
 }

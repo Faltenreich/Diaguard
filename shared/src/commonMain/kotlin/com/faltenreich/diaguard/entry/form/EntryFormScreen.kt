@@ -115,6 +115,6 @@ data class EntryFormScreen(
                 }
             }
         }
-        EntryForm(viewModel = viewModel)
+        EntryForm(viewModel)
     }
 }

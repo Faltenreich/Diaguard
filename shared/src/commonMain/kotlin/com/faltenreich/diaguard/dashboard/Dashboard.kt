@@ -11,12 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.average.DashboardAverage
+import com.faltenreich.diaguard.dashboard.average.DashboardAverageState
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1c
+import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.dashboard.latest.DashboardLatest
+import com.faltenreich.diaguard.dashboard.latest.DashboardLatestState
 import com.faltenreich.diaguard.dashboard.today.DashboardToday
+import com.faltenreich.diaguard.dashboard.today.DashboardTodayState
 import com.faltenreich.diaguard.dashboard.trend.DashboardTrend
+import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 
 @Composable
 fun Dashboard(
@@ -67,12 +71,27 @@ fun Dashboard(
 
 @Preview
 @Composable
-private fun Preview(
-    @PreviewParameter(DashboardState.Preview::class)
-    state: DashboardState,
-) {
+private fun Preview() {
     Dashboard(
-        state = state,
+        state = DashboardState(
+            latest = DashboardLatestState.None,
+            today = DashboardTodayState(
+                totalCount = 0,
+                hypoCount = 0,
+                hyperCount = 0,
+            ),
+            average = DashboardAverageState(
+                day = null,
+                week = null,
+                month = null,
+            ),
+            hbA1c = DashboardHbA1cState.Unknown,
+            trend = StatisticTrendState(
+                intervals = emptyList(),
+                targetValue = 120.0,
+                maximumValue = 200.0,
+            ),
+        ),
         onIntent = {},
     )
 }

@@ -10,13 +10,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.appModule
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
+import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_first_description
 import diaguard.shared.generated.resources.placeholder
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
+import org.koin.compose.KoinApplication
 
 @Composable
 fun DashboardLatest(
@@ -63,12 +68,25 @@ fun DashboardLatest(
 
 @Preview
 @Composable
-private fun Preview(
-    @PreviewParameter(DashboardLatestState.Preview::class)
-    state: DashboardLatestState,
-) {
-    DashboardLatest(
-        state = state,
-        onClick = {},
-    )
+private fun Preview() {
+    KoinApplication(application = { modules(appModule()) }) {
+        val dateTimeFactory = inject<DateTimeFactory>()
+        DashboardLatest(
+            state = DashboardLatestState.Value(
+                entry = Entry.Local(
+                    id = 0L,
+                    createdAt = dateTimeFactory.now(),
+                    updatedAt = dateTimeFactory.now(),
+                    dateTime = dateTimeFactory.now(),
+                    note = "note",
+                ),
+                value = MeasurementValue.Localized(
+                    value = "value",
+                ),
+                tint = MeasurementValueTint.NORMAL,
+                timePassed = "timePassed",
+            ),
+            onClick = {},
+        )
+    }
 }

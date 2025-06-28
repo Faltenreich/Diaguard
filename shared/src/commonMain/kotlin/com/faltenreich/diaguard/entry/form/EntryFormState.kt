@@ -7,12 +7,16 @@ import com.faltenreich.diaguard.tag.Tag
 data class EntryFormState(
     val measurements: List<MeasurementCategoryInputState>,
     val foodEaten: List<FoodEatenInputState>,
-    val tagSuggestions: List<Tag>,
-    val tagSelection: List<Tag>,
+    val tags: Tags,
     val deleteDialog: DeleteDialog?,
 ) {
 
     val hasError: Boolean = measurements.any { it.hasError }
+
+    data class Tags(
+        val suggestions: List<Tag>,
+        val selection: List<Tag>,
+    )
 
     data object DeleteDialog
 }

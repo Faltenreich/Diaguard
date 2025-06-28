@@ -90,7 +90,7 @@ fun EntryForm(
                 EntryTagInput(
                     input = viewModel.tagQuery.collectAsState().value,
                     onInputChange = { viewModel.tagQuery.value = it },
-                    suggestions = state?.tagSuggestions ?: emptyList(),
+                    suggestions = state?.tags?.suggestions ?: emptyList(),
                     onSuggestionSelected = { tag ->
                         viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
                         viewModel.tagQuery.value = ""
@@ -98,10 +98,9 @@ fun EntryForm(
                 )
             }
 
-            val tagSelection = state?.tagSelection ?: emptyList()
-            if (tagSelection.isNotEmpty()) {
+            state?.tags?.selection?.takeIf(List<*>::isNotEmpty)?.let { tags ->
                 EntryTagList(
-                    tags = tagSelection,
+                    tags = tags,
                     onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
                     trailingIcon = { tag ->
                         ResourceIcon(

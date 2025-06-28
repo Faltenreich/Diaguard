@@ -79,7 +79,7 @@ class EntryFormViewModel(
     private val foodEaten = MutableStateFlow(emptyList<FoodEatenInputState>())
 
     var tagQuery = MutableStateFlow("")
-    var tagSelection = MutableStateFlow(emptyList<Tag>())
+    private val tagSelection = MutableStateFlow(emptyList<Tag>())
     private val tagSuggestions = combine(
         tagQuery,
         tagSelection,
@@ -87,14 +87,18 @@ class EntryFormViewModel(
         .flatMapLatest { (tagQuery, tagsSelected) ->
             getTagsByQuery(tagQuery, tagsSelected)
         }
+    private val tags = combine(
+        tagSuggestions,
+        tagSelection,
+        EntryFormState::Tags,
+    )
 
     private val deleteDialog = MutableStateFlow<EntryFormState.DeleteDialog?>(null)
 
     override val state = combine(
         measurements,
         foodEaten,
-        tagSuggestions,
-        tagSelection,
+        tags,
         deleteDialog,
         ::EntryFormState,
     )

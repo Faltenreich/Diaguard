@@ -9,6 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.datetime.DateProgression
+import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendChart
@@ -49,7 +51,20 @@ fun DashboardTrend(
 private fun Preview() = AppPreview {
     DashboardTrend(
         state = StatisticTrendState(
-            intervals = emptyList(),
+            intervals = today().let { today ->
+                DateProgression(
+                    start = today
+                        .minus(1, DateUnit.WEEK)
+                        .plus(1, DateUnit.DAY),
+                    endInclusive = today,
+                ).map { date ->
+                    StatisticTrendState.Interval(
+                        dateRange = date .. date,
+                        label = date.dayOfWeek.localized(),
+                        average = null,
+                    )
+                }
+            },
             targetValue = 120.0,
             maximumValue = 200.0,
         ),

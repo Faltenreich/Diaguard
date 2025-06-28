@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.view.preview
 
+import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
 
@@ -14,4 +15,10 @@ class PreviewScope(
         dateTime = now(),
         note = "note",
     )
+
+    @Suppress("MagicNumber")
+    fun DayOfWeek.localized() = toString()
+        .take(3)
+        .lowercase()
+        .replaceFirstChar(Char::uppercase)
 }

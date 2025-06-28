@@ -12,7 +12,6 @@ import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
 import com.faltenreich.diaguard.preference.preferenceModule
 import com.faltenreich.diaguard.shared.architecture.coroutineModule
-import com.faltenreich.diaguard.shared.clipboard.clipboardModule
 import com.faltenreich.diaguard.shared.config.configModule
 import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.shared.file.fileModule
@@ -42,7 +41,6 @@ fun appModule() = module {
         coroutineModule(),
         configModule(),
         localizationModule(),
-        clipboardModule(),
         serializationModule(),
         fileModule(),
         keyValueStoreModule(),

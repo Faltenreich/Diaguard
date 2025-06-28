@@ -10,6 +10,10 @@ class DateProgression(
         return DateIterator(start, endInclusive, stepInDays)
     }
 
+    fun toDateRange(): DateRange {
+        return start .. endInclusive
+    }
+
     private class DateIterator(
         start: Date,
         private val endInclusive: Date,

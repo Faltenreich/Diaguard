@@ -17,9 +17,11 @@ import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.ok
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DateRangePickerDialog(
@@ -92,4 +94,14 @@ fun DateRangePickerDialog(
             }
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    DateRangePickerDialog(
+        dateRange = week().toDateRange(),
+        onDismissRequest = {},
+        onConfirmRequest = {},
+    )
 }

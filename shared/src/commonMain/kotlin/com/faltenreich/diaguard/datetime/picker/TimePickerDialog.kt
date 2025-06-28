@@ -8,9 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.ok
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TimePickerDialog(
@@ -47,4 +49,14 @@ fun TimePickerDialog(
     ) {
         TimePicker(state = state)
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    TimePickerDialog(
+        time = now().time,
+        onDismissRequest = {},
+        onConfirmRequest = {},
+    )
 }

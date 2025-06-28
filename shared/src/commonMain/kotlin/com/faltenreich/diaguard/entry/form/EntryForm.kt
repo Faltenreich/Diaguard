@@ -55,7 +55,6 @@ fun EntryForm(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState()
-    val tags = viewModel.tagSelection.collectAsState().value
 
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
@@ -91,7 +90,7 @@ fun EntryForm(
                 EntryTagInput(
                     input = viewModel.tagQuery.collectAsState().value,
                     onInputChange = { viewModel.tagQuery.value = it },
-                    suggestions = state?.tags ?: emptyList(),
+                    suggestions = state?.tagSuggestions ?: emptyList(),
                     onSuggestionSelected = { tag ->
                         viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
                         viewModel.tagQuery.value = ""
@@ -99,9 +98,10 @@ fun EntryForm(
                 )
             }
 
-            if (tags.isNotEmpty()) {
+            val tagSelection = state?.tagSelection ?: emptyList()
+            if (tagSelection.isNotEmpty()) {
                 EntryTagList(
-                    tags = tags,
+                    tags = tagSelection,
                     onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
                     trailingIcon = { tag ->
                         ResourceIcon(

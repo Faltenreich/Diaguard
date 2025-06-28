@@ -94,6 +94,7 @@ class EntryFormViewModel(
         measurements,
         foodEaten,
         tagSuggestions,
+        tagSelection,
         deleteDialog,
         ::EntryFormState,
     )

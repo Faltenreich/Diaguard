@@ -7,7 +7,8 @@ import com.faltenreich.diaguard.tag.Tag
 data class EntryFormState(
     val measurements: List<MeasurementCategoryInputState>,
     val foodEaten: List<FoodEatenInputState>,
-    val tags: List<Tag>,
+    val tagSuggestions: List<Tag>,
+    val tagSelection: List<Tag>,
     val deleteDialog: DeleteDialog?,
 ) {
 

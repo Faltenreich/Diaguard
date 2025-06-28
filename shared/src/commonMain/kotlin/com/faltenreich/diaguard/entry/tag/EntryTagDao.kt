@@ -16,6 +16,8 @@ interface EntryTagDao {
 
     fun getByEntryId(entryId: Long): List<EntryTag.Local>
 
+    fun observeByEntryId(entryId: Long): Flow<List<EntryTag.Local>>
+
     fun countByTagId(tagId: Long): Flow<Long>
 
     fun deleteById(id: Long)

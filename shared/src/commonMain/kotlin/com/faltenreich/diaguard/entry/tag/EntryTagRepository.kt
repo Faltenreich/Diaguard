@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.entry.tag
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import kotlinx.coroutines.flow.Flow
 
 class EntryTagRepository(
     private val dao: EntryTagDao,
@@ -34,6 +35,10 @@ class EntryTagRepository(
 
     fun getByEntryId(entryId: Long): List<EntryTag.Local> {
         return dao.getByEntryId(entryId)
+    }
+
+    fun observeByEntryId(entryId: Long): Flow<List<EntryTag.Local>> {
+        return dao.observeByEntryId(entryId)
     }
 
     fun deleteById(id: Long) {

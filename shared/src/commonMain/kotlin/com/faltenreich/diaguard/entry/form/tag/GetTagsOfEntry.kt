@@ -5,6 +5,8 @@ import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.tag.Tag
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class GetTagsOfEntry(
@@ -12,8 +14,10 @@ class GetTagsOfEntry(
     private val entryTagRepository: EntryTagRepository,
 ) {
 
-    suspend operator fun invoke(entry: Entry.Local?): List<Tag> = withContext(dispatcher) {
-        entry ?: return@withContext emptyList()
-        entryTagRepository.getByEntryId(entryId = entry.id).map(EntryTag::tag)
+    suspend operator fun invoke(entry: Entry.Local): Flow<List<Tag>> = withContext(dispatcher) {
+        entryTagRepository.observeByEntryId(entry.id)
+            .map { entryTags ->
+                entryTags.map(EntryTag::tag)
+            }
     }
 }

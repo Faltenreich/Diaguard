@@ -110,7 +110,10 @@ class EntryFormViewModel(
             }
         }
         scope.launch {
-            tagSelection.value += getTagsOfEntry(editing)
+            val entry = editing ?: return@launch
+            getTagsOfEntry(entry).collectLatest { tags ->
+                tagSelection.value += tags
+            }
         }
     }
 

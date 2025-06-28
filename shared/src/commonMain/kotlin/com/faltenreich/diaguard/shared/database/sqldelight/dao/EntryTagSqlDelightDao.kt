@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.entry.tag.EntryTag
@@ -40,6 +41,10 @@ class EntryTagSqlDelightDao(
 
     override fun getByEntryId(entryId: Long): List<EntryTag.Local> {
         return queries.getByEntry(entryId, mapper::map).executeAsList()
+    }
+
+    override fun observeByEntryId(entryId: Long): Flow<List<EntryTag.Local>> {
+        return queries.getByEntry(entryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
     override fun countByTagId(tagId: Long): Flow<Long> {

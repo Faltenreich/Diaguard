@@ -1,11 +1,17 @@
 package com.faltenreich.diaguard.entry.form
 
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.tag.Tag
 
 sealed interface EntryFormIntent {
+
+    data class SetDate(val date: Date) : EntryFormIntent
+
+    data class SetTime(val time: Time) : EntryFormIntent
 
     data class Edit(val data: MeasurementPropertyInputState) : EntryFormIntent
 

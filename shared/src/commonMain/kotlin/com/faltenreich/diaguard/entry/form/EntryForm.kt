@@ -54,11 +54,10 @@ fun EntryForm(
     viewModel: EntryFormViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState()
+    val state = viewModel.collectState() ?: return
 
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
-
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         Card(
@@ -72,7 +71,7 @@ fun EntryForm(
                         contentColor = AppTheme.colors.scheme.onSurfaceVariant,
                     ),
                 ) {
-                    Text(viewModel.dateFormatted)
+                    Text(state.dateTime.dateLocalized)
                 }
                 TextButton(
                     onClick = { showTimePicker = true },
@@ -80,7 +79,7 @@ fun EntryForm(
                         contentColor = AppTheme.colors.scheme.onSurfaceVariant,
                     ),
                 ) {
-                    Text(viewModel.timeFormatted)
+                    Text(state.dateTime.timeLocalized)
                 }
             }
 
@@ -90,7 +89,7 @@ fun EntryForm(
                 EntryTagInput(
                     input = viewModel.tagQuery.collectAsState().value,
                     onInputChange = { viewModel.tagQuery.value = it },
-                    suggestions = state?.tags?.suggestions ?: emptyList(),
+                    suggestions = state.tags.suggestions,
                     onSuggestionSelected = { tag ->
                         viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
                         viewModel.tagQuery.value = ""
@@ -98,7 +97,7 @@ fun EntryForm(
                 )
             }
 
-            state?.tags?.selection?.takeIf(List<*>::isNotEmpty)?.let { tags ->
+            state.tags.selection.takeIf(List<*>::isNotEmpty)?.let { tags ->
                 EntryTagList(
                     tags = tags,
                     onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
@@ -155,19 +154,18 @@ fun EntryForm(
             }
         }
 
-        val measurements = state?.measurements ?: emptyList()
         AnimatedVisibility(
-            visible = measurements.isNotEmpty(),
+            visible = state.measurements.isNotEmpty(),
             enter = fadeIn(),
         ) {
             Column(
                 modifier = Modifier.padding(AppTheme.dimensions.padding.P_2_5),
                 verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2_5),
             ) {
-                measurements.forEach { measurement ->
+                state.measurements.forEach { measurement ->
                     MeasurementCategoryInput(
                         state = measurement,
-                        foodEaten = state?.foodEaten ?: emptyList(),
+                        foodEaten = state.foodEaten,
                         onIntent = viewModel::dispatchIntent,
                     )
                 }
@@ -177,27 +175,27 @@ fun EntryForm(
 
     if (showDatePicker) {
         DatePickerDialog(
-            date = viewModel.date,
+            date = state.dateTime.date,
             onDismissRequest = { showDatePicker = false },
             onConfirmRequest = { date ->
                 showDatePicker = false
-                viewModel.date = date
+                viewModel.dispatchIntent(EntryFormIntent.SetDate(date))
             },
         )
     }
 
     if (showTimePicker) {
         TimePickerDialog(
-            time = viewModel.time,
+            time = state.dateTime.time,
             onDismissRequest = { showTimePicker = false },
             onConfirmRequest = { time ->
                 showTimePicker = false
-                viewModel.time = time
+                viewModel.dispatchIntent(EntryFormIntent.SetTime(time))
             },
         )
     }
 
-    if (state?.deleteDialog != null) {
+    if (state.deleteDialog != null) {
         DeleteDialog(
             onDismissRequest = {
                 viewModel.dispatchIntent(EntryFormIntent.CloseDeleteDialog)

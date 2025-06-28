@@ -3,9 +3,6 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
@@ -30,6 +27,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -55,20 +53,7 @@ class EntryFormViewModel(
     private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
     private val food: Food.Local? = foodId?.let(getFoodById::invoke)
 
-    var dateTime: DateTime by mutableStateOf(getDateTimeForEntry(editing, dateTimeIsoString))
-        private set
-
-    var date: Date
-        get() = dateTime.date
-        set(value) { dateTime = dateTime.time.atDate(value) }
-    val dateFormatted: String
-        get() = formatDateTime(date)
-
-    var time: Time
-        get() = dateTime.time
-        set(value) { dateTime = dateTime.date.atTime(value) }
-    val timeFormatted: String
-        get() = formatDateTime(time)
+    private val dateTime = MutableStateFlow(getDateTimeForEntry(editing, dateTimeIsoString))
 
     var note: String by mutableStateOf(editing?.note ?: "")
 
@@ -96,6 +81,14 @@ class EntryFormViewModel(
     private val deleteDialog = MutableStateFlow<EntryFormState.DeleteDialog?>(null)
 
     override val state = combine(
+        dateTime.map { dateTime ->
+            EntryFormState.DateTime(
+                date = dateTime.date,
+                dateLocalized = formatDateTime(dateTime.date),
+                time = dateTime.time,
+                timeLocalized = formatDateTime(dateTime.time),
+            )
+        },
         measurements,
         foodEaten,
         tags,
@@ -124,6 +117,8 @@ class EntryFormViewModel(
 
     override suspend fun handleIntent(intent: EntryFormIntent): Unit = with(intent) {
         when (this) {
+            is EntryFormIntent.SetDate -> dateTime.update { it.time.atDate(date) }
+            is EntryFormIntent.SetTime -> dateTime.update { it.date.atTime(time) }
             is EntryFormIntent.Edit -> edit(data)
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> delete(needsConfirmation)
@@ -159,7 +154,7 @@ class EntryFormViewModel(
         val missingTag = tagQuery.value.takeIf(String::isNotBlank)?.let { Tag.User(it) }
         val input = EntryFormInput(
             entry = editing,
-            dateTime = dateTime,
+            dateTime = dateTime.value,
             measurements = measurements.value,
             tags = tagSelection.value + listOfNotNull(missingTag),
             note = note.takeIf(String::isNotBlank),

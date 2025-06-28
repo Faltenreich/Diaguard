@@ -6,8 +6,7 @@ import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier
 
 /**
- * Wrapper for dependency injection where constructor injection is not possible,
- * e.g. in Composable functions as Compose Multiplatform is not yet supported by Koin
+ * Wrapper for dependency injection where constructor injection is not possible
  */
 object MethodInjection : KoinComponent {
 

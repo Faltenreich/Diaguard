@@ -10,13 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
-import com.faltenreich.diaguard.shared.view.AppPreview
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_first_description
 import diaguard.shared.generated.resources.placeholder
@@ -69,14 +67,13 @@ fun DashboardLatest(
 @Composable
 private fun Preview() {
     AppPreview {
-        val dateTimeFactory = inject<DateTimeFactory>()
         DashboardLatest(
             state = DashboardLatestState.Value(
                 entry = Entry.Local(
                     id = 0L,
-                    createdAt = dateTimeFactory.now(),
-                    updatedAt = dateTimeFactory.now(),
-                    dateTime = dateTimeFactory.now(),
+                    createdAt = now(),
+                    updatedAt = now(),
+                    dateTime = now(),
                     note = "note",
                 ),
                 value = MeasurementValue.Localized(

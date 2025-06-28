@@ -22,6 +22,10 @@ data object StatisticScreen : Screen {
 
     @Composable
     override fun Content() {
-        Statistic(viewModel = viewModel())
+        val viewModel = viewModel<StatisticViewModel>()
+        Statistic(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

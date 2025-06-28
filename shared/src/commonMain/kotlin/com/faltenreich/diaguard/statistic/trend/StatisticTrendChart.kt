@@ -18,8 +18,6 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.DateProgression
-import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -158,23 +156,6 @@ private fun DrawScope.drawValue(
 @Composable
 private fun Preview() = AppPreview {
     StatisticTrendChart(
-        state = StatisticTrendState(
-            intervals = today().let { today ->
-                DateProgression(
-                    start = today
-                        .minus(1, DateUnit.WEEK)
-                        .plus(1, DateUnit.DAY),
-                    endInclusive = today,
-                ).map { date ->
-                    StatisticTrendState.Interval(
-                        dateRange = date .. date,
-                        label = date.dayOfWeek.localized(),
-                        average = null,
-                    )
-                }
-            },
-            targetValue = 120.0,
-            maximumValue = 200.0,
-        ),
+        state = StatisticTrendState.preview(this),
     )
 }

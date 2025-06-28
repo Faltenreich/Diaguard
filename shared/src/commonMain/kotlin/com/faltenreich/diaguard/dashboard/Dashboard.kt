@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.dashboard.latest.DashboardLatestState
 import com.faltenreich.diaguard.dashboard.today.DashboardToday
 import com.faltenreich.diaguard.dashboard.today.DashboardTodayState
 import com.faltenreich.diaguard.dashboard.trend.DashboardTrend
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -71,7 +72,7 @@ fun Dashboard(
 
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview() = AppPreview {
     Dashboard(
         state = DashboardState(
             latest = DashboardLatestState.None,
@@ -86,11 +87,7 @@ private fun Preview() {
                 month = null,
             ),
             hbA1c = DashboardHbA1cState.Unknown,
-            trend = StatisticTrendState(
-                intervals = emptyList(),
-                targetValue = 120.0,
-                maximumValue = 200.0,
-            ),
+            trend = StatisticTrendState.preview(this),
         ),
         onIntent = {},
     )

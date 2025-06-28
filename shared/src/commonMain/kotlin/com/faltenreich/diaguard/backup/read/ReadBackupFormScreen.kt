@@ -22,6 +22,10 @@ data object ReadBackupFormScreen : Screen {
 
     @Composable
     override fun Content() {
-        ReadBackupForm(viewModel = viewModel())
+        val viewModel = viewModel<ReadBackupFormViewModel>()
+        ReadBackupForm(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

@@ -22,6 +22,10 @@ data object WriteBackupFormScreen : Screen {
 
     @Composable
     override fun Content() {
-        WriteBackupForm(viewModel = viewModel())
+        val viewModel = viewModel<WriteBackupFormViewModel>()
+        WriteBackupForm(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

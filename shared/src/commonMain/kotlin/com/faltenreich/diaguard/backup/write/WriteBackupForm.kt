@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.wizard.WizardStepListItem
 import com.faltenreich.diaguard.shared.wizard.WizardStepState
 import diaguard.shared.generated.resources.Res
@@ -23,13 +24,15 @@ import diaguard.shared.generated.resources.retry
 import diaguard.shared.generated.resources.start
 import diaguard.shared.generated.resources.store
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun WriteBackupForm(
-    viewModel: WriteBackupFormViewModel,
+    state: WriteBackupFormState?,
+    onIntent: (WriteBackupFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: WriteBackupFormState.Idle
+    val state = state ?: WriteBackupFormState.Idle
 
     Column(
         modifier = modifier
@@ -50,7 +53,7 @@ fun WriteBackupForm(
                 if (state == WriteBackupFormState.Idle) WizardStepState.CURRENT
                 else WizardStepState.COMPLETED,
         ) {
-            Button(onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Start) }) {
+            Button(onClick = { onIntent(WriteBackupFormIntent.Start) }) {
                 Text(stringResource(Res.string.start))
             }
         }
@@ -81,14 +84,24 @@ fun WriteBackupForm(
             },
         ) {
             if (state == WriteBackupFormState.Completed) {
-                Button(onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Store) }) {
+                Button(onClick = { onIntent(WriteBackupFormIntent.Store) }) {
                     Text(stringResource(Res.string.store))
                 }
             } else {
-                Button(onClick = { viewModel.dispatchIntent(WriteBackupFormIntent.Start) }) {
+                Button(onClick = { onIntent(WriteBackupFormIntent.Start) }) {
                     Text(stringResource(Res.string.retry))
                 }
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    WriteBackupForm(
+        // TODO: Add missing states when PreviewParameter is working
+        state = WriteBackupFormState.Idle,
+        onIntent = {},
+    )
 }

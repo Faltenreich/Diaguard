@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.wizard.WizardStepListItem
 import com.faltenreich.diaguard.shared.wizard.WizardStepState
 import diaguard.shared.generated.resources.Res
@@ -26,13 +27,15 @@ import diaguard.shared.generated.resources.select
 import diaguard.shared.generated.resources.start
 import diaguard.shared.generated.resources.store
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ReadBackupForm(
-    viewModel: ReadBackupFormViewModel,
+    state: ReadBackupFormState?,
+    onIntent: (ReadBackupFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
+    state ?: return
 
     Column(
         modifier = modifier
@@ -53,7 +56,7 @@ fun ReadBackupForm(
             if (state == ReadBackupFormState.Idle) WizardStepState.CURRENT
             else WizardStepState.COMPLETED,
         ) {
-            Button(onClick = { viewModel.dispatchIntent(ReadBackupFormIntent.Select) }) {
+            Button(onClick = { onIntent(ReadBackupFormIntent.Select) }) {
                 Text(stringResource(Res.string.select))
             }
         }
@@ -63,7 +66,7 @@ fun ReadBackupForm(
             label = stringResource(Res.string.backup_read_start),
             state = WizardStepState.UPCOMING,
         ) {
-            Button(onClick = { viewModel.dispatchIntent(ReadBackupFormIntent.Read) }) {
+            Button(onClick = { onIntent(ReadBackupFormIntent.Read) }) {
                 Text(stringResource(Res.string.start))
             }
         }
@@ -83,7 +86,7 @@ fun ReadBackupForm(
             label = stringResource(Res.string.backup_read_preview),
             state = WizardStepState.UPCOMING,
         ) {
-            Button(onClick = { viewModel.dispatchIntent(ReadBackupFormIntent.Check) }) {
+            Button(onClick = { onIntent(ReadBackupFormIntent.Check) }) {
                 Text(stringResource(Res.string.start))
             }
         }
@@ -93,7 +96,7 @@ fun ReadBackupForm(
             label = stringResource(Res.string.backup_read_confirm),
             state = WizardStepState.UPCOMING,
         ) {
-            Button(onClick = { viewModel.dispatchIntent(ReadBackupFormIntent.Store) }) {
+            Button(onClick = { onIntent(ReadBackupFormIntent.Store) }) {
                 Text(stringResource(Res.string.store))
             }
         }
@@ -104,4 +107,14 @@ fun ReadBackupForm(
             state = WizardStepState.UPCOMING,
         ) {}
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    ReadBackupForm(
+        // TODO: Add missing states when PreviewParameter is working
+        state = ReadBackupFormState.Idle,
+        onIntent = {},
+    )
 }

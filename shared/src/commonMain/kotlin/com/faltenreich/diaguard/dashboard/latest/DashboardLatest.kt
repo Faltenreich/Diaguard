@@ -10,18 +10,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.appModule
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_first_description
 import diaguard.shared.generated.resources.placeholder
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.KoinApplication
 
 @Composable
 fun DashboardLatest(
@@ -69,7 +68,7 @@ fun DashboardLatest(
 @Preview
 @Composable
 private fun Preview() {
-    KoinApplication(application = { modules(appModule()) }) {
+    AppPreview {
         val dateTimeFactory = inject<DateTimeFactory>()
         DashboardLatest(
             state = DashboardLatestState.Value(

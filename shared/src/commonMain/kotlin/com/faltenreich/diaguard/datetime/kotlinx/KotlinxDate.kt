@@ -21,18 +21,19 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.minus
+import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import kotlin.math.floor
 
 class KotlinxDate(private var delegate: LocalDate) : Date {
 
     override val year: Int get() = delegate.year
-    override val monthNumber: Int get() = delegate.monthNumber
+    override val monthNumber: Int get() = delegate.month.number
     // TODO: Replace with official solution when ready
     //  https://github.com/Kotlin/kotlinx-datetime/issues/129
     override val weekOfYear: WeekOfYear get() {
         var weekNumber = 1
-        var comparison = LocalDate(year = year, monthNumber = 1, dayOfMonth = 1)
+        var comparison = LocalDate(year = year, month = 1, day = 1)
         // Start at end of week
         val endOfWeek = week.last()
         while (comparison.dayOfWeek != endOfWeek.fromDomain()) {
@@ -52,7 +53,7 @@ class KotlinxDate(private var delegate: LocalDate) : Date {
             year = comparison.year,
         )
     }
-    override val dayOfMonth: Int get() = delegate.dayOfMonth
+    override val dayOfMonth: Int get() = delegate.day
     override val dayOfWeek: DayOfWeek get() = delegate.dayOfWeek.toDomain()
     // TODO: Localize
     override val week: List<DayOfWeek> = listOf(
@@ -72,8 +73,8 @@ class KotlinxDate(private var delegate: LocalDate) : Date {
     ) : this(
         LocalDate(
             year = year,
-            monthNumber = monthNumber,
-            dayOfMonth = dayOfMonth,
+            month = monthNumber,
+            day = dayOfMonth,
         )
     )
 
@@ -161,7 +162,13 @@ class KotlinxDate(private var delegate: LocalDate) : Date {
     }
 
     override fun daysBetween(date: Date): Int {
-        return delegate.daysUntil(LocalDate(year = date.year, monthNumber = date.monthNumber, date.dayOfMonth))
+        return delegate.daysUntil(
+            LocalDate(
+                year = date.year,
+                month = date.monthNumber,
+                day = date.dayOfMonth,
+            )
+        )
     }
 
     override fun copy(year: Int, monthNumber: Int, dayOfMonth: Int): Date {
@@ -194,6 +201,6 @@ class KotlinxDate(private var delegate: LocalDate) : Date {
     }
 
     override fun writeObject(outputStream: ObjectOutputStream) {
-        outputStream.writeLong(delegate.toEpochDays().toLong())
+        outputStream.writeLong(delegate.toEpochDays())
     }
 }

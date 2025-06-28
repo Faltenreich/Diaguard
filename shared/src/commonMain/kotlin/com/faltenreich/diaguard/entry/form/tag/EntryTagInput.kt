@@ -17,9 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.tag.Tag
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.tag
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EntryTagInput(
@@ -67,4 +69,15 @@ fun EntryTagInput(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    EntryTagInput(
+        input = "Input",
+        onInputChange = {},
+        suggestions = emptyList(),
+        onSuggestionSelected = {},
+    )
 }

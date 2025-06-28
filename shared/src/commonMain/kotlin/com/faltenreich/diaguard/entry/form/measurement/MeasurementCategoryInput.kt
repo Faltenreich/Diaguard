@@ -19,10 +19,12 @@ import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.ResourceIcon
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_add
 import diaguard.shared.generated.resources.ic_search
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementCategoryInput(
@@ -57,7 +59,7 @@ fun MeasurementCategoryInput(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 MeasurementPropertyInput(
-                    data = property,
+                    state = property,
                     modifier = Modifier.weight(1f),
                     onIntent = onIntent,
                 )
@@ -99,4 +101,25 @@ fun MeasurementCategoryInput(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementCategoryInput(
+        state = MeasurementCategoryInputState(
+            category = category(),
+            propertyInputStates = listOf(
+                MeasurementPropertyInputState(
+                    property = property(),
+                    input = "",
+                    isLast = true,
+                    error = null,
+                    decimalPlaces = 3,
+                ),
+            ),
+        ),
+        foodEaten = emptyList(),
+        onIntent = {},
+    )
 }

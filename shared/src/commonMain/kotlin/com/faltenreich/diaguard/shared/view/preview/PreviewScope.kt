@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.measurement.property.aggregationstyle.Measuremen
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.tag.Tag
 
 class PreviewScope(
     dateTimeFactory: DateTimeFactory,
@@ -19,15 +20,15 @@ class PreviewScope(
         createdAt = now(),
         updatedAt = now(),
         dateTime = now(),
-        note = "note",
+        note = "Note",
     )
 
     fun category() = MeasurementCategory.Local(
         id = 0L,
         createdAt = now(),
         updatedAt = now(),
-        name = "category",
-        icon = "icon",
+        name = "Category",
+        icon = "Icon",
         sortIndex = 0L,
         isActive = true,
         key = null,
@@ -37,7 +38,7 @@ class PreviewScope(
         id = 0L,
         createdAt = now(),
         updatedAt = now(),
-        name = "property",
+        name = "Property",
         sortIndex = 0L,
         aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
         range = MeasurementValueRange(
@@ -58,8 +59,8 @@ class PreviewScope(
         id = 0L,
         createdAt = now(),
         updatedAt = now(),
-        name = "unit",
-        abbreviation = "u",
+        name = "Unit",
+        abbreviation = "Unit",
         key = null,
     )
 
@@ -70,6 +71,13 @@ class PreviewScope(
         value = 120.0,
         property = property(),
         entry = entry(),
+    )
+
+    fun tag() = Tag.Local(
+        id = 0L,
+        createdAt = now(),
+        updatedAt = now(),
+        name = "Tag",
     )
 
     @Suppress("MagicNumber")

@@ -12,32 +12,49 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementPropertyInput(
-    data: MeasurementPropertyInputState,
+    state: MeasurementPropertyInputState,
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var input by remember { mutableStateOf(data.input) }
+    var input by remember { mutableStateOf(state.input) }
 
     TextInput(
         input = input,
         onInputChange = {
             input = it
-            onIntent(EntryFormIntent.Edit(data.copy(input = input)))
+            onIntent(EntryFormIntent.Edit(state.copy(input = input)))
         },
         modifier = modifier,
-        placeholder = { Text(data.property.unit.abbreviation) },
+        placeholder = { Text(state.property.unit.abbreviation) },
         suffix = {
-            if (data.property.name != data.property.category.name) {
-                Text(data.property.name)
+            if (state.property.name != state.property.category.name) {
+                Text(state.property.name)
             }
         },
         maxLines = 1,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal,
-            imeAction = if (data.isLast) ImeAction.Done else ImeAction.Next,
+            imeAction = if (state.isLast) ImeAction.Done else ImeAction.Next,
         ),
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementPropertyInput(
+        state = MeasurementPropertyInputState(
+            property = property(),
+            input = "",
+            isLast = true,
+            error = null,
+            decimalPlaces = 3,
+        ),
+        onIntent = {},
     )
 }

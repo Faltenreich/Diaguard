@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.statistic.trend.StatisticTrendState.Interval
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -32,6 +33,16 @@ fun StatisticTrend(
 @Composable
 private fun Preview() = AppPreview {
     StatisticTrend(
-        state = StatisticTrendState.preview(this),
+        state = StatisticTrendState(
+            intervals = week().map { date ->
+                Interval(
+                    dateRange = date .. date,
+                    label = date.dayOfWeek.localized(),
+                    average = null,
+                )
+            },
+            targetValue = 120.0,
+            maximumValue = 200.0,
+        ),
     )
 }

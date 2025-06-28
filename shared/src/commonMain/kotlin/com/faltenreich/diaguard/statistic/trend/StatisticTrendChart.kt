@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.statistic.trend.StatisticTrendState.Interval
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 const val VALUE_DOT_RADIUS = 12f
@@ -102,7 +103,7 @@ fun StatisticTrendChart(
 }
 
 private fun DrawScope.drawLabel(
-    interval: StatisticTrendState.Interval,
+    interval: Interval,
     rectangle: Rect,
     textStyle: TextStyle,
     textMeasurer: TextMeasurer,
@@ -156,6 +157,16 @@ private fun DrawScope.drawValue(
 @Composable
 private fun Preview() = AppPreview {
     StatisticTrendChart(
-        state = StatisticTrendState.preview(this),
+        state = StatisticTrendState(
+            intervals = week().map { date ->
+                Interval(
+                    dateRange = date .. date,
+                    label = date.dayOfWeek.localized(),
+                    average = null,
+                )
+            },
+            targetValue = 120.0,
+            maximumValue = 200.0,
+        ),
     )
 }

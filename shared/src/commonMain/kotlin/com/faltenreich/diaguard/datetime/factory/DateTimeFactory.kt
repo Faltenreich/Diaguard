@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.datetime.factory
 
 import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.Time
 
 interface DateTimeFactory {
@@ -43,5 +45,15 @@ interface DateTimeFactory {
 
     fun today(): Date {
         return now().date
+    }
+
+    fun week(): DateProgression {
+        val today = today()
+        return DateProgression(
+            start = today
+                .minus(1, DateUnit.WEEK)
+                .plus(1, DateUnit.DAY),
+            endInclusive = today,
+        )
     }
 }

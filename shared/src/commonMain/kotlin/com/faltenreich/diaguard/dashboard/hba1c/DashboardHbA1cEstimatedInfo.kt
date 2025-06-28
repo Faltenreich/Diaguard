@@ -12,10 +12,12 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hba1c_estimated
 import diaguard.shared.generated.resources.hba1c_estimated_description
 import diaguard.shared.generated.resources.hba1c_estimated_formula
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DashboardHbA1cEstimatedInfo(modifier: Modifier = Modifier) {
@@ -41,4 +43,10 @@ fun DashboardHbA1cEstimatedInfo(modifier: Modifier = Modifier) {
             textAlign = TextAlign.Justify,
         )
     }
+}
+
+@Preview()
+@Composable
+private fun PreviewLatest() = AppPreview {
+    DashboardHbA1cEstimatedInfo()
 }

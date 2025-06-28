@@ -29,5 +29,7 @@ style:
     active: false
   SerialVersionUIDInSerializableClass:
     active: false
+  UnusedPrivateMember:
+    ignoreAnnotated: ['Preview']
   WildcardImport:
     active: false

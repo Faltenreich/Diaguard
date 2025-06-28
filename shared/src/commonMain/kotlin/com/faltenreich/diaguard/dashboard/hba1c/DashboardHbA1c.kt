@@ -14,12 +14,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hba1c
 import diaguard.shared.generated.resources.hba1c_estimated
 import diaguard.shared.generated.resources.hba1c_latest
 import diaguard.shared.generated.resources.placeholder
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DashboardHbA1c(
@@ -70,4 +73,34 @@ fun DashboardHbA1c(
             DashboardHbA1cEstimatedInfo()
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    AppPreview {
+        DashboardHbA1c(
+            state = DashboardHbA1cState.Estimated(
+                value = MeasurementValue.Localized(
+                    value = "value",
+                ),
+            ),
+            onOpenEntry = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewLatest() = AppPreview {
+    DashboardHbA1c(
+        state = DashboardHbA1cState.Latest(
+            entry = entry(),
+            dateTime = "dateTime",
+            value = MeasurementValue.Localized(
+                value = "value",
+            ),
+        ),
+        onOpenEntry = {},
+    )
 }

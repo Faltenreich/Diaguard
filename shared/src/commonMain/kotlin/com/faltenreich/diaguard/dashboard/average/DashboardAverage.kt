@@ -10,17 +10,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.average
 import diaguard.shared.generated.resources.day
 import diaguard.shared.generated.resources.month
 import diaguard.shared.generated.resources.placeholder
 import diaguard.shared.generated.resources.week
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DashboardAverage(
-    data: DashboardAverageState?,
+    state: DashboardAverageState?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -39,23 +42,42 @@ fun DashboardAverage(
                         text = getString(Res.string.day),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.day?.value ?: getString(Res.string.placeholder))
+                    Text(state?.day?.value ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
                         text = getString(Res.string.week),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.week?.value ?: getString(Res.string.placeholder))
+                    Text(state?.week?.value ?: getString(Res.string.placeholder))
                 }
                 Row {
                     Text(
                         text = getString(Res.string.month),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(data?.month?.value ?: getString(Res.string.placeholder))
+                    Text(state?.month?.value ?: getString(Res.string.placeholder))
                 }
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun PreviewLatest() = AppPreview {
+    DashboardAverage(
+        state = DashboardAverageState(
+            day = MeasurementValue.Localized(
+                value = "day",
+            ),
+            week = MeasurementValue.Localized(
+                value = "week",
+            ),
+            month = MeasurementValue.Localized(
+                value = "month"
+            ),
+        ),
+        onClick = {},
+    )
 }

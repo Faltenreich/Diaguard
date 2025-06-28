@@ -51,7 +51,7 @@ fun Dashboard(
                 modifier = Modifier.weight(1f),
             )
             DashboardAverage(
-                data = state?.average,
+                state = state?.average,
                 onClick = { onIntent(DashboardIntent.OpenStatistic) },
                 modifier = Modifier.weight(1f),
             )

@@ -69,13 +69,7 @@ private fun Preview() {
     AppPreview {
         DashboardLatest(
             state = DashboardLatestState.Value(
-                entry = Entry.Local(
-                    id = 0L,
-                    createdAt = now(),
-                    updatedAt = now(),
-                    dateTime = now(),
-                    note = "note",
-                ),
+                entry = entry(),
                 value = MeasurementValue.Localized(
                     value = "value",
                 ),

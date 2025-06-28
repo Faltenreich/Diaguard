@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hyper
 import diaguard.shared.generated.resources.hypo
 import diaguard.shared.generated.resources.measurements
 import diaguard.shared.generated.resources.placeholder
 import diaguard.shared.generated.resources.today
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DashboardToday(
@@ -58,4 +60,17 @@ fun DashboardToday(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    DashboardToday(
+        state = DashboardTodayState(
+            totalCount = 10,
+            hypoCount = 2,
+            hyperCount = 5,
+        ),
+        onClick = {},
+    )
 }

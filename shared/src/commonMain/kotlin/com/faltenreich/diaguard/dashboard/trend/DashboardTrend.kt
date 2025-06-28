@@ -10,10 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendChart
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.trend
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DashboardTrend(
@@ -40,4 +42,17 @@ fun DashboardTrend(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    DashboardTrend(
+        state = StatisticTrendState(
+            intervals = emptyList(),
+            targetValue = 120.0,
+            maximumValue = 200.0,
+        ),
+        onClick = {},
+    )
 }

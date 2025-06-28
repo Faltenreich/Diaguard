@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -98,5 +100,32 @@ private fun DrawScope.drawValue(
         topLeft = textOffset,
         style = textStyle,
         size = textSize,
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    StatisticDistributionChart(
+        state = StatisticDistributionState(
+            property = property(),
+            parts = listOf(
+                StatisticDistributionState.Part(
+                    label = "50%",
+                    percentage = .5f,
+                    tint = MeasurementValueTint.NORMAL,
+                ),
+                StatisticDistributionState.Part(
+                    label = "25%",
+                    percentage = .25f,
+                    tint = MeasurementValueTint.LOW,
+                ),
+                StatisticDistributionState.Part(
+                    label = "25%",
+                    percentage = .25f,
+                    tint = MeasurementValueTint.HIGH,
+                ),
+            ),
+        ),
     )
 }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.statistic.StatisticIntent
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.day_next
@@ -20,6 +21,7 @@ import diaguard.shared.generated.resources.ic_chevron_back
 import diaguard.shared.generated.resources.ic_chevron_forward
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StatisticDateRangeBar(
@@ -61,4 +63,18 @@ fun StatisticDateRangeBar(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    StatisticDateRangeBar(
+        state = StatisticDateRangeState(
+            type = StatisticDateRangeType.WEEK,
+            dateRange = today() .. today(),
+            title = "title",
+            subtitle = "subtitle",
+        ),
+        onIntent = {},
+    )
 }

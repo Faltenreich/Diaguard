@@ -13,11 +13,13 @@ import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.statistic.StatisticIntent
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_range_picker_open
 import diaguard.shared.generated.resources.ic_time
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StatisticDateRangeButton(
@@ -47,4 +49,18 @@ fun StatisticDateRangeButton(
             },
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    StatisticDateRangeButton(
+        state = StatisticDateRangeState(
+            type = StatisticDateRangeType.WEEK,
+            dateRange = today() .. today(),
+            title = "title",
+            subtitle = "subtitle",
+        ),
+        onIntent = {},
+    )
 }

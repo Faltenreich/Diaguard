@@ -13,7 +13,9 @@ import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.statistic.StatisticIntent
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StatisticProperty(
@@ -50,4 +52,20 @@ fun StatisticProperty(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    val properties = listOf(
+        property(),
+        property(),
+    )
+    StatisticProperty(
+        state = StatisticPropertyState(
+            properties = properties,
+            selection = properties.first(),
+        ),
+        onIntent = {},
+    )
 }

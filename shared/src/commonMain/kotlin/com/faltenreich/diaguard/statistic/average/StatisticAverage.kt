@@ -7,11 +7,13 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entries_per_day
 import diaguard.shared.generated.resources.measurement_value
 import diaguard.shared.generated.resources.placeholder
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StatisticAverage(
@@ -39,4 +41,16 @@ fun StatisticAverage(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    StatisticAverage(
+        state = StatisticAverageState(
+            property = property(),
+            countPerDay = "countPerDay",
+            value = "value",
+        ),
+    )
 }

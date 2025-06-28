@@ -11,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StatisticDistributionLegendItem(
@@ -35,4 +37,12 @@ fun StatisticDistributionLegendItem(
             style = AppTheme.typography.bodySmall,
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    StatisticDistributionLegendItem(
+        tint = MeasurementValueTint.NORMAL,
+    )
 }

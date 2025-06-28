@@ -13,10 +13,12 @@ import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
 import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.statistic.StatisticIntent
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_range_picker_open
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StatisticCategory(
@@ -51,4 +53,20 @@ fun StatisticCategory(
             }
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    val categories = listOf(
+        category(),
+        category(),
+    )
+    StatisticCategory(
+        state = StatisticCategoryState(
+            categories = categories,
+            selection = categories.first(),
+        ),
+        onIntent = {},
+    )
 }

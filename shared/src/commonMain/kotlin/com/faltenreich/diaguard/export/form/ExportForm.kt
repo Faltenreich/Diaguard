@@ -64,11 +64,11 @@ fun ExportForm(
             )
             if (showDateRangePicker) {
                 DateRangePickerDialog(
-                    dateRange = viewModel.dateRange.value,
+                    dateRange = state.date.dateRange,
                     onDismissRequest = { showDateRangePicker = false },
                     onConfirmRequest = { dateRange ->
                         showDateRangePicker = false
-                        viewModel.dateRange.value = dateRange
+                        viewModel.dispatchIntent(ExportFormIntent.SetDateRange(dateRange))
                     },
                 )
             }

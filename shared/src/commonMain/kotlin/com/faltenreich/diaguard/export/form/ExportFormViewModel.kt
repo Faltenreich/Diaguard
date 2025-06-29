@@ -24,7 +24,7 @@ class ExportFormViewModel(
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<ExportFormState, ExportFormIntent, Unit>() {
 
-    val dateRange = MutableStateFlow(getToday().let(::DateRange))
+    private val dateRange = MutableStateFlow(getToday().let(::DateRange))
     private val dateRangeLocalized = dateRange.map(dateTimeFormatter::formatDateRange)
 
     private val exportTypes = listOf(ExportType.PDF, ExportType.CSV)

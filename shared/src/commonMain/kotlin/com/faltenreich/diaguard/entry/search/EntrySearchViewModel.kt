@@ -19,17 +19,17 @@ import kotlinx.coroutines.flow.update
 import kotlin.time.Duration.Companion.seconds
 
 class EntrySearchViewModel(
-    query: String = "",
+    initialQuery: String,
     searchEntries: SearchEntriesUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
 ) : ViewModel<EntrySearchState, EntrySearchIntent, Unit>() {
 
-    private val query = MutableStateFlow(query)
+    private val query = MutableStateFlow(initialQuery)
 
-    override val state = this.query.map(::EntrySearchState)
+    override val state = query.map(::EntrySearchState)
 
     private lateinit var pagingSource: EntryListPagingSource
-    val pagingData = this.query.flatMapLatest { query ->
+    val pagingData = query.flatMapLatest { query ->
         Pager(
             config = EntryListPagingSource.newConfig(),
             pagingSourceFactory = {
@@ -40,7 +40,7 @@ class EntrySearchViewModel(
     }
 
     init {
-        snapshotFlow { this.query }
+        snapshotFlow { query }
             .debounce(1.seconds)
             .distinctUntilChanged()
             .onEach { pagingSource.invalidate() }

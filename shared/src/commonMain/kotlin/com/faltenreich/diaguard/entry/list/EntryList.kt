@@ -99,7 +99,7 @@ private fun Preview() = AppPreview {
                         ),
                     ),
                 ),
-            )
+            ),
         ).toLazyPagingItems(),
         emptyContent = {},
         onEntryClick = {},

@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
@@ -31,6 +32,7 @@ data class EntrySearchScreen(private val query: String = "") : Screen {
         val viewModel = viewModel<EntrySearchViewModel>(parameters = { parametersOf(query) })
         return BottomAppBarStyle.Visible(
             actions = {
+                // FIXME: Not synchronized with EntrySearch, e.g. onTagClick
                 var query by remember { mutableStateOf(query) }
                 EntrySearchField(
                     query = query,
@@ -45,6 +47,11 @@ data class EntrySearchScreen(private val query: String = "") : Screen {
 
     @Composable
     override fun Content() {
-        EntrySearch(viewModel = viewModel(parameters = { parametersOf(query) }))
+        val viewModel = viewModel<EntrySearchViewModel>(parameters = { parametersOf(query) })
+        EntrySearch(
+            state = viewModel.collectState(),
+            items = viewModel.pagingData.collectAsLazyPagingItems(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

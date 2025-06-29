@@ -6,21 +6,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import app.cash.paging.compose.collectAsLazyPagingItems
+import app.cash.paging.compose.LazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search_empty
 import diaguard.shared.generated.resources.entry_search_placeholder
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EntrySearch(
-    viewModel: EntrySearchViewModel,
+    state: EntrySearchState?,
+    items: LazyPagingItems<EntryListItemState>,
+    onIntent: (EntrySearchIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
-    val items = viewModel.pagingData.collectAsLazyPagingItems()
+    state ?: return
+
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
 
@@ -34,13 +39,42 @@ fun EntrySearch(
             }
         },
         onEntryClick = { entry ->
-            viewModel.dispatchIntent(EntrySearchIntent.OpenEntry(entry))
+            onIntent(EntrySearchIntent.OpenEntry(entry))
         },
         onTagClick = { tag ->
-            viewModel.dispatchIntent(EntrySearchIntent.SetQuery(tag.name))
+            onIntent(EntrySearchIntent.SetQuery(tag.name))
             scope.launch { listState.scrollToItem(0) }
         },
         listState = listState,
         modifier = modifier.fillMaxSize(),
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    EntrySearch(
+        state = EntrySearchState(
+            query = "Query",
+        ),
+        items = listOf(
+            EntryListItemState(
+                entry = entry(),
+                dateTimeLocalized = now().toString(),
+                foodEatenLocalized = emptyList(),
+                categories = listOf(
+                    EntryListItemState.Category(
+                        category = category(),
+                        values = listOf(
+                            EntryListItemState.Value(
+                                property = property(),
+                                valueLocalized = value().value.toString(),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ).toLazyPagingItems(),
+        onIntent = {},
     )
 }

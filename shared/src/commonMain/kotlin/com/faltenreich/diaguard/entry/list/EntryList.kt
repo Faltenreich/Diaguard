@@ -16,7 +16,9 @@ import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.tag.Tag
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EntryList(
@@ -75,4 +77,32 @@ fun EntryList(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    EntryList(
+        items = listOf(
+            EntryListItemState(
+                entry = entry(),
+                dateTimeLocalized = now().toString(),
+                foodEatenLocalized = emptyList(),
+                categories = listOf(
+                    EntryListItemState.Category(
+                        category = category(),
+                        values = listOf(
+                            EntryListItemState.Value(
+                                property = property(),
+                                valueLocalized = value().value.toString(),
+                            ),
+                        ),
+                    ),
+                ),
+            )
+        ).toLazyPagingItems(),
+        emptyContent = {},
+        onEntryClick = {},
+        onTagClick = {},
+    )
 }

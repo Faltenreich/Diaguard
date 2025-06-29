@@ -1,5 +1,9 @@
 package com.faltenreich.diaguard.shared.view.preview
 
+import androidx.compose.runtime.Composable
+import app.cash.paging.PagingData
+import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
@@ -10,6 +14,7 @@ import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.tag.Tag
+import kotlinx.coroutines.flow.flowOf
 
 class PreviewScope(
     dateTimeFactory: DateTimeFactory,
@@ -21,7 +26,11 @@ class PreviewScope(
         updatedAt = now(),
         dateTime = now(),
         note = "Note",
-    )
+    ).apply {
+        values = emptyList()
+        entryTags = emptyList()
+        foodEaten = emptyList()
+    }
 
     fun category() = MeasurementCategory.Local(
         id = 0L,
@@ -85,4 +94,9 @@ class PreviewScope(
         .take(3)
         .lowercase()
         .replaceFirstChar(Char::uppercase)
+
+    @Composable
+    fun <T : Any> List<T>.toLazyPagingItems(): LazyPagingItems<T> {
+        return flowOf(PagingData.from(this)).collectAsLazyPagingItems()
+    }
 }

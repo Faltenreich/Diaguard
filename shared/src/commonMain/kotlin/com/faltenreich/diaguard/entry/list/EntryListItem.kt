@@ -16,7 +16,9 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.tag.Tag
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EntryListItem(
@@ -119,4 +121,29 @@ private fun FoodEaten(state: EntryListItemState) {
     state.foodEatenLocalized.forEach { foodEaten ->
         Text(foodEaten)
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    EntryListItem(
+        state = EntryListItemState(
+            entry = entry(),
+            dateTimeLocalized = now().toString(),
+            foodEatenLocalized = emptyList(),
+            categories = listOf(
+                EntryListItemState.Category(
+                    category = category(),
+                    values = listOf(
+                        EntryListItemState.Value(
+                            property = property(),
+                            valueLocalized = value().value.toString(),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        onClick = {},
+        onTagClick = {},
+    )
 }

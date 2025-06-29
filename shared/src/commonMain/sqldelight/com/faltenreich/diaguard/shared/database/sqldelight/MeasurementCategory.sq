@@ -1,0 +1,40 @@
+CREATE TABLE MeasurementCategory (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    key TEXT UNIQUE,
+    name TEXT NOT NULL,
+    icon TEXT,
+    sortIndex INTEGER NOT NULL,
+    isActive INTEGER NOT NULL
+);
+
+create:
+INSERT INTO MeasurementCategory(createdAt, updatedAt, key, name, icon, sortIndex, isActive)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getById:
+SELECT * FROM MeasurementCategory WHERE id = ?;
+
+getByKey:
+SELECT * FROM MeasurementCategory WHERE key = ?;
+
+getAll:
+SELECT * FROM MeasurementCategory ORDER BY sortIndex ASC;
+
+getActive:
+SELECT * FROM MeasurementCategory WHERE isActive = 1 ORDER BY sortIndex ASC;
+
+countAll:
+SELECT COUNT(*) FROM MeasurementCategory;
+
+update:
+UPDATE MeasurementCategory
+SET updatedAt = ?, name = ?, icon = ?, sortIndex = ?, isActive = ?
+WHERE id = ?;
+
+deleteById:
+DELETE FROM MeasurementCategory WHERE id = ?;

@@ -2,6 +2,10 @@ package com.faltenreich.diaguard.entry.search
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
@@ -27,9 +31,13 @@ data class EntrySearchScreen(private val query: String = "") : Screen {
         val viewModel = viewModel<EntrySearchViewModel>(parameters = { parametersOf(query) })
         return BottomAppBarStyle.Visible(
             actions = {
+                var query by remember { mutableStateOf(query) }
                 EntrySearchField(
-                    query = viewModel.query,
-                    onQueryChange = { viewModel.query = it },
+                    query = query,
+                    onQueryChange = { input ->
+                        query = input
+                        viewModel.dispatchIntent(EntrySearchIntent.SetQuery(input))
+                    },
                 )
             }
         )

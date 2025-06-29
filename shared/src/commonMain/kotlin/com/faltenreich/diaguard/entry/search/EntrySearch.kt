@@ -19,6 +19,7 @@ fun EntrySearch(
     viewModel: EntrySearchViewModel,
     modifier: Modifier = Modifier,
 ) {
+    val state = viewModel.collectState() ?: return
     val items = viewModel.pagingData.collectAsLazyPagingItems()
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
@@ -26,7 +27,7 @@ fun EntrySearch(
     EntryList(
         items = items,
         emptyContent = {
-            if (viewModel.query.isBlank()) {
+            if (state.query.isBlank()) {
                 Text(getString(Res.string.entry_search_placeholder))
             } else {
                 Text(getString(Res.string.entry_search_empty))
@@ -36,7 +37,7 @@ fun EntrySearch(
             viewModel.dispatchIntent(EntrySearchIntent.OpenEntry(entry))
         },
         onTagClick = { tag ->
-            viewModel.query = tag.name
+            viewModel.dispatchIntent(EntrySearchIntent.SetQuery(tag.name))
             scope.launch { listState.scrollToItem(0) }
         },
         listState = listState,

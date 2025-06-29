@@ -11,7 +11,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -25,19 +24,21 @@ class EntrySearchViewModel(
 ) : ViewModel<EntrySearchState, EntrySearchIntent, Unit>() {
 
     private val query = MutableStateFlow(initialQuery)
-
-    override val state = query.map(::EntrySearchState)
-
     private lateinit var pagingSource: EntryListPagingSource
-    val pagingData = query.flatMapLatest { query ->
-        Pager(
-            config = EntryListPagingSource.newConfig(),
-            pagingSourceFactory = {
-                EntryListPagingSource(getData = { page -> searchEntries(query, page) })
-                    .also { pagingSource = it }
-            },
-        ).flow.cachedIn(scope)
+
+    override val state = query.map { query ->
+        EntrySearchState(
+            query = query,
+            pagingData = Pager(
+                config = EntryListPagingSource.newConfig(),
+                pagingSourceFactory = {
+                    EntryListPagingSource(getData = { page -> searchEntries(query, page) })
+                        .also { pagingSource = it }
+                },
+            ).flow.cachedIn(scope),
+        )
     }
+
 
     init {
         snapshotFlow { query }

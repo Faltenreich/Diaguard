@@ -29,6 +29,8 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.datetime.picker.TimePickerDialog
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.shared.localization.getString
@@ -37,6 +39,7 @@ import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.alarm
 import diaguard.shared.generated.resources.ic_alarm
@@ -47,13 +50,16 @@ import diaguard.shared.generated.resources.ic_time
 import diaguard.shared.generated.resources.minutes_until_notification
 import diaguard.shared.generated.resources.note
 import diaguard.shared.generated.resources.tag_remove_description
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EntryForm(
-    viewModel: EntryFormViewModel,
+    state: EntryFormState?,
+    onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
+    state ?: return
+
     var note by remember { mutableStateOf(state.note) }
     var alarmDelayInMinutes by remember { mutableStateOf(state.alarmDelayInMinutes) }
     var tagQuery by remember { mutableStateOf(state.tags.query) }
@@ -92,12 +98,12 @@ fun EntryForm(
                     input = tagQuery,
                     onInputChange = { input ->
                         tagQuery = input
-                        viewModel.dispatchIntent(EntryFormIntent.SetTagQuery(input))
+                        onIntent(EntryFormIntent.SetTagQuery(input))
                     },
                     suggestions = state.tags.suggestions,
                     onSuggestionSelected = { tag ->
-                        viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
-                        viewModel.dispatchIntent(EntryFormIntent.SetTagQuery(""))
+                        onIntent(EntryFormIntent.AddTag(tag))
+                        onIntent(EntryFormIntent.SetTagQuery(""))
                     }
                 )
             }
@@ -105,7 +111,7 @@ fun EntryForm(
             state.tags.selection.takeIf(List<*>::isNotEmpty)?.let { tags ->
                 EntryTagList(
                     tags = tags,
-                    onTagClick = { tag -> viewModel.dispatchIntent(EntryFormIntent.RemoveTag(tag)) },
+                    onTagClick = { tag -> onIntent(EntryFormIntent.RemoveTag(tag)) },
                     trailingIcon = { tag ->
                         ResourceIcon(
                             icon = Res.drawable.ic_clear,
@@ -133,7 +139,7 @@ fun EntryForm(
                     input = note,
                     onInputChange = { input ->
                         note = input
-                        viewModel.dispatchIntent(EntryFormIntent.SetNote(input))
+                        onIntent(EntryFormIntent.SetNote(input))
                     },
                     placeholder = { Text(getString(Res.string.note)) },
                     modifier = Modifier.fillMaxWidth(),
@@ -149,7 +155,7 @@ fun EntryForm(
                     onInputChange = { input ->
                         val minutes = input.toIntOrNull()
                         alarmDelayInMinutes = minutes
-                        viewModel.dispatchIntent(EntryFormIntent.SetAlarm(minutes))
+                        onIntent(EntryFormIntent.SetAlarm(minutes))
                     },
                     placeholder = { Text(getString(Res.string.alarm)) },
                     suffix = {
@@ -178,7 +184,7 @@ fun EntryForm(
                     MeasurementCategoryInput(
                         state = measurement,
                         foodEaten = state.foodEaten,
-                        onIntent = viewModel::dispatchIntent,
+                        onIntent = onIntent,
                     )
                 }
             }
@@ -191,7 +197,7 @@ fun EntryForm(
             onDismissRequest = { showDatePicker = false },
             onConfirmRequest = { date ->
                 showDatePicker = false
-                viewModel.dispatchIntent(EntryFormIntent.SetDate(date))
+                onIntent(EntryFormIntent.SetDate(date))
             },
         )
     }
@@ -202,7 +208,7 @@ fun EntryForm(
             onDismissRequest = { showTimePicker = false },
             onConfirmRequest = { time ->
                 showTimePicker = false
-                viewModel.dispatchIntent(EntryFormIntent.SetTime(time))
+                onIntent(EntryFormIntent.SetTime(time))
             },
         )
     }
@@ -210,12 +216,52 @@ fun EntryForm(
     if (state.deleteDialog != null) {
         DeleteDialog(
             onDismissRequest = {
-                viewModel.dispatchIntent(EntryFormIntent.CloseDeleteDialog)
+                onIntent(EntryFormIntent.CloseDeleteDialog)
             },
             onConfirmRequest = {
-                viewModel.dispatchIntent(EntryFormIntent.CloseDeleteDialog)
-                viewModel.dispatchIntent(EntryFormIntent.Delete(needsConfirmation = false))
+                onIntent(EntryFormIntent.CloseDeleteDialog)
+                onIntent(EntryFormIntent.Delete(needsConfirmation = false))
             },
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    val dateTime = now()
+    EntryForm(
+        state = EntryFormState(
+            dateTime = EntryFormState.DateTime(
+                date = dateTime.date,
+                dateLocalized = dateTime.date.toString(),
+                time = dateTime.time,
+                timeLocalized = dateTime.time.toString(),
+            ),
+            note = "Note",
+            alarmDelayInMinutes = 10,
+            measurements = listOf(
+                MeasurementCategoryInputState(
+                    category = category(),
+                    propertyInputStates = listOf(
+                        MeasurementPropertyInputState(
+                            property = property(),
+                            input = "Value",
+                            isLast = true,
+                            error = null,
+                            decimalPlaces = 3,
+                        ),
+                    ),
+                ),
+            ),
+            foodEaten = emptyList(),
+            tags = EntryFormState.Tags(
+                query = "",
+                suggestions = emptyList(),
+                selection = listOf(tag()),
+            ),
+            deleteDialog = null,
+        ),
+        onIntent = {},
+    )
 }

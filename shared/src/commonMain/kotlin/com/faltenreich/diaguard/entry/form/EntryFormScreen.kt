@@ -106,6 +106,7 @@ data class EntryFormScreen(
                     foodId.takeIf { it >= 0 })
             },
         )
+
         val foodSelectionViewModel = sharedViewModel<FoodSelectionViewModel>()
         LaunchedEffect(Unit) {
             foodSelectionViewModel.collectEvents { event ->
@@ -115,6 +116,10 @@ data class EntryFormScreen(
                 }
             }
         }
-        EntryForm(viewModel)
+
+        EntryForm(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

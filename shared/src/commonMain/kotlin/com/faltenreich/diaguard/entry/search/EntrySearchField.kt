@@ -12,11 +12,13 @@ import androidx.compose.ui.platform.LocalFocusManager
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.ClearButton
 import com.faltenreich.diaguard.shared.view.SearchField
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search_prompt
 import diaguard.shared.generated.resources.ic_search
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EntrySearchField(
@@ -54,5 +56,14 @@ fun EntrySearchField(
         modifier = modifier
             .fillMaxWidth()
             .focusRequester(focusRequester),
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    EntrySearchField(
+        query = "",
+        onQueryChange = {},
     )
 }

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.datetime.picker.DateRangePickerDialog
 import com.faltenreich.diaguard.export.ExportType
+import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
@@ -25,6 +26,7 @@ import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextDivider
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.data
 import diaguard.shared.generated.resources.date_range_picker_open
@@ -38,13 +40,15 @@ import diaguard.shared.generated.resources.measurement_categories
 import diaguard.shared.generated.resources.notes
 import diaguard.shared.generated.resources.tags
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ExportForm(
-    viewModel: ExportFormViewModel,
+    state: ExportFormState?,
+    onIntent: (ExportFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
+    state ?: return
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         var showDateRangePicker by remember { mutableStateOf(false) }
@@ -68,7 +72,7 @@ fun ExportForm(
                     onDismissRequest = { showDateRangePicker = false },
                     onConfirmRequest = { dateRange ->
                         showDateRangePicker = false
-                        viewModel.dispatchIntent(ExportFormIntent.SetDateRange(dateRange))
+                        onIntent(ExportFormIntent.SetDateRange(dateRange))
                     },
                 )
             }
@@ -90,7 +94,7 @@ fun ExportForm(
                 onDismissRequest = { expandDropdownForType = false },
                 items = state.type.options.map { type ->
                     getString(type.title) to {
-                        viewModel.dispatchIntent(ExportFormIntent.SelectType(type))
+                        onIntent(ExportFormIntent.SelectType(type))
                     }
                 },
             )
@@ -99,7 +103,7 @@ fun ExportForm(
         AnimatedVisibility(visible = state.type.selection == ExportType.PDF) {
             ExportPdfLayoutForm(
                 state = state,
-                onIntent = viewModel::dispatchIntent,
+                onIntent = onIntent,
             )
         }
 
@@ -110,7 +114,7 @@ fun ExportForm(
             modifier = Modifier.toggleable(
                 value = state.content.includeNotes,
                 role = Role.Checkbox,
-                onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludeNotes(it)) },
+                onValueChange = { onIntent(ExportFormIntent.SetIncludeNotes(it)) },
             ),
         ) {
             TextCheckbox(
@@ -128,7 +132,7 @@ fun ExportForm(
             modifier = Modifier.toggleable(
                 value = state.content.includeTags,
                 role = Role.Checkbox,
-                onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludeTags(it)) },
+                onValueChange = { onIntent(ExportFormIntent.SetIncludeTags(it)) },
             ),
         ) {
             TextCheckbox(
@@ -146,7 +150,7 @@ fun ExportForm(
             modifier = Modifier.toggleable(
                 value = state.layout.includeDaysWithoutEntries,
                 role = Role.Checkbox,
-                onValueChange = { viewModel.dispatchIntent(ExportFormIntent.SetIncludeDaysWithoutEntries(it)) },
+                onValueChange = { onIntent(ExportFormIntent.SetIncludeDaysWithoutEntries(it)) },
             ),
         ) {
             TextCheckbox(
@@ -166,8 +170,7 @@ fun ExportForm(
                     value = category.isExported,
                     role = Role.Checkbox,
                     onValueChange = {
-                        val intent = ExportFormIntent.SetCategory(category.copy(isExported = !category.isExported))
-                        viewModel.dispatchIntent(intent)
+                        onIntent(ExportFormIntent.SetCategory(category.copy(isExported = !category.isExported)))
                     },
                 ),
             ) {
@@ -182,4 +185,40 @@ fun ExportForm(
             Divider()
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    ExportForm(
+        state = ExportFormState(
+            date = ExportFormState.Date(
+                dateRange = week().toDateRange(),
+                dateRangeLocalized = "DateRange",
+                includeCalendarWeek = true,
+                includeDateOfExport = true,
+            ),
+            type = ExportFormState.Type(
+                selection = ExportType.PDF,
+                options = emptyList(),
+            ),
+            layout = ExportFormState.Layout(
+                selection = PdfLayout.TIMELINE,
+                options = emptyList(),
+                includePageNumber = true,
+                includeDaysWithoutEntries = true,
+            ),
+            content = ExportFormState.Content(
+                categories = listOf(
+                    ExportFormState.Content.Category(
+                        category = category(),
+                        isExported = true,
+                    ),
+                ),
+                includeNotes = true,
+                includeTags = true,
+            ),
+        ),
+        onIntent = {},
+    )
 }

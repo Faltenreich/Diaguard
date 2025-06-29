@@ -42,6 +42,10 @@ data object ExportFormScreen : Screen {
 
     @Composable
     override fun Content() {
-        ExportForm(viewModel = viewModel())
+        val viewModel = viewModel<ExportFormViewModel>()
+        ExportForm(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

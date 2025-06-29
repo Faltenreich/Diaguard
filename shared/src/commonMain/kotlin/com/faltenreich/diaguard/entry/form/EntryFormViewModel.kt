@@ -1,8 +1,5 @@
 package com.faltenreich.diaguard.entry.form
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
@@ -55,15 +52,13 @@ class EntryFormViewModel(
 
     private val dateTime = MutableStateFlow(getDateTimeForEntry(editing, dateTimeIsoString))
 
-    var note: String by mutableStateOf(editing?.note ?: "")
-
-    var alarmDelayInMinutes: Int? by mutableStateOf(null)
+    private val note = MutableStateFlow(editing?.note ?: "")
+    private val alarmDelayInMinutes = MutableStateFlow<Int?>(null)
 
     private val measurements = MutableStateFlow((emptyList<MeasurementCategoryInputState>()))
-
     private val foodEaten = MutableStateFlow(emptyList<FoodEatenInputState>())
 
-    var tagQuery = MutableStateFlow("")
+    private val tagQuery = MutableStateFlow("")
     private val tagSelection = MutableStateFlow(emptyList<Tag>())
     private val tagSuggestions = combine(
         tagQuery,
@@ -73,6 +68,7 @@ class EntryFormViewModel(
             getTagsByQuery(tagQuery, tagsSelected)
         }
     private val tags = combine(
+        tagQuery,
         tagSuggestions,
         tagSelection,
         EntryFormState::Tags,
@@ -89,6 +85,8 @@ class EntryFormViewModel(
                 timeLocalized = formatDateTime(dateTime.time),
             )
         },
+        note,
+        alarmDelayInMinutes,
         measurements,
         foodEaten,
         tags,
@@ -115,20 +113,23 @@ class EntryFormViewModel(
         }
     }
 
-    override suspend fun handleIntent(intent: EntryFormIntent): Unit = with(intent) {
-        when (this) {
-            is EntryFormIntent.SetDate -> dateTime.update { it.time.atDate(date) }
-            is EntryFormIntent.SetTime -> dateTime.update { it.date.atTime(time) }
-            is EntryFormIntent.Edit -> edit(data)
+    override suspend fun handleIntent(intent: EntryFormIntent) {
+        when (intent) {
+            is EntryFormIntent.SetDate -> dateTime.update { it.time.atDate(intent.date) }
+            is EntryFormIntent.SetTime -> dateTime.update { it.date.atTime(intent.time) }
+            is EntryFormIntent.SetNote -> note.update { intent.note }
+            is EntryFormIntent.SetTagQuery -> tagQuery.update { intent.tagQuery }
+            is EntryFormIntent.SetAlarm -> alarmDelayInMinutes.update { intent.alarmDelayInMinutes }
+            is EntryFormIntent.Edit -> edit(intent.data)
             is EntryFormIntent.Submit -> submit()
-            is EntryFormIntent.Delete -> delete(needsConfirmation)
+            is EntryFormIntent.Delete -> delete(intent.needsConfirmation)
             is EntryFormIntent.CloseDeleteDialog -> deleteDialog.update { null }
             is EntryFormIntent.SelectFood -> selectFood()
-            is EntryFormIntent.AddFood -> addFood(food)
-            is EntryFormIntent.EditFood -> editFood(food)
-            is EntryFormIntent.RemoveFood -> removeFood(food)
-            is EntryFormIntent.AddTag -> addTag(tag)
-            is EntryFormIntent.RemoveTag -> removeTag(tag)
+            is EntryFormIntent.AddFood -> addFood(intent.food)
+            is EntryFormIntent.EditFood -> editFood(intent.food)
+            is EntryFormIntent.RemoveFood -> removeFood(intent.food)
+            is EntryFormIntent.AddTag -> addTag(intent.tag)
+            is EntryFormIntent.RemoveTag -> removeTag(intent.tag)
         }
     }
 
@@ -157,7 +158,7 @@ class EntryFormViewModel(
             dateTime = dateTime.value,
             measurements = measurements.value,
             tags = tagSelection.value + listOfNotNull(missingTag),
-            note = note.takeIf(String::isNotBlank),
+            note = note.value.takeIf(String::isNotBlank),
             foodEaten = foodEaten.value,
         )
         when (val result = validate(input)) {

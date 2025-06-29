@@ -17,7 +17,6 @@ import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,6 +54,9 @@ fun EntryForm(
     modifier: Modifier = Modifier,
 ) {
     val state = viewModel.collectState() ?: return
+    var note by remember { mutableStateOf(state.note) }
+    var alarmDelayInMinutes by remember { mutableStateOf(state.alarmDelayInMinutes) }
+    var tagQuery by remember { mutableStateOf(state.tags.query) }
 
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
@@ -87,12 +89,15 @@ fun EntryForm(
 
             FormRow(icon = { ResourceIcon(Res.drawable.ic_tag) }) {
                 EntryTagInput(
-                    input = viewModel.tagQuery.collectAsState().value,
-                    onInputChange = { viewModel.tagQuery.value = it },
+                    input = tagQuery,
+                    onInputChange = { input ->
+                        tagQuery = input
+                        viewModel.dispatchIntent(EntryFormIntent.SetTagQuery(input))
+                    },
                     suggestions = state.tags.suggestions,
                     onSuggestionSelected = { tag ->
                         viewModel.dispatchIntent(EntryFormIntent.AddTag(tag))
-                        viewModel.tagQuery.value = ""
+                        viewModel.dispatchIntent(EntryFormIntent.SetTagQuery(""))
                     }
                 )
             }
@@ -125,8 +130,11 @@ fun EntryForm(
 
             FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
                 TextInput(
-                    input = viewModel.note,
-                    onInputChange = { viewModel.note = it },
+                    input = note,
+                    onInputChange = { input ->
+                        note = input
+                        viewModel.dispatchIntent(EntryFormIntent.SetNote(input))
+                    },
                     placeholder = { Text(getString(Res.string.note)) },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
@@ -137,11 +145,15 @@ fun EntryForm(
 
             FormRow(icon = { ResourceIcon(Res.drawable.ic_alarm) }) {
                 TextInput(
-                    input = viewModel.alarmDelayInMinutes?.toString() ?: "",
-                    onInputChange = { viewModel.alarmDelayInMinutes = it.toIntOrNull() },
+                    input = alarmDelayInMinutes?.toString() ?: "",
+                    onInputChange = { input ->
+                        val minutes = input.toIntOrNull()
+                        alarmDelayInMinutes = minutes
+                        viewModel.dispatchIntent(EntryFormIntent.SetAlarm(minutes))
+                    },
                     placeholder = { Text(getString(Res.string.alarm)) },
                     suffix = {
-                        if (viewModel.alarmDelayInMinutes != null) {
+                        if (state.alarmDelayInMinutes != null) {
                             Text(getString(Res.string.minutes_until_notification))
                         }
                     },

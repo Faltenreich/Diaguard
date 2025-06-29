@@ -8,6 +8,8 @@ import com.faltenreich.diaguard.tag.Tag
 
 data class EntryFormState(
     val dateTime: DateTime,
+    val note: String,
+    val alarmDelayInMinutes: Int?,
     val measurements: List<MeasurementCategoryInputState>,
     val foodEaten: List<FoodEatenInputState>,
     val tags: Tags,
@@ -24,6 +26,7 @@ data class EntryFormState(
     )
 
     data class Tags(
+        val query: String,
         val suggestions: List<Tag>,
         val selection: List<Tag>,
     )

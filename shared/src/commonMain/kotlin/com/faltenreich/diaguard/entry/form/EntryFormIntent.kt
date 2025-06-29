@@ -13,6 +13,12 @@ sealed interface EntryFormIntent {
 
     data class SetTime(val time: Time) : EntryFormIntent
 
+    data class SetNote(val note: String) : EntryFormIntent
+
+    data class SetTagQuery(val tagQuery: String) : EntryFormIntent
+
+    data class SetAlarm(val alarmDelayInMinutes: Int?) : EntryFormIntent
+
     data class Edit(val data: MeasurementPropertyInputState) : EntryFormIntent
 
     data object Submit : EntryFormIntent

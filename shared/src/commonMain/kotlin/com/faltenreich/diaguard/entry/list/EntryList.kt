@@ -13,11 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
+import app.cash.paging.PagingData
 import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.tag.Tag
+import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -83,24 +86,28 @@ fun EntryList(
 @Composable
 private fun Preview() = AppPreview {
     EntryList(
-        items = listOf(
-            EntryListItemState(
-                entry = entry(),
-                dateTimeLocalized = now().toString(),
-                foodEatenLocalized = emptyList(),
-                categories = listOf(
-                    EntryListItemState.Category(
-                        category = category(),
-                        values = listOf(
-                            EntryListItemState.Value(
-                                property = property(),
-                                valueLocalized = value().value.toString(),
+        items = flowOf(
+            PagingData.from(
+                listOf(
+                    EntryListItemState(
+                        entry = entry(),
+                        dateTimeLocalized = now().toString(),
+                        foodEatenLocalized = emptyList(),
+                        categories = listOf(
+                            EntryListItemState.Category(
+                                category = category(),
+                                values = listOf(
+                                    EntryListItemState.Value(
+                                        property = property(),
+                                        valueLocalized = value().value.toString(),
+                                    ),
+                                ),
                             ),
                         ),
                     ),
                 ),
             ),
-        ).toLazyPagingItems(),
+        ).collectAsLazyPagingItems(),
         emptyContent = {},
         onEntryClick = {},
         onTagClick = {},

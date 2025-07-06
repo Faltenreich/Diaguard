@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodEatenListItem(
@@ -26,4 +28,17 @@ fun FoodEatenListItem(
             text = foodEaten.amountInGrams,
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    FoodEatenListItem(
+        foodEaten = FoodEaten.Localized(
+            local = foodEaten(),
+            dateTime = now().toString(),
+            amountInGrams = "20",
+        ),
+        onIntent = {},
+    )
 }

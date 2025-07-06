@@ -57,6 +57,10 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
 
     @Composable
     override fun Content() {
-        FoodEatenList(viewModel = viewModel { parametersOf(foodId) })
+        val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
+        FoodEatenList(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

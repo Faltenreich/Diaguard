@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.shared.view.preview
 import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
@@ -82,6 +84,35 @@ class PreviewScope(
         createdAt = now(),
         updatedAt = now(),
         name = "Tag",
+    )
+
+    fun food() = Food.Local(
+        id = 0L,
+        createdAt = now(),
+        updatedAt = now(),
+        uuid = null,
+        name = "Food",
+        brand = "Brand",
+        ingredients = "Ingredients",
+        labels = "Labels",
+        carbohydrates = 5.0,
+        energy = 2.0,
+        fat = 2.0,
+        fatSaturated = 2.0,
+        fiber = 2.0,
+        proteins = 2.0,
+        salt = 2.0,
+        sodium = 2.0,
+        sugar = 2.0,
+    )
+
+    fun foodEaten() = FoodEaten.Local(
+        id = 0L,
+        createdAt = now(),
+        updatedAt = now(),
+        amountInGrams = 20.0,
+        food = food(),
+        entry = entry(),
     )
 
     @Suppress("MagicNumber")

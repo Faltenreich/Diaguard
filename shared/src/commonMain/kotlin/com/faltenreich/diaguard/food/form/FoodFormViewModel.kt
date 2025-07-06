@@ -41,15 +41,15 @@ class FoodFormViewModel(
     var brand: String by mutableStateOf(food?.brand ?: "")
     var ingredients: String by mutableStateOf(food?.ingredients ?: "")
     var labels: String by mutableStateOf(food?.labels ?: "")
-    private var carbohydrates: String by mutableStateOf(food?.carbohydrates?.let(::formatNutrient) ?: "")
-    private var energy: String by mutableStateOf(food?.energy?.let(::formatNutrient) ?: "")
-    private var fat: String by mutableStateOf(food?.fat?.let(::formatNutrient) ?: "")
-    private var fatSaturated: String by mutableStateOf(food?.fatSaturated?.let(::formatNutrient) ?: "")
-    private var fiber: String by mutableStateOf(food?.fiber?.let(::formatNutrient) ?: "")
-    private var proteins: String by mutableStateOf(food?.proteins?.let(::formatNutrient) ?: "")
-    private var salt: String by mutableStateOf(food?.salt?.let(::formatNutrient) ?: "")
-    private var sodium: String by mutableStateOf(food?.sodium?.let(::formatNutrient) ?: "")
-    private var sugar: String by mutableStateOf(food?.sugar?.let(::formatNutrient) ?: "")
+    private var carbohydrates = MutableStateFlow(food?.carbohydrates?.let(::formatNutrient) ?: "")
+    private var energy = MutableStateFlow(food?.energy?.let(::formatNutrient) ?: "")
+    private var fat = MutableStateFlow(food?.fat?.let(::formatNutrient) ?: "")
+    private var fatSaturated = MutableStateFlow(food?.fatSaturated?.let(::formatNutrient) ?: "")
+    private var fiber = MutableStateFlow(food?.fiber?.let(::formatNutrient) ?: "")
+    private var proteins = MutableStateFlow(food?.proteins?.let(::formatNutrient) ?: "")
+    private var salt = MutableStateFlow(food?.salt?.let(::formatNutrient) ?: "")
+    private var sodium = MutableStateFlow(food?.sodium?.let(::formatNutrient) ?: "")
+    private var sugar = MutableStateFlow(food?.sugar?.let(::formatNutrient) ?: "")
 
     private val nutrients = listOf(
         FoodNutrient.CARBOHYDRATES,
@@ -68,15 +68,15 @@ class FoodFormViewModel(
             FoodNutrientData(
                 nutrient = nutrient,
                 per100g = when (nutrient) {
-                    FoodNutrient.CARBOHYDRATES -> carbohydrates
-                    FoodNutrient.SUGAR -> sugar
-                    FoodNutrient.ENERGY -> energy
-                    FoodNutrient.FAT -> fat
-                    FoodNutrient.FAT_SATURATED -> fatSaturated
-                    FoodNutrient.FIBER -> fiber
-                    FoodNutrient.PROTEINS -> proteins
-                    FoodNutrient.SALT -> salt
-                    FoodNutrient.SODIUM -> sodium
+                    FoodNutrient.CARBOHYDRATES -> carbohydrates.value
+                    FoodNutrient.SUGAR -> sugar.value
+                    FoodNutrient.ENERGY -> energy.value
+                    FoodNutrient.FAT -> fat.value
+                    FoodNutrient.FAT_SATURATED -> fatSaturated.value
+                    FoodNutrient.FIBER -> fiber.value
+                    FoodNutrient.PROTEINS -> proteins.value
+                    FoodNutrient.SALT -> salt.value
+                    FoodNutrient.SODIUM -> sodium.value
                 },
                 isLast = index == nutrients.size - 1,
             )
@@ -117,15 +117,15 @@ class FoodFormViewModel(
 
     private fun editNutrient(data: FoodNutrientData) {
         when (data.nutrient) {
-            FoodNutrient.CARBOHYDRATES -> carbohydrates = data.per100g
-            FoodNutrient.SUGAR -> sugar = data.per100g
-            FoodNutrient.ENERGY -> energy = data.per100g
-            FoodNutrient.FAT -> fat = data.per100g
-            FoodNutrient.FAT_SATURATED -> fatSaturated = data.per100g
-            FoodNutrient.FIBER -> fiber = data.per100g
-            FoodNutrient.PROTEINS -> proteins = data.per100g
-            FoodNutrient.SALT -> salt = data.per100g
-            FoodNutrient.SODIUM -> sodium = data.per100g
+            FoodNutrient.CARBOHYDRATES -> carbohydrates.update { data.per100g }
+            FoodNutrient.SUGAR -> sugar.update { data.per100g }
+            FoodNutrient.ENERGY -> energy.update { data.per100g }
+            FoodNutrient.FAT -> fat.update { data.per100g }
+            FoodNutrient.FAT_SATURATED -> fatSaturated.update {  data.per100g }
+            FoodNutrient.FIBER -> fiber.update {  data.per100g }
+            FoodNutrient.PROTEINS -> proteins.update {  data.per100g }
+            FoodNutrient.SALT -> salt.update {  data.per100g }
+            FoodNutrient.SODIUM -> sodium.update {  data.per100g }
         }
     }
 
@@ -135,15 +135,15 @@ class FoodFormViewModel(
             brand = brand,
             ingredients = ingredients,
             labels = labels,
-            carbohydrates = carbohydrates,
-            energy = energy,
-            fat = fat,
-            fatSaturated = fatSaturated,
-            fiber = fiber,
-            proteins = proteins,
-            salt = salt,
-            sodium = sodium,
-            sugar = sugar,
+            carbohydrates = carbohydrates.value,
+            energy = energy.value,
+            fat = fat.value,
+            fatSaturated = fatSaturated.value,
+            fiber = fiber.value,
+            proteins = proteins.value,
+            salt = salt.value,
+            sodium = sodium.value,
+            sugar = sugar.value,
         )
 
         when (val result = validateInput(input, food)) {

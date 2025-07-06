@@ -2,6 +2,10 @@ package com.faltenreich.diaguard.food.nutrient
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -16,10 +20,12 @@ fun FoodNutrientListItem(
     onIntent: (FoodFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var per100g by remember { mutableStateOf(data.per100g) }
     FormRow(modifier = modifier) {
         TextInput(
-            input = data.per100g,
+            input = per100g,
             onInputChange = { input ->
+                per100g = input
                 onIntent(FoodFormIntent.EditNutrient(data.copy(per100g = input)))
             },
             label = getString(data.nutrient.label),

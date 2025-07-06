@@ -92,7 +92,7 @@ fun MeasurementCategoryInput(
             foodEaten.forEachIndexed { index, data ->
                 Divider()
                 FoodEatenInput(
-                    data = data,
+                    state = data,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(AppTheme.dimensions.padding.P_1),

@@ -40,12 +40,12 @@ data class FoodFormScreen(private val foodId: Long) : Screen {
         val viewModel = viewModel<FoodFormViewModel> { parametersOf(foodId) }
         return BottomAppBarStyle.Visible(
             actions = {
-                val food = viewModel.food
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.food_delete,
                     onClick = { viewModel.dispatchIntent(FoodFormIntent.Delete) },
                 )
+                val food = viewModel.collectState()?.food
                 if (food != null) {
                     BottomAppBarItem(
                         painter = painterResource(Res.drawable.ic_history),

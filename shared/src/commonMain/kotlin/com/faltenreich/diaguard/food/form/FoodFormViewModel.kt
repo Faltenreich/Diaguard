@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.shared.validation.ValidationResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -33,23 +33,23 @@ class FoodFormViewModel(
     private val formatNumber: NumberFormatter = inject(),
 ) : ViewModel<FoodFormState, FoodFormIntent, Unit>() {
 
+    private val food = foodId?.let(getFoodById::invoke)
     private val error = MutableStateFlow<String?>(null)
 
-    val food = foodId?.let(getFoodById::invoke)
-
+    // TODO: Move MutableState into Composable and cache values in MutableStateFlow
     var name: String by mutableStateOf(food?.name ?: "")
     var brand: String by mutableStateOf(food?.brand ?: "")
     var ingredients: String by mutableStateOf(food?.ingredients ?: "")
     var labels: String by mutableStateOf(food?.labels ?: "")
-    var carbohydrates: String by mutableStateOf(food?.carbohydrates?.let(::formatNutrient) ?: "")
-    var energy: String by mutableStateOf(food?.energy?.let(::formatNutrient) ?: "")
-    var fat: String by mutableStateOf(food?.fat?.let(::formatNutrient) ?: "")
-    var fatSaturated: String by mutableStateOf(food?.fatSaturated?.let(::formatNutrient) ?: "")
-    var fiber: String by mutableStateOf(food?.fiber?.let(::formatNutrient) ?: "")
-    var proteins: String by mutableStateOf(food?.proteins?.let(::formatNutrient) ?: "")
-    var salt: String by mutableStateOf(food?.salt?.let(::formatNutrient) ?: "")
-    var sodium: String by mutableStateOf(food?.sodium?.let(::formatNutrient) ?: "")
-    var sugar: String by mutableStateOf(food?.sugar?.let(::formatNutrient) ?: "")
+    private var carbohydrates: String by mutableStateOf(food?.carbohydrates?.let(::formatNutrient) ?: "")
+    private var energy: String by mutableStateOf(food?.energy?.let(::formatNutrient) ?: "")
+    private var fat: String by mutableStateOf(food?.fat?.let(::formatNutrient) ?: "")
+    private var fatSaturated: String by mutableStateOf(food?.fatSaturated?.let(::formatNutrient) ?: "")
+    private var fiber: String by mutableStateOf(food?.fiber?.let(::formatNutrient) ?: "")
+    private var proteins: String by mutableStateOf(food?.proteins?.let(::formatNutrient) ?: "")
+    private var salt: String by mutableStateOf(food?.salt?.let(::formatNutrient) ?: "")
+    private var sodium: String by mutableStateOf(food?.sodium?.let(::formatNutrient) ?: "")
+    private var sugar: String by mutableStateOf(food?.sugar?.let(::formatNutrient) ?: "")
 
     private val nutrients = listOf(
         FoodNutrient.CARBOHYDRATES,
@@ -82,7 +82,11 @@ class FoodFormViewModel(
             )
         }
 
-    override val state = error.map(::FoodFormState)
+    override val state = combine(
+        flowOf(food),
+        error,
+        ::FoodFormState,
+    )
 
     init {
         scope.launch {

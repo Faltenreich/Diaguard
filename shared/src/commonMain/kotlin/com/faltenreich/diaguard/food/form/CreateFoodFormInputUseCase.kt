@@ -13,21 +13,22 @@ class CreateFoodFormInputUseCase(
             brand = food?.brand ?: "",
             ingredients = food?.ingredients ?: "",
             labels = food?.labels ?: "",
-            carbohydrates = food?.carbohydrates?.let(::formatNutrient) ?: "",
-            sugar = food?.sugar?.let(::formatNutrient) ?: "",
-            energy = food?.energy?.let(::formatNutrient) ?: "",
-            fat = food?.fat?.let(::formatNutrient) ?: "",
-            fatSaturated = food?.fatSaturated?.let(::formatNutrient) ?: "",
-            fiber = food?.fiber?.let(::formatNutrient) ?: "",
-            proteins = food?.proteins?.let(::formatNutrient) ?: "",
-            salt = food?.salt?.let(::formatNutrient) ?: "",
-            sodium = food?.sodium?.let(::formatNutrient) ?: "",
+            carbohydrates = food?.carbohydrates.formatted(),
+            sugar = food?.sugar.formatted(),
+            energy = food?.energy.formatted(),
+            fat = food?.fat.formatted(),
+            fatSaturated = food?.fatSaturated.formatted(),
+            fiber = food?.fiber.formatted(),
+            proteins = food?.proteins.formatted(),
+            salt = food?.salt.formatted(),
+            sodium = food?.sodium.formatted(),
         )
     }
 
-    private fun formatNutrient(nutrient: Double): String {
+    private fun Double?.formatted(): String {
+        this ?: return ""
         return formatNumber(
-            number = nutrient,
+            number = this,
             scale = SCALE,
         )
     }

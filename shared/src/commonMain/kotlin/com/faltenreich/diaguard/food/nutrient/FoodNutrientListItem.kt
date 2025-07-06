@@ -9,7 +9,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.faltenreich.diaguard.food.form.FoodFormIntent
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextInput
@@ -17,7 +16,7 @@ import com.faltenreich.diaguard.shared.view.TextInput
 @Composable
 fun FoodNutrientListItem(
     data: FoodNutrientData,
-    onIntent: (FoodFormIntent) -> Unit,
+    onUpdate: (FoodNutrientData) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var per100g by remember { mutableStateOf(data.per100g) }
@@ -26,7 +25,7 @@ fun FoodNutrientListItem(
             input = per100g,
             onInputChange = { input ->
                 per100g = input
-                onIntent(FoodFormIntent.EditNutrient(data.copy(per100g = input)))
+                onUpdate(data.copy(per100g = input))
             },
             label = getString(data.nutrient.label),
             keyboardOptions = KeyboardOptions(

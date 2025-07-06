@@ -15,13 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import com.faltenreich.diaguard.food.nutrient.FoodNutrientList
+import com.faltenreich.diaguard.food.nutrient.FoodNutrientListItem
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.NoticeBar
 import com.faltenreich.diaguard.shared.view.NoticeBarStyle
 import com.faltenreich.diaguard.shared.view.ResourceIcon
+import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.brand
@@ -30,6 +31,7 @@ import diaguard.shared.generated.resources.ic_food
 import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ingredients
 import diaguard.shared.generated.resources.name
+import diaguard.shared.generated.resources.nutrients_per_100g
 
 @Composable
 fun FoodForm(
@@ -38,9 +40,9 @@ fun FoodForm(
 ) {
     val state = viewModel.collectState() ?: return
 
-    var name by remember { mutableStateOf(state.name) }
-    var brand by remember { mutableStateOf(state.brand) }
-    var ingredients by remember { mutableStateOf(state.ingredients) }
+    var name by remember { mutableStateOf(state.input.name) }
+    var brand by remember { mutableStateOf(state.input.brand) }
+    var ingredients by remember { mutableStateOf(state.input.ingredients) }
 
     Column(modifier = modifier.fillMaxSize()) {
         Column(
@@ -54,7 +56,8 @@ fun FoodForm(
                         input = name,
                         onInputChange = { input ->
                             name = input
-                            viewModel.dispatchIntent(FoodFormIntent.SetName(input))
+                            val update = state.input.copy(name = input)
+                            viewModel.dispatchIntent(FoodFormIntent.SetInput(update))
                         },
                         label = getString(Res.string.name),
                         keyboardOptions = KeyboardOptions(
@@ -71,7 +74,8 @@ fun FoodForm(
                         input = brand,
                         onInputChange = { input ->
                             brand = input
-                            viewModel.dispatchIntent(FoodFormIntent.SetBrand(input))
+                            val update = state.input.copy(brand = input)
+                            viewModel.dispatchIntent(FoodFormIntent.SetInput(update))
                         },
                         label = getString(Res.string.brand),
                         keyboardOptions = KeyboardOptions(
@@ -88,7 +92,8 @@ fun FoodForm(
                         input = ingredients,
                         onInputChange = { input ->
                             ingredients = input
-                            viewModel.dispatchIntent(FoodFormIntent.SetIngredients(input))
+                            val update = state.input.copy(ingredients = input)
+                            viewModel.dispatchIntent(FoodFormIntent.SetInput(update))
                         },
                         label = getString(Res.string.ingredients),
                         keyboardOptions = KeyboardOptions(
@@ -99,10 +104,17 @@ fun FoodForm(
                 }
             }
 
-            FoodNutrientList(
-                data = viewModel.nutrientData,
-                onIntent = viewModel::dispatchIntent,
-            )
+            TextDivider(getString(Res.string.nutrients_per_100g))
+
+            state.input.nutrients.forEach { data ->
+                FoodNutrientListItem(
+                    data = data,
+                    onUpdate = { update ->
+                        viewModel.dispatchIntent(FoodFormIntent.SetNutrient(update))
+                    },
+                )
+                Divider()
+            }
         }
 
         NoticeBar(

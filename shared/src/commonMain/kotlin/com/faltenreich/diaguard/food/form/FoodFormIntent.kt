@@ -5,15 +5,9 @@ import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 
 sealed interface FoodFormIntent {
 
-    data class SetName(val name: String) : FoodFormIntent
+    data class SetInput(val input: FoodFormInput) : FoodFormIntent
 
-    data class SetBrand(val brand: String) : FoodFormIntent
-
-    data class SetIngredients(val ingredients: String) : FoodFormIntent
-
-    data class SetLabels(val labels: String) : FoodFormIntent
-
-    data class EditNutrient(val data: FoodNutrientData) : FoodFormIntent
+    data class SetNutrient(val data: FoodNutrientData) : FoodFormIntent
 
     data class OpenFoodEaten(val food: Food.Local) : FoodFormIntent
 

@@ -1,8 +1,5 @@
 package com.faltenreich.diaguard.food.form
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.food.Food
@@ -36,20 +33,19 @@ class FoodFormViewModel(
     private val food = foodId?.let(getFoodById::invoke)
     private val error = MutableStateFlow<String?>(null)
 
-    // TODO: Move MutableState into Composable and cache values in MutableStateFlow
-    var name: String by mutableStateOf(food?.name ?: "")
-    var brand: String by mutableStateOf(food?.brand ?: "")
-    var ingredients: String by mutableStateOf(food?.ingredients ?: "")
-    var labels: String by mutableStateOf(food?.labels ?: "")
-    private var carbohydrates = MutableStateFlow(food?.carbohydrates?.let(::formatNutrient) ?: "")
-    private var energy = MutableStateFlow(food?.energy?.let(::formatNutrient) ?: "")
-    private var fat = MutableStateFlow(food?.fat?.let(::formatNutrient) ?: "")
-    private var fatSaturated = MutableStateFlow(food?.fatSaturated?.let(::formatNutrient) ?: "")
-    private var fiber = MutableStateFlow(food?.fiber?.let(::formatNutrient) ?: "")
-    private var proteins = MutableStateFlow(food?.proteins?.let(::formatNutrient) ?: "")
-    private var salt = MutableStateFlow(food?.salt?.let(::formatNutrient) ?: "")
-    private var sodium = MutableStateFlow(food?.sodium?.let(::formatNutrient) ?: "")
-    private var sugar = MutableStateFlow(food?.sugar?.let(::formatNutrient) ?: "")
+    private val name = MutableStateFlow(food?.name ?: "")
+    private val brand = MutableStateFlow(food?.brand ?: "")
+    private val ingredients = MutableStateFlow(food?.ingredients ?: "")
+    private val labels = MutableStateFlow(food?.labels ?: "")
+    private val carbohydrates = MutableStateFlow(food?.carbohydrates?.let(::formatNutrient) ?: "")
+    private val energy = MutableStateFlow(food?.energy?.let(::formatNutrient) ?: "")
+    private val fat = MutableStateFlow(food?.fat?.let(::formatNutrient) ?: "")
+    private val fatSaturated = MutableStateFlow(food?.fatSaturated?.let(::formatNutrient) ?: "")
+    private val fiber = MutableStateFlow(food?.fiber?.let(::formatNutrient) ?: "")
+    private val proteins = MutableStateFlow(food?.proteins?.let(::formatNutrient) ?: "")
+    private val salt = MutableStateFlow(food?.salt?.let(::formatNutrient) ?: "")
+    private val sodium = MutableStateFlow(food?.sodium?.let(::formatNutrient) ?: "")
+    private val sugar = MutableStateFlow(food?.sugar?.let(::formatNutrient) ?: "")
 
     private val nutrients = listOf(
         FoodNutrient.CARBOHYDRATES,
@@ -84,6 +80,10 @@ class FoodFormViewModel(
 
     override val state = combine(
         flowOf(food),
+        name,
+        brand,
+        ingredients,
+        labels,
         error,
         ::FoodFormState,
     )
@@ -101,6 +101,10 @@ class FoodFormViewModel(
 
     override suspend fun handleIntent(intent: FoodFormIntent) {
         when (intent) {
+            is FoodFormIntent.SetName -> name.update { intent.name }
+            is FoodFormIntent.SetBrand -> brand.update { intent.brand }
+            is FoodFormIntent.SetIngredients -> ingredients.update { intent.ingredients }
+            is FoodFormIntent.SetLabels -> labels.update { intent.labels }
             is FoodFormIntent.EditNutrient -> editNutrient(intent.data)
             is FoodFormIntent.OpenFoodEaten -> pushScreen(FoodEatenListScreen(intent.food))
             is FoodFormIntent.Submit -> submit()
@@ -131,10 +135,10 @@ class FoodFormViewModel(
 
     private fun submit() = scope.launch {
         val input = Food.Input(
-            name = name,
-            brand = brand,
-            ingredients = ingredients,
-            labels = labels,
+            name = name.value,
+            brand = brand.value,
+            ingredients = ingredients.value,
+            labels = labels.value,
             carbohydrates = carbohydrates.value,
             energy = energy.value,
             fat = fat.value,

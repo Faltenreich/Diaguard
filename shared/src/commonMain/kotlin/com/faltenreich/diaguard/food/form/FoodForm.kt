@@ -7,6 +7,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.input.ImeAction
@@ -32,7 +36,11 @@ fun FoodForm(
     viewModel: FoodFormViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState()
+    val state = viewModel.collectState() ?: return
+
+    var name by remember { mutableStateOf(state.name) }
+    var brand by remember { mutableStateOf(state.brand) }
+    var ingredients by remember { mutableStateOf(state.ingredients) }
 
     Column(modifier = modifier.fillMaxSize()) {
         Column(
@@ -43,8 +51,11 @@ fun FoodForm(
             Card(shape = RectangleShape) {
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_food) }) {
                     TextInput(
-                        input = viewModel.name,
-                        onInputChange = { viewModel.name = it },
+                        input = name,
+                        onInputChange = { input ->
+                            name = input
+                            viewModel.dispatchIntent(FoodFormIntent.SetName(input))
+                        },
                         label = getString(Res.string.name),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
@@ -57,8 +68,11 @@ fun FoodForm(
 
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_brand) }) {
                     TextInput(
-                        input = viewModel.brand,
-                        onInputChange = { viewModel.brand = it },
+                        input = brand,
+                        onInputChange = { input ->
+                            brand = input
+                            viewModel.dispatchIntent(FoodFormIntent.SetBrand(input))
+                        },
                         label = getString(Res.string.brand),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
@@ -71,8 +85,11 @@ fun FoodForm(
 
                 FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
                     TextInput(
-                        input = viewModel.ingredients,
-                        onInputChange = { viewModel.ingredients = it },
+                        input = ingredients,
+                        onInputChange = { input ->
+                            ingredients = input
+                            viewModel.dispatchIntent(FoodFormIntent.SetIngredients(input))
+                        },
                         label = getString(Res.string.ingredients),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
@@ -89,8 +106,8 @@ fun FoodForm(
         }
 
         NoticeBar(
-            text = state?.error ?: "",
-            isVisible = state?.error != null,
+            text = state.error ?: "",
+            isVisible = state.error != null,
             style = NoticeBarStyle.ERROR,
         )
     }

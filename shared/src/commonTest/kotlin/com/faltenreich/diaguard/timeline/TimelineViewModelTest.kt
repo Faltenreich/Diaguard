@@ -6,11 +6,14 @@ import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
+import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChartState
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTableState
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
@@ -22,6 +25,8 @@ class TimelineViewModelTest : TestSuite {
     private val viewModel: TimelineViewModel by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
     private val navigation: Navigation by inject()
+    private val categoryRepository: MeasurementCategoryRepository by inject()
+    private val propertyRepository: MeasurementPropertyRepository by inject()
 
     @Test
     fun `launch with current date of today`() = runTest {
@@ -37,16 +42,20 @@ class TimelineViewModelTest : TestSuite {
     fun `return data with seed categories`() = runTest {
         importSeed()
 
+        val categories = categoryRepository.observeAll().first()
+        val properties = propertyRepository.getAll()
+
         viewModel.state.test {
             val state = awaitItem()
 
             assertEquals(
                 expected = TimelineChartState(
                     chartRectangle = Rect.Zero,
+                    iconRectangle = Rect.Zero,
+                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR },
                     items = emptyList(),
                     colorStops = emptyList(),
-                    valueStep = 50.0,
-                    valueAxis = 0 .. 250 step 50,
+                    labels = listOf(),
                 ),
                 actual = state.canvas?.chart,
             )
@@ -55,98 +64,117 @@ class TimelineViewModelTest : TestSuite {
                     rectangle = Rect.Zero,
                     categories = listOf(
                         TimelineTableState.Category(
+                            category = categories.first { it.key == DatabaseKey.MeasurementCategory.INSULIN },
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.INSULIN_BOLUS },
                                     rectangle = Rect.Zero,
-                                    icon = "💉",
+                                    iconRectangle = Rect.Zero,
                                     name = "bolus",
                                     values = emptyList()
                                 ),
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.INSULIN_CORRECTION },
                                     rectangle = Rect.Zero,
-                                    icon = "💉",
+                                    iconRectangle = Rect.Zero,
                                     name = "correction",
                                     values = emptyList(),
                                 ),
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.INSULIN_BASAL },
                                     rectangle = Rect.Zero,
-                                    icon = "💉",
+                                    iconRectangle = Rect.Zero,
                                     name = "basal",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
+                            category = categories.first { it.key == DatabaseKey.MeasurementCategory.MEAL },
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.MEAL },
                                     rectangle = Rect.Zero,
-                                    icon = "🍞",
+                                    iconRectangle = Rect.Zero,
                                     name = "meal",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
+                            category = categories.first { it.key == DatabaseKey.MeasurementCategory.ACTIVITY },
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.ACTIVITY },
                                     rectangle = Rect.Zero,
-                                    icon = "🏃",
+                                    iconRectangle = Rect.Zero,
                                     name = "activity",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
+                            category = categories.first { it.key == DatabaseKey.MeasurementCategory.HBA1C },
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.HBA1C },
                                     rectangle = Rect.Zero,
-                                    icon = "%",
+                                    iconRectangle = Rect.Zero,
                                     name = "hba1c",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
+                            category = categories.first { it.key == DatabaseKey.MeasurementCategory.WEIGHT },
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.WEIGHT },
                                     rectangle = Rect.Zero,
-                                    icon = "🏋",
+                                    iconRectangle = Rect.Zero,
                                     name = "weight",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
+                            category = categories.first { it.key == DatabaseKey.MeasurementCategory.PULSE },
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.PULSE },
                                     rectangle = Rect.Zero,
-                                    icon = "💚",
+                                    iconRectangle = Rect.Zero,
                                     name = "pulse",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
+                            category = categories.first { it.key == DatabaseKey.MeasurementCategory.BLOOD_PRESSURE },
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_SYSTOLIC },
                                     rectangle = Rect.Zero,
-                                    icon = "⛽",
+                                    iconRectangle = Rect.Zero,
                                     name = "systolic",
                                     values = emptyList(),
                                 ),
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC },
                                     rectangle = Rect.Zero,
-                                    icon = "⛽",
+                                    iconRectangle = Rect.Zero,
                                     name = "diastolic",
                                     values = emptyList(),
                                 ),
                             ),
                         ),
                         TimelineTableState.Category(
+                            category = categories.first { it.key == DatabaseKey.MeasurementCategory.OXYGEN_SATURATION },
                             properties = listOf(
                                 TimelineTableState.Property(
+                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.OXYGEN_SATURATION },
                                     rectangle = Rect.Zero,
-                                    icon = "O²",
+                                    iconRectangle = Rect.Zero,
                                     name = "oxygen_saturation",
                                     values = emptyList(),
                                 ),
@@ -257,7 +285,7 @@ class TimelineViewModelTest : TestSuite {
     @Test
     fun `open screen when intending to search entries`() = runTest {
         navigation.events.test {
-            viewModel.handleIntent(TimelineIntent.SearchEntries)
+            viewModel.handleIntent(TimelineIntent.OpenEntrySearch())
 
             val event = awaitItem()
             assertTrue(event is NavigationEvent.PushScreen)

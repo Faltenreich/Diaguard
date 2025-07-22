@@ -30,6 +30,8 @@ class TimelineViewModelTest : TestSuite {
 
     @Test
     fun `launch with current date of today`() = runTest {
+        importSeed()
+
         viewModel.state.test {
             assertEquals(
                 expected = dateTimeFactory.today(),
@@ -220,23 +222,9 @@ class TimelineViewModelTest : TestSuite {
     }
 
     @Test
-    fun `update date when intending to setting current date`() = runTest {
-        viewModel.state.test {
-            val scrollOffset = 0f
-            val date = dateTimeFactory.date(1970, 1, 1)
-            val config = TODO()
-
-            // TODO viewModel.handleIntent(TimelineIntent.Invalidate(scrollOffset, date, config))
-
-            assertEquals(
-                expected = date,
-                actual = awaitItem().date.currentDate,
-            )
-        }
-    }
-
-    @Test
     fun `forward previous date when intending to move day back`() = runTest {
+        importSeed()
+
         viewModel.state.test {
             val currentDate = awaitItem().date.currentDate
 
@@ -255,6 +243,8 @@ class TimelineViewModelTest : TestSuite {
 
     @Test
     fun `forward next date when intending to move day forward`() = runTest {
+        importSeed()
+
         viewModel.state.test {
             val currentDate = awaitItem().date.currentDate
 
@@ -273,6 +263,8 @@ class TimelineViewModelTest : TestSuite {
 
     @Test
     fun `open screen when intending to create entry`() = runTest {
+        importSeed()
+
         navigation.events.test {
             viewModel.handleIntent(TimelineIntent.CreateEntry)
 
@@ -284,6 +276,8 @@ class TimelineViewModelTest : TestSuite {
 
     @Test
     fun `open screen when intending to search entries`() = runTest {
+        importSeed()
+
         navigation.events.test {
             viewModel.handleIntent(TimelineIntent.OpenEntrySearch())
 

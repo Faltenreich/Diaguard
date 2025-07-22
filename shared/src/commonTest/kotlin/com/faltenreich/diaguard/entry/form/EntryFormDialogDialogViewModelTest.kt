@@ -44,29 +44,33 @@ class EntryFormDialogDialogViewModelTest : TestSuite {
     // TODO: Set locale
     @Test
     @Ignore
-    fun `format date`() {
+    fun `format date`() = runTest {
         viewModel = get(parameters = { parametersOf(null, null, null) })
 
         val date = dateTimeFactory.date(1979, 1, 1)
-        viewModel.date = date
+        viewModel.handleIntent(EntryFormIntent.SetDate(date))
 
-        assertEquals(
-            expected = "01.01.1979",
-            actual = viewModel.dateFormatted,
-        )
+        viewModel.state.test {
+            assertEquals(
+                expected = "01.01.1979",
+                actual = awaitItem().dateTime.dateLocalized,
+            )
+        }
     }
 
     @Test
-    fun `format time`() {
+    fun `format time`() = runTest {
         viewModel = get(parameters = { parametersOf(null, null, null) })
 
         val time = dateTimeFactory.time(12, 12, 12)
-        viewModel.time = time
+        viewModel.handleIntent(EntryFormIntent.SetTime(time))
 
-        assertEquals(
-            expected = "12:12",
-            actual = viewModel.timeFormatted,
-        )
+        viewModel.state.test {
+            assertEquals(
+                expected = "12:12",
+                actual = awaitItem().dateTime.timeLocalized,
+            )
+        }
     }
 
     @Test
@@ -84,7 +88,7 @@ class EntryFormDialogDialogViewModelTest : TestSuite {
         viewModel = get(parameters = { parametersOf(null, null, null) })
 
         viewModel.state.test {
-            assertTrue(awaitItem().tags.isNotEmpty())
+            assertTrue(awaitItem().tags.suggestions.isNotEmpty())
         }
     }
 
@@ -95,8 +99,8 @@ class EntryFormDialogDialogViewModelTest : TestSuite {
         val tag = Tag.User(name = "tag")
         viewModel.handleIntent(EntryFormIntent.AddTag(tag))
 
-        viewModel.tagSelection.test {
-            assertTrue(awaitItem().contains(tag))
+        viewModel.state.test {
+            assertTrue(awaitItem().tags.selection.contains(tag))
         }
     }
 
@@ -108,8 +112,8 @@ class EntryFormDialogDialogViewModelTest : TestSuite {
         viewModel.handleIntent(EntryFormIntent.AddTag(tag))
         viewModel.handleIntent(EntryFormIntent.RemoveTag(tag))
 
-        viewModel.tagSelection.test {
-            assertFalse(awaitItem().contains(tag))
+        viewModel.state.test {
+            assertFalse(awaitItem().tags.selection.contains(tag))
         }
     }
 

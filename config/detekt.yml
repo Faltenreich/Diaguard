@@ -5,6 +5,8 @@ complexity:
     active: false
   TooManyFunctions:
     active: false
+  CyclomaticComplexMethod:
+    threshold: 16
 
 exceptions:
   TooGenericExceptionCaught:

@@ -10,6 +10,8 @@ class KotlinxSerialization {
 
     @PublishedApi internal val csv = CSVFormat {
         separator = ';'
+        // Fixes kotlinx.serialization.SerializationException: Missing value at the end of line
+        includeHeader = false
     }
 
     @PublishedApi internal val json = Json {

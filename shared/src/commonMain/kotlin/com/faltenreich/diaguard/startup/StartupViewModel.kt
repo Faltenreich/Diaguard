@@ -11,6 +11,7 @@ class StartupViewModel(
 
     override suspend fun handleIntent(intent: StartupIntent) {
         when (intent) {
+            // FIXME: Does not repeat after failure
             is StartupIntent.MigrateData -> migrateData()
         }
     }

@@ -1,12 +1,12 @@
 package com.faltenreich.diaguard.startup.seed.query.food
 
 import androidx.compose.ui.text.intl.Locale
-import com.faltenreich.diaguard.startup.seed.query.SeedQueries
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.file.FileReader
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.LocalizationConstants
 import com.faltenreich.diaguard.shared.serialization.Serialization
+import com.faltenreich.diaguard.startup.seed.query.SeedQueries
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_common
 
@@ -23,22 +23,25 @@ class FoodSeedQueries(
         val locale = localization.getLocale()
         val labels = localization.getString(Res.string.food_common)
 
-        return dtoList.map { dto ->
-            Food.Seed(
-                name = dto.localizedName(locale),
-                brand = null,
-                ingredients = null,
-                labels = labels,
-                carbohydrates = dto.carbohydrates.toDouble(),
-                energy = dto.energy.toDoubleOrNull(),
-                fat = dto.fat.toDoubleOrNull(),
-                fatSaturated = dto.fatSaturated.toDoubleOrNull(),
-                fiber = dto.fiber.toDoubleOrNull(),
-                proteins = dto.proteins.toDoubleOrNull(),
-                salt = dto.salt.toDoubleOrNull(),
-                sodium = dto.sodium.toDoubleOrNull(),
-                sugar = dto.sugar.toDoubleOrNull(),
-            )
+        return dtoList.mapNotNull { dto ->
+            with(dto) {
+                val carbohydrates = carbohydrates?.toDoubleOrNull() ?: return@mapNotNull null
+                Food.Seed(
+                    name = localizedName(locale),
+                    brand = null,
+                    ingredients = null,
+                    labels = labels,
+                    carbohydrates = carbohydrates,
+                    energy = energy?.toDoubleOrNull(),
+                    fat = fat?.toDoubleOrNull(),
+                    fatSaturated = fatSaturated?.toDoubleOrNull(),
+                    fiber = fiber?.toDoubleOrNull(),
+                    proteins = proteins?.toDoubleOrNull(),
+                    salt = salt?.toDoubleOrNull(),
+                    sodium = sodium?.toDoubleOrNull(),
+                    sugar = sugar?.toDoubleOrNull(),
+                )
+            }
         }
     }
 

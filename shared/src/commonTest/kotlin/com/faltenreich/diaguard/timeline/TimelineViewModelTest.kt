@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.timeline.canvas.table.TimelineTableState
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -29,8 +30,10 @@ class TimelineViewModelTest : TestSuite {
     private val categoryRepository: MeasurementCategoryRepository by inject()
     private val propertyRepository: MeasurementPropertyRepository by inject()
 
-    private suspend fun setup() {
-        viewModel.handleIntent(
+    @BeforeTest
+    override fun beforeTest() {
+        super.beforeTest()
+        viewModel.dispatchIntent(
             TimelineIntent.Setup(
                 canvasSize = Size(width = 100f, height = 100f),
                 tableRowHeight = 10f,
@@ -54,7 +57,6 @@ class TimelineViewModelTest : TestSuite {
     @Test
     fun `return data with seed categories`() = runTest {
         importSeed()
-        setup()
 
         val categories = categoryRepository.observeAll().first()
         val properties = propertyRepository.getAll()
@@ -204,7 +206,6 @@ class TimelineViewModelTest : TestSuite {
     @Test
     fun `return chart data with values of blood sugar`() = runTest {
         importSeed()
-        setup()
 
         storeValue(120.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
         storeValue(20.0, DatabaseKey.MeasurementProperty.ACTIVITY)
@@ -220,7 +221,6 @@ class TimelineViewModelTest : TestSuite {
     @Test
     fun `return table data with values other than blood sugar`() = runTest {
         importSeed()
-        setup()
 
         storeValue(120.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
         storeValue(20.0, DatabaseKey.MeasurementProperty.ACTIVITY)
@@ -238,7 +238,6 @@ class TimelineViewModelTest : TestSuite {
     @Test
     fun `forward previous date when intending to move day back`() = runTest {
         importSeed()
-        setup()
 
         viewModel.state.test {
             val currentDate = awaitItem().date.currentDate
@@ -259,7 +258,6 @@ class TimelineViewModelTest : TestSuite {
     @Test
     fun `forward next date when intending to move day forward`() = runTest {
         importSeed()
-        setup()
 
         viewModel.state.test {
             val currentDate = awaitItem().date.currentDate

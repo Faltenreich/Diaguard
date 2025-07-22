@@ -116,10 +116,6 @@ kotlin {
     }
 
     jvmToolchain(Constants.JavaVersion)
-
-    // Workaround: Cannot locate tasks that match ':shared:testClasses'
-    // as task 'testClasses' not found in project ':shared'.
-    task("testClasses")
 }
 
 android {

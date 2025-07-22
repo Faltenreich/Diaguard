@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.food.form
 
 import app.cash.turbine.test
+import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodFactory
@@ -38,126 +39,144 @@ class FoodFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `show empty input when launching without food`() {
+    fun `show empty input when launching without food`() = runTest {
         viewModel = get(parameters = { parametersOf(null) })
 
-        assertEquals(expected = "", viewModel.name)
-        assertEquals(expected = "", viewModel.brand)
-        assertEquals(expected = "", viewModel.ingredients)
-        assertEquals(expected = "", viewModel.labels)
-
-        assertEquals(expected = "", viewModel.carbohydrates)
-        assertEquals(expected = "", viewModel.energy)
-        assertEquals(expected = "", viewModel.fat)
-        assertEquals(expected = "", viewModel.fatSaturated)
-        assertEquals(expected = "", viewModel.fiber)
-        assertEquals(expected = "", viewModel.proteins)
-        assertEquals(expected = "", viewModel.salt)
-        assertEquals(expected = "", viewModel.sodium)
-        assertEquals(expected = "", viewModel.sugar)
+        viewModel.state.test {
+            val state = awaitItem()
+            with(state.input) {
+                assertEquals(expected = "", name)
+                assertEquals(expected = "", brand)
+                assertEquals(expected = "", ingredients)
+                assertEquals(expected = "", labels)
+                assertEquals(expected = "", carbohydrates)
+                assertEquals(expected = "", energy)
+                assertEquals(expected = "", fat)
+                assertEquals(expected = "", fatSaturated)
+                assertEquals(expected = "", fiber)
+                assertEquals(expected = "", proteins)
+                assertEquals(expected = "", salt)
+                assertEquals(expected = "", sodium)
+                assertEquals(expected = "", sugar)
+            }
         }
+    }
 
     @Test
     fun `show input when launching with food`() = runTest {
         viewModel = get(parameters = { parametersOf(food.id) })
 
-        assertEquals(expected = "name", viewModel.name)
-        assertEquals(expected = "brand", viewModel.brand)
-        assertEquals(expected = "ingredients", viewModel.ingredients)
-        assertEquals(expected = "labels", viewModel.labels)
-
-        assertEquals(expected = "20", viewModel.carbohydrates)
-        assertEquals(expected = "1", viewModel.energy)
-        assertEquals(expected = "2", viewModel.fat)
-        assertEquals(expected = "3", viewModel.fatSaturated)
-        assertEquals(expected = "4", viewModel.fiber)
-        assertEquals(expected = "5", viewModel.proteins)
-        assertEquals(expected = "6", viewModel.salt)
-        assertEquals(expected = "7", viewModel.sodium)
-        assertEquals(expected = "8", viewModel.sugar)
+        viewModel.state.test {
+            val state = awaitItem()
+            with(state.input) {
+                assertEquals(expected = "name", name)
+                assertEquals(expected = "brand", brand)
+                assertEquals(expected = "ingredients", ingredients)
+                assertEquals(expected = "labels", labels)
+                assertEquals(expected = "20", carbohydrates)
+                assertEquals(expected = "1", energy)
+                assertEquals(expected = "2", fat)
+                assertEquals(expected = "3", fatSaturated)
+                assertEquals(expected = "4", fiber)
+                assertEquals(expected = "5", proteins)
+                assertEquals(expected = "6", salt)
+                assertEquals(expected = "7", sodium)
+                assertEquals(expected = "8", sugar)
+            }
+        }
     }
 
     @Test
     fun `show nutrients matching input in correct order`() = runTest {
         viewModel = get(parameters = { parametersOf(food.id) })
 
-        assertContentEquals(
-            expected = listOf(
-                FoodNutrientData(
-                    nutrient = FoodNutrient.CARBOHYDRATES,
-                    per100g = "20",
-                    isLast = false,
+        viewModel.state.test {
+            val state = awaitItem()
+            assertContentEquals(
+                expected = listOf(
+                    FoodNutrientData(
+                        nutrient = FoodNutrient.CARBOHYDRATES,
+                        per100g = "20",
+                        isLast = false,
+                    ),
+                    FoodNutrientData(
+                        nutrient = FoodNutrient.SUGAR,
+                        per100g = "8",
+                        isLast = false,
+                    ),
+                    FoodNutrientData(
+                        nutrient = FoodNutrient.ENERGY,
+                        per100g = "1",
+                        isLast = false,
+                    ),
+                    FoodNutrientData(
+                        nutrient = FoodNutrient.FAT,
+                        per100g = "2",
+                        isLast = false,
+                    ),
+                    FoodNutrientData(
+                        nutrient = FoodNutrient.FAT_SATURATED,
+                        per100g = "3",
+                        isLast = false,
+                    ),
+                    FoodNutrientData(
+                        nutrient = FoodNutrient.FIBER,
+                        per100g = "4",
+                        isLast = false,
+                    ),
+                    FoodNutrientData(
+                        nutrient = FoodNutrient.PROTEINS,
+                        per100g = "5",
+                        isLast = false,
+                    ),
+                    FoodNutrientData(
+                        nutrient = FoodNutrient.SALT,
+                        per100g = "6",
+                        isLast = false,
+                    ),
+                    FoodNutrientData(
+                        nutrient = FoodNutrient.SODIUM,
+                        per100g = "7",
+                        isLast = true,
+                    ),
                 ),
-                FoodNutrientData(
-                    nutrient = FoodNutrient.SUGAR,
-                    per100g = "8",
-                    isLast = false,
-                ),
-                FoodNutrientData(
-                    nutrient = FoodNutrient.ENERGY,
-                    per100g = "1",
-                    isLast = false,
-                ),
-                FoodNutrientData(
-                    nutrient = FoodNutrient.FAT,
-                    per100g = "2",
-                    isLast = false,
-                ),
-                FoodNutrientData(
-                    nutrient = FoodNutrient.FAT_SATURATED,
-                    per100g = "3",
-                    isLast = false,
-                ),
-                FoodNutrientData(
-                    nutrient = FoodNutrient.FIBER,
-                    per100g = "4",
-                    isLast = false,
-                ),
-                FoodNutrientData(
-                    nutrient = FoodNutrient.PROTEINS,
-                    per100g = "5",
-                    isLast = false,
-                ),
-                FoodNutrientData(
-                    nutrient = FoodNutrient.SALT,
-                    per100g = "6",
-                    isLast = false,
-                ),
-                FoodNutrientData(
-                    nutrient = FoodNutrient.SODIUM,
-                    per100g = "7",
-                    isLast = true,
-                ),
-            ),
-            actual = viewModel.nutrientData,
-        )
+                actual = state.input.nutrients,
+            )
+        }
     }
 
     @Test
     fun `edit nutrient`() = runTest {
         viewModel = get(parameters = { parametersOf(food.id) })
 
-        FoodNutrient.entries.forEachIndexed { index, nutrient ->
-            val per100g = index.toString()
-            val data = viewModel.nutrientData
-                .first { it.nutrient == nutrient }
-                .copy(per100g = per100g)
-            viewModel.handleIntent(FoodFormIntent.EditNutrient(data))
+        viewModel.state.test {
+            val state = awaitItem()
+            val nutrients = state.input.nutrients
 
-            assertEquals(
-                expected = data.per100g,
-                actual = when (nutrient) {
-                    FoodNutrient.CARBOHYDRATES -> viewModel.carbohydrates
-                    FoodNutrient.ENERGY -> viewModel.energy
-                    FoodNutrient.FAT -> viewModel.fat
-                    FoodNutrient.FAT_SATURATED-> viewModel.fatSaturated
-                    FoodNutrient.FIBER -> viewModel.fiber
-                    FoodNutrient.PROTEINS -> viewModel.proteins
-                    FoodNutrient.SALT -> viewModel.salt
-                    FoodNutrient.SODIUM -> viewModel.sodium
-                    FoodNutrient.SUGAR -> viewModel.sugar
-                },
-            )
+            FoodNutrient.entries.forEachIndexed { index, nutrient ->
+                val per100g = index.toString()
+                val data = nutrients
+                    .first { it.nutrient == nutrient }
+                    .copy(per100g = per100g)
+                viewModel.handleIntent(FoodFormIntent.SetNutrient(data))
+
+                with(awaitItem().input) {
+                    assertEquals(
+                        expected = data.per100g,
+                        actual = when (nutrient) {
+                            FoodNutrient.CARBOHYDRATES -> carbohydrates
+                            FoodNutrient.ENERGY -> energy
+                            FoodNutrient.FAT -> fat
+                            FoodNutrient.FAT_SATURATED-> fatSaturated
+                            FoodNutrient.FIBER -> fiber
+                            FoodNutrient.PROTEINS -> proteins
+                            FoodNutrient.SALT -> salt
+                            FoodNutrient.SODIUM -> sodium
+                            FoodNutrient.SUGAR -> sugar
+                        },
+                    )
+                }
+            }
         }
     }
 
@@ -178,13 +197,16 @@ class FoodFormViewModelTest : TestSuite {
     fun `update food and pop screen when intending to submit and succeeding`() = runTest {
         viewModel = get(parameters = { parametersOf(food.id) })
 
-        navigation.events.test {
-            val name = "update"
-            viewModel.name = name
+        turbineScope {
+            val state = viewModel.state.testIn(backgroundScope)
+            val events = navigation.events.testIn(backgroundScope)
 
+            val name = "update"
+
+            viewModel.handleIntent(FoodFormIntent.SetInput(state.awaitItem().input.copy(name = name)))
             viewModel.handleIntent(FoodFormIntent.Submit)
 
-            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+            assertTrue(events.awaitItem() is NavigationEvent.PopScreen)
             assertEquals(
                 expected = name,
                 actual = foodRepository.getById(food.id)?.name,
@@ -198,8 +220,8 @@ class FoodFormViewModelTest : TestSuite {
 
         viewModel.state.test {
             val name = ""
-            viewModel.name = name
 
+            viewModel.handleIntent(FoodFormIntent.SetInput(awaitItem().input.copy(name = name)))
             viewModel.handleIntent(FoodFormIntent.Submit)
 
             awaitItem()

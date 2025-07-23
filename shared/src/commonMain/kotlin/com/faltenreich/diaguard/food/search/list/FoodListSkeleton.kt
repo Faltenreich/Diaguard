@@ -16,7 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.skeleton
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodListSkeleton(modifier: Modifier = Modifier) {
@@ -38,4 +40,10 @@ fun FoodListSkeleton(modifier: Modifier = Modifier) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    FoodListSkeleton()
 }

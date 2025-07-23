@@ -14,6 +14,8 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.localization.NumberFormatter
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodListItem(
@@ -42,4 +44,10 @@ fun FoodListItem(
             style = AppTheme.typography.bodyMedium,
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    FoodListItem(food = food())
 }

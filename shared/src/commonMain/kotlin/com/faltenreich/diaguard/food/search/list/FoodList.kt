@@ -6,9 +6,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
+import app.cash.paging.PagingData
 import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import kotlinx.coroutines.flow.flowOf
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodList(
@@ -38,4 +43,13 @@ fun FoodList(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    FoodList(
+        items = flowOf(PagingData.from(listOf(food()))).collectAsLazyPagingItems(),
+        onSelect = {},
+    )
 }

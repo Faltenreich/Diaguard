@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodListLoadingIndicator(modifier: Modifier = Modifier) {
@@ -21,4 +23,10 @@ fun FoodListLoadingIndicator(modifier: Modifier = Modifier) {
     ) {
         CircularProgressIndicator()
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    FoodListLoadingIndicator()
 }

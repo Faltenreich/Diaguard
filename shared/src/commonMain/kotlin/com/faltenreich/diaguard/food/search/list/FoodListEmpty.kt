@@ -13,11 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_search_empty_description
 import diaguard.shared.generated.resources.food_search_empty_title
 import diaguard.shared.generated.resources.ic_sad
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodListEmpty(modifier: Modifier = Modifier) {
@@ -42,4 +44,10 @@ fun FoodListEmpty(modifier: Modifier = Modifier) {
         )
         Text(getString(Res.string.food_search_empty_description))
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    FoodListEmpty()
 }

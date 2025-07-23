@@ -97,9 +97,19 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
                 parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
             },
         )
+        val selectionViewModel = sharedViewModel<FoodSelectionViewModel>()
+
         FoodSearch(
-            viewModel = viewModel,
-            selectionViewModel = sharedViewModel(),
+            state = viewModel.collectState(),
+            onSelect = { food ->
+                when (viewModel.mode) {
+                    FoodSearchMode.STROLL -> viewModel.dispatchIntent(FoodSearchIntent.OpenFood(food))
+                    FoodSearchMode.FIND -> {
+                        selectionViewModel.postEvent(FoodSelectionEvent.Select(food))
+                        viewModel.dispatchIntent(FoodSearchIntent.Close)
+                    }
+                }
+            },
         )
     }
 }

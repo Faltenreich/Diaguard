@@ -7,21 +7,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
+import app.cash.paging.PagingData
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.search.list.FoodList
 import com.faltenreich.diaguard.food.search.list.FoodListEmpty
 import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
 import com.faltenreich.diaguard.shared.view.LifecycleState
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.rememberLifecycleState
+import kotlinx.coroutines.flow.flowOf
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodSearch(
-    viewModel: FoodSearchViewModel,
-    selectionViewModel: FoodSelectionViewModel,
+    state: FoodSearchState?,
+    onSelect: (Food.Local) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
+    state ?: return
     val items = state.pagingData.collectAsLazyPagingItems()
 
     val lifecycleState = rememberLifecycleState()
@@ -52,16 +57,17 @@ fun FoodSearch(
         } else {
             FoodList(
                 items = items,
-                onSelect = { food ->
-                    when (viewModel.mode) {
-                        FoodSearchMode.STROLL -> viewModel.dispatchIntent(FoodSearchIntent.OpenFood(food))
-                        FoodSearchMode.FIND -> {
-                            selectionViewModel.postEvent(FoodSelectionEvent.Select(food))
-                            viewModel.dispatchIntent(FoodSearchIntent.Close)
-                        }
-                    }
-                },
+                onSelect = onSelect,
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    FoodSearch(
+        state = FoodSearchState(pagingData = flowOf(PagingData.from(listOf(food())))),
+        onSelect = {},
+    )
 }

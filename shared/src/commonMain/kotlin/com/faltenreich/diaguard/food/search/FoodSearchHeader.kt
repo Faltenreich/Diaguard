@@ -8,9 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.carbohydrates_per_100g
 import diaguard.shared.generated.resources.food
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodSearchHeader(modifier: Modifier = Modifier) {
@@ -32,4 +34,10 @@ fun FoodSearchHeader(modifier: Modifier = Modifier) {
             style = AppTheme.typography.bodyMedium,
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    FoodSearchHeader()
 }

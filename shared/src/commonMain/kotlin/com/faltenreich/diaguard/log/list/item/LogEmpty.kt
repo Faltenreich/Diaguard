@@ -13,8 +13,10 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.LogIntent
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.no_entries
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LogEmpty(
@@ -40,4 +42,19 @@ fun LogEmpty(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    LogEmpty(
+        state = LogItemState.EmptyContent(
+            date = today(),
+            style = LogDayStyle(
+                isVisible = true,
+                isHighlighted = true,
+            ),
+        ),
+        onIntent = {},
+    )
 }

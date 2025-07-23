@@ -7,7 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.list.EntryListItem
+import com.faltenreich.diaguard.entry.list.EntryListItemState
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.tag.Tag
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LogEntry(
@@ -30,4 +33,25 @@ fun LogEntry(
             onTagClick = onTagClick,
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    LogEntry(
+        state = LogItemState.EntryContent(
+            entryState = EntryListItemState(
+                entry = entry(),
+                dateTimeLocalized = now().toString(),
+                foodEatenLocalized = emptyList(),
+                categories = emptyList(),
+            ),
+            style = LogDayStyle(
+                isVisible = true,
+                isHighlighted = true,
+            ),
+        ),
+        onClick = {},
+        onTagClick = {},
+    )
 }

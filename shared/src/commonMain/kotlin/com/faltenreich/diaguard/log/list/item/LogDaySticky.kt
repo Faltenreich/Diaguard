@@ -7,8 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.unit.IntSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.LogState
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LogDaySticky(
@@ -30,4 +33,19 @@ fun LogDaySticky(
                 .padding(all = AppTheme.dimensions.padding.P_3),
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    LogDaySticky(
+        state = LogState(
+            monthHeaderSize = IntSize.Zero,
+            dayHeaderSize = IntSize.Zero,
+            dayStickyInfo = LogDayStickyInfo(
+                date = today(),
+            ),
+            datePickerDialog = null,
+        ),
+    )
 }

@@ -11,6 +11,8 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LogDay(
@@ -41,4 +43,16 @@ fun LogDay(
     } else {
         Box(modifier = modifier)
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    LogDay(
+        date = today(),
+        style = LogDayStyle(
+            isVisible = true,
+            isHighlighted = true,
+        )
+    )
 }

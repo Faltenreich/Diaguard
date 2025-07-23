@@ -152,22 +152,25 @@ class FoodFormViewModelTest : TestSuite {
         viewModel.state.test {
             val state = awaitItem()
             val nutrients = state.input.nutrients
+            val per100g = "111"
 
-            FoodNutrient.entries.forEachIndexed { index, nutrient ->
-                val per100g = index.toString()
+            FoodNutrient.entries.forEach{ nutrient ->
                 val data = nutrients
                     .first { it.nutrient == nutrient }
                     .copy(per100g = per100g)
                 viewModel.handleIntent(FoodFormIntent.SetNutrient(data))
+            }
 
-                with(awaitItem().input) {
+            val update = expectMostRecentItem()
+            with(update.input) {
+                FoodNutrient.entries.forEach { nutrient ->
                     assertEquals(
-                        expected = data.per100g,
+                        expected = per100g,
                         actual = when (nutrient) {
                             FoodNutrient.CARBOHYDRATES -> carbohydrates
                             FoodNutrient.ENERGY -> energy
                             FoodNutrient.FAT -> fat
-                            FoodNutrient.FAT_SATURATED-> fatSaturated
+                            FoodNutrient.FAT_SATURATED -> fatSaturated
                             FoodNutrient.FIBER -> fiber
                             FoodNutrient.PROTEINS -> proteins
                             FoodNutrient.SALT -> salt
@@ -206,6 +209,7 @@ class FoodFormViewModelTest : TestSuite {
             viewModel.handleIntent(FoodFormIntent.SetInput(state.awaitItem().input.copy(name = name)))
             viewModel.handleIntent(FoodFormIntent.Submit)
 
+            state.cancelAndConsumeRemainingEvents()
             assertTrue(events.awaitItem() is NavigationEvent.PopScreen)
             assertEquals(
                 expected = name,

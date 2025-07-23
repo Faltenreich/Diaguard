@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import app.cash.turbine.test
@@ -30,14 +31,18 @@ class TimelineViewModelTest : TestSuite {
     private val categoryRepository: MeasurementCategoryRepository by inject()
     private val propertyRepository: MeasurementPropertyRepository by inject()
 
+    private val canvasSize = Size(width = 100f, height = 100f)
+    private val tableRowHeight = 10f
+    private val statusBarHeight = 10
+
     @BeforeTest
     override fun beforeTest() {
         super.beforeTest()
         viewModel.dispatchIntent(
             TimelineIntent.Setup(
-                canvasSize = Size(width = 100f, height = 100f),
-                tableRowHeight = 10f,
-                statusBarHeight = 10,
+                canvasSize = canvasSize,
+                tableRowHeight = tableRowHeight,
+                statusBarHeight = statusBarHeight,
             )
         )
     }
@@ -66,40 +71,76 @@ class TimelineViewModelTest : TestSuite {
 
             assertEquals(
                 expected = TimelineChartState(
-                    chartRectangle = Rect.Zero,
-                    iconRectangle = Rect.Zero,
+                    chartRectangle = Rect(0.0f, 10.0f, 100.0f, -20.0f),
+                    iconRectangle = Rect(0.0f, -30.0f, 10.0f, -20.0f),
                     property = properties.first { it.key == DatabaseKey.MeasurementProperty.BLOOD_SUGAR },
                     items = emptyList(),
-                    colorStops = emptyList(),
-                    labels = listOf(),
+                    colorStops = listOf(
+                        TimelineChartState.ColorStop(
+                            offset = -0.20000005f,
+                            type = TimelineChartState.ColorStop.Type.HIGH,
+                        ),
+                        TimelineChartState.ColorStop(
+                            offset = -0.20000005f,
+                            type = TimelineChartState.ColorStop.Type.NORMAL,
+                        ),
+                        TimelineChartState.ColorStop(
+                            offset = 0.6f,
+                            type = TimelineChartState.ColorStop.Type.NORMAL,
+                        ),
+                        TimelineChartState.ColorStop(
+                            offset = 0.6f,
+                            type = TimelineChartState.ColorStop.Type.LOW,
+                        )
+                    ),
+                    labels = listOf(
+                        TimelineChartState.Label(
+                            position = Offset(0.0f, -13.0f),
+                            text = "50",
+                        ),
+                        TimelineChartState.Label(
+                            position = Offset(0.0f, -6.0f),
+                            text = "100",
+                        ),
+                        TimelineChartState.Label(
+                            position = Offset(0.0f, 1.0f),
+                            text = "150",
+                        ),
+                    ),
                 ),
                 actual = state.canvas?.chart,
             )
             assertEquals(
                 expected = TimelineTableState(
-                    rectangle = Rect.Zero,
+                    rectangle = Rect(0.0f, -20.0f, 100.0f, 90.0f),
                     categories = listOf(
                         TimelineTableState.Category(
                             category = categories.first { it.key == DatabaseKey.MeasurementCategory.INSULIN },
                             properties = listOf(
                                 TimelineTableState.Property(
-                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.INSULIN_BOLUS },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    property = properties.first {
+                                        it.key == DatabaseKey.MeasurementProperty.INSULIN_BOLUS
+                                    },
+                                    rectangle = Rect(0.0f, -20.0f, 100.0f, -10.0f),
+                                    iconRectangle = Rect(0.0f, -20.0f, 10.0f, -10.0f),
                                     name = "bolus",
                                     values = emptyList()
                                 ),
                                 TimelineTableState.Property(
-                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.INSULIN_CORRECTION },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    property = properties.first {
+                                        it.key == DatabaseKey.MeasurementProperty.INSULIN_CORRECTION
+                                    },
+                                    rectangle = Rect(0.0f, -10.0f, 100.0f, 0.0f),
+                                    iconRectangle = Rect(0.0f, -10.0f, 10.0f, 0.0f),
                                     name = "correction",
                                     values = emptyList(),
                                 ),
                                 TimelineTableState.Property(
-                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.INSULIN_BASAL },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    property = properties.first {
+                                        it.key == DatabaseKey.MeasurementProperty.INSULIN_BASAL
+                                    },
+                                    rectangle = Rect(0.0f, 0.0f, 100.0f, 10.0f),
+                                    iconRectangle = Rect(0.0f, 0.0f, 10.0f, 10.0f),
                                     name = "basal",
                                     values = emptyList(),
                                 ),
@@ -110,8 +151,8 @@ class TimelineViewModelTest : TestSuite {
                             properties = listOf(
                                 TimelineTableState.Property(
                                     property = properties.first { it.key == DatabaseKey.MeasurementProperty.MEAL },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    rectangle = Rect(0.0f, 10.0f, 100.0f, 20.0f),
+                                    iconRectangle = Rect(0.0f, 10.0f, 10.0f, 20.0f),
                                     name = "meal",
                                     values = emptyList(),
                                 ),
@@ -122,8 +163,8 @@ class TimelineViewModelTest : TestSuite {
                             properties = listOf(
                                 TimelineTableState.Property(
                                     property = properties.first { it.key == DatabaseKey.MeasurementProperty.ACTIVITY },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    rectangle = Rect(0.0f, 20.0f, 100.0f, 30.0f),
+                                    iconRectangle = Rect(0.0f, 20.0f, 10.0f, 30.0f),
                                     name = "activity",
                                     values = emptyList(),
                                 ),
@@ -134,8 +175,8 @@ class TimelineViewModelTest : TestSuite {
                             properties = listOf(
                                 TimelineTableState.Property(
                                     property = properties.first { it.key == DatabaseKey.MeasurementProperty.HBA1C },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    rectangle = Rect(0.0f, 30.0f, 100.0f, 40.0f),
+                                    iconRectangle = Rect(0.0f, 30.0f, 10.0f, 40.0f),
                                     name = "hba1c",
                                     values = emptyList(),
                                 ),
@@ -146,8 +187,8 @@ class TimelineViewModelTest : TestSuite {
                             properties = listOf(
                                 TimelineTableState.Property(
                                     property = properties.first { it.key == DatabaseKey.MeasurementProperty.WEIGHT },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    rectangle = Rect(0.0f, 40.0f, 100.0f, 50.0f),
+                                    iconRectangle = Rect(0.0f, 40.0f, 10.0f, 50.0f),
                                     name = "weight",
                                     values = emptyList(),
                                 ),
@@ -158,8 +199,8 @@ class TimelineViewModelTest : TestSuite {
                             properties = listOf(
                                 TimelineTableState.Property(
                                     property = properties.first { it.key == DatabaseKey.MeasurementProperty.PULSE },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    rectangle = Rect(0.0f, 50.0f, 100.0f, 60.0f),
+                                    iconRectangle = Rect(0.0f, 50.0f, 10.0f, 60.0f),
                                     name = "pulse",
                                     values = emptyList(),
                                 ),
@@ -169,16 +210,20 @@ class TimelineViewModelTest : TestSuite {
                             category = categories.first { it.key == DatabaseKey.MeasurementCategory.BLOOD_PRESSURE },
                             properties = listOf(
                                 TimelineTableState.Property(
-                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_SYSTOLIC },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    property = properties.first {
+                                        it.key == DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_SYSTOLIC
+                                    },
+                                    rectangle = Rect(0.0f, 60.0f, 100.0f, 70.0f),
+                                    iconRectangle = Rect(0.0f, 60.0f, 10.0f, 70.0f),
                                     name = "systolic",
                                     values = emptyList(),
                                 ),
                                 TimelineTableState.Property(
-                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    property = properties.first {
+                                        it.key == DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC
+                                    },
+                                    rectangle = Rect(0.0f, 70.0f, 100.0f, 80.0f),
+                                    iconRectangle = Rect(0.0f, 70.0f, 10.0f, 80.0f),
                                     name = "diastolic",
                                     values = emptyList(),
                                 ),
@@ -188,9 +233,11 @@ class TimelineViewModelTest : TestSuite {
                             category = categories.first { it.key == DatabaseKey.MeasurementCategory.OXYGEN_SATURATION },
                             properties = listOf(
                                 TimelineTableState.Property(
-                                    property = properties.first { it.key == DatabaseKey.MeasurementProperty.OXYGEN_SATURATION },
-                                    rectangle = Rect.Zero,
-                                    iconRectangle = Rect.Zero,
+                                    property = properties.first {
+                                        it.key == DatabaseKey.MeasurementProperty.OXYGEN_SATURATION
+                                    },
+                                    rectangle = Rect(0.0f, 80.0f, 100.0f, 90.0f),
+                                    iconRectangle = Rect(0.0f, 80.0f, 10.0f, 90.0f),
                                     name = "oxygen_saturation",
                                     values = emptyList(),
                                 ),
@@ -239,19 +286,15 @@ class TimelineViewModelTest : TestSuite {
     fun `forward previous date when intending to move day back`() = runTest {
         importSeed()
 
-        viewModel.state.test {
-            val currentDate = awaitItem().date.currentDate
-
+        viewModel.events.test {
             viewModel.handleIntent(TimelineIntent.SelectPreviousDate)
 
-            viewModel.events.test {
-                val event = awaitItem()
-                assertTrue(event is TimelineEvent.Scroll)
-                assertEquals(
-                    expected = -1080f,
-                    actual = event.offset,
-                )
-            }
+            val event = awaitItem()
+            assertTrue(event is TimelineEvent.Scroll)
+            assertEquals(
+                expected = canvasSize.width,
+                actual = event.offset,
+            )
         }
     }
 
@@ -259,19 +302,15 @@ class TimelineViewModelTest : TestSuite {
     fun `forward next date when intending to move day forward`() = runTest {
         importSeed()
 
-        viewModel.state.test {
-            val currentDate = awaitItem().date.currentDate
-
+        viewModel.events.test {
             viewModel.handleIntent(TimelineIntent.SelectNextDate)
 
-            viewModel.events.test {
-                val event = awaitItem()
-                assertTrue(event is TimelineEvent.Scroll)
-                assertEquals(
-                    expected = 1080f,
-                    actual = event.offset,
-                )
-            }
+            val event = awaitItem()
+            assertTrue(event is TimelineEvent.Scroll)
+            assertEquals(
+                expected = -canvasSize.width,
+                actual = event.offset,
+            )
         }
     }
 

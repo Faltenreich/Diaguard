@@ -12,6 +12,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodNutrientListItem(
@@ -35,4 +37,17 @@ fun FoodNutrientListItem(
             modifier = Modifier.weight(1f),
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    FoodNutrientListItem(
+        data = FoodNutrientData(
+            nutrient = FoodNutrient.CARBOHYDRATES,
+            per100g = "10",
+            isLast = false,
+        ),
+        onUpdate = {},
+    )
 }

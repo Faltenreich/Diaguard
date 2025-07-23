@@ -24,6 +24,7 @@ import com.faltenreich.diaguard.shared.view.NoticeBarStyle
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.brand
 import diaguard.shared.generated.resources.ic_brand
@@ -32,13 +33,15 @@ import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ingredients
 import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.nutrients_per_100g
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodForm(
-    viewModel: FoodFormViewModel,
+    state: FoodFormState?,
+    onIntent: (FoodFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
+    state ?: return
 
     var name by remember { mutableStateOf(state.input.name) }
     var brand by remember { mutableStateOf(state.input.brand) }
@@ -57,7 +60,7 @@ fun FoodForm(
                         onInputChange = { input ->
                             name = input
                             val update = state.input.copy(name = input)
-                            viewModel.dispatchIntent(FoodFormIntent.SetInput(update))
+                            onIntent(FoodFormIntent.SetInput(update))
                         },
                         label = getString(Res.string.name),
                         keyboardOptions = KeyboardOptions(
@@ -75,7 +78,7 @@ fun FoodForm(
                         onInputChange = { input ->
                             brand = input
                             val update = state.input.copy(brand = input)
-                            viewModel.dispatchIntent(FoodFormIntent.SetInput(update))
+                            onIntent(FoodFormIntent.SetInput(update))
                         },
                         label = getString(Res.string.brand),
                         keyboardOptions = KeyboardOptions(
@@ -93,7 +96,7 @@ fun FoodForm(
                         onInputChange = { input ->
                             ingredients = input
                             val update = state.input.copy(ingredients = input)
-                            viewModel.dispatchIntent(FoodFormIntent.SetInput(update))
+                            onIntent(FoodFormIntent.SetInput(update))
                         },
                         label = getString(Res.string.ingredients),
                         keyboardOptions = KeyboardOptions(
@@ -110,7 +113,7 @@ fun FoodForm(
                 FoodNutrientListItem(
                     data = data,
                     onUpdate = { update ->
-                        viewModel.dispatchIntent(FoodFormIntent.SetNutrient(update))
+                        onIntent(FoodFormIntent.SetNutrient(update))
                     },
                 )
                 Divider()
@@ -123,4 +126,34 @@ fun FoodForm(
             style = NoticeBarStyle.ERROR,
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    val food = food()
+    FoodForm(
+        state = FoodFormState(
+            food = food,
+            input = with (food) {
+                FoodFormInput(
+                    name = name,
+                    brand = brand ?: "",
+                    ingredients = ingredients ?: "",
+                    labels = labels ?: "",
+                    carbohydrates = carbohydrates.toString(),
+                    energy = energy?.toString() ?: "",
+                    fat = fat?.toString() ?: "",
+                    fatSaturated = fatSaturated?.toString() ?: "",
+                    fiber = fiber?.toString() ?: "",
+                    proteins = proteins?.toString() ?: "",
+                    salt = salt?.toString() ?: "",
+                    sodium = sodium?.toString() ?: "",
+                    sugar = sugar?.toString() ?: "",
+                )
+            },
+            error = null,
+        ),
+        onIntent = {},
+    )
 }

@@ -37,7 +37,9 @@ data class FoodFormScreen(private val foodId: Long) : Screen {
 
     @Composable
     override fun BottomAppBar(): BottomAppBarStyle {
-        val viewModel = viewModel<FoodFormViewModel> { parametersOf(foodId) }
+        val viewModel = viewModel<FoodFormViewModel> {
+            parametersOf(foodId.takeIf { it >= 0 })
+        }
         return BottomAppBarStyle.Visible(
             actions = {
                 BottomAppBarItem(
@@ -67,6 +69,12 @@ data class FoodFormScreen(private val foodId: Long) : Screen {
 
     @Composable
     override fun Content() {
-        FoodForm(viewModel = viewModel { parametersOf(foodId.takeIf { it >= 0 }) })
+        val viewModel = viewModel<FoodFormViewModel> {
+            parametersOf(foodId.takeIf { it >= 0 })
+        }
+        FoodForm(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

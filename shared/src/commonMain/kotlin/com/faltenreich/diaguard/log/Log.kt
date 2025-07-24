@@ -14,22 +14,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
+import app.cash.paging.PagingData
+import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.log.list.LogList
 import com.faltenreich.diaguard.log.list.item.LogDaySticky
+import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
+import com.faltenreich.diaguard.log.list.item.LogItemState
 import com.faltenreich.diaguard.shared.view.LifecycleState
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.rememberLifecycleState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flowOf
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Log(
-    viewModel: LogViewModel,
+    state: LogState?,
+    items: LazyPagingItems<LogItemState>,
+    onIntent: (LogIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
-    val items = viewModel.pagingData.collectAsLazyPagingItems()
+    state ?: return
+
     val listState = rememberLazyListState()
 
     LaunchedEffect(state.monthHeaderSize.height) {
@@ -58,7 +67,7 @@ fun Log(
                 .takeIf(List<*>::isNotEmpty)
         }.distinctUntilChanged().filterNotNull().collect { nextItems ->
             val firstItem = items[nextItems.first().index - 1] ?: return@collect
-            viewModel.dispatchIntent(LogIntent.OnScroll(firstItem, nextItems))
+            onIntent(LogIntent.OnScroll(firstItem, nextItems))
         }
     }
 
@@ -66,7 +75,7 @@ fun Log(
         LogList(
             state = listState,
             items = items,
-            onIntent = viewModel::dispatchIntent,
+            onIntent = onIntent,
             modifier = Modifier
                 .fillMaxSize()
                 .alpha(alpha),
@@ -75,7 +84,7 @@ fun Log(
             state = state,
             modifier = Modifier
                 .onGloballyPositioned { coordinates ->
-                    viewModel.dispatchIntent(LogIntent.CacheDayHeaderSize(coordinates.size))
+                    onIntent(LogIntent.CacheDayHeaderSize(coordinates.size))
                 }
                 .alpha(alpha),
         )
@@ -84,11 +93,27 @@ fun Log(
     state.datePickerDialog?.let { datePickerDialog ->
         DatePickerDialog(
             date = datePickerDialog.date,
-            onDismissRequest = { viewModel.dispatchIntent(LogIntent.CloseDatePickerDialog) },
+            onDismissRequest = { onIntent(LogIntent.CloseDatePickerDialog) },
             onConfirmRequest = { date ->
-                viewModel.dispatchIntent(LogIntent.CloseDatePickerDialog)
-                viewModel.dispatchIntent(LogIntent.SetDate(date))
+                onIntent(LogIntent.CloseDatePickerDialog)
+                onIntent(LogIntent.SetDate(date))
             },
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    Log(
+        state = LogState(
+            monthHeaderSize = IntSize.Zero,
+            dayHeaderSize = IntSize.Zero,
+            dayStickyInfo = LogDayStickyInfo(),
+            datePickerDialog = null,
+        ),
+        items = flowOf(PagingData.from(emptyList<LogItemState>()))
+            .collectAsLazyPagingItems(),
+        onIntent = {},
+    )
 }

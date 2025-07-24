@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.log
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
@@ -52,6 +53,11 @@ data object LogScreen : Screen {
 
     @Composable
     override fun Content() {
-        Log(viewModel = viewModel())
+        val viewModel = viewModel<LogViewModel>()
+        Log(
+            state = viewModel.collectState(),
+            items = viewModel.pagingData.collectAsLazyPagingItems(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

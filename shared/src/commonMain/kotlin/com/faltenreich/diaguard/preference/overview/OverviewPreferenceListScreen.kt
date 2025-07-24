@@ -22,6 +22,10 @@ data object OverviewPreferenceListScreen : Screen {
 
     @Composable
     override fun Content() {
-        OverviewPreferenceList(viewModel = viewModel())
+        val viewModel = viewModel<OverviewPreferenceListViewModel>()
+        OverviewPreferenceList(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

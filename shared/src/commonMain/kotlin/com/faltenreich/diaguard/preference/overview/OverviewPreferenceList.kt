@@ -14,13 +14,16 @@ import com.faltenreich.diaguard.backup.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
+import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesForm
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceActionListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
+import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenForm
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.about
@@ -62,13 +65,15 @@ import diaguard.shared.generated.resources.terms_and_conditions_url
 import diaguard.shared.generated.resources.therapy
 import diaguard.shared.generated.resources.version
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun OverviewPreferenceList(
-    viewModel: OverviewPreferenceListViewModel,
+    state: OverviewPreferenceListState?,
+    onIntent: (OverviewPreferenceListIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
+    state ?: return
 
     var showColorSchemeForm by remember { mutableStateOf(false) }
     var showStartScreenForm by remember { mutableStateOf(false) }
@@ -99,7 +104,7 @@ fun OverviewPreferenceList(
         item {
             PreferenceActionListItem(
                 title = stringResource(Res.string.reminders),
-                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.OpenNotificationSettings) },
+                onClick = { onIntent(OverviewPreferenceListIntent.OpenNotificationSettings) },
             )
         }
 
@@ -113,7 +118,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.measurement_categories),
                 onClick = {
-                    viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(MeasurementCategoryListScreen))
+                    onIntent(OverviewPreferenceListIntent.PushScreen(MeasurementCategoryListScreen))
                 },
             )
         }
@@ -121,7 +126,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.measurement_units),
                 onClick = {
-                    viewModel.dispatchIntent(
+                    onIntent(
                         OverviewPreferenceListIntent.PushScreen(
                             MeasurementUnitListScreen(mode = MeasurementUnitListMode.STROLL)
                         )
@@ -133,7 +138,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.tags),
                 onClick = {
-                    viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(TagListScreen))
+                    onIntent(OverviewPreferenceListIntent.PushScreen(TagListScreen))
                 },
             )
         }
@@ -141,7 +146,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.food),
                 onClick = {
-                    viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(FoodPreferenceListScreen))
+                    onIntent(OverviewPreferenceListIntent.PushScreen(FoodPreferenceListScreen))
                 },
             )
         }
@@ -157,7 +162,7 @@ fun OverviewPreferenceList(
                 title = stringResource(Res.string.backup_write),
                 subtitle = stringResource(Res.string.backup_write_description),
                 onClick = {
-                    viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(
+                    onIntent(OverviewPreferenceListIntent.PushScreen(
                         WriteBackupFormScreen
                     ))
                 },
@@ -167,7 +172,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.backup_read),
                 subtitle = stringResource(Res.string.backup_read_description),
-                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(
+                onClick = { onIntent(OverviewPreferenceListIntent.PushScreen(
                     ReadBackupFormScreen
                 ))
                 },
@@ -185,7 +190,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.homepage),
                 subtitle = stringResource(Res.string.homepage_url_short),
-                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
+                onClick = { onIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
             )
         }
         item {
@@ -193,7 +198,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.mail),
                 subtitle = stringResource(Res.string.mail_url_short),
-                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
+                onClick = { onIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
             )
         }
         item {
@@ -201,7 +206,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.facebook),
                 subtitle = stringResource(Res.string.facebook_url_short),
-                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
+                onClick = { onIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
             )
         }
 
@@ -216,14 +221,14 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.source_code),
                 subtitle = stringResource(Res.string.source_code_url_short),
-                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
+                onClick = { onIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
             )
         }
         item {
             PreferenceActionListItem(
                 title = stringResource(Res.string.licenses),
                 onClick = {
-                    viewModel.dispatchIntent(OverviewPreferenceListIntent.PushScreen(LicenseListScreen))
+                    onIntent(OverviewPreferenceListIntent.PushScreen(LicenseListScreen))
                 },
             )
         }
@@ -231,14 +236,14 @@ fun OverviewPreferenceList(
             val url = stringResource(Res.string.privacy_policy_url)
             PreferenceActionListItem(
                 title = stringResource(Res.string.privacy_policy),
-                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
+                onClick = { onIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
             )
         }
         item {
             val url = stringResource(Res.string.terms_and_conditions_url)
             PreferenceActionListItem(
                 title = stringResource(Res.string.terms_and_conditions),
-                onClick = { viewModel.dispatchIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
+                onClick = { onIntent(OverviewPreferenceListIntent.OpenUrl(url)) },
             )
         }
         item {
@@ -254,7 +259,7 @@ fun OverviewPreferenceList(
         ModalBottomSheet(onDismissRequest = { showColorSchemeForm = false }) {
             ColorSchemeForm(
                 state = state.colorScheme,
-                onChange = { viewModel.dispatchIntent(OverviewPreferenceListIntent.SetColorScheme(it)) },
+                onChange = { onIntent(OverviewPreferenceListIntent.SetColorScheme(it)) },
             )
         }
     }
@@ -263,7 +268,7 @@ fun OverviewPreferenceList(
         ModalBottomSheet(onDismissRequest = { showStartScreenForm = false }) {
             StartScreenForm(
                 state = state.startScreen,
-                onChange = { viewModel.dispatchIntent(OverviewPreferenceListIntent.SetStartScreen(it)) },
+                onChange = { onIntent(OverviewPreferenceListIntent.SetStartScreen(it)) },
             )
         }
     }
@@ -272,8 +277,27 @@ fun OverviewPreferenceList(
         ModalBottomSheet(onDismissRequest = { showDecimalPlacesForm = false }) {
             DecimalPlacesForm(
                 state = state.decimalPlaces,
-                onChange = { viewModel.dispatchIntent(OverviewPreferenceListIntent.SetDecimalPlaces(it)) },
+                onChange = { onIntent(OverviewPreferenceListIntent.SetDecimalPlaces(it)) },
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    OverviewPreferenceList(
+        state = OverviewPreferenceListState(
+            appVersion = "AppVersion",
+            colorScheme = ColorScheme.SYSTEM,
+            decimalPlaces = OverviewPreferenceListState.DecimalPlaces(
+                selection = 1,
+                illustration = "Illustration",
+                enableDecreaseButton = true,
+                enableIncreaseButton = true,
+            ),
+            startScreen = StartScreen.DASHBOARD,
+        ),
+        onIntent = {},
+    )
 }

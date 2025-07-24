@@ -112,7 +112,7 @@ private fun Preview() = AppPreview {
     DecimalPlacesForm(
         state = OverviewPreferenceListState.DecimalPlaces(
             selection = 1,
-            illustration = "illustration",
+            illustration = "Illustration",
             enableDecreaseButton = true,
             enableIncreaseButton = true,
         ),

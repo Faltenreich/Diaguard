@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -54,7 +55,7 @@ enum class NoticeBarStyle {
 
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview() = AppPreview {
     NoticeBar(
         text = "Warning",
         isVisible = true,

@@ -9,6 +9,8 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TextInput(
@@ -55,5 +57,14 @@ fun TextInput(
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         colors = colors,
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    TextInput(
+        input = "Input",
+        onInputChange = {},
     )
 }

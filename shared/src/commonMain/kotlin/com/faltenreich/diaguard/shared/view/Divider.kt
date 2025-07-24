@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -68,7 +69,7 @@ fun RowScope.Divider(
 
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview() = AppPreview {
     LazyColumn(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.size.TouchSizeSmall)) {
         items(count = 10) {
             Divider(orientation = Orientation.Vertical)

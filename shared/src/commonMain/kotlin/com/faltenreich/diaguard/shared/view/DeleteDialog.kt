@@ -6,6 +6,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.delete
@@ -48,7 +49,7 @@ fun DeleteDialog(
 
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview() = AppPreview {
     DeleteDialog(
         onDismissRequest = {},
         onConfirmRequest = {},

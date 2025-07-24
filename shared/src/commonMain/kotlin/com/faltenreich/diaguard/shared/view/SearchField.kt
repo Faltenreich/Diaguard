@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.ic_preferences
@@ -46,7 +47,7 @@ fun SearchField(
 
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview() = AppPreview {
     SearchField(
         query = "Query",
         placeholder = "Placeholder",

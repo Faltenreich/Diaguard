@@ -11,7 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementAggregationStyleListItem(
@@ -45,4 +47,14 @@ fun MeasurementAggregationStyleListItem(
             onClick = null,
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementAggregationStyleListItem(
+        aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
+        isSelected = true,
+        onClick = {},
+    )
 }

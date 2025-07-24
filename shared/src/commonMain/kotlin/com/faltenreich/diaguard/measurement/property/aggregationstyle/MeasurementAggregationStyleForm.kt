@@ -12,9 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.aggregation_style
 import diaguard.shared.generated.resources.aggregation_style_description
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementAggregationStyleForm(
@@ -54,4 +56,13 @@ fun MeasurementAggregationStyleForm(
 
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementAggregationStyleForm(
+        selection = MeasurementAggregationStyle.CUMULATIVE,
+        onChange = {},
+    )
 }

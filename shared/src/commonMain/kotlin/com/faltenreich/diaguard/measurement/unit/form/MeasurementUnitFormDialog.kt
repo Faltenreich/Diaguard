@@ -14,12 +14,14 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.abbreviation
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.create
 import diaguard.shared.generated.resources.measurement_unit
 import diaguard.shared.generated.resources.name
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementUnitFormDialog(
@@ -67,5 +69,16 @@ fun MeasurementUnitFormDialog(
                 )
             }
         }
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementUnitFormDialog(
+        unit = unit(),
+        error = null,
+        onDismissRequest = {},
+        onConfirmRequest = { _, _ -> },
     )
 }

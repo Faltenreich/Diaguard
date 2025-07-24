@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.wizard
+package com.faltenreich.diaguard.shared.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -68,6 +68,12 @@ fun WizardStepListItem(
             )
         }
     }
+}
+
+enum class WizardStepState {
+    UPCOMING,
+    CURRENT,
+    COMPLETED,
 }
 
 @Preview

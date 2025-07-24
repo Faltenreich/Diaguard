@@ -13,8 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
-import com.faltenreich.diaguard.shared.wizard.WizardStepListItem
-import com.faltenreich.diaguard.shared.wizard.WizardStepState
+import com.faltenreich.diaguard.shared.view.WizardStepListItem
+import com.faltenreich.diaguard.shared.view.WizardStepState
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.backup_write_completed
 import diaguard.shared.generated.resources.backup_write_idle

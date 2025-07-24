@@ -5,19 +5,27 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.paging.LoadState
+import app.cash.paging.PagingData
 import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.log.LogIntent
+import com.faltenreich.diaguard.log.list.item.LogDayStyle
 import com.faltenreich.diaguard.log.list.item.LogEmpty
 import com.faltenreich.diaguard.log.list.item.LogEntry
 import com.faltenreich.diaguard.log.list.item.LogItemState
 import com.faltenreich.diaguard.log.list.item.LogLoadingIndicator
 import com.faltenreich.diaguard.log.list.item.LogMonth
 import com.faltenreich.diaguard.shared.view.Skeleton
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import kotlinx.coroutines.flow.flowOf
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LogList(
@@ -88,4 +96,43 @@ fun LogList(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    val dateTime = now()
+    val date = dateTime.date
+    LogList(
+        state = rememberLazyListState(),
+        items = flowOf(
+            PagingData.from(
+                listOf(
+                    LogItemState.MonthHeader(
+                        date = date,
+                    ),
+                    LogItemState.EmptyContent(
+                        date = date,
+                        style = LogDayStyle(
+                            isVisible = true,
+                            isHighlighted = true,
+                        ),
+                    ),
+                    LogItemState.EntryContent(
+                        entryState = EntryListItemState(
+                            entry = entry(),
+                            dateTimeLocalized = dateTime.toString(),
+                            foodEatenLocalized = emptyList(),
+                            categories = emptyList(),
+                        ),
+                        style = LogDayStyle(
+                            isVisible = true,
+                            isHighlighted = true,
+                        ),
+                    ),
+                ),
+            ),
+        ).collectAsLazyPagingItems(),
+        onIntent = {},
+    )
 }

@@ -8,14 +8,17 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.tag.form.TagFormDialog
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TagList(
-    viewModel: TagListViewModel,
+    state: TagListState?,
+    onIntent: (TagListIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
+    state ?: return
 
     LazyColumn(modifier) {
         itemsIndexed(state.tags, key = { _, item -> item.id }) { index, tag ->
@@ -28,7 +31,7 @@ fun TagList(
                     modifier = Modifier
                         .animateItem()
                         .fillMaxWidth()
-                        .clickable { viewModel.dispatchIntent(TagListIntent.OpenTag(tag)) },
+                        .clickable { onIntent(TagListIntent.OpenTag(tag)) },
                 )
             }
         }
@@ -37,8 +40,20 @@ fun TagList(
     state.formDialog?.let { formDialog ->
         TagFormDialog(
             error = formDialog.error,
-            onDismissRequest = { viewModel.dispatchIntent(TagListIntent.CloseFormDialog) },
-            onConfirmRequest = { name -> viewModel.dispatchIntent(TagListIntent.StoreTag(name = name)) },
+            onDismissRequest = { onIntent(TagListIntent.CloseFormDialog) },
+            onConfirmRequest = { name -> onIntent(TagListIntent.StoreTag(name = name)) },
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    TagList(
+        state = TagListState(
+            tags = listOf(tag()),
+            formDialog = null,
+        ),
+        onIntent = {},
+    )
 }

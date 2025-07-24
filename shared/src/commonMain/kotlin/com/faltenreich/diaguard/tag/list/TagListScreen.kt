@@ -43,6 +43,10 @@ data object TagListScreen : Screen {
 
     @Composable
     override fun Content() {
-        TagList(viewModel = viewModel())
+        val viewModel = viewModel<TagListViewModel>()
+        TagList(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

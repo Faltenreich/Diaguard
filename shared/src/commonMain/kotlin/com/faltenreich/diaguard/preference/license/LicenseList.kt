@@ -7,15 +7,16 @@ import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 
 @Composable
 fun LicenseList(
-    viewModel: LicenseListViewModel,
+    state: LicenseListState?,
+    onIntent: (LicenseListIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    when (val state = viewModel.collectState()) {
+    when (state) {
         null -> Unit
         else -> LibrariesContainer(
             libraries = state.libraries,
             modifier = modifier.fillMaxSize(),
-            onLibraryClick = { library -> viewModel.dispatchIntent(LicenseListIntent.OpenWebsite(library)) },
+            onLibraryClick = { library -> onIntent(LicenseListIntent.OpenWebsite(library)) },
         )
     }
 }

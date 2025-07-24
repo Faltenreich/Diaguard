@@ -22,6 +22,10 @@ data object LicenseListScreen : Screen {
 
     @Composable
     override fun Content() {
-        LicenseList(viewModel = viewModel())
+        val viewModel = viewModel<LicenseListViewModel>()
+        LicenseList(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

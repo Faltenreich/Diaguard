@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListState
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.decimal_places
 import diaguard.shared.generated.resources.decimal_places_description
@@ -26,6 +27,7 @@ import diaguard.shared.generated.resources.ic_remove
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DecimalPlacesForm(
@@ -102,4 +104,18 @@ fun DecimalPlacesForm(
 
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_4))
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    DecimalPlacesForm(
+        state = OverviewPreferenceListState.DecimalPlaces(
+            selection = 1,
+            illustration = "illustration",
+            enableDecreaseButton = true,
+            enableIncreaseButton = true,
+        ),
+        onChange = {},
+    )
 }

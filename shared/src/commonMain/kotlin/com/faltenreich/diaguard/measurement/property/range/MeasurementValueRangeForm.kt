@@ -24,6 +24,7 @@ import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFor
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.value_range_high_preference
 import diaguard.shared.generated.resources.value_range_high_preference_description
@@ -37,6 +38,7 @@ import diaguard.shared.generated.resources.value_range_minimum
 import diaguard.shared.generated.resources.value_range_minimum_description
 import diaguard.shared.generated.resources.value_range_target_preference
 import diaguard.shared.generated.resources.value_range_target_preference_description
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementValueRangeForm(
@@ -203,4 +205,21 @@ fun MeasurementValueRangeForm(
             ),
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementValueRangeForm(
+        state = MeasurementPropertyFormState.ValueRange(
+            minimum = "minimum",
+            low = "low",
+            target = "target",
+            high = "high",
+            maximum = "maximum",
+            isHighlighted = true,
+            unit = null,
+        ),
+        onUpdate = {},
+    )
 }

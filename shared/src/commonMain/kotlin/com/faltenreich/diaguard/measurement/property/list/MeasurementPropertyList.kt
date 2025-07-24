@@ -19,10 +19,12 @@ import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.measurement_properties
 import diaguard.shared.generated.resources.measurement_property_add
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementPropertyList(
@@ -71,4 +73,13 @@ fun MeasurementPropertyList(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementPropertyList(
+        properties = listOf(property()),
+        onIntent = {},
+    )
 }

@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCheckBoxListItem
 import com.faltenreich.diaguard.shared.view.NoticeBar
 import com.faltenreich.diaguard.shared.view.NoticeBarStyle
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_branded
 import diaguard.shared.generated.resources.food_branded_show
@@ -27,13 +28,15 @@ import diaguard.shared.generated.resources.food_source_common_provider
 import diaguard.shared.generated.resources.food_source_common_url
 import diaguard.shared.generated.resources.food_source_powered_by
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodPreferenceList(
-    viewModel: FoodPreferenceListViewModel,
+    state: FoodPreferenceListState?,
+    onIntent: (FoodPreferenceListIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
+    state ?: return
 
     Column(modifier = modifier) {
         LazyColumn(modifier = Modifier.weight(AppTheme.dimensions.weight.W_1)) {
@@ -46,7 +49,7 @@ fun FoodPreferenceList(
                     subtitle = stringResource(Res.string.food_custom_show_desc),
                     isChecked = state.showCustomFood,
                     onCheckedChange = { isChecked ->
-                        viewModel.dispatchIntent(FoodPreferenceListIntent.SetShowCustomFood(isChecked))
+                        onIntent(FoodPreferenceListIntent.SetShowCustomFood(isChecked))
                     },
                 )
             }
@@ -59,9 +62,7 @@ fun FoodPreferenceList(
                 PreferenceActionListItem(
                     title = stringResource(Res.string.food_source_common_provider),
                     subtitle = stringResource(Res.string.food_source_powered_by),
-                    onClick = {
-                        viewModel.dispatchIntent(FoodPreferenceListIntent.OpenUrl(url))
-                    },
+                    onClick = { onIntent(FoodPreferenceListIntent.OpenUrl(url)) },
                 )
             }
             item {
@@ -70,7 +71,7 @@ fun FoodPreferenceList(
                     subtitle = stringResource(Res.string.food_common_show_desc),
                     isChecked = state.showCommonFood,
                     onCheckedChange = { isChecked ->
-                        viewModel.dispatchIntent(FoodPreferenceListIntent.SetShowCommonFood(isChecked))
+                        onIntent(FoodPreferenceListIntent.SetShowCommonFood(isChecked))
                     },
                 )
             }
@@ -83,9 +84,7 @@ fun FoodPreferenceList(
                 PreferenceActionListItem(
                     title = stringResource(Res.string.food_source_branded_provider),
                     subtitle = stringResource(Res.string.food_source_powered_by),
-                    onClick = {
-                        viewModel.dispatchIntent(FoodPreferenceListIntent.OpenUrl(url))
-                    },
+                    onClick = { onIntent(FoodPreferenceListIntent.OpenUrl(url)) },
                 )
             }
             item {
@@ -94,7 +93,7 @@ fun FoodPreferenceList(
                     subtitle = stringResource(Res.string.food_branded_show_desc),
                     isChecked = state.showBrandedFood,
                     onCheckedChange = { isChecked ->
-                        viewModel.dispatchIntent(FoodPreferenceListIntent.SetShowBrandedFood(isChecked))
+                        onIntent(FoodPreferenceListIntent.SetShowBrandedFood(isChecked))
                     },
                 )
             }
@@ -106,4 +105,17 @@ fun FoodPreferenceList(
             style = NoticeBarStyle.WARNING,
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    FoodPreferenceList(
+        state = FoodPreferenceListState(
+            showCustomFood = true,
+            showCommonFood = false,
+            showBrandedFood = true,
+        ),
+        onIntent = {},
+    )
 }

@@ -22,6 +22,10 @@ data object FoodPreferenceListScreen : Screen {
 
     @Composable
     override fun Content() {
-        FoodPreferenceList(viewModel = viewModel())
+        val viewModel = viewModel<FoodPreferenceListViewModel>()
+        FoodPreferenceList(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

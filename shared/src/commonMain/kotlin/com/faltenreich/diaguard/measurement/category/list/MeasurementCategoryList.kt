@@ -10,14 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormDialog
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementCategoryList(
-    viewModel: MeasurementCategoryListViewModel,
+    state: MeasurementCategoryListState?,
+    onIntent: (MeasurementCategoryListIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState()
-
     AnimatedVisibility(
         visible = state != null,
         modifier = modifier,
@@ -33,12 +34,12 @@ fun MeasurementCategoryList(
                     }
                     MeasurementCategoryListItem(
                         category = category,
-                        onIntent = { intent -> viewModel.dispatchIntent(intent) },
+                        onIntent = onIntent,
                         showArrowUp = index > 1,
                         showArrowDown = index > 0 && index < categories.size - 1,
                         modifier = Modifier
                             .animateItem()
-                            .clickable { viewModel.dispatchIntent(MeasurementCategoryListIntent.Edit(category)) },
+                            .clickable { onIntent(MeasurementCategoryListIntent.Edit(category)) },
                     )
                 }
             }
@@ -47,11 +48,23 @@ fun MeasurementCategoryList(
 
     if (state?.formDialog != null) {
         MeasurementCategoryFormDialog(
-            onDismissRequest = { viewModel.dispatchIntent(MeasurementCategoryListIntent.CloseFormDialog) },
+            onDismissRequest = { onIntent(MeasurementCategoryListIntent.CloseFormDialog) },
             onConfirmRequest = { name ->
-                viewModel.dispatchIntent(MeasurementCategoryListIntent.CloseFormDialog)
-                viewModel.dispatchIntent(MeasurementCategoryListIntent.Create(name))
+                onIntent(MeasurementCategoryListIntent.CloseFormDialog)
+                onIntent(MeasurementCategoryListIntent.Create(name))
             },
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementCategoryList(
+        state = MeasurementCategoryListState(
+            categories = listOf(category()),
+            formDialog = null,
+        ),
+        onIntent = {},
+    )
 }

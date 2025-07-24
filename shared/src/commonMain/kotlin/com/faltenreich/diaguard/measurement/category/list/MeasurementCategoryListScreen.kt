@@ -45,6 +45,10 @@ data object MeasurementCategoryListScreen : Screen {
 
     @Composable
     override fun Content() {
-        MeasurementCategoryList(viewModel = viewModel())
+        val viewModel = viewModel<MeasurementCategoryListViewModel>()
+        MeasurementCategoryList(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

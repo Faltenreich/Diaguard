@@ -10,9 +10,11 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_down
 import diaguard.shared.generated.resources.ic_arrow_up
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementCategoryListItem(
@@ -48,4 +50,15 @@ fun MeasurementCategoryListItem(
             ResourceIcon(Res.drawable.ic_arrow_down)
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementCategoryListItem(
+        category = category(),
+        onIntent = {},
+        showArrowUp = true,
+        showArrowDown = true,
+    )
 }

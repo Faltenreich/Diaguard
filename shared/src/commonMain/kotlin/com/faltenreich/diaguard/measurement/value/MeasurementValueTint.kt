@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.value.tint
+package com.faltenreich.diaguard.measurement.value
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color

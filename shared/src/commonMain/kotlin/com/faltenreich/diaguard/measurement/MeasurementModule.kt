@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.measurement.unit.usecase.StoreMeasurementUnitUse
 import com.faltenreich.diaguard.measurement.unit.usecase.ValidateMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
+import com.faltenreich.diaguard.measurement.value.usecase.GetMeasurementValueTintUseCase
 import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValuesUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel

@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.statistic.distribution
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
+import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.format
 import diaguard.shared.generated.resources.Res

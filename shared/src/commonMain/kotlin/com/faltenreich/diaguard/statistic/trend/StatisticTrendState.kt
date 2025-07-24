@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.statistic.trend
 
 import com.faltenreich.diaguard.datetime.DateRange
-import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
+import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
 
 data class StatisticTrendState(
     val intervals: List<Interval>,

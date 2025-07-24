@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.measurement.value.tint.GetMeasurementValueTintUseCase
+import com.faltenreich.diaguard.measurement.value.usecase.GetMeasurementValueTintUseCase
 import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

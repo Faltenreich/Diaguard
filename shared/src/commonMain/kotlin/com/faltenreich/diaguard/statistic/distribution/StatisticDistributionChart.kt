@@ -18,7 +18,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.measurement.value.tint.MeasurementValueTint
+import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.PI

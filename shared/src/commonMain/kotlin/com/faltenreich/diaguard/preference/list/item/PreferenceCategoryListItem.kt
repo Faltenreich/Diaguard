@@ -16,8 +16,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PreferenceCategoryListItem(
@@ -54,4 +56,10 @@ fun PreferenceCategoryListItem(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    PreferenceCategoryListItem(title = "Title")
 }

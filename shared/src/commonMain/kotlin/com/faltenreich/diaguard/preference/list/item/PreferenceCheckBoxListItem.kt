@@ -5,6 +5,8 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.preference.list.PreferenceListItemScaffold
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PreferenceCheckBoxListItem(
@@ -24,4 +26,14 @@ fun PreferenceCheckBoxListItem(
             onCheckedChange = { onCheckedChange(!isChecked) },
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    PreferenceCheckBoxListItem(
+        title = "Title",
+        isChecked = true,
+        onCheckedChange = {},
+    )
 }

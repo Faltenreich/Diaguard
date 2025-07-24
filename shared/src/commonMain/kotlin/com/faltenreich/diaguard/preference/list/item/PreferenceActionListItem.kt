@@ -4,6 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.preference.list.PreferenceListItemScaffold
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PreferenceActionListItem(
@@ -16,5 +18,15 @@ fun PreferenceActionListItem(
         title = title ,
         subtitle = subtitle,
         modifier = modifier.clickable { onClick() },
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    PreferenceActionListItem(
+        title = "Title",
+        onClick = {},
+        subtitle = "Subtitle",
     )
 }

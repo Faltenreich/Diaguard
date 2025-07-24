@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import diaguard.shared.generated.resources.Res
@@ -21,6 +22,7 @@ import diaguard.shared.generated.resources.export
 import diaguard.shared.generated.resources.food
 import diaguard.shared.generated.resources.preferences
 import diaguard.shared.generated.resources.statistic
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.reflect.KClass
 
 @Composable
@@ -81,4 +83,13 @@ fun MainMenu(
 private fun String?.isSelecting(kClass: KClass<*>): Boolean {
     val className = kClass.simpleName ?: return false
     return this?.contains(className) ?: false
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MainMenu(
+        currentDestination = null,
+        onItemClick = { _, _ -> },
+    )
 }

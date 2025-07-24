@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.shared.theme.color.asColor
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementCategoryIcon(
@@ -87,4 +89,10 @@ fun DrawScope.MeasurementCategoryIcon(
         style = textStyle,
         size = textSize,
     )
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementCategoryIcon(category = category())
 }

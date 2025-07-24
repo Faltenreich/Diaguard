@@ -15,12 +15,14 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.create
 import diaguard.shared.generated.resources.measurement_category
 import diaguard.shared.generated.resources.name
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementCategoryFormDialog(
@@ -59,5 +61,14 @@ fun MeasurementCategoryFormDialog(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done ),
             )
         }
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementCategoryFormDialog(
+        onDismissRequest = {},
+        onConfirmRequest = {},
     )
 }

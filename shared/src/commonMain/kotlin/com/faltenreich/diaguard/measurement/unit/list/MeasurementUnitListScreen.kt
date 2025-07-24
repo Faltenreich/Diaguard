@@ -54,13 +54,26 @@ data class MeasurementUnitListScreen(private val modeOrdinal: Int) : Screen {
 
     @Composable
     override fun Content() {
+        val viewModel = viewModel<MeasurementUnitListViewModel>(
+            parameters = {
+                parametersOf(MeasurementUnitListMode.entries.first { it.ordinal == modeOrdinal })
+            },
+        )
+        val selectionViewModel = sharedViewModel<MeasurementUnitSelectionViewModel>()
         MeasurementUnitList(
-            viewModel = viewModel(
-                parameters = {
-                    parametersOf(MeasurementUnitListMode.entries.first { it.ordinal == modeOrdinal })
-                },
-            ),
-            selectionViewModel = sharedViewModel(),
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+            onSelect = { unit ->
+                when (viewModel.mode) {
+                    MeasurementUnitListMode.STROLL -> {
+                        viewModel.dispatchIntent(MeasurementUnitListIntent.OpenFormDialog(unit))
+                    }
+                    MeasurementUnitListMode.FIND -> {
+                        selectionViewModel.postEvent(MeasurementUnitSelectionEvent.Select(unit))
+                        viewModel.dispatchIntent(MeasurementUnitListIntent.Close)
+                    }
+                }
+            }
         )
     }
 }

@@ -7,16 +7,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.form.MeasurementUnitFormDialog
 import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementUnitList(
-    viewModel: MeasurementUnitListViewModel,
-    selectionViewModel: MeasurementUnitSelectionViewModel,
+    state: MeasurementUnitListState?,
+    onIntent: (MeasurementUnitListIntent) -> Unit,
+    onSelect: (MeasurementUnit.Local) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
+    state ?: return
 
     LazyColumn(modifier = modifier) {
         itemsIndexed(state.units, key = { _, item -> item.id }) { index, unit ->
@@ -28,17 +32,7 @@ fun MeasurementUnitList(
                     unit = unit,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            when (viewModel.mode) {
-                                MeasurementUnitListMode.STROLL -> {
-                                    viewModel.dispatchIntent(MeasurementUnitListIntent.OpenFormDialog(unit))
-                                }
-                                MeasurementUnitListMode.FIND -> {
-                                    selectionViewModel.postEvent(MeasurementUnitSelectionEvent.Select(unit))
-                                    viewModel.dispatchIntent(MeasurementUnitListIntent.Close)
-                                }
-                            }
-                        }
+                        .clickable { onSelect(unit) },
                 )
             }
         }
@@ -48,9 +42,9 @@ fun MeasurementUnitList(
         MeasurementUnitFormDialog(
             unit = formDialog.unit,
             error = formDialog.error,
-            onDismissRequest = { viewModel.dispatchIntent(MeasurementUnitListIntent.CloseFormDialog) },
+            onDismissRequest = { onIntent(MeasurementUnitListIntent.CloseFormDialog) },
             onConfirmRequest = { name, abbreviation ->
-                viewModel.dispatchIntent(
+                onIntent(
                     MeasurementUnitListIntent.StoreUnit(
                         unit = formDialog.unit,
                         name = name,
@@ -60,4 +54,17 @@ fun MeasurementUnitList(
             }
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementUnitList(
+        state = MeasurementUnitListState(
+            units = listOf(unit()),
+            formDialog = null,
+        ),
+        onIntent = {},
+        onSelect = {},
+    )
 }

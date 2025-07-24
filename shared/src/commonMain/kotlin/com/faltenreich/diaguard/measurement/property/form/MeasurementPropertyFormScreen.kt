@@ -89,6 +89,9 @@ data class MeasurementPropertyFormScreen(
                 }
             }
         }
-        MeasurementPropertyForm(viewModel)
+        MeasurementPropertyForm(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

@@ -35,6 +35,7 @@ import com.faltenreich.diaguard.shared.view.NoticeBar
 import com.faltenreich.diaguard.shared.view.NoticeBarStyle
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.aggregation_style
 import diaguard.shared.generated.resources.aggregation_style_description
@@ -50,13 +51,15 @@ import diaguard.shared.generated.resources.ok
 import diaguard.shared.generated.resources.values
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementPropertyForm(
-    viewModel: MeasurementPropertyFormViewModel,
+    state: MeasurementPropertyFormState?,
+    onIntent: (MeasurementPropertyFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
+    state ?: return
 
     Column(modifier = modifier.fillMaxSize()) {
         Column(
@@ -69,7 +72,7 @@ fun MeasurementPropertyForm(
                 input = name,
                 onInputChange = { input ->
                     name = input
-                    viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateProperty(name = input))
+                    onIntent(MeasurementPropertyFormIntent.UpdateProperty(name = input))
                 },
                 label = getString(Res.string.name),
                 modifier = Modifier
@@ -85,11 +88,11 @@ fun MeasurementPropertyForm(
             TextDivider(getString(Res.string.measurement_unit))
 
             if (state.unitSuggestions.isNotEmpty()) {
-                UnitList(state, onIntent = viewModel::dispatchIntent)
+                UnitList(state, onIntent)
             } else {
                 UnitButton(
                     unit = state.property.unit,
-                    onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.OpenUnitSearch) },
+                    onClick = { onIntent(MeasurementPropertyFormIntent.OpenUnitSearch) },
                 )
             }
 
@@ -97,7 +100,7 @@ fun MeasurementPropertyForm(
 
             FormRow(
                 modifier = Modifier.clickable {
-                    viewModel.dispatchIntent(
+                    onIntent(
                         MeasurementPropertyFormIntent.OpenDialog(
                             MeasurementPropertyFormState.Dialog.AggregationStyle(state.property)
                         )
@@ -118,7 +121,7 @@ fun MeasurementPropertyForm(
 
             MeasurementValueRangeForm(
                 state = state.valueRange,
-                onUpdate = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.UpdateValueRange(it)) },
+                onUpdate = { onIntent(MeasurementPropertyFormIntent.UpdateValueRange(it)) },
             )
         }
 
@@ -130,10 +133,7 @@ fun MeasurementPropertyForm(
     }
 
     state.dialog?.let { dialog ->
-        Dialog(
-            state = dialog,
-            onIntent = viewModel::dispatchIntent,
-        )
+        Dialog(dialog, onIntent)
     }
 }
 
@@ -248,4 +248,27 @@ private fun Dialog(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    MeasurementPropertyForm(
+        state = MeasurementPropertyFormState(
+            property = property(),
+            valueRange = MeasurementPropertyFormState.ValueRange(
+                minimum = "minimum",
+                low = "low",
+                target = "target",
+                high = "high",
+                maximum = "maximum",
+                isHighlighted = true,
+                unit = null,
+            ),
+            unitSuggestions = emptyList(),
+            errorBar = null,
+            dialog = null,
+        ),
+        onIntent = {},
+    )
 }

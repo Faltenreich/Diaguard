@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ColorSchemeListItem(
@@ -38,4 +40,14 @@ fun ColorSchemeListItem(
             onClick = null,
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    ColorSchemeListItem(
+        colorScheme = ColorScheme.SYSTEM,
+        isSelected = true,
+        onClick = {},
+    )
 }

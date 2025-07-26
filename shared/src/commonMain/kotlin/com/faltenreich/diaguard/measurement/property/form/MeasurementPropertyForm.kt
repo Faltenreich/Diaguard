@@ -149,7 +149,7 @@ private fun UnitList(
                 Divider()
             }
             FormRow(
-                modifier = modifier.clickable {
+                modifier = Modifier.clickable {
                     onIntent(MeasurementPropertyFormIntent.SelectUnit(item.unit))
                 },
             ) {
@@ -169,7 +169,7 @@ private fun UnitList(
                             contentDescription = getString(
                                 Res.string.measurement_unit_selected_description
                             ),
-                            modifier = modifier.size(AppTheme.dimensions.size.ImageMedium),
+                            modifier = Modifier.size(AppTheme.dimensions.size.ImageMedium),
                             tint = AppTheme.colors.scheme.primary,
                         )
                     }

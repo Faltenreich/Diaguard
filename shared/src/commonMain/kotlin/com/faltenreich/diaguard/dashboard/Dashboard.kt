@@ -41,7 +41,7 @@ fun Dashboard(
             onClick = { entry ->
                 onIntent(entry?.let(DashboardIntent::EditEntry) ?: DashboardIntent.CreateEntry)
             },
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
         )
         Row(
             modifier = Modifier.fillMaxWidth(),

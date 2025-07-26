@@ -17,12 +17,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SearchField(
-    query: String = "",
+    query: String,
     placeholder: String?,
+    modifier: Modifier = Modifier,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     onQueryChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     TextField(
         value = query,

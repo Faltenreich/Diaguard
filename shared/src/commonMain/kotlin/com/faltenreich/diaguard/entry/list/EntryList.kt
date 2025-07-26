@@ -39,7 +39,7 @@ fun EntryList(
         if (items.itemCount == 0) {
             if (items.loadState.refresh == LoadState.Loading) {
                 Box(
-                    modifier = modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator()

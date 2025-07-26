@@ -101,7 +101,7 @@ fun EntryForm(
                         onIntent(EntryFormIntent.SetTagQuery(input))
                     },
                     suggestions = state.tags.suggestions,
-                    onSuggestionSelected = { tag ->
+                    onSuggestionSelect = { tag ->
                         onIntent(EntryFormIntent.AddTag(tag))
                         onIntent(EntryFormIntent.SetTagQuery(""))
                     }
@@ -112,13 +112,6 @@ fun EntryForm(
                 EntryTagList(
                     tags = tags,
                     onTagClick = { tag -> onIntent(EntryFormIntent.RemoveTag(tag)) },
-                    trailingIcon = { tag ->
-                        ResourceIcon(
-                            icon = Res.drawable.ic_clear,
-                            contentDescription = getString(Res.string.tag_remove_description, tag.name),
-                            modifier = Modifier.size(InputChipDefaults.AvatarSize),
-                        )
-                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
@@ -129,6 +122,13 @@ fun EntryForm(
                             end = AppTheme.dimensions.padding.P_3,
                             bottom = AppTheme.dimensions.padding.P_2,
                         ),
+                    trailingIcon = { tag ->
+                        ResourceIcon(
+                            icon = Res.drawable.ic_clear,
+                            contentDescription = getString(Res.string.tag_remove_description, tag.name),
+                            modifier = Modifier.size(InputChipDefaults.AvatarSize),
+                        )
+                    },
                 )
             }
 

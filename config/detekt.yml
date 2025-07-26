@@ -44,7 +44,7 @@ Compose:
   ComposableParamOrder:
     active: true
   CompositionLocalAllowlist:
-    active: true
+    active: false
   CompositionLocalNaming:
     active: true
   ContentEmitterReturningValues:

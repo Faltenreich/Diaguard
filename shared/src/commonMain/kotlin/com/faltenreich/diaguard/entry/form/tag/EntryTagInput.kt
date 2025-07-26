@@ -27,7 +27,7 @@ fun EntryTagInput(
     input: String,
     onInputChange: (String) -> Unit,
     suggestions: List<Tag>,
-    onSuggestionSelected: (Tag) -> Unit,
+    onSuggestionSelect: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -35,19 +35,20 @@ fun EntryTagInput(
     ExposedDropdownMenuBox(
         expanded = isExpanded,
         onExpandedChange = { isExpanded = it },
+        modifier = modifier,
     ) {
         TextInput(
             input = input,
             onInputChange = onInputChange,
             placeholder = { Text(getString(Res.string.tag)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .menuAnchor(),
             maxLines = 1,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send ),
             keyboardActions = KeyboardActions(
-                onSend = { onSuggestionSelected(Tag.User(name = input)) },
+                onSend = { onSuggestionSelect(Tag.User(name = input)) },
             ),
         )
 
@@ -60,7 +61,7 @@ fun EntryTagInput(
                     DropdownMenuItem(
                         text = { Text(suggestion.name) },
                         onClick = {
-                            onSuggestionSelected(suggestion)
+                            onSuggestionSelect(suggestion)
                             isExpanded = false
                         },
                     )
@@ -77,6 +78,6 @@ private fun Preview() = AppPreview {
         input = "Input",
         onInputChange = {},
         suggestions = emptyList(),
-        onSuggestionSelected = {},
+        onSuggestionSelect = {},
     )
 }

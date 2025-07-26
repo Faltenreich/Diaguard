@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.R
 
 @Composable
 actual fun EmojiPicker(
-    onEmojiPicked: (String) -> Unit,
+    onEmojiPick: (String) -> Unit,
     columns: Int,
     isDarkColorScheme: Boolean,
     modifier: Modifier,
@@ -22,7 +22,7 @@ actual fun EmojiPicker(
                 emojiGridColumns = columns
                 isNestedScrollingEnabled = true
                 setOnEmojiPickedListener { item ->
-                    onEmojiPicked(item.emoji)
+                    onEmojiPick(item.emoji)
                 }
             }
         },

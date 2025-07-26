@@ -18,8 +18,8 @@ fun NoticeBar(
     text: String,
     isVisible: Boolean,
     style: NoticeBarStyle,
-    slideInFromBottom: Boolean = true,
     modifier: Modifier = Modifier,
+    slideInFromBottom: Boolean = true,
 ) {
     AnimatedVisibility(
         visible = isVisible,

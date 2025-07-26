@@ -15,10 +15,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun TextCheckbox(
     title: String,
-    subtitle: String? = null,
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
+    subtitle: String? = null,
 ) {
     Row(
         modifier = modifier,

@@ -11,8 +11,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun PreferenceActionListItem(
     title: String,
     onClick: () -> Unit,
-    subtitle: String? = null,
     modifier: Modifier = Modifier,
+    subtitle: String? = null,
 ) {
     PreferenceListItemScaffold(
         title = title ,

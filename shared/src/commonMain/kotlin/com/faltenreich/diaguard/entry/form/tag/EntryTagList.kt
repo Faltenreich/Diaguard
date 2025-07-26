@@ -13,8 +13,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun EntryTagList(
     tags: List<Tag>,
     onTagClick: (Tag) -> Unit,
-    trailingIcon: @Composable (Tag) -> Unit = {},
     modifier: Modifier = Modifier,
+    trailingIcon: @Composable (Tag) -> Unit = {},
 ) {
     FlowRow(
         modifier = modifier,

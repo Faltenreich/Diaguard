@@ -127,7 +127,7 @@ fun MeasurementCategoryForm(
             sheetState = sheetState,
         ) {
             EmojiPicker(
-                onEmojiPicked = { icon ->
+                onEmojiPick = { icon ->
                     showEmojiPicker = false
                     viewModel.icon.value = icon
                 },

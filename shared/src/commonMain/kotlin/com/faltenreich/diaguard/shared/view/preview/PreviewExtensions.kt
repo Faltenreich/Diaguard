@@ -15,6 +15,7 @@ import org.koin.compose.koinInject
  */
 @Composable
 inline fun AppPreview(
+    modifier: Modifier = Modifier,
     showBackground: Boolean = true,
     isDarkColorScheme: Boolean = false,
     crossinline content: @Composable PreviewScope.() -> Unit,
@@ -25,7 +26,7 @@ inline fun AppPreview(
                 val backgroundColor =
                     if (showBackground) AppTheme.colors.scheme.background
                     else Color.Transparent
-                Box(modifier = Modifier.background(backgroundColor)) {
+                Box(modifier = modifier.background(backgroundColor)) {
                     content()
                 }
             }

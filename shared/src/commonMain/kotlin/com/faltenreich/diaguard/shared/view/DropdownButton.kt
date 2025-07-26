@@ -23,8 +23,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun DropdownButton(
     text: String,
     items: List<Pair<String, () -> Unit>>,
-    subtitle: String? = null,
     modifier: Modifier = Modifier,
+    subtitle: String? = null,
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box(modifier = modifier) {

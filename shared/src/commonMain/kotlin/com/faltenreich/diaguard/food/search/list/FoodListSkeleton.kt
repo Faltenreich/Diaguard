@@ -26,7 +26,7 @@ fun FoodListSkeleton(modifier: Modifier = Modifier) {
         items(count = 20) {
             Column {
                 Row(
-                    modifier = modifier
+                    modifier = Modifier
                         .height(IntrinsicSize.Min)
                         .defaultMinSize(minHeight = AppTheme.dimensions.size.TouchSizeLarge)
                         .padding(AppTheme.dimensions.padding.P_3),

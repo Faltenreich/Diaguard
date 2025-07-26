@@ -67,7 +67,7 @@ fun MeasurementPropertyList(
                 icon = {
                     ResourceIcon(
                         icon = Res.drawable.ic_add,
-                        modifier = modifier.size(InputChipDefaults.AvatarSize),
+                        modifier = Modifier.size(InputChipDefaults.AvatarSize),
                     )
                 },
             )

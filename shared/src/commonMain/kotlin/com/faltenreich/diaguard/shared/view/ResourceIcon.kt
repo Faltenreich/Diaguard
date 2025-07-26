@@ -17,8 +17,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun ResourceIcon(
     icon: DrawableResource,
-    contentDescription: String? = null,
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
     tint: Color = AppTheme.colors.scheme.onBackground.copy(
         alpha = LocalContentColor.current.alpha,
     ),

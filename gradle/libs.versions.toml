@@ -15,6 +15,7 @@ coroutines = "1.10.2"
 datastore = "1.1.7"
 datetime = "0.7.1"
 detekt = "1.23.8"
+detekt-compose = "0.4.26"
 emojipicker = "1.5.0"
 io = "0.8.0"
 junit = "4.13.2"
@@ -44,6 +45,7 @@ androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "andro
 androidx-test-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "android-test-junit" }
 compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
 datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt-compose" }
 junit = { module = "junit:junit", version.ref = "junit" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android" }

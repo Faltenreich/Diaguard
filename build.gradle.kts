@@ -43,6 +43,10 @@ allprojects {
             xml.required.set(true)
         }
     }
+
+    dependencies {
+        detektPlugins(rootProject.libs.detekt.compose)
+    }
 }
 
 tasks.register("clean", Delete::class) {

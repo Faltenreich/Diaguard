@@ -12,12 +12,16 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
+import com.faltenreich.diaguard.shared.view.rememberAnimatable
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvas
 import com.faltenreich.diaguard.timeline.date.TimelineDateBar
 import com.faltenreich.diaguard.timeline.entry.TimelineEntryBottomSheet
+import kotlinx.coroutines.launch
 
 @Composable
 fun Timeline(
@@ -26,14 +30,24 @@ fun Timeline(
 ) {
     val state = viewModel.collectState() ?: return
 
+    val scope = rememberCoroutineScope()
+    val scrollOffset = rememberAnimatable()
+    LaunchedEffect(Unit) {
+        viewModel.collectEvents { event ->
+            when (event) {
+                is TimelineEvent.Scroll -> scope.launch { scrollOffset.animateTo(event.offset) }
+            }
+        }
+    }
+
     Column(modifier = modifier) {
         Box(
             modifier = Modifier.weight(1f),
         ) {
             TimelineCanvas(
                 state = state,
+                scrollOffset = scrollOffset,
                 onIntent = viewModel::dispatchIntent,
-                viewModel = viewModel,
                 modifier = Modifier.fillMaxSize(),
             )
             Box(

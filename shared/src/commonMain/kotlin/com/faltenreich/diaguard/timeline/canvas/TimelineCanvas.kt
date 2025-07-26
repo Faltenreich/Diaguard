@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.timeline.canvas
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.FloatSpringSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.calculateTargetValue
@@ -28,12 +30,9 @@ import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.theme.LocalDimensions
 import com.faltenreich.diaguard.shared.theme.color.LocalColors
-import com.faltenreich.diaguard.shared.view.rememberAnimatable
 import com.faltenreich.diaguard.timeline.TimelineConfig
-import com.faltenreich.diaguard.timeline.TimelineEvent
 import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineState
-import com.faltenreich.diaguard.timeline.TimelineViewModel
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChart
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTable
 import com.faltenreich.diaguard.timeline.canvas.time.TimelineTime
@@ -42,8 +41,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun TimelineCanvas(
     state: TimelineState,
+    scrollOffset: Animatable<Float, AnimationVector1D>,
     onIntent: (TimelineIntent) -> Unit,
-    viewModel: TimelineViewModel,
     modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
@@ -54,21 +53,12 @@ fun TimelineCanvas(
     val typography = AppTheme.typography
     val fontSize = typography.bodyMedium.fontSize
     val textMeasurer = rememberTextMeasurer()
-    val scrollOffset = rememberAnimatable()
     val tableRowHeight = density.run {
         typography.bodyMedium.fontSize.toPx() + dimensions.padding.P_2.toPx() * 2
     }
     val statusBarHeight = WindowInsets.statusBars.getTop(density)
     val touchArea = dimensions.size.TouchSizeSmall
     val touchAreaSize = density.run { touchArea.toPx().let { Size(it, it) } }
-
-    LaunchedEffect(Unit) {
-        viewModel.collectEvents { event ->
-            when (event) {
-                is TimelineEvent.Scroll -> scope.launch { scrollOffset.animateTo(event.offset) }
-            }
-        }
-    }
 
     val config by remember {
         val config = TimelineConfig(

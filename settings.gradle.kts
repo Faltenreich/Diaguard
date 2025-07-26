@@ -21,3 +21,4 @@ rootProject.name = "diaguard"
 
 include(":androidApp")
 include(":shared")
+include(":config:detekt")

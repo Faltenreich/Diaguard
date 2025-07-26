@@ -18,7 +18,7 @@ allprojects {
 
     detekt {
         buildUponDefaultConfig = true
-        config.setFrom("$rootDir/config/detekt.yml")
+        config.setFrom("$rootDir/config/detekt/detekt.yml")
     }
 
     kover {

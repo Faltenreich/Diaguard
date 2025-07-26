@@ -1,3 +1,8 @@
+diaguard:
+  active: true
+  ComposableMustContainPreviewRule:
+    active: true
+
 complexity:
   LongMethod:
     active: false

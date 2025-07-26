@@ -19,10 +19,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun SearchField(
     query: String,
     placeholder: String?,
+    onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    onQueryChange: (String) -> Unit,
 ) {
     TextField(
         value = query,

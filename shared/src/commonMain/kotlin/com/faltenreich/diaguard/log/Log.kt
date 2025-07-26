@@ -60,7 +60,7 @@ fun Log(
         animationSpec = tween(),
     )
 
-    LaunchedEffect(state) {
+    LaunchedEffect(state, onIntent) {
         snapshotFlow {
             listState.layoutInfo.visibleItemsInfo
                 .filter { it.offset > state.monthHeaderSize.height }

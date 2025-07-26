@@ -84,7 +84,7 @@ fun TimelineCanvas(
         mutableStateOf(config)
     }
 
-    LaunchedEffect(scrollOffset.value) {
+    LaunchedEffect(scrollOffset.value, onIntent) {
         onIntent(
             TimelineIntent.Invalidate(
                 scrollOffset = scrollOffset.value,

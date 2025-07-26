@@ -98,7 +98,7 @@ fun TimelineCanvas(
         modifier = modifier
             .fillMaxSize()
             .onGloballyPositioned { coordinates ->
-                viewModel.dispatchIntent(
+                onIntent(
                     TimelineIntent.Setup(
                         canvasSize = coordinates.size.toSize(),
                         tableRowHeight = tableRowHeight,
@@ -109,7 +109,7 @@ fun TimelineCanvas(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onPress = { position ->
-                        viewModel.dispatchIntent(TimelineIntent.TapCanvas(position, touchAreaSize))
+                        onIntent(TimelineIntent.TapCanvas(position, touchAreaSize))
                     },
                 )
             }

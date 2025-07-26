@@ -32,8 +32,8 @@ fun Timeline(
         ) {
             TimelineCanvas(
                 state = state,
-                events = viewModel.events,
                 onIntent = viewModel::dispatchIntent,
+                viewModel = viewModel,
                 modifier = Modifier.fillMaxSize(),
             )
             Box(

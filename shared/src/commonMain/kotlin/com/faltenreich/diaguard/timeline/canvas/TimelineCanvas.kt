@@ -33,17 +33,17 @@ import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.TimelineEvent
 import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineState
-import com.faltenreich.diaguard.timeline.TimelineViewModel
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChart
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTable
 import com.faltenreich.diaguard.timeline.canvas.time.TimelineTime
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
 @Composable
 fun TimelineCanvas(
     state: TimelineState,
+    events: MutableSharedFlow<TimelineEvent>,
     onIntent: (TimelineIntent) -> Unit,
-    viewModel: TimelineViewModel,
     modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
@@ -63,7 +63,7 @@ fun TimelineCanvas(
     val touchAreaSize = density.run { touchArea.toPx().let { Size(it, it) } }
 
     LaunchedEffect(Unit) {
-        viewModel.collectEvents { event ->
+        events.collect { event ->
             when (event) {
                 is TimelineEvent.Scroll -> scope.launch { scrollOffset.animateTo(event.offset) }
             }
@@ -98,7 +98,7 @@ fun TimelineCanvas(
         modifier = modifier
             .fillMaxSize()
             .onGloballyPositioned { coordinates ->
-                viewModel.dispatchIntent(
+                onIntent(
                     TimelineIntent.Setup(
                         canvasSize = coordinates.size.toSize(),
                         tableRowHeight = tableRowHeight,
@@ -109,7 +109,7 @@ fun TimelineCanvas(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onPress = { position ->
-                        viewModel.dispatchIntent(TimelineIntent.TapCanvas(position, touchAreaSize))
+                        onIntent(TimelineIntent.TapCanvas(position, touchAreaSize))
                     },
                 )
             }

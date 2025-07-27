@@ -43,7 +43,7 @@ class TagDetailViewModelTest : TestSuite {
     @Test
     fun `pop screen tag when intending to update tag with new and unique name`() = runTest {
         navigation.events.test {
-            viewModel.name = "update"
+            viewModel.handleIntent(TagDetailIntent.SetName("update"))
             viewModel.handleIntent(TagDetailIntent.UpdateTag)
 
             assertTrue(awaitItem() is NavigationEvent.PopScreen)
@@ -64,10 +64,12 @@ class TagDetailViewModelTest : TestSuite {
         val name = "update"
         tagRepository.create(Tag.User(name = name))
 
-        viewModel.name = name
+        viewModel.handleIntent(TagDetailIntent.SetName(name))
         viewModel.handleIntent(TagDetailIntent.UpdateTag)
 
-        assertNotNull(viewModel.error)
+        viewModel.state.test {
+            assertNotNull(awaitItem().error)
+        }
     }
 
     @Test

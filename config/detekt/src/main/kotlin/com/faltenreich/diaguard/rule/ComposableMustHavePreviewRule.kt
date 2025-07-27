@@ -46,6 +46,9 @@ internal class ComposableMustHavePreviewRule(config: Config = Config.empty) : Ru
         // Ignore inner Composable, e.g. Screen
         if (!function.isTopLevel) return
 
+        // Ignore Composable that start with lowercase, e.g. remember functions
+        if (function.name?.getOrNull(0)?.isUpperCase() != true) return
+
         if (function.hasAnnotation("Composable")) {
             hasComposable = true
         }

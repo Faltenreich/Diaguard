@@ -1,8 +1,4 @@
-/**
- * Workaround for: Duplicate JVM class name
- * https://youtrack.jetbrains.com/issue/KT-21186
- */
-@file:JvmName("LegacyModuleJvm")
+@file:JvmName("LegacyModuleCommon")
 
 package com.faltenreich.diaguard.startup.legacy
 

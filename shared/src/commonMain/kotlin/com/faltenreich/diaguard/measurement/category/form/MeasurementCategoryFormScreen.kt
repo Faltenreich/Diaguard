@@ -61,6 +61,10 @@ data class MeasurementCategoryFormScreen(val categoryId: Long) : Screen {
 
     @Composable
     override fun Content() {
-        MeasurementCategoryForm(viewModel = viewModel { parametersOf(categoryId) })
+        val viewModel = viewModel<MeasurementCategoryFormViewModel> { parametersOf(categoryId) }
+        MeasurementCategoryForm(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

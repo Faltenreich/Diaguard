@@ -30,13 +30,26 @@ fun MeasurementCategoryIcon(
     category: MeasurementCategory,
     modifier: Modifier = Modifier,
 ) {
-    val char = category.name.firstOrNull()?.uppercaseChar() ?: '?'
-    val text = category.icon ?: char.toString()
+    MeasurementCategoryIcon(
+        icon = category.icon,
+        name = category.name,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun MeasurementCategoryIcon(
+    icon: String?,
+    name: String,
+    modifier: Modifier = Modifier,
+) {
+    val char = name.firstOrNull()?.uppercaseChar() ?: '?'
+    val text = icon ?: char.toString()
     Box(
         modifier = modifier
             .size(AppTheme.dimensions.size.ImageMedium)
             .background(
-                color = if (category.icon != null) Color.Transparent else char.asColor(),
+                color = if (icon != null) Color.Transparent else char.asColor(),
                 shape = CircleShape,
             ),
         contentAlignment = Alignment.Center,

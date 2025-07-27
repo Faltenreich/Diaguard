@@ -4,6 +4,9 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.preference.color.ColorScheme
 
 data class MeasurementCategoryFormState(
+    val name: String,
+    val icon: String?,
+    val isActive: Boolean,
     val properties: List<MeasurementProperty.Local>,
     val colorScheme: ColorScheme,
     val deleteDialog: DeleteDialog?,

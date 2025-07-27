@@ -3,11 +3,11 @@ package com.faltenreich.diaguard.measurement.category.form
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.usecase.DeleteMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
-import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
+import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
@@ -34,17 +34,19 @@ class MeasurementCategoryFormViewModel(
     private val showSnackbar: ShowSnackbarUseCase = inject(),
 ) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
 
-    val category: MeasurementCategory.Local = checkNotNull(getCategoryBdId(categoryId))
-
-    var icon = MutableStateFlow(category.icon)
-    var name = MutableStateFlow(category.name)
-    var isActive = MutableStateFlow(category.isActive)
+    private val category: MeasurementCategory.Local = checkNotNull(getCategoryBdId(categoryId))
+    private val name = MutableStateFlow(category.name)
+    private val icon = MutableStateFlow(category.icon)
+    private val isActive = MutableStateFlow(category.isActive)
 
     private val properties = getProperties(category)
     private val deleteDialog = MutableStateFlow<MeasurementCategoryFormState.DeleteDialog?>(null)
     private val alertDialog = MutableStateFlow<MeasurementCategoryFormState.AlertDialog?>(null)
 
     override val state = combine(
+        name,
+        icon,
+        isActive,
         properties,
         getPreference(ColorSchemePreference),
         deleteDialog,
@@ -52,20 +54,26 @@ class MeasurementCategoryFormViewModel(
         ::MeasurementCategoryFormState,
     )
 
-    override suspend fun handleIntent(intent: MeasurementCategoryFormIntent) = with(intent) {
-        when (this) {
+    override suspend fun handleIntent(intent: MeasurementCategoryFormIntent) {
+        when (intent) {
+            is MeasurementCategoryFormIntent.SetName ->
+                name.update { intent.name }
+            is MeasurementCategoryFormIntent.SetIcon ->
+                icon.update { intent.icon }
+            is MeasurementCategoryFormIntent.SetIsActive ->
+                isActive.update { intent.isActive }
             is MeasurementCategoryFormIntent.DecrementSortIndex ->
-                decrementSortIndex(property, inProperties)
+                decrementSortIndex(intent.property, intent.inProperties)
             is MeasurementCategoryFormIntent.IncrementSortIndex ->
-                incrementSortIndex(property, inProperties)
+                incrementSortIndex(intent.property, intent.inProperties)
             is MeasurementCategoryFormIntent.EditProperty ->
-                editProperty(property)
+                editProperty(intent.property)
             is MeasurementCategoryFormIntent.AddProperty ->
                 pushScreen(MeasurementPropertyFormScreen(category))
             is MeasurementCategoryFormIntent.Store ->
                 updateCategory()
             is MeasurementCategoryFormIntent.Delete ->
-                deleteCategory(needsConfirmation)
+                deleteCategory(intent.needsConfirmation)
             is MeasurementCategoryFormIntent.OpenDeleteDialog ->
                 deleteDialog.update { MeasurementCategoryFormState.DeleteDialog }
             is MeasurementCategoryFormIntent.CloseDeleteDialog ->

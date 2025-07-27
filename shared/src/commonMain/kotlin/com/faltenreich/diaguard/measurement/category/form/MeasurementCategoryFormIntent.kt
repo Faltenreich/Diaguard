@@ -4,6 +4,12 @@ import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 
 sealed interface MeasurementCategoryFormIntent {
 
+    data class SetName(val name: String) : MeasurementCategoryFormIntent
+
+    data class SetIcon(val icon: String?) : MeasurementCategoryFormIntent
+
+    data class SetIsActive(val isActive: Boolean) : MeasurementCategoryFormIntent
+
     data class DecrementSortIndex(
         val property: MeasurementProperty.Local,
         val inProperties: List<MeasurementProperty.Local>,

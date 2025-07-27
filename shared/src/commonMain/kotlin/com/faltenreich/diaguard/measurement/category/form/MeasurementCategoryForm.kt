@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.measurement.category.form
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,8 +22,8 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
+import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.isDark
-import com.faltenreich.diaguard.shared.architecture.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
@@ -33,6 +31,7 @@ import com.faltenreich.diaguard.shared.view.EmojiPicker
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.delete_error_pre_defined
 import diaguard.shared.generated.resources.delete_title
@@ -43,16 +42,19 @@ import diaguard.shared.generated.resources.measurement_category_visibility_visib
 import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementCategoryForm(
-    viewModel: MeasurementCategoryFormViewModel,
+    state: MeasurementCategoryFormState?,
+    onIntent: (MeasurementCategoryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState()
-    val name = viewModel.name.collectAsStateWithLifecycle().value
-    val icon = viewModel.icon.collectAsStateWithLifecycle().value
-    val isActive = viewModel.isActive.collectAsStateWithLifecycle().value
+    state ?: return
+
+    var name by remember { mutableStateOf(state.name) }
+    var icon by remember { mutableStateOf(state.icon) }
+    var isActive by remember { mutableStateOf(state.isActive) }
 
     var showEmojiPicker by remember { mutableStateOf(false) }
 
@@ -63,7 +65,10 @@ fun MeasurementCategoryForm(
     ) {
         TextInput(
             input = name,
-            onInputChange = { viewModel.name.value = it },
+            onInputChange = { input ->
+                name = input
+                onIntent(MeasurementCategoryFormIntent.SetName(input))
+            },
             label = getString(Res.string.name),
             modifier = Modifier
                 .fillMaxWidth()
@@ -87,10 +92,8 @@ fun MeasurementCategoryForm(
                 modifier = Modifier.weight(1f),
             )
             MeasurementCategoryIcon(
-                category = viewModel.category.copy(
-                    icon = icon,
-                    name = name,
-                ),
+                icon = icon,
+                name = name,
             )
         }
 
@@ -104,19 +107,17 @@ fun MeasurementCategoryForm(
                     else Res.string.measurement_category_visibility_hidden
                 ),
                 checked = isActive,
-                onCheckedChange = { viewModel.isActive.value = it },
+                onCheckedChange = { isChecked ->
+                    isActive = isChecked
+                    onIntent(MeasurementCategoryFormIntent.SetIsActive(isChecked))
+                },
             )
         }
 
-        AnimatedVisibility(
-            visible = state != null,
-            enter = fadeIn(),
-        ) {
-            MeasurementPropertyList(
-                properties = state?.properties ?: emptyList(),
-                onIntent = viewModel::dispatchIntent,
-            )
-        }
+        MeasurementPropertyList(
+            properties = state.properties,
+            onIntent = onIntent,
+        )
     }
 
     if (showEmojiPicker) {
@@ -129,11 +130,11 @@ fun MeasurementCategoryForm(
             EmojiPicker(
                 onEmojiPick = { icon ->
                     showEmojiPicker = false
-                    viewModel.icon.value = icon
+                    onIntent(MeasurementCategoryFormIntent.SetIcon(icon))
                 },
                 // TODO: Adjust for smaller/larger screens
                 columns = 9,
-                isDarkColorScheme = state?.colorScheme.isDark(),
+                isDarkColorScheme = state.colorScheme.isDark(),
                 // Workaround: Fixes nested scroll
                 // FIXME: Lags after expanding bottom sheet
                 modifier = if (sheetState.currentValue == SheetValue.Expanded) {
@@ -145,22 +146,22 @@ fun MeasurementCategoryForm(
         }
     }
 
-    if (state?.deleteDialog != null) {
+    if (state.deleteDialog != null) {
         DeleteDialog(
-            onDismissRequest = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.CloseDeleteDialog) },
+            onDismissRequest = { onIntent(MeasurementCategoryFormIntent.CloseDeleteDialog) },
             onConfirmRequest = {
-                viewModel.dispatchIntent(MeasurementCategoryFormIntent.CloseDeleteDialog)
-                viewModel.dispatchIntent(MeasurementCategoryFormIntent.Delete(needsConfirmation = false))
+                onIntent(MeasurementCategoryFormIntent.CloseDeleteDialog)
+                onIntent(MeasurementCategoryFormIntent.Delete(needsConfirmation = false))
             },
         )
     }
 
-    if (state?.alertDialog != null) {
+    if (state.alertDialog != null) {
         AlertDialog(
-            onDismissRequest = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.CloseAlertDialog) },
+            onDismissRequest = { onIntent(MeasurementCategoryFormIntent.CloseAlertDialog) },
             confirmButton = {
                 TextButton(
-                    onClick = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.CloseAlertDialog) },
+                    onClick = { onIntent(MeasurementCategoryFormIntent.CloseAlertDialog) },
                 ) {
                     Text(
                         text = getString(Res.string.ok),
@@ -172,4 +173,22 @@ fun MeasurementCategoryForm(
             text = { Text(stringResource(Res.string.delete_error_pre_defined)) },
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    val category = category()
+    MeasurementCategoryForm(
+        state = MeasurementCategoryFormState(
+            name = category.name,
+            icon = category.icon,
+            isActive = category.isActive,
+            properties = listOf(property()),
+            colorScheme = ColorScheme.SYSTEM,
+            deleteDialog = null,
+            alertDialog = null,
+        ),
+        onIntent = {},
+    )
 }

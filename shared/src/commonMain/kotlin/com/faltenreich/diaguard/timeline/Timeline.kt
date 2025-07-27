@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.timeline
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,33 +14,25 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.rememberAnimatable
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvas
 import com.faltenreich.diaguard.timeline.date.TimelineDateBar
+import com.faltenreich.diaguard.timeline.date.TimelineDateState
 import com.faltenreich.diaguard.timeline.entry.TimelineEntryBottomSheet
-import kotlinx.coroutines.launch
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Timeline(
-    viewModel: TimelineViewModel,
+    state: TimelineState?,
+    scrollOffset: Animatable<Float, AnimationVector1D>,
+    onIntent: (TimelineIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.collectState() ?: return
-
-    val scope = rememberCoroutineScope()
-    val scrollOffset = rememberAnimatable()
-    LaunchedEffect(Unit) {
-        viewModel.collectEvents { event ->
-            when (event) {
-                is TimelineEvent.Scroll -> scope.launch { scrollOffset.animateTo(event.offset) }
-            }
-        }
-    }
+    state ?: return
 
     Column(modifier = modifier) {
         Box(
@@ -47,7 +41,7 @@ fun Timeline(
             TimelineCanvas(
                 state = state,
                 scrollOffset = scrollOffset,
-                onIntent = viewModel::dispatchIntent,
+                onIntent = onIntent,
                 modifier = Modifier.fillMaxSize(),
             )
             Box(
@@ -59,32 +53,52 @@ fun Timeline(
         }
         TimelineDateBar(
             label = state.date.currentDateLocalized,
-            onBack = { viewModel.dispatchIntent(TimelineIntent.SelectPreviousDate) },
-            onForward = { viewModel.dispatchIntent(TimelineIntent.SelectNextDate) },
+            onBack = { onIntent(TimelineIntent.SelectPreviousDate) },
+            onForward = { onIntent(TimelineIntent.SelectNextDate) },
         )
     }
 
     state.date.datePickerDialog?.let { datePickerDialog ->
         DatePickerDialog(
             date = datePickerDialog.date,
-            onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.CloseDatePickerDialog) },
+            onDismissRequest = { onIntent(TimelineIntent.CloseDatePickerDialog) },
             onConfirmRequest = { date ->
-                viewModel.dispatchIntent(TimelineIntent.CloseDatePickerDialog)
-                viewModel.dispatchIntent(TimelineIntent.SelectDate(date))
+                onIntent(TimelineIntent.CloseDatePickerDialog)
+                onIntent(TimelineIntent.SelectDate(date))
             },
         )
     }
 
     state.entryListBottomSheet?.let { valueBottomSheet ->
         ModalBottomSheet(
-            onDismissRequest = { viewModel.dispatchIntent(TimelineIntent.DismissEntryListBottomSheet) },
+            onDismissRequest = { onIntent(TimelineIntent.DismissEntryListBottomSheet) },
             sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         ) {
             TimelineEntryBottomSheet(
                 entries = valueBottomSheet.entries,
-                onEntryClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntry(it)) },
-                onTagClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntrySearch(it.name)) },
+                onEntryClick = { onIntent(TimelineIntent.OpenEntry(it)) },
+                onTagClick = { onIntent(TimelineIntent.OpenEntrySearch(it.name)) },
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    val date = today()
+    Timeline(
+        state = TimelineState(
+            date = TimelineDateState(
+                initialDate = date,
+                currentDate = date,
+                currentDateLocalized = date.toString(),
+                datePickerDialog = null,
+            ),
+            canvas = null,
+            entryListBottomSheet = null,
+        ),
+        scrollOffset = rememberAnimatable(),
+        onIntent = {},
+    )
 }

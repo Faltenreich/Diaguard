@@ -3,6 +3,7 @@ package com.faltenreich.diaguard
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
+import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
@@ -15,6 +16,7 @@ import com.faltenreich.diaguard.shared.theme.color.ColorSchemes
 import com.faltenreich.diaguard.shared.theme.color.Colors
 import com.faltenreich.diaguard.shared.theme.color.LocalColors
 import com.faltenreich.diaguard.shared.theme.color.animated
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AppTheme(
@@ -67,6 +69,14 @@ fun AppTheme(
         ),
         content = content,
     )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    AppTheme(isDarkColorScheme = true) {
+        Text("Hello, World")
+    }
 }
 
 object AppTheme {

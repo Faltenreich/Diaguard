@@ -43,6 +43,9 @@ internal class ComposableMustHavePreviewRule(config: Config = Config.empty) : Ru
     override fun visitNamedFunction(function: KtNamedFunction) {
         super.visitNamedFunction(function)
 
+        // Ignore inner Composable, e.g. Screen
+        if (!function.isTopLevel) return
+
         if (function.hasAnnotation("Composable")) {
             hasComposable = true
         }

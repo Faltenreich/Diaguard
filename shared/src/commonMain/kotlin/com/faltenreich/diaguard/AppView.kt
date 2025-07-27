@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.view.keyboardPadding
 import com.faltenreich.diaguard.startup.StartupView
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AppView(
@@ -25,4 +26,10 @@ fun AppView(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    AppView()
 }

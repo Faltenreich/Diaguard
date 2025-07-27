@@ -21,8 +21,8 @@ fun AppView(
     AppTheme(isDarkColorScheme = state.colorScheme.isDark()) {
         Surface(modifier = modifier.fillMaxSize().keyboardPadding()) {
             when (state) {
-                is AppState.FirstStart -> StartupView(viewModel = viewModel())
-                is AppState.SubsequentStart -> MainView(viewModel = viewModel())
+                is AppState.FirstStart -> StartupView()
+                is AppState.SubsequentStart -> MainView()
             }
         }
     }

@@ -7,11 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.shared.di.viewModel
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StartupView(
-    viewModel: StartupViewModel,
     modifier: Modifier = Modifier,
+    viewModel: StartupViewModel = viewModel(),
 ) {
     LaunchedEffect(Unit) {
         viewModel.dispatchIntent(StartupIntent.MigrateData)
@@ -23,4 +25,10 @@ fun StartupView(
     ) {
         CircularProgressIndicator()
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    StartupView()
 }

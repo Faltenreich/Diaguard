@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard
 
-import ComposableMustContainPreviewRule
+import com.faltenreich.diaguard.rule.ComposableMustHavePreviewRule
 import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.api.RuleSet
 import io.gitlab.arturbosch.detekt.api.RuleSetProvider
@@ -13,7 +13,7 @@ internal class DiaguardDetektRuleSetProvider : RuleSetProvider {
         return RuleSet(
             id = ruleSetId,
             rules = listOf(
-                ComposableMustContainPreviewRule(config),
+                ComposableMustHavePreviewRule(config),
             ),
         )
     }

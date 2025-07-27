@@ -1,0 +1,4 @@
+diaguard:
+  active: true
+  ComposableMustHavePreviewRule:
+    active: true

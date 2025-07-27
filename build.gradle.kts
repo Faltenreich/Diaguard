@@ -46,6 +46,7 @@ allprojects {
 
     dependencies {
         detektPlugins(rootProject.libs.detekt.compose)
+        detektPlugins(project(":config:detekt"))
     }
 }
 

@@ -6,5 +6,5 @@ plugins {
 dependencies {
     compileOnly(libs.detekt.api)
     testImplementation(libs.detekt.test)
-    testImplementation(libs.junit)
+    testImplementation(kotlin("test"))
 }

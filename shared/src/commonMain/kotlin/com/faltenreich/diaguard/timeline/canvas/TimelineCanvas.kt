@@ -30,13 +30,17 @@ import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.theme.LocalDimensions
 import com.faltenreich.diaguard.shared.theme.color.LocalColors
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.shared.view.rememberAnimatable
 import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineState
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChart
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTable
 import com.faltenreich.diaguard.timeline.canvas.time.TimelineTime
+import com.faltenreich.diaguard.timeline.date.TimelineDateState
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TimelineCanvas(
@@ -139,4 +143,24 @@ fun TimelineCanvas(
             TimelineTable(table, config, textMeasurer)
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    val date = today()
+    TimelineCanvas(
+        state = TimelineState(
+            date = TimelineDateState(
+                initialDate = date,
+                currentDate = date,
+                currentDateLocalized = date.toString(),
+                datePickerDialog = null,
+            ),
+            canvas = null,
+            entryListBottomSheet = null,
+        ),
+        scrollOffset = rememberAnimatable(),
+        onIntent = {},
+    )
 }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.day_next
 import diaguard.shared.generated.resources.day_previous
@@ -19,6 +20,7 @@ import diaguard.shared.generated.resources.ic_chevron_back
 import diaguard.shared.generated.resources.ic_chevron_forward
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TimelineDateBar(
@@ -59,4 +61,14 @@ fun TimelineDateBar(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    TimelineDateBar(
+        label = now().toString(),
+        onBack = {},
+        onForward = {},
+    )
 }

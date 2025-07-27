@@ -10,7 +10,9 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.list.EntryListItem
 import com.faltenreich.diaguard.entry.list.EntryListItemState
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.tag.Tag
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TimelineEntryBottomSheet(
@@ -35,4 +37,31 @@ fun TimelineEntryBottomSheet(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    TimelineEntryBottomSheet(
+        entries = listOf(
+            EntryListItemState(
+                entry = entry(),
+                dateTimeLocalized = now().toString(),
+                foodEatenLocalized = emptyList(),
+                categories = listOf(
+                    EntryListItemState.Category(
+                        category = category(),
+                        values = listOf(
+                            EntryListItemState.Value(
+                                property = property(),
+                                valueLocalized = value().value.toString(),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        onEntryClick = {},
+        onTagClick = {},
+    )
 }

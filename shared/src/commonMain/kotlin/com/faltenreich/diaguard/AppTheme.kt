@@ -75,7 +75,7 @@ fun AppTheme(
 @Composable
 private fun Preview() {
     AppTheme(isDarkColorScheme = true) {
-        Text("Hello, World")
+        Text("AppTheme")
     }
 }
 

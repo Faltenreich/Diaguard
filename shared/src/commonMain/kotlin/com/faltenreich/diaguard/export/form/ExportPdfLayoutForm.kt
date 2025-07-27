@@ -12,6 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import com.faltenreich.diaguard.export.ExportType
+import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
@@ -19,6 +21,7 @@ import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextDivider
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.calendar_week
 import diaguard.shared.generated.resources.date_of_export
@@ -29,6 +32,7 @@ import diaguard.shared.generated.resources.ic_position_top_left
 import diaguard.shared.generated.resources.layout
 import diaguard.shared.generated.resources.page_number
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ExportPdfLayoutForm(
@@ -111,4 +115,40 @@ fun ExportPdfLayoutForm(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    ExportPdfLayoutForm(
+        state = ExportFormState(
+            date = ExportFormState.Date(
+                dateRange = week().toDateRange(),
+                dateRangeLocalized = "DateRange",
+                includeCalendarWeek = true,
+                includeDateOfExport = true,
+            ),
+            type = ExportFormState.Type(
+                selection = ExportType.PDF,
+                options = emptyList(),
+            ),
+            layout = ExportFormState.Layout(
+                selection = PdfLayout.TIMELINE,
+                options = emptyList(),
+                includePageNumber = true,
+                includeDaysWithoutEntries = true,
+            ),
+            content = ExportFormState.Content(
+                categories = listOf(
+                    ExportFormState.Content.Category(
+                        category = category(),
+                        isExported = true,
+                    ),
+                ),
+                includeNotes = true,
+                includeTags = true,
+            ),
+        ),
+        onIntent = {},
+    )
 }

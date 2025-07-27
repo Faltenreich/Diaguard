@@ -6,7 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_search
+import diaguard.shared.generated.resources.search_open
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun BottomAppBarItem(
@@ -24,4 +30,14 @@ fun BottomAppBarItem(
             contentDescription = getString(contentDescription),
         )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() = AppPreview {
+    BottomAppBarItem(
+        painter = painterResource(Res.drawable.ic_search),
+        contentDescription = Res.string.search_open,
+        onClick = {},
+    )
 }

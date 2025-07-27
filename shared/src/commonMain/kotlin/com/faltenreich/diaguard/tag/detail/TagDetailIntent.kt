@@ -4,6 +4,8 @@ import com.faltenreich.diaguard.entry.Entry
 
 sealed interface TagDetailIntent {
 
+    data class SetName(val name: String) : TagDetailIntent
+
     data object UpdateTag : TagDetailIntent
 
     data object OpenDeleteDialog : TagDetailIntent

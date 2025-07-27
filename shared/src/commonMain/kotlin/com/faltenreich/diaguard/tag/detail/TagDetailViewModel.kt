@@ -1,8 +1,5 @@
 package com.faltenreich.diaguard.tag.detail
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
@@ -17,7 +14,7 @@ import com.faltenreich.diaguard.tag.StoreTagUseCase
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.ValidateTagUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 
 class TagDetailViewModel(
@@ -33,12 +30,17 @@ class TagDetailViewModel(
 
     private val tag: Tag.Local = checkNotNull(getTagById(tagId))
 
+    private val name = MutableStateFlow(tag.name)
+    private val error = MutableStateFlow<String?>(null)
     private val deleteDialog = MutableStateFlow<TagDetailState.DeleteDialog?>(null)
 
-    override val state = deleteDialog.map(::TagDetailState)
+    override val state = combine(
+        name,
+        error,
+        deleteDialog,
+        ::TagDetailState,
+    )
 
-    var name: String by mutableStateOf(tag.name)
-    var error: String? by mutableStateOf(null)
 
     val pagingData = Pager(
         config = EntryListPagingSource.newConfig(),
@@ -48,27 +50,26 @@ class TagDetailViewModel(
     ).flow.cachedIn(scope)
 
     override suspend fun handleIntent(intent: TagDetailIntent) {
-        with(intent) {
-            when (this) {
-                is TagDetailIntent.UpdateTag -> updateTag()
-                is TagDetailIntent.OpenDeleteDialog -> deleteDialog.update { TagDetailState.DeleteDialog }
-                is TagDetailIntent.CloseDeleteDialog -> deleteDialog.update { null }
-                is TagDetailIntent.DeleteTag -> deleteTag()
-                is TagDetailIntent.OpenEntry -> pushScreen(EntryFormScreen(entry))
-                is TagDetailIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
-            }
+        when (intent) {
+            is TagDetailIntent.SetName -> name.update { intent.name }
+            is TagDetailIntent.UpdateTag -> updateTag()
+            is TagDetailIntent.OpenDeleteDialog -> deleteDialog.update { TagDetailState.DeleteDialog }
+            is TagDetailIntent.CloseDeleteDialog -> deleteDialog.update { null }
+            is TagDetailIntent.DeleteTag -> deleteTag()
+            is TagDetailIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
+            is TagDetailIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(intent.query))
         }
     }
 
     private suspend fun updateTag() {
-        val tag = tag.copy(name = name)
+        val tag = tag.copy(name = name.value)
         when (val result = validateTag(tag)) {
             is ValidationResult.Success -> {
                 storeTag(tag)
                 popScreen()
             }
             is ValidationResult.Failure -> {
-                error = result.error
+                error.update { result.error }
             }
         }
     }

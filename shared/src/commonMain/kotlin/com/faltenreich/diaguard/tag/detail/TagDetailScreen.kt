@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.tag.detail
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
@@ -57,6 +58,11 @@ data class TagDetailScreen(private val tagId: Long) : Screen {
 
     @Composable
     override fun Content() {
-        TagDetail(viewModel = viewModel { parametersOf(tagId) })
+        val viewModel = viewModel<TagDetailViewModel> { parametersOf(tagId) }
+        TagDetail(
+            state = viewModel.collectState(),
+            entries = viewModel.pagingData.collectAsLazyPagingItems(),
+            onIntent = viewModel::dispatchIntent,
+        )
     }
 }

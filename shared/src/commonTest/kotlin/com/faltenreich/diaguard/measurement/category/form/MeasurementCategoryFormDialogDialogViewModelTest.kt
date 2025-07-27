@@ -35,12 +35,13 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
         val category = categoryRepository.observeAll().first().first()
         viewModel = get(parameters = { parametersOf(category.id) })
 
-        assertEquals(expected = category.icon, actual = viewModel.icon.value)
-        assertEquals(expected = category.name, actual = viewModel.name.value)
-        assertEquals(expected = category.isActive, actual = viewModel.isActive.value)
-
         viewModel.state.test {
-            assertTrue(awaitItem().properties.isNotEmpty())
+            val state = awaitItem()
+
+            assertEquals(expected = category.icon, actual = state.icon)
+            assertEquals(expected = category.name, actual = state.name)
+            assertEquals(expected = category.isActive, actual = state.isActive)
+            assertTrue(actual = state.properties.isNotEmpty())
         }
     }
 
@@ -49,9 +50,9 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
         val category = categoryRepository.observeAll().first().first()
         val update = "test"
         viewModel = get(parameters = { parametersOf(category.id) })
-        viewModel.name.value = update
 
         navigation.events.test {
+            viewModel.handleIntent(MeasurementCategoryFormIntent.SetName(update))
             viewModel.handleIntent(MeasurementCategoryFormIntent.Store)
 
             assertEquals(

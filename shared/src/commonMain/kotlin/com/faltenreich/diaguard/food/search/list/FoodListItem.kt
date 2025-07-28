@@ -12,17 +12,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.localization.NumberFormatter
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodListItem(
-    food: Food,
+    food: Food.Localized,
     modifier: Modifier = Modifier,
-    // TODO: Extract into use case
-    formatNumber: NumberFormatter = inject(),
 ) {
     Row(
         modifier = modifier
@@ -33,14 +29,11 @@ fun FoodListItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = food.name,
+            text = food.local.name,
             modifier = Modifier.weight(1f),
         )
         Text(
-            text = formatNumber(
-                number = food.carbohydrates,
-                scale = 2, // TODO: Get from preferences
-            ),
+            text = food.carbohydrates,
             style = AppTheme.typography.bodyMedium,
         )
     }
@@ -49,5 +42,5 @@ fun FoodListItem(
 @Preview
 @Composable
 private fun Preview() = AppPreview {
-    FoodListItem(food = food())
+    FoodListItem(food = food().localized())
 }

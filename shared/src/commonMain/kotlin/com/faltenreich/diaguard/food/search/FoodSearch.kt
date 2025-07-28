@@ -57,7 +57,9 @@ fun FoodSearch(
 @Composable
 private fun Preview() = AppPreview {
     FoodSearch(
-        state = FoodSearchState(pagingData = flowOf(PagingData.from(listOf(food())))),
+        state = FoodSearchState(
+            pagingData = flowOf(PagingData.from(listOf(food().localized()))),
+        ),
         onSelect = {},
     )
 }

@@ -34,7 +34,7 @@ class FoodSearchViewModel(
 
     var query: String by mutableStateOf("")
 
-    private val pagingData: Flow<PagingData<Food.Local>> = combine(
+    private val pagingData: Flow<PagingData<Food.Localized>> = combine(
         snapshotFlow { query }
             // FIXME: Debounce without delaying the whole state
             //  .debounce(1.seconds)

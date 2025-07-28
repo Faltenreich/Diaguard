@@ -17,7 +17,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodList(
-    items: LazyPagingItems<Food.Local>,
+    items: LazyPagingItems<Food.Localized>,
     onSelect: (Food.Local) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -29,7 +29,7 @@ fun FoodList(
                     Column {
                         FoodListItem(
                             food = food,
-                            modifier = Modifier.clickable { onSelect(food) },
+                            modifier = Modifier.clickable { onSelect(food.local) },
                         )
                         Divider()
                     }
@@ -49,7 +49,11 @@ fun FoodList(
 @Composable
 private fun Preview() = AppPreview {
     FoodList(
-        items = flowOf(PagingData.from(listOf(food()))).collectAsLazyPagingItems(),
+        items = flowOf(
+            PagingData.from(
+                listOf(food().localized()),
+            ),
+        ).collectAsLazyPagingItems(),
         onSelect = {},
     )
 }

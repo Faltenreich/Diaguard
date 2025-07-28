@@ -127,4 +127,17 @@ sealed interface Food {
         override val sodium: Double?,
         override val sugar: Double?,
     ) : Food, DatabaseEntity, RemoteEntity
+
+    data class Localized(
+        val local: Local,
+        val carbohydrates: String,
+        val energy: String?,
+        val fat: String?,
+        val fatSaturated: String?,
+        val fiber: String?,
+        val proteins: String?,
+        val salt: String?,
+        val sodium: String?,
+        val sugar: String?,
+    )
 }

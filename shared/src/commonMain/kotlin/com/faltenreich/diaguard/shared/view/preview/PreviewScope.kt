@@ -106,6 +106,21 @@ class PreviewScope(
         sugar = 2.0,
     )
 
+    fun Food.Local.localized(): Food.Localized {
+        return Food.Localized(
+            local = this,
+            carbohydrates = carbohydrates.toString(),
+            energy = energy?.toString(),
+            fat = fat?.toString(),
+            fatSaturated = fatSaturated?.toString(),
+            fiber = fiber?.toString(),
+            proteins = proteins?.toString(),
+            salt = salt?.toString(),
+            sodium = sodium?.toString(),
+            sugar = sugar?.toString(),
+        )
+    }
+
     fun foodEaten() = FoodEaten.Local(
         id = 0L,
         createdAt = now(),

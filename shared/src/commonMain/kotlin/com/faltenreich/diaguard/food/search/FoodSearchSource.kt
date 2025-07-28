@@ -10,16 +10,16 @@ import com.faltenreich.diaguard.shared.logging.Logger
 class FoodSearchSource(
     private val searchParams: FoodSearchParams,
     private val searchFood: SearchFoodUseCase,
-) : PagingSource<PagingPage, Food.Local>() {
+) : PagingSource<PagingPage, Food.Localized>() {
 
-    override fun getRefreshKey(state: PagingState<PagingPage, Food.Local>): PagingPage? {
+    override fun getRefreshKey(state: PagingState<PagingPage, Food.Localized>): PagingPage? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<PagingPage>): LoadResult<PagingPage, Food.Local> {
+    override suspend fun load(params: LoadParams<PagingPage>): LoadResult<PagingPage, Food.Localized> {
         val page = params.key ?: PagingPage(page = 0, pageSize = params.loadSize)
         Logger.debug("Loading food for query \"${searchParams.query}\" at page $page")
         val food = searchFood(searchParams, page)

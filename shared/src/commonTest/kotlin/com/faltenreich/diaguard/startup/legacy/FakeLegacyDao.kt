@@ -14,6 +14,10 @@ class FakeLegacyDao : LegacyDao {
 
     private val dateTimeFactory = KotlinxDateTimeFactory()
 
+    override suspend fun hasPreferences(): Boolean {
+        return false
+    }
+
     override suspend fun <Store, Domain> getPreference(preference: Preference<Store, Domain>): Domain? {
         return null
     }

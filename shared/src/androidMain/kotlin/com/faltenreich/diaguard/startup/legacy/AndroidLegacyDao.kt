@@ -25,6 +25,10 @@ class AndroidLegacyDao(
     private val entryTagQueries: EntryTagLegacyQueries,
 ) : LegacyDao {
 
+    override suspend fun hasPreferences(): Boolean {
+        return keyValueQueries.hasPreferences()
+    }
+
     override suspend fun <Store, Domain> getPreference(preference: Preference<Store, Domain>): Domain? {
         return keyValueQueries.getPreference(preference)
     }

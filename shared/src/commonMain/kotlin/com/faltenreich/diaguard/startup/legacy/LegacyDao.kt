@@ -10,6 +10,8 @@ import com.faltenreich.diaguard.tag.Tag
 
 interface LegacyDao {
 
+    suspend fun hasPreferences(): Boolean
+
     suspend fun <Store, Domain> getPreference(preference: Preference<Store, Domain>): Domain?
 
     suspend fun getEntries(): List<Entry.Legacy>

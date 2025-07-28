@@ -13,6 +13,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlin.reflect.KClass
 
@@ -43,6 +44,10 @@ class DataStore(
             Set::class -> stringSetPreferencesKey(key)
             else -> throw IllegalArgumentException("Unsupported class: $kClass")
         } as Preferences.Key<T>
+    }
+
+    override suspend fun exists(): Boolean {
+        return context.preferencesDataStore.data.first().asMap().isNotEmpty()
     }
 
     override fun <T: Any> read(kClass: KClass<T>, key: String): Flow<T?> {

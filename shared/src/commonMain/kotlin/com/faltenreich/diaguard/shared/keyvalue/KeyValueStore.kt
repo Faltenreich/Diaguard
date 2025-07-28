@@ -5,6 +5,8 @@ import kotlin.reflect.KClass
 
 interface KeyValueStore {
 
+    suspend fun exists(): Boolean
+
     fun <T: Any> read(kClass: KClass<T>, key: String): Flow<T?>
 
     suspend fun <T : Any> write(kClass: KClass<T>, key: String, value: T)

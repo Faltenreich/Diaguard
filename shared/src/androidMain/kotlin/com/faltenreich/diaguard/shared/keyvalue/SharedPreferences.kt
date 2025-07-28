@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.keyvalue
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -9,6 +10,10 @@ import kotlin.reflect.KClass
 class SharedPreferences(context: Context) : KeyValueStore {
 
     private val defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+    override suspend fun exists(): Boolean {
+        return defaultSharedPreferences.all.isNotEmpty()
+    }
 
     override fun <T: Any> read(kClass: KClass<T>, key: String): Flow<T?> {
         val value = when (kClass) {
@@ -24,7 +29,7 @@ class SharedPreferences(context: Context) : KeyValueStore {
     }
 
     override suspend fun <T: Any> write(kClass: KClass<T>, key: String, value: T) {
-        with(defaultSharedPreferences.edit()) {
+        defaultSharedPreferences.edit(commit = true) {
             when (kClass::class) {
                 Boolean::class -> putBoolean(key, value as Boolean)
                 Int::class -> putInt(key, value as Int)
@@ -33,7 +38,6 @@ class SharedPreferences(context: Context) : KeyValueStore {
                 String::class -> putString(key, value as String)
                 else -> IllegalArgumentException("Unsupported type: ${kClass.simpleName}")
             }
-            commit()
         }
     }
 }

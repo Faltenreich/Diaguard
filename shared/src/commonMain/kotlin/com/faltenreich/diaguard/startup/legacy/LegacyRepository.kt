@@ -10,6 +10,10 @@ import com.faltenreich.diaguard.tag.Tag
 
 class LegacyRepository(private val dao: LegacyDao) {
 
+    suspend fun hasPreferences(): Boolean {
+        return dao.hasPreferences()
+    }
+
     suspend fun <Store: Any, Domain> getPreference(preference: Preference<Store, Domain>): Domain? {
         return dao.getPreference(preference)
     }

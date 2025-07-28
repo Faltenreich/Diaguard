@@ -18,6 +18,10 @@ class KeyValueLegacyQueries(
     @PublishedApi internal val keyValueStore: KeyValueStore,
 ) {
 
+    suspend fun hasPreferences(): Boolean {
+        return keyValueStore.exists()
+    }
+
     private suspend inline fun <reified T: Any> getPreference(key: String): T? {
         return keyValueStore.read<T>(key).first()
     }

@@ -16,12 +16,17 @@ class ImportLegacyPreferencesUseCase(
 ) {
 
     suspend operator fun invoke() {
-        importPreference(ColorSchemePreference)
-        importPreference(DecimalPlacesPreference)
-        importPreference(ShowBrandedFoodPreference)
-        importPreference(ShowCommonFoodPreference)
-        importPreference(ShowCustomFoodPreference)
-        importPreference(StartScreenPreference)
+        if (legacyRepository.hasPreferences()) {
+            Logger.info("Importing data from legacy preferences")
+            importPreference(ColorSchemePreference)
+            importPreference(DecimalPlacesPreference)
+            importPreference(ShowBrandedFoodPreference)
+            importPreference(ShowCommonFoodPreference)
+            importPreference(ShowCustomFoodPreference)
+            importPreference(StartScreenPreference)
+        } else {
+            Logger.info("Importing no legacy preferences")
+        }
     }
 
     private suspend inline fun <reified Store: Any, Domain> importPreference(preference: Preference<Store, Domain>) {

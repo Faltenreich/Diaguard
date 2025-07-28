@@ -11,7 +11,7 @@ class FakeKeyValueStore : KeyValueStore {
     private val cache = SnapshotStateMap<String, Any>()
 
     override suspend fun exists(): Boolean {
-        return true
+        return cache.isNotEmpty()
     }
 
     @Suppress("UNCHECKED_CAST")

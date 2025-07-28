@@ -17,18 +17,17 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlin.reflect.KClass
 
-class DataStore(
-    private val context: Context,
-    name: String = STORE_NAME_DEFAULT,
-) : KeyValueStore {
+class DataStore(private val context: Context) : KeyValueStore {
 
-    private val Context.preferencesDataStore by preferencesDataStore(name = name)
+    private val Context.preferencesDataStore by preferencesDataStore(name = STORE_NAME)
 
-    @PublishedApi internal fun <T> read(transform: (Preferences) -> T): Flow<T> {
+    @PublishedApi
+    internal fun <T> read(transform: (Preferences) -> T): Flow<T> {
         return context.preferencesDataStore.data.map(transform)
     }
 
-    @PublishedApi internal suspend fun write(transform: (MutablePreferences) -> Unit) {
+    @PublishedApi
+    internal suspend fun write(transform: (MutablePreferences) -> Unit) {
         context.preferencesDataStore.edit(transform)
     }
 
@@ -62,6 +61,6 @@ class DataStore(
 
     companion object {
 
-        private const val STORE_NAME_DEFAULT = "user_preferences"
+        private const val STORE_NAME = "user_preferences"
     }
 }

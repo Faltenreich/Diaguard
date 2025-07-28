@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.startup.legacy.query.measurement.PulseLegacyQuer
 import com.faltenreich.diaguard.startup.legacy.query.measurement.WeightLegacyQueries
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.qualifier.named
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 actual fun legacyDaoModule() = module {
@@ -37,24 +38,10 @@ actual fun legacyDaoModule() = module {
     factoryOf(::OxygenSaturationLegacyQueries)
 
     factoryOf(::MeasurementValueLegacyQueries)
-
     factoryOf(::FoodLegacyQueries)
-
     factoryOf(::FoodEatenLegacyQueries)
-
     factoryOf(::TagLegacyQueries)
-
     factoryOf(::EntryTagLegacyQueries)
 
-    factory<LegacyDao> {
-        AndroidLegacyDao(
-            keyValueQueries = get(),
-            entryQueries = get(),
-            measurementValueQueries = get(),
-            foodQueries = get(),
-            foodEatenQueries = get(),
-            tagQueries = get(),
-            entryTagQueries = get(),
-        )
-    }
+    factoryOf(::AndroidLegacyDao) bind LegacyDao::class
 }

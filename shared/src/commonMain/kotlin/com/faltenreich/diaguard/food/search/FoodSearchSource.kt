@@ -6,6 +6,7 @@ import app.cash.paging.PagingConfig
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.logging.Logger
+import kotlinx.coroutines.flow.first
 
 class FoodSearchSource(
     private val searchParams: FoodSearchParams,
@@ -22,7 +23,7 @@ class FoodSearchSource(
     override suspend fun load(params: LoadParams<PagingPage>): LoadResult<PagingPage, Food.Localized> {
         val page = params.key ?: PagingPage(page = 0, pageSize = params.loadSize)
         Logger.debug("Loading food for query \"${searchParams.query}\" at page $page")
-        val food = searchFood(searchParams, page)
+        val food = searchFood(searchParams, page).first()
         Logger.debug("Loaded ${food.size} food for query \"${searchParams.query}\" at page $page")
         return LoadResult.Page(
             data = food,

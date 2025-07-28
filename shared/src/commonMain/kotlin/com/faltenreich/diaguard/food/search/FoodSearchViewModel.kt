@@ -5,9 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.paging.Pager
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
@@ -18,11 +16,9 @@ import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.mapLatest
 
 class FoodSearchViewModel(
     val mode: FoodSearchMode,
@@ -34,7 +30,7 @@ class FoodSearchViewModel(
 
     var query: String by mutableStateOf("")
 
-    private val pagingData: Flow<PagingData<Food.Localized>> = combine(
+    override val state = combine(
         snapshotFlow { query }
             // FIXME: Debounce without delaying the whole state
             //  .debounce(1.seconds)
@@ -43,14 +39,14 @@ class FoodSearchViewModel(
         getPreference(ShowCustomFoodPreference),
         getPreference(ShowBrandedFoodPreference),
         ::FoodSearchParams,
-    ).flatMapLatest { params ->
-        Pager(
-            config = FoodSearchSource.newConfig(),
-            pagingSourceFactory = { FoodSearchSource(params, searchFood) },
-        ).flow
-    }.cachedIn(scope)
-
-    override val state = flowOf(FoodSearchState(pagingData = pagingData))
+    ).mapLatest { params ->
+        FoodSearchState(
+            pagingData = Pager(
+                config = FoodSearchSource.newConfig(),
+                pagingSourceFactory = { FoodSearchSource(params, searchFood) },
+            ).flow.cachedIn(scope),
+        )
+    }
 
     override suspend fun handleIntent(intent: FoodSearchIntent) = with(intent) {
         when (this) {

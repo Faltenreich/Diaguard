@@ -20,7 +20,7 @@ fun Skeleton(
 
 @Composable
 fun Modifier.skeleton(show: Boolean): Modifier {
-    val color = Color.Gray
+    val color = Color.LightGray
     val cornerRadius = AppTheme.dimensions.size.CornerRadius
     return drawWithCache {
         onDrawWithContent {

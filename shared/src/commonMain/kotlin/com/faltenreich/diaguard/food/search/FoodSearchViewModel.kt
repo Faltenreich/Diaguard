@@ -17,8 +17,10 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapLatest
+import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
     val mode: FoodSearchMode,
@@ -32,8 +34,7 @@ class FoodSearchViewModel(
 
     override val state = combine(
         snapshotFlow { query }
-            // FIXME: Debounce without delaying the whole state
-            //  .debounce(1.seconds)
+            .debounce(1.seconds)
             .distinctUntilChanged(),
         getPreference(ShowCommonFoodPreference),
         getPreference(ShowCustomFoodPreference),

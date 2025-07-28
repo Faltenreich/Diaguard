@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.food.search.FoodSearchParams
 import com.faltenreich.diaguard.shared.data.PagingPage
+import kotlinx.coroutines.flow.Flow
 
 class FoodRepository(
     private val dao: FoodDao,
@@ -107,12 +108,12 @@ class FoodRepository(
         return dao.getById(id)
     }
 
-    suspend fun getByQuery(
+    suspend fun observeByQuery(
         params: FoodSearchParams,
         page: PagingPage,
-    ): List<Food.Local> = with(params) {
+    ): Flow<List<Food.Local>> = with(params) {
         return if (query.isBlank()) {
-            dao.getAll(showCommonFood, showCustomFood, showBrandedFood, page)
+            dao.observeAll(showCommonFood, showCustomFood, showBrandedFood, page)
         } else {
             val foodFromApi = api.search(query, page)
             val uuids = foodFromApi.map(FoodFromApi::uuid)
@@ -143,7 +144,7 @@ class FoodRepository(
                 }
             }
             // FIXME: Compensate delta of response from FoodApi
-            return dao.getByQuery(query, showCommonFood, showCustomFood, showBrandedFood, page)
+            return dao.observeByQuery(query, showCommonFood, showCustomFood, showBrandedFood, page)
         }
     }
 

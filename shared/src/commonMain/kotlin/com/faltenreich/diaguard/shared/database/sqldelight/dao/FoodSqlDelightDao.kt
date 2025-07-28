@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodDao
@@ -8,8 +10,11 @@ import com.faltenreich.diaguard.shared.database.sqldelight.FoodQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 
 class FoodSqlDelightDao(
+    private val dispatcher: CoroutineDispatcher,
     private val mapper: FoodSqlDelightMapper,
 ) : FoodDao, SqlDelightDao<FoodQueries> {
 
@@ -75,12 +80,12 @@ class FoodSqlDelightDao(
         return queries.getByUuids(uuids).executeAsList().mapNotNull { it.uuid }
     }
 
-    override fun getAll(
+    override fun observeAll(
         showCommonFood: Boolean,
         showCustomFood: Boolean,
         showBrandedFood: Boolean,
         page: PagingPage,
-    ): List<Food.Local> {
+    ): Flow<List<Food.Local>> {
         return queries.getAll(
             showCommonFood = showCommonFood.toSqlLiteLong(),
             showCustomFood = showCustomFood.toSqlLiteLong(),
@@ -88,16 +93,16 @@ class FoodSqlDelightDao(
             offset = page.page.toLong() * page.pageSize.toLong(),
             limit = page.pageSize.toLong(),
             mapper = mapper::map,
-        ).executeAsList()
+        ).asFlow().mapToList(dispatcher)
     }
 
-    override fun getByQuery(
+    override fun observeByQuery(
         query: String,
         showCommonFood: Boolean,
         showCustomFood: Boolean,
         showBrandedFood: Boolean,
         page: PagingPage,
-    ): List<Food.Local> {
+    ): Flow<List<Food.Local>> {
         return queries.getByQuery(
             query = query,
             showCommonFood = showCommonFood.toSqlLiteLong(),
@@ -106,7 +111,7 @@ class FoodSqlDelightDao(
             offset = page.page.toLong() * page.pageSize.toLong(),
             limit = page.pageSize.toLong(),
             mapper = mapper::map,
-        ).executeAsList()
+        ).asFlow().mapToList(dispatcher)
     }
 
     override fun update(

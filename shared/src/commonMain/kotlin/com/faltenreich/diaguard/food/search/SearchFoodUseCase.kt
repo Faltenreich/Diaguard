@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.localization.NumberFormatter
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 
 class SearchFoodUseCase(
     private val repository: FoodRepository,
@@ -19,8 +19,11 @@ class SearchFoodUseCase(
         params: FoodSearchParams,
         page: PagingPage,
     ): Flow<List<Food.Localized>> {
-        return getPreference(DecimalPlacesPreference).map { decimalPlaces ->
-            repository.getByQuery(params, page).map { food ->
+        return combine(
+            repository.observeByQuery(params, page),
+            getPreference(DecimalPlacesPreference),
+        ) { foodList, decimalPlaces ->
+            foodList.map { food ->
                 with(food) {
                     Food.Localized(
                         local = this,

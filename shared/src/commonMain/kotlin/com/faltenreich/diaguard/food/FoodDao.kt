@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.food
 
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.shared.data.PagingPage
+import kotlinx.coroutines.flow.Flow
 
 interface FoodDao {
 
@@ -34,20 +35,20 @@ interface FoodDao {
 
     fun getByUuids(uuids: List<String>): List<String>
 
-    fun getAll(
+    fun observeAll(
         showCommonFood: Boolean,
         showCustomFood: Boolean,
         showBrandedFood: Boolean,
         page: PagingPage,
-    ): List<Food.Local>
+    ): Flow<List<Food.Local>>
 
-    fun getByQuery(
+    fun observeByQuery(
         query: String,
         showCommonFood: Boolean,
         showCustomFood: Boolean,
         showBrandedFood: Boolean,
         page: PagingPage,
-    ): List<Food.Local>
+    ): Flow<List<Food.Local>>
 
 
     fun update(

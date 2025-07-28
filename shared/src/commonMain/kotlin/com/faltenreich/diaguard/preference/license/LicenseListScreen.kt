@@ -24,7 +24,6 @@ data object LicenseListScreen : Screen {
     override fun Content() {
         val viewModel = viewModel<LicenseListViewModel>()
         LicenseList(
-            state = viewModel.collectState(),
             onIntent = viewModel::dispatchIntent,
         )
     }

@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.about.libraries)
+    alias(libs.plugins.aboutlibraries)
     alias(libs.plugins.sqldelight)
 }
 
@@ -18,7 +18,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(libs.about.libraries)
+                implementation(libs.aboutlibraries.core)
+                implementation(libs.aboutlibraries.compose)
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 implementation(compose.foundation)

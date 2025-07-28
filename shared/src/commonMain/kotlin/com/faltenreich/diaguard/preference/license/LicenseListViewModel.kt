@@ -2,14 +2,13 @@ package com.faltenreich.diaguard.preference.license
 
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.networking.UrlOpener
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.emptyFlow
 
 class LicenseListViewModel(
-    getLicenses: GetLicensesUseCase,
     private val urlOpener: UrlOpener,
-) : ViewModel<LicenseListState, LicenseListIntent, Unit>() {
+) : ViewModel<Unit, LicenseListIntent, Unit>() {
 
-    override val state = getLicenses().map(::LicenseListState)
+    override val state = emptyFlow<Unit>()
 
     override suspend fun handleIntent(intent: LicenseListIntent) {
         when (intent) {

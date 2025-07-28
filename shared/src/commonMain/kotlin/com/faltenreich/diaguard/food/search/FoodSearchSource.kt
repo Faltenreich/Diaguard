@@ -13,6 +13,7 @@ class FoodSearchSource(
     private val searchFood: SearchFoodUseCase,
 ) : PagingSource<PagingPage, Food.Localized>() {
 
+    // FIXME: Jumps on navigating back to scrolled list
     override fun getRefreshKey(state: PagingState<PagingPage, Food.Localized>): PagingPage? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)

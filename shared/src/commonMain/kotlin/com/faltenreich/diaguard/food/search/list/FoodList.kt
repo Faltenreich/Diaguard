@@ -9,6 +9,7 @@ import androidx.paging.LoadState
 import app.cash.paging.PagingData
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
+import app.cash.paging.compose.itemKey
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
@@ -22,17 +23,18 @@ fun FoodList(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
-        for (index in 0 until items.itemCount) {
-            item {
-                val food = items[index]
-                if (food != null) {
-                    Column {
-                        FoodListItem(
-                            food = food,
-                            modifier = Modifier.clickable { onSelect(food.local) },
-                        )
-                        Divider()
-                    }
+        items(
+            count = items.itemCount,
+            key = items.itemKey { it.local.id },
+        ) { index ->
+            val food = items[index]
+            if (food != null) {
+                Column {
+                    FoodListItem(
+                        food = food,
+                        modifier = Modifier.clickable { onSelect(food.local) },
+                    )
+                    Divider()
                 }
             }
         }

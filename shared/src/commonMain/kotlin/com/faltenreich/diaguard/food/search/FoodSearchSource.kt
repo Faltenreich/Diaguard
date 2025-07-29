@@ -11,23 +11,25 @@ import kotlinx.coroutines.flow.first
 class FoodSearchSource(
     private val searchParams: FoodSearchParams,
     private val searchFood: SearchFoodUseCase,
-) : PagingSource<PagingPage, Food.Localized>() {
+) : PagingSource<Int, Food.Localized>() {
 
-    override fun getRefreshKey(state: PagingState<PagingPage, Food.Localized>): PagingPage? {
+    override fun getRefreshKey(state: PagingState<Int, Food.Localized>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<PagingPage>): LoadResult<PagingPage, Food.Localized> {
-        val page = params.key ?: PagingPage(page = 0, pageSize = params.loadSize)
-        Logger.debug("Loading food for query \"${searchParams.query}\" at page $page")
-        val food = searchFood(searchParams, page).first()
-        Logger.debug("Loaded ${food.size} food for query \"${searchParams.query}\" at page $page")
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Food.Localized> {
+        val page = params.key ?: 0
+        val pageSize = params.loadSize
+
+        val food = searchFood(searchParams, PagingPage(page, pageSize)).first()
+        Logger.debug("Loaded food at page $page with page size $pageSize")
+
         return LoadResult.Page(
             data = food,
-            prevKey = if (page.page > 0) page - 1 else null,
+            prevKey = if (page > 0) page - 1 else null,
             nextKey = if (food.isNotEmpty()) page + 1 else null,
         )
     }
@@ -37,7 +39,10 @@ class FoodSearchSource(
         private const val PAGE_SIZE = 20
 
         fun newConfig(): PagingConfig {
-            return PagingConfig(pageSize = PAGE_SIZE)
+            return PagingConfig(
+                pageSize = PAGE_SIZE,
+                initialLoadSize = PAGE_SIZE,
+            )
         }
     }
 }

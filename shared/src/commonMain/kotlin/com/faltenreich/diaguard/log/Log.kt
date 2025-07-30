@@ -51,6 +51,7 @@ fun Log(
     val lifecycleState = rememberLifecycleState()
     LaunchedEffect(lifecycleState) {
         if (lifecycleState == LifecycleState.RESUMED) {
+            // FIXME: Jumps to start of page
             items.refresh()
         }
     }

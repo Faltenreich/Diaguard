@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class FoodSearchViewModel(
@@ -28,10 +29,12 @@ class FoodSearchViewModel(
     private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<FoodSearchState, FoodSearchIntent, Unit>() {
 
-    private val query = MutableStateFlow("")
+    // FIXME: Loads food twice at the start
+    private val _query = MutableStateFlow("")
+    private val query = MutableStateFlow(_query.value)
 
     override val state = combine(
-        query.debounce(1.seconds).distinctUntilChanged(),
+        query,
         getPreference(ShowCommonFoodPreference),
         getPreference(ShowCustomFoodPreference),
         getPreference(ShowBrandedFoodPreference),
@@ -46,9 +49,20 @@ class FoodSearchViewModel(
         )
     }
 
+    init {
+        scope.launch {
+            _query
+                .debounce(1.seconds)
+                .distinctUntilChanged()
+                .collect { update ->
+                    query.update { update }
+                }
+        }
+    }
+
     override suspend fun handleIntent(intent: FoodSearchIntent) {
         when (intent) {
-            is FoodSearchIntent.SetQuery -> query.update { intent.query }
+            is FoodSearchIntent.SetQuery -> _query.update { intent.query }
             is FoodSearchIntent.Close -> popScreen()
             is FoodSearchIntent.Create -> pushScreen(FoodFormScreen())
             is FoodSearchIntent.OpenFood -> pushScreen(FoodFormScreen(intent.food))

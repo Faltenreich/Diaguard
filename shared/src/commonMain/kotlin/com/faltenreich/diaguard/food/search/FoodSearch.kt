@@ -59,6 +59,7 @@ fun FoodSearch(
 private fun Preview() = AppPreview {
     FoodSearch(
         state = FoodSearchState(
+            query = "Query",
             pagingData = flowOf(PagingData.from(listOf(food().localized()))),
         ),
         onSelect = {},

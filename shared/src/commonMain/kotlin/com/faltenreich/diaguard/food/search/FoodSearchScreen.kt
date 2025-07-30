@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
@@ -43,6 +47,7 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
                 parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
             },
         )
+        var query by remember { mutableStateOf("") }
         return TopAppBarStyle.Custom {
             Box(
                 modifier = Modifier
@@ -55,8 +60,11 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
                 contentAlignment = Alignment.Center,
             ) {
                 FoodSearchField(
-                    query = viewModel.query,
-                    onQueryChange = { viewModel.query = it },
+                    query = query,
+                    onQueryChange = { input ->
+                        query = input
+                        viewModel.dispatchIntent(FoodSearchIntent.SetQuery(input))
+                    },
                     popScreen = { viewModel.dispatchIntent(FoodSearchIntent.Close) },
                     modifier = Modifier.fillMaxWidth(),
                 )

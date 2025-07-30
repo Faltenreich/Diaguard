@@ -23,33 +23,33 @@ fun FoodSearch(
     onSelect: (Food.Local) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    state ?: return
-    val items = state.pagingData.collectAsLazyPagingItems()
+    val items = state?.pagingData?.collectAsLazyPagingItems()
 
     val lifecycleState = rememberLifecycleState()
     LaunchedEffect(lifecycleState) {
         if (lifecycleState == LifecycleState.RESUMED) {
             // FIXME: Jumps to start of page
-            items.refresh()
+            items?.refresh()
         }
     }
 
     Column(modifier = modifier) {
         FoodSearchHeader()
-
-        val isAtTheEnd = items.loadState.refresh !is LoadState.Loading
-            && items.loadState.prepend !is LoadState.Loading
-            && items.loadState.append !is LoadState.Loading
         
-        if (items.loadState.refresh == LoadState.Loading) {
+        if (items == null || items.loadState.refresh == LoadState.Loading) {
             FoodListSkeleton()
-        } else if (isAtTheEnd && items.itemCount == 0) {
-            FoodListEmpty()
         } else {
-            FoodList(
-                items = items,
-                onSelect = onSelect,
-            )
+            val isAtTheEnd = items.loadState.refresh !is LoadState.Loading
+                && items.loadState.prepend !is LoadState.Loading
+                && items.loadState.append !is LoadState.Loading
+            if (isAtTheEnd && items.itemCount == 0) {
+                FoodListEmpty()
+            } else {
+                FoodList(
+                    items = items,
+                    onSelect = onSelect,
+                )
+            }
         }
     }
 }

@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -20,7 +19,7 @@ fun Skeleton(
 
 @Composable
 fun Modifier.skeleton(show: Boolean): Modifier {
-    val color = Color.LightGray
+    val color = AppTheme.colors.scheme.surfaceDim
     val cornerRadius = AppTheme.dimensions.size.CornerRadius
     return drawWithCache {
         onDrawWithContent {

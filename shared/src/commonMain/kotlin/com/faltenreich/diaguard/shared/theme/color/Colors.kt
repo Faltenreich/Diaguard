@@ -94,7 +94,7 @@ object Colors {
     val inverseSurfaceDark = Color(0xFFE5E2E1)
     val inverseOnSurfaceDark = Color(0xFF313030)
     val inversePrimaryDark = Color(0xFF30694D)
-    val surfaceDimDark = Color(0xFF141313)
+    val surfaceDimDark = Color(0xFF262626)
     val surfaceBrightDark = Color(0xFF3A3939)
     val surfaceContainerLowestDark = Color(0xFF212121)
     val surfaceContainerLowDark = Color(0xFF2C2C2C)

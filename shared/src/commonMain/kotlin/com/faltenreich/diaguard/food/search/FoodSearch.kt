@@ -2,6 +2,11 @@ package com.faltenreich.diaguard.food.search
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import app.cash.paging.PagingData
@@ -10,6 +15,7 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.search.list.FoodList
 import com.faltenreich.diaguard.food.search.list.FoodListEmpty
 import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
+import com.faltenreich.diaguard.shared.view.PullToRefresh
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -21,23 +27,39 @@ fun FoodSearch(
     modifier: Modifier = Modifier,
 ) {
     val items = state?.pagingData?.collectAsLazyPagingItems()
+    val isLoading = items == null || items.loadState.refresh == LoadState.Loading
+    var isRefreshing by remember { mutableStateOf(false) }
+
+    LaunchedEffect(isLoading) {
+        if (!isLoading) {
+            isRefreshing = false
+        }
+    }
 
     Column(modifier = modifier) {
         FoodSearchHeader()
-        
-        if (items == null || items.loadState.refresh == LoadState.Loading) {
-            FoodListSkeleton()
-        } else {
-            val isAtTheEnd = items.loadState.refresh !is LoadState.Loading
-                && items.loadState.prepend !is LoadState.Loading
-                && items.loadState.append !is LoadState.Loading
-            if (isAtTheEnd && items.itemCount == 0) {
-                FoodListEmpty()
+
+        PullToRefresh(
+            isRefreshing = isRefreshing && isLoading,
+            onRefresh = {
+                isRefreshing = true
+                items?.refresh()
+            },
+        ) {
+            if (isLoading) {
+                FoodListSkeleton()
             } else {
-                FoodList(
-                    items = items,
-                    onSelect = onSelect,
-                )
+                val isAtTheEnd = items.loadState.refresh !is LoadState.Loading
+                    && items.loadState.prepend !is LoadState.Loading
+                    && items.loadState.append !is LoadState.Loading
+                if (isAtTheEnd && items.itemCount == 0) {
+                    FoodListEmpty()
+                } else {
+                    FoodList(
+                        items = items,
+                        onSelect = onSelect,
+                    )
+                }
             }
         }
     }

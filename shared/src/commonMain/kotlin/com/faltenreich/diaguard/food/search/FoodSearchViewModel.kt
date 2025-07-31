@@ -29,7 +29,6 @@ class FoodSearchViewModel(
     private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<FoodSearchState, FoodSearchIntent, Unit>() {
 
-    // FIXME: Loads food twice at the start
     private val _query = MutableStateFlow("")
     private val query = MutableStateFlow(_query.value)
 

@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.food.search
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import app.cash.paging.PagingData
@@ -11,9 +10,7 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.search.list.FoodList
 import com.faltenreich.diaguard.food.search.list.FoodListEmpty
 import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
-import com.faltenreich.diaguard.shared.view.LifecycleState
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
-import com.faltenreich.diaguard.shared.view.rememberLifecycleState
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -24,14 +21,6 @@ fun FoodSearch(
     modifier: Modifier = Modifier,
 ) {
     val items = state?.pagingData?.collectAsLazyPagingItems()
-
-    val lifecycleState = rememberLifecycleState()
-    LaunchedEffect(lifecycleState) {
-        if (lifecycleState == LifecycleState.RESUMED) {
-            // FIXME: Jumps to start of page
-            items?.refresh()
-        }
-    }
 
     Column(modifier = modifier) {
         FoodSearchHeader()

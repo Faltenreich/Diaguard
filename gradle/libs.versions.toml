@@ -23,8 +23,7 @@ koin = "4.1.0"
 kotlin = "2.2.0"
 kover = "0.9.1"
 ktor = "3.2.3"
-paging = "3.3.0-alpha02-0.5.1"
-paging-android = "3.3.6"
+paging = "3.3.6"
 serialization-json = "1.9.0"
 serialization-csv = "0.0.22"
 serialization-yaml = "0.13.0"
@@ -69,10 +68,7 @@ ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-paging-android = { module = "androidx.paging:paging-runtime", version.ref = "paging-android" }
-paging-android-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-android" }
-paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging" }
-paging-common-compose = { module = "app.cash.paging:paging-compose-common", version.ref = "paging" }
+paging = { module = "androidx.paging:paging-common", version.ref = "paging" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }

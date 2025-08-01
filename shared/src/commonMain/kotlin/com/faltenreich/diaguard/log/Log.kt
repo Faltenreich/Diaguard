@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
-import app.cash.paging.PagingData
-import app.cash.paging.compose.LazyPagingItems
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.log.list.LogList
 import com.faltenreich.diaguard.log.list.item.LogDaySticky

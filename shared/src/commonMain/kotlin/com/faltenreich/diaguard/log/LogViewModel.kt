@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.log
 
 import androidx.compose.ui.unit.IntSize
 import androidx.paging.cachedIn
-import app.cash.paging.Pager
-import app.cash.paging.PagingSource
+import androidx.paging.Pager
+import androidx.paging.PagingSource
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen

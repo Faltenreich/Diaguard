@@ -13,9 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
-import app.cash.paging.PagingData
-import app.cash.paging.compose.LazyPagingItems
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.shared.view.preview.AppPreview

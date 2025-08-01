@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.food.search
 
+import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import app.cash.paging.PagingConfig
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.logging.Logger

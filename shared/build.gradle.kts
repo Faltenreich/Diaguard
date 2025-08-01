@@ -42,8 +42,7 @@ kotlin {
                 implementation(libs.ktor.core)
                 implementation(libs.ktor.contentnegotiation)
                 implementation(libs.ktor.serialization)
-                implementation(libs.paging.common)
-                implementation(libs.paging.common.compose)
+                implementation(libs.paging)
                 implementation(libs.sqldelight.coroutines)
             }
         }
@@ -68,8 +67,6 @@ kotlin {
                 implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.android)
                 implementation(libs.ktor.android)
-                implementation(libs.paging.android)
-                implementation(libs.paging.android.compose)
                 implementation(libs.sqldelight.android)
                 implementation(libs.sqldelight.jvm)
             }

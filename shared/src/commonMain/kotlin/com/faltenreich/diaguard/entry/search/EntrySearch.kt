@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.paging.PagingData
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.shared.localization.getString

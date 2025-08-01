@@ -1,11 +1,8 @@
 package com.faltenreich.diaguard.log.list
 
-import app.cash.paging.PagingConfig
-import app.cash.paging.PagingSource
-import app.cash.paging.PagingSourceLoadParams
-import app.cash.paging.PagingSourceLoadResult
-import app.cash.paging.PagingSourceLoadResultPage
-import app.cash.paging.PagingState
+import androidx.paging.PagingConfig
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
@@ -33,7 +30,7 @@ class LogListPagingSource(
         return state.closestItemToPosition(0)?.date
     }
 
-    override suspend fun load(params: PagingSourceLoadParams<Date>): PagingSourceLoadResult<Date, LogItemState> {
+    override suspend fun load(params: LoadParams<Date>): LoadResult<Date, LogItemState> {
         val key = params.key ?: today
         val startDate: Date
         val endDate: Date
@@ -82,7 +79,7 @@ class LogListPagingSource(
             headers + content
         }.flatten()
 
-        val page = PagingSourceLoadResultPage(
+        val page = LoadResult.Page(
             data = items,
             prevKey = startDate.minus(1, DateUnit.DAY),
             nextKey = endDate.plus(1, DateUnit.DAY),

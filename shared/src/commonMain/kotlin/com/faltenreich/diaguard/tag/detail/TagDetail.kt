@@ -11,9 +11,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import app.cash.paging.PagingData
-import app.cash.paging.compose.LazyPagingItems
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.shared.localization.getString

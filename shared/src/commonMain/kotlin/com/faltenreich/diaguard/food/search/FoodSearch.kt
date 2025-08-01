@@ -9,8 +9,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
-import app.cash.paging.PagingData
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.search.list.FoodList
 import com.faltenreich.diaguard.food.search.list.FoodListEmpty

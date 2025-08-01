@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.log
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen

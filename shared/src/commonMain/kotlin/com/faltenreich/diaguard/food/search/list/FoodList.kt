@@ -6,10 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
-import app.cash.paging.PagingData
-import app.cash.paging.compose.LazyPagingItems
-import app.cash.paging.compose.collectAsLazyPagingItems
-import app.cash.paging.compose.itemKey
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
@@ -23,10 +22,7 @@ fun FoodList(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
-        items(
-            count = items.itemCount,
-            key = items.itemKey { it.local.id },
-        ) { index ->
+        items(count = items.itemCount) { index ->
             val food = items[index]
             if (food != null) {
                 Column {

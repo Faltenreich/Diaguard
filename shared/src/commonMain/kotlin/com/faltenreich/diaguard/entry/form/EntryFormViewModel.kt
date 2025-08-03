@@ -95,7 +95,7 @@ class EntryFormViewModel(
     )
 
     init {
-        // FIXME: Collected again on changing (color scheme) preference
+        // FIXME: Collected again and added redundantly on changing preference
         scope.launch {
             getMeasurementCategoryInputState(editing).collectLatest {
                 measurements.value += it

@@ -212,7 +212,7 @@ class EntryFormViewModel(
     }
 
     private fun addTag(tag: Tag) {
-        // TODO: Replace .User with .Local if exists
+        // TODO: Do no add if .Local already exists
         tagSelection.value = tagSelection.value.plus(tag)
     }
 

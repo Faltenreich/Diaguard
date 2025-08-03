@@ -24,11 +24,10 @@ class StoreEntryTagsUseCase(
         entryTagsFromBefore: Collection<EntryTag>,
     ) {
         val tagsByLocal = tags.filterIsInstance<Tag.Local>()
-        val tagsByUser = tags.filterIsInstance<Tag.User>().map { tag ->
-            tagsByLocal.firstOrNull { it.name == tag.name }
-                ?: tagRepository.getByName(tag.name)
-                ?: checkNotNull(tagRepository.create(tag).let(tagRepository::getById))
-        }
+        val tagsByUser = tags.filterIsInstance<Tag.User>()
+            // Filter out redundant tags
+            .filterNot { user -> tagsByLocal.any { local -> local.name == user.name } }
+            .map { tag -> checkNotNull(tagRepository.create(tag).let(tagRepository::getById)) }
         val missingTags = (tagsByLocal + tagsByUser).filter { tag ->
             entryTagsFromBefore.filterIsInstance<EntryTag.Local>().none { entryTag ->
                 entryTag.tag.id == tag.id

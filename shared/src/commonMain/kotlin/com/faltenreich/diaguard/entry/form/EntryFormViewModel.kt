@@ -59,7 +59,7 @@ class EntryFormViewModel(
     private val foodEaten = MutableStateFlow(emptyList<FoodEatenInputState>())
 
     private val tagQuery = MutableStateFlow("")
-    private val tagSelection = MutableStateFlow(emptyList<Tag>())
+    private val tagSelection = MutableStateFlow(emptySet<Tag>())
     private val tagSuggestions = combine(
         tagQuery,
         tagSelection,
@@ -157,7 +157,7 @@ class EntryFormViewModel(
             entry = editing,
             dateTime = dateTime.value,
             measurements = measurements.value,
-            tags = tagSelection.value + listOfNotNull(missingTag),
+            tags = tagSelection.value + setOfNotNull(missingTag),
             note = note.value.takeIf(String::isNotBlank),
             foodEaten = foodEaten.value,
         )
@@ -212,7 +212,7 @@ class EntryFormViewModel(
     }
 
     private fun addTag(tag: Tag) {
-        // TODO: Avoid adding duplicates
+        // TODO: Replace .User with .Local if exists
         tagSelection.value = tagSelection.value.plus(tag)
     }
 

@@ -109,7 +109,7 @@ fun EntryForm(
                 )
             }
 
-            state.tags.selection.takeIf(List<*>::isNotEmpty)?.let { tags ->
+            state.tags.selection.takeIf(Collection<*>::isNotEmpty)?.let { tags ->
                 EntryTagList(
                     tags = tags,
                     onTagClick = { tag -> onIntent(EntryFormIntent.RemoveTag(tag)) },

@@ -27,8 +27,8 @@ data class EntryFormState(
 
     data class Tags(
         val query: String,
-        val suggestions: List<Tag>,
-        val selection: List<Tag>,
+        val suggestions: Collection<Tag>,
+        val selection: Collection<Tag>,
     )
 
     data object DeleteDialog

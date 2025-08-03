@@ -10,7 +10,7 @@ class StoreEntryTagsUseCase(
 ) {
 
     operator fun invoke(
-        tags: List<Tag>,
+        tags: Collection<Tag>,
         entry: Entry.Local,
     ) {
         val entryTagsFromBefore = entryTagRepository.getByEntryId(entry.id)
@@ -19,9 +19,9 @@ class StoreEntryTagsUseCase(
     }
 
     private fun createMissingEntryTags(
-        tags: List<Tag>,
+        tags: Collection<Tag>,
         entry: Entry.Local,
-        entryTagsFromBefore: List<EntryTag>,
+        entryTagsFromBefore: Collection<EntryTag>,
     ) {
         val tagsByLocal = tags.filterIsInstance<Tag.Local>()
         val tagsByUser = tags.filterIsInstance<Tag.User>().map { tag ->
@@ -41,8 +41,8 @@ class StoreEntryTagsUseCase(
     }
 
     private fun deleteObsoleteEntryTags(
-        tags: List<Tag>,
-        entryTagsFromBefore: List<EntryTag>,
+        tags: Collection<Tag>,
+        entryTagsFromBefore: Collection<EntryTag>,
     ) {
         val obsoleteEntryTags = entryTagsFromBefore.filterIsInstance<EntryTag.Local>().filter { entryTag ->
             tags.filterIsInstance<Tag.Local>().none { tag ->

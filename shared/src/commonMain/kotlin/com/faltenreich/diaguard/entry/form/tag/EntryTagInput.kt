@@ -26,7 +26,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun EntryTagInput(
     input: String,
     onInputChange: (String) -> Unit,
-    suggestions: List<Tag>,
+    suggestions: Collection<Tag>,
     onSuggestionSelect: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {

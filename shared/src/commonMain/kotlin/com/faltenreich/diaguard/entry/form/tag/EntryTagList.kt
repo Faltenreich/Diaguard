@@ -11,7 +11,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EntryTagList(
-    tags: List<Tag>,
+    tags: Collection<Tag>,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
     trailingIcon: @Composable (Tag) -> Unit = {},

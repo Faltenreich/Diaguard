@@ -10,7 +10,7 @@ data class EntryFormInput(
     val entry: Entry.Local?,
     val dateTime: DateTime,
     val measurements: List<MeasurementCategoryInputState>,
-    val tags: List<Tag>,
+    val tags: Collection<Tag>,
     val note: String?,
     val foodEaten: List<FoodEatenInputState>,
 )

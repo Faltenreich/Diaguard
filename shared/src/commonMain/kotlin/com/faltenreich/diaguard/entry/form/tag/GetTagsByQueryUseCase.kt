@@ -11,14 +11,14 @@ class GetTagsByQueryUseCase(
 
     operator fun invoke(
         query: String,
-        other: List<Tag>,
+        other: Collection<Tag>,
     ): Flow<List<Tag>> {
         val tags = query.takeIf(String::isNotBlank)?.let(repository::observeByQuery)
             ?: repository.observeAll()
         return tags.excluding(other).limited()
     }
 
-    private fun Flow<List<Tag>>.excluding(other: List<Tag>): Flow<List<Tag>> {
+    private fun Flow<List<Tag>>.excluding(other: Collection<Tag>): Flow<List<Tag>> {
         return map { tags -> tags.filterNot { tag -> tag in other } }
     }
 

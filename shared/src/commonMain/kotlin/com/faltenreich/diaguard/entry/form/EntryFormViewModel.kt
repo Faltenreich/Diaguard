@@ -95,21 +95,20 @@ class EntryFormViewModel(
     )
 
     init {
-        // FIXME: Collected again and added redundantly on changing preference
         scope.launch {
             getMeasurementCategoryInputState(editing).collectLatest {
-                measurements.value += it
+                measurements.value = it
             }
         }
         scope.launch {
             getFoodEatenInputState(entry = editing, food = food).collectLatest {
-                foodEaten.value += it
+                foodEaten.value = it
             }
         }
         scope.launch {
             val entry = editing ?: return@launch
             getTagsOfEntry(entry).collectLatest { tags ->
-                tagSelection.value += tags
+                tagSelection.value = tags.toSet()
             }
         }
     }

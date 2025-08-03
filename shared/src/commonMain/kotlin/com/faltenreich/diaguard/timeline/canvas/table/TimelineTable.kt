@@ -27,7 +27,6 @@ fun DrawScope.TimelineTable(
                 strokeWidth = config.gridStrokeWidth,
             )
 
-            val showIcon = propertyIndex == 0
             val showLabel = category.properties.size > 1
             val labelSize = textMeasurer.measure(property.name, config.textStyle).size.toSize()
 
@@ -44,15 +43,13 @@ fun DrawScope.TimelineTable(
                 ),
             )
 
-            if (showIcon) {
-                MeasurementCategoryIcon(
-                    textMeasurer = textMeasurer,
-                    category = category.category,
-                    topLeft = property.iconRectangle.topLeft,
-                    size = property.iconRectangle.size,
-                    textStyle = config.textStyle,
-                )
-            }
+            MeasurementCategoryIcon(
+                textMeasurer = textMeasurer,
+                category = category.category,
+                topLeft = property.iconRectangle.topLeft,
+                size = property.iconRectangle.size,
+                textStyle = config.textStyle,
+            )
 
             // Label
             if (showLabel) {

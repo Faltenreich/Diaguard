@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInp
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.entry.form.measurement.ValidateEntryFormInputUseCase
-import com.faltenreich.diaguard.entry.form.tag.GetTagsByQueryUseCase
+import com.faltenreich.diaguard.entry.form.tag.GetTagSuggestionsUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
@@ -20,10 +20,10 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.tag.list.GetTagsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -36,8 +36,9 @@ class EntryFormViewModel(
     private val getFoodById: GetFoodByIdUseCase = inject(),
     private val getFoodEatenInputState: GetFoodEatenInputStateUseCase = inject(),
     getMeasurementCategoryInputState: GetMeasurementCategoryInputStateUseCase = inject(),
+    getTags: GetTagsUseCase = inject(),
     getTagsOfEntry: GetTagsOfEntry = inject(),
-    getTagsByQuery: GetTagsByQueryUseCase = inject(),
+    getTagSuggestions: GetTagSuggestionsUseCase = inject(),
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
@@ -58,20 +59,14 @@ class EntryFormViewModel(
     private val measurements = MutableStateFlow((emptyList<MeasurementCategoryInputState>()))
     private val foodEaten = MutableStateFlow(emptyList<FoodEatenInputState>())
 
-    private val tagQuery = MutableStateFlow("")
+    private val tags = getTags()
     private val tagSelection = MutableStateFlow(emptySet<Tag>())
+    private val tagQuery = MutableStateFlow("")
     private val tagSuggestions = combine(
-        tagQuery,
+        tags,
         tagSelection,
-    ) { tagQuery, tagsSelected -> tagQuery to tagsSelected }
-        .flatMapLatest { (tagQuery, tagsSelected) ->
-            getTagsByQuery(tagQuery, tagsSelected)
-        }
-    private val tags = combine(
         tagQuery,
-        tagSuggestions,
-        tagSelection,
-        EntryFormState::Tags,
+        getTagSuggestions::invoke,
     )
 
     private val deleteDialog = MutableStateFlow<EntryFormState.DeleteDialog?>(null)
@@ -89,7 +84,12 @@ class EntryFormViewModel(
         alarmDelayInMinutes,
         measurements,
         foodEaten,
-        tags,
+        combine(
+            tagQuery,
+            tagSuggestions,
+            tagSelection,
+            EntryFormState::Tags,
+        ),
         deleteDialog,
         ::EntryFormState,
     )
@@ -212,7 +212,6 @@ class EntryFormViewModel(
     }
 
     private fun addTag(tag: Tag) {
-        // TODO: Do no add if .Local already exists
         tagSelection.value = tagSelection.value.plus(tag)
     }
 

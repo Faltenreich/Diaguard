@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.startup.seed.query.measurement
 
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
+import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.localization.Localization
 import diaguard.shared.generated.resources.Res
@@ -18,7 +18,7 @@ class OxygenSaturationSeedQueries(
         return MeasurementCategory.Seed(
             key = DatabaseKey.MeasurementCategory.OXYGEN_SATURATION,
             name = localization.getString(Res.string.oxygen_saturation),
-            icon = "O²",
+            icon = "☁\uFE0F",
             sortIndex = 8,
             isActive = true,
             properties = listOf(

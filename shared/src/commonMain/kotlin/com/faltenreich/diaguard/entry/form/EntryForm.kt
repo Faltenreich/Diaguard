@@ -102,8 +102,9 @@ fun EntryForm(
                     },
                     suggestions = state.tags.suggestions,
                     onSuggestionSelect = { tag ->
-                        onIntent(EntryFormIntent.AddTag(tag))
+                        tagQuery = ""
                         onIntent(EntryFormIntent.SetTagQuery(""))
+                        onIntent(EntryFormIntent.AddTag(tag))
                     }
                 )
             }

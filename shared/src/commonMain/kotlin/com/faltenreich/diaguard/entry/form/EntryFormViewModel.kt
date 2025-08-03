@@ -212,6 +212,7 @@ class EntryFormViewModel(
     }
 
     private fun addTag(tag: Tag) {
+        // TODO: Avoid adding duplicates
         tagSelection.value = tagSelection.value.plus(tag)
     }
 

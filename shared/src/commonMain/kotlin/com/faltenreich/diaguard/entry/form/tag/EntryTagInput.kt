@@ -48,7 +48,11 @@ fun EntryTagInput(
             maxLines = 1,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send ),
             keyboardActions = KeyboardActions(
-                onSend = { onSuggestionSelect(Tag.User(name = input)) },
+                onSend = {
+                    if (input.isNotBlank()) {
+                        onSuggestionSelect(Tag.User(name = input))
+                    }
+                },
             ),
         )
 

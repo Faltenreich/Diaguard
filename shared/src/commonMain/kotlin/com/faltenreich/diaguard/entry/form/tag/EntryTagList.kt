@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry.form.tag
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.runtime.Composable
@@ -17,7 +18,7 @@ fun EntryTagList(
     trailingIcon: @Composable (Tag) -> Unit = {},
 ) {
     FlowRow(
-        modifier = modifier,
+        modifier = modifier.animateContentSize(),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
     ) {
         tags.forEach { tag ->

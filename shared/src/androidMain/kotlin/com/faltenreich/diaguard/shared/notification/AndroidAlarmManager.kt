@@ -8,10 +8,11 @@ import kotlin.time.Duration
 
 class AndroidAlarmManager(private val context: Context) : AlarmManager {
 
-    private val nativeAlarmManager =
+    private val systemService =
         context.getSystemService(Context.ALARM_SERVICE) as android.app.AlarmManager
 
-    private fun getPendingIntent(requestCode: Int): PendingIntent? {
+    private fun getPendingIntent(alarmId: Long): PendingIntent? {
+        val requestCode = alarmId.toInt()
         val intent = Intent(context, AlarmBroadcastReceiver::class.java)
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -22,25 +23,19 @@ class AndroidAlarmManager(private val context: Context) : AlarmManager {
     }
 
     override fun setAlarm(id: Long, delay: Duration) {
-        val alarmStartInMillis = System.currentTimeMillis() + delay.inWholeMilliseconds
-        val intent = getPendingIntent(requestCode = id.toInt()) ?: return
+        val pendingIntent = getPendingIntent(id) ?: return
+        val type = android.app.AlarmManager.RTC_WAKEUP
+        val triggerAtMillis = System.currentTimeMillis() + delay.inWholeMilliseconds
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            nativeAlarmManager.setAndAllowWhileIdle(
-                android.app.AlarmManager.RTC_WAKEUP,
-                alarmStartInMillis,
-                intent,
-            )
+            systemService.setAndAllowWhileIdle(type, triggerAtMillis, pendingIntent)
         } else {
-            nativeAlarmManager.set(
-                android.app.AlarmManager.RTC_WAKEUP,
-                alarmStartInMillis,
-                intent,
-            )
+            systemService.set(type, triggerAtMillis, pendingIntent)
         }
     }
 
     override fun cancelAlarm(id: Long) {
-        val intent = getPendingIntent(requestCode = id.toInt()) ?: return
-        nativeAlarmManager.cancel(intent)
+        val pendingIntent = getPendingIntent(id) ?: return
+        systemService.cancel(pendingIntent)
     }
 }

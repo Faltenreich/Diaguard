@@ -8,8 +8,8 @@ import kotlin.time.Duration
 
 class AndroidAlarmManager(private val context: Context) : AlarmManager {
 
-    private val systemService =
-        context.getSystemService(Context.ALARM_SERVICE) as android.app.AlarmManager
+    private val systemService = context.getSystemService(Context.ALARM_SERVICE)
+        as android.app.AlarmManager
 
     private fun getPendingIntent(alarmId: Long): PendingIntent? {
         val requestCode = alarmId.toInt()

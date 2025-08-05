@@ -6,4 +6,5 @@ import org.koin.dsl.module
 
 actual fun notificationModule() = module {
     factoryOf(::AndroidAlarmManager) bind AlarmManager::class
+    factoryOf(::AndroidNotificationManager)
 }

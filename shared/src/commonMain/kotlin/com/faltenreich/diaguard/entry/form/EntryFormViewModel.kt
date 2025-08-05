@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInp
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.entry.form.measurement.ValidateEntryFormInputUseCase
+import com.faltenreich.diaguard.entry.form.reminder.SetReminderUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagSuggestionsUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.food.Food
@@ -18,6 +19,7 @@ import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
@@ -27,6 +29,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.minutes
 
 class EntryFormViewModel(
     entryId: Long? = null,
@@ -45,6 +48,7 @@ class EntryFormViewModel(
     private val validate: ValidateEntryFormInputUseCase = inject(),
     private val storeEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
+    private val setReminder: SetReminderUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
@@ -152,6 +156,11 @@ class EntryFormViewModel(
     }
 
     private suspend fun submit() {
+        alarmDelayInMinutes.value?.minutes?.let { delay ->
+            Logger.debug("Setting alarm in $delay")
+            setReminder(delay)
+        }
+
         val missingTag = tagQuery.value.takeIf(String::isNotBlank)?.let { Tag.User(it) }
         val input = EntryFormInput(
             entry = editing,

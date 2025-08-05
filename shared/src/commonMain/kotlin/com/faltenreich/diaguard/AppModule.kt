@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.shared.keyvalue.keyValueStoreModule
 import com.faltenreich.diaguard.shared.localization.localizationModule
 import com.faltenreich.diaguard.shared.logging.loggerModule
 import com.faltenreich.diaguard.shared.networking.networkingModule
+import com.faltenreich.diaguard.shared.notification.notificationModule
 import com.faltenreich.diaguard.shared.serialization.serializationModule
 import com.faltenreich.diaguard.shared.system.systemSettingsModule
 import com.faltenreich.diaguard.shared.view.windowModule
@@ -46,6 +47,7 @@ fun appModule() = module {
         keyValueStoreModule(),
         databaseModule(),
         networkingModule(),
+        notificationModule(),
         dateTimeModule(),
         systemSettingsModule(),
         windowModule(),

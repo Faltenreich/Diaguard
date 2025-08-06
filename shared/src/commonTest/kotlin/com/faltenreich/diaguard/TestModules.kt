@@ -15,6 +15,8 @@ import com.faltenreich.diaguard.shared.localization.FakeLocalization
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.logging.ConsoleLogger
 import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.shared.notification.AlarmManager
+import com.faltenreich.diaguard.shared.notification.FakeAlarmManager
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.shared.system.FakeSystemSettings
 import com.faltenreich.diaguard.shared.system.SystemSettings
@@ -46,6 +48,7 @@ fun testModules() = module {
     singleOf(::FakeBuildConfig) bind BuildConfig::class
     singleOf(::ConsoleLogger) bind Logger::class
     singleOf(::FakeKeyValueStore) bind KeyValueStore::class
+    factoryOf(::FakeAlarmManager) bind AlarmManager::class
 
     single<PdfExport> { PdfExport {} }
 

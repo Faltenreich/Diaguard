@@ -12,14 +12,20 @@ class AlarmBroadcastReceiver(
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val notification = AndroidNotification(
-            id = 1337,
+            id = NOTIFICATION_ID,
             title = "Title",
             message = "Message",
             iconRes = R.mipmap.ic_launcher,
-            channelId = "",
+            channelId = NOTIFICATION_CHANNEL_ID,
             isSoundEnabled = true,
             isVibrationEnabled = true,
         )
         notificationManager.showNotification(notification)
+    }
+
+    companion object {
+
+        private const val NOTIFICATION_ID = 34248273
+        private const val NOTIFICATION_CHANNEL_ID = "diaguard_general"
     }
 }

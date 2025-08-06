@@ -2,21 +2,36 @@ package com.faltenreich.diaguard.shared.notification
 
 import android.app.Activity
 import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.faltenreich.diaguard.R
 import kotlin.time.Duration.Companion.seconds
 
+// FIXME: NoDefinitionFoundException: No definition found for type 'android.app.Activity'
 class AndroidNotificationManager(private val activity: Activity) {
 
     private val context = activity
     private val systemService = context.getSystemService(Context.NOTIFICATION_SERVICE)
-        as android.app.NotificationManager
+        as NotificationManager
 
+    // TODO: Refactor
     fun showNotification(notification: AndroidNotification) = with(notification) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                notification.channelId,
+                context.getString(R.string.notification_channel_general),
+                NotificationManager.IMPORTANCE_DEFAULT,
+            )
+            notificationChannel.enableVibration(true)
+            systemService.createNotificationChannel(notificationChannel)
+        }
+
         val vibrationDuration = 1.seconds
 
         val builder = NotificationCompat.Builder(context, channelId)

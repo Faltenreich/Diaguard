@@ -124,6 +124,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
+
+    buildFeatures {
+        buildConfig = true
+        compose = true
+    }
 }
 
 sqldelight {

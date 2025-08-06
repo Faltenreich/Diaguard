@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.shared.notification
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.faltenreich.diaguard.R
 import com.faltenreich.diaguard.shared.di.inject
 
 class AlarmBroadcastReceiver(
@@ -14,7 +15,7 @@ class AlarmBroadcastReceiver(
             id = 1337,
             title = "Title",
             message = "Message",
-            iconRes = 0,
+            iconRes = R.mipmap.ic_launcher,
             channelId = "",
             isSoundEnabled = true,
             isVibrationEnabled = true,

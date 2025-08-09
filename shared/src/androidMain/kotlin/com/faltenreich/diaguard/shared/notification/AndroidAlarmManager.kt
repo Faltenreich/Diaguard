@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.faltenreich.diaguard.shared.logging.Logger
 import kotlin.time.Duration
 
 class AndroidAlarmManager(private val context: Context) : AlarmManager {
@@ -32,6 +33,7 @@ class AndroidAlarmManager(private val context: Context) : AlarmManager {
         } else {
             systemService.set(type, triggerAtMillis, pendingIntent)
         }
+        Logger.debug("Set alarm in $delay")
     }
 
     override fun cancelAlarm(id: Long) {

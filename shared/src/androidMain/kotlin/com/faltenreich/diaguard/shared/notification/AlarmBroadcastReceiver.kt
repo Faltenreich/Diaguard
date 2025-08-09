@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import com.faltenreich.diaguard.R
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.logging.Logger
 
 class AlarmBroadcastReceiver(
     private val notificationManager: AndroidNotificationManager = inject(),
 ) : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
+        Logger.debug("Received broadcast")
         val notification = AndroidNotification(
             id = NOTIFICATION_ID,
             title = "Title",

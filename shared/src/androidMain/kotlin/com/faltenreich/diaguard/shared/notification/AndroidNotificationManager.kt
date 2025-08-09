@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.notification
 
-import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,13 +9,13 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.faltenreich.diaguard.MainActivity
 import com.faltenreich.diaguard.R
+import com.faltenreich.diaguard.shared.logging.Logger
 import kotlin.time.Duration.Companion.seconds
 
-// FIXME: NoDefinitionFoundException: No definition found for type 'android.app.Activity'
-class AndroidNotificationManager(private val activity: Activity) {
+class AndroidNotificationManager(private val context: Context) {
 
-    private val context = activity
     private val systemService = context.getSystemService(Context.NOTIFICATION_SERVICE)
         as NotificationManager
 
@@ -50,7 +49,7 @@ class AndroidNotificationManager(private val activity: Activity) {
             )
 
         // Open entry form when clicked on
-        val intent = Intent(context, activity::class.java)
+        val intent = Intent(context, MainActivity::class.java)
         // TODO: App Shortcut
         //  intent.setAction(Shortcut.CREATE_ENTRY.action)
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -66,5 +65,6 @@ class AndroidNotificationManager(private val activity: Activity) {
         notification.flags = Notification.FLAG_ONLY_ALERT_ONCE or Notification.FLAG_AUTO_CANCEL
 
         systemService.notify(id, notification)
+        Logger.debug("Notified: $notification")
     }
 }

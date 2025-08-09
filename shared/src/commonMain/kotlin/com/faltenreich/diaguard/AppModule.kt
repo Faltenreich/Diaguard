@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.shared.localization.localizationModule
 import com.faltenreich.diaguard.shared.logging.loggerModule
 import com.faltenreich.diaguard.shared.networking.networkingModule
 import com.faltenreich.diaguard.shared.notification.notificationModule
+import com.faltenreich.diaguard.shared.permission.permissionModule
 import com.faltenreich.diaguard.shared.serialization.serializationModule
 import com.faltenreich.diaguard.shared.system.systemSettingsModule
 import com.faltenreich.diaguard.shared.view.windowModule
@@ -38,33 +39,34 @@ fun appModule() = module {
 
     includes(
         // Common
-        loggerModule(),
         coroutineModule(),
         configModule(),
-        localizationModule(),
-        serializationModule(),
+        databaseModule(),
+        dateTimeModule(),
         fileModule(),
         keyValueStoreModule(),
-        databaseModule(),
+        localizationModule(),
+        loggerModule(),
         networkingModule(),
         notificationModule(),
-        dateTimeModule(),
+        permissionModule(),
+        serializationModule(),
         systemSettingsModule(),
         windowModule(),
         // Feature
-        startupModule(),
         backupModule(),
-        mainModule(),
-        exportModule(),
-        navigationModule(),
         dashboardModule(),
-        logModule(),
-        timelineModule(),
         entryModule(),
-        measurementModule(),
+        exportModule(),
         foodModule(),
-        tagModule(),
-        statisticModule(),
+        logModule(),
+        mainModule(),
+        measurementModule(),
+        navigationModule(),
         preferenceModule(),
+        startupModule(),
+        statisticModule(),
+        tagModule(),
+        timelineModule(),
     )
 }

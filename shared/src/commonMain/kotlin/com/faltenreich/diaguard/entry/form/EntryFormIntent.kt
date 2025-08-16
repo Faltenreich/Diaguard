@@ -19,6 +19,8 @@ sealed interface EntryFormIntent {
 
     data class SetAlarm(val alarmDelayInMinutes: Int?) : EntryFormIntent
 
+    data object RequestPermissionToPostNotification : EntryFormIntent
+
     data class Edit(val data: MeasurementPropertyInputState) : EntryFormIntent
 
     data object Submit : EntryFormIntent

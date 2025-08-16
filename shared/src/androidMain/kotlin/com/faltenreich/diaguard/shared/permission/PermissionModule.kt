@@ -6,4 +6,7 @@ import org.koin.dsl.module
 
 actual fun permissionModule() = module {
     factoryOf(::AndroidPermissionManager) bind PermissionManager::class
+
+    // TODO: Move into common
+    factoryOf(::RequestPermissionIfNeededUseCase)
 }

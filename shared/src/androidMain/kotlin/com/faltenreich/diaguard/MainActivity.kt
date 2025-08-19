@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
             )
         )
 
+        // LifecycleOwners must call register before they are STARTED
         permissionManager.bind(this)
 
         enableEdgeToEdge(

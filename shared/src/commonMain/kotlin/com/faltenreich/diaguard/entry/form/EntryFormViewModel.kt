@@ -21,7 +21,7 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.permission.Permission
-import com.faltenreich.diaguard.shared.permission.RequestPermissionIfNeededUseCase
+import com.faltenreich.diaguard.shared.permission.RequestPermissionUseCase
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
@@ -51,7 +51,7 @@ class EntryFormViewModel(
     private val storeEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val setReminder: SetReminderUseCase = inject(),
-    private val requestPermissionIfNeeded: RequestPermissionIfNeededUseCase = inject(),
+    private val requestPermission: RequestPermissionUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
@@ -160,7 +160,8 @@ class EntryFormViewModel(
     }
 
     private suspend fun requestPermissionToPostNotificationIfMissing() {
-        requestPermissionIfNeeded(Permission.POST_NOTIFICATIONS)
+        val result = requestPermission(Permission.POST_NOTIFICATIONS)
+        Logger.debug("Permission request returned with: $result")
     }
 
     private suspend fun submit() {

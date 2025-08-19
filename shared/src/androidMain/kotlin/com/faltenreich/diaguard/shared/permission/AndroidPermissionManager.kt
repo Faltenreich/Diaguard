@@ -5,16 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.faltenreich.diaguard.shared.logging.Logger
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 
 class AndroidPermissionManager : PermissionManager {
 
     private lateinit var activity: ComponentActivity
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
 
-    private val results = MutableSharedFlow<PermissionResult>()
+    private val callback: ((PermissionResult) -> Unit)? = null
 
     fun bind(activity: ComponentActivity) {
         this.activity = activity
@@ -22,25 +19,25 @@ class AndroidPermissionManager : PermissionManager {
         activityResultLauncher = activity.registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions(),
         ) { permissions ->
-            Logger.debug("Permissions granted: $permissions")
             permissions.forEach { (code, isGranted) ->
                 val permission = Permission.fromCode(code)
                 if (permission != null) {
                     val result = PermissionResult(permission, isGranted)
-                    results.tryEmit(result)
+                    callback?.invoke(result)
                 }
             }
         }
     }
 
-    override fun hasPermission(permission: Permission): Boolean {
+    override suspend fun hasPermission(permission: Permission): Boolean {
         // TODO: Return early if below minSdk of permission
         val result = ContextCompat.checkSelfPermission(activity, permission.code)
         return result == PackageManager.PERMISSION_GRANTED
     }
 
-    override fun requestPermission(permission: Permission): Flow<PermissionResult?> {
+    override suspend fun requestPermission(permission: Permission): PermissionResult {
         activityResultLauncher.launch(arrayOf(permission.code))
-        return results
+        // TODO: Return callback as suspending function
+        return PermissionResult(permission, isGranted = false)
     }
 }

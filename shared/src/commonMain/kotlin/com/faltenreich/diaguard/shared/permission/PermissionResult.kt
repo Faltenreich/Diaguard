@@ -1,6 +1,15 @@
 package com.faltenreich.diaguard.shared.permission
 
-data class PermissionResult(
-    val permission: Permission,
-    val isGranted: Boolean,
-)
+sealed interface PermissionResult {
+
+    data class Granted(
+        val permission: Permission,
+    ) : PermissionResult
+
+    data class Denied(
+        val permission: Permission,
+        val shouldShowRationale: Boolean,
+    ) : PermissionResult
+
+    data object Unknown : PermissionResult
+}

@@ -21,6 +21,7 @@ import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.permission.Permission
+import com.faltenreich.diaguard.shared.permission.PermissionResult
 import com.faltenreich.diaguard.shared.permission.RequestPermissionUseCase
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
@@ -160,8 +161,11 @@ class EntryFormViewModel(
     }
 
     private suspend fun requestPermissionToPostNotificationIfMissing() {
-        val result = requestPermission(Permission.POST_NOTIFICATIONS)
-        Logger.debug("Permission request returned with: $result")
+        when (val result = requestPermission(Permission.POST_NOTIFICATIONS)) {
+            is PermissionResult.Granted -> TODO()
+            is PermissionResult.Denied -> TODO()
+            is PermissionResult.Unknown -> TODO()
+        }
     }
 
     private suspend fun submit() {

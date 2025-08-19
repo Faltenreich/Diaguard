@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.permission
 
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,12 +23,15 @@ class AndroidPermissionManager : PermissionManager {
         this.activityResultLauncher = activity.registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions(),
         ) { permissions ->
-            permissions.forEach { (code, isGranted) ->
-                val permission = Permission.fromCode(code)
-                if (permission != null) {
-                    callback?.invoke(PermissionResult(permission, isGranted))
+            val result = permissions.mapNotNull { (code, isGranted) ->
+                Permission.fromCode(code)?.let { permission ->
+                    if (isGranted) PermissionResult.Granted(permission)
+                    else PermissionResult.Denied(permission, shouldShowRationale = false)
                 }
-                // TODO: Error handling
+            }.firstOrNull()
+            when (result) {
+                null -> callback?.invoke(PermissionResult.Unknown)
+                else -> callback?.invoke(result)
             }
         }
     }
@@ -36,11 +40,13 @@ class AndroidPermissionManager : PermissionManager {
         return mutex.withLock {
             val code = permission.code
             if (code == null) {
-                PermissionResult(permission, isGranted = true)
+                PermissionResult.Granted(permission)
             } else if (hasPermission(code)) {
-                PermissionResult(permission, isGranted = true)
+                PermissionResult.Granted(permission)
+            } else if (shouldShowRequestPermissionRationale(code)) {
+                PermissionResult.Denied(permission, shouldShowRationale = true)
             } else {
-                suspendCoroutine { continuation ->
+                suspendCoroutine<PermissionResult> { continuation ->
                     callback = { result ->
                         callback = null
                         continuation.resumeWith(Result.success(result))
@@ -54,5 +60,13 @@ class AndroidPermissionManager : PermissionManager {
     private fun hasPermission(code: String): Boolean {
         val result = ContextCompat.checkSelfPermission(activity, code)
         return result == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun shouldShowRequestPermissionRationale(code: String): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity.shouldShowRequestPermissionRationale(code)
+        } else {
+            TODO("VERSION.SDK_INT < M")
+        }
     }
 }

@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlin.coroutines.suspendCoroutine
 
 class AndroidPermissionManager : PermissionManager {
@@ -12,6 +14,7 @@ class AndroidPermissionManager : PermissionManager {
     private lateinit var activity: ComponentActivity
     private lateinit var activityResultLauncher: ActivityResultLauncher<Array<String>>
 
+    private val mutex: Mutex = Mutex()
     private var callback: ((PermissionResult) -> Unit)? = null
 
     fun bind(activity: ComponentActivity) {
@@ -29,19 +32,25 @@ class AndroidPermissionManager : PermissionManager {
         }
     }
 
-    override suspend fun hasPermission(permission: Permission): Boolean {
+    override suspend fun requestPermission(permission: Permission): PermissionResult {
+        return mutex.withLock {
+            if (hasPermission(permission)) {
+                PermissionResult(permission, isGranted = true)
+            } else {
+                suspendCoroutine { continuation ->
+                    callback = { result ->
+                        callback = null
+                        continuation.resumeWith(Result.success(result))
+                    }
+                    activityResultLauncher.launch(arrayOf(permission.code))
+                }
+            }
+        }
+    }
+
+    private fun hasPermission(permission: Permission): Boolean {
         // TODO: Return early if below minSdk of permission
         val result = ContextCompat.checkSelfPermission(activity, permission.code)
         return result == PackageManager.PERMISSION_GRANTED
-    }
-
-    override suspend fun requestPermission(permission: Permission): PermissionResult {
-        return suspendCoroutine { continuation ->
-            callback = { result ->
-                callback = null
-                continuation.resumeWith(Result.success(result))
-            }
-            activityResultLauncher.launch(arrayOf(permission.code))
-        }
     }
 }

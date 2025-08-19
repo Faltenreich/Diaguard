@@ -25,16 +25,19 @@ class AndroidPermissionManager : PermissionManager {
             permissions.forEach { (code, isGranted) ->
                 val permission = Permission.fromCode(code)
                 if (permission != null) {
-                    val result = PermissionResult(permission, isGranted)
-                    callback?.invoke(result)
+                    callback?.invoke(PermissionResult(permission, isGranted))
                 }
+                // TODO: Error handling
             }
         }
     }
 
     override suspend fun requestPermission(permission: Permission): PermissionResult {
         return mutex.withLock {
-            if (hasPermission(permission)) {
+            val code = permission.code
+            if (code == null) {
+                PermissionResult(permission, isGranted = true)
+            } else if (hasPermission(code)) {
                 PermissionResult(permission, isGranted = true)
             } else {
                 suspendCoroutine { continuation ->
@@ -42,15 +45,14 @@ class AndroidPermissionManager : PermissionManager {
                         callback = null
                         continuation.resumeWith(Result.success(result))
                     }
-                    activityResultLauncher.launch(arrayOf(permission.code))
+                    activityResultLauncher.launch(arrayOf(code))
                 }
             }
         }
     }
 
-    private fun hasPermission(permission: Permission): Boolean {
-        // TODO: Return early if below minSdk of permission
-        val result = ContextCompat.checkSelfPermission(activity, permission.code)
+    private fun hasPermission(code: String): Boolean {
+        val result = ContextCompat.checkSelfPermission(activity, code)
         return result == PackageManager.PERMISSION_GRANTED
     }
 }

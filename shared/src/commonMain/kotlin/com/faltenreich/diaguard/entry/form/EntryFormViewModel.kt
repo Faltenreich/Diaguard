@@ -2,13 +2,13 @@ package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.form.alarm.GetAlarmLabelUseCase
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.entry.form.measurement.ValidateEntryFormInputUseCase
+import com.faltenreich.diaguard.entry.form.reminder.GetReminderLabelUseCase
 import com.faltenreich.diaguard.entry.form.reminder.SetReminderUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagSuggestionsUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
@@ -57,7 +57,7 @@ class EntryFormViewModel(
     private val requestPermission: RequestPermissionUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
     private val openPermissionSettings: OpenPermissionSettingsUseCase = inject(),
-    private val getAlarmLabel: GetAlarmLabelUseCase = inject(),
+    private val getReminderLabel: GetReminderLabelUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
     private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
@@ -85,7 +85,7 @@ class EntryFormViewModel(
     private val reminderDelayInMinutes = MutableStateFlow<Int?>(null)
     private val reminder = combine(
         reminderDelayInMinutes,
-        reminderDelayInMinutes.map(getAlarmLabel::invoke),
+        reminderDelayInMinutes.map(getReminderLabel::invoke),
         EntryFormState::Reminder,
     )
 
@@ -137,8 +137,8 @@ class EntryFormViewModel(
             is EntryFormIntent.SetTime -> dateTime.update { it.date.atTime(intent.time) }
             is EntryFormIntent.SetNote -> note.update { intent.note }
             is EntryFormIntent.SetTagQuery -> tagQuery.update { intent.tagQuery }
-            is EntryFormIntent.SetAlarm -> reminderDelayInMinutes.update { intent.alarmDelayInMinutes }
-            is EntryFormIntent.OpenAlarmPicker -> requestPermissionToPostNotificationIfMissing()
+            is EntryFormIntent.SetReminder -> reminderDelayInMinutes.update { intent.delayInMinutes }
+            is EntryFormIntent.OpenReminderPicker -> openReminderPicker()
             is EntryFormIntent.Edit -> edit(intent.data)
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> delete(intent.needsConfirmation)
@@ -170,7 +170,7 @@ class EntryFormViewModel(
         }
     }
 
-    private suspend fun requestPermissionToPostNotificationIfMissing() {
+    private suspend fun openReminderPicker() {
         when (val result = requestPermission(Permission.POST_NOTIFICATIONS)) {
             is PermissionResult.Granted -> Unit
             is PermissionResult.Denied -> Unit
@@ -180,7 +180,7 @@ class EntryFormViewModel(
 
     private suspend fun submit() {
         reminderDelayInMinutes.value?.minutes?.let { delay ->
-            Logger.debug("Setting alarm in $delay")
+            Logger.debug("Setting reminder in $delay")
             setReminder(delay)
         }
 

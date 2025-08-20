@@ -157,7 +157,7 @@ fun EntryForm(
                     .clickable(
                         onClickLabel = stringResource(Res.string.reminder_picker_open),
                         role = Role.Button,
-                        onClick = { onIntent(EntryFormIntent.OpenAlarmPicker) },
+                        onClick = { onIntent(EntryFormIntent.OpenReminderPicker) },
                     ),
             ) {
                 Text(state.reminder.label)

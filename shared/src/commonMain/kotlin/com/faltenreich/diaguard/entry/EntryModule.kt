@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.GetEntryByIdUseCase
 import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
-import com.faltenreich.diaguard.entry.form.alarm.GetAlarmLabelUseCase
+import com.faltenreich.diaguard.entry.form.reminder.GetReminderLabelUseCase
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInputStateUseCase
@@ -36,7 +36,7 @@ fun entryModule() = module {
     factoryOf(::GetTagSuggestionsUseCase)
     factoryOf(::GetTagsOfEntry)
     factoryOf(::MapEntryListItemStateUseCase)
-    factoryOf(::GetAlarmLabelUseCase)
+    factoryOf(::GetReminderLabelUseCase)
     factoryOf(::SetReminderUseCase)
 
     factory {

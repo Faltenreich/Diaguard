@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
+import com.faltenreich.diaguard.navigation.system.OpenPermissionSettingsUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
@@ -54,6 +55,7 @@ class EntryFormViewModel(
     private val setReminder: SetReminderUseCase = inject(),
     private val requestPermission: RequestPermissionUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
+    private val openPermissionSettings: OpenPermissionSettingsUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
     private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
@@ -162,9 +164,9 @@ class EntryFormViewModel(
 
     private suspend fun requestPermissionToPostNotificationIfMissing() {
         when (val result = requestPermission(Permission.POST_NOTIFICATIONS)) {
-            is PermissionResult.Granted -> TODO()
-            is PermissionResult.Denied -> TODO()
-            is PermissionResult.Unknown -> TODO()
+            is PermissionResult.Granted -> Unit
+            is PermissionResult.Denied -> Unit
+            is PermissionResult.Unknown -> Unit
         }
     }
 

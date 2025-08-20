@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.shared.permission
 
 import android.content.pm.PackageManager
-import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -63,10 +63,6 @@ class AndroidPermissionManager : PermissionManager {
     }
 
     private fun shouldShowRequestPermissionRationale(code: String): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activity.shouldShowRequestPermissionRationale(code)
-        } else {
-            TODO("VERSION.SDK_INT < M")
-        }
+        return ActivityCompat.shouldShowRequestPermissionRationale(activity,code)
     }
 }

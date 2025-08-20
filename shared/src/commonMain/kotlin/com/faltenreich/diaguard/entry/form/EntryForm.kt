@@ -15,7 +15,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.InputChipDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -33,6 +32,7 @@ import com.faltenreich.diaguard.datetime.picker.TimePickerDialog
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
+import com.faltenreich.diaguard.entry.form.reminder.ReminderInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.shared.localization.getString
@@ -161,16 +161,7 @@ fun EntryForm(
                         onClick = { onIntent(EntryFormIntent.OpenReminderPicker) },
                     ),
             ) {
-                Text(
-                    text = state.reminder.label,
-                    modifier = Modifier.weight(1f),
-                )
-                if (state.reminder.showMissingPermissionInfo) {
-                    ResourceIcon(
-                        icon = Res.drawable.ic_note,
-                        tint = MaterialTheme.colorScheme.error,
-                    )
-                }
+                ReminderInput(state.reminder)
             }
         }
 
@@ -241,11 +232,6 @@ private fun Preview() = AppPreview {
                 timeLocalized = dateTime.time.toString(),
             ),
             note = "Note",
-            reminder = EntryFormState.Reminder(
-                delayInMinutes = 10,
-                label = "In 10 Minutes",
-                showMissingPermissionInfo = false,
-            ),
             measurements = listOf(
                 MeasurementCategoryInputState(
                     category = category(),
@@ -265,6 +251,11 @@ private fun Preview() = AppPreview {
                 query = "",
                 suggestions = emptyList(),
                 selection = listOf(tag()),
+            ),
+            reminder = EntryFormState.Reminder(
+                delayInMinutes = 10,
+                label = "In 10 Minutes",
+                showMissingPermissionInfo = false,
             ),
             deleteDialog = null,
         ),

@@ -10,7 +10,6 @@
     <string name="aggregation_style_cumulative_description">Multiple values are added up</string>
     <string name="aggregation_style_average">Average</string>
     <string name="aggregation_style_average_description">Multiple values are added up and then divided</string>
-    <string name="alarm">Alarm</string>
     <string name="app_name">Diaguard</string>
     <string name="average">Average</string>
     <string name="backup">Backup</string>
@@ -210,7 +209,10 @@
     <string name="privacy_policy_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_EN.md</string>
     <string name="pulse">Pulse</string>
     <string name="quarter">Quarter</string>
+    <string name="reminder">Reminder</string>
     <string name="reminders">Reminders</string>
+    <string name="reminder_label">Reminder in %s</string>
+    <string name="reminder_picker_open">Set reminder</string>
     <string name="restart">Restart</string>
     <string name="retry">Retry</string>
     <string name="salt">Salt</string>

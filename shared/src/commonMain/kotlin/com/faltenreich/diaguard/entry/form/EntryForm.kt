@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,10 +23,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.datetime.picker.TimePickerDialog
@@ -42,15 +42,15 @@ import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.alarm
 import diaguard.shared.generated.resources.ic_alarm
 import diaguard.shared.generated.resources.ic_clear
 import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ic_tag
 import diaguard.shared.generated.resources.ic_time
-import diaguard.shared.generated.resources.minutes_until_notification
 import diaguard.shared.generated.resources.note
+import diaguard.shared.generated.resources.reminder_picker_open
 import diaguard.shared.generated.resources.tag_remove_description
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -62,7 +62,6 @@ fun EntryForm(
     state ?: return
 
     var note by remember { mutableStateOf(state.note) }
-    var alarmDelayInMinutes by remember { mutableStateOf(state.alarmDelayInMinutes) }
     var tagQuery by remember { mutableStateOf(state.tags.query) }
 
     var showDatePicker by remember { mutableStateOf(false) }
@@ -151,32 +150,17 @@ fun EntryForm(
 
             Divider()
 
-            FormRow(icon = { ResourceIcon(Res.drawable.ic_alarm) }) {
-                TextInput(
-                    input = alarmDelayInMinutes?.toString() ?: "",
-                    onInputChange = { input ->
-                        val minutes = input.toIntOrNull()
-                        alarmDelayInMinutes = minutes
-                        onIntent(EntryFormIntent.SetAlarm(minutes))
-                    },
-                    placeholder = { Text(getString(Res.string.alarm)) },
-                    suffix = {
-                        if (state.alarmDelayInMinutes != null) {
-                            Text(getString(Res.string.minutes_until_notification))
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .onFocusEvent { event ->
-                            if (event.isFocused) {
-                                onIntent(EntryFormIntent.RequestPermissionToPostNotification)
-                            }
-                        },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next,
+            FormRow(
+                icon = { ResourceIcon(Res.drawable.ic_alarm) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        onClickLabel = stringResource(Res.string.reminder_picker_open),
+                        role = Role.Button,
+                        onClick = { onIntent(EntryFormIntent.OpenAlarmPicker) },
                     ),
-                )
+            ) {
+                Text(state.reminder.label)
             }
         }
 
@@ -247,7 +231,10 @@ private fun Preview() = AppPreview {
                 timeLocalized = dateTime.time.toString(),
             ),
             note = "Note",
-            alarmDelayInMinutes = 10,
+            reminder = EntryFormState.Reminder(
+                delayInMinutes = 10,
+                label = "In 10 Minutes",
+            ),
             measurements = listOf(
                 MeasurementCategoryInputState(
                     category = category(),

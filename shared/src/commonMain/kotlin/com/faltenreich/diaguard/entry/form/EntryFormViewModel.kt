@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.form.alarm.GetAlarmLabelUseCase
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInputStateUseCase
@@ -56,6 +57,7 @@ class EntryFormViewModel(
     private val requestPermission: RequestPermissionUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
     private val openPermissionSettings: OpenPermissionSettingsUseCase = inject(),
+    private val getAlarmLabel: GetAlarmLabelUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
     private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
@@ -63,21 +65,32 @@ class EntryFormViewModel(
 
     private val dateTime = MutableStateFlow(getDateTimeForEntry(editing, dateTimeIsoString))
 
-    private val note = MutableStateFlow(editing?.note ?: "")
-    private val alarmDelayInMinutes = MutableStateFlow<Int?>(null)
-
-    private val measurements = MutableStateFlow((emptyList<MeasurementCategoryInputState>()))
-    private val foodEaten = MutableStateFlow(emptyList<FoodEatenInputState>())
-
-    private val tags = getTags()
     private val tagSelection = MutableStateFlow(emptySet<Tag>())
     private val tagQuery = MutableStateFlow("")
     private val tagSuggestions = combine(
-        tags,
+        getTags(),
         tagSelection,
         tagQuery,
         getTagSuggestions::invoke,
     )
+    private val tags = combine(
+        tagQuery,
+        tagSuggestions,
+        tagSelection,
+        EntryFormState::Tags,
+    )
+
+    private val note = MutableStateFlow(editing?.note ?: "")
+
+    private val reminderDelayInMinutes = MutableStateFlow<Int?>(null)
+    private val reminder = combine(
+        reminderDelayInMinutes,
+        reminderDelayInMinutes.map(getAlarmLabel::invoke),
+        EntryFormState::Reminder,
+    )
+
+    private val measurements = MutableStateFlow((emptyList<MeasurementCategoryInputState>()))
+    private val foodEaten = MutableStateFlow(emptyList<FoodEatenInputState>())
 
     private val deleteDialog = MutableStateFlow<EntryFormState.DeleteDialog?>(null)
 
@@ -91,15 +104,10 @@ class EntryFormViewModel(
             )
         },
         note,
-        alarmDelayInMinutes,
         measurements,
         foodEaten,
-        combine(
-            tagQuery,
-            tagSuggestions,
-            tagSelection,
-            EntryFormState::Tags,
-        ),
+        tags,
+        reminder,
         deleteDialog,
         ::EntryFormState,
     )
@@ -129,8 +137,8 @@ class EntryFormViewModel(
             is EntryFormIntent.SetTime -> dateTime.update { it.date.atTime(intent.time) }
             is EntryFormIntent.SetNote -> note.update { intent.note }
             is EntryFormIntent.SetTagQuery -> tagQuery.update { intent.tagQuery }
-            is EntryFormIntent.SetAlarm -> alarmDelayInMinutes.update { intent.alarmDelayInMinutes }
-            is EntryFormIntent.RequestPermissionToPostNotification -> requestPermissionToPostNotificationIfMissing()
+            is EntryFormIntent.SetAlarm -> reminderDelayInMinutes.update { intent.alarmDelayInMinutes }
+            is EntryFormIntent.OpenAlarmPicker -> requestPermissionToPostNotificationIfMissing()
             is EntryFormIntent.Edit -> edit(intent.data)
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> delete(intent.needsConfirmation)
@@ -171,7 +179,7 @@ class EntryFormViewModel(
     }
 
     private suspend fun submit() {
-        alarmDelayInMinutes.value?.minutes?.let { delay ->
+        reminderDelayInMinutes.value?.minutes?.let { delay ->
             Logger.debug("Setting alarm in $delay")
             setReminder(delay)
         }

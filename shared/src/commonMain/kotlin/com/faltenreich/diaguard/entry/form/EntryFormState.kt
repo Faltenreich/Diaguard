@@ -9,10 +9,10 @@ import com.faltenreich.diaguard.tag.Tag
 data class EntryFormState(
     val dateTime: DateTime,
     val note: String,
-    val alarmDelayInMinutes: Int?,
     val measurements: List<MeasurementCategoryInputState>,
     val foodEaten: List<FoodEatenInputState>,
     val tags: Tags,
+    val reminder: Reminder,
     val deleteDialog: DeleteDialog?,
 ) {
 
@@ -23,6 +23,11 @@ data class EntryFormState(
         val dateLocalized: String,
         val time: Time,
         val timeLocalized: String,
+    )
+
+    data class Reminder(
+        val delayInMinutes: Int?,
+        val label: String,
     )
 
     data class Tags(

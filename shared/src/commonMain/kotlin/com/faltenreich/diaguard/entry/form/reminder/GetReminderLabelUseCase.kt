@@ -11,7 +11,9 @@ class GetReminderLabelUseCase(
 
     operator fun invoke(reminderDelayInMinutes: Int?): String {
         return reminderDelayInMinutes?.let {
-            localization.getString(Res.string.reminder_label, reminderDelayInMinutes)
+            // TODO: Differentiate between minutes, hours, days
+            val delay = "$reminderDelayInMinutes minutes"
+            localization.getString(Res.string.reminder_label, delay)
         } ?: localization.getString(Res.string.reminder)
     }
 }

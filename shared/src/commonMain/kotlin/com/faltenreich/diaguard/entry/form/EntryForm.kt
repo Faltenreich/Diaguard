@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.InputChipDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -160,7 +161,16 @@ fun EntryForm(
                         onClick = { onIntent(EntryFormIntent.OpenReminderPicker) },
                     ),
             ) {
-                Text(state.reminder.label)
+                Text(
+                    text = state.reminder.label,
+                    modifier = Modifier.weight(1f),
+                )
+                if (state.reminder.showMissingPermissionInfo) {
+                    ResourceIcon(
+                        icon = Res.drawable.ic_note,
+                        tint = MaterialTheme.colorScheme.error,
+                    )
+                }
             }
         }
 
@@ -234,6 +244,7 @@ private fun Preview() = AppPreview {
             reminder = EntryFormState.Reminder(
                 delayInMinutes = 10,
                 label = "In 10 Minutes",
+                showMissingPermissionInfo = false,
             ),
             measurements = listOf(
                 MeasurementCategoryInputState(

@@ -83,9 +83,11 @@ class EntryFormViewModel(
     private val note = MutableStateFlow(editing?.note ?: "")
 
     private val reminderDelayInMinutes = MutableStateFlow<Int?>(null)
+    private val reminderShowMissingPermissionInfo = MutableStateFlow(false)
     private val reminder = combine(
         reminderDelayInMinutes,
         reminderDelayInMinutes.map(getReminderLabel::invoke),
+        reminderShowMissingPermissionInfo,
         EntryFormState::Reminder,
     )
 
@@ -172,9 +174,9 @@ class EntryFormViewModel(
 
     private suspend fun openReminderPicker() {
         when (val result = requestPermission(Permission.POST_NOTIFICATIONS)) {
-            is PermissionResult.Granted -> Unit
-            is PermissionResult.Denied -> Unit
-            is PermissionResult.Unknown -> Unit
+            is PermissionResult.Granted -> reminderDelayInMinutes.update { 1 } // TODO: Open picker
+            is PermissionResult.Denied -> reminderShowMissingPermissionInfo.update { true }
+            is PermissionResult.Unknown -> reminderShowMissingPermissionInfo.update { true }
         }
     }
 

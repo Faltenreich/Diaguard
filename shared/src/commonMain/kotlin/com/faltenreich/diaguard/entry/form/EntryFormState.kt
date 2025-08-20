@@ -28,6 +28,7 @@ data class EntryFormState(
     data class Reminder(
         val delayInMinutes: Int?,
         val label: String,
+        val showMissingPermissionInfo: Boolean,
     )
 
     data class Tags(

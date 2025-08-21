@@ -24,6 +24,7 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.shared.permission.Permission
+import com.faltenreich.diaguard.shared.permission.PermissionResult
 import com.faltenreich.diaguard.shared.permission.RequestPermissionUseCase
 import com.faltenreich.diaguard.shared.permission.ShouldShowRequestPermissionRationaleUseCase
 import com.faltenreich.diaguard.shared.validation.ValidationResult
@@ -179,27 +180,25 @@ class EntryFormViewModel(
 
     private suspend fun openReminderPicker() {
         reminderPicker.update {
-            when (hasPermission(Permission.POST_NOTIFICATIONS)) {
-                true -> EntryFormState.Reminder.Picker.PermissionGranted(
-                    delayInMinutes = reminderDelayInMinutes.value,
-                )
-                false -> EntryFormState.Reminder.Picker.PermissionDenied
-            }
+            EntryFormState.Reminder.Picker(
+                delayInMinutes = reminderDelayInMinutes.value,
+                isPermissionGranted = hasPermission(Permission.POST_NOTIFICATIONS),
+            )
         }
     }
 
     private suspend fun requestNotificationPermission() {
         if (shouldShowRequestPermissionRationale(Permission.POST_NOTIFICATIONS)) {
-            requestPermission(Permission.POST_NOTIFICATIONS)
-
-            if (reminderPicker.value != null) {
-                reminderPicker.update {
-                    EntryFormState.Reminder.Picker.PermissionGranted(
+            when (requestPermission(Permission.POST_NOTIFICATIONS)) {
+                is PermissionResult.Granted -> reminderPicker.update {
+                    EntryFormState.Reminder.Picker(
                         delayInMinutes = reminderDelayInMinutes.value,
+                        isPermissionGranted = true,
                     )
                 }
+                is PermissionResult.Denied -> reminderPicker.update { null }
+                is PermissionResult.Unknown -> reminderPicker.update { null }
             }
-            openReminderPicker()
         } else {
             openPermissionSettings()
             // TODO: Update UI, e.g. via LaunchedEffect

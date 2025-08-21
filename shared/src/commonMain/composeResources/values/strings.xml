@@ -199,6 +199,7 @@
     <string name="page_number">Page number</string>
     <string name="percent">Percent</string>
     <string name="percent_abbreviation">%</string>
+    <string name="permission_grant">Grant permission</string>
     <string name="placeholder">-</string>
     <string name="pdf">PDF</string>
     <string name="pounds">Pounds</string>
@@ -212,6 +213,7 @@
     <string name="reminder">Reminder</string>
     <string name="reminders">Reminders</string>
     <string name="reminder_label">Reminder in %s</string>
+    <string name="reminder_permission_rationale">Reminders need the permission to post local notifications</string>
     <string name="reminder_picker_open">Set reminder</string>
     <string name="restart">Restart</string>
     <string name="retry">Retry</string>

@@ -32,6 +32,7 @@ import com.faltenreich.diaguard.datetime.picker.TimePickerDialog
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
+import com.faltenreich.diaguard.entry.form.reminder.ReminderPermissionDialog
 import com.faltenreich.diaguard.entry.form.reminder.ReminderPickerDialog
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
@@ -211,15 +212,21 @@ fun EntryForm(
     }
 
     state.reminder.picker?.let { picker ->
-        ReminderPickerDialog(
-            state = picker,
-            onDismissRequest = { onIntent(EntryFormIntent.CloseReminderPicker) },
-            onConfirmRequest = { delayInMinutes ->
-                onIntent(EntryFormIntent.SetReminder(delayInMinutes))
-                onIntent(EntryFormIntent.CloseReminderPicker)
-            },
-            onPermissionRequest = { onIntent(EntryFormIntent.RequestNotificationPermission) },
-        )
+        if (picker.isPermissionGranted) {
+            ReminderPickerDialog(
+                state = picker,
+                onDismissRequest = { onIntent(EntryFormIntent.CloseReminderPicker) },
+                onConfirmRequest = { delayInMinutes ->
+                    onIntent(EntryFormIntent.SetReminder(delayInMinutes))
+                    onIntent(EntryFormIntent.CloseReminderPicker)
+                },
+            )
+        } else {
+            ReminderPermissionDialog(
+                onDismissRequest = { onIntent(EntryFormIntent.CloseReminderPicker) },
+                onPermissionRequest = { onIntent(EntryFormIntent.RequestNotificationPermission) },
+            )
+        }
     }
 
     if (state.deleteDialog != null) {

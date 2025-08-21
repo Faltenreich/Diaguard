@@ -11,10 +11,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,7 +32,6 @@ fun ReminderPickerDialog(
     onPermissionRequest: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var delayInMinutes by remember { mutableStateOf(state.delayInMinutes) }
 
     BasicAlertDialog(
         onDismissRequest = onDismissRequest,
@@ -51,6 +46,16 @@ fun ReminderPickerDialog(
             ) {
                 Text(getString(Res.string.reminder))
 
+                when (state) {
+                    is EntryFormState.Reminder.Picker.PermissionGranted -> ReminderPicker(
+                        state = state,
+                        onConfirmRequest = onConfirmRequest,
+                    )
+                    is EntryFormState.Reminder.Picker.PermissionDenied -> ReminderPermissionInfo(
+                        onPermissionRequest = onPermissionRequest,
+                    )
+                }
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,
@@ -59,7 +64,7 @@ fun ReminderPickerDialog(
                     TextButton(onClick = onDismissRequest) {
                         Text(getString(Res.string.cancel))
                     }
-                    TextButton(onClick = { onConfirmRequest(delayInMinutes) }) {
+                    TextButton(onClick = { onConfirmRequest(null) }) {
                         Text(getString(Res.string.ok))
                     }
                 }
@@ -72,9 +77,8 @@ fun ReminderPickerDialog(
 @Composable
 private fun Preview() = AppPreview {
     ReminderPickerDialog(
-        state = EntryFormState.Reminder.Picker(
+        state = EntryFormState.Reminder.Picker.PermissionGranted(
             delayInMinutes = 10,
-            hasNotificationPermission = true,
         ),
         onDismissRequest = {},
         onConfirmRequest = {},

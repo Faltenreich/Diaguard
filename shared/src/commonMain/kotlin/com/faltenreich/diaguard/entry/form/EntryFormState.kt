@@ -31,10 +31,14 @@ data class EntryFormState(
         val picker: Picker?,
     ) {
 
-        data class Picker(
-            val delayInMinutes: Int?,
-            val hasNotificationPermission: Boolean,
-        )
+        sealed interface Picker {
+
+            data class PermissionGranted(
+                val delayInMinutes: Int?,
+            ) : Picker
+
+            data object PermissionDenied : Picker
+        }
     }
 
     data class Tags(

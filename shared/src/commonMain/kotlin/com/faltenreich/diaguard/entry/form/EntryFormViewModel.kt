@@ -24,7 +24,6 @@ import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.shared.permission.Permission
-import com.faltenreich.diaguard.shared.permission.PermissionResult
 import com.faltenreich.diaguard.shared.permission.RequestPermissionUseCase
 import com.faltenreich.diaguard.shared.permission.ShouldShowRequestPermissionRationaleUseCase
 import com.faltenreich.diaguard.shared.validation.ValidationResult
@@ -186,22 +185,25 @@ class EntryFormViewModel(
                 )
                 false -> EntryFormState.Reminder.Picker.PermissionDenied
             }
-
         }
     }
 
     private suspend fun requestNotificationPermission() {
-        // FIXME: Settings should open if permission has been denied previously and therefore request does nothing
         if (shouldShowRequestPermissionRationale(Permission.POST_NOTIFICATIONS)) {
-            openPermissionSettings()
-        } else {
-            when (val result = requestPermission(Permission.POST_NOTIFICATIONS)) {
-                is PermissionResult.Granted -> Unit
-                is PermissionResult.Denied -> Unit
-                is PermissionResult.Unknown -> Unit
+            requestPermission(Permission.POST_NOTIFICATIONS)
+
+            if (reminderPicker.value != null) {
+                reminderPicker.update {
+                    EntryFormState.Reminder.Picker.PermissionGranted(
+                        delayInMinutes = reminderDelayInMinutes.value,
+                    )
+                }
             }
+            openReminderPicker()
+        } else {
+            openPermissionSettings()
+            // TODO: Update UI, e.g. via LaunchedEffect
         }
-        // TODO: Update UI
     }
 
     private suspend fun submit() {

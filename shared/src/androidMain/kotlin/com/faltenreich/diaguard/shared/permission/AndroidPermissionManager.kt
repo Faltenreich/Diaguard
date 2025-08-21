@@ -25,8 +25,8 @@ class AndroidPermissionManager : PermissionManager {
         ) { permissions ->
             val result = permissions.mapNotNull { (code, isGranted) ->
                 Permission.fromCode(code)?.let { permission ->
-                    if (isGranted) PermissionResult.Granted(permission)
-                    else PermissionResult.Denied(permission, shouldShowRationale = false)
+                    if (isGranted) PermissionResult.Granted
+                    else PermissionResult.Denied
                 }
             }.firstOrNull()
             when (result) {
@@ -36,33 +36,27 @@ class AndroidPermissionManager : PermissionManager {
         }
     }
 
-    override suspend fun requestPermission(permission: Permission): PermissionResult {
-        return mutex.withLock {
-            val code = permission.code
-            if (code == null) {
-                PermissionResult.Granted(permission)
-            } else if (hasPermission(code)) {
-                PermissionResult.Granted(permission)
-            } else if (shouldShowRequestPermissionRationale(code)) {
-                PermissionResult.Denied(permission, shouldShowRationale = true)
-            } else {
-                suspendCoroutine<PermissionResult> { continuation ->
-                    callback = { result ->
-                        callback = null
-                        continuation.resumeWith(Result.success(result))
-                    }
-                    activityResultLauncher.launch(arrayOf(code))
-                }
-            }
-        }
-    }
-
-    private fun hasPermission(code: String): Boolean {
+    override suspend fun hasPermission(permission: Permission): Boolean {
+        val code = permission.code ?: return true
         val result = ContextCompat.checkSelfPermission(activity, code)
         return result == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun shouldShowRequestPermissionRationale(code: String): Boolean {
-        return ActivityCompat.shouldShowRequestPermissionRationale(activity,code)
+    override suspend fun shouldShowRequestPermissionRationale(permission: Permission): Boolean {
+        val code = permission.code ?: return false
+        return ActivityCompat.shouldShowRequestPermissionRationale(activity, code)
+    }
+
+    override suspend fun requestPermission(permission: Permission): PermissionResult {
+        val code = permission.code ?: return PermissionResult.Granted
+        return mutex.withLock {
+            suspendCoroutine { continuation ->
+                callback = { result ->
+                    callback = null
+                    continuation.resumeWith(Result.success(result))
+                }
+                activityResultLauncher.launch(arrayOf(code))
+            }
+        }
     }
 }

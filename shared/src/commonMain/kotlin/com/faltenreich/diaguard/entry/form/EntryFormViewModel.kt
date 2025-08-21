@@ -22,9 +22,11 @@ import com.faltenreich.diaguard.navigation.system.OpenPermissionSettingsUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.shared.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.shared.permission.Permission
 import com.faltenreich.diaguard.shared.permission.PermissionResult
 import com.faltenreich.diaguard.shared.permission.RequestPermissionUseCase
+import com.faltenreich.diaguard.shared.permission.ShouldShowRequestPermissionRationaleUseCase
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
@@ -54,10 +56,12 @@ class EntryFormViewModel(
     private val storeEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val setReminder: SetReminderUseCase = inject(),
-    private val requestPermission: RequestPermissionUseCase = inject(),
-    private val formatDateTime: FormatDateTimeUseCase = inject(),
-    private val openPermissionSettings: OpenPermissionSettingsUseCase = inject(),
     private val getReminderLabel: GetReminderLabelUseCase = inject(),
+    private val hasPermission: HasPermissionUseCase = inject(),
+    private val shouldShowRequestPermissionRationale: ShouldShowRequestPermissionRationaleUseCase = inject(),
+    private val requestPermission: RequestPermissionUseCase = inject(),
+    private val openPermissionSettings: OpenPermissionSettingsUseCase = inject(),
+    private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
     private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
@@ -174,21 +178,30 @@ class EntryFormViewModel(
         }
     }
 
-    private fun openReminderPicker() {
+    private suspend fun openReminderPicker() {
         reminderPicker.update {
-            EntryFormState.Reminder.Picker(
-                delayInMinutes = reminderDelayInMinutes.value,
-                hasNotificationPermission = false,
-            )
+            when (hasPermission(Permission.POST_NOTIFICATIONS)) {
+                true -> EntryFormState.Reminder.Picker.PermissionGranted(
+                    delayInMinutes = reminderDelayInMinutes.value,
+                )
+                false -> EntryFormState.Reminder.Picker.PermissionDenied
+            }
+
         }
     }
 
     private suspend fun requestNotificationPermission() {
-        when (val result = requestPermission(Permission.POST_NOTIFICATIONS)) {
-            is PermissionResult.Granted -> Unit
-            is PermissionResult.Denied -> Unit
-            is PermissionResult.Unknown -> Unit
+        // FIXME: Settings should open if permission has been denied previously and therefore request does nothing
+        if (shouldShowRequestPermissionRationale(Permission.POST_NOTIFICATIONS)) {
+            openPermissionSettings()
+        } else {
+            when (val result = requestPermission(Permission.POST_NOTIFICATIONS)) {
+                is PermissionResult.Granted -> Unit
+                is PermissionResult.Denied -> Unit
+                is PermissionResult.Unknown -> Unit
+            }
         }
+        // TODO: Update UI
     }
 
     private suspend fun submit() {

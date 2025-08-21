@@ -9,5 +9,7 @@ actual fun permissionModule() = module {
     singleOf(::AndroidPermissionManager) bind PermissionManager::class
 
     // TODO: Move into common
+    factoryOf(::HasPermissionUseCase)
+    factoryOf(::ShouldShowRequestPermissionRationaleUseCase)
     factoryOf(::RequestPermissionUseCase)
 }

@@ -21,7 +21,7 @@ sealed interface EntryFormIntent {
 
     data object CloseReminderPicker : EntryFormIntent
 
-    data class SetReminder(val delayInMinutes: Int?) : EntryFormIntent
+    data class SetReminder(val time: Time) : EntryFormIntent
 
     data object RequestNotificationPermission : EntryFormIntent
 

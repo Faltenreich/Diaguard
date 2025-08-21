@@ -214,10 +214,10 @@ fun EntryForm(
     state.reminder.picker?.let { picker ->
         if (picker.isPermissionGranted) {
             ReminderPickerDialog(
-                state = picker,
+                time = picker.time,
                 onDismissRequest = { onIntent(EntryFormIntent.CloseReminderPicker) },
-                onConfirmRequest = { delayInMinutes ->
-                    onIntent(EntryFormIntent.SetReminder(delayInMinutes))
+                onConfirmRequest = { time ->
+                    onIntent(EntryFormIntent.SetReminder(time))
                     onIntent(EntryFormIntent.CloseReminderPicker)
                 },
             )
@@ -276,8 +276,8 @@ private fun Preview() = AppPreview {
                 selection = listOf(tag()),
             ),
             reminder = EntryFormState.Reminder(
-                delayInMinutes = 10,
-                label = "In 10 Minutes",
+                time = now().time,
+                label = "Time",
                 picker = null,
             ),
             deleteDialog = null,

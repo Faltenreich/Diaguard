@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.ok
+import diaguard.shared.generated.resources.time_select
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -20,6 +21,7 @@ fun TimePickerDialog(
     onDismissRequest: () -> Unit,
     onConfirmRequest: (Time) -> Unit,
     modifier: Modifier = Modifier,
+    title: String = getString(Res.string.time_select),
 ) {
     val state = rememberTimePickerState(
         initialHour = time.hourOfDay,
@@ -41,6 +43,7 @@ fun TimePickerDialog(
             }
         },
         modifier = modifier,
+        title = title,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
                 Text(getString(Res.string.cancel))

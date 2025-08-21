@@ -15,6 +15,7 @@ expect fun TimePickerPlatformDialog(
     onDismissRequest: () -> Unit,
     confirmButton: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    title: String,
     dismissButton: @Composable (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
 )
@@ -25,7 +26,8 @@ private fun Preview() = AppPreview {
     TimePickerPlatformDialog(
         onDismissRequest = {},
         confirmButton = {},
+        title = "Title",
     ) {
-        Text("TimePickerPlatformDialog")
+        Text("Content")
     }
 }

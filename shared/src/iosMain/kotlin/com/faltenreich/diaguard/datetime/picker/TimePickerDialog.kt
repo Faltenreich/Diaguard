@@ -9,6 +9,7 @@ actual fun TimePickerPlatformDialog(
     onDismissRequest: () -> Unit,
     confirmButton: @Composable () -> Unit,
     modifier: Modifier,
+    title: String,
     dismissButton: @Composable (() -> Unit)?,
     content: @Composable ColumnScope.() -> Unit,
 ) {

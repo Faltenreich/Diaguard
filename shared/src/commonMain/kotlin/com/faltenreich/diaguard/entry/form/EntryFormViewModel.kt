@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
+import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
@@ -36,7 +38,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class EntryFormViewModel(
     entryId: Long? = null,
@@ -62,6 +64,7 @@ class EntryFormViewModel(
     private val requestPermission: RequestPermissionUseCase = inject(),
     private val openPermissionSettings: OpenPermissionSettingsUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
+    private val dateTimeFactory: DateTimeFactory = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
     private val editing: Entry.Local? = entryId?.let(getEntryById::invoke)
@@ -86,11 +89,11 @@ class EntryFormViewModel(
 
     private val note = MutableStateFlow(editing?.note ?: "")
 
-    private val reminderDelayInMinutes = MutableStateFlow<Int?>(null)
+    private val reminderTime = MutableStateFlow<Time?>(null)
     private val reminderPicker = MutableStateFlow<EntryFormState.Reminder.Picker?>(null)
     private val reminder = combine(
-        reminderDelayInMinutes,
-        reminderDelayInMinutes.map(getReminderLabel::invoke),
+        reminderTime,
+        reminderTime.map(getReminderLabel::invoke),
         reminderPicker,
         EntryFormState::Reminder,
     )
@@ -143,7 +146,7 @@ class EntryFormViewModel(
             is EntryFormIntent.SetTime -> dateTime.update { it.date.atTime(intent.time) }
             is EntryFormIntent.SetNote -> note.update { intent.note }
             is EntryFormIntent.SetTagQuery -> tagQuery.update { intent.tagQuery }
-            is EntryFormIntent.SetReminder -> reminderDelayInMinutes.update { intent.delayInMinutes }
+            is EntryFormIntent.SetReminder -> reminderTime.update { intent.time }
             is EntryFormIntent.OpenReminderPicker -> openReminderPicker()
             is EntryFormIntent.CloseReminderPicker -> reminderPicker.update { null }
             is EntryFormIntent.RequestNotificationPermission -> requestNotificationPermission()
@@ -181,7 +184,8 @@ class EntryFormViewModel(
     private suspend fun openReminderPicker() {
         reminderPicker.update {
             EntryFormState.Reminder.Picker(
-                delayInMinutes = reminderDelayInMinutes.value,
+                // TODO: Initialize with what time?
+                time = reminderTime.value ?: dateTimeFactory.now().time,
                 isPermissionGranted = hasPermission(Permission.POST_NOTIFICATIONS),
             )
         }
@@ -192,7 +196,8 @@ class EntryFormViewModel(
             when (requestPermission(Permission.POST_NOTIFICATIONS)) {
                 is PermissionResult.Granted -> reminderPicker.update {
                     EntryFormState.Reminder.Picker(
-                        delayInMinutes = reminderDelayInMinutes.value,
+                        // TODO: Initialize with what time?
+                        time = reminderTime.value ?: dateTimeFactory.now().time,
                         isPermissionGranted = true,
                     )
                 }
@@ -206,8 +211,10 @@ class EntryFormViewModel(
     }
 
     private suspend fun submit() {
-        reminderDelayInMinutes.value?.minutes?.let { delay ->
-            Logger.debug("Setting reminder in $delay")
+        reminderTime.value?.let { time ->
+            Logger.debug("Setting reminder at $time")
+            // TODO: Convert time into duration
+            val delay = 10.seconds
             setReminder(delay)
         }
 

@@ -17,9 +17,13 @@ sealed interface EntryFormIntent {
 
     data class SetTagQuery(val tagQuery: String) : EntryFormIntent
 
+    data object OpenReminderPicker : EntryFormIntent
+
+    data object CloseReminderPicker : EntryFormIntent
+
     data class SetReminder(val delayInMinutes: Int?) : EntryFormIntent
 
-    data object OpenReminderPicker : EntryFormIntent
+    data object RequestNotificationPermission : EntryFormIntent
 
     data class Edit(val data: MeasurementPropertyInputState) : EntryFormIntent
 

@@ -28,8 +28,14 @@ data class EntryFormState(
     data class Reminder(
         val delayInMinutes: Int?,
         val label: String,
-        val showMissingPermissionInfo: Boolean,
-    )
+        val picker: Picker?,
+    ) {
+
+        data class Picker(
+            val delayInMinutes: Int?,
+            val hasNotificationPermission: Boolean,
+        )
+    }
 
     data class Tags(
         val query: String,

@@ -83,11 +83,11 @@ class EntryFormViewModel(
     private val note = MutableStateFlow(editing?.note ?: "")
 
     private val reminderDelayInMinutes = MutableStateFlow<Int?>(null)
-    private val reminderShowMissingPermissionInfo = MutableStateFlow(false)
+    private val reminderPicker = MutableStateFlow<EntryFormState.Reminder.Picker?>(null)
     private val reminder = combine(
         reminderDelayInMinutes,
         reminderDelayInMinutes.map(getReminderLabel::invoke),
-        reminderShowMissingPermissionInfo,
+        reminderPicker,
         EntryFormState::Reminder,
     )
 
@@ -141,6 +141,8 @@ class EntryFormViewModel(
             is EntryFormIntent.SetTagQuery -> tagQuery.update { intent.tagQuery }
             is EntryFormIntent.SetReminder -> reminderDelayInMinutes.update { intent.delayInMinutes }
             is EntryFormIntent.OpenReminderPicker -> openReminderPicker()
+            is EntryFormIntent.CloseReminderPicker -> reminderPicker.update { null }
+            is EntryFormIntent.RequestNotificationPermission -> requestNotificationPermission()
             is EntryFormIntent.Edit -> edit(intent.data)
             is EntryFormIntent.Submit -> submit()
             is EntryFormIntent.Delete -> delete(intent.needsConfirmation)
@@ -172,11 +174,20 @@ class EntryFormViewModel(
         }
     }
 
-    private suspend fun openReminderPicker() {
+    private fun openReminderPicker() {
+        reminderPicker.update {
+            EntryFormState.Reminder.Picker(
+                delayInMinutes = reminderDelayInMinutes.value,
+                hasNotificationPermission = false,
+            )
+        }
+    }
+
+    private suspend fun requestNotificationPermission() {
         when (val result = requestPermission(Permission.POST_NOTIFICATIONS)) {
-            is PermissionResult.Granted -> reminderDelayInMinutes.update { 1 } // TODO: Open picker
-            is PermissionResult.Denied -> reminderShowMissingPermissionInfo.update { true }
-            is PermissionResult.Unknown -> reminderShowMissingPermissionInfo.update { true }
+            is PermissionResult.Granted -> Unit
+            is PermissionResult.Denied -> Unit
+            is PermissionResult.Unknown -> Unit
         }
     }
 

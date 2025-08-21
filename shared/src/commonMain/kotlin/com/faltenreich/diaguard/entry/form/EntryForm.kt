@@ -32,7 +32,7 @@ import com.faltenreich.diaguard.datetime.picker.TimePickerDialog
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
-import com.faltenreich.diaguard.entry.form.reminder.ReminderInput
+import com.faltenreich.diaguard.entry.form.reminder.ReminderPickerDialog
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.shared.localization.getString
@@ -161,7 +161,11 @@ fun EntryForm(
                         onClick = { onIntent(EntryFormIntent.OpenReminderPicker) },
                     ),
             ) {
-                ReminderInput(state.reminder)
+
+                Text(
+                    text = state.reminder.label,
+                    modifier = Modifier.weight(1f),
+                )
             }
         }
 
@@ -203,6 +207,18 @@ fun EntryForm(
                 showTimePicker = false
                 onIntent(EntryFormIntent.SetTime(time))
             },
+        )
+    }
+
+    state.reminder.picker?.let { picker ->
+        ReminderPickerDialog(
+            state = picker,
+            onDismissRequest = { onIntent(EntryFormIntent.CloseReminderPicker) },
+            onConfirmRequest = { delayInMinutes ->
+                onIntent(EntryFormIntent.SetReminder(delayInMinutes))
+                onIntent(EntryFormIntent.CloseReminderPicker)
+            },
+            onPermissionRequest = { onIntent(EntryFormIntent.RequestNotificationPermission) },
         )
     }
 
@@ -255,7 +271,7 @@ private fun Preview() = AppPreview {
             reminder = EntryFormState.Reminder(
                 delayInMinutes = 10,
                 label = "In 10 Minutes",
-                showMissingPermissionInfo = false,
+                picker = null,
             ),
             deleteDialog = null,
         ),

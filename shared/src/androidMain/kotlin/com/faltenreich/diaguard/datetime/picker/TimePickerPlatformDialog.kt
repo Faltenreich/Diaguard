@@ -19,13 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.shared.localization.getString
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.time_select
 
 @Composable
 actual fun TimePickerPlatformDialog(
     onDismissRequest: () -> Unit,
     confirmButton: @Composable () -> Unit,
     modifier: Modifier,
-    title: String,
     dismissButton: @Composable (() -> Unit)?,
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -54,7 +56,7 @@ actual fun TimePickerPlatformDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 20.dp),
-                    text = title,
+                    text = getString(Res.string.time_select),
                     style = AppTheme.typography.labelMedium
                 )
                 content()

@@ -26,13 +26,13 @@ data class EntryFormState(
     )
 
     data class Reminder(
-        val time: Time?,
+        val delayInMinutes: Int?,
         val label: String,
         val picker: Picker?,
     ) {
 
         data class Picker(
-            val time: Time,
+            val delayInMinutes: Int?,
             val isPermissionGranted: Boolean,
         )
     }

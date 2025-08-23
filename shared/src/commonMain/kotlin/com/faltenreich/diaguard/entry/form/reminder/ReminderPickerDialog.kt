@@ -1,33 +1,89 @@
 package com.faltenreich.diaguard.entry.form.reminder
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.datetime.Time
-import com.faltenreich.diaguard.datetime.picker.TimePickerDialog
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.entry.form.EntryFormState
+import com.faltenreich.diaguard.shared.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.cancel
+import diaguard.shared.generated.resources.ok
 import diaguard.shared.generated.resources.reminder
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ReminderPickerDialog(
-    time: Time,
+    state: EntryFormState.Reminder.Picker,
     onDismissRequest: () -> Unit,
-    onConfirmRequest: (Time) -> Unit,
+    onConfirmRequest: (Int?) -> Unit,
 ) {
-    TimePickerDialog(
-        time = time,
+    var delayInMinutes by remember { mutableStateOf(state.delayInMinutes) }
+
+    BasicAlertDialog(
         onDismissRequest = onDismissRequest,
-        onConfirmRequest = onConfirmRequest,
-        title = stringResource(Res.string.reminder),
-    )
+    ) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = AlertDialogDefaults.shape,
+            colors = CardDefaults.cardColors(
+                containerColor = AlertDialogDefaults.containerColor,
+                contentColor = AlertDialogDefaults.textContentColor,
+            ),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = AlertDialogDefaults.TonalElevation,
+            ),
+        ) {
+            Column(
+                modifier = Modifier.padding(AppTheme.dimensions.padding.P_3_5),
+            ) {
+                Text(
+                    text = getString(Res.string.reminder),
+                    style = AppTheme.typography.labelLarge,
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    TextButton(onClick = onDismissRequest) {
+                        Text(stringResource(Res.string.cancel))
+                    }
+                    TextButton(onClick = { onConfirmRequest(delayInMinutes) }) {
+                        Text(stringResource(Res.string.ok))
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Preview
 @Composable
 private fun Preview() = AppPreview {
     ReminderPickerDialog(
-        time = now().time,
+        state = EntryFormState.Reminder.Picker(
+            delayInMinutes = 10,
+            isPermissionGranted = true,
+        ),
         onDismissRequest = {},
         onConfirmRequest = {},
     )

@@ -55,6 +55,7 @@ fun ReminderPickerDialog(
         ) {
             Column(
                 modifier = Modifier.padding(AppTheme.dimensions.padding.P_3_5),
+                verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
             ) {
                 Text(
                     text = getString(Res.string.reminder),

@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.statistic.distribution
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -35,7 +34,7 @@ fun StatisticDistributionChart(
 ) {
     val textMeasurer = rememberTextMeasurer()
     val fontSize = AppTheme.typography.bodyMedium.fontSize
-    val fontColor = colorScheme.onSurface
+    val fontColor = AppTheme.colors.scheme.onSurface
     val colorByTint = MeasurementValueTint.entries.associateWith { it.getColor() }
 
     Canvas(modifier = modifier.fillMaxSize()) {

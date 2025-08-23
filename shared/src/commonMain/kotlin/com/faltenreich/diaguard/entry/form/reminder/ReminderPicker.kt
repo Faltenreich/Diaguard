@@ -2,7 +2,12 @@ package com.faltenreich.diaguard.entry.form.reminder
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,11 +41,11 @@ fun ReminderPicker(
             }
         )
     }
-    val styleDigit = MaterialTheme.typography.displayMedium.toSpanStyle().copy(
+    val styleDigit = AppTheme.typography.displayMedium.toSpanStyle().copy(
         fontFeatureSettings = "tnum",
     )
     // TODO: Localize labels
-    val styleLabel = MaterialTheme.typography.titleMedium.toSpanStyle().copy(
+    val styleLabel = AppTheme.typography.titleMedium.toSpanStyle().copy(
         fontFeatureSettings = "tnum",
     )
     Column(
@@ -74,6 +79,58 @@ fun ReminderPicker(
                     append("s")
                 }
             },
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
+            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
+        ) {
+            items(9) { index ->
+                Button(
+                    text = "${index + 1}",
+                    onClick = {},
+                )
+            }
+            item {
+                Button(
+                    text = "x",
+                    onClick = {},
+                )
+            }
+            item {
+                Button(
+                    text = "0",
+                    onClick = {},
+                )
+            }
+            item {
+                Button(
+                    text = "<",
+                    onClick = {},
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun Button(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    FilledTonalButton(
+        onClick = onClick,
+        modifier = modifier.aspectRatio(1f),
+        colors = ButtonDefaults.filledTonalButtonColors(
+            containerColor = AppTheme.colors.scheme.surfaceContainerLowest,
+            contentColor = AppTheme.colors.scheme.onSurface,
+        ),
+        shape = CircleShape,
+    ) {
+        Text(
+            text = text,
+            style = AppTheme.typography.headlineMedium,
         )
     }
 }

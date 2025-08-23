@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.statistic.trend
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -32,7 +31,7 @@ fun StatisticTrendChart(
 ) = with(state) {
     val density = LocalDensity.current
     val textMeasurer = rememberTextMeasurer()
-    val fontColor = colorScheme.onSurfaceVariant
+    val fontColor = AppTheme.colors.scheme.onSurfaceVariant
     val fontSize = AppTheme.typography.bodyMedium.fontSize
     val textStyle = TextStyle(fontSize = fontSize, color = fontColor)
     val padding = density.run { AppTheme.dimensions.padding.P_2.toPx() }

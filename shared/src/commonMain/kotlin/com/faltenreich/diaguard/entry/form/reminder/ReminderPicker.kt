@@ -27,22 +27,25 @@ fun ReminderPicker(
 ) {
     var numbers by remember {
         mutableStateOf(
-            duration.toComponents { hours, minutes, seconds ->
+            duration.toComponents { hours, minutes, seconds, _ ->
                 val string = "%02d%02d%02d".format(hours, minutes, seconds)
                 string.toCharArray().map(Char::digitToInt)
             }
         )
     }
     Column(modifier = modifier) {
-        Text(numbers.toString())
         Text(
             text = buildAnnotatedString {
                 withStyle(style = SpanStyle(fontFeatureSettings = "tnum")) {
-                    append(
-                        duration.toComponents { hours, minutes, seconds ->
-                            "%02d:%02d:%02d".format(hours, minutes, seconds)
-                        }
-                    )
+                    append(numbers[0].toString())
+                    append(numbers[1].toString())
+                    append("h")
+                    append(numbers[2].toString())
+                    append(numbers[3].toString())
+                    append("m")
+                    append(numbers[4].toString())
+                    append(numbers[5].toString())
+                    append("s")
                 }
             },
         )

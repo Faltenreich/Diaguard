@@ -28,14 +28,16 @@ import diaguard.shared.generated.resources.ok
 import diaguard.shared.generated.resources.reminder
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun ReminderPickerDialog(
     state: EntryFormState.Reminder.Picker,
     onDismissRequest: () -> Unit,
-    onConfirmRequest: (Int?) -> Unit,
+    onConfirmRequest: (Duration) -> Unit,
 ) {
-    var delayInMinutes by remember { mutableStateOf(state.delayInMinutes) }
+    var duration by remember { mutableStateOf(state.duration) }
 
     BasicAlertDialog(
         onDismissRequest = onDismissRequest,
@@ -59,6 +61,11 @@ fun ReminderPickerDialog(
                     style = AppTheme.typography.labelLarge,
                 )
 
+                ReminderPicker(
+                    duration = state.duration,
+                    onChange = { duration = it },
+                )
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,
@@ -67,7 +74,7 @@ fun ReminderPickerDialog(
                     TextButton(onClick = onDismissRequest) {
                         Text(stringResource(Res.string.cancel))
                     }
-                    TextButton(onClick = { onConfirmRequest(delayInMinutes) }) {
+                    TextButton(onClick = { onConfirmRequest(duration) }) {
                         Text(stringResource(Res.string.ok))
                     }
                 }
@@ -81,7 +88,7 @@ fun ReminderPickerDialog(
 private fun Preview() = AppPreview {
     ReminderPickerDialog(
         state = EntryFormState.Reminder.Picker(
-            delayInMinutes = 10,
+            duration = 10.minutes,
             isPermissionGranted = true,
         ),
         onDismissRequest = {},

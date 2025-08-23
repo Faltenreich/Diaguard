@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputS
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.tag.Tag
+import kotlin.time.Duration
 
 sealed interface EntryFormIntent {
 
@@ -21,7 +22,7 @@ sealed interface EntryFormIntent {
 
     data object CloseReminderPicker : EntryFormIntent
 
-    data class SetReminder(val delayInMinutes: Int?) : EntryFormIntent
+    data class SetReminder(val duration: Duration) : EntryFormIntent
 
     data object RequestNotificationPermission : EntryFormIntent
 

@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration
 
 class EntryFormViewModel(
     entryId: Long? = null,
@@ -86,11 +86,11 @@ class EntryFormViewModel(
 
     private val note = MutableStateFlow(editing?.note ?: "")
 
-    private val reminderDelayInMinutes = MutableStateFlow<Int?>(null)
+    private val reminderDuration = MutableStateFlow<Duration>(Duration.ZERO)
     private val reminderPicker = MutableStateFlow<EntryFormState.Reminder.Picker?>(null)
     private val reminder = combine(
-        reminderDelayInMinutes,
-        reminderDelayInMinutes.map(getReminderLabel::invoke),
+        reminderDuration,
+        reminderDuration.map(getReminderLabel::invoke),
         reminderPicker,
         EntryFormState::Reminder,
     )
@@ -143,7 +143,7 @@ class EntryFormViewModel(
             is EntryFormIntent.SetTime -> dateTime.update { it.date.atTime(intent.time) }
             is EntryFormIntent.SetNote -> note.update { intent.note }
             is EntryFormIntent.SetTagQuery -> tagQuery.update { intent.tagQuery }
-            is EntryFormIntent.SetReminder -> reminderDelayInMinutes.update { intent.delayInMinutes }
+            is EntryFormIntent.SetReminder -> reminderDuration.update { intent.duration }
             is EntryFormIntent.OpenReminderPicker -> openReminderPicker()
             is EntryFormIntent.CloseReminderPicker -> reminderPicker.update { null }
             is EntryFormIntent.RequestNotificationPermission -> requestNotificationPermission()
@@ -181,7 +181,7 @@ class EntryFormViewModel(
     private suspend fun openReminderPicker() {
         reminderPicker.update {
             EntryFormState.Reminder.Picker(
-                delayInMinutes = reminderDelayInMinutes.value,
+                duration = reminderDuration.value,
                 isPermissionGranted = hasPermission(Permission.POST_NOTIFICATIONS),
             )
         }
@@ -192,7 +192,7 @@ class EntryFormViewModel(
             when (requestPermission(Permission.POST_NOTIFICATIONS)) {
                 is PermissionResult.Granted -> reminderPicker.update {
                     EntryFormState.Reminder.Picker(
-                        delayInMinutes = reminderDelayInMinutes.value,
+                        duration = reminderDuration.value,
                         isPermissionGranted = true,
                     )
                 }
@@ -206,9 +206,9 @@ class EntryFormViewModel(
     }
 
     private suspend fun submit() {
-        reminderDelayInMinutes.value?.minutes?.let { delay ->
-            Logger.debug("Setting reminder in $delay")
-            setReminder(delay)
+        reminderDuration.value.takeIf { it > Duration.ZERO }?.let { duration ->
+            Logger.debug("Setting reminder in $duration")
+            setReminder(duration)
         }
 
         val missingTag = tagQuery.value.takeIf(String::isNotBlank)?.let { Tag.User(it) }

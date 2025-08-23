@@ -54,6 +54,7 @@ import diaguard.shared.generated.resources.reminder_picker_open
 import diaguard.shared.generated.resources.tag_remove_description
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun EntryForm(
@@ -276,7 +277,7 @@ private fun Preview() = AppPreview {
                 selection = listOf(tag()),
             ),
             reminder = EntryFormState.Reminder(
-                delayInMinutes = 10,
+                duration = 10.seconds,
                 label = "In 10 Minutes",
                 picker = null,
             ),

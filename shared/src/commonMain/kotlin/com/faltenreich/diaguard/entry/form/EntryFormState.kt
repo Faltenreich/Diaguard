@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.tag.Tag
+import kotlin.time.Duration
 
 data class EntryFormState(
     val dateTime: DateTime,
@@ -26,13 +27,13 @@ data class EntryFormState(
     )
 
     data class Reminder(
-        val delayInMinutes: Int?,
+        val duration: Duration,
         val label: String,
         val picker: Picker?,
     ) {
 
         data class Picker(
-            val delayInMinutes: Int?,
+            val duration: Duration,
             val isPermissionGranted: Boolean,
         )
     }

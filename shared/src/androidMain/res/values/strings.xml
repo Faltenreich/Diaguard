@@ -3,4 +3,5 @@
     <string name="notification_channel_general">General</string>
     <string name="notification_reminder_title">Reminder</string>
     <string name="notification_reminder_description">This may be a good time to measure your blood sugar</string>
+    <string name="shortcut_entry">New entry</string>
 </resources>

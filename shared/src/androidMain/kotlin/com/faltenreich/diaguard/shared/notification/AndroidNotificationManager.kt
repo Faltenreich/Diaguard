@@ -40,9 +40,9 @@ class AndroidNotificationManager(private val context: Context) {
             .setVibrate(longArrayOf(1.seconds.inWholeMilliseconds))
 
         // Open entry form when clicked on
-        val intent = Intent(context, MainActivity::class.java)
-        // TODO: App Shortcut
-        //  intent.setAction(Shortcut.CREATE_ENTRY.action)
+        val intent = Intent(context, MainActivity::class.java).apply {
+            setAction(AndroidShortcut.CREATE_ENTRY.action)
+        }
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         } else {

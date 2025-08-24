@@ -51,7 +51,7 @@ fun ReminderPicker(
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3_5),
     ) {
         Text(
             text = buildAnnotatedString {
@@ -86,31 +86,44 @@ fun ReminderPicker(
             horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
         ) {
             items(9) { index ->
+                val number = index + 1
                 Button(
-                    text = "${index + 1}",
-                    onClick = {},
+                    text = "$number",
+                    onClick = { numbers = numbers.add(number) },
                 )
             }
             item {
                 Button(
                     text = "x",
-                    onClick = {},
+                    onClick = { numbers = numbers.clear() },
                 )
             }
             item {
                 Button(
                     text = "0",
-                    onClick = {},
+                    onClick = { numbers = numbers.add(0) },
                 )
             }
             item {
                 Button(
                     text = "<",
-                    onClick = {},
+                    onClick = { numbers = numbers.removeLast() },
                 )
             }
         }
     }
+}
+
+private fun List<Int>.add(number: Int): List<Int> {
+    return if (first() == 0) subList(1, size) + number else this
+}
+
+private fun List<Int>.removeLast(): List<Int> {
+    return listOf(0) + subList(0, lastIndex)
+}
+
+private fun List<Int>.clear(): List<Int> {
+    return map { 0 }
 }
 
 @Composable

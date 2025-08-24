@@ -188,6 +188,8 @@ class EntryFormViewModel(
     }
 
     private suspend fun requestNotificationPermission() {
+        // FIXME: False on first request
+        //  https://stackoverflow.com/a/34612503
         if (shouldShowRequestPermissionRationale(Permission.POST_NOTIFICATIONS)) {
             when (requestPermission(Permission.POST_NOTIFICATIONS)) {
                 is PermissionResult.Granted -> reminderPicker.update {

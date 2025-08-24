@@ -1,7 +1,10 @@
+@file:Suppress("MagicNumber")
+
 package com.faltenreich.diaguard.entry.form.reminder
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -10,6 +13,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,7 +24,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.format
+import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_backspace
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
@@ -41,6 +48,15 @@ fun ReminderPicker(
             }
         )
     }
+
+    LaunchedEffect(numbers) {
+        val hours = numbers.subList(0, 2).joinToString("").toInt()
+        val minutes = numbers.subList(2, 4).joinToString("").toInt()
+        val seconds = numbers.subList(4, 6).joinToString("").toInt()
+        val duration = hours.hours + minutes.minutes + seconds.seconds
+        onChange(duration)
+    }
+
     val styleDigit = AppTheme.typography.displayMedium.toSpanStyle().copy(
         fontFeatureSettings = "tnum",
     )
@@ -87,28 +103,33 @@ fun ReminderPicker(
         ) {
             items(9) { index ->
                 val number = index + 1
-                Button(
-                    text = "$number",
-                    onClick = { numbers = numbers.add(number) },
-                )
+                Button(onClick = { numbers = numbers.add(number) }) {
+                    Text(
+                        text = number.toString(),
+                        style = AppTheme.typography.headlineMedium,
+                    )
+                }
             }
             item {
-                Button(
-                    text = "x",
-                    onClick = { numbers = numbers.clear() },
-                )
+                Button(onClick = { numbers = numbers.add(0).add(0) }) {
+                    Text(
+                        text = "00",
+                        style = AppTheme.typography.headlineMedium,
+                    )
+                }
             }
             item {
-                Button(
-                    text = "0",
-                    onClick = { numbers = numbers.add(0) },
-                )
+                Button(onClick = { numbers = numbers.add(0) }) {
+                    Text(
+                        text = 0.toString(),
+                        style = AppTheme.typography.headlineMedium,
+                    )
+                }
             }
             item {
-                Button(
-                    text = "<",
-                    onClick = { numbers = numbers.removeLast() },
-                )
+                Button(onClick = { numbers = numbers.removeLast() }) {
+                    ResourceIcon(Res.drawable.ic_backspace)
+                }
             }
         }
     }
@@ -122,15 +143,11 @@ private fun List<Int>.removeLast(): List<Int> {
     return listOf(0) + subList(0, lastIndex)
 }
 
-private fun List<Int>.clear(): List<Int> {
-    return map { 0 }
-}
-
 @Composable
 private fun Button(
-    text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit,
 ) {
     FilledTonalButton(
         onClick = onClick,
@@ -140,12 +157,8 @@ private fun Button(
             contentColor = AppTheme.colors.scheme.onSurface,
         ),
         shape = CircleShape,
-    ) {
-        Text(
-            text = text,
-            style = AppTheme.typography.headlineMedium,
-        )
-    }
+        content = content,
+    )
 }
 
 @Preview

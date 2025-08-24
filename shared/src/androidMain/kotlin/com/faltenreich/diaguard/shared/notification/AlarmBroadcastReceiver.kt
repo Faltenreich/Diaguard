@@ -13,14 +13,13 @@ class AlarmBroadcastReceiver(
 
     override fun onReceive(context: Context?, intent: Intent?) {
         Logger.debug("Received broadcast")
+        context ?: return
         val notification = AndroidNotification(
             id = NOTIFICATION_ID,
-            title = "Title",
-            message = "Message",
-            iconRes = R.mipmap.ic_launcher,
+            title = context.getString(R.string.notification_reminder_title),
+            message = context.getString(R.string.notification_reminder_description),
+            iconRes = R.mipmap.ic_notification,
             channelId = NOTIFICATION_CHANNEL_ID,
-            isSoundEnabled = true,
-            isVibrationEnabled = true,
         )
         notificationManager.showNotification(notification)
     }

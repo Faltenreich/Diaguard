@@ -9,6 +9,4 @@ data class AndroidNotification(
     @get:DrawableRes
     val iconRes: Int,
     val channelId: String,
-    val isSoundEnabled: Boolean,
-    val isVibrationEnabled: Boolean,
 )

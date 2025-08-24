@@ -19,7 +19,6 @@ class AndroidNotificationManager(private val context: Context) {
     private val systemService = context.getSystemService(Context.NOTIFICATION_SERVICE)
         as NotificationManager
 
-    // TODO: Refactor
     fun showNotification(notification: AndroidNotification) = with(notification) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(
@@ -31,22 +30,14 @@ class AndroidNotificationManager(private val context: Context) {
             systemService.createNotificationChannel(notificationChannel)
         }
 
-        val vibrationDuration = 1.seconds
-
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(iconRes)
             .setContentTitle(title)
             .setContentText(message)
             .setTicker(title)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setSound(
-                if (isSoundEnabled) RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                else null
-            )
-            .setVibrate(
-                if (isVibrationEnabled) longArrayOf(vibrationDuration.inWholeMilliseconds)
-                else null
-            )
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+            .setVibrate(longArrayOf(1.seconds.inWholeMilliseconds))
 
         // Open entry form when clicked on
         val intent = Intent(context, MainActivity::class.java)
@@ -65,6 +56,6 @@ class AndroidNotificationManager(private val context: Context) {
         notification.flags = Notification.FLAG_ONLY_ALERT_ONCE or Notification.FLAG_AUTO_CANCEL
 
         systemService.notify(id, notification)
-        Logger.debug("Notified: $notification")
+        Logger.debug("Notified system: $notification")
     }
 }

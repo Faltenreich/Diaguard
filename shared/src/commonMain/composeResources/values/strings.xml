@@ -137,6 +137,7 @@
     <string name="homepage">Homepage</string>
     <string name="homepage_url">http://www.diaguard.wordpress.com</string>
     <string name="homepage_url_short">diaguard.wordpress.com</string>
+    <string name="hours_abbreviation_short">h</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
     <string name="icon">Icon</string>
@@ -184,6 +185,7 @@
     <string name="millimoles_per_mole_abbreviation">mmol/mol</string>
     <string name="minutes">Minutes</string>
     <string name="minutes_abbreviation">min</string>
+    <string name="minutes_abbreviation_short">m</string>
     <string name="minutes_until_notification">Minutes until notification</string>
     <string name="millimeters_of_mercury">Millimeters of mercury</string>
     <string name="millimeters_of_mercury_abbreviation">mmHg</string>
@@ -220,6 +222,7 @@
     <string name="salt">Salt</string>
     <string name="save">Save</string>
     <string name="search_open">Open search</string>
+    <string name="seconds_abbreviation_short">s</string>
     <string name="sodium">Sodium</string>
     <string name="source_code" translatable="false">Source code</string>
     <string name="source_code_url" translatable="false">https://github.com/Faltenreich/Diaguard</string>

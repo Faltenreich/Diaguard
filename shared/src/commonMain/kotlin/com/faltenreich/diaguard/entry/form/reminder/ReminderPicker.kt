@@ -28,7 +28,11 @@ import com.faltenreich.diaguard.shared.localization.format
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.hours_abbreviation_short
 import diaguard.shared.generated.resources.ic_backspace
+import diaguard.shared.generated.resources.minutes_abbreviation_short
+import diaguard.shared.generated.resources.seconds_abbreviation_short
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
@@ -72,9 +76,8 @@ fun ReminderPicker(
                     append(numbers[0].toString())
                     append(numbers[1].toString())
                 }
-                // TODO: Localize labels
                 withStyle(styleLabel) {
-                    append("h")
+                    append(stringResource(Res.string.hours_abbreviation_short))
                     append(" ")
                 }
                 withStyle(styleDigit) {
@@ -82,7 +85,7 @@ fun ReminderPicker(
                     append(numbers[3].toString())
                 }
                 withStyle(styleLabel) {
-                    append("m")
+                    append(stringResource(Res.string.minutes_abbreviation_short))
                     append(" ")
                 }
                 withStyle(styleDigit) {
@@ -90,7 +93,7 @@ fun ReminderPicker(
                     append(numbers[5].toString())
                 }
                 withStyle(styleLabel) {
-                    append("s")
+                    append(stringResource(Res.string.seconds_abbreviation_short))
                 }
             },
         )

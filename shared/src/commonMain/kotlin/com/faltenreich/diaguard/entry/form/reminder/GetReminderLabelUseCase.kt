@@ -12,9 +12,7 @@ class GetReminderLabelUseCase(
 
     operator fun invoke(duration: Duration): String {
         return duration.takeIf { it > Duration.ZERO }?.let {
-            // TODO
-            val delay = "$duration"
-            localization.getString(Res.string.reminder_label, delay)
+            localization.getString(Res.string.reminder_label, duration.inWholeMinutes)
         } ?: localization.getString(Res.string.reminder)
     }
 }

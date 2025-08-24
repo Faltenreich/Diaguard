@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.localization.format
@@ -57,17 +58,13 @@ fun ReminderPicker(
         onChange(duration)
     }
 
-    val styleDigit = AppTheme.typography.displayMedium.toSpanStyle().copy(
-        fontFeatureSettings = "tnum",
-    )
-    // TODO: Localize labels
-    val styleLabel = AppTheme.typography.titleMedium.toSpanStyle().copy(
-        fontFeatureSettings = "tnum",
-    )
+    val styleDigit = AppTheme.typography.displayMedium.toSpanStyle().copy(fontFamily = FontFamily.Monospace)
+    val styleLabel = AppTheme.typography.titleMedium.toSpanStyle().copy(fontFamily = FontFamily.Monospace)
+    val styleButton = AppTheme.typography.headlineMedium.copy(fontFamily = FontFamily.Monospace)
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3_5),
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
     ) {
         Text(
             text = buildAnnotatedString {
@@ -75,6 +72,7 @@ fun ReminderPicker(
                     append(numbers[0].toString())
                     append(numbers[1].toString())
                 }
+                // TODO: Localize labels
                 withStyle(styleLabel) {
                     append("h")
                     append(" ")
@@ -106,7 +104,7 @@ fun ReminderPicker(
                 Button(onClick = { numbers = numbers.add(number) }) {
                     Text(
                         text = number.toString(),
-                        style = AppTheme.typography.headlineMedium,
+                        style = styleButton,
                     )
                 }
             }
@@ -114,7 +112,7 @@ fun ReminderPicker(
                 Button(onClick = { numbers = numbers.add(0).add(0) }) {
                     Text(
                         text = "00",
-                        style = AppTheme.typography.headlineMedium,
+                        style = styleButton,
                     )
                 }
             }
@@ -122,7 +120,7 @@ fun ReminderPicker(
                 Button(onClick = { numbers = numbers.add(0) }) {
                     Text(
                         text = 0.toString(),
-                        style = AppTheme.typography.headlineMedium,
+                        style = styleButton,
                     )
                 }
             }

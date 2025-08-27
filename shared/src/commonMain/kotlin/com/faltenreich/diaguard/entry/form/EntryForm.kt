@@ -163,10 +163,11 @@ fun EntryForm(
                         onClick = { onIntent(EntryFormIntent.OpenReminderPicker) },
                     ),
             ) {
-
                 Text(
                     text = state.reminder.label,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = AppTheme.dimensions.padding.P_3),
                 )
             }
         }

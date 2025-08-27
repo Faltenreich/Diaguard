@@ -17,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,12 +55,13 @@ fun ReminderPicker(
         )
     }
 
+    val latestOnChange by rememberUpdatedState(onChange)
     LaunchedEffect(numbers) {
         val hours = numbers.subList(0, 2).joinToString("").toInt()
         val minutes = numbers.subList(2, 4).joinToString("").toInt()
         val seconds = numbers.subList(4, 6).joinToString("").toInt()
         val duration = hours.hours + minutes.minutes + seconds.seconds
-        onChange(duration)
+        latestOnChange(duration)
     }
 
     val styleDigit = AppTheme.typography.displayMedium.toSpanStyle().copy(fontFamily = FontFamily.Monospace)

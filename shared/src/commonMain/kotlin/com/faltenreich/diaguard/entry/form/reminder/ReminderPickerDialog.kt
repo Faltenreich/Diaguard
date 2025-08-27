@@ -36,11 +36,13 @@ fun ReminderPickerDialog(
     state: EntryFormState.Reminder.Picker,
     onDismissRequest: () -> Unit,
     onConfirmRequest: (Duration) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var duration by remember { mutableStateOf(state.duration) }
 
     BasicAlertDialog(
         onDismissRequest = onDismissRequest,
+        modifier = modifier,
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),

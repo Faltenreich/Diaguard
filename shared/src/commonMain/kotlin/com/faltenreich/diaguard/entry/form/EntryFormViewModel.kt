@@ -196,10 +196,9 @@ class EntryFormViewModel(
                 )
             }
             is PermissionResult.Denied -> if (shouldShowRequestPermissionRationale(Permission.POST_NOTIFICATIONS)) {
-                openPermissionSettings()
-                // TODO: Update UI, e.g. via LaunchedEffect
-            } else {
                 reminderPicker.update { null }
+            } else {
+                openPermissionSettings()
             }
             is PermissionResult.Unknown -> reminderPicker.update { null }
         }

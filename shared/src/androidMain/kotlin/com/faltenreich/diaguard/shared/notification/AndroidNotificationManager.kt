@@ -41,6 +41,7 @@ class AndroidNotificationManager(private val context: Context) {
 
         // Open entry form when clicked on
         val intent = Intent(context, MainActivity::class.java).apply {
+            // TODO: Handle action and forward into EntryForm
             action = AndroidShortcut.CREATE_ENTRY.action
         }
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

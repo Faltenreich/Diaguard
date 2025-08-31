@@ -188,22 +188,20 @@ class EntryFormViewModel(
     }
 
     private suspend fun requestNotificationPermission() {
-        // FIXME: False on first request
-        //  https://stackoverflow.com/a/34612503
-        if (shouldShowRequestPermissionRationale(Permission.POST_NOTIFICATIONS)) {
-            when (requestPermission(Permission.POST_NOTIFICATIONS)) {
-                is PermissionResult.Granted -> reminderPicker.update {
-                    EntryFormState.Reminder.Picker(
-                        duration = reminderDuration.value,
-                        isPermissionGranted = true,
-                    )
-                }
-                is PermissionResult.Denied -> reminderPicker.update { null }
-                is PermissionResult.Unknown -> reminderPicker.update { null }
+        when (requestPermission(Permission.POST_NOTIFICATIONS)) {
+            is PermissionResult.Granted -> reminderPicker.update {
+                EntryFormState.Reminder.Picker(
+                    duration = reminderDuration.value,
+                    isPermissionGranted = true,
+                )
             }
-        } else {
-            openPermissionSettings()
-            // TODO: Update UI, e.g. via LaunchedEffect
+            is PermissionResult.Denied -> if (shouldShowRequestPermissionRationale(Permission.POST_NOTIFICATIONS)) {
+                openPermissionSettings()
+                // TODO: Update UI, e.g. via LaunchedEffect
+            } else {
+                reminderPicker.update { null }
+            }
+            is PermissionResult.Unknown -> reminderPicker.update { null }
         }
     }
 

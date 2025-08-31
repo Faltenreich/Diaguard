@@ -41,7 +41,7 @@ class AndroidNotificationManager(private val context: Context) {
 
         // Open entry form when clicked on
         val intent = Intent(context, MainActivity::class.java).apply {
-            setAction(AndroidShortcut.CREATE_ENTRY.action)
+            action = AndroidShortcut.CREATE_ENTRY.action
         }
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE

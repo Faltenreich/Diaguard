@@ -10,6 +10,5 @@ actual fun permissionModule() = module {
 
     // TODO: Move into common
     factoryOf(::HasPermissionUseCase)
-    factoryOf(::ShouldShowRequestPermissionRationaleUseCase)
     factoryOf(::RequestPermissionUseCase)
 }

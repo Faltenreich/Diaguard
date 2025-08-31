@@ -24,8 +24,4 @@ class AndroidSystemSettings(private val context: Context) : SystemSettings {
         }
         context.startActivity(intent)
     }
-
-    override fun openPermissionSettings() {
-        context.startActivity(getIntentForAppSettings())
-    }
 }

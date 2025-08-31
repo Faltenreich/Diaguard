@@ -1,6 +1,9 @@
 package com.faltenreich.diaguard.shared.permission
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,7 +29,16 @@ class AndroidPermissionManager : PermissionManager {
             val result = permissions.mapNotNull { (code, isGranted) ->
                 Permission.fromCode(code)?.let { permission ->
                     if (isGranted) PermissionResult.Granted
-                    else PermissionResult.Denied
+                    else {
+                        if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, code)) {
+                            // Open system settings after denying permission permanently
+                            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                .setData(Uri.fromParts("package", activity.packageName, null))
+                            activity.startActivity(intent)
+                        }
+                        PermissionResult.Denied
+                    }
                 }
             }.firstOrNull()
             when (result) {

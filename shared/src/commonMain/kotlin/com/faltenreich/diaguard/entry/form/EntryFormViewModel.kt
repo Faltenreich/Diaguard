@@ -18,7 +18,6 @@ import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.navigation.system.OpenPermissionSettingsUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
@@ -26,7 +25,6 @@ import com.faltenreich.diaguard.shared.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.shared.permission.Permission
 import com.faltenreich.diaguard.shared.permission.PermissionResult
 import com.faltenreich.diaguard.shared.permission.RequestPermissionUseCase
-import com.faltenreich.diaguard.shared.permission.ShouldShowRequestPermissionRationaleUseCase
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
@@ -58,9 +56,7 @@ class EntryFormViewModel(
     private val setReminder: SetReminderUseCase = inject(),
     private val getReminderLabel: GetReminderLabelUseCase = inject(),
     private val hasPermission: HasPermissionUseCase = inject(),
-    private val shouldShowRequestPermissionRationale: ShouldShowRequestPermissionRationaleUseCase = inject(),
     private val requestPermission: RequestPermissionUseCase = inject(),
-    private val openPermissionSettings: OpenPermissionSettingsUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
 ) : ViewModel<EntryFormState, EntryFormIntent, Unit>() {
 
@@ -170,6 +166,7 @@ class EntryFormViewModel(
                                 // Reset error on changing input
                                 error = null,
                             )
+
                             else -> legacy
                         }
                     },
@@ -195,11 +192,8 @@ class EntryFormViewModel(
                     isPermissionGranted = true,
                 )
             }
-            is PermissionResult.Denied -> if (shouldShowRequestPermissionRationale(Permission.POST_NOTIFICATIONS)) {
-                reminderPicker.update { null }
-            } else {
-                openPermissionSettings()
-            }
+
+            is PermissionResult.Denied -> reminderPicker.update { null }
             is PermissionResult.Unknown -> reminderPicker.update { null }
         }
     }
@@ -224,6 +218,7 @@ class EntryFormViewModel(
                 storeEntry(input)
                 popScreen()
             }
+
             is ValidationResult.Failure -> {
                 measurements.value = result.data.measurements
             }

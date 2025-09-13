@@ -2,7 +2,7 @@
 aboutlibraries = "12.2.4"
 activity-compose = "1.10.1"
 android-desugar = "2.1.5"
-android-gradle = "8.12.2"
+android-gradle = "8.13.0"
 android-lifecycle-compose = "2.9.3"
 android-preferences = "1.2.1"
 android-test-runner = "1.7.0"

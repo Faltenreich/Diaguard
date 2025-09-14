@@ -108,10 +108,7 @@ dependencies {
     implementation "org.greenrobot:eventbus:3.3.1"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    // Workaround: Force obsolete version of OkHttp to fix crash on Android 4
-    // https://github.com/square/okhttp/issues/4622
-    // noinspection GradleDependency
-    implementation("com.squareup.okhttp3:okhttp") { version { strictly "3.12.8" } }
+    implementation "com.squareup.okhttp3:okhttp"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.google.code.gson:gson:2.11.0"
 

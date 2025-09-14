@@ -2,12 +2,12 @@ apply plugin: "com.android.application"
 apply plugin: "com.mikepenz.aboutlibraries.plugin"
 
 android {
-    compileSdk 35
+    compileSdk 36
     namespace "com.faltenreich.diaguard"
 
     defaultConfig {
         minSdk 21
-        targetSdk 35
+        targetSdk 36
         versionCode 66
         versionName "3.14.0"
         vectorDrawables.useSupportLibrary true

@@ -13,8 +13,6 @@ import java.util.Locale;
 @SuppressWarnings("WeakerAccess")
 public class Helper {
 
-    private static final String FORMAT_TIME = "HH:mm";
-
     public static Locale getLocale(Context context) {
         return context.getResources().getConfiguration().locale;
     }
@@ -37,7 +35,7 @@ public class Helper {
     }
 
     public static DateTimeFormatter getTimeFormat() {
-        return DateTimeFormat.forPattern(FORMAT_TIME);
+        return DateTimeFormat.shortTime();
     }
 
     public static String getTextAgo(Context context, int differenceInMinutes) {

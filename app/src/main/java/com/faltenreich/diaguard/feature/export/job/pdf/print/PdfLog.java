@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
@@ -91,7 +92,7 @@ public class PdfLog implements PdfPrintable {
         }
         Entry entry = entriesOfDay.get(entryIndex);
         int backgroundColor = entryIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
-        String time = entry.getDate().toString("HH:mm");
+        String time = Helper.getTimeFormat().print(entry.getDate());
 
         List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
         boolean isFirstMeasurementOfEntry = true;

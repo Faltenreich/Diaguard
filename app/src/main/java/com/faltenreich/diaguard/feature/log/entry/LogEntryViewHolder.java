@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemLogEntryBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -58,7 +59,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemLogEntryBinding, 
         List<EntryTag> entryTags = item.getEntryTags();
         List<FoodEaten> foodEatenList = item.getFoodEatenList();
 
-        getBinding().dateLabel.setText(entry.getDate().toString("HH:mm"));
+        getBinding().dateLabel.setText(Helper.getTimeFormat().print(entry.getDate()));
 
         TextView noteLabel = getBinding().noteLabel;
         if (entry.getNote() != null && entry.getNote().length() > 0) {

@@ -44,6 +44,7 @@
 
             </com.google.android.material.appbar.MaterialToolbar>
 
+            <!-- FIXME: Wrong in food search and on subsequent starts in entry search -->
             <com.faltenreich.diaguard.shared.view.search.SearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
@@ -63,11 +64,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!-- FIXME: Missing bottom padding for navigation bar -->
             <FrameLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <!-- FIXME: Missing bottom padding for navigation bar -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

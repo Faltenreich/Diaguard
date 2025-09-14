@@ -146,8 +146,8 @@ public class MainActivity
     private void bindView() {
         drawerLayout = getBinding().drawerLayout;
         navigationView = getBinding().navigationView;
-        toolbar = getBinding().toolbarContainer.toolbar;
-        toolbarTitle = getBinding().toolbarContainer.toolbarTitle;
+        toolbar = getBinding().toolbar;
+        toolbarTitle = getBinding().toolbarTitle;
         searchView = getBinding().searchView;
         fabPrimary = getBinding().fabPrimary;
         fabSecondary = getBinding().fabSecondary;
@@ -244,12 +244,14 @@ public class MainActivity
     private void invalidateSearch(@Nullable Searching searching) {
         if (searching != null) {
             SearchProperties properties = searching.getSearchProperties();
+            toolbar.setVisibility(View.GONE);
             searchView.setVisibility(View.VISIBLE);
             searchView.setHint(properties.getHint());
             searchView.setSearchListener(properties.getListener());
             searchView.setAction(properties.getAction());
             searchView.setSuggestions(properties.getSuggestions());
         } else {
+            toolbar.setVisibility(View.VISIBLE);
             searchView.setVisibility(View.GONE);
         }
     }

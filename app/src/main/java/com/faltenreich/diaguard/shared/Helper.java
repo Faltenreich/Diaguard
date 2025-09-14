@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -38,6 +39,9 @@ public class Helper {
         return DateTimeFormat.shortTime();
     }
 
+    public static boolean is24HourFormat(Context context) {
+        return DateFormat.is24HourFormat(context);
+    }
     public static String getTextAgo(Context context, int differenceInMinutes) {
         if (differenceInMinutes < 2) {
             return context.getString(R.string.latest_moments);

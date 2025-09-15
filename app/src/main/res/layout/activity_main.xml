@@ -70,8 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <!-- FIXME: Missing bottom padding for navigation bar -->
             <LinearLayout
+                android:id="@+id/fab_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"

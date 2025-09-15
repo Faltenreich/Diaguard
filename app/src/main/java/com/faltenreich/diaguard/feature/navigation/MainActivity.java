@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
@@ -16,7 +17,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -58,6 +62,7 @@ public class MainActivity
     private Toolbar toolbar;
     private TextView toolbarTitle;
     private SearchView searchView;
+    private ViewGroup fabContainer;
     private FloatingActionButton fabPrimary;
     private FloatingActionButton fabSecondary;
 
@@ -149,11 +154,22 @@ public class MainActivity
         toolbar = getBinding().toolbar;
         toolbarTitle = getBinding().toolbarTitle;
         searchView = getBinding().searchView;
+        fabContainer = getBinding().fabContainer;
         fabPrimary = getBinding().fabPrimary;
         fabSecondary = getBinding().fabSecondary;
     }
     
     private void initLayout() {
+        ViewCompat.setOnApplyWindowInsetsListener(fabContainer, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            layoutParams.leftMargin = insets.left;
+            layoutParams.bottomMargin = insets.bottom;
+            layoutParams.rightMargin = insets.right;
+            view.setLayoutParams(layoutParams);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
         fabPrimary.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {

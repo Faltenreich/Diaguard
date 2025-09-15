@@ -599,7 +599,7 @@ public class EntryEditFragment
                 viewModel.getEntry().setDate(time);
                 invalidateDateTime();
             })
-            .build()
+            .build(getContext())
             .show(getChildFragmentManager());
     }
 

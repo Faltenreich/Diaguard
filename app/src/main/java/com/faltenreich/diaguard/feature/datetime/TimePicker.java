@@ -1,10 +1,13 @@
 package com.faltenreich.diaguard.feature.datetime;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.fragment.app.FragmentManager;
 
+import com.faltenreich.diaguard.shared.Helper;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
@@ -13,19 +16,22 @@ import org.joda.time.DateTime;
 public class TimePicker {
 
     @NonNull private final DateTime time;
+    @TimeFormat private final int timeFormat;
     @Nullable private final Consumer<DateTime> callback;
 
     private TimePicker(
         @NonNull DateTime time,
+        @TimeFormat int timeFormat,
         @Nullable Consumer<DateTime> callback
     ) {
         this.time = time;
+        this.timeFormat = timeFormat;
         this.callback = callback;
     }
 
     public void show(FragmentManager fragmentManager) {
         MaterialTimePicker picker = new MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setTimeFormat(timeFormat)
             .setHour(time.getHourOfDay())
             .setMinute(time.getMinuteOfDay())
             // Workaround: com.google.android.material:material:1.7.+ changed the default inputMode to INPUT_MODE_KEYBOARD
@@ -45,9 +51,7 @@ public class TimePicker {
         @Nullable private DateTime time;
         @Nullable private Consumer<DateTime> callback;
 
-        public Builder() {
-
-        }
+        public Builder() {}
 
         public Builder time(DateTime time) {
             this.time = time;
@@ -59,8 +63,12 @@ public class TimePicker {
             return this;
         }
 
-        public TimePicker build() {
-            return new TimePicker(time != null ? time : DateTime.now(), callback);
+        public TimePicker build(Context context) {
+            return new TimePicker(
+                    time != null ? time : DateTime.now(),
+                    Helper.is24HourFormat(context) ? TimeFormat.CLOCK_24H : TimeFormat.CLOCK_12H,
+                    callback
+            );
         }
     }
 }

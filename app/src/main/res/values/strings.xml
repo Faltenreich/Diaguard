@@ -227,6 +227,8 @@
     <string name="noon">Noon</string>
     <string name="evening">Evening</string>
     <string name="night">Night</string>
+    <string name="day_half_midnight" translatable="false">AM</string>
+    <string name="day_half_noon" translatable="false">PM</string>
 
     <!-- EXPORT -->
 

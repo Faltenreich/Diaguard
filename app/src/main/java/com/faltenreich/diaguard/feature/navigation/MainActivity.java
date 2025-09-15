@@ -57,6 +57,7 @@ public class MainActivity
 {
 
     private DrawerLayout drawerLayout;
+    private View container;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -150,6 +151,7 @@ public class MainActivity
 
     private void bindView() {
         drawerLayout = getBinding().drawerLayout;
+        container = getBinding().container;
         navigationView = getBinding().navigationView;
         toolbar = getBinding().toolbar;
         toolbarTitle = getBinding().toolbarTitle;
@@ -161,6 +163,16 @@ public class MainActivity
     
     private void initLayout() {
         ViewCompat.setOnApplyWindowInsetsListener(fabContainer, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            layoutParams.leftMargin = insets.left;
+            layoutParams.bottomMargin = insets.bottom;
+            layoutParams.rightMargin = insets.right;
+            view.setLayoutParams(layoutParams);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(container, (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
             layoutParams.leftMargin = insets.left;

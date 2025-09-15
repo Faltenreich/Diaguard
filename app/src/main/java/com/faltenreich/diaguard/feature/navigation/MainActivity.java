@@ -181,6 +181,13 @@ public class MainActivity
             view.setLayoutParams(layoutParams);
             return WindowInsetsCompat.CONSUMED;
         });
+        ViewCompat.setOnApplyWindowInsetsListener(searchView, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            layoutParams.topMargin = insets.top;
+            view.setLayoutParams(layoutParams);
+            return WindowInsetsCompat.CONSUMED;
+        });
 
         fabPrimary.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override

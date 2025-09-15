@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import androidx.annotation.ColorInt;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
@@ -44,6 +45,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     private void setup() {
         if (!isInEditMode()) {
             ChartUtils.setChartDefaultStyle(this, Category.BLOODSUGAR);
+            boolean is24HourFormat = Helper.is24HourFormat(getContext());
 
             @ColorInt int textColor = ColorUtils.getTextColorPrimary(getContext());
             @ColorInt int gridColor = ColorUtils.getBackgroundTertiary(getContext());
@@ -58,7 +60,17 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
                 public String getAxisLabel(float value, AxisBase axis) {
                     int minute = (int) value;
                     int hour = minute / DateTimeConstants.MINUTES_PER_HOUR;
-                    return hour < DateTimeConstants.HOURS_PER_DAY ? Integer.toString(hour) : "";
+                    if (hour >= DateTimeConstants.HOURS_PER_DAY) {
+                        return "";
+                    } else if (is24HourFormat) {
+                        return Integer.toString(hour);
+                    } else {
+                        switch (hour) {
+                            case 0: return getContext().getString(R.string.day_half_midnight);
+                            case 12: return getContext().getString(R.string.day_half_noon);
+                            default: return Integer.toString(hour % 12);
+                        }
+                    }
                 }
             });
             getXAxis().setAxisMinimum(0);

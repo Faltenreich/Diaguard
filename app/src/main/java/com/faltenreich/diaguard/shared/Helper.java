@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -12,8 +13,6 @@ import java.util.Locale;
 
 @SuppressWarnings("WeakerAccess")
 public class Helper {
-
-    private static final String FORMAT_TIME = "HH:mm";
 
     public static Locale getLocale(Context context) {
         return context.getResources().getConfiguration().locale;
@@ -37,9 +36,12 @@ public class Helper {
     }
 
     public static DateTimeFormatter getTimeFormat() {
-        return DateTimeFormat.forPattern(FORMAT_TIME);
+        return DateTimeFormat.shortTime();
     }
 
+    public static boolean is24HourFormat(Context context) {
+        return DateFormat.is24HourFormat(context);
+    }
     public static String getTextAgo(Context context, int differenceInMinutes) {
         if (differenceInMinutes < 2) {
             return context.getString(R.string.latest_moments);

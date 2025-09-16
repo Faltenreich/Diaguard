@@ -41,6 +41,7 @@ import diaguard.shared.generated.resources.measurement_category_visibility_hidde
 import diaguard.shared.generated.resources.measurement_category_visibility_visible
 import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.ok
+import kotlinx.coroutines.NonCancellable.isActive
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -52,10 +53,6 @@ fun MeasurementCategoryForm(
 ) {
     state ?: return
 
-    var name by remember { mutableStateOf(state.name) }
-    var icon by remember { mutableStateOf(state.icon) }
-    var isActive by remember { mutableStateOf(state.isActive) }
-
     var showEmojiPicker by remember { mutableStateOf(false) }
 
     Column(
@@ -64,9 +61,8 @@ fun MeasurementCategoryForm(
             .verticalScroll(rememberScrollState()),
     ) {
         TextInput(
-            input = name,
+            input = state.name,
             onInputChange = { input ->
-                name = input
                 onIntent(MeasurementCategoryFormIntent.SetName(input))
             },
             label = getString(Res.string.name),
@@ -92,8 +88,8 @@ fun MeasurementCategoryForm(
                 modifier = Modifier.weight(1f),
             )
             MeasurementCategoryIcon(
-                icon = icon,
-                name = name,
+                icon = state.icon,
+                name = state.name,
             )
         }
 
@@ -108,7 +104,6 @@ fun MeasurementCategoryForm(
                 ),
                 checked = isActive,
                 onCheckedChange = { isChecked ->
-                    isActive = isChecked
                     onIntent(MeasurementCategoryFormIntent.SetIsActive(isChecked))
                 },
             )

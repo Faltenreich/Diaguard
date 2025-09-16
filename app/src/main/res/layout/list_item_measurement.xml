@@ -62,7 +62,7 @@
                     android:textSize="@dimen/text_large"
                     tools:text="@string/bloodsugar" />
 
-                <CheckBox
+                <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/pinned_checkbox"
                     style="@style/WhiteCheckBox"
                     android:layout_width="@dimen/checkbox_width"

@@ -74,7 +74,6 @@
     </style>
 
     <style name="WhiteCheckBox">
-        <item name="useMaterialThemeColors">false</item>
         <item name="buttonTint">@android:color/white</item>
     </style>
 

@@ -24,7 +24,7 @@ fun AppView(
         Surface(modifier = modifier.fillMaxSize().keyboardPadding()) {
             when (state) {
                 is AppState.FirstStart -> StartupView()
-                is AppState.SubsequentStart -> MainView()
+                is AppState.SubsequentStart -> MainView(shortcut)
             }
         }
     }

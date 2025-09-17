@@ -36,8 +36,10 @@ class MainActivity : ComponentActivity() {
             navigationBarStyle = SystemBarStyle.Companion.dark(Color.TRANSPARENT),
         )
 
+        val shortcut = intent?.action?.let(Shortcut::forAction)
+
         setContent {
-            AppView(shortcut = intent?.action?.let(Shortcut::forAction))
+            AppView(shortcut)
         }
     }
 }

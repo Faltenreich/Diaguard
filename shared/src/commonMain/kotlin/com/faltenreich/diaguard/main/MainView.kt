@@ -48,6 +48,7 @@ import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.shared.di.rememberViewModelStoreOwner
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.notification.Shortcut
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import com.faltenreich.diaguard.tag.list.TagListScreen
@@ -60,6 +61,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MainView(
+    shortcut: Shortcut?,
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = viewModel(),
 ) {
@@ -92,6 +94,16 @@ fun MainView(
 
     // Avoid recomposing Scaffold on changing preference
     val startScreen = remember { state.startScreen }
+
+    LaunchedEffect(shortcut) {
+        when (shortcut) {
+            Shortcut.CREATE_ENTRY -> navController.navigate(
+                screen = EntryFormScreen(),
+                popHistory = true,
+            )
+            null -> Unit
+        }
+    }
 
     CompositionLocalProvider(LocalSharedViewModelStoreOwner provides viewModelStoreOwner) {
         Scaffold(
@@ -174,5 +186,5 @@ fun MainView(
 @Preview
 @Composable
 private fun Preview() {
-    MainView()
+    MainView(shortcut = null)
 }

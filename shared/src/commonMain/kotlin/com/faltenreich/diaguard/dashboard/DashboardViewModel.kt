@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.dashboard
 import com.faltenreich.diaguard.dashboard.average.GetDashboardAverageUseCase
 import com.faltenreich.diaguard.dashboard.hba1c.GetDashboardHbA1cUseCase
 import com.faltenreich.diaguard.dashboard.latest.GetDashboardLatestUseCase
+import com.faltenreich.diaguard.dashboard.reminder.GetDashboardReminderUseCase
 import com.faltenreich.diaguard.dashboard.today.GetDashboardTodayUseCase
 import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.combine
 
 class DashboardViewModel(
     getLatest: GetDashboardLatestUseCase,
+    getReminder: GetDashboardReminderUseCase,
     getToday: GetDashboardTodayUseCase,
     getAverage: GetDashboardAverageUseCase,
     getCurrentHbA1c: GetDashboardHbA1cUseCase,
@@ -23,6 +25,7 @@ class DashboardViewModel(
 
     override val state = combine(
         getLatest(),
+        getReminder(),
         getToday(),
         getAverage(),
         getCurrentHbA1c(),

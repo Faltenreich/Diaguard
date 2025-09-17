@@ -16,6 +16,8 @@ import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1c
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.dashboard.latest.DashboardLatest
 import com.faltenreich.diaguard.dashboard.latest.DashboardLatestState
+import com.faltenreich.diaguard.dashboard.reminder.DashboardReminder
+import com.faltenreich.diaguard.dashboard.reminder.DashboardReminderState
 import com.faltenreich.diaguard.dashboard.today.DashboardToday
 import com.faltenreich.diaguard.dashboard.today.DashboardTodayState
 import com.faltenreich.diaguard.dashboard.trend.DashboardTrend
@@ -43,6 +45,13 @@ fun Dashboard(
             },
             modifier = Modifier.fillMaxWidth(),
         )
+        state?.reminder?.let { reminder ->
+            DashboardReminder(
+                state = reminder,
+                onDelete = { TODO() },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
@@ -77,6 +86,9 @@ private fun Preview() = AppPreview {
     Dashboard(
         state = DashboardState(
             latest = DashboardLatestState.None,
+            reminder = DashboardReminderState(
+                text = "Reminder in 5 minutes",
+            ),
             today = DashboardTodayState(
                 totalCount = 0,
                 hypoCount = 0,

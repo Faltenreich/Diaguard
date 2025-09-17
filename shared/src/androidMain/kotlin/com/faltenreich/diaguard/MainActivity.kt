@@ -7,7 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.faltenreich.diaguard.shared.notification.AndroidShortcut
+import com.faltenreich.diaguard.shared.notification.Shortcut
+import com.faltenreich.diaguard.shared.notification.forAction
 import com.faltenreich.diaguard.shared.permission.AndroidPermissionManager
 import org.koin.android.ext.android.inject
 import org.koin.core.context.loadKoinModules
@@ -36,15 +37,7 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            AppView()
+            AppView(shortcut = intent?.action?.let(Shortcut::forAction))
         }
-
-        handleShortcut()
-    }
-
-    private fun handleShortcut() {
-        val action = intent?.action ?: return
-        val shortcut = AndroidShortcut.forAction(action) ?: return
-        // TODO
     }
 }

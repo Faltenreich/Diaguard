@@ -7,12 +7,14 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.main.MainView
 import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.shared.di.viewModel
+import com.faltenreich.diaguard.shared.notification.Shortcut
 import com.faltenreich.diaguard.shared.view.keyboardPadding
 import com.faltenreich.diaguard.startup.StartupView
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AppView(
+    shortcut: Shortcut?,
     modifier: Modifier = Modifier,
     viewModel: AppViewModel = viewModel(),
 ) {
@@ -31,5 +33,5 @@ fun AppView(
 @Preview
 @Composable
 private fun Preview() {
-    AppView()
+    AppView(shortcut = null)
 }

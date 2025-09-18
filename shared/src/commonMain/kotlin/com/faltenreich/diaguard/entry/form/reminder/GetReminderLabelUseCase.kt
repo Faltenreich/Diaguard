@@ -14,6 +14,7 @@ class GetReminderLabelUseCase(
 
     operator fun invoke(duration: Duration): String {
         return duration.takeIf { it > Duration.ZERO }?.let {
+            // TODO: Localize plurals
             if (duration.inWholeHours > 0) {
                 localization.getString(Res.string.reminder_label_hours, duration.inWholeHours)
             } else if (duration.inWholeMinutes > 0) {

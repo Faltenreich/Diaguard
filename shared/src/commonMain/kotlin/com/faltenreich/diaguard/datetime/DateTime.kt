@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.datetime
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.shared.serialization.Serializable
+import kotlin.time.Duration
 
 interface DateTime : Serializable, Comparable<DateTime> {
 
@@ -31,7 +32,10 @@ interface DateTime : Serializable, Comparable<DateTime> {
      */
     val isoString: String
 
+    @Deprecated("Use until instead")
     fun minutesUntil(other: DateTime): Long
+
+    fun until(other: DateTime, unit: TimeUnit): Duration
 
     //region Any
 

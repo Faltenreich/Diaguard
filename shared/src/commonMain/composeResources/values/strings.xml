@@ -216,7 +216,7 @@
     <string name="reminders">Reminders</string>
     <string name="reminder_label_hours">Reminder in %1$d hours</string>
     <string name="reminder_label_minutes">Reminder in %1$d minutes</string>
-    <string name="reminder_label_seconds">Reminder in %1$d seconds</string>
+    <string name="reminder_label_seconds">Reminder in about a minute</string>
     <string name="reminder_permission_rationale">Reminders need the permission to post local notifications</string>
     <string name="reminder_picker_open">Set reminder</string>
     <string name="restart">Restart</string>

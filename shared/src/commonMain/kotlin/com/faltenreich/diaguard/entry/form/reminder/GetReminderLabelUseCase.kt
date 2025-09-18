@@ -19,7 +19,7 @@ class GetReminderLabelUseCase(
             } else if (duration.inWholeMinutes > 0) {
                 localization.getString(Res.string.reminder_label_minutes, duration.inWholeMinutes)
             } else {
-                localization.getString(Res.string.reminder_label_seconds, duration.inWholeSeconds)
+                localization.getString(Res.string.reminder_label_seconds)
             }
         } ?: localization.getString(Res.string.reminder)
     }

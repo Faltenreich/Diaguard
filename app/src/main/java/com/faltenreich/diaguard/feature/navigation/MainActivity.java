@@ -164,7 +164,7 @@ public class MainActivity
 
     private void initLayout() {
         ViewCompat.setOnApplyWindowInsetsListener(fabContainer, (view, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
             layoutParams.leftMargin = insets.left;
             layoutParams.bottomMargin = insets.bottom;
@@ -174,7 +174,7 @@ public class MainActivity
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(container, (view, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
             layoutParams.leftMargin = insets.left;
             layoutParams.bottomMargin = insets.bottom;
@@ -182,8 +182,9 @@ public class MainActivity
             view.setLayoutParams(layoutParams);
             return WindowInsetsCompat.CONSUMED;
         });
+
         ViewCompat.setOnApplyWindowInsetsListener(searchView, (view, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
             layoutParams.topMargin = insets.top;
             view.setLayoutParams(layoutParams);

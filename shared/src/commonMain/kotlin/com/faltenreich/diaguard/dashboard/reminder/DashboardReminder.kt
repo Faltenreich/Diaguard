@@ -20,10 +20,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DashboardReminder(
-    state: DashboardReminderState,
+    state: DashboardReminderState?,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
-) = with(state) {
+) {
     Card(modifier = modifier) {
         Row(
             modifier = Modifier.padding(horizontal = AppTheme.dimensions.padding.P_3),
@@ -35,7 +35,7 @@ fun DashboardReminder(
                 modifier = Modifier.size(AppTheme.dimensions.size.ImageSmall),
             )
             Text(
-                text = text,
+                text = state?.text ?: "",
                 modifier = Modifier.weight(1f),
             )
             IconButton(onClick = onDelete) {

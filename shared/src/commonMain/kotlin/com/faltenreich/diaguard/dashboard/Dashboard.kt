@@ -1,13 +1,17 @@
 package com.faltenreich.diaguard.dashboard
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.dashboard.average.DashboardAverage
@@ -36,7 +40,6 @@ fun Dashboard(
         modifier = modifier
             .padding(all = AppTheme.dimensions.padding.P_3)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
     ) {
         DashboardLatest(
             state = state?.latest,
@@ -45,13 +48,20 @@ fun Dashboard(
             },
             modifier = Modifier.fillMaxWidth(),
         )
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
 
-        state?.reminder?.let { reminder ->
-            DashboardReminder(
-                state = reminder,
-                onDelete = { onIntent(DashboardIntent.DeleteReminder) },
-                modifier = Modifier.fillMaxWidth(),
-            )
+        AnimatedVisibility(visible = state?.reminder != null) {
+            val reminder = remember { state?.reminder }
+            Column {
+                DashboardReminder(
+                    state = reminder,
+                    onDelete = { onIntent(DashboardIntent.DeleteReminder) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                // Spacings are applied manually to avoid jumping layout when animating reminder
+                Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
+            }
+
         }
 
         Row(
@@ -69,12 +79,14 @@ fun Dashboard(
                 modifier = Modifier.weight(1f),
             )
         }
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
 
         DashboardHbA1c(
             state = state?.hbA1c,
             onOpenEntry = { entry -> onIntent(DashboardIntent.EditEntry(entry = entry)) },
             modifier = Modifier.fillMaxWidth(),
         )
+        Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
 
         DashboardTrend(
             state = state?.trend,

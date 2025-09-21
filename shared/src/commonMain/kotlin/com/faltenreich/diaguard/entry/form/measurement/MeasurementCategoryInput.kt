@@ -36,7 +36,7 @@ fun MeasurementCategoryInput(
     Card(modifier = modifier.animateContentSize()) {
         Row(
             modifier = Modifier
-                .background(AppTheme.colors.scheme.surfaceContainerHigh)
+                .background(AppTheme.colors.scheme.surfaceContainerLow)
                 .fillMaxWidth()
                 .padding(AppTheme.dimensions.padding.P_2_5),
             horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),

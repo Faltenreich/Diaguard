@@ -214,6 +214,8 @@
     <string name="quarter">Quarter</string>
     <string name="reminder">Reminder</string>
     <string name="reminders">Reminders</string>
+    <string name="reminder_delete_dialog_title">Delete reminder</string>
+    <string name="reminder_delete_dialog_description">This will cancel the upcoming notification for this reminder. You can easily setup another reminder when creating a new entry.</string>
     <plurals name="reminder_label_hours">
         <item quantity="one">Reminder in %1$d hour</item>
         <item quantity="other">Reminder in %1$d hours</item>

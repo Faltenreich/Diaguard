@@ -8,9 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.unit.IntSize
+import androidx.paging.PagingData
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.LogState
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -40,6 +42,7 @@ fun LogDaySticky(
 private fun Preview() = AppPreview {
     LogDaySticky(
         state = LogState(
+            pagingData = flowOf(PagingData.from(emptyList())),
             monthHeaderSize = IntSize.Zero,
             dayHeaderSize = IntSize.Zero,
             dayStickyInfo = LogDayStickyInfo(

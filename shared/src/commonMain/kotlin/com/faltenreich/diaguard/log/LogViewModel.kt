@@ -1,22 +1,19 @@
 package com.faltenreich.diaguard.log
 
 import androidx.compose.ui.unit.IntSize
-import androidx.paging.cachedIn
 import androidx.paging.Pager
-import androidx.paging.PagingSource
+import androidx.paging.cachedIn
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.log.list.LogListPagingSource
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
-import com.faltenreich.diaguard.log.list.item.LogItemState
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.shared.logging.Logger
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 class LogViewModel(
@@ -25,22 +22,22 @@ class LogViewModel(
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<LogState, LogIntent, Unit>() {
 
-    private val initialDate: Date = getToday()
-    private lateinit var dataSource: PagingSource<Date, LogItemState>
-    private val currentDate = MutableStateFlow(initialDate)
-
-    val pagingData = Pager(
-        config = LogListPagingSource.newConfig(),
-        initialKey = initialDate,
-        pagingSourceFactory = { LogListPagingSource().also { dataSource = it } },
-    ).flow.cachedIn(scope)
+    private val initialDate = MutableStateFlow(getToday())
+    private val currentDate = MutableStateFlow(initialDate.value)
 
     private val monthHeaderSize = MutableStateFlow(IntSize.Zero)
     private val dayHeaderSize = MutableStateFlow(IntSize.Zero)
     private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo())
     private val datePickerDialog = MutableStateFlow<LogState.DatePickerDialog?>(null)
 
-    override val state: Flow<LogState> = combine(
+    override val state = combine(
+        initialDate.map { initialDate ->
+            Pager(
+                config = LogListPagingSource.newConfig(),
+                initialKey = initialDate,
+                pagingSourceFactory = { LogListPagingSource() },
+            ).flow.cachedIn(scope)
+        },
         monthHeaderSize,
         dayHeaderSize,
         dayStickyInfo,
@@ -75,8 +72,8 @@ class LogViewModel(
     }
 
     private fun setDate(date: Date) {
-        Logger.debug("Set date: $date")
-        // TODO
+        initialDate.update { date }
+        // FIXME: Month header hides given date, so we should skip offset from month header
         /*
         val indexOfDate = items.first().indexOfFirst { it.date == date }
         if (indexOfDate >= 0) {

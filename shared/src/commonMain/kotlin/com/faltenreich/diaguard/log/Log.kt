@@ -15,13 +15,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.log.list.LogList
 import com.faltenreich.diaguard.log.list.item.LogDaySticky
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
-import com.faltenreich.diaguard.log.list.item.LogItemState
 import com.faltenreich.diaguard.shared.view.LifecycleState
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.rememberLifecycleState
@@ -33,13 +31,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun Log(
     state: LogState?,
-    items: LazyPagingItems<LogItemState>,
     onIntent: (LogIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     state ?: return
 
     val listState = rememberLazyListState()
+    val items = state.pagingData.collectAsLazyPagingItems()
 
     LaunchedEffect(state.monthHeaderSize.height) {
         // Avoid scrolling on resume
@@ -108,13 +106,12 @@ fun Log(
 private fun Preview() = AppPreview {
     Log(
         state = LogState(
+            pagingData = flowOf(PagingData.from(emptyList())),
             monthHeaderSize = IntSize.Zero,
             dayHeaderSize = IntSize.Zero,
             dayStickyInfo = LogDayStickyInfo(),
             datePickerDialog = null,
         ),
-        items = flowOf(PagingData.from(emptyList<LogItemState>()))
-            .collectAsLazyPagingItems(),
         onIntent = {},
     )
 }

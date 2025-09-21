@@ -14,11 +14,12 @@ class GetReminderLabelUseCase(
 
     operator fun invoke(duration: Duration): String {
         return duration.takeIf { it > Duration.ZERO }?.let {
-            // TODO: Localize plurals
             if (duration.inWholeHours > 0) {
-                localization.getString(Res.string.reminder_label_hours, duration.inWholeHours)
+                val quantity = duration.inWholeHours.toInt()
+                localization.getPluralString(Res.plurals.reminder_label_hours, quantity, quantity)
             } else if (duration.inWholeMinutes > 0) {
-                localization.getString(Res.string.reminder_label_minutes, duration.inWholeMinutes)
+                val quantity = duration.inWholeMinutes.toInt()
+                localization.getPluralString(Res.plurals.reminder_label_minutes, quantity, quantity)
             } else {
                 localization.getString(Res.string.reminder_label_seconds)
             }

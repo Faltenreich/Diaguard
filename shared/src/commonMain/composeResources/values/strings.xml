@@ -214,7 +214,14 @@
     <string name="quarter">Quarter</string>
     <string name="reminder">Reminder</string>
     <string name="reminders">Reminders</string>
-    <string name="reminder_label_hours">Reminder in %1$d hours</string>
+    <plurals name="reminder_label_hours">
+        <item quantity="one">Reminder in %1$d hour</item>
+        <item quantity="other">Reminder in %1$d hours</item>
+    </plurals>
+    <plurals name="reminder_label_minutes">
+        <item quantity="one">Reminder in %1$d minute</item>
+        <item quantity="other">Reminder in %1$d minutes</item>
+    </plurals>
     <string name="reminder_label_minutes">Reminder in %1$d minutes</string>
     <string name="reminder_label_seconds">Reminder in about a minute</string>
     <string name="reminder_permission_rationale">Reminders need the permission to post local notifications</string>

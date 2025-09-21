@@ -11,4 +11,6 @@ sealed interface DashboardIntent {
     data object OpenStatistic : DashboardIntent
 
     data object SearchEntries : DashboardIntent
+
+    data object DeleteReminder : DashboardIntent
 }

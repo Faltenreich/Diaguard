@@ -16,15 +16,26 @@ class SetReminderUseCase(
     private val localization: Localization,
 ) {
 
-    suspend operator fun invoke(delay: Duration) {
-        val milliseconds = dateTimeFactory.now().epochMilliseconds + delay.inWholeMilliseconds
+    suspend operator fun invoke(delay: Duration?) {
+        when (delay) {
+            null -> {
+                alarmManager.cancelAlarm(ALARM_ID)
+                keyValueStore.write(
+                    key = localization.getString(Res.string.preference_alarm_start),
+                    value = -1L,
+                )
+            }
+            else -> {
+                val milliseconds = dateTimeFactory.now().epochMilliseconds + delay.inWholeMilliseconds
 
-        alarmManager.setAlarm(id = ALARM_ID, delay = delay)
+                alarmManager.setAlarm(id = ALARM_ID, delay = delay)
 
-        keyValueStore.write(
-            key = localization.getString(Res.string.preference_alarm_start),
-            value = milliseconds,
-        )
+                keyValueStore.write(
+                    key = localization.getString(Res.string.preference_alarm_start),
+                    value = milliseconds,
+                )
+            }
+        }
     }
 
     companion object {

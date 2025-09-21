@@ -45,13 +45,15 @@ fun Dashboard(
             },
             modifier = Modifier.fillMaxWidth(),
         )
+
         state?.reminder?.let { reminder ->
             DashboardReminder(
                 state = reminder,
-                onDelete = { TODO() },
+                onDelete = { onIntent(DashboardIntent.DeleteReminder) },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
@@ -67,11 +69,13 @@ fun Dashboard(
                 modifier = Modifier.weight(1f),
             )
         }
+
         DashboardHbA1c(
             state = state?.hbA1c,
             onOpenEntry = { entry -> onIntent(DashboardIntent.EditEntry(entry = entry)) },
             modifier = Modifier.fillMaxWidth(),
         )
+
         DashboardTrend(
             state = state?.trend,
             onClick = { onIntent(DashboardIntent.OpenStatistic) },

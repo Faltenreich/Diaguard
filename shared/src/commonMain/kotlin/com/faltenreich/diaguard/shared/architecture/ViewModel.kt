@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.shared.architecture
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewModelScope
 import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -50,6 +51,10 @@ abstract class ViewModel<State, Intent, Event>(
     fun dispatchIntent(intent: Intent) {
         scope.launch(dispatcher) {
             handleIntent(intent)
+
+            intent?.let {
+                Logger.debug("Dispatched intent: ${intent::class.simpleName}")
+            }
         }
     }
 
@@ -64,6 +69,10 @@ abstract class ViewModel<State, Intent, Event>(
     fun postEvent(event: Event) {
         scope.launch(dispatcher) {
             events.emit(event)
+
+            event?.let {
+                Logger.debug("Posted event: ${event::class.simpleName}")
+            }
         }
     }
 

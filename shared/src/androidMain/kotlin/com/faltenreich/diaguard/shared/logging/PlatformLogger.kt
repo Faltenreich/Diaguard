@@ -36,6 +36,6 @@ actual class PlatformLogger : Logger {
 
     companion object {
 
-        private const val CALLS_UNTIL_CALL_SITE = 5
+        private const val CALLS_UNTIL_CALL_SITE = 6
     }
 }

@@ -43,7 +43,6 @@ private fun Preview() = AppPreview {
     LogDaySticky(
         state = LogState(
             pagingData = flowOf(PagingData.from(emptyList())),
-            monthHeaderSize = IntSize.Zero,
             dayHeaderSize = IntSize.Zero,
             dayStickyInfo = LogDayStickyInfo(
                 date = today(),

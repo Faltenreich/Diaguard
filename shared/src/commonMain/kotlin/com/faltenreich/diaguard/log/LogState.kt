@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 data class LogState(
     val pagingData: Flow<PagingData<LogItemState>>,
-    val monthHeaderSize: IntSize,
     val dayHeaderSize: IntSize,
     val dayStickyInfo: LogDayStickyInfo,
     val datePickerDialog: DatePickerDialog?,

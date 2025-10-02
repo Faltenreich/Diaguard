@@ -25,7 +25,6 @@ class LogViewModel(
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
 
-    private val monthHeaderSize = MutableStateFlow(IntSize.Zero)
     private val dayHeaderSize = MutableStateFlow(IntSize.Zero)
     private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo())
     private val datePickerDialog = MutableStateFlow<LogState.DatePickerDialog?>(null)
@@ -38,7 +37,6 @@ class LogViewModel(
                 pagingSourceFactory = { LogListPagingSource() },
             ).flow.cachedIn(scope)
         },
-        monthHeaderSize,
         dayHeaderSize,
         dayStickyInfo,
         datePickerDialog,
@@ -48,13 +46,12 @@ class LogViewModel(
     override suspend fun handleIntent(intent: LogIntent) {
         with(intent) {
             when (this) {
-                is LogIntent.CacheMonthHeaderSize -> monthHeaderSize.value = size
                 is LogIntent.CacheDayHeaderSize -> dayHeaderSize.value = size
                 is LogIntent.OnScroll -> {
                     currentDate.value = firstItem.date
                     dayStickyInfo.value = invalidateDayStickyInfo(
                         stickyHeaderInfo = dayStickyInfo.value,
-                        monthHeaderSize = monthHeaderSize.value,
+                        monthHeaderHeight = monthHeaderHeight,
                         dayHeaderSize = dayHeaderSize.value,
                         firstItem = firstItem,
                         nextItems = nextItems,

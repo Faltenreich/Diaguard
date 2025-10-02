@@ -8,11 +8,13 @@ import com.faltenreich.diaguard.log.list.item.LogItemState
 
 sealed interface LogIntent {
 
-    data class CacheMonthHeaderSize(val size: IntSize) : LogIntent
-
     data class CacheDayHeaderSize(val size: IntSize) : LogIntent
 
-    data class OnScroll(val firstItem: LogItemState, val nextItems: List<LazyListItemInfo>) : LogIntent
+    data class OnScroll(
+        val firstItem: LogItemState,
+        val nextItems: List<LazyListItemInfo>,
+        val monthHeaderHeight: Int,
+    ) : LogIntent
 
     data class CreateEntry(val date: Date? = null) : LogIntent
 

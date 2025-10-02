@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.log.list.item
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -19,7 +20,7 @@ fun LogMonth(
 ) {
     CenterAlignedTopAppBar(
         title = { Text(formatter.formatMonthOfYear(state.date.monthOfYear, abbreviated = false)) },
-        modifier = modifier,
+        modifier = modifier.height(AppTheme.dimensions.size.LogMonthHeight),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = AppTheme.colors.scheme.primary,
             navigationIconContentColor = AppTheme.colors.scheme.onPrimary,

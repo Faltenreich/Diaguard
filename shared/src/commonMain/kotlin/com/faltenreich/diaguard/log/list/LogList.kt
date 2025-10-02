@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
@@ -47,12 +46,7 @@ fun LogList(
         for (index in 0 until items.itemCount) {
             when (val peek = items.peek(index)) {
                 is LogItemState.MonthHeader -> stickyHeader(key = peek.key) {
-                    LogMonth(
-                        state = items[index] as LogItemState.MonthHeader,
-                        modifier = Modifier.onGloballyPositioned { coordinates ->
-                            onIntent(LogIntent.CacheMonthHeaderSize(coordinates.size))
-                        },
-                    )
+                    LogMonth(items[index] as LogItemState.MonthHeader)
                 }
 
                 is LogItemState.EntryContent -> item(key = peek.key) {

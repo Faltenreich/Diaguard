@@ -5,8 +5,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.Color
 import androidx.paging.PagingData
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.log.LogState
@@ -25,12 +24,8 @@ fun LogDaySticky(
             style = style,
             modifier = modifier
                 .offset { offset }
-                .drawWithContent {
-                    clipRect(top = clip) {
-                        this@drawWithContent.drawContent()
-                    }
-                }
-                .background(AppTheme.colors.scheme.background)
+                .background(Color.Red)
+                //.background(AppTheme.colors.scheme.background)
                 .padding(all = AppTheme.dimensions.padding.P_3),
         )
     }

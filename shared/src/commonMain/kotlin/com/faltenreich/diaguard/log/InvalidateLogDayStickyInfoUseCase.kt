@@ -14,10 +14,6 @@ class InvalidateLogDayStickyInfoUseCase {
         firstItem: LogItemState,
         nextItems: List<LazyListItemInfo>,
     ): LogDayStickyInfo {
-        if (firstItem is LogItemState.MonthHeader) {
-            return stickyHeaderInfo.copy(offset = IntOffset(x = 0, y = -dayHeaderHeight))
-        }
-
         val nextItem = nextItems.firstOrNull { item ->
             when (val key = item.key) {
                 is LogKey.Header -> true
@@ -28,7 +24,7 @@ class InvalidateLogDayStickyInfoUseCase {
         val offset = when (nextItem?.key) {
             is LogKey.Header -> -dayHeaderHeight
             is LogKey.Item -> nextItem.offset - dayHeaderHeight
-            else -> 0
+            else -> -dayHeaderHeight
         }
 
         val overlap = -offset

@@ -34,11 +34,12 @@ fun Log(
     val listState = rememberLazyListState()
     val items = state.pagingData.collectAsLazyPagingItems()
 
+    // FIXME
     val dayHeaderHeight = with(LocalDensity.current) {
         AppTheme.dimensions.padding.P_3.roundToPx()
-        + AppTheme.typography.headlineSmall.lineHeight.roundToPx()
+        + (AppTheme.typography.headlineSmall.lineHeight.value * fontScale)
         + AppTheme.dimensions.padding.P_1.roundToPx()
-        + AppTheme.typography.labelMedium.lineHeight.roundToPx()
+        + AppTheme.typography.labelMedium.lineHeight.value * fontScale
         + AppTheme.dimensions.padding.P_3.roundToPx()
     }
 
@@ -52,11 +53,10 @@ fun Log(
 
     LaunchedEffect(state, onIntent) {
         snapshotFlow {
-            listState.layoutInfo.visibleItemsInfo
-                .filter { it.offset > 0 }
-                .takeIf(List<*>::isNotEmpty)
-        }.distinctUntilChanged().filterNotNull().collect { nextItems ->
-            val firstItem = items[nextItems.first().index - 1] ?: return@collect
+            listState.layoutInfo.visibleItemsInfo.takeIf(List<*>::isNotEmpty)
+        }.distinctUntilChanged().filterNotNull().collect { visibleItems ->
+            val firstItem = items[visibleItems.first().index] ?: return@collect
+            val nextItems = visibleItems.takeLast(visibleItems.size - 1)
             onIntent(LogIntent.OnScroll(firstItem, nextItems, dayHeaderHeight))
         }
     }

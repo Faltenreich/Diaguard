@@ -10,7 +10,6 @@ sealed interface LogIntent {
     data class OnScroll(
         val firstItem: LogItemState,
         val nextItems: List<LazyListItemInfo>,
-        val monthHeaderHeight: Int,
         val dayHeaderHeight: Int,
     ) : LogIntent
 

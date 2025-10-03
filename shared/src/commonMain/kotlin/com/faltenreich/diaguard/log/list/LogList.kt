@@ -45,7 +45,7 @@ fun LogList(
 
         for (index in 0 until items.itemCount) {
             when (val peek = items.peek(index)) {
-                is LogItemState.MonthHeader -> stickyHeader(key = peek.key) {
+                is LogItemState.MonthHeader -> item(key = peek.key) {
                     LogMonth(items[index] as LogItemState.MonthHeader)
                 }
 
@@ -104,6 +104,7 @@ private fun Preview() = AppPreview {
                 listOf(
                     LogItemState.MonthHeader(
                         date = date,
+                        dateLocalized = date.toString(),
                     ),
                     LogItemState.EmptyContent(
                         date = date,

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.log
 
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -35,23 +34,12 @@ fun Log(
     val listState = rememberLazyListState()
     val items = state.pagingData.collectAsLazyPagingItems()
 
-    val monthHeaderHeight = with(LocalDensity.current) {
-        AppTheme.dimensions.size.LogMonthHeight.roundToPx()
-    }
     val dayHeaderHeight = with(LocalDensity.current) {
         AppTheme.dimensions.padding.P_3.roundToPx()
         + AppTheme.typography.headlineSmall.lineHeight.roundToPx()
         + AppTheme.dimensions.padding.P_1.roundToPx()
         + AppTheme.typography.labelMedium.lineHeight.roundToPx()
         + AppTheme.dimensions.padding.P_3.roundToPx()
-    }
-
-    LaunchedEffect(Unit) {
-        // Avoid scrolling on resume
-        if (listState.firstVisibleItemScrollOffset == 0) {
-            // FIXME: Scrolls too early / before data
-            listState.scrollBy(-monthHeaderHeight.toFloat())
-        }
     }
 
     val lifecycleState = rememberLifecycleState()
@@ -65,11 +53,11 @@ fun Log(
     LaunchedEffect(state, onIntent) {
         snapshotFlow {
             listState.layoutInfo.visibleItemsInfo
-                .filter { it.offset > monthHeaderHeight }
+                .filter { it.offset > 0 }
                 .takeIf(List<*>::isNotEmpty)
         }.distinctUntilChanged().filterNotNull().collect { nextItems ->
             val firstItem = items[nextItems.first().index - 1] ?: return@collect
-            onIntent(LogIntent.OnScroll(firstItem, nextItems, monthHeaderHeight, dayHeaderHeight))
+            onIntent(LogIntent.OnScroll(firstItem, nextItems, dayHeaderHeight))
         }
     }
 
@@ -100,6 +88,7 @@ fun Log(
 private fun Preview() = AppPreview {
     Log(
         state = LogState(
+            monthLocalized = "",
             pagingData = flowOf(PagingData.from(emptyList())),
             dayStickyInfo = LogDayStickyInfo(),
             datePickerDialog = null,

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.datetime.format
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
 
 class FormatDateTimeUseCase(private val dateTimeFormatter: DateTimeFormatter) {
@@ -21,5 +22,9 @@ class FormatDateTimeUseCase(private val dateTimeFormatter: DateTimeFormatter) {
 
     operator fun invoke(dateRange: DateRange): String {
         return dateTimeFormatter.formatDateRange(dateRange)
+    }
+
+    operator fun invoke(monthOfYear: MonthOfYear, abbreviated: Boolean): String {
+        return dateTimeFormatter.formatMonthOfYear(monthOfYear, abbreviated)
     }
 }

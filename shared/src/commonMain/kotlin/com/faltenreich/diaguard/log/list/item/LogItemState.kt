@@ -12,6 +12,7 @@ sealed interface LogItemState {
 
     data class MonthHeader(
         override val date: Date,
+        val dateLocalized: String,
     ) : LogItemState {
 
         override val style = LogDayStyle(isVisible = false, isHighlighted = false)

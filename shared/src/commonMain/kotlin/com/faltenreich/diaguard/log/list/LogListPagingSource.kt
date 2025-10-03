@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
@@ -21,6 +22,7 @@ class LogListPagingSource(
     getTodayUseCase: GetTodayUseCase = inject(),
     private val entryRepository: EntryRepository = inject(),
     private val mapEntryListItemState: MapEntryListItemStateUseCase = inject(),
+    private val formatter: DateTimeFormatter = inject(),
 ) : PagingSource<Date, LogItemState>() {
 
     private val today = getTodayUseCase()
@@ -56,7 +58,8 @@ class LogListPagingSource(
         )
 
         val items = DateProgression(startDate, endDate).map { date ->
-            val headers = listOfNotNull(LogItemState.MonthHeader(date).takeIf { date.dayOfMonth == 1 })
+            val dateLocalized = formatter.formatMonthOfYear(date.monthOfYear, abbreviated = false)
+            val headers = listOfNotNull(LogItemState.MonthHeader(date, dateLocalized).takeIf { date.dayOfMonth == 1 })
             val entriesOfDate = entries.filter { it.dateTime.date == date }
             val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
                 LogItemState.EntryContent(

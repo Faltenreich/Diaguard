@@ -5,13 +5,11 @@ import androidx.compose.ui.unit.IntOffset
 import com.faltenreich.diaguard.log.list.LogKey
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.log.list.item.LogItemState
-import kotlin.math.min
 
 class InvalidateLogDayStickyInfoUseCase {
 
     operator fun invoke(
         stickyHeaderInfo: LogDayStickyInfo,
-        monthHeaderHeight: Int,
         dayHeaderHeight: Int,
         firstItem: LogItemState,
         nextItems: List<LazyListItemInfo>,
@@ -29,11 +27,11 @@ class InvalidateLogDayStickyInfoUseCase {
         }
         val offset = when (nextItem?.key) {
             is LogKey.Header -> -dayHeaderHeight
-            is LogKey.Item -> min(monthHeaderHeight, nextItem.offset - dayHeaderHeight)
-            else -> monthHeaderHeight
+            is LogKey.Item -> nextItem.offset - dayHeaderHeight
+            else -> 0
         }
 
-        val overlap = -(offset - monthHeaderHeight)
+        val overlap = -offset
         val clip = if (overlap > 0) overlap.toFloat() else 0f
 
         return stickyHeaderInfo.copy(

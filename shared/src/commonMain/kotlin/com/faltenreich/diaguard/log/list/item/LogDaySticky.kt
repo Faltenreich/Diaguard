@@ -41,6 +41,7 @@ fun LogDaySticky(
 private fun Preview() = AppPreview {
     LogDaySticky(
         state = LogState(
+            monthLocalized = "",
             pagingData = flowOf(PagingData.from(emptyList())),
             dayStickyInfo = LogDayStickyInfo(
                 date = today(),

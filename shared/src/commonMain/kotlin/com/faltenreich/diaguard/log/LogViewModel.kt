@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.log
 
-import androidx.compose.ui.unit.IntSize
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.datetime.Date
@@ -25,7 +24,6 @@ class LogViewModel(
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
 
-    private val dayHeaderSize = MutableStateFlow(IntSize.Zero)
     private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo())
     private val datePickerDialog = MutableStateFlow<LogState.DatePickerDialog?>(null)
 
@@ -37,7 +35,6 @@ class LogViewModel(
                 pagingSourceFactory = { LogListPagingSource() },
             ).flow.cachedIn(scope)
         },
-        dayHeaderSize,
         dayStickyInfo,
         datePickerDialog,
         ::LogState,
@@ -46,13 +43,12 @@ class LogViewModel(
     override suspend fun handleIntent(intent: LogIntent) {
         with(intent) {
             when (this) {
-                is LogIntent.CacheDayHeaderSize -> dayHeaderSize.value = size
                 is LogIntent.OnScroll -> {
                     currentDate.value = firstItem.date
                     dayStickyInfo.value = invalidateDayStickyInfo(
                         stickyHeaderInfo = dayStickyInfo.value,
                         monthHeaderHeight = monthHeaderHeight,
-                        dayHeaderSize = dayHeaderSize.value,
+                        dayHeaderHeight = dayHeaderHeight,
                         firstItem = firstItem,
                         nextItems = nextItems,
                     )

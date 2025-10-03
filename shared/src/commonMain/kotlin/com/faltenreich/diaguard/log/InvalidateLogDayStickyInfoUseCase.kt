@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.log
 
 import androidx.compose.foundation.lazy.LazyListItemInfo
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
 import com.faltenreich.diaguard.log.list.LogKey
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.log.list.item.LogItemState
@@ -13,12 +12,12 @@ class InvalidateLogDayStickyInfoUseCase {
     operator fun invoke(
         stickyHeaderInfo: LogDayStickyInfo,
         monthHeaderHeight: Int,
-        dayHeaderSize: IntSize,
+        dayHeaderHeight: Int,
         firstItem: LogItemState,
         nextItems: List<LazyListItemInfo>,
     ): LogDayStickyInfo {
         if (firstItem is LogItemState.MonthHeader) {
-            return stickyHeaderInfo.copy(offset = IntOffset(x = 0, y = -dayHeaderSize.height))
+            return stickyHeaderInfo.copy(offset = IntOffset(x = 0, y = -dayHeaderHeight))
         }
 
         val nextItem = nextItems.firstOrNull { item ->
@@ -29,8 +28,8 @@ class InvalidateLogDayStickyInfoUseCase {
             }
         }
         val offset = when (nextItem?.key) {
-            is LogKey.Header -> -dayHeaderSize.height
-            is LogKey.Item -> min(monthHeaderHeight, nextItem.offset - dayHeaderSize.height)
+            is LogKey.Header -> -dayHeaderHeight
+            is LogKey.Item -> min(monthHeaderHeight, nextItem.offset - dayHeaderHeight)
             else -> monthHeaderHeight
         }
 

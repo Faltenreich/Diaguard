@@ -8,9 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.IntSize
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
@@ -37,11 +35,21 @@ fun Log(
     val listState = rememberLazyListState()
     val items = state.pagingData.collectAsLazyPagingItems()
 
-    val monthHeaderHeight = with(LocalDensity.current) { AppTheme.dimensions.size.LogMonthHeight.roundToPx() }
+    val monthHeaderHeight = with(LocalDensity.current) {
+        AppTheme.dimensions.size.LogMonthHeight.roundToPx()
+    }
+    val dayHeaderHeight = with(LocalDensity.current) {
+        AppTheme.dimensions.padding.P_3.roundToPx()
+        + AppTheme.typography.headlineSmall.lineHeight.roundToPx()
+        + AppTheme.dimensions.padding.P_1.roundToPx()
+        + AppTheme.typography.labelMedium.lineHeight.roundToPx()
+        + AppTheme.dimensions.padding.P_3.roundToPx()
+    }
 
-    LaunchedEffect(monthHeaderHeight) {
+    LaunchedEffect(Unit) {
         // Avoid scrolling on resume
         if (listState.firstVisibleItemScrollOffset == 0) {
+            // FIXME: Scrolls too early / before data
             listState.scrollBy(-monthHeaderHeight.toFloat())
         }
     }
@@ -61,7 +69,7 @@ fun Log(
                 .takeIf(List<*>::isNotEmpty)
         }.distinctUntilChanged().filterNotNull().collect { nextItems ->
             val firstItem = items[nextItems.first().index - 1] ?: return@collect
-            onIntent(LogIntent.OnScroll(firstItem, nextItems, monthHeaderHeight))
+            onIntent(LogIntent.OnScroll(firstItem, nextItems, monthHeaderHeight, dayHeaderHeight))
         }
     }
 
@@ -72,13 +80,7 @@ fun Log(
             onIntent = onIntent,
             modifier = Modifier.fillMaxSize(),
         )
-        LogDaySticky(
-            state = state,
-            modifier = Modifier
-                .onGloballyPositioned { coordinates ->
-                    onIntent(LogIntent.CacheDayHeaderSize(coordinates.size))
-                },
-        )
+        LogDaySticky(state)
     }
 
     state.datePickerDialog?.let { datePickerDialog ->
@@ -99,7 +101,6 @@ private fun Preview() = AppPreview {
     Log(
         state = LogState(
             pagingData = flowOf(PagingData.from(emptyList())),
-            dayHeaderSize = IntSize.Zero,
             dayStickyInfo = LogDayStickyInfo(),
             datePickerDialog = null,
         ),

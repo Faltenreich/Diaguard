@@ -17,7 +17,8 @@ class InvalidateLogDayStickyInfoUseCase {
         val nextItem = nextItems.firstOrNull { item ->
             when (val key = item.key) {
                 is LogKey.Header -> true
-                is LogKey.Item -> key.isFirstOfDay && key.date > firstItem.date // FIXME: False is firstItem is header
+                is LogKey.Item -> key.isFirstOfDay &&
+                    (firstItem is LogItemState.MonthHeader || key.date > firstItem.date)
                 else -> true
             }
         }

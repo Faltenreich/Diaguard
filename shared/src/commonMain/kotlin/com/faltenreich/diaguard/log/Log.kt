@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.log.list.LogList
 import com.faltenreich.diaguard.log.list.item.LogDaySticky
@@ -34,14 +37,7 @@ fun Log(
     val listState = rememberLazyListState()
     val items = state.pagingData.collectAsLazyPagingItems()
 
-    // FIXME
-    val dayHeaderHeight = with(LocalDensity.current) {
-        AppTheme.dimensions.padding.P_3.roundToPx()
-        + (AppTheme.typography.headlineSmall.lineHeight.value * fontScale)
-        + AppTheme.dimensions.padding.P_1.roundToPx()
-        + AppTheme.typography.labelMedium.lineHeight.value * fontScale
-        + AppTheme.dimensions.padding.P_3.roundToPx()
-    }
+    var dayHeaderHeight by remember { mutableStateOf(0) }
 
     val lifecycleState = rememberLifecycleState()
     LaunchedEffect(lifecycleState) {
@@ -68,7 +64,12 @@ fun Log(
             onIntent = onIntent,
             modifier = Modifier.fillMaxSize(),
         )
-        LogDaySticky(state)
+        LogDaySticky(
+            state = state,
+            modifier = Modifier.onGloballyPositioned { coordinates ->
+                dayHeaderHeight = coordinates.size.height
+            }
+        )
     }
 
     state.datePickerDialog?.let { datePickerDialog ->

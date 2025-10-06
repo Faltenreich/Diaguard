@@ -1,7 +1,10 @@
 package com.faltenreich.diaguard.log
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,9 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.log.list.LogList
-import com.faltenreich.diaguard.log.list.item.LogDaySticky
+import com.faltenreich.diaguard.log.list.item.LogDay
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.shared.view.LifecycleState
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
@@ -60,12 +64,19 @@ fun Log(
             onIntent = onIntent,
             modifier = Modifier.fillMaxSize(),
         )
-        LogDaySticky(
-            state = state,
-            modifier = Modifier.onGloballyPositioned { coordinates ->
-                dayHeaderHeight = coordinates.size.height
-            }
-        )
+
+        state.dayStickyInfo.date?.let { date ->
+            LogDay(
+                date = date,
+                style = state.dayStickyInfo.style,
+                modifier = Modifier
+                    // FIXME: Solve Henne-Ei-Problem, e.g. by calculating dayHeaderHeight from LogList item
+                    .onGloballyPositioned { dayHeaderHeight = it.size.height }
+                    .offset { state.dayStickyInfo.offset }
+                    .background(AppTheme.colors.scheme.background)
+                    .padding(all = AppTheme.dimensions.padding.P_3),
+            )
+        }
     }
 
     state.datePickerDialog?.let { datePickerDialog ->

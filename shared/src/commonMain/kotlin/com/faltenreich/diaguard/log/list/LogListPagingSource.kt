@@ -38,8 +38,9 @@ class LogListPagingSource(
         val endDate: Date
         when {
             params.isRefreshing() -> {
-                startDate = key
-                endDate = key.plus(params.loadSize, DateUnit.DAY)
+                // Ensure sticky header within first page
+                startDate = key.atStartOf(DateUnit.MONTH)
+                endDate = startDate.plus(params.loadSize, DateUnit.DAY)
             }
             params.isPrepending() -> {
                 startDate = key.minus(params.loadSize, DateUnit.DAY)

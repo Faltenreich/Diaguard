@@ -14,9 +14,7 @@ import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
 import com.faltenreich.diaguard.log.list.item.LogItemState
 import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.view.isAppending
 import com.faltenreich.diaguard.shared.view.isPrepending
-import com.faltenreich.diaguard.shared.view.isRefreshing
 
 class LogListPagingSource(
     getTodayUseCase: GetTodayUseCase = inject(),
@@ -37,19 +35,14 @@ class LogListPagingSource(
         val startDate: Date
         val endDate: Date
         when {
-            params.isRefreshing() -> {
-                startDate = key
-                endDate = key.plus(params.loadSize, DateUnit.DAY)
-            }
             params.isPrepending() -> {
                 startDate = key.minus(params.loadSize, DateUnit.DAY)
                 endDate = key
             }
-            params.isAppending() -> {
+            else -> {
                 startDate = key
                 endDate = key.plus(params.loadSize, DateUnit.DAY)
             }
-            else -> throw IllegalArgumentException("Unhandled parameters: $params")
         }
 
         val entries = entryRepository.getByDateRange(
@@ -92,8 +85,7 @@ class LogListPagingSource(
 
     companion object {
 
-        // Must be at least the maximum day count per month to ensure a prepending header
-        private const val PAGE_SIZE_IN_DAYS = 31
+        private const val PAGE_SIZE_IN_DAYS = 10
 
         fun newConfig(): PagingConfig {
             return PagingConfig(pageSize = PAGE_SIZE_IN_DAYS)

@@ -1,9 +1,13 @@
 package com.faltenreich.diaguard.log.list.item
 
-import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
@@ -14,16 +18,20 @@ fun LogMonth(
     state: LogItemState.MonthHeader,
     modifier: Modifier = Modifier,
 ) {
-    CenterAlignedTopAppBar(
-        title = { Text(state.dateLocalized) },
-        modifier = modifier,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = AppTheme.colors.scheme.primary,
-            navigationIconContentColor = AppTheme.colors.scheme.onPrimary,
-            titleContentColor = AppTheme.colors.scheme.onPrimary,
-            actionIconContentColor = AppTheme.colors.scheme.onPrimary,
-        ),
-    )
+    Box(
+        modifier = modifier
+            .background(AppTheme.colors.scheme.primary)
+            .padding(AppTheme.dimensions.padding.P_3)
+            .fillMaxWidth()
+            .height(AppTheme.dimensions.size.LogMonthHeight),
+        contentAlignment = Alignment.BottomStart,
+    ) {
+        Text(
+            text = state.dateLocalized,
+            color = AppTheme.colors.scheme.onPrimary,
+            style = AppTheme.typography.headlineSmall,
+        )
+    }
 }
 
 @Preview

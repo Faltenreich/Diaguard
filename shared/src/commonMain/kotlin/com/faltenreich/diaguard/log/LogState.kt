@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.log.list.item.LogItemState
 import kotlinx.coroutines.flow.Flow
 
 data class LogState(
-    val initialDate: Date,
+    val monthLocalized: String,
     val pagingData: Flow<PagingData<LogItemState>>,
     val dayStickyInfo: LogDayStickyInfo,
     val datePickerDialog: DatePickerDialog?,

@@ -1,9 +1,11 @@
 package com.faltenreich.diaguard.log
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.di.viewModel
 import com.faltenreich.diaguard.shared.localization.getString
@@ -20,6 +22,15 @@ import org.jetbrains.compose.resources.painterResource
 
 @Serializable
 data object LogScreen : Screen {
+
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        val viewModel = viewModel<LogViewModel>()
+        val state = viewModel.collectState()
+        return TopAppBarStyle.CenterAligned {
+            Text(state?.monthLocalized ?: "")
+        }
+    }
 
     @Composable
     override fun BottomAppBar(): BottomAppBarStyle {

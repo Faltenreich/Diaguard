@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
+import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.log.list.LogListPagingSource
@@ -19,16 +20,18 @@ class LogViewModel(
     getToday: GetTodayUseCase,
     private val invalidateDayStickyInfo: InvalidateLogDayStickyInfoUseCase,
     private val pushScreen: PushScreenUseCase,
+    private val formatDateTimeUseCase: FormatDateTimeUseCase,
 ) : ViewModel<LogState, LogIntent, Unit>() {
 
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
+    private val monthLocalized = currentDate.map { formatDateTimeUseCase(it.monthOfYear, abbreviated = false) }
 
     private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo())
     private val datePickerDialog = MutableStateFlow<LogState.DatePickerDialog?>(null)
 
     override val state = combine(
-        initialDate,
+        monthLocalized,
         initialDate.map { initialDate ->
             Pager(
                 config = LogListPagingSource.newConfig(),

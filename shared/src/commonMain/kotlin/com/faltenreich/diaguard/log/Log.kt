@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.paging.PagingData
@@ -21,8 +20,6 @@ import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.shared.view.LifecycleState
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.rememberLifecycleState
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -39,21 +36,20 @@ fun Log(
 
     var dayHeaderHeight by remember { mutableStateOf(0) }
 
+    LaunchedEffect(listState.firstVisibleItemScrollOffset) {
+        val visibleItems = listState.layoutInfo.visibleItemsInfo
+            .takeIf(List<*>::isNotEmpty)
+            ?: return@LaunchedEffect
+        val firstItem = items[visibleItems.first().index] ?: return@LaunchedEffect
+        val nextItems = visibleItems.takeLast(visibleItems.size - 1)
+        onIntent(LogIntent.OnScroll(firstItem, nextItems, dayHeaderHeight))
+    }
+
     val lifecycleState = rememberLifecycleState()
     LaunchedEffect(lifecycleState) {
         if (lifecycleState == LifecycleState.RESUMED) {
             // FIXME: Jumps to start of page
             items.refresh()
-        }
-    }
-
-    LaunchedEffect(state, onIntent) {
-        snapshotFlow {
-            listState.layoutInfo.visibleItemsInfo.takeIf(List<*>::isNotEmpty)
-        }.distinctUntilChanged().filterNotNull().collect { visibleItems ->
-            val firstItem = items[visibleItems.first().index] ?: return@collect
-            val nextItems = visibleItems.takeLast(visibleItems.size - 1)
-            onIntent(LogIntent.OnScroll(firstItem, nextItems, dayHeaderHeight))
         }
     }
 

@@ -8,12 +8,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
@@ -26,7 +24,6 @@ import com.faltenreich.diaguard.shared.view.rememberLifecycleState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -37,7 +34,6 @@ fun Log(
 ) {
     state ?: return
 
-    val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     val items = state.pagingData.collectAsLazyPagingItems()
 
@@ -48,17 +44,6 @@ fun Log(
         if (lifecycleState == LifecycleState.RESUMED) {
             // FIXME: Jumps to start of page
             items.refresh()
-        }
-    }
-
-    val listStateOnRefresh = items.loadState.refresh
-    LaunchedEffect(listStateOnRefresh) {
-        if (listStateOnRefresh is LoadState.NotLoading) {
-            // Scroll manually to initial date since first page starts at start of month
-            // TODO: Scroll index offsets with multiple LogEntries per day
-            // FIXME: One too less on going forward
-            val scrollIndex = state.initialDate.dayOfMonth - 1
-            scope.launch { listState.scrollToItem(scrollIndex, 0) }
         }
     }
 

@@ -45,6 +45,7 @@ fun LogList(
 
         for (index in 0 until items.itemCount) {
             when (val peek = items.peek(index)) {
+                // TODO: Ensure stickyHeader even though no upwards month transition has happened yet
                 is LogItemState.MonthHeader -> stickyHeader(key = peek.key) {
                     LogMonth(items[index] as LogItemState.MonthHeader)
                 }

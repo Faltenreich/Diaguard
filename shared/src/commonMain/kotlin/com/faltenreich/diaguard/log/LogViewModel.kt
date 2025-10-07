@@ -27,7 +27,7 @@ class LogViewModel(
     private val currentDate = MutableStateFlow(initialDate.value)
     private val monthLocalized = currentDate.map { formatDateTimeUseCase(it.monthOfYear, abbreviated = false) }
 
-    private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo())
+    private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo(date = initialDate.value))
     private val datePickerDialog = MutableStateFlow<LogState.DatePickerDialog?>(null)
 
     override val state = combine(

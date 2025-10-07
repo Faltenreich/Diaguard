@@ -40,7 +40,11 @@ fun Log(
 
     var dayHeaderHeight by remember { mutableStateOf(0) }
 
-    LaunchedEffect(listState.firstVisibleItemScrollOffset) {
+    LaunchedEffect(
+        listState.firstVisibleItemScrollOffset,
+        listState.layoutInfo.visibleItemsInfo,
+        dayHeaderHeight,
+    ) {
         val visibleItems = listState.layoutInfo.visibleItemsInfo
             .takeIf(List<*>::isNotEmpty)
             ?: return@LaunchedEffect
@@ -64,19 +68,15 @@ fun Log(
             onIntent = onIntent,
             modifier = Modifier.fillMaxSize(),
         )
-
-        state.dayStickyInfo.date?.let { date ->
-            LogDay(
-                date = date,
-                style = state.dayStickyInfo.style,
-                modifier = Modifier
-                    // FIXME: Solve Henne-Ei-Problem, e.g. by calculating dayHeaderHeight from LogList item
-                    .onGloballyPositioned { dayHeaderHeight = it.size.height }
-                    .offset { state.dayStickyInfo.offset }
-                    .background(AppTheme.colors.scheme.background)
-                    .padding(all = AppTheme.dimensions.padding.P_3),
-            )
-        }
+        LogDay(
+            date = state.dayStickyInfo.date,
+            style = state.dayStickyInfo.style,
+            modifier = Modifier
+                .onGloballyPositioned { dayHeaderHeight = it.size.height }
+                .offset { state.dayStickyInfo.offset }
+                .background(AppTheme.colors.scheme.background)
+                .padding(all = AppTheme.dimensions.padding.P_3),
+        )
     }
 
     state.datePickerDialog?.let { datePickerDialog ->
@@ -98,7 +98,9 @@ private fun Preview() = AppPreview {
         state = LogState(
             monthLocalized = "",
             pagingData = flowOf(PagingData.from(emptyList())),
-            dayStickyInfo = LogDayStickyInfo(),
+            dayStickyInfo = LogDayStickyInfo(
+                date = today(),
+            ),
             datePickerDialog = null,
         ),
         onIntent = {},

@@ -26,11 +26,14 @@ class LogListPagingSource(
     private val today = getTodayUseCase()
 
     override fun getRefreshKey(state: PagingState<Date, LogItemState>): Date? {
-        // FIXME: Jumps sometimes to previous month
-        return state.closestItemToPosition(0)?.date
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1, DateUnit.DAY)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1, DateUnit.DAY)
+        }
     }
 
     override suspend fun load(params: LoadParams<Date>): LoadResult<Date, LogItemState> {
+        // FIXME: Jumps down on subsequent refreshing, even though key seems correct
         val key = params.key ?: today
         val startDate: Date
         val endDate: Date

@@ -58,6 +58,8 @@ class LogViewModel(
                 }
                 is LogIntent.CreateEntry -> pushScreen(EntryFormScreen(date = date))
                 is LogIntent.OpenEntry -> pushScreen(EntryFormScreen(entry = entry))
+                is LogIntent.DeleteEntry -> TODO()
+                is LogIntent.RestoreEntry -> TODO()
                 is LogIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
                 is LogIntent.OpenDatePickerDialog ->
                     datePickerDialog.update { LogState.DatePickerDialog(currentDate.value) }

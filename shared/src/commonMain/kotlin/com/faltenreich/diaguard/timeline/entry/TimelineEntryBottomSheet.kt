@@ -18,6 +18,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun TimelineEntryBottomSheet(
     entries: List<EntryListItemState>,
     onEntryClick: (Entry.Local) -> Unit,
+    onEntryDelete: (Entry.Local) -> Unit,
+    onEntryRestore: (Entry.Local) -> Unit,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -26,6 +28,8 @@ fun TimelineEntryBottomSheet(
             EntryListItem(
                 state = entry,
                 onClick = { onEntryClick(entry.entry) },
+                onDelete = { onEntryDelete(entry.entry) },
+                onRestore = { onEntryRestore(entry.entry) },
                 onTagClick = onTagClick,
                 modifier = Modifier
                     .animateItem()
@@ -62,6 +66,8 @@ private fun Preview() = AppPreview {
             ),
         ),
         onEntryClick = {},
+        onEntryDelete = {},
+        onEntryRestore = {},
         onTagClick = {},
     )
 }

@@ -42,6 +42,12 @@ fun EntrySearch(
         onEntryClick = { entry ->
             onIntent(EntrySearchIntent.OpenEntry(entry))
         },
+        onEntryDelete = { entry ->
+            onIntent(EntrySearchIntent.DeleteEntry(entry))
+        },
+        onEntryRestore = { entry ->
+            onIntent(EntrySearchIntent.RestoreEntry(entry))
+        },
         onTagClick = { tag ->
             onIntent(EntrySearchIntent.SetQuery(tag.name))
             scope.launch { listState.scrollToItem(0) }

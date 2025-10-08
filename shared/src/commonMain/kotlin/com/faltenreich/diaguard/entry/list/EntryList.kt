@@ -28,6 +28,8 @@ fun EntryList(
     items: LazyPagingItems<EntryListItemState>,
     emptyContent: @Composable () -> Unit,
     onEntryClick: (Entry.Local) -> Unit,
+    onEntryDelete: (Entry.Local) -> Unit,
+    onEntryRestore: (Entry.Local) -> Unit,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
@@ -61,6 +63,8 @@ fun EntryList(
                     EntryListItem(
                         state = item,
                         onClick = { onEntryClick(item.entry) },
+                        onDelete = { onEntryDelete(item.entry) },
+                        onRestore = { onEntryRestore(item.entry) },
                         onTagClick = onTagClick,
                         modifier = Modifier
                             .animateItem()
@@ -110,6 +114,8 @@ private fun Preview() = AppPreview {
         ).collectAsLazyPagingItems(),
         emptyContent = {},
         onEntryClick = {},
+        onEntryDelete = {},
+        onEntryRestore = {},
         onTagClick = {},
     )
 }

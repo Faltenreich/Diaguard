@@ -65,6 +65,8 @@ fun TagDetail(
             items = entries,
             emptyContent = { Text(getString(Res.string.entry_search_empty)) },
             onEntryClick = { entry -> onIntent(TagDetailIntent.OpenEntry(entry)) },
+            onEntryDelete = { entry -> onIntent(TagDetailIntent.DeleteEntry(entry)) },
+            onEntryRestore = { entry -> onIntent(TagDetailIntent.RestoreEntry(entry)) },
             onTagClick = { tag -> onIntent(TagDetailIntent.OpenEntrySearch(query = tag.name)) },
         )
     }

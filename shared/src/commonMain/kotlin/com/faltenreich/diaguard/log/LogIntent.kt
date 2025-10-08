@@ -17,6 +17,10 @@ sealed interface LogIntent {
 
     data class OpenEntry(val entry: Entry.Local) : LogIntent
 
+    data class DeleteEntry(val entry: Entry.Local) : LogIntent
+
+    data class RestoreEntry(val entry: Entry.Local) : LogIntent
+
     data class OpenEntrySearch(val query: String = "") : LogIntent
 
     data object OpenDatePickerDialog : LogIntent

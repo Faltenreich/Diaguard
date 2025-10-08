@@ -16,6 +16,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun LogEntry(
     state: LogItemState.EntryContent,
     onClick: () -> Unit,
+    onDelete: () -> Unit,
+    onRestore: () -> Unit,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -30,6 +32,8 @@ fun LogEntry(
         EntryListItem(
             state = state.entryState,
             onClick = onClick,
+            onDelete = onDelete,
+            onRestore = onRestore,
             onTagClick = onTagClick,
         )
     }
@@ -52,6 +56,8 @@ private fun Preview() = AppPreview {
             ),
         ),
         onClick = {},
+        onDelete = {},
+        onRestore = {},
         onTagClick = {},
     )
 }

@@ -37,6 +37,8 @@ class EntrySearchViewModel(
         when (intent) {
             is EntrySearchIntent.SetQuery -> query.update { intent.query }
             is EntrySearchIntent.OpenEntry -> pushScreen(EntryFormScreen(entry = intent.entry))
+            is EntrySearchIntent.DeleteEntry -> TODO()
+            is EntrySearchIntent.RestoreEntry -> TODO()
         }
     }
 }

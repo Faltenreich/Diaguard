@@ -57,6 +57,8 @@ class TagDetailViewModel(
             is TagDetailIntent.CloseDeleteDialog -> deleteDialog.update { null }
             is TagDetailIntent.DeleteTag -> deleteTag()
             is TagDetailIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
+            is TagDetailIntent.DeleteEntry -> TODO()
+            is TagDetailIntent.RestoreEntry -> TODO()
             is TagDetailIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(intent.query))
         }
     }

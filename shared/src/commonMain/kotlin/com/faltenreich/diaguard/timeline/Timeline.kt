@@ -77,6 +77,8 @@ fun Timeline(
             TimelineEntryBottomSheet(
                 entries = valueBottomSheet.entries,
                 onEntryClick = { onIntent(TimelineIntent.OpenEntry(it)) },
+                onEntryDelete = { onIntent(TimelineIntent.DeleteEntry(it)) },
+                onEntryRestore = { onIntent(TimelineIntent.RestoreEntry(it)) },
                 onTagClick = { onIntent(TimelineIntent.OpenEntrySearch(it.name)) },
             )
         }

@@ -39,6 +39,10 @@ sealed interface TimelineIntent {
 
     data class OpenEntry(val entry: Entry.Local) : TimelineIntent
 
+    data class DeleteEntry(val entry: Entry.Local) : TimelineIntent
+
+    data class RestoreEntry(val entry: Entry.Local) : TimelineIntent
+
     data class OpenEntryListBottomSheet(val entries: List<EntryListItemState>) : TimelineIntent
 
     data object DismissEntryListBottomSheet : TimelineIntent

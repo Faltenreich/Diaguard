@@ -125,6 +125,8 @@ class TimelineViewModel(
             is TimelineIntent.CloseDatePickerDialog -> datePickerDialog.update { null }
             is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
             is TimelineIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
+            is TimelineIntent.DeleteEntry -> TODO()
+            is TimelineIntent.RestoreEntry -> TODO()
             is TimelineIntent.OpenEntryListBottomSheet ->
                 valueBottomSheet.update { TimelineState.EntryListBottomSheet(intent.entries) }
             is TimelineIntent.DismissEntryListBottomSheet -> valueBottomSheet.update { null }

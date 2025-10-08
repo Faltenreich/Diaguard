@@ -5,7 +5,9 @@ import androidx.paging.cachedIn
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
+import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.log.list.LogListPagingSource
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
@@ -19,6 +21,8 @@ import kotlinx.coroutines.flow.update
 class LogViewModel(
     getToday: GetTodayUseCase,
     private val invalidateDayStickyInfo: InvalidateLogDayStickyInfoUseCase,
+    private val deleteEntry: DeleteEntryUseCase,
+    private val storeEntry: StoreEntryUseCase,
     private val pushScreen: PushScreenUseCase,
     private val formatDateTimeUseCase: FormatDateTimeUseCase,
 ) : ViewModel<LogState, LogIntent, Unit>() {
@@ -26,7 +30,6 @@ class LogViewModel(
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
     private val monthLocalized = currentDate.map { formatDateTimeUseCase(it.monthOfYear, abbreviated = false) }
-
     private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo(date = initialDate.value))
     private val datePickerDialog = MutableStateFlow<LogState.DatePickerDialog?>(null)
 
@@ -58,8 +61,8 @@ class LogViewModel(
                 }
                 is LogIntent.CreateEntry -> pushScreen(EntryFormScreen(date = date))
                 is LogIntent.OpenEntry -> pushScreen(EntryFormScreen(entry = entry))
-                is LogIntent.DeleteEntry -> TODO()
-                is LogIntent.RestoreEntry -> TODO()
+                is LogIntent.DeleteEntry -> deleteEntry(entry)
+                is LogIntent.RestoreEntry -> storeEntry(entry)
                 is LogIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
                 is LogIntent.OpenDatePickerDialog ->
                     datePickerDialog.update { LogState.DatePickerDialog(currentDate.value) }

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.log
 import androidx.compose.foundation.lazy.LazyListItemInfo
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.log.list.item.LogItemState
 
 sealed interface LogIntent {
@@ -19,7 +20,7 @@ sealed interface LogIntent {
 
     data class DeleteEntry(val entry: Entry.Local) : LogIntent
 
-    data class RestoreEntry(val entry: Entry.Local) : LogIntent
+    data class RestoreEntry(val entry: EntryListItemState) : LogIntent
 
     data class OpenEntrySearch(val query: String = "") : LogIntent
 

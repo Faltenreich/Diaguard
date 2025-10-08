@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.entry.list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
@@ -46,11 +49,25 @@ fun EntryListItem(
 ) {
     val swipeToDismissState = rememberSwipeToDismissBoxState()
     var alpha by remember { mutableStateOf(1f) }
+    var isTouching by remember { mutableStateOf(false) }
+
 
     LaunchedEffect(swipeToDismissState.progress) {
         alpha =
             if (swipeToDismissState.currentValue == SwipeToDismissBoxValue.Settled) 1f
             else 1f - swipeToDismissState.progress
+    }
+
+    LaunchedEffect(
+        swipeToDismissState.progress,
+        isTouching,
+    ) {
+        if (swipeToDismissState.progress == 1f
+            && swipeToDismissState.currentValue != SwipeToDismissBoxValue.Settled
+            && !isTouching
+        ) {
+            onDelete()
+        }
     }
 
     SwipeToDismissBox(
@@ -65,6 +82,14 @@ fun EntryListItem(
                 }
             }
         },
+        modifier = Modifier.pointerInput(Unit) {
+            awaitPointerEventScope {
+                awaitFirstDown()
+                isTouching = true
+                waitForUpOrCancellation()
+                isTouching = false
+            }
+        }
     ) {
         Card(
             onClick = onClick,

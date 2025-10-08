@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.entry.tag.StoreEntryTagsUseCase
 import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValuesUseCase
@@ -32,5 +33,18 @@ class StoreEntryUseCase(
         storeMeasurementValues(measurements, entry)
         storeFoodEaten(foodEaten, entry)
         storeEntryTags(tags, entry)
+    }
+
+    operator fun invoke(input: EntryListItemState) {
+        val entryId = repository.create(
+            Entry.User(
+                dateTime = input.entry.dateTime,
+                note = input.entry.note,
+            )
+        )
+        val entry = checkNotNull(repository.getById(entryId))
+        storeMeasurementValues(TODO(), entry)
+        storeFoodEaten(TODO(), entry)
+        storeEntryTags(TODO(), entry)
     }
 }

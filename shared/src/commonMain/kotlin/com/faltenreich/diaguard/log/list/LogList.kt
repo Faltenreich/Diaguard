@@ -55,7 +55,7 @@ fun LogList(
                         state = item,
                         onClick = { onIntent(LogIntent.OpenEntry(item.entryState.entry)) },
                         onDelete = { onIntent(LogIntent.DeleteEntry(item.entryState.entry)) },
-                        onRestore = { onIntent(LogIntent.RestoreEntry(item.entryState.entry)) },
+                        onRestore = { onIntent(LogIntent.RestoreEntry(item.entryState)) },
                         onTagClick = { tag -> onIntent(LogIntent.OpenEntrySearch(tag.name)) },
                         modifier = Modifier
                             .fillMaxWidth()

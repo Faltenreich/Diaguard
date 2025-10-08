@@ -35,8 +35,8 @@ sealed interface Entry {
         override val note: String?,
     ) : Entry, DatabaseEntity {
 
-        lateinit var values: List<MeasurementValue>
-        lateinit var entryTags: List<EntryTag>
-        lateinit var foodEaten: List<FoodEaten>
+        lateinit var values: List<MeasurementValue.Local>
+        lateinit var entryTags: List<EntryTag.Local>
+        lateinit var foodEaten: List<FoodEaten.Local>
     }
 }

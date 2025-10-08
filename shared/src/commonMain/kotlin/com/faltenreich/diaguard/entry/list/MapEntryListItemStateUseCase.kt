@@ -65,6 +65,7 @@ class MapEntryListItemStateUseCase(
                             .map { value ->
                                 EntryListItemState.Value(
                                     property = value.property,
+                                    value = value,
                                     valueLocalized = measurementValueMapper(value, decimalPlaces).value,
                                 )
                             },

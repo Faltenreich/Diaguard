@@ -77,6 +77,7 @@ fun EntryListItem(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
+                // TODO: Restore in UI (refresh PagingData?)
                 TextButton(onClick = onRestore) {
                     Text(stringResource(Res.string.undo))
                 }
@@ -204,6 +205,7 @@ private fun Preview() = AppPreview {
                     values = listOf(
                         EntryListItemState.Value(
                             property = property(),
+                            value = value(),
                             valueLocalized = value().value.toString(),
                         ),
                     ),

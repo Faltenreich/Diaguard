@@ -4,6 +4,10 @@ import com.faltenreich.diaguard.entry.Entry
 
 class StoreFoodEatenUseCase(private val repository: FoodEatenRepository) {
 
+    operator fun invoke(foodEaten: List<FoodEaten.Intermediate>) {
+        foodEaten.forEach(repository::create)
+    }
+
     operator fun invoke(
         foodEaten: List<FoodEatenInputState>,
         entry: Entry.Local,

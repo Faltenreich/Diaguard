@@ -40,4 +40,8 @@ class StoreMeasurementValuesUseCase(
             }
         }
     }
+
+    operator fun invoke(values: List<MeasurementValue.User>) {
+        values.forEach(repository::create)
+    }
 }

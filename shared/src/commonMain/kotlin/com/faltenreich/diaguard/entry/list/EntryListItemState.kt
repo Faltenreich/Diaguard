@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.entry.list
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
 
 data class EntryListItemState(
     val entry: Entry.Local,
@@ -18,6 +19,7 @@ data class EntryListItemState(
 
     data class Value(
         val property: MeasurementProperty.Local,
+        val value: MeasurementValue.Local,
         val valueLocalized: String,
     )
 }

@@ -104,6 +104,7 @@ private fun Preview() = AppPreview {
                                 values = listOf(
                                     EntryListItemState.Value(
                                         property = property(),
+                                        value = value(),
                                         valueLocalized = value().value.toString(),
                                     ),
                                 ),

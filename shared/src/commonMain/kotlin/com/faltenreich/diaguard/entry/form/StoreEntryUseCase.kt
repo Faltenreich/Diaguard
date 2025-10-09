@@ -47,16 +47,14 @@ class StoreEntryUseCase(
         )
         val entry = checkNotNull(repository.getById(entryId))
 
-        val measurements = input.categories.flatMap { category ->
-            category.values.map { value ->
-                MeasurementValue.User(
-                    value = value.value.value,
-                    property = value.property,
-                    entry = entry,
-                )
-            }
+        val values = input.entry.values.map { value ->
+            MeasurementValue.User(
+                value = value.value,
+                property = value.property,
+                entry = entry,
+            )
         }
-        storeMeasurementValues(measurements)
+        storeMeasurementValues(values)
 
         val foodEaten = input.entry.foodEaten.map { foodEaten ->
             FoodEaten.Intermediate(

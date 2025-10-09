@@ -51,7 +51,6 @@ fun EntryListItem(
     var alpha by remember { mutableStateOf(1f) }
     var isTouching by remember { mutableStateOf(false) }
 
-
     LaunchedEffect(swipeToDismissState.progress) {
         alpha =
             if (swipeToDismissState.currentValue == SwipeToDismissBoxValue.Settled) 1f

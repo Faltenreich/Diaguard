@@ -21,7 +21,6 @@ class InvalidateLogDayStickyInfoUseCase {
             return LogDayStickyInfo(
                 dayState = dayState,
                 offset = IntOffset(x = 0, y = -dayHeaderHeight),
-                clip = 0f,
             )
         }
 
@@ -33,19 +32,15 @@ class InvalidateLogDayStickyInfoUseCase {
                 else -> true
             }
         }
+        // FIXME: Overlaps next item of LogKey.Header
         val offset = when (nextItem?.key) {
             null -> 0
             else -> min(0, nextItem.offset - dayHeaderHeight)
         }
 
-        val overlap = -offset
-        // TODO: Clip bottom if next item !is LogKey.Item
-        val clip = if (overlap > 0) overlap.toFloat() else 0f
-
         return stickyHeaderInfo.copy(
             dayState = dayState,
             offset = IntOffset(x = 0, y = offset),
-            clip = clip,
         )
     }
 }

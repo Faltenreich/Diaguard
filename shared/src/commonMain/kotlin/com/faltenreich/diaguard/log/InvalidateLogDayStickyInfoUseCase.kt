@@ -32,10 +32,11 @@ class InvalidateLogDayStickyInfoUseCase {
                 else -> true
             }
         }
-        // FIXME: Overlaps next item of LogKey.Header
+        // FIXME: Overlaps next item if LogKey.Header when scrolling fast
         val offset = when (nextItem?.key) {
-            null -> 0
-            else -> min(0, nextItem.offset - dayHeaderHeight)
+            is LogKey.Header,
+            is LogKey.Item -> min(0, nextItem.offset - dayHeaderHeight)
+            else -> 0
         }
 
         return stickyHeaderInfo.copy(

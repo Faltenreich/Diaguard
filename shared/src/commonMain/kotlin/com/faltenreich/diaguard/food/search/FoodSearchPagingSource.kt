@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.flow.first
 
-class FoodSearchSource(
+class FoodSearchPagingSource(
     private val searchParams: FoodSearchParams,
     private val searchFood: SearchFoodUseCase,
 ) : PagingSource<Int, Food.Localized>() {
@@ -21,6 +21,7 @@ class FoodSearchSource(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Food.Localized> {
+        // FIXME: Jumps down on subsequent refreshing, even though key seems correct
         val page = params.key ?: 0
         val pageSize = params.loadSize
 

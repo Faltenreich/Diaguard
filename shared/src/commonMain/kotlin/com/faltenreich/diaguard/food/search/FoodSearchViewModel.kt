@@ -42,8 +42,8 @@ class FoodSearchViewModel(
         FoodSearchState(
             query = params.query,
             pagingData = Pager(
-                config = FoodSearchSource.newConfig(),
-                pagingSourceFactory = { FoodSearchSource(params, searchFood) },
+                config = FoodSearchPagingSource.newConfig(),
+                pagingSourceFactory = { FoodSearchPagingSource(params, searchFood) },
             ).flow.cachedIn(scope),
         )
     }

@@ -6,4 +6,8 @@ data class FoodFormState(
     val food: Food.Local?,
     val input: FoodFormInput,
     val error: String?,
-)
+    val deleteDialog: DeleteDialog?,
+) {
+
+    data object DeleteDialog
+}

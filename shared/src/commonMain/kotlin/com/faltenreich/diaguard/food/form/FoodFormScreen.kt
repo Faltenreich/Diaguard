@@ -45,7 +45,7 @@ data class FoodFormScreen(private val foodId: Long) : Screen {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = Res.string.food_delete,
-                    onClick = { viewModel.dispatchIntent(FoodFormIntent.Delete) },
+                    onClick = { viewModel.dispatchIntent(FoodFormIntent.Delete(needsConfirmation = true)) },
                 )
                 val food = viewModel.collectState()?.food
                 if (food != null) {

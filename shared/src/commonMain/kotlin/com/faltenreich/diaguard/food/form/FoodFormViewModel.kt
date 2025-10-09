@@ -31,11 +31,13 @@ class FoodFormViewModel(
     private val food = foodId?.let(getFoodById::invoke)
     private val input = MutableStateFlow(createInput(food))
     private val error = MutableStateFlow<String?>(null)
+    private val deleteDialog = MutableStateFlow<FoodFormState.DeleteDialog?>(null)
 
     override val state = combine(
         flowOf(food),
         input,
         error,
+        deleteDialog,
         ::FoodFormState,
     )
 
@@ -54,7 +56,8 @@ class FoodFormViewModel(
             is FoodFormIntent.SetNutrient -> setNutrient(intent.data)
             is FoodFormIntent.OpenFoodEaten -> pushScreen(FoodEatenListScreen(intent.food))
             is FoodFormIntent.Submit -> submit()
-            is FoodFormIntent.Delete -> delete()
+            is FoodFormIntent.Delete -> delete(intent.needsConfirmation)
+            is FoodFormIntent.CloseDeleteDialog -> deleteDialog.update { null }
         }
     }
 
@@ -102,9 +105,17 @@ class FoodFormViewModel(
         }
     }
 
-    private suspend fun delete() {
-        val food = food ?: return
-        deleteFood(food)
-        popScreen()
+    private suspend fun delete(needsConfirmation: Boolean) {
+        val food = food
+        if (food != null) {
+            if (needsConfirmation) {
+                deleteDialog.update { FoodFormState.DeleteDialog }
+            } else {
+                deleteFood(food)
+                popScreen()
+            }
+        } else {
+            popScreen()
+        }
     }
 }

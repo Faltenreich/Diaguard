@@ -13,5 +13,7 @@ sealed interface FoodFormIntent {
 
     data object Submit : FoodFormIntent
 
-    data object Delete : FoodFormIntent
+    data class Delete(val needsConfirmation: Boolean) : FoodFormIntent
+
+    data object CloseDeleteDialog : FoodFormIntent
 }

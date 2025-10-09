@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientListItem
 import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.NoticeBar
@@ -126,6 +127,18 @@ fun FoodForm(
             style = NoticeBarStyle.ERROR,
         )
     }
+
+    if (state.deleteDialog != null) {
+        DeleteDialog(
+            onDismissRequest = {
+                onIntent(FoodFormIntent.CloseDeleteDialog)
+            },
+            onConfirmRequest = {
+                onIntent(FoodFormIntent.CloseDeleteDialog)
+                onIntent(FoodFormIntent.Delete(needsConfirmation = false))
+            },
+        )
+    }
 }
 
 @Preview
@@ -153,6 +166,7 @@ private fun Preview() = AppPreview {
                 )
             },
             error = null,
+            deleteDialog = null,
         ),
         onIntent = {},
     )

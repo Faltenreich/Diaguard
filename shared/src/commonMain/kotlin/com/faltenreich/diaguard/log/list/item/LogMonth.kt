@@ -41,6 +41,8 @@ private fun Preview() = AppPreview {
     LogMonth(
         state = LogItemState.MonthHeader(
             date = date,
+            dayOfMonthLocalized = "01",
+            dayOfWeekLocalized = "Mon",
             dateLocalized = date.toString(),
         ),
     )

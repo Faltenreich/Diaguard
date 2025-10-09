@@ -27,4 +27,12 @@ class FormatDateTimeUseCase(private val dateTimeFormatter: DateTimeFormatter) {
     operator fun invoke(monthOfYear: MonthOfYear, abbreviated: Boolean): String {
         return dateTimeFormatter.formatMonthOfYear(monthOfYear, abbreviated)
     }
+
+    fun formatDayOfMonth(date: Date): String {
+        return dateTimeFormatter.formatDayOfMonth(date)
+    }
+
+    fun formatDayOfWeek(date: Date, abbreviated: Boolean): String {
+        return dateTimeFormatter.formatDayOfWeek(date, abbreviated)
+    }
 }

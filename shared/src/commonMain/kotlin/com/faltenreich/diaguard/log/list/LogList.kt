@@ -106,25 +106,31 @@ private fun Preview() = AppPreview {
                 listOf(
                     LogItemState.MonthHeader(
                         date = date,
+                        dayOfMonthLocalized = "01",
+                        dayOfWeekLocalized = "Mon",
                         dateLocalized = date.toString(),
                     ),
                     LogItemState.EmptyContent(
                         date = date,
+                        dayOfMonthLocalized = "01",
+                        dayOfWeekLocalized = "Mon",
                         style = LogDayStyle(
                             isVisible = true,
                             isHighlighted = true,
                         ),
                     ),
                     LogItemState.EntryContent(
+                        dayOfMonthLocalized = "02",
+                        dayOfWeekLocalized = "Tue",
+                        style = LogDayStyle(
+                            isVisible = true,
+                            isHighlighted = true,
+                        ),
                         entryState = EntryListItemState(
                             entry = entry(),
                             dateTimeLocalized = dateTime.toString(),
                             foodEatenLocalized = emptyList(),
                             categories = emptyList(),
-                        ),
-                        style = LogDayStyle(
-                            isVisible = true,
-                            isHighlighted = true,
                         ),
                     ),
                 ),

@@ -10,7 +10,9 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.log.list.LogListPagingSource
+import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
+import com.faltenreich.diaguard.log.list.item.LogDayStyle
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +32,18 @@ class LogViewModel(
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
     private val monthLocalized = currentDate.map { formatDateTimeUseCase(it.monthOfYear, abbreviated = false) }
-    private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo(date = initialDate.value))
+    private val dayStickyInfo = initialDate.value.let { date ->
+        MutableStateFlow(
+            LogDayStickyInfo(
+                state = LogDayState(
+                    date = date,
+                    dayOfMonthLocalized = formatDateTimeUseCase.formatDayOfMonth(date),
+                    dayOfWeekLocalized = formatDateTimeUseCase.formatDayOfWeek(date, abbreviated = true),
+                    style = LogDayStyle(isVisible = false, isHighlighted = false),
+                ),
+            )
+        )
+    }
     private val datePickerDialog = MutableStateFlow<LogState.DatePickerDialog?>(null)
     private lateinit var pagingSource: LogListPagingSource
 

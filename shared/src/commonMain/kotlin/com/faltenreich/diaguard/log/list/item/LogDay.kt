@@ -8,27 +8,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.shared.di.inject
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LogDay(
-    date: Date,
-    style: LogDayStyle,
+    state: LogDayState,
     modifier: Modifier = Modifier,
-    // TODO: Format in ViewModel
-    formatter: DateTimeFormatter = inject(),
-) {
+) = with(state) {
     if (style.isVisible) {
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
         ) {
             Text(
-                text = formatter.formatDayOfMonth(date),
+                text = dayOfMonthLocalized,
                 color =
                     if (style.isHighlighted) AppTheme.colors.scheme.primary
                     else AppTheme.colors.scheme.onBackground,
@@ -36,7 +30,7 @@ fun LogDay(
                 style = AppTheme.typography.headlineSmall,
             )
             Text(
-                text = formatter.formatDayOfWeek(date, abbreviated = true),
+                text = dayOfWeekLocalized,
                 style = AppTheme.typography.labelMedium,
             )
         }
@@ -49,10 +43,14 @@ fun LogDay(
 @Composable
 private fun Preview() = AppPreview {
     LogDay(
-        date = today(),
-        style = LogDayStyle(
-            isVisible = true,
-            isHighlighted = true,
-        )
+        state = LogDayState(
+            date = today(),
+            dayOfMonthLocalized = "01",
+            dayOfWeekLocalized = "Mon",
+            style = LogDayStyle(
+                isVisible = true,
+                isHighlighted = true,
+            )
+        ),
     )
 }

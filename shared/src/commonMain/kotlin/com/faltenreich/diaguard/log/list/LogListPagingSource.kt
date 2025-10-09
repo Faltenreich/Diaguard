@@ -54,21 +54,30 @@ class LogListPagingSource(
         )
 
         val items = DateProgression(startDate, endDate).map { date ->
-            val dateLocalized = formatter.formatMonthOfYear(date.monthOfYear, abbreviated = false)
-            val headers = listOfNotNull(LogItemState.MonthHeader(date, dateLocalized).takeIf { date.dayOfMonth == 1 })
+            val monthHeader = LogItemState.MonthHeader(
+                date = date,
+                dayOfMonthLocalized = formatter.formatDayOfMonth(date),
+                dayOfWeekLocalized = formatter.formatDayOfWeek(date, abbreviated = true),
+                dateLocalized = formatter.formatMonthOfYear(date.monthOfYear, abbreviated = false),
+            )
+            val headers = listOfNotNull(monthHeader.takeIf { date.dayOfMonth == 1 })
             val entriesOfDate = entries.filter { it.dateTime.date == date }
             val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
                 LogItemState.EntryContent(
-                    entryState = mapEntryListItemState(entry, includeDate = false),
+                    dayOfMonthLocalized = formatter.formatDayOfMonth(date),
+                    dayOfWeekLocalized = formatter.formatDayOfWeek(date, abbreviated = true),
                     style = LogDayStyle(
                         isVisible = entry == entriesOfDate.first(),
                         isHighlighted = entry.dateTime.date == today,
                     ),
+                    entryState = mapEntryListItemState(entry, includeDate = false),
                 )
             }
             val content = entryContent ?: listOf(
                 LogItemState.EmptyContent(
                     date = date,
+                    dayOfMonthLocalized = formatter.formatDayOfMonth(date),
+                    dayOfWeekLocalized = formatter.formatDayOfWeek(date, abbreviated = true),
                     style = LogDayStyle(
                         isVisible = true,
                         isHighlighted = date == today,

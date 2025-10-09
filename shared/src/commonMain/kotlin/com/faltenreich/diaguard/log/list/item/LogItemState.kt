@@ -7,11 +7,15 @@ import com.faltenreich.diaguard.log.list.LogKey
 sealed interface LogItemState {
 
     val date: Date
+    val dayOfMonthLocalized: String
+    val dayOfWeekLocalized: String
     val style: LogDayStyle
     val key: LogKey
 
     data class MonthHeader(
         override val date: Date,
+        override val dayOfMonthLocalized: String,
+        override val dayOfWeekLocalized: String,
         val dateLocalized: String,
     ) : LogItemState {
 
@@ -24,8 +28,10 @@ sealed interface LogItemState {
     }
 
     data class EntryContent(
-        val entryState: EntryListItemState,
+        override val dayOfMonthLocalized: String,
+        override val dayOfWeekLocalized: String,
         override val style: LogDayStyle,
+        val entryState: EntryListItemState,
     ) : LogItemState {
 
         override val date = entryState.entry.dateTime.date
@@ -38,6 +44,8 @@ sealed interface LogItemState {
 
     data class EmptyContent(
         override val date: Date,
+        override val dayOfMonthLocalized: String,
+        override val dayOfWeekLocalized: String,
         override val style: LogDayStyle,
     ) : LogItemState {
 

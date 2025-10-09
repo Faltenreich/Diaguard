@@ -132,7 +132,7 @@ class TimelineViewModel(
             is TimelineIntent.DeleteEntry -> deleteEntry(intent.entry)
             is TimelineIntent.RestoreEntry -> {
                 storeEntry(intent.entry)
-                valueBottomSheet.update { null }
+                dispatchIntent(TimelineIntent.DismissEntryListBottomSheet)
             }
             is TimelineIntent.OpenEntryListBottomSheet -> valueBottomSheet.update {
                 TimelineState.EntryListBottomSheet(intent.entries)

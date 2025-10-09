@@ -26,8 +26,12 @@ fun LogEmpty(
 ) {
     Row(modifier = modifier) {
         LogDay(
-            date = state.date,
-            style = state.style,
+            state = LogDayState(
+                date = state.date,
+                dayOfMonthLocalized = state.dayOfMonthLocalized,
+                dayOfWeekLocalized = state.dayOfWeekLocalized,
+                style = state.style,
+            ),
             modifier = Modifier.width(AppTheme.dimensions.size.LogDayWidth),
         )
         Card(
@@ -50,6 +54,8 @@ private fun Preview() = AppPreview {
     LogEmpty(
         state = LogItemState.EmptyContent(
             date = today(),
+            dayOfMonthLocalized = "01",
+            dayOfWeekLocalized = "Mon",
             style = LogDayStyle(
                 isVisible = true,
                 isHighlighted = true,

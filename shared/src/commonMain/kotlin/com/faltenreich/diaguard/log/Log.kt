@@ -20,7 +20,9 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.log.list.LogList
 import com.faltenreich.diaguard.log.list.item.LogDay
+import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
+import com.faltenreich.diaguard.log.list.item.LogDayStyle
 import com.faltenreich.diaguard.shared.view.LifecycleState
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.rememberLifecycleState
@@ -68,8 +70,7 @@ fun Log(
             modifier = Modifier.fillMaxSize(),
         )
         LogDay(
-            date = state.dayStickyInfo.date,
-            style = state.dayStickyInfo.style,
+            state = state.dayStickyInfo.state,
             modifier = Modifier
                 .onGloballyPositioned { dayHeaderHeight = it.size.height }
                 .offset { state.dayStickyInfo.offset }
@@ -98,7 +99,15 @@ private fun Preview() = AppPreview {
             monthLocalized = "",
             pagingData = flowOf(PagingData.from(emptyList())),
             dayStickyInfo = LogDayStickyInfo(
-                date = today(),
+                state = LogDayState(
+                    date = today(),
+                    dayOfMonthLocalized = "01",
+                    dayOfWeekLocalized = "Mon",
+                    style = LogDayStyle(
+                        isVisible = true,
+                        isHighlighted = true,
+                    )
+                ),
             ),
             datePickerDialog = null,
         ),

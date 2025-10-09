@@ -1,11 +1,9 @@
 package com.faltenreich.diaguard.log.list.item
 
 import androidx.compose.ui.unit.IntOffset
-import com.faltenreich.diaguard.datetime.Date
 
 data class LogDayStickyInfo(
-    val date: Date,
-    val style: LogDayStyle = LogDayStyle(isVisible = false, isHighlighted = false),
+    val state: LogDayState,
     val offset: IntOffset = IntOffset.Zero,
     val clip: Float = 0f,
 )

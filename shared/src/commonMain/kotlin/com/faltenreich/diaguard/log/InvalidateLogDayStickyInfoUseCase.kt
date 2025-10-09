@@ -34,7 +34,7 @@ class InvalidateLogDayStickyInfoUseCase {
             }
         }
         val offset = when (nextItem?.key) {
-            null -> -dayHeaderHeight
+            null -> 0
             else -> min(0, nextItem.offset - dayHeaderHeight)
         }
 

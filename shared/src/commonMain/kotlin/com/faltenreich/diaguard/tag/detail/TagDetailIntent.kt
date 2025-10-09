@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.tag.detail
 
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 
 sealed interface TagDetailIntent {
 
@@ -18,7 +19,7 @@ sealed interface TagDetailIntent {
 
     data class DeleteEntry(val entry: Entry.Local) : TagDetailIntent
 
-    data class RestoreEntry(val entry: Entry.Local) : TagDetailIntent
+    data class RestoreEntry(val entry: EntryListItemState) : TagDetailIntent
 
     data class OpenEntrySearch(val query: String) : TagDetailIntent
 }

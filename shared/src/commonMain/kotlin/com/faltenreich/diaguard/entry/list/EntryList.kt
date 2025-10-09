@@ -29,7 +29,7 @@ fun EntryList(
     emptyContent: @Composable () -> Unit,
     onEntryClick: (Entry.Local) -> Unit,
     onEntryDelete: (Entry.Local) -> Unit,
-    onEntryRestore: (Entry.Local) -> Unit,
+    onEntryRestore: (EntryListItemState) -> Unit,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
@@ -64,7 +64,7 @@ fun EntryList(
                         state = item,
                         onClick = { onEntryClick(item.entry) },
                         onDelete = { onEntryDelete(item.entry) },
-                        onRestore = { onEntryRestore(item.entry) },
+                        onRestore = { onEntryRestore(item) },
                         onTagClick = onTagClick,
                         modifier = Modifier
                             .animateItem()

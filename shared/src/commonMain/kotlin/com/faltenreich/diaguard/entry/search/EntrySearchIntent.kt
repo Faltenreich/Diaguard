@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.entry.search
 
 import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 
 sealed interface EntrySearchIntent {
 
@@ -10,5 +11,5 @@ sealed interface EntrySearchIntent {
 
     data class DeleteEntry(val entry: Entry.Local) : EntrySearchIntent
 
-    data class RestoreEntry(val entry: Entry.Local) : EntrySearchIntent
+    data class RestoreEntry(val entry: EntryListItemState) : EntrySearchIntent
 }

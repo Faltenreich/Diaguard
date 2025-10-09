@@ -19,7 +19,7 @@ fun TimelineEntryBottomSheet(
     entries: List<EntryListItemState>,
     onEntryClick: (Entry.Local) -> Unit,
     onEntryDelete: (Entry.Local) -> Unit,
-    onEntryRestore: (Entry.Local) -> Unit,
+    onEntryRestore: (EntryListItemState) -> Unit,
     onTagClick: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -29,7 +29,7 @@ fun TimelineEntryBottomSheet(
                 state = entry,
                 onClick = { onEntryClick(entry.entry) },
                 onDelete = { onEntryDelete(entry.entry) },
-                onRestore = { onEntryRestore(entry.entry) },
+                onRestore = { onEntryRestore(entry) },
                 onTagClick = onTagClick,
                 modifier = Modifier
                     .animateItem()

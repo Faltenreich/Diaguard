@@ -2,7 +2,9 @@ package com.faltenreich.diaguard.tag.detail
 
 import androidx.paging.Pager
 import androidx.paging.cachedIn
+import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
@@ -24,6 +26,8 @@ class TagDetailViewModel(
     private val validateTag: ValidateTagUseCase = inject(),
     private val storeTag: StoreTagUseCase = inject(),
     private val deleteTag: DeleteTagUseCase = inject(),
+    private val deleteEntry: DeleteEntryUseCase = inject(),
+    private val storeEntry: StoreEntryUseCase = inject(),
     private val pushScreen: PushScreenUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<TagDetailState, TagDetailIntent, Unit>() {
@@ -33,6 +37,7 @@ class TagDetailViewModel(
     private val name = MutableStateFlow(tag.name)
     private val error = MutableStateFlow<String?>(null)
     private val deleteDialog = MutableStateFlow<TagDetailState.DeleteDialog?>(null)
+    private lateinit var pagingSource: EntryListPagingSource
 
     override val state = combine(
         name,
@@ -45,7 +50,9 @@ class TagDetailViewModel(
     val pagingData = Pager(
         config = EntryListPagingSource.newConfig(),
         pagingSourceFactory = {
-            EntryListPagingSource(getData = { page -> getEntriesOfTag(tag, page) })
+            EntryListPagingSource(
+                getData = { page -> getEntriesOfTag(tag, page) },
+            ).also { pagingSource = it }
         },
     ).flow.cachedIn(scope)
 
@@ -57,8 +64,11 @@ class TagDetailViewModel(
             is TagDetailIntent.CloseDeleteDialog -> deleteDialog.update { null }
             is TagDetailIntent.DeleteTag -> deleteTag()
             is TagDetailIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
-            is TagDetailIntent.DeleteEntry -> TODO()
-            is TagDetailIntent.RestoreEntry -> TODO()
+            is TagDetailIntent.DeleteEntry -> deleteEntry(intent.entry)
+            is TagDetailIntent.RestoreEntry -> {
+                storeEntry(intent.entry)
+                pagingSource.invalidate()
+            }
             is TagDetailIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(intent.query))
         }
     }

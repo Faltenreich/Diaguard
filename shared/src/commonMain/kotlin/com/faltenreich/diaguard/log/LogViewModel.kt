@@ -32,7 +32,7 @@ class LogViewModel(
     private val monthLocalized = currentDate.map { formatDateTimeUseCase(it.monthOfYear, abbreviated = false) }
     private val dayStickyInfo = MutableStateFlow(LogDayStickyInfo(date = initialDate.value))
     private val datePickerDialog = MutableStateFlow<LogState.DatePickerDialog?>(null)
-    private var pagingSource: LogListPagingSource? = null
+    private lateinit var pagingSource: LogListPagingSource
 
     override val state = combine(
         monthLocalized,
@@ -65,7 +65,7 @@ class LogViewModel(
                 is LogIntent.DeleteEntry -> deleteEntry(entry)
                 is LogIntent.RestoreEntry -> {
                     storeEntry(entry)
-                    pagingSource?.invalidate()
+                    pagingSource.invalidate()
                 }
                 is LogIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
                 is LogIntent.OpenDatePickerDialog ->

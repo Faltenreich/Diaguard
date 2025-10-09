@@ -5,7 +5,9 @@ import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
+import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
@@ -48,6 +50,8 @@ class TimelineViewModel(
     private val getChart: GetTimelineChartStateUseCase,
     private val getTable: GetTimelineTableStateUseCase,
     private val tapCanvas: TapTimelineCanvasUseCase,
+    private val deleteEntry: DeleteEntryUseCase,
+    private val storeEntry: StoreEntryUseCase,
     private val pushScreen: PushScreenUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
@@ -125,10 +129,14 @@ class TimelineViewModel(
             is TimelineIntent.CloseDatePickerDialog -> datePickerDialog.update { null }
             is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
             is TimelineIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
-            is TimelineIntent.DeleteEntry -> TODO()
-            is TimelineIntent.RestoreEntry -> TODO()
-            is TimelineIntent.OpenEntryListBottomSheet ->
-                valueBottomSheet.update { TimelineState.EntryListBottomSheet(intent.entries) }
+            is TimelineIntent.DeleteEntry -> deleteEntry(intent.entry)
+            is TimelineIntent.RestoreEntry -> {
+                storeEntry(intent.entry)
+                valueBottomSheet.update { null }
+            }
+            is TimelineIntent.OpenEntryListBottomSheet -> valueBottomSheet.update {
+                TimelineState.EntryListBottomSheet(intent.entries)
+            }
             is TimelineIntent.DismissEntryListBottomSheet -> valueBottomSheet.update { null }
             is TimelineIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen())
         }

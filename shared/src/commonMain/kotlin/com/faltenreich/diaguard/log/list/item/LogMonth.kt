@@ -40,9 +40,15 @@ private fun Preview() = AppPreview {
     val date = today()
     LogMonth(
         state = LogItemState.MonthHeader(
-            date = date,
-            dayOfMonthLocalized = "01",
-            dayOfWeekLocalized = "Mon",
+            dayState = LogDayState(
+                date = date,
+                dayOfMonthLocalized = "01",
+                dayOfWeekLocalized = "Mon",
+                style = LogDayStyle(
+                    isVisible = false,
+                    isHighlighted = false,
+                ),
+            ),
             dateLocalized = date.toString(),
         ),
     )

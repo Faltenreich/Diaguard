@@ -35,11 +35,11 @@ class LogViewModel(
     private val dayStickyInfo = initialDate.value.let { date ->
         MutableStateFlow(
             LogDayStickyInfo(
-                state = LogDayState(
+                dayState = LogDayState(
                     date = date,
                     dayOfMonthLocalized = formatDateTimeUseCase.formatDayOfMonth(date),
                     dayOfWeekLocalized = formatDateTimeUseCase.formatDayOfWeek(date, abbreviated = true),
-                    style = LogDayStyle(isVisible = false, isHighlighted = false),
+                    style = LogDayStyle(isVisible = true, isHighlighted = true),
                 ),
             )
         )
@@ -65,7 +65,7 @@ class LogViewModel(
         with(intent) {
             when (this) {
                 is LogIntent.OnScroll -> {
-                    currentDate.value = firstItem.date
+                    currentDate.value = firstItem.dayState.date
                     dayStickyInfo.value = invalidateDayStickyInfo(
                         stickyHeaderInfo = dayStickyInfo.value,
                         dayHeaderHeight = dayHeaderHeight,

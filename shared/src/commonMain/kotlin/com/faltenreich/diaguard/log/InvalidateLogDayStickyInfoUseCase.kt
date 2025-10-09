@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.log
 import androidx.compose.foundation.lazy.LazyListItemInfo
 import androidx.compose.ui.unit.IntOffset
 import com.faltenreich.diaguard.log.list.LogKey
-import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.log.list.item.LogItemState
 import kotlin.math.min
@@ -16,14 +15,11 @@ class InvalidateLogDayStickyInfoUseCase {
         firstItem: LogItemState,
         nextItems: List<LazyListItemInfo>,
     ): LogDayStickyInfo {
+        val dayState = firstItem.dayState.copy(style = firstItem.dayState.style.copy(isVisible = true))
+
         if (firstItem is LogItemState.MonthHeader) {
             return LogDayStickyInfo(
-                state = LogDayState(
-                    date = firstItem.date,
-                    dayOfMonthLocalized = firstItem.dayOfMonthLocalized,
-                    dayOfWeekLocalized = firstItem.dayOfWeekLocalized,
-                    style = firstItem.style.copy(isVisible = true),
-                ),
+                dayState = dayState,
                 offset = IntOffset(x = 0, y = -dayHeaderHeight),
                 clip = 0f,
             )
@@ -33,7 +29,7 @@ class InvalidateLogDayStickyInfoUseCase {
             when (val key = item.key) {
                 is LogKey.Header -> true
                 is LogKey.Item -> key.isFirstOfDay &&
-                    (firstItem is LogItemState.MonthHeader || key.date > firstItem.date)
+                    (firstItem is LogItemState.MonthHeader || key.date > firstItem.dayState.date)
                 else -> true
             }
         }
@@ -47,12 +43,7 @@ class InvalidateLogDayStickyInfoUseCase {
         val clip = if (overlap > 0) overlap.toFloat() else 0f
 
         return stickyHeaderInfo.copy(
-            state = LogDayState(
-                date = firstItem.date,
-                dayOfMonthLocalized = firstItem.dayOfMonthLocalized,
-                dayOfWeekLocalized = firstItem.dayOfWeekLocalized,
-                style = firstItem.style.copy(isVisible = true),
-            ),
+            dayState = dayState,
             offset = IntOffset(x = 0, y = offset),
             clip = clip,
         )

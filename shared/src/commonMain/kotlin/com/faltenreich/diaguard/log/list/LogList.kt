@@ -15,6 +15,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.log.LogIntent
+import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
 import com.faltenreich.diaguard.log.list.item.LogEmpty
 import com.faltenreich.diaguard.log.list.item.LogEntry
@@ -99,33 +100,29 @@ fun LogList(
 private fun Preview() = AppPreview {
     val dateTime = now()
     val date = dateTime.date
+    val dayState = LogDayState(
+        date = date,
+        dayOfMonthLocalized = "01",
+        dayOfWeekLocalized = "Mon",
+        style = LogDayStyle(
+            isVisible = true,
+            isHighlighted = true,
+        ),
+    )
     LogList(
         state = rememberLazyListState(),
         items = flowOf(
             PagingData.from(
                 listOf(
                     LogItemState.MonthHeader(
-                        date = date,
-                        dayOfMonthLocalized = "01",
-                        dayOfWeekLocalized = "Mon",
+                        dayState = dayState,
                         dateLocalized = date.toString(),
                     ),
                     LogItemState.EmptyContent(
-                        date = date,
-                        dayOfMonthLocalized = "01",
-                        dayOfWeekLocalized = "Mon",
-                        style = LogDayStyle(
-                            isVisible = true,
-                            isHighlighted = true,
-                        ),
+                        dayState = dayState,
                     ),
                     LogItemState.EntryContent(
-                        dayOfMonthLocalized = "02",
-                        dayOfWeekLocalized = "Tue",
-                        style = LogDayStyle(
-                            isVisible = true,
-                            isHighlighted = true,
-                        ),
+                        dayState = dayState,
                         entryState = EntryListItemState(
                             entry = entry(),
                             dateTimeLocalized = dateTime.toString(),

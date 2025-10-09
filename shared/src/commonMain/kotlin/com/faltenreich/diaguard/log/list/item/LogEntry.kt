@@ -23,12 +23,7 @@ fun LogEntry(
 ) {
     Row(modifier = modifier) {
         LogDay(
-            state = LogDayState(
-                date = state.date,
-                dayOfMonthLocalized = state.dayOfMonthLocalized,
-                dayOfWeekLocalized = state.dayOfWeekLocalized,
-                style = state.style,
-            ),
+            state = state.dayState,
             modifier = Modifier
                 .padding(top = AppTheme.dimensions.padding.P_2)
                 .width(AppTheme.dimensions.size.LogDayWidth),
@@ -48,11 +43,14 @@ fun LogEntry(
 private fun Preview() = AppPreview {
     LogEntry(
         state = LogItemState.EntryContent(
-            dayOfMonthLocalized = "01",
-            dayOfWeekLocalized = "Mon",
-            style = LogDayStyle(
-                isVisible = true,
-                isHighlighted = true,
+            dayState = LogDayState(
+                date = today(),
+                dayOfMonthLocalized = "01",
+                dayOfWeekLocalized = "Mon",
+                style = LogDayStyle(
+                    isVisible = true,
+                    isHighlighted = true,
+                ),
             ),
             entryState = EntryListItemState(
                 entry = entry(),

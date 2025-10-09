@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.EntryRepository
 import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
+import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
 import com.faltenreich.diaguard.log.list.item.LogItemState
 import com.faltenreich.diaguard.shared.di.inject
@@ -55,32 +56,40 @@ class LogListPagingSource(
 
         val items = DateProgression(startDate, endDate).map { date ->
             val monthHeader = LogItemState.MonthHeader(
-                date = date,
-                dayOfMonthLocalized = formatter.formatDayOfMonth(date),
-                dayOfWeekLocalized = formatter.formatDayOfWeek(date, abbreviated = true),
+                dayState = LogDayState(
+                    date = date,
+                    dayOfMonthLocalized = formatter.formatDayOfMonth(date),
+                    dayOfWeekLocalized = formatter.formatDayOfWeek(date, abbreviated = true),
+                    style = LogDayStyle(isVisible = false, isHighlighted = false),
+                ),
                 dateLocalized = formatter.formatMonthOfYear(date.monthOfYear, abbreviated = false),
             )
             val headers = listOfNotNull(monthHeader.takeIf { date.dayOfMonth == 1 })
             val entriesOfDate = entries.filter { it.dateTime.date == date }
             val entryContent = entriesOfDate.takeIf(List<Entry>::isNotEmpty)?.map { entry ->
                 LogItemState.EntryContent(
-                    dayOfMonthLocalized = formatter.formatDayOfMonth(date),
-                    dayOfWeekLocalized = formatter.formatDayOfWeek(date, abbreviated = true),
-                    style = LogDayStyle(
-                        isVisible = entry == entriesOfDate.first(),
-                        isHighlighted = entry.dateTime.date == today,
+                    dayState = LogDayState(
+                        date = date,
+                        dayOfMonthLocalized = formatter.formatDayOfMonth(date),
+                        dayOfWeekLocalized = formatter.formatDayOfWeek(date, abbreviated = true),
+                        style = LogDayStyle(
+                            isVisible = entry == entriesOfDate.first(),
+                            isHighlighted = entry.dateTime.date == today,
+                        ),
                     ),
                     entryState = mapEntryListItemState(entry, includeDate = false),
                 )
             }
             val content = entryContent ?: listOf(
                 LogItemState.EmptyContent(
-                    date = date,
-                    dayOfMonthLocalized = formatter.formatDayOfMonth(date),
-                    dayOfWeekLocalized = formatter.formatDayOfWeek(date, abbreviated = true),
-                    style = LogDayStyle(
-                        isVisible = true,
-                        isHighlighted = date == today,
+                    dayState = LogDayState(
+                        date = date,
+                        dayOfMonthLocalized = formatter.formatDayOfMonth(date),
+                        dayOfWeekLocalized = formatter.formatDayOfWeek(date, abbreviated = true),
+                        style = LogDayStyle(
+                            isVisible = true,
+                            isHighlighted = date == today,
+                        ),
                     ),
                 ),
             )

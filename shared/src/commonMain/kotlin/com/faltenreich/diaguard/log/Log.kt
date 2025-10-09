@@ -70,7 +70,7 @@ fun Log(
             modifier = Modifier.fillMaxSize(),
         )
         LogDay(
-            state = state.dayStickyInfo.state,
+            state = state.dayStickyInfo.dayState,
             modifier = Modifier
                 .onGloballyPositioned { dayHeaderHeight = it.size.height }
                 .offset { state.dayStickyInfo.offset }
@@ -99,7 +99,7 @@ private fun Preview() = AppPreview {
             monthLocalized = "",
             pagingData = flowOf(PagingData.from(emptyList())),
             dayStickyInfo = LogDayStickyInfo(
-                state = LogDayState(
+                dayState = LogDayState(
                     date = today(),
                     dayOfMonthLocalized = "01",
                     dayOfWeekLocalized = "Mon",

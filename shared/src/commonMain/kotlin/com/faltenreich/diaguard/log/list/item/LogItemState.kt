@@ -1,41 +1,31 @@
 package com.faltenreich.diaguard.log.list.item
 
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.log.list.LogKey
 
 sealed interface LogItemState {
 
-    val date: Date
-    val dayOfMonthLocalized: String
-    val dayOfWeekLocalized: String
-    val style: LogDayStyle
     val key: LogKey
+    val dayState: LogDayState
 
     data class MonthHeader(
-        override val date: Date,
-        override val dayOfMonthLocalized: String,
-        override val dayOfWeekLocalized: String,
+        override val dayState: LogDayState,
         val dateLocalized: String,
     ) : LogItemState {
 
-        override val style = LogDayStyle(isVisible = false, isHighlighted = false)
-        override val key = LogKey.Header(date)
+        override val key = LogKey.Header(dayState.date)
 
         override fun toString(): String {
-            return "Month: $date"
+            return "Month: ${dayState.date}"
         }
     }
 
     data class EntryContent(
-        override val dayOfMonthLocalized: String,
-        override val dayOfWeekLocalized: String,
-        override val style: LogDayStyle,
+        override val dayState: LogDayState,
         val entryState: EntryListItemState,
     ) : LogItemState {
 
-        override val date = entryState.entry.dateTime.date
-        override val key = LogKey.Item(entryState.entry.dateTime.date, isFirstOfDay = style.isVisible)
+        override val key = LogKey.Item(entryState.entry.dateTime.date, isFirstOfDay = dayState.style.isVisible)
 
         override fun toString(): String {
             return "Entry: ${entryState.entry.dateTime}"
@@ -43,16 +33,13 @@ sealed interface LogItemState {
     }
 
     data class EmptyContent(
-        override val date: Date,
-        override val dayOfMonthLocalized: String,
-        override val dayOfWeekLocalized: String,
-        override val style: LogDayStyle,
+        override val dayState: LogDayState,
     ) : LogItemState {
 
-        override val key = LogKey.Item(date, isFirstOfDay = true)
+        override val key = LogKey.Item(dayState.date, isFirstOfDay = true)
 
         override fun toString(): String {
-            return "Empty: $date"
+            return "Empty: ${dayState.date}"
         }
     }
 }

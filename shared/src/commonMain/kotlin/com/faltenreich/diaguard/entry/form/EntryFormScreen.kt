@@ -27,6 +27,7 @@ import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.save
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
@@ -70,7 +71,7 @@ data class EntryFormScreen(
             actions = {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
-                    contentDescription = Res.string.entry_delete,
+                    contentDescription = stringResource(Res.string.entry_delete),
                     onClick = { viewModel.dispatchIntent(EntryFormIntent.Delete(needsConfirmation = true)) },
                 )
             },

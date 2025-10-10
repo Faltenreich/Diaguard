@@ -7,6 +7,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_menu
 import diaguard.shared.generated.resources.menu_open
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.BottomAppBar as Material3BottomBar
 
@@ -21,7 +22,7 @@ fun BottomAppBar(
                 actions = {
                     BottomAppBarItem(
                         painter = painterResource(Res.drawable.ic_menu),
-                        contentDescription = Res.string.menu_open,
+                        contentDescription = stringResource(Res.string.menu_open),
                         onClick = onMenuClick,
                     )
                     style.actions()

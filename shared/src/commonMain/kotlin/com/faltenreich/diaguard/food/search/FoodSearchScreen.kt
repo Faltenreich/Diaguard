@@ -33,6 +33,7 @@ import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.ic_preferences
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
@@ -83,7 +84,7 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
             actions = {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_preferences),
-                    contentDescription = Res.string.food_preferences_open,
+                    contentDescription = stringResource(Res.string.food_preferences_open),
                     onClick = { viewModel.dispatchIntent(FoodSearchIntent.OpenPreferences) },
                 )
             },

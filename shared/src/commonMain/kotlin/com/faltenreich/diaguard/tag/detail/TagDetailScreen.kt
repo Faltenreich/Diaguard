@@ -20,6 +20,7 @@ import diaguard.shared.generated.resources.tag
 import diaguard.shared.generated.resources.tag_delete
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
@@ -41,7 +42,7 @@ data class TagDetailScreen(private val tagId: Long) : Screen {
             actions = {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
-                    contentDescription = Res.string.tag_delete,
+                    contentDescription = stringResource(Res.string.tag_delete),
                     onClick = { viewModel.dispatchIntent(TagDetailIntent.DeleteTag) },
                 )
             },

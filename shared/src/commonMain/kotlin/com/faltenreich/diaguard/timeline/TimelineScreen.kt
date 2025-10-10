@@ -21,6 +21,7 @@ import diaguard.shared.generated.resources.search_open
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Serializable
 data object TimelineScreen : Screen {
@@ -32,12 +33,12 @@ data object TimelineScreen : Screen {
             actions = {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_search),
-                    contentDescription = Res.string.search_open,
+                    contentDescription = stringResource(Res.string.search_open),
                     onClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntrySearch()) },
                 )
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date),
-                    contentDescription = Res.string.date_picker_open,
+                    contentDescription = stringResource(Res.string.date_picker_open),
                     onClick = { viewModel.dispatchIntent(TimelineIntent.OpenDatePickerDialog) },
                 )
             },

@@ -21,6 +21,7 @@ import diaguard.shared.generated.resources.ic_history
 import diaguard.shared.generated.resources.save
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
@@ -44,14 +45,14 @@ data class FoodFormScreen(private val foodId: Long) : Screen {
             actions = {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
-                    contentDescription = Res.string.food_delete,
+                    contentDescription = stringResource(Res.string.food_delete),
                     onClick = { viewModel.dispatchIntent(FoodFormIntent.Delete(needsConfirmation = true)) },
                 )
                 val food = viewModel.collectState()?.food
                 if (food != null) {
                     BottomAppBarItem(
                         painter = painterResource(Res.drawable.ic_history),
-                        contentDescription = Res.string.food_eaten,
+                        contentDescription = stringResource(Res.string.food_eaten),
                         onClick = { viewModel.dispatchIntent(FoodFormIntent.OpenFoodEaten(food)) },
                     )
                 }

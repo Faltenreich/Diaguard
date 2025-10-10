@@ -24,6 +24,7 @@ import diaguard.shared.generated.resources.measurement_property_delete
 import diaguard.shared.generated.resources.save
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
@@ -56,7 +57,7 @@ data class MeasurementPropertyFormScreen(
             actions = {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
-                    contentDescription = Res.string.measurement_property_delete,
+                    contentDescription = stringResource(Res.string.measurement_property_delete),
                     onClick = {
                         viewModel.dispatchIntent(MeasurementPropertyFormIntent.Delete(needsConfirmation = true))
                     },

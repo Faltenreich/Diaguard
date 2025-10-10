@@ -19,6 +19,7 @@ import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Serializable
 data object LogScreen : Screen {
@@ -39,12 +40,12 @@ data object LogScreen : Screen {
             actions = {
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_search),
-                    contentDescription = Res.string.search_open,
+                    contentDescription = stringResource(Res.string.search_open),
                     onClick = { viewModel.dispatchIntent(LogIntent.OpenEntrySearch()) },
                 )
                 BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date),
-                    contentDescription = Res.string.date_picker_open,
+                    contentDescription = stringResource(Res.string.date_picker_open),
                     onClick = { viewModel.dispatchIntent(LogIntent.OpenDatePickerDialog) },
                 )
             },

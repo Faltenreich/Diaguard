@@ -4,10 +4,6 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.FloatingActionButtonElevation
 import androidx.compose.material3.Icon
-import androidx.compose.material3.PlainTooltip
-import androidx.compose.material3.Text
-import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,11 +33,10 @@ fun FloatingActionButton(
     val scope = rememberCoroutineScope()
     val tooltipState = rememberTooltipState()
 
-    TooltipBox(
-        modifier = modifier,
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        tooltip = { PlainTooltip { Text(contentDescription) } },
+    Tooltip(
+        text = contentDescription,
         state = tooltipState,
+        modifier = modifier,
     ) {
         androidx.compose.material3.FloatingActionButton(
             onClick = onClick,

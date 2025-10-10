@@ -6,6 +6,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -63,7 +64,7 @@ fun FoodForm(
                             val update = state.input.copy(name = input)
                             onIntent(FoodFormIntent.SetInput(update))
                         },
-                        label = getString(Res.string.name),
+                        placeholder = { Text(getString(Res.string.name)) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next,
@@ -81,7 +82,7 @@ fun FoodForm(
                             val update = state.input.copy(brand = input)
                             onIntent(FoodFormIntent.SetInput(update))
                         },
-                        label = getString(Res.string.brand),
+                        placeholder = { Text(getString(Res.string.brand)) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next,
@@ -99,7 +100,7 @@ fun FoodForm(
                             val update = state.input.copy(ingredients = input)
                             onIntent(FoodFormIntent.SetInput(update))
                         },
-                        label = getString(Res.string.ingredients),
+                        placeholder = { Text(getString(Res.string.ingredients)) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next,
@@ -110,14 +111,16 @@ fun FoodForm(
 
             TextDivider(getString(Res.string.nutrients_per_100g))
 
-            state.input.nutrients.forEach { data ->
+            state.input.nutrients.forEachIndexed { index, data ->
+                if (index != 0) {
+                    Divider()
+                }
                 FoodNutrientListItem(
                     data = data,
                     onUpdate = { update ->
                         onIntent(FoodFormIntent.SetNutrient(update))
                     },
                 )
-                Divider()
             }
         }
 

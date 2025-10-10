@@ -14,6 +14,8 @@ import diaguard.shared.generated.resources.date_time_ago_days
 import diaguard.shared.generated.resources.date_time_ago_hours
 import diaguard.shared.generated.resources.date_time_ago_minutes
 import diaguard.shared.generated.resources.date_time_ago_moments
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.format.char
 
 class KotlinxDateTimeFormatter(
     private val localization: Localization,
@@ -81,6 +83,15 @@ class KotlinxDateTimeFormatter(
     }
 
     override fun formatTime(time: Time): String {
+        val is24HourFormat = localization.is24HourFormat()
+        val format = LocalTime.Format {
+            amPmHour()
+            char(':')
+            minute()
+            char(' ')
+            amPmMarker("AM", "PM")
+        }
+        return format.format(LocalTime(time.hourOfDay, time.minuteOfHour))
         return time.run {
             "%02d:%02d".format(
                 hourOfDay,

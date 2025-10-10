@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
 
+// TODO: Support every formatting via delegation to DateTimeFormatter
 class FormatDateTimeUseCase(private val dateTimeFormatter: DateTimeFormatter) {
 
     operator fun invoke(dateTime: DateTime): String {

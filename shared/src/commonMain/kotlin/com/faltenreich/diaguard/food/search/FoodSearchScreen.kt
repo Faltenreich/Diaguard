@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.material3.Icon
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -89,12 +88,11 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) }) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_add),
-                        contentDescription = getString(Res.string.food_new),
-                    )
-                }
+                FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_add),
+                    contentDescription = getString(Res.string.food_new),
+                    onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) },
+                )
             }
         )
     }

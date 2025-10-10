@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement.property.form
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -65,13 +64,10 @@ data class MeasurementPropertyFormScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_check),
+                    contentDescription = getString(Res.string.save),
                     onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.Submit) },
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_check),
-                        contentDescription = getString(Res.string.save),
-                    )
-                }
+                )
             },
         )
     }

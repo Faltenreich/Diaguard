@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.log
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
@@ -51,13 +50,10 @@ data object LogScreen : Screen {
             },
             floatingActionButton = {
                 FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_add),
+                    contentDescription = getString(Res.string.entry_new_description),
                     onClick = { viewModel.dispatchIntent(LogIntent.CreateEntry()) },
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_add),
-                        contentDescription = getString(Res.string.entry_new_description),
-                    )
-                }
+                )
             },
         )
     }

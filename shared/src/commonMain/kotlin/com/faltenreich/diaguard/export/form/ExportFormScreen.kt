@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.export.form
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
@@ -30,12 +29,11 @@ data object ExportFormScreen : Screen {
         val viewModel = viewModel<ExportFormViewModel>()
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
-                FloatingActionButton(onClick = { viewModel.submit() }) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_check),
-                        contentDescription = getString(Res.string.export),
-                    )
-                }
+                FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_check),
+                    contentDescription = getString(Res.string.export),
+                    onClick = { viewModel.submit() },
+                )
             }
         )
     }

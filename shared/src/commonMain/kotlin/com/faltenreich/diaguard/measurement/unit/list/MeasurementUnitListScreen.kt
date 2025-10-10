@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement.unit.list
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
@@ -41,13 +40,10 @@ data class MeasurementUnitListScreen(private val modeOrdinal: Int) : Screen {
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
                 FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_add),
+                    contentDescription = getString(Res.string.measurement_unit_new),
                     onClick = { viewModel.dispatchIntent(MeasurementUnitListIntent.OpenFormDialog()) },
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_add),
-                        contentDescription = getString(Res.string.measurement_unit_new),
-                    )
-                }
+                )
             }
         )
     }

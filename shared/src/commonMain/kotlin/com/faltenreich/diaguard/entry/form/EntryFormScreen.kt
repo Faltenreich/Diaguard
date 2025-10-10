@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.entry.form
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -77,6 +76,11 @@ data class EntryFormScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(
+                    painter = painterResource(
+                        if (hasError) Res.drawable.ic_clear
+                        else Res.drawable.ic_check
+                    ),
+                    contentDescription = getString(Res.string.save),
                     onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) },
                     containerColor =
                         if (hasError) AppTheme.colors.scheme.errorContainer
@@ -84,15 +88,7 @@ data class EntryFormScreen(
                     contentColor =
                         if (hasError) AppTheme.colors.scheme.onErrorContainer
                         else AppTheme.colors.scheme.primary,
-                ) {
-                    Icon(
-                        painter = painterResource(
-                            if (hasError) Res.drawable.ic_clear
-                            else Res.drawable.ic_check
-                        ),
-                        contentDescription = getString(Res.string.save),
-                    )
-                }
+                )
             }
         )
     }

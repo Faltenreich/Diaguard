@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.food.form
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.food.Food
@@ -58,12 +57,11 @@ data class FoodFormScreen(private val foodId: Long) : Screen {
                 }
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit) }) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_check),
-                        contentDescription = getString(Res.string.save),
-                    )
-                }
+                FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_check),
+                    contentDescription = getString(Res.string.save),
+                    onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit) },
+                )
             }
         )
     }

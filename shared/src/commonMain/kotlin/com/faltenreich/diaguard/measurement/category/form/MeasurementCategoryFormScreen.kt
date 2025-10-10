@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement.category.form
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
@@ -49,13 +48,10 @@ data class MeasurementCategoryFormScreen(val categoryId: Long) : Screen {
             },
             floatingActionButton = {
                 FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_check),
+                    contentDescription = getString(Res.string.save),
                     onClick = { viewModel.dispatchIntent(MeasurementCategoryFormIntent.Store) },
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_check),
-                        contentDescription = getString(Res.string.save),
-                    )
-                }
+                )
             },
         )
     }

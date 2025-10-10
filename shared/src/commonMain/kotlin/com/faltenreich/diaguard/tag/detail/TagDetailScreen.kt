@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.tag.detail
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -47,12 +46,11 @@ data class TagDetailScreen(private val tagId: Long) : Screen {
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { viewModel.dispatchIntent(TagDetailIntent.UpdateTag) }) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_check),
-                        contentDescription = getString(Res.string.save),
-                    )
-                }
+                FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_check),
+                    contentDescription = getString(Res.string.save),
+                    onClick = { viewModel.dispatchIntent(TagDetailIntent.UpdateTag) },
+                )
             }
         )
     }

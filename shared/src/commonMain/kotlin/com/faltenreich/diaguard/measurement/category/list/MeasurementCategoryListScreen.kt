@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.measurement.category.list
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
@@ -32,13 +31,10 @@ data object MeasurementCategoryListScreen : Screen {
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
                 FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_add),
+                    contentDescription = getString(Res.string.measurement_category_new),
                     onClick = { viewModel.dispatchIntent(MeasurementCategoryListIntent.OpenFormDialog) },
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_add),
-                        contentDescription = getString(Res.string.measurement_category_new),
-                    )
-                }
+                )
             }
         )
     }

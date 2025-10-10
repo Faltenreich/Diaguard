@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.timeline
 
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,13 +43,10 @@ data object TimelineScreen : Screen {
             },
             floatingActionButton = {
                 FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_add),
+                    contentDescription = getString(Res.string.entry_new_description),
                     onClick = { viewModel.dispatchIntent(TimelineIntent.CreateEntry) },
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_add),
-                        contentDescription = getString(Res.string.entry_new_description),
-                    )
-                }
+                )
             },
         )
     }

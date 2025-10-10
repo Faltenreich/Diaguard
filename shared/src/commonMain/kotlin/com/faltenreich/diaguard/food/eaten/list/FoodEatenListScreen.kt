@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.food.eaten.list
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -45,12 +44,11 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
         val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
-                FloatingActionButton(onClick = { viewModel.dispatchIntent(FoodEatenListIntent.CreateEntry) }) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_add),
-                        contentDescription = getString(Res.string.entry_new_description),
-                    )
-                }
+                FloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_add),
+                    contentDescription = getString(Res.string.entry_new_description),
+                    onClick = { viewModel.dispatchIntent(FoodEatenListIntent.CreateEntry) },
+                )
             },
         )
     }

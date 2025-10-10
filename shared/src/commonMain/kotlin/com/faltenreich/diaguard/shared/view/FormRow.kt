@@ -11,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_note
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -24,9 +26,9 @@ fun FormRow(
             .defaultMinSize(minHeight = AppTheme.dimensions.size.TouchSizeMedium)
             .padding(
                 horizontal = AppTheme.dimensions.padding.P_3,
-                vertical = AppTheme.dimensions.padding.P_2,
+                vertical = AppTheme.dimensions.padding.P_1,
             ),
-        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2_5),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         icon?.invoke()
@@ -37,5 +39,8 @@ fun FormRow(
 @Preview
 @Composable
 private fun Preview() = AppPreview {
-    FormRow { Text("FormRow") }
+    FormRow(
+        icon = { ResourceIcon(Res.drawable.ic_note) },
+        content = { Text("FormRow") },
+    )
 }

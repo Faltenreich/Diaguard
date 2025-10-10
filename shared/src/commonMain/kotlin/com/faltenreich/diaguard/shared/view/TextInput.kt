@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.shared.view
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -9,6 +10,7 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -20,6 +22,7 @@ fun TextInput(
     label: String? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
+    textStyle: TextStyle = LocalTextStyle.current,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -44,6 +47,7 @@ fun TextInput(
         modifier = modifier,
         enabled = enabled,
         readOnly = readOnly,
+        textStyle = textStyle,
         label = label?.let{ { Text(label) } },
         placeholder = placeholder,
         leadingIcon = leadingIcon,

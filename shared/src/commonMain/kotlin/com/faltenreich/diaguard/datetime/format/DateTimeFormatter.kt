@@ -2,110 +2,33 @@ package com.faltenreich.diaguard.datetime.format
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.datetime.Month
 import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
-import com.faltenreich.diaguard.shared.localization.Localization
-import com.faltenreich.diaguard.shared.localization.format
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.date_time_ago_days
-import diaguard.shared.generated.resources.date_time_ago_hours
-import diaguard.shared.generated.resources.date_time_ago_minutes
-import diaguard.shared.generated.resources.date_time_ago_moments
 
-class DateTimeFormatter(
-    private val localization: Localization,
-) {
+interface DateTimeFormatter {
 
-    fun formatDateTime(dateTime: DateTime): String {
-        return dateTime.run {
-            "%s %s".format(
-                formatDate(date),
-                formatTime(time),
-            )
-        }
-    }
+    fun formatDateTime(dateTime: DateTime): String
 
-    fun formatDate(date: Date): String {
-        return date.run {
-            "%02d.%02d.%04d".format(
-                dayOfMonth,
-                monthNumber,
-                year,
-            )
-        }
-    }
+    fun formatDate(date: Date): String
 
-    fun formatDateRange(dateRange: ClosedRange<Date>): String {
-        return dateRange.run {
-            "%s - %s".format(
-                formatDate(start),
-                formatDate(endInclusive),
-            )
-        }
-    }
+    fun formatDateRange(dateRange: ClosedRange<Date>): String
 
-    fun formatWeek(date: Date): String {
-        return date.weekOfYear.weekNumber.toString()
-    }
+    fun formatWeek(date: Date): String
 
-    fun formatMonth(month: Month, abbreviated: Boolean): String {
-        return month.run { localization.getString(if (abbreviated) abbreviation else label) }
-    }
+    fun formatMonth(month: Month, abbreviated: Boolean): String
 
-    fun formatMonthOfYear(monthOfYear: MonthOfYear, abbreviated: Boolean): String {
-        return monthOfYear.run {
-            "%s %04d".format(
-                formatMonth(month, abbreviated = abbreviated),
-                year,
-            )
-        }
-    }
+    fun formatMonthOfYear(monthOfYear: MonthOfYear, abbreviated: Boolean): String
 
-    fun formatQuarter(date: Date): String {
-        return date.quarter.toString()
-    }
+    fun formatQuarter(date: Date): String
 
-    fun formatYear(date: Date): String {
-        return date.year.toString()
-    }
+    fun formatYear(date: Date): String
 
-    fun formatDayOfMonth(date: Date): String {
-        return "%02d".format(date.dayOfMonth)
-    }
+    fun formatDayOfMonth(date: Date): String
 
-    fun formatDayOfWeek(date: Date, abbreviated: Boolean): String {
-        return date.dayOfWeek.run { localization.getString(if (abbreviated) abbreviation else label) }
-    }
+    fun formatDayOfWeek(date: Date, abbreviated: Boolean): String
 
-    fun formatTime(time: Time): String {
-        return time.run {
-            "%02d:%02d".format(
-                hourOfDay,
-                minuteOfHour,
-            )
-        }
-    }
+    fun formatTime(time: Time): String
 
-    fun formatTimePassed(start: DateTime, end: DateTime): String {
-        val minutesPassed = start.minutesUntil(end)
-        return when {
-            minutesPassed < 2 -> localization.getString(
-                Res.string.date_time_ago_moments,
-            )
-            minutesPassed < DateTimeConstants.MINUTES_PER_HOUR * 2 -> localization.getString(
-                Res.string.date_time_ago_minutes,
-                minutesPassed,
-            )
-            minutesPassed < DateTimeConstants.MINUTES_PER_DAY * 2 -> localization.getString(
-                Res.string.date_time_ago_hours,
-                minutesPassed / DateTimeConstants.MINUTES_PER_HOUR,
-            )
-            else -> localization.getString(
-                Res.string.date_time_ago_days,
-                minutesPassed / DateTimeConstants.MINUTES_PER_DAY,
-            )
-        }
-    }
+    fun formatTimePassed(start: DateTime, end: DateTime): String
 }

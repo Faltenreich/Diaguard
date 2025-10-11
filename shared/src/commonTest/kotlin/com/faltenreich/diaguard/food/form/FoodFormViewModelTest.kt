@@ -19,6 +19,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -244,7 +245,7 @@ class FoodFormViewModelTest : TestSuite {
         viewModel = get(parameters = { parametersOf(food.id) })
 
         navigation.events.test {
-            viewModel.handleIntent(FoodFormIntent.Delete)
+            viewModel.handleIntent(FoodFormIntent.Delete(needsConfirmation = false))
 
             val event = awaitItem()
             assertTrue(event is NavigationEvent.PopScreen)
@@ -253,12 +254,29 @@ class FoodFormViewModelTest : TestSuite {
     }
 
     @Test
-    fun `do nothing when intending to delete nothing`() = runTest {
+    fun `show dialog when intending to delete food without needing confirmation`() = runTest {
+        viewModel = get(parameters = { parametersOf(food.id) })
+
+        turbineScope {
+            val state = viewModel.state.testIn(backgroundScope)
+            val navigation = navigation.events.testIn(backgroundScope)
+
+            viewModel.handleIntent(FoodFormIntent.Delete(needsConfirmation = true))
+            navigation.ensureAllEventsConsumed()
+
+            assertNotNull(state.expectMostRecentItem().deleteDialog)
+        }
+    }
+
+    @Test
+    fun `pop screen when intending to delete nothing`() = runTest {
         viewModel = get(parameters = { parametersOf(null) })
 
         navigation.events.test {
-            viewModel.handleIntent(FoodFormIntent.Delete)
-            ensureAllEventsConsumed()
+            viewModel.handleIntent(FoodFormIntent.Delete(needsConfirmation = false))
+
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.PopScreen)
         }
     }
 }

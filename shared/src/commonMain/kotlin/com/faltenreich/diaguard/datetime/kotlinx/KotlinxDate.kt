@@ -7,50 +7,18 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.datetime.Time
-import com.faltenreich.diaguard.datetime.WeekOfYear
-import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
-import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.minus
 import kotlinx.datetime.number
 import kotlinx.datetime.plus
 
-class KotlinxDate(
-    private var delegate: LocalDate,
-    // TODO: Avoid dependency
-    private val localization: Localization = inject(),
-) : Date {
+class KotlinxDate(private var delegate: LocalDate) : Date {
 
     override val year: Int get() = delegate.year
     override val monthNumber: Int get() = delegate.month.number
-    // TODO: Replace with official solution when ready
-    //  https://github.com/Kotlin/kotlinx-datetime/issues/129
-    override val weekOfYear: WeekOfYear get() {
-        var weekNumber = 1
-        var comparison = LocalDate(year = year, month = 1, day = 1)
-        // Start at end of week
-        val endOfWeek = localization.getStartOfWeek().previous()
-        while (comparison.dayOfWeek != endOfWeek.fromDomain()) {
-            comparison = comparison.plus(1 , DateTimeUnit.DAY)
-        }
-        // Stop when passing date
-        while (comparison <= delegate) {
-            comparison = comparison.plus(1, DateTimeUnit.WEEK)
-            weekNumber += 1
-        }
-        // Handle first week of next year that starts in this year
-        if (year != comparison.year) {
-            weekNumber = 1
-        }
-        return WeekOfYear(
-            weekNumber = weekNumber,
-            year = comparison.year,
-        )
-    }
     override val dayOfMonth: Int get() = delegate.day
     override val dayOfWeek: DayOfWeek get() = delegate.dayOfWeek.toDomain()
 

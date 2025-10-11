@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.datetime.Month
 import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.format
@@ -14,6 +15,7 @@ import diaguard.shared.generated.resources.date_time_ago_days
 import diaguard.shared.generated.resources.date_time_ago_hours
 import diaguard.shared.generated.resources.date_time_ago_minutes
 import diaguard.shared.generated.resources.date_time_ago_moments
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.format.char
 
@@ -31,13 +33,9 @@ class KotlinxDateTimeFormatter(
     }
 
     override fun formatDate(date: Date): String {
-        return date.run {
-            "%02d.%02d.%04d".format(
-                dayOfMonth,
-                monthNumber,
-                year,
-            )
-        }
+        return LocalDate.Format {
+            date(format = LocalDate.Formats.ISO)
+        }.format(LocalDate(year = date.year, monthNumber = date.monthNumber, dayOfMonth = date.dayOfMonth ))
     }
 
     override fun formatDateRange(dateRange: ClosedRange<Date>): String {
@@ -104,7 +102,7 @@ class KotlinxDateTimeFormatter(
     }
 
     override fun formatTimePassed(start: DateTime, end: DateTime): String {
-        val minutesPassed = start.minutesUntil(end)
+        val minutesPassed = start.until(end, TimeUnit.MINUTE).inWholeMinutes
         return when {
             minutesPassed < 2 -> localization.getString(
                 Res.string.date_time_ago_moments,

@@ -31,7 +31,9 @@ class LogViewModel(
 
     private val initialDate = MutableStateFlow(getToday())
     private val currentDate = MutableStateFlow(initialDate.value)
-    private val monthLocalized = currentDate.map { formatDateTimeUseCase(it.monthOfYear, abbreviated = false) }
+    private val monthLocalized = currentDate.map {
+        formatDateTimeUseCase.formatMonthOfYear(it.monthOfYear, abbreviated = false)
+    }
     private val dayStickyInfo = initialDate.value.let { date ->
         MutableStateFlow(
             LogDayStickyInfo(

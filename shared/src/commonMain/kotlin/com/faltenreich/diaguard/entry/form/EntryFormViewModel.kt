@@ -100,9 +100,9 @@ class EntryFormViewModel(
         dateTime.map { dateTime ->
             EntryFormState.DateTime(
                 date = dateTime.date,
-                dateLocalized = formatDateTime(dateTime.date),
+                dateLocalized = formatDateTime.formatDate(dateTime.date),
                 time = dateTime.time,
-                timeLocalized = formatDateTime(dateTime.time),
+                timeLocalized = formatDateTime.formatTime(dateTime.time),
             )
         },
         note,

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.datetime
 
+import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.WeekOfYear
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
@@ -8,7 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class DateTest {
+class DateTest : TestSuite {
 
     private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
 

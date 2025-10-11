@@ -65,6 +65,7 @@ class KotlinxDateTimeFormatter(
     }
 
     override fun formatDate(date: Date): String {
+        // TODO: Localize
         return LocalDate.Format {
             date(format = LocalDate.Formats.ISO)
         }.format(LocalDate(year = date.year, monthNumber = date.monthNumber, dayOfMonth = date.dayOfMonth ))

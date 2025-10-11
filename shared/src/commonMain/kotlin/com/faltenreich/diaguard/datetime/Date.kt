@@ -45,14 +45,9 @@ interface Date : Serializable, Comparable<Date> {
     val dayOfMonth: Int
 
     /**
-     * Day-of-week ranging from start- to end of week, depending on the locale
+     * Day-of-week
      */
     val dayOfWeek: DayOfWeek
-
-    /**
-     * Ordered days-of-week ranging from start- to end of week
-     */
-    val week: List<DayOfWeek>
 
     fun atTime(time: Time): DateTime
 

@@ -6,15 +6,10 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.DayOfWeek
-import com.faltenreich.diaguard.datetime.DayOfWeek.FRIDAY
-import com.faltenreich.diaguard.datetime.DayOfWeek.MONDAY
-import com.faltenreich.diaguard.datetime.DayOfWeek.SATURDAY
-import com.faltenreich.diaguard.datetime.DayOfWeek.SUNDAY
-import com.faltenreich.diaguard.datetime.DayOfWeek.THURSDAY
-import com.faltenreich.diaguard.datetime.DayOfWeek.TUESDAY
-import com.faltenreich.diaguard.datetime.DayOfWeek.WEDNESDAY
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.WeekOfYear
+import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
 import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
 import kotlinx.datetime.DateTimeUnit
@@ -25,18 +20,21 @@ import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import kotlin.math.floor
 
-class KotlinxDate(private var delegate: LocalDate) : Date {
+class KotlinxDate(
+    private var delegate: LocalDate,
+    // TODO: Avoid dependency
+    private val localization: Localization = inject(),
+) : Date {
 
     override val year: Int get() = delegate.year
     override val monthNumber: Int get() = delegate.month.number
     // TODO: Replace with official solution when ready
     //  https://github.com/Kotlin/kotlinx-datetime/issues/129
-    // TODO: Localize start of week
     override val weekOfYear: WeekOfYear get() {
         var weekNumber = 1
         var comparison = LocalDate(year = year, month = 1, day = 1)
         // Start at end of week
-        val endOfWeek = week.last()
+        val endOfWeek = localization.getStartOfWeek().previous()
         while (comparison.dayOfWeek != endOfWeek.fromDomain()) {
             comparison = comparison.plus(1 , DateTimeUnit.DAY)
         }
@@ -56,16 +54,6 @@ class KotlinxDate(private var delegate: LocalDate) : Date {
     }
     override val dayOfMonth: Int get() = delegate.day
     override val dayOfWeek: DayOfWeek get() = delegate.dayOfWeek.toDomain()
-    // TODO: Localize
-    override val week: List<DayOfWeek> = listOf(
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY,
-        SATURDAY,
-        SUNDAY,
-    )
 
     constructor(
         year: Int,
@@ -125,7 +113,7 @@ class KotlinxDate(private var delegate: LocalDate) : Date {
             DateUnit.DAY -> this
             DateUnit.WEEK -> {
                 var date = this as Date
-                val startOfWeek = week.first()
+                val startOfWeek = localization.getStartOfWeek()
                 while (date.dayOfWeek != startOfWeek) {
                     date = date.minus(1, DateUnit.DAY)
                 }

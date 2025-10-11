@@ -178,7 +178,6 @@ class DateTimeFormatterTest : TestSuite {
                 )
             ),
         )
-        // TODO: Should return 1 for locales whose week start on Monday, e.g. de
         assertEquals(
             expected = "2",
             actual = dateTimeFormatter.formatWeek(

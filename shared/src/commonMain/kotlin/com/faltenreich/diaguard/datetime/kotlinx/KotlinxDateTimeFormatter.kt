@@ -84,20 +84,23 @@ class KotlinxDateTimeFormatter(
 
     override fun formatTime(time: Time): String {
         val is24HourFormat = localization.is24HourFormat()
-        val format = LocalTime.Format {
-            amPmHour()
-            char(':')
-            minute()
-            char(' ')
-            amPmMarker("AM", "PM")
+        val format = if (is24HourFormat) {
+            LocalTime.Format {
+                hour()
+                char(':')
+                minute()
+                char(' ')
+            }
+        } else {
+            LocalTime.Format {
+                amPmHour()
+                char(':')
+                minute()
+                char(' ')
+                amPmMarker("AM", "PM")
+            }
         }
         return format.format(LocalTime(time.hourOfDay, time.minuteOfHour))
-        return time.run {
-            "%02d:%02d".format(
-                hourOfDay,
-                minuteOfHour,
-            )
-        }
     }
 
     override fun formatTimePassed(start: DateTime, end: DateTime): String {

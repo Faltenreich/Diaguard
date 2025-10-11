@@ -28,9 +28,9 @@ interface DateTimeFactory {
         dayOfMonth: Int,
         hourOfDay: Int,
         minuteOfHour: Int,
-        secondOfMinute: Int,
-        millisOfSecond: Int,
-        nanosOfMilli: Int,
+        secondOfMinute: Int = 0,
+        millisOfSecond: Int = 0,
+        nanosOfMilli: Int = 0,
     ): DateTime
 
     fun dateTime(millis: Long): DateTime

@@ -30,7 +30,6 @@ class KotlinxDateTimeFormatter(
                 hour()
                 char(':')
                 minute()
-                char(' ')
             }
         } else {
             LocalTime.Format {
@@ -97,12 +96,12 @@ class KotlinxDateTimeFormatter(
         return date.dayOfWeek.run { localization.getString(if (abbreviated) abbreviation else label) }
     }
 
-    override fun formatMonth(month: Month, abbreviated: Boolean): String {
-        return month.run { localization.getString(if (abbreviated) abbreviation else label) }
-    }
-
     override fun formatDayOfMonth(date: Date): String {
         return "%02d".format(date.dayOfMonth)
+    }
+
+    override fun formatMonth(month: Month, abbreviated: Boolean): String {
+        return month.run { localization.getString(if (abbreviated) abbreviation else label) }
     }
 
     override fun formatMonthOfYear(monthOfYear: MonthOfYear, abbreviated: Boolean): String {

@@ -31,6 +31,7 @@ class KotlinxDate(private var delegate: LocalDate) : Date {
     override val monthNumber: Int get() = delegate.month.number
     // TODO: Replace with official solution when ready
     //  https://github.com/Kotlin/kotlinx-datetime/issues/129
+    // TODO: Localize start of week
     override val weekOfYear: WeekOfYear get() {
         var weekNumber = 1
         var comparison = LocalDate(year = year, month = 1, day = 1)

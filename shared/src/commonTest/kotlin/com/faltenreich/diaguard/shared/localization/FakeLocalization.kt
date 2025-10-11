@@ -4,7 +4,10 @@ import androidx.compose.ui.text.intl.Locale
 import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.StringResource
 
-class FakeLocalization(private val locale: Locale = Locale("en")) : Localization {
+class FakeLocalization(
+    private val locale: Locale = Locale("en"),
+    private val is24HourFormat: Boolean = true,
+) : Localization {
 
     override fun getLocale(): Locale {
         return locale
@@ -27,6 +30,6 @@ class FakeLocalization(private val locale: Locale = Locale("en")) : Localization
     }
 
     override fun is24HourFormat(): Boolean {
-        return true
+        return is24HourFormat
     }
 }

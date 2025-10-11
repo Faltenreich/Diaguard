@@ -22,9 +22,9 @@ interface DateTimeFormatter {
 
     fun formatDayOfWeek(date: Date, abbreviated: Boolean): String
 
-    fun formatMonth(month: Month, abbreviated: Boolean): String
-
     fun formatDayOfMonth(date: Date): String
+
+    fun formatMonth(month: Month, abbreviated: Boolean): String
 
     fun formatMonthOfYear(monthOfYear: MonthOfYear, abbreviated: Boolean): String
 

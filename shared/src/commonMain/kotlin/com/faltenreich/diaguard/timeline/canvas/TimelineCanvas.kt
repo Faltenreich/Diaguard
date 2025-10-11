@@ -102,7 +102,7 @@ fun TimelineCanvas(
             }
             .pointerInput(Unit) {
                 detectTapGestures(
-                    onPress = { position ->
+                    onTap = { position ->
                         onIntent(TimelineIntent.TapCanvas(position, touchAreaSize))
                     },
                 )

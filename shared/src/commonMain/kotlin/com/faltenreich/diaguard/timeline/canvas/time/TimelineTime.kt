@@ -53,7 +53,7 @@ fun DrawScope.TimelineTime(
             strokeWidth = config.gridStrokeWidth,
         )
 
-        val text = hour.hour.toString()
+        val text = hour.hourLocalized
         val textSize = textMeasurer.measure(text, config.textStyle)
         drawText(
             textMeasurer = textMeasurer,

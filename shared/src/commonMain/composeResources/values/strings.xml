@@ -257,6 +257,8 @@
     <string name="therapy">Therapy</string>
     <string name="timeline">Timeline</string>
     <string name="time_select">Select time</string>
+    <string name="time_midnight">AM</string>
+    <string name="time_noon">PM</string>
     <string name="today">Today</string>
     <string name="trend">Trend</string>
     <string name="undo">Undo</string>

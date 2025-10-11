@@ -2,10 +2,16 @@ package com.faltenreich.diaguard.timeline.canvas.time
 
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.DateTimeConstants
+import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.date.TimelineDateState
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.time_midnight
+import diaguard.shared.generated.resources.time_noon
 
-class GetTimelineTimeStateUseCase {
+class GetTimelineTimeStateUseCase(
+    private val localization: Localization,
+) {
 
     operator fun invoke(
         dateState: TimelineDateState,
@@ -42,10 +48,20 @@ class GetTimelineTimeStateUseCase {
                     xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + xAxis.last
                     else -> xOffsetInHoursOfDay
                 }
+                val hourLocalized = if (localization.is24HourFormat()) {
+                    hour.toString()
+                } else {
+                    when (hour) {
+                        HOUR_MIDNIGHT -> localization.getString(Res.string.time_midnight)
+                        HOUR_NOON -> localization.getString(Res.string.time_noon)
+                        else -> (hour % HOUR_NOON).toString()
+                    }
+                }
                 val x = xOfLabel.toFloat()
                 TimelineTimeState.Hour(
                     x = x,
                     hour = hour,
+                    hourLocalized = hourLocalized,
                 )
             }
         } else {
@@ -64,5 +80,7 @@ class GetTimelineTimeStateUseCase {
     companion object {
 
         private const val STEP = 2
+        private const val HOUR_MIDNIGHT = 0
+        private const val HOUR_NOON = 12
     }
 }

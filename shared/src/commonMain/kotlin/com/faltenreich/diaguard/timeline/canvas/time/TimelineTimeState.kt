@@ -15,5 +15,6 @@ data class TimelineTimeState(
     data class Hour(
         val x: Float,
         val hour: Int,
+        val hourLocalized: String,
     )
 }

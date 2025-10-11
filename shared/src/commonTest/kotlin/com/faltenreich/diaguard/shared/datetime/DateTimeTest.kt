@@ -1,13 +1,14 @@
 package com.faltenreich.diaguard.shared.datetime
 
+import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateTimeTest {
+class DateTimeTest : TestSuite {
 
-    private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
+    private val dateTimeFactory: DateTimeFactory by inject()
 
     @Test
     fun `minutes until is zero if same date`() {

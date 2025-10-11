@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.WeekOfYear
 
 interface DateTimeFactory {
 
@@ -56,6 +57,8 @@ interface DateTimeFactory {
             endInclusive = today,
         )
     }
+
+    fun weekOfYear(date: Date): WeekOfYear
 
     fun dateAtStartOf(date: Date, unit: DateUnit): Date
 

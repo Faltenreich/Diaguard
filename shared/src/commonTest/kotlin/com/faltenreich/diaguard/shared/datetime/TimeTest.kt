@@ -1,14 +1,15 @@
 package com.faltenreich.diaguard.shared.datetime
 
+import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class TimeTest {
+class TimeTest : TestSuite {
 
-    private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
+    private val dateTimeFactory: DateTimeFactory by inject()
 
     @Test
     fun `time is equal if hour and minute and second and millis and nanos are equal`() {

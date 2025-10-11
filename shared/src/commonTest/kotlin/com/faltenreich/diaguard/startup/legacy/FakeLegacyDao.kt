@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.startup.legacy
 
-import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.tag.EntryTag
 import com.faltenreich.diaguard.food.Food
@@ -10,9 +10,7 @@ import com.faltenreich.diaguard.preference.Preference
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.tag.Tag
 
-class FakeLegacyDao : LegacyDao {
-
-    private val dateTimeFactory = KotlinxDateTimeFactory()
+class FakeLegacyDao(private val dateTimeFactory: DateTimeFactory) : LegacyDao {
 
     override suspend fun hasPreferences(): Boolean {
         return false

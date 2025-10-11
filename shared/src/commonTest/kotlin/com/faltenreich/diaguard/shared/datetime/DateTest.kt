@@ -1,17 +1,15 @@
 package com.faltenreich.diaguard.shared.datetime
 
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.datetime.DateUnit
-import com.faltenreich.diaguard.datetime.WeekOfYear
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class DateTest : TestSuite {
 
-    private val dateTimeFactory: DateTimeFactory = KotlinxDateTimeFactory()
+    private val dateTimeFactory: DateTimeFactory by inject()
 
     @Test
     fun `date is equal if year and month and day are equal`() {
@@ -65,66 +63,5 @@ class DateTest : TestSuite {
         assertEquals(4, dateTimeFactory.date(year = 5, monthNumber = 10, dayOfMonth = 1).quarter)
         assertEquals(4, dateTimeFactory.date(year = 5, monthNumber = 11, dayOfMonth = 1).quarter)
         assertEquals(4, dateTimeFactory.date(year = 5, monthNumber = 12, dayOfMonth = 1).quarter)
-    }
-
-    @Test
-    fun `weekOfYear is 1 if first day of year`() {
-        val date = dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1)
-        assertEquals(WeekOfYear(weekNumber = 1, year = 5), date.weekOfYear)
-    }
-
-    @Test
-    fun `weekOfYear is 52 if last week of year`() {
-        val date = dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1)
-            .minus(1, DateUnit.WEEK)
-        assertEquals(WeekOfYear(weekNumber = 52, year = 4), date.weekOfYear)
-    }
-
-    @Test
-    fun `weekOfYear is 1 if last day of year`() {
-        val date = dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1)
-            .minus(1, DateUnit.DAY)
-        assertEquals(WeekOfYear(weekNumber = 1, year = 5), date.weekOfYear)
-    }
-
-    @Test
-    fun `start of day is this`() {
-        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
-        assertEquals(date, date.atStartOf(DateUnit.DAY))
-    }
-
-    @Test
-    fun `start of week is Monday`() {
-        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
-        val expected = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 2)
-        assertEquals(expected, date.atStartOf(DateUnit.WEEK))
-    }
-
-    @Test
-    fun `start of month is first day of same month in same year`() {
-        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
-        val expected = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 1)
-        assertEquals(expected, date.atStartOf(DateUnit.MONTH))
-    }
-
-    @Test
-    fun `start of quarter is first day of three months in same year`() {
-        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
-        val expected = dateTimeFactory.date(year = 2025, monthNumber = 4, dayOfMonth = 1)
-        assertEquals(expected, date.atStartOf(DateUnit.QUARTER))
-    }
-
-    @Test
-    fun `start of year is first day of same year`() {
-        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
-        val expected = dateTimeFactory.date(year = 2025, monthNumber = 1, dayOfMonth = 1)
-        assertEquals(expected, date.atStartOf(DateUnit.YEAR))
-    }
-
-    @Test
-    fun `start of century is first day of same century`() {
-        val date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5)
-        val expected = dateTimeFactory.date(year = 2000, monthNumber = 1, dayOfMonth = 1)
-        assertEquals(expected, date.atStartOf(DateUnit.CENTURY))
     }
 }

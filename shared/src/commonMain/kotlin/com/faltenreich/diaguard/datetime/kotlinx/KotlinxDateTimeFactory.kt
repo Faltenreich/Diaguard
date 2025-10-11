@@ -4,10 +4,14 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.WeekOfYear
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.localization.Localization
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
+import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlin.math.floor
 import kotlin.time.Clock
@@ -92,6 +96,32 @@ class KotlinxDateTimeFactory(
 
     override fun now(): KotlinxDateTime {
         return KotlinxDateTime.now()
+    }
+
+    // TODO: Determine calendar week via official solution
+    //  https://github.com/Kotlin/kotlinx-datetime/issues/129
+    override fun weekOfYear(date: Date): WeekOfYear {
+        val localDate = LocalDate(year = date.year, monthNumber = date.monthNumber, dayOfMonth = date.dayOfMonth)
+        var weekNumber = 1
+        var comparison = LocalDate(year = localDate.year, month = 1, day = 1)
+        // Start at end of week
+        val endOfWeek = localization.getStartOfWeek().previous()
+        while (comparison.dayOfWeek != endOfWeek.fromDomain()) {
+            comparison = comparison.plus(1 , DateTimeUnit.DAY)
+        }
+        // Stop when passing date
+        while (comparison <= localDate) {
+            comparison = comparison.plus(1, DateTimeUnit.WEEK)
+            weekNumber += 1
+        }
+        // Handle first week of next year that starts in this year
+        if (localDate.year != comparison.year) {
+            weekNumber = 1
+        }
+        return WeekOfYear(
+            weekNumber = weekNumber,
+            year = comparison.year,
+        )
     }
 
     @Suppress("MagicNumber")

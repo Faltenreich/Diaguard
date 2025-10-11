@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.statistic
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
@@ -38,11 +39,15 @@ class StatisticViewModel(
     private val getDistribution: GetStatisticDistributionUseCase,
     private val localization: Localization,
     private val dateTimeFormatter: DateTimeFormatter,
+    private val dateTimeFactory: DateTimeFactory,
 ) : ViewModel<StatisticState, StatisticIntent, Unit>() {
 
     private val dateRangeType = MutableStateFlow(StatisticDateRangeType.WEEK)
     private val dateRange = MutableStateFlow(
-        getToday().let { it.atStartOf(DateUnit.WEEK) .. it.atEndOf(DateUnit.WEEK) }
+        getToday().let { date ->
+            dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK) ..
+                dateTimeFactory.dateAtEndOf(date, DateUnit.WEEK)
+        }
     )
     private val categories = MutableStateFlow(emptyList<MeasurementCategory.Local>())
     private val category = MutableStateFlow<MeasurementCategory.Local?>(null)
@@ -165,16 +170,16 @@ class StatisticViewModel(
     private fun invalidateDateRange(date: Date) {
         dateRange.update { dateRange ->
             val start = when (dateRangeType.value) {
-                StatisticDateRangeType.WEEK -> date.atStartOf(DateUnit.WEEK)
-                StatisticDateRangeType.MONTH -> date.atStartOf(DateUnit.MONTH)
-                StatisticDateRangeType.QUARTER -> date.atStartOf(DateUnit.QUARTER)
-                StatisticDateRangeType.YEAR -> date.atStartOf(DateUnit.YEAR)
+                StatisticDateRangeType.WEEK -> dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK)
+                StatisticDateRangeType.MONTH -> dateTimeFactory.dateAtStartOf(date, DateUnit.MONTH)
+                StatisticDateRangeType.QUARTER -> dateTimeFactory.dateAtStartOf(date, DateUnit.QUARTER)
+                StatisticDateRangeType.YEAR -> dateTimeFactory.dateAtStartOf(date, DateUnit.YEAR)
             }
             val end = when (dateRangeType.value) {
-                StatisticDateRangeType.WEEK -> start.atEndOf(DateUnit.WEEK)
-                StatisticDateRangeType.MONTH -> start.atEndOf(DateUnit.MONTH)
-                StatisticDateRangeType.QUARTER -> start.atEndOf(DateUnit.QUARTER)
-                StatisticDateRangeType.YEAR -> start.atEndOf(DateUnit.YEAR)
+                StatisticDateRangeType.WEEK -> dateTimeFactory.dateAtEndOf(date, DateUnit.WEEK)
+                StatisticDateRangeType.MONTH -> dateTimeFactory.dateAtEndOf(date, DateUnit.MONTH)
+                StatisticDateRangeType.QUARTER -> dateTimeFactory.dateAtEndOf(date, DateUnit.QUARTER)
+                StatisticDateRangeType.YEAR -> dateTimeFactory.dateAtEndOf(date, DateUnit.YEAR)
             }
             dateRange.copy(start = start, endInclusive = end)
         }

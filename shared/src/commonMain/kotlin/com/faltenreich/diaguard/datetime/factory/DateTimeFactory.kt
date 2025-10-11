@@ -56,4 +56,12 @@ interface DateTimeFactory {
             endInclusive = today,
         )
     }
+
+    fun dateAtStartOf(date: Date, unit: DateUnit): Date
+
+    fun dateAtEndOf(date: Date, unit: DateUnit): Date {
+        return dateAtStartOf(date, unit)
+            .plus(1, unit)
+            .minus(1, DateUnit.DAY)
+    }
 }

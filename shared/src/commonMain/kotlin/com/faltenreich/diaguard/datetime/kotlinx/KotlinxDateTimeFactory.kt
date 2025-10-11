@@ -2,16 +2,21 @@ package com.faltenreich.diaguard.datetime.kotlinx
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
 import kotlinx.datetime.toLocalDateTime
+import kotlin.math.floor
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 
-class KotlinxDateTimeFactory : DateTimeFactory {
+class KotlinxDateTimeFactory(
+    private val localization: Localization,
+) : DateTimeFactory {
 
     override fun date(
         year: Int,
@@ -87,5 +92,40 @@ class KotlinxDateTimeFactory : DateTimeFactory {
 
     override fun now(): KotlinxDateTime {
         return KotlinxDateTime.now()
+    }
+
+    @Suppress("MagicNumber")
+    override fun dateAtStartOf(date: Date, unit: DateUnit): Date = with(date) {
+        return when (unit) {
+            DateUnit.DAY -> this
+            DateUnit.WEEK -> {
+                var date = this
+                val startOfWeek = localization.getStartOfWeek()
+                while (date.dayOfWeek != startOfWeek) {
+                    date = date.minus(1, DateUnit.DAY)
+                }
+                date
+            }
+            DateUnit.MONTH -> KotlinxDate(
+                year = year,
+                monthNumber = monthNumber,
+                dayOfMonth = 1,
+            )
+            DateUnit.QUARTER -> KotlinxDate(
+                year = year,
+                monthNumber = (((monthNumber - 1) / 3) * 3) + 1,
+                dayOfMonth = 1,
+            )
+            DateUnit.YEAR -> KotlinxDate(
+                year = year,
+                monthNumber = 1,
+                dayOfMonth = 1,
+            )
+            DateUnit.CENTURY -> KotlinxDate(
+                year = 100 * floor(year / 100.0).toInt(),
+                monthNumber = 1,
+                dayOfMonth = 1,
+            )
+        }
     }
 }

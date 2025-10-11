@@ -23,63 +23,6 @@ class KotlinxDateTimeFormatter(
     private val localization: Localization,
 ) : DateTimeFormatter {
 
-    override fun formatDateTime(dateTime: DateTime): String {
-        return dateTime.run {
-            "%s %s".format(
-                formatDate(date),
-                formatTime(time),
-            )
-        }
-    }
-
-    override fun formatDate(date: Date): String {
-        return LocalDate.Format {
-            date(format = LocalDate.Formats.ISO)
-        }.format(LocalDate(year = date.year, monthNumber = date.monthNumber, dayOfMonth = date.dayOfMonth ))
-    }
-
-    override fun formatDateRange(dateRange: ClosedRange<Date>): String {
-        return dateRange.run {
-            "%s - %s".format(
-                formatDate(start),
-                formatDate(endInclusive),
-            )
-        }
-    }
-
-    override fun formatWeek(date: Date): String {
-        return date.weekOfYear.weekNumber.toString()
-    }
-
-    override fun formatMonth(month: Month, abbreviated: Boolean): String {
-        return month.run { localization.getString(if (abbreviated) abbreviation else label) }
-    }
-
-    override fun formatMonthOfYear(monthOfYear: MonthOfYear, abbreviated: Boolean): String {
-        return monthOfYear.run {
-            "%s %04d".format(
-                formatMonth(month, abbreviated = abbreviated),
-                year,
-            )
-        }
-    }
-
-    override fun formatQuarter(date: Date): String {
-        return date.quarter.toString()
-    }
-
-    override fun formatYear(date: Date): String {
-        return date.year.toString()
-    }
-
-    override fun formatDayOfMonth(date: Date): String {
-        return "%02d".format(date.dayOfMonth)
-    }
-
-    override fun formatDayOfWeek(date: Date, abbreviated: Boolean): String {
-        return date.dayOfWeek.run { localization.getString(if (abbreviated) abbreviation else label) }
-    }
-
     override fun formatTime(time: Time): String {
         val is24HourFormat = localization.is24HourFormat()
         val format = if (is24HourFormat) {
@@ -120,5 +63,62 @@ class KotlinxDateTimeFormatter(
                 minutesPassed / DateTimeConstants.MINUTES_PER_DAY,
             )
         }
+    }
+
+    override fun formatDate(date: Date): String {
+        return LocalDate.Format {
+            date(format = LocalDate.Formats.ISO)
+        }.format(LocalDate(year = date.year, monthNumber = date.monthNumber, dayOfMonth = date.dayOfMonth ))
+    }
+
+    override fun formatDateRange(dateRange: ClosedRange<Date>): String {
+        return dateRange.run {
+            "%s - %s".format(
+                formatDate(start),
+                formatDate(endInclusive),
+            )
+        }
+    }
+
+    override fun formatDateTime(dateTime: DateTime): String {
+        return dateTime.run {
+            "%s %s".format(
+                formatDate(date),
+                formatTime(time),
+            )
+        }
+    }
+
+    override fun formatWeek(date: Date): String {
+        return date.weekOfYear.weekNumber.toString()
+    }
+
+    override fun formatDayOfWeek(date: Date, abbreviated: Boolean): String {
+        return date.dayOfWeek.run { localization.getString(if (abbreviated) abbreviation else label) }
+    }
+
+    override fun formatMonth(month: Month, abbreviated: Boolean): String {
+        return month.run { localization.getString(if (abbreviated) abbreviation else label) }
+    }
+
+    override fun formatDayOfMonth(date: Date): String {
+        return "%02d".format(date.dayOfMonth)
+    }
+
+    override fun formatMonthOfYear(monthOfYear: MonthOfYear, abbreviated: Boolean): String {
+        return monthOfYear.run {
+            "%s %04d".format(
+                formatMonth(month, abbreviated = abbreviated),
+                year,
+            )
+        }
+    }
+
+    override fun formatQuarter(date: Date): String {
+        return date.quarter.toString()
+    }
+
+    override fun formatYear(date: Date): String {
+        return date.year.toString()
     }
 }

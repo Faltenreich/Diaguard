@@ -53,6 +53,7 @@ fun Log(
         val visibleItems = listState.layoutInfo.visibleItemsInfo
             .takeIf(List<*>::isNotEmpty)
             ?: return@LaunchedEffect
+        // FIXME: Rare java.lang.IndexOutOfBoundsException: Index: 37, Size: 35
         val firstItem = items[visibleItems.first().index] ?: return@LaunchedEffect
         val nextItems = visibleItems.takeLast(visibleItems.size - 1)
         onIntent(LogIntent.OnScroll(firstItem, nextItems, dayHeaderHeight))

@@ -38,10 +38,7 @@ class MapEntryListItemStateUseCase(
                 foodEaten = foodEatenRepository.getByEntryId(entry.id)
             },
             dateTimeLocalized = dateTimeFormatter.run {
-                if (includeDate) "%s, %s".format(
-                    formatMonth(entry.dateTime.date.month, abbreviated = true),
-                    formatDateTime(entry.dateTime),
-                )
+                if (includeDate) formatDateTime(entry.dateTime)
                 else formatTime(entry.dateTime.time)
             },
             foodEatenLocalized = entry.foodEaten.map { foodEaten ->

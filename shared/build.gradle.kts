@@ -124,6 +124,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
 }
 
 sqldelight {
@@ -132,4 +135,8 @@ sqldelight {
             packageName.set("${Constants.NameSpace}.shared.database.sqldelight")
         }
     }
+}
+
+dependencies {
+    coreLibraryDesugaring(libs.android.desugar)
 }

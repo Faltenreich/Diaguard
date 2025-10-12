@@ -139,7 +139,7 @@ class DateTimeFormatterTest : TestSuite {
         declare<Localization> { FakeLocalization(locale = Locale("en")) }
 
         assertEquals(
-            expected = "2000-01-02",
+            expected = "Jan 2, 2000",
             actual = dateTimeFormatter.formatDate(
                 date = dateTimeFactory.date(
                     year = 2000,
@@ -152,8 +152,10 @@ class DateTimeFormatterTest : TestSuite {
 
     @Test
     fun `format date time`() {
+        declare<Localization> { FakeLocalization(locale = Locale("en")) }
+
         assertEquals(
-            expected = "2000-01-02 03:04",
+            expected = "Jan 2, 2000 03:04",
             actual = dateTimeFormatter.formatDateTime(
                 dateTime = dateTimeFactory.dateTime(
                     year = 2000,

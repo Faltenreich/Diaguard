@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.datetime.format.NativeDateTimeFormatter
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.format
 import diaguard.shared.generated.resources.Res
@@ -16,14 +17,14 @@ import diaguard.shared.generated.resources.date_time_ago_days
 import diaguard.shared.generated.resources.date_time_ago_hours
 import diaguard.shared.generated.resources.date_time_ago_minutes
 import diaguard.shared.generated.resources.date_time_ago_moments
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.format.char
 
 class KotlinxDateTimeFormatter(
     private val localization: Localization,
     private val dateTimeFactory: DateTimeFactory,
-) : DateTimeFormatter {
+    private val nativeDateTimeFormatter: NativeDateTimeFormatter,
+) : DateTimeFormatter, NativeDateTimeFormatter by nativeDateTimeFormatter {
 
     override fun formatTime(time: Time): String {
         val is24HourFormat = localization.is24HourFormat()
@@ -64,13 +65,6 @@ class KotlinxDateTimeFormatter(
                 minutesPassed / DateTimeConstants.MINUTES_PER_DAY,
             )
         }
-    }
-
-    override fun formatDate(date: Date): String {
-        // TODO: Localize
-        return LocalDate.Format {
-            date(format = LocalDate.Formats.ISO)
-        }.format(LocalDate(year = date.year, monthNumber = date.monthNumber, dayOfMonth = date.dayOfMonth ))
     }
 
     override fun formatDateRange(dateRange: ClosedRange<Date>): String {

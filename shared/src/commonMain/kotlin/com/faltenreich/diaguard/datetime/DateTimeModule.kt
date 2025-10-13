@@ -13,7 +13,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun dateTimeModule() = module {
-    includes(nativeDateTimeModule())
+    includes(dateTimePlatformModule())
 
     factoryOf(::KotlinxDateTimeFactory) bind DateTimeFactory::class
     factoryOf(::KotlinxDateTimeFormatter) bind DateTimeFormatter::class

@@ -3,13 +3,13 @@ package com.faltenreich.diaguard.datetime.kotlinx
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateTimeConstants
+import com.faltenreich.diaguard.datetime.DateTimePlatformApi
 import com.faltenreich.diaguard.datetime.Month
 import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.datetime.format.NativeDateTimeFormatter
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.format
 import diaguard.shared.generated.resources.Res
@@ -23,11 +23,11 @@ import kotlinx.datetime.format.char
 class KotlinxDateTimeFormatter(
     private val localization: Localization,
     private val dateTimeFactory: DateTimeFactory,
-    private val nativeDateTimeFormatter: NativeDateTimeFormatter,
-) : DateTimeFormatter, NativeDateTimeFormatter by nativeDateTimeFormatter {
+    private val dateTimePlatformApi: DateTimePlatformApi,
+) : DateTimeFormatter, DateTimePlatformApi by dateTimePlatformApi {
 
     override fun formatTime(time: Time): String {
-        val is24HourFormat = localization.is24HourFormat()
+        val is24HourFormat = dateTimePlatformApi.is24HourFormat()
         val format = if (is24HourFormat) {
             LocalTime.Format {
                 hour()

@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard
 
+import com.faltenreich.diaguard.datetime.DateTimeFakeApi
+import com.faltenreich.diaguard.datetime.DateTimePlatformApi
 import com.faltenreich.diaguard.export.pdf.PdfExport
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
@@ -49,6 +51,7 @@ fun testModules() = module {
     singleOf(::ConsoleLogger) bind Logger::class
     singleOf(::FakeKeyValueStore) bind KeyValueStore::class
     factoryOf(::FakeAlarmManager) bind AlarmManager::class
+    factory<DateTimePlatformApi> { DateTimeFakeApi(is24HourFormat = true) }
 
     single<PdfExport> { PdfExport {} }
 

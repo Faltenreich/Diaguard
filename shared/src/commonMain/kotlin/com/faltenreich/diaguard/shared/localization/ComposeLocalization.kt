@@ -8,9 +8,7 @@ import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-class ComposeLocalization(
-    private val nativeLocalization: NativeLocalization,
-) : Localization, NativeLocalization by nativeLocalization {
+class ComposeLocalization : Localization {
 
     override fun getLocale(): Locale {
         return Locale.current

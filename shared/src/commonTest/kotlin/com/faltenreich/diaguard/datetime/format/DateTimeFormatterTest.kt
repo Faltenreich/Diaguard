@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.datetime.format
 
 import androidx.compose.ui.text.intl.Locale
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.datetime.DateTimeFakeApi
+import com.faltenreich.diaguard.datetime.DateTimePlatformApi
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.localization.FakeLocalization
 import com.faltenreich.diaguard.shared.localization.Localization
@@ -26,7 +28,7 @@ class DateTimeFormatterTest : TestSuite {
 
     @Test
     fun `format time for 24-hour format`() {
-        declare<Localization> { FakeLocalization(is24HourFormat = true) }
+        declare<DateTimePlatformApi> { DateTimeFakeApi(is24HourFormat = true) }
 
         assertEquals(
             expected = "13:12",
@@ -38,7 +40,7 @@ class DateTimeFormatterTest : TestSuite {
 
     @Test
     fun `format time for 12-hour format`() {
-        declare<Localization> { FakeLocalization(is24HourFormat = false) }
+        declare<DateTimePlatformApi> { DateTimeFakeApi(is24HourFormat = false) }
 
         assertEquals(
             expected = "01:12 PM",

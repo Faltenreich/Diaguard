@@ -2,11 +2,11 @@ package com.faltenreich.diaguard.datetime.kotlinx
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateTimePlatformApi
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.WeekOfYear
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.shared.localization.Localization
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -19,7 +19,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 
 class KotlinxDateTimeFactory(
-    private val localization: Localization,
+    private val dateTimePlatformApi: DateTimePlatformApi,
 ) : DateTimeFactory {
 
     override fun date(
@@ -105,7 +105,7 @@ class KotlinxDateTimeFactory(
         var weekNumber = 1
         var comparison = LocalDate(year = localDate.year, month = 1, day = 1)
         // Start at end of week
-        val endOfWeek = localization.getStartOfWeek().previous()
+        val endOfWeek = dateTimePlatformApi.getStartOfWeek().previous()
         while (comparison.dayOfWeek != endOfWeek.fromDomain()) {
             comparison = comparison.plus(1 , DateTimeUnit.DAY)
         }
@@ -130,7 +130,7 @@ class KotlinxDateTimeFactory(
             DateUnit.DAY -> this
             DateUnit.WEEK -> {
                 var date = this
-                val startOfWeek = localization.getStartOfWeek()
+                val startOfWeek = dateTimePlatformApi.getStartOfWeek()
                 while (date.dayOfWeek != startOfWeek) {
                     date = date.minus(1, DateUnit.DAY)
                 }

@@ -1,11 +1,24 @@
-package com.faltenreich.diaguard.shared.localization
+package com.faltenreich.diaguard.datetime
 
 import android.content.Context
 import android.text.format.DateFormat
-import com.faltenreich.diaguard.datetime.DayOfWeek
+import com.faltenreich.diaguard.shared.localization.Localization
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Calendar
 
-class NativeAndroidLocalization(private val context: Context) : NativeLocalization {
+class DateTimeAndroidApi(
+    private val localization: Localization,
+    private val context: Context,
+) : DateTimePlatformApi {
+
+    override fun formatDate(date: Date): String {
+        val localDate = LocalDate.of(date.year, date.monthNumber, date.dayOfMonth)
+        val locale = localization.getLocale().platformLocale
+        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale)
+        return formatter.format(localDate)
+    }
 
     @Suppress("MagicNumber")
     override fun getStartOfWeek(): DayOfWeek {

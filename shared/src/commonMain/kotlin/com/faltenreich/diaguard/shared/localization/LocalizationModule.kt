@@ -6,7 +6,6 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun localizationModule() = module {
-    includes(nativeLocalizationModule())
     singleOf(::ComposeLocalization) bind Localization::class
     factoryOf(::NumberFormatter)
 }

@@ -4,7 +4,7 @@ import androidx.compose.ui.text.intl.Locale
 import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.StringResource
 
-interface Localization : NativeLocalization {
+interface Localization {
 
     fun getLocale(): Locale
 

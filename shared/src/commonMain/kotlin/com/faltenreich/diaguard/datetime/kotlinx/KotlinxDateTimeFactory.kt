@@ -98,8 +98,7 @@ class KotlinxDateTimeFactory(
         return KotlinxDateTime.now()
     }
 
-    // TODO: Determine calendar week via official solution
-    //  https://github.com/Kotlin/kotlinx-datetime/issues/129
+    // TODO: Determine via java.util.Calendar
     override fun weekOfYear(date: Date): WeekOfYear {
         val localDate = LocalDate(year = date.year, monthNumber = date.monthNumber, dayOfMonth = date.dayOfMonth)
         var weekNumber = 1

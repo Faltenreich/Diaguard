@@ -22,8 +22,8 @@ class DateTimeAndroidApi(
 
     @Suppress("MagicNumber")
     override fun getStartOfWeek(): DayOfWeek {
-        // TODO: Pass Locale to Calendar
-        val firstDayOfWeek = Calendar.getInstance().firstDayOfWeek
+        val locale = localization.getLocale().platformLocale
+        val firstDayOfWeek = Calendar.getInstance(locale).firstDayOfWeek
         return when (firstDayOfWeek) {
             1 -> DayOfWeek.SUNDAY
             2 -> DayOfWeek.MONDAY

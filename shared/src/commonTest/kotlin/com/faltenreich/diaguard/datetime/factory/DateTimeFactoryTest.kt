@@ -1,9 +1,13 @@
 package com.faltenreich.diaguard.datetime.factory
 
+import androidx.compose.ui.text.intl.Locale
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.WeekOfYear
+import com.faltenreich.diaguard.shared.localization.FakeLocalization
+import com.faltenreich.diaguard.shared.localization.Localization
 import org.koin.test.inject
+import org.koin.test.mock.declare
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -12,30 +16,23 @@ class DateTimeFactoryTest : TestSuite {
     private val dateTimeFactory: DateTimeFactory by inject()
 
     @Test
-    fun `weekOfYear is 1 if first day of year`() {
-        val date = dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1)
+    fun `weekOfYear is 52 on 2017-12-31 if week starts at Sunday`() {
+        declare<Localization> { FakeLocalization(locale = Locale("en")) }
+
+        val date = dateTimeFactory.date(year = 2017, monthNumber = 12, dayOfMonth = 31)
         assertEquals(
-            expected = WeekOfYear(weekNumber = 1, year = 5),
+            expected = WeekOfYear(weekNumber = 52, year = 2017),
             actual = dateTimeFactory.weekOfYear(date),
         )
     }
 
     @Test
-    fun `weekOfYear is 52 if last week of year`() {
-        val date = dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1)
-            .minus(1, DateUnit.WEEK)
-        assertEquals(
-            expected = WeekOfYear(weekNumber = 52, year = 4),
-            actual = dateTimeFactory.weekOfYear(date),
-        )
-    }
+    fun `weekOfYear is 1 on 2017-12-31 if week starts at Monday`() {
+        declare<Localization> { FakeLocalization(locale = Locale("de")) }
 
-    @Test
-    fun `weekOfYear is 1 if last day of year`() {
-        val date = dateTimeFactory.date(year = 5, monthNumber = 1, dayOfMonth = 1)
-            .minus(1, DateUnit.DAY)
+        val date = dateTimeFactory.date(year = 2017, monthNumber = 12, dayOfMonth = 31)
         assertEquals(
-            expected = WeekOfYear(weekNumber = 1, year = 5),
+            expected = WeekOfYear(weekNumber = 1, year = 2018),
             actual = dateTimeFactory.weekOfYear(date),
         )
     }
@@ -50,7 +47,22 @@ class DateTimeFactoryTest : TestSuite {
     }
 
     @Test
-    fun `start of week is Monday`() {
+    fun `start of week is Sunday for English`() {
+        declare<Localization> { FakeLocalization(locale = Locale("en")) }
+
+        assertEquals(
+            expected = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 1),
+            actual = dateTimeFactory.dateAtStartOf(
+                date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5),
+                unit = DateUnit.WEEK,
+            ),
+        )
+    }
+
+    @Test
+    fun `start of week is Monday for German`() {
+        declare<Localization> { FakeLocalization(locale = Locale("de")) }
+
         assertEquals(
             expected = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 2),
             actual = dateTimeFactory.dateAtStartOf(

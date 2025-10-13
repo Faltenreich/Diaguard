@@ -9,6 +9,7 @@ class NativeAndroidLocalization(private val context: Context) : NativeLocalizati
 
     @Suppress("MagicNumber")
     override fun getStartOfWeek(): DayOfWeek {
+        // TODO: Pass Locale to Calendar
         val firstDayOfWeek = Calendar.getInstance().firstDayOfWeek
         return when (firstDayOfWeek) {
             1 -> DayOfWeek.SUNDAY
@@ -23,6 +24,7 @@ class NativeAndroidLocalization(private val context: Context) : NativeLocalizati
     }
 
     override fun is24HourFormat(): Boolean {
+        // TODO: Pass Locale instead of Context
         return DateFormat.is24HourFormat(context)
     }
 }

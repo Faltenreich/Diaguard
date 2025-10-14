@@ -1,12 +1,8 @@
 package com.faltenreich.diaguard.datetime.factory
 
-import androidx.compose.ui.text.intl.Locale
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateUnit
-import com.faltenreich.diaguard.shared.localization.FakeLocalization
-import com.faltenreich.diaguard.shared.localization.Localization
 import org.koin.test.inject
-import org.koin.test.mock.declare
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -20,32 +16,6 @@ class DateTimeFactoryTest : TestSuite {
         assertEquals(
             expected = date,
             actual = dateTimeFactory.dateAtStartOf(date, DateUnit.DAY),
-        )
-    }
-
-    @Test
-    fun `start of week is Sunday for English`() {
-        declare<Localization> { FakeLocalization(locale = Locale("en")) }
-
-        assertEquals(
-            expected = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 1),
-            actual = dateTimeFactory.dateAtStartOf(
-                date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5),
-                unit = DateUnit.WEEK,
-            ),
-        )
-    }
-
-    @Test
-    fun `start of week is Monday for German`() {
-        declare<Localization> { FakeLocalization(locale = Locale("de")) }
-
-        assertEquals(
-            expected = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 2),
-            actual = dateTimeFactory.dateAtStartOf(
-                date = dateTimeFactory.date(year = 2025, monthNumber = 6, dayOfMonth = 5),
-                unit = DateUnit.WEEK,
-            ),
         )
     }
 

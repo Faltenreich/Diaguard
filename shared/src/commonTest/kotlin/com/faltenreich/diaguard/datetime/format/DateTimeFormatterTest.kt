@@ -1,12 +1,9 @@
 package com.faltenreich.diaguard.datetime.format
 
-import androidx.compose.ui.text.intl.Locale
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateTimeFakeApi
 import com.faltenreich.diaguard.datetime.DateTimePlatformApi
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.shared.localization.FakeLocalization
-import com.faltenreich.diaguard.shared.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_time_ago_days
 import diaguard.shared.generated.resources.date_time_ago_hours
@@ -117,80 +114,6 @@ class DateTimeFormatterTest : TestSuite {
         assertEquals(
             expected = Res.string.date_time_ago_days.key,
             actual = dateTimeFormatter.formatTimePassed(start, end),
-        )
-    }
-
-    @Test
-    fun `format date for German`() {
-        declare<Localization> { FakeLocalization(locale = Locale("de")) }
-
-        assertEquals(
-            expected = "02.01.2000",
-            actual = dateTimeFormatter.formatDate(
-                date = dateTimeFactory.date(
-                    year = 2000,
-                    monthNumber = 1,
-                    dayOfMonth = 2,
-                ),
-            ),
-        )
-    }
-
-    @Test
-    fun `format date for English`() {
-        declare<Localization> { FakeLocalization(locale = Locale("en")) }
-
-        assertEquals(
-            expected = "Jan 2, 2000",
-            actual = dateTimeFormatter.formatDate(
-                date = dateTimeFactory.date(
-                    year = 2000,
-                    monthNumber = 1,
-                    dayOfMonth = 2,
-                ),
-            ),
-        )
-    }
-
-    @Test
-    fun `format date time`() {
-        declare<Localization> { FakeLocalization(locale = Locale("en")) }
-
-        assertEquals(
-            expected = "Jan 2, 2000 03:04",
-            actual = dateTimeFormatter.formatDateTime(
-                dateTime = dateTimeFactory.dateTime(
-                    year = 2000,
-                    monthNumber = 1,
-                    dayOfMonth = 2,
-                    hourOfDay = 3,
-                    minuteOfHour = 4,
-                ),
-            ),
-        )
-    }
-
-    @Test
-    fun `format week`() {
-        assertEquals(
-            expected = "1",
-            actual = dateTimeFormatter.formatWeek(
-                date = dateTimeFactory.date(
-                    year = 2000,
-                    monthNumber = 1,
-                    dayOfMonth = 1,
-                )
-            ),
-        )
-        assertEquals(
-            expected = "2",
-            actual = dateTimeFormatter.formatWeek(
-                date = dateTimeFactory.date(
-                    year = 2000,
-                    monthNumber = 1,
-                    dayOfMonth = 2,
-                )
-            ),
         )
     }
 

@@ -37,7 +37,7 @@ class DateTimeAndroidApiTest {
     }
 
     @Test
-    fun weekOfYearForEnglish() {
+    fun weekOfYearShouldBe1ForEndOf2017ForEnglish() {
         val dateTimePlatformApi = DateTimeAndroidApi(
             localization = ComposeLocalization(locale = Locale("en")),
             context = InstrumentationRegistry.getInstrumentation().context,
@@ -45,13 +45,13 @@ class DateTimeAndroidApiTest {
         val dateTimeFactory = KotlinxDateTimeFactory(dateTimePlatformApi)
         val date = dateTimeFactory.date(year = 2017, monthNumber = 12, dayOfMonth = 31)
         Assert.assertEquals(
-            WeekOfYear(weekNumber = 52, year = 2018),
+            WeekOfYear(weekNumber = 1, year = 2018),
             dateTimePlatformApi.weekOfYear(date),
         )
     }
 
     @Test
-    fun weekOfYearForGerman() {
+    fun weekOfYearShouldBe52ForEndOf2017ForGerman() {
         val dateTimePlatformApi = DateTimeAndroidApi(
             localization = ComposeLocalization(locale = Locale("de")),
             context = InstrumentationRegistry.getInstrumentation().context,

@@ -41,9 +41,19 @@ class DateTimeAndroidApi(
         val calendar = Calendar.getInstance(locale).apply {
             set(date.year, date.monthNumber - 1, date.dayOfMonth)
         }
+        val endOfWeek = Calendar.getInstance(locale).apply {
+            set(date.year, date.monthNumber - 1, date.dayOfMonth)
+        }
+        val lastDayOfWeek = calendar.firstDayOfWeek.let { firstDayOfWeek ->
+            if (firstDayOfWeek == 1) DateTimeConstants.DAYS_PER_WEEK
+            else firstDayOfWeek - 1
+        }
+        while (endOfWeek.get(Calendar.DAY_OF_WEEK) != lastDayOfWeek) {
+            endOfWeek.add(Calendar.DATE, 1)
+        }
         return WeekOfYear(
             weekNumber = calendar.get(Calendar.WEEK_OF_YEAR),
-            year = calendar.get(Calendar.YEAR), // FIXME: Should be calculated via of week
+            year = endOfWeek.get(Calendar.YEAR),
         )
     }
 

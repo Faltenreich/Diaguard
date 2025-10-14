@@ -1,5 +1,13 @@
-package com.faltenreich.diaguard.backup.legacy.query
+package com.faltenreich.diaguard.startup.legacy.query
 
+import androidx.test.platform.app.InstrumentationRegistry
+import com.faltenreich.diaguard.datetime.DateTimeAndroidApi
+import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
+import com.faltenreich.diaguard.shared.localization.ComposeLocalization
+import com.faltenreich.diaguard.shared.test.FileFactory
 import com.faltenreich.diaguard.startup.legacy.query.measurement.ActivityLegacyQueries
 import com.faltenreich.diaguard.startup.legacy.query.measurement.BloodPressureLegacyQueries
 import com.faltenreich.diaguard.startup.legacy.query.measurement.BloodSugarLegacyQueries
@@ -9,19 +17,17 @@ import com.faltenreich.diaguard.startup.legacy.query.measurement.MealLegacyQueri
 import com.faltenreich.diaguard.startup.legacy.query.measurement.OxygenSaturationLegacyQueries
 import com.faltenreich.diaguard.startup.legacy.query.measurement.PulseLegacyQueries
 import com.faltenreich.diaguard.startup.legacy.query.measurement.WeightLegacyQueries
-import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
-import com.faltenreich.diaguard.shared.test.FileFactory
-import com.faltenreich.diaguard.startup.legacy.query.MeasurementValueLegacyQueries
 import org.junit.Assert
 import org.junit.Test
 
 class MeasurementValueLegacyQueriesTest {
 
     private val database = SqliteDatabase(file = FileFactory.createFromAssets("diaguard.db"))
-    private val dateTimeFactory = KotlinxDateTimeFactory()
+    private val dateTimePlatformApi = DateTimeAndroidApi(
+        localization = ComposeLocalization(),
+        context = InstrumentationRegistry.getInstrumentation().context,
+    )
+    private val dateTimeFactory = KotlinxDateTimeFactory(dateTimePlatformApi)
 
     private val queries = MeasurementValueLegacyQueries(
         bloodSugarQueries = BloodSugarLegacyQueries(

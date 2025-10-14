@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.backup.legacy.query
+package com.faltenreich.diaguard.startup.legacy.query
 
 import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference

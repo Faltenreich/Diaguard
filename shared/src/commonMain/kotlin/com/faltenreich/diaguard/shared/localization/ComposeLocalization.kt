@@ -8,10 +8,10 @@ import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-class ComposeLocalization : Localization {
+class ComposeLocalization(private val locale: Locale = Locale.current) : Localization {
 
     override fun getLocale(): Locale {
-        return Locale.current
+        return locale
     }
 
     override fun getString(resource: StringResource, vararg formatArgs: Any): String = runBlocking {

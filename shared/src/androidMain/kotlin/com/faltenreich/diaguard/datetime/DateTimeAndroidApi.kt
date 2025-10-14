@@ -39,11 +39,11 @@ class DateTimeAndroidApi(
     override fun weekOfYear(date: Date): WeekOfYear {
         val locale = localization.getLocale().platformLocale
         val calendar = Calendar.getInstance(locale).apply {
-            set(date.year, date.monthNumber + 1, date.dayOfMonth + 1)
+            set(date.year, date.monthNumber - 1, date.dayOfMonth)
         }
         return WeekOfYear(
             weekNumber = calendar.get(Calendar.WEEK_OF_YEAR),
-            year = calendar.get(Calendar.YEAR),
+            year = calendar.get(Calendar.YEAR), // FIXME: Should be calculated via of week
         )
     }
 

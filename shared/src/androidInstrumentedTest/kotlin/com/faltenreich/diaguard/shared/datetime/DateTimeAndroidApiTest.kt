@@ -1,0 +1,66 @@
+package com.faltenreich.diaguard.shared.datetime
+
+import androidx.compose.ui.text.intl.Locale
+import androidx.test.platform.app.InstrumentationRegistry
+import com.faltenreich.diaguard.datetime.DateTimeAndroidApi
+import com.faltenreich.diaguard.datetime.DayOfWeek
+import com.faltenreich.diaguard.datetime.WeekOfYear
+import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import com.faltenreich.diaguard.shared.localization.ComposeLocalization
+import org.junit.Assert
+import org.junit.Test
+
+class DateTimeAndroidApiTest {
+
+    @Test
+    fun weekStartsOnSundayForEnglish() {
+        val dateTimePlatformApi = DateTimeAndroidApi(
+            localization = ComposeLocalization(locale = Locale("en")),
+            context = InstrumentationRegistry.getInstrumentation().context,
+        )
+        Assert.assertEquals(
+            DayOfWeek.SUNDAY,
+            dateTimePlatformApi.getStartOfWeek(),
+        )
+    }
+
+    @Test
+    fun weekStartsOnSundayForGerman() {
+        val dateTimePlatformApi = DateTimeAndroidApi(
+            localization = ComposeLocalization(locale = Locale("de")),
+            context = InstrumentationRegistry.getInstrumentation().context,
+        )
+        Assert.assertEquals(
+            DayOfWeek.MONDAY,
+            dateTimePlatformApi.getStartOfWeek(),
+        )
+    }
+
+    @Test
+    fun weekOfYearForEnglish() {
+        val dateTimePlatformApi = DateTimeAndroidApi(
+            localization = ComposeLocalization(locale = Locale("en")),
+            context = InstrumentationRegistry.getInstrumentation().context,
+        )
+        val dateTimeFactory = KotlinxDateTimeFactory(dateTimePlatformApi)
+        val date = dateTimeFactory.date(year = 2017, monthNumber = 12, dayOfMonth = 31)
+        Assert.assertEquals(
+            WeekOfYear(weekNumber = 52, year = 2018),
+            dateTimePlatformApi.weekOfYear(date),
+        )
+    }
+
+    @Test
+    fun weekOfYearForGerman() {
+        val dateTimePlatformApi = DateTimeAndroidApi(
+            localization = ComposeLocalization(locale = Locale("de")),
+            context = InstrumentationRegistry.getInstrumentation().context,
+        )
+        val dateTimeFactory = KotlinxDateTimeFactory(dateTimePlatformApi)
+        val date = dateTimeFactory.date(year = 2017, monthNumber = 12, dayOfMonth = 31)
+        Assert.assertEquals(
+            WeekOfYear(weekNumber = 52, year = 2017),
+            dateTimePlatformApi.weekOfYear(date),
+        )
+    }
+}

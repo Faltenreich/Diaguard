@@ -6,5 +6,7 @@ interface DateTimePlatformApi {
 
     fun getStartOfWeek(): DayOfWeek
 
+    fun weekOfYear(date: Date): WeekOfYear
+
     fun is24HourFormat(): Boolean
 }

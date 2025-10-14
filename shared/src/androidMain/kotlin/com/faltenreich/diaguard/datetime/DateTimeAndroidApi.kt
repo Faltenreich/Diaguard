@@ -36,6 +36,17 @@ class DateTimeAndroidApi(
         }
     }
 
+    override fun weekOfYear(date: Date): WeekOfYear {
+        val locale = localization.getLocale().platformLocale
+        val calendar = Calendar.getInstance(locale).apply {
+            set(date.year, date.monthNumber + 1, date.dayOfMonth + 1)
+        }
+        return WeekOfYear(
+            weekNumber = calendar.get(Calendar.WEEK_OF_YEAR),
+            year = calendar.get(Calendar.YEAR),
+        )
+    }
+
     override fun is24HourFormat(): Boolean {
         // TODO: Pass Locale instead of Context
         return DateFormat.is24HourFormat(context)

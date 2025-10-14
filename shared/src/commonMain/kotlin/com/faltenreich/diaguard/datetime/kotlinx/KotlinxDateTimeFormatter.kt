@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.datetime.Month
 import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.TimeUnit
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.shared.localization.format
@@ -22,7 +21,6 @@ import kotlinx.datetime.format.char
 
 class KotlinxDateTimeFormatter(
     private val localization: Localization,
-    private val dateTimeFactory: DateTimeFactory,
     private val dateTimePlatformApi: DateTimePlatformApi,
 ) : DateTimeFormatter, DateTimePlatformApi by dateTimePlatformApi {
 
@@ -86,7 +84,7 @@ class KotlinxDateTimeFormatter(
     }
 
     override fun formatWeek(date: Date): String {
-        return dateTimeFactory.weekOfYear(date).weekNumber.toString()
+        return dateTimePlatformApi.weekOfYear(date).weekNumber.toString()
     }
 
     override fun formatDayOfWeek(date: Date, abbreviated: Boolean): String {

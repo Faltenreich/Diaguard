@@ -13,6 +13,34 @@ import org.junit.Test
 class DateTimeAndroidApiTest {
 
     @Test
+    fun dateFormatsForEnglish() {
+        val dateTimePlatformApi = DateTimeAndroidApi(
+            localization = ComposeLocalization(locale = Locale("en")),
+            context = InstrumentationRegistry.getInstrumentation().context,
+        )
+        val dateTimeFactory = KotlinxDateTimeFactory(dateTimePlatformApi)
+        val date = dateTimeFactory.date(year = 2025, monthNumber = 1, dayOfMonth = 2)
+        Assert.assertEquals(
+            "Jan 2, 2025",
+            dateTimePlatformApi.formatDate(date),
+        )
+    }
+
+    @Test
+    fun dateFormatsForGerman() {
+        val dateTimePlatformApi = DateTimeAndroidApi(
+            localization = ComposeLocalization(locale = Locale("de")),
+            context = InstrumentationRegistry.getInstrumentation().context,
+        )
+        val dateTimeFactory = KotlinxDateTimeFactory(dateTimePlatformApi)
+        val date = dateTimeFactory.date(year = 2025, monthNumber = 1, dayOfMonth = 2)
+        Assert.assertEquals(
+            "02.01.2025",
+            dateTimePlatformApi.formatDate(date),
+        )
+    }
+
+    @Test
     fun weekStartsOnSundayForEnglish() {
         val dateTimePlatformApi = DateTimeAndroidApi(
             localization = ComposeLocalization(locale = Locale("en")),

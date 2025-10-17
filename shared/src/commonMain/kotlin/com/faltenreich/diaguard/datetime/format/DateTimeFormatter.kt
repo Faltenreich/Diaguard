@@ -8,6 +8,8 @@ import com.faltenreich.diaguard.datetime.Time
 
 interface DateTimeFormatter {
 
+    fun is24HourFormat(): Boolean
+
     fun formatTime(time: Time): String
 
     fun formatTimePassed(start: DateTime, end: DateTime): String

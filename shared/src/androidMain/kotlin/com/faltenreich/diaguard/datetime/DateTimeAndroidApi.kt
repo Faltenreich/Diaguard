@@ -58,7 +58,6 @@ class DateTimeAndroidApi(
     }
 
     override fun is24HourFormat(): Boolean {
-        // TODO: Pass Locale instead of Context
         return DateFormat.is24HourFormat(context)
     }
 }

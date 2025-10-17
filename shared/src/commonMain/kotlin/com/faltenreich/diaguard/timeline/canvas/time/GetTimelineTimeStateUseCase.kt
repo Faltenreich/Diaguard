@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.timeline.canvas.time
 
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.DateTimeConstants
-import com.faltenreich.diaguard.datetime.DateTimePlatformApi
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.shared.localization.Localization
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.date.TimelineDateState
@@ -12,7 +12,7 @@ import diaguard.shared.generated.resources.time_noon
 
 class GetTimelineTimeStateUseCase(
     private val localization: Localization,
-    private val dateTimePlatformApi: DateTimePlatformApi,
+    private val dateTimeFormatter: DateTimeFormatter,
 ) {
 
     operator fun invoke(
@@ -50,7 +50,7 @@ class GetTimelineTimeStateUseCase(
                     xOffsetInHoursOfDay < 0 -> xOffsetInHoursOfDay + xAxis.last
                     else -> xOffsetInHoursOfDay
                 }
-                val hourLocalized = if (dateTimePlatformApi.is24HourFormat()) {
+                val hourLocalized = if (dateTimeFormatter.is24HourFormat()) {
                     hour.toString()
                 } else {
                     when (hour) {

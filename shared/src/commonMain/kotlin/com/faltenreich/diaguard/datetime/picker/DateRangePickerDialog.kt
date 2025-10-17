@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.datetime.picker
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DatePickerDefaults.dateFormatter
-import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DateRangePickerDefaults
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.Text
@@ -35,16 +35,18 @@ fun DateRangePickerDialog(
         initialSelectedEndDateMillis = dateRange.endInclusive.atStartOfDay().millisSince1970,
         initialDisplayMode = DisplayMode.Picker,
     )
-    DatePickerDialog(
+    com.faltenreich.diaguard.datetime.picker.DatePickerDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(
                 onClick = {
                     val dateTimeFactory = inject<DateTimeFactory>()
-                    val start = state.selectedStartDateMillis?.let(dateTimeFactory::dateTimeFromEpoch)?.date
-                    val end = state.selectedEndDateMillis?.let(dateTimeFactory::dateTimeFromEpoch)?.date
+                    val start =
+                        state.selectedStartDateMillis?.let(dateTimeFactory::dateTimeFromEpoch)?.date
+                    val end =
+                        state.selectedEndDateMillis?.let(dateTimeFactory::dateTimeFromEpoch)?.date
                     if (start != null && end != null) {
-                        onConfirmRequest(start .. end)
+                        onConfirmRequest(start..end)
                     } else {
                         onDismissRequest()
                     }
@@ -61,7 +63,7 @@ fun DateRangePickerDialog(
         },
     ) {
         val dateFormatter = remember { dateFormatter() }
-        androidx.compose.material3.DateRangePicker(
+        DateRangePicker(
             state = state,
             // Workaround: Force align paddings to DatePickerDialog
             // see https://issuetracker.google.com/issues/325309575

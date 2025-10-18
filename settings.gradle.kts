@@ -22,4 +22,5 @@ rootProject.name = "diaguard"
 include(":androidApp")
 include(":shared")
 include(":config:detekt")
+include(":common:core")
 include(":common:datetime")

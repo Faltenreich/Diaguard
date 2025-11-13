@@ -39,10 +39,10 @@ class DateTimeAndroidApi(
     override fun weekOfYear(date: Date): WeekOfYear {
         val locale = localization.getLocale().platformLocale
         val calendar = Calendar.getInstance(locale).apply {
-            Calendar.set(date.year, date.monthNumber - 1, date.dayOfMonth)
+            set(date.year, date.monthNumber - 1, date.dayOfMonth)
         }
         val endOfWeek = Calendar.getInstance(locale).apply {
-            Calendar.set(date.year, date.monthNumber - 1, date.dayOfMonth)
+            set(date.year, date.monthNumber - 1, date.dayOfMonth)
         }
         val lastDayOfWeek = calendar.firstDayOfWeek.let { firstDayOfWeek ->
             if (firstDayOfWeek == 1) DateTimeConstants.DAYS_PER_WEEK

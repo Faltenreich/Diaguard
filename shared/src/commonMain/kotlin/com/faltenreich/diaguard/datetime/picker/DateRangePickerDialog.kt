@@ -35,7 +35,7 @@ fun DateRangePickerDialog(
         initialSelectedEndDateMillis = dateRange.endInclusive.atStartOfDay().millisSince1970,
         initialDisplayMode = DisplayMode.Picker,
     )
-    com.faltenreich.diaguard.datetime.picker.DatePickerDialog(
+    androidx.compose.material3.DatePickerDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(

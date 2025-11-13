@@ -14,9 +14,11 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":common:core"))
                 implementation(project(":common:datetime"))
                 implementation(libs.aboutlibraries.core)
                 implementation(libs.aboutlibraries.compose)

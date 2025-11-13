@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.serialization
+package com.faltenreich.diaguard.core.serialization
 
 actual class ObjectInputStream {
 

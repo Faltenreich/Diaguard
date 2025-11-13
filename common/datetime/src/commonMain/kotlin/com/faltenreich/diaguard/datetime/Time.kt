@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.datetime
 
-import com.faltenreich.diaguard.shared.serialization.ObjectInputStream
-import com.faltenreich.diaguard.shared.serialization.ObjectOutputStream
-import com.faltenreich.diaguard.shared.serialization.Serializable
+import com.faltenreich.diaguard.core.serialization.ObjectInputStream
+import com.faltenreich.diaguard.core.serialization.ObjectOutputStream
+import com.faltenreich.diaguard.core.serialization.Serializable
 
 interface Time : Serializable, Comparable<Time> {
 

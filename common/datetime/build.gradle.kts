@@ -14,6 +14,9 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":common:core"))
+                implementation(project.dependencies.platform(libs.koin.bom))
+                implementation(libs.koin.core)
+                implementation(libs.kotlinx.dateTime)
             }
         }
 
@@ -33,6 +36,16 @@ kotlin {
             }
         }
     }
+
+    targets.configureEach {
+        compilations.configureEach {
+            compileTaskProvider.get().compilerOptions {
+                freeCompilerArgs.add("-Xexpect-actual-classes")
+            }
+        }
+    }
+
+    jvmToolchain(Constants.JavaVersion)
 }
 
 android {
@@ -50,6 +63,4 @@ android {
 
 dependencies {
     coreLibraryDesugaring(libs.android.desugar)
-    implementation(libs.koin.core)
-    implementation(libs.kotlinx.dateTime)
 }

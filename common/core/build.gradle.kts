@@ -50,6 +50,16 @@ kotlin {
             }
         }
     }
+
+    targets.configureEach {
+        compilations.configureEach {
+            compileTaskProvider.get().compilerOptions {
+                freeCompilerArgs.add("-Xexpect-actual-classes")
+            }
+        }
+    }
+
+    jvmToolchain(Constants.JavaVersion)
 }
 
 android {

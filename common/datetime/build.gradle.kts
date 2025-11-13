@@ -26,6 +26,12 @@ kotlin {
         }
 
         iosMain
+
+        all {
+            languageSettings {
+                optIn("kotlin.time.ExperimentalTime")
+            }
+        }
     }
 }
 
@@ -44,4 +50,6 @@ android {
 
 dependencies {
     coreLibraryDesugaring(libs.android.desugar)
+    implementation(libs.koin.core)
+    implementation(libs.kotlinx.dateTime)
 }

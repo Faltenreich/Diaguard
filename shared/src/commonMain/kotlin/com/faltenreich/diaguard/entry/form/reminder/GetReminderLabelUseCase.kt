@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.entry.form.reminder
 
-import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.core.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.reminder
 import diaguard.shared.generated.resources.reminder_label_hours

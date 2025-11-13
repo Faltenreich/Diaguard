@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.di
+package com.faltenreich.diaguard.core.di
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get

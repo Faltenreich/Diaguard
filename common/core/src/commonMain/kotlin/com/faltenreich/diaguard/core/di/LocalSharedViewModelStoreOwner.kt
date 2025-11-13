@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.di
+package com.faltenreich.diaguard.core.di
 
 import androidx.compose.runtime.compositionLocalOf
 import androidx.lifecycle.ViewModelStoreOwner

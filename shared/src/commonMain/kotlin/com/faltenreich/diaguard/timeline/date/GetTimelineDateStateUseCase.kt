@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.timeline.date
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.shared.localization.format
+import com.faltenreich.diaguard.core.localization.format
 
 class GetTimelineDateStateUseCase(
     private val dateTimeFormatter: DateTimeFormatter,

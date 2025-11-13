@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.datetime.kotlinx
 
+import com.faltenreich.diaguard.core.localization.format
 import com.faltenreich.diaguard.core.serialization.ObjectInputStream
 import com.faltenreich.diaguard.core.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.datetime.Date
@@ -7,7 +8,6 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.TimeUnit
-import com.faltenreich.diaguard.shared.localization.format
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone

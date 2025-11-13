@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 import app.cash.sqldelight.Transacter
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightDatabase
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.core.di.inject
 
 interface SqlDelightDao<SqlDelightQueries: Transacter> {
 

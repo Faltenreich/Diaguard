@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.shared.config.configModule
 import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.shared.file.fileModule
 import com.faltenreich.diaguard.shared.keyvalue.keyValueStoreModule
-import com.faltenreich.diaguard.shared.localization.localizationModule
+import com.faltenreich.diaguard.core.localization.localizationModule
 import com.faltenreich.diaguard.shared.logging.loggerModule
 import com.faltenreich.diaguard.shared.networking.networkingModule
 import com.faltenreich.diaguard.shared.notification.notificationModule

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.datetime
 
-import diaguard.shared.generated.resources.*
+import diaguard.common.datetime.generated.resources.*
 import org.jetbrains.compose.resources.StringResource
 
 enum class Month(

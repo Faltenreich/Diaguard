@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.datetime.kotlinx
 
+import com.faltenreich.diaguard.core.localization.Localization
+import com.faltenreich.diaguard.core.localization.format
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateTimeConstants
@@ -9,13 +11,7 @@ import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.shared.localization.Localization
-import com.faltenreich.diaguard.shared.localization.format
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.date_time_ago_days
-import diaguard.shared.generated.resources.date_time_ago_hours
-import diaguard.shared.generated.resources.date_time_ago_minutes
-import diaguard.shared.generated.resources.date_time_ago_moments
+import diaguard.common.datetime.generated.resources.*
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.format.char
 

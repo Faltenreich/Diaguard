@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.measurement.property.aggregationstyle.Measuremen
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.core.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hba1c
 

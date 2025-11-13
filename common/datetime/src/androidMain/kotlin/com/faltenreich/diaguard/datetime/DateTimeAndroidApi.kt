@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.datetime
 
 import android.content.Context
 import android.text.format.DateFormat
-import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.core.localization.Localization
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -39,10 +39,10 @@ class DateTimeAndroidApi(
     override fun weekOfYear(date: Date): WeekOfYear {
         val locale = localization.getLocale().platformLocale
         val calendar = Calendar.getInstance(locale).apply {
-            set(date.year, date.monthNumber - 1, date.dayOfMonth)
+            Calendar.set(date.year, date.monthNumber - 1, date.dayOfMonth)
         }
         val endOfWeek = Calendar.getInstance(locale).apply {
-            set(date.year, date.monthNumber - 1, date.dayOfMonth)
+            Calendar.set(date.year, date.monthNumber - 1, date.dayOfMonth)
         }
         val lastDayOfWeek = calendar.firstDayOfWeek.let { firstDayOfWeek ->
             if (firstDayOfWeek == 1) DateTimeConstants.DAYS_PER_WEEK

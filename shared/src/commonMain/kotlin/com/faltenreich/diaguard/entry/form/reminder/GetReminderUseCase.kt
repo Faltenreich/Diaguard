@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.shared.keyvalue.read
-import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.core.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.preference_alarm_start
 import kotlinx.coroutines.flow.Flow

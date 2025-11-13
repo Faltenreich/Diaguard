@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.di
+package com.faltenreich.diaguard.core.di
 
 import android.app.Activity
 import org.koin.core.error.NoDefinitionFoundException

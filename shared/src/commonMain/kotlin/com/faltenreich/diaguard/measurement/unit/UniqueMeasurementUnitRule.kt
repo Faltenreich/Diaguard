@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.unit
 
-import com.faltenreich.diaguard.shared.di.inject
-import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.core.di.inject
+import com.faltenreich.diaguard.core.localization.Localization
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.shared.validation.ValidationRule
 import diaguard.shared.generated.resources.Res

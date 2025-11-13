@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.view
 
-import com.faltenreich.diaguard.shared.di.androidActivity
+import com.faltenreich.diaguard.core.di.androidActivity
 import org.koin.dsl.module
 
 actual fun windowModule() = module {

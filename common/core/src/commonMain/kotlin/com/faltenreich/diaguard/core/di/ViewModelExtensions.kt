@@ -1,6 +1,6 @@
 @file:JvmName("ViewModelExtensionsCommon")
 
-package com.faltenreich.diaguard.shared.di
+package com.faltenreich.diaguard.core.di
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel

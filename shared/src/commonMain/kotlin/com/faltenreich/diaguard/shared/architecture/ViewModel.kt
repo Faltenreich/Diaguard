@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.architecture
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewModelScope
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.core.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

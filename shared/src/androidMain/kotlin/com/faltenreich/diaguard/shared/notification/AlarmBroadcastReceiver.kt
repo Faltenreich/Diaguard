@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.faltenreich.diaguard.R
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.core.di.inject
 import com.faltenreich.diaguard.shared.logging.Logger
 
 class AlarmBroadcastReceiver(

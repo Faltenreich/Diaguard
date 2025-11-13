@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.shared.networking
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.core.di.inject
 
 actual class UrlOpener {
 

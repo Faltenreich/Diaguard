@@ -5,9 +5,9 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.shared.di.sharedViewModel
-import com.faltenreich.diaguard.shared.di.viewModel
-import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.core.di.sharedViewModel
+import com.faltenreich.diaguard.core.di.viewModel
+import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_add

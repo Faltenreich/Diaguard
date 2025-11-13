@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.shared.localization
+package com.faltenreich.diaguard.core.localization
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.intl.Locale
-import diaguard.shared.generated.resources.Res
+import diaguard.common.core.generated.resources.Res
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.StringResource

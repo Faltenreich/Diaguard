@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.logging
 
-import com.faltenreich.diaguard.shared.di.inject
+import com.faltenreich.diaguard.core.di.inject
 
 interface Logger {
 

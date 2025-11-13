@@ -1,20 +1,6 @@
 package com.faltenreich.diaguard.datetime
 
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.weekday_friday
-import diaguard.shared.generated.resources.weekday_friday_short
-import diaguard.shared.generated.resources.weekday_monday
-import diaguard.shared.generated.resources.weekday_monday_short
-import diaguard.shared.generated.resources.weekday_saturday
-import diaguard.shared.generated.resources.weekday_saturday_short
-import diaguard.shared.generated.resources.weekday_sunday
-import diaguard.shared.generated.resources.weekday_thursday
-import diaguard.shared.generated.resources.weekday_thursday_short
-import diaguard.shared.generated.resources.weekday_tuesday
-import diaguard.shared.generated.resources.weekday_tuesday_short
-import diaguard.shared.generated.resources.weekday_wednesday
-import diaguard.shared.generated.resources.weekday_wednesday_short
-import diaguard.shared.generated.resources.weekday_weekday_sunday_short
+import diaguard.common.datetime.generated.resources.*
 import org.jetbrains.compose.resources.StringResource
 
 enum class DayOfWeek(

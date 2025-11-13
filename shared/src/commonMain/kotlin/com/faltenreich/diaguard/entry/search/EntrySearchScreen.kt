@@ -9,8 +9,8 @@ import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.shared.di.viewModel
-import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.core.di.viewModel
+import com.faltenreich.diaguard.core.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search
 import kotlinx.serialization.Serializable

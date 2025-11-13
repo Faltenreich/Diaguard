@@ -3,11 +3,11 @@ package com.faltenreich.diaguard.food.api.openfoodfacts
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.shared.data.PagingPage
-import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.core.localization.Localization
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
 import com.faltenreich.diaguard.shared.networking.NetworkingRequest
-import com.faltenreich.diaguard.shared.localization.format
+import com.faltenreich.diaguard.core.localization.format
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
 class OpenFoodFactsApi(

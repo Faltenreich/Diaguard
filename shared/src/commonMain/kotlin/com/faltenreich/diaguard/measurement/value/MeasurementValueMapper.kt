@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.value
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.shared.localization.NumberFormatter
+import com.faltenreich.diaguard.core.localization.NumberFormatter
 
 class MeasurementValueMapper(
     private val formatNumber: NumberFormatter,

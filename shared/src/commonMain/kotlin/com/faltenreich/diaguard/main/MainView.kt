@@ -44,10 +44,10 @@ import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
-import com.faltenreich.diaguard.shared.di.LocalSharedViewModelStoreOwner
-import com.faltenreich.diaguard.shared.di.rememberViewModelStoreOwner
-import com.faltenreich.diaguard.shared.di.viewModel
-import com.faltenreich.diaguard.shared.localization.getString
+import com.faltenreich.diaguard.core.di.LocalSharedViewModelStoreOwner
+import com.faltenreich.diaguard.core.di.rememberViewModelStoreOwner
+import com.faltenreich.diaguard.core.di.viewModel
+import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.notification.Shortcut
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen

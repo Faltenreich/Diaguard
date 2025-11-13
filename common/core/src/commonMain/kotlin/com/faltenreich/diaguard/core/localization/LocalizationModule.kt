@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.localization
+package com.faltenreich.diaguard.core.localization
 
 import androidx.compose.ui.text.intl.Locale
 import org.koin.core.module.dsl.factoryOf

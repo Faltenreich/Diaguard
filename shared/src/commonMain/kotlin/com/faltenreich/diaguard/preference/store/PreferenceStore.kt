@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.preference.Preference
 import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.shared.keyvalue.read
 import com.faltenreich.diaguard.shared.keyvalue.write
-import com.faltenreich.diaguard.shared.localization.Localization
+import com.faltenreich.diaguard.core.localization.Localization
 import kotlinx.coroutines.flow.Flow
 
 // TODO: Migrate preferences

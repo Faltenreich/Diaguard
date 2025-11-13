@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.localization
 
 import androidx.compose.ui.text.intl.Locale
+import com.faltenreich.diaguard.core.localization.Localization
 import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.StringResource
 

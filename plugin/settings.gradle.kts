@@ -10,18 +10,15 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    includeBuild("plugin")
     repositories {
         google()
+        gradlePluginPortal()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
 }
-
-rootProject.name = "diaguard"
-
-include(":androidApp")
-include(":shared")
-include(":config:detekt")
-include(":common:core")
-include(":common:datetime")

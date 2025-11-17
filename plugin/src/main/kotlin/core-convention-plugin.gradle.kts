@@ -1,9 +1,9 @@
+val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
+
 plugins {
-    id("core-convention-plugin")
-    alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.compose)
-    alias(libs.plugins.compose.compiler)
+    kotlin("multiplatform")
+    id("com.android.library")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 kotlin {
@@ -16,8 +16,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(compose.foundation)
-                implementation(compose.components.resources)
+                // implementation(compose.foundation)
+                // implementation(compose.components.resources)
                 implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
@@ -41,10 +41,10 @@ kotlin {
         }
     }
 
-    jvmToolchain(Constants.JavaVersion)
+    // jvmToolchain(Constants.JavaVersion)
 }
 
 android {
-    namespace = Constants.NameSpace
-    compileSdk = Constants.CompileSdk
+    // namespace = Constants.NameSpace
+    // compileSdk = Constants.CompileSdk
 }

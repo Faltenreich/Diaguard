@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard
 
 import com.faltenreich.diaguard.backup.backupModule
+import com.faltenreich.diaguard.core.coreModule
 import com.faltenreich.diaguard.dashboard.dashboardModule
 import com.faltenreich.diaguard.datetime.dateTimeModule
 import com.faltenreich.diaguard.entry.entryModule
@@ -16,7 +17,6 @@ import com.faltenreich.diaguard.shared.config.configModule
 import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.shared.file.fileModule
 import com.faltenreich.diaguard.shared.keyvalue.keyValueStoreModule
-import com.faltenreich.diaguard.core.localization.localizationModule
 import com.faltenreich.diaguard.shared.logging.loggerModule
 import com.faltenreich.diaguard.shared.networking.networkingModule
 import com.faltenreich.diaguard.shared.notification.notificationModule
@@ -45,7 +45,7 @@ fun appModule() = module {
         dateTimeModule(),
         fileModule(),
         keyValueStoreModule(),
-        localizationModule(),
+        coreModule(),
         loggerModule(),
         networkingModule(),
         notificationModule(),

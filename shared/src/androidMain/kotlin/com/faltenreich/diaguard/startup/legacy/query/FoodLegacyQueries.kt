@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.startup.legacy.query
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
-import com.faltenreich.diaguard.shared.database.sqlite.getDouble
-import com.faltenreich.diaguard.shared.database.sqlite.getLong
-import com.faltenreich.diaguard.shared.database.sqlite.getString
+import com.faltenreich.diaguard.database.sqlite.SqliteDatabase
+import com.faltenreich.diaguard.database.sqlite.getDouble
+import com.faltenreich.diaguard.database.sqlite.getLong
+import com.faltenreich.diaguard.database.sqlite.getString
 
 class FoodLegacyQueries(
     private val database: SqliteDatabase,

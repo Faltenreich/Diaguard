@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.Transacter
-import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightDatabase
 import com.faltenreich.diaguard.core.di.inject
+import com.faltenreich.diaguard.database.sqldelight.SqlDelightApi
+import com.faltenreich.diaguard.database.sqldelight.SqlDelightDatabase
 
 interface SqlDelightDao<SqlDelightQueries: Transacter> {
 

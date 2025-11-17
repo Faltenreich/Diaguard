@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.startup.legacy.query
 
+import com.faltenreich.diaguard.database.sqlite.SqliteDatabase
+import com.faltenreich.diaguard.database.sqlite.getLong
+import com.faltenreich.diaguard.database.sqlite.getString
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.shared.database.sqlite.SqliteDatabase
-import com.faltenreich.diaguard.shared.database.sqlite.getLong
-import com.faltenreich.diaguard.shared.database.sqlite.getString
 
 class EntryLegacyQueries(
     private val database: SqliteDatabase,

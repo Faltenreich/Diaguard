@@ -10,8 +10,8 @@ import com.faltenreich.diaguard.measurement.property.aggregationstyle.Measuremen
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementPropertyQueries
-import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
+import com.faltenreich.diaguard.database.sqldelight.SqlDelightApi
+import com.faltenreich.diaguard.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertySqlDelightMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

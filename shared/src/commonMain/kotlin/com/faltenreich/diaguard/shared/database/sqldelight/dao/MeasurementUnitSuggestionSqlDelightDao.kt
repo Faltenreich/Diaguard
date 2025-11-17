@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestionDao
 import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementUnitSuggestionQueries
-import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightApi
+import com.faltenreich.diaguard.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSuggestionSqlDelightMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

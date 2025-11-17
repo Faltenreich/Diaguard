@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.database.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
+import com.faltenreich.diaguard.database.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
 
 class MeasurementPropertySqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,

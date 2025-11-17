@@ -27,6 +27,11 @@ kotlin {
 android {
     namespace = Constants.NameSpace
     compileSdk = Constants.CompileSdk
+    defaultConfig {
+        minSdk = Constants.MinSdk
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
+    }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }

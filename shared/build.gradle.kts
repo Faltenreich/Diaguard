@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.aboutlibraries)
-    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -19,6 +18,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":common:core"))
+                implementation(project(":common:database"))
                 implementation(project(":common:datetime"))
                 implementation(libs.aboutlibraries.core)
                 implementation(libs.aboutlibraries.compose)
@@ -128,14 +128,6 @@ android {
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-    }
-}
-
-sqldelight {
-    databases {
-        create("SqlDelightApi") {
-            packageName.set("${Constants.NameSpace}.shared.database.sqldelight")
-        }
     }
 }
 

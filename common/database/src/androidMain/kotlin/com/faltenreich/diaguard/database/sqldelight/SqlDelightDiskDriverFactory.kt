@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.database.sqldelight
+package com.faltenreich.diaguard.database.sqldelight
 
 import android.content.Context
 import androidx.sqlite.db.SupportSQLiteDatabase

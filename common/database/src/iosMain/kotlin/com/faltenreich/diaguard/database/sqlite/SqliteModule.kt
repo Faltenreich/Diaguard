@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.database.sqlite
+package com.faltenreich.diaguard.database.sqlite
 
 import org.koin.core.module.Module
 import org.koin.dsl.module

@@ -1,5 +1,5 @@
 plugins {
-    id("core-convention-plugin")
+    id("multiplatform-convention")
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
 }

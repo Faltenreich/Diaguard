@@ -3,7 +3,6 @@ val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 kotlin {
@@ -16,8 +15,6 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                // implementation(compose.foundation)
-                // implementation(compose.components.resources)
                 implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
@@ -26,11 +23,15 @@ kotlin {
             }
         }
 
-        commonTest
-
-        androidMain
-
-        iosMain
+        commonTest {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(project.dependencies.platform(libs.koin.bom))
+                implementation(libs.koin.test)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.turbine)
+            }
+        }
     }
 
     targets.configureEach {

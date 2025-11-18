@@ -39,9 +39,6 @@ kotlin {
                 implementation(libs.koin.viewmodel)
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.kotlinx.io)
-                implementation(libs.kotlinx.serialization.json)
-                implementation(libs.kotlinx.serialization.csv)
-                implementation(libs.kotlinx.serialization.yaml)
                 implementation(libs.ktor.core)
                 implementation(libs.ktor.contentnegotiation)
                 implementation(libs.ktor.serialization)
@@ -101,7 +98,6 @@ kotlin {
                 optIn("kotlin.time.ExperimentalTime")
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 optIn("kotlinx.coroutines.FlowPreview")
-                optIn("kotlinx.serialization.ExperimentalSerializationApi")
                 optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
                 optIn("androidx.paging.ExperimentalPagingApi")
             }

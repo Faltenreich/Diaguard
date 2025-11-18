@@ -6,7 +6,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.mamoe.yamlkt.Yaml
 
-class KotlinxSerialization {
+@PublishedApi
+internal class KotlinxSerialization {
 
     @PublishedApi internal val csv = CSVFormat {
         separator = ';'

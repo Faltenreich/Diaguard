@@ -7,6 +7,11 @@ plugins {
     alias(libs.plugins.aboutlibraries)
 }
 
+val appNamespace: String by rootProject.extra
+val appMinSdk: Int by rootProject.extra
+val appCompileSdk: Int by rootProject.extra
+val javaVersion: Int by rootProject.extra
+
 kotlin {
     androidTarget()
 
@@ -112,14 +117,14 @@ kotlin {
         }
     }
 
-    jvmToolchain(Constants.JavaVersion)
+    jvmToolchain(javaVersion)
 }
 
 android {
-    namespace = Constants.NameSpace
-    compileSdk = Constants.CompileSdk
+    namespace = appNamespace
+    compileSdk = appCompileSdk
     defaultConfig {
-        minSdk = Constants.MinSdk
+        minSdk = appMinSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }

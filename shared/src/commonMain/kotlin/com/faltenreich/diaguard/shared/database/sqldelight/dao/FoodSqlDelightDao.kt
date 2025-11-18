@@ -2,13 +2,13 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import com.faltenreich.diaguard.database.sqldelight.FoodQueries
+import com.faltenreich.diaguard.database.sqldelight.SqlDelightApi
+import com.faltenreich.diaguard.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodDao
 import com.faltenreich.diaguard.shared.data.PagingPage
-import com.faltenreich.diaguard.shared.database.sqldelight.FoodQueries
-import com.faltenreich.diaguard.database.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.database.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

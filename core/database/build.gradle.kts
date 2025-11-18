@@ -3,6 +3,10 @@ plugins {
     alias(libs.plugins.sqldelight)
 }
 
+val appNamespace: String by rootProject.extra
+val appCompileSdk: Int by rootProject.extra
+val javaVersion: Int by rootProject.extra
+
 kotlin {
     sourceSets {
         commonMain {
@@ -18,18 +22,18 @@ kotlin {
         }
     }
 
-    jvmToolchain(Constants.JavaVersion)
+    jvmToolchain(javaVersion)
 }
 
 sqldelight {
     databases {
         create("SqlDelightApi") {
-            packageName.set("${Constants.NameSpace}.database.sqldelight")
+            packageName.set("$appNamespace.database.sqldelight")
         }
     }
 }
 
 android {
-    namespace = Constants.NameSpace
-    compileSdk = Constants.CompileSdk
+    namespace = appNamespace
+    compileSdk = appCompileSdk
 }

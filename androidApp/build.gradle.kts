@@ -4,16 +4,24 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
+val appNamespace: String by rootProject.extra
+val appVersionCode: Int by rootProject.extra
+val appVersionName: String by rootProject.extra
+val appMinSdk: Int by rootProject.extra
+val appTargetSdk: Int by rootProject.extra
+val appCompileSdk: Int by rootProject.extra
+val javaVersion: Int by rootProject.extra
+
 android {
-    namespace = Constants.NameSpace
-    compileSdk = Constants.CompileSdk
+    namespace = appNamespace
+    compileSdk = appCompileSdk
 
     defaultConfig {
-        minSdk = Constants.MinSdk
-        targetSdk = Constants.TargetSdk
-        versionCode = Constants.VersionCode
-        versionName = Constants.VersionName
-        testInstrumentationRunner = "${Constants.NameSpace}.TestInstrumentationRunner"
+        minSdk = appMinSdk
+        targetSdk = appTargetSdk
+        versionCode = appVersionCode
+        versionName = appVersionName
+        testInstrumentationRunner = "$appNamespace.TestInstrumentationRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
 
@@ -31,13 +39,13 @@ android {
     flavorDimensions += "version"
     productFlavors {
         create("demo") {
-            applicationId = Constants.NameSpace
+            applicationId = appNamespace
         }
         create("beta") {
-            applicationId = "${Constants.NameSpace}.beta"
+            applicationId = "$appNamespace.beta"
         }
         create("store") {
-            applicationId = Constants.NameSpace
+            applicationId = appNamespace
         }
     }
 
@@ -55,7 +63,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(Constants.JavaVersion)
+    jvmToolchain(javaVersion)
 }
 
 dependencies {

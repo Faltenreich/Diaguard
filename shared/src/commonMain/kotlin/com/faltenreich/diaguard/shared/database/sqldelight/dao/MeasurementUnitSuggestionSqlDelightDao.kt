@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import com.faltenreich.diaguard.database.sqldelight.MeasurementUnitSuggestionQueries
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestionDao
-import com.faltenreich.diaguard.shared.database.sqldelight.MeasurementUnitSuggestionQueries
 import com.faltenreich.diaguard.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementUnitSuggestionSqlDelightMapper
 import kotlinx.coroutines.CoroutineDispatcher

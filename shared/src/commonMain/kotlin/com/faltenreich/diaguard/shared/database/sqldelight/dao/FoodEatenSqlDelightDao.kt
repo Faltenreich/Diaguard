@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import com.faltenreich.diaguard.database.sqldelight.FoodEatenQueries
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.food.eaten.FoodEatenDao
-import com.faltenreich.diaguard.shared.database.sqldelight.FoodEatenQueries
 import com.faltenreich.diaguard.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodEatenSqlDelightMapper
 import kotlinx.coroutines.CoroutineDispatcher

@@ -12,6 +12,14 @@ plugins {
     alias(libs.plugins.kover)
 }
 
+val appNamespace by extra("com.faltenreich.diaguard")
+val appVersionCode by extra(66)
+val appVersionName by extra("4.0.0")
+val appMinSdk by extra(21)
+val appTargetSdk by extra(36)
+val appCompileSdk by extra(36)
+val javaVersion by extra(21)
+
 allprojects {
     apply(plugin = "io.gitlab.arturbosch.detekt")
     apply(plugin = "org.jetbrains.kotlinx.kover")
@@ -58,8 +66,7 @@ tasks.register("applyVersionToReadme") {
     dependsOn("assemble")
     val string = "img.shields.io/badge/Release-"
     val regex = "$string([0-9.]+)".toRegex()
-    val versionName = Constants.VersionName
-    val with = "$string$versionName"
+    val with = "$string$appVersionName"
     val file = file("README.md")
     file.writeText(file.readText().replace(regex, with))
     println("Updating version badge in README.md: $with")

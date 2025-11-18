@@ -25,7 +25,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.core.localization.format
+import com.faltenreich.diaguard.core.di.inject
+import com.faltenreich.diaguard.core.localization.NumberFormatter
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
@@ -45,11 +46,14 @@ fun ReminderPicker(
     duration: Duration,
     onChange: (Duration) -> Unit,
     modifier: Modifier = Modifier,
+    numberFormatter: NumberFormatter = inject(),
 ) {
     var numbers by remember {
         mutableStateOf(
             duration.toComponents { hours, minutes, seconds, _ ->
-                val string = "%02d%02d%02d".format(hours, minutes, seconds)
+                // TODO: Format via UseCase
+                val format = { number: Int -> numberFormatter.invoke(number, width = 2, padZeroes = true) }
+                val string = "${format(hours.toInt())}${format(minutes)}${format(seconds)}"
                 string.toCharArray().map(Char::digitToInt)
             }
         )

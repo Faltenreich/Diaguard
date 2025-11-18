@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.shared.data.PagingPage
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
 import com.faltenreich.diaguard.shared.networking.NetworkingRequest
-import com.faltenreich.diaguard.shared.serialization.Serialization
+import com.faltenreich.diaguard.serialization.Serialization
 
 class OpenFoodFactsApi(
     private val client: NetworkingClient,

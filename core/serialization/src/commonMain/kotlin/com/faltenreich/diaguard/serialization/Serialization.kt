@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.serialization
+package com.faltenreich.diaguard.serialization
 
 // This proxy is a workaround since interfaces cannot have inline functions
 // which are required for kotlinx.serialization to work properly with generics
@@ -10,8 +10,8 @@ class Serialization {
         return implementation.encodeCsv(data)
     }
 
-    inline fun <reified T: Any> decodeCsv(json: String): List<T> {
-        return implementation.decodeCsv(json)
+    inline fun <reified T: Any> decodeCsv(csv: String): List<T> {
+        return implementation.decodeCsv(csv)
     }
 
     inline fun <reified T: Any> encodeJson(data: T): String {
@@ -26,7 +26,7 @@ class Serialization {
         return implementation.encodeYaml(data)
     }
 
-    inline fun <reified T: Any> decodeYaml(json: String): T {
-        return implementation.decodeYaml(json)
+    inline fun <reified T: Any> decodeYaml(yaml: String): T {
+        return implementation.decodeYaml(yaml)
     }
 }

@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.startup.seed.query.food
 import androidx.compose.ui.text.intl.Locale
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.localization.FakeLocalization
-import com.faltenreich.diaguard.shared.serialization.Serialization
+import com.faltenreich.diaguard.serialization.Serialization
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

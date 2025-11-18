@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.serialization
 
+import com.faltenreich.diaguard.serialization.KotlinxSerialization
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
 import kotlin.test.assertEquals

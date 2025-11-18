@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.serialization
+package com.faltenreich.diaguard.serialization
 
 import app.softwork.serialization.csv.CSVFormat
 import kotlinx.serialization.decodeFromString

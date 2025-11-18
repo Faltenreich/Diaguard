@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.shared.logging.ConsoleLogger
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.notification.AlarmManager
 import com.faltenreich.diaguard.shared.notification.FakeAlarmManager
-import com.faltenreich.diaguard.shared.serialization.Serialization
+import com.faltenreich.diaguard.serialization.Serialization
 import com.faltenreich.diaguard.shared.system.FakeSystemSettings
 import com.faltenreich.diaguard.shared.system.SystemSettings
 import com.faltenreich.diaguard.shared.view.FakeWindowController

@@ -21,7 +21,7 @@ import com.faltenreich.diaguard.shared.logging.loggerModule
 import com.faltenreich.diaguard.shared.networking.networkingModule
 import com.faltenreich.diaguard.shared.notification.notificationModule
 import com.faltenreich.diaguard.shared.permission.permissionModule
-import com.faltenreich.diaguard.shared.serialization.serializationModule
+import com.faltenreich.diaguard.serialization.serializationModule
 import com.faltenreich.diaguard.shared.system.systemSettingsModule
 import com.faltenreich.diaguard.shared.view.windowModule
 import com.faltenreich.diaguard.startup.HasDataUseCase

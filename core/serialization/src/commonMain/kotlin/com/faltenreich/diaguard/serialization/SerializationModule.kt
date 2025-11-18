@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.serialization
+package com.faltenreich.diaguard.serialization
 
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module

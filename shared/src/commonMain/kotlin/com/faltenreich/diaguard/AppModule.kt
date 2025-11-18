@@ -1,17 +1,18 @@
 package com.faltenreich.diaguard
 
 import com.faltenreich.diaguard.backup.backupModule
-import com.faltenreich.diaguard.localization.coreModule
 import com.faltenreich.diaguard.dashboard.dashboardModule
 import com.faltenreich.diaguard.datetime.dateTimeModule
 import com.faltenreich.diaguard.entry.entryModule
 import com.faltenreich.diaguard.export.exportModule
 import com.faltenreich.diaguard.food.foodModule
+import com.faltenreich.diaguard.localization.localizationModule
 import com.faltenreich.diaguard.log.logModule
 import com.faltenreich.diaguard.main.mainModule
 import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
 import com.faltenreich.diaguard.preference.preferenceModule
+import com.faltenreich.diaguard.serialization.serializationModule
 import com.faltenreich.diaguard.shared.architecture.coroutineModule
 import com.faltenreich.diaguard.shared.config.configModule
 import com.faltenreich.diaguard.shared.database.databaseModule
@@ -21,7 +22,6 @@ import com.faltenreich.diaguard.shared.logging.loggerModule
 import com.faltenreich.diaguard.shared.networking.networkingModule
 import com.faltenreich.diaguard.shared.notification.notificationModule
 import com.faltenreich.diaguard.shared.permission.permissionModule
-import com.faltenreich.diaguard.serialization.serializationModule
 import com.faltenreich.diaguard.shared.system.systemSettingsModule
 import com.faltenreich.diaguard.shared.view.windowModule
 import com.faltenreich.diaguard.startup.HasDataUseCase
@@ -38,14 +38,14 @@ fun appModule() = module {
     viewModelOf(::AppViewModel)
 
     includes(
-        // Common
+        // Core
         coroutineModule(),
         configModule(),
         databaseModule(),
         dateTimeModule(),
         fileModule(),
         keyValueStoreModule(),
-        coreModule(),
+        localizationModule(),
         loggerModule(),
         networkingModule(),
         notificationModule(),

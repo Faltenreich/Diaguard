@@ -20,9 +20,12 @@ dependencyResolutionManagement {
 
 rootProject.name = "diaguard"
 
-include(":androidApp")
-include(":shared")
-include(":config:detekt")
-include(":core:localization")
-include(":core:database")
-include(":core:datetime")
+include(
+    ":androidApp",
+    ":shared",
+    ":config:detekt",
+    ":core:localization",
+    ":core:database",
+    ":core:datetime",
+    ":core:serialization",
+)

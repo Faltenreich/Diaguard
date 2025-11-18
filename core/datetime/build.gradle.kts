@@ -9,6 +9,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":core:localization"))
+                implementation(project(":core:serialization"))
                 implementation(compose.components.resources)
                 implementation(compose.foundation)
                 implementation(libs.kotlinx.dateTime)

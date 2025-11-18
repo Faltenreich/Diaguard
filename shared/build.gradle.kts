@@ -20,6 +20,7 @@ kotlin {
                 implementation(project(":core:database"))
                 implementation(project(":core:datetime"))
                 implementation(project(":core:localization"))
+                implementation(project(":core:serialization"))
                 implementation(libs.aboutlibraries.core)
                 implementation(libs.aboutlibraries.compose)
                 implementation(compose.ui)

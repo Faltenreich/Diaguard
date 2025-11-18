@@ -24,6 +24,7 @@ include(
     ":androidApp",
     ":shared",
     ":config:detekt",
+    ":core:injection",
     ":core:localization",
     ":core:database",
     ":core:datetime",

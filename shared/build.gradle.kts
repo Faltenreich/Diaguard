@@ -19,6 +19,7 @@ kotlin {
             dependencies {
                 implementation(project(":core:database"))
                 implementation(project(":core:datetime"))
+                implementation(project(":core:injection"))
                 implementation(project(":core:localization"))
                 implementation(project(":core:serialization"))
                 implementation(libs.aboutlibraries.core)

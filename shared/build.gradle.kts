@@ -36,7 +36,6 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.koin.viewmodel)
                 implementation(libs.kotlinx.coroutines)
-                implementation(libs.kotlinx.dateTime)
                 implementation(libs.kotlinx.io)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.serialization.csv)

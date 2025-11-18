@@ -17,9 +17,9 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(project(":common:core"))
-                implementation(project(":common:database"))
-                implementation(project(":common:datetime"))
+                implementation(project(":core:core"))
+                implementation(project(":core:database"))
+                implementation(project(":core:datetime"))
                 implementation(libs.aboutlibraries.core)
                 implementation(libs.aboutlibraries.compose)
                 implementation(compose.ui)

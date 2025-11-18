@@ -11,11 +11,11 @@ import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import diaguard.common.datetime.generated.resources.Res
-import diaguard.common.datetime.generated.resources.date_time_ago_days
-import diaguard.common.datetime.generated.resources.date_time_ago_hours
-import diaguard.common.datetime.generated.resources.date_time_ago_minutes
-import diaguard.common.datetime.generated.resources.date_time_ago_moments
+import diaguard.core.datetime.generated.resources.Res
+import diaguard.core.datetime.generated.resources.date_time_ago_days
+import diaguard.core.datetime.generated.resources.date_time_ago_hours
+import diaguard.core.datetime.generated.resources.date_time_ago_minutes
+import diaguard.core.datetime.generated.resources.date_time_ago_moments
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.format.char
 

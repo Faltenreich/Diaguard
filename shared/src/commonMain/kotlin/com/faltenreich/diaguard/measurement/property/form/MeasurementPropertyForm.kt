@@ -27,7 +27,6 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyleForm
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeForm
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -74,7 +73,7 @@ fun MeasurementPropertyForm(
                     name = input
                     onIntent(MeasurementPropertyFormIntent.UpdateProperty(name = input))
                 },
-                label = getString(Res.string.name),
+                label = stringResource(Res.string.name),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
@@ -85,7 +84,7 @@ fun MeasurementPropertyForm(
                     ),
             )
 
-            TextDivider(getString(Res.string.measurement_unit))
+            TextDivider(stringResource(Res.string.measurement_unit))
 
             if (state.unitSuggestions.isNotEmpty()) {
                 UnitList(state, onIntent)
@@ -96,7 +95,7 @@ fun MeasurementPropertyForm(
                 )
             }
 
-            TextDivider(getString(Res.string.values))
+            TextDivider(stringResource(Res.string.values))
 
             FormRow(
                 modifier = Modifier.clickable {
@@ -166,7 +165,7 @@ private fun UnitList(
                     AnimatedVisibility(visible = item.isSelected) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_check),
-                            contentDescription = getString(
+                            contentDescription = stringResource(
                                 Res.string.measurement_unit_selected_description
                             ),
                             modifier = Modifier.size(AppTheme.dimensions.size.ImageMedium),
@@ -229,7 +228,7 @@ private fun Dialog(
                     onClick = { onIntent(MeasurementPropertyFormIntent.CloseDialog) },
                 ) {
                     Text(
-                        text = getString(Res.string.ok),
+                        text = stringResource(Res.string.ok),
                         color = AppTheme.colors.scheme.onBackground,
                     )
                 }

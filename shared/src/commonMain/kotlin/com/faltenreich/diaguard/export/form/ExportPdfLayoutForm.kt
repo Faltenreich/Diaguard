@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.export.pdf.PdfLayout
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -41,7 +40,7 @@ fun ExportPdfLayoutForm(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        TextDivider(getString(Res.string.layout))
+        TextDivider(stringResource(Res.string.layout))
 
         var expandDropdownForPdfLayout by remember { mutableStateOf(false) }
         FormRow(
@@ -56,7 +55,7 @@ fun ExportPdfLayoutForm(
                 expanded = expandDropdownForPdfLayout,
                 onDismissRequest = { expandDropdownForPdfLayout = false },
                 items = state.layout.options.map { layout ->
-                    getString(layout.title) to { onIntent(ExportFormIntent.SelectLayout(layout)) }
+                    stringResource(layout.title) to { onIntent(ExportFormIntent.SelectLayout(layout)) }
                 },
             )
         }
@@ -72,7 +71,7 @@ fun ExportPdfLayoutForm(
             ),
         ) {
             TextCheckbox(
-                title = getString(Res.string.calendar_week),
+                title = stringResource(Res.string.calendar_week),
                 checked = state.date.includeCalendarWeek,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
@@ -90,7 +89,7 @@ fun ExportPdfLayoutForm(
             ),
         ) {
             TextCheckbox(
-                title = getString(Res.string.date_of_export),
+                title = stringResource(Res.string.date_of_export),
                 checked = state.date.includeDateOfExport,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
@@ -108,7 +107,7 @@ fun ExportPdfLayoutForm(
             ),
         ) {
             TextCheckbox(
-                title = getString(Res.string.page_number),
+                title = stringResource(Res.string.page_number),
                 checked = state.layout.includePageNumber,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),

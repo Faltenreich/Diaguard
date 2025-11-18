@@ -6,11 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.localization.di.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.core.di.viewModel
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_new_description
@@ -18,6 +17,7 @@ import diaguard.shared.generated.resources.food_eaten
 import diaguard.shared.generated.resources.ic_add
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
@@ -30,7 +30,7 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
         val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
         return TopAppBarStyle.CenterAligned {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(getString(Res.string.food_eaten))
+                Text(stringResource(Res.string.food_eaten))
                 Text(
                     text = viewModel.food.name,
                     style = AppTheme.typography.bodySmall,
@@ -46,7 +46,7 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
             floatingActionButton = {
                 FloatingActionButton(
                     painter = painterResource(Res.drawable.ic_add),
-                    contentDescription = getString(Res.string.entry_new_description),
+                    contentDescription = stringResource(Res.string.entry_new_description),
                     onClick = { viewModel.dispatchIntent(FoodEatenListIntent.CreateEntry) },
                 )
             },

@@ -6,14 +6,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.faltenreich.diaguard.localization.di.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.core.di.viewModel
-import com.faltenreich.diaguard.core.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
@@ -22,7 +22,7 @@ data class EntrySearchScreen(private val query: String = "") : Screen {
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
         return TopAppBarStyle.CenterAligned {
-            Text(getString(Res.string.entry_search))
+            Text(stringResource(Res.string.entry_search))
         }
     }
 

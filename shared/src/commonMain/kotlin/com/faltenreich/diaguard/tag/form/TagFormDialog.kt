@@ -11,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
@@ -20,6 +19,7 @@ import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.create
 import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.tag
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -39,21 +39,21 @@ fun TagFormDialog(
                 onClick = { onConfirmRequest(name) },
                 enabled = name.isNotBlank(),
             ) {
-                Text(getString(Res.string.create))
+                Text(stringResource(Res.string.create))
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(getString(Res.string.cancel))
+                Text(stringResource(Res.string.cancel))
             }
         },
-        title = { Text(getString(Res.string.tag)) },
+        title = { Text(stringResource(Res.string.tag)) },
         text = {
             TextInput(
                 input = name,
                 onInputChange = { input -> name = input },
-                label = getString(Res.string.name),
+                label = stringResource(Res.string.name),
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester),

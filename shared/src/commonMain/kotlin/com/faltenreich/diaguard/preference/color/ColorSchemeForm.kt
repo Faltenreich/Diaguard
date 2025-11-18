@@ -10,10 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.color_scheme
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -27,7 +27,7 @@ fun ColorSchemeForm(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = getString(Res.string.color_scheme),
+            text = stringResource(Res.string.color_scheme),
             style = AppTheme.typography.titleLarge,
         )
 

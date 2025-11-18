@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormIntent
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
@@ -24,6 +23,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.measurement_properties
 import diaguard.shared.generated.resources.measurement_property_add
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -33,7 +33,7 @@ fun MeasurementPropertyList(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        TextDivider(getString(Res.string.measurement_properties))
+        TextDivider(stringResource(Res.string.measurement_properties))
 
         properties.forEachIndexed { index, property ->
             if (index != 0) {
@@ -63,7 +63,7 @@ fun MeasurementPropertyList(
         ) {
             SuggestionChip(
                 onClick = { onIntent(MeasurementCategoryFormIntent.AddProperty) },
-                label = { Text(getString(Res.string.measurement_property_add)) },
+                label = { Text(stringResource(Res.string.measurement_property_add)) },
                 icon = {
                     ResourceIcon(
                         icon = Res.drawable.ic_add,

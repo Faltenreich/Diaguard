@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.food.form
 
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.core.localization.NumberFormatter
+import com.faltenreich.diaguard.localization.NumberFormatter
 
 class CreateFoodFormInputUseCase(
     private val formatNumber: NumberFormatter,

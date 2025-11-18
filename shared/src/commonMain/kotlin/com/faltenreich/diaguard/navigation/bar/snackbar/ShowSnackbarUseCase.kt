@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.navigation.bar.snackbar
 import androidx.compose.material3.SnackbarDuration
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.core.localization.Localization
+import com.faltenreich.diaguard.localization.Localization
 import org.jetbrains.compose.resources.StringResource
 
 class ShowSnackbarUseCase(

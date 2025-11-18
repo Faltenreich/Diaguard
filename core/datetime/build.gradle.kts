@@ -8,7 +8,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(project(":core:core"))
+                implementation(project(":core:localization"))
                 implementation(compose.components.resources)
                 implementation(compose.foundation)
                 implementation(libs.kotlinx.dateTime)

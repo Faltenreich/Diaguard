@@ -14,7 +14,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.core.di.inject
+import com.faltenreich.diaguard.localization.di.inject
 import kotlin.jvm.JvmSuppressWildcards
 import kotlin.reflect.KType
 

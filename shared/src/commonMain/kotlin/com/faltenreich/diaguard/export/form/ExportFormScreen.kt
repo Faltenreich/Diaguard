@@ -2,17 +2,17 @@ package com.faltenreich.diaguard.export.form
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.localization.di.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.core.di.viewModel
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.export
 import diaguard.shared.generated.resources.ic_check
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Serializable
 data object ExportFormScreen : Screen {
@@ -20,7 +20,7 @@ data object ExportFormScreen : Screen {
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
         return TopAppBarStyle.CenterAligned {
-            Text(getString(Res.string.export))
+            Text(stringResource(Res.string.export))
         }
     }
 
@@ -31,7 +31,7 @@ data object ExportFormScreen : Screen {
             floatingActionButton = {
                 FloatingActionButton(
                     painter = painterResource(Res.drawable.ic_check),
-                    contentDescription = getString(Res.string.export),
+                    contentDescription = stringResource(Res.string.export),
                     onClick = { viewModel.submit() },
                 )
             }

@@ -23,6 +23,6 @@ rootProject.name = "diaguard"
 include(":androidApp")
 include(":shared")
 include(":config:detekt")
-include(":core:core")
+include(":core:localization")
 include(":core:database")
 include(":core:datetime")

@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.datetime
 
 import android.content.Context
 import android.text.format.DateFormat
-import com.faltenreich.diaguard.core.localization.Localization
+import com.faltenreich.diaguard.localization.Localization
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle

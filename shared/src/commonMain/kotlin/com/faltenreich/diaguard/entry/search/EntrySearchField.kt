@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.ClearButton
 import com.faltenreich.diaguard.shared.view.SearchField
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
@@ -18,6 +17,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search_prompt
 import diaguard.shared.generated.resources.ic_search
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -31,7 +31,7 @@ fun EntrySearchField(
 
     SearchField(
         query = query,
-        placeholder = getString(Res.string.entry_search_prompt),
+        placeholder = stringResource(Res.string.entry_search_prompt),
         leadingIcon = {
             Icon(
                 painter = painterResource(Res.drawable.ic_search),

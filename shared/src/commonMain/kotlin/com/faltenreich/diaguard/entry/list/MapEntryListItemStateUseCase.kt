@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry.list
 
-import com.faltenreich.diaguard.core.localization.Localization
-import com.faltenreich.diaguard.core.localization.NumberFormatter
+import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository

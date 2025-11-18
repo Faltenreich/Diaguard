@@ -2,8 +2,8 @@
 
 package com.faltenreich.diaguard.datetime.kotlinx
 
-import com.faltenreich.diaguard.core.serialization.ObjectInputStream
-import com.faltenreich.diaguard.core.serialization.ObjectOutputStream
+import com.faltenreich.diaguard.localization.serialization.ObjectInputStream
+import com.faltenreich.diaguard.localization.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateUnit

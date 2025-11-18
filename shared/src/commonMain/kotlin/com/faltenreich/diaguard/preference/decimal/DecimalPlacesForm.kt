@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListState
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.decimal_places
@@ -42,14 +41,14 @@ fun DecimalPlacesForm(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = getString(Res.string.decimal_places),
+            text = stringResource(Res.string.decimal_places),
             style = AppTheme.typography.titleLarge,
         )
 
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
 
         Text(
-            text = getString(Res.string.decimal_places_description),
+            text = stringResource(Res.string.decimal_places_description),
             modifier = Modifier.fillMaxWidth(),
         )
 

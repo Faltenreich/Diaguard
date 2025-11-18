@@ -9,13 +9,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendChart
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState.Interval
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.trend
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -30,7 +30,7 @@ fun DashboardTrend(
     ) {
         Column(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Text(
-                text = getString(Res.string.trend),
+                text = stringResource(Res.string.trend),
                 style = AppTheme.typography.labelMedium,
             )
             if (state != null) {

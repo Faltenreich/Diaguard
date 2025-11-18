@@ -14,12 +14,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.tag.Tag
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.tag
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -40,7 +40,7 @@ fun EntryTagInput(
         TextInput(
             input = input,
             onInputChange = onInputChange,
-            placeholder = { Text(getString(Res.string.tag)) },
+            placeholder = { Text(stringResource(Res.string.tag)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
             modifier = Modifier
                 .fillMaxWidth()

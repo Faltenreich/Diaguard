@@ -13,7 +13,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.shared.view.rememberFocusRequester
@@ -22,6 +21,7 @@ import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.create
 import diaguard.shared.generated.resources.measurement_category
 import diaguard.shared.generated.resources.name
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -41,21 +41,21 @@ fun MeasurementCategoryFormDialog(
                 onClick = { onConfirmRequest(name) },
                 enabled = name.isNotBlank(),
             ) {
-                Text(getString(Res.string.create))
+                Text(stringResource(Res.string.create))
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(getString(Res.string.cancel))
+                Text(stringResource(Res.string.cancel))
             }
         },
-        title = { Text(getString(Res.string.measurement_category)) },
+        title = { Text(stringResource(Res.string.measurement_category)) },
         text = {
             TextInput(
                 input = name,
                 onInputChange = { name = it },
-                label = getString(Res.string.name),
+                label = stringResource(Res.string.name),
                 modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
                 maxLines = 1,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done ),

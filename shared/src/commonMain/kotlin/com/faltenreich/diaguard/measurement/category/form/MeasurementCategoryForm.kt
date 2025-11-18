@@ -24,7 +24,6 @@ import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIco
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
 import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.isDark
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.EmojiPicker
@@ -65,7 +64,7 @@ fun MeasurementCategoryForm(
             onInputChange = { input ->
                 onIntent(MeasurementCategoryFormIntent.SetName(input))
             },
-            label = getString(Res.string.name),
+            label = stringResource(Res.string.name),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -159,7 +158,7 @@ fun MeasurementCategoryForm(
                     onClick = { onIntent(MeasurementCategoryFormIntent.CloseAlertDialog) },
                 ) {
                     Text(
-                        text = getString(Res.string.ok),
+                        text = stringResource(Res.string.ok),
                         color = AppTheme.colors.scheme.onBackground,
                     )
                 }

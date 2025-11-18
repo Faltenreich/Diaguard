@@ -13,9 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -42,7 +42,7 @@ fun StartScreenListItem(
             modifier = Modifier.size(AppTheme.dimensions.padding.P_4),
         )
         Text(
-            text = getString(startScreen.labelResource),
+            text = stringResource(startScreen.labelResource),
             modifier = Modifier.weight(1f),
         )
         RadioButton(

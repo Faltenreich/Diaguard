@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientListItem
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -35,6 +34,8 @@ import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ingredients
 import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.nutrients_per_100g
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -64,7 +65,7 @@ fun FoodForm(
                             val update = state.input.copy(name = input)
                             onIntent(FoodFormIntent.SetInput(update))
                         },
-                        placeholder = { Text(getString(Res.string.name)) },
+                        placeholder = { Text(stringResource(Res.string.name)) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next,
@@ -82,7 +83,7 @@ fun FoodForm(
                             val update = state.input.copy(brand = input)
                             onIntent(FoodFormIntent.SetInput(update))
                         },
-                        placeholder = { Text(getString(Res.string.brand)) },
+                        placeholder = { Text(stringResource(Res.string.brand)) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next,
@@ -100,7 +101,7 @@ fun FoodForm(
                             val update = state.input.copy(ingredients = input)
                             onIntent(FoodFormIntent.SetInput(update))
                         },
-                        placeholder = { Text(getString(Res.string.ingredients)) },
+                        placeholder = { Text(stringResource(Res.string.ingredients)) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next,
@@ -109,7 +110,7 @@ fun FoodForm(
                 }
             }
 
-            TextDivider(getString(Res.string.nutrients_per_100g))
+            TextDivider(stringResource(Res.string.nutrients_per_100g))
 
             state.input.nutrients.forEachIndexed { index, data ->
                 if (index != 0) {

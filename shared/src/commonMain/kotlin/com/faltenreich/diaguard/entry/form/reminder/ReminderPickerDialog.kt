@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.form.EntryFormState
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
@@ -60,7 +59,7 @@ fun ReminderPickerDialog(
                 verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
             ) {
                 Text(
-                    text = getString(Res.string.reminder),
+                    text = stringResource(Res.string.reminder),
                     style = AppTheme.typography.labelLarge,
                 )
 

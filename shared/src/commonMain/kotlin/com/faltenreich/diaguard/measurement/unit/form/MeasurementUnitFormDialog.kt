@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
@@ -21,6 +20,7 @@ import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.create
 import diaguard.shared.generated.resources.measurement_unit
 import diaguard.shared.generated.resources.name
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -41,22 +41,22 @@ fun MeasurementUnitFormDialog(
                 onClick = { onConfirmRequest(name, abbreviation) },
                 enabled = name.isNotBlank(),
             ) {
-                Text(getString(Res.string.create))
+                Text(stringResource(Res.string.create))
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(getString(Res.string.cancel))
+                Text(stringResource(Res.string.cancel))
             }
         },
-        title = { Text(getString(Res.string.measurement_unit)) },
+        title = { Text(stringResource(Res.string.measurement_unit)) },
         text = {
             Column {
                 TextInput(
                     input = name,
                     onInputChange = { name = it },
-                    label = getString(Res.string.name),
+                    label = stringResource(Res.string.name),
                     modifier = Modifier.fillMaxWidth(),
                     supportingText = error?.let { error -> { Text(error) } },
                     isError = error != null,
@@ -64,7 +64,7 @@ fun MeasurementUnitFormDialog(
                 TextInput(
                     input = abbreviation,
                     onInputChange = { abbreviation = it },
-                    label = getString(Res.string.abbreviation),
+                    label = stringResource(Res.string.abbreviation),
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

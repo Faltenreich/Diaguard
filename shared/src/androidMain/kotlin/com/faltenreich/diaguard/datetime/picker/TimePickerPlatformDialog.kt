@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.core.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.time_select
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 actual fun TimePickerPlatformDialog(
@@ -56,7 +56,7 @@ actual fun TimePickerPlatformDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 20.dp),
-                    text = getString(Res.string.time_select),
+                    text = stringResource(Res.string.time_select),
                     style = AppTheme.typography.labelMedium
                 )
                 content()

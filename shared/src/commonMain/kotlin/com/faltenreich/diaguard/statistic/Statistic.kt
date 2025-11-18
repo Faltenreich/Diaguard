@@ -6,7 +6,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
@@ -23,6 +22,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.average
 import diaguard.shared.generated.resources.distribution
 import diaguard.shared.generated.resources.trend
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -43,13 +43,13 @@ fun Statistic(
             StatisticCategory(state.category, onIntent)
             StatisticProperty(state.property, onIntent)
 
-            TextDivider(getString(Res.string.average))
+            TextDivider(stringResource(Res.string.average))
             StatisticAverage(state.average)
 
-            TextDivider(getString(Res.string.trend))
+            TextDivider(stringResource(Res.string.trend))
             StatisticTrend(state.trend)
 
-            TextDivider(getString(Res.string.distribution))
+            TextDivider(stringResource(Res.string.distribution))
             StatisticDistribution(state.distribution)
         }
         StatisticDateRangeBar(state.dateRange, onIntent)

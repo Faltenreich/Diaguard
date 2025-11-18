@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.datetime.DateTimeAndroidApi
 import com.faltenreich.diaguard.datetime.DayOfWeek
 import com.faltenreich.diaguard.datetime.WeekOfYear
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
-import com.faltenreich.diaguard.core.localization.ComposeLocalization
+import com.faltenreich.diaguard.localization.ComposeLocalization
 import org.junit.Assert
 import org.junit.Test
 

@@ -19,7 +19,6 @@ import com.faltenreich.diaguard.datetime.picker.DateRangePickerDialog
 import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.DropdownTextMenu
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -93,7 +92,7 @@ fun ExportForm(
                 expanded = expandDropdownForType,
                 onDismissRequest = { expandDropdownForType = false },
                 items = state.type.options.map { type ->
-                    getString(type.title) to {
+                    stringResource(type.title) to {
                         onIntent(ExportFormIntent.SelectType(type))
                     }
                 },
@@ -107,7 +106,7 @@ fun ExportForm(
             )
         }
 
-        TextDivider(getString(Res.string.data))
+        TextDivider(stringResource(Res.string.data))
 
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_note) },
@@ -118,7 +117,7 @@ fun ExportForm(
             ),
         ) {
             TextCheckbox(
-                title = getString(Res.string.notes),
+                title = stringResource(Res.string.notes),
                 checked = state.content.includeNotes,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
@@ -136,7 +135,7 @@ fun ExportForm(
             ),
         ) {
             TextCheckbox(
-                title = getString(Res.string.tags),
+                title = stringResource(Res.string.tags),
                 checked = state.content.includeTags,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
@@ -154,14 +153,14 @@ fun ExportForm(
             ),
         ) {
             TextCheckbox(
-                title = getString(Res.string.days_without_entries),
+                title = stringResource(Res.string.days_without_entries),
                 checked = state.layout.includeDaysWithoutEntries,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
 
-        TextDivider(getString(Res.string.measurement_categories))
+        TextDivider(stringResource(Res.string.measurement_categories))
 
         state.content.categories.forEach { category ->
             FormRow(

@@ -2,13 +2,13 @@ package com.faltenreich.diaguard.preference.food
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.localization.di.viewModel
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.core.di.viewModel
-import com.faltenreich.diaguard.core.localization.getString
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 @Serializable
 data object FoodPreferenceListScreen : Screen {
@@ -16,7 +16,7 @@ data object FoodPreferenceListScreen : Screen {
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
         return TopAppBarStyle.CenterAligned {
-            Text(getString(Res.string.food))
+            Text(stringResource(Res.string.food))
         }
     }
 

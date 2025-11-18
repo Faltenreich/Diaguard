@@ -16,7 +16,6 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.list.EntryListItemState
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
@@ -29,6 +28,7 @@ import diaguard.shared.generated.resources.entry_search_empty
 import diaguard.shared.generated.resources.ic_tag
 import diaguard.shared.generated.resources.name
 import kotlinx.coroutines.flow.flowOf
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -51,7 +51,7 @@ fun TagDetail(
                         onIntent(TagDetailIntent.SetName(input))
                         name = input
                     },
-                    label = getString(Res.string.name),
+                    label = stringResource(Res.string.name),
                     modifier = Modifier.fillMaxWidth(),
                     supportingText = state.error?.let { error -> { Text(error) } },
                     isError = state.error != null,
@@ -59,11 +59,11 @@ fun TagDetail(
             }
         }
 
-        TextDivider(getString(Res.string.entries))
+        TextDivider(stringResource(Res.string.entries))
 
         EntryList(
             items = entries,
-            emptyContent = { Text(getString(Res.string.entry_search_empty)) },
+            emptyContent = { Text(stringResource(Res.string.entry_search_empty)) },
             onEntryClick = { entry -> onIntent(TagDetailIntent.OpenEntry(entry)) },
             onEntryDelete = { entry -> onIntent(TagDetailIntent.DeleteEntry(entry)) },
             onEntryRestore = { entry -> onIntent(TagDetailIntent.RestoreEntry(entry)) },

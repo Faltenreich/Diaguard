@@ -11,7 +11,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
@@ -19,6 +18,7 @@ import diaguard.shared.generated.resources.food_delete
 import diaguard.shared.generated.resources.grams_abbreviation
 import diaguard.shared.generated.resources.ic_delete
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -34,12 +34,12 @@ fun FoodEatenInput(
         },
         label = state.food.name,
         modifier = modifier.padding(vertical = AppTheme.dimensions.padding.P_1),
-        placeholder = { Text(getString(Res.string.grams_abbreviation)) },
+        placeholder = { Text(stringResource(Res.string.grams_abbreviation)) },
         trailingIcon = {
             IconButton(onClick = { onIntent(EntryFormIntent.RemoveFood(state)) }) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_delete),
-                    contentDescription = getString(Res.string.food_delete),
+                    contentDescription = stringResource(Res.string.food_delete),
                 )
             }
         },

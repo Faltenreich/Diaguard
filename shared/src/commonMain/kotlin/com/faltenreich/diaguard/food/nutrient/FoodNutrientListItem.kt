@@ -12,10 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -34,7 +34,7 @@ fun FoodNutrientListItem(
                 onUpdate(data.copy(per100g = input))
             },
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End),
-            prefix = { Text(getString(data.nutrient.label)) },
+            prefix = { Text(stringResource(data.nutrient.label)) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = if (data.isLast) ImeAction.Done else ImeAction.Next,

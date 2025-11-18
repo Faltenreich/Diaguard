@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.shared.file
 
-import com.faltenreich.diaguard.core.di.inject
-import com.faltenreich.diaguard.core.localization.Localization
+import com.faltenreich.diaguard.localization.di.inject
+import com.faltenreich.diaguard.localization.Localization
 
 class ResourceFileReader(
     private val path: String,

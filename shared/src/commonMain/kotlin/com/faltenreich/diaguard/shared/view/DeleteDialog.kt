@@ -5,13 +5,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.delete
 import diaguard.shared.generated.resources.delete_description
 import diaguard.shared.generated.resources.delete_title
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -25,7 +25,7 @@ fun DeleteDialog(
         confirmButton = {
             TextButton(onClick = onConfirmRequest) {
                 Text(
-                    text = getString(Res.string.delete),
+                    text = stringResource(Res.string.delete),
                     color = AppTheme.colors.scheme.onErrorContainer,
                 )
             }
@@ -33,13 +33,13 @@ fun DeleteDialog(
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
                 Text(
-                    text = getString(Res.string.cancel),
+                    text = stringResource(Res.string.cancel),
                     color = AppTheme.colors.scheme.onErrorContainer,
                 )
             }
         },
-        title = { Text(getString(Res.string.delete_title)) },
-        text = { Text(getString(Res.string.delete_description)) },
+        title = { Text(stringResource(Res.string.delete_title)) },
+        text = { Text(stringResource(Res.string.delete_description)) },
         containerColor = AppTheme.colors.scheme.errorContainer,
         iconContentColor = AppTheme.colors.scheme.onErrorContainer,
         titleContentColor = AppTheme.colors.scheme.onErrorContainer,

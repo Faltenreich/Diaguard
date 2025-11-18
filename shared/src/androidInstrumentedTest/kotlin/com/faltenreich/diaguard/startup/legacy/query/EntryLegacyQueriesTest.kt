@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.datetime.DateTimeAndroidApi
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.database.sqlite.SqliteDatabase
-import com.faltenreich.diaguard.core.localization.ComposeLocalization
+import com.faltenreich.diaguard.localization.ComposeLocalization
 import com.faltenreich.diaguard.shared.test.FileFactory
 import org.junit.Assert
 import org.junit.Test

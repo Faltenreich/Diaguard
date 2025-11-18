@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
 import com.faltenreich.diaguard.log.list.item.LogItemState
-import com.faltenreich.diaguard.core.di.inject
+import com.faltenreich.diaguard.localization.di.inject
 import com.faltenreich.diaguard.shared.view.isPrepending
 
 class LogListPagingSource(

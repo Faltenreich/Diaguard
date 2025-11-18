@@ -11,11 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.aggregation_style
 import diaguard.shared.generated.resources.aggregation_style_description
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -29,14 +29,14 @@ fun MeasurementAggregationStyleForm(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = getString(Res.string.aggregation_style),
+            text = stringResource(Res.string.aggregation_style),
             style = AppTheme.typography.titleLarge,
         )
 
         Spacer(modifier = Modifier.height(AppTheme.dimensions.padding.P_3))
 
         Text(
-            text = getString(Res.string.aggregation_style_description),
+            text = stringResource(Res.string.aggregation_style_description),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = AppTheme.dimensions.padding.P_3_5),

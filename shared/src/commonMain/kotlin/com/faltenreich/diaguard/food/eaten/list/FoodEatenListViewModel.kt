@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.core.di.inject
+import com.faltenreich.diaguard.localization.di.inject
 import kotlinx.coroutines.flow.map
 
 class FoodEatenListViewModel(

@@ -10,8 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -32,7 +32,7 @@ fun ColorSchemeListItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = getString(colorScheme.labelResource),
+            text = stringResource(colorScheme.labelResource),
             modifier = Modifier.weight(1f),
         )
         RadioButton(

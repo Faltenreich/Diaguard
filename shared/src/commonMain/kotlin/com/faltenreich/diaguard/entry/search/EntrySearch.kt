@@ -10,13 +10,13 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.list.EntryListItemState
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search_empty
 import diaguard.shared.generated.resources.entry_search_placeholder
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -34,9 +34,9 @@ fun EntrySearch(
         items = state.pagingData.collectAsLazyPagingItems(),
         emptyContent = {
             if (state.query.isBlank()) {
-                Text(getString(Res.string.entry_search_placeholder))
+                Text(stringResource(Res.string.entry_search_placeholder))
             } else {
-                Text(getString(Res.string.entry_search_empty))
+                Text(stringResource(Res.string.entry_search_empty))
             }
         },
         onEntryClick = { entry ->

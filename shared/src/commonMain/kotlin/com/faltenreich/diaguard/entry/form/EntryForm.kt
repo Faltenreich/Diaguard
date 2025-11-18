@@ -36,7 +36,6 @@ import com.faltenreich.diaguard.entry.form.reminder.ReminderPermissionDialog
 import com.faltenreich.diaguard.entry.form.reminder.ReminderPickerDialog
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.DeleteDialog
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
@@ -129,7 +128,7 @@ fun EntryForm(
                     trailingIcon = { tag ->
                         ResourceIcon(
                             icon = Res.drawable.ic_clear,
-                            contentDescription = getString(Res.string.tag_remove_description, tag.name),
+                            contentDescription = stringResource(Res.string.tag_remove_description, tag.name),
                             modifier = Modifier.size(InputChipDefaults.AvatarSize),
                         )
                     },
@@ -145,7 +144,7 @@ fun EntryForm(
                         note = input
                         onIntent(EntryFormIntent.SetNote(input))
                     },
-                    placeholder = { Text(getString(Res.string.note)) },
+                    placeholder = { Text(stringResource(Res.string.note)) },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
                 )

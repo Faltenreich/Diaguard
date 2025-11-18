@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.preference.decimal
 
-import com.faltenreich.diaguard.core.localization.Localization
-import com.faltenreich.diaguard.core.localization.NumberFormatter
+import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.localization.NumberFormatter
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.decimal_places_illustration
 

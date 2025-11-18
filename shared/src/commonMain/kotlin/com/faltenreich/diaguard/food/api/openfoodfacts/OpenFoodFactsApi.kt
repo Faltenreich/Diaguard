@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.food.api.openfoodfacts
 
-import com.faltenreich.diaguard.core.localization.Localization
+import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.shared.data.PagingPage

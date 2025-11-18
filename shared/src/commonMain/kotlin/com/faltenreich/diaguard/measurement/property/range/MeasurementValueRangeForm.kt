@@ -21,7 +21,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormState
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
@@ -38,6 +37,7 @@ import diaguard.shared.generated.resources.value_range_minimum
 import diaguard.shared.generated.resources.value_range_minimum_description
 import diaguard.shared.generated.resources.value_range_target_preference
 import diaguard.shared.generated.resources.value_range_target_preference_description
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -73,9 +73,9 @@ fun MeasurementValueRangeForm(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(getString(Res.string.value_range_highlighted))
+                Text(stringResource(Res.string.value_range_highlighted))
                 Text(
-                    text = getString(Res.string.value_range_highlighted_description),
+                    text = stringResource(Res.string.value_range_highlighted_description),
                     style = AppTheme.typography.bodySmall,
                 )
             }
@@ -93,7 +93,7 @@ fun MeasurementValueRangeForm(
                 minimum = input
                 onUpdate(state.copy(minimum = input))
             },
-            label = getString(Res.string.value_range_minimum),
+            label = stringResource(Res.string.value_range_minimum),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -101,7 +101,7 @@ fun MeasurementValueRangeForm(
                     vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
-            supportingText = { Text(getString(Res.string.value_range_minimum_description)) },
+            supportingText = { Text(stringResource(Res.string.value_range_minimum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -117,7 +117,7 @@ fun MeasurementValueRangeForm(
                 low = input
                 onUpdate(state.copy(low = input))
             },
-            label = getString(Res.string.value_range_low_preference),
+            label = stringResource(Res.string.value_range_low_preference),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -125,7 +125,7 @@ fun MeasurementValueRangeForm(
                     vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
-            supportingText = { Text(getString(Res.string.value_range_low_preference_description)) },
+            supportingText = { Text(stringResource(Res.string.value_range_low_preference_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -141,7 +141,7 @@ fun MeasurementValueRangeForm(
                 target = input
                 onUpdate(state.copy(target = input))
             },
-            label = getString(Res.string.value_range_target_preference),
+            label = stringResource(Res.string.value_range_target_preference),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -149,7 +149,7 @@ fun MeasurementValueRangeForm(
                     vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
-            supportingText = { Text(getString(Res.string.value_range_target_preference_description)) },
+            supportingText = { Text(stringResource(Res.string.value_range_target_preference_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -165,7 +165,7 @@ fun MeasurementValueRangeForm(
                 high = input
                 onUpdate(state.copy(high = input))
             },
-            label = getString(Res.string.value_range_high_preference),
+            label = stringResource(Res.string.value_range_high_preference),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -173,7 +173,7 @@ fun MeasurementValueRangeForm(
                     vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
-            supportingText = { Text(getString(Res.string.value_range_high_preference_description)) },
+            supportingText = { Text(stringResource(Res.string.value_range_high_preference_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -189,7 +189,7 @@ fun MeasurementValueRangeForm(
                 maximum = input
                 onUpdate(state.copy(maximum = input))
             },
-            label = getString(Res.string.value_range_maximum),
+            label = stringResource(Res.string.value_range_maximum),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -197,7 +197,7 @@ fun MeasurementValueRangeForm(
                     vertical = AppTheme.dimensions.padding.P_2,
                 ),
             placeholder = { Text(unit) },
-            supportingText = { Text(getString(Res.string.value_range_maximum_description)) },
+            supportingText = { Text(stringResource(Res.string.value_range_maximum_description)) },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,

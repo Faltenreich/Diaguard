@@ -3,8 +3,8 @@ package com.faltenreich.diaguard.startup.seed.query.tag
 import androidx.compose.ui.text.intl.Locale
 import com.faltenreich.diaguard.startup.seed.query.SeedQueries
 import com.faltenreich.diaguard.shared.file.FileReader
-import com.faltenreich.diaguard.core.localization.Localization
-import com.faltenreich.diaguard.core.localization.LocalizationConstants
+import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.localization.LocalizationConstants
 import com.faltenreich.diaguard.shared.serialization.Serialization
 import com.faltenreich.diaguard.tag.Tag
 

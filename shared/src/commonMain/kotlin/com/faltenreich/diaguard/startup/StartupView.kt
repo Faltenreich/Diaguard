@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.core.di.viewModel
+import com.faltenreich.diaguard.localization.di.viewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

@@ -9,13 +9,12 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.search.FoodSelectionEvent
 import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
+import com.faltenreich.diaguard.localization.di.sharedViewModel
+import com.faltenreich.diaguard.localization.di.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.core.di.sharedViewModel
-import com.faltenreich.diaguard.core.di.viewModel
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry
@@ -50,7 +49,7 @@ data class EntryFormScreen(
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
         return TopAppBarStyle.CenterAligned {
-            Text(getString(Res.string.entry))
+            Text(stringResource(Res.string.entry))
         }
     }
 
@@ -80,7 +79,7 @@ data class EntryFormScreen(
                         if (hasError) Res.drawable.ic_clear
                         else Res.drawable.ic_check
                     ),
-                    contentDescription = getString(Res.string.save),
+                    contentDescription = stringResource(Res.string.save),
                     onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) },
                     containerColor =
                         if (hasError) AppTheme.colors.scheme.errorContainer

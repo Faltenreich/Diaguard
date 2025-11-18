@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.startup.seed.query.measurement
 import com.faltenreich.diaguard.startup.seed.query.SeedQueries
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.core.localization.Localization
+import com.faltenreich.diaguard.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.beats_per_minute
 import diaguard.shared.generated.resources.beats_per_minute_abbreviation

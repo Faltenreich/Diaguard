@@ -17,13 +17,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.localization.di.sharedViewModel
+import com.faltenreich.diaguard.localization.di.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.core.di.sharedViewModel
-import com.faltenreich.diaguard.core.di.viewModel
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_new
@@ -90,7 +89,7 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
             floatingActionButton = {
                 FloatingActionButton(
                     painter = painterResource(Res.drawable.ic_add),
-                    contentDescription = getString(Res.string.food_new),
+                    contentDescription = stringResource(Res.string.food_new),
                     onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) },
                 )
             }

@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.core.di.inject
-import com.faltenreich.diaguard.core.localization.getString
+import com.faltenreich.diaguard.localization.di.inject
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.ok
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -38,13 +38,13 @@ fun DatePickerDialog(
                     }
                 },
             ) {
-                Text(getString(Res.string.ok))
+                Text(stringResource(Res.string.ok))
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(getString(Res.string.cancel))
+                Text(stringResource(Res.string.cancel))
             }
         },
     ) {

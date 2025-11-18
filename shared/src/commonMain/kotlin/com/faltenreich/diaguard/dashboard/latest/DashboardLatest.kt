@@ -13,11 +13,11 @@ import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_first_description
 import diaguard.shared.generated.resources.placeholder
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -40,7 +40,7 @@ fun DashboardLatest(
                 Text(
                     text = when (state) {
                         null -> ""
-                        is DashboardLatestState.None -> getString(Res.string.placeholder)
+                        is DashboardLatestState.None -> stringResource(Res.string.placeholder)
                         is DashboardLatestState.Value -> state.value.value
                     },
                     color = when (state) {
@@ -53,7 +53,7 @@ fun DashboardLatest(
                 Text(
                     text = when (state) {
                         null -> ""
-                        is DashboardLatestState.None -> getString(Res.string.entry_first_description)
+                        is DashboardLatestState.None -> stringResource(Res.string.entry_first_description)
                         is DashboardLatestState.Value -> state.timePassed
                     },
                     style = AppTheme.typography.bodyMedium,

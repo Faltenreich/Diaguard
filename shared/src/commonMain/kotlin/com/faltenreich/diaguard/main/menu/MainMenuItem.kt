@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.preference.screen.StartScreen
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -64,7 +64,7 @@ fun MainMenuItem(
             )
         } ?: Spacer(modifier = Modifier.size(AppTheme.dimensions.padding.P_4))
         Text(
-            text = getString(label),
+            text = stringResource(label),
             color = onPrimaryColor,
         )
     }

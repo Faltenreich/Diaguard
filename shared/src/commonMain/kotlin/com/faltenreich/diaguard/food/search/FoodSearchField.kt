@@ -8,7 +8,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.ClearButton
 import com.faltenreich.diaguard.shared.view.SearchField
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
@@ -16,6 +15,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_search_prompt
 import diaguard.shared.generated.resources.ic_arrow_back
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -29,7 +29,7 @@ fun FoodSearchField(
 
     SearchField(
         query = query,
-        placeholder = getString(Res.string.food_search_prompt),
+        placeholder = stringResource(Res.string.food_search_prompt),
         leadingIcon = {
             IconButton(onClick = popScreen) {
                 Icon(

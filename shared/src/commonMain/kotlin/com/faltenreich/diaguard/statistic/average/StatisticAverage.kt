@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
@@ -27,13 +26,13 @@ fun StatisticAverage(
                 modifier = Modifier.weight(1f),
             )
             if (state != null) {
-                Text(state.value ?: getString(Res.string.placeholder))
+                Text(state.value ?: stringResource(Res.string.placeholder))
             }
         }
         Divider()
         FormRow {
             Text(
-                text = getString(Res.string.entries_per_day),
+                text = stringResource(Res.string.entries_per_day),
                 modifier = Modifier.weight(1f),
             )
             if (state != null) {

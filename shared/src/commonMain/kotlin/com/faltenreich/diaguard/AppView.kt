@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.main.MainView
 import com.faltenreich.diaguard.preference.color.isDark
-import com.faltenreich.diaguard.core.di.viewModel
+import com.faltenreich.diaguard.localization.di.viewModel
 import com.faltenreich.diaguard.shared.notification.Shortcut
 import com.faltenreich.diaguard.shared.view.keyboardPadding
 import com.faltenreich.diaguard.startup.StartupView

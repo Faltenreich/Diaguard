@@ -3,12 +3,11 @@ package com.faltenreich.diaguard.tag.detail
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.faltenreich.diaguard.localization.di.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.core.di.viewModel
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
 import com.faltenreich.diaguard.tag.Tag
 import diaguard.shared.generated.resources.Res
@@ -30,7 +29,7 @@ data class TagDetailScreen(private val tagId: Long) : Screen {
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
         return TopAppBarStyle.CenterAligned {
-            Text(getString(Res.string.tag))
+            Text(stringResource(Res.string.tag))
         }
     }
 
@@ -48,7 +47,7 @@ data class TagDetailScreen(private val tagId: Long) : Screen {
             floatingActionButton = {
                 FloatingActionButton(
                     painter = painterResource(Res.drawable.ic_check),
-                    contentDescription = getString(Res.string.save),
+                    contentDescription = stringResource(Res.string.save),
                     onClick = { viewModel.dispatchIntent(TagDetailIntent.UpdateTag) },
                 )
             }

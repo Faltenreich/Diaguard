@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hyper
@@ -18,6 +17,7 @@ import diaguard.shared.generated.resources.hypo
 import diaguard.shared.generated.resources.measurements
 import diaguard.shared.generated.resources.placeholder
 import diaguard.shared.generated.resources.today
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -33,29 +33,29 @@ fun DashboardToday(
         Box(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
             Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3)) {
                 Text(
-                    text = getString(Res.string.today),
+                    text = stringResource(Res.string.today),
                     style = AppTheme.typography.labelMedium,
                 )
                 Row {
                     Text(
-                        text = getString(Res.string.measurements),
+                        text = stringResource(Res.string.measurements),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(state?.totalCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(state?.totalCount?.toString() ?: stringResource(Res.string.placeholder))
                 }
                 Row {
                     Text(
-                        text = getString(Res.string.hypo),
+                        text = stringResource(Res.string.hypo),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(state?.hypoCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(state?.hypoCount?.toString() ?: stringResource(Res.string.placeholder))
                 }
                 Row {
                     Text(
-                        text = getString(Res.string.hyper),
+                        text = stringResource(Res.string.hyper),
                         modifier = Modifier.weight(1f),
                     )
-                    Text(state?.hyperCount?.toString() ?: getString(Res.string.placeholder))
+                    Text(state?.hyperCount?.toString() ?: stringResource(Res.string.placeholder))
                 }
             }
         }

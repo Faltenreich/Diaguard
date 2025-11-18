@@ -28,6 +28,9 @@ import com.faltenreich.diaguard.export.form.ExportFormScreen
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
+import com.faltenreich.diaguard.localization.di.LocalSharedViewModelStoreOwner
+import com.faltenreich.diaguard.localization.di.rememberViewModelStoreOwner
+import com.faltenreich.diaguard.localization.di.viewModel
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.main.menu.MainMenu
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
@@ -44,10 +47,6 @@ import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
-import com.faltenreich.diaguard.core.di.LocalSharedViewModelStoreOwner
-import com.faltenreich.diaguard.core.di.rememberViewModelStoreOwner
-import com.faltenreich.diaguard.core.di.viewModel
-import com.faltenreich.diaguard.core.localization.getString
 import com.faltenreich.diaguard.shared.notification.Shortcut
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
@@ -57,6 +56,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.navigate_back
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -116,7 +116,7 @@ fun MainView(
                             IconButton(onClick = { viewModel.dispatchIntent(MainIntent.PopScreen) }) {
                                 Icon(
                                     painter = painterResource(Res.drawable.ic_arrow_back),
-                                    contentDescription = getString(Res.string.navigate_back),
+                                    contentDescription = stringResource(Res.string.navigate_back),
                                 )
                             }
                         }

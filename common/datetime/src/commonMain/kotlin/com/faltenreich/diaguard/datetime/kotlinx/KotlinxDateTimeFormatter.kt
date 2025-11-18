@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.datetime.kotlinx
 
 import com.faltenreich.diaguard.core.localization.Localization
-import com.faltenreich.diaguard.core.localization.format
+import com.faltenreich.diaguard.core.localization.NumberFormatter
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateTimeConstants
@@ -21,6 +21,7 @@ import kotlinx.datetime.format.char
 
 class KotlinxDateTimeFormatter(
     private val localization: Localization,
+    private val numberFormatter: NumberFormatter,
     private val dateTimePlatformApi: DateTimePlatformApi,
 ) : DateTimeFormatter, DateTimePlatformApi by dateTimePlatformApi {
 
@@ -82,20 +83,17 @@ class KotlinxDateTimeFormatter(
     }
 
     override fun formatDayOfMonth(date: Date): String {
-        return "%02d".format(date.dayOfMonth)
+        return numberFormatter.invoke(date.dayOfMonth, width = 2, padZeroes = true)
     }
 
     override fun formatMonth(month: Month, abbreviated: Boolean): String {
-        return month.run { localization.getString(if (abbreviated) abbreviation else label) }
+        return localization.getString(if (abbreviated) month.abbreviation else month.label)
     }
 
     override fun formatMonthOfYear(monthOfYear: MonthOfYear, abbreviated: Boolean): String {
-        return monthOfYear.run {
-            "%s %04d".format(
-                formatMonth(month, abbreviated = abbreviated),
-                year,
-            )
-        }
+        val month = formatMonth(monthOfYear.month, abbreviated = abbreviated)
+        val year = numberFormatter(monthOfYear.year, width = 4, padZeroes = true)
+        return "$month $year"
     }
 
     override fun formatQuarter(date: Date): String {

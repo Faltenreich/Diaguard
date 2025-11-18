@@ -16,4 +16,12 @@ actual class NumberFormatter(private val localization: Localization) {
         format.maximumFractionDigits = scale
         return format.format(number)
     }
+
+    actual operator fun invoke(
+        number: Int,
+        width: Int,
+        padZeroes: Boolean,
+    ): String {
+        return "%${if (padZeroes) "0" else ""}${width}d".format(number)
+    }
 }

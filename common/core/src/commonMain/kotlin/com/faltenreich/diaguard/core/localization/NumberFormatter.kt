@@ -6,4 +6,10 @@ expect class NumberFormatter constructor() {
         number: Double,
         scale: Int,
     ): String
+
+    operator fun invoke(
+        number: Int,
+        width: Int,
+        padZeroes: Boolean,
+    ): String
 }

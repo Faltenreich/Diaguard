@@ -1,16 +1,16 @@
 package com.faltenreich.diaguard.statistic.distribution
 
+import com.faltenreich.diaguard.core.localization.Localization
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
-import com.faltenreich.diaguard.core.localization.Localization
-import com.faltenreich.diaguard.core.localization.format
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.no_entries
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlin.math.round
 
 class GetStatisticDistributionUseCase(
     private val valueRepository: MeasurementValueRepository,
@@ -80,8 +80,9 @@ class GetStatisticDistributionUseCase(
     ): StatisticDistributionState.Part? {
         if (count == 0f) return null
         val percentage = if (totalCount > 0f) count / totalCount else 1f
+        val label = round(percentage * 100f).toInt().toString()
         return StatisticDistributionState.Part(
-            label = "%.0f %%".format((percentage) * 100f),
+            label = label,
             percentage = percentage,
             tint = tint,
         )

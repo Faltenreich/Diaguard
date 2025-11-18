@@ -1,14 +1,13 @@
 package com.faltenreich.diaguard.food.eaten.list
 
+import com.faltenreich.diaguard.core.localization.Localization
+import com.faltenreich.diaguard.core.localization.NumberFormatter
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.core.localization.Localization
-import com.faltenreich.diaguard.core.localization.NumberFormatter
-import com.faltenreich.diaguard.core.localization.format
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.grams_abbreviation
 import kotlinx.coroutines.flow.Flow
@@ -28,16 +27,16 @@ class GetFoodEatenForFoodUseCase(
             getPreference(DecimalPlacesPreference),
         ) { foodList, decimalPlaces ->
             foodList.map { food ->
+                val amountInGrams = numberFoodEaten(
+                    number = food.amountInGrams,
+                    scale = decimalPlaces,
+                )
+                val gramsAbbreviation = localization.getString(Res.string.grams_abbreviation)
+
                 FoodEaten.Localized(
                     local = food,
                     dateTime = dateTimeFormatter.formatDateTime(food.entry.dateTime),
-                    amountInGrams = "%s %s".format(
-                        numberFoodEaten(
-                            number = food.amountInGrams,
-                            scale = decimalPlaces,
-                        ),
-                        localization.getString(Res.string.grams_abbreviation),
-                    )
+                    amountInGrams = "$amountInGrams $gramsAbbreviation"
                 )
             }
         }

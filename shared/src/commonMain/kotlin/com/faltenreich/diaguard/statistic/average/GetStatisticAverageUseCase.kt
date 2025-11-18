@@ -6,7 +6,6 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.core.localization.format
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
@@ -39,14 +38,13 @@ class GetStatisticAverageUseCase(
                 property = property,
                 countPerDay = countPerDay.toString(),
                 value = average?.let {
-                    "%s %s".format(
-                        mapValue(
-                            value = average,
-                            property = property,
-                            decimalPlaces = decimalPlaces,
-                        ).value,
-                        property.unit.abbreviation,
-                    )
+                    val value = mapValue(
+                        value = average,
+                        property = property,
+                        decimalPlaces = decimalPlaces,
+                    ).value
+                    val unit = property.unit.abbreviation
+                    "$value $unit"
                 },
             )
         }

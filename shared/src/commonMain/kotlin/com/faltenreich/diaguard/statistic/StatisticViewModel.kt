@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.statistic
 
+import com.faltenreich.diaguard.core.localization.Localization
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
@@ -10,8 +11,6 @@ import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasuremen
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.core.localization.Localization
-import com.faltenreich.diaguard.core.localization.format
 import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
 import com.faltenreich.diaguard.statistic.category.StatisticCategoryState
 import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeState
@@ -66,18 +65,20 @@ class StatisticViewModel(
             type = dateRangeType.value,
             dateRange = dateRange,
             title = when (dateRangeType.value) {
-                StatisticDateRangeType.WEEK -> "%s %s".format(
-                    localization.getString(Res.string.week),
-                    dateTimeFormatter.formatWeek(dateRange.start),
-                )
+                StatisticDateRangeType.WEEK -> {
+                    val label = localization.getString(Res.string.week)
+                    val week = dateTimeFormatter.formatWeek(dateRange.start)
+                    "$label $week"
+                }
                 StatisticDateRangeType.MONTH -> dateTimeFormatter.formatMonth(
                     month = dateRange.start.month,
                     abbreviated = false,
                 )
-                StatisticDateRangeType.QUARTER -> "%s %s".format(
-                    localization.getString(Res.string.quarter),
-                    dateTimeFormatter.formatQuarter(dateRange.start),
-                )
+                StatisticDateRangeType.QUARTER -> {
+                    val label = localization.getString(Res.string.quarter)
+                    val quarter = dateTimeFormatter.formatQuarter(dateRange.start)
+                    "$label $quarter"
+                }
                 StatisticDateRangeType.YEAR -> dateTimeFormatter.formatYear(dateRange.start)
             },
             subtitle = dateTimeFormatter.formatDateRange(dateRange),

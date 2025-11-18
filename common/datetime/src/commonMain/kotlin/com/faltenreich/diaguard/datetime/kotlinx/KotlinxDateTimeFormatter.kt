@@ -11,7 +11,11 @@ import com.faltenreich.diaguard.datetime.MonthOfYear
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import diaguard.common.datetime.generated.resources.*
+import diaguard.common.datetime.generated.resources.Res
+import diaguard.common.datetime.generated.resources.date_time_ago_days
+import diaguard.common.datetime.generated.resources.date_time_ago_hours
+import diaguard.common.datetime.generated.resources.date_time_ago_minutes
+import diaguard.common.datetime.generated.resources.date_time_ago_moments
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.format.char
 
@@ -62,21 +66,11 @@ class KotlinxDateTimeFormatter(
     }
 
     override fun formatDateRange(dateRange: ClosedRange<Date>): String {
-        return dateRange.run {
-            "%s - %s".format(
-                formatDate(start),
-                formatDate(endInclusive),
-            )
-        }
+        return "${formatDate(dateRange.start)} - ${formatDate(dateRange.endInclusive)}"
     }
 
     override fun formatDateTime(dateTime: DateTime): String {
-        return dateTime.run {
-            "%s %s".format(
-                formatDate(date),
-                formatTime(time),
-            )
-        }
+        return "${formatDate(dateTime.date)} ${formatTime(dateTime.time)}"
     }
 
     override fun formatWeek(date: Date): String {

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.datetime.kotlinx
 
-import com.faltenreich.diaguard.core.localization.format
 import com.faltenreich.diaguard.core.serialization.ObjectInputStream
 import com.faltenreich.diaguard.core.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.datetime.Date
@@ -107,10 +106,7 @@ class KotlinxDateTime(private var delegate: LocalDateTime) : DateTime {
     }
 
     override fun toString(): String {
-        return "%s %s".format(
-            date.toString(),
-            time.toString(),
-        )
+        return "$date $time"
     }
 
     override fun readObject(inputStream: ObjectInputStream) {

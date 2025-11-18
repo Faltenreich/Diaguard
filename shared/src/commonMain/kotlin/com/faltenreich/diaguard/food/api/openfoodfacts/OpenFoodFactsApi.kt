@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.food.api.openfoodfacts
 
+import com.faltenreich.diaguard.core.localization.Localization
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.shared.data.PagingPage
-import com.faltenreich.diaguard.core.localization.Localization
 import com.faltenreich.diaguard.shared.logging.Logger
 import com.faltenreich.diaguard.shared.networking.NetworkingClient
 import com.faltenreich.diaguard.shared.networking.NetworkingRequest
-import com.faltenreich.diaguard.core.localization.format
 import com.faltenreich.diaguard.shared.serialization.Serialization
 
 class OpenFoodFactsApi(
@@ -21,7 +20,7 @@ class OpenFoodFactsApi(
         val locale = localization.getLocale()
 
         val request = NetworkingRequest(
-            host = "%s-%s.openfoodfacts.org".format(locale.region, locale.language),
+            host = "${locale.region}-${locale.language}.openfoodfacts.org",
             path = "cgi/search.pl",
             arguments = mapOf(
                 "search_terms" to (query ?: ""),

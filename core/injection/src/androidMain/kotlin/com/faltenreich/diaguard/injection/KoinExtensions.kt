@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.localization.di
+package com.faltenreich.diaguard.injection
 
 import android.app.Activity
 import org.koin.core.error.NoDefinitionFoundException

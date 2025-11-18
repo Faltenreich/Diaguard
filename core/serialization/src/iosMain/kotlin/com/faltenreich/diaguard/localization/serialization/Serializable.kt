@@ -1,3 +1,0 @@
-package com.faltenreich.diaguard.localization.serialization
-
-actual interface Serializable

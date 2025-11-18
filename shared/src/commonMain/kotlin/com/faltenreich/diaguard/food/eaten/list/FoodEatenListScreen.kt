@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import com.faltenreich.diaguard.AppTheme
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.localization.di.viewModel
+import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen

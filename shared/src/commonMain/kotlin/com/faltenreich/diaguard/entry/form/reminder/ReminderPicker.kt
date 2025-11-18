@@ -25,7 +25,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.localization.di.inject
+import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.preview.AppPreview

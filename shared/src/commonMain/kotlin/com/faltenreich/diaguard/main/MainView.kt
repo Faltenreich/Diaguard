@@ -28,9 +28,9 @@ import com.faltenreich.diaguard.export.form.ExportFormScreen
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
-import com.faltenreich.diaguard.localization.di.LocalSharedViewModelStoreOwner
-import com.faltenreich.diaguard.localization.di.rememberViewModelStoreOwner
-import com.faltenreich.diaguard.localization.di.viewModel
+import com.faltenreich.diaguard.injection.LocalSharedViewModelStoreOwner
+import com.faltenreich.diaguard.injection.rememberViewModelStoreOwner
+import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.main.menu.MainMenu
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen

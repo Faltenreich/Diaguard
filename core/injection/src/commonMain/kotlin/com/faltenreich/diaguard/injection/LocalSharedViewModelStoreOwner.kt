@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.localization.di
+package com.faltenreich.diaguard.injection
 
 import androidx.compose.runtime.compositionLocalOf
 import androidx.lifecycle.ViewModelStoreOwner

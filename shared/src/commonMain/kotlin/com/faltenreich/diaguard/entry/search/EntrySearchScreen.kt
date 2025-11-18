@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.faltenreich.diaguard.localization.di.viewModel
+import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen

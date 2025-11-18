@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.dao
 
 import app.cash.sqldelight.Transacter
-import com.faltenreich.diaguard.localization.di.inject
+import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.database.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.database.sqldelight.SqlDelightDatabase
 

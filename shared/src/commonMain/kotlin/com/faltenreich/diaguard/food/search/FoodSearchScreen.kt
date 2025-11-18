@@ -17,8 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.localization.di.sharedViewModel
-import com.faltenreich.diaguard.localization.di.viewModel
+import com.faltenreich.diaguard.injection.sharedViewModel
+import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle

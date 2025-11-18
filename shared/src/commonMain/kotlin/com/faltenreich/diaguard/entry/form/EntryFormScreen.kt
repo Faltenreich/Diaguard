@@ -9,8 +9,8 @@ import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.search.FoodSelectionEvent
 import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
-import com.faltenreich.diaguard.localization.di.sharedViewModel
-import com.faltenreich.diaguard.localization.di.viewModel
+import com.faltenreich.diaguard.injection.sharedViewModel
+import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle

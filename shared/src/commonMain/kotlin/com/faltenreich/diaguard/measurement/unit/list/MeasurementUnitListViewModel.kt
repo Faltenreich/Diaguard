@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.measurement.unit.usecase.StoreMeasurementUnitUse
 import com.faltenreich.diaguard.measurement.unit.usecase.ValidateMeasurementUnitUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.shared.architecture.ViewModel
-import com.faltenreich.diaguard.localization.di.inject
+import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine

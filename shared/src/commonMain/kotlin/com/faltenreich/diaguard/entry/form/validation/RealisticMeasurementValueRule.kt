@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.entry.form.validation
 
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
-import com.faltenreich.diaguard.localization.di.inject
+import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.shared.validation.ValidationRule

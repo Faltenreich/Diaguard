@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.localization.di
+package com.faltenreich.diaguard.injection
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get

@@ -1,6 +1,6 @@
 @file:JvmName("ViewModelExtensionsCommon")
 
-package com.faltenreich.diaguard.localization.di
+package com.faltenreich.diaguard.injection
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel

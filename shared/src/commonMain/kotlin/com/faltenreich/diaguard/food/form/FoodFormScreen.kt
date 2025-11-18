@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.food.form
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.localization.di.viewModel
+import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle

@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.datetime
 
-import com.faltenreich.diaguard.localization.serialization.ObjectInputStream
-import com.faltenreich.diaguard.localization.serialization.ObjectOutputStream
-import com.faltenreich.diaguard.localization.serialization.Serializable
+import com.faltenreich.diaguard.serialization.ObjectInputStream
+import com.faltenreich.diaguard.serialization.ObjectOutputStream
+import com.faltenreich.diaguard.serialization.Serializable
 
 interface Date : Serializable, Comparable<Date> {
 

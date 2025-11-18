@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.measurement.category.list
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.localization.di.viewModel
+import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.shared.file
 
-import com.faltenreich.diaguard.localization.di.inject
+import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.localization.Localization
 
 class ResourceFileReader(

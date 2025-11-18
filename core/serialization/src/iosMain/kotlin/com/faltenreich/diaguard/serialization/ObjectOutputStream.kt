@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.localization.serialization
+package com.faltenreich.diaguard.serialization
 
 actual class ObjectOutputStream {
 

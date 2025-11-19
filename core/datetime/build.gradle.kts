@@ -22,13 +22,3 @@ kotlin {
         }
     }
 }
-
-android {
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-    }
-}
-
-dependencies {
-    coreLibraryDesugaring(libs.android.desugar)
-}

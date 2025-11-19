@@ -17,4 +17,11 @@ android {
     val appCompileSdk: Int by rootProject.extra
     namespace = appNamespace
     compileSdk = appCompileSdk
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring(libs.android.desugar)
 }

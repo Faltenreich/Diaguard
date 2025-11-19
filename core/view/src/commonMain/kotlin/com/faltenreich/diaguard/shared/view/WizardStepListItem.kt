@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.completed
 import diaguard.shared.generated.resources.ic_check
@@ -78,7 +77,7 @@ enum class WizardStepState {
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() {
     WizardStepListItem(
         index = 0,
         label = "Label",

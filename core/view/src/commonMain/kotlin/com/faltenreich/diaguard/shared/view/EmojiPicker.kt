@@ -4,7 +4,6 @@ package com.faltenreich.diaguard.shared.view
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.jvm.JvmName
 
@@ -18,7 +17,7 @@ expect fun EmojiPicker(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() {
     EmojiPicker(
         onEmojiPick = {},
         columns = 4,

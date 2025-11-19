@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -54,7 +53,7 @@ fun DropdownButton(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() {
     DropdownButton(
         text = "Text",
         items = emptyList(),

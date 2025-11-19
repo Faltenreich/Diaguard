@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+
 pluginManagement {
     repositories {
         google()
@@ -29,4 +30,5 @@ include(
     ":core:database",
     ":core:datetime",
     ":core:serialization",
+    ":core:view",
 )

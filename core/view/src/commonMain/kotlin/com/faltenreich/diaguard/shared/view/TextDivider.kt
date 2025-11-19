@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -27,6 +26,6 @@ fun TextDivider(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() {
     TextDivider(label = "Label")
 }

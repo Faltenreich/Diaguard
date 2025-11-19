@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -36,6 +35,6 @@ fun Modifier.skeleton(show: Boolean): Modifier {
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() {
     Skeleton()
 }

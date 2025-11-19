@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_add
 import kotlinx.coroutines.launch
@@ -59,7 +58,7 @@ fun FloatingActionButton(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() {
     FloatingActionButton(
         painter = painterResource(Res.drawable.ic_add),
         contentDescription = "",

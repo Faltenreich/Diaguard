@@ -4,7 +4,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.clear_input
 import diaguard.shared.generated.resources.ic_clear
@@ -30,6 +29,6 @@ fun ClearButton(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() {
     ClearButton(onClick = {})
 }

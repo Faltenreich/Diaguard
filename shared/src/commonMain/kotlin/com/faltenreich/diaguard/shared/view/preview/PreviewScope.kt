@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.tag.Tag
+import kotlin.toString
 
 class PreviewScope(
     dateTimeFactory: DateTimeFactory,

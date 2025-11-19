@@ -34,7 +34,6 @@ import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ingredients
 import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.nutrients_per_100g
-import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

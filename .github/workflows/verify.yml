@@ -13,7 +13,9 @@ concurrency:
 
 jobs:
   android:
-    runs-on: macos-latest
+    # macos-latest defaults to Arm64 which is currently incompatible with reactivecircus/android-emulator-runner
+    # see https://github.com/ReactiveCircus/android-emulator-runner/issues/453
+    runs-on: macos-15
     timeout-minutes: 60
     strategy:
       fail-fast: false

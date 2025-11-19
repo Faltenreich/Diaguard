@@ -5,6 +5,10 @@ plugins {
     id("com.android.library")
 }
 
+val appNamespace: String by rootProject.extra
+val appCompileSdk: Int by rootProject.extra
+val javaVersion: Int by rootProject.extra
+
 kotlin {
     androidTarget()
 
@@ -42,10 +46,10 @@ kotlin {
         }
     }
 
-    // jvmToolchain(Constants.JavaVersion)
+    jvmToolchain(javaVersion)
 }
 
 android {
-    // namespace = Constants.NameSpace
-    // compileSdk = Constants.CompileSdk
+    namespace = appNamespace
+    compileSdk = appCompileSdk
 }

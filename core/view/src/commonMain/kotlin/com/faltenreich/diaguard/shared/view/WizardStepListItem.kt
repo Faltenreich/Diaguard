@@ -15,9 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.completed
-import diaguard.shared.generated.resources.ic_check
+import diaguard.core.view.generated.resources.Res
+import diaguard.core.view.generated.resources.completed
+import diaguard.core.view.generated.resources.ic_check
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

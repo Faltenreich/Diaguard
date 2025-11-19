@@ -30,7 +30,7 @@ import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.brand
 import diaguard.shared.generated.resources.ic_brand
 import diaguard.shared.generated.resources.ic_food
-import diaguard.shared.generated.resources.ic_note
+import diaguard.core.view.generated.resources.ic_note
 import diaguard.shared.generated.resources.ingredients
 import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.nutrients_per_100g
@@ -92,7 +92,7 @@ fun FoodForm(
 
                 Divider()
 
-                FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
+                FormRow(icon = { ResourceIcon(diaguard.core.view.generated.resources.Res.drawable.ic_note) }) {
                     TextInput(
                         input = ingredients,
                         onInputChange = { input ->

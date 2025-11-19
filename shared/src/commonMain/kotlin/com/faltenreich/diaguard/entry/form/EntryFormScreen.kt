@@ -16,11 +16,11 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
+import diaguard.core.view.generated.resources.ic_check
+import diaguard.core.view.generated.resources.ic_clear
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry
 import diaguard.shared.generated.resources.entry_delete
-import diaguard.shared.generated.resources.ic_check
-import diaguard.shared.generated.resources.ic_clear
 import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.save
 import kotlinx.serialization.Serializable
@@ -76,8 +76,8 @@ data class EntryFormScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     painter = painterResource(
-                        if (hasError) Res.drawable.ic_clear
-                        else Res.drawable.ic_check
+                        if (hasError) diaguard.core.view.generated.resources.Res.drawable.ic_clear
+                        else diaguard.core.view.generated.resources.Res.drawable.ic_check
                     ),
                     contentDescription = stringResource(Res.string.save),
                     onClick = { viewModel.dispatchIntent(EntryFormIntent.Submit) },

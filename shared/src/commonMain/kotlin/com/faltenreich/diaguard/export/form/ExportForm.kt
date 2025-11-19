@@ -26,12 +26,12 @@ import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextCheckbox
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import diaguard.core.view.generated.resources.ic_note
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.data
 import diaguard.shared.generated.resources.date_range_picker_open
 import diaguard.shared.generated.resources.days_without_entries
 import diaguard.shared.generated.resources.ic_document
-import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ic_skip
 import diaguard.shared.generated.resources.ic_tag
 import diaguard.shared.generated.resources.ic_time
@@ -109,7 +109,7 @@ fun ExportForm(
         TextDivider(stringResource(Res.string.data))
 
         FormRow(
-            icon = { ResourceIcon(Res.drawable.ic_note) },
+            icon = { ResourceIcon(diaguard.core.view.generated.resources.Res.drawable.ic_note) },
             modifier = Modifier.toggleable(
                 value = state.content.includeNotes,
                 role = Role.Checkbox,

@@ -14,8 +14,8 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
+import diaguard.core.view.generated.resources.ic_check
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.ic_check
 import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.measurement_property
 import diaguard.shared.generated.resources.measurement_property_delete
@@ -63,7 +63,7 @@ data class MeasurementPropertyFormScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    painter = painterResource(Res.drawable.ic_check),
+                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_check),
                     contentDescription = stringResource(Res.string.save),
                     onClick = { viewModel.dispatchIntent(MeasurementPropertyFormIntent.Submit) },
                 )

@@ -19,8 +19,8 @@ import com.faltenreich.diaguard.shared.view.Divider
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.measurement_properties
 import diaguard.shared.generated.resources.measurement_property_add
 import org.jetbrains.compose.resources.stringResource
@@ -66,7 +66,7 @@ fun MeasurementPropertyList(
                 label = { Text(stringResource(Res.string.measurement_property_add)) },
                 icon = {
                     ResourceIcon(
-                        icon = Res.drawable.ic_add,
+                        icon = diaguard.core.view.generated.resources.Res.drawable.ic_add,
                         modifier = Modifier.size(InputChipDefaults.AvatarSize),
                     )
                 },

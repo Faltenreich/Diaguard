@@ -53,7 +53,7 @@ import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.ic_arrow_back
+import diaguard.core.view.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.navigate_back
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -115,7 +115,7 @@ fun MainView(
                         if (navController.previousBackStackEntry != null) {
                             IconButton(onClick = { viewModel.dispatchIntent(MainIntent.PopScreen) }) {
                                 Icon(
-                                    painter = painterResource(Res.drawable.ic_arrow_back),
+                                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_arrow_back),
                                     contentDescription = stringResource(Res.string.navigate_back),
                                 )
                             }

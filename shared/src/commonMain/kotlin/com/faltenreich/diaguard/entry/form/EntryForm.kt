@@ -42,10 +42,10 @@ import com.faltenreich.diaguard.shared.view.FormRow
 import com.faltenreich.diaguard.shared.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import diaguard.core.view.generated.resources.ic_clear
+import diaguard.core.view.generated.resources.ic_note
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_alarm
-import diaguard.shared.generated.resources.ic_clear
-import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ic_tag
 import diaguard.shared.generated.resources.ic_time
 import diaguard.shared.generated.resources.note
@@ -127,7 +127,7 @@ fun EntryForm(
                         ),
                     trailingIcon = { tag ->
                         ResourceIcon(
-                            icon = Res.drawable.ic_clear,
+                            icon = diaguard.core.view.generated.resources.Res.drawable.ic_clear,
                             contentDescription = stringResource(Res.string.tag_remove_description, tag.name),
                             modifier = Modifier.size(InputChipDefaults.AvatarSize),
                         )
@@ -137,7 +137,7 @@ fun EntryForm(
 
             Divider()
 
-            FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
+            FormRow(icon = { ResourceIcon(diaguard.core.view.generated.resources.Res.drawable.ic_note) }) {
                 TextInput(
                     input = note,
                     onInputChange = { input ->

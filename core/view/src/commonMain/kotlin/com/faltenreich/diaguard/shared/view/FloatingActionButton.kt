@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.ic_add
+import diaguard.core.view.generated.resources.Res
+import diaguard.core.view.generated.resources.ic_add
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

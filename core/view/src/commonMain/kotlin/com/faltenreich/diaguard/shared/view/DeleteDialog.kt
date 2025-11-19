@@ -5,11 +5,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.AppTheme
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.cancel
-import diaguard.shared.generated.resources.delete
-import diaguard.shared.generated.resources.delete_description
-import diaguard.shared.generated.resources.delete_title
+import diaguard.core.view.generated.resources.Res
+import diaguard.core.view.generated.resources.cancel
+import diaguard.core.view.generated.resources.delete
+import diaguard.core.view.generated.resources.delete_description
+import diaguard.core.view.generated.resources.delete_title
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

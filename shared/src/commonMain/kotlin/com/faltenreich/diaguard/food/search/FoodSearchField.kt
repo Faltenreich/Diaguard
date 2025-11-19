@@ -11,9 +11,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import com.faltenreich.diaguard.shared.view.ClearButton
 import com.faltenreich.diaguard.shared.view.SearchField
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import diaguard.core.view.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_search_prompt
-import diaguard.shared.generated.resources.ic_arrow_back
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -33,7 +33,7 @@ fun FoodSearchField(
         leadingIcon = {
             IconButton(onClick = popScreen) {
                 Icon(
-                    painter = painterResource(Res.drawable.ic_arrow_back),
+                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_arrow_back),
                     contentDescription = null,
                 )
             }

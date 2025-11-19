@@ -35,12 +35,12 @@ import com.faltenreich.diaguard.shared.view.NoticeBarStyle
 import com.faltenreich.diaguard.shared.view.TextDivider
 import com.faltenreich.diaguard.shared.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import diaguard.core.view.generated.resources.ic_check
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.aggregation_style
 import diaguard.shared.generated.resources.aggregation_style_description
 import diaguard.shared.generated.resources.delete_error_pre_defined
 import diaguard.shared.generated.resources.delete_title
-import diaguard.shared.generated.resources.ic_check
 import diaguard.shared.generated.resources.measurement_property_missing_input
 import diaguard.shared.generated.resources.measurement_unit
 import diaguard.shared.generated.resources.measurement_unit_select
@@ -164,7 +164,7 @@ private fun UnitList(
                     }
                     AnimatedVisibility(visible = item.isSelected) {
                         Icon(
-                            painter = painterResource(Res.drawable.ic_check),
+                            painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_check),
                             contentDescription = stringResource(
                                 Res.string.measurement_unit_selected_description
                             ),

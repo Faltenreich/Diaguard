@@ -8,10 +8,10 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.shared.view.FloatingActionButton
+import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.app_name
 import diaguard.shared.generated.resources.entry_new_description
-import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
 import kotlinx.serialization.Serializable
@@ -41,7 +41,7 @@ data object DashboardScreen : Screen {
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    painter = painterResource(Res.drawable.ic_add),
+                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_add),
                     contentDescription = stringResource(Res.string.entry_new_description),
                     onClick = { viewModel.dispatchIntent(DashboardIntent.CreateEntry) },
                 )

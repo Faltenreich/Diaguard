@@ -33,5 +33,4 @@ kotlin {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "diaguard.shared.generated.resources"
 }

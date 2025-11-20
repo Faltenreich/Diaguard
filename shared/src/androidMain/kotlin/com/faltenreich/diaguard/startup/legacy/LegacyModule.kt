@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.startup.legacy
 
-import com.faltenreich.diaguard.shared.keyvalue.KEY_VALUE_STORE_LEGACY
+import com.faltenreich.diaguard.persistence.keyvalue.KEY_VALUE_STORE_LEGACY
 import com.faltenreich.diaguard.startup.legacy.query.EntryLegacyQueries
 import com.faltenreich.diaguard.startup.legacy.query.EntryTagLegacyQueries
 import com.faltenreich.diaguard.startup.legacy.query.FoodEatenLegacyQueries

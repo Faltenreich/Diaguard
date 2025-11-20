@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.entry.form.reminder
 
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
-import com.faltenreich.diaguard.shared.keyvalue.read
+import com.faltenreich.diaguard.persistence.keyvalue.KeyValueStore
+import com.faltenreich.diaguard.persistence.keyvalue.read
 import com.faltenreich.diaguard.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.preference_alarm_start

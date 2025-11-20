@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.keyvalue
+package com.faltenreich.diaguard.persistence.keyvalue
 
 import org.koin.dsl.module
 

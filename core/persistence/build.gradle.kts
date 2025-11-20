@@ -9,12 +9,25 @@ kotlin {
             dependencies {
                 implementation(project(":core:logging"))
                 implementation(libs.sqldelight.coroutines)
+                implementation(libs.datastore)
             }
         }
         androidMain {
             dependencies {
+                implementation(libs.androidx.preferences)
                 implementation(libs.sqldelight.android)
                 implementation(libs.sqldelight.jvm)
+            }
+        }
+        @Suppress("unused")
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(libs.junit)
+                implementation(libs.androidx.test.runner)
+                implementation(libs.androidx.test.junit)
+                implementation(libs.androidx.test.junit.ktx)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.turbine)
             }
         }
     }

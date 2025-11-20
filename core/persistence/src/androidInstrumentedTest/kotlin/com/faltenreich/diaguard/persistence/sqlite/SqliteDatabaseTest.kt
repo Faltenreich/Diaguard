@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.database.sqlite
+package com.faltenreich.diaguard.persistence.sqlite
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.faltenreich.diaguard.shared.test.FileFactory

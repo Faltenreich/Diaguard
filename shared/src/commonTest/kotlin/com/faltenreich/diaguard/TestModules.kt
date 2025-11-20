@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.shared.config.FakeBuildConfig
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
 import com.faltenreich.diaguard.shared.file.SystemFileReader
 import com.faltenreich.diaguard.shared.keyvalue.FakeKeyValueStore
-import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
+import com.faltenreich.diaguard.persistence.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.shared.localization.FakeLocalization
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.logging.ConsoleLogger

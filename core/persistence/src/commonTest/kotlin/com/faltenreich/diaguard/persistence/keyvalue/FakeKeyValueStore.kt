@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.keyvalue
+package com.faltenreich.diaguard.persistence.keyvalue
 
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.snapshots.SnapshotStateMap

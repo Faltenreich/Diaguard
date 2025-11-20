@@ -10,8 +10,8 @@ import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.version.VersionCodePreference
-import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
-import com.faltenreich.diaguard.shared.keyvalue.read
+import com.faltenreich.diaguard.persistence.keyvalue.KeyValueStore
+import com.faltenreich.diaguard.persistence.keyvalue.read
 import kotlinx.coroutines.flow.first
 
 class KeyValueLegacyQueries(

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.window
 
 import android.app.Activity
 import androidx.core.view.WindowCompat

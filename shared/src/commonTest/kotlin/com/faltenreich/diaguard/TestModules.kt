@@ -23,7 +23,7 @@ import com.faltenreich.diaguard.serialization.Serialization
 import com.faltenreich.diaguard.shared.system.FakeSystemSettings
 import com.faltenreich.diaguard.shared.system.SystemSettings
 import com.faltenreich.diaguard.view.FakeWindowController
-import com.faltenreich.diaguard.view.WindowController
+import com.faltenreich.diaguard.view.window.WindowController
 import com.faltenreich.diaguard.startup.legacy.FakeLegacyDao
 import com.faltenreich.diaguard.startup.legacy.LegacyDao
 import com.faltenreich.diaguard.startup.seed.query.food.FoodSeedQueries

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.window
 
 import com.faltenreich.diaguard.injection.androidActivity
 import org.koin.dsl.module

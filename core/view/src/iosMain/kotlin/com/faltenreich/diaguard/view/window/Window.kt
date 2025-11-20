@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.window
 
 import androidx.compose.ui.Modifier
 

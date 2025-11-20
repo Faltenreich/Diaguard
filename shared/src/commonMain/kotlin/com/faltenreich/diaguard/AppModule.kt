@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.statistic.statisticModule
 import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
-import com.faltenreich.diaguard.view.windowModule
+import com.faltenreich.diaguard.view.window.windowModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module

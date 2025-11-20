@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.main.MainView
 import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.shared.notification.Shortcut
-import com.faltenreich.diaguard.view.keyboardPadding
+import com.faltenreich.diaguard.view.window.keyboardPadding
 import com.faltenreich.diaguard.startup.StartupView
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview

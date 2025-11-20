@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.permission
+package com.faltenreich.diaguard.permission
 
 class HasPermissionUseCase(
     private val permissionManager: PermissionManager,

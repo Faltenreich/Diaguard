@@ -7,9 +7,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.faltenreich.diaguard.permission.AndroidPermissionManager
 import com.faltenreich.diaguard.shared.notification.Shortcut
 import com.faltenreich.diaguard.shared.notification.forAction
-import com.faltenreich.diaguard.shared.permission.AndroidPermissionManager
 import org.koin.android.ext.android.inject
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
@@ -32,8 +32,8 @@ class MainActivity : ComponentActivity() {
         permissionManager.bind(this)
 
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.Companion.dark(Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.Companion.dark(Color.TRANSPARENT),
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
         )
 
         val shortcut = intent?.action?.let(Shortcut::forAction)

@@ -1,6 +1,6 @@
 @file:JvmName("PlatformPermissionModule")
 
-package com.faltenreich.diaguard.shared.permission
+package com.faltenreich.diaguard.permission
 
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind

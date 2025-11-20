@@ -7,6 +7,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":core:logging"))
                 implementation(libs.sqldelight.coroutines)
             }
         }

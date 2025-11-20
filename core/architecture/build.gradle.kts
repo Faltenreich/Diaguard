@@ -8,6 +8,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":core:injection"))
+                implementation(project(":core:logging"))
                 implementation(compose.foundation)
                 implementation(compose.components.resources)
                 implementation(project.dependencies.platform(libs.koin.bom))
@@ -15,7 +17,6 @@ kotlin {
                 implementation(libs.koin.compose)
                 implementation(libs.koin.compose.viewmodel)
                 implementation(libs.koin.viewmodel)
-                implementation(project(":core:injection"))
             }
             all {
                 languageSettings {

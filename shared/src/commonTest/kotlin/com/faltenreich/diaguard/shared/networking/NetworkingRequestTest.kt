@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.networking
 
+import com.faltenreich.diaguard.networking.NetworkingRequest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

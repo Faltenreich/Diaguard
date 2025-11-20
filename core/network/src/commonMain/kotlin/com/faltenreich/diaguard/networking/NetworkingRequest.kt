@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.networking
+package com.faltenreich.diaguard.networking
 
 import io.ktor.http.URLBuilder
 import io.ktor.http.URLProtocol

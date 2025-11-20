@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.navigation.system
 
-import com.faltenreich.diaguard.shared.networking.UrlOpener
+import com.faltenreich.diaguard.networking.UrlOpener
 
 class OpenUrlUseCase(private val urlOpener: UrlOpener) {
 

@@ -28,6 +28,7 @@ kotlin {
                 implementation(project(":core:injection"))
                 implementation(project(":core:localization"))
                 implementation(project(":core:logging"))
+                implementation(project(":core:network"))
                 implementation(project(":core:serialization"))
                 implementation(project(":core:view"))
                 implementation(libs.aboutlibraries.core)
@@ -73,7 +74,6 @@ kotlin {
                 implementation(libs.androidx.preferences)
                 implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.android)
-                implementation(libs.ktor.android)
                 implementation(libs.sqldelight.android)
                 implementation(libs.sqldelight.jvm)
             }

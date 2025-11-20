@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.networking.ktor
 
-import com.faltenreich.diaguard.shared.networking.NetworkingRequest
+import com.faltenreich.diaguard.networking.NetworkingRequest
+import com.faltenreich.diaguard.networking.ktor.KtorClient
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond

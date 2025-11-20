@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.shared.networking.ktor
+package com.faltenreich.diaguard.networking.ktor
 
-import com.faltenreich.diaguard.shared.networking.NetworkingClient
-import com.faltenreich.diaguard.shared.networking.NetworkingRequest
+import com.faltenreich.diaguard.networking.NetworkingClient
+import com.faltenreich.diaguard.networking.NetworkingRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation

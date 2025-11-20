@@ -5,8 +5,8 @@ import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.view.paging.PagingPage
 import com.faltenreich.diaguard.logging.Logger
-import com.faltenreich.diaguard.shared.networking.NetworkingClient
-import com.faltenreich.diaguard.shared.networking.NetworkingRequest
+import com.faltenreich.diaguard.networking.NetworkingClient
+import com.faltenreich.diaguard.networking.NetworkingRequest
 import com.faltenreich.diaguard.serialization.Serialization
 
 class OpenFoodFactsApi(

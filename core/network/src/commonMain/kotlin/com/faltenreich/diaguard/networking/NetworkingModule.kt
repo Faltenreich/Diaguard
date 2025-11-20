@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.shared.networking
+package com.faltenreich.diaguard.networking
 
-import com.faltenreich.diaguard.shared.networking.ktor.KtorClient
+import com.faltenreich.diaguard.networking.ktor.KtorClient
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 

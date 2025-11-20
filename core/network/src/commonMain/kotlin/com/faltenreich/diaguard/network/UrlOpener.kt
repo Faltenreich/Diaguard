@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.networking
+package com.faltenreich.diaguard.network
 
 expect class UrlOpener constructor() {
 

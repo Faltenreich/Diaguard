@@ -1,14 +1,14 @@
-package com.faltenreich.diaguard.shared.networking
+package com.faltenreich.diaguard.network
 
-import com.faltenreich.diaguard.networking.NetworkingRequest
+import com.faltenreich.diaguard.network.NetworkRequest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class NetworkingRequestTest {
+class NetworkRequestTest {
 
     @Test
     fun `generates url with host and path and arguments`() {
-        val request = NetworkingRequest(
+        val request = NetworkRequest(
             host = "HOST",
             path = "PATH SPACED",
             arguments = mapOf(

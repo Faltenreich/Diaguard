@@ -1,7 +1,5 @@
-package com.faltenreich.diaguard.networking.ktor
+package com.faltenreich.diaguard.network
 
-import com.faltenreich.diaguard.networking.NetworkingClient
-import com.faltenreich.diaguard.networking.NetworkingRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -13,11 +11,13 @@ import kotlin.time.Duration.Companion.seconds
 class KtorClient(
     private val client: HttpClient = HttpClient {
         install(ContentNegotiation) { json() }
-        install(HttpTimeout) { requestTimeoutMillis = TIMEOUT_IN_SECONDS.seconds.inWholeMilliseconds }
+        install(HttpTimeout) {
+            requestTimeoutMillis = TIMEOUT_IN_SECONDS.seconds.inWholeMilliseconds
+        }
     },
-): NetworkingClient {
+): NetworkClient {
 
-    override suspend fun request(request: NetworkingRequest): String {
+    override suspend fun request(request: NetworkRequest): String {
         val response = client.request(request.url())
         return response.bodyAsText()
     }

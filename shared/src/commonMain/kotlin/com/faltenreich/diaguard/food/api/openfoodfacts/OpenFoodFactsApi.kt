@@ -5,12 +5,12 @@ import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.view.paging.PagingPage
 import com.faltenreich.diaguard.logging.Logger
-import com.faltenreich.diaguard.networking.NetworkingClient
-import com.faltenreich.diaguard.networking.NetworkingRequest
+import com.faltenreich.diaguard.network.NetworkClient
+import com.faltenreich.diaguard.network.NetworkRequest
 import com.faltenreich.diaguard.serialization.Serialization
 
 class OpenFoodFactsApi(
-    private val client: NetworkingClient,
+    private val client: NetworkClient,
     private val localization: Localization,
     private val serialization: Serialization,
     private val mapper: OpenFoodFactsMapper,
@@ -19,7 +19,7 @@ class OpenFoodFactsApi(
     override suspend fun search(query: String?, page: PagingPage): List<FoodFromApi> {
         val locale = localization.getLocale()
 
-        val request = NetworkingRequest(
+        val request = NetworkRequest(
             host = "${locale.region}-${locale.language}.openfoodfacts.org",
             path = "cgi/search.pl",
             arguments = mapOf(

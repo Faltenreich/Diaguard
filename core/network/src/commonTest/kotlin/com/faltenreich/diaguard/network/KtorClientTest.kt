@@ -1,7 +1,5 @@
-package com.faltenreich.diaguard.shared.networking.ktor
+package com.faltenreich.diaguard.network
 
-import com.faltenreich.diaguard.networking.NetworkingRequest
-import com.faltenreich.diaguard.networking.ktor.KtorClient
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -16,11 +14,11 @@ class KtorClientTest {
     fun `responds with expected json`() = runBlocking {
         val json = """{"key":"value"}"""
 
-        val httpClientEngine = MockEngine { respond(content = ByteReadChannel(json)) }
+        val httpClientEngine = MockEngine.Companion { respond(content = ByteReadChannel(json)) }
         val httpClient = HttpClient(httpClientEngine)
 
         val client = KtorClient(httpClient)
-        val request = NetworkingRequest(host = "", path = "")
+        val request = NetworkRequest(host = "", path = "")
         val response = client.request(request)
 
         assertEquals(json, response)

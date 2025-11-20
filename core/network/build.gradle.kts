@@ -13,6 +13,11 @@ kotlin {
                 implementation(libs.ktor.serialization)
             }
         }
+        commonTest {
+            dependencies {
+                implementation(libs.ktor.mock)
+            }
+        }
         androidMain {
             dependencies {
                 implementation(libs.ktor.android)

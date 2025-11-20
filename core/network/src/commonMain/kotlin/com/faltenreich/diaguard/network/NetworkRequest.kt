@@ -1,10 +1,10 @@
-package com.faltenreich.diaguard.networking
+package com.faltenreich.diaguard.network
 
 import io.ktor.http.URLBuilder
 import io.ktor.http.URLProtocol
 import io.ktor.http.parameters
 
-data class NetworkingRequest(
+data class NetworkRequest(
     private val host: String,
     private val path: String,
     private val arguments: Map<String, String>? = null,

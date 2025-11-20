@@ -57,7 +57,7 @@ fun testModules() = module {
 
     single<FoodApi> {
         OpenFoodFactsApi(
-            client = { SystemFileReader("src/commonTest/resources/networking/openfoodfacts.json").read() },
+            client = { SystemFileReader("src/commonTest/resources/network/openfoodfacts.json").read() },
             localization = FakeLocalization(),
             serialization = Serialization(),
             mapper = OpenFoodFactsMapper(

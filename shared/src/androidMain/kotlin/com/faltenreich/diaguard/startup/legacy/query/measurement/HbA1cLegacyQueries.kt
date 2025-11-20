@@ -3,9 +3,9 @@ package com.faltenreich.diaguard.startup.legacy.query.measurement
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.database.sqlite.SqliteDatabase
-import com.faltenreich.diaguard.database.sqlite.getDouble
-import com.faltenreich.diaguard.database.sqlite.getLong
+import com.faltenreich.diaguard.persistence.sqlite.SqliteDatabase
+import com.faltenreich.diaguard.persistence.sqlite.getDouble
+import com.faltenreich.diaguard.persistence.sqlite.getLong
 import com.faltenreich.diaguard.startup.legacy.query.LegacyQueries
 
 class HbA1cLegacyQueries(

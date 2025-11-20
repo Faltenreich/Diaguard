@@ -29,9 +29,9 @@ include(
     ":core:injection",
     ":core:localization",
     ":core:logging",
-    ":core:database",
     ":core:datetime",
     ":core:network",
+    ":core:persistence",
     ":core:serialization",
     ":core:view",
 )

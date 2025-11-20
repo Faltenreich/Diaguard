@@ -4,7 +4,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.faltenreich.diaguard.datetime.DateTimeAndroidApi
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import com.faltenreich.diaguard.food.eaten.FoodEaten
-import com.faltenreich.diaguard.database.sqlite.SqliteDatabase
+import com.faltenreich.diaguard.persistence.sqlite.SqliteDatabase
 import com.faltenreich.diaguard.localization.ComposeLocalization
 import com.faltenreich.diaguard.shared.test.FileFactory
 import org.junit.Assert

@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.startup.legacy.query
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.database.sqlite.SqliteDatabase
-import com.faltenreich.diaguard.database.sqlite.getLong
-import com.faltenreich.diaguard.database.sqlite.getString
+import com.faltenreich.diaguard.persistence.sqlite.SqliteDatabase
+import com.faltenreich.diaguard.persistence.sqlite.getLong
+import com.faltenreich.diaguard.persistence.sqlite.getString
 import com.faltenreich.diaguard.tag.Tag
 
 class TagLegacyQueries(

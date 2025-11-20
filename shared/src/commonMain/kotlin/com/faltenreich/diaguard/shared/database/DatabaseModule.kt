@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.shared.database
 
-import com.faltenreich.diaguard.database.sqldelight.SqlDelightDatabase
-import com.faltenreich.diaguard.database.sqldelight.sqlDelightModule
-import com.faltenreich.diaguard.database.sqlite.sqliteModule
+import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDatabase
+import com.faltenreich.diaguard.persistence.sqldelight.sqlDelightModule
+import com.faltenreich.diaguard.persistence.sqlite.sqliteModule
 import com.faltenreich.diaguard.entry.EntryDao
 import com.faltenreich.diaguard.entry.tag.EntryTagDao
 import com.faltenreich.diaguard.food.FoodDao

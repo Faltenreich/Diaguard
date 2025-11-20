@@ -2,9 +2,9 @@ package com.faltenreich.diaguard.startup.legacy.query
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.eaten.FoodEaten
-import com.faltenreich.diaguard.database.sqlite.SqliteDatabase
-import com.faltenreich.diaguard.database.sqlite.getDouble
-import com.faltenreich.diaguard.database.sqlite.getLong
+import com.faltenreich.diaguard.persistence.sqlite.SqliteDatabase
+import com.faltenreich.diaguard.persistence.sqlite.getDouble
+import com.faltenreich.diaguard.persistence.sqlite.getLong
 
 class FoodEatenLegacyQueries(
     private val database: SqliteDatabase,

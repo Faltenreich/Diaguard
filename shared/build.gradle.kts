@@ -22,6 +22,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":core:architecture"))
                 implementation(project(":core:database"))
                 implementation(project(":core:datetime"))
                 implementation(project(":core:injection"))

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.architecture
+package com.faltenreich.diaguard.architecture
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State

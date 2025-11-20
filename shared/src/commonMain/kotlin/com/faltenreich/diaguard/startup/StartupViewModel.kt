@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.startup
 
-import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.architecture.ViewModel
 import kotlinx.coroutines.flow.emptyFlow
 
 class StartupViewModel(

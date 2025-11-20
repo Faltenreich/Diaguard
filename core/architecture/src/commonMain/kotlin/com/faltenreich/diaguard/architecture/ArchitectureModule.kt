@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.architecture
+package com.faltenreich.diaguard.architecture
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

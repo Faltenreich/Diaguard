@@ -1,6 +1,7 @@
-package com.faltenreich.diaguard.shared.architecture
+package com.faltenreich.diaguard.architecture
 
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.architecture.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest

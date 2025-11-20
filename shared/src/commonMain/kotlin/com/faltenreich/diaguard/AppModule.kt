@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
 import com.faltenreich.diaguard.preference.preferenceModule
 import com.faltenreich.diaguard.serialization.serializationModule
-import com.faltenreich.diaguard.shared.architecture.coroutineModule
+import com.faltenreich.diaguard.architecture.coroutineModule
 import com.faltenreich.diaguard.shared.config.configModule
 import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.shared.file.fileModule

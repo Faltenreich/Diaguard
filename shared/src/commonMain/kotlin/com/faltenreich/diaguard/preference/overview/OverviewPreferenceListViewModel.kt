@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.preference.decimal.IllustrateDecimalPlacesUseCas
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
-import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.architecture.ViewModel
 import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map

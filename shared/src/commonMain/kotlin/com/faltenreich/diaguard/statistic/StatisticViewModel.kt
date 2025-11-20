@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
-import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.architecture.ViewModel
 import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
 import com.faltenreich.diaguard.statistic.category.StatisticCategoryState
 import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeState

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference.license
 
-import com.faltenreich.diaguard.shared.architecture.ViewModel
+import com.faltenreich.diaguard.architecture.ViewModel
 import com.faltenreich.diaguard.shared.networking.UrlOpener
 import kotlinx.coroutines.flow.emptyFlow
 

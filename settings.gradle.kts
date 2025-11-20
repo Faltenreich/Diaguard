@@ -25,6 +25,7 @@ include(
     ":androidApp",
     ":shared",
     ":config:detekt",
+    ":core:architecture",
     ":core:injection",
     ":core:localization",
     ":core:database",

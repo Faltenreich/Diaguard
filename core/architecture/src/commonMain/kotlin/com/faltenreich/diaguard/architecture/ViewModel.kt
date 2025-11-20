@@ -1,9 +1,9 @@
-package com.faltenreich.diaguard.shared.architecture
+package com.faltenreich.diaguard.architecture
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.shared.logging.Logger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  */
 abstract class ViewModel<State, Intent, Event>(
     private val dispatcher: CoroutineDispatcher = inject(),
-) : androidx.lifecycle.ViewModel() {
+) : ViewModel() {
 
     val scope: CoroutineScope
         get() = viewModelScope
@@ -53,7 +53,7 @@ abstract class ViewModel<State, Intent, Event>(
             handleIntent(intent)
 
             intent?.let {
-                Logger.debug("Dispatched intent: ${intent::class.simpleName}")
+                // Logger.debug("Dispatched intent: ${intent::class.simpleName}")
             }
         }
     }
@@ -71,7 +71,7 @@ abstract class ViewModel<State, Intent, Event>(
             events.emit(event)
 
             event?.let {
-                Logger.debug("Posted event: ${event::class.simpleName}")
+                // Logger.debug("Posted event: ${event::class.simpleName}")
             }
         }
     }

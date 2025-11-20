@@ -8,8 +8,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import com.faltenreich.diaguard.shared.view.ClearButton
-import com.faltenreich.diaguard.shared.view.SearchField
+import com.faltenreich.diaguard.view.ClearButton
+import com.faltenreich.diaguard.view.SearchField
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.core.view.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.Res

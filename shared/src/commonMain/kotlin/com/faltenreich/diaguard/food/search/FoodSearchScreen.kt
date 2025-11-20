@@ -16,14 +16,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.injection.sharedViewModel
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.shared.view.FloatingActionButton
+import com.faltenreich.diaguard.view.FloatingActionButton
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.core.view.generated.resources.ic_preferences
 import diaguard.shared.generated.resources.Res

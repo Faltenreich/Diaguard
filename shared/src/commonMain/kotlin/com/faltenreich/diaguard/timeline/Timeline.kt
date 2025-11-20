@@ -15,10 +15,10 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
-import com.faltenreich.diaguard.shared.view.rememberAnimatable
+import com.faltenreich.diaguard.view.rememberAnimatable
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvas
 import com.faltenreich.diaguard.timeline.date.TimelineDateBar
 import com.faltenreich.diaguard.timeline.date.TimelineDateState

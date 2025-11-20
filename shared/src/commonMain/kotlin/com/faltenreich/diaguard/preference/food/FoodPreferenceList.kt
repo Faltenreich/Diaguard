@@ -4,12 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.preference.list.item.PreferenceActionListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCheckBoxListItem
-import com.faltenreich.diaguard.shared.view.NoticeBar
-import com.faltenreich.diaguard.shared.view.NoticeBarStyle
+import com.faltenreich.diaguard.view.NoticeBar
+import com.faltenreich.diaguard.view.NoticeBarStyle
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_branded

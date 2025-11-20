@@ -12,12 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormIntent
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.shared.view.ResourceIcon
-import com.faltenreich.diaguard.shared.view.TextDivider
+import com.faltenreich.diaguard.view.Divider
+import com.faltenreich.diaguard.view.ResourceIcon
+import com.faltenreich.diaguard.view.TextDivider
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res

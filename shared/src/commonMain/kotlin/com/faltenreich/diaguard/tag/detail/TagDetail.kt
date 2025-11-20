@@ -16,11 +16,11 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.list.EntryListItemState
-import com.faltenreich.diaguard.shared.view.DeleteDialog
-import com.faltenreich.diaguard.shared.view.FormRow
-import com.faltenreich.diaguard.shared.view.ResourceIcon
-import com.faltenreich.diaguard.shared.view.TextDivider
-import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.view.DeleteDialog
+import com.faltenreich.diaguard.view.FormRow
+import com.faltenreich.diaguard.view.ResourceIcon
+import com.faltenreich.diaguard.view.TextDivider
+import com.faltenreich.diaguard.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entries

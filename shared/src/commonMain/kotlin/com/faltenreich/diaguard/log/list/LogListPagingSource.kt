@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
 import com.faltenreich.diaguard.log.list.item.LogItemState
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.shared.view.isPrepending
+import com.faltenreich.diaguard.view.isPrepending
 
 class LogListPagingSource(
     getTodayUseCase: GetTodayUseCase = inject(),

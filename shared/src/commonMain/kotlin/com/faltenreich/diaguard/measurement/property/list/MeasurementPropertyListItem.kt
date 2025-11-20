@@ -5,10 +5,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.shared.view.FormRow
-import com.faltenreich.diaguard.shared.view.ResourceIcon
+import com.faltenreich.diaguard.view.FormRow
+import com.faltenreich.diaguard.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_down

@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.shared.view.FloatingActionButton
+import com.faltenreich.diaguard.view.FloatingActionButton
 import diaguard.core.view.generated.resources.ic_check
 import diaguard.core.view.generated.resources.ic_clear
 import diaguard.shared.generated.resources.Res

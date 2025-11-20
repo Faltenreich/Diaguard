@@ -26,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
-import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.datetime.picker.DatePickerDialog
 import com.faltenreich.diaguard.datetime.picker.TimePickerDialog
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
@@ -36,11 +36,11 @@ import com.faltenreich.diaguard.entry.form.reminder.ReminderPermissionDialog
 import com.faltenreich.diaguard.entry.form.reminder.ReminderPickerDialog
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
-import com.faltenreich.diaguard.shared.view.DeleteDialog
-import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.shared.view.FormRow
-import com.faltenreich.diaguard.shared.view.ResourceIcon
-import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.view.DeleteDialog
+import com.faltenreich.diaguard.view.Divider
+import com.faltenreich.diaguard.view.FormRow
+import com.faltenreich.diaguard.view.ResourceIcon
+import com.faltenreich.diaguard.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.core.view.generated.resources.ic_clear
 import diaguard.core.view.generated.resources.ic_note

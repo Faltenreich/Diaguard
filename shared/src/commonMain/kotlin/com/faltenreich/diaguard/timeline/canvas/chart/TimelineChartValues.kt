@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.timeline.canvas.chart
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
-import com.faltenreich.diaguard.shared.view.bezierBetween
+import com.faltenreich.diaguard.view.bezierBetween
 import com.faltenreich.diaguard.timeline.TimelineConfig
 
 @Suppress("FunctionName")

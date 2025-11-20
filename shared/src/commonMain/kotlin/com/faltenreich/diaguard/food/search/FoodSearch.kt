@@ -15,10 +15,10 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.search.list.FoodList
 import com.faltenreich.diaguard.food.search.list.FoodListEmpty
 import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
-import com.faltenreich.diaguard.shared.view.LifecycleState
-import com.faltenreich.diaguard.shared.view.PullToRefresh
+import com.faltenreich.diaguard.view.LifecycleState
+import com.faltenreich.diaguard.view.PullToRefresh
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
-import com.faltenreich.diaguard.shared.view.rememberLifecycleState
+import com.faltenreich.diaguard.view.rememberLifecycleState
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

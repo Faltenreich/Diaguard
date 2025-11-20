@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import com.faltenreich.diaguard.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
-import com.faltenreich.diaguard.shared.view.FormRow
-import com.faltenreich.diaguard.shared.view.ResourceIcon
+import com.faltenreich.diaguard.view.FormRow
+import com.faltenreich.diaguard.view.ResourceIcon
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_down

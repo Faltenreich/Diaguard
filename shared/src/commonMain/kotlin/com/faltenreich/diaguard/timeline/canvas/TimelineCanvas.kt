@@ -27,11 +27,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.toSize
-import com.faltenreich.diaguard.AppTheme
-import com.faltenreich.diaguard.shared.theme.LocalDimensions
-import com.faltenreich.diaguard.shared.theme.color.LocalColors
+import com.faltenreich.diaguard.view.theme.AppTheme
+import com.faltenreich.diaguard.view.theme.LocalDimensions
+import com.faltenreich.diaguard.view.theme.color.LocalColors
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
-import com.faltenreich.diaguard.shared.view.rememberAnimatable
+import com.faltenreich.diaguard.view.rememberAnimatable
 import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineState

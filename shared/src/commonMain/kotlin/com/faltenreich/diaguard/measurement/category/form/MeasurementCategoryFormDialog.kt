@@ -13,9 +13,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
-import com.faltenreich.diaguard.shared.view.TextInput
+import com.faltenreich.diaguard.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
-import com.faltenreich.diaguard.shared.view.rememberFocusRequester
+import com.faltenreich.diaguard.view.rememberFocusRequester
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.create

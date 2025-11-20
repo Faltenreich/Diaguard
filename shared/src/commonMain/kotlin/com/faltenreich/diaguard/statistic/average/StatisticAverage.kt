@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.shared.view.Divider
-import com.faltenreich.diaguard.shared.view.FormRow
+import com.faltenreich.diaguard.view.Divider
+import com.faltenreich.diaguard.view.FormRow
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entries_per_day

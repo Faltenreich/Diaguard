@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.AppTheme
+import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.export.form.ExportFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchMode
@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
 import com.faltenreich.diaguard.preference.screen.StartScreen
-import com.faltenreich.diaguard.shared.view.Divider
+import com.faltenreich.diaguard.view.Divider
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen

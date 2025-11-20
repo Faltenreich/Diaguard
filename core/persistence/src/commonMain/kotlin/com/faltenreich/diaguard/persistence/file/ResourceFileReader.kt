@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.file
+package com.faltenreich.diaguard.persistence.file
 
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.localization.Localization

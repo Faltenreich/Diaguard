@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.file
+package com.faltenreich.diaguard.persistence.file
 
 import kotlinx.io.buffered
 import kotlinx.io.files.Path

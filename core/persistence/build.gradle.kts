@@ -7,9 +7,12 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":core:injection"))
+                implementation(project(":core:localization"))
                 implementation(project(":core:logging"))
-                implementation(libs.sqldelight.coroutines)
                 implementation(libs.datastore)
+                implementation(libs.kotlinx.io)
+                implementation(libs.sqldelight.coroutines)
             }
         }
         androidMain {

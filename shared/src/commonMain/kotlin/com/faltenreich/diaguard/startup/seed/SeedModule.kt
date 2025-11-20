@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.startup.seed
 
-import com.faltenreich.diaguard.shared.file.ResourceFileReader
+import com.faltenreich.diaguard.persistence.file.ResourceFileReader
 import com.faltenreich.diaguard.startup.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.startup.seed.query.measurement.ActivitySeedQueries
 import com.faltenreich.diaguard.startup.seed.query.measurement.BloodPressureSeedQueries

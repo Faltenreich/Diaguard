@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueU
 import com.faltenreich.diaguard.shared.config.BuildConfig
 import com.faltenreich.diaguard.shared.config.FakeBuildConfig
 import com.faltenreich.diaguard.shared.database.sqldelight.sqlDelightModule
-import com.faltenreich.diaguard.shared.file.SystemFileReader
+import com.faltenreich.diaguard.persistence.file.SystemFileReader
 import com.faltenreich.diaguard.shared.keyvalue.FakeKeyValueStore
 import com.faltenreich.diaguard.persistence.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.shared.localization.FakeLocalization

@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.serialization.serializationModule
 import com.faltenreich.diaguard.architecture.coroutineModule
 import com.faltenreich.diaguard.shared.config.configModule
 import com.faltenreich.diaguard.shared.database.databaseModule
-import com.faltenreich.diaguard.shared.file.fileModule
+import com.faltenreich.diaguard.persistence.file.fileModule
 import com.faltenreich.diaguard.persistence.keyvalue.keyValueStoreModule
 import com.faltenreich.diaguard.logging.loggerModule
 import com.faltenreich.diaguard.network.networkModule

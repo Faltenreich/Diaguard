@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.data
+package com.faltenreich.diaguard.view.paging
 
 data class PagingPage(
     val page: Int,

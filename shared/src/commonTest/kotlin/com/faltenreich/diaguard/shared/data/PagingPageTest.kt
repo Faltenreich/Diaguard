@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.data
 
+import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

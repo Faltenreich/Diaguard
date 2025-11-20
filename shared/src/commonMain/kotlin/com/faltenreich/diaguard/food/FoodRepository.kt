@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.api.FoodApi
 import com.faltenreich.diaguard.food.api.FoodFromApi
 import com.faltenreich.diaguard.food.search.FoodSearchParams
-import com.faltenreich.diaguard.shared.data.PagingPage
+import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlinx.coroutines.flow.Flow
 
 class FoodRepository(

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.paging
 
 import androidx.paging.PagingSource.LoadParams
 

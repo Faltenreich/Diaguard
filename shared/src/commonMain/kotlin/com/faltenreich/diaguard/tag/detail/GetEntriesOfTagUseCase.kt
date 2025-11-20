@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.shared.data.PagingPage
+import com.faltenreich.diaguard.view.paging.PagingPage
 import com.faltenreich.diaguard.tag.Tag
 
 class GetEntriesOfTagUseCase(

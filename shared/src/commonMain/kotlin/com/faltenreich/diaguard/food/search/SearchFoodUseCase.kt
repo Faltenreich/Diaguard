@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.FoodRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.shared.data.PagingPage
+import com.faltenreich.diaguard.view.paging.PagingPage
 import com.faltenreich.diaguard.localization.NumberFormatter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

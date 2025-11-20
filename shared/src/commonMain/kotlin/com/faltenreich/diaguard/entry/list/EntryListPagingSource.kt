@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.entry.list
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.faltenreich.diaguard.shared.data.PagingPage
+import com.faltenreich.diaguard.view.paging.PagingPage
 
 class EntryListPagingSource(
     private val getData: suspend (PagingPage) -> List<EntryListItemState>,

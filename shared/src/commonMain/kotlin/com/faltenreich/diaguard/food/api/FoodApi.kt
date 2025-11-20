@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.food.api
 
-import com.faltenreich.diaguard.shared.data.PagingPage
+import com.faltenreich.diaguard.view.paging.PagingPage
 
 interface FoodApi {
 

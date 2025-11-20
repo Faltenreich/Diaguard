@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry
 
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.shared.data.PagingPage
+import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlinx.coroutines.flow.Flow
 
 interface EntryDao {

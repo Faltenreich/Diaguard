@@ -11,7 +11,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.faltenreich.diaguard.MainActivity
 import com.faltenreich.diaguard.R
-import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.logging.Logger
 import kotlin.time.Duration.Companion.seconds
 
 class AndroidNotificationManager(private val context: Context) {

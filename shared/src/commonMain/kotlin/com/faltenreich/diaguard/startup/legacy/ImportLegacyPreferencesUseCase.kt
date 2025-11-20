@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
-import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.logging.Logger
 
 class ImportLegacyPreferencesUseCase(
     private val legacyRepository: LegacyRepository,

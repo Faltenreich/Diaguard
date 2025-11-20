@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.faltenreich.diaguard.R
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.logging.Logger
 
 class AlarmBroadcastReceiver(
     private val notificationManager: AndroidNotificationManager = inject(),

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.logging
+package com.faltenreich.diaguard.logging
 
 import com.faltenreich.diaguard.injection.inject
 

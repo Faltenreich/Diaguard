@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.architecture.ViewModel
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.shared.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.shared.permission.Permission
 import com.faltenreich.diaguard.shared.permission.PermissionResult

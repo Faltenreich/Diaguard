@@ -28,6 +28,7 @@ include(
     ":core:architecture",
     ":core:injection",
     ":core:localization",
+    ":core:logging",
     ":core:database",
     ":core:datetime",
     ":core:serialization",

@@ -15,8 +15,8 @@ import com.faltenreich.diaguard.shared.keyvalue.FakeKeyValueStore
 import com.faltenreich.diaguard.shared.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.shared.localization.FakeLocalization
 import com.faltenreich.diaguard.localization.Localization
-import com.faltenreich.diaguard.shared.logging.ConsoleLogger
-import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.logging.ConsoleLogger
+import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.shared.notification.AlarmManager
 import com.faltenreich.diaguard.shared.notification.FakeAlarmManager
 import com.faltenreich.diaguard.serialization.Serialization

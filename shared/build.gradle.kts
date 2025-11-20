@@ -27,6 +27,7 @@ kotlin {
                 implementation(project(":core:datetime"))
                 implementation(project(":core:injection"))
                 implementation(project(":core:localization"))
+                implementation(project(":core:logging"))
                 implementation(project(":core:serialization"))
                 implementation(project(":core:view"))
                 implementation(libs.aboutlibraries.core)

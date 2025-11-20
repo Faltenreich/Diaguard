@@ -4,7 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.logging.Logger
 import kotlin.time.Duration
 
 class AndroidAlarmManager(private val context: Context) : AlarmManager {

@@ -5,7 +5,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.shared.data.PagingPage
-import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.logging.Logger
 import kotlinx.coroutines.flow.first
 
 class FoodSearchPagingSource(

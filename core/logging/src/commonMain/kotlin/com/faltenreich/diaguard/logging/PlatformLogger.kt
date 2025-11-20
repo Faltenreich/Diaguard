@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.shared.logging
+package com.faltenreich.diaguard.logging
 
-expect class PlatformLogger constructor() : Logger {
+internal expect class PlatformLogger constructor() : Logger {
 
     override fun verbose(message: String, throwable: Throwable?)
 

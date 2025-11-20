@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.tag.TagRepository
 
 class ImportLegacyDatabaseUseCase(

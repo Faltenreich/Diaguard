@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.food.api.openfoodfacts
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.api.FoodFromApi
-import com.faltenreich.diaguard.shared.logging.Logger
+import com.faltenreich.diaguard.logging.Logger
 import kotlinx.serialization.json.jsonPrimitive
 
 class OpenFoodFactsMapper(
